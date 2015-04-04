@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="navigation_drawer_icons">
+        <item>@drawable/logo</item>
+        <item>@drawable/logo</item>
+        <item>@drawable/logo</item>
+        <item>@drawable/logo</item>
+        <item>@drawable/logo</item>
+        <item>@drawable/logo</item>
+    </array>
+
+    <string-array name="navigation_drawer_titles">
+        <item>@string/nieuws</item>
+        <item>@string/activiteiten</item>
+        <item>@string/info</item>
+        <item>@string/resto_menu</item>
+        <item>@string/urgent</item>
+        <item>@string/schamper</item>
+    </string-array>
+</resources>

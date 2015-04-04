@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <string name="app_name">Hydra</string>
+
+    <!-- Navigation drawer -->
+    <string name="nieuws">Hydra</string>
+    <string name="activiteiten">Activiteiten</string>
+    <string name="info">Info</string>
+    <string name="resto_menu">Resto Menu</string>
+    <string name="urgent">Urgent</string>
+    <string name="schamper">Schamper</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Action bar -->
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Content descriptions -->
+    <string name="hydra_icon_content_description">Hydra icon</string>
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="@dimen/navigation_drawer_padding_top"
+    android:paddingBottom="@dimen/navigation_drawer_padding_bottom"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/navigation_drawer_item_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="@dimen/navigation_drawer_padding_left"
+        android:paddingRight="@dimen/navigation_drawer_padding_left"
+        android:contentDescription="@string/hydra_icon_content_description"/>
+
+    <TextView
+        android:id="@+id/navigation_drawer_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/navigation_drawer_item_icon"
+        android:layout_toEndOf="@id/navigation_drawer_item_icon"
+        android:paddingLeft="@dimen/navigation_drawer_padding_left"
+        android:paddingRight="@dimen/navigation_drawer_padding_left"
+        android:textColor="@drawable/navigation_drawer_text_color"
+        android:textSize="18sp"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>

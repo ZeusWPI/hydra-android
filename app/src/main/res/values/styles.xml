@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- the theme applied to the application or activity -->
+    <style name="HydraTheme"
+        parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/HydraActionBar</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/HydraActionBar</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="HydraActionBar"
+        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/ugent_blue_medium</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@color/ugent_blue_medium</item>
+    </style>
+</resources>
