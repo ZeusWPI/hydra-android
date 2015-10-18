@@ -3,8 +3,8 @@ package be.ugent.zeus.hydra.activities;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import be.ugent.zeus.hydra.R;
@@ -24,6 +24,10 @@ public class Hydra extends AppCompatActivity {
 
         viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
+
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayShowCustomEnabled(true);
+        actionbar.setCustomView(R.layout.actionbar_centered_hydra);
     }
 
 

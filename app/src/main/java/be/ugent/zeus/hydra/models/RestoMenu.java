@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.models;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**

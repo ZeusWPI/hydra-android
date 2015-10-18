@@ -5,14 +5,18 @@
         parent="Theme.AppCompat">
         <item name="actionBarStyle">@style/HydraActionBar</item>
 
-        <item name="colorPrimary">@color/ugent_blue_light</item>
+        <item name="colorPrimary">@color/ugent_blue_medium</item>
         <item name="colorPrimaryDark">@color/ugent_blue_dark</item>
-        <item name="colorAccent">@color/ugent_yellow_dark</item>
+        <item name="colorAccent">@color/ugent_blue_highlight</item>
     </style>
 
     <!-- ActionBar styles -->
     <style name="HydraActionBar"
         parent="Theme.AppCompat.Light">
         <item name="background">@color/ugent_blue_medium</item>
+        <item name="colorPrimary">@color/ugent_blue_medium</item>
+        <item name="colorPrimaryDark">@color/ugent_blue_dark</item>
+        <item name="android:colorBackground">@color/ugent_white</item>
+        <item name="colorAccent">@color/ugent_blue_highlight</item>
     </style>
 </resources>
