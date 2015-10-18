@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="tab_icons">
+    <array name="fragment_icons">
         <item>@drawable/logo</item>
         <item>@drawable/logo</item>
         <item>@drawable/logo</item>
@@ -9,7 +9,7 @@
         <item>@drawable/logo</item>
     </array>
 
-    <string-array name="tab_titles">
+    <string-array name="fragment_titles">
         <item>@string/nieuws</item>
         <item>@string/activiteiten</item>
         <item>@string/info</item>

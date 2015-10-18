@@ -16,6 +16,10 @@
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Drawer stuff -->
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
     <!-- Content descriptions -->
     <string name="hydra_icon_content_description">Hydra icon</string>
 </resources>
