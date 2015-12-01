@@ -32,6 +32,13 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/notice.txt'
     }
+
+    buildTypes {
+        debug {
+            // Set this to false on release versions!
+            debuggable true
+        }
+    }
 }
 
 dependencies {

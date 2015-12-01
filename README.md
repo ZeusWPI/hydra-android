@@ -9,4 +9,6 @@
 
 ## Contributors
 * Tom 'silox' Naessens
+* Feliciaan 'felikaan' De Palmenaer
+* Titouan 'FlashYoshi' Vervack
 * Niels 'nieleken' De Graef
