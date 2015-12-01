@@ -22,4 +22,7 @@
 
     <!-- Content descriptions -->
     <string name="hydra_icon_content_description">Hydra icon</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="ActivitiesWelcome">Welcome to activities fragment</string>
 </resources>
