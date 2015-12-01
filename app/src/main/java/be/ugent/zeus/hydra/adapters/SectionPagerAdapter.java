@@ -29,18 +29,20 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 5;
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 0:
-                return "First Tab";
-            case 1:
-            default:
-                return "Second Tab";
-        }
-    }
+
+//
+//    @Override
+//    public CharSequence getPageTitle(int position) {
+//        switch (position) {
+//            case 0:
+//                return "First Tab";
+//            case 1:
+//            default:
+//                return "Second Tab";
+//        }
+//    }
 
 }

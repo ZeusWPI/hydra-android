@@ -28,6 +28,16 @@ public class Hydra extends AppCompatActivity {
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayShowCustomEnabled(true);
         actionbar.setCustomView(R.layout.actionbar_centered_hydra);
+
+        //icons (bad way)
+        int[] icons = {R.drawable.home, R.drawable.minerva,
+                R.drawable.resto, R.drawable.schamper, R.drawable.info};
+
+        //set icons
+        tabLayout.setupWithViewPager(viewPager);
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            tabLayout.getTabAt(i).setIcon(icons[i]);
+        }
     }
 
 
@@ -38,7 +48,7 @@ public class Hydra extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        //noinspection SimpliiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
