@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.models;
+package be.ugent.zeus.hydra.models.Resto;
 
 import java.util.HashMap;
 

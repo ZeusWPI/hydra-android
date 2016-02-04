@@ -13,16 +13,15 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
-import java.util.Date;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
+import be.ugent.zeus.hydra.models.Association;
 import be.ugent.zeus.hydra.models.AssociationActivities;
 import be.ugent.zeus.hydra.models.AssociationActivity;
-import be.ugent.zeus.hydra.models.RestoMenu;
-import be.ugent.zeus.hydra.models.RestoWeek;
-import be.ugent.zeus.hydra.requests.AssociationActivityRequest;
-import be.ugent.zeus.hydra.requests.RestoMenuRequest;
+import be.ugent.zeus.hydra.models.AssociationNews;
+import be.ugent.zeus.hydra.models.AssociationNewsItem;
+import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
+import be.ugent.zeus.hydra.requests.AssociationNewsRequest;
 
 
 public class Hydra extends AppCompatActivity {
@@ -97,9 +96,24 @@ public class Hydra extends AppCompatActivity {
     }
 
     private void performLoadActivityRequest() {
-        AssociationActivityRequest r = new AssociationActivityRequest();
+        /*AssociationActivitiesRequest r = new AssociationActivitiesRequest();
         System.out.println("Load data");
-        spiceManager.execute(r, r.getCacheKey(), DurationInMillis.ONE_MINUTE * 15, new AssociationActivityRequestListener() );
+        spiceManager.execute(r, r.getCacheKey(), DurationInMillis.ONE_MINUTE * 15, new AssociationActivityRequestListener() );*/
+
+        AssociationNewsRequest r = new AssociationNewsRequest();
+        spiceManager.execute(r, r.getCacheKey(), DurationInMillis.ONE_DAY, new RequestListener<AssociationNews>() {
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+                System.out.println("Request failed");
+            }
+
+            @Override
+            public void onRequestSuccess(AssociationNews associationNewsItems) {
+                for (AssociationNewsItem newsItem: associationNewsItems) {
+                    System.out.println(newsItem.title + ", ");
+                }
+            }
+        });
     }
 
     private class AssociationActivityRequestListener implements RequestListener<AssociationActivities> {

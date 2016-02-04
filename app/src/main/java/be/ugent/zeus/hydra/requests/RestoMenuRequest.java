@@ -8,8 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import be.ugent.zeus.hydra.models.RestoMenu;
-import be.ugent.zeus.hydra.models.RestoWeek;
+import be.ugent.zeus.hydra.models.Resto.RestoWeek;
 
 /**
  * Created by feliciaan on 15/10/15.
