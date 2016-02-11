@@ -15,12 +15,10 @@ import com.octo.android.robospice.request.listener.RequestListener;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
-import be.ugent.zeus.hydra.models.Association;
-import be.ugent.zeus.hydra.models.AssociationActivities;
-import be.ugent.zeus.hydra.models.AssociationActivity;
-import be.ugent.zeus.hydra.models.AssociationNews;
-import be.ugent.zeus.hydra.models.AssociationNewsItem;
-import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
+import be.ugent.zeus.hydra.models.Association.AssociationActivities;
+import be.ugent.zeus.hydra.models.Association.AssociationActivity;
+import be.ugent.zeus.hydra.models.Association.AssociationNews;
+import be.ugent.zeus.hydra.models.Association.AssociationNewsItem;
 import be.ugent.zeus.hydra.requests.AssociationNewsRequest;
 
 

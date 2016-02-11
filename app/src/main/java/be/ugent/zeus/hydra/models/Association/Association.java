@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.models;
+package be.ugent.zeus.hydra.models.Association;
 
 /**
  * Created by feliciaan on 04/02/16.

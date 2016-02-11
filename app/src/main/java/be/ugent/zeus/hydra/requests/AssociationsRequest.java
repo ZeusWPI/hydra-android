@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.requests;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
 
-import be.ugent.zeus.hydra.models.Associations;
+import be.ugent.zeus.hydra.models.Association.Associations;
 
 /**
  * Created by feliciaan on 04/02/16.

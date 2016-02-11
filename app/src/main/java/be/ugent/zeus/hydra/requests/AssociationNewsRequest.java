@@ -1,13 +1,8 @@
 package be.ugent.zeus.hydra.requests;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
-import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
 
-import org.springframework.http.ResponseEntity;
-
-import be.ugent.zeus.hydra.models.AssociationActivities;
-import be.ugent.zeus.hydra.models.AssociationNews;
-import be.ugent.zeus.hydra.models.AssociationNewsItem;
+import be.ugent.zeus.hydra.models.Association.AssociationNews;
 
 /**
  * Created by feliciaan on 04/02/16.

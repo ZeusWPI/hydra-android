@@ -1,6 +1,4 @@
-package be.ugent.zeus.hydra.models;
-
-import java.util.Date;
+package be.ugent.zeus.hydra.models.Association;
 
 /**
  * Created by feliciaan on 27/01/16.
