@@ -1,15 +1,18 @@
 package be.ugent.zeus.hydra.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
 import be.ugent.zeus.hydra.models.Association.AssociationActivities;
 import be.ugent.zeus.hydra.models.Association.AssociationActivity;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
@@ -72,18 +76,30 @@ public class ActivitiesFragment extends Fragment {
             }
 
             @Override
-            public void onRequestSuccess(AssociationActivities associationActivitiesItems) {
+            public void onRequestSuccess(final AssociationActivities associationActivitiesItems) {
                 ArrayList<String> listItems=new ArrayList<String>();
                 ArrayAdapter<String> adapter;
-                ListView activityList = (ListView) getView().findViewById(R.id.activityList);
+                final ListView activityList = (ListView) getView().findViewById(R.id.activityList);
                 adapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, listItems);
                 activityList.setAdapter(adapter);
+
+                activityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        int itemPosition = position;
+                        Intent intent = new Intent(getContext(), AssociationActivityDetail.class);
+                        intent.putExtra("associationActivity", associationActivitiesItems.get(itemPosition));
+                        startActivity(intent);
+                        //Toast.makeText(getContext(),
+                        //        "Position :" + itemPosition + "  ListItem : " + associationActivitiesItems.get(itemPosition).title, Toast.LENGTH_LONG)
+                        //        .show();
+                    }
+                });
 
                 for(AssociationActivity activity: associationActivitiesItems) {
                     listItems.add(activity.title);
                     adapter.notifyDataSetChanged();
-                    //TextView activitytext = (TextView) getView().findViewById(R.id.activity);
-                    //activitytext.setText(activity.title);
                 }
             }
         });
