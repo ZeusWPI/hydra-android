@@ -1,21 +1,11 @@
 package be.ugent.zeus.hydra.models.Association;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
-import com.google.gson.stream.JsonWriter;
-
-import org.apache.commons.lang3.NotImplementedException;
 
 import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
-import be.ugent.zeus.hydra.models.converters.DateJsonAdapter;
+import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -24,9 +14,9 @@ import android.os.Parcelable;
  */
 public class AssociationActivity implements Parcelable {
     public String title;
-    @JsonAdapter(DateJsonAdapter.class)
+    @JsonAdapter(TimeStampDateJsonAdapter.class)
     public Date start;
-    @JsonAdapter(DateJsonAdapter.class)
+    @JsonAdapter(TimeStampDateJsonAdapter.class)
     public Date end;
     public String location;
     public double latitude;

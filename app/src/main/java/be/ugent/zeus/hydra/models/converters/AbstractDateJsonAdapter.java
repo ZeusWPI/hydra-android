@@ -16,9 +16,13 @@ import java.util.Date;
 /**
  * Created by feliciaan on 17/02/16.
  */
-public class DateJsonAdapter extends TypeAdapter<Date> {
+public class AbstractDateJsonAdapter extends TypeAdapter<Date> {
 
-    private DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    private DateFormat format;
+
+    public AbstractDateJsonAdapter(String dateFormat) {
+        format = new SimpleDateFormat(dateFormat);
+    }
 
     @Override
     public void write(JsonWriter out, Date value) throws IOException, NotImplementedException {
