@@ -48,10 +48,9 @@ public class ActivitiesFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.homefragment_view, container, false);
-
-        TextView groenten = (TextView) view.findViewById(R.id.groenten);
-        //groenten.setText("hello world");
+        View view = inflater.inflate(R.layout.fragment_activities, container, false);
+        TextView activitytext = (TextView) view.findViewById(R.id.activity);
+        activitytext.setText("hello activities");
 
         performLoadActivityRequest();
 
@@ -64,15 +63,15 @@ public class ActivitiesFragment extends Fragment {
         spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationActivities>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
-                TextView groenten = (TextView) getView().findViewById(R.id.groenten);
-                groenten.setText(r.getCacheKey() + " " + r.getCacheDuration() + " \n" + spiceException.toString());
+                TextView activitytext = (TextView) getView().findViewById(R.id.activity);
+                activitytext.setText(r.getCacheKey() + " " + r.getCacheDuration() + " \n" + spiceException.toString());
             }
 
             @Override
             public void onRequestSuccess(AssociationActivities associationActivitiesItems) {
                 for(AssociationActivity activity: associationActivitiesItems) {
                     TextView activitytext = (TextView) getView().findViewById(R.id.activity);
-                    activitytext.setText(activity.description + "hi" + activity.title);
+                    activitytext.setText(activity.title);
                 }
             }
         });
