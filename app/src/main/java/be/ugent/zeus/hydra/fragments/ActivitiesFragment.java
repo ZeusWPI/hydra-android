@@ -7,12 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.Association.AssociationActivities;
@@ -49,8 +54,8 @@ public class ActivitiesFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_activities, container, false);
-        TextView activitytext = (TextView) view.findViewById(R.id.activity);
-        activitytext.setText("hello activities");
+
+
 
         performLoadActivityRequest();
 
@@ -63,15 +68,22 @@ public class ActivitiesFragment extends Fragment {
         spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationActivities>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
-                TextView activitytext = (TextView) getView().findViewById(R.id.activity);
-                activitytext.setText(r.getCacheKey() + " " + r.getCacheDuration() + " \n" + spiceException.toString());
+                System.out.println("Request failed");
             }
 
             @Override
             public void onRequestSuccess(AssociationActivities associationActivitiesItems) {
+                ArrayList<String> listItems=new ArrayList<String>();
+                ArrayAdapter<String> adapter;
+                ListView activityList = (ListView) getView().findViewById(R.id.activityList);
+                adapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, listItems);
+                activityList.setAdapter(adapter);
+
                 for(AssociationActivity activity: associationActivitiesItems) {
-                    TextView activitytext = (TextView) getView().findViewById(R.id.activity);
-                    activitytext.setText(activity.title);
+                    listItems.add(activity.title);
+                    adapter.notifyDataSetChanged();
+                    //TextView activitytext = (TextView) getView().findViewById(R.id.activity);
+                    //activitytext.setText(activity.title);
                 }
             }
         });
