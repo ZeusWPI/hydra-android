@@ -7,7 +7,7 @@
 
         <item name="colorPrimary">@color/ugent_blue_medium</item>
         <item name="colorPrimaryDark">@color/ugent_blue_dark</item>
-        <item name="colorAccent">@color/ugent_blue_highlight</item>
+        <item name="colorAccent">@color/ugent_yellow_dark</item>
     </style>
 
     <!-- ActionBar styles -->
@@ -17,6 +17,6 @@
         <item name="colorPrimary">@color/ugent_blue_medium</item>
         <item name="colorPrimaryDark">@color/ugent_blue_dark</item>
         <item name="android:colorBackground">@color/ugent_white</item>
-        <item name="colorAccent">@color/ugent_blue_highlight</item>
+        <item name="colorAccent">@color/ugent_yellow_dark</item>
     </style>
 </resources>
