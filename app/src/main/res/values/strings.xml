@@ -21,4 +21,14 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="ActivitiesWelcome">Welcome to activities fragment</string>
+
+
+    <!-- Settings -->
+    <string name="pref_cat1_title">Category one.</string>
+
+    <string name="pref_summary_cat1_checkbox">This is an example checkbox.</string>
+    <string name="pref_title_cat1_checkbox">Checkbox One</string>
+    <string name="pref_sumary_setting1">This is setting one.</string>
+    <string name="pref_title_Setting1">Setting One</string>
+
 </resources>
