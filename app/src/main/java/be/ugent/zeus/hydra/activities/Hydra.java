@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
@@ -74,7 +75,7 @@ public class Hydra extends AppCompatActivity {
             tabLayout.getTabAt(i).setIcon(icons[i]);
         }
 
-        performLoadActivityRequest();
+        //performLoadActivityRequest();
     }
 
 
@@ -99,9 +100,11 @@ public class Hydra extends AppCompatActivity {
         spiceManager.execute(r, r.getCacheKey(), DurationInMillis.ONE_MINUTE * 15, new AssociationActivityRequestListener() );*/
 
         AssociationNewsRequest r = new AssociationNewsRequest();
-        spiceManager.execute(r, r.getCacheKey(), DurationInMillis.ONE_DAY, new RequestListener<AssociationNews>() {
+        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationNews>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
+                //TextView groenten = (TextView) findViewById(R.id.groenten);
+                //groenten.setText("request failed");
                 System.out.println("Request failed");
             }
 

@@ -14,7 +14,7 @@ public abstract class AbstractRequest<T> extends SpringAndroidSpiceRequest<T> {
     protected Class jsonClass;
 
     protected final String DSA_API_URL = "http://student.ugent.be/hydra/api/1.0/";
-    protected final String ZEUS_API_URL = "http://zeus.UGent.be/hydra/api/";
+    protected final String ZEUS_API_URL = "https://zeus.UGent.be/hydra/api/";
 
     public AbstractRequest(Class clazz) {
         super(clazz);
@@ -22,8 +22,13 @@ public abstract class AbstractRequest<T> extends SpringAndroidSpiceRequest<T> {
     }
 
     public T loadDataFromNetwork() throws Exception {
-        ResponseEntity<T> result =  getRestTemplate().getForEntity(getAPIUrl(), jsonClass, getURLVariables());
-
+        ResponseEntity<T> result;
+        if (getURLVariables() == null) {
+            result = getRestTemplate().getForEntity(getAPIUrl(), jsonClass);
+        }
+        else {
+            result = getRestTemplate().getForEntity(getAPIUrl(), jsonClass, getURLVariables());
+        }
         return result.getBody();
     }
 

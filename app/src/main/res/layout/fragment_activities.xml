@@ -4,11 +4,9 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ActivitiesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/ActivitiesWelcome"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/ActivitiesWelcome" />
+        android:id="@+id/activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </FrameLayout>

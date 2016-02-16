@@ -4,12 +4,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <be.ugent.zeus.hydra.customView.RestoMenu
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        custom:groenten="groenten"
-        custom:hoofdgerecht="hoofdgerecht"
-        custom:soep="soep"/>
+    <TextView
+        android:id="@+id/groenten"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 
 
