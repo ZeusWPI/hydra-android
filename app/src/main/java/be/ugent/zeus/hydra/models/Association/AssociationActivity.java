@@ -1,5 +1,11 @@
 package be.ugent.zeus.hydra.models.Association;
 
+import java.util.Date;
+
+import com.google.gson.annotations.JsonAdapter;
+
+import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
+import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,26 +14,31 @@ import android.os.Parcelable;
  */
 public class AssociationActivity implements Parcelable {
     public String title;
-    //public Date start; //TODO: add @-with format
-    //public Date end;
+    @JsonAdapter(TimeStampDateJsonAdapter.class)
+    public Date start;
+    @JsonAdapter(TimeStampDateJsonAdapter.class)
+    public Date end;
     public String location;
     public double latitude;
     public double longitude;
     public String description;
     public String url;
     public String facebook_id;
-    public int highlighted; //TODO: make boolean
+    @JsonAdapter(BooleanJsonAdapter.class)
+    public boolean highlighted;
     public Association association;
 
     protected AssociationActivity(Parcel in) {
         title = in.readString();
+        start = new Date(in.readLong());
+        end = new Date(in.readLong());
         location = in.readString();
         latitude = in.readDouble();
         longitude = in.readDouble();
         description = in.readString();
         url = in.readString();
         facebook_id = in.readString();
-        highlighted = in.readInt();
+        highlighted = in.readByte() == 1;
         association = in.readParcelable(Association.class.getClassLoader());
     }
 
@@ -42,11 +53,6 @@ public class AssociationActivity implements Parcelable {
             return new AssociationActivity[size];
         }
     };
-
-    public boolean isHiglighted() {
-        return highlighted == 1;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -55,13 +61,15 @@ public class AssociationActivity implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
+        dest.writeLong(start.getTime());
+        dest.writeLong(end.getTime());
         dest.writeString(location);
         dest.writeString(description);
         dest.writeString(url);
         dest.writeString(facebook_id);
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
-        dest.writeInt(highlighted);
+        dest.writeByte((byte) (highlighted ? 1 : 0));
         dest.writeParcelable(association,flags);
 
     }
