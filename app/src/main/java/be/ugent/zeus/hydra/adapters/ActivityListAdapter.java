@@ -48,7 +48,7 @@ public class ActivityListAdapter  extends ArrayAdapter<AssociationActivity> {
         //fill in
         textViewName.setText(activity.title);
         textViewAssociation.setText(activity.association.display_name);
-        textViewStart.setText(dateFormatter.format(activity.start)); //TODO
+        textViewStart.setText(dateFormatter.format(activity.start));
 
         return rowView;
 
