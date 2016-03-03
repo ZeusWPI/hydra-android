@@ -24,6 +24,7 @@ import java.util.List;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
+import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
 import be.ugent.zeus.hydra.models.Association.AssociationActivities;
 import be.ugent.zeus.hydra.models.Association.AssociationActivity;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
@@ -77,10 +78,10 @@ public class ActivitiesFragment extends Fragment {
 
             @Override
             public void onRequestSuccess(final AssociationActivities associationActivitiesItems) {
-                ArrayList<String> listItems=new ArrayList<String>();
-                ArrayAdapter<String> adapter;
+                ArrayList<AssociationActivity> listItems=new ArrayList<AssociationActivity>();
+                ArrayAdapter<AssociationActivity> adapter;
                 final ListView activityList = (ListView) getView().findViewById(R.id.activityList);
-                adapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, listItems);
+                adapter=new ActivityListAdapter(getContext(),android.R.layout.simple_list_item_1, listItems);
                 activityList.setAdapter(adapter);
 
                 activityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -98,7 +99,7 @@ public class ActivitiesFragment extends Fragment {
                 });
 
                 for(AssociationActivity activity: associationActivitiesItems) {
-                    listItems.add(activity.title);
+                    listItems.add(activity);
                     adapter.notifyDataSetChanged();
                 }
             }
