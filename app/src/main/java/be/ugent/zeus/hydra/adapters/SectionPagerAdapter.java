@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import be.ugent.zeus.hydra.fragments.ActivitiesFragment;
 import be.ugent.zeus.hydra.fragments.HomeFragment;
 import be.ugent.zeus.hydra.fragments.MinervaFragment;
-import be.ugent.zeus.hydra.models.RestoFragment;
+import be.ugent.zeus.hydra.fragments.RestoFragment;
 
 /**
  * Created by silox on 17/10/15.

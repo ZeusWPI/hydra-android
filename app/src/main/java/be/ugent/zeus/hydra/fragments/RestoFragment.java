@@ -1,30 +1,24 @@
-package be.ugent.zeus.hydra.models;
+package be.ugent.zeus.hydra.fragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.TextView;
 
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
-import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
 import be.ugent.zeus.hydra.models.Association.AssociationActivities;
-import be.ugent.zeus.hydra.models.Association.AssociationActivity;
+import be.ugent.zeus.hydra.models.Resto.RestoMenu;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
+import be.ugent.zeus.hydra.requests.RestoMenuRequest;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,16 +56,21 @@ public class RestoFragment extends Fragment {
     }
 
     private void performLoadActivityRequest() {
-        final AssociationActivitiesRequest r = new AssociationActivitiesRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationActivities>() {
+        Calendar c = Calendar.getInstance();
+
+        final RestoMenuRequest r = new RestoMenuRequest(c.getTime());
+
+        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<RestoMenu>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
-                System.out.println("Request failed");
+                TextView textView = (TextView) getView().findViewById(R.id.restomenu);
+                textView.setText("request failed");
             }
 
             @Override
-            public void onRequestSuccess(final AssociationActivities associationActivitiesItems) {
-
+            public void onRequestSuccess(final RestoMenu restoMenu) {
+                TextView textView = (TextView) getView().findViewById(R.id.restomenu);
+                textView.setText("succes" + restoMenu.getMeals().size() + "  " + restoMenu.getDate());
             }
         });
     }
