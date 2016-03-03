@@ -30,4 +30,6 @@
     <string name="pref_title_cat1_checkbox">Checkbox One</string>
     <string name="pref_sumary_setting1">This is setting one.</string>
     <string name="pref_title_Setting1">Setting One</string>
+    <string name="openFacebook">In the meantime visit us on Facebook</string>
+    <string name="facebookButtonDescription">Link to our Facebook page.</string>
 </resources>
