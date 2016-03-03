@@ -1,12 +1,16 @@
 package be.ugent.zeus.hydra.requests;
 
+import android.provider.CalendarContract;
+
 import com.octo.android.robospice.persistence.DurationInMillis;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 import be.ugent.zeus.hydra.models.Resto.RestoMenu;
+import be.ugent.zeus.hydra.models.converters.RestoDateJsonAdapter;
 
 /**
  * Created by Mitch on 3/03/2016.
@@ -14,9 +18,9 @@ import be.ugent.zeus.hydra.models.Resto.RestoMenu;
 public class RestoMenuRequest extends AbstractRequest<RestoMenu> {
 
     // format time
-    //private final SimpleDateFormat yearFormatter = new SimpleDateFormat("YY", Locale.ENGLISH);
-    // private final SimpleDateFormat monthFormatter = new SimpleDateFormat("MM", Locale.ENGLISH);
-    //private final SimpleDateFormat dayFormatter = new SimpleDateFormat("DD", Locale.ENGLISH);
+    //private final SimpleDateFormat yearFormatter = new SimpleDateFormat("YYYY", Locale.ENGLISH);
+    //private final SimpleDateFormat monthFormatter = new SimpleDateFormat("MM", Locale.ENGLISH);
+    // private final SimpleDateFormat dayFormatter = new SimpleDateFormat("DD", Locale.ENGLISH);
 
     private Date date;
     private String year;
@@ -26,13 +30,16 @@ public class RestoMenuRequest extends AbstractRequest<RestoMenu> {
     public RestoMenuRequest(Date date) {
         super(RestoMenu.class);
         this.date = date;
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        this.year = c.get(Calendar.YEAR) + "";
+        this.month = c.get(Calendar.MONTH) + "";
+        this.day = c.get(Calendar.DAY_OF_WEEK) + "";
+
         //this.year = yearFormatter.format(date);
         //this.month = monthFormatter.format(date);
         //this.day = dayFormatter.format(date);
-
-        this.year = "2016";
-        this.month = "2";
-        this.day = "29";
     }
 
     @Override

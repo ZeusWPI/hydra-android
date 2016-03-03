@@ -75,7 +75,6 @@ public class RestoFragment extends Fragment {
 
             @Override
             public void onRequestSuccess(final RestoMenu restoMenu) {
-
                 ArrayList<String> listItems=new ArrayList<String>();
                 ArrayAdapter<String> adapter;
                 final ListView restoList = (ListView) getView().findViewById(R.id.restoList);
