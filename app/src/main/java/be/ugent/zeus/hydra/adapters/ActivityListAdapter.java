@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.Association.AssociationActivity;
@@ -19,10 +21,15 @@ public class ActivityListAdapter  extends ArrayAdapter<AssociationActivity> {
     private final Context context;
     private final List<AssociationActivity> items;
 
+    //format time
+    private final SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+
     public ActivityListAdapter(Context context, int resource, List<AssociationActivity> objects) {
         super(context, resource, objects);
         this.context = context;
         this.items = objects;
+
     }
 
     @Override
@@ -41,7 +48,7 @@ public class ActivityListAdapter  extends ArrayAdapter<AssociationActivity> {
         //fill in
         textViewName.setText(activity.title);
         textViewAssociation.setText(activity.association.display_name);
-        textViewStart.setText("19:00"); //TODO
+        textViewStart.setText(dateFormatter.format(activity.start)); //TODO
 
         return rowView;
 

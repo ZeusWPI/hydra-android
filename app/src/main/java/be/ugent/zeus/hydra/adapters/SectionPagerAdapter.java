@@ -8,6 +8,7 @@ import be.ugent.zeus.hydra.fragments.ActivitiesFragment;
 import be.ugent.zeus.hydra.fragments.InfoFragment;
 import be.ugent.zeus.hydra.fragments.HomeFragment;
 import be.ugent.zeus.hydra.fragments.MinervaFragment;
+import be.ugent.zeus.hydra.fragments.RestoFragment;
 
 /**
  * Created by silox on 17/10/15.
@@ -27,6 +28,8 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
                 return new MinervaFragment();
             case 4:
                 return new InfoFragment();
+            case 2:
+                return new RestoFragment();
             default:
                 return new ActivitiesFragment();
         }
