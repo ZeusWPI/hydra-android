@@ -1,8 +1,6 @@
 package be.ugent.zeus.hydra.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,16 +9,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.octo.android.robospice.GsonSpringAndroidSpiceService;
-import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
@@ -37,21 +30,7 @@ import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
  * Use the {@link ActivitiesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ActivitiesFragment extends Fragment {
-
-    protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        spiceManager.start(getContext());
-    }
-
-    @Override
-    public void onStop() {
-        spiceManager.shouldStop();
-        super.onStop();
-    }
+public class ActivitiesFragment extends AbstractFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,10 +57,10 @@ public class ActivitiesFragment extends Fragment {
 
             @Override
             public void onRequestSuccess(final AssociationActivities associationActivitiesItems) {
-                ArrayList<AssociationActivity> listItems=new ArrayList<AssociationActivity>();
+                ArrayList<AssociationActivity> listItems = new ArrayList<AssociationActivity>();
                 ArrayAdapter<AssociationActivity> adapter;
                 final ListView activityList = (ListView) getView().findViewById(R.id.activityList);
-                adapter=new ActivityListAdapter(getContext(),android.R.layout.simple_list_item_1, listItems);
+                adapter = new ActivityListAdapter(getContext(), android.R.layout.simple_list_item_1, listItems);
                 activityList.setAdapter(adapter);
 
                 activityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -98,7 +77,7 @@ public class ActivitiesFragment extends Fragment {
                     }
                 });
 
-                for(AssociationActivity activity: associationActivitiesItems) {
+                for (AssociationActivity activity : associationActivitiesItems) {
                     listItems.add(activity);
                     adapter.notifyDataSetChanged();
                 }

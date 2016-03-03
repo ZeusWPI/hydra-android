@@ -1,22 +1,28 @@
 package be.ugent.zeus.hydra.models.Resto;
 
+import com.google.gson.annotations.JsonAdapter;
+
+import java.util.ArrayList;
 import java.util.Date;
+
+import be.ugent.zeus.hydra.models.converters.RestoDateJsonAdapter;
 
 /**
  * Created by feliciaan on 15/10/15.
  */
 public class RestoMenu {
     private boolean open;
+    @JsonAdapter(RestoDateJsonAdapter.class)
     private Date date;
-    private RestoItem[] meat;
-    private String[] vegetables;
+    private RestoMeals meals;
+    private ArrayList<String> vegetables;
 
     public RestoMenu() {};
 
-    public RestoMenu(boolean open, Date date, RestoItem[] meat, String[] vegetables) {
+    public RestoMenu(boolean open, Date date, RestoMeals meals, ArrayList<String> vegetables) {
         this.open = open;
         this.date = date;
-        this.meat = meat;
+        this.meals = meals;
         this.vegetables = vegetables;
     }
 
@@ -28,19 +34,19 @@ public class RestoMenu {
         this.open = open;
     }
 
-    public RestoItem[] getMeat() {
-        return meat;
+    public RestoMeals getMeals() {
+        return meals;
     }
 
-    public void setMeat(RestoItem[] meat) {
-        this.meat = meat;
+    public void setMeals(RestoMeals meals) {
+        this.meals = meals;
     }
 
-    public String[] getVegetables() {
+    public ArrayList<String> getVegetables() {
         return vegetables;
     }
 
-    public void setVegetables(String[] vegetables) {
+    public void setVegetables(ArrayList<String> vegetables) {
         this.vegetables = vegetables;
     }
 
