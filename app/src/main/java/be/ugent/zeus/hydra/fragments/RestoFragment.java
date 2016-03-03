@@ -1,10 +1,15 @@
 package be.ugent.zeus.hydra.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
@@ -12,10 +17,12 @@ import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.Association.AssociationActivities;
+import be.ugent.zeus.hydra.models.Resto.RestoMeal;
 import be.ugent.zeus.hydra.models.Resto.RestoMenu;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
 import be.ugent.zeus.hydra.requests.RestoMenuRequest;
@@ -63,14 +70,23 @@ public class RestoFragment extends Fragment {
         spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<RestoMenu>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
-                TextView textView = (TextView) getView().findViewById(R.id.restomenu);
-                textView.setText("request failed");
+                System.out.println("Request failed");
             }
 
             @Override
             public void onRequestSuccess(final RestoMenu restoMenu) {
-                TextView textView = (TextView) getView().findViewById(R.id.restomenu);
-                textView.setText("succes" + restoMenu.getMeals().size() + "  " + restoMenu.getDate());
+
+                ArrayList<String> listItems=new ArrayList<String>();
+                ArrayAdapter<String> adapter;
+                final ListView restoList = (ListView) getView().findViewById(R.id.restoList);
+
+                adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, listItems );
+                restoList.setAdapter(adapter);
+
+                for(RestoMeal meal: restoMenu.getMeals()) {
+                    listItems.add(meal.getName() + " " + meal.getPrice());
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
     }
