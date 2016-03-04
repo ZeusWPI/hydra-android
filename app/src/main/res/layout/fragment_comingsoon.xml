@@ -7,9 +7,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Coming soon!"
+        android:text="@string/comingsoontitle"
         android:id="@+id/comingsoon"
-        android:textSize="48dp"
+        android:textSize="48sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="41dp" />
