@@ -10,5 +10,8 @@
         android:id="@+id/resto_header_text"
         android:textSize="26dp"
         android:textColor="#eeeeee"
-        android:background="#001a67" />
+        android:background="#001a67"
+        android:padding="4dp"
+        android:gravity="center">
+    </TextView>
 </LinearLayout>
