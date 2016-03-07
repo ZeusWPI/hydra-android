@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -93,20 +96,23 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
         private String getFriendlyDate(Date date) {
             // TODO: I feel a bit bad about all of this; any good libraries?
             // I couldn't find any that were suitable -- mivdnber
-            Date today = new Date();
-            int thisWeek = Integer.parseInt(weekFormatter.format(today));
+            DateTime today = new DateTime();
+            DateTime dateTime = new DateTime(date);
+            int thisWeek = Integer.parseInt(weekFormatter.format(today.toDate()));
             int week = Integer.parseInt(weekFormatter.format(date));
 
-            if (date.equals(today)) {
-                return "Vandaag";
-            } else if(date.getTime() - today.getTime() <= 25 * 60 * 60 * 1000) {
-                return "Morgen";
-            } else if(date.getTime() - today.getTime() <= 2.1 * 24 * 60 * 60 * 1000) {
-                return "Overmorgen";
-            } else if (week == thisWeek) {
+            int daysBetween = Days.daysBetween(today.toLocalDate(), dateTime.toLocalDate()).getDays();
+
+            if (daysBetween == 0) {
+                return "vandaag";
+            } else if(daysBetween == 1) {
+                return "morgen";
+            } else if(daysBetween == 2) {
+                return "overmorgen";
+            } else if (week == thisWeek || daysBetween < 7) {
                 return dayFormatter.format(date).toLowerCase();
             } else if (week == thisWeek + 1) {
-                return "Volgende " + dayFormatter.format(date).toLowerCase();
+                return "volgende " + dayFormatter.format(date).toLowerCase();
             } else {
                 return dateFormatter.format(date);
             }
