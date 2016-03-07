@@ -6,5 +6,7 @@
 /build
 
 #idea stuff
+.idea\moddules.xml
+app\app.iml
+hydra-android.iml
 .idea*
-*.iml
