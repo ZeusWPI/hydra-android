@@ -3,6 +3,8 @@ package be.ugent.zeus.hydra.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import be.ugent.zeus.hydra.fragments.SettingsFragment;
+
 /**
  * @author Rien Maertens
  * @since 16/02/2016.

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.activities;
+package be.ugent.zeus.hydra.fragments;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
