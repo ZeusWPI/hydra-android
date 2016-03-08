@@ -1,50 +1,52 @@
 package be.ugent.zeus.hydra.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
-
-import java.util.ArrayList;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
 import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
 import be.ugent.zeus.hydra.models.Association.AssociationActivities;
-import be.ugent.zeus.hydra.models.Association.AssociationActivity;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
 
 /**
- * A simple {@link Fragment} subclass.
- * ActivitiesFragment that contain this fragment must implement the
- * {@link ActivitiesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ActivitiesFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Created by ellen on 2016-03-08.
  */
+
 public class ActivitiesFragment extends AbstractFragment {
+    private RecyclerView recyclerView;
+    private ActivityListAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private View layout;
+    private StickyRecyclerHeadersDecoration decorator;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_activities, container, false);
-
-
-
+        layout = inflater.inflate(R.layout.fragment_activities, container, false);
+        recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerview);
+        adapter = new ActivityListAdapter();
+        recyclerView.setAdapter(adapter);
+        layoutManager = new LinearLayoutManager(this.getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        decorator = new StickyRecyclerHeadersDecoration((StickyRecyclerHeadersAdapter) adapter);
+        recyclerView.addItemDecoration(decorator);
         performLoadActivityRequest();
 
-        return view;
+        return layout;
     }
+
+
 
     private void performLoadActivityRequest() {
 
@@ -52,36 +54,29 @@ public class ActivitiesFragment extends AbstractFragment {
         spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationActivities>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
-                System.out.println("Request failed");
+                showFailureSnackbar();
             }
 
             @Override
             public void onRequestSuccess(final AssociationActivities associationActivitiesItems) {
-                ArrayList<AssociationActivity> listItems = new ArrayList<AssociationActivity>();
-                ArrayAdapter<AssociationActivity> adapter;
-                final ListView activityList = (ListView) getView().findViewById(R.id.activityList);
-                adapter = new ActivityListAdapter(getContext(), android.R.layout.simple_list_item_1, listItems);
-                activityList.setAdapter(adapter);
+                adapter.setItems(associationActivitiesItems);
+                adapter.notifyDataSetChanged();
 
-                activityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        int itemPosition = position;
-                        Intent intent = new Intent(getContext(), AssociationActivityDetail.class);
-                        intent.putExtra("associationActivity", associationActivitiesItems.get(itemPosition));
-                        startActivity(intent);
-                        //Toast.makeText(getContext(),
-                        //        "Position :" + itemPosition + "  ListItem : " + associationActivitiesItems.get(itemPosition).title, Toast.LENGTH_LONG)
-                        //        .show();
-                    }
-                });
-
-                for (AssociationActivity activity : associationActivitiesItems) {
-                    listItems.add(activity);
-                    adapter.notifyDataSetChanged();
-                }
             }
         });
+    }
+
+
+    private void showFailureSnackbar() {
+        Snackbar
+            .make(layout, "Oeps! Kon activiteiten niet ophalen.", Snackbar.LENGTH_LONG)
+            .setAction("Opnieuw proberen", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    performLoadActivityRequest();
+                }
+            })
+            .show();
     }
 }

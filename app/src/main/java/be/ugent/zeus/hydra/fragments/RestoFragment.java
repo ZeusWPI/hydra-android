@@ -1,42 +1,36 @@
 package be.ugent.zeus.hydra.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
-
-import java.util.ArrayList;
-import java.util.Calendar;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.Association.AssociationActivities;
-import be.ugent.zeus.hydra.models.Resto.RestoMeal;
-import be.ugent.zeus.hydra.models.Resto.RestoMenu;
-import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
-import be.ugent.zeus.hydra.requests.RestoMenuRequest;
+import be.ugent.zeus.hydra.adapters.RestoCardAdapter;
+import be.ugent.zeus.hydra.models.Resto.RestoMenuList;
+import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RestoFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link RestoFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Created by mivdnber on 2016-03-03.
  */
+
 public class RestoFragment extends Fragment {
     protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
+    private RecyclerView recyclerView;
+    private RestoCardAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private View layout;
 
     @Override
     public void onStart() {
@@ -49,44 +43,46 @@ public class RestoFragment extends Fragment {
         spiceManager.shouldStop();
         super.onStop();
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        layout = inflater.inflate(R.layout.fragment_resto, container, false);
+        recyclerView = (RecyclerView) layout.findViewById(R.id.resto_cards_view);
+        adapter = new RestoCardAdapter();
+        recyclerView.setAdapter(adapter);
+        layoutManager = new LinearLayoutManager(this.getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new StickyRecyclerHeadersDecoration((StickyRecyclerHeadersAdapter) adapter));
+        performMenuRequest();
 
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_resto, container, false);
-
-        performLoadActivityRequest();
-
-        return view;
+        return layout;
     }
 
-    private void performLoadActivityRequest() {
-        Calendar c = Calendar.getInstance();
-
-        final RestoMenuRequest r = new RestoMenuRequest(c.getTime());
-
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<RestoMenu>() {
+    private void performMenuRequest() {
+        final RestoMenuOverviewRequest r = new RestoMenuOverviewRequest();
+        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<RestoMenuList>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
-                System.out.println("Request failed");
+                showFailureSnackbar();
             }
 
             @Override
-            public void onRequestSuccess(final RestoMenu restoMenu) {
-                ArrayList<String> listItems=new ArrayList<String>();
-                ArrayAdapter<String> adapter;
-                final ListView restoList = (ListView) getView().findViewById(R.id.restoList);
-
-                adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, listItems );
-                restoList.setAdapter(adapter);
-
-                for(RestoMeal meal: restoMenu.getMeals()) {
-                    listItems.add(meal.getName() + " " + meal.getPrice());
-                    adapter.notifyDataSetChanged();
-                }
+            public void onRequestSuccess(final RestoMenuList menuList) {
+                adapter.setMenuList(menuList);
+                adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void showFailureSnackbar() {
+        Snackbar
+            .make(layout, "Oeps! Kon restomenu niet ophalen.", Snackbar.LENGTH_LONG)
+            .setAction("Opnieuw proberen", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    performMenuRequest();
+                }
+            })
+            .show();
     }
 }
