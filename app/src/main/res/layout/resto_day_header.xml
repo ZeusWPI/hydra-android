@@ -12,9 +12,12 @@
         android:id="@+id/resto_header_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
         android:textSize="26dp"
         android:textColor="@color/ugent_white"
-        android:background="@color/ugent_blue_medium"
+        android:background="@drawable/rounded_corners_ugent_blue_bg"
         android:padding="4dp"
         android:gravity="center">
     </TextView>
