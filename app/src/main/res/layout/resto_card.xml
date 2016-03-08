@@ -9,7 +9,6 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
         android:layout_marginStart="6dp"
         android:layout_marginEnd="6dp"
         card_view:contentPaddingLeft="20dp"
@@ -26,9 +25,10 @@
                 android:id="@+id/category_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textSize="28dp"
-                android:textStyle="italic" />
+                android:textColor="@color/dark_blue"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:paddingBottom="8dp" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -40,16 +40,26 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:id="@+id/restoFoodImage" />
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/restoFoodImage"
+                        android:src="@drawable/soep" />
 
                     <TextView
                         android:id="@+id/menu_lines"
+                        android:layout_width="245dp"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/restoPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:textSize="14dp" />
+                        android:textColor="@color/dark_blue"
+                        android:textSize="16dp"
+                        android:gravity="right" />
+
                 </TableRow>
 
             </LinearLayout>

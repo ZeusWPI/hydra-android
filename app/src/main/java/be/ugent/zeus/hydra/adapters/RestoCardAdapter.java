@@ -32,12 +32,22 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
     public static class RestoCategory {
         private final Date date;
         private final String title;
-        private final List<String> menuLines;
+        private final List<String> vegetables;
+        private final List<RestoMeal> meals;
 
-        public RestoCategory(Date date, String title, List<String> menuLines) {
+        public RestoCategory(Date date, String title, List<String> vegetables) {
             this.date = date;
             this.title = title;
-            this.menuLines = menuLines;
+            this.vegetables = vegetables;
+            this.meals = null;
+        }
+
+
+        public RestoCategory(Date date, String title, ArrayList<RestoMeal> meals) {
+            this.date = date;
+            this.title = title;
+            this.meals = meals;
+            this.vegetables = null;
         }
 
         public String getTitle() {
@@ -48,33 +58,66 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
             return date;
         }
 
-        public String getMenuLinesText() {
+        public String getMealsText() {
+            StringBuilder sb = new StringBuilder();
+            boolean first = true;
+            for (RestoMeal line : meals) {
+                if (first) first = false;
+                else sb.append("\n");
+                sb.append(line.getName());
+            }
+            return sb.toString();
+        }
+
+        public String getMealsPricesText() {
+            StringBuilder sb = new StringBuilder();
+            boolean first = true;
+            for (RestoMeal line : meals) {
+                if (first) first = false;
+                else sb.append("\n");
+                sb.append(line.getPrice());
+            }
+            return sb.toString();
+        }
+
+        public String getVegetablesText() {
             // Oh Java, why did I used to love you?
             // Join the lines with newlines.
             StringBuilder sb = new StringBuilder();
             boolean first = true;
-            for (String line : menuLines) {
+            for (String line : vegetables) {
                 if (first) first = false;
                 else sb.append("\n");
                 sb.append(line);
             }
             return sb.toString();
         }
+
+        public boolean isMeals() {
+            return meals != null;
+        }
     }
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private TextView menuLines;
+        private TextView restoPrice;
 
         public CardViewHolder(View v) {
             super(v);
             title = (TextView) v.findViewById(R.id.category_text);
             menuLines = (TextView) v.findViewById(R.id.menu_lines);
+            restoPrice= (TextView) v.findViewById(R.id.restoPrice);
         }
 
         public void populate(RestoCategory card) {
             title.setText(card.getTitle());
-            menuLines.setText(card.getMenuLinesText());
+            if (card.isMeals()) {
+                menuLines.setText(card.getMealsText());
+                restoPrice.setText(card.getMealsPricesText());
+            } else {
+                menuLines.setText(card.getVegetablesText());
+            }
         }
     }
 
@@ -104,15 +147,15 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
             int daysBetween = Days.daysBetween(today.toLocalDate(), dateTime.toLocalDate()).getDays();
 
             if (daysBetween == 0) {
-                return "vandaag";
+                return "Vandaag";
             } else if(daysBetween == 1) {
-                return "morgen";
+                return "Morgen";
             } else if(daysBetween == 2) {
-                return "overmorgen";
+                return "Overmorgen";
             } else if (week == thisWeek || daysBetween < 7) {
                 return dayFormatter.format(date).toLowerCase();
             } else if (week == thisWeek + 1) {
-                return "volgende " + dayFormatter.format(date).toLowerCase();
+                return "Volgende " + dayFormatter.format(date).toLowerCase();
             } else {
                 return dateFormatter.format(date);
             }
@@ -163,11 +206,7 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
         this.menuList.clear();
         for (RestoMenu menu : menuList) {
             // Main meals
-            List<String> mealStrings = new ArrayList<>();
-            for (RestoMeal meal: menu.getMeals()) {
-                mealStrings.add(meal.getName() + " " + meal.getPrice());
-            }
-            this.menuList.add(new RestoCategory(menu.getDate(), "Hoofdgerechten", mealStrings));
+            this.menuList.add(new RestoCategory(menu.getDate(), "Menu", menu.getMeals()));
 
             // Vegetables
             this.menuList.add(new RestoCategory(menu.getDate(), "Groenten", menu.getVegetables()));
