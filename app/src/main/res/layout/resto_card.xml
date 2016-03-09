@@ -35,34 +35,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TableRow
+                <TableLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:id="@+id/cardTableLayout">
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent"
-                        android:id="@+id/restoFoodImage"
-                        android:src="@drawable/soep" />
-
-                    <TextView
-                        android:id="@+id/menu_lines"
-                        android:layout_width="245dp"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/dark_blue"
-                        android:textSize="16dp" />
-
-                    <TextView
-                        android:id="@+id/restoPrice"
+                    <TableRow
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/dark_blue"
-                        android:textSize="16dp"
-                        android:gravity="right" />
+                        android:layout_height="match_parent">
 
-                </TableRow>
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:id="@+id/restoFoodImage" />
+
+                        <TextView
+                            android:id="@+id/menu_lines"
+                            android:layout_width="245dp"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/restoPrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="16dp"
+                            android:gravity="right" />
+
+                    </TableRow>
+                </TableLayout>
 
             </LinearLayout>
+
         </LinearLayout>
 
 

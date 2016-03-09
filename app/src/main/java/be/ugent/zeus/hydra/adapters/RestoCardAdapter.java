@@ -1,9 +1,14 @@
 package be.ugent.zeus.hydra.adapters;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
@@ -58,6 +63,15 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
             return date;
         }
 
+        public List<RestoMeal> getMeals() {
+            return meals;
+        }
+
+        public List<String> getVegetables() {
+            return vegetables;
+        }
+
+
         public String getMealsText() {
             StringBuilder sb = new StringBuilder();
             boolean first = true;
@@ -102,22 +116,35 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
         private TextView title;
         private TextView menuLines;
         private TextView restoPrice;
+        private TableLayout tableLayout;
+        private ImageView iconView;
+        private View view;
 
         public CardViewHolder(View v) {
             super(v);
             title = (TextView) v.findViewById(R.id.category_text);
             menuLines = (TextView) v.findViewById(R.id.menu_lines);
             restoPrice= (TextView) v.findViewById(R.id.restoPrice);
+            tableLayout = (TableLayout) v.findViewById(R.id.cardTableLayout);
+            iconView = (ImageView) v.findViewById(R.id.restoFoodImage);
+            view = v;
         }
 
         public void populate(RestoCategory card) {
+
             title.setText(card.getTitle());
             if (card.isMeals()) {
-                menuLines.setText(card.getMealsText());
-                restoPrice.setText(card.getMealsPricesText());
+                for (RestoMeal meal: card.getMeals()) {
+                    TableRow row = new TableRow(view.getContext());
+                    TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+                    row.setLayoutParams(lp);
+                    menuLines = new TextView(view.getContext());
+                    menuLines.setText(meal.getName());
+                }
             } else {
                 menuLines.setText(card.getVegetablesText());
             }
+
         }
     }
 
