@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -135,11 +137,29 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
             title.setText(card.getTitle());
             if (card.isMeals()) {
                 for (RestoMeal meal: card.getMeals()) {
-                    TableRow row = new TableRow(view.getContext());
-                    TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-                    row.setLayoutParams(lp);
-                    menuLines = new TextView(view.getContext());
-                    menuLines.setText(meal.getName());
+                    TableLayout tl = (TableLayout) view.findViewById(R.id.cardTableLayout);
+                    TableRow tr = new TableRow(view.getContext());
+                    TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+                    tr.setLayoutParams(lp);
+
+                    TextView tvLeft = new TextView(view.getContext());
+                    tvLeft.setLayoutParams(lp);
+                    tvLeft.setBackgroundColor(Color.BLACK);
+                    tvLeft.setText("OMG");
+                    TextView tvCenter = new TextView(view.getContext());
+                    tvCenter.setLayoutParams(lp);
+                    tvCenter.setBackgroundColor(Color.BLACK);
+                    tvCenter.setText("It");
+                    TextView tvRight = new TextView(view.getContext());
+                    tvRight.setLayoutParams(lp);
+                    tvRight.setBackgroundColor(Color.BLACK);
+                    tvRight.setText("WORKED!!!");
+
+                    tr.addView(tvLeft);
+                    tr.addView(tvCenter);
+                    tr.addView(tvRight);
+
+                    tl.addView(tr, new TableLayout.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
                 }
             } else {
                 menuLines.setText(card.getVegetablesText());
