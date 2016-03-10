@@ -36,6 +36,16 @@ import be.ugent.zeus.hydra.models.Resto.RestoMenuList;
 public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.CardViewHolder> implements StickyRecyclerHeadersAdapter {
     private ArrayList<RestoCategory> menuList;
 
+    public static void setImageBasedOnKind(RestoMeal meal, ImageView imageView) {
+
+        if (meal.getKind() == "vegetable") {
+
+            imageView.setImageResource(R.drawable.groenten);
+
+        }
+
+    }
+
     public static class RestoCategory {
         private final Date date;
         private final String title;
@@ -142,20 +152,19 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
                     TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
                     tr.setLayoutParams(lp);
 
-                    TextView tvLeft = new TextView(view.getContext());
-                    tvLeft.setLayoutParams(lp);
-                    tvLeft.setBackgroundColor(Color.BLACK);
-                    tvLeft.setText("OMG");
+                    ImageView imageView = new ImageView(view.getContext());
+
+                    setImageBasedOnKind(meal, imageView);
+
                     TextView tvCenter = new TextView(view.getContext());
                     tvCenter.setLayoutParams(lp);
                     tvCenter.setBackgroundColor(Color.BLACK);
-                    tvCenter.setText("It");
+                    tvCenter.setText(meal.getName());
                     TextView tvRight = new TextView(view.getContext());
                     tvRight.setLayoutParams(lp);
                     tvRight.setBackgroundColor(Color.BLACK);
-                    tvRight.setText("WORKED!!!");
+                    tvRight.setText(meal.getPrice());
 
-                    tr.addView(tvLeft);
                     tr.addView(tvCenter);
                     tr.addView(tvRight);
 
