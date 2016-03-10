@@ -38,10 +38,21 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
 
     public static void setImageBasedOnKind(RestoMeal meal, ImageView imageView) {
 
-        if (meal.getKind() == "vegetable") {
+        if (meal.getKind() == "vegetables") {
 
             imageView.setImageResource(R.drawable.groenten);
 
+        } else if (meal.getKind() == "soup") {
+
+            imageView.setImageResource(R.drawable.soep);
+
+        } else if (meal.getKind() == "meat") {
+
+            imageView.setImageResource(R.drawable.vlees);
+
+        } else {
+
+            imageView.setImageResource(R.drawable.vegi);
         }
 
     }
