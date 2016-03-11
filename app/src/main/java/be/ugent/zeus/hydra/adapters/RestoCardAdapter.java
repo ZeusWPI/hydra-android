@@ -36,27 +36,6 @@ import be.ugent.zeus.hydra.models.Resto.RestoMenuList;
 public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.CardViewHolder> implements StickyRecyclerHeadersAdapter {
     private ArrayList<RestoCategory> menuList;
 
-    public static void setImageBasedOnKind(RestoMeal meal, ImageView imageView) {
-
-        if (meal.getKind() == "vegetables") {
-
-            imageView.setImageResource(R.drawable.groenten);
-
-        } else if (meal.getKind() == "soup") {
-
-            imageView.setImageResource(R.drawable.soep);
-
-        } else if (meal.getKind() == "meat") {
-
-            imageView.setImageResource(R.drawable.vlees);
-
-        } else {
-
-            imageView.setImageResource(R.drawable.vegi);
-        }
-
-    }
-
     public static class RestoCategory {
         private final Date date;
         private final String title;
@@ -165,17 +144,18 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
 
                     ImageView imageView = new ImageView(view.getContext());
 
-                    setImageBasedOnKind(meal, imageView);
+                    imageView.setImageResource(R.drawable.vegi);
 
                     TextView tvCenter = new TextView(view.getContext());
                     tvCenter.setLayoutParams(lp);
-                    tvCenter.setBackgroundColor(Color.BLACK);
                     tvCenter.setText(meal.getName());
+                    tvCenter.setTextColor(Color.parseColor("#122b44"));
                     TextView tvRight = new TextView(view.getContext());
                     tvRight.setLayoutParams(lp);
-                    tvRight.setBackgroundColor(Color.BLACK);
                     tvRight.setText(meal.getPrice());
+                    tvRight.setTextColor(Color.parseColor("#122b44"));
 
+                    tr.addView(imageView);
                     tr.addView(tvCenter);
                     tr.addView(tvRight);
 
