@@ -15,15 +15,32 @@ public class RestoMenu {
     @JsonAdapter(RestoDateJsonAdapter.class)
     private Date date;
     private RestoMeals meals;
+    private ArrayList<RestoMeal> sideDishes;
+    private ArrayList<RestoMeal> mainDishes;
     private ArrayList<String> vegetables;
 
-    public RestoMenu() {};
+    public RestoMenu() {
+    };
 
     public RestoMenu(boolean open, Date date, RestoMeals meals, ArrayList<String> vegetables) {
         this.open = open;
         this.date = date;
         this.meals = meals;
         this.vegetables = vegetables;
+    }
+
+    private void fillCategories() {
+        sideDishes = new ArrayList<RestoMeal>();
+        mainDishes = new ArrayList<RestoMeal>();
+
+        for(RestoMeal meal : meals) {
+            if (meal.getType().equals("side")) {
+                sideDishes.add(meal);
+            }
+            if (meal.getType().equals("main")) {
+                mainDishes.add(meal);
+            }
+        }
     }
 
     public boolean isOpen() {
@@ -40,6 +57,7 @@ public class RestoMenu {
 
     public void setMeals(RestoMeals meals) {
         this.meals = meals;
+        fillCategories();
     }
 
     public ArrayList<String> getVegetables() {
@@ -56,5 +74,19 @@ public class RestoMenu {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public ArrayList<RestoMeal> getSideDishes() {
+        if (sideDishes == null) {
+            fillCategories();
+        }
+        return sideDishes;
+    }
+
+    public ArrayList<RestoMeal> getMainDishes() {
+        if (mainDishes == null) {
+            fillCategories();
+        }
+        return mainDishes;
     }
 }

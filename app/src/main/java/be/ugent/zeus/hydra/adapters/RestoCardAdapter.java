@@ -253,7 +253,8 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
         this.menuList.clear();
         for (RestoMenu menu : menuList) {
             // Main meals
-            this.menuList.add(new RestoCategory(menu.getDate(), "Menu", menu.getMeals()));
+            this.menuList.add(new RestoCategory(menu.getDate(), "Hoofdgerechten", menu.getMainDishes()));
+            this.menuList.add(new RestoCategory(menu.getDate(), "Bijgerechten", menu.getSideDishes()));
 
             // Vegetables
             this.menuList.add(new RestoCategory(menu.getDate(), "Groenten", menu.getVegetables()));
