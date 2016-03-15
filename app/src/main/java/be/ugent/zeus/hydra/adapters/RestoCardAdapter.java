@@ -261,6 +261,12 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
     public void setMenuList(RestoMenuList menuList) {
         this.menuList.clear();
         for (RestoMenu menu : menuList) {
+            // see if resto is open (in case of holiday)
+            if(! menu.isOpen()) {
+                this.menuList.add(new RestoCategory(menu.getDate(), "Gesloten", menu.getMainDishes()));
+                continue;
+            }
+
             // Main meals
             this.menuList.add(new RestoCategory(menu.getDate(), "Hoofdgerechten", menu.getMainDishes()));
             this.menuList.add(new RestoCategory(menu.getDate(), "Bijgerechten", menu.getSideDishes()));
