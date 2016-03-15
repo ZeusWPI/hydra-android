@@ -102,11 +102,12 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
         }
 
         public void populate(RestoCategory card) {
+            TableLayout tl = (TableLayout) view.findViewById(R.id.cardTableLayout);
+            tl.removeAllViews();
 
             title.setText(card.getTitle());
             if (card.isMeals()) for (RestoMeal meal : card.getMeals()) {
 
-                TableLayout tl = (TableLayout) view.findViewById(R.id.cardTableLayout);
                 TableRow tr = new TableRow(view.getContext());
                 TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
                 tr.setLayoutParams(lp);
@@ -131,8 +132,6 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
 
                 }
 
-
-
                 TextView tvCenter = new TextView(view.getContext());
                 tvCenter.setLayoutParams(lp);
                 tvCenter.setText(meal.getName());
@@ -152,7 +151,6 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
             else {
                 for (String veg: card.getVegetables()) {
 
-                    TableLayout tl = (TableLayout) view.findViewById(R.id.cardTableLayout);
                     TableRow tr = new TableRow(view.getContext());
                     TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
                     tr.setLayoutParams(lp);
