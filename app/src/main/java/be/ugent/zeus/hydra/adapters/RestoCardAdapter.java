@@ -73,29 +73,6 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
             return vegetables;
         }
 
-
-        public String getMealsText() {
-            StringBuilder sb = new StringBuilder();
-            boolean first = true;
-            for (RestoMeal line : meals) {
-                if (first) first = false;
-                else sb.append("\n");
-                sb.append(line.getName());
-            }
-            return sb.toString();
-        }
-
-        public String getMealsPricesText() {
-            StringBuilder sb = new StringBuilder();
-            boolean first = true;
-            for (RestoMeal line : meals) {
-                if (first) first = false;
-                else sb.append("\n");
-                sb.append(line.getPrice());
-            }
-            return sb.toString();
-        }
-
         public String getVegetablesText() {
             // Oh Java, why did I used to love you?
             // Join the lines with newlines.
@@ -116,19 +93,11 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
-        private TextView menuLines;
-        private TextView restoPrice;
-        private TableLayout tableLayout;
-        private ImageView iconView;
         private View view;
 
         public CardViewHolder(View v) {
             super(v);
             title = (TextView) v.findViewById(R.id.category_text);
-            menuLines = (TextView) v.findViewById(R.id.menu_lines);
-            restoPrice= (TextView) v.findViewById(R.id.restoPrice);
-            tableLayout = (TableLayout) v.findViewById(R.id.cardTableLayout);
-            iconView = (ImageView) v.findViewById(R.id.restoFoodImage);
             view = v;
         }
 
@@ -137,6 +106,38 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
             title.setText(card.getTitle());
             if (card.isMeals()) {
                 for (RestoMeal meal: card.getMeals()) {
+                    if (meal.getType() == "side") {
+
+                        TableLayout tl = (TableLayout) view.findViewById(R.id.cardTableLayout);
+                        TableRow tr = new TableRow(view.getContext());
+                        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+                        tr.setLayoutParams(lp);
+
+                        ImageView imageView = new ImageView(view.getContext());
+
+                        imageView.setImageResource(R.drawable.vegi);
+
+                        TextView tvCenter = new TextView(view.getContext());
+                        tvCenter.setLayoutParams(lp);
+                        tvCenter.setText(meal.getName());
+                        tvCenter.setTextColor(Color.parseColor("#122b44"));
+                        TextView tvRight = new TextView(view.getContext());
+                        tvRight.setLayoutParams(lp);
+                        tvRight.setText(meal.getPrice());
+                        tvRight.setTextColor(Color.parseColor("#122b44"));
+
+                        tr.addView(imageView);
+                        tr.addView(tvCenter);
+                        tr.addView(tvRight);
+
+                        tl.addView(tr, new TableLayout.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+                    }
+
+                }
+            } else {
+                for (String veg: card.getVegetables()) {
+
                     TableLayout tl = (TableLayout) view.findViewById(R.id.cardTableLayout);
                     TableRow tr = new TableRow(view.getContext());
                     TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
@@ -148,21 +149,17 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
 
                     TextView tvCenter = new TextView(view.getContext());
                     tvCenter.setLayoutParams(lp);
-                    tvCenter.setText(meal.getName());
+                    tvCenter.setText(veg);
                     tvCenter.setTextColor(Color.parseColor("#122b44"));
-                    TextView tvRight = new TextView(view.getContext());
-                    tvRight.setLayoutParams(lp);
-                    tvRight.setText(meal.getPrice());
-                    tvRight.setTextColor(Color.parseColor("#122b44"));
 
                     tr.addView(imageView);
                     tr.addView(tvCenter);
-                    tr.addView(tvRight);
 
                     tl.addView(tr, new TableLayout.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+
+
                 }
-            } else {
-                menuLines.setText(card.getVegetablesText());
             }
 
         }
