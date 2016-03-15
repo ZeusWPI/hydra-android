@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/comingsoontitle"
+        android:id="@+id/comingsoon"
+        android:textSize="48sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="41dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/openFacebook"
+        android:id="@+id/textView"
+        android:layout_marginTop="41dp"
+        android:layout_below="@+id/comingsoon"
+        android:layout_alignLeft="@+id/comingsoon"
+        android:layout_alignStart="@+id/comingsoon" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fbButton"
+        android:layout_marginTop="48dp"
+        android:src="@drawable/fblogosmall"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:background="#00ffffff"
+        android:clickable="false"
+        android:contentDescription="@string/facebookButtonDescription" />
+
+</RelativeLayout>

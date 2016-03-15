@@ -1,10 +1,13 @@
 package be.ugent.zeus.hydra.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -78,6 +81,12 @@ public class Hydra extends AppCompatActivity {
         //performLoadActivityRequest();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater mf = getMenuInflater();
+        mf.inflate(R.menu.global, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -88,6 +97,8 @@ public class Hydra extends AppCompatActivity {
 
         //noinspection SimpliiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 

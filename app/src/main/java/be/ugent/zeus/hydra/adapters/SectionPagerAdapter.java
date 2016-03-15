@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import be.ugent.zeus.hydra.fragments.ActivitiesFragment;
+import be.ugent.zeus.hydra.fragments.ComingSoonFragment;
 import be.ugent.zeus.hydra.fragments.HomeFragment;
 import be.ugent.zeus.hydra.fragments.InfoFragment;
 import be.ugent.zeus.hydra.fragments.MinervaFragment;
@@ -30,8 +31,10 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
                 return new RestoFragment();
             case 4:
                 return new InfoFragment();
-            default:
+            case 3:
                 return new ActivitiesFragment();
+            default:
+                return new ComingSoonFragment();
         }
     }
 
