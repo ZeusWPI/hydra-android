@@ -106,7 +106,6 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
             title.setText(card.getTitle());
             if (card.isMeals()) {
                 for (RestoMeal meal: card.getMeals()) {
-                    if (meal.getType() == "side") {
 
                         TableLayout tl = (TableLayout) view.findViewById(R.id.cardTableLayout);
                         TableRow tr = new TableRow(view.getContext());
@@ -134,7 +133,7 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
 
                     }
 
-                }
+
             } else {
                 for (String veg: card.getVegetables()) {
 
