@@ -9,10 +9,6 @@ import android.widget.TextView;
 
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +18,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
 import be.ugent.zeus.hydra.models.Association.AssociationActivities;
 import be.ugent.zeus.hydra.models.Association.AssociationActivity;
+import be.ugent.zeus.hydra.recyclerviewholder.DateHeaderViewHolder;
 
 /**
  * Created by ellen on 8/3/16.
@@ -60,50 +57,10 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         }
     }
 
-    public static class HeaderViewHolder extends RecyclerView.ViewHolder { //todo remove duplication
-        private TextView headerText;
-        private SimpleDateFormat weekFormatter = new SimpleDateFormat("w", new Locale("nl"));
-        private SimpleDateFormat dayFormatter = new SimpleDateFormat("cccc", new Locale("nl"));
-        private DateFormat dateFormatter = SimpleDateFormat.getDateInstance();
-        private SimpleDateFormat formatter = new SimpleDateFormat(" (yyyy-MM-dd)", Locale.getDefault());//debug
 
-        public HeaderViewHolder(View v) {
-            super(v);
-            headerText = (TextView) v.findViewById(R.id.resto_header_text);
-        }
-
-        public void populate(Date date) {
-            headerText.setText(getFriendlyDate(date)+formatter.format(date));
-        }
-
-        private String getFriendlyDate(Date date) {
-            // TODO: I feel a bit bad about all of this; any good libraries?
-            // I couldn't find any that were suitable -- mivdnber
-            DateTime today = new DateTime();
-            DateTime dateTime = new DateTime(date);
-            int thisWeek = Integer.parseInt(weekFormatter.format(today.toDate()));
-            int week = Integer.parseInt(weekFormatter.format(date));
-
-            int daysBetween = Days.daysBetween(today.toLocalDate(), dateTime.toLocalDate()).getDays();
-
-            if (daysBetween == 0) {
-                return "vandaag";
-            } else if(daysBetween == 1) {
-                return "morgen";
-            } else if(daysBetween == 2) {
-                return "overmorgen";
-            } else if (week == thisWeek || daysBetween < 7) {
-                return dayFormatter.format(date).toLowerCase();
-            } else if (week == thisWeek + 1) {
-                return "volgende " + dayFormatter.format(date).toLowerCase();
-            } else {
-                return dateFormatter.format(date);
-            }
-        }
-    }
 
     public ActivityListAdapter() {
-        this.items = new ArrayList<AssociationActivity>();
+        this.items = new ArrayList<>();
     }
 
     @Override
@@ -123,19 +80,19 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     @Override
     public long getHeaderId(int position) {
         Date date = items.get(position).start;
-        return date.getMonth()*100+date.getDay(); //todo make better
+        return date.getMonth()*100+date.getDay(); //todo
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_listitem_header, parent, false);
-        return new HeaderViewHolder(view);
+        return new DateHeaderViewHolder(view);
     }
 
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((HeaderViewHolder) holder).populate(items.get(position).start);
+        ((DateHeaderViewHolder) holder).populate(items.get(position).start);
     }
 
     @Override
