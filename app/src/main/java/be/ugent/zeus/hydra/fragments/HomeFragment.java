@@ -7,20 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.octo.android.robospice.GsonSpringAndroidSpiceService;
-import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.Association.AssociationActivities;
-import be.ugent.zeus.hydra.models.Association.AssociationActivity;
-import be.ugent.zeus.hydra.models.Association.AssociationNews;
-import be.ugent.zeus.hydra.models.Association.AssociationNewsItem;
-import be.ugent.zeus.hydra.models.Resto.RestoItem;
-import be.ugent.zeus.hydra.models.Resto.RestoMenu;
-import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
-import be.ugent.zeus.hydra.requests.AssociationNewsRequest;
 
 /**
  * Created by silox on 17/10/15.

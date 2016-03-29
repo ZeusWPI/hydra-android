@@ -9,20 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
-import be.ugent.zeus.hydra.models.Association.AssociationActivities;
-import be.ugent.zeus.hydra.models.Association.AssociationActivity;
-import be.ugent.zeus.hydra.models.Association.AssociationNews;
-import be.ugent.zeus.hydra.models.Association.AssociationNewsItem;
+import be.ugent.zeus.hydra.models.association.AssociationActivities;
+import be.ugent.zeus.hydra.models.association.AssociationActivity;
+import be.ugent.zeus.hydra.models.association.AssociationNews;
+import be.ugent.zeus.hydra.models.association.AssociationNewsItem;
 import be.ugent.zeus.hydra.requests.AssociationNewsRequest;
 
 

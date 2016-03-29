@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.models.Association;
+package be.ugent.zeus.hydra.models.association;
 
 import java.util.Date;
 

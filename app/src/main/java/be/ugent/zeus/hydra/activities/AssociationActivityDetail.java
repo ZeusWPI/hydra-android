@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.Association.AssociationActivity;
+import be.ugent.zeus.hydra.models.association.AssociationActivity;
 
 public class AssociationActivityDetail extends Activity {
 
