@@ -16,11 +16,9 @@ import com.octo.android.robospice.request.listener.RequestListener;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
-import java.util.Calendar;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.RestoCardAdapter;
-import be.ugent.zeus.hydra.models.Resto.RestoMenuList;
+import be.ugent.zeus.hydra.models.resto.RestoMenuList;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
 
 /**

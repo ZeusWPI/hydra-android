@@ -1,7 +1,5 @@
 package be.ugent.zeus.hydra.adapters;
 
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +14,6 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,9 +23,9 @@ import java.util.List;
 import java.util.Locale;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.Resto.RestoMeal;
-import be.ugent.zeus.hydra.models.Resto.RestoMenu;
-import be.ugent.zeus.hydra.models.Resto.RestoMenuList;
+import be.ugent.zeus.hydra.models.resto.RestoMeal;
+import be.ugent.zeus.hydra.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.models.resto.RestoMenuList;
 
 /**
  * Created by mivdnber on 3/3/16.

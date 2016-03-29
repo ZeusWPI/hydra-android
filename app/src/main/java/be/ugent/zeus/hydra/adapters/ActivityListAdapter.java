@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Locale;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.Association.AssociationActivity;
+import be.ugent.zeus.hydra.models.association.AssociationActivity;
 
 /**
  * Created by Ellen on 16/02/2016.

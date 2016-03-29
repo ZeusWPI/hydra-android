@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.requests;
 
-import be.ugent.zeus.hydra.models.Resto.RestoMenuList;
+import be.ugent.zeus.hydra.models.resto.RestoMenuList;
 
 /**
  * Created by mivdnber on 3/5/16.

@@ -1,8 +1,6 @@
 package be.ugent.zeus.hydra.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,22 +8,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.octo.android.robospice.GsonSpringAndroidSpiceService;
-import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import java.util.ArrayList;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
-import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
 import be.ugent.zeus.hydra.adapters.InfoListAdapter;
-import be.ugent.zeus.hydra.models.Association.AssociationActivities;
-import be.ugent.zeus.hydra.models.Association.AssociationActivity;
 import be.ugent.zeus.hydra.models.Info.InfoItem;
 import be.ugent.zeus.hydra.models.Info.InfoList;
-import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
 import be.ugent.zeus.hydra.requests.InfoRequest;
 
 /**
