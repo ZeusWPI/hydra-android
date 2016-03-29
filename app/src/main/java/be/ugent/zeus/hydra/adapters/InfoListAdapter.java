@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.Info.InfoItem;
+import be.ugent.zeus.hydra.models.info.InfoItem;
 
 /**
  * Created by Juta on 03/03/2016.

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.models.Info;
+package be.ugent.zeus.hydra.models.info;
 
 import com.google.gson.annotations.SerializedName;
 
