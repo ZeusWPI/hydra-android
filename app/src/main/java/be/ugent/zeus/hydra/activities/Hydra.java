@@ -119,7 +119,7 @@ public class Hydra extends AppCompatActivity {
 
             @Override
             public void onRequestSuccess(AssociationNews associationNewsItems) {
-                for (AssociationNewsItem newsItem: associationNewsItems) {
+                for (AssociationNewsItem newsItem : associationNewsItems) {
                     System.out.println(newsItem.title + ", ");
                 }
             }
@@ -136,7 +136,7 @@ public class Hydra extends AppCompatActivity {
         @Override
         public void onRequestSuccess(AssociationActivities associationActivities) {
             System.out.println("Activities loaded: " + associationActivities.size());
-            for (AssociationActivity activity: associationActivities) {
+            for (AssociationActivity activity : associationActivities) {
                 System.out.print(activity.title + ",  ");
             }
             System.out.println();

@@ -55,7 +55,6 @@ public class ActivitiesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_activities, container, false);
 
 
-
         performLoadActivityRequest();
 
         return view;
@@ -72,10 +71,10 @@ public class ActivitiesFragment extends Fragment {
 
             @Override
             public void onRequestSuccess(final AssociationActivities associationActivitiesItems) {
-                ArrayList<String> listItems=new ArrayList<String>();
+                ArrayList<String> listItems = new ArrayList<String>();
                 ArrayAdapter<String> adapter;
                 final ListView activityList = (ListView) getView().findViewById(R.id.activityList);
-                adapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, listItems);
+                adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, listItems);
                 activityList.setAdapter(adapter);
 
                 activityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -92,7 +91,7 @@ public class ActivitiesFragment extends Fragment {
                     }
                 });
 
-                for(AssociationActivity activity: associationActivitiesItems) {
+                for (AssociationActivity activity : associationActivitiesItems) {
                     listItems.add(activity.title);
                     adapter.notifyDataSetChanged();
                 }

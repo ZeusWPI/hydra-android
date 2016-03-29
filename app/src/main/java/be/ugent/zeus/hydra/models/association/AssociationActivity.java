@@ -1,13 +1,14 @@
 package be.ugent.zeus.hydra.models.association;
 
-import java.util.Date;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.JsonAdapter;
 
+import java.util.Date;
+
 import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * Created by feliciaan on 27/01/16.
@@ -53,6 +54,7 @@ public class AssociationActivity implements Parcelable {
             return new AssociationActivity[size];
         }
     };
+
     @Override
     public int describeContents() {
         return 0;
@@ -70,7 +72,7 @@ public class AssociationActivity implements Parcelable {
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
         dest.writeByte((byte) (highlighted ? 1 : 0));
-        dest.writeParcelable(association,flags);
+        dest.writeParcelable(association, flags);
 
     }
 }

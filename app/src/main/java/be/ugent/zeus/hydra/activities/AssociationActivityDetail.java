@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
@@ -25,12 +25,15 @@ public class AssociationActivityDetail extends Activity {
         TextView facebook_id = (TextView) findViewById(R.id.activityFacebookID);
         TextView description = (TextView) findViewById(R.id.activityDescription);
 
-        if(associationActivity.title != null) title.setText(associationActivity.title);
-        if(associationActivity.association != null && associationActivity.association.full_name != null) association.setText(associationActivity.association.full_name);
-        if(associationActivity.location != null)location.setText(associationActivity.location);
-        if(associationActivity.url != null) url.setText(associationActivity.url);
-        if(associationActivity.facebook_id != null) facebook_id.setText(associationActivity.facebook_id);
-        if(associationActivity.description != null) description.setText(associationActivity.description);
+        if (associationActivity.title != null) title.setText(associationActivity.title);
+        if (associationActivity.association != null && associationActivity.association.full_name != null)
+            association.setText(associationActivity.association.full_name);
+        if (associationActivity.location != null) location.setText(associationActivity.location);
+        if (associationActivity.url != null) url.setText(associationActivity.url);
+        if (associationActivity.facebook_id != null)
+            facebook_id.setText(associationActivity.facebook_id);
+        if (associationActivity.description != null)
+            description.setText(associationActivity.description);
     }
 
 }

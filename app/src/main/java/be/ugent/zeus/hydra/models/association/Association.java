@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by feliciaan on 04/02/16.
  */
-public class Association implements Parcelable{
+public class Association implements Parcelable {
     public String internal_name;
     public String full_name;
     public String display_name;

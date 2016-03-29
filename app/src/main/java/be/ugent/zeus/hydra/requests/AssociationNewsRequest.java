@@ -7,9 +7,9 @@ import be.ugent.zeus.hydra.models.association.AssociationNews;
 /**
  * Created by feliciaan on 04/02/16.
  */
-public class AssociationNewsRequest extends AbstractRequest<AssociationNews>{
+public class AssociationNewsRequest extends AbstractRequest<AssociationNews> {
 
-  public AssociationNewsRequest() {
+    public AssociationNewsRequest() {
         super(AssociationNews.class);
     }
 
