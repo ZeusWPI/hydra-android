@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.models.Resto;
+package be.ugent.zeus.hydra.models.resto;
 
 import java.util.ArrayList;
 

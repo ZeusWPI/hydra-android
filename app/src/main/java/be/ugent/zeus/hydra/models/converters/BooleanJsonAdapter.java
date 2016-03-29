@@ -24,6 +24,6 @@ public class BooleanJsonAdapter extends TypeAdapter<Boolean> {
         }
         int i = in.nextInt();
 
-        return i==1;
+        return i == 1;
     }
 }

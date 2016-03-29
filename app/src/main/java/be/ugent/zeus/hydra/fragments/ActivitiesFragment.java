@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
 import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
-import be.ugent.zeus.hydra.models.Association.AssociationActivities;
-import be.ugent.zeus.hydra.models.Association.AssociationActivity;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
 
 /**
@@ -38,7 +36,6 @@ public class ActivitiesFragment extends AbstractFragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_activities, container, false);
-
 
 
         performLoadActivityRequest();
