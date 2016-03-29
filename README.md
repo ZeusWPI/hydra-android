@@ -12,3 +12,8 @@
 * Feliciaan 'felikaan' De Palmenaer
 * Titouan 'FlashYoshi' Vervack
 * Niels 'nieleken' De Graef
+* Mitch De Wilde
+* Mehmet 'eludum' Köse
+* Rien 'R13N' Maertens
+* Ellen Vanhove
+* Michiel 'Michilus' Van den Berghe

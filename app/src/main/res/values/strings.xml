@@ -13,16 +13,24 @@
     <string name="schamper">Schamper</string>
 
     <!-- Action bar -->
-    <string name="action_example">Example action</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_example">Voorbeeldactie</string>
+    <string name="action_settings">Instellingen</string>
 
     <!-- Content descriptions -->
-    <string name="hydra_icon_content_description">Hydra icon</string>
+    <string name="hydra_icon_content_description">Hydra icoon</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="ActivitiesWelcome">Welcome to activities fragment</string>
-    <string name="title_activity_association_activity_detail">AssociationActivityDetail</string>
+    <string name="ActivitiesWelcome">Welkom bij het activiteitenfragment</string>
+    <string name="title_activity_association_activity_detail">AssociatieActiviteitsDetail</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Settings -->
+    <string name="pref_cat1_title">Categorie één.</string>
+
+    <string name="pref_summary_cat1_checkbox">Dit is een voorbeeldkeuzevakje</string>
+    <string name="pref_title_cat1_checkbox">Keuzevakje één.</string>
+    <string name="pref_sumary_setting1">Dit is instelling één.</string>
+    <string name="pref_title_Setting1">Instelling één</string>
+    <string name="openFacebook">Ondertussen kan je een bezoekje brengen aan onze Facebook-pagina.</string>
+    <string name="facebookButtonDescription">Link naar onze Facebook-pagina.</string>
+    <string name="comingsoontitle">Coming soon!</string>
 </resources>
