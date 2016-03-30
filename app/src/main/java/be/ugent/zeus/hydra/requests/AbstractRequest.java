@@ -25,15 +25,16 @@ public abstract class AbstractRequest<T> extends SpringAndroidSpiceRequest<T> {
         ResponseEntity<T> result;
         if (getURLVariables() == null) {
             result = getRestTemplate().getForEntity(getAPIUrl(), jsonClass);
-        }
-        else {
+        } else {
             result = getRestTemplate().getForEntity(getAPIUrl(), jsonClass, getURLVariables());
         }
         return result.getBody();
     }
 
     public abstract String getCacheKey();
+
     protected abstract String getAPIUrl();
+
     public abstract long getCacheDuration();
 
     protected Map<String, String> getURLVariables() {

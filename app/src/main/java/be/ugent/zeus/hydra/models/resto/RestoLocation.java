@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.models.Resto;
+package be.ugent.zeus.hydra.models.resto;
 
 /**
  * Created by feliciaan on 04/02/16.
