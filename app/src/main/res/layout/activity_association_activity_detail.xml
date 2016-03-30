@@ -8,14 +8,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="be.ugent.zeus.hydra.activities.AssociationActivityDetail"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </LinearLayout>
+    android:orientation="vertical"
+    android:background="@color/ugent_white">
 
     <LinearLayout
         android:orientation="vertical"
@@ -29,88 +23,104 @@
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_weight="1"
-                    android:text="Title" />
+                    android:text="Title"
+                    android:textColor="@color/ugent_blue_dark"
+                    android:gravity="left" />
 
                 <TextView
                     android:id="@+id/activityTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:layout_weight="1"
                     android:text="blub blub sdjfklqds fs dfqskdf qsldkfj sqldkfj qslmdfkqsmjd"
+                    android:textColor="@color/ugent_blue_dark"
                     />
 
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:layout_weight="1"
-                    android:text="Association" />
+                    android:text="Association"
+                    android:textColor="@color/ugent_blue_dark"/>
 
                 <TextView
                     android:id="@+id/activityAssociation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:layout_weight="1"
-                    android:text="Association" />
+                    android:text="Association"
+                    android:textColor="@color/ugent_blue_dark" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:layout_weight="1"
-                    android:text="Location" />
+                    android:text="Location"
+                    android:textColor="@color/ugent_blue_dark"/>
 
                 <TextView
                     android:id="@+id/activityLocation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:layout_weight="1"
-                    android:text="Location" />
+                    android:text="Location"
+                    android:textColor="@color/ugent_blue_dark"/>
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
 
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:layout_weight="1"
-                    android:text="URL" />
+                    android:text="URL"
+                    android:textColor="@color/ugent_blue_dark"/>
 
                 <TextView
                     android:id="@+id/activityURL"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:layout_weight="1"
-                    android:text="URL" />
+                    android:text="URL"
+                    android:textColor="@color/ugent_blue_dark"/>
             </TableRow>
 
             <TableRow
@@ -121,17 +131,21 @@
                     android:id="@+id/textView5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:layout_weight="1"
-                    android:text="Facebook" />
+                    android:text="Facebook"
+                    android:textColor="@color/ugent_blue_dark"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp" />
 
                 <TextView
                     android:id="@+id/activityFacebookID"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:layout_weight="1"
-                    android:text="Facebook" />
+                    android:text="Facebook"
+                    android:textColor="@color/ugent_blue_dark" />
             </TableRow>
         </TableLayout>
 
@@ -142,7 +156,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_weight="1"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris viverra dolor nulla, ut congue ex accumsan vel. Morbi feugiat nulla sed dui facilisis cursus. Ut ut pharetra turpis. Aenean aliquet mi et tellus semper commodo. Pellentesque sollicitudin laoreet orci, nec posuere augue rutrum ac. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque at nulla at tortor viverra elementum. Fusce massa dolor, mattis vitae pulvinar vitae, commodo nec enim. Cras dictum imperdiet viverra. Etiam dictum ex urna, sed bibendum est pulvinar et. Vivamus id sem dolor. Vivamus elementum justo ac libero auctor finibus. In nec tortor eros. Praesent non dolor nisi. Mauris volutpat dui a eros convallis aliquam. " />
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris viverra dolor nulla, ut congue ex accumsan vel. Morbi feugiat nulla sed dui facilisis cursus. Ut ut pharetra turpis. Aenean aliquet mi et tellus semper commodo. Pellentesque sollicitudin laoreet orci, nec posuere augue rutrum ac. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque at nulla at tortor viverra elementum. Fusce massa dolor, mattis vitae pulvinar vitae, commodo nec enim. Cras dictum imperdiet viverra. Etiam dictum ex urna, sed bibendum est pulvinar et. Vivamus id sem dolor. Vivamus elementum justo ac libero auctor finibus. In nec tortor eros. Praesent non dolor nisi. Mauris volutpat dui a eros convallis aliquam. "
+            android:textColor="@color/ugent_blue_dark"/>
 
     </LinearLayout>
 

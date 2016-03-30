@@ -66,11 +66,11 @@ public class AssociationActivity implements Parcelable {
         dest.writeLong(start.getTime());
         dest.writeLong(end.getTime());
         dest.writeString(location);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
         dest.writeString(description);
         dest.writeString(url);
         dest.writeString(facebook_id);
-        dest.writeDouble(latitude);
-        dest.writeDouble(longitude);
         dest.writeByte((byte) (highlighted ? 1 : 0));
         dest.writeParcelable(association, flags);
 

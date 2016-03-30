@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +19,15 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.InfoListAdapter;
 import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
+
 import be.ugent.zeus.hydra.requests.InfoRequest;
 
 /**
  * Created by Juta on 03/03/2016.
  */
 public class InfoFragment extends AbstractFragment {
+
+    protected final String HTML_API = "https://zeus.ugent.be/hydra/api/2.0/info/";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,7 +53,7 @@ public class InfoFragment extends AbstractFragment {
 
             @Override
             public void onRequestSuccess(final InfoList infolist) {
-                ArrayList<InfoItem> listItems = new ArrayList<>();
+                final ArrayList<InfoItem> listItems = new ArrayList<>();
                 ArrayAdapter<InfoItem> adapter;
                 final ListView activityList = (ListView) getView().findViewById(R.id.infoList);
                 adapter = new InfoListAdapter(getContext(), android.R.layout.simple_list_item_1, listItems);
@@ -58,7 +63,21 @@ public class InfoFragment extends AbstractFragment {
 
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        //TODO
+                        InfoItem item = infolist.get(position);
+                        String url = item.getUrl();
+                        String html = item.getHtml();
+                        InfoList infolist = item.getSubContent();
+                        if (url != null) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            startActivity(browserIntent);
+                        } else if (html != null ){
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(HTML_API + html));
+                            startActivity(browserIntent);
+                        } else if (infolist != null) {
+                            //TODO view subcontent
+                            for (InfoItem subcontentitem : infolist) {
+                            }
+                        }
                     }
                 });
 

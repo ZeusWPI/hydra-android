@@ -38,17 +38,17 @@ public class AssociationActivityDetail extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
 
         if(associationActivity.title != null){ title.setText(associationActivity.title);}
-        else {title.setText("");}
+        else {title.setText("no data");}
         if(associationActivity.association != null && associationActivity.association.display_name != null) association.setText(associationActivity.association.display_name);
-        else association.setText("");
+        else association.setText("no data");
         if(associationActivity.location != null)location.setText(associationActivity.location);
-        else location.setText("");
+        else location.setText("no data");
         if(associationActivity.url != null) url.setText(associationActivity.url);
-        else url.setText("");
+        else url.setText("no data + " + associationActivity.url);
         if(associationActivity.facebook_id != null) facebook_id.setText(associationActivity.facebook_id);
-        else facebook_id.setText("");
+        else facebook_id.setText("no data");
         if(associationActivity.description != null) description.setText(associationActivity.description);
-        else description.setText("");
+        else description.setText("no data");
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

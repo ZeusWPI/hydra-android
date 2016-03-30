@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -30,14 +31,20 @@ public class InfoListAdapter   extends ArrayAdapter<InfoItem> {
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         View rowView = inflater.inflate(R.layout.info_item, parent, false);
         TextView textViewTitle = (TextView) rowView.findViewById(R.id.title);
+        ImageView imageView = (ImageView) rowView.findViewById(R.id.infoImage);
 
-        //get activity
+        //get infoItem
         InfoItem infoItem = items.get(position);
 
         //fill in
         textViewTitle.setText(infoItem.getTitle());
+
+        Context context = imageView.getContext();
+        int resId = context.getResources().getIdentifier(infoItem.getImage(), "drawable", context.getPackageName());
+        imageView.setImageResource(resId);
 
         return rowView;
     }

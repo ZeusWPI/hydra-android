@@ -10,24 +10,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
+        <RelativeLayout
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:padding="5dp">
-
+            android:layout_width="fill_parent"
+            android:id="@+id/headerLinearLay"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/infoImage"
+                android:src="@drawable/icon"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"></ImageView>
             <TextView
+                android:id="@+id/title"
+                android:text="Title"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:paddingLeft="8dp"
+                android:layout_toRightOf="@id/infoImage"
+                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Title"
-                android:id="@+id/title"
                 android:layout_gravity="center_vertical"
-                android:padding="1dp"
-                android:textColor="@color/ugent_blue_dark" />
-
-        </LinearLayout>
+                android:textColor="@color/ugent_blue_dark"></TextView>
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>
