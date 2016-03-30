@@ -61,8 +61,6 @@ public class ActivitiesFragment extends AbstractFragment {
             public void onRequestSuccess(final AssociationActivities associationActivitiesItems) {
                 adapter.setItems(associationActivitiesItems);
                 adapter.notifyDataSetChanged();
-
-
             }
         });
     }

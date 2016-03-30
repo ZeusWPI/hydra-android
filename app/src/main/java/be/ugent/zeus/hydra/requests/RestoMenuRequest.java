@@ -1,7 +1,5 @@
 package be.ugent.zeus.hydra.requests;
 
-import android.provider.CalendarContract;
-
 import com.octo.android.robospice.persistence.DurationInMillis;
 
 import java.util.Calendar;

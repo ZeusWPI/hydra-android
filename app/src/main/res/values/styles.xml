@@ -7,8 +7,8 @@
 
         <item name="colorPrimary">@color/ugent_blue_medium</item>
         <item name="colorPrimaryDark">@color/ugent_blue_dark</item>
-        <item name="android:windowBackground">@color/mehmet_grey_ultralight</item>
-        <item name="colorAccent">@color/ugent_yellow_dark</item>
+        <item name="colorAccent">@color/ugent_blue_highlight</item>
+        <item name="android:windowBackground">@color/light_blue</item>
     </style>
 
     <!-- ActionBar styles -->

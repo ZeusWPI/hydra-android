@@ -17,8 +17,9 @@ import java.util.ArrayList;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.InfoListAdapter;
-import be.ugent.zeus.hydra.models.Info.InfoItem;
-import be.ugent.zeus.hydra.models.Info.InfoList;
+import be.ugent.zeus.hydra.models.info.InfoItem;
+import be.ugent.zeus.hydra.models.info.InfoList;
+
 import be.ugent.zeus.hydra.requests.InfoRequest;
 
 /**

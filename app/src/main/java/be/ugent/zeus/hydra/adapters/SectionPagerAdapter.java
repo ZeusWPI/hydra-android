@@ -29,10 +29,10 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
                 return new MinervaFragment();
             case 2:
                 return new RestoFragment();
-            case 4:
-                return new InfoFragment();
             case 3:
                 return new ActivitiesFragment();
+            case 4:
+                return new InfoFragment();
             default:
                 return new ComingSoonFragment();
         }

@@ -7,15 +7,15 @@ public class RestoMeal {
 
     private String name;
     private String price;
-    private String side;
+    private String type;
     private String kind;
 
     public RestoMeal() {}
 
-    public RestoMeal(String name, String price, String side, String kind) {
+    public RestoMeal(String name, String price, String type, String kind) {
         this.name = name;
         this.price = price;
-        this.side = side;
+        this.type = type;
         this.kind = kind;
     }
 
@@ -43,11 +43,11 @@ public class RestoMeal {
         this.kind = kind;
     }
 
-    public String getSide() {
-        return side;
+    public String getType() {
+        return type;
     }
 
-    public void setSide(String side) {
-        this.side = side;
+    public void setType(String type) {
+        this.type = type;
     }
 }
