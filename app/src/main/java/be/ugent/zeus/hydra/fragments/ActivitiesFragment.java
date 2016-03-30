@@ -16,19 +16,12 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
-import be.ugent.zeus.hydra.models.Association.AssociationActivities;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.octo.android.robospice.GsonSpringAndroidSpiceService;
-import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
-
 import java.util.ArrayList;
 
-import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
 import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;

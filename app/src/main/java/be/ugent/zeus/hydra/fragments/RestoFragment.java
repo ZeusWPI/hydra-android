@@ -18,7 +18,7 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.RestoCardAdapter;
-import be.ugent.zeus.hydra.models.Resto.RestoMenuList;
+import be.ugent.zeus.hydra.models.resto.RestoMenuList;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
 
 /**

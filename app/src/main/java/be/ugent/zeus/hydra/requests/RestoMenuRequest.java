@@ -4,13 +4,10 @@ import android.provider.CalendarContract;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
-import be.ugent.zeus.hydra.models.Resto.RestoMenu;
-import be.ugent.zeus.hydra.models.converters.RestoDateJsonAdapter;
+import be.ugent.zeus.hydra.models.resto.RestoMenu;
 
 /**
  * Created by Mitch on 3/03/2016.
