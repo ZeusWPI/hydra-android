@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
 import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
+import be.ugent.zeus.hydra.models.association.AssociationActivities;
+import be.ugent.zeus.hydra.models.association.AssociationActivity;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
 
 /**
