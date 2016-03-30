@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Locale;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.Resto.RestoMeal;
-import be.ugent.zeus.hydra.models.Resto.RestoMenu;
-import be.ugent.zeus.hydra.models.Resto.RestoMenuList;
+import be.ugent.zeus.hydra.models.resto.RestoMeal;
+import be.ugent.zeus.hydra.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.models.resto.RestoMenuList;
 
 /**
  * Created by mivdnber on 3/3/16.

@@ -15,7 +15,7 @@
         card_view:contentPaddingLeft="20dp"
         card_view:contentPaddingRight="@dimen/activity_horizontal_margin"
         card_view:contentPaddingTop="14dp"
-        card_view:contentPaddingBottom="@dimen/activity_vertical_margin">>
+        card_view:contentPaddingBottom="@dimen/activity_vertical_margin">
 
         <LinearLayout
             android:orientation="vertical"

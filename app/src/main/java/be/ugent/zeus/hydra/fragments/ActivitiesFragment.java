@@ -15,7 +15,7 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
-import be.ugent.zeus.hydra.models.Association.AssociationActivities;
+import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
 
 /**
@@ -70,13 +70,13 @@ public class ActivitiesFragment extends AbstractFragment {
 
     private void showFailureSnackbar() {
         Snackbar
-            .make(layout, "Oeps! Kon activiteiten niet ophalen.", Snackbar.LENGTH_LONG)
-            .setAction("Opnieuw proberen", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    performLoadActivityRequest();
-                }
-            })
-            .show();
+                .make(layout, "Oeps! Kon activiteiten niet ophalen.", Snackbar.LENGTH_LONG)
+                .setAction("Opnieuw proberen", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        performLoadActivityRequest();
+                    }
+                })
+                .show();
     }
 }

@@ -16,8 +16,8 @@ import java.util.Locale;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
-import be.ugent.zeus.hydra.models.Association.AssociationActivities;
-import be.ugent.zeus.hydra.models.Association.AssociationActivity;
+import be.ugent.zeus.hydra.models.association.AssociationActivities;
+import be.ugent.zeus.hydra.models.association.AssociationActivity;
 import be.ugent.zeus.hydra.recyclerviewholder.DateHeaderViewHolder;
 
 /**

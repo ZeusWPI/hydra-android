@@ -1,16 +1,14 @@
 package be.ugent.zeus.hydra.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 
@@ -30,18 +28,18 @@ public class ComingSoonFragment extends Fragment {
 
         ImageButton button = (ImageButton) view.findViewById(R.id.fbButton);
 
-        button.setOnClickListener(new View.OnClickListener(){
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String facebookUrl = "https://www.facebook.com/hydra.ugent";
                 try {
                     int versionCode = getContext()
-                                        .getPackageManager()
-                                        .getPackageInfo("com.facebook.katana", 0)
-                                        .versionCode;
+                            .getPackageManager()
+                            .getPackageInfo("com.facebook.katana", 0)
+                            .versionCode;
                     if (versionCode >= 3002850) {
                         Uri uri = Uri.parse("fb://facewebmodal/f?href=" + facebookUrl);
-                        startActivity(new Intent(Intent.ACTION_VIEW, uri));;
+                        startActivity(new Intent(Intent.ACTION_VIEW, uri));
                     } else {
                         // open the Facebook app using the old method (fb://page/id)
                         startActivity(new Intent(Intent.ACTION_VIEW,

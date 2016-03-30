@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -8,7 +9,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.Association.AssociationActivity;
+import be.ugent.zeus.hydra.models.association.AssociationActivity;
 
 public class AssociationActivityDetail extends AppCompatActivity {
 

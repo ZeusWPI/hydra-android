@@ -15,7 +15,7 @@
         card_view:contentPaddingLeft="5dp"
         card_view:contentPaddingRight="5dp"
         card_view:contentPaddingTop="3dp"
-        card_view:contentPaddingBottom="3dp">>
+        card_view:contentPaddingBottom="3dp">
 
         <LinearLayout
             android:orientation="horizontal"
