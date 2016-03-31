@@ -96,6 +96,7 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
 
                 TableRow tr = new TableRow(view.getContext());
                 TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+                tr.setPadding(0,7,0,7);
                 tr.setLayoutParams(lp);
 
                 // set correct image according to kind
