@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.adapters;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,19 +71,6 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
             return vegetables;
         }
 
-        public String getVegetablesText() {
-            // Oh Java, why did I used to love you?
-            // Join the lines with newlines.
-            StringBuilder sb = new StringBuilder();
-            boolean first = true;
-            for (String line : vegetables) {
-                if (first) first = false;
-                else sb.append("\n");
-                sb.append(line);
-            }
-            return sb.toString();
-        }
-
         public boolean isMeals() {
             return meals != null;
         }
@@ -100,6 +88,7 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
 
         public void populate(RestoCategory card) {
             TableLayout tl = (TableLayout) view.findViewById(R.id.cardTableLayout);
+            tl.setColumnStretchable(2, true);
             tl.removeAllViews();
 
             title.setText(card.getTitle());
@@ -130,6 +119,7 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
                 }
 
                 TextView tvCenter = new TextView(view.getContext());
+                tvCenter.setPadding(25,0,0,0);
                 tvCenter.setLayoutParams(lp);
                 tvCenter.setText(meal.getName());
                 tvCenter.setTextColor(Color.parseColor("#122b44"));
@@ -137,6 +127,8 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
                 tvRight.setLayoutParams(lp);
                 tvRight.setText(meal.getPrice());
                 tvRight.setTextColor(Color.parseColor("#122b44"));
+                tvRight.setGravity(Gravity.RIGHT);
+
 
                 tr.addView(imageView);
                 tr.addView(tvCenter);
@@ -157,6 +149,7 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
                     imageView.setImageResource(R.drawable.groenten);
 
                     TextView tvCenter = new TextView(view.getContext());
+                    tvCenter.setPadding(25,0,0,0);
                     tvCenter.setLayoutParams(lp);
                     tvCenter.setText(veg);
                     tvCenter.setTextColor(Color.parseColor("#122b44"));
