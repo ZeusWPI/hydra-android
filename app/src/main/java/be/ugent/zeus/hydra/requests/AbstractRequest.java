@@ -13,7 +13,7 @@ public abstract class AbstractRequest<T> extends SpringAndroidSpiceRequest<T> {
 
     protected Class jsonClass;
 
-    protected final String DSA_API_URL = "http://student.ugent.be/hydra/api/1.0/";
+    protected final String DSA_API_URL = "http://student.ugent.be/hydra/api/2.0/";
     protected final String ZEUS_API_URL = "https://zeus.UGent.be/hydra/api/";
 
     public AbstractRequest(Class clazz) {
