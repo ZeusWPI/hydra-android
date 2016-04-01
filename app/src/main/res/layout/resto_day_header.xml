@@ -3,6 +3,9 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <View
+        android:layout_height="6dp"
+        android:layout_width="match_parent"></View>
 
     <TextView
         android:layout_width="match_parent"
@@ -11,7 +14,13 @@
         android:id="@+id/resto_header_text"
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
-        android:textColor="@color/bright_blue"
+        android:textColor="@color/ugent_white"
+        android:background="@color/ugent_blue_medium"
         android:gravity="center_horizontal"
         android:textSize="20dp" />
+
+    <View
+        android:layout_height="6dp"
+        android:layout_width="match_parent"></View>
+
 </LinearLayout>

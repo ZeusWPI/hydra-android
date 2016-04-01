@@ -13,12 +13,14 @@ import android.widget.TextView;
 
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -46,7 +48,6 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
             this.vegetables = vegetables;
             this.meals = null;
         }
-
 
         public RestoCategory(Date date, String title, ArrayList<RestoMeal> meals) {
             this.date = date;
@@ -159,9 +160,6 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
                     tr.addView(tvCenter);
 
                     tl.addView(tr, new TableLayout.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-
-
-
                 }
             }
 
@@ -194,15 +192,15 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
             int daysBetween = Days.daysBetween(today.toLocalDate(), dateTime.toLocalDate()).getDays();
 
             if (daysBetween == 0) {
-                return "Vandaag";
+                return "vandaag";
             } else if(daysBetween == 1) {
-                return "Morgen";
+                return "morgen";
             } else if(daysBetween == 2) {
-                return "Overmorgen";
+                return "overmorgen";
             } else if (week == thisWeek || daysBetween < 7) {
                 return dayFormatter.format(date).toLowerCase();
             } else if (week == thisWeek + 1) {
-                return "Volgende " + dayFormatter.format(date).toLowerCase();
+                return "volgende " + dayFormatter.format(date).toLowerCase();
             } else {
                 return dateFormatter.format(date);
             }
@@ -251,7 +249,14 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
 
     public void setMenuList(RestoMenuList menuList) {
         this.menuList.clear();
+
+        Date currentDate = DateUtils.truncate(new Date(), Calendar.DATE); // Date at start of day
         for (RestoMenu menu : menuList) {
+            // check if menu is today or later
+            if (menu.getDate().before(currentDate)) {
+                continue;
+            }
+
             // see if resto is open (in case of holiday)
             if(! menu.isOpen()) {
                 this.menuList.add(new RestoCategory(menu.getDate(), "Gesloten", menu.getMainDishes()));
