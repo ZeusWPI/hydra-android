@@ -22,4 +22,6 @@ public abstract class AbstractFragment extends Fragment {
         spiceManager.shouldStop();
         super.onStop();
     }
+
+
 }
