@@ -19,7 +19,7 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
@@ -50,17 +50,20 @@
 
 
 
+
+
+
         </LinearLayout>
+
 
         <ImageView
             android:layout_gravity="right"
             android:id="@+id/linkImage"
-            android:src="@drawable/icon"
+            android:src="@drawable/arrow_right"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            >
-
-        </ImageView>
+            android:paddingTop="16dp"
+            android:paddingBottom="2dp" />
 
     </android.support.v7.widget.CardView>
 

@@ -46,6 +46,7 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
         public void populate(final InfoItem infoItem) {
             title.setText(infoItem.getTitle());
             //// TODO: 06/04/2016 set correct linkview
+
             linkView.setImageResource(R.drawable.arrow_right);
 
             view.setOnClickListener(new View.OnClickListener() {
