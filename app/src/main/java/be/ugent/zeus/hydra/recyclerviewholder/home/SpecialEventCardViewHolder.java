@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.recyclerviewholder.home;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,9 +27,17 @@ public class SpecialEventCardViewHolder extends AbstractViewHolder {
             return; //TODO: give warning
         }
 
-        SpecialEvent event = (SpecialEvent) card;
+        final SpecialEvent event = (SpecialEvent) card;
 
         TextView textView = (TextView) view.findViewById(R.id.title);
         textView.setText(event.getName());
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+                //TODO: get current activity to send intent
+            }
+        });
     }
 }

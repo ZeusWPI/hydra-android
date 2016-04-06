@@ -9,6 +9,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.Hydra;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.models.HomeCard;
 import be.ugent.zeus.hydra.models.resto.RestoMeal;
@@ -40,7 +41,7 @@ public class RestoCardViewHolder extends AbstractViewHolder {
         TableLayout tl = (TableLayout) view.findViewById(R.id.cardTableLayout);
         tl.removeAllViews();
 
-        title.setText(menu.getDate().toLocaleString());
+        title.setText(menu.getDate().toLocaleString()); //TODO: use string like the headers
 
         for (RestoMeal meal: menu.getMeals()) {
             TableRow tr = new TableRow(view.getContext());
@@ -80,8 +81,14 @@ public class RestoCardViewHolder extends AbstractViewHolder {
             tr.addView(tvRight);
 
             tl.addView(tr, new TableLayout.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+            // click listener
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO: open resto fragment
+                }
+            });
         }
-
-
     }
 }
