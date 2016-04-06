@@ -28,7 +28,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-
     public void testNotification(View view){
         showNotification();
 
@@ -60,4 +59,5 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     }
+
 }
