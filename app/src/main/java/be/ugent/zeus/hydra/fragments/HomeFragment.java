@@ -13,14 +13,22 @@ import android.widget.TextView;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.adapters.RestoCardAdapter;
 import be.ugent.zeus.hydra.models.HomeCard;
+import be.ugent.zeus.hydra.models.association.AssociationActivities;
+import be.ugent.zeus.hydra.models.association.AssociationActivity;
+import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoMenuList;
+import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
 
 /**
@@ -53,6 +61,7 @@ public class HomeFragment extends AbstractFragment {
 
     private void performRequest() {
         performMenuRequest();
+        performActivityRequest();
     }
 
     private void performMenuRequest() {
@@ -66,11 +75,37 @@ public class HomeFragment extends AbstractFragment {
             @Override
             public void onRequestSuccess(final RestoMenuList menuList) {
                 ArrayList<HomeCard> list = new ArrayList<HomeCard>();
-                list.addAll(menuList); //Why no casting :'(
+                //list.addAll(menuList); //Why no casting :'(
+                for (RestoMenu menu: menuList) {
+                    if (new DateTime(menu.getDate()).withTimeAtStartOfDay().isAfterNow()) {
+                        list.add(menu); //TODO: add current day
+                    }
+                }
                 adapter.updateCardItems(list, HomeCardAdapter.HomeType.RESTO);
             }
         });
 
+    }
+
+    private void performActivityRequest() {
+        final AssociationActivitiesRequest r = new AssociationActivitiesRequest();
+        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationActivities>() {
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+                showFailureSnackbar("activiteiten");
+            }
+
+            @Override
+            public void onRequestSuccess(final AssociationActivities associationActivities) {
+                List<HomeCard> list = new ArrayList<HomeCard>();
+                for (AssociationActivity activity: associationActivities) {
+                    if(activity.getPriority() > 0) {
+                        list.add(activity);
+                    }
+                }
+                adapter.updateCardItems(list, HomeCardAdapter.HomeType.ACTIVITY);
+            }
+        });
     }
 
     private void showFailureSnackbar(String field) {

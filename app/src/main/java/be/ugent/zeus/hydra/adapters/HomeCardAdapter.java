@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.Map;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.HomeCard;
+import be.ugent.zeus.hydra.recyclerviewholder.home.AbstractViewHolder;
+import be.ugent.zeus.hydra.recyclerviewholder.home.ActivityCardViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.RestoCardViewHolder;
 
 /**
@@ -42,6 +46,17 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
 
         cardItems.addAll(cardList);
 
+        for (HomeCard card: cardList) {
+            System.out.println("" + card + ": " + card.getPriority());
+        }
+
+        Collections.sort(cardItems, new Comparator<HomeCard>() {
+            @Override
+            public int compare(HomeCard lhs, HomeCard rhs) {
+                return  -(lhs.getPriority() - rhs.getPriority());
+            }
+        });
+
         notifyDataSetChanged();
     }
 
@@ -50,8 +65,15 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
         HomeType type = HomeType.getHomeType(viewType);
         switch (type) {
             case RESTO:
-                View v = getViewForLayout(R.layout.resto_card, parent);
+            {
+                View v = getViewForLayout(R.layout.home_restocard, parent);
                 return new RestoCardViewHolder(v);
+            }
+            case ACTIVITY:
+            {
+                View v = getViewForLayout(R.layout.activity_listitem, parent);
+                return new ActivityCardViewHolder(v);
+            }
         }
         return null;
     }
@@ -65,11 +87,8 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         HomeCard object = cardItems.get(position);
 
-        switch (object.getCardType()) {
-            case RESTO:
-                RestoCardViewHolder rcvh = (RestoCardViewHolder) holder;
-                rcvh.populate(object);
-        }
+        AbstractViewHolder vh = (AbstractViewHolder)holder;
+        vh.populate(object);
     }
 
     @Override

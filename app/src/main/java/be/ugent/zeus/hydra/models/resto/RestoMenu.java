@@ -100,8 +100,8 @@ public class RestoMenu implements HomeCard{
     @Override
     public int getPriority() {
         DateTime jodadate = new DateTime(date);
-        Duration duration = new Duration(jodadate, new DateTime());
-        return (int) (1000 - (duration.getStandardDays()*50));
+        Duration duration = new Duration(new DateTime(), jodadate);
+        return (int) (1000 - (duration.getStandardDays()*100));
     }
 
     @Override
