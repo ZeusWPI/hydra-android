@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,7 +23,8 @@ import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
  * Created by ellen on 2016-03-08.
  */
 
-public class ActivitiesFragment extends AbstractFragment {
+public class ActivitiesFragment extends AbstractFragment implements
+        SharedPreferences.OnSharedPreferenceChangeListener {
     private RecyclerView recyclerView;
     private ActivityListAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -43,15 +45,18 @@ public class ActivitiesFragment extends AbstractFragment {
         recyclerView.addItemDecoration(decorator);
         performLoadActivityRequest();
 
+
         return layout;
     }
-
 
 
     private void performLoadActivityRequest() {
 
         final AssociationActivitiesRequest r = new AssociationActivitiesRequest();
         spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationActivities>() {
+
+
+
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar();
@@ -59,11 +64,13 @@ public class ActivitiesFragment extends AbstractFragment {
 
             @Override
             public void onRequestSuccess(final AssociationActivities associationActivitiesItems) {
-                adapter.setItems(associationActivitiesItems);
+                System.out.println("------ updateeeee");
+                adapter.setItems(associationActivitiesItems.getPreferedActivities(getContext()));
                 adapter.notifyDataSetChanged();
             }
         });
     }
+
 
 
     private void showFailureSnackbar() {
@@ -77,4 +84,57 @@ public class ActivitiesFragment extends AbstractFragment {
                 })
                 .show();
     }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        System.out.println("------------- addaaaaapppttt");
+        performLoadActivityRequest();
+    }
+
+    /*
+    @Override
+public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        sharedPrefs.registerOnSharedPreferenceChangeListener(this);
+}
+
+    @Override
+    public void onStop() {
+        spiceManager.shouldStop();
+
+        super.onStop();
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        sharedPrefs.unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Set up a listener whenever a key changes
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        sharedPrefs
+                .registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Unregister the listener whenever a key changes
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+sharedPrefs
+        .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        spiceManager.start(getContext());
+    }
+*/
+
+
 }

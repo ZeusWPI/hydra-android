@@ -24,6 +24,7 @@
 
     <!-- Settings -->
     <string name="pref_cat1_title">Categorie één.</string>
+    <string name="pref_association_checkbox">pref_association_checkbox</string>
 
     <string name="pref_summary_cat1_checkbox">Dit is een voorbeeldkeuzevakje</string>
     <string name="pref_title_cat1_checkbox">Keuzevakje één.</string>

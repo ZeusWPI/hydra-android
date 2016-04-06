@@ -37,36 +37,23 @@
             android:layout_height="match_parent" />
 
         <PreferenceScreen
-            android:key="button_voicemail_category_key"
+            android:key="associationPrefListScreen"
             android:dependency="pref_association_checkbox"
+
             android:title="selectie"
             android:persistent="false">
 
 
 
 
-            <CheckBoxPreference
-                android:summary="sfdsfqdsfqdsfqdsjn"
-                android:title="fisdfsqdfqsdflter"
-                android:defaultValue="false"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+
+
+
+
 
 
         </PreferenceScreen>
-        <ListPreference
-            android:entries="@array/listOptions"
-            android:entryValues="@array/listValues"
-            android:key="listpref"
-            android:summary="List preference example"
-            android:title="List preference" />
 
-        <MultiSelectListPreference
-            android:dialogTitle="sdfqsdfsdfqsdfqs"
-            android:key="associationPrefList"
-            android:summary=""
-            android:title="sfsdfqsdf"
-            />
 
     </PreferenceCategory>
 
