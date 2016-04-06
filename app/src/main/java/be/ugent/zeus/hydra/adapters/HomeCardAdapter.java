@@ -67,7 +67,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
             }
             case ACTIVITY:
             {
-                View v = getViewForLayout(R.layout.activity_listitem, parent);
+                View v = getViewForLayout(R.layout.home_activitycard, parent);
                 return new ActivityCardViewHolder(v);
             }
         }
