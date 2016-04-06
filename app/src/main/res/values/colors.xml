@@ -10,4 +10,8 @@
     <color name="ugent_white">#EAEAEA</color>
     <color name="ugent_grey_light">#C0C0C0</color>
     <color name="ugent_grey_dark">#A3A3A3</color>
+    <color name="light_blue">#c9d8e7</color>
+    <color name="bright_blue">#245b8d</color>
+    <color name="dark_blue">#122b44</color>
+    <color name="white">#FFFFFF</color>
 </resources>

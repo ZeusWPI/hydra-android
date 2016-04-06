@@ -19,7 +19,6 @@
     <!-- Content descriptions -->
     <string name="hydra_icon_content_description">Hydra icoon</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="ActivitiesWelcome">Welkom bij het activiteitenfragment</string>
     <string name="title_activity_association_activity_detail">AssociatieActiviteitsDetail</string>
 
