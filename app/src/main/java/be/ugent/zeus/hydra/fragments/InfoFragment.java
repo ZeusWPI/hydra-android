@@ -1,44 +1,86 @@
 package be.ugent.zeus.hydra.fragments;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
-import java.util.ArrayList;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.adapters.InfoListAdapter;
-import be.ugent.zeus.hydra.models.info.InfoItem;
+import be.ugent.zeus.hydra.adapters.CardInfoListAdapter;
 import be.ugent.zeus.hydra.models.info.InfoList;
-
 import be.ugent.zeus.hydra.requests.InfoRequest;
 
-/**
- * Created by Juta on 03/03/2016.
- */
 public class InfoFragment extends AbstractFragment {
 
     protected final String HTML_API = "https://zeus.ugent.be/hydra/api/2.0/info/";
+
+
+    private RecyclerView recyclerView;
+    private CardInfoListAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private View layout;
+
+
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        layout = inflater.inflate(R.layout.fragment_activities, container, false);
+        recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerview);
+        adapter = new CardInfoListAdapter();
+        recyclerView.setAdapter(adapter);
+        layoutManager = new LinearLayoutManager(this.getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        performLoadInfoRequest();
+
+        return layout;
+    }
+
+
+
+    private void showFailureSnackbar() {
+        Snackbar
+                .make(layout, "Oeps! Kon info niet ophalen.", Snackbar.LENGTH_LONG)
+                .setAction("Opnieuw proberen", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        performLoadInfoRequest();
+                    }
+                })
+                .show();
+    }
+
+
+    private void performLoadInfoRequest() {
+        final InfoRequest r = new InfoRequest();
+
+        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<InfoList>() {
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+                showFailureSnackbar();
+            }
+
+            @Override
+            public void onRequestSuccess(final InfoList infolist) {
+                adapter.setItems(infolist);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
+    }
+   /* @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_info, container, false);
-
-
-
         performLoadInfoRequest();
-
         return view;
     }
 
@@ -88,4 +130,6 @@ public class InfoFragment extends AbstractFragment {
             }
         });
     }
+
+    */
 }
