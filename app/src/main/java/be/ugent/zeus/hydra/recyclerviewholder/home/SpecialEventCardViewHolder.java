@@ -3,7 +3,10 @@ package be.ugent.zeus.hydra.recyclerviewholder.home;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
@@ -29,8 +32,14 @@ public class SpecialEventCardViewHolder extends AbstractViewHolder {
 
         final SpecialEvent event = (SpecialEvent) card;
 
-        TextView textView = (TextView) view.findViewById(R.id.title);
-        textView.setText(event.getName());
+        TextView titleView = (TextView) view.findViewById(R.id.title);
+        titleView.setText(event.getName());
+
+        TextView textView = (TextView) view.findViewById(R.id.text);
+        textView.setText(event.getSimpleText());
+
+        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+        Picasso.with(view.getContext()).load(event.getImage()).into(imageView);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
