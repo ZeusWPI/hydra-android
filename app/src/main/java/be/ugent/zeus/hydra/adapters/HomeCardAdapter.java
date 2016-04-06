@@ -46,10 +46,6 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
 
         cardItems.addAll(cardList);
 
-        for (HomeCard card: cardList) {
-            System.out.println("" + card + ": " + card.getPriority());
-        }
-
         Collections.sort(cardItems, new Comparator<HomeCard>() {
             @Override
             public int compare(HomeCard lhs, HomeCard rhs) {
