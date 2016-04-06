@@ -29,6 +29,11 @@ public class ActivitiesFragment extends AbstractFragment {
     private View layout;
     private StickyRecyclerHeadersDecoration decorator;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.sendScreenTracking("Activities");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

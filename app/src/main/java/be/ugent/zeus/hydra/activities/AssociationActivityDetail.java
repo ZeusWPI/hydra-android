@@ -8,10 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.Tracker;
+
+import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
 
 public class AssociationActivityDetail extends AppCompatActivity {
+    private AssociationActivity associationActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +23,7 @@ public class AssociationActivityDetail extends AppCompatActivity {
         setContentView(R.layout.activity_association_activity_detail);
 
         Intent intent = getIntent();
-        AssociationActivity associationActivity = intent.getParcelableExtra("associationActivity");
+        associationActivity = intent.getParcelableExtra("associationActivity");
 
         TextView title = (TextView) findViewById(R.id.activityTitle);
         TextView association = (TextView) findViewById(R.id.activityAssociation);
@@ -59,5 +63,14 @@ public class AssociationActivityDetail extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        HydraApplication app = (HydraApplication) getApplication();
+        Tracker t = app.getDefaultTracker();
+        t.setScreenName("Activity > " + associationActivity.title);
     }
 }

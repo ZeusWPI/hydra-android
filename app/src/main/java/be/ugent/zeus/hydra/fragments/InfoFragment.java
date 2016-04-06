@@ -42,6 +42,13 @@ public class InfoFragment extends AbstractFragment {
         return view;
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.sendScreenTracking("Info");
+    }
+
     private void performLoadInfoRequest() {
 
         final InfoRequest r = new InfoRequest();
