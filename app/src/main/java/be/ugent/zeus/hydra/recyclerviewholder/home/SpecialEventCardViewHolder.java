@@ -36,7 +36,7 @@ public class SpecialEventCardViewHolder extends AbstractViewHolder {
             @Override
             public void onClick(View v) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
-                //TODO: get current activity to send intent
+                view.getContext().startActivity(browserIntent);
             }
         });
     }
