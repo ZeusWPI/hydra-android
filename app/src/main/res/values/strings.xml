@@ -36,4 +36,6 @@
     <string name="comingsoontitle">Coming soon!</string>
     <string name="pref_daily_notifications_test_summary">Toon een voorbeeld van een notificatie.</string>
     <string name="pref_daily_notifications_test_title">Voorbeeld</string>
+    <string name="daily_notifications_test_button">pref_daily_notifications_test</string>
+    <string name="pref_daily_notifications_testbutton_text">Toon voorbeeld</string>
 </resources>

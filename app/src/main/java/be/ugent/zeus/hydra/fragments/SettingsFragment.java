@@ -1,7 +1,10 @@
 package be.ugent.zeus.hydra.fragments;
 
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.view.View;
+import android.widget.Button;
 
 import be.ugent.zeus.hydra.R;
 
@@ -17,5 +20,8 @@ public class SettingsFragment extends PreferenceFragment {
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
+
+
     }
+
 }

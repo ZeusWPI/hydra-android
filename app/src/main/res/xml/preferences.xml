@@ -14,8 +14,9 @@
         android:summary="@string/pref_daily_notifications_time_summary"
         android:title="@string/pref_daily_notifications_time_title"/>
     <Preference
-        android:key="pref_daily_notifications_test"
+        android:key="@string/daily_notifications_test_button"
         android:summary="@string/pref_daily_notifications_test_summary"
-        android:title="@string/pref_daily_notifications_test_title"/>
+        android:title="@string/pref_daily_notifications_test_title"
+        android:widgetLayout="@layout/daily_notifications_testbutton"/>
 </PreferenceCategory>
 </PreferenceScreen>
