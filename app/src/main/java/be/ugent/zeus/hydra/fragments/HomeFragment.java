@@ -28,8 +28,11 @@ import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoMenuList;
+import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
+import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
+import be.ugent.zeus.hydra.requests.SpecialEventRequest;
 
 /**
  * Created by silox on 17/10/15.
@@ -62,6 +65,7 @@ public class HomeFragment extends AbstractFragment {
     private void performRequest() {
         performMenuRequest();
         performActivityRequest();
+        performSpecialEventRequest();
     }
 
     private void performMenuRequest() {
@@ -74,7 +78,7 @@ public class HomeFragment extends AbstractFragment {
 
             @Override
             public void onRequestSuccess(final RestoMenuList menuList) {
-                ArrayList<HomeCard> list = new ArrayList<HomeCard>();
+                ArrayList<HomeCard> list = new ArrayList<>();
                 //list.addAll(menuList); //Why no casting :'(
                 for (RestoMenu menu: menuList) {
                     if (new DateTime(menu.getDate()).withTimeAtStartOfDay().isAfterNow()) {
@@ -97,7 +101,7 @@ public class HomeFragment extends AbstractFragment {
 
             @Override
             public void onRequestSuccess(final AssociationActivities associationActivities) {
-                List<HomeCard> list = new ArrayList<HomeCard>();
+                List<HomeCard> list = new ArrayList<>();
                 for (AssociationActivity activity: associationActivities) {
                     if(activity.getPriority() > 0) {
                         list.add(activity);
@@ -108,13 +112,36 @@ public class HomeFragment extends AbstractFragment {
         });
     }
 
+    private void performSpecialEventRequest() {
+        final SpecialEventRequest r = new SpecialEventRequest();
+        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<SpecialEventWrapper>() {
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+                showFailureSnackbar("speciale activiteiten");
+            }
+
+            @Override
+            public void onRequestSuccess(SpecialEventWrapper specialEventWrapper) {
+                List<HomeCard> list = new ArrayList<>();
+                boolean development_enabled = true;
+                for (SpecialEvent event: specialEventWrapper.getSpecialEvents()) {
+                    if ((event.getStart().before(new Date()) && event.getEnd().after(new Date())) || (development_enabled && event.isDevelopment())) {
+                        list.add(event);
+                    }
+                }
+
+                adapter.updateCardItems(list, HomeCardAdapter.HomeType.SPECIALEVENT);
+            }
+        });
+    }
+
     private void showFailureSnackbar(String field) {
         Snackbar
                 .make(layout, "Oeps! Kon " + field + " niet ophalen.", Snackbar.LENGTH_LONG)
                 .setAction("Opnieuw proberen", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        performMenuRequest();
+                        performRequest();
                     }
                 })
                 .show();

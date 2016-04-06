@@ -18,6 +18,7 @@ import be.ugent.zeus.hydra.models.HomeCard;
 import be.ugent.zeus.hydra.recyclerviewholder.home.AbstractViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.ActivityCardViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.RestoCardViewHolder;
+import be.ugent.zeus.hydra.recyclerviewholder.home.SpecialEventCardViewHolder;
 
 /**
  * Created by feliciaan on 06/04/16.
@@ -70,6 +71,11 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
                 View v = getViewForLayout(R.layout.home_activitycard, parent);
                 return new ActivityCardViewHolder(v);
             }
+            case SPECIALEVENT:
+            {
+                View v = getViewForLayout(R.layout.home_specialeventcard, parent);
+                return new SpecialEventCardViewHolder(v);
+            }
         }
         return null;
     }
@@ -99,7 +105,8 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
 
     public enum HomeType {
         RESTO(1),
-        ACTIVITY(2);
+        ACTIVITY(2),
+        SPECIALEVENT(3);
 
         private final int type;
 
