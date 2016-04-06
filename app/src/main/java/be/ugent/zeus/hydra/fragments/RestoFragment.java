@@ -25,24 +25,18 @@ import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
  * Created by mivdnber on 2016-03-03.
  */
 
-public class RestoFragment extends Fragment {
-    protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
+public class RestoFragment extends AbstractFragment {
     private RecyclerView recyclerView;
     private RestoCardAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private View layout;
 
     @Override
-    public void onStart() {
-        super.onStart();
-        spiceManager.start(getContext());
+    public void onResume() {
+        super.onResume();
+        this.sendScreenTracking("home");
     }
 
-    @Override
-    public void onStop() {
-        spiceManager.shouldStop();
-        super.onStop();
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

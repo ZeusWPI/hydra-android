@@ -45,6 +45,12 @@ public class HomeFragment extends AbstractFragment {
     private View layout;
 
     @Override
+    public void onResume() {
+        super.onResume();
+        this.sendScreenTracking("Home");
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
