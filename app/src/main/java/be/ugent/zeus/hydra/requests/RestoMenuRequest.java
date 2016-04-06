@@ -12,11 +12,6 @@ import be.ugent.zeus.hydra.models.resto.RestoMenu;
  */
 public class RestoMenuRequest extends AbstractRequest<RestoMenu> {
 
-    // format time
-    //private final SimpleDateFormat yearFormatter = new SimpleDateFormat("YYYY", Locale.ENGLISH);
-    //private final SimpleDateFormat monthFormatter = new SimpleDateFormat("MM", Locale.ENGLISH);
-    // private final SimpleDateFormat dayFormatter = new SimpleDateFormat("DD", Locale.ENGLISH);
-
     private Date date;
     private String year;
     private String month;
@@ -31,10 +26,6 @@ public class RestoMenuRequest extends AbstractRequest<RestoMenu> {
         this.year = c.get(Calendar.YEAR) + "";
         this.month = c.get(Calendar.MONTH) + "";
         this.day = c.get(Calendar.DAY_OF_WEEK) + "";
-
-        //this.year = yearFormatter.format(date);
-        //this.month = monthFormatter.format(date);
-        //this.day = dayFormatter.format(date);
     }
 
     @Override

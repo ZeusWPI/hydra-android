@@ -70,6 +70,9 @@ public class RestoFragment extends Fragment {
             public void onRequestSuccess(final RestoMenuList menuList) {
                 adapter.setMenuList(menuList);
                 adapter.notifyDataSetChanged();
+                if (menuList.isEmpty()) {
+                    showFailureSnackbar(); //TODO: let user now the menus are empty
+                }
             }
         });
     }

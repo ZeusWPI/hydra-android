@@ -25,8 +25,6 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return new HomeFragment();
-            case 1:
-                return new MinervaFragment();
             case 2:
                 return new RestoFragment();
             case 3:
