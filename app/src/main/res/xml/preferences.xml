@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 <PreferenceCategory
-    android:title="@string/pref_cat1_title"
-    android:key="pref_key_cat1">
+    android:title="@string/pref_daily_notifications_title"
+    android:key="pref_key_daily_notifications">
     <CheckBoxPreference
-        android:key="pref_key_cat1_checkbox"
-        android:summary="@string/pref_summary_cat1_checkbox"
-        android:title="@string/pref_title_cat1_checkbox"
+        android:key="pref_key_daily_notifications_checkbox"
+        android:summary="@string/pref_daily_notifications_checkbox_summary"
+        android:title="@string/pref_daily_notifications_checkbox_title"
         android:defaultValue="false"/>
     <Preference
-        android:key="pref_setting1"
-        android:dependency="pref_key_cat1_checkbox"
-        android:summary="@string/pref_sumary_setting1"
-        android:title="@string/pref_title_Setting1"/>
+        android:key="pref_daily_notifications_time"
+        android:dependency="pref_key_daily_notifications_checkbox"
+        android:summary="@string/pref_daily_notifications_time_summary"
+        android:title="@string/pref_daily_notifications_time_title"/>
+    <Preference
+        android:key="pref_daily_notifications_test"
+        android:summary="@string/pref_daily_notifications_test_summary"
+        android:title="@string/pref_daily_notifications_test_title"/>
 </PreferenceCategory>
 </PreferenceScreen>

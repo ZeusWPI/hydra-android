@@ -24,13 +24,16 @@
     <string name="title_activity_association_activity_detail">AssociatieActiviteitsDetail</string>
 
     <!-- Settings -->
-    <string name="pref_cat1_title">Categorie één.</string>
+    <string name="pref_daily_notifications_title">Notificaties</string>
+    <string name="pref_daily_notifications_checkbox_summary">Geef dagelijks een notificatie over wat er op het menu staat in de resto.</string>
+    <string name="pref_daily_notifications_checkbox_title">Dagelijkse notificaties</string>
+    <string name="pref_daily_notifications_time_summary">Op welk moment wil je de melding krijgen?</string>
+    <string name="pref_daily_notifications_time_title">Tijdstip</string>
 
-    <string name="pref_summary_cat1_checkbox">Dit is een voorbeeldkeuzevakje</string>
-    <string name="pref_title_cat1_checkbox">Keuzevakje één.</string>
-    <string name="pref_sumary_setting1">Dit is instelling één.</string>
-    <string name="pref_title_Setting1">Instelling één</string>
+
     <string name="openFacebook">Ondertussen kan je een bezoekje brengen aan onze Facebook-pagina.</string>
     <string name="facebookButtonDescription">Link naar onze Facebook-pagina.</string>
     <string name="comingsoontitle">Coming soon!</string>
+    <string name="pref_daily_notifications_test_summary">Toon een voorbeeld van een notificatie.</string>
+    <string name="pref_daily_notifications_test_title">Voorbeeld</string>
 </resources>
