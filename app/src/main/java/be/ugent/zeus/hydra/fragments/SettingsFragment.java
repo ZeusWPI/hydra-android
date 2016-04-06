@@ -1,12 +1,11 @@
 package be.ugent.zeus.hydra.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import android.preference.MultiSelectListPreference;
-import android.preference.Preference;
+import android.preference.CheckBoxPreference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -14,6 +13,9 @@ import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.association.Association;
@@ -23,6 +25,10 @@ import be.ugent.zeus.hydra.requests.AssociationsRequest;
 /**
  * @author Rien Maertens
  * @since 16/02/2016.
+ *
+ *
+SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+boolean sf = sharedPrefs.getBoolean("pref_association_checkbox", false);
  */
 public class SettingsFragment extends PreferenceFragment {
     protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
@@ -35,7 +41,6 @@ public class SettingsFragment extends PreferenceFragment {
         addPreferencesFromResource(R.layout.preferences);
         performRequest();
 
-        functie();
     }
 
     @Override
@@ -51,42 +56,34 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     private void addPreferencesFromRequest(final Associations assocations) {
-        MultiSelectListPreference assoPrefList = (MultiSelectListPreference) this.findPreference("associationPrefList");
-        CharSequence[] entries;
+        Set<String> set = new HashSet<>();
+        PreferenceScreen target = (PreferenceScreen) findPreference("associationPrefListScreen");
+
         if(assocations!=null) {
-            System.out.println("--------"+assocations.size());
-            entries = new CharSequence[assocations.size()];
 
             for (int i = 0; i < assocations.size(); i++) {
-                if (assocations.get(i) == null) {
-                    entries[i] = "" + i + "is null";
-                } else {
-                    entries[i] = assocations.get(i).getName()==null?"ik ben null":assocations.get(i).getName();
+                Association asso = assocations.get(i);
+                PreferenceCategory parentCategory;
+                if(!set.contains(asso.parent_association)){
+                    parentCategory = new PreferenceCategory(target.getContext());
+                    parentCategory.setKey(asso.parent_association);
+                    parentCategory.setTitle(asso.parent_association);
+                    target.addPreference(parentCategory);
+                    set.add(asso.parent_association);
                 }
-                //entries[i]="yolo"+i;
+                parentCategory = (PreferenceCategory) findPreference(asso.parent_association);
+                CheckBoxPreference checkBoxPreference = new CheckBoxPreference(target.getContext());
+                checkBoxPreference.setKey(asso.getName());
+                checkBoxPreference.setChecked(false);
+                checkBoxPreference.setTitle(asso.getName());
+                parentCategory.addPreference(checkBoxPreference);
+
             }
-        }else {
-            entries = new CharSequence[]{"a", "b", "c"};
+
         }
-        assoPrefList.setEntries(entries);
-        assoPrefList.setEntryValues(entries);
-
     }
-
-    //LOL
-    private void functie(){
-        SharedPreferences sharedPrefs = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
-
-
-        boolean sf = sharedPrefs.getBoolean("pref_association_checkbox", false); //this works
-        System.out.println("--------------"+sf);
-    }
-
-
 
     private void performRequest() {
-        System.out.println("------ ok master");
         final AssociationsRequest r = new AssociationsRequest();
         spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<Associations>() {
             @Override
@@ -96,14 +93,12 @@ public class SettingsFragment extends PreferenceFragment {
 
             @Override
             public void onRequestSuccess(final Associations assocations) {
-                System.out.println("--------- yolooooooooo");
                 addPreferencesFromRequest(assocations);
             }
         });
     }
 
     private void showFailureSnackbar() {
-        System.out.println("-------------- fail :(");
         if(getView()!=null) {
             Snackbar
                     .make(getView(), "Oeps! Kon restomenu niet ophalen.", Snackbar.LENGTH_LONG)
