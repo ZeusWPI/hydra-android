@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.activities;
 
+import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -10,8 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 
+import java.util.Calendar;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.fragments.SettingsFragment;
+import be.ugent.zeus.hydra.receiver.DailyNotificationReceiver;
 
 /**
  * @author Rien Maertens
@@ -29,35 +33,17 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void testNotification(View view){
-        showNotification();
+        AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-    }
+        Intent intent = new Intent(this, DailyNotificationReceiver.class);
+        PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
-    public void showNotification(){
-        NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.logo)
-                .setContentTitle("Resto menu")
-                .setContentText("Dit is een test.");
-        Intent intent = new Intent(this, Hydra.class);
-        // TODO: Open resto
+        alarmMgr.cancel(pIntent);
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(Hydra.class);
-        stackBuilder.addNextIntent(intent);
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(
-                0,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
-        builder.setContentIntent(pendingIntent);
+        Calendar soon = Calendar.getInstance();
+        soon.add(Calendar.SECOND, 2);
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(0, builder.build());
-
-
-
+        alarmMgr.set(AlarmManager.RTC_WAKEUP, soon.getTimeInMillis(), pIntent);
     }
 
 }

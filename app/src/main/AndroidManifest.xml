@@ -33,6 +33,7 @@
             android:name=".activities.AssociationActivityDetail"
             android:label="@string/title_activity_association_activity_detail">
         </activity>
+        <receiver android:name=".receiver.DailyNotificationReceiver"/>
     </application>
 
 </manifest>
