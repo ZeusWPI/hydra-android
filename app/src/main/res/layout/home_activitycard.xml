@@ -19,25 +19,18 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="19:00"
-                android:id="@+id/starttime"
-                android:layout_gravity="center_vertical"
-                android:padding="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/ugent_blue_dark" />
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/imageView" />
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:padding="5dp">
 
@@ -55,11 +48,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="19:00"
+                    android:id="@+id/starttime"
+                    android:layout_gravity="center_vertical"
+                    android:padding="1dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/ugent_blue_dark" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="blabla"
                     android:id="@+id/association"
                     android:layout_gravity="center_vertical"
                     android:padding="1dp"
                     android:textColor="@color/ugent_blue_dark" />
+
             </LinearLayout>
         </LinearLayout>
 

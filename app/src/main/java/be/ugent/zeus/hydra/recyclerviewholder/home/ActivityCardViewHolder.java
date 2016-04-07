@@ -2,7 +2,10 @@ package be.ugent.zeus.hydra.recyclerviewholder.home;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -21,7 +24,8 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
     private TextView start;
     private TextView title;
     private TextView association;
-    private final SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private ImageView imageView;
+    private final SimpleDateFormat dateFormatter = new SimpleDateFormat("cc d MMM HH:mm", Locale.getDefault());
 
     public ActivityCardViewHolder(View v) {
         super(v);
@@ -29,6 +33,7 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
         title = (TextView) v.findViewById(R.id.name);
         association = (TextView) v.findViewById(R.id.association);
         start = (TextView) v.findViewById(R.id.starttime);
+        imageView = (ImageView) v.findViewById(R.id.imageView);
     }
 
     @Override
@@ -42,6 +47,9 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
         title.setText(activity.title);
         association.setText(activity.association.display_name);
         start.setText(dateFormatter.format(activity.start));
+
+        Picasso.with(view.getContext()).load("https://zeus.ugent.be/hydra/api/2.0/association/logo/" + activity.association.internal_name.toLowerCase() + ".png").into(imageView);
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
