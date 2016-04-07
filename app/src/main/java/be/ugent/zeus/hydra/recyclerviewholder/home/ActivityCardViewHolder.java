@@ -1,11 +1,14 @@
 package be.ugent.zeus.hydra.recyclerviewholder.home;
 
 import android.content.Intent;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import org.ocpsoft.prettytime.PrettyTime;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -25,7 +28,6 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
     private TextView title;
     private TextView association;
     private ImageView imageView;
-    private final SimpleDateFormat dateFormatter = new SimpleDateFormat("cc d MMM HH:mm", Locale.getDefault());
 
     public ActivityCardViewHolder(View v) {
         super(v);
@@ -46,7 +48,7 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
 
         title.setText(activity.title);
         association.setText(activity.association.display_name);
-        start.setText(dateFormatter.format(activity.start));
+        start.setText(DateUtils.getRelativeDateTimeString(view.getContext(), activity.start.getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
 
         Picasso.with(view.getContext()).load("https://zeus.ugent.be/hydra/api/2.0/association/logo/" + activity.association.internal_name.toLowerCase() + ".png").into(imageView);
 
