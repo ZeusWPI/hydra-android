@@ -8,11 +8,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.ocpsoft.prettytime.PrettyTime;
-
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
@@ -45,6 +40,8 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
         }
 
         final AssociationActivity activity = (AssociationActivity) card;
+
+        //TODO: make pretty
 
         title.setText(activity.title);
         association.setText(activity.association.display_name);

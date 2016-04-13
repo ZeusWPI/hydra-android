@@ -100,6 +100,8 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
                 tr.setPadding(0,4,0,4);
                 tr.setLayoutParams(lp);
 
+                //TODO: add more/better padding
+
                 // set correct image according to kind
                 ImageView imageView = new ImageView(view.getContext());
                 switch (meal.getKind()) {
