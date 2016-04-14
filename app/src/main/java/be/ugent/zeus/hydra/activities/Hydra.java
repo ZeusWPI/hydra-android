@@ -26,6 +26,8 @@ import be.ugent.zeus.hydra.requests.AssociationNewsRequest;
 
 public class Hydra extends AppCompatActivity {
 
+    protected TabLayout tabLayout;
+    protected ViewPager viewPager;
     //------------------------------------------------------------------------
     //this block can be pushed up into a common base class for all activities
     //------------------------------------------------------------------------
@@ -56,8 +58,8 @@ public class Hydra extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_layout);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        viewPager = (ViewPager) findViewById(R.id.pager);
 
         viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
@@ -68,7 +70,7 @@ public class Hydra extends AppCompatActivity {
 
         //icons (bad way)
         int[] icons = {R.drawable.home, R.drawable.minerva,
-                R.drawable.resto, R.drawable.schamper, R.drawable.info};
+                R.drawable.resto, R.drawable.association_activities_icon, R.drawable.info};
 
         //set icons
         tabLayout.setupWithViewPager(viewPager);
@@ -99,5 +101,10 @@ public class Hydra extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void changeFragment(int fragment) { // FIXME: 14/04/16 Add more robust way to change fragments
+        viewPager.setCurrentItem(fragment);
+
     }
 }

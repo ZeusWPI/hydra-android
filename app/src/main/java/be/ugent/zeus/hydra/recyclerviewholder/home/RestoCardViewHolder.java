@@ -9,6 +9,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.Hydra;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.models.HomeCard;
 import be.ugent.zeus.hydra.models.resto.RestoMeal;
@@ -38,18 +39,36 @@ public class RestoCardViewHolder extends AbstractViewHolder {
 
         RestoMenu menu = (RestoMenu) card;
 
+        title.setText(DateUtils.getFriendlyDate(menu.getDate()));
+
+        if (menu.isOpen()) {
+            populateOpen(menu);
+        } else {
+            populateClosed();
+        }
+
+        // click listener
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: open resto fragment
+                if ( v.getContext() instanceof Hydra) {
+                    Hydra activity = (Hydra) v.getContext();
+                    activity.changeFragment(2); // TODO: replace this by more robust way!
+                }
+            }
+        });
+    }
+
+    private void populateOpen(RestoMenu menu) {
         TableLayout tl = (TableLayout) view.findViewById(R.id.cardTableLayout);
         tl.setColumnStretchable(2, true);
         tl.removeAllViews();
 
-        title.setText(DateUtils.getFriendlyDate(menu.getDate()));
-
-        //TODO: add more/better padding
-
-        for (RestoMeal meal: menu.getMeals()) {
+        for (RestoMeal meal : menu.getMeals()) {
             TableRow tr = new TableRow(view.getContext());
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
-            tr.setPadding(0,4,0,4);
+            tr.setPadding(0, 4, 0, 4);
             tr.setLayoutParams(lp);
 
             // set correct image according to kind
@@ -72,7 +91,7 @@ public class RestoCardViewHolder extends AbstractViewHolder {
             }
 
             TextView tvCenter = new TextView(view.getContext());
-            tvCenter.setPadding(25,0,0,0);
+            tvCenter.setPadding(25, 0, 0, 0);
             tvCenter.setLayoutParams(lp);
             tvCenter.setText(meal.getName());
             tvCenter.setTextColor(Color.parseColor("#122b44"));
@@ -87,14 +106,27 @@ public class RestoCardViewHolder extends AbstractViewHolder {
             tr.addView(tvRight);
 
             tl.addView(tr, new TableLayout.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-
-            // click listener
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO: open resto fragment
-                }
-            });
         }
+    }
+
+    private void populateClosed() {
+        TableLayout tl = (TableLayout) view.findViewById(R.id.cardTableLayout);
+        tl.removeAllViews();
+
+        TableRow tr = new TableRow(view.getContext());
+        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
+        tr.setPadding(0, 4, 0, 4);
+        tr.setLayoutParams(lp);
+
+        TextView textView = new TextView(view.getContext());
+        textView.setPadding(25, 0, 0, 0);
+        textView.setLayoutParams(lp);
+        textView.setText("sorry, gesloten");
+        textView.setTextColor(Color.parseColor("#122b44"));
+        textView.setTextSize(25);
+        textView.setGravity(Gravity.CENTER);
+
+        tr.addView(textView);
+        tl.addView(tr, new TableLayout.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT));
     }
 }
