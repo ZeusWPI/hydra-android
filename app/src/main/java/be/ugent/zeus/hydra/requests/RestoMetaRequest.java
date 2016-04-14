@@ -19,7 +19,7 @@ public class RestoMetaRequest extends AbstractRequest<RestoMeta> {
 
     @Override
     protected String getAPIUrl() {
-        return ZEUS_API_URL + "resto/1.0/meta.json"; //TODO: check me!
+        return ZEUS_API_URL + "2.0/resto/meta.json"; //TODO: check me!
     }
 
     @Override

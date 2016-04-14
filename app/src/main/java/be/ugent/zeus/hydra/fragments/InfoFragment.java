@@ -52,6 +52,11 @@ public class InfoFragment extends AbstractFragment {
                 .show();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.sendScreenTracking("Info");
+    }
 
     private void performLoadInfoRequest() {
         final InfoRequest r = new InfoRequest();
@@ -68,8 +73,6 @@ public class InfoFragment extends AbstractFragment {
                 adapter.notifyDataSetChanged();
             }
         });
-
-
     }
 
 }

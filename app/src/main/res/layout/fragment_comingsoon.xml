@@ -20,10 +20,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/openFacebook"
         android:id="@+id/textView"
-        android:layout_marginTop="41dp"
         android:layout_below="@+id/comingsoon"
         android:layout_alignLeft="@+id/comingsoon"
-        android:layout_alignStart="@+id/comingsoon" />
+        android:layout_alignStart="@+id/comingsoon"
+        android:gravity="center_horizontal"
+        android:layout_marginRight="41dp" />
 
     <ImageButton
         android:layout_width="wrap_content"

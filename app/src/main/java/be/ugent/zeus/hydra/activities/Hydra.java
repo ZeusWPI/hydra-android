@@ -75,8 +75,6 @@ public class Hydra extends AppCompatActivity {
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             tabLayout.getTabAt(i).setIcon(icons[i]);
         }
-
-        //performLoadActivityRequest();
     }
 
     @Override
@@ -101,45 +99,5 @@ public class Hydra extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void performLoadActivityRequest() {
-        /*AssociationActivitiesRequest r = new AssociationActivitiesRequest();
-        System.out.println("Load data");
-        spiceManager.execute(r, r.getCacheKey(), DurationInMillis.ONE_MINUTE * 15, new AssociationActivityRequestListener() );*/
-
-        AssociationNewsRequest r = new AssociationNewsRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationNews>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                //TextView groenten = (TextView) findViewById(R.id.groenten);
-                //groenten.setText("request failed");
-                System.out.println("Request failed");
-            }
-
-            @Override
-            public void onRequestSuccess(AssociationNews associationNewsItems) {
-                for (AssociationNewsItem newsItem : associationNewsItems) {
-                    System.out.println(newsItem.title + ", ");
-                }
-            }
-        });
-    }
-
-    private class AssociationActivityRequestListener implements RequestListener<AssociationActivities> {
-
-        @Override
-        public void onRequestFailure(SpiceException spiceException) {
-            System.out.println("Request failed");
-        }
-
-        @Override
-        public void onRequestSuccess(AssociationActivities associationActivities) {
-            System.out.println("Activities loaded: " + associationActivities.size());
-            for (AssociationActivity activity : associationActivities) {
-                System.out.print(activity.title + ",  ");
-            }
-            System.out.println();
-        }
     }
 }
