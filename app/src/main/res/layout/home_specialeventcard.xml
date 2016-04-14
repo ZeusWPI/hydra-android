@@ -25,7 +25,11 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:id="@+id/imageView" />
+                android:id="@+id/imageView"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingRight="5dp" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -39,11 +43,12 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="12urenloop"
                     android:id="@+id/title"
-                    android:padding="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/ugent_blue_dark"
-                    android:textSize="@dimen/abc_text_size_large_material" />
+                    android:textSize="@dimen/abc_text_size_large_material"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"

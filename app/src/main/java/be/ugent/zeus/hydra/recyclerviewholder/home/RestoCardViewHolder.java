@@ -13,6 +13,7 @@ import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.models.HomeCard;
 import be.ugent.zeus.hydra.models.resto.RestoMeal;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
  * Created by feliciaan on 06/04/16.
@@ -41,7 +42,7 @@ public class RestoCardViewHolder extends AbstractViewHolder {
         tl.setColumnStretchable(2, true);
         tl.removeAllViews();
 
-        title.setText(menu.getDate().toLocaleString()); //TODO: use string like the headers
+        title.setText(DateUtils.getFriendlyDate(menu.getDate()));
 
         //TODO: add more/better padding
 

@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
@@ -29,6 +28,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.resto.RestoMeal;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoMenuList;
+import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
  * Created by mivdnber on 3/3/16.
@@ -170,9 +170,6 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
         private TextView headerText;
-        private SimpleDateFormat weekFormatter = new SimpleDateFormat("w", new Locale("nl"));
-        private SimpleDateFormat dayFormatter = new SimpleDateFormat("cccc", new Locale("nl"));
-        private DateFormat dateFormatter = SimpleDateFormat.getDateInstance();
 
         public HeaderViewHolder(View v) {
             super(v);
@@ -180,32 +177,7 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
         }
 
         public void populate(Date date) {
-            headerText.setText(getFriendlyDate(date));
-        }
-
-        private String getFriendlyDate(Date date) {
-            // TODO: I feel a bit bad about all of this; any good libraries?
-            // I couldn't find any that were suitable -- mivdnber
-            DateTime today = new DateTime();
-            DateTime dateTime = new DateTime(date);
-            int thisWeek = Integer.parseInt(weekFormatter.format(today.toDate()));
-            int week = Integer.parseInt(weekFormatter.format(date));
-
-            int daysBetween = Days.daysBetween(today.toLocalDate(), dateTime.toLocalDate()).getDays();
-
-            if (daysBetween == 0) {
-                return "vandaag";
-            } else if(daysBetween == 1) {
-                return "morgen";
-            } else if(daysBetween == 2) {
-                return "overmorgen";
-            } else if (week == thisWeek || daysBetween < 7) {
-                return dayFormatter.format(date).toLowerCase();
-            } else if (week == thisWeek + 1) {
-                return "volgende " + dayFormatter.format(date).toLowerCase();
-            } else {
-                return dateFormatter.format(date);
-            }
+            headerText.setText(DateUtils.getFriendlyDate(date));
         }
     }
 
@@ -252,7 +224,7 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
     public void setMenuList(RestoMenuList menuList) {
         this.menuList.clear();
 
-        Date currentDate = DateUtils.truncate(new Date(), Calendar.DATE); // Date at start of day
+        Date currentDate = org.apache.commons.lang3.time.DateUtils.truncate(new Date(), Calendar.DATE); // Date at start of day
         for (RestoMenu menu : menuList) {
             // check if menu is today or later
             if (menu.getDate().before(currentDate)) {
