@@ -16,7 +16,13 @@ import be.ugent.zeus.hydra.R;
  * @author Rien Maertens
  * @since 03/03/2016.
  */
-public class ComingSoonFragment extends Fragment {
+public class ComingSoonFragment extends AbstractFragment {
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.sendScreenTracking("Coming Soon");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

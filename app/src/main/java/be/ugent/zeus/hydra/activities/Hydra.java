@@ -26,6 +26,8 @@ import be.ugent.zeus.hydra.requests.AssociationNewsRequest;
 
 public class Hydra extends AppCompatActivity {
 
+    protected TabLayout tabLayout;
+    protected ViewPager viewPager;
     //------------------------------------------------------------------------
     //this block can be pushed up into a common base class for all activities
     //------------------------------------------------------------------------
@@ -56,8 +58,8 @@ public class Hydra extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_layout);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        viewPager = (ViewPager) findViewById(R.id.pager);
 
         viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
@@ -68,15 +70,13 @@ public class Hydra extends AppCompatActivity {
 
         //icons (bad way)
         int[] icons = {R.drawable.home, R.drawable.minerva,
-                R.drawable.resto, R.drawable.schamper, R.drawable.info};
+                R.drawable.resto, R.drawable.association_activities_icon, R.drawable.info};
 
         //set icons
         tabLayout.setupWithViewPager(viewPager);
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             tabLayout.getTabAt(i).setIcon(icons[i]);
         }
-
-        //performLoadActivityRequest();
     }
 
     @Override
@@ -103,43 +103,8 @@ public class Hydra extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void performLoadActivityRequest() {
-        /*AssociationActivitiesRequest r = new AssociationActivitiesRequest();
-        System.out.println("Load data");
-        spiceManager.execute(r, r.getCacheKey(), DurationInMillis.ONE_MINUTE * 15, new AssociationActivityRequestListener() );*/
+    public void changeFragment(int fragment) { // FIXME: 14/04/16 Add more robust way to change fragments
+        viewPager.setCurrentItem(fragment);
 
-        AssociationNewsRequest r = new AssociationNewsRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationNews>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                //TextView groenten = (TextView) findViewById(R.id.groenten);
-                //groenten.setText("request failed");
-                System.out.println("Request failed");
-            }
-
-            @Override
-            public void onRequestSuccess(AssociationNews associationNewsItems) {
-                for (AssociationNewsItem newsItem : associationNewsItems) {
-                    System.out.println(newsItem.title + ", ");
-                }
-            }
-        });
-    }
-
-    private class AssociationActivityRequestListener implements RequestListener<AssociationActivities> {
-
-        @Override
-        public void onRequestFailure(SpiceException spiceException) {
-            System.out.println("Request failed");
-        }
-
-        @Override
-        public void onRequestSuccess(AssociationActivities associationActivities) {
-            System.out.println("Activities loaded: " + associationActivities.size());
-            for (AssociationActivity activity : associationActivities) {
-                System.out.print(activity.title + ",  ");
-            }
-            System.out.println();
-        }
     }
 }

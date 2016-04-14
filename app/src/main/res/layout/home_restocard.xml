@@ -9,12 +9,13 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginEnd="6dp"
-        card_view:contentPaddingLeft="20dp"
-        card_view:contentPaddingRight="@dimen/activity_horizontal_margin"
-        card_view:contentPaddingTop="0dp"
-        card_view:contentPaddingBottom="4dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
+        card_view:contentPaddingLeft="15dp"
+        card_view:contentPaddingRight="15dp"
+        card_view:contentPaddingTop="3dp"
+        card_view:contentPaddingBottom="7dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -28,7 +29,8 @@
                 android:textColor="@color/dark_blue"
                 android:textSize="18dp"
                 android:textStyle="bold"
-                android:paddingBottom="8dp" />
+                android:paddingBottom="8dp"
+                android:gravity="center" />
 
             <LinearLayout
                 android:orientation="vertical"
