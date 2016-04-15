@@ -12,6 +12,7 @@
             android:defaultValue="false"/>
         <CheckBoxPreference
             android:key="pref_key_daily_notifications_vibrate"
+            android:dependency="pref_key_daily_notifications_checkbox"
             android:summary="Laat de telefoon vibreren bij de notificatie."
             android:title="Vibreer"
             android:defaultValue="false"/>

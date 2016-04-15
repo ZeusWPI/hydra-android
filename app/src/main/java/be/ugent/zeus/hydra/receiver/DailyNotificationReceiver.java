@@ -29,14 +29,14 @@ public class DailyNotificationReceiver extends BroadcastReceiver {
 
         Notification.Builder builder = new Notification.Builder(context)
                 .setContentTitle("Resto menu")
-                .setContentText("Dit is een test.")
-                .setSmallIcon(R.drawable.logo)
+                .setContentText("Check the restomenu in the hydra app.")
+                .setSmallIcon(R.drawable.logo) //TODO: Beter logo
                 .setContentIntent(pIntent)
                 .setAutoCancel(true);
 
         if (PreferenceManager.getDefaultSharedPreferences(context)
                 .getBoolean("pref_key_daily_notifications_vibrate", false)){
-            builder.setVibrate(new long[] {0, 500});
+            builder.setVibrate(new long[] {0, 300});
         }
 
         NotificationManager notificationManager =
