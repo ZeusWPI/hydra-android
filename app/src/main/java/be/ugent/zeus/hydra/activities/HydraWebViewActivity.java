@@ -43,6 +43,7 @@ public class HydraWebViewActivity extends AppCompatActivity {
         String title = intent.getStringExtra(TITLE);
 
         if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
             getSupportActionBar().setTitle(title);
         }
         setTitle(title);
