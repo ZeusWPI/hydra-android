@@ -31,7 +31,6 @@ public class InfoFragment extends AbstractFragment {
     private View layout;
     private InfoList infoItems;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
