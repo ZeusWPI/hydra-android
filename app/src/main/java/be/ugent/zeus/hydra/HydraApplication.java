@@ -1,0 +1,46 @@
+package be.ugent.zeus.hydra;
+
+import android.app.Application;
+import android.content.res.Configuration;
+
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
+
+import net.danlew.android.joda.JodaTimeAndroid;
+
+import java.util.Locale;
+
+/**
+ * Created by feliciaan on 06/04/16.
+ */
+public class HydraApplication extends Application {
+    private Tracker tracker;
+
+
+    @Override
+    public void onCreate()
+    {
+        super.onCreate();
+
+        JodaTimeAndroid.init(this);
+
+        Locale locale = new Locale("nl_BE");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+    }
+
+    /**
+     * Gets the default {@link Tracker} for this {@link Application}.
+     * @return tracker
+     */
+    synchronized public Tracker getDefaultTracker() {
+        if (tracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+            tracker = analytics.newTracker(R.xml.global_tracker);
+        }
+        return tracker;
+    }
+}

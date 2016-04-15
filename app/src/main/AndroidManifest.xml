@@ -11,7 +11,8 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:logo="@drawable/logo"
-        android:theme="@style/HydraTheme">
+        android:theme="@style/HydraTheme"
+        android:name="be.ugent.zeus.hydra.HydraApplication">
         <activity
             android:name=".activities.Hydra"
             android:label="@string/app_name">
