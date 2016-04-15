@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/HydraTheme">
 <PreferenceCategory
     android:title="@string/pref_cat1_title"
     android:key="pref_key_cat1"
@@ -37,11 +38,23 @@
             android:layout_height="match_parent" />
 
         <PreferenceScreen
-            android:key="button_voicemail_category_key"
+            android:key="associationPrefListScreen"
             android:dependency="pref_association_checkbox"
+
             android:title="selectie"
             android:persistent="false">
+
+
+
+
+
+
+
+
+
+
         </PreferenceScreen>
+
 
     </PreferenceCategory>
 

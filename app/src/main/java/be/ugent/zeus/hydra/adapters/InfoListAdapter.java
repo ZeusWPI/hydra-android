@@ -1,7 +1,10 @@
 package be.ugent.zeus.hydra.adapters;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,8 +16,11 @@ import android.widget.TextView;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.HydraWebViewActivity;
+import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
 import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
 import be.ugent.zeus.hydra.recyclerviewholder.DateHeaderViewHolder;
@@ -54,25 +60,61 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
                 public void onClick(View v) {
 
                     InfoItem item = infoItem;
+                    String androidUrl = item.getUrlAndroid();
                     String url = item.getUrl();
                     String html = item.getHtml();
                     InfoList infolist = item.getSubContent();
-                    if (url != null) {
+                    if (androidUrl != null) {
+                        Intent rateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + androidUrl));
+                        boolean marketFound = false;
+
+                        // find all applications able to handle our rateIntent
+                        final List<ResolveInfo> otherApps = context.getPackageManager().queryIntentActivities(rateIntent, 0);
+                        for (ResolveInfo otherApp: otherApps) {
+                            // look for Google Play application
+                            if (otherApp.activityInfo.applicationInfo.packageName.equals("com.android.vending")) {
+
+                                ActivityInfo otherAppActivity = otherApp.activityInfo;
+                                ComponentName componentName = new ComponentName(
+                                        otherAppActivity.applicationInfo.packageName,
+                                        otherAppActivity.name
+                                );
+                                rateIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                                rateIntent.setComponent(componentName);
+                                context.startActivity(rateIntent);
+                                marketFound = true;
+                                break;
+                            }
+                        }
+
+                        // if GP not present on device, open web browser
+                        if (!marketFound) {
+                            Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id="+androidUrl));
+                            context.startActivity(webIntent);
+                        }
+                    } else if (url != null) {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         context.startActivity(browserIntent);
                     } else if (html != null ){
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(HTML_API + html));
-                        context.startActivity(browserIntent);
+                        Intent intent = new Intent(v.getContext(), HydraWebViewActivity.class);
+                        intent.putExtra(HydraWebViewActivity.URL, HTML_API + html);
+                        intent.putExtra(HydraWebViewActivity.TITLE, item.getTitle());
+                        context.startActivity(intent);
                     } else if (infolist != null) {
-                        //TODO view subcontent
-                        for (InfoItem subcontentitem : infolist) {
-                        }
+                        Intent intent = new Intent(v.getContext(), InfoSubItemActivity.class);
+                        intent.putParcelableArrayListExtra(InfoSubItemActivity.INFOITEMS, infolist);
+                        intent.putExtra(InfoSubItemActivity.INFOTITLE, infoItem.getTitle());
+                        context.startActivity(intent);
                     }
                 }
             });
-
-            int resId = context.getResources().getIdentifier(infoItem.getImage(), "drawable", context.getPackageName());
-            imageView.setImageResource(resId);
+            if (infoItem.getImage() != null) {
+                int resId = context.getResources().getIdentifier(infoItem.getImage(), "drawable", context.getPackageName());
+                imageView.setImageResource(resId);
+                imageView.setVisibility(View.VISIBLE);
+            } else {
+                imageView.setVisibility(View.GONE);
+            }
         }
     }
 

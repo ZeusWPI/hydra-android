@@ -10,11 +10,20 @@ public class Association implements Parcelable {
     public String internal_name;
     public String full_name;
     public String display_name;
+    public String parent_association;
 
     protected Association(Parcel in) {
         internal_name = in.readString();
         full_name = in.readString();
         display_name = in.readString();
+        parent_association = in.readString();
+    }
+
+    public String getName() {
+        if (full_name != null) {
+            return full_name;
+        }
+        return display_name;
     }
 
     public static final Creator<Association> CREATOR = new Creator<Association>() {
@@ -39,5 +48,6 @@ public class Association implements Parcelable {
         dest.writeString(internal_name);
         dest.writeString(full_name);
         dest.writeString(display_name);
+        dest.writeString(parent_association);
     }
 }

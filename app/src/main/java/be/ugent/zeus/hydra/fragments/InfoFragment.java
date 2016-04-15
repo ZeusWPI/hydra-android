@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,18 +12,24 @@ import android.view.ViewGroup;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.InfoListAdapter;
+import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
 import be.ugent.zeus.hydra.requests.InfoRequest;
 
 public class InfoFragment extends AbstractFragment {
 
+    public static final String INFOLIST = "infoList";
+
     private RecyclerView recyclerView;
     private InfoListAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private View layout;
-
+    private InfoList infoItems;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,7 +40,18 @@ public class InfoFragment extends AbstractFragment {
         recyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        performLoadInfoRequest();
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            infoItems = new InfoList();
+            infoItems.addAll((ArrayList<InfoItem>)(ArrayList<? extends Parcelable>) bundle.getParcelableArrayList(INFOLIST));
+            if (infoItems != null) {
+                adapter.setItems(infoItems);
+                adapter.notifyDataSetChanged();
+            }
+        } else {
+            performLoadInfoRequest();
+        }
 
         return layout;
     }

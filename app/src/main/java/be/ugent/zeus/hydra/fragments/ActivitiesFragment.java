@@ -17,9 +17,10 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
 import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
-
 /**
  * Created by ellen on 2016-03-08.
+ *
+ * TODO: update after  settings changed.
  */
 
 public class ActivitiesFragment extends AbstractFragment {
@@ -48,15 +49,18 @@ public class ActivitiesFragment extends AbstractFragment {
         recyclerView.addItemDecoration(decorator);
         performLoadActivityRequest();
 
+
         return layout;
     }
-
 
 
     private void performLoadActivityRequest() {
 
         final AssociationActivitiesRequest r = new AssociationActivitiesRequest();
         spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationActivities>() {
+
+
+
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar();
@@ -64,11 +68,12 @@ public class ActivitiesFragment extends AbstractFragment {
 
             @Override
             public void onRequestSuccess(final AssociationActivities associationActivitiesItems) {
-                adapter.setItems(associationActivitiesItems);
+                adapter.setItems(associationActivitiesItems.getPreferedActivities(getContext()));
                 adapter.notifyDataSetChanged();
             }
         });
     }
+
 
 
     private void showFailureSnackbar() {
@@ -82,4 +87,18 @@ public class ActivitiesFragment extends AbstractFragment {
                 })
                 .show();
     }
+
+
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        performLoadActivityRequest();
+
+    }
+
+
+
+
 }

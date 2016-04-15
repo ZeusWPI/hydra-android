@@ -108,8 +108,10 @@ public class HomeFragment extends AbstractFragment {
             @Override
             public void onRequestSuccess(final AssociationActivities associationActivities) {
                 List<HomeCard> list = new ArrayList<>();
-                for (AssociationActivity activity: associationActivities) {
-                    if(activity.getPriority() > 0) {
+                AssociationActivities filteredAssociationActivities = associationActivities.getPreferedActivities(getContext());
+                Date date = new Date();
+                for (AssociationActivity activity: filteredAssociationActivities) {
+                    if(activity.getPriority() > 0 && activity.end.after(date)) {
                         list.add(activity);
                     }
                 }
