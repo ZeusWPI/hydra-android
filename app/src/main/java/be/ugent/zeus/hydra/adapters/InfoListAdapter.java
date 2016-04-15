@@ -15,6 +15,7 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import java.util.ArrayList;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.HydraWebViewActivity;
 import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
 import be.ugent.zeus.hydra.recyclerviewholder.DateHeaderViewHolder;
@@ -61,8 +62,10 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         context.startActivity(browserIntent);
                     } else if (html != null ){
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(HTML_API + html));
-                        context.startActivity(browserIntent);
+                        Intent intent = new Intent(v.getContext(), HydraWebViewActivity.class);
+                        intent.putExtra(HydraWebViewActivity.URL, HTML_API + html);
+                        intent.putExtra(HydraWebViewActivity.TITLE, item.getTitle());
+                        context.startActivity(intent);
                     } else if (infolist != null) {
                         //TODO view subcontent
                         for (InfoItem subcontentitem : infolist) {

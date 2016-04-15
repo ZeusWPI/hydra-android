@@ -33,4 +33,5 @@
     <string name="openFacebook">Ondertussen kan je een bezoekje brengen aan onze Facebook-pagina.</string>
     <string name="facebookButtonDescription">Link naar onze Facebook-pagina.</string>
     <string name="comingsoontitle">Coming soon!</string>
+    <string name="title_activity_hydra_web_view">Web View</string>
 </resources>
