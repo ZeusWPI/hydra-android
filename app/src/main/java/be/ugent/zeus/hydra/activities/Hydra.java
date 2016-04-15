@@ -12,16 +12,9 @@ import android.view.MenuItem;
 
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
-import be.ugent.zeus.hydra.models.association.AssociationActivities;
-import be.ugent.zeus.hydra.models.association.AssociationActivity;
-import be.ugent.zeus.hydra.models.association.AssociationNews;
-import be.ugent.zeus.hydra.models.association.AssociationNewsItem;
-import be.ugent.zeus.hydra.requests.AssociationNewsRequest;
 
 
 public class Hydra extends AppCompatActivity {

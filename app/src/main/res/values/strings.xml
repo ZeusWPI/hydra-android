@@ -29,11 +29,14 @@
     <string name="pref_daily_notifications_time_summary">Op welk moment wil je de melding krijgen?</string>
     <string name="pref_daily_notifications_time_title">Tijdstip</string>
 
+    <string name="pref_daily_notifications_testbutton_text">Toon voorbeeld</string>
+    <string name="pref_daily_notifications_test_summary">Laat een voorbeeldnotificatie zien.</string>
+    <string name="pref_daily_notifications_test_title">Voorbeeld</string>
+
     <string name="openFacebook">Ondertussen kan je een bezoekje brengen aan onze Facebook-pagina.</string>
     <string name="facebookButtonDescription">Link naar onze Facebook-pagina.</string>
     <string name="comingsoontitle">Coming soon!</string>
-    <string name="pref_daily_notifications_test_summary">Toon een voorbeeld van een notificatie.</string>
-    <string name="pref_daily_notifications_test_title">Voorbeeld</string>
-    <string name="daily_notifications_test_button">pref_daily_notifications_test</string>
-    <string name="pref_daily_notifications_testbutton_text">Toon voorbeeld</string>
+
+    <string name="title_activity_hydra_web_view">Web View</string>
+    <string name="title_activity_info_sub_item">InfoSubItemActivity</string>
 </resources>

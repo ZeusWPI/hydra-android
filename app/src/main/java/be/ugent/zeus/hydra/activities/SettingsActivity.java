@@ -25,6 +25,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.HydraActionBar);
         super.onCreate(savedInstanceState);
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction()
@@ -41,9 +42,8 @@ public class SettingsActivity extends AppCompatActivity {
         alarmMgr.cancel(pIntent);
 
         Calendar soon = Calendar.getInstance();
-        soon.add(Calendar.SECOND, 2);
+        soon.add(Calendar.SECOND, 1);
 
         alarmMgr.set(AlarmManager.RTC_WAKEUP, soon.getTimeInMillis(), pIntent);
     }
-
 }

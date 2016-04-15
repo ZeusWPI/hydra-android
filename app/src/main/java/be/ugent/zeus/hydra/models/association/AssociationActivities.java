@@ -16,9 +16,7 @@ public class AssociationActivities extends ArrayList<AssociationActivity> {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         boolean filter = sharedPrefs.getBoolean("pref_association_checkbox", false);
-        System.out.println("------"+filter +" "+sharedPrefs.getBoolean("pref_association_checkbox", true));
         if(filter) {
-            System.out.println("-------------filtered!!!!");
             AssociationActivities prefered = new AssociationActivities();
 
             for (int i = 0; i < this.size(); i++) {
@@ -32,7 +30,6 @@ public class AssociationActivities extends ArrayList<AssociationActivity> {
 
             return prefered;
         }else{
-            System.out.println("---------- not filterd");
             return this;
         }
 

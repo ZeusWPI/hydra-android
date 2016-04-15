@@ -21,7 +21,7 @@
             android:summary="@string/pref_daily_notifications_time_summary"
             android:title="@string/pref_daily_notifications_time_title"/>
         <Preference
-            android:key="@string/daily_notifications_test_button"
+            android:key="pref_daily_notifications_test_button"
             android:summary="@string/pref_daily_notifications_test_summary"
             android:title="@string/pref_daily_notifications_test_title"
             android:widgetLayout="@layout/daily_notifications_testbutton"/>
@@ -39,27 +39,12 @@
             android:defaultValue="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
         <PreferenceScreen
             android:key="associationPrefListScreen"
             android:dependency="pref_association_checkbox"
-
             android:title="selectie"
             android:persistent="false">
-
-
-
-
-
-
-
-
-
-
         </PreferenceScreen>
-
-
     </PreferenceCategory>
-
     <!-- end -->
 </PreferenceScreen>

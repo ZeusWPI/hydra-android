@@ -1,5 +1,8 @@
 package be.ugent.zeus.hydra.models.info;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
