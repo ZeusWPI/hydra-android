@@ -7,7 +7,6 @@ import java.util.Date;
 
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.models.HomeCard;
-import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
 
 /**
