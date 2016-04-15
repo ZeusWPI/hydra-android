@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name=".activities.SettingsActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
 
         <service
             android:name="com.octo.android.robospice.GsonSpringAndroidSpiceService"
@@ -32,7 +32,7 @@
 
         <activity
             android:name=".activities.AssociationActivityDetail"
-            android:label="@string/title_activity_association_activity_detail"></activity>
+            android:label="@string/title_activity_association_activity_detail" />
         <activity
             android:name=".activities.HydraWebViewActivity"
             android:label="@string/title_activity_hydra_web_view"
@@ -41,6 +41,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="be.ugent.zeus.hydra.activities.Hydra" />
         </activity>
+        <activity
+            android:name=".activities.InfoSubItemActivity"
+            android:label="@string/title_activity_info_sub_item"></activity>
     </application>
 
 </manifest>

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.HydraWebViewActivity;
+import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
 import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
 import be.ugent.zeus.hydra.recyclerviewholder.DateHeaderViewHolder;
@@ -55,10 +56,14 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
                 public void onClick(View v) {
 
                     InfoItem item = infoItem;
+                    String androidUrl = item.getUrlAndroid();
                     String url = item.getUrl();
                     String html = item.getHtml();
                     InfoList infolist = item.getSubContent();
-                    if (url != null) {
+                    if (androidUrl != null) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        context.startActivity(browserIntent);
+                    } else if (url != null) {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         context.startActivity(browserIntent);
                     } else if (html != null ){
@@ -67,15 +72,20 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
                         intent.putExtra(HydraWebViewActivity.TITLE, item.getTitle());
                         context.startActivity(intent);
                     } else if (infolist != null) {
-                        //TODO view subcontent
-                        for (InfoItem subcontentitem : infolist) {
-                        }
+                        Intent intent = new Intent(v.getContext(), InfoSubItemActivity.class);
+                        intent.putParcelableArrayListExtra(InfoSubItemActivity.INFOITEMS, infolist);
+                        intent.putExtra(InfoSubItemActivity.INFOTITLE, infoItem.getTitle());
+                        context.startActivity(intent);
                     }
                 }
             });
-
-            int resId = context.getResources().getIdentifier(infoItem.getImage(), "drawable", context.getPackageName());
-            imageView.setImageResource(resId);
+            if (infoItem.getImage() != null) {
+                int resId = context.getResources().getIdentifier(infoItem.getImage(), "drawable", context.getPackageName());
+                imageView.setImageResource(resId);
+                imageView.setVisibility(View.VISIBLE);
+            } else {
+                imageView.setVisibility(View.GONE);
+            }
         }
     }
 
