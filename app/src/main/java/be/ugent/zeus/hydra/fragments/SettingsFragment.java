@@ -12,7 +12,6 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.preference.SwitchPreference;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -29,7 +28,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.association.Associations;
 import be.ugent.zeus.hydra.preference.TimePreference;
-import be.ugent.zeus.hydra.receiver.DailyNotificationReceiver;
+import be.ugent.zeus.hydra.notifications.DailyNotificationReceiver;
 import be.ugent.zeus.hydra.requests.AssociationsRequest;
 
 /**

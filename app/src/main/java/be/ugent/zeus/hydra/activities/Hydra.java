@@ -74,7 +74,7 @@ public class Hydra extends AppCompatActivity {
         // If the app was launched via a resto notification, open the resto tab.
         Intent intent = getIntent();
         String action = intent.getAction();
-        if(action != null && action.equals("RESTO")){
+        if(action != null && action.equals(getString(R.string.resto_action))){
             changeFragment(2);
         }
     }
