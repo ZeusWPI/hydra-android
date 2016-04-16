@@ -12,6 +12,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -70,7 +71,9 @@ public class SettingsFragment extends PreferenceFragment {
         notificationTime.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                scheduleNotifications();
+                if(notificationCheckbox.isChecked()){
+                    scheduleNotifications();
+                }
                 return true;
             }
         });
@@ -157,8 +160,6 @@ public class SettingsFragment extends PreferenceFragment {
 
         // Remove previous alarms
         alarmMgr.cancel(pIntent);
-
-        System.out.println("Notifications removed.");
     }
 
 
@@ -183,8 +184,6 @@ public class SettingsFragment extends PreferenceFragment {
                 cal.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY,
                 pIntent);
-
-        System.out.println("Notifications scheduled.");
     }
 
     public void testNotification(){

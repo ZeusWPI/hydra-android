@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <PreferenceCategory
+    <PreferenceScreen
         android:title="@string/pref_daily_notifications_title"
         android:key="pref_key_daily_notifications">
         <CheckBoxPreference
@@ -12,18 +12,15 @@
             android:defaultValue="false"/>
         <CheckBoxPreference
             android:key="pref_key_daily_notifications_vibrate"
-            android:dependency="pref_key_daily_notifications_checkbox"
             android:summary="Laat de telefoon vibreren bij de notificatie."
             android:title="Vibreer"
             android:defaultValue="false"/>
         <be.ugent.zeus.hydra.preference.TimePreference
             android:key="pref_daily_notifications_time"
-            android:dependency="pref_key_daily_notifications_checkbox"
             android:summary="@string/pref_daily_notifications_time_summary"
             android:title="@string/pref_daily_notifications_time_title"/>
         <MultiSelectListPreference
             android:key="pref_daily_notifications_days_of_week"
-            android:dependency="pref_key_daily_notifications_checkbox"
             android:summary="Kies op welke dagen je een notificatie wilt ontvangen."
             android:title="Weekdagen"
             android:entries="@array/day_of_week_name"
@@ -34,9 +31,9 @@
             android:summary="@string/pref_daily_notifications_test_summary"
             android:title="@string/pref_daily_notifications_test_title"
             android:widgetLayout="@layout/daily_notifications_testbutton"/>
-    </PreferenceCategory>
+    </PreferenceScreen>
     <!-- activiteiten -->
-    <PreferenceCategory
+    <PreferenceScreen
         android:title="Activiteiten"
         android:key="pref_key_cat1"
         android:layout_height="match_parent"
@@ -54,6 +51,6 @@
             android:title="selectie"
             android:persistent="false">
         </PreferenceScreen>
-    </PreferenceCategory>
+    </PreferenceScreen>
     <!-- end -->
 </PreferenceScreen>
