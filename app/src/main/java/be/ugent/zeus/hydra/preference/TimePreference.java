@@ -35,7 +35,7 @@ public class TimePreference extends DialogPreference{
 
         setPositiveButtonText(R.string.set);
         setNegativeButtonText(R.string.cancel);
-        calendar = new GregorianCalendar();
+        calendar = Calendar.getInstance();
     }
 
     @Override
@@ -75,7 +75,6 @@ public class TimePreference extends DialogPreference{
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-
         if (restoreValue) {
             if (defaultValue == null) {
                 calendar.setTimeInMillis(getPersistedLong(System.currentTimeMillis()));

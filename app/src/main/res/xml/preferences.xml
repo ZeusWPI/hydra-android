@@ -18,19 +18,20 @@
         <be.ugent.zeus.hydra.preference.TimePreference
             android:key="pref_daily_notifications_time"
             android:summary="@string/pref_daily_notifications_time_summary"
-            android:title="@string/pref_daily_notifications_time_title"/>
+            android:title="@string/pref_daily_notifications_time_title"
+            android:defaultValue="36000000"/><!-- 11u -->
         <MultiSelectListPreference
             android:key="pref_daily_notifications_days_of_week"
-            android:summary="Kies op welke dagen je een notificatie wilt ontvangen. (WIP)"
+            android:summary="Kies op welke dagen je een notificatie wilt ontvangen."
             android:title="Weekdagen"
             android:entries="@array/day_of_week_name"
             android:entryValues="@array/day_of_week_nr"
             android:defaultValue="@array/day_of_week_nr"/>
-        <CheckBoxPreference
+        <!-- <CheckBoxPreference
             android:key="pref_daily_notifications_warn_on_resto_close"
             android:summary="Waarschuw wanneer de resto gesloten is. (WIP)"
             android:title="Gesloten notificatie"
-            android:defaultValue="false"/>
+            android:defaultValue="false"/> -->
         <Preference
             android:key="pref_daily_notifications_test_button"
             android:summary="@string/pref_daily_notifications_test_summary"
