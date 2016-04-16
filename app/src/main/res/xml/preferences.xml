@@ -19,7 +19,7 @@
             android:key="pref_daily_notifications_time"
             android:summary="@string/pref_daily_notifications_time_summary"
             android:title="@string/pref_daily_notifications_time_title"
-            android:defaultValue="36000000"/><!-- 11u -->
+            android:defaultValue="11:00"/>
         <MultiSelectListPreference
             android:key="pref_daily_notifications_days_of_week"
             android:summary="Kies op welke dagen je een notificatie wilt ontvangen."

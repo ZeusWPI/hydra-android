@@ -6,6 +6,7 @@ import android.view.View;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.fragments.SettingsFragment;
+import be.ugent.zeus.hydra.notifications.NotificationScheduler;
 
 /**
  * @author Rien Maertens
@@ -13,23 +14,16 @@ import be.ugent.zeus.hydra.fragments.SettingsFragment;
  */
 public class SettingsActivity extends AppCompatActivity {
 
-    SettingsFragment settingsFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.HydraActionBar);
         super.onCreate(savedInstanceState);
         // Display the fragment as the main content.
-
-        settingsFragment = new SettingsFragment();
         getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, settingsFragment).commit();
-
-
-
+                .replace(android.R.id.content, new SettingsFragment()).commit();
     }
 
     public void testNotification(View view){
-        settingsFragment.testNotification();
+        new NotificationScheduler(this).testNotification();
     }
 }
