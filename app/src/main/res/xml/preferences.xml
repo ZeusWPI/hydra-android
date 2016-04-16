@@ -37,11 +37,6 @@
             android:summary="@string/pref_daily_notifications_test_summary"
             android:title="@string/pref_daily_notifications_test_title"
             android:widgetLayout="@layout/daily_notifications_testbutton"/>
-        <CheckBoxPreference
-            android:key="pref_daily_notifications_always"
-            android:summary="Toon altijd een notificatie, ook op weekends. Om te debuggen in het weekend."
-            android:title="Altijd tonen"
-            android:defaultValue="false"/>
     </PreferenceScreen>
     <!-- activiteiten -->
     <PreferenceScreen

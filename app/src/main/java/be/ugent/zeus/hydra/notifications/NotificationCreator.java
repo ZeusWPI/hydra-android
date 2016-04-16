@@ -54,4 +54,11 @@ public class NotificationCreator {
 
         return builder.build();
     }
+
+    public void createAndShow(){
+        NotificationManager notificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(0, create());
+    }
 }

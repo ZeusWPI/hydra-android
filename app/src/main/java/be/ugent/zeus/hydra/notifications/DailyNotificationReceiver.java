@@ -36,12 +36,7 @@ public class DailyNotificationReceiver extends BroadcastReceiver {
         notificationToday |= prefs.getBoolean("pref_daily_notifications_always", false);
 
         if (notificationToday) {
-            NotificationManager notificationManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-            NotificationCreator creator = new NotificationCreator(context, prefs);
-            Notification restoNotification = creator.create();
-            notificationManager.notify(0, restoNotification);
+            new NotificationCreator(context, prefs).createAndShow();
         } else {
             System.out.println(String.format(
                     Locale.getDefault(),

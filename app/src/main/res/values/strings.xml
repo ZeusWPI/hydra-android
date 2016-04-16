@@ -46,6 +46,8 @@
     <string name="wednesday">woensdag</string>
     <string name="thursday">donderdag</string>
     <string name="friday">vrijdag</string>
+    <string name="saturday">zaterdag</string>
+    <string name="sunday">zondag</string>
 
     <string name="restonotification_title">Resto menu</string>
     <string name="restonotification_text">Bekijk het menu van de resto in de Hydra-app.</string>

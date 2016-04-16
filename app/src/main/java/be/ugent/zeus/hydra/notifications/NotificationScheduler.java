@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import java.text.ParseException;
@@ -23,12 +24,14 @@ public class NotificationScheduler {
     private AlarmManager alarmManager;
     private Activity activity;
     private PendingIntent pendingIntent;
+    private SharedPreferences preferences;
 
     public NotificationScheduler(Activity activity){
         this.activity = activity;
         Intent intent = new Intent(activity, DailyNotificationReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(activity, REQUEST_CODE, intent, FLAGS);
         alarmManager = (AlarmManager) activity.getSystemService(Context.ALARM_SERVICE);
+        preferences = PreferenceManager.getDefaultSharedPreferences(activity);
     }
 
     public void cancelNotifications(){
@@ -36,15 +39,11 @@ public class NotificationScheduler {
     }
 
     public void testNotification(){
-        Calendar soon = Calendar.getInstance();
-        soon.add(Calendar.SECOND, 1);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, soon.getTimeInMillis(), pendingIntent);
+        new NotificationCreator(activity.getApplicationContext(), preferences).createAndShow();
     }
 
     public void scheduleNotification(){
-        scheduleNotification(PreferenceManager
-                .getDefaultSharedPreferences(activity)
-                .getString("pref_daily_notifications_time", null));
+        scheduleNotification(preferences.getString("pref_daily_notifications_time", null));
     }
 
     public void scheduleNotification(String time){
@@ -57,6 +56,7 @@ public class NotificationScheduler {
         }
         cal.set(Calendar.HOUR_OF_DAY, hour);
         cal.set(Calendar.MINUTE, minute);
+        cal.set(Calendar.SECOND, 0);
         cancelNotifications();
 
         // Daily alarm
@@ -65,6 +65,5 @@ public class NotificationScheduler {
                 cal.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY,
                 pendingIntent);
-        System.out.println("Scheduled at: " + cal.toString());
     }
 }
