@@ -41,9 +41,13 @@ public class DailyNotificationReceiver extends BroadcastReceiver {
 
         if (notificationToday) {
             Intent tmpIntent = new Intent(context, Hydra.class);
-            // TODO: Open resto
-            PendingIntent pIntent = PendingIntent.getActivity(context, 0, tmpIntent, 0);
-
+            tmpIntent.setAction("RESTO");
+            PendingIntent pIntent = PendingIntent.getActivity(
+                    context,
+                    0,
+                    tmpIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+            );
             Notification.Builder builder = new Notification.Builder(context)
                     .setContentTitle("Resto menu")
                     .setContentText("Check the restomenu in the hydra app.")

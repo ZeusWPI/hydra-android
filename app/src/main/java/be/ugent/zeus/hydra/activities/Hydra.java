@@ -70,6 +70,13 @@ public class Hydra extends AppCompatActivity {
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             tabLayout.getTabAt(i).setIcon(icons[i]);
         }
+
+        // If the app was launched via a resto notification, open the resto tab.
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if(action != null && action.equals("RESTO")){
+            changeFragment(2);
+        }
     }
 
     @Override
