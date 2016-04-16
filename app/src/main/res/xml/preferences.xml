@@ -16,11 +16,19 @@
             android:summary="Laat de telefoon vibreren bij de notificatie."
             android:title="Vibreer"
             android:defaultValue="false"/>
-        <Preference
+        <be.ugent.zeus.hydra.preference.TimePreference
             android:key="pref_daily_notifications_time"
             android:dependency="pref_key_daily_notifications_checkbox"
             android:summary="@string/pref_daily_notifications_time_summary"
             android:title="@string/pref_daily_notifications_time_title"/>
+        <MultiSelectListPreference
+            android:key="pref_daily_notifications_days_of_week"
+            android:dependency="pref_key_daily_notifications_checkbox"
+            android:summary="Kies op welke dagen je een notificatie wilt ontvangen."
+            android:title="Weekdagen"
+            android:entries="@array/day_of_week_name"
+            android:entryValues="@array/day_of_week_name"
+            android:defaultValue="@array/day_of_week_name"/>
         <Preference
             android:key="pref_daily_notifications_test_button"
             android:summary="@string/pref_daily_notifications_test_summary"

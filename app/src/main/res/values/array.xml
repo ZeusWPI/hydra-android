@@ -6,9 +6,44 @@
         <item>Option 3</item>
     </string-array>
 
+    <array name="tab_icons">
+        <item>@drawable/logo</item>
+        <item>@drawable/logo</item>
+        <item>@drawable/logo</item>
+        <item>@drawable/logo</item>
+        <item>@drawable/logo</item>
+        <item>@drawable/logo</item>
+    </array>
+
+    <string-array name="tab_titles">
+        <item>@string/nieuws</item>
+        <item>@string/activiteiten</item>
+        <item>@string/info</item>
+        <item>@string/resto_menu</item>
+        <item>@string/urgent</item>
+        <item>@string/schamper</item>
+    </string-array>
+
+
     <string-array name="listValues">
         <item>1 is selected</item>
         <item>2 is selected</item>
         <item>3 is selected</item>
     </string-array>
+
+    <string-array name="day_of_week_name">
+        <item>@string/monday</item>
+        <item>@string/tuesday</item>
+        <item>@string/wednesday</item>
+        <item>@string/thursday</item>
+        <item>@string/friday</item>
+    </string-array>
+
+    <integer-array name="day_of_week_int">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </integer-array>
 </resources>

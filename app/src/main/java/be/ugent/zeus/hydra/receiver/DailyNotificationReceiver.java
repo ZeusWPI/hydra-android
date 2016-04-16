@@ -11,6 +11,11 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.StringTokenizer;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.Hydra;
 
@@ -22,26 +27,30 @@ public class DailyNotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        boolean notificationToday = true;
+        //TODO: let the user pick on which day he wants a notification
+        if (notificationToday) {
+            Intent tmpIntent = new Intent(context, Hydra.class);
+            // TODO: Open resto
+            PendingIntent pIntent = PendingIntent.getActivity(context, 0, tmpIntent, 0);
 
-        Intent tmpIntent = new Intent(context, Hydra.class);
-        // TODO: Open resto
-        PendingIntent pIntent = PendingIntent.getActivity(context, 0, tmpIntent, 0);
+            Notification.Builder builder = new Notification.Builder(context)
+                    .setContentTitle("Resto menu")
+                    .setContentText("Check the restomenu in the hydra app.")
+                    .setSmallIcon(R.drawable.logo) //TODO: Beter logo
+                    .setContentIntent(pIntent)
+                    .setAutoCancel(true);
 
-        Notification.Builder builder = new Notification.Builder(context)
-                .setContentTitle("Resto menu")
-                .setContentText("Check the restomenu in the hydra app.")
-                .setSmallIcon(R.drawable.logo) //TODO: Beter logo
-                .setContentIntent(pIntent)
-                .setAutoCancel(true);
 
-        if (PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean("pref_key_daily_notifications_vibrate", false)){
-            builder.setVibrate(new long[] {0, 300});
+            if (PreferenceManager.getDefaultSharedPreferences(context)
+                    .getBoolean("pref_key_daily_notifications_vibrate", false)){
+                builder.setVibrate(new long[] {0, 300});
+            }
+
+            NotificationManager notificationManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            notificationManager.notify(0, builder.build());
         }
-
-        NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(0, builder.build());
     }
 }

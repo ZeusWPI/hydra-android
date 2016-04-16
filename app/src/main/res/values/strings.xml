@@ -39,4 +39,13 @@
 
     <string name="title_activity_hydra_web_view">Web View</string>
     <string name="title_activity_info_sub_item">InfoSubItemActivity</string>
+    <string name="cancel">annuleren</string>
+    <string name="set">OK</string>
+    <string name="monday">maandag</string>
+    <string name="tuesday">dinsdag</string>
+    <string name="wednesday">woensdag</string>
+    <string name="thursday">donderdag</string>
+    <string name="friday">vrijdag</string>
+
+
 </resources>
