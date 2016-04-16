@@ -21,16 +21,26 @@
             android:title="@string/pref_daily_notifications_time_title"/>
         <MultiSelectListPreference
             android:key="pref_daily_notifications_days_of_week"
-            android:summary="Kies op welke dagen je een notificatie wilt ontvangen."
+            android:summary="Kies op welke dagen je een notificatie wilt ontvangen. (WIP)"
             android:title="Weekdagen"
             android:entries="@array/day_of_week_name"
-            android:entryValues="@array/day_of_week_name"
-            android:defaultValue="@array/day_of_week_name"/>
+            android:entryValues="@array/day_of_week_nr"
+            android:defaultValue="@array/day_of_week_nr"/>
+        <CheckBoxPreference
+            android:key="pref_daily_notifications_warn_on_resto_close"
+            android:summary="Waarschuw wanneer de resto gesloten is. (WIP)"
+            android:title="Gesloten notificatie"
+            android:defaultValue="false"/>
         <Preference
             android:key="pref_daily_notifications_test_button"
             android:summary="@string/pref_daily_notifications_test_summary"
             android:title="@string/pref_daily_notifications_test_title"
             android:widgetLayout="@layout/daily_notifications_testbutton"/>
+        <CheckBoxPreference
+            android:key="pref_daily_notifications_always"
+            android:summary="Toon altijd een notificatie, ook op weekends. Om te debuggen in het weekend."
+            android:title="Altijd tonen"
+            android:defaultValue="false"/>
     </PreferenceScreen>
     <!-- activiteiten -->
     <PreferenceScreen

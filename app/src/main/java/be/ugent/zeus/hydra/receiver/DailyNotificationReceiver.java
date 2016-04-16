@@ -7,13 +7,16 @@ import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import be.ugent.zeus.hydra.R;
@@ -27,8 +30,15 @@ public class DailyNotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        boolean notificationToday = true;
-        //TODO: let the user pick on which day he wants a notification
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Set<String> weekdays =
+                prefs.getStringSet("pref_daily_notifications_days_of_week", new HashSet<String>());
+
+
+        int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        boolean notificationToday = weekdays.contains(String.valueOf(currentDay));
+        notificationToday |= prefs.getBoolean("pref_daily_notifications_always", false);
+
         if (notificationToday) {
             Intent tmpIntent = new Intent(context, Hydra.class);
             // TODO: Open resto
@@ -42,8 +52,7 @@ public class DailyNotificationReceiver extends BroadcastReceiver {
                     .setAutoCancel(true);
 
 
-            if (PreferenceManager.getDefaultSharedPreferences(context)
-                    .getBoolean("pref_key_daily_notifications_vibrate", false)){
+            if (prefs.getBoolean("pref_key_daily_notifications_vibrate", false)){
                 builder.setVibrate(new long[] {0, 300});
             }
 
@@ -51,6 +60,12 @@ public class DailyNotificationReceiver extends BroadcastReceiver {
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             notificationManager.notify(0, builder.build());
+        } else {
+            System.out.println(String.format(
+                    Locale.getDefault(),
+                    "Notification ignore: current day (%d) not in preferences: %s",
+                    currentDay,
+                    weekdays.toString()));
         }
     }
 }

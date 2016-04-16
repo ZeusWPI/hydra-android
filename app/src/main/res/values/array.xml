@@ -39,11 +39,11 @@
         <item>@string/friday</item>
     </string-array>
 
-    <integer-array name="day_of_week_int">
+    <string-array name="day_of_week_nr">
         <item>2</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
         <item>6</item>
-    </integer-array>
+    </string-array>
 </resources>
