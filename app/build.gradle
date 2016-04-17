@@ -6,9 +6,9 @@ android {
     buildToolsVersion "23.0.1"
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion 23
-        versionCode 200
+        versionCode 201
         versionName "2.0"
         vectorDrawables.useSupportLibrary = true
     }
