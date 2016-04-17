@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -30,12 +31,15 @@ public class InfoFragment extends AbstractFragment {
     private RecyclerView.LayoutManager layoutManager;
     private View layout;
     private InfoList infoItems;
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_activities, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerview);
+        progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
+
         adapter = new InfoListAdapter();
         recyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(this.getActivity());
@@ -46,8 +50,7 @@ public class InfoFragment extends AbstractFragment {
             infoItems = new InfoList();
             infoItems.addAll((ArrayList<InfoItem>)(ArrayList<? extends Parcelable>) bundle.getParcelableArrayList(INFOLIST));
             if (infoItems != null) {
-                adapter.setItems(infoItems);
-                adapter.notifyDataSetChanged();
+                setDataSet(infoItems);
             }
         } else {
             performLoadInfoRequest();
@@ -56,7 +59,12 @@ public class InfoFragment extends AbstractFragment {
         return layout;
     }
 
-
+    private void setDataSet(InfoList infoList) {
+        infoItems = infoList;
+        adapter.setItems(infoList);
+        adapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.GONE);
+    }
 
     private void showFailureSnackbar() {
         Snackbar
@@ -87,8 +95,7 @@ public class InfoFragment extends AbstractFragment {
 
             @Override
             public void onRequestSuccess(final InfoList infolist) {
-                adapter.setItems(infolist);
-                adapter.notifyDataSetChanged();
+                setDataSet(infolist);
             }
         });
     }

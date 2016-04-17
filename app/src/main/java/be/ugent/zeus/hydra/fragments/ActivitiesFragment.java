@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -29,6 +30,7 @@ public class ActivitiesFragment extends AbstractFragment {
     private RecyclerView.LayoutManager layoutManager;
     private View layout;
     private StickyRecyclerHeadersDecoration decorator;
+    private ProgressBar progressBar;
 
     @Override
     public void onResume() {
@@ -41,6 +43,8 @@ public class ActivitiesFragment extends AbstractFragment {
                              Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_activities, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerview);
+        progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
+
         adapter = new ActivityListAdapter();
         recyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(this.getActivity());
@@ -58,18 +62,17 @@ public class ActivitiesFragment extends AbstractFragment {
 
         final AssociationActivitiesRequest r = new AssociationActivitiesRequest();
         spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationActivities>() {
-
-
-
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar();
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onRequestSuccess(final AssociationActivities associationActivitiesItems) {
                 adapter.setItems(associationActivitiesItems.getPreferedActivities(getContext()));
                 adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
             }
         });
     }

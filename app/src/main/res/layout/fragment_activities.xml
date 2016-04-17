@@ -2,12 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="be.ugent.zeus.hydra.fragments.RestoFragment">
+    tools:context="be.ugent.zeus.hydra.fragments.ActivitiesFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <ProgressBar
+    style="?android:attr/progressBarStyleLarge"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/progressBar"
+    android:layout_gravity="center" />
 
 </FrameLayout>

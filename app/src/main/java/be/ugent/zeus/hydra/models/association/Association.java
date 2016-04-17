@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.models.association;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.os.StrictMode;
 
 /**
  * Created by feliciaan on 04/02/16.
@@ -49,5 +50,9 @@ public class Association implements Parcelable {
         dest.writeString(full_name);
         dest.writeString(display_name);
         dest.writeString(parent_association);
+    }
+
+    public String getImageLink() {
+        return "https://zeus.ugent.be/hydra/api/2.0/association/logo/" + internal_name.toLowerCase() + ".png";
     }
 }
