@@ -5,10 +5,6 @@
     android:background="@color/ugent_blue_light"
     android:layout_height="wrap_content">
 
-    <View
-        android:layout_height="6dp"
-        android:layout_width="match_parent"></View>
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
