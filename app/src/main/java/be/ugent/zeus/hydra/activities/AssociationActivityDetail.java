@@ -15,11 +15,18 @@ import android.widget.TextView;
 import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.w3c.dom.Text;
+
+import java.util.Date;
+import java.util.Locale;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
+import be.ugent.zeus.hydra.utils.DateUtils;
 
 public class AssociationActivityDetail extends AppCompatActivity {
     private AssociationActivity associationActivity;
@@ -27,8 +34,11 @@ public class AssociationActivityDetail extends AppCompatActivity {
     private ImageView imageView;
     private TextView title;
     private TextView association;
+    private TextView date;
+    private TextView location;
     private TextView description;
     private Button link;
+    private Button map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,18 +50,16 @@ public class AssociationActivityDetail extends AppCompatActivity {
 
         title = (TextView) findViewById(R.id.title);
         association = (TextView) findViewById(R.id.association);
+        date = (TextView) findViewById(R.id.date);
+        location = (TextView) findViewById(R.id.location);
         description = (TextView) findViewById(R.id.description);
         imageView = (ImageView) findViewById(R.id.imageView);
         link = (Button) findViewById(R.id.link);
-        //TextView location = (TextView) findViewById(R.id.activityLocation);
-        //TextView url = (TextView) findViewById(R.id.activityURL);
-        //TextView facebook_id = (TextView) findViewById(R.id.activityFacebookID);
+        map = (Button) findViewById(R.id.map);
 
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayShowCustomEnabled(true);
         actionbar.setCustomView(R.layout.actionbar_centered_hydra);
-        //View v = getLayoutInflater().inflate(R.layout.actionbar_centered_hydra, null);
-        //actionbar.setCustomView(v);
 
         //back arrow
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -67,6 +75,29 @@ public class AssociationActivityDetail extends AppCompatActivity {
             description.setText(associationActivity.description);
         }
 
+        if(associationActivity.location != null) {
+            location.setText(associationActivity.location);
+        }
+
+        if(associationActivity.start != null) {
+            DateTimeFormatter startTimeFormatter = DateTimeFormat.forPattern("E d MMM H:mm");
+
+            DateTime start = new DateTime(associationActivity.start);
+            if (associationActivity.end != null) {
+                DateTime end = new DateTime(associationActivity.end);
+                if (start.dayOfYear() == end.dayOfYear() || start.plusHours(12).isAfter(end)) {
+                    // Use format day month start time - end time
+                    DateTimeFormatter endTimeFormatter = DateTimeFormat.forPattern("H:mm");
+                    date.setText(String.format("%s - %s", startTimeFormatter.print(start), endTimeFormatter.print(end)));
+                } else {
+                    // Use format with two dates
+                    date.setText(String.format("%s - %s",startTimeFormatter.print(start), startTimeFormatter.print(end)));
+                }
+            } else {
+                date.setText(startTimeFormatter.print(start));
+            }
+        }
+
         Picasso.with(this).load(associationActivity.association.getImageLink()).into(imageView);
 
         if (associationActivity.url != null) {
@@ -79,6 +110,19 @@ public class AssociationActivityDetail extends AppCompatActivity {
             });
         } else {
             link.setVisibility(View.GONE);
+        }
+
+        if ((associationActivity.latitude != 0.0) && (associationActivity.longitude != 0.0)) {
+            link.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String uri = String.format(Locale.ENGLISH, "geo:%f,%f", associationActivity.latitude, associationActivity.longitude);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    startActivity(intent);
+                }
+            });
+        } else {
+            map.setVisibility(View.GONE);
         }
     }
     @Override

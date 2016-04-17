@@ -16,6 +16,7 @@ import java.util.Locale;
 public class HydraApplication extends Application {
     private Tracker tracker;
 
+    public static final Locale LOCALE = new Locale("nl");
 
     @Override
     public void onCreate()
@@ -24,10 +25,9 @@ public class HydraApplication extends Application {
 
         JodaTimeAndroid.init(this);
 
-        Locale locale = new Locale("nl_BE");
-        Locale.setDefault(locale);
+        Locale.setDefault(LOCALE);
         Configuration config = new Configuration();
-        config.locale = locale;
+        config.locale = LOCALE;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
 
