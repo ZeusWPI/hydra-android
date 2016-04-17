@@ -47,7 +47,7 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
         association.setText(activity.association.display_name);
         start.setText(DateUtils.getRelativeDateTimeString(view.getContext(), activity.start.getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
 
-        Picasso.with(view.getContext()).load("https://zeus.ugent.be/hydra/api/2.0/association/logo/" + activity.association.internal_name.toLowerCase() + ".png").into(imageView);
+        Picasso.with(view.getContext()).load(activity.association.getImageLink()).into(imageView);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
