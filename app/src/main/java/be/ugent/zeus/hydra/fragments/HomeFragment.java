@@ -3,11 +3,13 @@ package be.ugent.zeus.hydra.fragments;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -43,6 +45,8 @@ public class HomeFragment extends AbstractFragment {
     private HomeCardAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private View layout;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private ProgressBar progressBar;
 
     @Override
     public void onResume() {
@@ -58,10 +62,19 @@ public class HomeFragment extends AbstractFragment {
         layout = inflater.inflate(R.layout.homefragment_view, container, false);
 
         recyclerView = (RecyclerView) layout.findViewById(R.id.home_cards_view);
+        swipeRefreshLayout = (SwipeRefreshLayout) layout.findViewById(R.id.swipeRefreshLayout);
+        progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
+
         adapter = new HomeCardAdapter();
         recyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                performRequest();
+            }
+        });
 
         performRequest();
 
@@ -74,12 +87,18 @@ public class HomeFragment extends AbstractFragment {
         performSpecialEventRequest();
     }
 
+    private void loadComplete() {
+        swipeRefreshLayout.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
+    }
+
     private void performMenuRequest() {
         final RestoMenuOverviewRequest r = new RestoMenuOverviewRequest();
         spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<RestoMenuList>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar("restomenu");
+                loadComplete();
             }
 
             @Override
@@ -92,6 +111,7 @@ public class HomeFragment extends AbstractFragment {
                     }
                 }
                 adapter.updateCardItems(list, HomeCardAdapter.HomeType.RESTO);
+                loadComplete();
             }
         });
 
@@ -103,6 +123,7 @@ public class HomeFragment extends AbstractFragment {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar("activiteiten");
+                loadComplete();
             }
 
             @Override
@@ -116,6 +137,7 @@ public class HomeFragment extends AbstractFragment {
                     }
                 }
                 adapter.updateCardItems(list, HomeCardAdapter.HomeType.ACTIVITY);
+                loadComplete();
             }
         });
     }
@@ -126,6 +148,7 @@ public class HomeFragment extends AbstractFragment {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar("speciale activiteiten");
+                loadComplete();
             }
 
             @Override
@@ -139,6 +162,7 @@ public class HomeFragment extends AbstractFragment {
                 }
 
                 adapter.updateCardItems(list, HomeCardAdapter.HomeType.SPECIALEVENT);
+                loadComplete();
             }
         });
     }

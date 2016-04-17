@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
@@ -30,6 +31,7 @@ public class RestoFragment extends AbstractFragment {
     private RestoCardAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private View layout;
+    private ProgressBar progressBar;
 
     @Override
     public void onResume() {
@@ -42,6 +44,7 @@ public class RestoFragment extends AbstractFragment {
                              Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_resto, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.resto_cards_view);
+        progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
         adapter = new RestoCardAdapter();
         recyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(this.getActivity());
@@ -58,6 +61,7 @@ public class RestoFragment extends AbstractFragment {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar();
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -67,6 +71,7 @@ public class RestoFragment extends AbstractFragment {
                 if (menuList.isEmpty()) {
                     showFailureSnackbar(); //TODO: let user now the menus are empty
                 }
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
