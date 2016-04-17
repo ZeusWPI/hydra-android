@@ -47,6 +47,7 @@
                     android:layout_gravity="center_vertical"
                     android:padding="1dp"
                     android:maxLines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/ugent_blue_dark" />
 
                 <TextView
