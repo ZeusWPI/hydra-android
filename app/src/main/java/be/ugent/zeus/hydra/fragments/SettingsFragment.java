@@ -1,27 +1,36 @@
 package be.ugent.zeus.hydra.fragments;
 
-import android.content.SharedPreferences;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+
 import android.preference.CheckBoxPreference;
-import android.preference.MultiSelectListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.Button;
 
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.association.Associations;
+import be.ugent.zeus.hydra.notifications.NotificationScheduler;
+import be.ugent.zeus.hydra.preference.TimePreference;
+import be.ugent.zeus.hydra.notifications.DailyNotificationReceiver;
 import be.ugent.zeus.hydra.requests.AssociationsRequest;
 
 /**
@@ -41,8 +50,36 @@ public class SettingsFragment extends PreferenceFragment {
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
-        performRequest();
 
+        // Set and remove notifications
+        final NotificationScheduler scheduler = new NotificationScheduler(getActivity());
+        final CheckBoxPreference notificationCheckbox =
+                (CheckBoxPreference) findPreference("pref_key_daily_notifications_checkbox");
+        TimePreference notificationTime =
+                (TimePreference) findPreference("pref_daily_notifications_time") ;
+
+        notificationCheckbox.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if((boolean)newValue){
+                    scheduler.scheduleNotification();
+                } else {
+                    scheduler.cancelNotifications();
+                }
+                return true;
+            }
+        });
+        notificationTime.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if(notificationCheckbox.isChecked()){
+                    scheduler.scheduleNotification((String)newValue);
+                }
+                return true;
+            }
+        });
+
+        performRequest();
     }
 
     @Override
@@ -115,6 +152,5 @@ public class SettingsFragment extends PreferenceFragment {
             //cry
         }
     }
-
-
 }
+

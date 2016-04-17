@@ -32,13 +32,16 @@
 
         <activity
             android:name=".activities.AssociationActivityDetail"
-            android:label="@string/title_activity_association_activity_detail" />
+            android:label="@string/title_activity_association_activity_detail">
+        </activity>
+        <receiver android:name=".notifications.DailyNotificationReceiver"/>
+
         <activity
             android:name=".activities.HydraWebViewActivity"
             android:label="@string/title_activity_hydra_web_view" />
         <activity
             android:name=".activities.InfoSubItemActivity"
-            android:label="@string/title_activity_info_sub_item"></activity>
+            android:label="@string/title_activity_info_sub_item"/>
     </application>
 
 </manifest>
