@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!-- activiteiten -->
-    <PreferenceCategory
+    <PreferenceScreen
         android:title="Activiteiten"
         android:key="pref_key_cat1"
         android:layout_height="match_parent"
@@ -19,12 +19,11 @@
             android:key="associationPrefListScreen"
             android:dependency="pref_association_checkbox"
             android:title="Selectie"
-            android:summary="Selecteer welke verenigingen er getoond moeten worden."
+            android:summary="Selecteer hier welke verenigingen er zichtbaar mogen zijn."
             android:persistent="false">
         </PreferenceScreen>
-    </PreferenceCategory>
-    <!-- end -->
-    <PreferenceCategory
+    </PreferenceScreen>
+    <PreferenceScreen
         android:title="@string/pref_daily_notifications_title"
         android:key="pref_key_daily_notifications">
         <CheckBoxPreference
@@ -34,28 +33,31 @@
             android:defaultValue="false"/>
         <CheckBoxPreference
             android:key="pref_key_daily_notifications_vibrate"
-            android:dependency="pref_key_daily_notifications_checkbox"
             android:summary="Laat de telefoon vibreren bij de notificatie."
             android:title="Vibreer"
             android:defaultValue="false"/>
         <be.ugent.zeus.hydra.preference.TimePreference
             android:key="pref_daily_notifications_time"
-            android:dependency="pref_key_daily_notifications_checkbox"
             android:summary="@string/pref_daily_notifications_time_summary"
-            android:title="@string/pref_daily_notifications_time_title"/>
+            android:title="@string/pref_daily_notifications_time_title"
+            android:defaultValue="11:00"/>
         <MultiSelectListPreference
             android:key="pref_daily_notifications_days_of_week"
-            android:dependency="pref_key_daily_notifications_checkbox"
             android:summary="Kies op welke dagen je een notificatie wilt ontvangen."
             android:title="Weekdagen"
             android:entries="@array/day_of_week_name"
-            android:entryValues="@array/day_of_week_name"
-            android:defaultValue="@array/day_of_week_name"/>
+            android:entryValues="@array/day_of_week_nr"
+            android:defaultValue="@array/day_of_week_nr"/>
+        <!-- <CheckBoxPreference
+            android:key="pref_daily_notifications_warn_on_resto_close"
+            android:summary="Waarschuw wanneer de resto gesloten is. (WIP)"
+            android:title="Gesloten notificatie"
+            android:defaultValue="false"/> -->
         <Preference
             android:key="pref_daily_notifications_test_button"
             android:summary="@string/pref_daily_notifications_test_summary"
             android:title="@string/pref_daily_notifications_test_title"
             android:widgetLayout="@layout/daily_notifications_testbutton"/>
-    </PreferenceCategory>
-
+    </PreferenceScreen>
+    <!-- end -->
 </PreferenceScreen>

@@ -37,13 +37,25 @@
         <item>@string/wednesday</item>
         <item>@string/thursday</item>
         <item>@string/friday</item>
+        <item>@string/saturday</item>
+        <item>@string/sunday</item>
     </string-array>
 
-    <integer-array name="day_of_week_int">
+    <string-array name="day_of_week_default">
         <item>2</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
         <item>6</item>
-    </integer-array>
+    </string-array>
+
+    <string-array name="day_of_week_nr">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>1</item>
+    </string-array>
 </resources>

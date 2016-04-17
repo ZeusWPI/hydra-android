@@ -23,7 +23,7 @@
     <string name="title_activity_association_activity_detail">AssociatieActiviteitsDetail</string>
 
     <!-- Settings -->
-    <string name="pref_daily_notifications_title">Notificaties</string>
+    <string name="pref_daily_notifications_title">Dagelijkse notificaties</string>
     <string name="pref_daily_notifications_checkbox_summary">Geef dagelijks een notificatie over wat er op het menu staat in de resto.</string>
     <string name="pref_daily_notifications_checkbox_title">Dagelijkse notificaties</string>
     <string name="pref_daily_notifications_time_summary">Op welk moment wil je de melding krijgen?</string>
@@ -46,6 +46,11 @@
     <string name="wednesday">woensdag</string>
     <string name="thursday">donderdag</string>
     <string name="friday">vrijdag</string>
+    <string name="saturday">zaterdag</string>
+    <string name="sunday">zondag</string>
 
+    <string name="restonotification_title">Resto menu</string>
+    <string name="restonotification_text">Bekijk het menu van de resto in de Hydra-app.</string>
 
+    <string name="resto_action">OPEN RESTO PLOX!</string>
 </resources>

@@ -11,6 +11,8 @@ import android.widget.TimePicker;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.StringTokenizer;
 
 import be.ugent.zeus.hydra.R;
 
@@ -19,8 +21,9 @@ import be.ugent.zeus.hydra.R;
  * http://stackoverflow.com/a/10608622/4424838
  */
 public class TimePreference extends DialogPreference{
-    private Calendar calendar;
     private TimePicker picker;
+    private int hour = 11;
+    private int minute = 0;
 
     public TimePreference(Context context){
         this(context, null);
@@ -35,20 +38,20 @@ public class TimePreference extends DialogPreference{
 
         setPositiveButtonText(R.string.set);
         setNegativeButtonText(R.string.cancel);
-        calendar = new GregorianCalendar();
     }
 
     @Override
     protected View onCreateDialogView() {
         picker = new TimePicker(getContext());
+        picker.setIs24HourView(DateFormat.is24HourFormat(getContext()));
         return picker;
     }
 
     @Override
     protected void onBindDialogView(View v) {
         super.onBindDialogView(v);
-        picker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
-        picker.setCurrentMinute(calendar.get(Calendar.MINUTE));
+        picker.setCurrentHour(hour);
+        picker.setCurrentMinute(minute);
     }
 
     @Override
@@ -56,12 +59,12 @@ public class TimePreference extends DialogPreference{
         super.onDialogClosed(positiveResult);
 
         if (positiveResult) {
-            calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
-            calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
-
-            setSummary(getSummary());
-            if (callChangeListener(calendar.getTimeInMillis())) {
-                persistLong(calendar.getTimeInMillis());
+            hour = picker.getCurrentHour();
+            minute = picker.getCurrentMinute();
+            String summary = getSummary().toString();
+            setSummary(summary);
+            if (callChangeListener(summary)) {
+                persistString(summary);
                 notifyChanged();
             }
         }
@@ -74,29 +77,21 @@ public class TimePreference extends DialogPreference{
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-
+        String value;
         if (restoreValue) {
-            if (defaultValue == null) {
-                calendar.setTimeInMillis(getPersistedLong(System.currentTimeMillis()));
-            } else {
-                calendar.setTimeInMillis(Long.parseLong(getPersistedString((String) defaultValue)));
-            }
+            value = getPersistedString((String)defaultValue);
         } else {
-            if (defaultValue == null) {
-                calendar.setTimeInMillis(System.currentTimeMillis());
-            } else {
-                calendar.setTimeInMillis(Long.parseLong((String) defaultValue));
-            }
+            value = ((String)defaultValue);
         }
+        String values[] = value.split(":");
+        hour = Integer.parseInt(values[0], 10);
+        minute = Integer.parseInt(values[1], 10);
         setSummary(getSummary());
     }
 
     @Override
     public CharSequence getSummary() {
-        if (calendar == null) {
-            return null;
-        }
-        return DateFormat.getTimeFormat(getContext()).format(new Date(calendar.getTimeInMillis()));
+        return String.format(Locale.ENGLISH, "%02d:%02d", hour, minute);
     }
 
 }

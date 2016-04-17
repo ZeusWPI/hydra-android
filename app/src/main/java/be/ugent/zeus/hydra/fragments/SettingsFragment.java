@@ -14,6 +14,7 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.Button;
 
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
@@ -27,8 +28,9 @@ import java.util.Set;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.association.Associations;
+import be.ugent.zeus.hydra.notifications.NotificationScheduler;
 import be.ugent.zeus.hydra.preference.TimePreference;
-import be.ugent.zeus.hydra.receiver.DailyNotificationReceiver;
+import be.ugent.zeus.hydra.notifications.DailyNotificationReceiver;
 import be.ugent.zeus.hydra.requests.AssociationsRequest;
 
 /**
@@ -50,6 +52,7 @@ public class SettingsFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.preferences);
 
         // Set and remove notifications
+        final NotificationScheduler scheduler = new NotificationScheduler(getActivity());
         final CheckBoxPreference notificationCheckbox =
                 (CheckBoxPreference) findPreference("pref_key_daily_notifications_checkbox");
         TimePreference notificationTime =
@@ -59,18 +62,19 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if((boolean)newValue){
-                    scheduleNotifications();
+                    scheduler.scheduleNotification();
                 } else {
-                    removeNotifications();
+                    scheduler.cancelNotifications();
                 }
                 return true;
             }
         });
-
         notificationTime.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                scheduleNotifications();
+                if(notificationCheckbox.isChecked()){
+                    scheduler.scheduleNotification((String)newValue);
+                }
                 return true;
             }
         });
@@ -147,58 +151,6 @@ public class SettingsFragment extends PreferenceFragment {
         }else{
             //cry
         }
-    }
-
-    public void removeNotifications() {
-        AlarmManager alarmMgr = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-
-        Intent intent = new Intent(getActivity(), DailyNotificationReceiver.class);
-        PendingIntent pIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-
-        // Remove previous alarms
-        alarmMgr.cancel(pIntent);
-
-        System.out.println("Notifications removed.");
-    }
-
-
-    public void scheduleNotifications(){
-        long time = PreferenceManager
-                .getDefaultSharedPreferences(getActivity())
-                .getLong("pref_daily_notifications_time", 0);
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(time);
-
-        AlarmManager alarmMgr = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-
-        Intent intent = new Intent(getActivity(), DailyNotificationReceiver.class);
-        PendingIntent pIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-
-        // Remove previous alarms
-        alarmMgr.cancel(pIntent);
-
-        // Daily alarm
-        alarmMgr.setInexactRepeating(
-                AlarmManager.RTC_WAKEUP,
-                cal.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY,
-                pIntent);
-
-        System.out.println("Notifications scheduled.");
-    }
-
-    public void testNotification(){
-        AlarmManager alarmMgr = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-
-        Intent intent = new Intent(getActivity(), DailyNotificationReceiver.class);
-        PendingIntent pIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
-
-        alarmMgr.cancel(pIntent);
-
-        Calendar soon = Calendar.getInstance();
-        soon.add(Calendar.SECOND, 1);
-
-        alarmMgr.set(AlarmManager.RTC_WAKEUP, soon.getTimeInMillis(), pIntent);
     }
 }
 
