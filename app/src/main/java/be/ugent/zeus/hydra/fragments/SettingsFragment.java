@@ -22,6 +22,8 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -132,6 +134,12 @@ public class SettingsFragment extends PreferenceFragment {
 
             @Override
             public void onRequestSuccess(final Associations assocations) {
+                Collections.sort(assocations, new Comparator<Association>() {
+                    @Override
+                    public int compare(Association lhs, Association rhs) {
+                        return lhs.getName().compareToIgnoreCase(rhs.getName());
+                    }
+                });
                 addPreferencesFromRequest(assocations);
             }
         });
@@ -140,7 +148,7 @@ public class SettingsFragment extends PreferenceFragment {
     private void showFailureSnackbar() {
         if(getView()!=null) {
             Snackbar
-                    .make(getView(), "Oeps! Kon restomenu niet ophalen.", Snackbar.LENGTH_LONG)
+                    .make(getView(), "Oeps! Kon verenigingen niet ophalen.", Snackbar.LENGTH_LONG)
                     .setAction("Opnieuw proberen", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
