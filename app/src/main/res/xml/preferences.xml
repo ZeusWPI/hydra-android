@@ -2,6 +2,28 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <!-- activiteiten -->
+    <PreferenceCategory
+        android:title="Activiteiten"
+        android:key="pref_key_cat1"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+        <CheckBoxPreference
+            android:key="pref_association_checkbox"
+            android:summary="Kies van welke verenigingen activiteiten te zien zijn."
+            android:title="Filter"
+            android:defaultValue="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <PreferenceScreen
+            android:key="associationPrefListScreen"
+            android:dependency="pref_association_checkbox"
+            android:title="Selectie"
+            android:summary="Selecteer welke verenigingen er getoond moeten worden."
+            android:persistent="false">
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <!-- end -->
     <PreferenceCategory
         android:title="@string/pref_daily_notifications_title"
         android:key="pref_key_daily_notifications">
@@ -35,25 +57,5 @@
             android:title="@string/pref_daily_notifications_test_title"
             android:widgetLayout="@layout/daily_notifications_testbutton"/>
     </PreferenceCategory>
-    <!-- activiteiten -->
-    <PreferenceCategory
-        android:title="Activiteiten"
-        android:key="pref_key_cat1"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
-        <CheckBoxPreference
-            android:key="pref_association_checkbox"
-            android:summary="kies van welke verenigingen activiteiten te zien zijn"
-            android:title="filter"
-            android:defaultValue="false"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <PreferenceScreen
-            android:key="associationPrefListScreen"
-            android:dependency="pref_association_checkbox"
-            android:title="selectie"
-            android:persistent="false">
-        </PreferenceScreen>
-    </PreferenceCategory>
-    <!-- end -->
+
 </PreferenceScreen>
