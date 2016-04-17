@@ -36,7 +36,7 @@ public class InfoFragment extends AbstractFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        layout = inflater.inflate(R.layout.fragment_activities, container, false);
+        layout = inflater.inflate(R.layout.fragment_info, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerview);
         progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
 
