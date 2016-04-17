@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
 
+import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
 
@@ -40,6 +41,13 @@ public class Hydra extends AppCompatActivity {
     protected void onStop() {
         spiceManager.shouldStop();
         super.onStop();
+    }
+
+    protected void onResume() {
+        super.onResume();
+
+        HydraApplication happ = (HydraApplication) getApplication();
+        happ.sendScreenName("settings");
     }
 
     //------------------------------------------------------------------------

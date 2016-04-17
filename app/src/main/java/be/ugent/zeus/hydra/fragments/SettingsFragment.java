@@ -27,6 +27,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
+import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.association.Associations;
@@ -94,6 +95,14 @@ public class SettingsFragment extends PreferenceFragment {
     public void onStop() {
         spiceManager.shouldStop();
         super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        HydraApplication happ = (HydraApplication) getActivity().getApplication();
+        happ.sendScreenName("settings");
     }
 
     private void addPreferencesFromRequest(final Associations assocations) {

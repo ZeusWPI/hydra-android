@@ -124,6 +124,10 @@ public class AssociationActivityDetail extends AppCompatActivity {
         } else {
             map.setVisibility(View.GONE);
         }
+
+        HydraApplication app = (HydraApplication) getApplication();
+        Tracker t = app.getDefaultTracker();
+        t.setScreenName("Activity > " + associationActivity.title);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -134,14 +138,5 @@ public class AssociationActivityDetail extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        HydraApplication app = (HydraApplication) getApplication();
-        Tracker t = app.getDefaultTracker();
-        t.setScreenName("Activity > " + associationActivity.title);
     }
 }

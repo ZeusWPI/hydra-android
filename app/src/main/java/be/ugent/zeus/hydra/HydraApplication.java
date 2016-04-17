@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.res.Configuration;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import net.danlew.android.joda.JodaTimeAndroid;
@@ -42,5 +43,11 @@ public class HydraApplication extends Application {
             tracker = analytics.newTracker(R.xml.global_tracker);
         }
         return tracker;
+    }
+
+    public void sendScreenName(String screenName) {
+        Tracker t = getDefaultTracker();
+        t.setScreenName(screenName);
+        t.send(new HitBuilders.ScreenViewBuilder().build());
     }
 }

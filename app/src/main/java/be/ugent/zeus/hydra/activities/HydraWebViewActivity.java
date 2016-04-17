@@ -9,6 +9,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 
 public class HydraWebViewActivity extends AppCompatActivity {
@@ -18,6 +19,7 @@ public class HydraWebViewActivity extends AppCompatActivity {
 
     private WebView webView;
     private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,9 @@ public class HydraWebViewActivity extends AppCompatActivity {
         }
         setTitle(title);
         webView.loadUrl(url);
+
+        HydraApplication happ = (HydraApplication) getApplication();
+        happ.sendScreenName("Webview >> " + title);
     }
 
 }
