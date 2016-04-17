@@ -73,7 +73,7 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if(notificationCheckbox.isChecked()){
-                    scheduler.scheduleNotification((String)newValue);
+                    scheduler.scheduleNotification(newValue);
                 }
                 return true;
             }

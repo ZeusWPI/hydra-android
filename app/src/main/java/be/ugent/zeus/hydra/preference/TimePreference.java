@@ -22,8 +22,7 @@ import be.ugent.zeus.hydra.R;
  */
 public class TimePreference extends DialogPreference{
     private TimePicker picker;
-    private int hour = 11;
-    private int minute = 0;
+    private Time time;
 
     public TimePreference(Context context){
         this(context, null);
@@ -35,7 +34,7 @@ public class TimePreference extends DialogPreference{
 
     public TimePreference(Context ctxt, AttributeSet attrs, int defStyle) {
         super(ctxt, attrs, defStyle);
-
+        time = new Time();
         setPositiveButtonText(R.string.set);
         setNegativeButtonText(R.string.cancel);
     }
@@ -50,8 +49,8 @@ public class TimePreference extends DialogPreference{
     @Override
     protected void onBindDialogView(View v) {
         super.onBindDialogView(v);
-        picker.setCurrentHour(hour);
-        picker.setCurrentMinute(minute);
+        picker.setCurrentHour(time.getHour());
+        picker.setCurrentMinute(time.getMinute());
     }
 
     @Override
@@ -59,12 +58,11 @@ public class TimePreference extends DialogPreference{
         super.onDialogClosed(positiveResult);
 
         if (positiveResult) {
-            hour = picker.getCurrentHour();
-            minute = picker.getCurrentMinute();
-            String summary = getSummary().toString();
-            setSummary(summary);
-            if (callChangeListener(summary)) {
-                persistString(summary);
+            time.set(picker.getCurrentHour(), picker.getCurrentMinute());
+            setSummary(getSummary());
+            int timeInts = time.toInteger();
+            if (callChangeListener(timeInts)) {
+                persistInt(timeInts);
                 notifyChanged();
             }
         }
@@ -77,21 +75,20 @@ public class TimePreference extends DialogPreference{
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-        String value;
-        if (restoreValue) {
-            value = getPersistedString((String)defaultValue);
-        } else {
-            value = ((String)defaultValue);
+        if (defaultValue == null){
+            defaultValue = 0;
         }
-        String values[] = value.split(":");
-        hour = Integer.parseInt(values[0], 10);
-        minute = Integer.parseInt(values[1], 10);
+        if (restoreValue) {
+            time.fromObject(getPersistedInt((Integer) defaultValue));
+        } else {
+            time.fromObject(defaultValue);
+        }
         setSummary(getSummary());
     }
 
     @Override
     public CharSequence getSummary() {
-        return String.format(Locale.ENGLISH, "%02d:%02d", hour, minute);
+        return time.toString();
     }
 
 }

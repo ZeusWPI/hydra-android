@@ -8,10 +8,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
+
+import be.ugent.zeus.hydra.preference.Time;
 
 /**
  * @author Rien Maertens
@@ -43,20 +42,12 @@ public class NotificationScheduler {
     }
 
     public void scheduleNotification(){
-        scheduleNotification(preferences.getString("pref_daily_notifications_time", null));
+        scheduleNotification(preferences.getInt("pref_daily_notifications_time", 0));
     }
 
-    public void scheduleNotification(String time){
-        String hour_minute[] = time.split(":");
-        Calendar cal = Calendar.getInstance();
-        int hour = Integer.parseInt(hour_minute[0], 10);
-        int minute = Integer.parseInt(hour_minute[1], 10);
-        if(!(hour <= cal.get(Calendar.HOUR_OF_DAY) && cal.get(Calendar.MINUTE) < minute)){
-            cal.add(Calendar.DATE, 1);
-        }
-        cal.set(Calendar.HOUR_OF_DAY, hour);
-        cal.set(Calendar.MINUTE, minute);
-        cal.set(Calendar.SECOND, 0);
+    public void scheduleNotification(Object time){
+        Time timeObj = new Time(time);
+        Calendar cal = timeObj.nextOccurrence();
         cancelNotifications();
 
         // Daily alarm

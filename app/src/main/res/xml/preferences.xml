@@ -26,7 +26,7 @@
             android:title="Weekdagen"
             android:entries="@array/day_of_week_name"
             android:entryValues="@array/day_of_week_nr"
-            android:defaultValue="@array/day_of_week_nr"/>
+            android:defaultValue="@array/day_of_week_default"/>
         <!-- <CheckBoxPreference
             android:key="pref_daily_notifications_warn_on_resto_close"
             android:summary="Waarschuw wanneer de resto gesloten is. (WIP)"
