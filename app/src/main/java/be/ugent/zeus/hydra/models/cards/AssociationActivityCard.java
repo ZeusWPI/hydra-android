@@ -11,8 +11,10 @@ import be.ugent.zeus.hydra.models.association.AssociationActivity;
  */
 public class AssociationActivityCard extends HomeCard {
 
+    private AssociationActivity associationActivity;
+
     public AssociationActivityCard(AssociationActivity associationActivity) {
-        super(associationActivity);
+        this.associationActivity = associationActivity;
     }
 
     @Override
@@ -27,6 +29,6 @@ public class AssociationActivityCard extends HomeCard {
     }
 
     public AssociationActivity getAssociationActivity() {
-        return (AssociationActivity) super.getCardConcept();
+        return associationActivity;
     }
 }

@@ -11,8 +11,10 @@ import be.ugent.zeus.hydra.models.resto.RestoMenu;
  */
 public class RestoMenuCard extends HomeCard {
 
+    private RestoMenu restoMenu;
+
     public RestoMenuCard(RestoMenu restoMenu) {
-        super(restoMenu);
+        this.restoMenu = restoMenu;
     }
 
     @Override
@@ -28,6 +30,6 @@ public class RestoMenuCard extends HomeCard {
     }
 
     public RestoMenu getRestoMenu() {
-        return (RestoMenu) super.getCardConcept();
+        return restoMenu;
     }
 }

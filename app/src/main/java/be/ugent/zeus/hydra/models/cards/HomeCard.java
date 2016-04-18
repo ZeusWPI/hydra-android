@@ -9,16 +9,6 @@ import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
  */
 public abstract class HomeCard {
 
-    private CardConcept cardConcept;
-
-    public HomeCard(CardConcept cardConcept) {
-        this.cardConcept = cardConcept;
-    }
-
-    public CardConcept getCardConcept() {
-        return cardConcept;
-    }
-
     /**
      *
      * @return Priority should be a number between min inf and 1000.
