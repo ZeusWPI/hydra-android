@@ -100,7 +100,7 @@ public class AssociationActivityDetail extends AppCompatActivity {
 
         Picasso.with(this).load(associationActivity.association.getImageLink()).into(imageView);
 
-        if (associationActivity.url != null) {
+        if (associationActivity.url != null && !associationActivity.url.isEmpty()) {
             link.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -113,7 +113,7 @@ public class AssociationActivityDetail extends AppCompatActivity {
         }
 
         if ((associationActivity.latitude != 0.0) && (associationActivity.longitude != 0.0)) {
-            link.setOnClickListener(new View.OnClickListener() {
+            map.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String uri = String.format(Locale.ENGLISH, "geo:%f,%f", associationActivity.latitude, associationActivity.longitude);
