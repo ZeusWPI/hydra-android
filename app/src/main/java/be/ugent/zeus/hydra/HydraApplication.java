@@ -39,6 +39,11 @@ public class HydraApplication extends Application {
     synchronized public Tracker getDefaultTracker() {
         if (tracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            if (BuildConfig.DEBUG) {
+                // disable google analytics while debugging
+                GoogleAnalytics.getInstance(this).setDryRun(true);
+            }
+
             // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
             tracker = analytics.newTracker(R.xml.global_tracker);
         }
