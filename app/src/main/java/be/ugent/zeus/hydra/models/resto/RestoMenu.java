@@ -2,22 +2,16 @@ package be.ugent.zeus.hydra.models.resto;
 
 import com.google.gson.annotations.JsonAdapter;
 
-import net.danlew.android.joda.JodaTimeAndroid;
-
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-
 import java.util.ArrayList;
 import java.util.Date;
 
-import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.models.HomeCard;
+import be.ugent.zeus.hydra.models.cards.CardConcept;
 import be.ugent.zeus.hydra.models.converters.RestoDateJsonAdapter;
 
 /**
  * Created by feliciaan on 15/10/15.
  */
-public class RestoMenu implements HomeCard{
+public class RestoMenu extends CardConcept {
     private boolean open;
     @JsonAdapter(RestoDateJsonAdapter.class)
     private Date date;
@@ -95,17 +89,5 @@ public class RestoMenu implements HomeCard{
             fillCategories();
         }
         return mainDishes;
-    }
-
-    @Override
-    public int getPriority() {
-        DateTime jodadate = new DateTime(date);
-        Duration duration = new Duration(new DateTime(), jodadate);
-        return (int) (1000 - (duration.getStandardDays()*100));
-    }
-
-    @Override
-    public HomeCardAdapter.HomeType getCardType() {
-        return HomeCardAdapter.HomeType.RESTO;
     }
 }

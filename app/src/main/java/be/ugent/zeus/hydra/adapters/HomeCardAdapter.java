@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.HomeCard;
+import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerviewholder.home.AbstractViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.ActivityCardViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.RestoCardViewHolder;
@@ -110,7 +110,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
 
         private final int type;
 
-        private HomeType(int type) {
+        HomeType(int type) {
             this.type = type;
         }
 

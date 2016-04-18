@@ -6,13 +6,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.models.HomeCard;
+import be.ugent.zeus.hydra.models.cards.CardConcept;
+import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
 
 /**
  * Created by feliciaan on 06/04/16.
  */
-public class SpecialEvent implements HomeCard {
+public class SpecialEvent extends CardConcept {
     private String name;
     private String link;
     @SerializedName("simple-text")
@@ -70,10 +71,6 @@ public class SpecialEvent implements HomeCard {
         return priority;
     }
 
-    @Override
-    public HomeCardAdapter.HomeType getCardType() {
-        return HomeCardAdapter.HomeType.SPECIALEVENT;
-    }
 
     public void setPriority(int priority) {
         this.priority = priority;

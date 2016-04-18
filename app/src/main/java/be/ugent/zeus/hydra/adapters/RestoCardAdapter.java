@@ -13,16 +13,10 @@ import android.widget.TextView;
 
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.resto.RestoMeal;
@@ -226,6 +220,7 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
 
         Date currentDate = org.apache.commons.lang3.time.DateUtils.truncate(new Date(), Calendar.DATE); // Date at start of day
         for (RestoMenu menu : menuList) {
+
             // check if menu is today or later
             if (menu.getDate().before(currentDate)) {
                 continue;
