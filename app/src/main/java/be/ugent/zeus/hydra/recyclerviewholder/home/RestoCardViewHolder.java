@@ -90,6 +90,8 @@ public class RestoCardViewHolder extends AbstractViewHolder {
                     imageView.setImageResource(R.drawable.soep);
             }
 
+            imageView.setPadding(0,5,0,0);
+
             TextView tvCenter = new TextView(view.getContext());
             tvCenter.setPadding(25, 0, 0, 0);
             tvCenter.setLayoutParams(lp);

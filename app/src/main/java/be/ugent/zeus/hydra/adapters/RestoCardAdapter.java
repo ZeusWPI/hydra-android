@@ -122,6 +122,8 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
 
                 }
 
+                imageView.setPadding(0,5,0,0);
+
                 TextView tvCenter = new TextView(view.getContext());
                 tvCenter.setPadding(25,0,0,0);
                 tvCenter.setLayoutParams(lp);
@@ -151,6 +153,8 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
                     ImageView imageView = new ImageView(view.getContext());
 
                     imageView.setImageResource(R.drawable.groenten);
+
+                    imageView.setPadding(0,6,0,0);
 
                     TextView tvCenter = new TextView(view.getContext());
                     tvCenter.setPadding(25,0,0,0);
