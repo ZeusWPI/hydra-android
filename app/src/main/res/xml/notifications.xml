@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<CheckBoxPreference
+		android:key="pref_key_daily_notifications_checkbox"
+		android:summary="@string/pref_daily_notifications_checkbox_summary"
+		android:title="@string/pref_daily_notifications_checkbox_title"
+		android:defaultValue="false" />
+	<CheckBoxPreference
+		android:key="pref_key_daily_notifications_vibrate"
+		android:summary="Laat de telefoon vibreren bij de notificatie."
+		android:title="Vibreer"
+		android:defaultValue="false" />
+	<be.ugent.zeus.hydra.preference.TimePreference
+		android:key="pref_daily_notifications_time"
+		android:summary="@string/pref_daily_notifications_time_summary"
+		android:title="@string/pref_daily_notifications_time_title"
+		android:defaultValue="11:00" />
+	<MultiSelectListPreference
+		android:key="pref_daily_notifications_days_of_week"
+		android:summary="Kies op welke dagen je een notificatie wilt ontvangen."
+		android:title="Weekdagen"
+		android:entries="@array/day_of_week_name"
+		android:entryValues="@array/day_of_week_nr"
+		android:defaultValue="@array/day_of_week_default" />
+	<!-- <CheckBoxPreference
+		android:key="pref_daily_notifications_warn_on_resto_close"
+		android:summary="Waarschuw wanneer de resto gesloten is. (WIP)"
+		android:title="Gesloten notificatie"
+		android:defaultValue="false"/> -->
+	<Preference
+		android:key="pref_daily_notifications_test_button"
+		android:summary="@string/pref_daily_notifications_test_summary"
+		android:title="@string/pref_daily_notifications_test_title"
+		android:widgetLayout="@layout/daily_notifications_testbutton" />
+</PreferenceScreen>
