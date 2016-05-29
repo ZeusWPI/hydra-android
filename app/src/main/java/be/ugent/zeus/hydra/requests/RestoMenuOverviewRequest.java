@@ -2,14 +2,17 @@ package be.ugent.zeus.hydra.requests;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
 
-import be.ugent.zeus.hydra.models.resto.RestoMenuList;
+import be.ugent.zeus.hydra.models.resto.RestoOverview;
 
 /**
- * Created by mivdnber on 3/5/16.
+ * Request for an overview of the resto menu.
+ *
+ * @author mivdnber
  */
-public class RestoMenuOverviewRequest extends AbstractRequest<RestoMenuList> {
+public class RestoMenuOverviewRequest extends AbstractRequest<RestoOverview> {
+
     public RestoMenuOverviewRequest() {
-        super(RestoMenuList.class);
+        super(RestoOverview.class);
     }
 
     @Override

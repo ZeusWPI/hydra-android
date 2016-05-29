@@ -1,12 +1,12 @@
 package be.ugent.zeus.hydra.fragments;
 
-import android.support.v4.app.Fragment;
+import be.ugent.zeus.hydra.common.fragments.SpiceFragment;
 
 /**
  * Created by silox on 17/10/15.
  */
 
-public class MinervaFragment extends AbstractFragment {
+public class MinervaFragment extends SpiceFragment {
     @Override
     public void onResume() {
         super.onResume();

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.activities.settings;
+package be.ugent.zeus.hydra.activities;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.activities.AppCompatPreferenceActivity;
 import be.ugent.zeus.hydra.fragments.settings.ActivityFragment;
 import be.ugent.zeus.hydra.fragments.settings.NotificationFragment;
 import be.ugent.zeus.hydra.notifications.NotificationScheduler;
@@ -13,6 +14,8 @@ import be.ugent.zeus.hydra.notifications.NotificationScheduler;
 import java.util.List;
 
 /**
+ * Display settings.
+ *
  * @author Niko Strijbol
  * @author Rien Maertens
  * @since 16/02/2016.
@@ -21,7 +24,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.HydraActionBar);
+        setTheme(R.style.Hydra_Main);
         super.onCreate(savedInstanceState);
         setupActionBar();
     }

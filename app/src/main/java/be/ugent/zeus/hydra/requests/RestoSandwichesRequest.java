@@ -5,7 +5,9 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 import be.ugent.zeus.hydra.models.resto.Sandwiches;
 
 /**
- * Created by feliciaan on 04/02/16.
+ * Request the list of sandwiches.
+ *
+ * @author feliciaan
  */
 public class RestoSandwichesRequest extends AbstractRequest<Sandwiches> {
 
@@ -20,11 +22,11 @@ public class RestoSandwichesRequest extends AbstractRequest<Sandwiches> {
 
     @Override
     protected String getAPIUrl() {
-        return ZEUS_API_URL + "resto/1.0/sandwiches.json";
+        return ZEUS_API_URL + "2.0/resto/sandwiches.json";
     }
 
     @Override
     public long getCacheDuration() {
-        return DurationInMillis.ONE_HOUR * 6;
+        return DurationInMillis.ONE_HOUR * 12;
     }
 }

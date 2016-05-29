@@ -7,26 +7,28 @@ import org.springframework.http.ResponseEntity;
 import java.util.Map;
 
 /**
- * Created by feliciaan on 04/02/16.
+ * Abstract request class.
+ *
+ * @param <T> The type of the result of the request.
+ *
+ * @author feliciaan
  */
 public abstract class AbstractRequest<T> extends SpringAndroidSpiceRequest<T> {
-
-    protected Class jsonClass;
 
     protected final String DSA_API_URL = "http://student.ugent.be/hydra/api/2.0/";
     protected final String ZEUS_API_URL = "https://zeus.UGent.be/hydra/api/";
 
-    public AbstractRequest(Class clazz) {
+    public AbstractRequest(Class<T> clazz) {
         super(clazz);
-        jsonClass = clazz;
     }
 
+    @Override
     public T loadDataFromNetwork() throws Exception {
         ResponseEntity<T> result;
         if (getURLVariables() == null) {
-            result = getRestTemplate().getForEntity(getAPIUrl(), jsonClass);
+            result = getRestTemplate().getForEntity(getAPIUrl(), getResultType());
         } else {
-            result = getRestTemplate().getForEntity(getAPIUrl(), jsonClass, getURLVariables());
+            result = getRestTemplate().getForEntity(getAPIUrl(), getResultType(), getURLVariables());
         }
         return result.getBody();
     }

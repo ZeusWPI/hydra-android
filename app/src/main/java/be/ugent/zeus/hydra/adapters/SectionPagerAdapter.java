@@ -8,8 +8,7 @@ import be.ugent.zeus.hydra.fragments.ActivitiesFragment;
 import be.ugent.zeus.hydra.fragments.ComingSoonFragment;
 import be.ugent.zeus.hydra.fragments.HomeFragment;
 import be.ugent.zeus.hydra.fragments.InfoFragment;
-import be.ugent.zeus.hydra.fragments.MinervaFragment;
-import be.ugent.zeus.hydra.fragments.RestoFragment;
+import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
 
 /**
  * Created by silox on 17/10/15.

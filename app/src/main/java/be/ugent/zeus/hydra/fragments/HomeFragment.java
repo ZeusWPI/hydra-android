@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.fragments;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,37 +9,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
-
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.adapters.RestoCardAdapter;
+import be.ugent.zeus.hydra.common.fragments.SpiceFragment;
 import be.ugent.zeus.hydra.models.HomeCard;
 import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
-import be.ugent.zeus.hydra.models.resto.RestoMenuList;
+import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
 import be.ugent.zeus.hydra.requests.SpecialEventRequest;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
+import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by silox on 17/10/15.
  */
 
-public class HomeFragment extends AbstractFragment {
+public class HomeFragment extends SpiceFragment {
     private RecyclerView recyclerView;
     private HomeCardAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -94,7 +88,7 @@ public class HomeFragment extends AbstractFragment {
 
     private void performMenuRequest() {
         final RestoMenuOverviewRequest r = new RestoMenuOverviewRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<RestoMenuList>() {
+        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<RestoOverview>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar("restomenu");
@@ -102,7 +96,7 @@ public class HomeFragment extends AbstractFragment {
             }
 
             @Override
-            public void onRequestSuccess(final RestoMenuList menuList) {
+            public void onRequestSuccess(final RestoOverview menuList) {
                 ArrayList<HomeCard> list = new ArrayList<>();
                 //list.addAll(menuList); //Why no casting :'(
                 for (RestoMenu menu: menuList) {

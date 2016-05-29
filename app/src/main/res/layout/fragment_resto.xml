@@ -1,27 +1,70 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="be.ugent.zeus.hydra.fragments.RestoFragment">
+    tools:context=".fragments.resto.RestoFragment"
+    android:orientation="vertical"
+    android:padding="@dimen/content_spacing">
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:layout_gravity="center" />
-
-    <LinearLayout
-        android:orientation="vertical"
+    <!-- Display the menu of today -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="left|top">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/resto_cards_view"
-            android:scrollbars="vertical"
-            android:layout_marginTop="-7dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        >
 
-</FrameLayout>
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress_bar"
+            android:layout_gravity="center" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/menu_today_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/menu_today_card_layout"
+                android:paddingTop="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:id="@+id/menu_today_card_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_vertical_margin"
+                    android:paddingRight="@dimen/activity_vertical_margin"
+                    android:textStyle="bold"
+                    android:textSize="21sp" />
+
+            </LinearLayout>
+
+            <!-- This is were the menu fragment will be added -->
+        </android.support.v7.widget.CardView>
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/home_resto_view"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/home_resto_view_menu" />
+
+    <Button
+        android:id="@+id/home_resto_view_sandwich"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/home_resto_view_sandwiches" />
+
+    <Button
+        android:id="@+id/home_resto_view_resto"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/home_resto_view_resto" />
+
+</LinearLayout>

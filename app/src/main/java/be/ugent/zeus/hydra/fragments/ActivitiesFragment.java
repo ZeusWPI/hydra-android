@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import be.ugent.zeus.hydra.common.fragments.SpiceFragment;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
@@ -24,7 +25,7 @@ import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
  * TODO: update after  settings changed.
  */
 
-public class ActivitiesFragment extends AbstractFragment {
+public class ActivitiesFragment extends SpiceFragment {
     private RecyclerView recyclerView;
     private ActivityListAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;

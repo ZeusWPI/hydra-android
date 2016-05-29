@@ -9,21 +9,24 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by feliciaan on 14/04/16.
+ * Date utilities.
+ *
+ * @author feliciaan
  */
 public class DateUtils {
 
-    private static SimpleDateFormat WEEKFORMATTER = new SimpleDateFormat("w", new Locale("nl"));
-    private static SimpleDateFormat DAYFORMATTER = new SimpleDateFormat("cccc", new Locale("nl"));
-    private static DateFormat DATEFORMATTER = SimpleDateFormat.getDateInstance();
+    private static SimpleDateFormat WEEK_FORMATTER = new SimpleDateFormat("w", Locale.getDefault());
+    private static SimpleDateFormat DAY_FORMATTER = new SimpleDateFormat("cccc", Locale.getDefault());
+    private static DateFormat DATE_FORMATTER = SimpleDateFormat.getDateInstance();
 
+    /**
+     * Get the date in friendly format.
+     */
     public static String getFriendlyDate(Date date) {
-        // TODO: I feel a bit bad about all of this; any good libraries?
-        // I couldn't find any that were suitable -- mivdnber
         DateTime today = new DateTime();
         DateTime dateTime = new DateTime(date);
-        int thisWeek = Integer.parseInt(WEEKFORMATTER.format(today.toDate()));
-        int week = Integer.parseInt(WEEKFORMATTER.format(date));
+        int thisWeek = Integer.parseInt(WEEK_FORMATTER.format(today.toDate()));
+        int week = Integer.parseInt(WEEK_FORMATTER.format(date));
 
         int daysBetween = Days.daysBetween(today.toLocalDate(), dateTime.toLocalDate()).getDays();
 
@@ -34,11 +37,11 @@ public class DateUtils {
         } else if (daysBetween == 2) {
             return "overmorgen";
         } else if (week == thisWeek || daysBetween < 7) {
-            return DAYFORMATTER.format(date).toLowerCase();
+            return DAY_FORMATTER.format(date).toLowerCase();
         } else if (week == thisWeek + 1) {
-            return "volgende " + DAYFORMATTER.format(date).toLowerCase();
+            return "volgende " + DAY_FORMATTER.format(date).toLowerCase();
         } else {
-            return DATEFORMATTER.format(date);
+            return DATE_FORMATTER.format(date);
         }
     }
 }

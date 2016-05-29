@@ -10,25 +10,17 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.models.resto.RestoOverview;
+import be.ugent.zeus.hydra.models.resto.RestoMeal;
+import be.ugent.zeus.hydra.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.utils.DateUtils;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.resto.RestoMeal;
-import be.ugent.zeus.hydra.models.resto.RestoMenu;
-import be.ugent.zeus.hydra.models.resto.RestoMenuList;
-import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
  * Created by mivdnber on 3/3/16.
@@ -42,14 +34,14 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
         private final List<String> vegetables;
         private final List<RestoMeal> meals;
 
-        public RestoCategory(Date date, String title, List<String> vegetables) {
+        public RestoCategory(Date date, String title, List<RestoMeal> meals, List<String> vegetables) {
             this.date = date;
             this.title = title;
             this.vegetables = vegetables;
-            this.meals = null;
+            this.meals = meals;
         }
 
-        public RestoCategory(Date date, String title, ArrayList<RestoMeal> meals) {
+        public RestoCategory(Date date, String title, List<RestoMeal> meals) {
             this.date = date;
             this.title = title;
             this.meals = meals;
@@ -225,7 +217,7 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
         return menuList.size();
     }
 
-    public void setMenuList(RestoMenuList menuList) {
+    public void setMenuList(RestoOverview menuList) {
         this.menuList.clear();
 
         Date currentDate = org.apache.commons.lang3.time.DateUtils.truncate(new Date(), Calendar.DATE); // Date at start of day
@@ -246,7 +238,7 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
             this.menuList.add(new RestoCategory(menu.getDate(), "Bijgerechten", menu.getSideDishes()));
 
             // Vegetables
-            this.menuList.add(new RestoCategory(menu.getDate(), "Groenten", menu.getVegetables()));
+            this.menuList.add(new RestoCategory(menu.getDate(), "Groenten", null, menu.getVegetables()));
         }
     }
 }

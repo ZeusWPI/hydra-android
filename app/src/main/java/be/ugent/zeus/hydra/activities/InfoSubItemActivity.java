@@ -2,15 +2,11 @@ package be.ugent.zeus.hydra.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
-
-import java.util.ArrayList;
-
-import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.fragments.InfoFragment;
 import be.ugent.zeus.hydra.models.info.InfoItem;
-import be.ugent.zeus.hydra.models.info.InfoList;
+
+import java.util.ArrayList;
 
 public class InfoSubItemActivity extends AppCompatActivity {
 
@@ -19,7 +15,7 @@ public class InfoSubItemActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.HydraActionBar);
+        //setTheme(R.style.HydraActionBar);
         super.onCreate(savedInstanceState);
         // Display the fragment as the main content.
         InfoFragment fragment = new InfoFragment();

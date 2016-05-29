@@ -10,11 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import be.ugent.zeus.hydra.common.fragments.SpiceFragment;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.InfoListAdapter;
@@ -22,7 +22,7 @@ import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
 import be.ugent.zeus.hydra.requests.InfoRequest;
 
-public class InfoFragment extends AbstractFragment {
+public class InfoFragment extends SpiceFragment {
 
     public static final String INFOLIST = "infoList";
 

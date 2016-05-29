@@ -4,19 +4,19 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.fragments.SpiceFragment;
 
 /**
  * @author Rien Maertens
  * @since 03/03/2016.
  */
-public class ComingSoonFragment extends AbstractFragment {
+public class ComingSoonFragment extends SpiceFragment {
 
     @Override
     public void onResume() {

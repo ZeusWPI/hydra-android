@@ -31,7 +31,8 @@ public class NotificationFragment extends PreferenceFragment {
         final CheckBoxPreference notificationCheckbox =
                 (CheckBoxPreference) findPreference("pref_key_daily_notifications_checkbox");
         TimePreference notificationTime =
-                (TimePreference) findPreference("pref_daily_notifications_time") ;
+                (TimePreference) findPreference("pref_daily_notifications_time");
+
 
         notificationCheckbox.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override

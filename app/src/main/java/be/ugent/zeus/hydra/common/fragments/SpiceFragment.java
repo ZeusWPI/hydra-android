@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.fragments;
+package be.ugent.zeus.hydra.common.fragments;
 
 import android.support.v4.app.Fragment;
 
@@ -8,12 +8,18 @@ import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
 
 import be.ugent.zeus.hydra.HydraApplication;
-import be.ugent.zeus.hydra.activities.Hydra;
 
 /**
- * Created by Juta on 03/03/2016.
+ * This is a fragment that supports requests with spice.
+ *
+ * @author Niko Strijbol
+ * @author Juta
  */
-public abstract class AbstractFragment extends Fragment {
+public abstract class SpiceFragment extends Fragment {
+
+    /**
+     * The default spiceManager uses GSON to parse the result.
+     */
     protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
 
     @Override
@@ -28,6 +34,14 @@ public abstract class AbstractFragment extends Fragment {
         super.onStop();
     }
 
+    /**
+     * @return The manager for the request.
+     */
+    public SpiceManager getManager() {
+        return spiceManager;
+    }
+
+    //TODO: this
     protected void sendScreenTracking(String screenName) {
         HydraApplication app = (HydraApplication) getActivity().getApplication();
         Tracker t = app.getDefaultTracker();

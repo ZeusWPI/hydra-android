@@ -9,14 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import be.ugent.zeus.hydra.activities.settings.SettingsActivity;
-import com.octo.android.robospice.GsonSpringAndroidSpiceService;
-import com.octo.android.robospice.SpiceManager;
-
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
+import com.octo.android.robospice.GsonSpringAndroidSpiceService;
+import com.octo.android.robospice.SpiceManager;
 
 
 public class Hydra extends AppCompatActivity {
@@ -57,6 +54,7 @@ public class Hydra extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Hydra_Main_Front);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_layout);
 
