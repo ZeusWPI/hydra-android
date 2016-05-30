@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.resto.MenuPageAdapter;
 import be.ugent.zeus.hydra.adapters.resto.SandwichAdapter;
@@ -32,12 +31,10 @@ public class SandwichActivity extends RestoWebsiteActivity<Sandwich> {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resto_sandwich);
-        setUpActionBar();
+        super.onCreate(savedInstanceState);
 
         recyclerView = (RecyclerView) findViewById(R.id.resto_sandwich_recycler);
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         //Divider
         recyclerView.addItemDecoration(new DividerItemDecoration(this));

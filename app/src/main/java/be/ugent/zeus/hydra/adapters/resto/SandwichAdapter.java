@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.adapters.resto;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.SparseBooleanArray;
@@ -33,7 +32,7 @@ public class SandwichAdapter extends RecyclerView.Adapter<SandwichAdapter.Sandwi
         private ExpandableLayout expandableLayout;
         private TextView ingredients;
 
-        public SandwichHolder(View itemView) {
+        private SandwichHolder(View itemView) {
             super(itemView);
 
             name = (TextView) itemView.findViewById(R.id.sandwich_name);
@@ -99,18 +98,5 @@ public class SandwichAdapter extends RecyclerView.Adapter<SandwichAdapter.Sandwi
     @Override
     public int getItemCount() {
         return data.size();
-    }
-
-    /**
-     * Should be implemented by the adapter of the RecyclerView. Provides a text to be shown by the bubble, when
-     * RecyclerView reaches the position. Usually the first letter of the text shown by the item at this position.
-     *
-     * @param position Position of the row in adapter
-     *
-     * @return The text to be shown in the bubble
-     */
-    @NonNull
-    public String getSectionName(int position) {
-        return data.get(position).name.substring(0, 1);
     }
 }

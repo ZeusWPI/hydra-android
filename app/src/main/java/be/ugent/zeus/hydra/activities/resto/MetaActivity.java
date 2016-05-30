@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.resto.MetaAdapter;
@@ -39,13 +38,11 @@ public class MetaActivity extends RestoActivity<RestoLocation> {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_resto_meta);
-        setUpActionBar();
+        super.onCreate(savedInstanceState);
 
         recyclerView = (RecyclerView) findViewById(R.id.resto_meta_recycler);
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         //Divider
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
@@ -64,6 +61,7 @@ public class MetaActivity extends RestoActivity<RestoLocation> {
      * @param force If true, the cache is cleared.
      */
     public void performRequest(final boolean force) {
+
         RestoMetaRequest r = new RestoMetaRequest();
         SpiceManager manager = getManager();
 

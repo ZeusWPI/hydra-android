@@ -11,7 +11,9 @@ import be.ugent.zeus.hydra.fragments.InfoFragment;
 import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
 
 /**
- * Created by silox on 17/10/15.
+ * Adapter for the tabs on the main activity.
+ *
+ * @author silox
  */
 public class SectionPagerAdapter extends FragmentPagerAdapter {
 
@@ -39,18 +41,4 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return 5;
     }
-
-
-//
-//    @Override
-//    public CharSequence getPageTitle(int position) {
-//        switch (position) {
-//            case 0:
-//                return "First Tab";
-//            case 1:
-//            default:
-//                return "Second Tab";
-//        }
-//    }
-
 }

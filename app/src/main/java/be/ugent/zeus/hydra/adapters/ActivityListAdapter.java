@@ -6,35 +6,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
-import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
 import be.ugent.zeus.hydra.recyclerviewholder.DateHeaderViewHolder;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
- * Created by ellen on 8/3/16.
+ * Adapter for the list of activities.
+ *
+ * @author ellen
  */
-public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapter.CardViewHolder> implements StickyRecyclerHeadersAdapter {
-    private ArrayList<AssociationActivity> items;
+public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapter.CardViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
+
+    private static final DateFormat INT_FORMATTER = new SimpleDateFormat("ddMMyyyy", Locale.getDefault());
+    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         private final View view;
         private TextView start;
         private TextView title;
         private TextView association;
-        private final SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
 
-        public CardViewHolder(View v) {
+        private CardViewHolder(View v) {
             super(v);
             this.view = v;
             title = (TextView) v.findViewById(R.id.name);
@@ -42,10 +41,10 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             start = (TextView) v.findViewById(R.id.starttime);
         }
 
-        public void populate(final AssociationActivity activity) {
+        private void populate(final AssociationActivity activity) {
             title.setText(activity.title);
             association.setText(activity.association.display_name);
-            start.setText(dateFormatter.format(activity.start));
+            start.setText(FORMATTER.format(activity.start));
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -57,56 +56,48 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         }
     }
 
-
-
-    public ActivityListAdapter() {
-        this.items = new ArrayList<>();
-    }
+    private List<AssociationActivity> data = Collections.emptyList();
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_listitem, parent, false);
-        CardViewHolder vh = new CardViewHolder(v);
-        return vh;
+                .inflate(R.layout.item_activity, parent, false);
+        return new CardViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(CardViewHolder holder, int position) {
-        final AssociationActivity restoCategory = items.get(position);
+        final AssociationActivity restoCategory = data.get(position);
         holder.populate(restoCategory);
     }
 
+    /**
+     * We want to sort per day,
+     */
     @Override
     public long getHeaderId(int position) {
-        Date date = items.get(position).start;
-        return date.getMonth()*100+date.getDay(); //todo
+        Date date = data.get(position).start;
+        return Integer.parseInt(INT_FORMATTER.format(date));
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+    public DateHeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_listitem_header, parent, false);
+                .inflate(R.layout.item_date_header, parent, false);
         return new DateHeaderViewHolder(view);
     }
 
     @Override
-    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((DateHeaderViewHolder) holder).populate(items.get(position).start);
+    public void onBindHeaderViewHolder(DateHeaderViewHolder holder, int position) {
+        holder.populate(data.get(position).start);
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return data.size();
     }
 
-    public void setItems(AssociationActivities items) {
-        this.items.clear();
-        for (AssociationActivity item : items) {
-            this.items.add(item);
-
-        }
-
-
+    public void setData(ArrayList<AssociationActivity> data) {
+        this.data = data;
     }
 }

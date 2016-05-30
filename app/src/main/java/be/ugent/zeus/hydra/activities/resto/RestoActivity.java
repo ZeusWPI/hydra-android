@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.activities.resto;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.MenuRes;
 import android.support.design.widget.Snackbar;
 import android.view.Menu;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
  *
  * @author Niko Strijbol
  */
-public abstract class RestoActivity<D extends Parcelable> extends SpiceToolbarActivity implements RequestHandler.Requester<D> {
+public abstract class RestoActivity<D extends Parcelable> extends SpiceToolbarActivity implements RequestHandler.Requester<ArrayList<D>> {
 
     //The progress bar. Is used if not null.
     protected ProgressBar progressBar;
@@ -77,13 +78,6 @@ public abstract class RestoActivity<D extends Parcelable> extends SpiceToolbarAc
     }
 
     /**
-     * Perform the request with the {@link com.octo.android.robospice.SpiceManager}.
-     *
-     * @param refresh If the user pressed refresh or not.
-     */
-    public abstract void performRequest(final boolean refresh);
-
-    /**
      * This method is used to receive new data, from the request for example.
      *
      * @param data The new data.
@@ -91,6 +85,15 @@ public abstract class RestoActivity<D extends Parcelable> extends SpiceToolbarAc
     public void receiveData(ArrayList<D> data) {
         hideProgressBar();
         this.data = data;
+    }
+
+    /**
+     * Add the progress bar.
+     */
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
     }
 
     /**
@@ -131,7 +134,7 @@ public abstract class RestoActivity<D extends Parcelable> extends SpiceToolbarAc
      * @param <L> Parameter due to Java's type erasure.
      */
     <L extends ArrayList<D>> void performRequest(final boolean force, final AbstractRequest<L> r) {
-        RequestHandler.performRequest(force, r, this);
+        RequestHandler.performListRequest(force, r, this);
     }
 
     /**

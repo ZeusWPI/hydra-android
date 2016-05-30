@@ -1,34 +1,27 @@
 package be.ugent.zeus.hydra.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import be.ugent.zeus.hydra.HydraApplication;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.activities.ToolbarActivity;
+import be.ugent.zeus.hydra.models.association.AssociationActivity;
 import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.w3c.dom.Text;
 
-import java.util.Date;
 import java.util.Locale;
 
-import be.ugent.zeus.hydra.HydraApplication;
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.association.AssociationActivity;
-import be.ugent.zeus.hydra.utils.DateUtils;
+public class AssociationActivityDetail extends ToolbarActivity {
 
-public class AssociationActivityDetail extends AppCompatActivity {
+    //The data
     private AssociationActivity associationActivity;
 
     private ImageView imageView;
@@ -42,8 +35,9 @@ public class AssociationActivityDetail extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        setContentView(R.layout.activity_activity_detail);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_association_activity_detail);
 
         Intent intent = getIntent();
         associationActivity = intent.getParcelableExtra("associationActivity");
@@ -57,26 +51,21 @@ public class AssociationActivityDetail extends AppCompatActivity {
         link = (Button) findViewById(R.id.link);
         map = (Button) findViewById(R.id.map);
 
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayShowCustomEnabled(true);
-        actionbar.setCustomView(R.layout.actionbar_centered_hydra);
-
-        //back arrow
-        actionbar.setDisplayHomeAsUpEnabled(true);
-
         if(associationActivity.title != null){
             title.setText(associationActivity.title);
+            assert getSupportActionBar() != null;
+            getSupportActionBar().setTitle(associationActivity.title);
         }
         if(associationActivity.association != null ) {
             association.setText(associationActivity.association.getName());
         }
 
-        if(associationActivity.description != null) {
+        if(associationActivity.description != null && !associationActivity.description.trim().isEmpty()) {
             description.setText(associationActivity.description);
         }
 
         if(associationActivity.location != null) {
-            location.setText(associationActivity.location);
+            location.setText(String.format("Locatie: %s", associationActivity.location));
         }
 
         if(associationActivity.start != null) {
@@ -100,7 +89,7 @@ public class AssociationActivityDetail extends AppCompatActivity {
 
         Picasso.with(this).load(associationActivity.association.getImageLink()).into(imageView);
 
-        if (associationActivity.url != null && !associationActivity.url.isEmpty()) {
+        if (associationActivity.url != null && !associationActivity.url.trim().isEmpty()) {
             link.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -128,15 +117,5 @@ public class AssociationActivityDetail extends AppCompatActivity {
         HydraApplication app = (HydraApplication) getApplication();
         Tracker t = app.getDefaultTracker();
         t.setScreenName("Activity > " + associationActivity.title);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

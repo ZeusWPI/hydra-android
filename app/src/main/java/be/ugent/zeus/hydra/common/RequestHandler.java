@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.common;
 
 import android.content.Context;
-import android.os.Parcelable;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.requests.AbstractRequest;
@@ -28,9 +27,23 @@ public class RequestHandler {
      * @param r The request to perform.
      * @param requester The one who requests the data.
      * @param <D> The result.
-     * @param <L> Necessary due to type erasure. List of {@code <D>}'s.
      */
-    public static <D extends Parcelable, L extends ArrayList<D>> void performRequest(final boolean force, final AbstractRequest<L> r, final Requester<D> requester) {
+    public static <D, L extends ArrayList<D>> void performListRequest(final boolean force, final AbstractRequest<L> r, final Requester<ArrayList<D>> requester) {
+        //We must cast, but they are always the same, but Java doesn't know that unfortunately.
+        @SuppressWarnings("unchecked")
+        final Requester<L> requesterL = (Requester<L>) requester;
+        performRequest(force, r, requesterL);
+    }
+
+    /**
+     * Perform a request with support for refresh.
+     *
+     * @param force Force new data, i.e. refresh.
+     * @param r The request to perform.
+     * @param requester The one who requests the data.
+     * @param <D> The result.
+     */
+    public static <D> void performRequest(final boolean force, final AbstractRequest<D> r, final Requester<D> requester) {
 
         SpiceManager manager = requester.getManager();
 
@@ -38,21 +51,17 @@ public class RequestHandler {
             manager.removeDataFromCache(r.getResultType(), r.getCacheKey());
         }
 
-        manager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<L>() {
+        manager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<D>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 requester.requestFailure();
             }
 
             @Override
-            public void onRequestSuccess(final L menuList) {
-                if (menuList.isEmpty()) {
-                    requester.requestFailure();
-                } else {
-                    requester.receiveData(menuList);
-                    if (force) {
-                        Toast.makeText(requester.getContext(), R.string.end_refresh, Toast.LENGTH_SHORT).show();
-                    }
+            public void onRequestSuccess(final D menuList) {
+                requester.receiveData(menuList);
+                if (force) {
+                    Toast.makeText(requester.getContext(), R.string.end_refresh, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -60,8 +69,6 @@ public class RequestHandler {
 
     /**
      * Interface for objects that can handle requests.
-     *
-     * @param <D> The result.
      */
     public interface Requester<D> {
 
@@ -77,22 +84,22 @@ public class RequestHandler {
 
         /**
          * Do a request. Inside this method it is recommended to
-         * use {@link #performRequest(boolean, AbstractRequest, Requester)}.
+         * use one of the other methods, e.g. {@link #performRequest(boolean, AbstractRequest, Requester)}.
          *
          * @param refresh If it is a refresh or not.
          */
         void performRequest(final boolean refresh);
 
         /**
+         * @return The context.
+         */
+        Context getContext();
+
+        /**
          * Called when the request was able to produce data.
          *
          * @param data The data.
          */
-        void receiveData(ArrayList<D> data);
-
-        /**
-         * @return The context.
-         */
-        Context getContext();
+        void receiveData(D data);
     }
 }

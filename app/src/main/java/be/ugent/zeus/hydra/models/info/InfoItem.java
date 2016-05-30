@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by Juta on 03/03/2016.
  */
-public class InfoItem implements Parcelable{
+public class InfoItem implements Parcelable {
     private String title;
     private String image;
     private String html;

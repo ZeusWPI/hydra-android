@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.requests;
 
 import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
-
 import org.springframework.http.ResponseEntity;
 
 import java.util.Map;

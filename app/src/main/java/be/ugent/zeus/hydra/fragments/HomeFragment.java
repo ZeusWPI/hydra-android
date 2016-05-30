@@ -123,7 +123,7 @@ public class HomeFragment extends SpiceFragment {
             @Override
             public void onRequestSuccess(final AssociationActivities associationActivities) {
                 List<HomeCard> list = new ArrayList<>();
-                AssociationActivities filteredAssociationActivities = associationActivities.getPreferedActivities(getContext());
+                AssociationActivities filteredAssociationActivities = associationActivities.getPreferredActivities(getContext());
                 Date date = new Date();
                 for (AssociationActivity activity: filteredAssociationActivities) {
                     if(activity.getPriority() > 0 && activity.end.after(date)) {

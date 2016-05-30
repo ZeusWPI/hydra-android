@@ -20,7 +20,7 @@
     <string name="hydra_icon_content_description">Hydra icoon</string>
 
     <string name="ActivitiesWelcome">Welkom bij het activiteitenfragment</string>
-    <string name="title_activity_association_activity_detail">AssociatieActiviteitsDetail</string>
+    <string name="title_activity_association_activity_detail">Evenement</string>
 
     <!-- Settings -->
     <string name="pref_daily_notifications_title">Notificaties (experimenteel)</string>
@@ -74,4 +74,7 @@
     <string name="failure">Ophalen niet gelukt.</string>
     <string name="home_resto_view_resto">Resto\'s</string>
     <string name="resto_resto">Resto\'s</string>
+    <string name="description">Beschrijving</string>
+    <string name="no_location">Geen locatie.</string>
+    <string name="no_description">Geen beschrijving.</string>
 </resources>

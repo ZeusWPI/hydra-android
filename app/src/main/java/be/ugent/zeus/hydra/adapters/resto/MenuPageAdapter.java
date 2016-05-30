@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import be.ugent.zeus.hydra.activities.resto.MenuActivity;
-import be.ugent.zeus.hydra.fragments.resto.MenuTabFragment;
+import be.ugent.zeus.hydra.fragments.resto.menu.MenuTabFragment;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**

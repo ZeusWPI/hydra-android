@@ -1,26 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--
         General style for activities that need a default action bar.
         Note: it is preferred to use the toolbar, not the default action bar.
     -->
     <style name="Hydra.Main" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="background">@color/ugent_blue_medium</item>
+        <!-- <item name="background">@color/ugent_blue_medium</item> -->
         <item name="colorPrimary">@color/ugent_blue_medium</item>
         <item name="colorPrimaryDark">@color/ugent_blue_dark</item>
         <item name="android:colorBackground">@color/ugent_white</item>
         <item name="colorAccent">@color/ugent_yellow_dark</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-    </style>
-
-    <style name="Hydra.Main.Front" parent="Hydra.Main.TextColor">
-        <item name="android:actionBarStyle">@style/Hydra.Main.ActionBar.NoShadow</item>
-        <item name="actionBarStyle">@style/Hydra.Main.ActionBar.NoShadow</item>
-    </style>
-
-    <style name="Hydra.Main.ActionBar.NoShadow" parent="Hydra.Main">
-        <item name="elevation">0dp</item>
     </style>
 
     <!-- Main theme with coloured text -->

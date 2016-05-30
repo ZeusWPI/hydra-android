@@ -37,6 +37,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/resto_type"
-        android:textIsSelectable="true" />
+        />
 
 </LinearLayout>

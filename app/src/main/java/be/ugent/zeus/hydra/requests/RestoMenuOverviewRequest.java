@@ -1,8 +1,7 @@
 package be.ugent.zeus.hydra.requests;
 
-import com.octo.android.robospice.persistence.DurationInMillis;
-
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
+import com.octo.android.robospice.persistence.DurationInMillis;
 
 /**
  * Request for an overview of the resto menu.

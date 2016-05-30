@@ -4,77 +4,47 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
-import com.octo.android.robospice.GsonSpringAndroidSpiceService;
-import com.octo.android.robospice.SpiceManager;
+import be.ugent.zeus.hydra.common.activities.SpiceToolbarActivity;
 
+/**
+ * Main activity.
+ */
+public class Hydra extends SpiceToolbarActivity {
 
-public class Hydra extends AppCompatActivity {
+    //The tab icons
+    private static int[] icons = {
+            R.drawable.home,
+            R.drawable.minerva,
+            R.drawable.resto,
+            R.drawable.association_activities_icon,
+            R.drawable.info
+    };
 
-    protected TabLayout tabLayout;
-    protected ViewPager viewPager;
-    //------------------------------------------------------------------------
-    //this block can be pushed up into a common base class for all activities
-    //------------------------------------------------------------------------
-
-    //if you use a pre-set service,
-    //use JacksonSpringAndroidSpiceService.class instead of JsonSpiceService.class
-    protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        spiceManager.start(this);
-    }
-
-    @Override
-    protected void onStop() {
-        spiceManager.shouldStop();
-        super.onStop();
-    }
-
-    protected void onResume() {
-        super.onResume();
-
-        HydraApplication happ = (HydraApplication) getApplication();
-        happ.sendScreenName("settings");
-    }
-
-    //------------------------------------------------------------------------
-    //---------end of block that can fit in a common base class for all activities
-    //------------------------------------------------------
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Hydra_Main_Front);
+
+        //This activity has no parent.
+        hasParent(false);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tab_layout);
+        setContentView(R.layout.activity_main);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        viewPager = (ViewPager) findViewById(R.id.pager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        mViewPager = (ViewPager) findViewById(R.id.pager);
 
-        viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
-        tabLayout.setupWithViewPager(viewPager);
-
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayShowCustomEnabled(true);
-        actionbar.setCustomView(R.layout.actionbar_centered_hydra);
-
-        //icons (bad way)
-        int[] icons = {R.drawable.home, R.drawable.minerva,
-                R.drawable.resto, R.drawable.association_activities_icon, R.drawable.info};
+        mViewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
+        tabLayout.setupWithViewPager(mViewPager);
 
         //set icons
-        tabLayout.setupWithViewPager(viewPager);
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+        tabLayout.setupWithViewPager(mViewPager);
+        for (int i = 0; i < icons.length; i++) {
             tabLayout.getTabAt(i).setIcon(icons[i]);
         }
 
@@ -110,8 +80,10 @@ public class Hydra extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void changeFragment(int fragment) { // FIXME: 14/04/16 Add more robust way to change fragments
-        viewPager.setCurrentItem(fragment);
-
+    /**
+     * Set the current tab.
+     */
+    public void changeFragment(int fragment) {
+        mViewPager.setCurrentItem(fragment, false);
     }
 }

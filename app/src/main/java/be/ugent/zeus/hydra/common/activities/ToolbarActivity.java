@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.common.activities;
 
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.v4.app.NavUtils;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
@@ -19,6 +19,10 @@ import be.ugent.zeus.hydra.R;
  *
  * This activity uses the NoActionBar theme.
  *
+ * If you use the {@link #setContentView(int)} method, the action bar is set for you. If you do not use this method,
+ * you must call {@link #setUpActionBar()} manually, after the view has been loaded, as that methods looks up the
+ * action bar using it's ID.
+ *
  * @author Niko Strijbol
  */
 public abstract class ToolbarActivity extends AppCompatActivity {
@@ -28,16 +32,7 @@ public abstract class ToolbarActivity extends AppCompatActivity {
      */
     protected int toolbarId = R.id.toolbar;
 
-    /**
-     * If the activity has a parent activity. If true, an up button will be shown.
-     */
-    protected boolean hasParent = true;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setTheme(R.style.Hydra_Main_NoActionBar);
-    }
+    private boolean hasParent = true;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -49,8 +44,16 @@ public abstract class ToolbarActivity extends AppCompatActivity {
                 return true;
             }
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * When using this method, the action bar is automatically set up for you.
+     */
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
+        setUpActionBar();
     }
 
     /**
@@ -62,7 +65,8 @@ public abstract class ToolbarActivity extends AppCompatActivity {
 
         //Set the up button.
         ActionBar actionBar = getSupportActionBar();
-        if (hasParent && actionBar != null) {
+        assert actionBar != null;
+        if (hasParent) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
@@ -77,5 +81,12 @@ public abstract class ToolbarActivity extends AppCompatActivity {
         Drawable drawable = DrawableCompat.wrap(menu.findItem(id).getIcon());
         DrawableCompat.setTint(drawable, getResources().getColor(R.color.white));
         menu.findItem(id).setIcon(drawable);
+    }
+
+    /**
+     * Set if the activity has a parent or not.
+     */
+    protected void hasParent(boolean hasParent) {
+        this.hasParent = hasParent;
     }
 }

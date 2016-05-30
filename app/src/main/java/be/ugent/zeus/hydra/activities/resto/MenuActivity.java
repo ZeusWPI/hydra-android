@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.resto.MenuPageAdapter;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
@@ -33,10 +32,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoMenu> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resto);
-        setUpActionBar();
-
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-
+        
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         pageAdapter = new MenuPageAdapter(getSupportFragmentManager(), this);

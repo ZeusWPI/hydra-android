@@ -16,6 +16,8 @@ import be.ugent.zeus.hydra.activities.resto.MetaActivity;
 import be.ugent.zeus.hydra.activities.resto.SandwichActivity;
 import be.ugent.zeus.hydra.common.RequestHandler;
 import be.ugent.zeus.hydra.common.fragments.SpiceFragment;
+import be.ugent.zeus.hydra.fragments.resto.menu.MenuFragment;
+import be.ugent.zeus.hydra.fragments.resto.menu.MenuSingleFragment;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -26,19 +28,13 @@ import java.util.ArrayList;
  * @author Niko Strijbol
  * @author mivdnber
  */
-public class RestoFragment extends SpiceFragment implements RequestHandler.Requester<RestoMenu> {
+public class RestoFragment extends SpiceFragment implements RequestHandler.Requester<ArrayList<RestoMenu>> {
 
-    public static final String FRAGMENT_TAG = "menu_today_fragment";
+    private static final String FRAGMENT_TAG = "menu_today_fragment";
 
     private ProgressBar progressBar;
     private View layout;
     private TextView title;
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        this.sendScreenTracking("home");
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,7 +64,7 @@ public class RestoFragment extends SpiceFragment implements RequestHandler.Reque
 
         title = (TextView) layout.findViewById(R.id.menu_today_card_title);
 
-        layout.setOnClickListener(new View.OnClickListener() {
+        layout.findViewById(R.id.menu_today_card).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), MenuActivity.class));
@@ -83,7 +79,7 @@ public class RestoFragment extends SpiceFragment implements RequestHandler.Reque
     public void performRequest(final boolean refresh) {
         final RestoMenuOverviewRequest r = new RestoMenuOverviewRequest();
 
-        RequestHandler.performRequest(refresh, r, this);
+        RequestHandler.performListRequest(refresh, r, this);
     }
 
     /**

@@ -12,18 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.HydraWebViewActivity;
 import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
 import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
 import be.ugent.zeus.hydra.recyclerviewholder.DateHeaderViewHolder;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ellen on 8/3/16.
@@ -147,7 +145,7 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
         //no header
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_listitem_header, parent, false);
+                .inflate(R.layout.item_date_header, parent, false);
         return new DateHeaderViewHolder(view);
     }
 
@@ -162,7 +160,7 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
         return items.size();
     }
 
-    public void setItems(InfoList items) {
+    public void setItems(ArrayList<InfoItem> items) {
         this.items.clear();
         for (InfoItem item : items) {
             this.items.add(item);

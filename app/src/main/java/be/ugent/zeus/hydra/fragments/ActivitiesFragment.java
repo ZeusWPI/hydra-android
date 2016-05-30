@@ -8,101 +8,90 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
-import be.ugent.zeus.hydra.common.fragments.SpiceFragment;
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
+import be.ugent.zeus.hydra.common.DividerItemDecoration;
+import be.ugent.zeus.hydra.common.RequestHandler;
+import be.ugent.zeus.hydra.common.fragments.SpiceFragment;
 import be.ugent.zeus.hydra.models.association.AssociationActivities;
+import be.ugent.zeus.hydra.models.association.AssociationActivity;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
+import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
+
+import java.util.ArrayList;
+
 /**
- * Created by ellen on 2016-03-08.
+ * Displays a list of activities, filtered by the settings.
+ *
+ * @author ellen
+ * @author Niko Strijbol
  *
  * TODO: update after  settings changed.
  */
+public class ActivitiesFragment extends SpiceFragment implements RequestHandler.Requester<ArrayList<AssociationActivity>>{
 
-public class ActivitiesFragment extends SpiceFragment {
-    private RecyclerView recyclerView;
     private ActivityListAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
     private View layout;
-    private StickyRecyclerHeadersDecoration decorator;
     private ProgressBar progressBar;
 
     @Override
-    public void onResume() {
-        super.onResume();
-        this.sendScreenTracking("Activities");
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_activities, container, false);
-        recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerview);
-        progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
+        RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
+        progressBar = (ProgressBar) layout.findViewById(R.id.progress_bar);
 
         adapter = new ActivityListAdapter();
         recyclerView.setAdapter(adapter);
-        layoutManager = new LinearLayoutManager(this.getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        decorator = new StickyRecyclerHeadersDecoration((StickyRecyclerHeadersAdapter) adapter);
-        recyclerView.addItemDecoration(decorator);
-        performLoadActivityRequest();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
+        StickyRecyclerHeadersDecoration decorator = new StickyRecyclerHeadersDecoration(adapter);
+        recyclerView.addItemDecoration(decorator);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
+
+        performRequest(false);
 
         return layout;
     }
 
-
-    private void performLoadActivityRequest() {
-
-        final AssociationActivitiesRequest r = new AssociationActivitiesRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationActivities>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                showFailureSnackbar();
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onRequestSuccess(final AssociationActivities associationActivitiesItems) {
-                adapter.setItems(associationActivitiesItems.getPreferedActivities(getContext()));
-                adapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
-            }
-        });
+    /**
+     * Hide the progress bar.
+     */
+    private void hideProgressBar() {
+        if(progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
-
-
-    private void showFailureSnackbar() {
-        Snackbar
-                .make(layout, "Oeps! Kon activiteiten niet ophalen.", Snackbar.LENGTH_LONG)
-                .setAction("Opnieuw proberen", new View.OnClickListener() {
+    /**
+     * Called when the requests has failed.
+     */
+    @Override
+    public void requestFailure() {
+        Snackbar.make(layout, getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.again), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        performLoadActivityRequest();
+                        performRequest(true);
                     }
                 })
                 .show();
+        hideProgressBar();
     }
-
-
-
 
     @Override
-    public void onPause() {
-        super.onPause();
-        performLoadActivityRequest();
-
+    public void performRequest(boolean refresh) {
+        RequestHandler.performListRequest(refresh, new AssociationActivitiesRequest(), this);
     }
 
-
-
-
+    /**
+     * Called when the request was able to produce data.
+     *
+     * @param data The data.
+     */
+    @Override
+    public void receiveData(ArrayList<AssociationActivity> data) {
+        adapter.setData(AssociationActivities.getPreferredActivities(data, getContext()));
+        adapter.notifyDataSetChanged();
+        hideProgressBar();
+    }
 }

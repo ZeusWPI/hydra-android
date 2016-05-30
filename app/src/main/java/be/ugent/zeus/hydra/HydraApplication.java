@@ -2,11 +2,9 @@ package be.ugent.zeus.hydra;
 
 import android.app.Application;
 import android.content.res.Configuration;
-
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import java.util.Locale;
