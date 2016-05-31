@@ -1,16 +1,25 @@
 package be.ugent.zeus.hydra.fragments;
 
+import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.*;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.SettingsActivity;
 import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
 import be.ugent.zeus.hydra.common.DividerItemDecoration;
 import be.ugent.zeus.hydra.common.RequestHandler;
@@ -21,6 +30,9 @@ import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static be.ugent.zeus.hydra.common.ViewUtils.$;
 
 /**
  * Displays a list of activities, filtered by the settings.
@@ -31,17 +43,25 @@ import java.util.ArrayList;
 public class ActivitiesFragment extends SpiceFragment implements RequestHandler.Requester<ArrayList<AssociationActivity>>, SharedPreferences.OnSharedPreferenceChangeListener{
 
     private ActivityListAdapter adapter;
-    private View layout;
     private ProgressBar progressBar;
+    private LinearLayout noData;
 
     //If the data is invalidated.
     private boolean invalid = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        layout = inflater.inflate(R.layout.fragment_activities, container, false);
-        RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
-        progressBar = (ProgressBar) layout.findViewById(R.id.progress_bar);
+        return inflater.inflate(R.layout.fragment_activities, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        assert recyclerView != null;
+        progressBar = $(view, R.id.progress_bar);
+        noData = $(view, R.id.events_no_data);
 
         adapter = new ActivityListAdapter();
         recyclerView.setAdapter(adapter);
@@ -52,6 +72,22 @@ public class ActivitiesFragment extends SpiceFragment implements RequestHandler.
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
 
         performRequest(false);
+        Button refresh = $(view, R.id.events_no_data_button_refresh);
+        Button filters = $(view, R.id.events_no_data_button_filters);
+        assert refresh != null && filters != null;
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refresh();
+            }
+        });
+        filters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), SettingsActivity.class));
+            }
+        });
 
         //Register this class in the settings.
         PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
@@ -63,9 +99,7 @@ public class ActivitiesFragment extends SpiceFragment implements RequestHandler.
      * Hide the progress bar.
      */
     private void hideProgressBar() {
-        if(progressBar != null) {
-            progressBar.setVisibility(View.GONE);
-        }
+        progressBar.setVisibility(View.GONE);
     }
 
     /**
@@ -73,7 +107,8 @@ public class ActivitiesFragment extends SpiceFragment implements RequestHandler.
      */
     @Override
     public void requestFailure() {
-        Snackbar.make(layout, getString(R.string.failure), Snackbar.LENGTH_LONG)
+        assert getView() != null;
+        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -96,10 +131,34 @@ public class ActivitiesFragment extends SpiceFragment implements RequestHandler.
      */
     @Override
     public void receiveData(ArrayList<AssociationActivity> data) {
-        adapter.setData(AssociationActivities.getPreferredActivities(data, getContext()));
         adapter.setOriginal(data);
-        adapter.notifyDataSetChanged();
+        setData(data);
         hideProgressBar();
+    }
+
+    /**
+     * Set the data. This assumes the data has been set once already. If the data is empty, a snackbar will be shown.
+     *
+     * @param data The data.
+     */
+    private void setData(List<AssociationActivity> data) {
+
+        if(data == null) {
+            requestFailure();
+            return;
+        }
+
+        data = AssociationActivities.getPreferredActivities(data, getContext());
+
+        adapter.setData(data);
+        adapter.notifyDataSetChanged();
+
+        //If empty, show it.
+        if(data.isEmpty()) {
+            noData.setVisibility(View.VISIBLE);
+        } else {
+            noData.setVisibility(View.GONE);
+        }
     }
 
     @Override
