@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
+import be.ugent.zeus.hydra.activities.EventDetailsActivity;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
 import be.ugent.zeus.hydra.recyclerviewholder.DateHeaderViewHolder;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
@@ -48,7 +48,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(view.getContext(), AssociationActivityDetail.class);
+                    Intent intent = new Intent(view.getContext(), EventDetailsActivity.class);
                     intent.putExtra("associationActivity", activity);
                     view.getContext().startActivity(intent);
                 }
@@ -57,6 +57,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     }
 
     private List<AssociationActivity> data = Collections.emptyList();
+    private List<AssociationActivity> original = Collections.emptyList();
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -97,7 +98,19 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         return data.size();
     }
 
-    public void setData(ArrayList<AssociationActivity> data) {
+    public void setData(List<AssociationActivity> data) {
         this.data = data;
+    }
+
+    public List<AssociationActivity> getData() {
+        return data;
+    }
+
+    public void setOriginal(List<AssociationActivity> data) {
+        this.original = data;
+    }
+
+    public List<AssociationActivity> getOriginal() {
+        return original;
     }
 }

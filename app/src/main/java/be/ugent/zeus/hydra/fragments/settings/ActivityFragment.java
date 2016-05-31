@@ -1,10 +1,7 @@
 package be.ugent.zeus.hydra.fragments.settings;
 
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
+import android.preference.*;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import be.ugent.zeus.hydra.HydraApplication;
@@ -17,10 +14,7 @@ import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Rien Maertens
@@ -67,6 +61,8 @@ public class ActivityFragment extends PreferenceFragment {
         Set<String> set = new HashSet<>();
         PreferenceScreen target = (PreferenceScreen) findPreference("associationPrefListScreen");
 
+        target.setTitle("Verenigingen");
+
         if(assocations!=null) {
 
             for (int i = 0; i < assocations.size(); i++) {
@@ -85,9 +81,7 @@ public class ActivityFragment extends PreferenceFragment {
                 checkBoxPreference.setChecked(false);
                 checkBoxPreference.setTitle(asso.getName());
                 parentCategory.addPreference(checkBoxPreference);
-
             }
-
         }
     }
 

@@ -77,7 +77,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".activities.AssociationActivityDetail"
+            android:name=".activities.EventDetailsActivity"
             android:label="@string/title_activity_association_activity_detail"
             android:parentActivityName=".activities.Hydra">
 

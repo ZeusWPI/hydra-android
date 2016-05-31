@@ -3,8 +3,8 @@ package be.ugent.zeus.hydra.activities.resto;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.MenuRes;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -87,13 +87,10 @@ public abstract class RestoActivity<D extends Parcelable> extends SpiceToolbarAc
         this.data = data;
     }
 
-    /**
-     * Add the progress bar.
-     */
     @Override
-    public void setContentView(@LayoutRes int layoutResID) {
-        super.setContentView(layoutResID);
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        progressBar = $(R.id.progress_bar);
+        super.onCreate(savedInstanceState);
     }
 
     /**
@@ -138,7 +135,7 @@ public abstract class RestoActivity<D extends Parcelable> extends SpiceToolbarAc
     }
 
     /**
-     * @return The main view of this activity. Currently this is used for snackbars, but that may change.
+     * @return The main view of this activity. Currently this is used for snack bars, but that may change.
      */
     protected abstract View getMainView();
 

@@ -34,12 +34,16 @@ public class Hydra extends SpiceToolbarActivity {
         hasParent(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-
+        mViewPager = $(R.id.pager);
         mViewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
+
+        TabLayout tabLayout = $(R.id.tab_layout);
+        assert tabLayout != null;
+
         tabLayout.setupWithViewPager(mViewPager);
 
         //set icons

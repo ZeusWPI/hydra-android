@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
+import be.ugent.zeus.hydra.activities.EventDetailsActivity;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.models.HomeCard;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
@@ -52,7 +52,7 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(), AssociationActivityDetail.class);
+                Intent intent = new Intent(view.getContext(), EventDetailsActivity.class);
                 intent.putExtra("associationActivity", activity);
                 view.getContext().startActivity(intent);
             }

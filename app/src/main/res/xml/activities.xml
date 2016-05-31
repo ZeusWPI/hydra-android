@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="pref_event">
     <CheckBoxPreference
         android:key="pref_association_checkbox"
         android:summary="Kies van welke verenigingen activiteiten te zien zijn."
@@ -11,7 +12,6 @@
         android:key="associationPrefListScreen"
         android:dependency="pref_association_checkbox"
         android:title="Selectie"
-        android:summary="Selecteer hier welke verenigingen er zichtbaar mogen zijn."
-        android:persistent="false">
+        android:summary="Selecteer hier welke verenigingen er zichtbaar mogen zijn.">
     </PreferenceScreen>
 </PreferenceScreen>

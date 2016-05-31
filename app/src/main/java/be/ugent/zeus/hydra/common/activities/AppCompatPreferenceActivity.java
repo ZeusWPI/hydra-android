@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.common.activities;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -110,5 +111,17 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
             mDelegate = AppCompatDelegate.create(this, null);
         }
         return mDelegate;
+    }
+
+    /**
+     * Finds a view that was identified by the id attribute from the XML that was processed in {@link #onCreate}. This
+     * version automatically casts the return value.
+     *
+     * @return The view if found or null otherwise.
+     */
+    @Nullable
+    @SuppressWarnings("unchecked")
+    public <T extends View> T $(@IdRes int id) {
+        return (T) findViewById(id);
     }
 }

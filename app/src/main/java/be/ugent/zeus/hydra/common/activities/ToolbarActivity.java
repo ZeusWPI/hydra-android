@@ -5,7 +5,6 @@ import android.support.annotation.LayoutRes;
 import android.support.v4.app.NavUtils;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +24,7 @@ import be.ugent.zeus.hydra.R;
  *
  * @author Niko Strijbol
  */
-public abstract class ToolbarActivity extends AppCompatActivity {
+public abstract class ToolbarActivity extends HydraActivity {
 
     /**
      * The ID of the toolbar in the XML file. Change this if you want to use a different one.
@@ -60,7 +59,7 @@ public abstract class ToolbarActivity extends AppCompatActivity {
      * Set the toolbar as action bar, and set it up to have an up button, if
      */
     protected void setUpActionBar() {
-        Toolbar toolbar = (Toolbar) findViewById(toolbarId);
+        Toolbar toolbar = $(toolbarId);
         setSupportActionBar(toolbar);
 
         //Set the up button.

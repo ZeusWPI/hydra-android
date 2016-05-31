@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by feliciaan on 27/01/16.
@@ -47,7 +48,7 @@ public class AssociationActivities extends ArrayList<AssociationActivity> {
      * @return The result of the filtering. Note that it is not defined if a copy is returned or not, so if you need
      *         to retain the original array, you need to make a copy yourself.
      */
-    public static ArrayList<AssociationActivity> getPreferredActivities(ArrayList<AssociationActivity> data, Context context) {
+    public static List<AssociationActivity> getPreferredActivities(List<AssociationActivity> data, Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         boolean filter = sharedPrefs.getBoolean("pref_association_checkbox", false);

@@ -34,7 +34,7 @@ public class SandwichActivity extends RestoWebsiteActivity<Sandwich> {
         setContentView(R.layout.activity_resto_sandwich);
         super.onCreate(savedInstanceState);
 
-        recyclerView = (RecyclerView) findViewById(R.id.resto_sandwich_recycler);
+        recyclerView = $(R.id.resto_sandwich_recycler);
 
         //Divider
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
@@ -44,7 +44,8 @@ public class SandwichActivity extends RestoWebsiteActivity<Sandwich> {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        RecyclerFastScroller s = (RecyclerFastScroller) findViewById(R.id.fast_scroller);
+        RecyclerFastScroller s = $(R.id.fast_scroller);
+        assert s != null;
         s.attachRecyclerView(recyclerView);
 
         initFromBundle(savedInstanceState);

@@ -42,7 +42,7 @@ public class MetaActivity extends RestoActivity<RestoLocation> {
         setContentView(R.layout.activity_resto_meta);
         super.onCreate(savedInstanceState);
 
-        recyclerView = (RecyclerView) findViewById(R.id.resto_meta_recycler);
+        recyclerView = $(R.id.resto_meta_recycler);
 
         //Divider
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
@@ -106,7 +106,7 @@ public class MetaActivity extends RestoActivity<RestoLocation> {
     }
 
     /**
-     * @return The main view of this activity. Currently this is used for snackbars, but that may change.
+     * @return The main view of this activity. Currently this is used for snack bars, but that may change.
      */
     @Override
     protected View getMainView() {

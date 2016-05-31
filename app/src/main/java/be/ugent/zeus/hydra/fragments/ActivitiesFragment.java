@@ -1,7 +1,9 @@
 package be.ugent.zeus.hydra.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,14 +27,15 @@ import java.util.ArrayList;
  *
  * @author ellen
  * @author Niko Strijbol
- *
- * TODO: update after  settings changed.
  */
-public class ActivitiesFragment extends SpiceFragment implements RequestHandler.Requester<ArrayList<AssociationActivity>>{
+public class ActivitiesFragment extends SpiceFragment implements RequestHandler.Requester<ArrayList<AssociationActivity>>, SharedPreferences.OnSharedPreferenceChangeListener{
 
     private ActivityListAdapter adapter;
     private View layout;
     private ProgressBar progressBar;
+
+    //If the data is invalidated.
+    private boolean invalid = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +52,9 @@ public class ActivitiesFragment extends SpiceFragment implements RequestHandler.
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
 
         performRequest(false);
+
+        //Register this class in the settings.
+        PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
 
         return layout;
     }
@@ -91,7 +97,37 @@ public class ActivitiesFragment extends SpiceFragment implements RequestHandler.
     @Override
     public void receiveData(ArrayList<AssociationActivity> data) {
         adapter.setData(AssociationActivities.getPreferredActivities(data, getContext()));
+        adapter.setOriginal(data);
         adapter.notifyDataSetChanged();
         hideProgressBar();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //Refresh the data.
+        if(invalid) {
+            //No need for a new thread, since this is pretty fast.
+            adapter.setData(AssociationActivities.getPreferredActivities(adapter.getOriginal(), getContext()));
+            adapter.notifyDataSetChanged();
+            invalid = false;
+        }
+    }
+
+    /**
+     * Called when a shared preference is changed, added, or removed. This may be called even if a preference is set to
+     * its existing value.
+     * <p>
+     * <p>This callback will be run on your main thread.
+     *
+     * @param sharedPreferences The {@link SharedPreferences} that received the change.
+     * @param key               The key of the preference that was changed, added, or
+     */
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals("pref_association_checkbox") || key.equals("associationPrefListScreen")) {
+            invalid = true;
+        }
     }
 }

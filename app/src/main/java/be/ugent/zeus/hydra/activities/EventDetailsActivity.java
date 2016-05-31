@@ -19,7 +19,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Locale;
 
-public class AssociationActivityDetail extends ToolbarActivity {
+public class EventDetailsActivity extends ToolbarActivity {
 
     //The data
     private AssociationActivity associationActivity;
@@ -36,7 +36,7 @@ public class AssociationActivityDetail extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        setContentView(R.layout.activity_activity_detail);
+        setContentView(R.layout.activity_event_detail);
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();

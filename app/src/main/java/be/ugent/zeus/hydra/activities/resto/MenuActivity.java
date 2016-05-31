@@ -30,19 +30,19 @@ public class MenuActivity extends RestoWebsiteActivity<RestoMenu> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resto);
+        super.onCreate(savedInstanceState);
         
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         pageAdapter = new MenuPageAdapter(getSupportFragmentManager(), this);
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.resto_tabs_content);
+        mViewPager = $(R.id.resto_tabs_content);
         assert mViewPager != null;
         mViewPager.setAdapter(pageAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.resto_tabs_slider);
+        TabLayout tabLayout = $(R.id.resto_tabs_slider);
         assert tabLayout != null;
         tabLayout.setupWithViewPager(mViewPager);
 
