@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.recyclerviewholder.home;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -53,7 +54,7 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(view.getContext(), EventDetailsActivity.class);
-                intent.putExtra("associationActivity", activity);
+                intent.putExtra("associationActivity", (Parcelable) activity);
                 view.getContext().startActivity(intent);
             }
         });

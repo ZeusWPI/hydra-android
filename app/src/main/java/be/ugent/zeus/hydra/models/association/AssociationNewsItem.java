@@ -1,16 +1,16 @@
 package be.ugent.zeus.hydra.models.association;
 
-import com.google.gson.annotations.JsonAdapter;
-
-import java.util.Date;
-
 import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
+import com.google.gson.annotations.JsonAdapter;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by feliciaan on 04/02/16.
  */
-public class AssociationNewsItem {
+public class AssociationNewsItem implements Serializable {
     public int id;
     public String title;
     public String content;

@@ -9,6 +9,7 @@ import com.google.gson.annotations.JsonAdapter;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class RestoMenu implements HomeCard, Parcelable {
+public class RestoMenu implements HomeCard, Parcelable, Serializable {
 
     private boolean open;
     @JsonAdapter(RestoDateJsonAdapter.class)

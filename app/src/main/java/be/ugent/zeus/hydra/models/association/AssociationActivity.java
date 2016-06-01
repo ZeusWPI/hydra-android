@@ -2,24 +2,21 @@ package be.ugent.zeus.hydra.models.association;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.design.widget.Snackbar;
-
-import com.google.gson.annotations.JsonAdapter;
-
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-
-import java.util.Date;
-
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.models.HomeCard;
 import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by feliciaan on 27/01/16.
  */
-public class AssociationActivity implements Parcelable, HomeCard {
+public class AssociationActivity implements Parcelable, HomeCard, Serializable {
     public String title;
     @JsonAdapter(TimeStampDateJsonAdapter.class)
     public Date start;

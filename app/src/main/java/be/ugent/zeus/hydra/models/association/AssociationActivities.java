@@ -10,31 +10,8 @@ import java.util.List;
 /**
  * Created by feliciaan on 27/01/16.
  */
+
 public class AssociationActivities extends ArrayList<AssociationActivity> {
-    private static final long serialVersionUID = 32432552425423423L;
-
-    public AssociationActivities getPreferredActivities(Context context){
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        boolean filter = sharedPrefs.getBoolean("pref_association_checkbox", false);
-        if(filter) {
-            AssociationActivities prefered = new AssociationActivities();
-
-            for (int i = 0; i < this.size(); i++) {
-                AssociationActivity asso = this.get(i);
-                boolean sf = sharedPrefs.getBoolean(asso.association.getName(), false);
-                if (sf) {
-                    prefered.add(asso);
-                }
-
-            }
-
-            return prefered;
-        }else{
-            return this;
-        }
-
-    }
 
     /**
      * Filter function for the events of different associations.

@@ -1,7 +1,8 @@
 package be.ugent.zeus.hydra.requests;
 
+import android.support.annotation.NonNull;
+import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
-import com.octo.android.robospice.persistence.DurationInMillis;
 
 /**
  * Request for an overview of the resto menu.
@@ -14,11 +15,13 @@ public class RestoMenuOverviewRequest extends AbstractRequest<RestoOverview> {
         super(RestoOverview.class);
     }
 
+    @NonNull
     @Override
     public String getCacheKey() {
         return "menuOverview.json";
     }
 
+    @NonNull
     @Override
     protected String getAPIUrl() {
         return ZEUS_API_URL + "2.0/resto/menu/nl/overview.json";
@@ -26,6 +29,6 @@ public class RestoMenuOverviewRequest extends AbstractRequest<RestoOverview> {
 
     @Override
     public long getCacheDuration() {
-        return DurationInMillis.ONE_HOUR * 12;
+        return Cache.ONE_HOUR * 12;
     }
 }

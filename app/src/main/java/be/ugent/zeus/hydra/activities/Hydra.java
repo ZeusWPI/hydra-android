@@ -9,12 +9,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
-import be.ugent.zeus.hydra.common.activities.SpiceToolbarActivity;
+import be.ugent.zeus.hydra.common.activities.ToolbarActivity;
 
 /**
  * Main activity.
  */
-public class Hydra extends SpiceToolbarActivity {
+public class Hydra extends ToolbarActivity {
 
     //The tab icons
     private static int[] icons = {

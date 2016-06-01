@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.adapters;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +50,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(view.getContext(), EventDetailsActivity.class);
-                    intent.putExtra("associationActivity", activity);
+                    intent.putExtra("associationActivity", (Parcelable) activity);
                     view.getContext().startActivity(intent);
                 }
             });

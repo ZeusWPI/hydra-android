@@ -1,12 +1,17 @@
 package be.ugent.zeus.hydra.activities.resto;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.resto.MenuPageAdapter;
+import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
 
 import java.util.ArrayList;
@@ -16,13 +21,14 @@ import java.util.ArrayList;
  *
  * @author Niko Strijbol
  */
-public class MenuActivity extends RestoWebsiteActivity<RestoMenu> {
+public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
 
-    private static final String DATA = "resto_data_list";
     private static final String URL = "http://www.ugent.be/student/nl/meer-dan-studeren/resto";
 
     private MenuPageAdapter pageAdapter;
     private ViewPager mViewPager;
+
+    protected ArrayList<RestoMenu> data = null;
 
     public RestoMenu getMenu(int position) {
         return data.get(position);
@@ -46,7 +52,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoMenu> {
         assert tabLayout != null;
         tabLayout.setupWithViewPager(mViewPager);
 
-        initFromBundle(savedInstanceState);
+        startLoader();
     }
 
     /**
@@ -58,31 +64,28 @@ public class MenuActivity extends RestoWebsiteActivity<RestoMenu> {
     }
 
     /**
-     * Request the menu DATA. Once the DATA is loaded, pass it to the {@link MenuPageAdapter}.
-     *
-     * @param force If true, the cache is cleared.
-     */
-    public void performRequest(final boolean force) {
-        performRequest(force, new RestoMenuOverviewRequest());
-    }
-
-    /**
      * This method is used to receive new data.
      *
      * @param data The new data.
      */
     @Override
-    public void receiveData(ArrayList<RestoMenu> data) {
+    public void receiveData(@NonNull RestoOverview data) {
         super.receiveData(data);
+        this.data = data;
         pageAdapter.setNumber(data.size());
     }
 
     /**
-     * @return The name of the saved data.
+     * Called when a previously created loader is being reset, and thus making its data unavailable.  The application
+     * should at this point remove any references it has to the Loader's data.
+     *
+     * @param loader The Loader that is being reset.
      */
     @Override
-    protected String getDataName() {
-        return DATA;
+    public void onLoaderReset(Loader<ThrowableEither<RestoOverview>> loader) {
+        super.onLoaderReset(loader);
+        this.data = new ArrayList<>();
+        pageAdapter.setNumber(data.size());
     }
 
     /**
@@ -91,5 +94,10 @@ public class MenuActivity extends RestoWebsiteActivity<RestoMenu> {
     @Override
     protected View getMainView() {
         return mViewPager;
+    }
+
+    @Override
+    public Request<RestoOverview> getRequest() {
+        return new RestoMenuOverviewRequest();
     }
 }

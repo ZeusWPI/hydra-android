@@ -4,13 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Represents a meal.
  *
  * @author Niko Strijbol
  * @author Mitch
  */
-public class RestoMeal implements Parcelable {
+public class RestoMeal implements Parcelable, Serializable {
 
     private String name;
     private String price;

@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.requests;
 
-import com.octo.android.robospice.persistence.DurationInMillis;
-
+import android.support.annotation.NonNull;
+import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.models.resto.RestoMeta;
 
 /**
@@ -12,11 +12,13 @@ public class RestoMetaRequest extends AbstractRequest<RestoMeta> {
         super(RestoMeta.class);
     }
 
+    @NonNull
     @Override
     public String getCacheKey() {
         return "restoMeta.json";
     }
 
+    @NonNull
     @Override
     protected String getAPIUrl() {
         return ZEUS_API_URL + "2.0/resto/meta.json"; //TODO: check me!
@@ -24,6 +26,6 @@ public class RestoMetaRequest extends AbstractRequest<RestoMeta> {
 
     @Override
     public long getCacheDuration() {
-        return DurationInMillis.ONE_HOUR * 6;
+        return Cache.ONE_HOUR * 6;
     }
 }

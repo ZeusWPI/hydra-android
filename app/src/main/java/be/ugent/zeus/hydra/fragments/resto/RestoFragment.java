@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.fragments.resto;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,21 +15,20 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.MenuActivity;
 import be.ugent.zeus.hydra.activities.resto.MetaActivity;
 import be.ugent.zeus.hydra.activities.resto.SandwichActivity;
-import be.ugent.zeus.hydra.common.RequestHandler;
-import be.ugent.zeus.hydra.common.fragments.SpiceFragment;
+import be.ugent.zeus.hydra.common.fragments.LoaderFragment;
 import be.ugent.zeus.hydra.fragments.resto.menu.MenuFragment;
 import be.ugent.zeus.hydra.fragments.resto.menu.MenuSingleFragment;
+import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
 import be.ugent.zeus.hydra.utils.DateUtils;
-
-import java.util.ArrayList;
 
 /**
  * @author Niko Strijbol
  * @author mivdnber
  */
-public class RestoFragment extends SpiceFragment implements RequestHandler.Requester<ArrayList<RestoMenu>> {
+public class RestoFragment extends LoaderFragment<RestoOverview> {
 
     private static final String FRAGMENT_TAG = "menu_today_fragment";
 
@@ -71,31 +71,9 @@ public class RestoFragment extends SpiceFragment implements RequestHandler.Reque
             }
         });
 
-        performRequest(false);
+        startLoader();
 
         return layout;
-    }
-
-    public void performRequest(final boolean refresh) {
-        final RestoMenuOverviewRequest r = new RestoMenuOverviewRequest();
-
-        RequestHandler.performListRequest(refresh, r, this);
-    }
-
-    /**
-     * Called when the requests has failed.
-     */
-    @Override
-    public void requestFailure() {
-        Snackbar.make(layout, getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        performRequest(false);
-                    }
-                })
-                .show();
-        hideProgressBar();
     }
 
     /**
@@ -108,12 +86,12 @@ public class RestoFragment extends SpiceFragment implements RequestHandler.Reque
     }
 
     /**
-     * Called when the request was able to produce data.
+     * This must be called when data is received that has no errors.
      *
      * @param data The data.
      */
     @Override
-    public void receiveData(ArrayList<RestoMenu> data) {
+    public void receiveData(@NonNull RestoOverview data) {
         hideProgressBar();
 
         FragmentManager m = getChildFragmentManager();
@@ -126,5 +104,31 @@ public class RestoFragment extends SpiceFragment implements RequestHandler.Reque
             fragmentTransaction.commit();
         }
         title.setText(String.format(getString(R.string.menu_today_title), DateUtils.getFriendlyDate(today.getDate())));
+    }
+
+    /**
+     * This must be called when an error occurred.
+     *
+     * @param error The exception.
+     */
+    @Override
+    public void receiveError(@NonNull Throwable error) {
+        Snackbar.make(layout, getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.again), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        restartLoader();
+                    }
+                })
+                .show();
+        hideProgressBar();
+    }
+
+    /**
+     * @return The request that will be executed.
+     */
+    @Override
+    public Request<RestoOverview> getRequest() {
+        return new RestoMenuOverviewRequest();
     }
 }

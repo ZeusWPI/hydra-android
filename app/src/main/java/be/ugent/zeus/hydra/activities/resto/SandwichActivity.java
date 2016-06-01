@@ -1,18 +1,19 @@
 package be.ugent.zeus.hydra.activities.resto;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.adapters.resto.MenuPageAdapter;
 import be.ugent.zeus.hydra.adapters.resto.SandwichAdapter;
 import be.ugent.zeus.hydra.common.DividerItemDecoration;
+import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.models.resto.Sandwich;
+import be.ugent.zeus.hydra.models.resto.Sandwiches;
 import be.ugent.zeus.hydra.requests.RestoSandwichesRequest;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -21,9 +22,8 @@ import java.util.Comparator;
  *
  * @author Niko Strijbol
  */
-public class SandwichActivity extends RestoWebsiteActivity<Sandwich> {
+public class SandwichActivity extends RestoWebsiteActivity<Sandwiches> {
 
-    private static final String DATA = "sandwich_data_list";
     private static final String URL = "http://www.ugent.be/student/nl/meer-dan-studeren/resto/broodjes/overzicht.htm";
 
     private SandwichAdapter adapter;
@@ -48,7 +48,7 @@ public class SandwichActivity extends RestoWebsiteActivity<Sandwich> {
         assert s != null;
         s.attachRecyclerView(recyclerView);
 
-        initFromBundle(savedInstanceState);
+        startLoader();
     }
 
     /**
@@ -60,21 +60,12 @@ public class SandwichActivity extends RestoWebsiteActivity<Sandwich> {
     }
 
     /**
-     * Request the menu DATA. Once the DATA is loaded, pass it to the {@link MenuPageAdapter}.
-     *
-     * @param force If true, the cache is cleared.
-     */
-    public void performRequest(final boolean force) {
-        performRequest(force, new RestoSandwichesRequest());
-    }
-
-    /**
      * This method is used to receive new data, from the request for example.
      *
      * @param data The new data.
      */
     @Override
-    public void receiveData(ArrayList<Sandwich> data) {
+    public void receiveData(@NonNull Sandwiches data) {
         Collections.sort(data, new Comparator<Sandwich>() {
             @Override
             public int compare(Sandwich lhs, Sandwich rhs) {
@@ -86,18 +77,15 @@ public class SandwichActivity extends RestoWebsiteActivity<Sandwich> {
     }
 
     /**
-     * @return The name of the saved data.
-     */
-    @Override
-    protected String getDataName() {
-        return DATA;
-    }
-
-    /**
      * @return The main view of this activity. Currently this is used for snackbars, but that may change.
      */
     @Override
     protected View getMainView() {
         return recyclerView;
+    }
+
+    @Override
+    public Request<Sandwiches> getRequest() {
+        return new RestoSandwichesRequest();
     }
 }

@@ -3,10 +3,12 @@ package be.ugent.zeus.hydra.models.resto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * Created by feliciaan on 04/02/16.
  */
-public class RestoLocation implements Parcelable {
+public class RestoLocation implements Parcelable, Serializable {
     public String name;
     public String address;
     public double latitude;

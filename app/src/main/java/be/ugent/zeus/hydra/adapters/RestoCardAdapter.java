@@ -11,14 +11,14 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.models.resto.RestoMeal;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -220,7 +220,7 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
     public void setMenuList(RestoOverview menuList) {
         this.menuList.clear();
 
-        Date currentDate = org.apache.commons.lang3.time.DateUtils.truncate(new Date(), Calendar.DATE); // Date at start of day
+        Date currentDate = DateTime.now().toDate(); // Date at start of day
         for (RestoMenu menu : menuList) {
             // check if menu is today or later
             if (menu.getDate().before(currentDate)) {

@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.requests;
 
-import com.octo.android.robospice.persistence.DurationInMillis;
-
+import android.support.annotation.NonNull;
+import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.models.resto.Sandwiches;
 
 /**
@@ -15,11 +15,13 @@ public class RestoSandwichesRequest extends AbstractRequest<Sandwiches> {
         super(Sandwiches.class);
     }
 
+    @NonNull
     @Override
     public String getCacheKey() {
         return "sandwiches.json";
     }
 
+    @NonNull
     @Override
     protected String getAPIUrl() {
         return ZEUS_API_URL + "2.0/resto/sandwiches.json";
@@ -27,6 +29,6 @@ public class RestoSandwichesRequest extends AbstractRequest<Sandwiches> {
 
     @Override
     public long getCacheDuration() {
-        return DurationInMillis.ONE_HOUR * 12;
+        return Cache.ONE_HOUR * 12;
     }
 }

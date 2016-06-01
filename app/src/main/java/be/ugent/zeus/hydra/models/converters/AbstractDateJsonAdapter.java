@@ -5,8 +5,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
-import org.apache.commons.lang3.NotImplementedException;
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -25,7 +23,7 @@ public class AbstractDateJsonAdapter extends TypeAdapter<Date> {
     }
 
     @Override
-    public void write(JsonWriter out, Date value) throws IOException, NotImplementedException {
+    public void write(JsonWriter out, Date value) throws IOException {
         if (value == null) {
             out.nullValue();
             return;

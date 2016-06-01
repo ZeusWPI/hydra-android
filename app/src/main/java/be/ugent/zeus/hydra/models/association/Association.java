@@ -2,12 +2,13 @@ package be.ugent.zeus.hydra.models.association;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.StrictMode;
+
+import java.io.Serializable;
 
 /**
  * Created by feliciaan on 04/02/16.
  */
-public class Association implements Parcelable {
+public class Association implements Parcelable, Serializable {
     public String internal_name;
     public String full_name;
     public String display_name;

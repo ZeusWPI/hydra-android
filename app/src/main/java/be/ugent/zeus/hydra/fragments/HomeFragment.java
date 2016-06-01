@@ -1,7 +1,10 @@
 package be.ugent.zeus.hydra.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,165 +14,247 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.common.fragments.SpiceFragment;
+import be.ugent.zeus.hydra.loader.LoaderCallback;
+import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.models.HomeCard;
 import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
-import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
 import be.ugent.zeus.hydra.requests.SpecialEventRequest;
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by silox on 17/10/15.
- */
+import static be.ugent.zeus.hydra.common.ViewUtils.$;
 
-public class HomeFragment extends SpiceFragment {
-    private RecyclerView recyclerView;
+/**
+ * @author Niko Strijbol
+ * @author silox
+ */
+public class HomeFragment extends Fragment {
+
+    private static final int MENU_LOADER = 1;
+    private static final int ACTIVITY_LOADER = 2;
+    private static final int SPECIAL_LOADER = 3;
+
+    private MenuCallback menuCallback;
+    private ActivityCallback activityCallback;
+    private SpecialEventCallback specialEventCallback;
+
+
     private HomeCardAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
     private View layout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressBar;
 
     @Override
-    public void onResume() {
-        super.onResume();
-        this.sendScreenTracking("Home");
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         layout = inflater.inflate(R.layout.homefragment_view, container, false);
 
-        recyclerView = (RecyclerView) layout.findViewById(R.id.home_cards_view);
-        swipeRefreshLayout = (SwipeRefreshLayout) layout.findViewById(R.id.swipeRefreshLayout);
-        progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
+        RecyclerView recyclerView = $(layout, R.id.home_cards_view);
+        swipeRefreshLayout = $(layout, R.id.swipeRefreshLayout);
+        progressBar = $(layout, R.id.progress_bar);
 
         adapter = new HomeCardAdapter();
+        assert recyclerView != null;
         recyclerView.setAdapter(adapter);
-        layoutManager = new LinearLayoutManager(this.getActivity());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                performRequest();
+                restartLoaders();
             }
         });
 
-        performRequest();
+        startLoaders();
 
         return layout;
     }
 
-    private void performRequest() {
-        performMenuRequest();
-        performActivityRequest();
-        performSpecialEventRequest();
+    /**
+     * Start the loaders.
+     */
+    private void startLoaders() {
+        menuCallback = new MenuCallback();
+        activityCallback = new ActivityCallback();
+        specialEventCallback = new SpecialEventCallback();
+
+        getLoaderManager().initLoader(MENU_LOADER, null, menuCallback);
+        getLoaderManager().initLoader(ACTIVITY_LOADER, null, activityCallback);
+        getLoaderManager().initLoader(SPECIAL_LOADER, null, specialEventCallback);
     }
 
+    /**
+     * Restart the loaders
+     */
+    private void restartLoaders() {
+        getLoaderManager().restartLoader(MENU_LOADER, null, menuCallback);
+        getLoaderManager().restartLoader(ACTIVITY_LOADER, null, activityCallback);
+        getLoaderManager().restartLoader(SPECIAL_LOADER, null, specialEventCallback);
+    }
+
+    /**
+     * When one of the loaders is complete.
+     */
     private void loadComplete() {
         swipeRefreshLayout.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
     }
 
-    private void performMenuRequest() {
-        final RestoMenuOverviewRequest r = new RestoMenuOverviewRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<RestoOverview>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                showFailureSnackbar("restomenu");
-                loadComplete();
-            }
-
-            @Override
-            public void onRequestSuccess(final RestoOverview menuList) {
-                ArrayList<HomeCard> list = new ArrayList<>();
-                //list.addAll(menuList); //Why no casting :'(
-                for (RestoMenu menu: menuList) {
-                    if (new DateTime(menu.getDate()).withTimeAtStartOfDay().isAfterNow()) {
-                        list.add(menu); //TODO: add current day
-                    }
-                }
-                adapter.updateCardItems(list, HomeCardAdapter.HomeType.RESTO);
-                loadComplete();
-            }
-        });
-
-    }
-
-    private void performActivityRequest() {
-        final AssociationActivitiesRequest r = new AssociationActivitiesRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationActivities>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                showFailureSnackbar("activiteiten");
-                loadComplete();
-            }
-
-            @Override
-            public void onRequestSuccess(final AssociationActivities associationActivities) {
-                List<HomeCard> list = new ArrayList<>();
-                AssociationActivities filteredAssociationActivities = associationActivities.getPreferredActivities(getContext());
-                Date date = new Date();
-                for (AssociationActivity activity: filteredAssociationActivities) {
-                    if(activity.getPriority() > 0 && activity.end.after(date)) {
-                        list.add(activity);
-                    }
-                }
-                adapter.updateCardItems(list, HomeCardAdapter.HomeType.ACTIVITY);
-                loadComplete();
-            }
-        });
-    }
-
-    private void performSpecialEventRequest() {
-        final SpecialEventRequest r = new SpecialEventRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<SpecialEventWrapper>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                showFailureSnackbar("speciale activiteiten");
-                loadComplete();
-            }
-
-            @Override
-            public void onRequestSuccess(SpecialEventWrapper specialEventWrapper) {
-                List<HomeCard> list = new ArrayList<>();
-                boolean development_enabled = true;
-                for (SpecialEvent event: specialEventWrapper.getSpecialEvents()) {
-                    if ((event.getStart().before(new Date()) && event.getEnd().after(new Date())) || (development_enabled && event.isDevelopment())) {
-                        list.add(event);
-                    }
-                }
-
-                adapter.updateCardItems(list, HomeCardAdapter.HomeType.SPECIALEVENT);
-                loadComplete();
-            }
-        });
-    }
-
+    /**
+     * Show a snack bar.
+     *
+     * @param field The failing field.
+     */
     private void showFailureSnackbar(String field) {
-        Snackbar
-                .make(layout, "Oeps! Kon " + field + " niet ophalen.", Snackbar.LENGTH_LONG)
+        Snackbar.make(layout, "Oeps! Kon " + field + " niet ophalen.", Snackbar.LENGTH_LONG)
                 .setAction("Opnieuw proberen", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        performRequest();
+                        restartLoaders();
                     }
                 })
                 .show();
+    }
+
+    private class MenuCallback extends LoaderCallback<RestoOverview> {
+
+        /**
+         * This must be called when data is received that has no errors.
+         *
+         * @param data The data.
+         */
+        @Override
+        public void receiveData(@NonNull RestoOverview data) {
+            ArrayList<HomeCard> list = new ArrayList<>();
+            list.addAll(data);
+            adapter.updateCardItems(list, HomeCardAdapter.HomeType.RESTO);
+            loadComplete();
+        }
+
+        /**
+         * This must be called when an error occurred.
+         *
+         * @param error The exception.
+         */
+        @Override
+        public void receiveError(@NonNull Throwable error) {
+            showFailureSnackbar("restomenu");
+            loadComplete();
+        }
+
+        /**
+         * @return The request that will be executed.
+         */
+        @Override
+        public Request<RestoOverview> getRequest() {
+            return new RestoMenuOverviewRequest();
+        }
+
+        @Override
+        public Loader<ThrowableEither<RestoOverview>> onCreateLoader(int id, Bundle args) {
+            return super.onCreateLoader(getContext());
+        }
+    }
+
+    private class ActivityCallback extends LoaderCallback<AssociationActivities> {
+
+        /**
+         * This must be called when data is received that has no errors.
+         *
+         * @param data The data.
+         */
+        @Override
+        public void receiveData(@NonNull AssociationActivities data) {
+            List<AssociationActivity> filteredAssociationActivities = AssociationActivities.getPreferredActivities(data, getContext());
+            Date date = new Date();
+            List<HomeCard> list = new ArrayList<>();
+            for (AssociationActivity activity: filteredAssociationActivities) {
+                if(activity.getPriority() > 0 && activity.end.after(date)) {
+                    list.add(activity);
+                }
+            }
+            adapter.updateCardItems(list, HomeCardAdapter.HomeType.ACTIVITY);
+            loadComplete();
+        }
+
+        /**
+         * This must be called when an error occurred.
+         *
+         * @param error The exception.
+         */
+        @Override
+        public void receiveError(@NonNull Throwable error) {
+            showFailureSnackbar("activiteiten");
+            loadComplete();
+        }
+
+        /**
+         * @return The request that will be executed.
+         */
+        @Override
+        public Request<AssociationActivities> getRequest() {
+            return new AssociationActivitiesRequest();
+        }
+
+        @Override
+        public Loader<ThrowableEither<AssociationActivities>> onCreateLoader(int id, Bundle args) {
+            return super.onCreateLoader(getContext());
+        }
+    }
+
+    private class SpecialEventCallback extends LoaderCallback<SpecialEventWrapper> {
+
+        /**
+         * This must be called when data is received that has no errors.
+         *
+         * @param data The data.
+         */
+        @Override
+        public void receiveData(@NonNull SpecialEventWrapper data) {
+            List<HomeCard> list = new ArrayList<>();
+            boolean development_enabled = true;
+            for (SpecialEvent event: data.getSpecialEvents()) {
+                if ((event.getStart().before(new Date()) && event.getEnd().after(new Date())) || (development_enabled && event.isDevelopment())) {
+                    list.add(event);
+                }
+            }
+
+            adapter.updateCardItems(list, HomeCardAdapter.HomeType.SPECIALEVENT);
+            loadComplete();
+        }
+
+        /**
+         * This must be called when an error occurred.
+         *
+         * @param error The exception.
+         */
+        @Override
+        public void receiveError(@NonNull Throwable error) {
+            showFailureSnackbar("speciale activiteiten");
+            loadComplete();
+        }
+
+        /**
+         * @return The request that will be executed.
+         */
+        @Override
+        public Request<SpecialEventWrapper> getRequest() {
+            return new SpecialEventRequest();
+        }
+
+        @Override
+        public Loader<ThrowableEither<SpecialEventWrapper>> onCreateLoader(int id, Bundle args) {
+            return super.onCreateLoader(getContext());
+        }
     }
 }

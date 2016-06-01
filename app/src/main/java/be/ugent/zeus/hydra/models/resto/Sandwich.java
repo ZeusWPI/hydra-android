@@ -3,12 +3,13 @@ package be.ugent.zeus.hydra.models.resto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by feliciaan on 04/02/16.
  */
-public class Sandwich implements Parcelable {
+public class Sandwich implements Parcelable, Serializable {
     public String name;
     public ArrayList<String> ingredients;
     public String price_small;

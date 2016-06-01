@@ -1,18 +1,18 @@
 package be.ugent.zeus.hydra.models.specialevent;
 
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-
-import java.util.Date;
-
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.models.HomeCard;
 import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by feliciaan on 06/04/16.
  */
-public class SpecialEvent implements HomeCard {
+public class SpecialEvent implements HomeCard, Serializable {
     private String name;
     private String link;
     @SerializedName("simple-text")

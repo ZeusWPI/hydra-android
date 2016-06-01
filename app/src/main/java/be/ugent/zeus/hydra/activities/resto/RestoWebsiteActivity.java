@@ -2,16 +2,17 @@ package be.ugent.zeus.hydra.activities.resto;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Parcelable;
 import android.support.annotation.MenuRes;
 import android.view.MenuItem;
 import be.ugent.zeus.hydra.R;
+
+import java.io.Serializable;
 
 /**
  * Activity for classes that have a URL option in the overflow menu.
  * @author Niko Strijbol
  */
-public abstract class RestoWebsiteActivity<D extends Parcelable> extends RestoActivity<D> {
+public abstract class RestoWebsiteActivity<D extends Serializable> extends RestoActivity<D> {
 
     /**
      * Add the website option.
