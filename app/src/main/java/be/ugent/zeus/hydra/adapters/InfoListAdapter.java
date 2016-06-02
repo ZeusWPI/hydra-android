@@ -17,8 +17,6 @@ import be.ugent.zeus.hydra.activities.HydraWebViewActivity;
 import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
 import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
-import be.ugent.zeus.hydra.recyclerviewholder.DateHeaderViewHolder;
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +24,7 @@ import java.util.List;
 /**
  * Created by ellen on 8/3/16.
  */
-public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardViewHolder> implements StickyRecyclerHeadersAdapter {
+public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardViewHolder> {
     private ArrayList<InfoItem> items;
     protected final static String HTML_API = "https://zeus.ugent.be/hydra/api/2.0/info/";
 
@@ -134,24 +132,6 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
     public void onBindViewHolder(CardViewHolder holder, int position) {
         final InfoItem category = items.get(position);
         holder.populate(category);
-    }
-
-    @Override
-    public long getHeaderId(int position) {
-        return 0; //no header
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
-        //no header
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_date_header, parent, false);
-        return new DateHeaderViewHolder(view);
-    }
-
-    @Override
-    public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-        //no header
     }
 
 

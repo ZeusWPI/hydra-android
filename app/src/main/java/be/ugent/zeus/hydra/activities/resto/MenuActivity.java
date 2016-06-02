@@ -7,6 +7,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.resto.common.RestoWebsiteActivity;
 import be.ugent.zeus.hydra.adapters.resto.MenuPageAdapter;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.loader.cache.Request;

@@ -17,7 +17,7 @@ import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.loader.LoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.loader.cache.Request;
-import be.ugent.zeus.hydra.models.HomeCard;
+import be.ugent.zeus.hydra.models.CardModel;
 import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
@@ -31,13 +31,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static be.ugent.zeus.hydra.common.ViewUtils.$;
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
  * @author Niko Strijbol
  * @author silox
  */
 public class HomeFragment extends Fragment {
+
+    private static final boolean DEVELOPMENT = true;
 
     private static final int MENU_LOADER = 1;
     private static final int ACTIVITY_LOADER = 2;
@@ -57,14 +59,13 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        layout = inflater.inflate(R.layout.homefragment_view, container, false);
+        layout = inflater.inflate(R.layout.fragment_home, container, false);
 
         RecyclerView recyclerView = $(layout, R.id.home_cards_view);
         swipeRefreshLayout = $(layout, R.id.swipeRefreshLayout);
         progressBar = $(layout, R.id.progress_bar);
 
         adapter = new HomeCardAdapter();
-        assert recyclerView != null;
         recyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -135,9 +136,9 @@ public class HomeFragment extends Fragment {
          */
         @Override
         public void receiveData(@NonNull RestoOverview data) {
-            ArrayList<HomeCard> list = new ArrayList<>();
+            ArrayList<CardModel> list = new ArrayList<>();
             list.addAll(data);
-            adapter.updateCardItems(list, HomeCardAdapter.HomeType.RESTO);
+            adapter.updateCardItems(list, CardModel.CardType.RESTO);
             loadComplete();
         }
 
@@ -177,13 +178,13 @@ public class HomeFragment extends Fragment {
         public void receiveData(@NonNull AssociationActivities data) {
             List<AssociationActivity> filteredAssociationActivities = AssociationActivities.getPreferredActivities(data, getContext());
             Date date = new Date();
-            List<HomeCard> list = new ArrayList<>();
+            List<CardModel> list = new ArrayList<>();
             for (AssociationActivity activity: filteredAssociationActivities) {
                 if(activity.getPriority() > 0 && activity.end.after(date)) {
                     list.add(activity);
                 }
             }
-            adapter.updateCardItems(list, HomeCardAdapter.HomeType.ACTIVITY);
+            adapter.updateCardItems(list, CardModel.CardType.ACTIVITY);
             loadComplete();
         }
 
@@ -221,15 +222,14 @@ public class HomeFragment extends Fragment {
          */
         @Override
         public void receiveData(@NonNull SpecialEventWrapper data) {
-            List<HomeCard> list = new ArrayList<>();
-            boolean development_enabled = true;
+            List<CardModel> list = new ArrayList<>();
             for (SpecialEvent event: data.getSpecialEvents()) {
-                if ((event.getStart().before(new Date()) && event.getEnd().after(new Date())) || (development_enabled && event.isDevelopment())) {
+                if ((event.getStart().before(new Date()) && event.getEnd().after(new Date())) || (DEVELOPMENT && event.isDevelopment())) {
                     list.add(event);
                 }
             }
 
-            adapter.updateCardItems(list, HomeCardAdapter.HomeType.SPECIALEVENT);
+            adapter.updateCardItems(list, CardModel.CardType.SPECIAL_EVENT);
             loadComplete();
         }
 

@@ -4,17 +4,14 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import be.ugent.zeus.hydra.loader.CachedAsyncTaskLoader;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
-import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.loader.cache.Request;
-import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.loader.cache.simple.SerializeCache;
 
 import java.io.Serializable;
 
 /**
  * A special version of the loader using the framework classes for the settings. DO NOT USE OUTSIDE THE SETTINGS.
  *
- * Once we have API 16+, we might switch to this, but not before that.
+ * Once we have API 23+, we might switch to this, but not before that.
  *
  * @see CachedAsyncTaskLoader
  *
@@ -49,26 +46,13 @@ public class CachedAsyncTaskLoaderSystem<D extends Serializable> extends AsyncTa
      * request is saved in the cache.
      */
     @Override
-    @SuppressWarnings("Duplicates")
     public ThrowableEither<D> loadInBackground() {
-        Context context = getContext();
-        Cache cache = new SerializeCache(context);
+        // NEEDS API 16 and UP
+//        if(isLoadInBackgroundCanceled()) {
+//            throw new OperationCanceledException();
+//        }
 
-        ThrowableEither<D> returnValue;
-
-        try {
-            D content;
-            if (refresh) {
-                content = cache.get(request, Cache.NEVER);
-            } else {
-                content = cache.get(request);
-            }
-            returnValue = new ThrowableEither<>(content);
-        } catch (RequestFailureException e) {
-            returnValue = new ThrowableEither<>(e);
-        }
-
-        return returnValue;
+        return CachedAsyncTaskLoader.loadInBackground(getContext(), refresh, request);
     }
 
     /**
@@ -76,10 +60,6 @@ public class CachedAsyncTaskLoaderSystem<D extends Serializable> extends AsyncTa
      */
     @Override
     public void deliverResult(ThrowableEither<D> data) {
-        // NEEDS API 16 and UP
-//        if(isLoadInBackgroundCanceled()) {
-//            throw new OperationCanceledException();
-//        }
 
         // The Loader has been reset; ignore the result and invalidate the data.
         if (isReset()) {

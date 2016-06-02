@@ -2,8 +2,7 @@ package be.ugent.zeus.hydra.models.association;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.models.HomeCard;
+import be.ugent.zeus.hydra.models.CardModel;
 import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
 import com.google.gson.annotations.JsonAdapter;
@@ -16,7 +15,7 @@ import java.util.Date;
 /**
  * Created by feliciaan on 27/01/16.
  */
-public class AssociationActivity implements Parcelable, HomeCard, Serializable {
+public class AssociationActivity implements Parcelable, CardModel, Serializable {
     public String title;
     @JsonAdapter(TimeStampDateJsonAdapter.class)
     public Date start;
@@ -86,7 +85,7 @@ public class AssociationActivity implements Parcelable, HomeCard, Serializable {
     }
 
     @Override
-    public HomeCardAdapter.HomeType getCardType() {
-        return HomeCardAdapter.HomeType.ACTIVITY;
+    public int getCardType() {
+        return CardType.ACTIVITY;
     }
 }

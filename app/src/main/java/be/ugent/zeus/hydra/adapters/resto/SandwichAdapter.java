@@ -16,9 +16,12 @@ import com.kyo.expandablelayout.ExpandableLayout;
 import java.util.Collections;
 import java.util.List;
 
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+
 /**
+ * Adapter for sandwiches.
+ *
  * @author Niko Strijbol
- * @version 27/05/2016
  */
 public class SandwichAdapter extends RecyclerView.Adapter<SandwichAdapter.SandwichHolder> {
 
@@ -35,11 +38,11 @@ public class SandwichAdapter extends RecyclerView.Adapter<SandwichAdapter.Sandwi
         private SandwichHolder(View itemView) {
             super(itemView);
 
-            name = (TextView) itemView.findViewById(R.id.sandwich_name);
-            mediumPrice = (TextView) itemView.findViewById(R.id.sandwich_price_medium);
-            smallPrice = (TextView) itemView.findViewById(R.id.sandwich_price_small);
-            expandableLayout = (ExpandableLayout) itemView.findViewById(R.id.expandable_layout);
-            ingredients = (TextView) itemView.findViewById(R.id.sandwich_ingredients);
+            name = $(itemView, R.id.sandwich_name);
+            mediumPrice = $(itemView, R.id.sandwich_price_medium);
+            smallPrice = $(itemView, R.id.sandwich_price_small);
+            expandableLayout = $(itemView, R.id.expandable_layout);
+            ingredients = $(itemView, R.id.sandwich_ingredients);
         }
     }
 

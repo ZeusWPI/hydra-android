@@ -40,7 +40,7 @@
     <string name="comingsoontitle">Coming soon!</string>
 
     <string name="title_activity_hydra_web_view">Web View</string>
-    <string name="title_activity_info_sub_item">InfoSubItemActivity</string>
+    <string name="title_activity_info_sub_item">Meer info</string>
     <string name="cancel">annuleren</string>
     <string name="set">OK</string>
     <string name="monday">maandag</string>
@@ -64,7 +64,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="begin_refresh">Vernieuwen…</string>
     <string name="end_refresh">Voltooid.</string>
-    <string name="home_resto_view_menu">Menu bekijken</string>
+    <string name="home_resto_view_menu">Weekmenu</string>
     <string name="home_resto_view_sandwiches">Belegde broodjes</string>
     <string name="resto_sandwich">Belegde broodjes</string>
     <string name="sandwich_price_medium">Groot: € %s</string>

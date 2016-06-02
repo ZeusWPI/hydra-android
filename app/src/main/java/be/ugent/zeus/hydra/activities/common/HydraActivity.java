@@ -1,7 +1,7 @@
-package be.ugent.zeus.hydra.common.activities;
+package be.ugent.zeus.hydra.activities.common;
 
 import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -14,13 +14,15 @@ public abstract class HydraActivity extends AppCompatActivity {
 
     /**
      * Finds a view that was identified by the id attribute from the XML that was processed in {@link #onCreate}. This
-     * version automatically casts the return value.
+     * version automatically casts the return value. It cannot be used for null values.
      *
      * @return The view if found or null otherwise.
      */
-    @Nullable
-    @SuppressWarnings("unchecked")
+    @NonNull
     public <T extends View> T $(@IdRes int id) {
-        return (T) findViewById(id);
+        @SuppressWarnings("unchecked")
+        T v = (T) findViewById(id);
+        assert v != null;
+        return v;
     }
 }

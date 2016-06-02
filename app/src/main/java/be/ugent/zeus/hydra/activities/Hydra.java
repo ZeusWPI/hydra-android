@@ -9,7 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
-import be.ugent.zeus.hydra.common.activities.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 
 /**
  * Main activity.
@@ -42,12 +42,12 @@ public class Hydra extends ToolbarActivity {
         mViewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
 
         TabLayout tabLayout = $(R.id.tab_layout);
-        assert tabLayout != null;
 
         tabLayout.setupWithViewPager(mViewPager);
 
         //set icons
         tabLayout.setupWithViewPager(mViewPager);
+
         for (int i = 0; i < icons.length; i++) {
             tabLayout.getTabAt(i).setIcon(icons[i]);
         }

@@ -16,7 +16,7 @@
     <!-- Main theme with coloured text -->
     <style name="Hydra.Main.TextColor" parent="Hydra.Main">
         <item name="android:textColorPrimary">@color/ugent_blue_dark</item>
-        <item name="android:textColorSecondary">@color/ugent_blue_medium</item>
+        <item name="android:textColorSecondary">@color/ugent_blue_dark</item>
         <item name="android:textColorTertiary">@color/ugent_blue_medium</item>
     </style>
 

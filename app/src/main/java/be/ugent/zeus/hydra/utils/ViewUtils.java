@@ -1,7 +1,7 @@
-package be.ugent.zeus.hydra.common;
+package be.ugent.zeus.hydra.utils;
 
 import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 /**
@@ -17,9 +17,11 @@ public class ViewUtils {
      *
      * @return The view.
      */
-    @Nullable
-    @SuppressWarnings("unchecked")
+    @NonNull
     public static <T extends View> T $(View view, @IdRes int id) {
-        return (T) view.findViewById(id);
+        @SuppressWarnings("unchecked")
+        T v = (T) view.findViewById(id);
+        assert v != null;
+        return v;
     }
 }

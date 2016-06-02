@@ -1,35 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="listOptions">
-        <item>Option 1</item>
-        <item>Option 2</item>
-        <item>Option 3</item>
-    </string-array>
-
-    <array name="tab_icons">
-        <item>@drawable/logo</item>
-        <item>@drawable/logo</item>
-        <item>@drawable/logo</item>
-        <item>@drawable/logo</item>
-        <item>@drawable/logo</item>
-        <item>@drawable/logo</item>
-    </array>
-
-    <string-array name="tab_titles">
-        <item>@string/nieuws</item>
-        <item>@string/activiteiten</item>
-        <item>@string/info</item>
-        <item>@string/resto_menu</item>
-        <item>@string/urgent</item>
-        <item>@string/schamper</item>
-    </string-array>
-
-
-    <string-array name="listValues">
-        <item>1 is selected</item>
-        <item>2 is selected</item>
-        <item>3 is selected</item>
-    </string-array>
 
     <string-array name="day_of_week_name">
         <item>@string/monday</item>

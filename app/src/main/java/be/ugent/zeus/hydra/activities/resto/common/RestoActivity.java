@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.activities.resto;
+package be.ugent.zeus.hydra.activities.resto.common;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.activities.LoaderToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.LoaderToolbarActivity;
 
 import java.io.Serializable;
 

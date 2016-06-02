@@ -11,12 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.InfoListAdapter;
-import be.ugent.zeus.hydra.common.fragments.LoaderFragment;
+import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.cache.Request;
+import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
 import be.ugent.zeus.hydra.requests.InfoRequest;
 
-import static be.ugent.zeus.hydra.common.ViewUtils.$;
+import java.util.ArrayList;
+
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 public class InfoFragment extends LoaderFragment<InfoList> {
 
@@ -34,12 +37,19 @@ public class InfoFragment extends LoaderFragment<InfoList> {
         progressBar = $(layout, R.id.progress_bar);
 
         adapter = new InfoListAdapter();
-        assert recyclerView != null;
         recyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        startLoader();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            InfoList infoItems = new InfoList();
+            ArrayList<InfoItem> list = bundle.getParcelableArrayList(INFOLIST);
+            infoItems.addAll(list);
+            receiveData(infoItems);
+        } else {
+            startLoader();
+        }
 
         return layout;
     }

@@ -19,8 +19,8 @@ import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.SettingsActivity;
 import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
-import be.ugent.zeus.hydra.common.DividerItemDecoration;
-import be.ugent.zeus.hydra.common.fragments.LoaderFragment;
+import be.ugent.zeus.hydra.utils.DividerItemDecoration;
+import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
@@ -29,7 +29,7 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.List;
 
-import static be.ugent.zeus.hydra.common.ViewUtils.$;
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
  * Displays a list of activities, filtered by the settings.
@@ -85,10 +85,15 @@ public class ActivitiesFragment extends LoaderFragment<AssociationActivities> im
             }
         });
 
-        //performRequest(false);
-
         //Register this class in the settings.
         PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        getLoaderManager().initLoader(0, null, this);
     }
 
     /**
@@ -121,13 +126,6 @@ public class ActivitiesFragment extends LoaderFragment<AssociationActivities> im
         } else {
             noData.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        getLoaderManager().initLoader(0, null, this);
     }
 
     @Override

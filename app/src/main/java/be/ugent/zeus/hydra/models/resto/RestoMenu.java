@@ -2,8 +2,7 @@ package be.ugent.zeus.hydra.models.resto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.models.HomeCard;
+import be.ugent.zeus.hydra.models.CardModel;
 import be.ugent.zeus.hydra.models.converters.RestoDateJsonAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import org.joda.time.DateTime;
@@ -20,7 +19,7 @@ import java.util.List;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class RestoMenu implements HomeCard, Parcelable, Serializable {
+public class RestoMenu implements CardModel, Parcelable, Serializable {
 
     private boolean open;
     @JsonAdapter(RestoDateJsonAdapter.class)
@@ -113,8 +112,8 @@ public class RestoMenu implements HomeCard, Parcelable, Serializable {
     }
 
     @Override
-    public HomeCardAdapter.HomeType getCardType() {
-        return HomeCardAdapter.HomeType.RESTO;
+    public int getCardType() {
+        return CardType.RESTO;
     }
 
     @Override

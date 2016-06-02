@@ -2,11 +2,13 @@ package be.ugent.zeus.hydra.loader;
 
 import android.content.Context;
 import android.support.v4.content.Loader;
+import be.ugent.zeus.hydra.activities.common.LoaderToolbarActivity;
+import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 
 import java.io.Serializable;
 
 /**
- * Same as {@link be.ugent.zeus.hydra.common.fragments.LoaderFragment} and {@link be.ugent.zeus.hydra.common.activities.LoaderToolbarActivity},
+ * Same as {@link LoaderFragment} and {@link LoaderToolbarActivity},
  * but without any parent.
  *
  * @author Niko Strijbol

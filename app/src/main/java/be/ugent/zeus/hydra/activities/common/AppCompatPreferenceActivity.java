@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.common.activities;
+package be.ugent.zeus.hydra.activities.common;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.activities.resto;
+package be.ugent.zeus.hydra.activities.resto.common;
 
 import android.content.Intent;
 import android.net.Uri;

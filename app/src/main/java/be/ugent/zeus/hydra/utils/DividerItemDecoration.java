@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.common;
+package be.ugent.zeus.hydra.utils;
 
 import android.content.Context;
 import android.content.res.TypedArray;

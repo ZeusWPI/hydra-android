@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="RestoMenu">
-        <attr name="soep" format="string"/>
-        <attr name="hoofdgerecht" format="string"/>
-        <attr name="groenten" format="string"/>
-    </declare-styleable>
+
 </resources>

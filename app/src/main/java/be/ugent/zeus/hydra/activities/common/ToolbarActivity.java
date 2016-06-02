@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.common.activities;
+package be.ugent.zeus.hydra.activities.common;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;

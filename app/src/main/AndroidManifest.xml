@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="be.ugent.zeus.hydra"
+<manifest
+    package="be.ugent.zeus.hydra"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -72,29 +73,34 @@
                 android:value=".activities.Hydra" />
         </activity>
 
-        <service
-            android:name="com.octo.android.robospice.GsonSpringAndroidSpiceService"
-            android:exported="false" />
-
         <activity
             android:name=".activities.EventDetailsActivity"
             android:label="@string/title_activity_association_activity_detail"
             android:parentActivityName=".activities.Hydra">
 
-        <!-- Parent activity meta-data to support 4.0 and lower -->
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.Hydra" />
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
         </activity>
 
-        <receiver android:name=".notifications.DailyNotificationReceiver" />
+        <activity
+            android:name=".activities.InfoSubItemActivity"
+            android:label="@string/title_activity_info_sub_item"
+            android:parentActivityName=".activities.Hydra">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
+        </activity>
 
         <activity
             android:name=".activities.HydraWebViewActivity"
             android:label="@string/title_activity_hydra_web_view" />
-        <activity
-            android:name=".activities.InfoSubItemActivity"
-            android:label="@string/title_activity_info_sub_item" />
+
+        <receiver android:name=".notifications.DailyNotificationReceiver" />
+
     </application>
 
 </manifest>

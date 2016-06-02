@@ -1,12 +1,13 @@
 package be.ugent.zeus.hydra.activities;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.activities.AppCompatPreferenceActivity;
+import be.ugent.zeus.hydra.activities.common.AppCompatPreferenceActivity;
 import be.ugent.zeus.hydra.fragments.settings.ActivityFragment;
 import be.ugent.zeus.hydra.fragments.settings.NotificationFragment;
 import be.ugent.zeus.hydra.notifications.NotificationScheduler;
@@ -64,6 +65,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             return true;
         }
         return super.onMenuItemSelected(featureId, item);
+    }
+
+    @Override
+    public boolean onIsMultiPane() {
+        return (this.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
     public void testNotification(View view){

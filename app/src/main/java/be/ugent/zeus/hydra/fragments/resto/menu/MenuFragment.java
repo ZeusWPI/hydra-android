@@ -1,20 +1,21 @@
 package be.ugent.zeus.hydra.fragments.resto.menu;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
+import android.widget.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.resto.RestoMeal;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 
 import java.util.List;
+
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
  * Displays the resto menu for one day.
@@ -55,12 +56,34 @@ public abstract class MenuFragment extends Fragment {
     /**
      * Make a tableview.
      */
-    protected abstract void convert(View view);
+    protected void convert(View view) {
+        LinearLayout l = $(view, R.id.resto_menu_main);
+        l.removeAllViews();
+
+        l.addView(createTitle(view, "Hoofdgerechten"));
+        l.addView(makeTableDishes(view, data.getMainDishes()));
+
+        l.addView(createTitle(view, "Bijgerechten"));
+        l.addView(makeTableDishes(view, data.getSideDishes()));
+
+        l.addView(createTitle(view, "Groenten"));
+        l.addView(makeVegetables(view, data.getVegetables()));
+    }
+
+    private TextView createTitle(View view, String title) {
+        TextView textView = new TextView(view.getContext());
+        ViewGroup.LayoutParams p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        textView.setLayoutParams(p);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        textView.setTypeface(null, Typeface.BOLD);
+        textView.setText(title);
+        return textView;
+    }
 
     /**
      * Create a suitable table.
      */
-    private TableLayout createTable(View view) {
+    private static TableLayout createTable(View view) {
         TableLayout tableLayout = new TableLayout(view.getContext());
         ViewGroup.LayoutParams p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         tableLayout.setLayoutParams(p);
@@ -68,7 +91,7 @@ public abstract class MenuFragment extends Fragment {
         return tableLayout;
     }
 
-    protected TableLayout makeTableDishes(View view, List<RestoMeal> meals) {
+    public static TableLayout makeTableDishes(View view, List<RestoMeal> meals) {
         TableLayout tableLayout = createTable(view);
 
         for (RestoMeal meal : meals) {
@@ -119,7 +142,7 @@ public abstract class MenuFragment extends Fragment {
         return tableLayout;
     }
 
-    protected TableLayout makeVegetables(View view, List<String> vegetables) {
+    public static TableLayout makeVegetables(View view, List<String> vegetables) {
         TableLayout tableLayout = createTable(view);
 
         for (String veg: vegetables) {

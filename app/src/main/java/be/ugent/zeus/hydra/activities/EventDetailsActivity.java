@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.activities.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
 import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;

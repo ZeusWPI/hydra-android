@@ -4,28 +4,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.HomeCard;
+import be.ugent.zeus.hydra.models.CardModel;
 import be.ugent.zeus.hydra.recyclerviewholder.home.AbstractViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.ActivityCardViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.RestoCardViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.SpecialEventCardViewHolder;
+
+import java.util.*;
+
+import static be.ugent.zeus.hydra.models.CardModel.CardType.ACTIVITY;
+import static be.ugent.zeus.hydra.models.CardModel.CardType.RESTO;
+import static be.ugent.zeus.hydra.models.CardModel.CardType.SPECIAL_EVENT;
 
 /**
  * Created by feliciaan on 06/04/16.
  */
 public class HomeCardAdapter extends RecyclerView.Adapter {
 
-    private List<HomeCard> cardItems;
+    private List<CardModel> cardItems;
 
     public HomeCardAdapter() {
         cardItems = new ArrayList<>();
@@ -36,10 +33,10 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
      * @param cardList List with object implementing the card protocol
      * @param type The type of the cards
      */
-    public void updateCardItems(List<HomeCard> cardList, HomeType type) {
-        Iterator<HomeCard> it = cardItems.iterator();
+    public void updateCardItems(List<CardModel> cardList, @CardModel.CardType int type) {
+        Iterator<CardModel> it = cardItems.iterator();
         while (it.hasNext()) { // Why no filter :(
-            HomeCard c = it.next();
+            CardModel c = it.next();
             if (c.getCardType() == type) {
                 it.remove();
             }
@@ -47,9 +44,9 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
 
         cardItems.addAll(cardList);
 
-        Collections.sort(cardItems, new Comparator<HomeCard>() {
+        Collections.sort(cardItems, new Comparator<CardModel>() {
             @Override
-            public int compare(HomeCard lhs, HomeCard rhs) {
+            public int compare(CardModel lhs, CardModel rhs) {
                 return  -(lhs.getPriority() - rhs.getPriority());
             }
         });
@@ -59,35 +56,24 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        HomeType type = HomeType.getHomeType(viewType);
-        switch (type) {
+        switch (viewType) {
             case RESTO:
-            {
-                View v = getViewForLayout(R.layout.home_restocard, parent);
-                return new RestoCardViewHolder(v);
-            }
+                return new RestoCardViewHolder(getViewForLayout(R.layout.home_card_resto, parent));
             case ACTIVITY:
-            {
-                View v = getViewForLayout(R.layout.home_activitycard, parent);
-                return new ActivityCardViewHolder(v);
-            }
-            case SPECIALEVENT:
-            {
-                View v = getViewForLayout(R.layout.home_specialeventcard, parent);
-                return new SpecialEventCardViewHolder(v);
-            }
+                return new ActivityCardViewHolder(getViewForLayout(R.layout.home_card_event, parent));
+            case SPECIAL_EVENT:
+                return new SpecialEventCardViewHolder(getViewForLayout(R.layout.home_card_special, parent));
         }
         return null;
     }
 
     private View getViewForLayout(int rLayout, ViewGroup parent) {
-        return LayoutInflater.from(parent.getContext())
-                .inflate(rLayout, parent, false);
+        return LayoutInflater.from(parent.getContext()).inflate(rLayout, parent, false);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        HomeCard object = cardItems.get(position);
+        CardModel object = cardItems.get(position);
 
         AbstractViewHolder vh = (AbstractViewHolder)holder;
         vh.populate(object);
@@ -99,34 +85,8 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
     }
 
     @Override
+    @CardModel.CardType
     public int getItemViewType(int position) {
-        return cardItems.get(position).getCardType().getType();
-    }
-
-    public enum HomeType {
-        RESTO(1),
-        ACTIVITY(2),
-        SPECIALEVENT(3);
-
-        private final int type;
-
-        private HomeType(int type) {
-            this.type = type;
-        }
-
-        public int getType() {
-            return type;
-        }
-
-        // Seriously Java, Enum.values() is an expensive operation!
-        private static Map<Integer, HomeType> homeTypeMap = new HashMap<>();
-        static {
-            for (HomeType ht: values()) {
-                homeTypeMap.put(ht.getType(), ht);
-            }
-        }
-        public static HomeType getHomeType(int type) {
-            return homeTypeMap.get(type);
-        }
+        return cardItems.get(position).getCardType();
     }
 }

@@ -1,13 +1,6 @@
 package be.ugent.zeus.hydra.fragments.resto.menu;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.MenuActivity;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 
@@ -39,31 +32,6 @@ public class MenuTabFragment extends MenuFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-    }
-
-    private TextView createTitle(View view, String title) {
-        TextView textView = new TextView(view.getContext());
-        ViewGroup.LayoutParams p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        textView.setLayoutParams(p);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        textView.setTypeface(null, Typeface.BOLD);
-        textView.setText(title);
-        return textView;
-    }
-
-    @Override
-    protected void convert(View view) {
-        LinearLayout l = (LinearLayout) view.findViewById(R.id.resto_menu_main);
-        l.removeAllViews();
-
-        l.addView(createTitle(view, "Hoofdgerechten"));
-        l.addView(makeTableDishes(view, data.getMainDishes()));
-
-        l.addView(createTitle(view, "Bijgerechten"));
-        l.addView(makeTableDishes(view, data.getSideDishes()));
-
-        l.addView(createTitle(view, "Groenten"));
-        l.addView(makeVegetables(view, data.getVegetables()));
     }
 
     /**

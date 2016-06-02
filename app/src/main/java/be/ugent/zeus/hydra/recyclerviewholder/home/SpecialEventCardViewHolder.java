@@ -5,13 +5,12 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.models.CardModel;
+import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import com.squareup.picasso.Picasso;
 
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.models.HomeCard;
-import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
  * Created by feliciaan on 06/04/16.
@@ -25,20 +24,20 @@ public class SpecialEventCardViewHolder extends AbstractViewHolder {
     }
 
     @Override
-    public void populate(HomeCard card) {
-        if (card.getCardType() != HomeCardAdapter.HomeType.SPECIALEVENT) {
+    public void populate(CardModel card) {
+        if (card.getCardType() != CardModel.CardType.SPECIAL_EVENT) {
             return; //TODO: give warning
         }
 
         final SpecialEvent event = (SpecialEvent) card;
 
-        TextView titleView = (TextView) view.findViewById(R.id.title);
+        TextView titleView = $(view, R.id.title);
         titleView.setText(event.getName());
 
-        TextView textView = (TextView) view.findViewById(R.id.text);
+        TextView textView = $(view, R.id.text);
         textView.setText(event.getSimpleText());
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+        ImageView imageView = $(view, R.id.imageView);
         Picasso.with(view.getContext()).load(event.getImage()).into(imageView);
 
         view.setOnClickListener(new View.OnClickListener() {

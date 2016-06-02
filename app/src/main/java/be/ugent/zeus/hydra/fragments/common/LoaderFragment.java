@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.common.fragments;
+package be.ugent.zeus.hydra.fragments.common;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

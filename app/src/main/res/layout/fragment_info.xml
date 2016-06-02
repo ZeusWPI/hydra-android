@@ -2,32 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="be.ugent.zeus.hydra.fragments.InfoFragment">
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="left|top">
-        <TextView
-            android:id="@+id/resto_header_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="26sp"
-            android:text="@string/info"
-            android:textColor="@color/ugent_white"
-            android:background="@color/ugent_blue_medium"
-            android:padding="4dp"
-            android:layout_marginBottom="5dp"
-            android:gravity="center" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="be.ugent.zeus.hydra.fragments.InfoFragment"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:scrollbars="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="1dp" />
-    </LinearLayout>
+            android:layout_height="match_parent" />
 
     <include layout="@layout/x_progress_bar" />
 

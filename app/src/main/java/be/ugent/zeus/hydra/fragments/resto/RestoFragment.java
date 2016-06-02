@@ -15,7 +15,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.MenuActivity;
 import be.ugent.zeus.hydra.activities.resto.MetaActivity;
 import be.ugent.zeus.hydra.activities.resto.SandwichActivity;
-import be.ugent.zeus.hydra.common.fragments.LoaderFragment;
+import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.fragments.resto.menu.MenuFragment;
 import be.ugent.zeus.hydra.fragments.resto.menu.MenuSingleFragment;
 import be.ugent.zeus.hydra.loader.cache.Request;

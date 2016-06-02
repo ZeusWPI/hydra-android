@@ -1,9 +1,6 @@
 package be.ugent.zeus.hydra.fragments.resto.menu;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
-import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 
 /**
@@ -25,13 +22,6 @@ public class MenuSingleFragment extends MenuFragment {
         args.putParcelable(ARG_DATA_MENU, menu);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    protected void convert(View view) {
-        LinearLayout l = (LinearLayout) view.findViewById(R.id.resto_menu_main);
-        l.removeAllViews();
-        l.addView(makeTableDishes(view, data.getMainDishes()));
     }
 
     /**

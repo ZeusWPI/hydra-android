@@ -6,14 +6,13 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.EventDetailsActivity;
-import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.models.HomeCard;
+import be.ugent.zeus.hydra.models.CardModel;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
+import com.squareup.picasso.Picasso;
+
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
  * Created by feliciaan on 06/04/16.
@@ -28,15 +27,15 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
     public ActivityCardViewHolder(View v) {
         super(v);
         this.view = v;
-        title = (TextView) v.findViewById(R.id.name);
-        association = (TextView) v.findViewById(R.id.association);
-        start = (TextView) v.findViewById(R.id.starttime);
-        imageView = (ImageView) v.findViewById(R.id.imageView);
+        title = $(v, R.id.name);
+        association = $(v, R.id.association);
+        start = $(v, R.id.starttime);
+        imageView = $(v, R.id.imageView);
     }
 
     @Override
-    public void populate(HomeCard card) {
-        if (card.getCardType() != HomeCardAdapter.HomeType.ACTIVITY) {
+    public void populate(CardModel card) {
+        if (card.getCardType() != CardModel.CardType.ACTIVITY) {
             return; //TODO: do warnings or something
         }
 

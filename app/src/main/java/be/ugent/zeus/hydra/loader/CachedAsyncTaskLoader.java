@@ -58,13 +58,19 @@ public class CachedAsyncTaskLoader<D extends Serializable> extends AsyncTaskLoad
             throw new OperationCanceledException();
         }
 
-        Context context = getContext();
+        return loadInBackground(getContext(), refresh, request);
+    }
+
+    /**
+     * Helper function for re-use in the system task loader.
+     */
+    public static <T extends Serializable> ThrowableEither<T> loadInBackground(Context context, boolean refresh, Request<T> request) {
         Cache cache = new SerializeCache(context);
 
-        ThrowableEither<D> returnValue;
+        ThrowableEither<T> returnValue;
 
         try {
-            D content;
+            T content;
             if (refresh) {
                 content = cache.get(request, Cache.NEVER);
             } else {
