@@ -26,7 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:animateLayoutChanges="true"
         >
 
         <!-- The tabbed menu page -->
@@ -34,15 +33,10 @@
             android:id="@+id/resto_tabs_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
+            android:animateLayoutChanges="true" />
 
         <!-- The progress bar while loading the menu -->
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progress_bar"
-            android:layout_gravity="center" />
+        <include layout="@layout/x_progress_bar" />
 
     </FrameLayout>
 

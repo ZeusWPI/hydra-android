@@ -8,8 +8,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
 
 /**
  * Main activity.
@@ -40,6 +40,16 @@ public class Hydra extends ToolbarActivity {
 
         mViewPager = $(R.id.pager);
         mViewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
+
+        //Enable this if you want the actionbar to reappear when the user scrolls between tabs.
+//        final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
+//
+//        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+//            @Override
+//            public void onPageSelected(int position) {
+//                appBarLayout.setExpanded(true);
+//            }
+//        });
 
         TabLayout tabLayout = $(R.id.tab_layout);
 

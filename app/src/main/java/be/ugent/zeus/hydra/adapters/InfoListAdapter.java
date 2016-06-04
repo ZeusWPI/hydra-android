@@ -55,11 +55,10 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
                 @Override
                 public void onClick(View v) {
 
-                    InfoItem item = infoItem;
-                    String androidUrl = item.getUrlAndroid();
-                    String url = item.getUrl();
-                    String html = item.getHtml();
-                    InfoList infolist = item.getSubContent();
+                    String androidUrl = infoItem.getUrlAndroid();
+                    String url = infoItem.getUrl();
+                    String html = infoItem.getHtml();
+                    InfoList infolist = infoItem.getSubContent();
                     if (androidUrl != null) {
                         Intent rateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + androidUrl));
                         boolean marketFound = false;
@@ -94,7 +93,7 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
                     } else if (html != null ){
                         Intent intent = new Intent(v.getContext(), HydraWebViewActivity.class);
                         intent.putExtra(HydraWebViewActivity.URL, HTML_API + html);
-                        intent.putExtra(HydraWebViewActivity.TITLE, item.getTitle());
+                        intent.putExtra(HydraWebViewActivity.TITLE, infoItem.getTitle());
                         context.startActivity(intent);
                     } else if (infolist != null) {
                         Intent intent = new Intent(v.getContext(), InfoSubItemActivity.class);
@@ -124,8 +123,7 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.info_card, parent, false);
-        CardViewHolder vh = new CardViewHolder(v,parent.getContext());
-        return vh;
+        return new CardViewHolder(v,parent.getContext());
     }
 
     @Override

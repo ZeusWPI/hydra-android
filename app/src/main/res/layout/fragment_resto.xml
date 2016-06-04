@@ -32,7 +32,8 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:id="@+id/menu_today_card_layout"
-                    android:paddingTop="@dimen/activity_horizontal_margin">
+                    android:paddingTop="@dimen/activity_horizontal_margin"
+                    android:animateLayoutChanges="true">
 
                     <TextView
                         android:id="@+id/menu_today_card_title"

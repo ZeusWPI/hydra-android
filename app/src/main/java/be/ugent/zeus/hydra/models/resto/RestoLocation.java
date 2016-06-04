@@ -13,7 +13,7 @@ public class RestoLocation implements Parcelable, Serializable {
     public String address;
     public double latitude;
     public double longitude;
-    public String type; //TODO: parse types
+    public String type;
 
     @Override
     public int describeContents() {

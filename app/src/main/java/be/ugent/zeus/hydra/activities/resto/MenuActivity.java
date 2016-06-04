@@ -46,11 +46,9 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = $(R.id.resto_tabs_content);
-        assert mViewPager != null;
         mViewPager.setAdapter(pageAdapter);
 
         TabLayout tabLayout = $(R.id.resto_tabs_slider);
-        assert tabLayout != null;
         tabLayout.setupWithViewPager(mViewPager);
 
         startLoader();

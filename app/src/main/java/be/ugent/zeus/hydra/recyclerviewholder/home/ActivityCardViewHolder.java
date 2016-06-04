@@ -41,8 +41,6 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
 
         final AssociationActivity activity = (AssociationActivity) card;
 
-        //TODO: make pretty
-
         title.setText(activity.title);
         association.setText(activity.association.display_name);
         start.setText(DateUtils.getRelativeDateTimeString(view.getContext(), activity.start.getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));

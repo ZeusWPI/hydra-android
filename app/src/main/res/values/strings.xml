@@ -60,8 +60,6 @@
     <string name="action_refresh">Vernieuwen</string>
     <string name="menu_today_title">Menu %s</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="begin_refresh">Vernieuwen…</string>
     <string name="end_refresh">Voltooid.</string>
     <string name="home_resto_view_menu">Weekmenu</string>

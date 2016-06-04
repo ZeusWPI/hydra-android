@@ -46,7 +46,6 @@ public class SandwichActivity extends RestoWebsiteActivity<Sandwiches> {
         recyclerView.setAdapter(adapter);
 
         RecyclerFastScroller s = $(R.id.fast_scroller);
-        assert s != null;
         s.attachRecyclerView(recyclerView);
 
         startLoader();

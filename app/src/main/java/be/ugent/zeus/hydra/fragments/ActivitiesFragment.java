@@ -56,7 +56,6 @@ public class ActivitiesFragment extends LoaderFragment<AssociationActivities> im
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView recyclerView = $(view, R.id.recycler_view);
-        assert recyclerView != null;
         progressBar = $(view, R.id.progress_bar);
         noData = $(view, R.id.events_no_data);
 
@@ -70,7 +69,6 @@ public class ActivitiesFragment extends LoaderFragment<AssociationActivities> im
 
         Button refresh = $(view, R.id.events_no_data_button_refresh);
         Button filters = $(view, R.id.events_no_data_button_filters);
-        assert refresh != null && filters != null;
 
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
