@@ -15,7 +15,7 @@ import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
 
-import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Display the menu of the resto in a separate view, similar to the old app.
@@ -29,12 +29,6 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
     private MenuPageAdapter pageAdapter;
     private ViewPager mViewPager;
 
-    protected ArrayList<RestoMenu> data = null;
-
-    public RestoMenu getMenu(int position) {
-        return data.get(position);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_resto);
@@ -42,7 +36,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
         
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        pageAdapter = new MenuPageAdapter(getSupportFragmentManager(), this);
+        pageAdapter = new MenuPageAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = $(R.id.resto_tabs_content);
@@ -70,8 +64,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
     @Override
     public void receiveData(@NonNull RestoOverview data) {
         super.receiveData(data);
-        this.data = data;
-        pageAdapter.setNumber(data.size());
+        pageAdapter.setData(data);
     }
 
     /**
@@ -83,8 +76,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
     @Override
     public void onLoaderReset(Loader<ThrowableEither<RestoOverview>> loader) {
         super.onLoaderReset(loader);
-        this.data = new ArrayList<>();
-        pageAdapter.setNumber(data.size());
+        pageAdapter.setData(Collections.<RestoMenu>emptyList());
     }
 
     /**

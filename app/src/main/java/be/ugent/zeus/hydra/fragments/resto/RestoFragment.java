@@ -16,8 +16,6 @@ import be.ugent.zeus.hydra.activities.resto.MenuActivity;
 import be.ugent.zeus.hydra.activities.resto.MetaActivity;
 import be.ugent.zeus.hydra.activities.resto.SandwichActivity;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.fragments.resto.menu.MenuFragment;
-import be.ugent.zeus.hydra.fragments.resto.menu.MenuSingleFragment;
 import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
@@ -98,7 +96,7 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
 
         RestoMenu today = data.get(0);
         if(m.findFragmentByTag(FRAGMENT_TAG) == null) {
-            MenuFragment fragment = MenuSingleFragment.newInstance(today);
+            MenuFragment fragment = MenuFragment.newInstance(today);
             FragmentTransaction fragmentTransaction = m.beginTransaction();
             fragmentTransaction.add(R.id.menu_today_card_layout, fragment, FRAGMENT_TAG);
             fragmentTransaction.commit();

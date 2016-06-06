@@ -8,7 +8,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.Hydra;
-import be.ugent.zeus.hydra.fragments.resto.menu.MenuFragment;
+import be.ugent.zeus.hydra.fragments.resto.MenuFragment;
 import be.ugent.zeus.hydra.models.CardModel;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.utils.DateUtils;

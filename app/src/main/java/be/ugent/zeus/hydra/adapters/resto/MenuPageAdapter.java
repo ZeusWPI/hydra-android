@@ -4,9 +4,12 @@ package be.ugent.zeus.hydra.adapters.resto;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import be.ugent.zeus.hydra.activities.resto.MenuActivity;
-import be.ugent.zeus.hydra.fragments.resto.menu.MenuTabFragment;
+import be.ugent.zeus.hydra.fragments.resto.MenuFragment;
+import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.utils.DateUtils;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * This class provides the tabs in the resto activity.
@@ -15,29 +18,26 @@ import be.ugent.zeus.hydra.utils.DateUtils;
  */
 public class MenuPageAdapter extends FragmentStatePagerAdapter {
 
-    private int number = 0;
-    private MenuActivity activity;
+    private List<RestoMenu> data = Collections.emptyList();
 
-    public MenuPageAdapter(FragmentManager fm, MenuActivity activity) {
+    public MenuPageAdapter(FragmentManager fm) {
         super(fm);
-        this.activity = activity;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setData(List<RestoMenu> data) {
+        this.data = data;
         notifyDataSetChanged();
     }
 
     @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
-        // Return a MenuTabFragment (defined as a static inner class below).
-        return MenuTabFragment.newInstance(position);
+        return MenuFragment.newInstance(data.get(position));
     }
 
     @Override
     public int getCount() {
-        return number;
+        return data.size();
     }
 
     /**
@@ -52,6 +52,6 @@ public class MenuPageAdapter extends FragmentStatePagerAdapter {
      */
     @Override
     public CharSequence getPageTitle(int position) {
-        return DateUtils.getFriendlyDate(activity.getMenu(position).getDate());
+        return DateUtils.getFriendlyDate(data.get(position).getDate());
     }
 }

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.fragments.resto.menu;
+package be.ugent.zeus.hydra.fragments.resto;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -22,13 +22,31 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  *
  * The subclasses should decided in what manner the data is represented.
  */
-public abstract class MenuFragment extends Fragment {
+public class MenuFragment extends Fragment {
+
     /**
      * The fragment argument representing the section number for this fragment.
      */
-    protected RestoMenu data;
+    private static final String ARG_DATA_MENU = "resto_menu";
+
+    /**
+     * The fragment argument representing the section number for this fragment.
+     */
+    private RestoMenu data;
 
     public MenuFragment() {}
+
+    /**
+     * Standalone usage.
+     * @param menu The menu that should be displayed.
+     */
+    public static MenuFragment newInstance(RestoMenu menu) {
+        MenuFragment fragment = new MenuFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_DATA_MENU, menu);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     /**
      * Some implementations may wish to persist the data.
@@ -36,15 +54,8 @@ public abstract class MenuFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        data = provideMenu();
+        data = getArguments().getParcelable(ARG_DATA_MENU);
     }
-
-    /**
-     * Get the menu to display. This function provides the data for the fragment.
-     *
-     * @return The data to display.
-     */
-    public abstract RestoMenu provideMenu();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,7 +67,7 @@ public abstract class MenuFragment extends Fragment {
     /**
      * Make a tableview.
      */
-    protected void convert(View view) {
+    private void convert(View view) {
         LinearLayout l = $(view, R.id.resto_menu_main);
         l.removeAllViews();
 
