@@ -1,19 +1,27 @@
-package be.ugent.zeus.hydra.loader.cache.simple;
+package be.ugent.zeus.hydra.loader.cache.file;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import be.ugent.zeus.hydra.loader.cache.CacheObject;
 import be.ugent.zeus.hydra.loader.cache.exceptions.CacheException;
 
 import java.io.*;
 
 /**
- * Simple cache that serializes the data.
+ * File cache that serializes the data.
+ *
+ * This class uses default serialization to save the objects. On Android, the default serializer is not fast. However,
+ * for the current use in the application (save some 'smaller' data), it is sufficient. It is also executed in a
+ * background thread, so worst case scenario, the user has to wait a little longer for the data (ns or ms). The
+ * alternative would be to use an external serializer library (such as fst[1]). This makes the app take up a lot more
+ * space, so we do not do that currently. If profiling suggests the serialisation here is really the bottleneck, which
+ * is unlikely since it is about network requests, we can easily switch to fst.-
+ *
+ * @see [1] <a href="https://github.com/RuedigerMoeller/fast-serialization">fst</a>
+ *
  * @author Niko Strijbol
- * @version 1/06/2016
  */
-public class SerializeCache extends SimpleCache {
+public class SerializeCache extends FileCache {
 
     public SerializeCache(Context context) {
         super(context);

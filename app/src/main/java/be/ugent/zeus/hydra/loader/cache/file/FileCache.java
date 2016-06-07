@@ -1,11 +1,11 @@
-package be.ugent.zeus.hydra.loader.cache.simple;
+package be.ugent.zeus.hydra.loader.cache.file;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.loader.cache.Cache;
-import be.ugent.zeus.hydra.loader.cache.CacheObject;
 import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.loader.cache.exceptions.CacheException;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
@@ -15,31 +15,30 @@ import java.io.File;
 import java.io.Serializable;
 
 /**
- * Simple cache.
+ * Simple cache that uses the file system to cache data.
  *
  * This does nothing asynchronously, so use your own threads and such.
  *
  * Note: concurrent access is currently untested.
  *
  * @author Niko Strijbol
- * @version 1/06/2016
  */
-public abstract class SimpleCache implements Cache {
+public abstract class FileCache implements Cache {
 
-    protected static final String TAG = "Hydra SimpleCache";
+    protected static final String TAG = "Hydra FileCache";
 
     protected File directory;
     protected Context context;
 
-    public SimpleCache(Context context, File directory) {
+    public FileCache(File directory) {
         this.directory = directory;
     }
 
     /**
      * Use the default cache dir.
      */
-    public SimpleCache(Context context) {
-        this(context, context.getCacheDir());
+    public FileCache(Context context) {
+        this(context.getCacheDir());
     }
 
     /**
@@ -92,6 +91,16 @@ public abstract class SimpleCache implements Cache {
     }
 
     /**
+     * @return True if the request should be renewed, for various reasons.
+     */
+    private boolean shouldRenew(CacheObject<?> object, long duration) {
+        return object == null //No cache
+                || duration == Cache.NEVER  //Never cache
+                || object.isExpired(Duration.millis(duration)) //Expired cache
+                || object.getVersion() != BuildConfig.VERSION_CODE; //Old cache version
+    }
+
+    /**
      * Get data from a request.
      *
      * @param request The request to get data from.
@@ -105,7 +114,7 @@ public abstract class SimpleCache implements Cache {
         CacheObject<T> object = readOrNull(request.getCacheKey());
         T data;
 
-        if(object == null || duration == Cache.NEVER || object.isExpired(Duration.millis(duration))) {
+        if(shouldRenew(object, duration)) {
             Log.d(TAG, "New response for " + request);
             data = request.performRequest();
             object = new CacheObject<>(data);

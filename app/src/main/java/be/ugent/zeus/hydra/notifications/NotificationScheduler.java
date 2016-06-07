@@ -7,18 +7,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import be.ugent.zeus.hydra.preference.Time;
 
 import java.util.Calendar;
-
-import be.ugent.zeus.hydra.preference.Time;
 
 /**
  * @author Rien Maertens
  * @since 16/04/2016.
  */
 public class NotificationScheduler {
-    private static int REQUEST_CODE = 0;
-    private static int FLAGS = 0;
+    private static final int REQUEST_CODE = 0;
+    private static final int FLAGS = 0;
 
     private AlarmManager alarmManager;
     private Activity activity;

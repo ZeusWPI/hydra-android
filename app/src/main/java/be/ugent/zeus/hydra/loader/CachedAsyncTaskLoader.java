@@ -6,7 +6,7 @@ import android.support.v4.os.OperationCanceledException;
 import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.loader.cache.simple.SerializeCache;
+import be.ugent.zeus.hydra.loader.cache.file.SerializeCache;
 
 import java.io.Serializable;
 

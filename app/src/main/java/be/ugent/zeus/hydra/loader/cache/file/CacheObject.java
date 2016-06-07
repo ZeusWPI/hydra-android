@@ -1,18 +1,23 @@
-package be.ugent.zeus.hydra.loader.cache;
+package be.ugent.zeus.hydra.loader.cache.file;
 
+import be.ugent.zeus.hydra.BuildConfig;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 import java.io.Serializable;
 
 /**
+ * This is the actual object that is cached by the cache. It provides the date an object was cached.
+ *
+ * @see FileCache
+ *
  * @author Niko Strijbol
- * @version 1/06/2016
  */
 public class CacheObject<T extends Serializable> implements Serializable {
 
     private DateTime lastUpdated;
     private T data;
+    private int version = BuildConfig.VERSION_CODE;
 
     public CacheObject(T data) {
         this.lastUpdated = DateTime.now();
@@ -33,5 +38,9 @@ public class CacheObject<T extends Serializable> implements Serializable {
 
     public T getData() {
         return data;
+    }
+
+    public int getVersion() {
+        return version;
     }
 }

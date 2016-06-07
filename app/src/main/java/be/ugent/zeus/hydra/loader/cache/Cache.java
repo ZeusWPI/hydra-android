@@ -7,8 +7,9 @@ import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import java.io.Serializable;
 
 /**
+ * Generic interface for a cache.
+ *
  * @author Niko Strijbol
- * @version 1/06/2016
  */
 public interface Cache {
 
