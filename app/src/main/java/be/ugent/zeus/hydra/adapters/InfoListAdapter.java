@@ -5,12 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.HydraWebViewActivity;
@@ -31,8 +31,8 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         private final View view;
         private TextView title;
-        private ImageView imageView;
-        private ImageView linkView;
+       // private ImageView imageView;
+        //private ImageView linkView;
         private Context context;
 
 
@@ -40,16 +40,14 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
             super(v);
             this.view = v;
             title = (TextView) v.findViewById(R.id.info_name);
-            imageView = (ImageView) v.findViewById(R.id.infoImage);
-            linkView = (ImageView) v.findViewById(R.id.linkImage);
+           // imageView = (ImageView) v.findViewById(R.id.infoImage);
+           // linkView = (ImageView) v.findViewById(R.id.linkImage);
             this.context=context;
         }
 
         public void populate(final InfoItem infoItem) {
             title.setText(infoItem.getTitle());
             //// TODO: 06/04/2016 set correct linkview
-
-            linkView.setImageResource(R.drawable.arrow_right);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -104,16 +102,13 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
                 }
             });
             if (infoItem.getImage() != null) {
-                int resId = context.getResources().getIdentifier(infoItem.getImage(), "drawable", context.getPackageName());
-                imageView.setImageResource(resId);
-                imageView.setVisibility(View.VISIBLE);
-            } else {
-                imageView.setVisibility(View.GONE);
+                int resId = context.getResources().getIdentifier("ic_" + infoItem.getImage(), "drawable", context.getPackageName());
+                Drawable icon = context.getResources().getDrawable(resId);
+                Drawable[] drawables = title.getCompoundDrawables();
+                title.setCompoundDrawablesWithIntrinsicBounds(icon, null, drawables[2], null);
             }
         }
     }
-
-
 
     public InfoListAdapter() {
         this.items = new ArrayList<>();
@@ -131,7 +126,6 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
         final InfoItem category = items.get(position);
         holder.populate(category);
     }
-
 
     @Override
     public int getItemCount() {

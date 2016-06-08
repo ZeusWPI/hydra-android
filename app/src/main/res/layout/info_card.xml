@@ -1,69 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <!-- A CardView that contains a TextView -->
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/content_spacing"
+    android:paddingRight="@dimen/content_spacing"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/info_card_view"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginEnd="3dp"
-        card_view:contentPaddingLeft="5dp"
-        card_view:contentPaddingRight="5dp"
-        card_view:contentPaddingTop="3dp"
-        card_view:contentPaddingBottom="3dp">
+        card_view:contentPadding="8dp">
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/infoImage"
-                android:src="@drawable/icon"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"></ImageView>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Name"
-                    android:id="@+id/info_name"
-                    android:layout_gravity="center_vertical"
-                    android:padding="1dp"
-                    android:textColor="@color/ugent_blue_dark" />
-
-
-            </LinearLayout>
-
-
-
-
-
-
-        </LinearLayout>
-
-
-        <ImageView
-            android:layout_gravity="right"
-            android:id="@+id/linkImage"
-            android:src="@drawable/arrow_right"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingBottom="2dp" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            tools:text="Informatienaam"
+            android:id="@+id/info_name"
+            tools:drawableLeft="@drawable/icon"
+            android:drawableRight="@drawable/ic_chevron_right_24dp"
+            android:drawableTint="?android:textColorPrimary"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical" />
 
     </android.support.v7.widget.CardView>
 
