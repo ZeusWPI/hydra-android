@@ -62,8 +62,8 @@
 
     <string name="begin_refresh">Vernieuwen…</string>
     <string name="end_refresh">Voltooid.</string>
-    <string name="home_resto_view_menu">Weekmenu</string>
-    <string name="home_resto_view_sandwiches">Belegde broodjes</string>
+    <string name="home_resto_view_menu">Menu</string>
+    <string name="home_resto_view_sandwiches">Broodjes</string>
     <string name="resto_sandwich">Belegde broodjes</string>
     <string name="sandwich_price_medium">Groot: € %s</string>
     <string name="sandwich_price_small">Klein: € %s</string>

@@ -17,3 +17,12 @@
 * Rien 'R13N' Maertens
 * Ellen Vanhove
 * Michiel 'Michilus' Van den Berghe
+
+
+## TODO
+
+* About screen
+* Attribution:
+
+Sandwich by icon 54 from the Noun Project:
+<text x="0" y="39" fill="#000000" font-size="5px" font-weight="bold" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif">Created by icon 54</text><text x="0" y="44" fill="#000000" font-size="5px" font-weight="bold" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif">from the Noun Project</text>
