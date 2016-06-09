@@ -30,11 +30,16 @@ public class CachedAsyncTaskLoader<D extends Serializable> extends AsyncTaskLoad
 
     private ThrowableEither<D> data = null;
 
-    private boolean refresh = false;
+    private boolean refresh;
 
     public CachedAsyncTaskLoader(Request<D> request, Context context) {
+        this(request, context, false);
+    }
+
+    public CachedAsyncTaskLoader(Request<D> request, Context context, boolean freshData) {
         super(context);
         this.request = request;
+        this.refresh = freshData;
     }
 
     /**
@@ -58,7 +63,9 @@ public class CachedAsyncTaskLoader<D extends Serializable> extends AsyncTaskLoad
             throw new OperationCanceledException();
         }
 
-        return loadInBackground(getContext(), refresh, request);
+        ThrowableEither<D> data = loadInBackground(getContext(), refresh, request);
+        this.refresh = false;
+        return data;
     }
 
     /**

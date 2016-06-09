@@ -90,8 +90,7 @@ public class ActivitiesFragment extends LoaderFragment<AssociationActivities> im
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        getLoaderManager().initLoader(0, null, this);
+        startLoader();
     }
 
     /**
@@ -103,7 +102,8 @@ public class ActivitiesFragment extends LoaderFragment<AssociationActivities> im
 
     private void refresh() {
         Toast.makeText(getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
-        getLoaderManager().restartLoader(0, null, this);
+        this.shouldRenew = true;
+        restartLoader();
     }
 
     /**
@@ -164,6 +164,7 @@ public class ActivitiesFragment extends LoaderFragment<AssociationActivities> im
         adapter.setOriginal(data);
         setData(data);
         hideProgressBar();
+        this.shouldRenew = false;
     }
 
     /**

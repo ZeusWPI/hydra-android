@@ -19,6 +19,8 @@ public abstract class LoaderFragment<D extends Serializable> extends Fragment im
     // ID of the loader.
     protected static final int LOADER = 0;
 
+    protected boolean shouldRenew = false;
+
     /**
      * Called when a previously created loader has finished its load.
      *
@@ -55,7 +57,7 @@ public abstract class LoaderFragment<D extends Serializable> extends Fragment im
      */
     @Override
     public Loader<ThrowableEither<D>> onCreateLoader(int id, Bundle args) {
-        return new CachedAsyncTaskLoader<>(getRequest(), getContext());
+        return new CachedAsyncTaskLoader<>(getRequest(), getContext(), shouldRenew);
     }
 
     /**

@@ -49,6 +49,7 @@ public class HomeFragment extends Fragment {
     private ActivityCallback activityCallback;
     private SpecialEventCallback specialEventCallback;
 
+    private boolean shouldRefresh = false;
 
     private HomeCardAdapter adapter;
     private View layout;
@@ -72,7 +73,9 @@ public class HomeFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                shouldRefresh = true;
                 restartLoaders();
+                shouldRefresh = false;
             }
         });
 
@@ -163,7 +166,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         public Loader<ThrowableEither<RestoOverview>> onCreateLoader(int id, Bundle args) {
-            return super.onCreateLoader(getContext());
+            return super.onCreateLoader(getContext(), shouldRefresh);
         }
     }
 
@@ -209,7 +212,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         public Loader<ThrowableEither<AssociationActivities>> onCreateLoader(int id, Bundle args) {
-            return super.onCreateLoader(getContext());
+            return super.onCreateLoader(getContext(), shouldRefresh);
         }
     }
 
@@ -254,7 +257,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         public Loader<ThrowableEither<SpecialEventWrapper>> onCreateLoader(int id, Bundle args) {
-            return super.onCreateLoader(getContext());
+            return super.onCreateLoader(getContext(), shouldRefresh);
         }
     }
 }

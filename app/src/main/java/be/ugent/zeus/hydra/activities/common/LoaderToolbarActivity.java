@@ -17,6 +17,7 @@ public abstract class LoaderToolbarActivity<D extends Serializable> extends Tool
 
     // ID of the loader.
     protected static final int LOADER = 0;
+    protected boolean shouldRenew = false;
 
     /**
      * Called when a previously created loader is being reset, and thus making its data unavailable.  The application
@@ -54,7 +55,7 @@ public abstract class LoaderToolbarActivity<D extends Serializable> extends Tool
      */
     @Override
     public Loader<ThrowableEither<D>> onCreateLoader(int id, Bundle args) {
-        return new CachedAsyncTaskLoader<>(getRequest(), getApplicationContext());
+        return new CachedAsyncTaskLoader<>(getRequest(), getApplicationContext(), shouldRenew);
     }
 
     /**

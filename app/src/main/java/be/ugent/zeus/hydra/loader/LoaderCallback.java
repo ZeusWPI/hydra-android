@@ -48,7 +48,7 @@ public abstract class LoaderCallback<D extends Serializable> implements ErrorLoa
      *
      * @return Return a new Loader instance that is ready to start loading.
      */
-    protected Loader<ThrowableEither<D>> onCreateLoader(Context context) {
-        return new CachedAsyncTaskLoader<>(getRequest(), context);
+    protected Loader<ThrowableEither<D>> onCreateLoader(Context context, boolean shouldRefresh) {
+        return new CachedAsyncTaskLoader<>(getRequest(), context, shouldRefresh);
     }
 }

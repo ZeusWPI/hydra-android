@@ -76,6 +76,7 @@ public abstract class RestoActivity<D extends Serializable> extends LoaderToolba
      */
     public void receiveData(@NonNull D data) {
         hideProgressBar();
+        this.shouldRenew = false;
     }
 
     /**
@@ -83,6 +84,7 @@ public abstract class RestoActivity<D extends Serializable> extends LoaderToolba
      */
     private void refresh() {
         Toast.makeText(getApplicationContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
+        this.shouldRenew = true;
         restartLoader();
     }
 
