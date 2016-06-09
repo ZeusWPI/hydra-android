@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         card_view:contentPadding="8dp">
 
+        <!-- For the right drawable, svg is not possible yet. -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,7 +24,7 @@
             tools:text="Informatienaam"
             android:id="@+id/info_name"
             tools:drawableLeft="@drawable/icon"
-            android:drawableRight="@drawable/ic_chevron_right_24dp"
+            tools:drawableRight="@drawable/ic_chevron_right_24dp"
             android:drawableTint="?android:textColorPrimary"
             android:drawablePadding="8dp"
             android:gravity="center_vertical" />

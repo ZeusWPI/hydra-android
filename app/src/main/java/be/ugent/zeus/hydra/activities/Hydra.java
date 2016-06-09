@@ -1,11 +1,8 @@
 package be.ugent.zeus.hydra.activities;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,11 +19,11 @@ public class Hydra extends ToolbarActivity {
     //The tab icons
     //Size doesn't matter here
     private static int[] icons = {
-            R.drawable.ic_home_24dp,
-            R.drawable.ic_minerva_head_24dp,
-            R.drawable.ic_restaurant_menu_40dp,
-            R.drawable.ic_event_24dp,
-            R.drawable.ic_information_variant_24dp
+            R.drawable.ic_tabs_home,
+            R.drawable.ic_tabs_minerva,
+            R.drawable.ic_tabs_menu,
+            R.drawable.ic_tabs_events,
+            R.drawable.ic_tabs_info
     };
 
     private ViewPager mViewPager;
@@ -63,9 +60,9 @@ public class Hydra extends ToolbarActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         for (int i = 0; i < icons.length; i++) {
-            Drawable drawable = ActivityCompat.getDrawable(getBaseContext(), icons[i]);
-            DrawableCompat.setTint(drawable, ActivityCompat.getColor(getBaseContext(), R.color.ugent_blue_light));
-            tabLayout.getTabAt(i).setIcon(drawable);
+            //Drawable drawable = ContextCompat.getDrawable(this, icons[i]);
+            //DrawableCompat.setTint(drawable, ContextCompat.getColor(this, R.color.ugent_blue_light));
+            tabLayout.getTabAt(i).setIcon(icons[i]);
         }
 
         // If the app was launched via a resto notification, open the resto tab.

@@ -7,6 +7,9 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
+import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,11 +104,34 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.CardVi
                     }
                 }
             });
+
             if (infoItem.getImage() != null) {
+
+                //The drawable id
                 int resId = context.getResources().getIdentifier("ic_" + infoItem.getImage(), "drawable", context.getPackageName());
-                Drawable icon = context.getResources().getDrawable(resId);
-                Drawable[] drawables = title.getCompoundDrawables();
-                title.setCompoundDrawablesWithIntrinsicBounds(icon, null, drawables[2], null);
+
+                Drawable icon;
+                Drawable more;
+
+                int darkColor = ContextCompat.getColor(context, R.color.ugent_blue_dark);
+
+                //For older API, we do something different
+                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    VectorDrawableCompat compat = VectorDrawableCompat.create(context.getResources(), resId, context.getTheme());
+                    VectorDrawableCompat moreCompat = VectorDrawableCompat.create(context.getResources(), R.drawable.ic_chevron_right_24dp, context.getTheme());
+                    //Tint the icon
+                    compat.setTint(darkColor);
+                    moreCompat.setTint(darkColor);
+                    icon = compat;
+                    more = moreCompat;
+                } else {
+                    icon = context.getDrawable(resId);
+                    more = context.getDrawable(R.drawable.ic_chevron_right_24dp);
+                    icon.setTint(darkColor);
+                    more.setTint(darkColor);
+                }
+
+                title.setCompoundDrawablesWithIntrinsicBounds(icon, null, more, null);
             }
         }
     }

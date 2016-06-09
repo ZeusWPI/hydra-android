@@ -51,7 +51,7 @@
                         android:maxHeight="150dp"
                         android:maxWidth="150dp"
                         android:minWidth="150dp"
-                        android:src="@drawable/ic_image_24dp" />
+                        tools:src="@drawable/ic_image_24dp" />
 
                     <LinearLayout
                         android:orientation="vertical"
