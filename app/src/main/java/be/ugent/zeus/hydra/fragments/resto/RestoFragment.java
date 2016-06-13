@@ -89,6 +89,12 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
         return layout;
     }
 
+    /**
+     * Once the minimumSdk is over 21, we can use xml instead. Or the support library should re-enable the vector
+     * support everywhere.
+     *
+     * @see <a href="https://goo.gl/IfpPYW">issue 205236</a>
+     */
     private void setIcons() {
         Drawable menuIcon;
         Drawable sandwichIcon;
