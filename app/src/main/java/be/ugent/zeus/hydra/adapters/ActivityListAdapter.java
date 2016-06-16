@@ -19,6 +19,7 @@ import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
 import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
 import be.ugent.zeus.hydra.recyclerviewholder.DateHeaderViewHolder;
+import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
  * Created by ellen on 8/3/16.
@@ -32,7 +33,6 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         private TextView title;
         private TextView association;
         private final SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
-
 
         public CardViewHolder(View v) {
             super(v);
@@ -80,7 +80,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     @Override
     public long getHeaderId(int position) {
         Date date = items.get(position).start;
-        return date.getMonth()*100+date.getDay(); //todo
+        return DateUtils.startOfDay(date.getTime());
     }
 
     @Override
@@ -103,10 +103,9 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     public void setItems(AssociationActivities items) {
         this.items.clear();
         for (AssociationActivity item : items) {
-            this.items.add(item);
-
+            if (item.end.after(new Date())) {
+                this.items.add(item);
+            }
         }
-
-
     }
 }

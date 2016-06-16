@@ -5,6 +5,7 @@ import org.joda.time.Days;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -12,8 +13,6 @@ import java.util.Locale;
  * Created by feliciaan on 14/04/16.
  */
 public class DateUtils {
-
-    private static SimpleDateFormat WEEKFORMATTER = new SimpleDateFormat("w", new Locale("nl"));
     private static SimpleDateFormat DAYFORMATTER = new SimpleDateFormat("cccc", new Locale("nl"));
     private static DateFormat DATEFORMATTER = SimpleDateFormat.getDateInstance();
 
@@ -22,8 +21,8 @@ public class DateUtils {
         // I couldn't find any that were suitable -- mivdnber
         DateTime today = new DateTime();
         DateTime dateTime = new DateTime(date);
-        int thisWeek = Integer.parseInt(WEEKFORMATTER.format(today.toDate()));
-        int week = Integer.parseInt(WEEKFORMATTER.format(date));
+        int thisWeek = today.getWeekOfWeekyear();
+        int week = dateTime.getWeekOfWeekyear();
 
         int daysBetween = Days.daysBetween(today.toLocalDate(), dateTime.toLocalDate()).getDays();
 
@@ -33,12 +32,23 @@ public class DateUtils {
             return "morgen";
         } else if (daysBetween == 2) {
             return "overmorgen";
-        } else if (week == thisWeek || daysBetween < 7) {
+        } else if (daysBetween < 0) {
+            return DATEFORMATTER.format(date);
+        } else if (week == thisWeek || daysBetween <= 7) {
             return DAYFORMATTER.format(date).toLowerCase();
         } else if (week == thisWeek + 1) {
             return "volgende " + DAYFORMATTER.format(date).toLowerCase();
         } else {
             return DATEFORMATTER.format(date);
         }
+    }
+
+    public static int startOfDay(long time) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(time);
+        cal.set(Calendar.HOUR_OF_DAY, 0); //set hours to zero
+        cal.set(Calendar.MINUTE, 0); // set minutes to zero
+        cal.set(Calendar.SECOND, 0); //set seconds to zero
+        return (int) cal.getTimeInMillis()/1000;
     }
 }
