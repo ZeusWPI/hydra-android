@@ -5,21 +5,15 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.JsonAdapter;
 
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-
 import java.util.Date;
 
-import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.models.cards.CardConcept;
-import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
 
 /**
  * Created by feliciaan on 27/01/16.
  */
-public class AssociationActivity extends CardConcept implements Parcelable {
+public class AssociationActivity implements Parcelable {
     public String title;
     @JsonAdapter(TimeStampDateJsonAdapter.class)
     public Date start;

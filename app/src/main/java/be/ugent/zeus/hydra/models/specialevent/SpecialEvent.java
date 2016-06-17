@@ -5,15 +5,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.models.cards.CardConcept;
-import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
 
 /**
  * Created by feliciaan on 06/04/16.
  */
-public class SpecialEvent extends CardConcept {
+public class SpecialEvent {
     private String name;
     private String link;
     @SerializedName("simple-text")

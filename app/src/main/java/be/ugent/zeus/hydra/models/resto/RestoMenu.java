@@ -5,13 +5,12 @@ import com.google.gson.annotations.JsonAdapter;
 import java.util.ArrayList;
 import java.util.Date;
 
-import be.ugent.zeus.hydra.models.cards.CardConcept;
 import be.ugent.zeus.hydra.models.converters.RestoDateJsonAdapter;
 
 /**
  * Created by feliciaan on 15/10/15.
  */
-public class RestoMenu extends CardConcept {
+public class RestoMenu {
     private boolean open;
     @JsonAdapter(RestoDateJsonAdapter.class)
     private Date date;
@@ -21,7 +20,7 @@ public class RestoMenu extends CardConcept {
     private ArrayList<String> vegetables;
 
     public RestoMenu() {
-    };
+    }
 
     public RestoMenu(boolean open, Date date, RestoMeals meals, ArrayList<String> vegetables) {
         this.open = open;
