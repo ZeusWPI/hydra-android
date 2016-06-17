@@ -43,12 +43,7 @@ public class DateUtils {
         }
     }
 
-    public static long startOfDay(long time) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(time);
-        cal.set(Calendar.HOUR_OF_DAY, 0); //set hours to zero
-        cal.set(Calendar.MINUTE, 0); // set minutes to zero
-        cal.set(Calendar.SECOND, 0); //set seconds to zero
-        return cal.getTimeInMillis()/1000;
+    public static Date startOfDay(Date date) {
+        return org.apache.commons.lang3.time.DateUtils.truncate(date, Calendar.DATE); // Date at start of day
     }
 }
