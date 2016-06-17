@@ -34,7 +34,7 @@ public class DateUtils {
             return "overmorgen";
         } else if (daysBetween < 0) {
             return DATEFORMATTER.format(date);
-        } else if (week == thisWeek || daysBetween <= 7) {
+        } else if (daysBetween <= 7) {
             return DAYFORMATTER.format(date).toLowerCase();
         } else if (week == thisWeek + 1) {
             return "volgende " + DAYFORMATTER.format(date).toLowerCase();
@@ -43,12 +43,12 @@ public class DateUtils {
         }
     }
 
-    public static int startOfDay(long time) {
+    public static long startOfDay(long time) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(time);
         cal.set(Calendar.HOUR_OF_DAY, 0); //set hours to zero
         cal.set(Calendar.MINUTE, 0); // set minutes to zero
         cal.set(Calendar.SECOND, 0); //set seconds to zero
-        return (int) cal.getTimeInMillis()/1000;
+        return cal.getTimeInMillis()/1000;
     }
 }
