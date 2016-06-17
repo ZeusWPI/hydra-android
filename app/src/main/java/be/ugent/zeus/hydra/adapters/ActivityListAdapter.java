@@ -11,6 +11,8 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -19,6 +21,7 @@ import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
 import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
 import be.ugent.zeus.hydra.recyclerviewholder.DateHeaderViewHolder;
+import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
  * Created by ellen on 8/3/16.
@@ -32,7 +35,6 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         private TextView title;
         private TextView association;
         private final SimpleDateFormat dateFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
-
 
         public CardViewHolder(View v) {
             super(v);
@@ -56,8 +58,6 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             });
         }
     }
-
-
 
     public ActivityListAdapter() {
         this.items = new ArrayList<>();
@@ -102,11 +102,18 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
     public void setItems(AssociationActivities items) {
         this.items.clear();
+        Date today = new Date();
         for (AssociationActivity item : items) {
-            this.items.add(item);
-
+            if (item.end.after(today)) {
+                this.items.add(item);
+            }
         }
 
-
+        Collections.sort(this.items, new Comparator<AssociationActivity>() {  // sort the array so that events are added in the right
+            @Override
+            public int compare(AssociationActivity lhs, AssociationActivity rhs) {
+                return lhs.start.compareTo(rhs.start);
+            }
+        });
     }
 }
