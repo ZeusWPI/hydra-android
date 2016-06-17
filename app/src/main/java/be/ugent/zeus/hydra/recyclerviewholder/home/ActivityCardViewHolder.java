@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.recyclerviewholder.home;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.text.format.DateUtils;
 import android.view.View;
@@ -11,7 +12,8 @@ import com.squareup.picasso.Picasso;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.models.HomeCard;
+import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
+import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
 
 /**
@@ -39,7 +41,8 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
             return; //TODO: do warnings or something
         }
 
-        final AssociationActivity activity = (AssociationActivity) card;
+        final AssociationActivityCard activityCard = (AssociationActivityCard) card;
+        final AssociationActivity activity = activityCard.getAssociationActivity();
 
         //TODO: make pretty
 

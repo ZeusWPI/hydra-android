@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.fragments;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,13 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,10 +21,12 @@ import java.util.List;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.adapters.RestoCardAdapter;
-import be.ugent.zeus.hydra.models.HomeCard;
+import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
+import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
+import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
+import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoMenuList;
 import be.ugent.zeus.hydra.models.schamper.Article;
@@ -125,14 +124,13 @@ public class HomeFragment extends AbstractFragment {
 
             @Override
             public void onRequestSuccess(final RestoMenuList menuList) {
-                ArrayList<HomeCard> list = new ArrayList<>();
-                //list.addAll(menuList); //Why no casting :'(
-                for (RestoMenu menu: menuList) {
+                List<HomeCard> menuCardList = new ArrayList<>();
+                for (RestoMenu menu : menuList) {
                     if (new DateTime(menu.getDate()).withTimeAtStartOfDay().isAfterNow()) {
-                        list.add(menu); //TODO: add current day
+                        menuCardList.add(new RestoMenuCard(menu)); //TODO: add current day
                     }
                 }
-                adapter.updateCardItems(list, HomeCardAdapter.HomeType.RESTO);
+                adapter.updateCardItems(menuCardList, HomeCardAdapter.HomeType.RESTO);
                 loadComplete();
             }
         });
@@ -150,15 +148,17 @@ public class HomeFragment extends AbstractFragment {
 
             @Override
             public void onRequestSuccess(final AssociationActivities associationActivities) {
-                List<HomeCard> list = new ArrayList<>();
-                AssociationActivities filteredAssociationActivities = associationActivities.getPreferedActivities(getContext());
+                List<HomeCard> activityCardList = new ArrayList<>();
+                AssociationActivities filteredActivities = associationActivities.getPreferedActivities(getContext());
                 Date date = new Date();
-                for (AssociationActivity activity: filteredAssociationActivities) {
-                    if(activity.getPriority() > 0 && activity.end.after(date)) {
-                        list.add(activity);
+
+                for (AssociationActivity activity : filteredActivities) {
+                    AssociationActivityCard activityCard = new AssociationActivityCard(activity);
+                    if(activityCard.getPriority() > 0 && activity.getEndDate().after(date)) {
+                        activityCardList.add(activityCard);
                     }
                 }
-                adapter.updateCardItems(list, HomeCardAdapter.HomeType.ACTIVITY);
+                adapter.updateCardItems(activityCardList, HomeCardAdapter.HomeType.ACTIVITY);
                 loadComplete();
             }
         });
@@ -179,7 +179,7 @@ public class HomeFragment extends AbstractFragment {
                 boolean development_enabled = true;
                 for (SpecialEvent event: specialEventWrapper.getSpecialEvents()) {
                     if ((event.getStart().before(new Date()) && event.getEnd().after(new Date())) || (development_enabled && event.isDevelopment())) {
-                        list.add(event);
+                        list.add(new SpecialEventCard(event));
                     }
                 }
 

@@ -11,6 +11,8 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -57,8 +59,6 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         }
     }
 
-
-
     public ActivityListAdapter() {
         this.items = new ArrayList<>();
     }
@@ -80,7 +80,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     @Override
     public long getHeaderId(int position) {
         Date date = items.get(position).start;
-        return DateUtils.startOfDay(date.getTime());
+        return date.getMonth()*100+date.getDay(); //todo
     }
 
     @Override
@@ -102,10 +102,18 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
     public void setItems(AssociationActivities items) {
         this.items.clear();
+        Date today = new Date();
         for (AssociationActivity item : items) {
-            if (item.end.after(new Date())) {
+            if (item.end.after(today)) {
                 this.items.add(item);
             }
         }
+
+        Collections.sort(this.items, new Comparator<AssociationActivity>() {  // sort the array so that events are added in the right
+            @Override
+            public int compare(AssociationActivity lhs, AssociationActivity rhs) {
+                return lhs.start.compareTo(rhs.start);
+            }
+        });
     }
 }
