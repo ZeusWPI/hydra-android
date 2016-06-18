@@ -2,12 +2,9 @@ package be.ugent.zeus.hydra.models.association;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.models.CardModel;
 import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
 import com.google.gson.annotations.JsonAdapter;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,7 +12,8 @@ import java.util.Date;
 /**
  * Created by feliciaan on 27/01/16.
  */
-public class AssociationActivity implements Parcelable, CardModel, Serializable {
+public class AssociationActivity implements Parcelable, Serializable {
+
     public String title;
     @JsonAdapter(TimeStampDateJsonAdapter.class)
     public Date start;
@@ -57,6 +55,14 @@ public class AssociationActivity implements Parcelable, CardModel, Serializable 
         }
     };
 
+    public Date getStartDate() {
+        return start;
+    }
+
+    public Date getEndDate() {
+        return end;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -76,16 +82,5 @@ public class AssociationActivity implements Parcelable, CardModel, Serializable 
         dest.writeByte((byte) (highlighted ? 1 : 0));
         dest.writeParcelable(association, flags);
 
-    }
-
-    @Override
-    public int getPriority() {
-        Duration duration = new Duration(new DateTime(), new DateTime(start));
-        return 950 - Math.max(0, (int)duration.getStandardHours()) * 4; //see 10 days in to the future
-    }
-
-    @Override
-    public int getCardType() {
-        return CardType.ACTIVITY;
     }
 }

@@ -17,15 +17,20 @@ import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.loader.LoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.loader.cache.Request;
-import be.ugent.zeus.hydra.models.CardModel;
 import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
+import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
+import be.ugent.zeus.hydra.models.cards.HomeCard;
+import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
+import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
+import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
 import be.ugent.zeus.hydra.requests.SpecialEventRequest;
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -139,9 +144,13 @@ public class HomeFragment extends Fragment {
          */
         @Override
         public void receiveData(@NonNull RestoOverview data) {
-            ArrayList<CardModel> list = new ArrayList<>();
-            list.addAll(data);
-            adapter.updateCardItems(list, CardModel.CardType.RESTO);
+            List<HomeCard> menuCardList = new ArrayList<>();
+            for (RestoMenu menu : data) {
+                if (new DateTime(menu.getDate()).withTimeAtStartOfDay().isAfterNow()) {
+                    menuCardList.add(new RestoMenuCard(menu)); //TODO: add current day
+                }
+            }
+            adapter.updateCardItems(menuCardList, HomeCard.CardType.RESTO);
             loadComplete();
         }
 
@@ -181,13 +190,14 @@ public class HomeFragment extends Fragment {
         public void receiveData(@NonNull AssociationActivities data) {
             List<AssociationActivity> filteredAssociationActivities = AssociationActivities.getPreferredActivities(data, getContext());
             Date date = new Date();
-            List<CardModel> list = new ArrayList<>();
+            List<HomeCard> list = new ArrayList<>();
             for (AssociationActivity activity: filteredAssociationActivities) {
-                if(activity.getPriority() > 0 && activity.end.after(date)) {
-                    list.add(activity);
+                AssociationActivityCard activityCard = new AssociationActivityCard(activity);
+                if(activityCard.getPriority() > 0 && activity.getEndDate().after(date)) {
+                    list.add(activityCard);
                 }
             }
-            adapter.updateCardItems(list, CardModel.CardType.ACTIVITY);
+            adapter.updateCardItems(list, HomeCard.CardType.ACTIVITY);
             loadComplete();
         }
 
@@ -225,14 +235,14 @@ public class HomeFragment extends Fragment {
          */
         @Override
         public void receiveData(@NonNull SpecialEventWrapper data) {
-            List<CardModel> list = new ArrayList<>();
+            List<HomeCard> list = new ArrayList<>();
             for (SpecialEvent event: data.getSpecialEvents()) {
                 if ((event.getStart().before(new Date()) && event.getEnd().after(new Date())) || (DEVELOPMENT && event.isDevelopment())) {
-                    list.add(event);
+                    list.add(new SpecialEventCard(event));
                 }
             }
 
-            adapter.updateCardItems(list, CardModel.CardType.SPECIAL_EVENT);
+            adapter.updateCardItems(list, HomeCard.CardType.SPECIAL_EVENT);
             loadComplete();
         }
 

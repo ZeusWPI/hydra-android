@@ -15,7 +15,10 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Adapter for the list of activities.
@@ -32,7 +35,6 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         private TextView start;
         private TextView title;
         private TextView association;
-
 
         private CardViewHolder(View v) {
             super(v);
@@ -59,6 +61,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
     private List<AssociationActivity> data = Collections.emptyList();
     private List<AssociationActivity> original = Collections.emptyList();
+
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

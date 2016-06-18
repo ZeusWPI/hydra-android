@@ -2,16 +2,14 @@ package be.ugent.zeus.hydra.models.resto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.models.CardModel;
 import be.ugent.zeus.hydra.models.converters.RestoDateJsonAdapter;
 import com.google.gson.annotations.JsonAdapter;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 /**
  * Represents a menu for a single day.
@@ -19,7 +17,7 @@ import java.util.List;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class RestoMenu implements CardModel, Parcelable, Serializable {
+public class RestoMenu implements Parcelable, Serializable {
 
     private boolean open;
     @JsonAdapter(RestoDateJsonAdapter.class)
@@ -102,18 +100,6 @@ public class RestoMenu implements CardModel, Parcelable, Serializable {
             fillCategories();
         }
         return mainDishes;
-    }
-
-    @Override
-    public int getPriority() {
-        DateTime jodadate = new DateTime(date);
-        Duration duration = new Duration(new DateTime(), jodadate);
-        return (int) (1000 - (duration.getStandardDays()*100));
-    }
-
-    @Override
-    public int getCardType() {
-        return CardType.RESTO;
     }
 
     @Override

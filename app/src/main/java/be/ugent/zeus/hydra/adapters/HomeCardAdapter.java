@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.CardModel;
+import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerviewholder.home.AbstractViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.ActivityCardViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.RestoCardViewHolder;
@@ -13,16 +13,16 @@ import be.ugent.zeus.hydra.recyclerviewholder.home.SpecialEventCardViewHolder;
 
 import java.util.*;
 
-import static be.ugent.zeus.hydra.models.CardModel.CardType.ACTIVITY;
-import static be.ugent.zeus.hydra.models.CardModel.CardType.RESTO;
-import static be.ugent.zeus.hydra.models.CardModel.CardType.SPECIAL_EVENT;
+import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.ACTIVITY;
+import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.RESTO;
+import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.SPECIAL_EVENT;
 
 /**
  * Created by feliciaan on 06/04/16.
  */
 public class HomeCardAdapter extends RecyclerView.Adapter {
 
-    private List<CardModel> cardItems;
+    private List<HomeCard> cardItems;
 
     public HomeCardAdapter() {
         cardItems = new ArrayList<>();
@@ -33,10 +33,10 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
      * @param cardList List with object implementing the card protocol
      * @param type The type of the cards
      */
-    public void updateCardItems(List<CardModel> cardList, @CardModel.CardType int type) {
-        Iterator<CardModel> it = cardItems.iterator();
+    public void updateCardItems(List<HomeCard> cardList, @HomeCard.CardType int type) {
+        Iterator<HomeCard> it = cardItems.iterator();
         while (it.hasNext()) { // Why no filter :(
-            CardModel c = it.next();
+            HomeCard c = it.next();
             if (c.getCardType() == type) {
                 it.remove();
             }
@@ -44,9 +44,9 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
 
         cardItems.addAll(cardList);
 
-        Collections.sort(cardItems, new Comparator<CardModel>() {
+        Collections.sort(cardItems, new Comparator<HomeCard>() {
             @Override
-            public int compare(CardModel lhs, CardModel rhs) {
+            public int compare(HomeCard lhs, HomeCard rhs) {
                 return  -(lhs.getPriority() - rhs.getPriority());
             }
         });
@@ -73,9 +73,9 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        CardModel object = cardItems.get(position);
+        HomeCard object = cardItems.get(position);
 
-        AbstractViewHolder vh = (AbstractViewHolder)holder;
+        AbstractViewHolder vh = (AbstractViewHolder) holder;
         vh.populate(object);
     }
 
@@ -85,7 +85,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    @CardModel.CardType
+    @HomeCard.CardType
     public int getItemViewType(int position) {
         return cardItems.get(position).getCardType();
     }

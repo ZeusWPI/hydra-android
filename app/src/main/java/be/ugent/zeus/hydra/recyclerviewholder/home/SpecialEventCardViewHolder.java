@@ -6,7 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.CardModel;
+import be.ugent.zeus.hydra.models.cards.HomeCard;
+import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import com.squareup.picasso.Picasso;
 
@@ -24,26 +25,27 @@ public class SpecialEventCardViewHolder extends AbstractViewHolder {
     }
 
     @Override
-    public void populate(CardModel card) {
-        if (card.getCardType() != CardModel.CardType.SPECIAL_EVENT) {
+    public void populate(HomeCard card) {
+        if (card.getCardType() != HomeCard.CardType.SPECIAL_EVENT) {
             return; //TODO: give warning
         }
 
-        final SpecialEvent event = (SpecialEvent) card;
+        final SpecialEventCard eventCard = (SpecialEventCard) card;
+        final SpecialEvent specialEvent = eventCard.getSpecialEvent();
 
         TextView titleView = $(view, R.id.title);
-        titleView.setText(event.getName());
+        titleView.setText(specialEvent.getName());
 
         TextView textView = $(view, R.id.text);
-        textView.setText(event.getSimpleText());
+        textView.setText(specialEvent.getSimpleText());
 
         ImageView imageView = $(view, R.id.imageView);
-        Picasso.with(view.getContext()).load(event.getImage()).into(imageView);
+        Picasso.with(view.getContext()).load(specialEvent.getImage()).into(imageView);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.getLink()));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(specialEvent.getLink()));
                 view.getContext().startActivity(browserIntent);
             }
         });

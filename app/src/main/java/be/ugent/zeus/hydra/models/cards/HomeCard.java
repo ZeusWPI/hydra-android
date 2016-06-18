@@ -1,39 +1,34 @@
-package be.ugent.zeus.hydra.models;
+package be.ugent.zeus.hydra.models.cards;
 
 import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static be.ugent.zeus.hydra.models.CardModel.CardType.ACTIVITY;
-import static be.ugent.zeus.hydra.models.CardModel.CardType.RESTO;
-import static be.ugent.zeus.hydra.models.CardModel.CardType.SPECIAL_EVENT;
+import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.*;
 
 /**
- * Add models to the interface.
- *
- * @author feliciaan
- * @author Niko Strijbol
+ * Add models to the interface Created by feliciaan on 06/04/16.
  */
-public interface CardModel {
+public abstract class HomeCard {
 
     /**
      * @return Priority should be a number between min inf and 1000.
      */
-    int getPriority();
+    public abstract int getPriority();
 
     /**
      * @return The card type.
      */
-    @CardType
-    int getCardType();
+    @HomeCard.CardType
+    public abstract int getCardType();
 
     /**
      * Android is horrible with enums, since Google doesn't know what they are doing apparently. Sigh.
      */
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({RESTO, ACTIVITY, SPECIAL_EVENT})
-    @interface CardType {
+    public @interface CardType {
         int RESTO = 1;
         int ACTIVITY = 2;
         int SPECIAL_EVENT = 3;

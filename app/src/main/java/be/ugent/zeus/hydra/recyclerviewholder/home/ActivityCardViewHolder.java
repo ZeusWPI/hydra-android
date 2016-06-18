@@ -8,8 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.EventDetailsActivity;
-import be.ugent.zeus.hydra.models.CardModel;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
+import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
+import be.ugent.zeus.hydra.models.cards.HomeCard;
 import com.squareup.picasso.Picasso;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
@@ -34,12 +35,13 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
     }
 
     @Override
-    public void populate(CardModel card) {
-        if (card.getCardType() != CardModel.CardType.ACTIVITY) {
+    public void populate(HomeCard card) {
+        if (card.getCardType() != HomeCard.CardType.ACTIVITY) {
             return; //TODO: do warnings or something
         }
 
-        final AssociationActivity activity = (AssociationActivity) card;
+        final AssociationActivityCard activityCard = (AssociationActivityCard) card;
+        final AssociationActivity activity = activityCard.getAssociationActivity();
 
         title.setText(activity.title);
         association.setText(activity.association.display_name);
