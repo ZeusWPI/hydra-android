@@ -20,7 +20,7 @@ public class RestoMenu {
     private ArrayList<String> vegetables;
 
     public RestoMenu() {
-    };
+    }
 
     public RestoMenu(boolean open, Date date, RestoMeals meals, ArrayList<String> vegetables) {
         this.open = open;

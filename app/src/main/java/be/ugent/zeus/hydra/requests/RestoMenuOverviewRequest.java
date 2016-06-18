@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.requests;
 
+import com.octo.android.robospice.persistence.DurationInMillis;
+
 import be.ugent.zeus.hydra.models.resto.RestoMenuList;
 
 /**
@@ -22,6 +24,6 @@ public class RestoMenuOverviewRequest extends AbstractRequest<RestoMenuList> {
 
     @Override
     public long getCacheDuration() {
-        return 0;
+        return DurationInMillis.ONE_HOUR * 12;
     }
 }

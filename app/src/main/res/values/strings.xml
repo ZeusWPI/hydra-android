@@ -4,13 +4,13 @@
     <!-- General -->
     <string name="app_name">Hydra</string>
 
-    <!-- Navigation drawer -->
-    <string name="nieuws">Hydra</string>
-    <string name="activiteiten">Activiteiten</string>
-    <string name="info">Info</string>
-    <string name="resto_menu">Resto Menu</string>
-    <string name="urgent">Urgent</string>
-    <string name="schamper">Schamper</string>
+    <!-- Navigation tabs -->
+    <string name="nieuws">hydra</string>
+    <string name="activiteiten">activiteiten</string>
+    <string name="info">info</string>
+    <string name="resto_menu">resto Menu</string>
+    <string name="urgent">urgent</string>
+    <string name="schamper">schamper</string>
 
     <!-- Action bar -->
     <string name="action_example">Voorbeeldactie</string>
@@ -23,13 +23,36 @@
     <string name="title_activity_association_activity_detail">AssociatieActiviteitsDetail</string>
 
     <!-- Settings -->
-    <string name="pref_cat1_title">Categorie één.</string>
+    <string name="pref_daily_notifications_title">Notificaties (experimenteel)</string>
+    <string name="pref_daily_notifications_checkbox_summary">Geef dagelijks een notificatie over wat er op het menu staat in de resto.</string>
+    <string name="pref_daily_notifications_checkbox_title">Dagelijkse notificaties</string>
+    <string name="pref_daily_notifications_time_summary">Op welk moment wil je de melding krijgen?</string>
+    <string name="pref_daily_notifications_time_title">Tijdstip</string>
 
-    <string name="pref_summary_cat1_checkbox">Dit is een voorbeeldkeuzevakje</string>
-    <string name="pref_title_cat1_checkbox">Keuzevakje één.</string>
-    <string name="pref_sumary_setting1">Dit is instelling één.</string>
-    <string name="pref_title_Setting1">Instelling één</string>
+    <string name="pref_daily_notifications_testbutton_text">Toon voorbeeld</string>
+    <string name="pref_daily_notifications_test_summary">Laat een voorbeeldnotificatie zien.</string>
+    <string name="pref_daily_notifications_test_title">Voorbeeld</string>
+
+    <string name="pref_activities_title">Activiteiten</string>
+
     <string name="openFacebook">Ondertussen kan je een bezoekje brengen aan onze Facebook-pagina.</string>
     <string name="facebookButtonDescription">Link naar onze Facebook-pagina.</string>
     <string name="comingsoontitle">Coming soon!</string>
+
+    <string name="title_activity_hydra_web_view">Web View</string>
+    <string name="title_activity_info_sub_item">InfoSubItemActivity</string>
+    <string name="cancel">annuleren</string>
+    <string name="set">OK</string>
+    <string name="monday">maandag</string>
+    <string name="tuesday">dinsdag</string>
+    <string name="wednesday">woensdag</string>
+    <string name="thursday">donderdag</string>
+    <string name="friday">vrijdag</string>
+    <string name="saturday">zaterdag</string>
+    <string name="sunday">zondag</string>
+
+    <string name="restonotification_title">Resto menu</string>
+    <string name="restonotification_text">Bekijk het menu van de resto in de Hydra-app.</string>
+
+    <string name="resto_action">OPEN RESTO PLOX!</string>
 </resources>

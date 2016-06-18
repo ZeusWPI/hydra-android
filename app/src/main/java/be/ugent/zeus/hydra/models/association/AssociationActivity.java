@@ -55,6 +55,14 @@ public class AssociationActivity implements Parcelable {
         }
     };
 
+    public Date getStartDate() {
+        return start;
+    }
+
+    public Date getEndDate() {
+        return end;
+    }
+
     @Override
     public int describeContents() {
         return 0;

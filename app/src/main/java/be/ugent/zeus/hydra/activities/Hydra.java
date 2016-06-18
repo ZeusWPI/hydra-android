@@ -10,22 +10,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import be.ugent.zeus.hydra.activities.settings.SettingsActivity;
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
 
+import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
-import be.ugent.zeus.hydra.models.association.AssociationActivities;
-import be.ugent.zeus.hydra.models.association.AssociationActivity;
-import be.ugent.zeus.hydra.models.association.AssociationNews;
-import be.ugent.zeus.hydra.models.association.AssociationNewsItem;
-import be.ugent.zeus.hydra.requests.AssociationNewsRequest;
 
 
 public class Hydra extends AppCompatActivity {
 
+    protected TabLayout tabLayout;
+    protected ViewPager viewPager;
     //------------------------------------------------------------------------
     //this block can be pushed up into a common base class for all activities
     //------------------------------------------------------------------------
@@ -47,6 +44,13 @@ public class Hydra extends AppCompatActivity {
         super.onStop();
     }
 
+    protected void onResume() {
+        super.onResume();
+
+        HydraApplication happ = (HydraApplication) getApplication();
+        happ.sendScreenName("settings");
+    }
+
     //------------------------------------------------------------------------
     //---------end of block that can fit in a common base class for all activities
     //------------------------------------------------------
@@ -56,8 +60,8 @@ public class Hydra extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_layout);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        viewPager = (ViewPager) findViewById(R.id.pager);
 
         viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
@@ -67,8 +71,8 @@ public class Hydra extends AppCompatActivity {
         actionbar.setCustomView(R.layout.actionbar_centered_hydra);
 
         //icons (bad way)
-        int[] icons = {R.drawable.home, R.drawable.minerva,
-                R.drawable.resto, R.drawable.schamper, R.drawable.info};
+        int[] icons = {R.drawable.home, R.drawable.schamper,
+                R.drawable.resto, R.drawable.association_activities_icon, R.drawable.info, R.drawable.minerva};
 
         //set icons
         tabLayout.setupWithViewPager(viewPager);
@@ -76,7 +80,12 @@ public class Hydra extends AppCompatActivity {
             tabLayout.getTabAt(i).setIcon(icons[i]);
         }
 
-        //performLoadActivityRequest();
+        // If the app was launched via a resto notification, open the resto tab.
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if(action != null && action.equals(getString(R.string.resto_action))){
+            changeFragment(2);
+        }
     }
 
     @Override
@@ -103,43 +112,8 @@ public class Hydra extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void performLoadActivityRequest() {
-        /*AssociationActivitiesRequest r = new AssociationActivitiesRequest();
-        System.out.println("Load data");
-        spiceManager.execute(r, r.getCacheKey(), DurationInMillis.ONE_MINUTE * 15, new AssociationActivityRequestListener() );*/
+    public void changeFragment(int fragment) { // FIXME: 14/04/16 Add more robust way to change fragments
+        viewPager.setCurrentItem(fragment);
 
-        AssociationNewsRequest r = new AssociationNewsRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationNews>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                //TextView groenten = (TextView) findViewById(R.id.groenten);
-                //groenten.setText("request failed");
-                System.out.println("Request failed");
-            }
-
-            @Override
-            public void onRequestSuccess(AssociationNews associationNewsItems) {
-                for (AssociationNewsItem newsItem : associationNewsItems) {
-                    System.out.println(newsItem.title + ", ");
-                }
-            }
-        });
-    }
-
-    private class AssociationActivityRequestListener implements RequestListener<AssociationActivities> {
-
-        @Override
-        public void onRequestFailure(SpiceException spiceException) {
-            System.out.println("Request failed");
-        }
-
-        @Override
-        public void onRequestSuccess(AssociationActivities associationActivities) {
-            System.out.println("Activities loaded: " + associationActivities.size());
-            for (AssociationActivity activity : associationActivities) {
-                System.out.print(activity.title + ",  ");
-            }
-            System.out.println();
-        }
     }
 }

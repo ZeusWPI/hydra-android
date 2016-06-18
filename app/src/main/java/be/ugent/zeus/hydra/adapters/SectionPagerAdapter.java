@@ -10,6 +10,7 @@ import be.ugent.zeus.hydra.fragments.HomeFragment;
 import be.ugent.zeus.hydra.fragments.InfoFragment;
 import be.ugent.zeus.hydra.fragments.NewsFragment;
 import be.ugent.zeus.hydra.fragments.RestoFragment;
+import be.ugent.zeus.hydra.fragments.SchamperFragment;
 
 /**
  * Created by silox on 17/10/15.
@@ -26,13 +27,15 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new HomeFragment();
             case 1:
-                return new NewsFragment();
+                return new SchamperFragment();
             case 2:
                 return new RestoFragment();
             case 3:
                 return new ActivitiesFragment();
             case 4:
                 return new InfoFragment();
+            case 5:
+                return new NewsFragment();
             default:
                 return new ComingSoonFragment();
         }
@@ -40,7 +43,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return 6;
     }
 
 

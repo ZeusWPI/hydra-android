@@ -2,12 +2,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.InfoFragment">
+    tools:context="be.ugent.zeus.hydra.fragments.InfoFragment">
 
-    <ListView
-        android:id="@+id/infoList"
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
-    </ListView>
+        android:id="@+id/progressBar"
+        android:layout_gravity="center" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|top">
+        <TextView
+            android:id="@+id/resto_header_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="26sp"
+            android:text="@string/info"
+            android:textColor="@color/ugent_white"
+            android:background="@color/ugent_blue_medium"
+            android:padding="4dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="1dp" />
+    </LinearLayout>
 
 </FrameLayout>

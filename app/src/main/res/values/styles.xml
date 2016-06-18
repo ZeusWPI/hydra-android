@@ -4,7 +4,6 @@
     <style name="HydraTheme"
         parent="Theme.AppCompat">
         <item name="actionBarStyle">@style/HydraActionBar</item>
-
         <item name="colorPrimary">@color/ugent_blue_medium</item>
         <item name="colorPrimaryDark">@color/ugent_blue_dark</item>
         <item name="colorAccent">@color/ugent_blue_highlight</item>
@@ -13,7 +12,7 @@
 
     <!-- ActionBar styles -->
     <style name="HydraActionBar"
-        parent="Theme.AppCompat.Light">
+        parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="background">@color/ugent_blue_medium</item>
         <item name="colorPrimary">@color/ugent_blue_medium</item>
         <item name="colorPrimaryDark">@color/ugent_blue_dark</item>

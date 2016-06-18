@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -17,9 +18,10 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
 import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
-
 /**
  * Created by ellen on 2016-03-08.
+ *
+ * TODO: update after  settings changed.
  */
 
 public class ActivitiesFragment extends AbstractFragment {
@@ -28,13 +30,21 @@ public class ActivitiesFragment extends AbstractFragment {
     private RecyclerView.LayoutManager layoutManager;
     private View layout;
     private StickyRecyclerHeadersDecoration decorator;
+    private ProgressBar progressBar;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.sendScreenTracking("Activities");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_activities, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerview);
+        progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
+
         adapter = new ActivityListAdapter();
         recyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(this.getActivity());
@@ -47,24 +57,23 @@ public class ActivitiesFragment extends AbstractFragment {
     }
 
 
-
     private void performLoadActivityRequest() {
-
         final AssociationActivitiesRequest r = new AssociationActivitiesRequest();
         spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationActivities>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar();
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onRequestSuccess(final AssociationActivities associationActivitiesItems) {
-                adapter.setItems(associationActivitiesItems);
+                adapter.setItems(associationActivitiesItems.getPreferedActivities(getContext()));
                 adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
-
 
     private void showFailureSnackbar() {
         Snackbar
@@ -77,4 +86,11 @@ public class ActivitiesFragment extends AbstractFragment {
                 })
                 .show();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        performLoadActivityRequest();
+    }
+
 }

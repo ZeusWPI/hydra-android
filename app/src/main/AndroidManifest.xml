@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".HydraApplication"
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
@@ -21,10 +22,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Settings -->
         <activity
-            android:name=".activities.SettingsActivity"
-            android:label="@string/app_name" >
+            android:name=".activities.settings.SettingsActivity"
+            android:label="@string/action_settings"
+            android:parentActivityName=".activities.Hydra">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
         </activity>
+
         <service
             android:name="com.octo.android.robospice.GsonSpringAndroidSpiceService"
             android:exported="false" />
@@ -33,6 +42,14 @@
             android:name=".activities.AssociationActivityDetail"
             android:label="@string/title_activity_association_activity_detail">
         </activity>
+        <receiver android:name=".notifications.DailyNotificationReceiver"/>
+
+        <activity
+            android:name=".activities.HydraWebViewActivity"
+            android:label="@string/title_activity_hydra_web_view" />
+        <activity
+            android:name=".activities.InfoSubItemActivity"
+            android:label="@string/title_activity_info_sub_item"/>
     </application>
 
 </manifest>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+    <header
+        android:fragment="be.ugent.zeus.hydra.fragments.settings.ActivityFragment"
+        android:title="@string/pref_activities_title"
+        android:summary="Opties voor de activiteiten.">
+    </header>
+    <!-- notifications -->
+    <header
+        android:fragment="be.ugent.zeus.hydra.fragments.settings.NotificationFragment"
+        android:title="@string/pref_daily_notifications_title"
+        android:summary="Dit staat nog niet helemaal op punt.">
+    </header>
+</preference-headers>

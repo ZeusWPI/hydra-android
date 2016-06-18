@@ -2,15 +2,13 @@ package be.ugent.zeus.hydra.fragments;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
-import com.octo.android.robospice.GsonSpringAndroidSpiceService;
-import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
@@ -25,29 +23,25 @@ import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
  * Created by mivdnber on 2016-03-03.
  */
 
-public class RestoFragment extends Fragment {
-    protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
+public class RestoFragment extends AbstractFragment {
     private RecyclerView recyclerView;
     private RestoCardAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private View layout;
+    private ProgressBar progressBar;
 
     @Override
-    public void onStart() {
-        super.onStart();
-        spiceManager.start(getContext());
+    public void onResume() {
+        super.onResume();
+        this.sendScreenTracking("resto");
     }
 
-    @Override
-    public void onStop() {
-        spiceManager.shouldStop();
-        super.onStop();
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_resto, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.resto_cards_view);
+        progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
         adapter = new RestoCardAdapter();
         recyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(this.getActivity());
@@ -64,12 +58,17 @@ public class RestoFragment extends Fragment {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar();
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onRequestSuccess(final RestoMenuList menuList) {
                 adapter.setMenuList(menuList);
                 adapter.notifyDataSetChanged();
+                if (menuList.isEmpty()) {
+                    showFailureSnackbar(); //TODO: let user now the menus are empty
+                }
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
