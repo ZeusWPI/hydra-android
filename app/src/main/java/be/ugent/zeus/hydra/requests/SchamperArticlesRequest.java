@@ -25,6 +25,6 @@ public class SchamperArticlesRequest extends AbstractRequest<Articles> {
 
     @Override
     public long getCacheDuration() {
-        return DurationInMillis.ONE_HOUR * 2 * 0;
+        return DurationInMillis.ONE_HOUR * 2;
     }
 }

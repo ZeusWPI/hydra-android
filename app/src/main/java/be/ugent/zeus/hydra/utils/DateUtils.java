@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.utils;
 
+import android.content.Context;
+
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
@@ -45,5 +47,9 @@ public class DateUtils {
 
     public static Date startOfDay(Date date) {
         return org.apache.commons.lang3.time.DateUtils.truncate(date, Calendar.DATE); // Date at start of day
+    }
+
+    public static CharSequence relativeDateString(Date date, Context context) {
+        return android.text.format.DateUtils.getRelativeDateTimeString(context, date.getTime(), android.text.format.DateUtils.MINUTE_IN_MILLIS, android.text.format.DateUtils.WEEK_IN_MILLIS, 0);
     }
 }

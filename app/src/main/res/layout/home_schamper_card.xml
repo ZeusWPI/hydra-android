@@ -12,10 +12,10 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="3dp"
         android:layout_marginEnd="3dp"
-        card_view:contentPaddingLeft="5dp"
-        card_view:contentPaddingRight="5dp"
+        card_view:contentPaddingLeft="15dp"
+        card_view:contentPaddingRight="15dp"
         card_view:contentPaddingTop="3dp"
-        card_view:contentPaddingBottom="3dp">
+        card_view:contentPaddingBottom="7dp">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -31,33 +31,37 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:paddingRight="5dp"
-                />
+                android:src="@drawable/schamper" />
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/dark_blue"
-                    android:id="@+id/title" />
+                    android:id="@+id/title"
+                    android:text="Dit is een schamper artikel! Met een lange titel van meerdere lijnen!" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/dark_blue"
-                    android:id="@+id/date" />
+                    android:id="@+id/date"
+                    android:text="Gisteren"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/dark_blue"
-                    android:id="@+id/author" />
+                    android:id="@+id/author"
+                    android:text="Hercules"/>
             </LinearLayout>
 
         </LinearLayout>

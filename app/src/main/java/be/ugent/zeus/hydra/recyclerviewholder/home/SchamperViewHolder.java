@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.recyclerviewholder.home;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.SchamperCard;
 import be.ugent.zeus.hydra.models.schamper.Article;
+import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
  * Created by feliciaan on 17/06/16.
@@ -43,7 +43,7 @@ public class SchamperViewHolder extends AbstractViewHolder {
         final Article article = schamperCard.getArticle();
 
         title.setText(article.getTitle());
-        date.setText(article.getPubDate().toLocaleString());
+        date.setText(DateUtils.relativeDateString(article.getPubDate(), itemView.getContext()));
         author.setText(article.getAuthor());
 
         Picasso.with(this.itemView.getContext()).load(article.getImage()).into(image);
