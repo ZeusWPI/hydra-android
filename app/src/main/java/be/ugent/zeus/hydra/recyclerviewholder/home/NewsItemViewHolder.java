@@ -3,8 +3,9 @@ package be.ugent.zeus.hydra.recyclerviewholder.home;
 import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.Locale;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
@@ -20,19 +21,13 @@ public class NewsItemViewHolder extends AbstractViewHolder{
     private TextView info;
     private TextView title;
     private TextView summary;
-    private ImageView star;
-    private boolean big;
-    private LinearLayout head;
 
     public NewsItemViewHolder(View v) {
         super(v);
         title = (TextView) v.findViewById(R.id.name);
         summary = (TextView) v.findViewById(R.id.summary);
         info = (TextView) v.findViewById(R.id.info);
-        star = (ImageView) v.findViewById(R.id.star);
-        head = (LinearLayout) v.findViewById(R.id.head);
     }
-
 
     public void populate(HomeCard card) {
         if (card.getCardType() != HomeCardAdapter.HomeType.NEWSITEM) {
@@ -44,25 +39,30 @@ public class NewsItemViewHolder extends AbstractViewHolder{
 
         title.setText(newsItem.getTitle());
 
-        info.setText(DateUtils.relativeDateString(newsItem.getDate(), itemView.getContext())+ " by "+ newsItem.getAssociation().getName());
+        String infoText = String.format(new Locale("nl"), "%s door %s",
+                DateUtils.relativeDateString(newsItem.getDate(), itemView.getContext()),
+                newsItem.getAssociation().getName());
+        info.setText(infoText);
         if(!newsItem.isHighlighted()){
-            star.setVisibility(View.INVISIBLE);
+            title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.star, 0);
         }else{
-            star.setVisibility(View.VISIBLE);
+            title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
 
-        big = false;
-        summary.setText("");
-        head.setOnClickListener(new View.OnClickListener() {
+        summary.setText(""); // do not set text here, because not al newsItems are opened
+        summary.setVisibility(View.GONE);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //// TODO: 07/04/2016
-                if(big) {
-                    summary.setText("");
-                }else{
-                    summary.setText(Html.fromHtml(newsItem.getContent()));
+                if(summary.getVisibility() != View.VISIBLE) {
+                    if (summary.getText().length() == 0) {
+                        summary.setText(Html.fromHtml(newsItem.getContent()));
+                    }
+                    summary.setVisibility(View.VISIBLE);
+                } else{
+                    summary.setVisibility(View.GONE);
                 }
-                big=!big;
             }
         });
     }

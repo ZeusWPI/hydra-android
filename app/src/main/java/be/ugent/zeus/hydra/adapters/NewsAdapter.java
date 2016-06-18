@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import be.ugent.zeus.hydra.R;
@@ -44,5 +46,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
         for (NewsItem item : items) { //TODO: remove everything older than 6-months
             this.items.add(new NewsItemCard(item));
         }
+
+        Collections.sort(this.items, new Comparator<NewsItemCard>() {  // sort the array so that events are added in the right
+            @Override
+            public int compare(NewsItemCard lhs, NewsItemCard rhs) {
+                return -lhs.getNewsItem().getDate().compareTo(rhs.getNewsItem().getDate());
+            }
+        });
     }
 }
