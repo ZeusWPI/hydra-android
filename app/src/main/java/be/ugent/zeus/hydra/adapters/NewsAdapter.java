@@ -1,26 +1,17 @@
 package be.ugent.zeus.hydra.adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.association.AssociationNews;
-import be.ugent.zeus.hydra.models.association.AssociationNewsItem;
+import be.ugent.zeus.hydra.models.association.News;
+import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.models.cards.NewsItemCard;
-import be.ugent.zeus.hydra.recyclerviewholder.DateHeaderViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.NewsItemViewHolder;
 
 /**
@@ -48,9 +39,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> {
         return items.size();
     }
 
-    public void setItems(AssociationNews items) {
+    public void setItems(News items) {
         this.items.clear();
-        for (AssociationNewsItem item : items) { //TODO: remove everything older than 6-months
+        for (NewsItem item : items) { //TODO: remove everything older than 6-months
             this.items.add(new NewsItemCard(item));
         }
     }

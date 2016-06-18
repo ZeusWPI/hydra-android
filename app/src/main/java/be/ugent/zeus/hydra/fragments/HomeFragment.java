@@ -23,8 +23,8 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
-import be.ugent.zeus.hydra.models.association.AssociationActivities;
-import be.ugent.zeus.hydra.models.association.AssociationActivity;
+import be.ugent.zeus.hydra.models.association.Activities;
+import be.ugent.zeus.hydra.models.association.Activity;
 import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
 import be.ugent.zeus.hydra.models.cards.SchamperCard;
 import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
@@ -122,7 +122,7 @@ public class HomeFragment extends AbstractFragment {
 
     private void performActivityRequest() {
         final AssociationActivitiesRequest r = new AssociationActivitiesRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationActivities>() {
+        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<Activities>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar("activiteiten");
@@ -130,12 +130,12 @@ public class HomeFragment extends AbstractFragment {
             }
 
             @Override
-            public void onRequestSuccess(final AssociationActivities associationActivities) {
+            public void onRequestSuccess(final Activities activities) {
                 List<HomeCard> activityCardList = new ArrayList<>();
-                AssociationActivities filteredActivities = associationActivities.getPreferedActivities(getContext());
+                Activities filteredActivities = activities.getPreferedActivities(getContext());
                 Date date = new Date();
 
-                for (AssociationActivity activity : filteredActivities) {
+                for (Activity activity : filteredActivities) {
                     AssociationActivityCard activityCard = new AssociationActivityCard(activity);
                     if(activityCard.getPriority() > 0 && activity.getEndDate().after(date)) {
                         activityCardList.add(activityCard);

@@ -8,10 +8,10 @@ import android.os.StrictMode;
  * Created by feliciaan on 04/02/16.
  */
 public class Association implements Parcelable {
-    public String internal_name;
-    public String full_name;
-    public String display_name;
-    public String parent_association;
+    private String internal_name;
+    private String full_name;
+    private String display_name;
+    private String parent_association;
 
     protected Association(Parcel in) {
         internal_name = in.readString();
@@ -25,6 +25,38 @@ public class Association implements Parcelable {
             return full_name;
         }
         return display_name;
+    }
+
+    public String getInternal_name() {
+        return internal_name;
+    }
+
+    public void setInternal_name(String internal_name) {
+        this.internal_name = internal_name;
+    }
+
+    public String getFull_name() {
+        return full_name;
+    }
+
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
+    }
+
+    public String getDisplay_name() {
+        return display_name;
+    }
+
+    public void setDisplay_name(String display_name) {
+        this.display_name = display_name;
+    }
+
+    public String getParent_association() {
+        return parent_association;
+    }
+
+    public void setParent_association(String parent_association) {
+        this.parent_association = parent_association;
     }
 
     public static final Creator<Association> CREATOR = new Creator<Association>() {

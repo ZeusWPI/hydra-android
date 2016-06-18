@@ -6,12 +6,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.models.association.AssociationNewsItem;
+import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.NewsItemCard;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -43,12 +40,12 @@ public class NewsItemViewHolder extends AbstractViewHolder{
         }
 
         NewsItemCard newsItemCard = (NewsItemCard) card;
-        final AssociationNewsItem newsItem = newsItemCard.getNewsItem();
+        final NewsItem newsItem = newsItemCard.getNewsItem();
 
-        title.setText(newsItem.title);
+        title.setText(newsItem.getTitle());
 
-        info.setText(DateUtils.relativeDateString(newsItem.date, itemView.getContext())+ " by "+ "TODO");//// TODO: 07/04/2016 after merge do getName
-        if(!newsItem.highlighted){
+        info.setText(DateUtils.relativeDateString(newsItem.getDate(), itemView.getContext())+ " by "+ "TODO");//// TODO: 07/04/2016 after merge do getName
+        if(!newsItem.isHighlighted()){
             star.setVisibility(View.INVISIBLE);
         }else{
             star.setVisibility(View.VISIBLE);
@@ -63,7 +60,7 @@ public class NewsItemViewHolder extends AbstractViewHolder{
                 if(big) {
                     summary.setText("");
                 }else{
-                    summary.setText(Html.fromHtml(newsItem.content));
+                    summary.setText(Html.fromHtml(newsItem.getContent()));
                 }
                 big=!big;
             }

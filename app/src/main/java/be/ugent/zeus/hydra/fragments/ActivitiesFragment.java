@@ -16,7 +16,7 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
-import be.ugent.zeus.hydra.models.association.AssociationActivities;
+import be.ugent.zeus.hydra.models.association.Activities;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
 /**
  * Created by ellen on 2016-03-08.
@@ -59,7 +59,7 @@ public class ActivitiesFragment extends AbstractFragment {
 
     private void performLoadActivityRequest() {
         final AssociationActivitiesRequest r = new AssociationActivitiesRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationActivities>() {
+        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<Activities>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar();
@@ -67,8 +67,8 @@ public class ActivitiesFragment extends AbstractFragment {
             }
 
             @Override
-            public void onRequestSuccess(final AssociationActivities associationActivitiesItems) {
-                adapter.setItems(associationActivitiesItems.getPreferedActivities(getContext()));
+            public void onRequestSuccess(final Activities activitiesItems) {
+                adapter.setItems(activitiesItems.getPreferedActivities(getContext()));
                 adapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
             }

@@ -14,7 +14,7 @@ import com.octo.android.robospice.request.listener.RequestListener;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.NewsAdapter;
-import be.ugent.zeus.hydra.models.association.AssociationNews;
+import be.ugent.zeus.hydra.models.association.News;
 import be.ugent.zeus.hydra.requests.AssociationNewsRequest;
 
 /**
@@ -48,7 +48,7 @@ public class NewsFragment extends AbstractFragment {
     private void performLoadActivityRequest() {
 
         final AssociationNewsRequest r = new AssociationNewsRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationNews>() {
+        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<News>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar();
@@ -56,8 +56,8 @@ public class NewsFragment extends AbstractFragment {
             }
 
             @Override
-            public void onRequestSuccess(final AssociationNews AssociationNews) {
-                adapter.setItems(AssociationNews);
+            public void onRequestSuccess(final News news) {
+                adapter.setItems(news);
                 adapter.notifyDataSetChanged();
 
                 progressBar.setVisibility(View.GONE);

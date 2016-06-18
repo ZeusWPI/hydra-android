@@ -2,15 +2,15 @@ package be.ugent.zeus.hydra.requests;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
 
-import be.ugent.zeus.hydra.models.association.AssociationActivities;
+import be.ugent.zeus.hydra.models.association.Activities;
 
 /**
  * Created by feliciaan on 27/01/16.
  */
-public class AssociationActivitiesRequest extends AbstractRequest<AssociationActivities> {
+public class AssociationActivitiesRequest extends AbstractRequest<Activities> {
 
     public AssociationActivitiesRequest() {
-        super(AssociationActivities.class);
+        super(Activities.class);
     }
 
     public String getCacheKey() {

@@ -17,17 +17,16 @@ import java.util.Date;
 import java.util.Locale;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.AssociationActivityDetail;
-import be.ugent.zeus.hydra.models.association.AssociationActivities;
-import be.ugent.zeus.hydra.models.association.AssociationActivity;
+import be.ugent.zeus.hydra.activities.ActivityDetail;
+import be.ugent.zeus.hydra.models.association.Activities;
+import be.ugent.zeus.hydra.models.association.Activity;
 import be.ugent.zeus.hydra.recyclerviewholder.DateHeaderViewHolder;
-import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
  * Created by ellen on 8/3/16.
  */
 public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapter.CardViewHolder> implements StickyRecyclerHeadersAdapter {
-    private ArrayList<AssociationActivity> items;
+    private ArrayList<Activity> items;
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         private final View view;
@@ -44,14 +43,14 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             start = (TextView) v.findViewById(R.id.starttime);
         }
 
-        public void populate(final AssociationActivity activity) {
-            title.setText(activity.title);
-            association.setText(activity.association.display_name);
-            start.setText(dateFormatter.format(activity.start));
+        public void populate(final Activity activity) {
+            title.setText(activity.getTitle());
+            association.setText(activity.getAssociation().getName());
+            start.setText(dateFormatter.format(activity.getStart()));
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(view.getContext(), AssociationActivityDetail.class);
+                    Intent intent = new Intent(view.getContext(), ActivityDetail.class);
                     intent.putExtra("associationActivity", activity);
                     view.getContext().startActivity(intent);
                 }
@@ -73,13 +72,13 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
     @Override
     public void onBindViewHolder(CardViewHolder holder, int position) {
-        final AssociationActivity restoCategory = items.get(position);
+        final Activity restoCategory = items.get(position);
         holder.populate(restoCategory);
     }
 
     @Override
     public long getHeaderId(int position) {
-        Date date = items.get(position).start;
+        Date date = items.get(position).getStart();
         return date.getMonth()*100+date.getDay(); //todo
     }
 
@@ -92,7 +91,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((DateHeaderViewHolder) holder).populate(items.get(position).start);
+        ((DateHeaderViewHolder) holder).populate(items.get(position).getStart());
     }
 
     @Override
@@ -100,19 +99,19 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         return items.size();
     }
 
-    public void setItems(AssociationActivities items) {
+    public void setItems(Activities items) {
         this.items.clear();
         Date today = new Date();
-        for (AssociationActivity item : items) {
-            if (item.end.after(today)) {
+        for (Activity item : items) {
+            if (item.getEnd().after(today)) {
                 this.items.add(item);
             }
         }
 
-        Collections.sort(this.items, new Comparator<AssociationActivity>() {  // sort the array so that events are added in the right
+        Collections.sort(this.items, new Comparator<Activity>() {  // sort the array so that events are added in the right
             @Override
-            public int compare(AssociationActivity lhs, AssociationActivity rhs) {
-                return lhs.start.compareTo(rhs.start);
+            public int compare(Activity lhs, Activity rhs) {
+                return lhs.getStart().compareTo(rhs.getStart());
             }
         });
     }
