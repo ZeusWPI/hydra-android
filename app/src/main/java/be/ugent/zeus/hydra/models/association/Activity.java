@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
@@ -24,7 +25,8 @@ public class Activity implements Parcelable {
     private double longitude;
     private String description;
     private String url;
-    private String facebook_id;
+    @SerializedName("facebook_id")
+    private String facebookId;
     @JsonAdapter(BooleanJsonAdapter.class)
     private boolean highlighted;
     private Association association;
@@ -38,7 +40,7 @@ public class Activity implements Parcelable {
         longitude = in.readDouble();
         description = in.readString();
         url = in.readString();
-        facebook_id = in.readString();
+        facebookId = in.readString();
         highlighted = in.readByte() == 1;
         association = in.readParcelable(Association.class.getClassLoader());
     }
@@ -127,12 +129,12 @@ public class Activity implements Parcelable {
         this.url = url;
     }
 
-    public String getFacebook_id() {
-        return facebook_id;
+    public String getFacebookId() {
+        return facebookId;
     }
 
-    public void setFacebook_id(String facebook_id) {
-        this.facebook_id = facebook_id;
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
     }
 
     public boolean isHighlighted() {
@@ -166,7 +168,7 @@ public class Activity implements Parcelable {
         dest.writeDouble(longitude);
         dest.writeString(description);
         dest.writeString(url);
-        dest.writeString(facebook_id);
+        dest.writeString(facebookId);
         dest.writeByte((byte) (highlighted ? 1 : 0));
         dest.writeParcelable(association, flags);
 

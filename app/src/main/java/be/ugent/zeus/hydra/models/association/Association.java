@@ -2,61 +2,66 @@ package be.ugent.zeus.hydra.models.association;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.StrictMode;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by feliciaan on 04/02/16.
  */
 public class Association implements Parcelable {
-    private String internal_name;
-    private String full_name;
-    private String display_name;
-    private String parent_association;
+    @SerializedName("internal_name")
+    private String internalName;
+    @SerializedName("full_name")
+    private String fullName;
+    @SerializedName("display_name")
+    private String displayName;
+    @SerializedName("parent_association")
+    private String parentAssociation;
 
     protected Association(Parcel in) {
-        internal_name = in.readString();
-        full_name = in.readString();
-        display_name = in.readString();
-        parent_association = in.readString();
+        internalName = in.readString();
+        fullName = in.readString();
+        displayName = in.readString();
+        parentAssociation = in.readString();
     }
 
     public String getName() {
-        if (full_name != null) {
-            return full_name;
+        if (fullName != null) {
+            return fullName;
         }
-        return display_name;
+        return displayName;
     }
 
-    public String getInternal_name() {
-        return internal_name;
+    public String getInternalName() {
+        return internalName;
     }
 
-    public void setInternal_name(String internal_name) {
-        this.internal_name = internal_name;
+    public void setInternalName(String internalName) {
+        this.internalName = internalName;
     }
 
-    public String getFull_name() {
-        return full_name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getDisplay_name() {
-        return display_name;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setDisplay_name(String display_name) {
-        this.display_name = display_name;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
-    public String getParent_association() {
-        return parent_association;
+    public String getParentAssociation() {
+        return parentAssociation;
     }
 
-    public void setParent_association(String parent_association) {
-        this.parent_association = parent_association;
+    public void setParentAssociation(String parentAssociation) {
+        this.parentAssociation = parentAssociation;
     }
 
     public static final Creator<Association> CREATOR = new Creator<Association>() {
@@ -78,13 +83,13 @@ public class Association implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(internal_name);
-        dest.writeString(full_name);
-        dest.writeString(display_name);
-        dest.writeString(parent_association);
+        dest.writeString(internalName);
+        dest.writeString(fullName);
+        dest.writeString(displayName);
+        dest.writeString(parentAssociation);
     }
 
     public String getImageLink() {
-        return "https://zeus.ugent.be/hydra/api/2.0/association/logo/" + internal_name.toLowerCase() + ".png";
+        return "https://zeus.ugent.be/hydra/api/2.0/association/logo/" + internalName.toLowerCase() + ".png";
     }
 }

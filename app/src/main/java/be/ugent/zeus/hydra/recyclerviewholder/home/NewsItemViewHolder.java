@@ -44,7 +44,7 @@ public class NewsItemViewHolder extends AbstractViewHolder{
 
         title.setText(newsItem.getTitle());
 
-        info.setText(DateUtils.relativeDateString(newsItem.getDate(), itemView.getContext())+ " by "+ "TODO");//// TODO: 07/04/2016 after merge do getName
+        info.setText(DateUtils.relativeDateString(newsItem.getDate(), itemView.getContext())+ " by "+ newsItem.getAssociation().getName());
         if(!newsItem.isHighlighted()){
             star.setVisibility(View.INVISIBLE);
         }else{

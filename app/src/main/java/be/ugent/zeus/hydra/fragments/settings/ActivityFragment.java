@@ -72,14 +72,14 @@ public class ActivityFragment extends PreferenceFragment {
             for (int i = 0; i < assocations.size(); i++) {
                 Association asso = assocations.get(i);
                 PreferenceCategory parentCategory;
-                if(!set.contains(asso.getParent_association())){
+                if(!set.contains(asso.getParentAssociation())){
                     parentCategory = new PreferenceCategory(target.getContext());
-                    parentCategory.setKey(asso.getParent_association());
-                    parentCategory.setTitle(asso.getParent_association());
+                    parentCategory.setKey(asso.getParentAssociation());
+                    parentCategory.setTitle(asso.getParentAssociation());
                     target.addPreference(parentCategory);
-                    set.add(asso.getParent_association());
+                    set.add(asso.getParentAssociation());
                 }
-                parentCategory = (PreferenceCategory) findPreference(asso.getParent_association());
+                parentCategory = (PreferenceCategory) findPreference(asso.getParentAssociation());
                 CheckBoxPreference checkBoxPreference = new CheckBoxPreference(target.getContext());
                 checkBoxPreference.setKey(asso.getName());
                 checkBoxPreference.setChecked(false);
