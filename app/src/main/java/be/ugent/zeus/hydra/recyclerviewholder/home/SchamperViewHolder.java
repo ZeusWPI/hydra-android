@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.recyclerviewholder;
+package be.ugent.zeus.hydra.recyclerviewholder.home;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,12 +10,15 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
+import be.ugent.zeus.hydra.models.cards.HomeCard;
+import be.ugent.zeus.hydra.models.cards.SchamperCard;
 import be.ugent.zeus.hydra.models.schamper.Article;
 
 /**
  * Created by feliciaan on 17/06/16.
  */
-public class SchamperViewHolder extends RecyclerView.ViewHolder {
+public class SchamperViewHolder extends AbstractViewHolder {
     private TextView title;
     private TextView date;
     private TextView author;
@@ -30,7 +33,15 @@ public class SchamperViewHolder extends RecyclerView.ViewHolder {
         image = (ImageView) itemView.findViewById(R.id.image);
     }
 
-    public void populate(final Article article) {
+    @Override
+    public void populate(HomeCard card) {
+        if (card.getCardType() != HomeCardAdapter.HomeType.SCHAMPER) {
+            return; //TODO: report errors
+        }
+
+        final SchamperCard schamperCard = (SchamperCard) card;
+        final Article article = schamperCard.getArticle();
+
         title.setText(article.getTitle());
         date.setText(article.getPubDate().toLocaleString());
         author.setText(article.getAuthor());

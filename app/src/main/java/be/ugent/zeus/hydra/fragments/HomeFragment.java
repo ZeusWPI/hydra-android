@@ -26,6 +26,7 @@ import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
 import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
+import be.ugent.zeus.hydra.models.cards.SchamperCard;
 import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoMenuList;
@@ -87,30 +88,12 @@ public class HomeFragment extends AbstractFragment {
         performMenuRequest();
         performActivityRequest();
         performSpecialEventRequest();
-        //performSchamperRequest();
+        performSchamperRequest();
     }
 
     private void loadComplete() {
         swipeRefreshLayout.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
-    }
-
-    private void performSchamperRequest() {
-        final SchamperArticlesRequest r = new SchamperArticlesRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<Articles>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                showFailureSnackbar("schamper");
-            }
-
-            @Override
-            public void onRequestSuccess(final Articles articles) {
-                for (Article article: articles) {
-                    System.out.println("Title: " + article.getTitle());
-                }
-            }
-        });
-
     }
 
     private void performMenuRequest() {
@@ -184,6 +167,26 @@ public class HomeFragment extends AbstractFragment {
                 }
 
                 adapter.updateCardItems(list, HomeCardAdapter.HomeType.SPECIALEVENT);
+                loadComplete();
+            }
+        });
+    }
+
+    private void performSchamperRequest() {
+        final SchamperArticlesRequest r = new SchamperArticlesRequest();
+        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<Articles>() {
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+                showFailureSnackbar("schamper");
+            }
+
+            @Override
+            public void onRequestSuccess(final Articles articles) {
+                List<HomeCard> schamperCardList = new ArrayList<>();
+                for (Article article : articles) {
+                    schamperCardList.add(new SchamperCard(article));
+                }
+                adapter.updateCardItems(schamperCardList, HomeCardAdapter.HomeType.SCHAMPER);
                 loadComplete();
             }
         });

@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="6dp"
+    android:paddingRight="6dp"
     tools:context="be.ugent.zeus.hydra.fragments.SchamperFragment">
 
     <android.support.v7.widget.RecyclerView
