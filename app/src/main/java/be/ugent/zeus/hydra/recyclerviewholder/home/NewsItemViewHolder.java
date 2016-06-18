@@ -14,6 +14,7 @@ import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.models.association.AssociationNewsItem;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.NewsItemCard;
+import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
  * Created by feliciaan on 18/06/16.
@@ -23,7 +24,6 @@ public class NewsItemViewHolder extends AbstractViewHolder{
     private TextView title;
     private TextView summary;
     private ImageView star;
-    private final SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE dd MMM yyyy", Locale.getDefault());
     private boolean big;
     private LinearLayout head;
 
@@ -47,7 +47,7 @@ public class NewsItemViewHolder extends AbstractViewHolder{
 
         title.setText(newsItem.title);
 
-        info.setText(dateFormatter.format(newsItem.date) + " by "+ "TODO");//// TODO: 07/04/2016 after merge do getName
+        info.setText(DateUtils.relativeDateString(newsItem.date, itemView.getContext())+ " by "+ "TODO");//// TODO: 07/04/2016 after merge do getName
         if(!newsItem.highlighted){
             star.setVisibility(View.INVISIBLE);
         }else{
