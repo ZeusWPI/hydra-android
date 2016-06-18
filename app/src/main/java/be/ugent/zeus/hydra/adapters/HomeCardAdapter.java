@@ -17,6 +17,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerviewholder.home.AbstractViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.ActivityCardViewHolder;
+import be.ugent.zeus.hydra.recyclerviewholder.home.NewsItemViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.RestoCardViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.SchamperViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.SpecialEventCardViewHolder;
@@ -82,6 +83,11 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
                 View v = getViewForLayout(R.layout.home_schamper_card, parent);
                 return new SchamperViewHolder(v);
             }
+            case NEWSITEM:
+            {
+                View v = getViewForLayout(R.layout.home_news_item_card, parent);
+                return new NewsItemViewHolder(v);
+            }
         }
         return null;
     }
@@ -113,7 +119,8 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
         RESTO(1),
         ACTIVITY(2),
         SPECIALEVENT(3),
-        SCHAMPER(4);
+        SCHAMPER(4),
+        NEWSITEM(5);
 
         private final int type;
 

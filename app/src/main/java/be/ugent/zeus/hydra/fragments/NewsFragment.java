@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -25,13 +26,15 @@ public class NewsFragment extends AbstractFragment {
     private NewsAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private View layout;
-
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        layout = inflater.inflate(R.layout.fragment_activities, container, false);
+        layout = inflater.inflate(R.layout.fragment_schamper_articles, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerview);
+        progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
+
         adapter = new NewsAdapter();
         recyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(this.getActivity());
@@ -42,8 +45,6 @@ public class NewsFragment extends AbstractFragment {
         return layout;
     }
 
-
-
     private void performLoadActivityRequest() {
 
         final AssociationNewsRequest r = new AssociationNewsRequest();
@@ -51,16 +52,18 @@ public class NewsFragment extends AbstractFragment {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar();
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onRequestSuccess(final AssociationNews AssociationNews) {
                 adapter.setItems(AssociationNews);
                 adapter.notifyDataSetChanged();
+
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
-
 
     private void showFailureSnackbar() {
         Snackbar
