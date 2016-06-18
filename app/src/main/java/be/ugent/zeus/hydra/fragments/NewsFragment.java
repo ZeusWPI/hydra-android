@@ -15,7 +15,7 @@ import com.octo.android.robospice.request.listener.RequestListener;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.NewsAdapter;
 import be.ugent.zeus.hydra.models.association.News;
-import be.ugent.zeus.hydra.requests.AssociationNewsRequest;
+import be.ugent.zeus.hydra.requests.NewsRequest;
 
 /**
  * Created by Ellen on 07/04/2016.
@@ -47,7 +47,7 @@ public class NewsFragment extends AbstractFragment {
 
     private void performLoadActivityRequest() {
 
-        final AssociationNewsRequest r = new AssociationNewsRequest();
+        final NewsRequest r = new NewsRequest();
         spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<News>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {

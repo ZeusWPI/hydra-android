@@ -7,9 +7,9 @@ import be.ugent.zeus.hydra.models.association.Activities;
 /**
  * Created by feliciaan on 27/01/16.
  */
-public class AssociationActivitiesRequest extends AbstractRequest<Activities> {
+public class ActivitiesRequest extends AbstractRequest<Activities> {
 
-    public AssociationActivitiesRequest() {
+    public ActivitiesRequest() {
         super(Activities.class);
     }
 

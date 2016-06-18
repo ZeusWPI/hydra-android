@@ -1,5 +1,8 @@
 package be.ugent.zeus.hydra.models.cards;
 
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 
@@ -16,11 +19,15 @@ public class NewsItemCard extends HomeCard {
 
     @Override
     public int getPriority() {
+        int mulitplier;
         if (getNewsItem().isHighlighted()) {
-            return 950; //TODO: rewrite
+            mulitplier = 45;
         } else {
-            return 500;
+            mulitplier = 75;
         }
+        DateTime jodadate = new DateTime(this.getNewsItem().getDate());
+        Duration duration = new Duration(new DateTime(), jodadate);
+        return (int) (1000 - (duration.getStandardDays()*mulitplier));
     }
 
     @Override

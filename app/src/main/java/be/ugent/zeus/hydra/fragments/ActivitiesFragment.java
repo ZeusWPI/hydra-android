@@ -17,7 +17,7 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
 import be.ugent.zeus.hydra.models.association.Activities;
-import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
+import be.ugent.zeus.hydra.requests.ActivitiesRequest;
 /**
  * Created by ellen on 2016-03-08.
  *
@@ -58,7 +58,7 @@ public class ActivitiesFragment extends AbstractFragment {
 
 
     private void performLoadActivityRequest() {
-        final AssociationActivitiesRequest r = new AssociationActivitiesRequest();
+        final ActivitiesRequest r = new ActivitiesRequest();
         spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<Activities>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
