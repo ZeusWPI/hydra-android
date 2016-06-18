@@ -26,13 +26,17 @@ import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.association.AssociationActivities;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
 import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
+import be.ugent.zeus.hydra.models.cards.SchamperCard;
 import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoMenuList;
+import be.ugent.zeus.hydra.models.schamper.Article;
+import be.ugent.zeus.hydra.models.schamper.Articles;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
+import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
 import be.ugent.zeus.hydra.requests.SpecialEventRequest;
 
 /**
@@ -84,6 +88,7 @@ public class HomeFragment extends AbstractFragment {
         performMenuRequest();
         performActivityRequest();
         performSpecialEventRequest();
+        performSchamperRequest();
     }
 
     private void loadComplete() {
@@ -162,6 +167,26 @@ public class HomeFragment extends AbstractFragment {
                 }
 
                 adapter.updateCardItems(list, HomeCardAdapter.HomeType.SPECIALEVENT);
+                loadComplete();
+            }
+        });
+    }
+
+    private void performSchamperRequest() {
+        final SchamperArticlesRequest r = new SchamperArticlesRequest();
+        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<Articles>() {
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+                showFailureSnackbar("schamper");
+            }
+
+            @Override
+            public void onRequestSuccess(final Articles articles) {
+                List<HomeCard> schamperCardList = new ArrayList<>();
+                for (Article article : articles) {
+                    schamperCardList.add(new SchamperCard(article));
+                }
+                adapter.updateCardItems(schamperCardList, HomeCardAdapter.HomeType.SCHAMPER);
                 loadComplete();
             }
         });

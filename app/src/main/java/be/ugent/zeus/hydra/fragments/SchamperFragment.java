@@ -11,21 +11,19 @@ import android.widget.ProgressBar;
 
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.adapters.RestoCardAdapter;
-import be.ugent.zeus.hydra.models.resto.RestoMenuList;
-import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
+import be.ugent.zeus.hydra.adapters.SchamperListAdapter;
+import be.ugent.zeus.hydra.models.schamper.Articles;
+import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
 
 /**
- * Created by mivdnber on 2016-03-03.
+ * Created by feliciaan on 17/06/16.
  */
-
-public class RestoFragment extends AbstractFragment {
+public class SchamperFragment extends AbstractFragment {
     private RecyclerView recyclerView;
-    private RestoCardAdapter adapter;
+    private SchamperListAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private View layout;
     private ProgressBar progressBar;
@@ -33,28 +31,27 @@ public class RestoFragment extends AbstractFragment {
     @Override
     public void onResume() {
         super.onResume();
-        this.sendScreenTracking("resto");
+        this.sendScreenTracking("schamper");
     }
 
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        layout = inflater.inflate(R.layout.fragment_resto, container, false);
-        recyclerView = (RecyclerView) layout.findViewById(R.id.resto_cards_view);
+        layout = inflater.inflate(R.layout.fragment_schamper_articles, container, false);
+        recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerview);
         progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
-        adapter = new RestoCardAdapter();
+
+        adapter = new SchamperListAdapter();
         recyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new StickyRecyclerHeadersDecoration((StickyRecyclerHeadersAdapter) adapter));
-        performMenuRequest();
+        performLoadArticlesRequest();
 
         return layout;
     }
 
-    private void performMenuRequest() {
-        final RestoMenuOverviewRequest r = new RestoMenuOverviewRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<RestoMenuList>() {
+    private void performLoadArticlesRequest() {
+        final SchamperArticlesRequest r = new SchamperArticlesRequest();
+        r.execute(spiceManager, new RequestListener<Articles>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar();
@@ -62,12 +59,10 @@ public class RestoFragment extends AbstractFragment {
             }
 
             @Override
-            public void onRequestSuccess(final RestoMenuList menuList) {
-                adapter.setMenuList(menuList);
+            public void onRequestSuccess(Articles articles) {
+                adapter.setArticles(articles);
                 adapter.notifyDataSetChanged();
-                if (menuList.isEmpty()) {
-                    showFailureSnackbar(); //TODO: let user now the menus are empty
-                }
+
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -75,13 +70,13 @@ public class RestoFragment extends AbstractFragment {
 
     private void showFailureSnackbar() {
         Snackbar
-            .make(layout, "Oeps! Kon restomenu niet ophalen.", Snackbar.LENGTH_LONG)
-            .setAction("Opnieuw proberen", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    performMenuRequest();
-                }
-            })
-            .show();
+                .make(layout, "Oeps! Kon de schamper articles niet ophalen.", Snackbar.LENGTH_LONG)
+                .setAction("Opnieuw proberen", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        performLoadArticlesRequest();
+                    }
+                })
+                .show();
     }
 }

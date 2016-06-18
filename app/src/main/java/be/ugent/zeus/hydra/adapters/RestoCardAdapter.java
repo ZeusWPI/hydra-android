@@ -222,7 +222,7 @@ public class RestoCardAdapter extends RecyclerView.Adapter<RestoCardAdapter.Card
     public void setMenuList(RestoMenuList menuList) {
         this.menuList.clear();
 
-        Date currentDate = org.apache.commons.lang3.time.DateUtils.truncate(new Date(), Calendar.DATE); // Date at start of day
+        Date currentDate = DateUtils.startOfDay(new Date());
         for (RestoMenu menu : menuList) {
 
             // check if menu is today or later

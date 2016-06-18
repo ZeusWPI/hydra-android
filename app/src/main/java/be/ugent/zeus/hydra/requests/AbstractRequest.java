@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.requests;
 
+import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.request.listener.RequestListener;
 import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
 
 import org.springframework.http.ResponseEntity;
@@ -39,5 +41,9 @@ public abstract class AbstractRequest<T> extends SpringAndroidSpiceRequest<T> {
 
     protected Map<String, String> getURLVariables() {
         return null;
+    }
+
+    public void execute(SpiceManager spiceManager, RequestListener<T> listener) {
+        spiceManager.execute(this, this.getCacheKey(), this.getCacheDuration(), listener);
     }
 }
