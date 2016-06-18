@@ -18,6 +18,7 @@ public class Article {
     private Date pubDate;
     private String author;
     private String text;
+    private String image;
     // TODO: find way to save read status
 
     public String getTitle() {
@@ -58,5 +59,13 @@ public class Article {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
