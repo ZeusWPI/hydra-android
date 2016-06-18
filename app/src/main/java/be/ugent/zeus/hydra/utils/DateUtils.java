@@ -16,7 +16,7 @@ import java.util.Locale;
  */
 public class DateUtils {
     private static SimpleDateFormat DAYFORMATTER = new SimpleDateFormat("cccc", new Locale("nl"));
-    private static DateFormat DATEFORMATTER = SimpleDateFormat.getDateInstance();
+    private static DateFormat DATEFORMATTER = new SimpleDateFormat("cc dd MMM", new Locale("nl"));
 
     public static String getFriendlyDate(Date date) {
         // TODO: I feel a bit bad about all of this; any good libraries?
@@ -35,13 +35,13 @@ public class DateUtils {
         } else if (daysBetween == 2) {
             return "overmorgen";
         } else if (daysBetween < 0) {
-            return DATEFORMATTER.format(date);
+            return DATEFORMATTER.format(date).toLowerCase();
         } else if (daysBetween <= 7) {
             return DAYFORMATTER.format(date).toLowerCase();
         } else if (week == thisWeek + 1) {
             return "volgende " + DAYFORMATTER.format(date).toLowerCase();
         } else {
-            return DATEFORMATTER.format(date);
+            return DATEFORMATTER.format(date).toLowerCase();
         }
     }
 
