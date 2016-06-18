@@ -53,13 +53,11 @@ public class ActivitiesFragment extends AbstractFragment {
         recyclerView.addItemDecoration(decorator);
         performLoadActivityRequest();
 
-
         return layout;
     }
 
 
     private void performLoadActivityRequest() {
-
         final AssociationActivitiesRequest r = new AssociationActivitiesRequest();
         spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationActivities>() {
             @Override
@@ -77,8 +75,6 @@ public class ActivitiesFragment extends AbstractFragment {
         });
     }
 
-
-
     private void showFailureSnackbar() {
         Snackbar
                 .make(layout, "Oeps! Kon activiteiten niet ophalen.", Snackbar.LENGTH_LONG)
@@ -91,17 +87,10 @@ public class ActivitiesFragment extends AbstractFragment {
                 .show();
     }
 
-
-
-
     @Override
     public void onPause() {
         super.onPause();
         performLoadActivityRequest();
-
     }
-
-
-
 
 }

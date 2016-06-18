@@ -11,7 +11,8 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.Hydra;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.models.HomeCard;
+import be.ugent.zeus.hydra.models.cards.HomeCard;
+import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
 import be.ugent.zeus.hydra.models.resto.RestoMeal;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -37,7 +38,8 @@ public class RestoCardViewHolder extends AbstractViewHolder {
             return; //TODO: report errors
         }
 
-        RestoMenu menu = (RestoMenu) card;
+        final RestoMenuCard menuCard = (RestoMenuCard) card;
+        final RestoMenu menu = menuCard.getRestoMenu();
 
         title.setText(DateUtils.getFriendlyDate(menu.getDate()));
 
