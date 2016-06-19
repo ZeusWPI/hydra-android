@@ -15,7 +15,9 @@
         card_view:contentPaddingLeft="15dp"
         card_view:contentPaddingRight="15dp"
         card_view:contentPaddingTop="3dp"
-        card_view:contentPaddingBottom="7dp">
+        card_view:contentPaddingBottom="7dp"
+        android:soundEffectsEnabled="true"
+        android:background="?android:attr/selectableItemBackground">
 
 
         <LinearLayout
