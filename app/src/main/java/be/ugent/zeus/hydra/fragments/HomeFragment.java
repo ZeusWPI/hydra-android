@@ -22,13 +22,17 @@ import be.ugent.zeus.hydra.models.association.AssociationActivity;
 import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
+import be.ugent.zeus.hydra.models.cards.SchamperCard;
 import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
+import be.ugent.zeus.hydra.models.schamper.Article;
+import be.ugent.zeus.hydra.models.schamper.Articles;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
+import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
 import be.ugent.zeus.hydra.requests.SpecialEventRequest;
 import org.joda.time.DateTime;
 
@@ -49,10 +53,12 @@ public class HomeFragment extends Fragment {
     private static final int MENU_LOADER = 1;
     private static final int ACTIVITY_LOADER = 2;
     private static final int SPECIAL_LOADER = 3;
+    private static final int SCHAMPER_LOADER = 4;
 
     private final MenuCallback menuCallback = new MenuCallback();
     private final ActivityCallback activityCallback = new ActivityCallback();
     private final SpecialEventCallback specialEventCallback = new SpecialEventCallback();
+    private final SchamperCallback schamperCallback = new SchamperCallback();
 
     private boolean shouldRefresh = false;
 
@@ -96,6 +102,7 @@ public class HomeFragment extends Fragment {
         getLoaderManager().initLoader(MENU_LOADER, null, menuCallback);
         getLoaderManager().initLoader(ACTIVITY_LOADER, null, activityCallback);
         getLoaderManager().initLoader(SPECIAL_LOADER, null, specialEventCallback);
+        getLoaderManager().initLoader(SCHAMPER_LOADER, null, schamperCallback);
     }
 
     /**
@@ -265,6 +272,56 @@ public class HomeFragment extends Fragment {
 
         @Override
         public Loader<ThrowableEither<SpecialEventWrapper>> onCreateLoader(int id, Bundle args) {
+            return super.onCreateLoader(getContext(), shouldRefresh);
+        }
+    }
+
+    private class SchamperCallback extends LoaderCallback<Articles> {
+
+        /**
+         * This must be called when data is received that has no errors.
+         *
+         * @param data The data.
+         */
+        @Override
+        public void receiveData(@NonNull Articles data) {
+            List<HomeCard> schamperCardList = new ArrayList<>();
+            for (Article article : data) {
+                schamperCardList.add(new SchamperCard(article));
+            }
+            adapter.updateCardItems(schamperCardList, HomeCard.CardType.SCHAMPER);
+            loadComplete();
+        }
+
+        /**
+         * This must be called when an error occurred.
+         *
+         * @param error The exception.
+         */
+        @Override
+        public void receiveError(@NonNull Throwable error) {
+            showFailureSnackbar("schamper");
+            loadComplete();
+        }
+
+        /**
+         * @return The request that will be executed.
+         */
+        @Override
+        public Request<Articles> getRequest() {
+            return new SchamperArticlesRequest();
+        }
+
+        /**
+         * Instantiate and return a new Loader for the given ID.
+         *
+         * @param id   The ID whose loader is to be created.
+         * @param args Any arguments supplied by the caller.
+         *
+         * @return Return a new Loader instance that is ready to start loading.
+         */
+        @Override
+        public Loader<ThrowableEither<Articles>> onCreateLoader(int id, Bundle args) {
             return super.onCreateLoader(getContext(), shouldRefresh);
         }
     }

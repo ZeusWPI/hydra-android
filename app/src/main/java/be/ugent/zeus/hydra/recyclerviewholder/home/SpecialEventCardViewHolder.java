@@ -17,11 +17,9 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * Created by feliciaan on 06/04/16.
  */
 public class SpecialEventCardViewHolder extends AbstractViewHolder {
-    private View view;
 
     public SpecialEventCardViewHolder(View itemView) {
         super(itemView);
-        this.view = itemView;
     }
 
     @Override
@@ -33,20 +31,20 @@ public class SpecialEventCardViewHolder extends AbstractViewHolder {
         final SpecialEventCard eventCard = (SpecialEventCard) card;
         final SpecialEvent specialEvent = eventCard.getSpecialEvent();
 
-        TextView titleView = $(view, R.id.title);
+        TextView titleView = $(itemView, R.id.title);
         titleView.setText(specialEvent.getName());
 
-        TextView textView = $(view, R.id.text);
+        TextView textView = $(itemView, R.id.text);
         textView.setText(specialEvent.getSimpleText());
 
-        ImageView imageView = $(view, R.id.imageView);
-        Picasso.with(view.getContext()).load(specialEvent.getImage()).into(imageView);
+        ImageView imageView = $(itemView, R.id.imageView);
+        Picasso.with(itemView.getContext()).load(specialEvent.getImage()).into(imageView);
 
-        view.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(specialEvent.getLink()));
-                view.getContext().startActivity(browserIntent);
+                itemView.getContext().startActivity(browserIntent);
             }
         });
     }

@@ -9,6 +9,7 @@ import be.ugent.zeus.hydra.fragments.ComingSoonFragment;
 import be.ugent.zeus.hydra.fragments.HomeFragment;
 import be.ugent.zeus.hydra.fragments.InfoFragment;
 import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
+import be.ugent.zeus.hydra.fragments.SchamperFragment;
 
 /**
  * Adapter for the tabs on the main activity.
@@ -26,6 +27,8 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return new HomeFragment();
+            case 1:
+                return new SchamperFragment();
             case 2:
                 return new RestoFragment();
             case 3:
@@ -39,6 +42,6 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return 6;
     }
 }

@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.fragments.common;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
 import be.ugent.zeus.hydra.loader.CachedAsyncTaskLoader;
@@ -58,6 +59,12 @@ public abstract class LoaderFragment<D extends Serializable> extends Fragment im
     @Override
     public Loader<ThrowableEither<D>> onCreateLoader(int id, Bundle args) {
         return new CachedAsyncTaskLoader<>(getRequest(), getContext(), shouldRenew);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        startLoader();
     }
 
     /**

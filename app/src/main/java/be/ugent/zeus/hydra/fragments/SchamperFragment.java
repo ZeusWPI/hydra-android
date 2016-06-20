@@ -10,30 +10,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.adapters.InfoListAdapter;
+import be.ugent.zeus.hydra.adapters.SchamperListAdapter;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.cache.Request;
-import be.ugent.zeus.hydra.models.info.InfoList;
-import be.ugent.zeus.hydra.requests.InfoRequest;
+import be.ugent.zeus.hydra.models.schamper.Articles;
+import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
-public class InfoFragment extends LoaderFragment<InfoList> {
+/**
+ * Created by feliciaan on 17/06/16.
+ */
+public class SchamperFragment extends LoaderFragment<Articles> {
 
-    public static final String INFOLIST = "infoList";
-
-    private InfoListAdapter adapter;
+    private SchamperListAdapter adapter;
     private View layout;
     private ProgressBar progressBar;
 
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        layout = inflater.inflate(R.layout.fragment_info, container, false);
 
-        RecyclerView recyclerView = $(layout, R.id.recyclerview);
+        layout = inflater.inflate(R.layout.fragment_schamper_articles, container, false);
+        RecyclerView recyclerView = $(layout, R.id.recycler_view);
         progressBar = $(layout, R.id.progress_bar);
 
-        adapter = new InfoListAdapter();
+        adapter = new SchamperListAdapter();
         recyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -48,15 +48,27 @@ public class InfoFragment extends LoaderFragment<InfoList> {
         progressBar.setVisibility(View.GONE);
     }
 
+    private void showFailureSnackbar() {
+        Snackbar.make(layout, "Oeps! Kon de schamperartikelen niet ophalen.", Snackbar.LENGTH_LONG)
+                .setAction("Opnieuw proberen", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        shouldRenew = true;
+                        restartLoader();
+                        shouldRenew = false;
+                    }
+                })
+                .show();
+    }
+
     /**
      * This must be called when data is received that has no errors.
      *
      * @param data The data.
      */
     @Override
-    public void receiveData(@NonNull InfoList data) {
-        adapter.setItems(data);
-        adapter.notifyDataSetChanged();
+    public void receiveData(@NonNull Articles data) {
+        adapter.setArticles(data);
         hideProgressBar();
     }
 
@@ -67,14 +79,7 @@ public class InfoFragment extends LoaderFragment<InfoList> {
      */
     @Override
     public void receiveError(@NonNull Throwable error) {
-        Snackbar.make(layout, getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        restartLoader();
-                    }
-                })
-                .show();
+        showFailureSnackbar();
         hideProgressBar();
     }
 
@@ -82,7 +87,7 @@ public class InfoFragment extends LoaderFragment<InfoList> {
      * @return The request that will be executed.
      */
     @Override
-    public Request<InfoList> getRequest() {
-        return new InfoRequest();
+    public Request<Articles> getRequest() {
+        return new SchamperArticlesRequest();
     }
 }

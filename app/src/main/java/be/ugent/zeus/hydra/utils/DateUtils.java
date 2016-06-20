@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.utils;
 
+import android.content.Context;
+
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
@@ -48,12 +50,7 @@ public class DateUtils {
         }
     }
 
-    public static long startOfDay(long time) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(time);
-        cal.set(Calendar.HOUR_OF_DAY, 0); //set hours to zero
-        cal.set(Calendar.MINUTE, 0); // set minutes to zero
-        cal.set(Calendar.SECOND, 0); //set seconds to zero
-        return cal.getTimeInMillis()/1000;
+    public static CharSequence relativeDateString(Date date, Context context) {
+        return android.text.format.DateUtils.getRelativeDateTimeString(context, date.getTime(), android.text.format.DateUtils.MINUTE_IN_MILLIS, android.text.format.DateUtils.WEEK_IN_MILLIS, 0);
     }
 }
