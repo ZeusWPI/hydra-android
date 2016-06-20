@@ -2,15 +2,15 @@ package be.ugent.zeus.hydra.requests;
 
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.loader.cache.Cache;
-import be.ugent.zeus.hydra.models.association.AssociationNews;
+import be.ugent.zeus.hydra.models.association.News;
 
 /**
  * Created by feliciaan on 04/02/16.
  */
-public class AssociationNewsRequest extends AbstractRequest<AssociationNews> {
+public class NewsRequest extends AbstractRequest<News> {
 
-    public AssociationNewsRequest() {
-        super(AssociationNews.class);
+    public NewsRequest() {
+        super(News.class);
     }
 
     @NonNull

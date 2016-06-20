@@ -19,12 +19,12 @@ import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.SettingsActivity;
 import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
-import be.ugent.zeus.hydra.utils.DividerItemDecoration;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.cache.Request;
-import be.ugent.zeus.hydra.models.association.AssociationActivities;
-import be.ugent.zeus.hydra.models.association.AssociationActivity;
-import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
+import be.ugent.zeus.hydra.models.association.Activities;
+import be.ugent.zeus.hydra.models.association.Activity;
+import be.ugent.zeus.hydra.requests.ActivitiesRequest;
+import be.ugent.zeus.hydra.utils.DividerItemDecoration;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.List;
@@ -37,7 +37,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author ellen
  * @author Niko Strijbol
  */
-public class ActivitiesFragment extends LoaderFragment<AssociationActivities> implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class ActivitiesFragment extends LoaderFragment<Activities> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private ActivityListAdapter adapter;
     private ProgressBar progressBar;
@@ -105,9 +105,9 @@ public class ActivitiesFragment extends LoaderFragment<AssociationActivities> im
      *
      * @param data The data.
      */
-    private void setData(@NonNull List<AssociationActivity> data) {
+    private void setData(@NonNull List<Activity> data) {
 
-        data = AssociationActivities.getPreferredActivities(data, getContext());
+        data = Activities.getPreferredActivities(data, getContext());
 
         adapter.setData(data);
         adapter.notifyDataSetChanged();
@@ -154,7 +154,7 @@ public class ActivitiesFragment extends LoaderFragment<AssociationActivities> im
      * @param data The data.
      */
     @Override
-    public void receiveData(@NonNull AssociationActivities data) {
+    public void receiveData(@NonNull Activities data) {
         adapter.setOriginal(data);
         setData(data);
         hideProgressBar();
@@ -184,7 +184,7 @@ public class ActivitiesFragment extends LoaderFragment<AssociationActivities> im
      * @return The request that will be executed.
      */
     @Override
-    public Request<AssociationActivities> getRequest() {
-        return new AssociationActivitiesRequest();
+    public Request<Activities> getRequest() {
+        return new ActivitiesRequest();
     }
 }

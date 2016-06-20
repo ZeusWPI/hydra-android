@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.EventDetailsActivity;
-import be.ugent.zeus.hydra.models.association.AssociationActivity;
+import be.ugent.zeus.hydra.activities.ActivityDetailActivity;
+import be.ugent.zeus.hydra.models.association.Activity;
 import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -40,19 +40,19 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
         }
 
         final AssociationActivityCard activityCard = (AssociationActivityCard) card;
-        final AssociationActivity activity = activityCard.getAssociationActivity();
+        final Activity activity = activityCard.getActivity();
 
         //TODO: make pretty
-        title.setText(activity.title);
-        association.setText(activity.association.display_name);
+        title.setText(activity.getTitle());
+        association.setText(activity.getAssociation().getName());
         start.setText(DateUtils.relativeDateString(activity.getStartDate(), itemView.getContext()));
 
-        Picasso.with(itemView.getContext()).load(activity.association.getImageLink()).into(imageView);
+        Picasso.with(itemView.getContext()).load(activity.getAssociation().getImageLink()).into(imageView);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(itemView.getContext(), EventDetailsActivity.class);
+                Intent intent = new Intent(itemView.getContext(), ActivityDetailActivity.class);
                 intent.putExtra("associationActivity", (Parcelable) activity);
                 itemView.getContext().startActivity(intent);
             }

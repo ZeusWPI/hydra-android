@@ -8,7 +8,9 @@
     android:layout_marginTop="@dimen/content_spacing"
     android:layout_marginStart="@dimen/content_spacing"
     android:layout_marginEnd="@dimen/content_spacing"
-    app:contentPadding="8dp">
+    app:contentPadding="8dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true">
 
         <LinearLayout
             android:orientation="horizontal"

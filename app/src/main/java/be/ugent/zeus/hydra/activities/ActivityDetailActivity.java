@@ -10,7 +10,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
-import be.ugent.zeus.hydra.models.association.AssociationActivity;
+import be.ugent.zeus.hydra.models.association.Activity;
 import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 import org.joda.time.DateTime;
@@ -19,10 +19,10 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Locale;
 
-public class EventDetailsActivity extends ToolbarActivity {
+public class ActivityDetailActivity extends ToolbarActivity {
 
     //The data
-    private AssociationActivity associationActivity;
+    private Activity associationActivity;
 
     private ImageView imageView;
     private TextView title;
@@ -51,29 +51,29 @@ public class EventDetailsActivity extends ToolbarActivity {
         link = (Button) findViewById(R.id.link);
         map = (Button) findViewById(R.id.map);
 
-        if(associationActivity.title != null){
-            title.setText(associationActivity.title);
+        if(associationActivity.getTitle() != null){
+            title.setText(associationActivity.getTitle());
             assert getSupportActionBar() != null;
-            getSupportActionBar().setTitle(associationActivity.title);
+            getSupportActionBar().setTitle(associationActivity.getTitle());
         }
-        if(associationActivity.association != null ) {
-            association.setText(associationActivity.association.getName());
-        }
-
-        if(associationActivity.description != null && !associationActivity.description.trim().isEmpty()) {
-            description.setText(associationActivity.description);
+        if(associationActivity.getAssociation() != null ) {
+            association.setText(associationActivity.getAssociation().getName());
         }
 
-        if(associationActivity.location != null) {
-            location.setText(String.format("Locatie: %s", associationActivity.location));
+        if(associationActivity.getDescription() != null && !associationActivity.getDescription().trim().isEmpty()) {
+            description.setText(associationActivity.getDescription());
         }
 
-        if(associationActivity.start != null) {
+        if(associationActivity.getLocation() != null) {
+            location.setText(String.format("Locatie: %s", associationActivity.getLocation()));
+        }
+
+        if(associationActivity.getStart() != null) {
             DateTimeFormatter startTimeFormatter = DateTimeFormat.forPattern("E d MMM H:mm");
 
-            DateTime start = new DateTime(associationActivity.start);
-            if (associationActivity.end != null) {
-                DateTime end = new DateTime(associationActivity.end);
+            DateTime start = new DateTime(associationActivity.getStart());
+            if (associationActivity.getEnd() != null) {
+                DateTime end = new DateTime(associationActivity.getEnd());
                 if (start.dayOfYear() == end.dayOfYear() || start.plusHours(12).isAfter(end)) {
                     // Use format day month start time - end time
                     DateTimeFormatter endTimeFormatter = DateTimeFormat.forPattern("H:mm");
@@ -87,13 +87,13 @@ public class EventDetailsActivity extends ToolbarActivity {
             }
         }
 
-        Picasso.with(this).load(associationActivity.association.getImageLink()).into(imageView);
+        Picasso.with(this).load(associationActivity.getAssociation().getImageLink()).into(imageView);
 
-        if (associationActivity.url != null && !associationActivity.url.trim().isEmpty()) {
+        if (associationActivity.getUrl() != null && !associationActivity.getUrl().trim().isEmpty()) {
             link.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(associationActivity.url));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(associationActivity.getUrl()));
                     startActivity(browserIntent);
                 }
             });
@@ -101,11 +101,11 @@ public class EventDetailsActivity extends ToolbarActivity {
             link.setVisibility(View.GONE);
         }
 
-        if ((associationActivity.latitude != 0.0) && (associationActivity.longitude != 0.0)) {
+        if ((associationActivity.getLatitude() != 0.0) && (associationActivity.getLongitude() != 0.0)) {
             map.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String uri = String.format(Locale.ENGLISH, "geo:%f,%f", associationActivity.latitude, associationActivity.longitude);
+                    String uri = String.format(Locale.ENGLISH, "geo:%f,%f", associationActivity.getLatitude(), associationActivity.getLongitude());
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                     startActivity(intent);
                 }
@@ -116,6 +116,6 @@ public class EventDetailsActivity extends ToolbarActivity {
 
         HydraApplication app = (HydraApplication) getApplication();
         Tracker t = app.getDefaultTracker();
-        t.setScreenName("Activity > " + associationActivity.title);
+        t.setScreenName("Activity > " + associationActivity.getTitle());
     }
 }
