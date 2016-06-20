@@ -29,7 +29,6 @@ public class DateUtils {
         int thisWeek = Integer.parseInt(WEEK_FORMATTER.format(today.toDate()));
         int week = Integer.parseInt(WEEK_FORMATTER.format(date));
 
-
         int daysBetween = Days.daysBetween(today.toLocalDate(), dateTime.toLocalDate()).getDays();
 
         if (daysBetween == 0) {

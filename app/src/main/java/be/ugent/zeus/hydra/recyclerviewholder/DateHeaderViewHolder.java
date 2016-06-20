@@ -8,6 +8,8 @@ import be.ugent.zeus.hydra.utils.DateUtils;
 
 import java.util.Date;
 
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+
 /**
  * For date headers.
  *
@@ -15,11 +17,12 @@ import java.util.Date;
  * @author unknown
  */
 public class DateHeaderViewHolder extends RecyclerView.ViewHolder {
+
     private TextView headerText;
 
     public DateHeaderViewHolder(View v) {
         super(v);
-        headerText = (TextView) v.findViewById(R.id.date_header);
+        headerText = $(v, R.id.date_header);
     }
 
     public void populate(Date date) {

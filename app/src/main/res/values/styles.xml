@@ -5,7 +5,6 @@
         Note: it is preferred to use the toolbar, not the default action bar.
     -->
     <style name="Hydra.Main" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- <item name="background">@color/ugent_blue_medium</item> -->
         <item name="colorPrimary">@color/ugent_blue_medium</item>
         <item name="colorPrimaryDark">@color/ugent_blue_dark</item>
         <item name="android:colorBackground">@color/ugent_white</item>

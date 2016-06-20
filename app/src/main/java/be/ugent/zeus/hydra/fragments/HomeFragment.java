@@ -50,9 +50,9 @@ public class HomeFragment extends Fragment {
     private static final int ACTIVITY_LOADER = 2;
     private static final int SPECIAL_LOADER = 3;
 
-    private MenuCallback menuCallback;
-    private ActivityCallback activityCallback;
-    private SpecialEventCallback specialEventCallback;
+    private final MenuCallback menuCallback = new MenuCallback();
+    private final ActivityCallback activityCallback = new ActivityCallback();
+    private final SpecialEventCallback specialEventCallback = new SpecialEventCallback();
 
     private boolean shouldRefresh = false;
 
@@ -93,10 +93,6 @@ public class HomeFragment extends Fragment {
      * Start the loaders.
      */
     private void startLoaders() {
-        menuCallback = new MenuCallback();
-        activityCallback = new ActivityCallback();
-        specialEventCallback = new SpecialEventCallback();
-
         getLoaderManager().initLoader(MENU_LOADER, null, menuCallback);
         getLoaderManager().initLoader(ACTIVITY_LOADER, null, activityCallback);
         getLoaderManager().initLoader(SPECIAL_LOADER, null, specialEventCallback);
@@ -129,7 +125,9 @@ public class HomeFragment extends Fragment {
                 .setAction("Opnieuw proberen", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        shouldRefresh = true;
                         restartLoaders();
+                        shouldRefresh = false;
                     }
                 })
                 .show();

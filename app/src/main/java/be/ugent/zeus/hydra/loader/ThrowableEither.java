@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
  * the {@link CachedAsyncTaskLoader}, to enable passing of errors.
  *
  * While this is conceptually a monad, Android's lack of support for Java 8 necessitates a different implementation.
+ * Monad laws are thus not implemented.
  *
  * @param <D> The type of the data this maybe contains.
  *
@@ -15,15 +16,14 @@ import android.support.annotation.NonNull;
 public final class ThrowableEither<D> {
 
     private final D data;
-
     private final Throwable throwable;
 
-    public ThrowableEither(D response) {
+    public ThrowableEither(@NonNull D response) {
         this.data = response;
         this.throwable = null;
     }
 
-    public ThrowableEither(Throwable response) {
+    public ThrowableEither(@NonNull Throwable response) {
         this.data = null;
         this.throwable = response;
     }

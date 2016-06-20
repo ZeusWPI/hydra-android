@@ -51,7 +51,7 @@ public class RestoCardViewHolder extends AbstractViewHolder {
             @Override
             public void onClick(View v) {
                 //TODO: open resto fragment
-                if ( v.getContext() instanceof Hydra) {
+                if (v.getContext() instanceof Hydra) {
                     Hydra activity = (Hydra) v.getContext();
                     activity.changeFragment(2); // TODO: replace this by more robust way!
                 }

@@ -36,7 +36,6 @@ public abstract class AbstractRequest<T extends Serializable> implements Request
         ResponseEntity<T> result;
 
         try {
-
             if (getURLVariables() == null) {
                 result = restTemplate.getForEntity(getAPIUrl(), getResultType());
             } else {

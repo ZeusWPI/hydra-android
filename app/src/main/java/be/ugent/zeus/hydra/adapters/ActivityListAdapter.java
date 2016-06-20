@@ -20,6 +20,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+
 /**
  * Adapter for the list of activities.
  *
@@ -31,29 +33,28 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
-        private final View view;
+
         private TextView start;
         private TextView title;
         private TextView association;
 
         private CardViewHolder(View v) {
             super(v);
-            this.view = v;
-            title = (TextView) v.findViewById(R.id.name);
-            association = (TextView) v.findViewById(R.id.association);
-            start = (TextView) v.findViewById(R.id.starttime);
+            title = $(v, R.id.name);
+            association = $(v, R.id.association);
+            start = $(v, R.id.starttime);
         }
 
         private void populate(final AssociationActivity activity) {
             title.setText(activity.title);
             association.setText(activity.association.display_name);
             start.setText(FORMATTER.format(activity.start));
-            view.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(view.getContext(), EventDetailsActivity.class);
+                    Intent intent = new Intent(itemView.getContext(), EventDetailsActivity.class);
                     intent.putExtra("associationActivity", (Parcelable) activity);
-                    view.getContext().startActivity(intent);
+                    itemView.getContext().startActivity(intent);
                 }
             });
         }

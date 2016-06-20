@@ -17,7 +17,6 @@ import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
 public class Hydra extends ToolbarActivity {
 
     //The tab icons
-    //Size doesn't matter here
     private static int[] icons = {
             R.drawable.ic_tabs_home,
             R.drawable.ic_tabs_minerva,
@@ -53,15 +52,9 @@ public class Hydra extends ToolbarActivity {
 //        });
 
         TabLayout tabLayout = $(R.id.tab_layout);
-
-        tabLayout.setupWithViewPager(mViewPager);
-
-        //set iconsl
         tabLayout.setupWithViewPager(mViewPager);
 
         for (int i = 0; i < icons.length; i++) {
-            //Drawable drawable = ContextCompat.getDrawable(this, icons[i]);
-            //DrawableCompat.setTint(drawable, ContextCompat.getColor(this, R.color.ugent_blue_light));
             tabLayout.getTabAt(i).setIcon(icons[i]);
         }
 

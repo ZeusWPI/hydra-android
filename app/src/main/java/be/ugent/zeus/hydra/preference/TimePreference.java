@@ -89,5 +89,4 @@ public class TimePreference extends DialogPreference {
     public CharSequence getSummary() {
         return time.toString();
     }
-
 }
