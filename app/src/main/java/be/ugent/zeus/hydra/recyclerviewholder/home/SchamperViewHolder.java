@@ -1,11 +1,12 @@
 package be.ugent.zeus.hydra.recyclerviewholder.home;
 
 import android.content.Intent;
-import android.net.Uri;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.SchamperArticleActivity;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.SchamperCard;
 import be.ugent.zeus.hydra.models.schamper.Article;
@@ -53,8 +54,9 @@ public class SchamperViewHolder extends AbstractViewHolder {
         this.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(article.getLink()));
-                itemView.getContext().startActivity(browserIntent);
+                Intent intent = new Intent(itemView.getContext(), SchamperArticleActivity.class);
+                intent.putExtra("article", (Parcelable) article);
+                itemView.getContext().startActivity(intent);
             }
         });
     }

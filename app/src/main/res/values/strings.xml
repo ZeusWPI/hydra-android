@@ -78,4 +78,5 @@
     <string name="no_data">Geen gegevens.</string>
     <string name="events_no_data">Er zijn geen evenementen gevonden. Probeer eens de filters aan te passen.</string>
     <string name="events_customize_filters">Filters aanpassen</string>
+    <string name="title_activity_schamper">Schamperartikel</string>
 </resources>
