@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.common.RestoWebsiteActivity;
-import be.ugent.zeus.hydra.adapters.resto.SandwichAdapter;
+import be.ugent.zeus.hydra.recyclerview.adapters.resto.SandwichAdapter;
 import be.ugent.zeus.hydra.utils.DividerItemDecoration;
 import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.models.resto.Sandwich;
@@ -72,7 +72,6 @@ public class SandwichActivity extends RestoWebsiteActivity<Sandwiches> {
                 return lhs.name.compareToIgnoreCase(rhs.name);
             }
         });
-        super.receiveData(data);
         adapter.replaceData(data);
     }
 
@@ -80,7 +79,7 @@ public class SandwichActivity extends RestoWebsiteActivity<Sandwiches> {
      * @return The main view of this activity. Currently this is used for snackbars, but that may change.
      */
     @Override
-    protected View getMainView() {
+    protected View getView() {
         return recyclerView;
     }
 

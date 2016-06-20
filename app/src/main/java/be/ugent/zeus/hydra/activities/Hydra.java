@@ -9,7 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
-import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
+import be.ugent.zeus.hydra.recyclerview.adapters.SectionPagerAdapter;
 
 /**
  * Main activity.
@@ -22,6 +22,7 @@ public class Hydra extends ToolbarActivity {
             R.drawable.ic_tabs_schamper,
             R.drawable.ic_tabs_menu,
             R.drawable.ic_tabs_events,
+            R.drawable.ic_tabs_news,
             R.drawable.ic_tabs_info,
             R.drawable.ic_tabs_minerva,
     };

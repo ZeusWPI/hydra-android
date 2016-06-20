@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.adapters;
+package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,12 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
-import be.ugent.zeus.hydra.recyclerviewholder.home.AbstractViewHolder;
-import be.ugent.zeus.hydra.recyclerviewholder.home.ActivityCardViewHolder;
-import be.ugent.zeus.hydra.recyclerviewholder.home.NewsItemViewHolder;
-import be.ugent.zeus.hydra.recyclerviewholder.home.RestoCardViewHolder;
-import be.ugent.zeus.hydra.recyclerviewholder.home.SchamperViewHolder;
-import be.ugent.zeus.hydra.recyclerviewholder.home.SpecialEventCardViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.home.AbstractViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.home.ActivityCardViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.home.NewsItemViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.home.RestoCardViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.home.SchamperViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.home.SpecialEventCardViewHolder;
 
 import java.util.*;
 

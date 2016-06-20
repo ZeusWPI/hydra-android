@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.adapters;
+package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import android.content.Intent;
 import android.os.Parcelable;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.ActivityDetailActivity;
 import be.ugent.zeus.hydra.models.association.Activity;
-import be.ugent.zeus.hydra.recyclerviewholder.DateHeaderViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.DateHeaderViewHolder;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.text.DateFormat;
