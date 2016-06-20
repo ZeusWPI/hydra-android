@@ -9,19 +9,19 @@ import java.util.ArrayList;
 /**
  * Created by feliciaan on 27/01/16.
  */
-public class AssociationActivities extends ArrayList<AssociationActivity> {
+public class Activities extends ArrayList<Activity> {
     private static final long serialVersionUID = 32432552425423423L;
 
-    public AssociationActivities getPreferedActivities(Context context){
+    public Activities getPreferedActivities(Context context){
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         boolean filter = sharedPrefs.getBoolean("pref_association_checkbox", false);
         if(filter) {
-            AssociationActivities prefered = new AssociationActivities();
+            Activities prefered = new Activities();
 
             for (int i = 0; i < this.size(); i++) {
-                AssociationActivity asso = this.get(i);
-                boolean sf = sharedPrefs.getBoolean(asso.association.getName(), false);
+                Activity asso = this.get(i);
+                boolean sf = sharedPrefs.getBoolean(asso.getAssociation().getName(), false);
                 if (sf) {
                     prefered.add(asso);
                 }

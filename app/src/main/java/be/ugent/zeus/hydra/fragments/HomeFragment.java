@@ -14,6 +14,7 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,10 +22,13 @@ import java.util.List;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
+import be.ugent.zeus.hydra.models.association.News;
+import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
-import be.ugent.zeus.hydra.models.association.AssociationActivities;
-import be.ugent.zeus.hydra.models.association.AssociationActivity;
+import be.ugent.zeus.hydra.models.association.Activities;
+import be.ugent.zeus.hydra.models.association.Activity;
+import be.ugent.zeus.hydra.models.cards.NewsItemCard;
 import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
 import be.ugent.zeus.hydra.models.cards.SchamperCard;
 import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
@@ -34,7 +38,8 @@ import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.models.schamper.Articles;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
-import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
+import be.ugent.zeus.hydra.requests.ActivitiesRequest;
+import be.ugent.zeus.hydra.requests.NewsRequest;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
 import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
 import be.ugent.zeus.hydra.requests.SpecialEventRequest;
@@ -89,6 +94,7 @@ public class HomeFragment extends AbstractFragment {
         performActivityRequest();
         performSpecialEventRequest();
         performSchamperRequest();
+        performNewsItemRequest();
     }
 
     private void loadComplete() {
@@ -122,8 +128,8 @@ public class HomeFragment extends AbstractFragment {
     }
 
     private void performActivityRequest() {
-        final AssociationActivitiesRequest r = new AssociationActivitiesRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationActivities>() {
+        final ActivitiesRequest r = new ActivitiesRequest();
+        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<Activities>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar("activiteiten");
@@ -131,12 +137,12 @@ public class HomeFragment extends AbstractFragment {
             }
 
             @Override
-            public void onRequestSuccess(final AssociationActivities associationActivities) {
+            public void onRequestSuccess(final Activities activities) {
                 List<HomeCard> activityCardList = new ArrayList<>();
-                AssociationActivities filteredActivities = associationActivities.getPreferedActivities(getContext());
+                Activities filteredActivities = activities.getPreferedActivities(getContext());
                 Date date = new Date();
 
-                for (AssociationActivity activity : filteredActivities) {
+                for (Activity activity : filteredActivities) {
                     AssociationActivityCard activityCard = new AssociationActivityCard(activity);
                     if(activityCard.getPriority() > 0 && activity.getEndDate().after(date)) {
                         activityCardList.add(activityCard);
@@ -179,6 +185,7 @@ public class HomeFragment extends AbstractFragment {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar("schamper");
+                loadComplete();
             }
 
             @Override
@@ -188,6 +195,34 @@ public class HomeFragment extends AbstractFragment {
                     schamperCardList.add(new SchamperCard(article));
                 }
                 adapter.updateCardItems(schamperCardList, HomeCardAdapter.HomeType.SCHAMPER);
+                loadComplete();
+            }
+        });
+    }
+
+    private void performNewsItemRequest() {
+        final NewsRequest r = new NewsRequest();
+        r.execute(spiceManager, new RequestListener<News>() {
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+                showFailureSnackbar("news items");
+                loadComplete();
+            }
+
+            @Override
+            public void onRequestSuccess(News newsItems) {
+                List<HomeCard> newsItemCardList = new ArrayList<>();
+                DateTimeZone timeZone = DateTimeZone.forID( "Europe/Brussels" );
+                DateTime now = DateTime.now(timeZone);
+                DateTime sixMonthsAgo = now.minusMonths(6);
+
+                for (NewsItem item: newsItems) {
+                    if (sixMonthsAgo.isBefore(item.getDate().getTime())) {
+                        newsItemCardList.add(new NewsItemCard(item));
+                    }
+                }
+
+                adapter.updateCardItems(newsItemCardList, HomeCardAdapter.HomeType.NEWSITEM);
                 loadComplete();
             }
         });
