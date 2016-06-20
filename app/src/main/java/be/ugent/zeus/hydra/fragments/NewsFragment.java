@@ -11,55 +11,44 @@ import android.widget.ProgressBar;
 
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
-import be.ugent.zeus.hydra.models.association.Activities;
-import be.ugent.zeus.hydra.requests.ActivitiesRequest;
-/**
- * Created by ellen on 2016-03-08.
- *
- * TODO: update after  settings changed.
- */
+import be.ugent.zeus.hydra.adapters.NewsAdapter;
+import be.ugent.zeus.hydra.models.association.News;
+import be.ugent.zeus.hydra.requests.NewsRequest;
 
-public class ActivitiesFragment extends AbstractFragment {
+/**
+ * Created by Ellen on 07/04/2016.
+ */
+public class NewsFragment extends AbstractFragment {
+
     private RecyclerView recyclerView;
-    private ActivityListAdapter adapter;
+    private NewsAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private View layout;
-    private StickyRecyclerHeadersDecoration decorator;
     private ProgressBar progressBar;
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        this.sendScreenTracking("Activities");
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        layout = inflater.inflate(R.layout.fragment_activities, container, false);
+        layout = inflater.inflate(R.layout.fragment_schamper_articles, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerview);
         progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
 
-        adapter = new ActivityListAdapter();
+        adapter = new NewsAdapter();
         recyclerView.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        decorator = new StickyRecyclerHeadersDecoration((StickyRecyclerHeadersAdapter) adapter);
-        recyclerView.addItemDecoration(decorator);
+
         performLoadActivityRequest();
 
         return layout;
     }
 
-
     private void performLoadActivityRequest() {
-        final ActivitiesRequest r = new ActivitiesRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<Activities>() {
+
+        final NewsRequest r = new NewsRequest();
+        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<News>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 showFailureSnackbar();
@@ -67,9 +56,10 @@ public class ActivitiesFragment extends AbstractFragment {
             }
 
             @Override
-            public void onRequestSuccess(final Activities activitiesItems) {
-                adapter.setItems(activitiesItems.getPreferedActivities(getContext()));
+            public void onRequestSuccess(final News news) {
+                adapter.setItems(news);
                 adapter.notifyDataSetChanged();
+
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -77,7 +67,7 @@ public class ActivitiesFragment extends AbstractFragment {
 
     private void showFailureSnackbar() {
         Snackbar
-                .make(layout, "Oeps! Kon activiteiten niet ophalen.", Snackbar.LENGTH_LONG)
+                .make(layout, "Oeps! Kon nieuws niet ophalen.", Snackbar.LENGTH_LONG)
                 .setAction("Opnieuw proberen", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -86,11 +76,4 @@ public class ActivitiesFragment extends AbstractFragment {
                 })
                 .show();
     }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        performLoadActivityRequest();
-    }
-
 }

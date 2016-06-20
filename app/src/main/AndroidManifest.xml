@@ -39,7 +39,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".activities.AssociationActivityDetail"
+            android:name=".activities.ActivityDetail"
             android:label="@string/title_activity_association_activity_detail">
         </activity>
         <receiver android:name=".notifications.DailyNotificationReceiver"/>
