@@ -17,25 +17,22 @@ import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.loader.LoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.loader.cache.Request;
-import be.ugent.zeus.hydra.models.association.AssociationActivities;
-import be.ugent.zeus.hydra.models.association.AssociationActivity;
-import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
-import be.ugent.zeus.hydra.models.cards.HomeCard;
-import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
-import be.ugent.zeus.hydra.models.cards.SchamperCard;
-import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
+import be.ugent.zeus.hydra.models.association.Activities;
+import be.ugent.zeus.hydra.models.association.Activity;
+import be.ugent.zeus.hydra.models.association.News;
+import be.ugent.zeus.hydra.models.association.NewsItem;
+import be.ugent.zeus.hydra.models.cards.*;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.models.schamper.Articles;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
-import be.ugent.zeus.hydra.requests.AssociationActivitiesRequest;
-import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
-import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
-import be.ugent.zeus.hydra.requests.SpecialEventRequest;
+import be.ugent.zeus.hydra.requests.*;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,11 +51,13 @@ public class HomeFragment extends Fragment {
     private static final int ACTIVITY_LOADER = 2;
     private static final int SPECIAL_LOADER = 3;
     private static final int SCHAMPER_LOADER = 4;
+    private static final int NEWS_LOADER = 5;
 
     private final MenuCallback menuCallback = new MenuCallback();
     private final ActivityCallback activityCallback = new ActivityCallback();
     private final SpecialEventCallback specialEventCallback = new SpecialEventCallback();
     private final SchamperCallback schamperCallback = new SchamperCallback();
+    private final NewsCallback newsCallback = new NewsCallback();
 
     private boolean shouldRefresh = false;
 
@@ -103,6 +102,7 @@ public class HomeFragment extends Fragment {
         getLoaderManager().initLoader(ACTIVITY_LOADER, null, activityCallback);
         getLoaderManager().initLoader(SPECIAL_LOADER, null, specialEventCallback);
         getLoaderManager().initLoader(SCHAMPER_LOADER, null, schamperCallback);
+        getLoaderManager().initLoader(NEWS_LOADER, null, newsCallback);
     }
 
     /**
@@ -112,6 +112,8 @@ public class HomeFragment extends Fragment {
         getLoaderManager().restartLoader(MENU_LOADER, null, menuCallback);
         getLoaderManager().restartLoader(ACTIVITY_LOADER, null, activityCallback);
         getLoaderManager().restartLoader(SPECIAL_LOADER, null, specialEventCallback);
+        getLoaderManager().restartLoader(SCHAMPER_LOADER, null, schamperCallback);
+        getLoaderManager().restartLoader(NEWS_LOADER, null, newsCallback);
     }
 
     /**
@@ -184,7 +186,14 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private class ActivityCallback extends LoaderCallback<AssociationActivities> {
+    private abstract class AbstractLoaderCallback<D extends Serializable> extends LoaderCallback<D> {
+        @Override
+        public Loader<ThrowableEither<D>> onCreateLoader(int id, Bundle args) {
+            return super.onCreateLoader(getContext(), shouldRefresh);
+        }
+    }
+
+    private class ActivityCallback extends AbstractLoaderCallback<Activities> {
 
         /**
          * This must be called when data is received that has no errors.
@@ -192,11 +201,11 @@ public class HomeFragment extends Fragment {
          * @param data The data.
          */
         @Override
-        public void receiveData(@NonNull AssociationActivities data) {
-            List<AssociationActivity> filteredAssociationActivities = AssociationActivities.getPreferredActivities(data, getContext());
+        public void receiveData(@NonNull Activities data) {
+            List<Activity> filteredAssociationActivities = Activities.getPreferredActivities(data, getContext());
             Date date = new Date();
             List<HomeCard> list = new ArrayList<>();
-            for (AssociationActivity activity: filteredAssociationActivities) {
+            for (Activity activity: filteredAssociationActivities) {
                 AssociationActivityCard activityCard = new AssociationActivityCard(activity);
                 if(activityCard.getPriority() > 0 && activity.getEndDate().after(date)) {
                     list.add(activityCard);
@@ -221,17 +230,12 @@ public class HomeFragment extends Fragment {
          * @return The request that will be executed.
          */
         @Override
-        public Request<AssociationActivities> getRequest() {
-            return new AssociationActivitiesRequest();
-        }
-
-        @Override
-        public Loader<ThrowableEither<AssociationActivities>> onCreateLoader(int id, Bundle args) {
-            return super.onCreateLoader(getContext(), shouldRefresh);
+        public Request<Activities> getRequest() {
+            return new ActivitiesRequest();
         }
     }
 
-    private class SpecialEventCallback extends LoaderCallback<SpecialEventWrapper> {
+    private class SpecialEventCallback extends AbstractLoaderCallback<SpecialEventWrapper> {
 
         /**
          * This must be called when data is received that has no errors.
@@ -269,14 +273,9 @@ public class HomeFragment extends Fragment {
         public Request<SpecialEventWrapper> getRequest() {
             return new SpecialEventRequest();
         }
-
-        @Override
-        public Loader<ThrowableEither<SpecialEventWrapper>> onCreateLoader(int id, Bundle args) {
-            return super.onCreateLoader(getContext(), shouldRefresh);
-        }
     }
 
-    private class SchamperCallback extends LoaderCallback<Articles> {
+    private class SchamperCallback extends AbstractLoaderCallback<Articles> {
 
         /**
          * This must be called when data is received that has no errors.
@@ -311,18 +310,49 @@ public class HomeFragment extends Fragment {
         public Request<Articles> getRequest() {
             return new SchamperArticlesRequest();
         }
+    }
+
+    private class NewsCallback extends AbstractLoaderCallback<News> {
 
         /**
-         * Instantiate and return a new Loader for the given ID.
+         * This must be called when data is received that has no errors.
          *
-         * @param id   The ID whose loader is to be created.
-         * @param args Any arguments supplied by the caller.
-         *
-         * @return Return a new Loader instance that is ready to start loading.
+         * @param data The data.
          */
         @Override
-        public Loader<ThrowableEither<Articles>> onCreateLoader(int id, Bundle args) {
-            return super.onCreateLoader(getContext(), shouldRefresh);
+        public void receiveData(@NonNull News data) {
+            List<HomeCard> newsItemCardList = new ArrayList<>();
+            DateTimeZone timeZone = DateTimeZone.forID( "Europe/Brussels" );
+            DateTime now = DateTime.now(timeZone);
+            DateTime sixMonthsAgo = now.minusMonths(6);
+
+            for (NewsItem item: data) {
+                if (sixMonthsAgo.isBefore(item.getDate().getTime())) {
+                    newsItemCardList.add(new NewsItemCard(item));
+                }
+            }
+
+            adapter.updateCardItems(newsItemCardList, HomeCard.CardType.NEWS_ITEM);
+            loadComplete();
+        }
+
+        /**
+         * This must be called when an error occurred.
+         *
+         * @param error The exception.
+         */
+        @Override
+        public void receiveError(@NonNull Throwable error) {
+            showFailureSnackbar("news items");
+            loadComplete();
+        }
+
+        /**
+         * @return The request that will be executed.
+         */
+        @Override
+        public Request<News> getRequest() {
+            return new NewsRequest();
         }
     }
 }

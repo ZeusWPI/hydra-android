@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.EventDetailsActivity;
-import be.ugent.zeus.hydra.models.association.AssociationActivity;
+import be.ugent.zeus.hydra.activities.ActivityDetailActivity;
+import be.ugent.zeus.hydra.models.association.Activity;
 import be.ugent.zeus.hydra.recyclerviewholder.DateHeaderViewHolder;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -45,14 +46,14 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
             start = $(v, R.id.starttime);
         }
 
-        private void populate(final AssociationActivity activity) {
-            title.setText(activity.title);
-            association.setText(activity.association.display_name);
-            start.setText(FORMATTER.format(activity.start));
+        private void populate(final Activity activity) {
+            title.setText(activity.getTitle());
+            association.setText(activity.getAssociation().getDisplayName());
+            start.setText(FORMATTER.format(activity.getStart()));
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(itemView.getContext(), EventDetailsActivity.class);
+                    Intent intent = new Intent(itemView.getContext(), ActivityDetailActivity.class);
                     intent.putExtra("associationActivity", (Parcelable) activity);
                     itemView.getContext().startActivity(intent);
                 }
@@ -60,8 +61,8 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         }
     }
 
-    private List<AssociationActivity> data = Collections.emptyList();
-    private List<AssociationActivity> original = Collections.emptyList();
+    private List<Activity> data = Collections.emptyList();
+    private List<Activity> original = Collections.emptyList();
 
 
     @Override
@@ -73,7 +74,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
     @Override
     public void onBindViewHolder(CardViewHolder holder, int position) {
-        final AssociationActivity restoCategory = data.get(position);
+        final Activity restoCategory = data.get(position);
         holder.populate(restoCategory);
     }
 
@@ -82,7 +83,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
      */
     @Override
     public long getHeaderId(int position) {
-        Date date = data.get(position).start;
+        Date date = data.get(position).getStart();
         return Integer.parseInt(INT_FORMATTER.format(date));
     }
 
@@ -95,7 +96,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
     @Override
     public void onBindHeaderViewHolder(DateHeaderViewHolder holder, int position) {
-        holder.populate(data.get(position).start);
+        holder.populate(data.get(position).getStart());
     }
 
     @Override
@@ -103,19 +104,19 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         return data.size();
     }
 
-    public void setData(List<AssociationActivity> data) {
+    public void setData(List<Activity> data) {
         this.data = data;
     }
 
-    public List<AssociationActivity> getData() {
+    public List<Activity> getData() {
         return data;
     }
 
-    public void setOriginal(List<AssociationActivity> data) {
+    public void setOriginal(List<Activity> data) {
         this.original = data;
     }
 
-    public List<AssociationActivity> getOriginal() {
+    public List<Activity> getOriginal() {
         return original;
     }
 }

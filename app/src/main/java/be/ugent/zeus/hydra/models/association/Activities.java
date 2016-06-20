@@ -11,7 +11,7 @@ import java.util.List;
  * Created by feliciaan on 27/01/16.
  */
 
-public class AssociationActivities extends ArrayList<AssociationActivity> {
+public class Activities extends ArrayList<Activity> {
 
     /**
      * Filter function for the events of different associations.
@@ -25,16 +25,16 @@ public class AssociationActivities extends ArrayList<AssociationActivity> {
      * @return The result of the filtering. Note that it is not defined if a copy is returned or not, so if you need
      *         to retain the original array, you need to make a copy yourself.
      */
-    public static List<AssociationActivity> getPreferredActivities(List<AssociationActivity> data, Context context) {
+    public static List<Activity> getPreferredActivities(List<Activity> data, Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         boolean filter = sharedPrefs.getBoolean("pref_association_checkbox", false);
 
         if (filter) {
-            ArrayList<AssociationActivity> preferred = new ArrayList<>();
+            ArrayList<Activity> preferred = new ArrayList<>();
 
-            for (AssociationActivity asso : data) {
-                if (sharedPrefs.getBoolean(asso.association.getName(), false)) {
+            for (Activity asso : data) {
+                if (sharedPrefs.getBoolean(asso.getAssociation().getName(), false)) {
                     preferred.add(asso);
                 }
             }

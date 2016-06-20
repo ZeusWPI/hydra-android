@@ -28,9 +28,9 @@ public class InfoFragment extends LoaderFragment<InfoList> {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        layout = inflater.inflate(R.layout.fragment_info, container, false);
+        layout = inflater.inflate(R.layout.fragment_recycler_view, container, false);
 
-        RecyclerView recyclerView = $(layout, R.id.recyclerview);
+        RecyclerView recyclerView = $(layout, R.id.recycler_view);
         progressBar = $(layout, R.id.progress_bar);
 
         adapter = new InfoListAdapter();
