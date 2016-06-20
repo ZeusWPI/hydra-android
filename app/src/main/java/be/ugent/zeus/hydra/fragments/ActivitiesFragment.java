@@ -87,12 +87,6 @@ public class ActivitiesFragment extends LoaderFragment<AssociationActivities> im
         PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        startLoader();
-    }
-
     /**
      * Hide the progress bar.
      */

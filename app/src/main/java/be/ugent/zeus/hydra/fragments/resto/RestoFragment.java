@@ -84,8 +84,6 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
             }
         });
 
-        startLoader();
-
         return layout;
     }
 

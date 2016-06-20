@@ -20,13 +20,12 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * Created by feliciaan on 06/04/16.
  */
 public class RestoCardViewHolder extends AbstractViewHolder {
+
     private TextView title;
-    private View view;
 
     public RestoCardViewHolder(View v) {
         super(v);
-        title = (TextView) v.findViewById(R.id.category_text);
-        view = v;
+        title = $(v, R.id.category_text);
     }
 
     @Override
@@ -47,7 +46,7 @@ public class RestoCardViewHolder extends AbstractViewHolder {
         }
 
         // click listener
-        view.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO: open resto fragment
@@ -60,19 +59,19 @@ public class RestoCardViewHolder extends AbstractViewHolder {
     }
 
     private void populateOpen(RestoMenu menu) {
-        LinearLayout container = $(view, R.id.home_cards_resto_container);
+        LinearLayout container = $(itemView, R.id.home_cards_resto_container);
         container.removeAllViews();
         container.addView(title);
         container.addView(MenuFragment.makeTableDishes(container, menu.getMainDishes()));
     }
 
     private void populateClosed() {
-        LinearLayout container = $(view, R.id.home_cards_resto_container);
+        LinearLayout container = $(itemView, R.id.home_cards_resto_container);
         container.removeAllViews();
 
         LinearLayout.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
 
-        TextView textView = new TextView(view.getContext());
+        TextView textView = new TextView(itemView.getContext());
         textView.setPadding(25, 0, 0, 0);
         textView.setLayoutParams(lp);
         textView.setText("sorry, gesloten");

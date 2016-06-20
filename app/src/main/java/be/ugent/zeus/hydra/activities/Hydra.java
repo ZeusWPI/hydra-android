@@ -19,10 +19,11 @@ public class Hydra extends ToolbarActivity {
     //The tab icons
     private static int[] icons = {
             R.drawable.ic_tabs_home,
-            R.drawable.ic_tabs_minerva,
+            R.drawable.ic_tabs_schamper,
             R.drawable.ic_tabs_menu,
             R.drawable.ic_tabs_events,
-            R.drawable.ic_tabs_info
+            R.drawable.ic_tabs_info,
+            R.drawable.ic_tabs_minerva,
     };
 
     private ViewPager mViewPager;
