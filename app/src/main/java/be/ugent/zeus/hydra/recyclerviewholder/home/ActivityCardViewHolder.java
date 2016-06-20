@@ -1,8 +1,6 @@
 package be.ugent.zeus.hydra.recyclerviewholder.home;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,12 +13,12 @@ import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.association.AssociationActivity;
+import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
  * Created by feliciaan on 06/04/16.
  */
 public class ActivityCardViewHolder extends AbstractViewHolder {
-    private final View view;
     private TextView start;
     private TextView title;
     private TextView association;
@@ -28,7 +26,6 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
 
     public ActivityCardViewHolder(View v) {
         super(v);
-        this.view = v;
         title = (TextView) v.findViewById(R.id.name);
         association = (TextView) v.findViewById(R.id.association);
         start = (TextView) v.findViewById(R.id.starttime);
@@ -45,19 +42,18 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
         final AssociationActivity activity = activityCard.getAssociationActivity();
 
         //TODO: make pretty
-
         title.setText(activity.title);
         association.setText(activity.association.display_name);
-        start.setText(DateUtils.getRelativeDateTimeString(view.getContext(), activity.start.getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0));
+        start.setText(DateUtils.relativeDateString(activity.getStartDate(), itemView.getContext()));
 
-        Picasso.with(view.getContext()).load(activity.association.getImageLink()).into(imageView);
+        Picasso.with(itemView.getContext()).load(activity.association.getImageLink()).into(imageView);
 
-        view.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(), AssociationActivityDetail.class);
+                Intent intent = new Intent(itemView.getContext(), AssociationActivityDetail.class);
                 intent.putExtra("associationActivity", activity);
-                view.getContext().startActivity(intent);
+                itemView.getContext().startActivity(intent);
             }
         });
 

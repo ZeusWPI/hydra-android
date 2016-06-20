@@ -18,11 +18,16 @@ import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
  * Created by feliciaan on 06/04/16.
  */
 public class SpecialEventCardViewHolder extends AbstractViewHolder {
-    private View view;
+    private TextView titleView;
+    private TextView textView;
+    private ImageView imageView;
 
     public SpecialEventCardViewHolder(View itemView) {
         super(itemView);
-        this.view = itemView;
+
+        titleView = (TextView) itemView.findViewById(R.id.title);
+        textView = (TextView) itemView.findViewById(R.id.text);
+        imageView = (ImageView) itemView.findViewById(R.id.imageView);
     }
 
     @Override
@@ -34,20 +39,17 @@ public class SpecialEventCardViewHolder extends AbstractViewHolder {
         final SpecialEventCard eventCard = (SpecialEventCard) card;
         final SpecialEvent specialEvent = eventCard.getSpecialEvent();
 
-        TextView titleView = (TextView) view.findViewById(R.id.title);
         titleView.setText(specialEvent.getName());
 
-        TextView textView = (TextView) view.findViewById(R.id.text);
         textView.setText(specialEvent.getSimpleText());
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-        Picasso.with(view.getContext()).load(specialEvent.getImage()).into(imageView);
+        Picasso.with(itemView.getContext()).load(specialEvent.getImage()).into(imageView);
 
-        view.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(specialEvent.getLink()));
-                view.getContext().startActivity(browserIntent);
+                itemView.getContext().startActivity(browserIntent);
             }
         });
     }

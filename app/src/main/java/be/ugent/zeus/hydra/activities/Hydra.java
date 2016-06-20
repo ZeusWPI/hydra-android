@@ -71,8 +71,8 @@ public class Hydra extends AppCompatActivity {
         actionbar.setCustomView(R.layout.actionbar_centered_hydra);
 
         //icons (bad way)
-        int[] icons = {R.drawable.home, R.drawable.minerva,
-                R.drawable.resto, R.drawable.association_activities_icon, R.drawable.info};
+        int[] icons = {R.drawable.home, R.drawable.schamper,
+                R.drawable.resto, R.drawable.association_activities_icon, R.drawable.info, R.drawable.minerva};
 
         //set icons
         tabLayout.setupWithViewPager(viewPager);
