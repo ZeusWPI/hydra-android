@@ -109,8 +109,9 @@ public class HomeFragment extends AbstractFragment {
             public void onRequestSuccess(final RestoMenuList menuList) {
                 List<HomeCard> menuCardList = new ArrayList<>();
                 for (RestoMenu menu : menuList) {
-                    if (new DateTime(menu.getDate()).withTimeAtStartOfDay().isAfterNow()) {
-                        menuCardList.add(new RestoMenuCard(menu)); //TODO: add current day
+                    // only show till 20 o'clock
+                    if (new DateTime(menu.getDate()).withTimeAtStartOfDay().plusHours(20).isAfterNow()) {
+                        menuCardList.add(new RestoMenuCard(menu));
                     }
                 }
                 adapter.updateCardItems(menuCardList, HomeCardAdapter.HomeType.RESTO);
