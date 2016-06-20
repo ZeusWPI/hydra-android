@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.recyclerviewholder.home;
+package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 
 import android.content.Intent;
 import android.os.Parcelable;
@@ -10,6 +10,7 @@ import be.ugent.zeus.hydra.activities.SchamperArticleActivity;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.SchamperCard;
 import be.ugent.zeus.hydra.models.schamper.Article;
+import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import com.squareup.picasso.Picasso;
 
@@ -18,7 +19,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * Created by feliciaan on 17/06/16.
  */
-public class SchamperViewHolder extends AbstractViewHolder {
+public class SchamperViewHolder extends AbstractViewHolder implements DataViewHolder<Article> {
     private TextView title;
     private TextView date;
     private TextView author;
@@ -40,10 +41,10 @@ public class SchamperViewHolder extends AbstractViewHolder {
         }
 
         final SchamperCard schamperCard = (SchamperCard) card;
-        populate(schamperCard.getArticle());
+        populateData(schamperCard.getArticle());
     }
 
-    public void populate(final Article article) {
+    public void populateData(final Article article) {
 
         title.setText(article.getTitle());
         date.setText(DateUtils.relativeDateString(article.getPubDate(), itemView.getContext()));

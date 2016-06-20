@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,11 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.SettingsActivity;
-import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
+import be.ugent.zeus.hydra.recyclerview.adapters.ActivityListAdapter;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.models.association.Activities;
@@ -40,7 +37,6 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 public class ActivitiesFragment extends LoaderFragment<Activities> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private ActivityListAdapter adapter;
-    private ProgressBar progressBar;
     private LinearLayout noData;
 
     //If the data is invalidated.
@@ -56,7 +52,6 @@ public class ActivitiesFragment extends LoaderFragment<Activities> implements Sh
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView recyclerView = $(view, R.id.recycler_view);
-        progressBar = $(view, R.id.progress_bar);
         noData = $(view, R.id.events_no_data);
 
         adapter = new ActivityListAdapter();
@@ -85,19 +80,6 @@ public class ActivitiesFragment extends LoaderFragment<Activities> implements Sh
 
         //Register this class in the settings.
         PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
-    }
-
-    /**
-     * Hide the progress bar.
-     */
-    private void hideProgressBar() {
-        progressBar.setVisibility(View.GONE);
-    }
-
-    private void refresh() {
-        Toast.makeText(getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
-        this.shouldRenew = true;
-        restartLoader();
     }
 
     /**
@@ -157,27 +139,6 @@ public class ActivitiesFragment extends LoaderFragment<Activities> implements Sh
     public void receiveData(@NonNull Activities data) {
         adapter.setOriginal(data);
         setData(data);
-        hideProgressBar();
-        this.shouldRenew = false;
-    }
-
-    /**
-     * This must be called when an error occurred.
-     *
-     * @param error The exception.
-     */
-    @Override
-    public void receiveError(@NonNull Throwable error) {
-        assert getView() != null;
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        getLoaderManager().restartLoader(0, null, ActivitiesFragment.this);
-                    }
-                })
-                .show();
-        hideProgressBar();
     }
 
     /**

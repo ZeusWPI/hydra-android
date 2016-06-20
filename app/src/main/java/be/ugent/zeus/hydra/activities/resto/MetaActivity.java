@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.common.RestoActivity;
-import be.ugent.zeus.hydra.adapters.resto.MetaAdapter;
+import be.ugent.zeus.hydra.recyclerview.adapters.resto.MetaAdapter;
 import be.ugent.zeus.hydra.utils.DividerItemDecoration;
 import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.models.resto.RestoMeta;
@@ -56,7 +56,6 @@ public class MetaActivity extends RestoActivity<RestoMeta> {
      */
     @Override
     public void receiveData(@NonNull RestoMeta data) {
-        super.receiveData(data);
         adapter.replaceData(data.locations);
     }
 
@@ -64,7 +63,7 @@ public class MetaActivity extends RestoActivity<RestoMeta> {
      * @return The main view of this activity. Currently this is used for snack bars, but that may change.
      */
     @Override
-    protected View getMainView() {
+    protected View getView() {
         return recyclerView;
     }
 

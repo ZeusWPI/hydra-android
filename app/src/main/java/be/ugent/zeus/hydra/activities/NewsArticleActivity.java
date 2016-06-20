@@ -8,7 +8,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.association.NewsItem;
-import be.ugent.zeus.hydra.recyclerviewholder.home.NewsItemViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.home.NewsItemViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.PicassoImageGetter;
 

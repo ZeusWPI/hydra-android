@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.recyclerviewholder.home;
+package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

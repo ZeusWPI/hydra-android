@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.recyclerviewholder.home;
+package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 
 import android.content.Intent;
 import android.os.Parcelable;
@@ -9,6 +9,7 @@ import be.ugent.zeus.hydra.activities.NewsArticleActivity;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.NewsItemCard;
+import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 import java.util.Locale;
@@ -18,7 +19,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * Created by feliciaan on 18/06/16.
  */
-public class NewsItemViewHolder extends AbstractViewHolder {
+public class NewsItemViewHolder extends AbstractViewHolder implements DataViewHolder<NewsItem> {
 
     public static final String PARCEL_NAME = "newsItem";
 
@@ -40,6 +41,11 @@ public class NewsItemViewHolder extends AbstractViewHolder {
 
         NewsItemCard newsItemCard = (NewsItemCard) card;
         final NewsItem newsItem = newsItemCard.getNewsItem();
+
+        populateData(newsItem);
+    }
+
+    public void populateData(final NewsItem newsItem) {
 
         title.setText(newsItem.getTitle());
 

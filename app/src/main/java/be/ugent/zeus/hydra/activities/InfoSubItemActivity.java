@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 public class InfoSubItemActivity extends ToolbarActivity {
 
-    public static final String INFOTITLE = "be.ugent.zeus.hydra.infoTitle";
-    public static final String INFOITEMS = "be.ugent.zeus.hydra.infoItems";
+    public static final String INFO_TITLE = "be.ugent.zeus.hydra.infoTitle";
+    public static final String INFO_ITEMS = "be.ugent.zeus.hydra.infoItems";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +25,13 @@ public class InfoSubItemActivity extends ToolbarActivity {
         Intent intent = getIntent();
 
         // Set title
-        String title = intent.getStringExtra(INFOTITLE);
+        String title = intent.getStringExtra(INFO_TITLE);
         getSupportActionBar().setTitle(title);
 
         // Create bundle for fragment
-        ArrayList<InfoItem> infoList = intent.getParcelableArrayListExtra(INFOITEMS);
+        ArrayList<InfoItem> infoList = intent.getParcelableArrayListExtra(INFO_ITEMS);
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(InfoFragment.INFOLIST, infoList);
+        bundle.putParcelableArrayList(INFO_ITEMS, infoList);
         fragment.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction().add(R.id.info_sub_item, fragment).commit();

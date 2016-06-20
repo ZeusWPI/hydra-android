@@ -2,50 +2,52 @@ package be.ugent.zeus.hydra.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.adapters.InfoListAdapter;
+import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.cache.Request;
+import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
+import be.ugent.zeus.hydra.recyclerview.adapters.InfoListAdapter;
 import be.ugent.zeus.hydra.requests.InfoRequest;
+
+import java.util.ArrayList;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 public class InfoFragment extends LoaderFragment<InfoList> {
 
-    public static final String INFOLIST = "infoList";
-
     private InfoListAdapter adapter;
-    private View layout;
-    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        layout = inflater.inflate(R.layout.fragment_recycler_view, container, false);
-
-        RecyclerView recyclerView = $(layout, R.id.recycler_view);
-        progressBar = $(layout, R.id.progress_bar);
-
-        adapter = new InfoListAdapter();
-        recyclerView.setAdapter(adapter);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-
-        return layout;
+        return inflater.inflate(R.layout.fragment_recycler_view, container, false);
     }
 
-    /**
-     * Hide the progress bar.
-     */
-    private void hideProgressBar() {
-        progressBar.setVisibility(View.GONE);
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        adapter = new InfoListAdapter();
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            InfoList infoItems = new InfoList();
+            ArrayList<InfoItem> list = bundle.getParcelableArrayList(InfoSubItemActivity.INFO_ITEMS);
+            infoItems.addAll(list);
+            receiveData(infoItems);
+            this.autoStart = false;
+        }
     }
 
     /**
@@ -56,25 +58,6 @@ public class InfoFragment extends LoaderFragment<InfoList> {
     @Override
     public void receiveData(@NonNull InfoList data) {
         adapter.setItems(data);
-        adapter.notifyDataSetChanged();
-        hideProgressBar();
-    }
-
-    /**
-     * This must be called when an error occurred.
-     *
-     * @param error The exception.
-     */
-    @Override
-    public void receiveError(@NonNull Throwable error) {
-        Snackbar.make(layout, getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        restartLoader();
-                    }
-                })
-                .show();
         hideProgressBar();
     }
 

@@ -1,7 +1,15 @@
 package be.ugent.zeus.hydra.activities.common;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.Loader;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.loader.CachedAsyncTaskLoader;
 import be.ugent.zeus.hydra.loader.ErrorLoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
@@ -15,9 +23,28 @@ import java.io.Serializable;
  */
 public abstract class LoaderToolbarActivity<D extends Serializable> extends ToolbarActivity implements ErrorLoaderCallback<D> {
 
+    private static final String TAG = "LoaderToolbarActivity";
+
     // ID of the loader.
-    protected static final int LOADER = 0;
+    private static final int LOADER = 0;
     protected boolean shouldRenew = false;
+    //The progress bar. Is used if not null.
+    protected ProgressBar progressBar;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Set the progress bar.
+        progressBar = $(R.id.progress_bar);
+    }
+
+    /**
+     * Hide the progress bar.
+     */
+    private void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
 
     /**
      * Called when a previously created loader is being reset, and thus making its data unavailable.  The application
@@ -43,6 +70,7 @@ public abstract class LoaderToolbarActivity<D extends Serializable> extends Tool
         } else {
             receiveData(data.getData());
         }
+        hideProgressBar();
     }
 
     /**
@@ -72,5 +100,36 @@ public abstract class LoaderToolbarActivity<D extends Serializable> extends Tool
     protected void restartLoader() {
         // Start the data loader.
         getSupportLoaderManager().restartLoader(LOADER, null, this);
+    }
+
+    /**
+     * @return The main view of this activity. Currently this is used for snack bars, but that may change.
+     */
+    protected abstract View getView();
+
+    /**
+     * When the request has failed.
+     */
+    public void receiveError(@NonNull Throwable throwable) {
+        Log.e(TAG, "Error while getting data.", throwable);
+        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.again), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        refresh();
+                    }
+                })
+                .show();
+        hideProgressBar();
+    }
+
+    /**
+     * Launch a new request.
+     */
+    protected void refresh() {
+        Toast.makeText(getApplicationContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
+        shouldRenew = true;
+        restartLoader();
+        shouldRenew = false;
     }
 }

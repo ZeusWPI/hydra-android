@@ -8,7 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.common.RestoWebsiteActivity;
-import be.ugent.zeus.hydra.adapters.resto.MenuPageAdapter;
+import be.ugent.zeus.hydra.recyclerview.adapters.resto.MenuPageAdapter;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
@@ -63,7 +63,6 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
      */
     @Override
     public void receiveData(@NonNull RestoOverview data) {
-        super.receiveData(data);
         pageAdapter.setData(data);
     }
 
@@ -83,7 +82,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
      * @return The main view of this activity. Currently this is used for snackbars, but that may change.
      */
     @Override
-    protected View getMainView() {
+    protected View getView() {
         return mViewPager;
     }
 

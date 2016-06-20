@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.recyclerviewholder.home;
+package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 
 import android.graphics.Color;
 import android.view.Gravity;

@@ -1,26 +1,67 @@
 package be.ugent.zeus.hydra.fragments.common;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.loader.CachedAsyncTaskLoader;
 import be.ugent.zeus.hydra.loader.ErrorLoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 
 import java.io.Serializable;
 
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+
 /**
- * Activity that uses the {@link be.ugent.zeus.hydra.loader.CachedAsyncTaskLoader}.
+ * Fragment that uses the {@link be.ugent.zeus.hydra.loader.CachedAsyncTaskLoader}.
+ *
+ * The fragment supports a progress bar and refresh. The progress bar is automatically hidden. This fragment is
+ * mostly used in the home screen.
  *
  * @author Niko Strijbol
  */
 public abstract class LoaderFragment<D extends Serializable> extends Fragment implements ErrorLoaderCallback<D> {
 
+    private static final String TAG = "LoaderFragment";
+
     // ID of the loader.
-    protected static final int LOADER = 0;
+    private static final int LOADER = 0;
 
     protected boolean shouldRenew = false;
+
+    protected ProgressBar progressBar;
+
+    protected boolean autoStart = true;
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        progressBar = $(view, R.id.progress_bar);
+    }
+
+    /**
+     * Hide the progress bar.
+     */
+    protected void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    /**
+     * Refresh the data.
+     */
+    protected void refresh() {
+        Toast.makeText(getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
+        this.shouldRenew = true;
+        restartLoader();
+        this.shouldRenew = false;
+    }
 
     /**
      * Called when a previously created loader has finished its load.
@@ -35,6 +76,7 @@ public abstract class LoaderFragment<D extends Serializable> extends Fragment im
         } else {
             receiveData(data.getData());
         }
+        hideProgressBar();
     }
 
     /**
@@ -64,7 +106,9 @@ public abstract class LoaderFragment<D extends Serializable> extends Fragment im
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        startLoader();
+        if(autoStart) {
+            startLoader();
+        }
     }
 
     /**
@@ -81,5 +125,28 @@ public abstract class LoaderFragment<D extends Serializable> extends Fragment im
     protected void restartLoader() {
         // Start the data loader.
         getLoaderManager().restartLoader(LOADER, null, this);
+    }
+
+    /**
+     * This must be called when an error occurred.
+     *
+     * The default implementation displays a snackbar with the option to reload the data.
+     *
+     * @param error The exception.
+     */
+    @Override
+    public void receiveError(@NonNull Throwable error) {
+        assert getView() != null;
+        Log.e(TAG, "Error while getting data.", error);
+        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.again), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        shouldRenew = true;
+                        restartLoader();
+                        shouldRenew = false;
+                    }
+                })
+                .show();
     }
 }

@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.MenuActivity;
@@ -37,8 +36,6 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
 
     private static final String FRAGMENT_TAG = "menu_today_fragment";
 
-    private ProgressBar progressBar;
-    private View layout;
     private TextView title;
     private Button viewMenu;
     private Button viewSandwich;
@@ -46,11 +43,16 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        layout = inflater.inflate(R.layout.fragment_resto, container, false);
-        progressBar = $(layout, R.id.progress_bar);
-        viewMenu = $(layout, R.id.home_resto_view);
-        viewSandwich = $(layout, R.id.home_resto_view_sandwich);
-        viewResto = $(layout, R.id.home_resto_view_resto);
+        return inflater.inflate(R.layout.fragment_resto, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        viewMenu = $(view, R.id.home_resto_view);
+        viewSandwich = $(view, R.id.home_resto_view_sandwich);
+        viewResto = $(view, R.id.home_resto_view_resto);
 
         setIcons();
 
@@ -75,16 +77,14 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
             }
         });
 
-        title = (TextView) layout.findViewById(R.id.menu_today_card_title);
+        title = $(view, R.id.menu_today_card_title);
 
-        layout.findViewById(R.id.menu_today_card).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.menu_today_card).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), MenuActivity.class));
             }
         });
-
-        return layout;
     }
 
     /**
@@ -127,22 +127,12 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
     }
 
     /**
-     * Hide the progress bar.
-     */
-    private void hideProgressBar() {
-        if(progressBar != null) {
-            progressBar.setVisibility(View.GONE);
-        }
-    }
-
-    /**
      * This must be called when data is received that has no errors.
      *
      * @param data The data.
      */
     @Override
     public void receiveData(@NonNull RestoOverview data) {
-        hideProgressBar();
 
         FragmentManager m = getChildFragmentManager();
 
@@ -154,24 +144,6 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
             fragmentTransaction.commit();
         }
         title.setText(String.format(getString(R.string.menu_today_title), DateUtils.getFriendlyDate(today.getDate())));
-    }
-
-    /**
-     * This must be called when an error occurred.
-     *
-     * @param error The exception.
-     */
-    @Override
-    public void receiveError(@NonNull Throwable error) {
-        Snackbar.make(layout, getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        restartLoader();
-                    }
-                })
-                .show();
-        hideProgressBar();
     }
 
     /**

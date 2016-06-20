@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.adapters.resto;
+package be.ugent.zeus.hydra.recyclerview.adapters.resto;
 
 import android.content.Intent;
 import android.net.Uri;

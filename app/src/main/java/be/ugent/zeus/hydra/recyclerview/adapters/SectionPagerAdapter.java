@@ -1,16 +1,10 @@
-package be.ugent.zeus.hydra.adapters;
+package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
-import be.ugent.zeus.hydra.fragments.ActivitiesFragment;
-import be.ugent.zeus.hydra.fragments.ComingSoonFragment;
-import be.ugent.zeus.hydra.fragments.HomeFragment;
-import be.ugent.zeus.hydra.fragments.InfoFragment;
+import be.ugent.zeus.hydra.fragments.*;
 import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
-import be.ugent.zeus.hydra.fragments.NewsFragment;
-import be.ugent.zeus.hydra.fragments.SchamperFragment;
 
 /**
  * Adapter for the tabs on the main activity.
@@ -35,9 +29,9 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
             case 3:
                 return new ActivitiesFragment();
             case 4:
-                return new InfoFragment();
-            case 5:
                 return new NewsFragment();
+            case 5:
+                return new InfoFragment();
             default:
                 return new ComingSoonFragment();
         }
@@ -45,6 +39,6 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 6;
+        return 7;
     }
 }

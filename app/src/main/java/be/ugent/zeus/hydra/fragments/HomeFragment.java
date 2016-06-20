@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
@@ -13,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
+import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.loader.LoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.loader.cache.Request;
@@ -62,19 +63,21 @@ public class HomeFragment extends Fragment {
     private boolean shouldRefresh = false;
 
     private HomeCardAdapter adapter;
-    private View layout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_home, container, false);
+    }
 
-        // Inflate the layout for this fragment
-        layout = inflater.inflate(R.layout.fragment_home, container, false);
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = $(layout, R.id.home_cards_view);
-        swipeRefreshLayout = $(layout, R.id.swipeRefreshLayout);
-        progressBar = $(layout, R.id.progress_bar);
+        RecyclerView recyclerView = $(view, R.id.home_cards_view);
+        swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
+        progressBar = $(view, R.id.progress_bar);
 
         adapter = new HomeCardAdapter();
         recyclerView.setAdapter(adapter);
@@ -90,8 +93,6 @@ public class HomeFragment extends Fragment {
         });
 
         startLoaders();
-
-        return layout;
     }
 
     /**
@@ -130,7 +131,8 @@ public class HomeFragment extends Fragment {
      * @param field The failing field.
      */
     private void showFailureSnackbar(String field) {
-        Snackbar.make(layout, "Oeps! Kon " + field + " niet ophalen.", Snackbar.LENGTH_LONG)
+        assert getView() != null;
+        Snackbar.make(getView(), "Oeps! Kon " + field + " niet ophalen.", Snackbar.LENGTH_LONG)
                 .setAction("Opnieuw proberen", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -140,6 +142,13 @@ public class HomeFragment extends Fragment {
                     }
                 })
                 .show();
+    }
+
+    private abstract class AbstractLoaderCallback<D extends Serializable> extends LoaderCallback<D> {
+        @Override
+        public Loader<ThrowableEither<D>> onCreateLoader(int id, Bundle args) {
+            return super.onCreateLoader(getContext(), shouldRefresh);
+        }
     }
 
     private class MenuCallback extends LoaderCallback<RestoOverview> {
@@ -182,13 +191,6 @@ public class HomeFragment extends Fragment {
 
         @Override
         public Loader<ThrowableEither<RestoOverview>> onCreateLoader(int id, Bundle args) {
-            return super.onCreateLoader(getContext(), shouldRefresh);
-        }
-    }
-
-    private abstract class AbstractLoaderCallback<D extends Serializable> extends LoaderCallback<D> {
-        @Override
-        public Loader<ThrowableEither<D>> onCreateLoader(int id, Bundle args) {
             return super.onCreateLoader(getContext(), shouldRefresh);
         }
     }
