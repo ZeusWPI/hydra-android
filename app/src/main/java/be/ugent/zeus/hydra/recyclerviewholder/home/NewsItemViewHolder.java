@@ -1,9 +1,11 @@
 package be.ugent.zeus.hydra.recyclerviewholder.home;
 
-import android.text.Html;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.NewsArticleActivity;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.NewsItemCard;
@@ -11,19 +13,24 @@ import be.ugent.zeus.hydra.utils.DateUtils;
 
 import java.util.Locale;
 
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+
 /**
  * Created by feliciaan on 18/06/16.
  */
-public class NewsItemViewHolder extends AbstractViewHolder{
+public class NewsItemViewHolder extends AbstractViewHolder {
+
+    public static final String PARCEL_NAME = "newsItem";
+
     private TextView info;
     private TextView title;
     private TextView summary;
 
     public NewsItemViewHolder(View v) {
         super(v);
-        title = (TextView) v.findViewById(R.id.name);
-        summary = (TextView) v.findViewById(R.id.summary);
-        info = (TextView) v.findViewById(R.id.info);
+        title = $(v, R.id.name);
+        summary = $(v, R.id.summary);
+        info = $(v, R.id.info);
     }
 
     public void populate(HomeCard card) {
@@ -40,9 +47,9 @@ public class NewsItemViewHolder extends AbstractViewHolder{
                 DateUtils.relativeDateString(newsItem.getDate(), itemView.getContext()),
                 newsItem.getAssociation().getName());
         info.setText(infoText);
-        if(!newsItem.isHighlighted()){
+        if (!newsItem.isHighlighted()) {
             title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.star, 0);
-        }else{
+        } else {
             title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
 
@@ -52,14 +59,9 @@ public class NewsItemViewHolder extends AbstractViewHolder{
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(summary.getVisibility() != View.VISIBLE) {
-                    if (summary.getText().length() == 0) {
-                        summary.setText(Html.fromHtml(newsItem.getContent()));
-                    }
-                    summary.setVisibility(View.VISIBLE);
-                } else{
-                    summary.setVisibility(View.GONE);
-                }
+                Intent intent = new Intent(itemView.getContext(), NewsArticleActivity.class);
+                intent.putExtra(PARCEL_NAME, (Parcelable) newsItem);
+                itemView.getContext().startActivity(intent);
             }
         });
     }
