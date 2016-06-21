@@ -7,12 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.common.RestoWebsiteActivity;
-import be.ugent.zeus.hydra.recyclerview.adapters.resto.SandwichAdapter;
-import be.ugent.zeus.hydra.utils.DividerItemDecoration;
 import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.models.resto.Sandwich;
 import be.ugent.zeus.hydra.models.resto.Sandwiches;
+import be.ugent.zeus.hydra.recyclerview.adapters.resto.SandwichAdapter;
 import be.ugent.zeus.hydra.requests.RestoSandwichesRequest;
+import be.ugent.zeus.hydra.utils.DividerItemDecoration;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
 import java.util.Collections;

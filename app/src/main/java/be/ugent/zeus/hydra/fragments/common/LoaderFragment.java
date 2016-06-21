@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.loader.CachedAsyncTaskLoader;
 import be.ugent.zeus.hydra.loader.ErrorLoaderCallback;
@@ -110,13 +109,6 @@ public abstract class LoaderFragment<D extends Serializable> extends Fragment im
         if(autoStart) {
             startLoader();
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        HydraApplication app = (HydraApplication) getActivity().getApplication();
-        app.sendScreenName("Fragment: " + getClass().getSimpleName());
     }
 
     /**

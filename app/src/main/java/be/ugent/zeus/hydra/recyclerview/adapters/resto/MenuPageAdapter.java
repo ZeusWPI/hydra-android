@@ -39,6 +39,10 @@ public class MenuPageAdapter extends FragmentStatePagerAdapter {
         return data.size();
     }
 
+    public String getTabDate(int position) {
+        return data.get(position).getDate().toString();
+    }
+
     /**
      * The position of a tab is the number of days from today the menu is for.
      * This gets the date from the activity, because at this point, it is not guaranteed

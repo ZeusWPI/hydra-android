@@ -41,4 +41,6 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return 7;
     }
+
+    public static final String[] names = {"home", "schamper", "resto", "activities", "news", "info", "minerva"};
 }

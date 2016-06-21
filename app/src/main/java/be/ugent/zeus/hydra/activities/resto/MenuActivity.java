@@ -6,13 +6,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.common.RestoWebsiteActivity;
-import be.ugent.zeus.hydra.recyclerview.adapters.resto.MenuPageAdapter;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
+import be.ugent.zeus.hydra.recyclerview.adapters.resto.MenuPageAdapter;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
 
 import java.util.Collections;
@@ -41,6 +42,14 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
         // Set up the ViewPager with the sections adapter.
         mViewPager = $(R.id.resto_tabs_content);
         mViewPager.setAdapter(pageAdapter);
+
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                HydraApplication app = (HydraApplication) MenuActivity.this.getApplication();
+                app.sendScreenName("Menu tab: " + pageAdapter.getTabDate(position));
+            }
+        });
 
         TabLayout tabLayout = $(R.id.resto_tabs_slider);
         tabLayout.setupWithViewPager(mViewPager);

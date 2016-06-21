@@ -7,11 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.common.RestoActivity;
-import be.ugent.zeus.hydra.recyclerview.adapters.resto.MetaAdapter;
-import be.ugent.zeus.hydra.utils.DividerItemDecoration;
 import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.models.resto.RestoMeta;
+import be.ugent.zeus.hydra.recyclerview.adapters.resto.MetaAdapter;
 import be.ugent.zeus.hydra.requests.RestoMetaRequest;
+import be.ugent.zeus.hydra.utils.DividerItemDecoration;
 
 /**
  * Activity that shows a list of sandwiches.
