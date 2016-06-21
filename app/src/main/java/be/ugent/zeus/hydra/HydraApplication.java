@@ -11,10 +11,13 @@ import net.danlew.android.joda.JodaTimeAndroid;
 
 import java.util.Locale;
 
+import be.ugent.android.sdk.UGentApplication;
+import be.ugent.android.sdk.oauth.OAuthConfiguration;
+
 /**
  * Created by feliciaan on 06/04/16.
  */
-public class HydraApplication extends Application {
+public class HydraApplication extends UGentApplication {
     private Tracker tracker;
 
     public static final Locale LOCALE = new Locale("nl");
@@ -30,6 +33,15 @@ public class HydraApplication extends Application {
         Configuration config = new Configuration();
         config.locale = LOCALE;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+    }
+
+    @Override
+    public OAuthConfiguration getOAuthConfiguration() {
+        return new OAuthConfiguration.Builder()
+                .apiKey(BuildConfig.OAUTH_ID)
+                .apiSecret(BuildConfig.OAUTH_SECRET)
+                .callbackUri("https://zeus.ugent.be/hydra/oauth/callback")
+                .build();
     }
 
     /**

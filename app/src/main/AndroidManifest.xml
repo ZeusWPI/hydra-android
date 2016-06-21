@@ -9,7 +9,7 @@
     <application
         android:name=".HydraApplication"
         android:allowBackup="true"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:logo="@drawable/logo"
         android:theme="@style/HydraTheme">
@@ -28,6 +28,7 @@
             android:name=".activities.settings.SettingsActivity"
             android:label="@string/action_settings"
             android:parentActivityName=".activities.Hydra">
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -37,19 +38,29 @@
         <service
             android:name="com.octo.android.robospice.GsonSpringAndroidSpiceService"
             android:exported="false" />
+        <service
+            android:name="be.ugent.android.sdk.oauth.UGentSpiceService"
+            android:exported="false" />
 
         <activity
             android:name=".activities.ActivityDetail"
-            android:label="@string/title_activity_association_activity_detail">
-        </activity>
-        <receiver android:name=".notifications.DailyNotificationReceiver"/>
+            android:label="@string/title_activity_association_activity_detail"></activity>
+
+        <receiver android:name=".notifications.DailyNotificationReceiver" />
 
         <activity
             android:name=".activities.HydraWebViewActivity"
             android:label="@string/title_activity_hydra_web_view" />
         <activity
             android:name=".activities.InfoSubItemActivity"
-            android:label="@string/title_activity_info_sub_item"/>
+            android:label="@string/title_activity_info_sub_item" />
+        <activity
+            android:name=".activities.AuthenticationActivity"
+            android:label="@string/title_activity_authentication"></activity>
+
+        <meta-data
+            android:name="roboguice.modules"
+            android:value="be.ugent.android.sdk.UGentModule" />
     </application>
 
 </manifest>

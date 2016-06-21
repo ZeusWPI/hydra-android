@@ -23,26 +23,6 @@ public class Hydra extends AppCompatActivity {
 
     protected TabLayout tabLayout;
     protected ViewPager viewPager;
-    //------------------------------------------------------------------------
-    //this block can be pushed up into a common base class for all activities
-    //------------------------------------------------------------------------
-
-    //if you use a pre-set service,
-    //use JacksonSpringAndroidSpiceService.class instead of JsonSpiceService.class
-    protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        spiceManager.start(this);
-    }
-
-    @Override
-    protected void onStop() {
-        spiceManager.shouldStop();
-        super.onStop();
-    }
 
     protected void onResume() {
         super.onResume();
@@ -50,10 +30,6 @@ public class Hydra extends AppCompatActivity {
         HydraApplication happ = (HydraApplication) getApplication();
         happ.sendScreenName("settings");
     }
-
-    //------------------------------------------------------------------------
-    //---------end of block that can fit in a common base class for all activities
-    //------------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

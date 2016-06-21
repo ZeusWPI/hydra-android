@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.ActivityDetail;
+import be.ugent.zeus.hydra.activities.AuthenticationActivity;
 
 /**
  * @author Rien Maertens

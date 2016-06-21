@@ -38,6 +38,13 @@ android {
             // Set this to false on release versions!
             debuggable true
         }
+
+        applicationVariants.all { variant ->
+            def Properties props = new Properties()
+            props.load(new FileInputStream(new File('secrets.properties')))
+            variant.buildConfigField "String", "OAUTH_ID", "\""+props['OAUTH_ID']+"\""
+            variant.buildConfigField "String", "OAUTH_SECRET", "\""+props['OAUTH_SECRET']+"\""
+        }
     }
     productFlavors {
     }
@@ -52,7 +59,7 @@ dependencies {
     compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
     compile 'com.google.code.gson:gson:2.4'
-    compile 'org.roboguice:roboguice:3.0'
+    compile 'org.roboguice:roboguice:3.+'
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     compile 'net.danlew:android.joda:2.9.3'
     compile 'com.android.support:support-v4:23.2.0'
@@ -61,4 +68,6 @@ dependencies {
     compile 'com.android.support:preference-v7:23.1.0'
     compile 'com.google.android.gms:play-services-analytics:8.3.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1'
+    provided 'org.roboguice:roboblender:3.+'
 }

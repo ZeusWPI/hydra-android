@@ -8,6 +8,7 @@ import be.ugent.zeus.hydra.fragments.ActivitiesFragment;
 import be.ugent.zeus.hydra.fragments.ComingSoonFragment;
 import be.ugent.zeus.hydra.fragments.HomeFragment;
 import be.ugent.zeus.hydra.fragments.InfoFragment;
+import be.ugent.zeus.hydra.fragments.MinervaFragment;
 import be.ugent.zeus.hydra.fragments.NewsFragment;
 import be.ugent.zeus.hydra.fragments.RestoFragment;
 import be.ugent.zeus.hydra.fragments.SchamperFragment;
@@ -35,7 +36,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
             case 4:
                 return new InfoFragment();
             case 5:
-                return new NewsFragment();
+                return new MinervaFragment();
             default:
                 return new ComingSoonFragment();
         }

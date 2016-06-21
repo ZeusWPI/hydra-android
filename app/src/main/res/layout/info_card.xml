@@ -24,7 +24,7 @@
 
             <ImageView
                 android:id="@+id/infoImage"
-                android:src="@drawable/icon"
+                android:src="@drawable/app_icon"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"></ImageView>
 

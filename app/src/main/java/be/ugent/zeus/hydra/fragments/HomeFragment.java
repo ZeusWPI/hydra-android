@@ -32,6 +32,7 @@ import be.ugent.zeus.hydra.models.cards.NewsItemCard;
 import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
 import be.ugent.zeus.hydra.models.cards.SchamperCard;
 import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
+import be.ugent.zeus.hydra.models.minerva.Hello;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoMenuList;
 import be.ugent.zeus.hydra.models.schamper.Article;
@@ -39,6 +40,7 @@ import be.ugent.zeus.hydra.models.schamper.Articles;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.requests.ActivitiesRequest;
+import be.ugent.zeus.hydra.requests.HelloMinervaRequest;
 import be.ugent.zeus.hydra.requests.NewsRequest;
 import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
 import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
@@ -95,6 +97,7 @@ public class HomeFragment extends AbstractFragment {
         performSpecialEventRequest();
         performSchamperRequest();
         performNewsItemRequest();
+        performHelloMinervaRequest();
     }
 
     private void loadComplete() {
@@ -224,6 +227,21 @@ public class HomeFragment extends AbstractFragment {
 
                 adapter.updateCardItems(newsItemCardList, HomeCardAdapter.HomeType.NEWSITEM);
                 loadComplete();
+            }
+        });
+    }
+
+    private void performHelloMinervaRequest() {
+        HelloMinervaRequest helloMinervaRequest = new HelloMinervaRequest(getContext().getApplicationContext());
+        helloMinervaRequest.execute(minervaSpiceManager, new RequestListener<Hello>() {
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+                System.out.println("Minerva error" + spiceException.getLocalizedMessage());
+            }
+
+            @Override
+            public void onRequestSuccess(Hello hello) {
+                System.out.println("Minerva success:\t" + hello.getHello());
             }
         });
     }
