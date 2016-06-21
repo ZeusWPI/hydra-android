@@ -116,6 +116,10 @@ public class ActivityDetailActivity extends ToolbarActivity {
 
         HydraApplication app = (HydraApplication) getApplication();
         Tracker t = app.getDefaultTracker();
-        t.setScreenName("Activity > " + associationActivity.getTitle());
+    }
+
+    @Override
+    protected void sendScreen(HydraApplication application) {
+        application.sendScreenName("Activity > " + associationActivity.getTitle());
     }
 }

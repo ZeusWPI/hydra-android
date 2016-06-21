@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
@@ -19,6 +18,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
         }
+        debug {
+            // Set this to false on release versions!
+            debuggable true
+        }
     }
     packagingOptions {
         exclude 'META-INF/ASL2.0'
@@ -34,14 +37,6 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/notice.txt'
     }
-    buildTypes {
-        debug {
-            // Set this to false on release versions!
-            debuggable true
-        }
-    }
-    productFlavors {
-    }
 }
 
 dependencies {
@@ -56,9 +51,11 @@ dependencies {
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
-    compile 'net.danlew:android.joda:2.9.3'
-    compile 'com.google.android.gms:play-services-analytics:8.3.0'
+    compile 'net.danlew:android.joda:2.9.3.1'
+    compile 'com.google.android.gms:play-services-analytics:9.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.kyosherlock:expandablelayout:master-SNAPSHOT'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.1@aar'
 }
+
+apply plugin: 'com.google.gms.google-services'

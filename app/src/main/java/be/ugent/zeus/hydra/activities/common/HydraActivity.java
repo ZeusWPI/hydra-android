@@ -4,6 +4,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import be.ugent.zeus.hydra.HydraApplication;
 
 /**
  * Abstract class with common methods.
@@ -24,5 +25,15 @@ public abstract class HydraActivity extends AppCompatActivity {
         T v = (T) findViewById(id);
         assert v != null;
         return v;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sendScreen((HydraApplication) getApplication());
+    }
+
+    protected void sendScreen(HydraApplication application) {
+        application.sendScreenName(this.getClass().getSimpleName());
     }
 }

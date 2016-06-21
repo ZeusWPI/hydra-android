@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.recyclerview.adapters.resto;
 
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;

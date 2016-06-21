@@ -6,6 +6,7 @@ import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
+import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.AppCompatPreferenceActivity;
 import be.ugent.zeus.hydra.fragments.settings.ActivityFragment;
@@ -74,5 +75,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     public void testNotification(View view){
         new NotificationScheduler(this).testNotification();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        HydraApplication app = (HydraApplication) getApplication();
+        app.sendScreenName("Settings");
     }
 }
