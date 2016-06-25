@@ -1,7 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	tools:context=".activities.resto.MenuActivity">
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
 		android:id="@+id/resto_refresh"
 		android:orderInCategory="50"

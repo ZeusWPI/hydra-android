@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.0"
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
-        minSdkVersion 15
+        minSdkVersion 14
         targetSdkVersion 24
         versionCode 202
         versionName "2.0"
@@ -55,7 +55,7 @@ dependencies {
     compile 'net.danlew:android.joda:2.9.3.1'
     compile 'com.google.android.gms:play-services-analytics:9.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.kyosherlock:expandablelayout:master-SNAPSHOT'
+    compile 'com.github.niknetniko:expandablelayout:master-SNAPSHOT'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.1@aar'
 }
 

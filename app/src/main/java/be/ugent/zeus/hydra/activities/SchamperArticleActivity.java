@@ -18,9 +18,8 @@ public class SchamperArticleActivity extends ToolbarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        setContentView(R.layout.activity_schamper_article);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_schamper_article);
 
         Intent intent = getIntent();
         Article article = intent.getParcelableExtra("article");

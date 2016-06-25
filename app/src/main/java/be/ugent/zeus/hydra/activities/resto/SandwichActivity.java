@@ -32,8 +32,8 @@ public class SandwichActivity extends RestoWebsiteActivity<Sandwiches> {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_resto_sandwich);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_resto_sandwich);
 
         recyclerView = $(R.id.resto_sandwich_recycler);
 

@@ -7,20 +7,17 @@
     <style name="Hydra.Main" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/ugent_blue_medium</item>
         <item name="colorPrimaryDark">@color/ugent_blue_dark</item>
+        <item name="android:windowBackground">@color/ugent_white</item>
         <item name="android:colorBackground">@color/ugent_white</item>
         <item name="colorAccent">@color/ugent_yellow_dark</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-    </style>
-
-    <!-- Main theme with coloured text -->
-    <style name="Hydra.Main.TextColor" parent="Hydra.Main">
         <item name="android:textColorPrimary">@color/ugent_blue_dark</item>
         <item name="android:textColorSecondary">@color/ugent_blue_dark</item>
         <item name="android:textColorTertiary">@color/ugent_blue_medium</item>
     </style>
 
     <!-- Same as the main theme, except there is no action bar -->
-    <style name="Hydra.Main.NoActionBar" parent="Hydra.Main.TextColor">
+    <style name="Hydra.Main.NoActionBar" parent="Hydra.Main">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

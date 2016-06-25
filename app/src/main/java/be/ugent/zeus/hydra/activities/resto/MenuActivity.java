@@ -32,8 +32,8 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_resto);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_resto);
         
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

@@ -35,9 +35,8 @@ public class ActivityDetailActivity extends ToolbarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        setContentView(R.layout.activity_event_detail);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_event_detail);
 
         Intent intent = getIntent();
         associationActivity = intent.getParcelableExtra("associationActivity");

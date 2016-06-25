@@ -33,8 +33,8 @@ public class MetaActivity extends RestoActivity<RestoMeta> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_resto_meta);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_resto_meta);
 
         recyclerView = $(R.id.resto_meta_recycler);
 

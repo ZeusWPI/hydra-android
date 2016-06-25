@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.activities.common;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.Loader;
 import android.util.Log;
@@ -31,12 +31,16 @@ public abstract class LoaderToolbarActivity<D extends Serializable> extends Tool
     //The progress bar. Is used if not null.
     protected ProgressBar progressBar;
 
+    /**
+     * {@inheritDoc}
+     *
+     * Also sets the progress bar.
+     */
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Set the progress bar.
+    public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
         progressBar = $(R.id.progress_bar);
+
     }
 
     /**

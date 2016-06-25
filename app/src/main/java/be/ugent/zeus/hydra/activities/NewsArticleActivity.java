@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
@@ -19,9 +20,8 @@ public class NewsArticleActivity extends ToolbarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        setContentView(R.layout.activity_news_article);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_news_article);
 
         Intent intent = getIntent();
         NewsItem article = intent.getParcelableExtra(NewsItemViewHolder.PARCEL_NAME);
@@ -50,7 +50,7 @@ public class NewsArticleActivity extends ToolbarActivity {
         }
 
         if(article.isHighlighted()) {
-            title.setCompoundDrawables(null, null, getDrawable(R.drawable.star), null);
+            title.setCompoundDrawables(null, null, ContextCompat.getDrawable(this, R.drawable.star), null);
         }
     }
 

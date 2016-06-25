@@ -16,9 +16,8 @@ public class InfoSubItemActivity extends ToolbarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //setTheme(R.style.HydraActionBar);
-        setContentView(R.layout.activity_info_sub_item);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_info_sub_item);
         // Display the fragment as the main content.
         InfoFragment fragment = new InfoFragment();
 
