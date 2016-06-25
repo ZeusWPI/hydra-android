@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -11,6 +12,8 @@ import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.PicassoImageGetter;
+
+import static android.text.Html.FROM_HTML_MODE_LEGACY;
 
 public class SchamperArticleActivity extends ToolbarActivity {
 
@@ -38,7 +41,7 @@ public class SchamperArticleActivity extends ToolbarActivity {
         }
 
         if(article.getText() != null) {
-            text.setText(Html.fromHtml(article.getText(), new PicassoImageGetter(text, getResources(), this), null));
+            setText(text, article.getText());
             text.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
@@ -51,5 +54,15 @@ public class SchamperArticleActivity extends ToolbarActivity {
     @Override
     protected void sendScreen(HydraApplication application) {
         application.sendScreenName("Schamper article > " + title);
+    }
+
+    private void setText(TextView text, String string) {
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            text.setText(Html.fromHtml(string, FROM_HTML_MODE_LEGACY, new PicassoImageGetter(text, getResources(), this), null));
+        } else {
+            //noinspection deprecation
+            text.setText(Html.fromHtml(string, new PicassoImageGetter(text, getResources(), this), null));
+        }
     }
 }
