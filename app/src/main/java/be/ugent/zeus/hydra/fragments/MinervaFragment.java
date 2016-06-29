@@ -16,10 +16,13 @@ import be.ugent.android.sdk.oauth.json.GrantInformation;
 import be.ugent.android.sdk.oauth.request.GrantInformationRequest;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.AuthenticationActivity;
+import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.Courses;
+import be.ugent.zeus.hydra.models.minerva.WhatsNew;
 import be.ugent.zeus.hydra.requests.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.UserInfoRequest;
+import be.ugent.zeus.hydra.requests.WhatsNewRequest;
 import roboguice.inject.InjectView;
 
 /**
@@ -79,8 +82,23 @@ public class MinervaFragment extends AbstractFragment {
             @Override
             public void onRequestSuccess(Courses courses) {
                 System.out.println("Minerva Courses: ");
-                for (Course course: courses.getCourses()) {
+                for (final Course course: courses.getCourses()) {
                     System.out.println("\t" + course.getTitle() + "\t" + course.getTutorName());
+                    WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, getContext().getApplicationContext());
+                    whatsNewRequest.execute(minervaSpiceManager, new RequestListener<WhatsNew>() {
+                        @Override
+                        public void onRequestFailure(SpiceException spiceException) {
+                            System.out.println("Minerva courses whatsnew execption " + spiceException.getLocalizedMessage());
+                        }
+
+                        @Override
+                        public void onRequestSuccess(WhatsNew whatsNew) {
+                            System.out.println("WhatsNew for " + course.getTitle());
+                            for (Announcement announcement: whatsNew.getAnnouncements()) {
+                                System.out.println("Announcement: " + announcement.getTitle() + "   " + announcement.getLecturer());
+                            }
+                        }
+                    });
                 }
             }
         });

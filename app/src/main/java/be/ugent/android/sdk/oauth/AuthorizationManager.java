@@ -200,7 +200,10 @@ public class AuthorizationManager {
      * @return The current access token.
      */
     public String getAccessToken() {
-        return currentToken.getAccessToken();
+        if (currentToken != null) {
+            return currentToken.getAccessToken();
+        }
+        return null;
     }
 
     /**
