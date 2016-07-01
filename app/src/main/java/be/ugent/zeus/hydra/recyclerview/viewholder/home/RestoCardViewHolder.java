@@ -1,10 +1,7 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 
-import android.graphics.Color;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.Hydra;
@@ -21,11 +18,12 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class RestoCardViewHolder extends AbstractViewHolder {
 
-    private TextView title;
+    private TextView cardDescription;
+    private boolean added = false;
 
     public RestoCardViewHolder(View v) {
         super(v);
-        title = $(v, R.id.category_text);
+        cardDescription = $(v, R.id.card_description);
     }
 
     @Override
@@ -37,7 +35,8 @@ public class RestoCardViewHolder extends AbstractViewHolder {
         final RestoMenuCard menuCard = (RestoMenuCard) card;
         final RestoMenu menu = menuCard.getRestoMenu();
 
-        title.setText(DateUtils.getFriendlyDate(menu.getDate()));
+        String text = itemView.getResources().getString(R.string.resto_menu_title);
+        cardDescription.setText(String.format(text, DateUtils.getFriendlyDate(menu.getDate())));
 
         if (menu.isOpen()) {
             populateOpen(menu);
@@ -52,7 +51,7 @@ public class RestoCardViewHolder extends AbstractViewHolder {
                 //TODO: open resto fragment
                 if (v.getContext() instanceof Hydra) {
                     Hydra activity = (Hydra) v.getContext();
-                    activity.changeFragment(2); // TODO: replace this by more robust way!
+                    activity.changeFragment(2);
                 }
             }
         });
@@ -60,27 +59,25 @@ public class RestoCardViewHolder extends AbstractViewHolder {
 
     private void populateOpen(RestoMenu menu) {
         LinearLayout container = $(itemView, R.id.home_cards_resto_container);
-        container.removeAllViews();
-        container.addView(title);
-        container.addView(MenuFragment.makeTableDishes(container, menu.getMainDishes()));
+        if(!added) {
+            container.addView(MenuFragment.makeTableDishes(container, menu.getMainDishes()));
+            added = true;
+        }
+
     }
 
     private void populateClosed() {
         LinearLayout container = $(itemView, R.id.home_cards_resto_container);
-        container.removeAllViews();
-
-        LinearLayout.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
         TextView textView = new TextView(itemView.getContext());
-        textView.setPadding(25, 0, 0, 0);
         textView.setLayoutParams(lp);
-        textView.setText("sorry, gesloten");
-        textView.setTextColor(Color.parseColor("#122b44"));
-        textView.setTextSize(25);
-        textView.setGravity(Gravity.CENTER);
+        textView.setText("De resto is niet open op deze dag.");
 
-        container.removeAllViews();
-        container.addView(title);
-        container.addView(textView);
+        if(!added) {
+            container.addView(textView);
+            added = true;
+        }
+
     }
 }

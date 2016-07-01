@@ -6,4 +6,31 @@
 
     <dimen name="content_spacing">8dp</dimen>
 
+    <!-- Material design dimensions for Cards -->
+    <dimen name="card_margin">8dp</dimen>
+    <dimen name="card_spacing">8dp</dimen>
+
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_elevation_raised">8dp</dimen>
+
+    <dimen name="card_actions_padding">8dp</dimen>
+
+    <dimen name="card_title_size_large">24sp</dimen>
+    <dimen name="card_title_size_small">14sp</dimen>
+    <dimen name="card_title_size_subtitle">14sp</dimen>
+
+    <dimen name="card_title_padding_vertical">16dp</dimen>
+
+    <dimen name="card_title_padding_top">16dp</dimen>
+    <dimen name="card_title_padding_top_large_title">24dp</dimen>
+    <dimen name="card_title_padding_bottom">16dp</dimen>
+    <dimen name="card_title_padding_bottom_no_content">24dp</dimen>
+
+    <dimen name="card_text_size">14sp</dimen>
+
+    <dimen name="card_text_padding_vertical">16dp</dimen>
+    <dimen name="card_text_padding_top">16dp</dimen>
+    <dimen name="card_text_padding_bottom">16dp</dimen>
+    <dimen name="card_text_padding_bottom_no_content">24dp</dimen>
+
 </resources>

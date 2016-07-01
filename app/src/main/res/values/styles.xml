@@ -12,8 +12,9 @@
         <item name="colorAccent">@color/ugent_yellow_dark</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="android:textColorPrimary">@color/ugent_blue_dark</item>
-        <item name="android:textColorSecondary">@color/ugent_blue_dark</item>
+        <item name="android:textColorSecondary">@color/ugent_blue_medium</item>
         <item name="android:textColorTertiary">@color/ugent_blue_medium</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <!-- Same as the main theme, except there is no action bar -->

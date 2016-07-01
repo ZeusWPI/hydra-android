@@ -64,7 +64,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
             case SPECIAL_EVENT:
                 return new SpecialEventCardViewHolder(getViewForLayout(R.layout.home_card_special, parent));
             case SCHAMPER:
-                return new SchamperViewHolder(getViewForLayout(R.layout.card_schamper, parent));
+                return new SchamperViewHolder(getViewForLayout(R.layout.home_card_schamper, parent));
             case NEWS_ITEM:
                 return new NewsItemViewHolder(getViewForLayout(R.layout.home_card_news_item, parent));
         }

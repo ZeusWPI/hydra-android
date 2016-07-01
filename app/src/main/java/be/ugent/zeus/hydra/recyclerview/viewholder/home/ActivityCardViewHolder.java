@@ -24,6 +24,7 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
     private TextView title;
     private TextView association;
     private ImageView imageView;
+    private TextView cardDescription;
 
     public ActivityCardViewHolder(View v) {
         super(v);
@@ -31,6 +32,8 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
         association = $(v, R.id.association);
         start = $(v, R.id.starttime);
         imageView = $(v, R.id.imageView);
+        cardDescription = $(v, R.id.card_description);
+
     }
 
     @Override
@@ -42,10 +45,11 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
         final AssociationActivityCard activityCard = (AssociationActivityCard) card;
         final Activity activity = activityCard.getActivity();
 
-        //TODO: make pretty
         title.setText(activity.getTitle());
-        association.setText(activity.getAssociation().getName());
+        association.setText(activity.getLocation());
         start.setText(DateUtils.relativeDateString(activity.getStartDate(), itemView.getContext()));
+        String description = itemView.getResources().getString(R.string.home_card_description);
+        cardDescription.setText(String.format(description, activity.getAssociation().getDisplayName()));
 
         Picasso.with(itemView.getContext()).load(activity.getAssociation().getImageLink()).into(imageView);
 

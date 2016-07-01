@@ -31,6 +31,7 @@
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
                 android:fitsSystemWindows="true"
+                android:transitionName="hero"
                 />
 
             <android.support.v7.widget.Toolbar

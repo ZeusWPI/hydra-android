@@ -11,8 +11,13 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/home_cards_view"
             android:scrollbars="vertical"
+            android:clipToPadding="false"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent" />
+            android:layout_width="match_parent"
+            android:scrollbarStyle="outsideOverlay"
+            android:paddingLeft="@dimen/card_margin"
+            android:paddingRight="@dimen/card_margin"
+            android:paddingTop="@dimen/card_spacing" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.HydraApplication;
@@ -63,6 +64,18 @@ public class SchamperArticleActivity extends ToolbarActivity {
             title.setText(article.getTitle());
             this.title = article.getTitle();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            supportFinishAfterTransition();
+           // NavUtils.navigateUpFromSameTask(this);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
