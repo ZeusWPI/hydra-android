@@ -29,4 +29,18 @@
     </string-array>
 
     <string-array name="empty_array"/>
+
+    <string-array name="card_types_nr">
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="card_types_names">
+        <item>Restomenu</item>
+        <item>Activiteiten</item>
+        <item>Schamperartikel</item>
+        <item>Nieuwsitem</item>
+    </string-array>
 </resources>

@@ -28,22 +28,25 @@ public class MenuFragment extends Fragment {
      * The fragment argument representing the section number for this fragment.
      */
     private static final String ARG_DATA_MENU = "resto_menu";
+    private static final String ARG_PADDING = "padding";
 
     /**
      * The fragment argument representing the section number for this fragment.
      */
     private RestoMenu data;
+    private boolean padding;
 
     public MenuFragment() {}
 
-    /**
-     * Standalone usage.
-     * @param menu The menu that should be displayed.
-     */
     public static MenuFragment newInstance(RestoMenu menu) {
+        return newInstance(menu, false);
+    }
+
+    public static MenuFragment newInstance(RestoMenu menu, boolean padding) {
         MenuFragment fragment = new MenuFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_DATA_MENU, menu);
+        args.putBoolean(ARG_PADDING, padding);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,11 +58,18 @@ public class MenuFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         data = getArguments().getParcelable(ARG_DATA_MENU);
+        padding = getArguments().getBoolean(ARG_PADDING);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
+        View rootView;
+        if(padding) {
+            rootView = inflater.inflate(R.layout.fragment_menu_padding, container, false);
+        } else {
+            rootView = inflater.inflate(R.layout.fragment_menu, container, false);
+        }
+
         convert(rootView);
         return rootView;
     }

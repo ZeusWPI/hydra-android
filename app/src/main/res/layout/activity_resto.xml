@@ -40,7 +40,9 @@
             android:id="@+id/resto_tabs_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:animateLayoutChanges="true" />
+            android:animateLayoutChanges="true"
+            android:paddingTop="@dimen/content_spacing"
+            />
 
         <!-- The progress bar while loading the menu -->
         <include layout="@layout/x_progress_bar" />

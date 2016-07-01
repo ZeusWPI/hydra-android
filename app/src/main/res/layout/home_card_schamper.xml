@@ -26,14 +26,22 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_tabs_schamper"
-                android:tint="@color/ugent_grey_dark"/>
+                android:tint="@color/ugent_blue_lighter"/>
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textColor="@color/ugent_grey_dark"
+                android:textColor="@color/ugent_blue_lighter"
                 android:paddingLeft="16dp"
                 android:text="@string/title_activity_schamper" />
+
+            <ImageView
+                android:id="@+id/card_description_popup"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:tint="@color/ugent_blue_lighter"
+                android:src="@drawable/ic_more_vert_24dp" />
 
         </LinearLayout>
 

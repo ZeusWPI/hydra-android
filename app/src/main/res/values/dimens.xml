@@ -3,8 +3,13 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-
     <dimen name="content_spacing">8dp</dimen>
+
+    <!-- Material design normal keylines -->
+    <dimen name="vertical_padding">16dp</dimen>
+
+    <!-- Material design tabs -->
+    <dimen name="tabs_icon_size">24dp</dimen>
 
     <!-- Material design dimensions for Cards -->
     <dimen name="card_margin">8dp</dimen>

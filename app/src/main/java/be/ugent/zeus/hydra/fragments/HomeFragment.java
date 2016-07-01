@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.loader.LoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.loader.cache.Request;
@@ -29,22 +30,27 @@ import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.models.schamper.Articles;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
+import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.requests.*;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
+ * The fragment for the home tab.
+ *
+ * The user has the possibility to decide to hide certain card types. We still request the data, load the Loaders, etc.
+ * The reason for this decision is that the user can change the preferences while the fragment is active, and this is
+ * annoying for the Loaders. Also, the requested data is not lost; it is cached for the other tabs.
+ *
  * @author Niko Strijbol
  * @author silox
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final boolean DEVELOPMENT = true;
 
@@ -61,6 +67,7 @@ public class HomeFragment extends Fragment {
     private final NewsCallback newsCallback = new NewsCallback();
 
     private boolean shouldRefresh = false;
+    private boolean preferencesUpdated = false;
 
     private HomeCardAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -79,7 +86,7 @@ public class HomeFragment extends Fragment {
         swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
         progressBar = $(view, R.id.progress_bar);
 
-        adapter = new HomeCardAdapter();
+        adapter = new HomeCardAdapter(PreferenceManager.getDefaultSharedPreferences(getActivity()));
         recyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -93,6 +100,33 @@ public class HomeFragment extends Fragment {
         });
 
         startLoaders();
+
+        //Register this class in the settings.
+        PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
+    }
+
+    private boolean isTypeActive(@HomeCard.CardType int cardType) {
+        Set<String> data = PreferenceManager.getDefaultSharedPreferences(getActivity()).getStringSet("pref_disabled_cards", Collections.<String>emptySet());
+        return !data.contains(String.valueOf(cardType));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(preferencesUpdated) {
+            restartLoaders();
+            preferencesUpdated = false;
+        }
+    }
+
+    /**
+     * If the fragment goes to pauze, we don't need to restart the loaders.
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+        preferencesUpdated = false;
     }
 
     /**
@@ -144,6 +178,13 @@ public class HomeFragment extends Fragment {
                 .show();
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        if(s.equals("pref_disabled_cards")) {
+            preferencesUpdated = true;
+        }
+    }
+
     private abstract class AbstractLoaderCallback<D extends Serializable> extends LoaderCallback<D> {
         @Override
         public Loader<ThrowableEither<D>> onCreateLoader(int id, Bundle args) {
@@ -160,6 +201,11 @@ public class HomeFragment extends Fragment {
          */
         @Override
         public void receiveData(@NonNull RestoOverview data) {
+
+            if(!isTypeActive(HomeCard.CardType.RESTO)) {
+                return;
+            }
+
             List<HomeCard> menuCardList = new ArrayList<>();
             for (RestoMenu menu : data) {
                 if (new DateTime(menu.getDate()).withTimeAtStartOfDay().isAfterNow()) {
@@ -177,6 +223,9 @@ public class HomeFragment extends Fragment {
          */
         @Override
         public void receiveError(@NonNull Throwable error) {
+            if(!isTypeActive(HomeCard.CardType.RESTO)) {
+                return;
+            }
             showFailureSnackbar("restomenu");
             loadComplete();
         }
@@ -204,6 +253,9 @@ public class HomeFragment extends Fragment {
          */
         @Override
         public void receiveData(@NonNull Activities data) {
+            if(!isTypeActive(HomeCard.CardType.ACTIVITY)) {
+                return;
+            }
             List<Activity> filteredAssociationActivities = Activities.getPreferredActivities(data, getContext());
             Date date = new Date();
             List<HomeCard> list = new ArrayList<>();
@@ -224,6 +276,9 @@ public class HomeFragment extends Fragment {
          */
         @Override
         public void receiveError(@NonNull Throwable error) {
+            if(!isTypeActive(HomeCard.CardType.ACTIVITY)) {
+                return;
+            }
             showFailureSnackbar("activiteiten");
             loadComplete();
         }
@@ -237,6 +292,9 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * Note: you cannot hide special event.
+     */
     private class SpecialEventCallback extends AbstractLoaderCallback<SpecialEventWrapper> {
 
         /**
@@ -286,6 +344,9 @@ public class HomeFragment extends Fragment {
          */
         @Override
         public void receiveData(@NonNull Articles data) {
+            if(!isTypeActive(HomeCard.CardType.SCHAMPER)) {
+                return;
+            }
             List<HomeCard> schamperCardList = new ArrayList<>();
             for (Article article : data) {
                 schamperCardList.add(new SchamperCard(article));
@@ -301,6 +362,9 @@ public class HomeFragment extends Fragment {
          */
         @Override
         public void receiveError(@NonNull Throwable error) {
+            if(!isTypeActive(HomeCard.CardType.SCHAMPER)) {
+                return;
+            }
             showFailureSnackbar("schamper");
             loadComplete();
         }
@@ -323,6 +387,9 @@ public class HomeFragment extends Fragment {
          */
         @Override
         public void receiveData(@NonNull News data) {
+            if(!isTypeActive(HomeCard.CardType.NEWS_ITEM)) {
+                return;
+            }
             List<HomeCard> newsItemCardList = new ArrayList<>();
             DateTimeZone timeZone = DateTimeZone.forID( "Europe/Brussels" );
             DateTime now = DateTime.now(timeZone);
@@ -345,6 +412,9 @@ public class HomeFragment extends Fragment {
          */
         @Override
         public void receiveError(@NonNull Throwable error) {
+            if(!isTypeActive(HomeCard.CardType.NEWS_ITEM)) {
+                return;
+            }
             showFailureSnackbar("news items");
             loadComplete();
         }

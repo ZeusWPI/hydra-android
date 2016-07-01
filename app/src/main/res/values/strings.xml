@@ -83,4 +83,5 @@
     <string name="resto_menu_title">Menu voor %s</string>
     <string name="home_card_description">Activiteit door %s</string>
     <string name="by_author">Door %s</string>
+    <string name="pref_home_title">Startscherm</string>
 </resources>

@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.activities;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +11,7 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.AppCompatPreferenceActivity;
 import be.ugent.zeus.hydra.fragments.settings.ActivityFragment;
+import be.ugent.zeus.hydra.fragments.settings.HomeFragment;
 import be.ugent.zeus.hydra.fragments.settings.NotificationFragment;
 import be.ugent.zeus.hydra.notifications.NotificationScheduler;
 
@@ -42,7 +44,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || ActivityFragment.class.getName().equals(fragmentName)
-                || NotificationFragment.class.getName().equals(fragmentName);
+                || NotificationFragment.class.getName().equals(fragmentName)
+                || HomeFragment.class.getName().equals(fragmentName);
     }
 
     /**
@@ -61,8 +64,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             //This recreates the main activity instead of resuming. Why?
-            //NavUtils.navigateUpFromSameTask(this);
-            finish();
+            NavUtils.navigateUpFromSameTask(this);
             return true;
         }
         return super.onMenuItemSelected(featureId, item);
@@ -70,7 +72,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @Override
     public boolean onIsMultiPane() {
-        return (this.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+        return this.getResources().getConfiguration().isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE);
     }
 
     public void testNotification(View view){
