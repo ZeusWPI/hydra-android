@@ -91,11 +91,14 @@ public class RestoCardViewHolder extends AbstractViewHolder {
 
     private void populateOpen(RestoMenu menu) {
         LinearLayout container = $(itemView, R.id.home_cards_resto_container);
-        if(!added) {
-            container.addView(MenuFragment.makeTableDishes(container, menu.getMainDishes()));
-            added = true;
+        if(added) {
+            //The resto stuff is the second child
+            //TODO: there must be a better way of doing this, right?
+            container.removeViewAt(1);
         }
 
+        container.addView(MenuFragment.makeTableDishes(container, menu.getMainDishes()));
+        added = true;
     }
 
     private void populateClosed() {
@@ -106,10 +109,13 @@ public class RestoCardViewHolder extends AbstractViewHolder {
         textView.setLayoutParams(lp);
         textView.setText("De resto is niet open op deze dag.");
 
-        if(!added) {
-            container.addView(textView);
-            added = true;
+        if(added) {
+            //The resto stuff is the second child
+            //TODO: there must be a better way of doing this, right?
+            container.removeViewAt(1);
         }
 
+        container.addView(textView);
+        added = true;
     }
 }
