@@ -17,6 +17,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerviewholder.home.AbstractViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.ActivityCardViewHolder;
+import be.ugent.zeus.hydra.recyclerviewholder.home.MinervaLoginViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.NewsItemViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.RestoCardViewHolder;
 import be.ugent.zeus.hydra.recyclerviewholder.home.SchamperViewHolder;
@@ -88,6 +89,16 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
                 View v = getViewForLayout(R.layout.home_news_item_card, parent);
                 return new NewsItemViewHolder(v);
             }
+            case MINERVALOGIN:
+            {
+                View v = getViewForLayout(R.layout.home_minerva_login_card, parent);
+                return new MinervaLoginViewHolder(v);
+            }
+            case MINERVA_ANNOUNCEMENT:
+            {
+                throw new IllegalStateException("MINERVA_ANNOUNCEMENT is not yet implemented");
+            }
+
         }
         return null;
     }
@@ -120,7 +131,9 @@ public class HomeCardAdapter extends RecyclerView.Adapter {
         ACTIVITY(2),
         SPECIALEVENT(3),
         SCHAMPER(4),
-        NEWSITEM(5);
+        NEWSITEM(5),
+        MINERVALOGIN(6),
+        MINERVA_ANNOUNCEMENT(7);
 
         private final int type;
 

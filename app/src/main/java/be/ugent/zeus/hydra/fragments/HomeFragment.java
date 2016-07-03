@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import be.ugent.android.sdk.oauth.json.BearerToken;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.models.association.News;
@@ -28,6 +29,7 @@ import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.association.Activities;
 import be.ugent.zeus.hydra.models.association.Activity;
+import be.ugent.zeus.hydra.models.cards.MinervaLoginCard;
 import be.ugent.zeus.hydra.models.cards.NewsItemCard;
 import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
 import be.ugent.zeus.hydra.models.cards.SchamperCard;
@@ -97,7 +99,7 @@ public class HomeFragment extends AbstractFragment {
         performSpecialEventRequest();
         performSchamperRequest();
         performNewsItemRequest();
-        performHelloMinervaRequest();
+        performMinervaTestLoggedInRequest();
     }
 
     private void loadComplete() {
@@ -231,19 +233,32 @@ public class HomeFragment extends AbstractFragment {
         });
     }
 
-    private void performHelloMinervaRequest() {
-        HelloMinervaRequest helloMinervaRequest = new HelloMinervaRequest(getContext().getApplicationContext());
-        helloMinervaRequest.execute(minervaSpiceManager, new RequestListener<Hello>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                System.out.println("Minerva error" + spiceException.getLocalizedMessage());
-            }
+    private void performMinervaTestLoggedInRequest() {
+        adapter.updateCardItems(new ArrayList<HomeCard>(), HomeCardAdapter.HomeType.MINERVALOGIN);
+        if (!authorizationManager.isAuthenticated()) {
+            if(authorizationManager.getCurrentToken() != null) {
+                // previously logged in, try to login again
+                minervaSpiceManager.execute(authorizationManager.buildTokenRefreshRequest(), new RequestListener<BearerToken>() {
+                    @Override
+                    public void onRequestFailure(SpiceException spiceException) {
+                        // Not possible to login, so user should login possibly again
+                        List<HomeCard> list = new ArrayList<>();
+                        list.add(new MinervaLoginCard());
+                        adapter.updateCardItems(list, HomeCardAdapter.HomeType.MINERVALOGIN);
+                    }
 
-            @Override
-            public void onRequestSuccess(Hello hello) {
-                System.out.println("Minerva success:\t" + hello.getHello());
+                    @Override
+                    public void onRequestSuccess(BearerToken bearerToken) {
+                        authorizationManager.setBearerToken(bearerToken);
+                    }
+                });
+            } else {
+                // Not logged in
+                List<HomeCard> list = new ArrayList<>();
+                list.add(new MinervaLoginCard());
+                adapter.updateCardItems(list, HomeCardAdapter.HomeType.MINERVALOGIN);
             }
-        });
+        }
     }
 
     private void showFailureSnackbar(String field) {

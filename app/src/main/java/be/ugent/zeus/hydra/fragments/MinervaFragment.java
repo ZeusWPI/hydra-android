@@ -84,21 +84,7 @@ public class MinervaFragment extends AbstractFragment {
                 System.out.println("Minerva Courses: ");
                 for (final Course course: courses.getCourses()) {
                     System.out.println("\t" + course.getTitle() + "\t" + course.getTutorName());
-                    WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, getContext().getApplicationContext());
-                    whatsNewRequest.execute(minervaSpiceManager, new RequestListener<WhatsNew>() {
-                        @Override
-                        public void onRequestFailure(SpiceException spiceException) {
-                            System.out.println("Minerva courses whatsnew execption " + spiceException.getLocalizedMessage());
-                        }
-
-                        @Override
-                        public void onRequestSuccess(WhatsNew whatsNew) {
-                            System.out.println("WhatsNew for " + course.getTitle());
-                            for (Announcement announcement: whatsNew.getAnnouncements()) {
-                                System.out.println("Announcement: " + announcement.getTitle() + "   " + announcement.getLecturer());
-                            }
-                        }
-                    });
+                    requestCourseAnnouncements(course);
                 }
             }
         });
@@ -106,6 +92,24 @@ public class MinervaFragment extends AbstractFragment {
         requestUserInformation();
     }
 
+    public void requestCourseAnnouncements(final Course course){
+        WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, getContext().getApplicationContext());
+        whatsNewRequest.execute(minervaSpiceManager, new RequestListener<WhatsNew>() {
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+                System.out.println("Minerva courses whatsnew execption " + spiceException.getLocalizedMessage());
+            }
+
+            @Override
+            public void onRequestSuccess(WhatsNew whatsNew) {
+                System.out.println("WhatsNew for " + course.getTitle());
+                for (Announcement announcement: whatsNew.getAnnouncements()) {
+                    announcement.setCourse(course);
+                    System.out.println("Announcement: " + announcement.getTitle() + "   " + announcement.getLecturer());
+                }
+            }
+        });
+    }
 
     private void requestUserInformation() {
         getActivity().setProgressBarIndeterminateVisibility(true);

@@ -2,6 +2,8 @@ package be.ugent.zeus.hydra.models.minerva;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 /**
  * Created by feliciaan on 29/06/16.
  */
@@ -14,6 +16,10 @@ public class Announcement {
     private int itemId;
     @SerializedName("last_edit_user")
     private String lecturer;
+    @SerializedName("last_edit_time")
+    private MinervaDate minervaDate;
+
+    private Course course;
 
     public String getTitle() {
         return title;
@@ -53,5 +59,29 @@ public class Announcement {
 
     public void setLecturer(String lecturer) {
         this.lecturer = lecturer;
+    }
+
+    public Date getDate() {
+        return this.minervaDate.getDate();
+    }
+
+    public void setDate(Date date) {
+        this.minervaDate.setDate(date);
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public MinervaDate getMinervaDate() {
+        return minervaDate;
+    }
+
+    public void setMinervaDate(MinervaDate minervaDate) {
+        this.minervaDate = minervaDate;
     }
 }
