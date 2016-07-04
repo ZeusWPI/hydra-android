@@ -3,12 +3,15 @@ package be.ugent.zeus.hydra.models.association;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by feliciaan on 04/02/16.
  */
-public class Association implements Parcelable {
+
+public class Association implements Parcelable, Serializable {
+
     @SerializedName("internal_name")
     private String internalName;
     @SerializedName("full_name")

@@ -2,6 +2,7 @@
 <resources>
     <color name="ugent_blue_highlight">#19A3D2</color>
     <color name="ugent_blue_light">#c9d8e7</color>
+    <color name="ugent_blue_lighter">#8aa6c2</color>
     <color name="ugent_blue_medium">#245b8d</color>
     <color name="ugent_blue_dark">#164474</color>
 

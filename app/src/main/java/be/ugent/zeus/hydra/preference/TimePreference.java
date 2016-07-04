@@ -7,36 +7,35 @@ import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.StringTokenizer;
-
 import be.ugent.zeus.hydra.R;
 
 /**
+ * Custom dialog to select a time in the preferences.
+ *
  * @author Rien Maertens
- * http://stackoverflow.com/a/10608622/4424838
+ *
+ * @link http://stackoverflow.com/a/10608622/4424838
  */
-public class TimePreference extends DialogPreference{
+public class TimePreference extends DialogPreference {
     private TimePicker picker;
     private Time time;
 
-    public TimePreference(Context context){
+    public TimePreference(Context context) {
         this(context, null);
     }
 
-    public TimePreference(Context ctxt, AttributeSet attrs) {
-        this(ctxt, attrs, android.R.attr.dialogPreferenceStyle);
+    public TimePreference(Context context, AttributeSet attrs) {
+        this(context, attrs, android.R.attr.dialogPreferenceStyle);
     }
 
-    public TimePreference(Context ctxt, AttributeSet attrs, int defStyle) {
-        super(ctxt, attrs, defStyle);
+    public TimePreference(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
         time = new Time();
         setPositiveButtonText(R.string.set);
         setNegativeButtonText(R.string.cancel);
+
+        //We do not want a title.
+        setDialogTitle(null);
     }
 
     @Override
@@ -75,7 +74,7 @@ public class TimePreference extends DialogPreference{
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-        if (defaultValue == null){
+        if (defaultValue == null) {
             defaultValue = 0;
         }
         if (restoreValue) {
@@ -90,5 +89,4 @@ public class TimePreference extends DialogPreference{
     public CharSequence getSummary() {
         return time.toString();
     }
-
 }

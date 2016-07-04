@@ -11,12 +11,15 @@
         "client_id": "android:be.ugent.zeus.hydra",
         "client_type": 1,
         "android_client_info": {
-          "package_name": "be.ugent.zeus.hydra",
-          "certificate_hash": []
+          "package_name": "be.ugent.zeus.hydra"
         }
       },
       "oauth_client": [],
-      "api_key": [],
+      "api_key": [
+        {
+          "current_key": ""
+        }
+      ],
       "services": {
         "analytics_service": {
           "status": 2,
@@ -41,6 +44,5 @@
       }
     }
   ],
-  "client_info": [],
-  "ARTIFACT_VERSION": "1"
+  "configuration_version": "1"
 }

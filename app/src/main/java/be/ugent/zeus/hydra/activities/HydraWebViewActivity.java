@@ -50,9 +50,12 @@ public class HydraWebViewActivity extends AppCompatActivity {
         }
         setTitle(title);
         webView.loadUrl(url);
-
-        HydraApplication happ = (HydraApplication) getApplication();
-        happ.sendScreenName("Webview >> " + title);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        HydraApplication app = (HydraApplication) getApplication();
+        app.sendScreenName("Webview > " + getTitle());
+    }
 }

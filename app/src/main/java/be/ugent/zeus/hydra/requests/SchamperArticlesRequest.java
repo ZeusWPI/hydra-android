@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.requests;
 
-import com.octo.android.robospice.persistence.DurationInMillis;
-
+import android.support.annotation.NonNull;
+import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.models.schamper.Articles;
 
 /**
@@ -13,11 +13,13 @@ public class SchamperArticlesRequest extends AbstractRequest<Articles> {
         super(Articles.class);
     }
 
+    @NonNull
     @Override
     public String getCacheKey() {
         return "schamper.dailies";
     }
 
+    @NonNull
     @Override
     protected String getAPIUrl() {
         return ZEUS_API_URL + "1.0/schamper/daily.json";
@@ -25,6 +27,6 @@ public class SchamperArticlesRequest extends AbstractRequest<Articles> {
 
     @Override
     public long getCacheDuration() {
-        return DurationInMillis.ONE_HOUR * 2;
+        return Cache.ONE_HOUR * 2;
     }
 }

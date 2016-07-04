@@ -1,103 +1,71 @@
 package be.ugent.zeus.hydra.fragments;
 
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.adapters.InfoListAdapter;
+import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
+import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
+import be.ugent.zeus.hydra.loader.cache.Request;
 import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
+import be.ugent.zeus.hydra.recyclerview.adapters.InfoListAdapter;
 import be.ugent.zeus.hydra.requests.InfoRequest;
 
-public class InfoFragment extends AbstractFragment {
+import java.util.ArrayList;
 
-    public static final String INFOLIST = "infoList";
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
-    private RecyclerView recyclerView;
+public class InfoFragment extends LoaderFragment<InfoList> {
+
     private InfoListAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private View layout;
-    private InfoList infoItems;
-    private ProgressBar progressBar;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        layout = inflater.inflate(R.layout.fragment_info, container, false);
-        recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerview);
-        progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_recycler_view, container, false);
+    }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView recyclerView = $(view, R.id.recycler_view);
         adapter = new InfoListAdapter();
+
         recyclerView.setAdapter(adapter);
-        layoutManager = new LinearLayoutManager(this.getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            infoItems = new InfoList();
-            infoItems.addAll((ArrayList<InfoItem>)(ArrayList<? extends Parcelable>) bundle.getParcelableArrayList(INFOLIST));
-            if (infoItems != null) {
-                setDataSet(infoItems);
-            }
-        } else {
-            performLoadInfoRequest();
+            InfoList infoItems = new InfoList();
+            ArrayList<InfoItem> list = bundle.getParcelableArrayList(InfoSubItemActivity.INFO_ITEMS);
+            infoItems.addAll(list);
+            receiveData(infoItems);
+            this.autoStart = false;
         }
-
-        return layout;
     }
 
-    private void setDataSet(InfoList infoList) {
-        infoItems = infoList;
-        adapter.setItems(infoList);
-        adapter.notifyDataSetChanged();
-        progressBar.setVisibility(View.GONE);
-    }
-
-    private void showFailureSnackbar() {
-        Snackbar
-                .make(layout, "Oeps! Kon info niet ophalen.", Snackbar.LENGTH_LONG)
-                .setAction("Opnieuw proberen", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        performLoadInfoRequest();
-                    }
-                })
-                .show();
-    }
-
+    /**
+     * This must be called when data is received that has no errors.
+     *
+     * @param data The data.
+     */
     @Override
-    public void onResume() {
-        super.onResume();
-        this.sendScreenTracking("Info");
+    public void receiveData(@NonNull InfoList data) {
+        adapter.setItems(data);
+        hideProgressBar();
     }
 
-    private void performLoadInfoRequest() {
-        final InfoRequest r = new InfoRequest();
-
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<InfoList>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                showFailureSnackbar();
-            }
-
-            @Override
-            public void onRequestSuccess(final InfoList infolist) {
-                setDataSet(infolist);
-            }
-        });
+    /**
+     * @return The request that will be executed.
+     */
+    @Override
+    public Request<InfoList> getRequest() {
+        return new InfoRequest();
     }
-
 }

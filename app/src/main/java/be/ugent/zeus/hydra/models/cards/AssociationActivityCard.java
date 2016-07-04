@@ -1,10 +1,8 @@
 package be.ugent.zeus.hydra.models.cards;
 
+import be.ugent.zeus.hydra.models.association.Activity;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
-
-import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.models.association.Activity;
 
 /**
  * Created by silox on 18/04/16.
@@ -24,8 +22,8 @@ public class AssociationActivityCard extends HomeCard {
     }
 
     @Override
-    public HomeCardAdapter.HomeType getCardType() {
-        return HomeCardAdapter.HomeType.ACTIVITY;
+    public int getCardType() {
+        return CardType.ACTIVITY;
     }
 
     public Activity getActivity() {
