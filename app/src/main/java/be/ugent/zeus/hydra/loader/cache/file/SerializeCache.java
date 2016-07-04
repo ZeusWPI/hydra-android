@@ -39,7 +39,7 @@ public class SerializeCache extends FileCache {
             stream = new ObjectOutputStream(new FileOutputStream(new File(directory, name)));
             stream.writeObject(data);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Error while writing.", e);
         } finally {
             try {
                 if (stream != null) {

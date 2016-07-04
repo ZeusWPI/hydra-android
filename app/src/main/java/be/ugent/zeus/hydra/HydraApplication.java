@@ -1,22 +1,20 @@
 package be.ugent.zeus.hydra;
 
 import android.app.Application;
+import be.ugent.android.sdk.oauth.AuthorizationManager;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import net.danlew.android.joda.JodaTimeAndroid;
-import java.util.Locale;
-
-import be.ugent.android.sdk.UGentApplication;
-import be.ugent.android.sdk.oauth.OAuthConfiguration;
 
 
 /**
  * Created by feliciaan on 06/04/16.
  */
-public class HydraApplication extends UGentApplication {
+public class HydraApplication extends Application {
 
     private Tracker tracker;
+    private AuthorizationManager manager;
 
     @Override
     public void onCreate() {
@@ -25,13 +23,12 @@ public class HydraApplication extends UGentApplication {
         JodaTimeAndroid.init(this);
     }
 
-    @Override
-    public OAuthConfiguration getOAuthConfiguration() {
-        return new OAuthConfiguration.Builder()
-                .apiKey(BuildConfig.OAUTH_ID)
-                .apiSecret(BuildConfig.OAUTH_SECRET)
-                .callbackUri("https://zeus.ugent.be/hydra/oauth/callback")
-                .build();
+    public AuthorizationManager getAuthorizationManager() {
+        if(manager == null) {
+            manager = new AuthorizationManager(getApplicationContext());
+        }
+
+        return manager;
     }
 
     /**

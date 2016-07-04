@@ -1,9 +1,6 @@
 package be.ugent.zeus.hydra.requests;
 
-import android.content.Context;
-
-import com.octo.android.robospice.persistence.DurationInMillis;
-
+import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.models.minerva.Hello;
 
 /**
@@ -11,8 +8,8 @@ import be.ugent.zeus.hydra.models.minerva.Hello;
  */
 public class HelloMinervaRequest extends MinervaRequest<Hello> {
 
-    public HelloMinervaRequest(Context context) {
-        super(Hello.class, context);
+    public HelloMinervaRequest(HydraApplication app) {
+        super(Hello.class, app);
     }
 
     @Override
@@ -27,6 +24,6 @@ public class HelloMinervaRequest extends MinervaRequest<Hello> {
 
     @Override
     public long getCacheDuration() {
-        return DurationInMillis.ONE_HOUR;
+        return 0;
     }
 }

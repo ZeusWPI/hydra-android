@@ -24,13 +24,9 @@ package be.ugent.android.sdk.oauth.storage;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import be.ugent.android.sdk.oauth.json.BearerToken;
 
 import java.util.Calendar;
-
-import be.ugent.android.sdk.oauth.json.BearerToken;
 
 /**
  * Storage manager aids in the persistence of OAuth authorization data.
@@ -50,10 +46,11 @@ public class StorageManager {
     private static final String PREFS_TOKEN = "tok";
 
     // Context
-    @Inject protected static Provider<Context> contextProvider;
-    protected Context context = contextProvider.get();
+    protected final Context context;
 
-
+    public StorageManager(Context context) {
+        this.context = context;
+    }
 
     /**
      * Builds and returns the TokenData object that will be persisted

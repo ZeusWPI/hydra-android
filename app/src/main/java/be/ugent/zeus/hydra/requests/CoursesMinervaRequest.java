@@ -1,15 +1,17 @@
 package be.ugent.zeus.hydra.requests;
 
-import android.content.Context;
+import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.models.minerva.Courses;
+
+import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_HOUR;
 
 /**
  * Created by feliciaan on 21/06/16.
  */
-public class CoursesMinervaRequest extends MinervaRequest<Courses>{
+public class CoursesMinervaRequest extends MinervaRequest<Courses> {
 
-    public CoursesMinervaRequest(Context context) {
-        super(Courses.class, context);
+    public CoursesMinervaRequest(HydraApplication app) {
+        super(Courses.class, app);
     }
 
     @Override
@@ -24,6 +26,6 @@ public class CoursesMinervaRequest extends MinervaRequest<Courses>{
 
     @Override
     public long getCacheDuration() {
-        return 0;
+        return ONE_HOUR * 2;
     }
 }

@@ -21,10 +21,14 @@
 
 package be.ugent.android.sdk.oauth.request;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
-
-import com.octo.android.robospice.request.SpiceRequest;
-
+import be.ugent.android.sdk.oauth.EndpointConfiguration;
+import be.ugent.android.sdk.oauth.OAuthConfiguration;
+import be.ugent.android.sdk.oauth.json.BearerToken;
+import be.ugent.android.sdk.oauth.storage.TokenData;
+import be.ugent.zeus.hydra.loader.NetworkRequest;
+import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.URLConnectionClient;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
@@ -35,13 +39,10 @@ import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import be.ugent.android.sdk.oauth.EndpointConfiguration;
-import be.ugent.android.sdk.oauth.OAuthConfiguration;
-import be.ugent.android.sdk.oauth.json.BearerToken;
-import be.ugent.android.sdk.oauth.storage.TokenData;
+import java.io.IOException;
 
 
-public class BearerTokenRequest extends SpiceRequest<BearerToken> {
+public class BearerTokenRequest implements NetworkRequest<BearerToken> {
 
     private static final String TAG = "BearerTokenRequest";
 
@@ -50,30 +51,32 @@ public class BearerTokenRequest extends SpiceRequest<BearerToken> {
     private TokenData oldToken;
 
     public BearerTokenRequest(OAuthConfiguration configData, String code) {
-        super(BearerToken.class);
         this.configData = configData;
         this.code = code;
     }
 
     public BearerTokenRequest(OAuthConfiguration configData, TokenData oldToken) {
-        super(BearerToken.class);
         this.oldToken = oldToken;
         this.configData = configData;
     }
 
+    @NonNull
     @Override
-    public BearerToken loadDataFromNetwork() throws Exception {
+    public BearerToken performRequest() throws RequestFailureException {
         OAuthJSONAccessTokenResponse accessTokenResponse;
 
-        if (oldToken != null) {
-            accessTokenResponse = refreshAccessToken();
-        } else {
-            accessTokenResponse = requestAccessToken();
-        }
+        try {
+            if (oldToken != null) {
+                accessTokenResponse = refreshAccessToken();
+            } else {
+                accessTokenResponse = requestAccessToken();
+            }
 
-        ObjectMapper mapper = new ObjectMapper();
-        BearerToken token = mapper.readValue(accessTokenResponse.getBody(), BearerToken.class);
-        return token;
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(accessTokenResponse.getBody(), BearerToken.class);
+        } catch (IOException | OAuthSystemException | OAuthProblemException e) {
+            throw new RequestFailureException(e);
+        }
     }
 
     /**
@@ -119,7 +122,4 @@ public class BearerTokenRequest extends SpiceRequest<BearerToken> {
         OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
         return oAuthClient.accessToken(request, OAuth.HttpMethod.POST);
     }
-
-
-
 }

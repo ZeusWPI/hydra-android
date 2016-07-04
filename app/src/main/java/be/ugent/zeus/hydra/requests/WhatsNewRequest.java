@@ -1,11 +1,10 @@
 package be.ugent.zeus.hydra.requests;
 
-import android.content.Context;
-
-import com.octo.android.robospice.persistence.DurationInMillis;
-
+import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.WhatsNew;
+
+import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_HOUR;
 
 /**
  * Created by feliciaan on 29/06/16.
@@ -13,8 +12,8 @@ import be.ugent.zeus.hydra.models.minerva.WhatsNew;
 public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
     private Course course;
 
-    public WhatsNewRequest(Course course, Context context) {
-        super(WhatsNew.class, context);
+    public WhatsNewRequest(Course course, HydraApplication app) {
+        super(WhatsNew.class, app);
         this.course = course;
     }
 
@@ -30,6 +29,6 @@ public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
 
     @Override
     public long getCacheDuration() {
-        return DurationInMillis.ONE_HOUR;
+        return ONE_HOUR;
     }
 }

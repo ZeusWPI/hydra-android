@@ -6,16 +6,16 @@ import android.webkit.WebView;
 import be.ugent.android.sdk.oauth.BaseApiActivity;
 import be.ugent.android.sdk.oauth.event.AuthorizationEvent;
 import be.ugent.zeus.hydra.R;
-import roboguice.inject.InjectView;
 
 public class AuthenticationActivity extends BaseApiActivity {
 
-    @InjectView(R.id.oauthWebView) private WebView webView;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
+        webView = (WebView) findViewById(R.id.oauthWebView);
     }
 
     @Override

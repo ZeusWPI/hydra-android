@@ -22,22 +22,12 @@
 package be.ugent.android.sdk.oauth;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.octo.android.robospice.request.SpiceRequest;
-
-import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
-import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
-import org.apache.oltu.oauth2.common.message.types.ResponseType;
-
-import java.util.Calendar;
-
 import be.ugent.android.sdk.oauth.event.AuthorizationEvent;
 import be.ugent.android.sdk.oauth.event.AuthorizationEventListener;
 import be.ugent.android.sdk.oauth.json.BearerToken;
@@ -45,8 +35,13 @@ import be.ugent.android.sdk.oauth.request.BearerTokenRequest;
 import be.ugent.android.sdk.oauth.storage.StorageManager;
 import be.ugent.android.sdk.oauth.storage.TokenData;
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.loader.NetworkRequest;
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.apache.oltu.oauth2.common.message.types.ResponseType;
 
-@Singleton
+import java.util.Calendar;
+
 public class AuthorizationManager {
 
     public static final String TAG = "UG_AuthorizationManager";
@@ -54,13 +49,13 @@ public class AuthorizationManager {
     private StorageManager storageManager;
     private TokenData currentToken;
 
-
-    public AuthorizationManager() {
-        this.storageManager = new StorageManager();
-        this.configData = new OAuthConfiguration.Builder().
-                apiKey(BuildConfig.OAUTH_ID)
+    public AuthorizationManager(Context context) {
+        this.storageManager = new StorageManager(context);
+        this.configData = new OAuthConfiguration.Builder()
+                .apiKey(BuildConfig.OAUTH_ID)
                 .apiSecret(BuildConfig.OAUTH_SECRET)
-                .callbackUri("https://zeus.ugent.be/hydra/oauth/callback").build();
+                .callbackUri("https://zeus.ugent.be/hydra/oauth/callback")
+                .build();
     }
 
     /**
@@ -146,6 +141,7 @@ public class AuthorizationManager {
                     .buildQueryMessage();
             webView.loadUrl(request.getLocationUri());
         } catch (OAuthSystemException e) {
+            Log.e(TAG, "Error while building URI", e);
             e.printStackTrace();
             // TODO: what if we can't build the URI?
         }
@@ -157,21 +153,17 @@ public class AuthorizationManager {
      *
      * @return BearerTokenRequest based on an authorization code.
      */
-    public SpiceRequest<BearerToken> buildGrantTokenRequest(String authorizationCode) {
-        return new BearerTokenRequest(
-                configData,
-                authorizationCode);
+    public NetworkRequest<BearerToken> buildGrantTokenRequest(String authorizationCode) {
+        return new BearerTokenRequest(configData, authorizationCode);
     }
 
     /**
      * Builds a token refresh request based on the current token.
      *
-     * @return A SpiceRequest to fetch the next bearer token using the refresh token.
+     * @return A request to fetch the next bearer token using the refresh token.
      */
-    public SpiceRequest<BearerToken> buildTokenRefreshRequest() {
-        return new BearerTokenRequest(
-                configData,
-                currentToken);
+    public NetworkRequest<BearerToken> buildTokenRefreshRequest() {
+        return new BearerTokenRequest(configData, currentToken);
     }
 
     /**
@@ -180,7 +172,9 @@ public class AuthorizationManager {
      * @return True if token is still valid
      */
     public boolean hasValidToken() {
-        if (currentToken == null) return false;
+        if (currentToken == null) {
+            return false;
+        }
         Calendar rightNow = Calendar.getInstance();
         return rightNow.compareTo(currentToken.getValidUntil()) < 0;
     }

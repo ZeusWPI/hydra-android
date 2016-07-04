@@ -54,18 +54,13 @@ public abstract class AbstractRequest<T extends Serializable> implements Request
     }
 
     @NonNull
-    public abstract String getCacheKey();
-
-    @NonNull
     protected abstract String getAPIUrl();
-
-    public abstract long getCacheDuration();
 
     protected Map<String, String> getURLVariables() {
         return null;
     }
 
-    private RestTemplate createRestTemplate() {
+    protected RestTemplate createRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
         return restTemplate;

@@ -75,15 +75,11 @@ dependencies {
     compile 'com.github.niknetniko:expandablelayout:master-SNAPSHOT'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.1@aar'
 
-    compile 'com.octo.android.robospice:robospice:1.4.14'
-    compile 'com.octo.android.robospice:robospice-spring-android:1.4.14'
     compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
-    compile 'org.roboguice:roboguice:3.+'
     compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1') {
         exclude group: 'org.apache.oltu.oauth2'
     }
-    provided 'org.roboguice:roboblender:3.+'
 }
 
 apply plugin: 'com.google.gms.google-services'

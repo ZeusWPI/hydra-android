@@ -21,9 +21,7 @@
 
 package be.ugent.android.sdk.oauth.exception;
 
-import com.octo.android.robospice.persistence.exception.SpiceException;
-
-public class OAuthException extends SpiceException {
+public class OAuthException extends Exception {
 
     public enum ERROR {
         UNKNOWN_ERROR("unknown error"),

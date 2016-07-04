@@ -21,25 +21,36 @@
 
 package be.ugent.android.sdk.oauth.request;
 
-import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
-
+import android.support.annotation.NonNull;
 import be.ugent.android.sdk.oauth.EndpointConfiguration;
 import be.ugent.android.sdk.oauth.json.GrantInformation;
+import be.ugent.zeus.hydra.requests.AbstractRequest;
 
-public class GrantInformationRequest extends SpringAndroidSpiceRequest<GrantInformation> {
+public class GrantInformationRequest extends AbstractRequest<GrantInformation> {
 
 
     public GrantInformationRequest() {
         super(GrantInformation.class);
     }
 
-    @Override
-    public GrantInformation loadDataFromNetwork() throws Exception {
-        return getRestTemplate().getForObject(EndpointConfiguration.GRANT_INFORMATION_ENDPOINT, GrantInformation.class);
-    }
-
     public String createCacheKey() {
         return "cas.grantInfo";
     }
 
+    @NonNull
+    @Override
+    public String getCacheKey() {
+        return "cas.grantInfo";
+    }
+
+    @NonNull
+    @Override
+    protected String getAPIUrl() {
+        return EndpointConfiguration.GRANT_INFORMATION_ENDPOINT;
+    }
+
+    @Override
+    public long getCacheDuration() {
+        return 0;
+    }
 }

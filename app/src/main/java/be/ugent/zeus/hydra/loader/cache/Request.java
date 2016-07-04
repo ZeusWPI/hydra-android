@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.loader.cache;
 
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.loader.NetworkRequest;
 
 /**
  * Represents a cacheable request for data. This is the class that provides the data for the {@link Cache}.
@@ -13,19 +13,7 @@ import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
  *
  * @author Niko Strijbol
  */
-public interface Request<T> {
-
-    /**
-     * Perform the request. This method provides the data that may or may not be cached, depending on the implementation
-     * of the used {@link Cache}.
-     *
-     * @return The data.
-     *
-     * @throws RequestFailureException This exception is thrown whenever an exception occurs while getting the data.
-     *  For example, a netwerk failure while accessing an API.
-     */
-    @NonNull
-    T performRequest() throws RequestFailureException;
+public interface Request<T> extends NetworkRequest<T> {
 
     /**
      * @return The key under which the result will be stored by the {@link Cache}.

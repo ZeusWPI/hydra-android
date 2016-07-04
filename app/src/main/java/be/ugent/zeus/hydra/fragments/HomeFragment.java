@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.preference.PreferenceManager;
@@ -14,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import be.ugent.android.sdk.oauth.json.BearerToken;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.loader.LoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
@@ -32,8 +32,6 @@ import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.requests.*;
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -52,7 +50,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author Niko Strijbol
  * @author silox
  */
-public class HomeFragment extends AbstractFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class HomeFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final boolean DEVELOPMENT = true;
 
@@ -430,32 +428,32 @@ public class HomeFragment extends AbstractFragment implements SharedPreferences.
         }
     }
 
-    private void performMinervaTestLoggedInRequest() {
-        adapter.updateCardItems(new ArrayList<HomeCard>(), HomeCard.CardType.MINERVA_LOGIN);
-        if (!authorizationManager.isAuthenticated()) {
-            if(authorizationManager.getCurrentToken() != null) {
-                // previously logged in, try to login again
-                minervaSpiceManager.execute(authorizationManager.buildTokenRefreshRequest(), new RequestListener<BearerToken>() {
-                    @Override
-                    public void onRequestFailure(SpiceException spiceException) {
-                        // Not possible to login, so user should login possibly again
-                        List<HomeCard> list = new ArrayList<>();
-                        list.add(new MinervaLoginCard());
-                        adapter.updateCardItems(list, HomeCard.CardType.MINERVA_LOGIN);
-                    }
-
-                    @Override
-                    public void onRequestSuccess(BearerToken bearerToken) {
-                        authorizationManager.setBearerToken(bearerToken);
-                    }
-                });
-            } else {
-                // Not logged in
-                List<HomeCard> list = new ArrayList<>();
-                list.add(new MinervaLoginCard());
-                adapter.updateCardItems(list, HomeCard.CardType.MINERVA_LOGIN);
-            }
-        }
-    }
+//    private void performMinervaTestLoggedInRequest() {
+//        adapter.updateCardItems(new ArrayList<HomeCard>(), HomeCard.CardType.MINERVA_LOGIN);
+//        if (!authorizationManager.isAuthenticated()) {
+//            if(authorizationManager.getCurrentToken() != null) {
+//                // previously logged in, try to login again
+//                minervaSpiceManager.execute(authorizationManager.buildTokenRefreshRequest(), new RequestListener<BearerToken>() {
+//                    @Override
+//                    public void onRequestFailure(SpiceException spiceException) {
+//                        // Not possible to login, so user should login possibly again
+//                        List<HomeCard> list = new ArrayList<>();
+//                        list.add(new MinervaLoginCard());
+//                        adapter.updateCardItems(list, HomeCard.CardType.MINERVA_LOGIN);
+//                    }
+//
+//                    @Override
+//                    public void onRequestSuccess(BearerToken bearerToken) {
+//                        authorizationManager.setBearerToken(bearerToken);
+//                    }
+//                });
+//            } else {
+//                // Not logged in
+//                List<HomeCard> list = new ArrayList<>();
+//                list.add(new MinervaLoginCard());
+//                adapter.updateCardItems(list, HomeCard.CardType.MINERVA_LOGIN);
+//            }
+//        }
+//    }
 
 }

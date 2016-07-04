@@ -3,6 +3,7 @@
     package="be.ugent.zeus.hydra"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -127,17 +128,13 @@
             android:name=".activities.AuthenticationActivity"
             android:label="@string/title_activity_authentication"></activity>
 
-        <service
-            android:name="be.ugent.android.sdk.oauth.UGentSpiceService"
-            android:exported="false" />
-
-        <service
-            android:name="com.octo.android.robospice.GsonSpringAndroidSpiceService"
-            android:exported="false" />
-
-        <meta-data
-            android:name="roboguice.modules"
-            android:value="be.ugent.android.sdk.UGentModule" />
+        <service android:name=".account.MinervaAccountService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
 
     </application>
 

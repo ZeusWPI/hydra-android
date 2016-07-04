@@ -22,17 +22,13 @@
 package be.ugent.android.sdk.oauth.request;
 
 import android.util.Log;
-
-import com.google.inject.Inject;
-
+import be.ugent.android.sdk.oauth.AuthorizationManager;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
 import java.io.IOException;
-
-import be.ugent.android.sdk.oauth.AuthorizationManager;
 
 /**
  * Intercepts the HTTP Requests and injects the access token in the Uri.
@@ -41,10 +37,13 @@ import be.ugent.android.sdk.oauth.AuthorizationManager;
  */
 public class AccessTokenRequestInterceptor implements ClientHttpRequestInterceptor {
 
-    private final String TAG = "AccessTokenRequestIntercepter";
+    private final String TAG = "AccessTokenRequestInter";
 
-    @Inject
-    private static AuthorizationManager authorizationManager;
+    private final AuthorizationManager authorizationManager;
+
+    public AccessTokenRequestInterceptor(AuthorizationManager manager) {
+        authorizationManager = manager;
+    }
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {

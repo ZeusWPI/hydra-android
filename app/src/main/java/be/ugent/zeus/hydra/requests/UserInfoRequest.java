@@ -1,18 +1,18 @@
 package be.ugent.zeus.hydra.requests;
 
-import android.content.Context;
-
-import com.octo.android.robospice.persistence.DurationInMillis;
-
 import be.ugent.android.sdk.oauth.EndpointConfiguration;
 import be.ugent.android.sdk.oauth.json.GrantInformation;
+import be.ugent.zeus.hydra.HydraApplication;
+
+import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_HOUR;
 
 /**
  * Created by feliciaan on 21/06/16.
  */
 public class UserInfoRequest extends MinervaRequest<GrantInformation> {
-    public UserInfoRequest(Context context) {
-        super(GrantInformation.class, context);
+
+    public UserInfoRequest(HydraApplication app) {
+        super(GrantInformation.class, app);
     }
 
     @Override
@@ -27,6 +27,6 @@ public class UserInfoRequest extends MinervaRequest<GrantInformation> {
 
     @Override
     public long getCacheDuration() {
-        return DurationInMillis.ONE_HOUR*2;
+        return ONE_HOUR * 2;
     }
 }
