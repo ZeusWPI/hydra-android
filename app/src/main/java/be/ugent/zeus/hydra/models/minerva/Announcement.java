@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.models.minerva;
 
+import be.ugent.zeus.hydra.models.converters.MinervaDateJsonAdapter;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -8,6 +10,7 @@ import java.util.Date;
  * Created by feliciaan on 29/06/16.
  */
 public class Announcement {
+
     private String title;
     private String content;
     @SerializedName("email_sent")
@@ -16,6 +19,7 @@ public class Announcement {
     private int itemId;
     @SerializedName("last_edit_user")
     private String lecturer;
+    @JsonAdapter(MinervaDateJsonAdapter.class)
     @SerializedName("last_edit_time")
     private MinervaDate minervaDate;
 
