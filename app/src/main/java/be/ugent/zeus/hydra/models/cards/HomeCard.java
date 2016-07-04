@@ -27,12 +27,14 @@ public abstract class HomeCard {
      * Android is horrible with enums, since Google doesn't know what they are doing apparently. Sigh.
      */
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({RESTO, ACTIVITY, SPECIAL_EVENT, SCHAMPER, NEWS_ITEM})
+    @IntDef({RESTO, ACTIVITY, SPECIAL_EVENT, SCHAMPER, NEWS_ITEM, MINERVA_LOGIN, MINERVA_ANNOUNCEMENT})
     public @interface CardType {
         int RESTO = 1;
         int ACTIVITY = 2;
         int SPECIAL_EVENT = 3;
         int SCHAMPER = 4;
         int NEWS_ITEM = 5;
+        int MINERVA_LOGIN = 6;
+        int MINERVA_ANNOUNCEMENT = 7;
     }
 }

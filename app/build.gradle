@@ -10,7 +10,7 @@ android {
         versionCode 202
         versionName "2.0"
         vectorDrawables.useSupportLibrary = true
-//        multiDexEnabled true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -37,6 +37,23 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/notice.txt'
     }
+
+    buildTypes {
+        debug {
+            // Set this to false on release versions!
+            debuggable true
+        }
+
+        applicationVariants.all { variant ->
+            def Properties props = new Properties()
+            props.load(new FileInputStream(file('secrets.properties')))
+            variant.buildConfigField "String", "OAUTH_ID", "\""+props['OAUTH_ID']+"\""
+            variant.buildConfigField "String", "OAUTH_SECRET", "\""+props['OAUTH_SECRET']+"\""
+        }
+    }
+    productFlavors {
+    }
+
 }
 
 dependencies {
@@ -57,6 +74,16 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.niknetniko:expandablelayout:master-SNAPSHOT'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.1@aar'
+
+    compile 'com.octo.android.robospice:robospice:1.4.14'
+    compile 'com.octo.android.robospice:robospice-spring-android:1.4.14'
+    compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
+    compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+    compile 'org.roboguice:roboguice:3.+'
+    compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1') {
+        exclude group: 'org.apache.oltu.oauth2'
+    }
+    provided 'org.roboguice:roboblender:3.+'
 }
 
 apply plugin: 'com.google.gms.google-services'
