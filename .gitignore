@@ -112,3 +112,5 @@ fabric.properties
 ### Intellij Patch ###
 *.iml
 .idea/
+
+secrets.properties

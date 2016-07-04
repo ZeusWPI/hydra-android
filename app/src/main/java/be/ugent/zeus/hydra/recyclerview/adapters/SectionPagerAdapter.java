@@ -32,6 +32,8 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
                 return new NewsFragment();
             case 5:
                 return new InfoFragment();
+            case 6:
+                return new MinervaFragment();
             default:
                 return new ComingSoonFragment();
         }

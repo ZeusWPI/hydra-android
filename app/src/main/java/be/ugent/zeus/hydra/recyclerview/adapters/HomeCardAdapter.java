@@ -7,12 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
-import be.ugent.zeus.hydra.recyclerview.viewholder.home.AbstractViewHolder;
-import be.ugent.zeus.hydra.recyclerview.viewholder.home.ActivityCardViewHolder;
-import be.ugent.zeus.hydra.recyclerview.viewholder.home.NewsItemViewHolder;
-import be.ugent.zeus.hydra.recyclerview.viewholder.home.RestoCardViewHolder;
-import be.ugent.zeus.hydra.recyclerview.viewholder.home.SchamperViewHolder;
-import be.ugent.zeus.hydra.recyclerview.viewholder.home.SpecialEventCardViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.home.*;
 
 import java.util.*;
 
@@ -74,6 +69,9 @@ public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder> {
                 return new SchamperViewHolder(getViewForLayout(R.layout.home_card_schamper, parent), this);
             case NEWS_ITEM:
                 return new NewsItemViewHolder(getViewForLayout(R.layout.home_card_news_item, parent));
+            case MINERVA_LOGIN:
+                View v = getViewForLayout(R.layout.home_minerva_login_card, parent);
+                return new MinervaLoginViewHolder(v);
         }
         return null;
     }
