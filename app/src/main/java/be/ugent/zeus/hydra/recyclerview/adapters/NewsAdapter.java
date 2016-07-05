@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.association.NewsItem;
@@ -17,10 +16,8 @@ import java.util.List;
 public class NewsAdapter extends ItemAdapter<NewsItem, NewsItemViewHolder> {
 
     @Override
-    public NewsItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.home_card_news_item, parent, false);
-        return new NewsItemViewHolder(v);
+    public NewsItemViewHolder onCreateViewHolder(ViewGroup p, int viewType) {
+        return new NewsItemViewHolder(LayoutInflater.from(p.getContext()).inflate(R.layout.item_news, p, false));
     }
 
     @Override

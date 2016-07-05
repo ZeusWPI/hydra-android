@@ -1,12 +1,14 @@
 package be.ugent.zeus.hydra.requests;
 
+import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.models.minerva.Courses;
 
-import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_HOUR;
+import static be.ugent.zeus.hydra.loader.cache.Cache.NEVER;
 
 /**
- * Created by feliciaan on 21/06/16.
+ * @author feliciaan
+ * @author Niko Strijbol
  */
 public class CoursesMinervaRequest extends MinervaRequest<Courses> {
 
@@ -15,17 +17,20 @@ public class CoursesMinervaRequest extends MinervaRequest<Courses> {
     }
 
     @Override
+    @NonNull
     public String getCacheKey() {
         return "minerva_courses";
     }
 
     @Override
+    @NonNull
     protected String getAPIUrl() {
         return MINERVA_API + "courses";
     }
 
     @Override
     public long getCacheDuration() {
-        return ONE_HOUR * 2;
+        //return ONE_HOUR * 2;
+        return NEVER;
     }
 }

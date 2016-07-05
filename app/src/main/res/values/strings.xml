@@ -3,6 +3,8 @@
 
     <!-- General -->
     <string name="app_name">Hydra</string>
+    <string name="name_minerva">Minerva</string>
+    <string name="name_schamper">Schamper</string>
 
     <!-- Navigation tabs -->
     <string name="nieuws">hydra</string>
@@ -85,4 +87,9 @@
     <string name="by_author">Door %s</string>
     <string name="pref_home_title">Startscherm</string>
     <string name="title_activity_authentication">Authenticatie</string>
+    <string name="account_label">Minerva</string>
+    <string name="auth_needs_ugent">Helaas werkt de Minerva-integratie enkel op het netwerk van de UGent (VPN of Eduroam).</string>
+    <string name="auth_maybe_not_ugent">Je bent waarschijnlijk niet verbonden met het netwerk van de UGent. Minerva zal dan niet werken.</string>
+    <string name="minerva_authorize">Authorizeren</string>
+    <string name="need_auth">Om Minerva te gebruiken dien je toestemming te geven.</string>
 </resources>

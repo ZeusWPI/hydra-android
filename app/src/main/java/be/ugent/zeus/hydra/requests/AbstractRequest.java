@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.requests;
 
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.loader.cache.Request;
+import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
@@ -18,7 +18,7 @@ import java.util.Map;
  *
  * @author feliciaan
  */
-public abstract class AbstractRequest<T extends Serializable> implements Request<T> {
+public abstract class AbstractRequest<T extends Serializable> implements CacheRequest<T> {
 
     protected final String DSA_API_URL = "http://student.ugent.be/hydra/api/2.0/";
     protected final String ZEUS_API_URL = "https://zeus.UGent.be/hydra/api/";

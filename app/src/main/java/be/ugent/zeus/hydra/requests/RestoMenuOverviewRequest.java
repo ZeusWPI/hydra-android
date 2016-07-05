@@ -5,7 +5,7 @@ import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 
 /**
- * Request for an overview of the resto menu.
+ * CacheRequest for an overview of the resto menu.
  *
  * @author mivdnber
  */

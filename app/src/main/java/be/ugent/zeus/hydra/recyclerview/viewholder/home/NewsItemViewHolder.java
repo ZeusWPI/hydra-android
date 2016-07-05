@@ -25,12 +25,10 @@ public class NewsItemViewHolder extends AbstractViewHolder implements DataViewHo
 
     private TextView info;
     private TextView title;
-    private TextView summary;
 
     public NewsItemViewHolder(View v) {
         super(v);
         title = $(v, R.id.name);
-        summary = $(v, R.id.summary);
         info = $(v, R.id.info);
     }
 
@@ -58,9 +56,6 @@ public class NewsItemViewHolder extends AbstractViewHolder implements DataViewHo
         } else {
             title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
-
-        summary.setText(""); // do not set text here, because not al newsItems are opened
-        summary.setVisibility(View.GONE);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,17 +1,16 @@
-package be.ugent.zeus.hydra.loader.tasks;
+package be.ugent.zeus.hydra.loader.requests;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.loader.NetworkRequest;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 
 /**
  * @author Niko Strijbol
  * @version 4/07/2016
  */
-public class NetworkTaskExecutor {
+public class RequestExecutor {
 
-    public static <T> void executeAsync(final NetworkRequest<T> request, final NetworkCallBack<T> callBack) {
+    public static <T> void executeAsync(final Request<T> request, final Callback<T> callBack) {
 
         AsyncTask<Void, Void, T> task = new AsyncTask<Void, Void, T>() {
             @Override
@@ -35,7 +34,7 @@ public class NetworkTaskExecutor {
         task.execute();
     }
 
-    public interface NetworkCallBack<T> {
+    public interface Callback<T> {
 
         void receiveData(@NonNull T data);
 

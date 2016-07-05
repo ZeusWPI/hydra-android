@@ -17,7 +17,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.SettingsActivity;
 import be.ugent.zeus.hydra.recyclerview.adapters.ActivityListAdapter;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.loader.cache.Request;
+import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.association.Activities;
 import be.ugent.zeus.hydra.models.association.Activity;
 import be.ugent.zeus.hydra.requests.ActivitiesRequest;
@@ -145,7 +145,7 @@ public class ActivitiesFragment extends LoaderFragment<Activities> implements Sh
      * @return The request that will be executed.
      */
     @Override
-    public Request<Activities> getRequest() {
+    public CacheRequest<Activities> getRequest() {
         return new ActivitiesRequest();
     }
 }

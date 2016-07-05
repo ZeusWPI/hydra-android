@@ -38,4 +38,14 @@
     <dimen name="card_text_padding_bottom">16dp</dimen>
     <dimen name="card_text_padding_bottom_no_content">24dp</dimen>
 
+    <!-- Material design for two-line text-only lists -->
+
+    <dimen name="list_two_line_height">72dp</dimen>
+    <dimen name="list_two_line_padding_vertical">16dp</dimen>
+    <!-- This should be 20, but we use 16, since 20 is ugly -->
+    <dimen name="list_two_line_padding_horizontal">16dp</dimen>
+    <dimen name="list_two_line_primary_text_size">16sp</dimen>
+    <dimen name="list_two_line_secondary_text_size">14sp</dimen>
+    <dimen name="list_two_line_margin_horizontal">8dp</dimen>
+
 </resources>

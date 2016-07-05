@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.common.RestoWebsiteActivity;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
-import be.ugent.zeus.hydra.loader.cache.Request;
+import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.recyclerview.adapters.resto.MenuPageAdapter;
@@ -96,7 +96,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
     }
 
     @Override
-    public Request<RestoOverview> getRequest() {
+    public CacheRequest<RestoOverview> getRequest() {
         return new RestoMenuOverviewRequest();
     }
 }

@@ -2,10 +2,12 @@ package be.ugent.zeus.hydra.models.minerva;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by feliciaan on 21/06/16.
  */
-public class Course {
+public class Course implements Serializable {
 
     private String id;
     private String code;

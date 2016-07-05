@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.loader.LoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
-import be.ugent.zeus.hydra.loader.cache.Request;
+import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.association.Activities;
 import be.ugent.zeus.hydra.models.association.Activity;
 import be.ugent.zeus.hydra.models.association.News;
@@ -234,7 +234,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
          * @return The request that will be executed.
          */
         @Override
-        public Request<RestoOverview> getRequest() {
+        public CacheRequest<RestoOverview> getRequest() {
             return new RestoMenuOverviewRequest();
         }
 
@@ -287,7 +287,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
          * @return The request that will be executed.
          */
         @Override
-        public Request<Activities> getRequest() {
+        public CacheRequest<Activities> getRequest() {
             return new ActivitiesRequest();
         }
     }
@@ -330,7 +330,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
          * @return The request that will be executed.
          */
         @Override
-        public Request<SpecialEventWrapper> getRequest() {
+        public CacheRequest<SpecialEventWrapper> getRequest() {
             return new SpecialEventRequest();
         }
     }
@@ -373,7 +373,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
          * @return The request that will be executed.
          */
         @Override
-        public Request<Articles> getRequest() {
+        public CacheRequest<Articles> getRequest() {
             return new SchamperArticlesRequest();
         }
     }
@@ -423,7 +423,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
          * @return The request that will be executed.
          */
         @Override
-        public Request<News> getRequest() {
+        public CacheRequest<News> getRequest() {
             return new NewsRequest();
         }
     }
@@ -432,11 +432,11 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
 //        adapter.updateCardItems(new ArrayList<HomeCard>(), HomeCard.CardType.MINERVA_LOGIN);
 //        if (!authorizationManager.isAuthenticated()) {
 //            if(authorizationManager.getCurrentToken() != null) {
-//                // previously logged in, try to login again
+//                // previously logged in, try to authorize again
 //                minervaSpiceManager.execute(authorizationManager.buildTokenRefreshRequest(), new RequestListener<BearerToken>() {
 //                    @Override
 //                    public void onRequestFailure(SpiceException spiceException) {
-//                        // Not possible to login, so user should login possibly again
+//                        // Not possible to authorize, so user should authorize possibly again
 //                        List<HomeCard> list = new ArrayList<>();
 //                        list.add(new MinervaLoginCard());
 //                        adapter.updateCardItems(list, HomeCard.CardType.MINERVA_LOGIN);

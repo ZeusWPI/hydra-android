@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.fragments.settings.loader;
 import android.app.LoaderManager;
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
-import be.ugent.zeus.hydra.loader.cache.Request;
+import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 
 /**
  * Defines additional methods a class should implement to work with {@link ThrowableEither} as a response.
@@ -30,5 +30,5 @@ public interface ErrorLoaderCallbackSystem<D> extends LoaderManager.LoaderCallba
     /**
      * @return The request that will be executed.
      */
-    Request<D> getRequest();
+    CacheRequest<D> getRequest();
 }

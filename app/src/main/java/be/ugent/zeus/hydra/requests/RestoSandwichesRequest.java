@@ -5,7 +5,7 @@ import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.models.resto.Sandwiches;
 
 /**
- * Request the list of sandwiches.
+ * CacheRequest the list of sandwiches.
  *
  * @author feliciaan
  */

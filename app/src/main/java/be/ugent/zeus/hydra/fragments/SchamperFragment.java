@@ -8,7 +8,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.recyclerview.adapters.ItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.adapters.SchamperListAdapter;
 import be.ugent.zeus.hydra.fragments.common.RecyclerLoaderFragment;
-import be.ugent.zeus.hydra.loader.cache.Request;
+import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.models.schamper.Articles;
 import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
@@ -34,7 +34,7 @@ public class SchamperFragment extends RecyclerLoaderFragment<Article, Articles> 
      * @return The request that will be executed.
      */
     @Override
-    public Request<Articles> getRequest() {
+    public CacheRequest<Articles> getRequest() {
         return new SchamperArticlesRequest();
     }
 }

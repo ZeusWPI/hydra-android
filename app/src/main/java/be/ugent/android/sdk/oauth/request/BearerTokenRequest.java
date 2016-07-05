@@ -27,7 +27,7 @@ import be.ugent.android.sdk.oauth.EndpointConfiguration;
 import be.ugent.android.sdk.oauth.OAuthConfiguration;
 import be.ugent.android.sdk.oauth.json.BearerToken;
 import be.ugent.android.sdk.oauth.storage.TokenData;
-import be.ugent.zeus.hydra.loader.NetworkRequest;
+import be.ugent.zeus.hydra.loader.requests.Request;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.URLConnectionClient;
@@ -42,7 +42,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import java.io.IOException;
 
 
-public class BearerTokenRequest implements NetworkRequest<BearerToken> {
+public class BearerTokenRequest implements Request<BearerToken> {
 
     private static final String TAG = "BearerTokenRequest";
 

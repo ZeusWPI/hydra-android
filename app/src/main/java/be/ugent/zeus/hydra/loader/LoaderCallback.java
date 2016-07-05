@@ -8,8 +8,7 @@ import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import java.io.Serializable;
 
 /**
- * Same as {@link LoaderFragment} and {@link LoaderToolbarActivity},
- * but without any parent.
+ * Same as {@link LoaderFragment} and {@link LoaderToolbarActivity}, but without any parent.
  *
  * @author Niko Strijbol
  */
@@ -23,7 +22,7 @@ public abstract class LoaderCallback<D extends Serializable> implements ErrorLoa
      */
     @Override
     public void onLoadFinished(Loader<ThrowableEither<D>> loader, ThrowableEither<D> data) {
-        if(data.hasError()) {
+        if (data.hasError()) {
             receiveError(data.getError());
         } else {
             receiveData(data.getData());

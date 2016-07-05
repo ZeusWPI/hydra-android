@@ -4,12 +4,13 @@ import be.ugent.zeus.hydra.models.converters.MinervaDateJsonAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by feliciaan on 29/06/16.
  */
-public class Announcement {
+public class Announcement implements Serializable {
 
     private String title;
     private String content;

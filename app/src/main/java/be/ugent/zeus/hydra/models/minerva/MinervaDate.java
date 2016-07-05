@@ -1,16 +1,16 @@
 package be.ugent.zeus.hydra.models.minerva;
 
+import be.ugent.zeus.hydra.models.converters.MinervaDateJsonAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
-
-import be.ugent.zeus.hydra.models.converters.MinervaDateJsonAdapter;
 
 /**
  * Created by feliciaan on 30/06/16.
  */
-public class MinervaDate {
+public class MinervaDate implements Serializable {
 
     @JsonAdapter(MinervaDateJsonAdapter.class)
     private Date date;

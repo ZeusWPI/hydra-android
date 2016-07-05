@@ -54,6 +54,13 @@ public abstract class LoaderFragment<D extends Serializable> extends Fragment im
     }
 
     /**
+     * Show the progress bar.
+     */
+    protected void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    /**
      * Refresh the data.
      */
     protected void refresh() {

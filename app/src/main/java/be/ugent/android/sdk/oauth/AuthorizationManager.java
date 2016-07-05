@@ -23,19 +23,18 @@ package be.ugent.android.sdk.oauth;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.webkit.*;
 import be.ugent.android.sdk.oauth.event.AuthorizationEvent;
-import be.ugent.android.sdk.oauth.event.AuthorizationEventListener;
+import be.ugent.android.sdk.oauth.event.AuthorizationEventHandler;
 import be.ugent.android.sdk.oauth.json.BearerToken;
 import be.ugent.android.sdk.oauth.request.BearerTokenRequest;
 import be.ugent.android.sdk.oauth.storage.StorageManager;
 import be.ugent.android.sdk.oauth.storage.TokenData;
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.loader.NetworkRequest;
+import be.ugent.zeus.hydra.loader.requests.Request;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
@@ -90,17 +89,34 @@ public class AuthorizationManager {
     /**
      * Loads authorization page of the provider in the WebView.
      *
-     * @param webView The WebView which will render the authorization page.
+     * @param handler The companion for the authorization
+     * @param listener The WebView listener.
      */
     @SuppressLint("SetJavaScriptEnabled")
-    public void showAuthorizationPage(final AuthorizationEventListener ctx, final WebView webView) {
-        // activate javascript support
+    public void showAuthorizationPage(final AuthorizationEventHandler handler, final AuthorizationEventHandler.WebViewListener listener) {
+
+        // Get the WebView.
+        WebView webView = handler.getWebView();
+
+        // Activate javascript support.
         Log.d(TAG, "Enabling Javascript support on webview");
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        // callback listener for successful redirection
+        // Set the client.
         webView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                listener.onPageFinished(url);
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                listener.onPageStarted(url, favicon);
+            }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -110,27 +126,31 @@ public class AuthorizationManager {
                 if (url.startsWith(configData.CALLBACK_URI)) {
                     Uri uri = Uri.parse(url);
 
-                    // successful authorization
                     String errorParameter = uri.getQueryParameter("error");
-                    if (errorParameter == null) {
-                        // set authorization code
-                        BaseApiActivity activity = (BaseApiActivity) ctx;
-                        activity.requestFirstAccessToken(uri.getQueryParameter("code"));
-                    }
 
+                    // Successful authorization: send the code and event.
+                    if (errorParameter == null) {
+                        handler.receiveAuthorizationCode(uri.getQueryParameter("code"));
+                    }
                     // failed authorization
                     else {
-                        String errorMessage = uri.getQueryParameter("error_description");
-                        ctx.onAuthorizationEventReceived(AuthorizationEvent.AUTHENTICATION_FAILED);
+                        Log.e(TAG, "Authorization failed: " + uri.getQueryParameter("error_description"));
+                        handler.onAuthorizationEvent(AuthorizationEvent.AUTHENTICATION_FAILED);
                     }
 
                 }
+
                 return super.shouldOverrideUrlLoading(view, url);
             }
 
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+                listener.onError(errorCode, description);
+            }
         });
 
-        // Direct webview to Authorization URL.
+        // Redirect to the correct URL.
         try {
             OAuthClientRequest request = OAuthClientRequest
                     .authorizationLocation(EndpointConfiguration.AUTHORIZATION_ENDPOINT)
@@ -142,18 +162,15 @@ public class AuthorizationManager {
             webView.loadUrl(request.getLocationUri());
         } catch (OAuthSystemException e) {
             Log.e(TAG, "Error while building URI", e);
-            e.printStackTrace();
-            // TODO: what if we can't build the URI?
         }
     }
-
 
     /**
      * Builds a token request based on the grant information.
      *
      * @return BearerTokenRequest based on an authorization code.
      */
-    public NetworkRequest<BearerToken> buildGrantTokenRequest(String authorizationCode) {
+    public Request<BearerToken> buildGrantTokenRequest(String authorizationCode) {
         return new BearerTokenRequest(configData, authorizationCode);
     }
 
@@ -162,7 +179,7 @@ public class AuthorizationManager {
      *
      * @return A request to fetch the next bearer token using the refresh token.
      */
-    public NetworkRequest<BearerToken> buildTokenRefreshRequest() {
+    public Request<BearerToken> buildTokenRefreshRequest() {
         return new BearerTokenRequest(configData, currentToken);
     }
 
@@ -234,9 +251,9 @@ public class AuthorizationManager {
      *
      * @param listener The event listener to be informed of the signout.
      */
-    public void signOut(AuthorizationEventListener listener) {
+    public void signOut(AuthorizationEventHandler listener) {
         signOut();
-        listener.onAuthorizationEventReceived(AuthorizationEvent.SIGNED_OUT);
+        listener.onAuthorizationEvent(AuthorizationEvent.SIGNED_OUT);
     }
 
     //

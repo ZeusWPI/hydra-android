@@ -4,7 +4,7 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import be.ugent.zeus.hydra.loader.CachedAsyncTaskLoader;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
-import be.ugent.zeus.hydra.loader.cache.Request;
+import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 
 import java.io.Serializable;
 
@@ -19,13 +19,13 @@ import java.io.Serializable;
  */
 public class CachedAsyncTaskLoaderSystem<D extends Serializable> extends AsyncTaskLoader<ThrowableEither<D>> {
 
-    private Request<D> request;
+    private CacheRequest<D> request;
 
     private ThrowableEither<D> data = null;
 
     private boolean refresh = false;
 
-    public CachedAsyncTaskLoaderSystem(Request<D> request, Context context) {
+    public CachedAsyncTaskLoaderSystem(CacheRequest<D> request, Context context) {
         super(context);
         this.request = request;
     }

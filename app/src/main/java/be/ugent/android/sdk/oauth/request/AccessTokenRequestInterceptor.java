@@ -53,12 +53,12 @@ public class AccessTokenRequestInterceptor implements ClientHttpRequestIntercept
                 request.getHeaders().set("Authorization", String.format("Bearer %s", accessToken));
                 request.getHeaders().set("X-Bearer-Token", accessToken);
 
-                // Log API Request
-                Log.i(TAG, String.format("API Request: %s", request.getURI().toString()));
+                // Log API CacheRequest
+                Log.i(TAG, String.format("API CacheRequest: %s", request.getURI().toString()));
             }
         }
 
-        // Perform Request
+        // Perform CacheRequest
         ClientHttpResponse response = execution.execute(request, body);
 
         return response;

@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.loader.cache.Cache;
-import be.ugent.zeus.hydra.loader.cache.Request;
+import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.loader.cache.exceptions.CacheException;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import org.joda.time.Duration;
@@ -25,7 +25,7 @@ import java.io.Serializable;
  */
 public abstract class FileCache implements Cache {
 
-    protected static final String TAG = "Hydra FileCache";
+    protected static final String TAG = "FileCache";
 
     protected File directory;
     protected Context context;
@@ -110,21 +110,21 @@ public abstract class FileCache implements Cache {
      * @throws RequestFailureException
      */
     @NonNull
-    public <T extends Serializable> T get(Request<T> request, long duration) throws RequestFailureException {
+    public <T extends Serializable> T get(CacheRequest<T> request, long duration) throws RequestFailureException {
         CacheObject<T> object = readOrNull(request.getCacheKey());
         T data;
 
         if(shouldRenew(object, duration)) {
-            Log.d(TAG, "New response for " + request);
+            Log.i(TAG, "New response for " + request);
             data = request.performRequest();
             object = new CacheObject<>(data);
             try {
                 write(request.getCacheKey(), object);
             } catch (CacheException e) {
-                Log.w(TAG,  e);
+                Log.w(TAG, e);
             }
         } else {
-            Log.d(TAG, "Cached response for " + request);
+            Log.i(TAG, "Cached response for " + request);
             data = object.getData();
         }
 
@@ -132,16 +132,16 @@ public abstract class FileCache implements Cache {
     }
 
     @NonNull
-    public <T extends Serializable> T get(Request<T> request) throws RequestFailureException {
+    public <T extends Serializable> T get(CacheRequest<T> request) throws RequestFailureException {
         return get(request, request.getCacheDuration());
     }
 
     /**
-     * @see #get(Request)
+     * @see #get(CacheRequest)
      * @return The data or null if the request failed.
      */
     @Nullable
-    public <T extends Serializable> T getOrNull(Request<T> request, long duration) {
+    public <T extends Serializable> T getOrNull(CacheRequest<T> request, long duration) {
         try {
             return get(request, duration);
         } catch (RequestFailureException e) {
@@ -150,7 +150,7 @@ public abstract class FileCache implements Cache {
     }
 
     @Nullable
-    public <T extends Serializable> T getOrNull(Request<T> request) {
+    public <T extends Serializable> T getOrNull(CacheRequest<T> request) {
         return getOrNull(request, request.getCacheDuration());
     }
 }

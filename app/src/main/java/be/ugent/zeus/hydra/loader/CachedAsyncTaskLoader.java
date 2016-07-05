@@ -4,14 +4,14 @@ import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.os.OperationCanceledException;
 import be.ugent.zeus.hydra.loader.cache.Cache;
-import be.ugent.zeus.hydra.loader.cache.Request;
+import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.loader.cache.file.SerializeCache;
 
 import java.io.Serializable;
 
 /**
- * Cached task loader. The task loader requires a {@link Request} that will be executed.
+ * Cached task loader. The task loader requires a {@link CacheRequest} that will be executed.
  *
  * For more information about the implementation of Loaders see the link below for a detailed guide.
  *
@@ -26,17 +26,17 @@ import java.io.Serializable;
  */
 public class CachedAsyncTaskLoader<D extends Serializable> extends AsyncTaskLoader<ThrowableEither<D>> {
 
-    private Request<D> request;
+    private CacheRequest<D> request;
 
     private ThrowableEither<D> data = null;
 
     private boolean refresh;
 
-    public CachedAsyncTaskLoader(Request<D> request, Context context) {
+    public CachedAsyncTaskLoader(CacheRequest<D> request, Context context) {
         this(request, context, false);
     }
 
-    public CachedAsyncTaskLoader(Request<D> request, Context context, boolean freshData) {
+    public CachedAsyncTaskLoader(CacheRequest<D> request, Context context, boolean freshData) {
         super(context);
         this.request = request;
         this.refresh = freshData;
@@ -71,7 +71,7 @@ public class CachedAsyncTaskLoader<D extends Serializable> extends AsyncTaskLoad
     /**
      * Helper function for re-use in the system task loader.
      */
-    public static <T extends Serializable> ThrowableEither<T> loadInBackground(Context context, boolean refresh, Request<T> request) {
+    public static <T extends Serializable> ThrowableEither<T> loadInBackground(Context context, boolean refresh, CacheRequest<T> request) {
         Cache cache = new SerializeCache(context);
 
         ThrowableEither<T> returnValue;

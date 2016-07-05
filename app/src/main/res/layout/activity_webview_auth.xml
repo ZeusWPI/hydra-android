@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AuthenticationActivity">
+    tools:context=".activities.WebViewAuthenticateActivity"
+    android:id="@+id/coordinator">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -18,28 +19,22 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:animateLayoutChanges="true"
         >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:id="@+id/auth_login"
+            />
 
         <WebView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/oauthWebView"
-            />
-
-        <TextView
-            android:id="@+id/auth_needs_ugent"
-            android:paddingLeft="@dimen/vertical_padding"
-            android:paddingRight="@dimen/vertical_padding"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/auth_needs_ugent"
-            android:gravity="center"
-            android:visibility="gone"/>
-
-        <include layout="@layout/x_progress_bar" />
+            android:visibility="gone"
+            android:id="@+id/auth_webview"/>
 
     </FrameLayout>
 
