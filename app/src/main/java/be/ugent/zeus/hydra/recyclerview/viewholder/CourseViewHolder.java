@@ -34,7 +34,7 @@ public class CourseViewHolder extends RecyclerView.ViewHolder implements DataVie
     public void populateData(Course course) {
         name.setText(course.getTitle());
         //TODO this
-        CharSequence tutor = course.getTutorName() == null ? "" : HtmlUtils.stripHtml(course.getTutorName());
+        CharSequence tutor = course.getTutorName() == null ? "" : HtmlUtils.fromHtml(course.getTutorName());
         subtitle.setText(tutor + " - " + course.getCode());
     }
 }

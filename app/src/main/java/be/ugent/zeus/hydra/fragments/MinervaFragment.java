@@ -23,8 +23,8 @@ import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.Courses;
 import be.ugent.zeus.hydra.models.minerva.WhatsNew;
 import be.ugent.zeus.hydra.recyclerview.adapters.CourseAdapter;
-import be.ugent.zeus.hydra.requests.CoursesMinervaRequest;
-import be.ugent.zeus.hydra.requests.WhatsNewRequest;
+import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
+import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.utils.DividerItemDecoration;
 
 import static android.app.Activity.RESULT_OK;
@@ -40,7 +40,6 @@ public class MinervaFragment extends LoaderFragment<Courses> {
 
     private static final int AUTH_REQUEST = 1;
 
-    private Button refresh;
     private RecyclerView recyclerView;
     private View authWrapper;
 
@@ -144,6 +143,8 @@ public class MinervaFragment extends LoaderFragment<Courses> {
         }
     }
 
+    //TODO | To use this in a recycler view, we might move this to the adapter class instead, otherwise
+    //TODO | we cannot get a reference from the recyclerview
     public void requestCourseAnnouncements(final Course course) {
         WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, (HydraApplication) getActivity().getApplication());
 
@@ -176,7 +177,7 @@ public class MinervaFragment extends LoaderFragment<Courses> {
         adapter.setItems(data.getCourses());
         for (final Course course: data.getCourses()) {
             System.out.println("\t" + course.getTitle() + "\t" + course.getTutorName());
-            //requestCourseAnnouncements(course);
+            requestCourseAnnouncements(course);
         }
     }
 

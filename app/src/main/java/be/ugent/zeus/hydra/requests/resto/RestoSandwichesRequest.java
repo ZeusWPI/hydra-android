@@ -1,8 +1,9 @@
-package be.ugent.zeus.hydra.requests;
+package be.ugent.zeus.hydra.requests.resto;
 
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.models.resto.Sandwiches;
+import be.ugent.zeus.hydra.requests.AbstractRequest;
 
 /**
  * CacheRequest the list of sandwiches.

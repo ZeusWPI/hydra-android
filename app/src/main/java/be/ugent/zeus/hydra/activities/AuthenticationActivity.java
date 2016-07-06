@@ -110,11 +110,13 @@ public class AuthenticationActivity extends ToolbarActivity implements Authoriza
                 System.out.println("Authentication success");
                 finishWithResult();
                 break;
-
-            // Pity, the user didn't allow our application access to
-            // his personal information.
             case AUTHENTICATION_FAILED:
-                System.out.println("User doesn't trust us with his data! :-(");
+                //When this happens, we display a toast informing the user and close this activity.
+                //The activity is closed without result.
+                Log.e(TAG, "The user denied the authorization.");
+                Toast.makeText(getApplicationContext(), R.string.auth_denied, Toast.LENGTH_LONG).show();
+                finish();
+                break;
         }
     }
 

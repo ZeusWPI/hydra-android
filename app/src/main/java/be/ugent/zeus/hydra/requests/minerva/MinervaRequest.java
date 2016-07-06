@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.requests;
+package be.ugent.zeus.hydra.requests.minerva;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -7,6 +7,7 @@ import be.ugent.android.sdk.oauth.json.BearerToken;
 import be.ugent.android.sdk.oauth.request.AccessTokenRequestInterceptor;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.requests.AbstractRequest;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,7 +19,7 @@ import java.util.Map;
 /**
  * Created by feliciaan on 20/06/16.
  */
-public abstract class MinervaRequest<T extends Serializable> extends AbstractRequest<T>  {
+public abstract class MinervaRequest<T extends Serializable> extends AbstractRequest<T> {
 
     private static final String TAG = "MinervaRequest";
 

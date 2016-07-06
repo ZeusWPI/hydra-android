@@ -59,9 +59,7 @@ public class AccessTokenRequestInterceptor implements ClientHttpRequestIntercept
         }
 
         // Perform CacheRequest
-        ClientHttpResponse response = execution.execute(request, body);
-
-        return response;
+        return execution.execute(request, body);
     }
 
 }

@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.activities.resto.common.RestoActivity;
 import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.resto.RestoMeta;
 import be.ugent.zeus.hydra.recyclerview.adapters.resto.MetaAdapter;
-import be.ugent.zeus.hydra.requests.RestoMetaRequest;
+import be.ugent.zeus.hydra.requests.resto.RestoMetaRequest;
 import be.ugent.zeus.hydra.utils.DividerItemDecoration;
 
 /**

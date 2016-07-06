@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.requests;
+package be.ugent.zeus.hydra.requests.minerva;
 
 import be.ugent.android.sdk.oauth.EndpointConfiguration;
 import be.ugent.android.sdk.oauth.json.GrantInformation;

@@ -1,5 +1,6 @@
-package be.ugent.zeus.hydra.requests;
+package be.ugent.zeus.hydra.requests.minerva;
 
+import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.WhatsNew;
@@ -18,11 +19,13 @@ public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
     }
 
     @Override
+    @NonNull
     public String getCacheKey() {
         return "whatsnewRequest." + course.getId();
     }
 
     @Override
+    @NonNull
     protected String getAPIUrl() {
         return MINERVA_API + "course/" + course.getId() + "/whatsnew";
     }

@@ -32,6 +32,7 @@ import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.requests.*;
+import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 

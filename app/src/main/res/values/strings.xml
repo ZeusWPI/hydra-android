@@ -88,8 +88,9 @@
     <string name="pref_home_title">Startscherm</string>
     <string name="title_activity_authentication">Authenticatie</string>
     <string name="account_label">Minerva</string>
-    <string name="auth_needs_ugent">Helaas werkt de Minerva-integratie enkel op het netwerk van de UGent (VPN of Eduroam).</string>
-    <string name="auth_maybe_not_ugent">Je bent waarschijnlijk niet verbonden met het netwerk van de UGent. Minerva zal dan niet werken.</string>
+    <string name="auth_needs_ugent">Helaas werkt de Minerva-integratie voorlopig enkel op het netwerk van de UGent (VPN of Eduroam).</string>
+    <string name="auth_maybe_not_ugent">Je bent waarschijnlijk niet verbonden met het netwerk van de UGent. Minerva zal dan (voorlopig) niet werken.</string>
     <string name="minerva_authorize">Authorizeren</string>
     <string name="need_auth">Om Minerva te gebruiken dien je toestemming te geven.</string>
+    <string name="auth_denied">Je gaf geen toestemming om Minerva te gebruiken.</string>
 </resources>

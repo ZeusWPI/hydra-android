@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.requests;
+package be.ugent.zeus.hydra.requests.minerva;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.models.minerva.Hello;

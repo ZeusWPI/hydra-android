@@ -11,7 +11,7 @@ import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.resto.Sandwich;
 import be.ugent.zeus.hydra.models.resto.Sandwiches;
 import be.ugent.zeus.hydra.recyclerview.adapters.resto.SandwichAdapter;
-import be.ugent.zeus.hydra.requests.RestoSandwichesRequest;
+import be.ugent.zeus.hydra.requests.resto.RestoSandwichesRequest;
 import be.ugent.zeus.hydra.utils.DividerItemDecoration;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 

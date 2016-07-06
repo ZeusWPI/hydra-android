@@ -14,7 +14,7 @@ import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.recyclerview.adapters.resto.MenuPageAdapter;
-import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
+import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
 
 import java.util.Collections;
 
