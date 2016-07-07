@@ -159,8 +159,8 @@ public class CourseAnnouncementAdapter extends RecyclerView.Adapter<CourseAnnoun
         }
     }
 
-    public boolean isExpanded(int position) {
-        return data.get(position + 1) instanceof Announcement;
+    private boolean isExpanded(int position) {
+        return position + 1 < data.size() && data.get(position + 1) instanceof Announcement;
     }
 
     public static class AnnouncementViewHolder extends ViewHolder<Announcement> {
