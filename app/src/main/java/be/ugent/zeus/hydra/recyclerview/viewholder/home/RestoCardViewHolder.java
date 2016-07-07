@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 
+import android.content.Intent;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -7,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.Hydra;
+import be.ugent.zeus.hydra.activities.resto.MenuActivity;
 import be.ugent.zeus.hydra.fragments.resto.MenuFragment;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
@@ -57,11 +58,9 @@ public class RestoCardViewHolder extends AbstractViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: open resto fragment
-                if (v.getContext() instanceof Hydra) {
-                    Hydra activity = (Hydra) v.getContext();
-                    activity.changeFragment(2);
-                }
+                Intent intent = new Intent(itemView.getContext(), MenuActivity.class);
+                intent.putExtra(MenuActivity.ARG_DATE, menu.getDate().getTime());
+                itemView.getContext().startActivity(intent);
             }
         });
 

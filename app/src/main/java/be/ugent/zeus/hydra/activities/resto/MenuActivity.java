@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.activities.resto;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -15,8 +16,11 @@ import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.recyclerview.adapters.resto.MenuPageAdapter;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 
 import java.util.Collections;
+import java.util.Date;
 
 /**
  * Display the menu of the resto in a separate view, similar to the old app.
@@ -25,10 +29,13 @@ import java.util.Collections;
  */
 public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
 
+    public static final String ARG_DATE = "start_date";
+
     private static final String URL = "http://www.ugent.be/student/nl/meer-dan-studeren/resto";
 
     private MenuPageAdapter pageAdapter;
     private ViewPager mViewPager;
+    private Date startDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +61,15 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
         TabLayout tabLayout = $(R.id.resto_tabs_slider);
         tabLayout.setupWithViewPager(mViewPager);
 
+        Intent intent = getIntent();
+
+        //Get the default start date
+        Date start = new Date();
+        if(DateTime.now().isAfter(DateTime.now().withHourOfDay(14))) {
+            start = DateTime.now().plusDays(1).toDate();
+        }
+        startDate = new Date(intent.getLongExtra(ARG_DATE, start.getTime()));
+
         startLoader();
     }
 
@@ -73,6 +89,14 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
     @Override
     public void receiveData(@NonNull RestoOverview data) {
         pageAdapter.setData(data);
+        for (int i = 0; i < data.size(); i++) {
+            RestoMenu menu = data.get(i);
+            //Set the tab to this day!
+            if(DateTimeComparator.getDateOnlyInstance().compare(menu.getDate(), startDate) >= 0) {
+                mViewPager.setCurrentItem(i, false);
+                break;
+            }
+        }
     }
 
     /**
