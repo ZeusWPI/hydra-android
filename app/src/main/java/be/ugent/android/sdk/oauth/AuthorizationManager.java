@@ -165,6 +165,23 @@ public class AuthorizationManager {
         }
     }
 
+    public String getRequestUri() {
+        try {
+            OAuthClientRequest request = OAuthClientRequest
+                    .authorizationLocation(EndpointConfiguration.AUTHORIZATION_ENDPOINT)
+                    .setResponseType(ResponseType.CODE.toString())
+                    .setClientId(configData.API_KEY)
+                    .setRedirectURI(configData.CALLBACK_URI)
+                    .setState("auth_state")
+                    .buildQueryMessage();
+            return request.getLocationUri();
+        } catch (OAuthSystemException e) {
+            Log.e(TAG, "Error while building URI", e);
+            //This shouldn't happen, so we intentionally crash the app.
+            throw new IllegalStateException("This must not happen!", e);
+        }
+    }
+
     /**
      * Builds a token request based on the grant information.
      *

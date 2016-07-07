@@ -30,4 +30,9 @@ public class EndpointConfiguration {
     public final static String TOKEN_ENDPOINT = "https://oauthq.ugent.be/access_token";
     public final static String GRANT_INFORMATION_ENDPOINT = "https://oauthq.ugent.be/tokeninfo";
 
+    /**
+     * The URL scheme of the callback.
+     */
+    public final static String CALLBACK_SCHEME = "hydra-ugent";
+
 }

@@ -12,6 +12,8 @@ import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_WEEK;
  */
 public class CoursesMinervaRequest extends MinervaRequest<Courses> {
 
+    public static final String BASE_KEY = "minerva_courses";
+
     public CoursesMinervaRequest(HydraApplication app) {
         super(Courses.class, app);
     }
@@ -19,7 +21,7 @@ public class CoursesMinervaRequest extends MinervaRequest<Courses> {
     @Override
     @NonNull
     public String getCacheKey() {
-        return "minerva_courses";
+        return BASE_KEY;
     }
 
     @Override

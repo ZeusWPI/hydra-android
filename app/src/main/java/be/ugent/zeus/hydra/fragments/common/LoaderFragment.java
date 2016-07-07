@@ -134,6 +134,10 @@ public abstract class LoaderFragment<D extends Serializable> extends Fragment im
         getLoaderManager().restartLoader(LOADER, null, this);
     }
 
+    protected void destroyLoader() {
+        getLoaderManager().destroyLoader(LOADER);
+    }
+
     /**
      * This must be called when an error occurred.
      *

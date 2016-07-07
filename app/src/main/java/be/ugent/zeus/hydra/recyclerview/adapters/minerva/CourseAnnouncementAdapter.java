@@ -26,7 +26,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
  * TODO: try to remove raw list
- * 
+ *
  * @author Niko Strijbol
  */
 public class CourseAnnouncementAdapter extends RecyclerView.Adapter<CourseAnnouncementAdapter.ViewHolder> {

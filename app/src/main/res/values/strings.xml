@@ -96,4 +96,5 @@
     <string name="announcement_by">Zender</string>
     <string name="announcement_when">Op</string>
     <string name="title_announcement_title">Aankondiging</string>
+    <string name="logout">Afmelden</string>
 </resources>

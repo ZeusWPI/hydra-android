@@ -1,9 +1,14 @@
 package be.ugent.zeus.hydra.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 
 /**
  * Utils for working with the network.
@@ -40,6 +45,20 @@ public class NetworkUtils {
         String name = getWifiName(context);
 
         return EDUROAM.equals(name);
+    }
+
+    public static void launchCustomTabOrBrowser(String url, Activity context) {
+        //If possible, use custom tabs
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+            //Get theme color
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setToolbarColor(ViewUtils.getPrimaryColor(context));
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(context, Uri.parse(url));
+        } else {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            context.startActivity(browserIntent);
+        }
     }
 
 }

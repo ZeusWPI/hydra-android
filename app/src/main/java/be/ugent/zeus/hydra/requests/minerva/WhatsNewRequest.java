@@ -11,6 +11,9 @@ import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_HOUR;
  * Created by feliciaan on 29/06/16.
  */
 public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
+
+    public static final String BASE_KEY = "whatsnewRequest";
+
     private Course course;
 
     public WhatsNewRequest(Course course, HydraApplication app) {
@@ -21,7 +24,7 @@ public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
     @Override
     @NonNull
     public String getCacheKey() {
-        return "whatsnewRequest." + course.getId();
+        return BASE_KEY + "." + course.getId();
     }
 
     @Override

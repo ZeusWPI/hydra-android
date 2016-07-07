@@ -1,8 +1,11 @@
 package be.ugent.zeus.hydra.utils;
 
+import android.app.Activity;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.util.TypedValue;
 import android.view.View;
+import be.ugent.zeus.hydra.R;
 
 /**
  * @author Niko Strijbol
@@ -23,5 +26,11 @@ public class ViewUtils {
         T v = (T) view.findViewById(id);
         assert v != null;
         return v;
+    }
+
+    public static int getPrimaryColor(Activity activity) {
+        TypedValue typedValue = new TypedValue();
+        activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        return typedValue.data;
     }
 }

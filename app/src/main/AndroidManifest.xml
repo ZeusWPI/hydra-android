@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     package="be.ugent.zeus.hydra"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Override Custom Tabs -->
+    <uses-sdk tools:overrideLibrary="android.support.customtabs"/>
 
     <application
         android:name=".HydraApplication"
@@ -131,14 +135,27 @@
 
         <receiver android:name=".notifications.DailyNotificationReceiver" />
 
+        <!--
+          ~ The authentication activity for the Minerva OAuth. This is in singleInstance mode, since
+          ~  it makes things easier.
+          -->
         <activity
             android:name=".activities.minerva.AuthenticationActivity"
             android:label="@string/title_activity_authentication"
+            android:launchMode="singleInstance"
             android:parentActivityName=".activities.Hydra">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.Hydra" />
+
+            <!-- Intent filters -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="hydra-ugent" />
+            </intent-filter>
         </activity>
 
         <activity

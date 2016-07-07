@@ -6,9 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.Button;
 import be.ugent.android.sdk.oauth.AuthorizationManager;
 import be.ugent.zeus.hydra.HydraApplication;
@@ -16,18 +14,25 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.minerva.AuthenticationActivity;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.cache.CacheRequest;
+import be.ugent.zeus.hydra.loader.cache.file.FileCache;
+import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.Courses;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAnnouncementAdapter;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
+import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.utils.DividerItemDecoration;
+
+import java.util.Collections;
 
 import static android.app.Activity.RESULT_OK;
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
- * Created by silox on 17/10/15.
+ * Displays Minerva items.
+ *
+ * @author silox
+ * @author Niko Strijbol
  */
-
 public class MinervaFragment extends LoaderFragment<Courses> {
 
     private static final String TAG = "MinervaFragment";
@@ -40,17 +45,18 @@ public class MinervaFragment extends LoaderFragment<Courses> {
     private AuthorizationManager authorizationManager;
     private CourseAnnouncementAdapter adapter;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        authorizationManager = ((HydraApplication)getActivity().getApplication()).getAuthorizationManager();
-    }
-
     /**
      * Do not automatically start the loaders, we do it by hand.
      */
     public MinervaFragment() {
         autoStart = false;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        authorizationManager = ((HydraApplication)getActivity().getApplication()).getAuthorizationManager();
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -146,6 +152,7 @@ public class MinervaFragment extends LoaderFragment<Courses> {
     public void receiveData(@NonNull Courses data) {
         adapter.setItems(data.getCourses());
         recyclerView.setVisibility(View.VISIBLE);
+        getActivity().invalidateOptionsMenu();
     }
 
     /**
@@ -154,5 +161,55 @@ public class MinervaFragment extends LoaderFragment<Courses> {
     @Override
     public CacheRequest<Courses> getRequest() {
         return new CoursesMinervaRequest((HydraApplication) getActivity().getApplication());
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if(isLoggedIn()) {
+            inflater.inflate(R.menu.menu_minerva, menu);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.action_logout) {
+            signOut();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Sign out and hide the data.
+     */
+    private void signOut() {
+        //Delete items
+        adapter.setItems(Collections.<Course>emptyList());
+        //Hide list
+        recyclerView.setVisibility(View.GONE);
+        //Hide progress
+        hideProgressBar();
+        //Show login prompt
+        authWrapper.setVisibility(View.VISIBLE);
+        //Destroy loaders
+        destroyLoader();
+        //Delete cache
+        clearCache();
+        //Sign out
+        authorizationManager.signOut();
+        //Reload options
+        getActivity().invalidateOptionsMenu();
+    }
+
+    /**
+     * Clear the cache of the existing requests.
+     */
+    private void clearCache() {
+        //Delete list of courses
+        FileCache.deleteStartingWith(CoursesMinervaRequest.BASE_KEY, getContext().getApplicationContext());
+        //Delete all courses
+        FileCache.deleteStartingWith(WhatsNewRequest.BASE_KEY, getContext().getApplicationContext());
     }
 }

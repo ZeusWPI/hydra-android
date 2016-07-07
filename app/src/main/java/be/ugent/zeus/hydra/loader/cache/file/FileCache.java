@@ -12,6 +12,7 @@ import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import org.joda.time.Duration;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.Serializable;
 
 /**
@@ -152,5 +153,50 @@ public abstract class FileCache implements Cache {
     @Nullable
     public <T extends Serializable> T getOrNull(CacheRequest<T> request) {
         return getOrNull(request, request.getCacheDuration());
+    }
+
+    /**
+     * Delete all files starting with a given name. This means 'cache_' matches 'cache_', but also 'cache_other123'.
+     * Note that this will not scan recursively.
+     *
+     * @param start The name with which the files should start.
+     * @param context The context. The default cache directory will be used.
+     *
+     * @return The number of files deleted.
+     */
+    public static int deleteStartingWith(final String start, Context context) {
+        return deleteStartingWith(start, context.getCacheDir());
+    }
+
+    /**
+     * Delete all files starting with a given name. This means 'cache_' matches 'cache_', but also 'cache_other123'.
+     *
+     * @param start The name with which the files should start.
+     * @param directory The directory to scan.
+     *
+     * @return The number of files deleted.
+     */
+    public static int deleteStartingWith(final String start, File directory) {
+
+        //Get files to delete
+        File[] toDelete = directory.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                Log.v(TAG, "File considered: " + pathname.getName());
+                return pathname.getName().startsWith(start);
+            }
+        });
+
+        int counter = 0;
+        for(File f: toDelete) {
+            if(f.delete()) {
+                Log.d(TAG, "Deleted file: " + f.getName());
+                counter++;
+            }
+        }
+
+        Log.i(TAG, "Deleted " + counter + " files");
+
+        return counter;
     }
 }

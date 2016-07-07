@@ -1,16 +1,17 @@
 package be.ugent.zeus.hydra.activities.minerva;
 
-import android.graphics.Bitmap;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.view.View;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import be.ugent.android.sdk.oauth.AuthorizationManager;
+import be.ugent.android.sdk.oauth.EndpointConfiguration;
 import be.ugent.android.sdk.oauth.event.AuthorizationEvent;
 import be.ugent.android.sdk.oauth.event.AuthorizationEventHandler;
 import be.ugent.android.sdk.oauth.json.BearerToken;
@@ -50,48 +51,120 @@ public class AuthenticationActivity extends ToolbarActivity implements Authoriza
         if(!NetworkUtils.isUgentNetwork(getApplicationContext())) {
             Toast.makeText(getApplicationContext(), R.string.auth_maybe_not_ugent, Toast.LENGTH_LONG).show();
         }
+
+        //Show login screen.
+        if (authorizationManager.isAuthenticated()) {
+            finishWithResult();
+        } else {
+            // This will tell the `AuthorizationManager` to start an oAuth 2.0
+            // authorization flow within this particular `WebView`.
+//            authorizationManager.showAuthorizationPage(this, new WebViewListener() {
+//                @Override
+//                public void onPageFinished(String url) {
+//                    progressBar.setVisibility(View.GONE);
+//                }
+//
+//                @Override
+//                public void onPageStarted(String url, Bitmap favicon) {
+//                    webView.setVisibility(View.VISIBLE);
+//                }
+//
+//                @Override
+//                public void onError(int code, String description) {
+//                    Log.e(TAG, "HTTP error occured, #" + code + ": " + description);
+//                    switch (code) {
+//                        case WebViewClient.ERROR_TIMEOUT:
+//                            webView.stopLoading();
+//                            webView.setVisibility(View.GONE);
+//                            needsUgent.setVisibility(View.VISIBLE);
+//                            break;
+//                        case WebViewClient.ERROR_CONNECT:
+//                            onAuthorizationEvent(AuthorizationEvent.NO_NETWORK);
+//                            break;
+//                        default:
+//                            //Do nothing.
+//                    }
+//                }
+//            });
+
+            NetworkUtils.launchCustomTabOrBrowser(authorizationManager.getRequestUri(), this);
+
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "Starting onResume.");
-        // Immediately redirect the user to the if he is already signed in.
-        if (authorizationManager.isAuthenticated()) {
-            finishWithResult();
-        } else {
-            // This will tell the `AuthorizationManager` to start an oAuth 2.0
-            // authorization flow within this particular `WebView`.
-            authorizationManager.showAuthorizationPage(this, new WebViewListener() {
-                @Override
-                public void onPageFinished(String url) {
-                    progressBar.setVisibility(View.GONE);
-                }
+//        // Immediately redirect the user to the if he is already signed in.
+//        if (authorizationManager.isAuthenticated()) {
+//            finishWithResult();
+//        } else {
+//            // This will tell the `AuthorizationManager` to start an oAuth 2.0
+//            // authorization flow within this particular `WebView`.
+////            authorizationManager.showAuthorizationPage(this, new WebViewListener() {
+////                @Override
+////                public void onPageFinished(String url) {
+////                    progressBar.setVisibility(View.GONE);
+////                }
+////
+////                @Override
+////                public void onPageStarted(String url, Bitmap favicon) {
+////                    webView.setVisibility(View.VISIBLE);
+////                }
+////
+////                @Override
+////                public void onError(int code, String description) {
+////                    Log.e(TAG, "HTTP error occured, #" + code + ": " + description);
+////                    switch (code) {
+////                        case WebViewClient.ERROR_TIMEOUT:
+////                            webView.stopLoading();
+////                            webView.setVisibility(View.GONE);
+////                            needsUgent.setVisibility(View.VISIBLE);
+////                            break;
+////                        case WebViewClient.ERROR_CONNECT:
+////                            onAuthorizationEvent(AuthorizationEvent.NO_NETWORK);
+////                            break;
+////                        default:
+////                            //Do nothing.
+////                    }
+////                }
+////            });
+//
+//            NetworkUtils.launchCustomTabOrBrowser(authorizationManager.getRequestUri(), this);
 
-                @Override
-                public void onPageStarted(String url, Bitmap favicon) {
-                    webView.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onError(int code, String description) {
-                    Log.e(TAG, "HTTP error occured, #" + code + ": " + description);
-                    switch (code) {
-                        case WebViewClient.ERROR_TIMEOUT:
-                            webView.stopLoading();
-                            webView.setVisibility(View.GONE);
-                            needsUgent.setVisibility(View.VISIBLE);
-                            break;
-                        case WebViewClient.ERROR_CONNECT:
-                            onAuthorizationEvent(AuthorizationEvent.NO_NETWORK);
-                            break;
-                        default:
-                            //Do nothing.
-                    }
-                }
-            });
-        }
+ //       }
         Log.d(TAG, "OnResume done.");
+    }
+
+    /**
+     * Handle new intents. If the intent contains our code, we have a winner!
+     *
+     * @param intent The intent.
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Uri uri = intent.getData();
+
+        Log.d(TAG, "Uri is: " + uri);
+
+        // Handle the callback URI.
+        if(uri.getScheme().equals(EndpointConfiguration.CALLBACK_SCHEME)) {
+
+            String errorParameter = uri.getQueryParameter("error");
+
+            // Successful authorization: send the code and event.
+            if (errorParameter == null) {
+                receiveAuthorizationCode(uri.getQueryParameter("code"));
+            }
+            // failed authorization
+            else {
+                Log.e(TAG, "Authorization failed: " + uri.getQueryParameter("error_description"));
+                onAuthorizationEvent(AuthorizationEvent.AUTHENTICATION_FAILED);
+            }
+        }
     }
 
     /**
@@ -161,6 +234,7 @@ public class AuthenticationActivity extends ToolbarActivity implements Authoriza
      */
     private void finishWithResult() {
         setResult(RESULT_OK);
-        finish();
+        NavUtils.navigateUpFromSameTask(this);
+        //finish();
     }
 }
