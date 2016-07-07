@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 import android.content.Intent;
 import android.view.View;
 
-import be.ugent.zeus.hydra.activities.AuthenticationActivity;
+import be.ugent.zeus.hydra.activities.minerva.AuthenticationActivity;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 
 /**

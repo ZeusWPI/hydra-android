@@ -123,17 +123,27 @@
             android:label="@string/title_activity_hydra_web_view"
             android:parentActivityName=".activities.Hydra">
 
-        <!-- Parent activity meta-data to support 4.0 and lower -->
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activities.Hydra" />
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
         </activity>
 
         <receiver android:name=".notifications.DailyNotificationReceiver" />
 
         <activity
-            android:name=".activities.AuthenticationActivity"
+            android:name=".activities.minerva.AuthenticationActivity"
             android:label="@string/title_activity_authentication"
+            android:parentActivityName=".activities.Hydra">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
+        </activity>
+
+        <activity
+            android:name=".activities.minerva.AnnouncementActivity"
+            android:label="@string/title_announcement_title"
             android:parentActivityName=".activities.Hydra">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -145,7 +155,8 @@
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
-            <meta-data android:name="android.accounts.AccountAuthenticator"
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
 

@@ -28,7 +28,8 @@ public enum AuthorizationEvent {
 
     AUTHENTICATION_SUCCESS("Authentication was successful."),
     AUTHENTICATION_FAILED("Authentication has failed"),
-    SIGNED_OUT("User has signed out.");
+    SIGNED_OUT("User has signed out."),
+    NO_NETWORK("There is no network connection.");
 
     private String text;
 

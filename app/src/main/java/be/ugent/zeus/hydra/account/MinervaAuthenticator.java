@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import be.ugent.zeus.hydra.activities.LoginActivity;
+import be.ugent.zeus.hydra.activities.minerva.LoginActivity;
 
 import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
 import static be.ugent.zeus.hydra.account.MinervaAccount.TOKEN_TYPE_LABEL;

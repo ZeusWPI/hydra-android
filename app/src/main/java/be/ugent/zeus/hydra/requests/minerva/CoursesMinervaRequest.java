@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.models.minerva.Courses;
 
-import static be.ugent.zeus.hydra.loader.cache.Cache.NEVER;
+import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_WEEK;
 
 /**
  * @author feliciaan
@@ -30,7 +30,6 @@ public class CoursesMinervaRequest extends MinervaRequest<Courses> {
 
     @Override
     public long getCacheDuration() {
-        //return ONE_HOUR * 2;
-        return NEVER;
+        return ONE_WEEK * 4;
     }
 }

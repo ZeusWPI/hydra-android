@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.minerva.Course;
-import be.ugent.zeus.hydra.utils.HtmlUtils;
+import be.ugent.zeus.hydra.utils.html.Utils;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -34,7 +34,8 @@ public class CourseViewHolder extends RecyclerView.ViewHolder implements DataVie
     public void populateData(Course course) {
         name.setText(course.getTitle());
         //TODO this
-        CharSequence tutor = course.getTutorName() == null ? "" : HtmlUtils.fromHtml(course.getTutorName());
+        CharSequence tutor = course.getTutorName() == null ? "" : Utils.fromHtml(course.getTutorName());
         subtitle.setText(tutor + " - " + course.getCode());
+
     }
 }

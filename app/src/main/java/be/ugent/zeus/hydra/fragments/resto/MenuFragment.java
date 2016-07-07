@@ -75,20 +75,24 @@ public class MenuFragment extends Fragment {
     }
 
     /**
-     * Make a tableview.
+     * Make a tableview of all elements.
      */
     private void convert(View view) {
         LinearLayout l = $(view, R.id.resto_menu_main);
         l.removeAllViews();
 
-        l.addView(createTitle(view, "Hoofdgerechten"));
-        l.addView(makeTableDishes(view, data.getMainDishes()));
+        if(data.isOpen()) {
+            l.addView(createTitle(view, "Hoofdgerechten"));
+            l.addView(makeTableDishes(view, data.getMainDishes()));
 
-        l.addView(createTitle(view, "Bijgerechten"));
-        l.addView(makeTableDishes(view, data.getSideDishes()));
+            l.addView(createTitle(view, "Bijgerechten"));
+            l.addView(makeTableDishes(view, data.getSideDishes()));
 
-        l.addView(createTitle(view, "Groenten"));
-        l.addView(makeVegetables(view, data.getVegetables()));
+            l.addView(createTitle(view, "Groenten"));
+            l.addView(makeVegetables(view, data.getVegetables()));
+        } else {
+            l.addView(createTitle(view, "De resto is gesloten op deze dag."));
+        }
     }
 
     private TextView createTitle(View view, String title) {

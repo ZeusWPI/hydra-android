@@ -1,6 +1,8 @@
 package be.ugent.zeus.hydra.models.minerva;
 
-import be.ugent.zeus.hydra.models.converters.MinervaDateJsonAdapter;
+import android.os.Parcel;
+import android.os.Parcelable;
+import be.ugent.zeus.hydra.models.converters.ISO8601DateJsonAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +12,7 @@ import java.util.Date;
 /**
  * Created by feliciaan on 29/06/16.
  */
-public class Announcement implements Serializable {
+public class Announcement implements Serializable, Parcelable {
 
     private String title;
     private String content;
@@ -20,9 +22,10 @@ public class Announcement implements Serializable {
     private int itemId;
     @SerializedName("last_edit_user")
     private String lecturer;
-    @JsonAdapter(MinervaDateJsonAdapter.class)
+    //TODO: this ignores the timezone for now, because parsing it as MinervaDate is a lot of work; we could also switch to ThreeTenABP
+    @JsonAdapter(ISO8601DateJsonAdapter.class)
     @SerializedName("last_edit_time")
-    private MinervaDate minervaDate;
+    private Date minervaDate;
 
     private Course course;
 
@@ -67,11 +70,11 @@ public class Announcement implements Serializable {
     }
 
     public Date getDate() {
-        return this.minervaDate.getDate();
+        return this.minervaDate;
     }
 
     public void setDate(Date date) {
-        this.minervaDate.setDate(date);
+        this.minervaDate = date;
     }
 
     public Course getCourse() {
@@ -82,11 +85,53 @@ public class Announcement implements Serializable {
         this.course = course;
     }
 
-    public MinervaDate getMinervaDate() {
-        return minervaDate;
+//    public MinervaDate getMinervaDate() {
+//        return minervaDate;
+//    }
+//
+//    public void setMinervaDate(MinervaDate minervaDate) {
+//        this.minervaDate = minervaDate;
+//    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setMinervaDate(MinervaDate minervaDate) {
-        this.minervaDate = minervaDate;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.title);
+        dest.writeString(this.content);
+        dest.writeByte(this.emailSent ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.itemId);
+        dest.writeString(this.lecturer);
+        dest.writeLong(this.minervaDate != null ? this.minervaDate.getTime() : -1);
+        dest.writeSerializable(this.course);
     }
+
+    public Announcement() {
+    }
+
+    protected Announcement(Parcel in) {
+        this.title = in.readString();
+        this.content = in.readString();
+        this.emailSent = in.readByte() != 0;
+        this.itemId = in.readInt();
+        this.lecturer = in.readString();
+        long tmpMinervaDate = in.readLong();
+        this.minervaDate = tmpMinervaDate == -1 ? null : new Date(tmpMinervaDate);
+        this.course = (Course) in.readSerializable();
+    }
+
+    public static final Parcelable.Creator<Announcement> CREATOR = new Parcelable.Creator<Announcement>() {
+        @Override
+        public Announcement createFromParcel(Parcel source) {
+            return new Announcement(source);
+        }
+
+        @Override
+        public Announcement[] newArray(int size) {
+            return new Announcement[size];
+        }
+    };
 }

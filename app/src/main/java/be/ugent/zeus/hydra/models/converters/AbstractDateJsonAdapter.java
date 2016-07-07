@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by feliciaan on 17/02/16.
@@ -19,7 +20,7 @@ public class AbstractDateJsonAdapter extends TypeAdapter<Date> {
     private DateFormat format;
 
     public AbstractDateJsonAdapter(String dateFormat) {
-        format = new SimpleDateFormat(dateFormat);
+        format = new SimpleDateFormat(dateFormat, Locale.getDefault());
     }
 
     @Override
@@ -44,6 +45,7 @@ public class AbstractDateJsonAdapter extends TypeAdapter<Date> {
             date = format.parse(dateString);
         } catch (ParseException e) {
             System.err.println("Parsing failed!");
+            System.err.println("This is the date: " + dateString);
         }
         return date;
     }

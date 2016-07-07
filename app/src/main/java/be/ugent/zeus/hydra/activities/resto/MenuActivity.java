@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.activities.resto;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
@@ -14,7 +15,7 @@ import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
-import be.ugent.zeus.hydra.recyclerview.adapters.resto.MenuPageAdapter;
+import be.ugent.zeus.hydra.viewpager.MenuPagerAdapter;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
@@ -33,7 +34,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
 
     private static final String URL = "http://www.ugent.be/student/nl/meer-dan-studeren/resto";
 
-    private MenuPageAdapter pageAdapter;
+    private MenuPagerAdapter pageAdapter;
     private ViewPager mViewPager;
     private Date startDate;
 
@@ -44,15 +45,17 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
         
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        pageAdapter = new MenuPageAdapter(getSupportFragmentManager());
+        pageAdapter = new MenuPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = $(R.id.resto_tabs_content);
         mViewPager.setAdapter(pageAdapter);
 
+        final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+                appBarLayout.setExpanded(true);
                 HydraApplication app = (HydraApplication) MenuActivity.this.getApplication();
                 app.sendScreenName("Menu tab: " + pageAdapter.getTabDate(position));
             }

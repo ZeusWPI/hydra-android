@@ -48,8 +48,6 @@ public class InfoViewHolder extends RecyclerView.ViewHolder implements DataViewH
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 if (androidUrl != null) {
                     Intent rateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + androidUrl));
                     boolean marketFound = false;
@@ -122,7 +120,7 @@ public class InfoViewHolder extends RecyclerView.ViewHolder implements DataViewH
             }
 
             //Remove arrow if internal link
-            if(androidUrl == null && url == null && (html != null || infolist != null)) {
+            if(androidUrl == null && url == null && html != null) {
                 title.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
             } else {
                 title.setCompoundDrawablesWithIntrinsicBounds(icon, null, more, null);

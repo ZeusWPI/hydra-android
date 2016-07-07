@@ -13,18 +13,12 @@ import android.widget.Button;
 import be.ugent.android.sdk.oauth.AuthorizationManager;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.AuthenticationActivity;
+import be.ugent.zeus.hydra.activities.minerva.AuthenticationActivity;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.cache.CacheRequest;
-import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.loader.requests.RequestExecutor;
-import be.ugent.zeus.hydra.models.minerva.Announcement;
-import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.Courses;
-import be.ugent.zeus.hydra.models.minerva.WhatsNew;
-import be.ugent.zeus.hydra.recyclerview.adapters.CourseAdapter;
+import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAnnouncementAdapter;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
-import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.utils.DividerItemDecoration;
 
 import static android.app.Activity.RESULT_OK;
@@ -44,7 +38,7 @@ public class MinervaFragment extends LoaderFragment<Courses> {
     private View authWrapper;
 
     private AuthorizationManager authorizationManager;
-    private CourseAdapter adapter;
+    private CourseAnnouncementAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,7 +83,7 @@ public class MinervaFragment extends LoaderFragment<Courses> {
         authWrapper = $(view, R.id.auth_wrapper);
 
         recyclerView = $(view, R.id.recycler_view);
-        adapter = new CourseAdapter();
+        adapter = new CourseAnnouncementAdapter((HydraApplication) getActivity().getApplication());
 
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
@@ -143,28 +137,6 @@ public class MinervaFragment extends LoaderFragment<Courses> {
         }
     }
 
-    //TODO | To use this in a recycler view, we might move this to the adapter class instead, otherwise
-    //TODO | we cannot get a reference from the recyclerview
-    public void requestCourseAnnouncements(final Course course) {
-        WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, (HydraApplication) getActivity().getApplication());
-
-        RequestExecutor.executeAsync(whatsNewRequest, new RequestExecutor.Callback<WhatsNew>() {
-            @Override
-            public void receiveData(@NonNull WhatsNew data) {
-                System.out.println("WhatsNew for " + course.getTitle());
-                for (Announcement announcement: data.getAnnouncements()) {
-                    announcement.setCourse(course);
-                    System.out.println("Announcement: " + announcement.getTitle() + "   " + announcement.getLecturer());
-                }
-            }
-
-            @Override
-            public void receiveError(RequestFailureException e) {
-                System.out.println("Minerva courses whatsnew execption " + e.getLocalizedMessage());
-            }
-        });
-    }
-
     /**
      * This must be called when data is received that has no errors.
      *
@@ -172,13 +144,8 @@ public class MinervaFragment extends LoaderFragment<Courses> {
      */
     @Override
     public void receiveData(@NonNull Courses data) {
-        recyclerView.setVisibility(View.VISIBLE);
-        System.out.println("Minerva Courses: ");
         adapter.setItems(data.getCourses());
-        for (final Course course: data.getCourses()) {
-            System.out.println("\t" + course.getTitle() + "\t" + course.getTutorName());
-            requestCourseAnnouncements(course);
-        }
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     /**

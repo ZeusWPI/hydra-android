@@ -17,6 +17,9 @@ import java.io.IOException;
 
 /**
  * GSON serialiser/deserialiser for converting Joda {@link DateTime} objects.
+ *
+ * @author Niko Strijbol
+ * @version 1/06/2016
  */
 public class DateTimeAdapter extends TypeAdapter<DateTime> {
 

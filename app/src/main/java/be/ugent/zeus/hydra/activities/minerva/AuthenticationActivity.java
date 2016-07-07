@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.activities;
+package be.ugent.zeus.hydra.activities.minerva;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -76,10 +76,17 @@ public class AuthenticationActivity extends ToolbarActivity implements Authoriza
                 @Override
                 public void onError(int code, String description) {
                     Log.e(TAG, "HTTP error occured, #" + code + ": " + description);
-                    if(code == WebViewClient.ERROR_TIMEOUT) {
-                        webView.stopLoading();
-                        webView.setVisibility(View.GONE);
-                        needsUgent.setVisibility(View.VISIBLE);
+                    switch (code) {
+                        case WebViewClient.ERROR_TIMEOUT:
+                            webView.stopLoading();
+                            webView.setVisibility(View.GONE);
+                            needsUgent.setVisibility(View.VISIBLE);
+                            break;
+                        case WebViewClient.ERROR_CONNECT:
+                            onAuthorizationEvent(AuthorizationEvent.NO_NETWORK);
+                            break;
+                        default:
+                            //Do nothing.
                     }
                 }
             });
@@ -115,6 +122,11 @@ public class AuthenticationActivity extends ToolbarActivity implements Authoriza
                 //The activity is closed without result.
                 Log.e(TAG, "The user denied the authorization.");
                 Toast.makeText(getApplicationContext(), R.string.auth_denied, Toast.LENGTH_LONG).show();
+                finish();
+                break;
+            case NO_NETWORK:
+                Log.e(TAG, "No network.");
+                Toast.makeText(getApplicationContext(), R.string.no_network, Toast.LENGTH_SHORT).show();
                 finish();
                 break;
         }

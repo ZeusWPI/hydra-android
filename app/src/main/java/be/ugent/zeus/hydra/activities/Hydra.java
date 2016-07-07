@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -10,7 +11,7 @@ import android.view.MenuItem;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
-import be.ugent.zeus.hydra.recyclerview.adapters.SectionPagerAdapter;
+import be.ugent.zeus.hydra.viewpager.SectionPagerAdapter;
 
 /**
  * Main activity.
@@ -52,15 +53,13 @@ public class Hydra extends ToolbarActivity {
             }
         });
 
-        //Enable this if you want the actionbar to reappear when the user scrolls between tabs.
-//        final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
-//
-//        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-//            @Override
-//            public void onPageSelected(int position) {
-//                appBarLayout.setExpanded(true);
-//            }
-//        });
+        final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                appBarLayout.setExpanded(true);
+            }
+        });
 
         TabLayout tabLayout = $(R.id.tab_layout);
         tabLayout.setupWithViewPager(mViewPager);

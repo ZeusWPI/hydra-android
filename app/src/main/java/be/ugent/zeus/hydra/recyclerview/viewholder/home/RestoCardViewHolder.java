@@ -106,7 +106,7 @@ public class RestoCardViewHolder extends AbstractViewHolder {
 
         TextView textView = new TextView(itemView.getContext());
         textView.setLayoutParams(lp);
-        textView.setText("De resto is niet open op deze dag.");
+        textView.setText("De resto is gesloten op deze dag.");
 
         if(added) {
             //The resto stuff is the second child

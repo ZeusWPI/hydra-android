@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.recyclerview.adapters;
+package be.ugent.zeus.hydra.viewpager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

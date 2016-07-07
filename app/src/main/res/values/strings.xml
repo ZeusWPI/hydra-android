@@ -60,7 +60,6 @@
     <string name="section_format">Tab</string>
     <string name="resto_show_website">Website bekijken</string>
     <string name="action_refresh">Vernieuwen</string>
-    <string name="menu_today_title">Menu %s</string>
 
     <string name="begin_refresh">Vernieuwen…</string>
     <string name="end_refresh">Voltooid.</string>
@@ -93,4 +92,8 @@
     <string name="minerva_authorize">Authorizeren</string>
     <string name="need_auth">Om Minerva te gebruiken dien je toestemming te geven.</string>
     <string name="auth_denied">Je gaf geen toestemming om Minerva te gebruiken.</string>
+    <string name="no_network">Kon niet verbinden.</string>
+    <string name="announcement_by">Zender</string>
+    <string name="announcement_when">Op</string>
+    <string name="title_announcement_title">Aankondiging</string>
 </resources>

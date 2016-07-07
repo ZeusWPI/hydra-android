@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.activities;
+package be.ugent.zeus.hydra.activities.minerva;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
