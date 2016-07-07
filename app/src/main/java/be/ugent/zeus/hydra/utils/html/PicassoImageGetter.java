@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.utils;
+package be.ugent.zeus.hydra.utils.html;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v7.graphics.drawable.DrawableWrapper;
 import android.text.Html;
+import android.util.Log;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
@@ -38,6 +39,7 @@ public class PicassoImageGetter implements Html.ImageGetter {
             @Override
             protected Bitmap doInBackground(final Void... meh) {
                 try {
+                    Log.d("PicassoImageGetter", "Getting image from " + source);
                     return Picasso.with(context).load(source).get();
                 } catch (Exception e) {
                     return null;

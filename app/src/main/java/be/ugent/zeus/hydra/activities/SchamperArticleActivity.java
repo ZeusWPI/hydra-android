@@ -13,7 +13,8 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.HtmlUtils;
+import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
+import be.ugent.zeus.hydra.utils.html.Utils;
 import com.squareup.picasso.Picasso;
 
 public class SchamperArticleActivity extends ToolbarActivity {
@@ -52,7 +53,7 @@ public class SchamperArticleActivity extends ToolbarActivity {
         }
 
         if(article.getText() != null) {
-            text.setText(HtmlUtils.fromHtml(article.getText()));
+            text.setText(Utils.fromHtml(article.getText(), new PicassoImageGetter(text, getResources(), this)));
             text.setMovementMethod(LinkMovementMethod.getInstance());
         }
 

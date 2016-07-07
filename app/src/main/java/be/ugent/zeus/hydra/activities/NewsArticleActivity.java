@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.HydraApplication;
@@ -12,7 +11,8 @@ import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.recyclerview.viewholder.home.NewsItemViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.PicassoImageGetter;
+import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
+import be.ugent.zeus.hydra.utils.html.Utils;
 
 public class NewsArticleActivity extends ToolbarActivity {
 
@@ -40,7 +40,7 @@ public class NewsArticleActivity extends ToolbarActivity {
         }
 
         if(article.getContent() != null) {
-            text.setText(Html.fromHtml(article.getContent(), new PicassoImageGetter(text, getResources(), this), null));
+            text.setText(Utils.fromHtml(article.getContent(), new PicassoImageGetter(text, getResources(), this)));
             text.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
