@@ -26,7 +26,8 @@
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:src="@drawable/ic_tabs_events"
+                app:srcCompat="@drawable/ic_tabs_events"
+                tools:ignore="MissingPrefix"
                 android:tint="@color/ugent_blue_lighter" />
 
             <TextView
@@ -42,7 +43,8 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:tint="@color/ugent_blue_lighter"
-                android:src="@drawable/ic_more_vert_24dp"
+                app:srcCompat="@drawable/ic_more_vert_24dp"
+                tools:ignore="MissingPrefix"
                 android:id="@+id/card_description_popup"/>
 
         </LinearLayout>
