@@ -25,6 +25,7 @@ import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import org.joda.time.DateTime;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -136,14 +137,22 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
 
         FragmentManager m = getChildFragmentManager();
 
-        RestoMenu today = data.get(0);
+        //We can't do anything without data.
+        if(data.size() < 2) {
+            return;
+        }
+
+        RestoMenu menu = data.get(0);
+        if(DateTime.now().isAfter(DateTime.now().withHourOfDay(14))) {
+            menu = data.get(1);
+        }
         if(m.findFragmentByTag(FRAGMENT_TAG) == null) {
-            MenuFragment fragment = MenuFragment.newInstance(today);
+            MenuFragment fragment = MenuFragment.newInstance(menu);
             FragmentTransaction fragmentTransaction = m.beginTransaction();
             fragmentTransaction.add(R.id.menu_today_card_layout, fragment, FRAGMENT_TAG);
             fragmentTransaction.commit();
         }
-        title.setText(String.format(getString(R.string.menu_today_title), DateUtils.getFriendlyDate(today.getDate())));
+        title.setText(String.format(getString(R.string.resto_menu_title), DateUtils.getFriendlyDate(menu.getDate())));
     }
 
     /**
