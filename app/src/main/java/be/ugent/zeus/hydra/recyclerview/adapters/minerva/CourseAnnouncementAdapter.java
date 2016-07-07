@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.recyclerview.adapters.minerva;
 
 import android.content.Intent;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,24 +10,24 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.minerva.AnnouncementActivity;
-import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.loader.requests.RequestExecutor;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
-import be.ugent.zeus.hydra.models.minerva.WhatsNew;
+import be.ugent.zeus.hydra.models.minerva.CourseWrapper;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
-import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
+import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.html.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
+ * TODO: try to remove raw list
+ * 
  * @author Niko Strijbol
- * @version 7/07/2016
  */
 public class CourseAnnouncementAdapter extends RecyclerView.Adapter<CourseAnnouncementAdapter.ViewHolder> {
 
@@ -168,17 +167,24 @@ public class CourseAnnouncementAdapter extends RecyclerView.Adapter<CourseAnnoun
         public static final String PARCEL_NAME = "announcement_view";
 
         private TextView title;
+        private TextView subtitle;
         private View parent;
 
         public AnnouncementViewHolder(View itemView) {
             super(itemView);
             title = $(itemView, R.id.title);
             parent = $(itemView, R.id.parent_layout);
+            subtitle = $(itemView, R.id.subtitle);
         }
 
         @Override
         public void populateData(final Announcement data) {
             title.setText(data.getTitle());
+            String infoText = String.format(new Locale("nl"), "%s door %s",
+                    DateUtils.relativeDateString(data.getDate(), itemView.getContext()),
+                    data.getLecturer());
+            subtitle.setText(infoText);
+
             parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -190,50 +196,10 @@ public class CourseAnnouncementAdapter extends RecyclerView.Adapter<CourseAnnoun
         }
     }
 
-    private static class CourseWrapper {
-        private Course course;
-        private List<Announcement> announcements = Collections.emptyList();
-        private HydraApplication application;
-
-        public CourseWrapper(Course c, HydraApplication application) {
-            this.course = c;
-            this.application = application;
-        }
-
-        public void loadAnnouncements() {
-            WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, application);
-
-            RequestExecutor.executeAsync(whatsNewRequest, new RequestExecutor.Callback<WhatsNew>() {
-                @Override
-                public void receiveData(@NonNull WhatsNew data) {
-                    System.out.println("WhatsNew for " + course.getTitle());
-                    for (Announcement announcement: data.getAnnouncements()) {
-                        announcement.setCourse(course);
-                        System.out.println("Announcement: " + announcement.getTitle() + "   " + announcement.getLecturer());
-                    }
-                    announcements = data.getAnnouncements();
-                }
-
-                @Override
-                public void receiveError(RequestFailureException e) {
-                    System.out.println("Minerva courses whatsnew execption " + e.getLocalizedMessage());
-                }
-            });
-        }
-
-        public Course getCourse() {
-            return course;
-        }
-
-        public List<Announcement> getAnnouncements() {
-            return announcements;
-        }
-    }
-
     private CourseWrapper getWrapper(Course c) {
         //TODO: make this efficient
         for (CourseWrapper w : this.items) {
-            if (w.course == c) {
+            if (w.getCourse() == c) {
                 return w;
             }
         }
