@@ -37,6 +37,9 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
 
     private static final String FRAGMENT_TAG = "menu_today_fragment";
 
+    //The hour after which every resto is closed are closed.
+    private static final int CLOSING_HOUR = 20;
+
     private TextView title;
     private Button viewMenu;
     private Button viewSandwich;
@@ -143,7 +146,7 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
         }
 
         RestoMenu menu = data.get(0);
-        if(DateTime.now().isAfter(DateTime.now().withHourOfDay(14))) {
+        if(DateTime.now().isAfter(DateTime.now().withHourOfDay(CLOSING_HOUR))) {
             menu = data.get(1);
         }
 
