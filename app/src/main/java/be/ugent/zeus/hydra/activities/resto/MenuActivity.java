@@ -11,6 +11,7 @@ import android.view.View;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.common.RestoWebsiteActivity;
+import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
@@ -68,7 +69,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
 
         //Get the default start date
         Date start = new Date();
-        if(DateTime.now().isAfter(DateTime.now().withHourOfDay(14))) {
+        if(DateTime.now().isAfter(DateTime.now().withHourOfDay(RestoFragment.CLOSING_HOUR))) {
             start = DateTime.now().plusDays(1).toDate();
         }
         startDate = new Date(intent.getLongExtra(ARG_DATE, start.getTime()));

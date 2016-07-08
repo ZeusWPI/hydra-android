@@ -38,7 +38,7 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
     private static final String FRAGMENT_TAG = "menu_today_fragment";
 
     //The hour after which every resto is closed.
-    private static final int CLOSING_HOUR = 20;
+    public static final int CLOSING_HOUR = 20;
 
     private TextView title;
     private Button viewMenu;
