@@ -146,12 +146,18 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
         if(DateTime.now().isAfter(DateTime.now().withHourOfDay(14))) {
             menu = data.get(1);
         }
-        if(m.findFragmentByTag(FRAGMENT_TAG) == null) {
-            MenuFragment fragment = MenuFragment.newInstance(menu);
-            FragmentTransaction fragmentTransaction = m.beginTransaction();
-            fragmentTransaction.add(R.id.menu_today_card_layout, fragment, FRAGMENT_TAG);
-            fragmentTransaction.commit();
+
+        //Delete old fragment if needed
+        if(m.findFragmentByTag(FRAGMENT_TAG) != null) {
+            m.beginTransaction().remove(m.findFragmentByTag(FRAGMENT_TAG)).commit();
         }
+
+        //Add new fragment
+        MenuFragment fragment = MenuFragment.newInstance(menu);
+        FragmentTransaction fragmentTransaction = m.beginTransaction();
+        fragmentTransaction.add(R.id.menu_today_card_layout, fragment, FRAGMENT_TAG);
+        fragmentTransaction.commit();
+
         title.setText(String.format(getString(R.string.resto_menu_title), DateUtils.getFriendlyDate(menu.getDate())));
     }
 
