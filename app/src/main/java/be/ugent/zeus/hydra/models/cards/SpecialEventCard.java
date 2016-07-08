@@ -1,12 +1,5 @@
 package be.ugent.zeus.hydra.models.cards;
 
-import android.widget.GridLayout;
-
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-
-import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 
 /**
@@ -26,8 +19,8 @@ public class SpecialEventCard extends HomeCard {
     }
 
     @Override
-    public HomeCardAdapter.HomeType getCardType() {
-        return HomeCardAdapter.HomeType.SPECIALEVENT;
+    public int getCardType() {
+        return CardType.SPECIAL_EVENT;
     }
 
     public SpecialEvent getSpecialEvent() {

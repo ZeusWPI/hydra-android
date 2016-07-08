@@ -1,32 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="be.ugent.zeus.hydra">
+<manifest
+    package="be.ugent.zeus.hydra"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!-- Override Custom Tabs -->
+    <uses-sdk tools:overrideLibrary="android.support.customtabs"/>
+
     <application
         android:name=".HydraApplication"
         android:allowBackup="true"
-        android:icon="@drawable/icon"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:logo="@drawable/logo"
-        android:theme="@style/HydraTheme">
+        android:theme="@style/Hydra.Main.NoActionBar">
+
+        <!-- Main activity -->
         <activity
             android:name=".activities.Hydra"
-            android:label="@string/app_name">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <!-- Settings -->
         <activity
-            android:name=".activities.settings.SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/action_settings"
+            android:parentActivityName=".activities.Hydra">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
+        </activity>
+
+        <!-- Resto overview -->
+        <activity
+            android:name=".activities.resto.MenuActivity"
+            android:label="@string/resto_menu"
+            android:parentActivityName=".activities.Hydra">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
+        </activity>
+
+        <!-- Sandwich overview -->
+        <activity
+            android:name=".activities.resto.SandwichActivity"
+            android:label="@string/resto_sandwich"
+            android:parentActivityName=".activities.Hydra">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
+        </activity>
+
+        <!-- Resto overview -->
+        <activity
+            android:name=".activities.resto.MetaActivity"
+            android:label="@string/resto_resto"
+            android:parentActivityName=".activities.Hydra">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
+        </activity>
+
+        <activity
+            android:name=".activities.ActivityDetailActivity"
+            android:label="@string/title_activity_association_activity_detail"
+            android:parentActivityName=".activities.Hydra">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
+        </activity>
+
+        <activity
+            android:name=".activities.InfoSubItemActivity"
+            android:label="@string/title_activity_info_sub_item"
+            android:parentActivityName=".activities.Hydra">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
+        </activity>
+
+        <activity
+            android:name=".activities.SchamperArticleActivity"
+            android:label="@string/title_activity_schamper"
+            android:parentActivityName=".activities.Hydra">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
+        </activity>
+
+        <activity
+            android:name=".activities.NewsArticleActivity"
+            android:label="@string/title_activity_news"
+            android:parentActivityName=".activities.Hydra">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
+        </activity>
+
+        <activity
+            android:name=".activities.WebViewActivity"
+            android:label="@string/title_activity_hydra_web_view"
+            android:parentActivityName=".activities.Hydra">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
+        </activity>
+
+        <receiver android:name=".notifications.DailyNotificationReceiver" />
+
+        <!--
+          ~ The authentication activity for the Minerva OAuth. This is in singleInstance mode, since
+          ~  it makes things easier.
+          -->
+        <activity
+            android:name=".activities.minerva.AuthenticationActivity"
+            android:label="@string/title_activity_authentication"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".activities.Hydra">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
+
+            <!-- Intent filters -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="hydra-ugent" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.minerva.AnnouncementActivity"
+            android:label="@string/title_announcement_title"
             android:parentActivityName=".activities.Hydra">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -34,22 +168,15 @@
                 android:value=".activities.Hydra" />
         </activity>
 
-        <service
-            android:name="com.octo.android.robospice.GsonSpringAndroidSpiceService"
-            android:exported="false" />
+        <service android:name=".account.MinervaAccountService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
 
-        <activity
-            android:name=".activities.ActivityDetail"
-            android:label="@string/title_activity_association_activity_detail">
-        </activity>
-        <receiver android:name=".notifications.DailyNotificationReceiver"/>
-
-        <activity
-            android:name=".activities.HydraWebViewActivity"
-            android:label="@string/title_activity_hydra_web_view" />
-        <activity
-            android:name=".activities.InfoSubItemActivity"
-            android:label="@string/title_activity_info_sub_item"/>
     </application>
 
 </manifest>

@@ -1,242 +1,460 @@
 package be.ugent.zeus.hydra.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.models.association.News;
-import be.ugent.zeus.hydra.models.association.NewsItem;
-import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
-import be.ugent.zeus.hydra.models.cards.HomeCard;
+import be.ugent.zeus.hydra.loader.LoaderCallback;
+import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.association.Activities;
 import be.ugent.zeus.hydra.models.association.Activity;
-import be.ugent.zeus.hydra.models.cards.NewsItemCard;
-import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
-import be.ugent.zeus.hydra.models.cards.SchamperCard;
-import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
+import be.ugent.zeus.hydra.models.association.News;
+import be.ugent.zeus.hydra.models.association.NewsItem;
+import be.ugent.zeus.hydra.models.cards.*;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
-import be.ugent.zeus.hydra.models.resto.RestoMenuList;
+import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.models.schamper.Articles;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
-import be.ugent.zeus.hydra.requests.ActivitiesRequest;
-import be.ugent.zeus.hydra.requests.NewsRequest;
-import be.ugent.zeus.hydra.requests.RestoMenuOverviewRequest;
-import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
-import be.ugent.zeus.hydra.requests.SpecialEventRequest;
+import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
+import be.ugent.zeus.hydra.requests.*;
+import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
+import java.io.Serializable;
+import java.util.*;
+
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
- * Created by silox on 17/10/15.
+ * The fragment for the home tab.
+ *
+ * The user has the possibility to decide to hide certain card types. We still request the data, load the Loaders, etc.
+ * The reason for this decision is that the user can change the preferences while the fragment is active, and this is
+ * annoying for the Loaders. Also, the requested data is not lost; it is cached for the other tabs.
+ *
+ * @author Niko Strijbol
+ * @author silox
  */
+public class HomeFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-public class HomeFragment extends AbstractFragment {
-    private RecyclerView recyclerView;
+    private static final boolean DEVELOPMENT = true;
+
+    private static final int MENU_LOADER = 1;
+    private static final int ACTIVITY_LOADER = 2;
+    private static final int SPECIAL_LOADER = 3;
+    private static final int SCHAMPER_LOADER = 4;
+    private static final int NEWS_LOADER = 5;
+
+    private final MenuCallback menuCallback = new MenuCallback();
+    private final ActivityCallback activityCallback = new ActivityCallback();
+    private final SpecialEventCallback specialEventCallback = new SpecialEventCallback();
+    private final SchamperCallback schamperCallback = new SchamperCallback();
+    private final NewsCallback newsCallback = new NewsCallback();
+
+    private boolean shouldRefresh = false;
+    private boolean preferencesUpdated = false;
+
     private HomeCardAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private View layout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressBar;
 
     @Override
-    public void onResume() {
-        super.onResume();
-        this.sendScreenTracking("Home");
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        // Inflate the layout for this fragment
-        layout = inflater.inflate(R.layout.homefragment_view, container, false);
+        RecyclerView recyclerView = $(view, R.id.home_cards_view);
+        swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
+        progressBar = $(view, R.id.progress_bar);
 
-        recyclerView = (RecyclerView) layout.findViewById(R.id.home_cards_view);
-        swipeRefreshLayout = (SwipeRefreshLayout) layout.findViewById(R.id.swipeRefreshLayout);
-        progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
-
-        adapter = new HomeCardAdapter();
+        adapter = new HomeCardAdapter(PreferenceManager.getDefaultSharedPreferences(getActivity()));
         recyclerView.setAdapter(adapter);
-        layoutManager = new LinearLayoutManager(this.getActivity());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                performRequest();
+                shouldRefresh = true;
+                restartLoaders();
+                shouldRefresh = false;
             }
         });
 
-        performRequest();
+        startLoaders();
 
-        return layout;
+        //Register this class in the settings.
+        PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
     }
 
-    private void performRequest() {
-        performMenuRequest();
-        performActivityRequest();
-        performSpecialEventRequest();
-        performSchamperRequest();
-        performNewsItemRequest();
+    private boolean isTypeActive(@HomeCard.CardType int cardType) {
+        Set<String> data = PreferenceManager.getDefaultSharedPreferences(getActivity()).getStringSet("pref_disabled_cards", Collections.<String>emptySet());
+        return !data.contains(String.valueOf(cardType));
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(preferencesUpdated) {
+            restartLoaders();
+            preferencesUpdated = false;
+        }
+    }
+
+    /**
+     * If the fragment goes to pauze, we don't need to restart the loaders.
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+        preferencesUpdated = false;
+    }
+
+    /**
+     * Start the loaders.
+     */
+    private void startLoaders() {
+        getLoaderManager().initLoader(MENU_LOADER, null, menuCallback);
+        getLoaderManager().initLoader(ACTIVITY_LOADER, null, activityCallback);
+        getLoaderManager().initLoader(SPECIAL_LOADER, null, specialEventCallback);
+        getLoaderManager().initLoader(SCHAMPER_LOADER, null, schamperCallback);
+        getLoaderManager().initLoader(NEWS_LOADER, null, newsCallback);
+    }
+
+    /**
+     * Restart the loaders
+     */
+    private void restartLoaders() {
+        getLoaderManager().restartLoader(MENU_LOADER, null, menuCallback);
+        getLoaderManager().restartLoader(ACTIVITY_LOADER, null, activityCallback);
+        getLoaderManager().restartLoader(SPECIAL_LOADER, null, specialEventCallback);
+        getLoaderManager().restartLoader(SCHAMPER_LOADER, null, schamperCallback);
+        getLoaderManager().restartLoader(NEWS_LOADER, null, newsCallback);
+    }
+
+    /**
+     * When one of the loaders is complete.
+     */
     private void loadComplete() {
         swipeRefreshLayout.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
     }
 
-    private void performMenuRequest() {
-        final RestoMenuOverviewRequest r = new RestoMenuOverviewRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<RestoMenuList>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                showFailureSnackbar("restomenu");
-                loadComplete();
-            }
-
-            @Override
-            public void onRequestSuccess(final RestoMenuList menuList) {
-                List<HomeCard> menuCardList = new ArrayList<>();
-                for (RestoMenu menu : menuList) {
-                    // only show till 20 o'clock
-                    if (new DateTime(menu.getDate()).withTimeAtStartOfDay().plusHours(20).isAfterNow()) {
-                        menuCardList.add(new RestoMenuCard(menu));
-                    }
-                }
-                adapter.updateCardItems(menuCardList, HomeCardAdapter.HomeType.RESTO);
-                loadComplete();
-            }
-        });
-
-    }
-
-    private void performActivityRequest() {
-        final ActivitiesRequest r = new ActivitiesRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<Activities>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                showFailureSnackbar("activiteiten");
-                loadComplete();
-            }
-
-            @Override
-            public void onRequestSuccess(final Activities activities) {
-                List<HomeCard> activityCardList = new ArrayList<>();
-                Activities filteredActivities = activities.getPreferedActivities(getContext());
-                Date date = new Date();
-
-                for (Activity activity : filteredActivities) {
-                    AssociationActivityCard activityCard = new AssociationActivityCard(activity);
-                    if(activityCard.getPriority() > 0 && activity.getEndDate().after(date)) {
-                        activityCardList.add(activityCard);
-                    }
-                }
-                adapter.updateCardItems(activityCardList, HomeCardAdapter.HomeType.ACTIVITY);
-                loadComplete();
-            }
-        });
-    }
-
-    private void performSpecialEventRequest() {
-        final SpecialEventRequest r = new SpecialEventRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<SpecialEventWrapper>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                showFailureSnackbar("speciale activiteiten");
-                loadComplete();
-            }
-
-            @Override
-            public void onRequestSuccess(SpecialEventWrapper specialEventWrapper) {
-                List<HomeCard> list = new ArrayList<>();
-                boolean development_enabled = true;
-                for (SpecialEvent event: specialEventWrapper.getSpecialEvents()) {
-                    if ((event.getStart().before(new Date()) && event.getEnd().after(new Date())) || (development_enabled && event.isDevelopment())) {
-                        list.add(new SpecialEventCard(event));
-                    }
-                }
-
-                adapter.updateCardItems(list, HomeCardAdapter.HomeType.SPECIALEVENT);
-                loadComplete();
-            }
-        });
-    }
-
-    private void performSchamperRequest() {
-        final SchamperArticlesRequest r = new SchamperArticlesRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<Articles>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                showFailureSnackbar("schamper");
-                loadComplete();
-            }
-
-            @Override
-            public void onRequestSuccess(final Articles articles) {
-                List<HomeCard> schamperCardList = new ArrayList<>();
-                for (Article article : articles) {
-                    schamperCardList.add(new SchamperCard(article));
-                }
-                adapter.updateCardItems(schamperCardList, HomeCardAdapter.HomeType.SCHAMPER);
-                loadComplete();
-            }
-        });
-    }
-
-    private void performNewsItemRequest() {
-        final NewsRequest r = new NewsRequest();
-        r.execute(spiceManager, new RequestListener<News>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                showFailureSnackbar("news items");
-                loadComplete();
-            }
-
-            @Override
-            public void onRequestSuccess(News newsItems) {
-                List<HomeCard> newsItemCardList = new ArrayList<>();
-                DateTimeZone timeZone = DateTimeZone.forID( "Europe/Brussels" );
-                DateTime now = DateTime.now(timeZone);
-                DateTime sixMonthsAgo = now.minusMonths(6);
-
-                for (NewsItem item: newsItems) {
-                    if (sixMonthsAgo.isBefore(item.getDate().getTime())) {
-                        newsItemCardList.add(new NewsItemCard(item));
-                    }
-                }
-
-                adapter.updateCardItems(newsItemCardList, HomeCardAdapter.HomeType.NEWSITEM);
-                loadComplete();
-            }
-        });
-    }
-
+    /**
+     * Show a snack bar.
+     *
+     * @param field The failing field.
+     */
     private void showFailureSnackbar(String field) {
-        Snackbar
-                .make(layout, "Oeps! Kon " + field + " niet ophalen.", Snackbar.LENGTH_LONG)
+        assert getView() != null;
+        Snackbar.make(getView(), "Oeps! Kon " + field + " niet ophalen.", Snackbar.LENGTH_LONG)
                 .setAction("Opnieuw proberen", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        performRequest();
+                        shouldRefresh = true;
+                        restartLoaders();
+                        shouldRefresh = false;
                     }
                 })
                 .show();
     }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        if(s.equals("pref_disabled_cards")) {
+            preferencesUpdated = true;
+        }
+    }
+
+    private abstract class AbstractLoaderCallback<D extends Serializable> extends LoaderCallback<D> {
+        @Override
+        public Loader<ThrowableEither<D>> onCreateLoader(int id, Bundle args) {
+            return super.onCreateLoader(getContext(), shouldRefresh);
+        }
+    }
+
+    private class MenuCallback extends LoaderCallback<RestoOverview> {
+
+        /**
+         * This must be called when data is received that has no errors.
+         *
+         * @param data The data.
+         */
+        @Override
+        public void receiveData(@NonNull RestoOverview data) {
+
+            if(!isTypeActive(HomeCard.CardType.RESTO)) {
+                return;
+            }
+
+            List<HomeCard> menuCardList = new ArrayList<>();
+            for (RestoMenu menu : data) {
+                if (new DateTime(menu.getDate()).withTimeAtStartOfDay().isAfterNow()) {
+                    menuCardList.add(new RestoMenuCard(menu)); //TODO: add current day
+                }
+            }
+            adapter.updateCardItems(menuCardList, HomeCard.CardType.RESTO);
+            loadComplete();
+        }
+
+        /**
+         * This must be called when an error occurred.
+         *
+         * @param error The exception.
+         */
+        @Override
+        public void receiveError(@NonNull Throwable error) {
+            if(!isTypeActive(HomeCard.CardType.RESTO)) {
+                return;
+            }
+            showFailureSnackbar("restomenu");
+            loadComplete();
+        }
+
+        /**
+         * @return The request that will be executed.
+         */
+        @Override
+        public CacheRequest<RestoOverview> getRequest() {
+            return new RestoMenuOverviewRequest();
+        }
+
+        @Override
+        public Loader<ThrowableEither<RestoOverview>> onCreateLoader(int id, Bundle args) {
+            return super.onCreateLoader(getContext(), shouldRefresh);
+        }
+    }
+
+    private class ActivityCallback extends AbstractLoaderCallback<Activities> {
+
+        /**
+         * This must be called when data is received that has no errors.
+         *
+         * @param data The data.
+         */
+        @Override
+        public void receiveData(@NonNull Activities data) {
+            if(!isTypeActive(HomeCard.CardType.ACTIVITY)) {
+                return;
+            }
+            List<Activity> filteredAssociationActivities = Activities.getPreferredActivities(data, getContext());
+            Date date = new Date();
+            List<HomeCard> list = new ArrayList<>();
+            for (Activity activity: filteredAssociationActivities) {
+                AssociationActivityCard activityCard = new AssociationActivityCard(activity);
+                if(activityCard.getPriority() > 0 && activity.getEndDate().after(date)) {
+                    list.add(activityCard);
+                }
+            }
+            adapter.updateCardItems(list, HomeCard.CardType.ACTIVITY);
+            loadComplete();
+        }
+
+        /**
+         * This must be called when an error occurred.
+         *
+         * @param error The exception.
+         */
+        @Override
+        public void receiveError(@NonNull Throwable error) {
+            if(!isTypeActive(HomeCard.CardType.ACTIVITY)) {
+                return;
+            }
+            showFailureSnackbar("activiteiten");
+            loadComplete();
+        }
+
+        /**
+         * @return The request that will be executed.
+         */
+        @Override
+        public CacheRequest<Activities> getRequest() {
+            return new ActivitiesRequest();
+        }
+    }
+
+    /**
+     * Note: you cannot hide special event.
+     */
+    private class SpecialEventCallback extends AbstractLoaderCallback<SpecialEventWrapper> {
+
+        /**
+         * This must be called when data is received that has no errors.
+         *
+         * @param data The data.
+         */
+        @Override
+        public void receiveData(@NonNull SpecialEventWrapper data) {
+            List<HomeCard> list = new ArrayList<>();
+            for (SpecialEvent event: data.getSpecialEvents()) {
+                if ((event.getStart().before(new Date()) && event.getEnd().after(new Date())) || (DEVELOPMENT && event.isDevelopment())) {
+                    list.add(new SpecialEventCard(event));
+                }
+            }
+
+            adapter.updateCardItems(list, HomeCard.CardType.SPECIAL_EVENT);
+            loadComplete();
+        }
+
+        /**
+         * This must be called when an error occurred.
+         *
+         * @param error The exception.
+         */
+        @Override
+        public void receiveError(@NonNull Throwable error) {
+            showFailureSnackbar("speciale activiteiten");
+            loadComplete();
+        }
+
+        /**
+         * @return The request that will be executed.
+         */
+        @Override
+        public CacheRequest<SpecialEventWrapper> getRequest() {
+            return new SpecialEventRequest();
+        }
+    }
+
+    private class SchamperCallback extends AbstractLoaderCallback<Articles> {
+
+        /**
+         * This must be called when data is received that has no errors.
+         *
+         * @param data The data.
+         */
+        @Override
+        public void receiveData(@NonNull Articles data) {
+            if(!isTypeActive(HomeCard.CardType.SCHAMPER)) {
+                return;
+            }
+            List<HomeCard> schamperCardList = new ArrayList<>();
+            for (Article article : data) {
+                schamperCardList.add(new SchamperCard(article));
+            }
+            adapter.updateCardItems(schamperCardList, HomeCard.CardType.SCHAMPER);
+            loadComplete();
+        }
+
+        /**
+         * This must be called when an error occurred.
+         *
+         * @param error The exception.
+         */
+        @Override
+        public void receiveError(@NonNull Throwable error) {
+            if(!isTypeActive(HomeCard.CardType.SCHAMPER)) {
+                return;
+            }
+            showFailureSnackbar("schamper");
+            loadComplete();
+        }
+
+        /**
+         * @return The request that will be executed.
+         */
+        @Override
+        public CacheRequest<Articles> getRequest() {
+            return new SchamperArticlesRequest();
+        }
+    }
+
+    private class NewsCallback extends AbstractLoaderCallback<News> {
+
+        /**
+         * This must be called when data is received that has no errors.
+         *
+         * @param data The data.
+         */
+        @Override
+        public void receiveData(@NonNull News data) {
+            if (!isTypeActive(HomeCard.CardType.NEWS_ITEM)) {
+                return;
+            }
+            List<HomeCard> newsItemCardList = new ArrayList<>();
+            DateTimeZone timeZone = DateTimeZone.forID("Europe/Brussels");
+            DateTime now = DateTime.now(timeZone);
+            DateTime sixMonthsAgo = now.minusMonths(6);
+
+            for (NewsItem item : data) {
+                if (sixMonthsAgo.isBefore(item.getDate().getTime())) {
+                    newsItemCardList.add(new NewsItemCard(item));
+                }
+            }
+
+            adapter.updateCardItems(newsItemCardList, HomeCard.CardType.NEWS_ITEM);
+            loadComplete();
+        }
+
+        /**
+         * This must be called when an error occurred.
+         *
+         * @param error The exception.
+         */
+        @Override
+        public void receiveError(@NonNull Throwable error) {
+            if (!isTypeActive(HomeCard.CardType.NEWS_ITEM)) {
+                return;
+            }
+            showFailureSnackbar("news items");
+            loadComplete();
+        }
+
+        /**
+         * @return The request that will be executed.
+         */
+        @Override
+        public CacheRequest<News> getRequest() {
+            return new NewsRequest();
+        }
+    }
+
+//    private void performMinervaTestLoggedInRequest() {
+//        adapter.updateCardItems(new ArrayList<HomeCard>(), HomeCard.CardType.MINERVA_LOGIN);
+//        if (!authorizationManager.isAuthenticated()) {
+//            if(authorizationManager.getCurrentToken() != null) {
+//                // previously logged in, try to authorize again
+//                minervaSpiceManager.execute(authorizationManager.buildTokenRefreshRequest(), new RequestListener<BearerToken>() {
+//                    @Override
+//                    public void onRequestFailure(SpiceException spiceException) {
+//                        // Not possible to authorize, so user should authorize possibly again
+//                        List<HomeCard> list = new ArrayList<>();
+//                        list.add(new MinervaLoginCard());
+//                        adapter.updateCardItems(list, HomeCard.CardType.MINERVA_LOGIN);
+//                    }
+//
+//                    @Override
+//                    public void onRequestSuccess(BearerToken bearerToken) {
+//                        authorizationManager.setBearerToken(bearerToken);
+//                    }
+//                });
+//            } else {
+//                // Not logged in
+//                List<HomeCard> list = new ArrayList<>();
+//                list.add(new MinervaLoginCard());
+//                adapter.updateCardItems(list, HomeCard.CardType.MINERVA_LOGIN);
+//            }
+//        }
+//    }
+
 }

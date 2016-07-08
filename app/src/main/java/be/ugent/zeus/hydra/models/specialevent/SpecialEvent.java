@@ -1,16 +1,17 @@
 package be.ugent.zeus.hydra.models.specialevent;
 
+import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
-
-import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
 
 /**
  * Created by feliciaan on 06/04/16.
  */
-public class SpecialEvent {
+public class SpecialEvent implements Serializable {
+
     private String name;
     private String link;
     @SerializedName("simple-text")
@@ -67,7 +68,6 @@ public class SpecialEvent {
     public int getPriority() {
         return priority;
     }
-
 
     public void setPriority(int priority) {
         this.priority = priority;

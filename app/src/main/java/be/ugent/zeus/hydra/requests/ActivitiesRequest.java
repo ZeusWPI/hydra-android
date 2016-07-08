@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.requests;
 
-import com.octo.android.robospice.persistence.DurationInMillis;
-
+import android.support.annotation.NonNull;
+import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.models.association.Activities;
 
 /**
@@ -13,10 +13,12 @@ public class ActivitiesRequest extends AbstractRequest<Activities> {
         super(Activities.class);
     }
 
+    @NonNull
     public String getCacheKey() {
         return "all_activities.json";
     }
 
+    @NonNull
     @Override
     protected String getAPIUrl() {
         return DSA_API_URL + "all_activities.json";
@@ -24,6 +26,6 @@ public class ActivitiesRequest extends AbstractRequest<Activities> {
 
     @Override
     public long getCacheDuration() {
-        return DurationInMillis.ONE_MINUTE * 15;
+        return Cache.ONE_MINUTE * 15;
     }
 }

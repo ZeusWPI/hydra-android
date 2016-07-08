@@ -1,39 +1,39 @@
 package be.ugent.zeus.hydra;
 
 import android.app.Application;
-import android.content.res.Configuration;
-
+import be.ugent.android.sdk.oauth.AuthorizationManager;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-
 import net.danlew.android.joda.JodaTimeAndroid;
 
-import java.util.Locale;
 
 /**
  * Created by feliciaan on 06/04/16.
  */
 public class HydraApplication extends Application {
-    private Tracker tracker;
 
-    public static final Locale LOCALE = new Locale("nl");
+    private Tracker tracker;
+    private AuthorizationManager manager;
 
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         super.onCreate();
 
         JodaTimeAndroid.init(this);
+    }
 
-        Locale.setDefault(LOCALE);
-        Configuration config = new Configuration();
-        config.locale = LOCALE;
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+    public AuthorizationManager getAuthorizationManager() {
+        if(manager == null) {
+            manager = new AuthorizationManager(getApplicationContext());
+        }
+
+        return manager;
     }
 
     /**
      * Gets the default {@link Tracker} for this {@link Application}.
+     *
      * @return tracker
      */
     synchronized public Tracker getDefaultTracker() {

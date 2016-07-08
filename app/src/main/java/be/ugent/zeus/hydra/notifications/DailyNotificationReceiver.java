@@ -1,22 +1,15 @@
 package be.ugent.zeus.hydra.notifications;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.widget.RemoteViews;
 
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.Hydra;
 
 /**
  * @author Rien Maertens

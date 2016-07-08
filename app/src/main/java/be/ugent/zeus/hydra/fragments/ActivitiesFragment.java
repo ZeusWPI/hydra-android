@@ -1,96 +1,151 @@
 package be.ugent.zeus.hydra.fragments;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.SettingsActivity;
+import be.ugent.zeus.hydra.recyclerview.adapters.ActivityListAdapter;
+import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
+import be.ugent.zeus.hydra.loader.cache.CacheRequest;
+import be.ugent.zeus.hydra.models.association.Activities;
+import be.ugent.zeus.hydra.models.association.Activity;
+import be.ugent.zeus.hydra.requests.ActivitiesRequest;
+import be.ugent.zeus.hydra.utils.DividerItemDecoration;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.adapters.ActivityListAdapter;
-import be.ugent.zeus.hydra.models.association.Activities;
-import be.ugent.zeus.hydra.requests.ActivitiesRequest;
-/**
- * Created by ellen on 2016-03-08.
- *
- * TODO: update after  settings changed.
- */
+import java.util.List;
 
-public class ActivitiesFragment extends AbstractFragment {
-    private RecyclerView recyclerView;
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+
+/**
+ * Displays a list of activities, filtered by the settings.
+ *
+ * @author ellen
+ * @author Niko Strijbol
+ */
+public class ActivitiesFragment extends LoaderFragment<Activities> implements SharedPreferences.OnSharedPreferenceChangeListener {
+
     private ActivityListAdapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private View layout;
-    private StickyRecyclerHeadersDecoration decorator;
-    private ProgressBar progressBar;
+    private LinearLayout noData;
+
+    //If the data is invalidated.
+    private boolean invalid = false;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_activities, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        noData = $(view, R.id.events_no_data);
+
+        adapter = new ActivityListAdapter();
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+
+        StickyRecyclerHeadersDecoration decorator = new StickyRecyclerHeadersDecoration(adapter);
+        recyclerView.addItemDecoration(decorator);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
+
+        Button refresh = $(view, R.id.events_no_data_button_refresh);
+        Button filters = $(view, R.id.events_no_data_button_filters);
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refresh();
+            }
+        });
+        filters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), SettingsActivity.class));
+            }
+        });
+
+        //Register this class in the settings.
+        PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
+    }
+
+    /**
+     * Set the data. This assumes the data has been set once already. If the data is empty, a snackbar will be shown.
+     *
+     * @param data The data.
+     */
+    private void setData(@NonNull List<Activity> data) {
+
+        data = Activities.getPreferredActivities(data, getContext());
+
+        adapter.setData(data);
+        adapter.notifyDataSetChanged();
+
+        //If empty, show it.
+        if(data.isEmpty()) {
+            noData.setVisibility(View.VISIBLE);
+        } else {
+            noData.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        this.sendScreenTracking("Activities");
+
+        //Refresh the data.
+        if(invalid) {
+            //No need for a new thread, since this is pretty fast.
+            setData(adapter.getOriginal());
+            invalid = false;
+        }
     }
 
+    /**
+     * Called when a shared preference is changed, added, or removed. This may be called even if a preference is set to
+     * its existing value.
+     * <p>
+     * <p>This callback will be run on your main thread.
+     *
+     * @param sharedPreferences The {@link SharedPreferences} that received the change.
+     * @param key               The key of the preference that was changed, added, or
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        layout = inflater.inflate(R.layout.fragment_activities, container, false);
-        recyclerView = (RecyclerView) layout.findViewById(R.id.recyclerview);
-        progressBar = (ProgressBar) layout.findViewById(R.id.progressBar);
-
-        adapter = new ActivityListAdapter();
-        recyclerView.setAdapter(adapter);
-        layoutManager = new LinearLayoutManager(this.getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        decorator = new StickyRecyclerHeadersDecoration((StickyRecyclerHeadersAdapter) adapter);
-        recyclerView.addItemDecoration(decorator);
-        performLoadActivityRequest();
-
-        return layout;
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals("pref_association_checkbox") || key.equals("associationPrefListScreen")) {
+            invalid = true;
+        }
     }
 
-
-    private void performLoadActivityRequest() {
-        final ActivitiesRequest r = new ActivitiesRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<Activities>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                showFailureSnackbar();
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onRequestSuccess(final Activities activitiesItems) {
-                adapter.setItems(activitiesItems.getPreferedActivities(getContext()));
-                adapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    private void showFailureSnackbar() {
-        Snackbar
-                .make(layout, "Oeps! Kon activiteiten niet ophalen.", Snackbar.LENGTH_LONG)
-                .setAction("Opnieuw proberen", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        performLoadActivityRequest();
-                    }
-                })
-                .show();
-    }
-
+    /**
+     * This must be called when data is received that has no errors.
+     *
+     * @param data The data.
+     */
     @Override
-    public void onPause() {
-        super.onPause();
-        performLoadActivityRequest();
+    public void receiveData(@NonNull Activities data) {
+        adapter.setOriginal(data);
+        setData(data);
     }
 
+    /**
+     * @return The request that will be executed.
+     */
+    @Override
+    public CacheRequest<Activities> getRequest() {
+        return new ActivitiesRequest();
+    }
 }

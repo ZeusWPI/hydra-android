@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.minerva.AuthenticationActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/app_bar_layout">
+
+        <include layout="@layout/x_toolbar_no_scroll" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/oauthWebView"
+            />
+
+        <TextView
+            android:id="@+id/auth_needs_ugent"
+            android:paddingLeft="@dimen/vertical_padding"
+            android:paddingRight="@dimen/vertical_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/auth_needs_ugent"
+            android:gravity="center"
+            android:visibility="gone"/>
+
+        <include layout="@layout/x_progress_bar" />
+
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>

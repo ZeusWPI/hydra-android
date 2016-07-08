@@ -2,81 +2,69 @@ package be.ugent.zeus.hydra.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import be.ugent.zeus.hydra.activities.settings.SettingsActivity;
-import com.octo.android.robospice.GsonSpringAndroidSpiceService;
-import com.octo.android.robospice.SpiceManager;
-
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
+import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.viewpager.SectionPagerAdapter;
 
+/**
+ * Main activity.
+ */
+public class Hydra extends ToolbarActivity {
 
-public class Hydra extends AppCompatActivity {
+    //The tab icons
+    private static int[] icons = {
+            R.drawable.ic_tabs_home,
+            R.drawable.ic_tabs_schamper,
+            R.drawable.ic_tabs_menu,
+            R.drawable.ic_tabs_events,
+            R.drawable.ic_tabs_news,
+            R.drawable.ic_tabs_info,
+            R.drawable.ic_tabs_minerva,
+    };
 
-    protected TabLayout tabLayout;
-    protected ViewPager viewPager;
-    //------------------------------------------------------------------------
-    //this block can be pushed up into a common base class for all activities
-    //------------------------------------------------------------------------
-
-    //if you use a pre-set service,
-    //use JacksonSpringAndroidSpiceService.class instead of JsonSpiceService.class
-    protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        spiceManager.start(this);
-    }
-
-    @Override
-    protected void onStop() {
-        spiceManager.shouldStop();
-        super.onStop();
-    }
-
-    protected void onResume() {
-        super.onResume();
-
-        HydraApplication happ = (HydraApplication) getApplication();
-        happ.sendScreenName("settings");
-    }
-
-    //------------------------------------------------------------------------
-    //---------end of block that can fit in a common base class for all activities
-    //------------------------------------------------------
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //This activity has no parent.
+        hasParent(false);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tab_layout);
+        setContentView(R.layout.activity_main);
 
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        viewPager = (ViewPager) findViewById(R.id.pager);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
-        tabLayout.setupWithViewPager(viewPager);
+        mViewPager = $(R.id.pager);
+        mViewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
 
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayShowCustomEnabled(true);
-        actionbar.setCustomView(R.layout.actionbar_centered_hydra);
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                HydraApplication app = (HydraApplication) Hydra.this.getApplication();
+                app.sendScreenName("Fragment tab: " + SectionPagerAdapter.names[position]);
+            }
+        });
 
-        //icons (bad way)
-        int[] icons = {R.drawable.home, R.drawable.schamper,
-                R.drawable.resto, R.drawable.association_activities_icon, R.drawable.info, R.drawable.minerva};
+        final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                appBarLayout.setExpanded(true);
+            }
+        });
 
-        //set icons
-        tabLayout.setupWithViewPager(viewPager);
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+        TabLayout tabLayout = $(R.id.tab_layout);
+        tabLayout.setupWithViewPager(mViewPager);
+
+        for (int i = 0; i < icons.length; i++) {
             tabLayout.getTabAt(i).setIcon(icons[i]);
         }
 
@@ -112,8 +100,10 @@ public class Hydra extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void changeFragment(int fragment) { // FIXME: 14/04/16 Add more robust way to change fragments
-        viewPager.setCurrentItem(fragment);
-
+    /**
+     * Set the current tab.
+     */
+    public void changeFragment(int fragment) {
+        mViewPager.setCurrentItem(fragment, false);
     }
 }

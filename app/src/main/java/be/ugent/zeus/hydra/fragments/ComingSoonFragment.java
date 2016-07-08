@@ -4,35 +4,32 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-
 import be.ugent.zeus.hydra.R;
+
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
  * @author Rien Maertens
  * @since 03/03/2016.
  */
-public class ComingSoonFragment extends AbstractFragment {
+public class ComingSoonFragment extends Fragment {
 
     @Override
-    public void onResume() {
-        super.onResume();
-        this.sendScreenTracking("Coming Soon");
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_comingsoon, container, false);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        // Inflate the layout for this fragment
-
-        View view = inflater.inflate(R.layout.fragment_comingsoon, container, false);
-
-        ImageButton button = (ImageButton) view.findViewById(R.id.fbButton);
+        ImageButton button = $(view, R.id.fbButton);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,8 +45,7 @@ public class ComingSoonFragment extends AbstractFragment {
                         startActivity(new Intent(Intent.ACTION_VIEW, uri));
                     } else {
                         // open the Facebook app using the old method (fb://page/id)
-                        startActivity(new Intent(Intent.ACTION_VIEW,
-                                Uri.parse("fb://page/1689280941334844")));
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/1689280941334844")));
                     }
                 } catch (PackageManager.NameNotFoundException e) {
                     // Facebook is not installed. Open the browser
@@ -57,8 +53,5 @@ public class ComingSoonFragment extends AbstractFragment {
                 }
             }
         });
-
-        return view;
     }
-
 }

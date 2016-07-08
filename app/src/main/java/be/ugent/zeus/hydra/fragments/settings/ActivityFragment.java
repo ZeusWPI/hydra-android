@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.fragments.settings;
 
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceCategory;
@@ -9,29 +11,25 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.fragments.settings.loader.CachedAsyncTaskLoaderSystem;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.association.Associations;
 import be.ugent.zeus.hydra.requests.AssociationsRequest;
-import com.octo.android.robospice.GsonSpringAndroidSpiceService;
-import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Rien Maertens
  * @since 16/02/2016.
- *
- *
-SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-boolean sf = sharedPrefs.getBoolean("pref_association_checkbox", false);
+ * <p>
+ * <p>
+ * SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity()); boolean sf =
+ * sharedPrefs.getBoolean("pref_association_checkbox", false);
  */
-public class ActivityFragment extends PreferenceFragment {
-    protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
+public class ActivityFragment extends PreferenceFragment implements LoaderManager.LoaderCallbacks<ThrowableEither<Associations>> {
+
+    private static final int LOADER = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,19 +38,7 @@ public class ActivityFragment extends PreferenceFragment {
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.activities);
 
-        performRequest();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        spiceManager.start(getActivity());
-    }
-
-    @Override
-    public void onStop() {
-        spiceManager.shouldStop();
-        super.onStop();
+        getLoaderManager().initLoader(LOADER, null, this);
     }
 
     @Override
@@ -63,69 +49,84 @@ public class ActivityFragment extends PreferenceFragment {
         happ.sendScreenName("settings");
     }
 
-    private void addPreferencesFromRequest(final Associations assocations) {
+    private void addPreferencesFromRequest(final List<Association> associations) {
         Set<String> set = new HashSet<>();
         PreferenceScreen target = (PreferenceScreen) findPreference("associationPrefListScreen");
 
-        if(assocations!=null) {
+        target.setTitle("Verenigingen");
 
-            for (int i = 0; i < assocations.size(); i++) {
-                Association asso = assocations.get(i);
-                PreferenceCategory parentCategory;
-                if(!set.contains(asso.getParentAssociation())){
-                    parentCategory = new PreferenceCategory(target.getContext());
-                    parentCategory.setKey(asso.getParentAssociation());
-                    parentCategory.setTitle(asso.getParentAssociation());
-                    target.addPreference(parentCategory);
-                    set.add(asso.getParentAssociation());
-                }
-                parentCategory = (PreferenceCategory) findPreference(asso.getParentAssociation());
-                CheckBoxPreference checkBoxPreference = new CheckBoxPreference(target.getContext());
-                checkBoxPreference.setKey(asso.getName());
-                checkBoxPreference.setChecked(false);
-                checkBoxPreference.setTitle(asso.getName());
-                parentCategory.addPreference(checkBoxPreference);
-
+        for (Association asso : associations) {
+            PreferenceCategory parentCategory;
+            if (!set.contains(asso.getParentAssociation())) {
+                parentCategory = new PreferenceCategory(target.getContext());
+                parentCategory.setKey(asso.getParentAssociation());
+                parentCategory.setTitle(asso.getParentAssociation());
+                target.addPreference(parentCategory);
+                set.add(asso.getParentAssociation());
             }
-
+            parentCategory = (PreferenceCategory) findPreference(asso.getParentAssociation());
+            CheckBoxPreference checkBoxPreference = new CheckBoxPreference(target.getContext());
+            checkBoxPreference.setKey(asso.getName());
+            checkBoxPreference.setChecked(false);
+            checkBoxPreference.setTitle(asso.getName());
+            parentCategory.addPreference(checkBoxPreference);
         }
-    }
-
-    private void performRequest() {
-        final AssociationsRequest r = new AssociationsRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<Associations>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                showFailureSnackbar();
-            }
-
-            @Override
-            public void onRequestSuccess(final Associations assocations) {
-                Collections.sort(assocations, new Comparator<Association>() {
-                    @Override
-                    public int compare(Association lhs, Association rhs) {
-                        return lhs.getName().compareToIgnoreCase(rhs.getName());
-                    }
-                });
-                addPreferencesFromRequest(assocations);
-            }
-        });
     }
 
     private void showFailureSnackbar() {
-        if(getView()!=null) {
-            Snackbar
-                    .make(getView(), "Oeps! Kon verenigingen niet ophalen.", Snackbar.LENGTH_LONG)
-                    .setAction("Opnieuw proberen", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            performRequest();
-                        }
-                    })
-                    .show();
-        }else{
-            //cry
+        assert getView() != null;
+        Snackbar.make(getView(), "Oeps! Kon verenigingen niet ophalen.", Snackbar.LENGTH_LONG)
+                .setAction("Opnieuw proberen", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getLoaderManager().restartLoader(LOADER, null, ActivityFragment.this);
+                    }
+                })
+                .show();
+    }
+
+
+    /**
+     * Instantiate and return a new Loader for the given ID.
+     *
+     * @param id   The ID whose loader is to be created.
+     * @param args Any arguments supplied by the caller.
+     *
+     * @return Return a new Loader instance that is ready to start loading.
+     */
+    @Override
+    public Loader<ThrowableEither<Associations>> onCreateLoader(int id, Bundle args) {
+        return new CachedAsyncTaskLoaderSystem<>(new AssociationsRequest(), getActivity().getApplicationContext());
+    }
+
+    /**
+     * @param loader The Loader that has finished.
+     * @param data   The data generated by the Loader.
+     */
+    @Override
+    public void onLoadFinished(Loader<ThrowableEither<Associations>> loader, ThrowableEither<Associations> data) {
+        if (data.hasError()) {
+            showFailureSnackbar();
+        } else {
+            List<Association> associations = data.getData();
+            Collections.sort(associations, new Comparator<Association>() {
+                @Override
+                public int compare(Association lhs, Association rhs) {
+                    return lhs.getName().compareToIgnoreCase(rhs.getName());
+                }
+            });
+            addPreferencesFromRequest(associations);
         }
     }
-}
 
+    /**
+     * Called when a previously created loader is being reset, and thus making its data unavailable.  The application
+     * should at this point remove any references it has to the Loader's data.
+     *
+     * @param loader The Loader that is being reset.
+     */
+    @Override
+    public void onLoaderReset(Loader<ThrowableEither<Associations>> loader) {
+        loader.reset();
+    }
+}

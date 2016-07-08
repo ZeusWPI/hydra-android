@@ -2,19 +2,19 @@ package be.ugent.zeus.hydra.models.association;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
+import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
+import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
-
-import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
-import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
 
 /**
  * Created by feliciaan on 27/01/16.
  */
-public class Activity implements Parcelable {
+public class Activity implements Parcelable, Serializable {
+
     private String title;
     @JsonAdapter(TimeStampDateJsonAdapter.class)
     private Date start;

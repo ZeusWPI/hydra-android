@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_marginBottom="@dimen/card_spacing"
+    android:clickable="true"
+    app:contentPaddingLeft="@dimen/card_title_padding_vertical"
+    app:contentPaddingRight="@dimen/card_title_padding_vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/card_title_padding_top">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                app:srcCompat="@drawable/ic_tabs_schamper"
+                tools:ignore="MissingPrefix"
+                android:tint="@color/ugent_blue_lighter"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/ugent_blue_lighter"
+                android:paddingLeft="16dp"
+                android:text="@string/title_activity_schamper" />
+
+            <ImageView
+                android:id="@+id/card_description_popup"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:tint="@color/ugent_blue_lighter"
+                app:srcCompat="@drawable/ic_more_vert_24dp"
+                tools:ignore="MissingPrefix"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title"
+                    android:paddingTop="@dimen/card_title_padding_top"
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    tools:text="Dit is een schamper artikel! Met een lange titel van meerdere lijnen!" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/date"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="Datum Gisteren" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/author"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:paddingBottom="@dimen/card_title_padding_bottom_no_content"
+                    tools:text="Auteur artikel" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/image"
+                android:scaleType="fitCenter"
+                android:paddingTop="16dp"
+                android:src="@drawable/ic_tabs_schamper" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

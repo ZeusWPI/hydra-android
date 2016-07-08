@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.requests;
 
-import com.octo.android.robospice.persistence.DurationInMillis;
-
+import android.support.annotation.NonNull;
+import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.models.association.News;
 
 /**
@@ -13,10 +13,12 @@ public class NewsRequest extends AbstractRequest<News> {
         super(News.class);
     }
 
+    @NonNull
     public String getCacheKey() {
         return "association_news";
     }
 
+    @NonNull
     @Override
     protected String getAPIUrl() {
         return DSA_API_URL + "all_news.json";
@@ -24,6 +26,6 @@ public class NewsRequest extends AbstractRequest<News> {
 
     @Override
     public long getCacheDuration() {
-        return DurationInMillis.ONE_DAY;
+        return Cache.ONE_DAY;
     }
 }
