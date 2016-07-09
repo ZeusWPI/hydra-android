@@ -21,12 +21,8 @@
 
 package be.ugent.android.sdk.oauth;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.util.Log;
-import android.webkit.*;
 import be.ugent.android.sdk.oauth.event.AuthorizationEvent;
 import be.ugent.android.sdk.oauth.event.AuthorizationEventHandler;
 import be.ugent.android.sdk.oauth.json.BearerToken;
@@ -85,86 +81,9 @@ public class AuthorizationManager {
         return hasValidToken();
     }
 
-
     /**
-     * Loads authorization page of the provider in the WebView.
-     *
-     * @param handler The companion for the authorization
-     * @param listener The WebView listener.
+     * @return The URI to be displayed to use authorize use.
      */
-    @SuppressLint("SetJavaScriptEnabled")
-    public void showAuthorizationPage(final AuthorizationEventHandler handler, final AuthorizationEventHandler.WebViewListener listener) {
-
-        // Get the WebView.
-        WebView webView = handler.getWebView();
-
-        // Activate javascript support.
-        Log.d(TAG, "Enabling Javascript support on webview");
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-
-        // Set the client.
-        webView.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                listener.onPageFinished(url);
-            }
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-                listener.onPageStarted(url, favicon);
-            }
-
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                Log.d(TAG, "Received Url Redirect Callback: " + url);
-
-                // Received callback from the Authentication Server
-                if (url.startsWith(configData.CALLBACK_URI)) {
-                    Uri uri = Uri.parse(url);
-
-                    String errorParameter = uri.getQueryParameter("error");
-
-                    // Successful authorization: send the code and event.
-                    if (errorParameter == null) {
-                        handler.receiveAuthorizationCode(uri.getQueryParameter("code"));
-                    }
-                    // failed authorization
-                    else {
-                        Log.e(TAG, "Authorization failed: " + uri.getQueryParameter("error_description"));
-                        handler.onAuthorizationEvent(AuthorizationEvent.AUTHENTICATION_FAILED);
-                    }
-
-                }
-
-                return super.shouldOverrideUrlLoading(view, url);
-            }
-
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                super.onReceivedError(view, errorCode, description, failingUrl);
-                listener.onError(errorCode, description);
-            }
-        });
-
-        // Redirect to the correct URL.
-        try {
-            OAuthClientRequest request = OAuthClientRequest
-                    .authorizationLocation(EndpointConfiguration.AUTHORIZATION_ENDPOINT)
-                    .setResponseType(ResponseType.CODE.toString())
-                    .setClientId(configData.API_KEY)
-                    .setRedirectURI(configData.CALLBACK_URI)
-                    .setState("auth_state")
-                    .buildQueryMessage();
-            webView.loadUrl(request.getLocationUri());
-        } catch (OAuthSystemException e) {
-            Log.e(TAG, "Error while building URI", e);
-        }
-    }
-
     public String getRequestUri() {
         try {
             OAuthClientRequest request = OAuthClientRequest
