@@ -9,10 +9,11 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.association.NewsItem;
-import be.ugent.zeus.hydra.recyclerview.viewholder.home.NewsItemViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.utils.html.Utils;
+
+import static be.ugent.zeus.hydra.recyclerview.viewholder.NewsItemViewHolder.PARCEL_NAME;
 
 public class NewsArticleActivity extends ToolbarActivity {
 
@@ -24,7 +25,7 @@ public class NewsArticleActivity extends ToolbarActivity {
         setContentView(R.layout.activity_news_article);
 
         Intent intent = getIntent();
-        NewsItem article = intent.getParcelableExtra(NewsItemViewHolder.PARCEL_NAME);
+        NewsItem article = intent.getParcelableExtra(PARCEL_NAME);
 
         TextView title = $(R.id.title);
         TextView date = $(R.id.date);

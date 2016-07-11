@@ -1,35 +1,36 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 
-import android.content.Intent;
-import android.os.Parcelable;
 import android.view.View;
-import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.NewsArticleActivity;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.NewsItemCard;
-import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
-import be.ugent.zeus.hydra.utils.DateUtils;
-
-import java.util.Locale;
+import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
+import be.ugent.zeus.hydra.views.NowToolbar;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
- * Created by feliciaan on 18/06/16.
+ * This would be very easy if we could just inherit from
+ * {@link be.ugent.zeus.hydra.recyclerview.viewholder.NewsItemViewHolder}. That is unfortunately not the case, so we
+ * use composition.
+ *
+ * @author feliciaan
+ * @author Niko Strijbol
  */
-public class NewsItemViewHolder extends AbstractViewHolder implements DataViewHolder<NewsItem> {
+public class NewsItemViewHolder extends AbstractViewHolder {
 
-    public static final String PARCEL_NAME = "newsItem";
+    private be.ugent.zeus.hydra.recyclerview.viewholder.NewsItemViewHolder holder;
 
-    private TextView info;
-    private TextView title;
+    private NowToolbar toolbar;
 
-    public NewsItemViewHolder(View v) {
+    private HomeCardAdapter adapter;
+
+    public NewsItemViewHolder(View v, HomeCardAdapter adapter) {
         super(v);
-        title = $(v, R.id.name);
-        info = $(v, R.id.info);
+        toolbar = $(v, R.id.card_now_toolbar);
+        this.adapter = adapter;
+        holder = new be.ugent.zeus.hydra.recyclerview.viewholder.NewsItemViewHolder(v);
     }
 
     public void populate(HomeCard card) {
@@ -40,30 +41,8 @@ public class NewsItemViewHolder extends AbstractViewHolder implements DataViewHo
         NewsItemCard newsItemCard = (NewsItemCard) card;
         final NewsItem newsItem = newsItemCard.getNewsItem();
 
-        populateData(newsItem);
-    }
+        holder.populateData(newsItem);
 
-    public void populateData(final NewsItem newsItem) {
-
-        title.setText(newsItem.getTitle());
-
-        String infoText = String.format(new Locale("nl"), "%s door %s",
-                DateUtils.relativeDateString(newsItem.getDate(), itemView.getContext()),
-                newsItem.getAssociation().getName());
-        info.setText(infoText);
-        if (!newsItem.isHighlighted()) {
-            title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.star, 0);
-        } else {
-            title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-        }
-
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(itemView.getContext(), NewsArticleActivity.class);
-                intent.putExtra(PARCEL_NAME, (Parcelable) newsItem);
-                itemView.getContext().startActivity(intent);
-            }
-        });
+        toolbar.setOnClickListener(adapter.listener(HomeCard.CardType.NEWS_ITEM));
     }
 }

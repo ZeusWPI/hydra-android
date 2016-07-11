@@ -48,7 +48,6 @@ public class SchamperViewHolder extends RecyclerView.ViewHolder implements DataV
                 Intent intent = new Intent(itemView.getContext(), SchamperArticleActivity.class);
                 intent.putExtra("article", (Parcelable) article);
 
-                //TODO: this crashes for large images
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) itemView.getContext(), image, "hero");
                 itemView.getContext().startActivity(intent, options.toBundle());
             }

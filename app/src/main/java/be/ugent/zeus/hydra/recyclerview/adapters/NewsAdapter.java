@@ -4,7 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.association.NewsItem;
-import be.ugent.zeus.hydra.recyclerview.viewholder.home.NewsItemViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.NewsItemViewHolder;
 
 import java.util.Collections;
 import java.util.Comparator;

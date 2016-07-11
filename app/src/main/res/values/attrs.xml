@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <declare-styleable name="NowToolbar">
+        <attr name="icon" format="reference" />
+        <attr name="title" format="string" />
+        <attr name="menu" format="reference" />
+    </declare-styleable>
 </resources>

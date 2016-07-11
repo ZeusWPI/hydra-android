@@ -18,39 +18,14 @@
         android:id="@+id/home_cards_resto_container"
         android:paddingBottom="@dimen/card_title_padding_bottom">
 
-        <LinearLayout
-            android:id="@+id/card_description_wrapper"
+        <be.ugent.zeus.hydra.views.NowToolbar
+            android:id="@+id/card_now_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            app:icon="@drawable/ic_tabs_menu"
             android:paddingTop="@dimen/card_title_padding_top"
-            android:paddingBottom="@dimen/card_title_padding_top">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                app:srcCompat="@drawable/ic_tabs_menu"
-                tools:ignore="MissingPrefix"
-                android:tint="@color/ugent_blue_lighter" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textColor="@color/ugent_blue_lighter"
-                android:paddingLeft="16dp"
-                android:id="@+id/card_description"
-                tools:text="Menu voor de toekomst!" />
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:tint="@color/ugent_blue_lighter"
-                app:srcCompat="@drawable/ic_more_vert_24dp"
-                tools:ignore="MissingPrefix"
-                android:id="@+id/card_description_popup"/>
-
-        </LinearLayout>
+            android:paddingBottom="@dimen/card_title_padding_top"
+            />
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

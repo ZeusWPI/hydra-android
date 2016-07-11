@@ -17,37 +17,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <be.ugent.zeus.hydra.views.NowToolbar
+            android:id="@+id/card_now_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="@dimen/card_title_padding_top">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                app:srcCompat="@drawable/ic_tabs_events"
-                tools:ignore="MissingPrefix"
-                android:tint="@color/ugent_blue_lighter" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textColor="@color/ugent_blue_lighter"
-                android:paddingLeft="16dp"
-                android:id="@+id/card_description"
-                android:text="@string/home_card_description" />
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:tint="@color/ugent_blue_lighter"
-                app:srcCompat="@drawable/ic_more_vert_24dp"
-                tools:ignore="MissingPrefix"
-                android:id="@+id/card_description_popup"/>
-
-        </LinearLayout>
+            app:icon="@drawable/ic_tabs_events"
+            android:paddingTop="@dimen/card_title_padding_top"
+            />
 
         <LinearLayout
             android:orientation="horizontal"
