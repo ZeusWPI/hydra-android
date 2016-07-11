@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +23,7 @@ import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.views.MenuTable;
 import org.joda.time.DateTime;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
@@ -35,12 +34,11 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class RestoFragment extends LoaderFragment<RestoOverview> {
 
-    private static final String FRAGMENT_TAG = "menu_today_fragment";
-
     //The hour after which every resto is closed.
     public static final int CLOSING_HOUR = 20;
 
     private TextView title;
+    private MenuTable table;
     private Button viewMenu;
     private Button viewSandwich;
     private Button viewResto;
@@ -54,6 +52,7 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        table = $(view, R.id.menu_table);
         viewMenu = $(view, R.id.home_resto_view);
         viewSandwich = $(view, R.id.home_resto_view_sandwich);
         viewResto = $(view, R.id.home_resto_view_resto);
@@ -138,7 +137,7 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
     @Override
     public void receiveData(@NonNull RestoOverview data) {
 
-        FragmentManager m = getChildFragmentManager();
+        //FragmentManager m = getChildFragmentManager();
 
         //We can't do anything without data.
         if(data.size() < 2) {
@@ -146,20 +145,11 @@ public class RestoFragment extends LoaderFragment<RestoOverview> {
         }
 
         RestoMenu menu = data.get(0);
-        if(DateTime.now().isAfter(DateTime.now().withHourOfDay(CLOSING_HOUR))) {
+        if(DateTime.now().isAfter(DateTime.now().withHourOfDay(CLOSING_HOUR)) || DateTime.now().isAfter(new DateTime(menu.getDate()))) {
             menu = data.get(1);
         }
 
-        //Delete old fragment if needed
-        if(m.findFragmentByTag(FRAGMENT_TAG) != null) {
-            m.beginTransaction().remove(m.findFragmentByTag(FRAGMENT_TAG)).commit();
-        }
-
-        //Add new fragment
-        MenuFragment fragment = MenuFragment.newInstance(menu);
-        FragmentTransaction fragmentTransaction = m.beginTransaction();
-        fragmentTransaction.add(R.id.menu_today_card_layout, fragment, FRAGMENT_TAG);
-        fragmentTransaction.commit();
+        table.setMenu(menu);
 
         title.setText(String.format(getString(R.string.resto_menu_title), DateUtils.getFriendlyDate(menu.getDate())));
     }

@@ -28,4 +28,9 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <!-- Needed for custom views -->
+    <style name="Material.Typography.Subhead" parent="Base.TextAppearance.AppCompat.Subhead">
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
