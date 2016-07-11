@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--
         General style for activities that need a default action bar.
         Note: it is preferred to use the toolbar, not the default action bar.
@@ -11,10 +11,10 @@
         <item name="android:colorBackground">@color/ugent_white</item>
         <item name="colorAccent">@color/ugent_yellow_dark</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-        <item name="android:textColorPrimary">@color/ugent_blue_dark</item>
-        <item name="android:textColorSecondary">@color/ugent_blue_medium</item>
-        <item name="android:textColorTertiary">@color/ugent_blue_medium</item>
-        <item name="android:windowContentTransitions">true</item>
+        <item name="android:textColorPrimary">@color/ugent_blue_dark_selector</item>
+        <item name="android:textColorSecondary">@color/ugent_blue_medium_selector</item>
+        <item name="android:textColorTertiary">@color/ugent_blue_medium_selector</item>
+        <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
     </style>
 
     <!-- Same as the main theme, except there is no action bar -->
@@ -24,8 +24,8 @@
     </style>
 
     <style name="Hydra.Main.NoActionBar.SystemWindows" parent="Hydra.Main.NoActionBar">
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:ignore="NewApi">true</item>
+        <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
     </style>
 
 </resources>

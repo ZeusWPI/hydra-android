@@ -89,8 +89,7 @@ public class StorageManager {
      */
     public TokenData loadToken() {
         String serializedTokenData = getSharedPreferences().getString(PREFS_TOKEN, null);
-        TokenData tokenData = TokenData.create(serializedTokenData);
-        return tokenData;
+        return TokenData.create(serializedTokenData);
     }
 
     /**
@@ -119,5 +118,4 @@ public class StorageManager {
     private SharedPreferences getSharedPreferences() {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
-
 }

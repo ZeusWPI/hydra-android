@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.*;
 import android.widget.Button;
 import be.ugent.android.sdk.oauth.AuthorizationManager;
+import be.ugent.android.sdk.oauth.event.AuthorizationEvent;
+import be.ugent.android.sdk.oauth.event.AuthorizationEventHandler;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.minerva.AuthenticationActivity;
@@ -185,22 +187,28 @@ public class MinervaFragment extends LoaderFragment<Courses> {
      * Sign out and hide the data.
      */
     private void signOut() {
-        //Delete items
-        adapter.setItems(Collections.<Course>emptyList());
-        //Hide list
-        recyclerView.setVisibility(View.GONE);
-        //Hide progress
-        hideProgressBar();
-        //Show login prompt
-        authWrapper.setVisibility(View.VISIBLE);
-        //Destroy loaders
-        destroyLoader();
-        //Delete cache
-        clearCache();
-        //Sign out
-        authorizationManager.signOut();
-        //Reload options
-        getActivity().invalidateOptionsMenu();
+        //Sign out first, and then remove all data.
+        authorizationManager.signOut(new AuthorizationEventHandler() {
+            @Override
+            public void onAuthorizationEvent(AuthorizationEvent event) {
+                if(event == AuthorizationEvent.SIGNED_OUT) {
+                    //Delete items
+                    adapter.setItems(Collections.<Course>emptyList());
+                    //Hide list
+                    recyclerView.setVisibility(View.GONE);
+                    //Hide progress
+                    hideProgressBar();
+                    //Show login prompt
+                    authWrapper.setVisibility(View.VISIBLE);
+                    //Destroy loaders
+                    destroyLoader();
+                    //Delete cache
+                    clearCache();
+                    //Reload options
+                    getActivity().invalidateOptionsMenu();
+                }
+            }
+        });
     }
 
     /**
