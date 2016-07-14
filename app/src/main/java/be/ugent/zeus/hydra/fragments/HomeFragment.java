@@ -31,10 +31,12 @@ import be.ugent.zeus.hydra.models.schamper.Articles;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.requests.*;
+import be.ugent.zeus.hydra.requests.ActivitiesRequest;
+import be.ugent.zeus.hydra.requests.NewsRequest;
+import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
+import be.ugent.zeus.hydra.requests.SpecialEventRequest;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 
 import java.io.Serializable;
 import java.util.*;
@@ -307,7 +309,8 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         public void receiveData(@NonNull SpecialEventWrapper data) {
             List<HomeCard> list = new ArrayList<>();
             for (SpecialEvent event: data.getSpecialEvents()) {
-                if ((event.getStart().before(new Date()) && event.getEnd().after(new Date())) || (DEVELOPMENT && event.isDevelopment())) {
+                Date now = new Date();
+                if ((event.getStart().before(now) && event.getEnd().after(now)) || (DEVELOPMENT && event.isDevelopment())) {
                     list.add(new SpecialEventCard(event));
                 }
             }
@@ -391,9 +394,9 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
             if (!isTypeActive(HomeCard.CardType.NEWS_ITEM)) {
                 return;
             }
+
             List<HomeCard> newsItemCardList = new ArrayList<>();
-            DateTimeZone timeZone = DateTimeZone.forID("Europe/Brussels");
-            DateTime now = DateTime.now(timeZone);
+            DateTime now = DateTime.now();
             DateTime sixMonthsAgo = now.minusMonths(6);
 
             for (NewsItem item : data) {

@@ -11,7 +11,7 @@ import be.ugent.zeus.hydra.recyclerview.adapters.NewsAdapter;
 import be.ugent.zeus.hydra.fragments.common.RecyclerLoaderFragment;
 import be.ugent.zeus.hydra.models.association.News;
 import be.ugent.zeus.hydra.models.association.NewsItem;
-import be.ugent.zeus.hydra.recyclerview.viewholder.home.NewsItemViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.NewsItemViewHolder;
 import be.ugent.zeus.hydra.requests.NewsRequest;
 
 /**

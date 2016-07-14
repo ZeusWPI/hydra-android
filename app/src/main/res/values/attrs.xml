@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Attributes for the Google Now-like toolbar -->
+    <declare-styleable name="NowToolbar">
+        <attr name="icon" format="reference" />
+        <attr name="title" format="string" />
+        <attr name="menu" format="reference" />
+    </declare-styleable>
 
+    <!-- Attributes for the resto menu -->
+    <declare-styleable name="MenuTable">
+        <attr name="show">
+            <enum name="main" value="0" />
+            <enum name="all" value="1" />
+        </attr>
+    </declare-styleable>
 </resources>

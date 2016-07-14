@@ -1,8 +1,10 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import android.content.SharedPreferences;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
@@ -38,7 +40,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder> {
         Collections.sort(cardItems, new Comparator<HomeCard>() {
             @Override
             public int compare(HomeCard lhs, HomeCard rhs) {
-                return  -(lhs.getPriority() - rhs.getPriority());
+                return -(lhs.getPriority() - rhs.getPriority());
             }
         });
 
@@ -68,7 +70,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder> {
             case SCHAMPER:
                 return new SchamperViewHolder(getViewForLayout(R.layout.home_card_schamper, parent), this);
             case NEWS_ITEM:
-                return new NewsItemViewHolder(getViewForLayout(R.layout.home_card_news_item, parent));
+                return new NewsItemViewHolder(getViewForLayout(R.layout.home_card_news_item, parent), this);
             case MINERVA_LOGIN:
                 View v = getViewForLayout(R.layout.home_minerva_login_card, parent);
                 return new MinervaLoginViewHolder(v);
@@ -106,5 +108,25 @@ public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder> {
     @HomeCard.CardType
     public int getItemViewType(int position) {
         return cardItems.get(position).getCardType();
+    }
+
+    /**
+     * Helper method that returns a listener that hides a given card type in this adapter. This will only work with the
+     * default menu in {@link be.ugent.zeus.hydra.views.NowToolbar}.
+     *
+     * @param type The type of card to hide.
+     * @return A listener that will hide the given card type in this adapter.
+     */
+    public PopupMenu.OnMenuItemClickListener listener(@HomeCard.CardType final int type) {
+        return new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.menu_hide) {
+                    disableCardType(type);
+                    return true;
+                }
+                return false;
+            }
+        };
     }
 }
