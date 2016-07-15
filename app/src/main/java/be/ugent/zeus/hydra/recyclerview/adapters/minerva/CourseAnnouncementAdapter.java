@@ -48,7 +48,7 @@ public class CourseAnnouncementAdapter extends RecyclerView.Adapter<AbstractView
 
     @Override
     public void onBindViewHolder(AbstractViewHolder holder, int position) {
-        holder.populateData(data.get(position));
+        holder.populate(data.get(position));
     }
 
     @Override

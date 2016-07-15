@@ -19,7 +19,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * View holder for the schamper fragment.
  */
-public class SchamperViewHolder extends RecyclerView.ViewHolder implements DataViewHolder<Article> {
+public class SchamperViewHolder extends AbstractViewHolder<Article> {
     private TextView title;
     private TextView date;
     private TextView author;
@@ -34,7 +34,7 @@ public class SchamperViewHolder extends RecyclerView.ViewHolder implements DataV
         image = $(itemView, R.id.card_image);
     }
 
-    public void populateData(final Article article) {
+    public void populate(final Article article) {
 
         title.setText(article.getTitle());
         date.setText(DateUtils.relativeDateString(article.getPubDate(), itemView.getContext()));

@@ -20,8 +20,6 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class AnnouncementViewHolder extends AbstractViewHolder<Announcement> {
 
-    public static final String PARCEL_NAME = "announcement_view";
-
     private TextView title;
     private TextView subtitle;
     private View parent;
@@ -34,7 +32,7 @@ public class AnnouncementViewHolder extends AbstractViewHolder<Announcement> {
     }
 
     @Override
-    public void populateData(final Announcement data) {
+    public void populate(final Announcement data) {
         title.setText(data.getTitle());
         String infoText = String.format(new Locale("nl"), "%s door %s",
                 DateUtils.relativeDateString(data.getDate(), itemView.getContext()),
@@ -45,7 +43,7 @@ public class AnnouncementViewHolder extends AbstractViewHolder<Announcement> {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(itemView.getContext(), AnnouncementActivity.class);
-                intent.putExtra(PARCEL_NAME, (Parcelable) data);
+                intent.putExtra(AnnouncementActivity.PARCEL_NAME, (Parcelable) data);
                 itemView.getContext().startActivity(intent);
             }
         });

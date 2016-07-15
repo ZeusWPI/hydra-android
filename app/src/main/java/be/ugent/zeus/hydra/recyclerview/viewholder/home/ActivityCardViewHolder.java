@@ -12,7 +12,6 @@ import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.views.NowToolbar;
 import com.squareup.picasso.Picasso;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
@@ -20,34 +19,25 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * Created by feliciaan on 06/04/16.
  */
-public class ActivityCardViewHolder extends AbstractViewHolder {
+public class ActivityCardViewHolder extends HideableViewHolder {
 
     private TextView start;
     private TextView title;
     private TextView association;
     private ImageView imageView;
-    private NowToolbar toolbar;
-    private HomeCardAdapter adapter;
 
     public ActivityCardViewHolder(View v, HomeCardAdapter adapter) {
-        super(v);
+        super(v, adapter);
         title = $(v, R.id.name);
         association = $(v, R.id.association);
         start = $(v, R.id.starttime);
         imageView = $(v, R.id.imageView);
-        toolbar = $(v, R.id.card_now_toolbar);
-        this.adapter = adapter;
-
     }
 
     @Override
     public void populate(HomeCard card) {
-        if (card.getCardType() != HomeCard.CardType.ACTIVITY) {
-            return; //TODO: do warnings or something
-        }
 
-        final AssociationActivityCard activityCard = (AssociationActivityCard) card;
-        final Activity activity = activityCard.getActivity();
+        final Activity activity = card.<AssociationActivityCard>checkCard(HomeCard.CardType.ACTIVITY).getActivity();
 
         title.setText(activity.getTitle());
         association.setText(activity.getLocation());
@@ -66,6 +56,6 @@ public class ActivityCardViewHolder extends AbstractViewHolder {
             }
         });
 
-        toolbar.setOnClickListener(adapter.listener(HomeCard.CardType.ACTIVITY));
+        super.populate(card);
     }
 }

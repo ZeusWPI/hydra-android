@@ -26,5 +26,11 @@
             android:paddingBottom="@dimen/card_title_padding_top"
             />
 
+        <be.ugent.zeus.hydra.views.MenuTable
+            android:id="@+id/menu_table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:show="main"/>
+
     </LinearLayout>
 </android.support.v7.widget.CardView>

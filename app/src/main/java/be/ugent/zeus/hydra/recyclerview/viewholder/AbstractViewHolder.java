@@ -5,11 +5,12 @@ import android.view.View;
 
 /**
  * @author Niko Strijbol
- * @version 15/07/2016
  */
-public abstract class AbstractViewHolder<D> extends RecyclerView.ViewHolder implements DataViewHolder<D> {
+public abstract class AbstractViewHolder<D> extends RecyclerView.ViewHolder {
 
     public AbstractViewHolder(View itemView) {
         super(itemView);
     }
+
+    public abstract void populate(D data);
 }

@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import android.support.v7.widget.RecyclerView;
-import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public abstract class ItemAdapter<E, V extends RecyclerView.ViewHolder & DataViewHolder<E>> extends RecyclerView.Adapter<V> {
+public abstract class ItemAdapter<E, V extends AbstractViewHolder<E>> extends RecyclerView.Adapter<V> {
 
     protected List<E> items = Collections.emptyList();
 
@@ -45,6 +45,6 @@ public abstract class ItemAdapter<E, V extends RecyclerView.ViewHolder & DataVie
 
     @Override
     public void onBindViewHolder(V holder, int position) {
-        holder.populateData(items.get(position));
+        holder.populate(items.get(position));
     }
 }

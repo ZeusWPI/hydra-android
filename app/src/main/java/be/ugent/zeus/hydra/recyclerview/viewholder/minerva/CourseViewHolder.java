@@ -51,7 +51,7 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
      * @param course The data.
      */
     @Override
-    public void populateData(final Course course) {
+    public void populate(final Course course) {
 
         name.setText(course.getTitle());
         final CharSequence tutor = course.getTutorName() == null ? "" : Utils.fromHtml(course.getTutorName());

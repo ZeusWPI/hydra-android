@@ -12,7 +12,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * @author Niko Strijbol
  */
-public class CourseViewHolder extends RecyclerView.ViewHolder implements DataViewHolder<Course> {
+public class CourseViewHolder extends AbstractViewHolder<Course> {
 
     private TextView name;
     private TextView subtitle;
@@ -31,7 +31,7 @@ public class CourseViewHolder extends RecyclerView.ViewHolder implements DataVie
      * @param course The data.
      */
     @Override
-    public void populateData(Course course) {
+    public void populate(Course course) {
         name.setText(course.getTitle());
         //TODO this
         CharSequence tutor = course.getTutorName() == null ? "" : Utils.fromHtml(course.getTutorName());
