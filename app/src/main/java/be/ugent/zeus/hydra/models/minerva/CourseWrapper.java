@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.models.minerva;
 
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import be.ugent.zeus.hydra.HydraApplication;
@@ -22,10 +23,14 @@ import java.util.ListIterator;
  */
 public class CourseWrapper {
 
+    private static final String TAG = "CourseWrapper";
+
     private Course course;
     private List<Announcement> announcements = Collections.emptyList();
     private HydraApplication application;
     private Cache cache;
+
+    private AsyncTask task;
 
     public CourseWrapper(Course c, HydraApplication application) {
         this.course = c;
@@ -33,7 +38,29 @@ public class CourseWrapper {
         this.cache = new SerializeCache(application.getApplicationContext());
     }
 
-    public void loadAnnouncements() {
+    /**
+     * Cancel the task if it exists.
+     */
+    public void cancelLoading() {
+        if(task != null) {
+            Log.d(TAG, "Canceled request for " + course);
+            task.cancel(false);
+            task = null;
+        }
+    }
+
+    /**
+     * Load the announcements for this course.
+     *
+     * @param callback The callback.
+     */
+    public void loadAnnouncements(final RequestExecutor.Callback<List<Announcement>> callback) {
+
+        //It is already loaded.
+        if(!announcements.isEmpty()) {
+            callback.receiveData(announcements);
+            return;
+        }
 
         //Request
         final WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, application);
@@ -48,7 +75,7 @@ public class CourseWrapper {
         };
 
         //Do request
-        RequestExecutor.executeAsync(request, new RequestExecutor.Callback<WhatsNew>() {
+        task = RequestExecutor.executeAsync(request, new RequestExecutor.Callback<WhatsNew>() {
             @Override
             public void receiveData(@NonNull WhatsNew data) {
                 ListIterator<Announcement> li = data.getAnnouncements().listIterator(data.getAnnouncements().size());
@@ -59,19 +86,29 @@ public class CourseWrapper {
                     a.setCourse(course);
                     announcements.add(a);
                 }
+                task = null;
+                callback.receiveData(data.getAnnouncements());
             }
 
             @Override
             public void receiveError(RequestFailureException e) {
-                Log.e("CourseAnnouncement", "Error while getting announcements", e);
+                Log.e(TAG, "Error while getting announcements", e);
+                task = null;
+                callback.receiveError(e);
             }
         });
     }
 
+    /**
+     * @return The course.
+     */
     public Course getCourse() {
         return course;
     }
 
+    /**
+     * @return The announcements.
+     */
     public List<Announcement> getAnnouncements() {
         return announcements;
     }

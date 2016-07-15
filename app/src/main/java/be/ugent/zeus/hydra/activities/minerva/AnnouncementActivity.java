@@ -8,7 +8,7 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
-import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAnnouncementAdapter;
+import be.ugent.zeus.hydra.recyclerview.viewholder.minerva.AnnouncementViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.utils.html.Utils;
@@ -27,7 +27,7 @@ public class AnnouncementActivity extends ToolbarActivity {
         setContentView(R.layout.activity_announcement);
 
         Intent intent = getIntent();
-        Announcement article = intent.getParcelableExtra(CourseAnnouncementAdapter.AnnouncementViewHolder.PARCEL_NAME);
+        Announcement article = intent.getParcelableExtra(AnnouncementViewHolder.PARCEL_NAME);
 
         TextView title = $(R.id.title);
         TextView date = $(R.id.date);

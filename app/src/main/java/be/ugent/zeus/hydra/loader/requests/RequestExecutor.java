@@ -10,7 +10,15 @@ import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
  */
 public class RequestExecutor {
 
-    public static <T> void executeAsync(final Request<T> request, final Callback<T> callBack) {
+    /**
+     *
+     *
+     * @param request The request.
+     * @param callBack The callback.
+     * @param <T> The result.
+     * @return The task, should you wish to cancel it.
+     */
+    public static <T> AsyncTask<Void, Void, T> executeAsync(final Request<T> request, final Callback<T> callBack) {
 
         AsyncTask<Void, Void, T> task = new AsyncTask<Void, Void, T>() {
             @Override
@@ -31,7 +39,7 @@ public class RequestExecutor {
             }
         };
 
-        task.execute();
+        return task.execute();
     }
 
     public interface Callback<T> {
