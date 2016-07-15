@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.IdRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
@@ -33,38 +32,42 @@ public class NowToolbar extends LinearLayout {
     //Menu-related things.
     @MenuRes private int menu;
 
+    public NowToolbar(Context context) {
+        super(context);
+        initialize(null);
+    }
+
     public NowToolbar(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.NowToolbar, 0, 0);
-
-        try {
-            //The menu defaults to the one with the hide functionality.
-            int menu = a.getInt(R.styleable.NowToolbar_menu, R.menu.now_toolbar_hide);
-            Drawable icon = a.getDrawable(R.styleable.NowToolbar_icon);
-            String title = a.getString(R.styleable.NowToolbar_title);
-            initialize(menu, icon, title);
-        } finally {
-            a.recycle();
-        }
+        initialize(attrs);
     }
 
     /**
      * Initialize the view. A helper method that makes it easier to use different constructors.
-     *
-     * @param menu The resource ID of the menu to display.
-     * @param icon The icon drawable.
-     * @param title The title to display.
      */
-    private void initialize(@MenuRes final int menu, Drawable icon, String title) {
+    private void initialize(AttributeSet set) {
+        //Inflate from XML
         inflate(getContext(), R.layout.x_now_toolbar, this);
+
         ImageView iconView = $(R.id.now_toolbar_icon);
         titleView = $(R.id.now_toolbar_title);
         menuButton = $(R.id.now_toolbar_menu);
-        this.menu = menu;
 
-        iconView.setImageDrawable(icon);
-        titleView.setText(title);
+        //If no attributes, stop here.
+        if(set == null) {
+            return;
+        }
+
+        //Get attributes
+        TypedArray a = getContext().getTheme().obtainStyledAttributes(set, R.styleable.NowToolbar, 0, 0);
+
+        try {
+            this.menu = a.getInt(R.styleable.NowToolbar_menu, R.menu.now_toolbar_hide);
+            iconView.setImageResource(a.getResourceId(R.styleable.NowToolbar_icon, R.drawable.ic_tabs_home));
+            titleView.setText(a.getString(R.styleable.NowToolbar_title));
+        } finally {
+            a.recycle();
+        }
     }
 
     /**

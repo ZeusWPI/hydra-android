@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.recyclerview.viewholder;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Parcelable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
@@ -49,7 +50,11 @@ public class SchamperViewHolder extends RecyclerView.ViewHolder implements DataV
                 intent.putExtra("article", (Parcelable) article);
 
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) itemView.getContext(), image, "hero");
-                itemView.getContext().startActivity(intent, options.toBundle());
+                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN ) {
+                    itemView.getContext().startActivity(intent);
+                } else {
+                    itemView.getContext().startActivity(intent, options.toBundle());
+                }
             }
         });
     }
