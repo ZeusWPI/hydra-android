@@ -2,12 +2,9 @@ package be.ugent.zeus.hydra.activities.common;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;
-import android.support.v4.app.NavUtils;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 import be.ugent.zeus.hydra.R;
 
 /**
@@ -33,19 +30,6 @@ public abstract class ToolbarActivity extends HydraActivity {
 
     private boolean hasParent = true;
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        // If there is a parent, handle the up button.
-        if(hasParent) {
-            if (item.getItemId() == android.R.id.home) {
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     /**
      * When using this method, the action bar is automatically set up for you.
      */
@@ -63,10 +47,9 @@ public abstract class ToolbarActivity extends HydraActivity {
         setSupportActionBar(toolbar);
 
         //Set the up button.
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
+        assert getSupportActionBar() != null;
         if (hasParent) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 

@@ -6,6 +6,7 @@
 
     <!-- Material design normal keylines -->
     <dimen name="vertical_padding">16dp</dimen>
+    <dimen name="keyline">72dp</dimen>
 
     <!-- Material design tabs -->
     <dimen name="tabs_icon_size">24dp</dimen>

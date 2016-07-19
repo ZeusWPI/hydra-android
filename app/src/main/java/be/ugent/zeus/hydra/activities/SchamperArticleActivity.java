@@ -1,11 +1,16 @@
 package be.ugent.zeus.hydra.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.HydraApplication;
@@ -19,6 +24,8 @@ import com.squareup.picasso.Picasso;
 
 public class SchamperArticleActivity extends ToolbarActivity {
 
+    public static final String PARCEL_ARTICLE = "article";
+
     private String title;
 
     @Override
@@ -27,8 +34,10 @@ public class SchamperArticleActivity extends ToolbarActivity {
         setTheme(R.style.Hydra_Main_NoActionBar_SystemWindows);
         setContentView(R.layout.activity_schamper_article);
 
+        customFade();
+
         Intent intent = getIntent();
-        Article article = intent.getParcelableExtra("article");
+        Article article = intent.getParcelableExtra(PARCEL_ARTICLE);
 
         TextView title = $(R.id.title);
         TextView date = $(R.id.date);
@@ -65,18 +74,30 @@ public class SchamperArticleActivity extends ToolbarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == android.R.id.home) {
             supportFinishAfterTransition();
-           // NavUtils.navigateUpFromSameTask(this);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void sendScreen(HydraApplication application) {
         application.sendScreenName("Schamper article > " + title);
+    }
+
+    /**
+     * Launch this activity with a transition.
+     *
+     * @param activity The activity that launches the intent.
+     * @param view The view to transition.
+     * @param name The name of the transition.
+     * @param article The article.
+     */
+    public static void launchWithAnimation(Activity activity, View view, String name, Parcelable article) {
+        Intent intent = new Intent(activity, SchamperArticleActivity.class);
+        intent.putExtra(PARCEL_ARTICLE, article);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, view, name);
+        ActivityCompat.startActivity(activity, intent, options.toBundle());
     }
 }

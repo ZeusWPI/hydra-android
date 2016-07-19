@@ -47,7 +47,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="72dp"
+                        android:layout_width="@dimen/keyline"
                         android:layout_height="wrap_content"
                         android:scaleType="center"
                         app:srcCompat="@drawable/ic_schedule_black_24dp"
@@ -72,7 +72,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="72dp"
+                        android:layout_width="@dimen/keyline"
                         android:layout_height="wrap_content"
                         android:scaleType="center"
                         app:srcCompat="@drawable/ic_place_24dp"
@@ -115,7 +115,7 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
-                android:id="@+id/event_organisator_card"
+                android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:foreground="?android:attr/selectableItemBackground"
@@ -146,6 +146,7 @@
                         android:orientation="horizontal">
 
                         <de.hdodenhof.circleimageview.CircleImageView
+                            android:transitionName="logo"
                             android:layout_marginTop="2dp"
                             android:id="@+id/event_organisator_image"
                             android:layout_width="40dp"

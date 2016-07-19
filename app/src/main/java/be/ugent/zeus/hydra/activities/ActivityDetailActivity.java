@@ -3,6 +3,9 @@ package be.ugent.zeus.hydra.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +24,7 @@ import org.joda.time.format.DateTimeFormatter;
 /**
  * Activity to show details of an association's event.
  */
-public class ActivityDetailActivity extends ToolbarActivity {
+public class ActivityDetailActivity extends ToolbarActivity implements View.OnClickListener {
 
     public static final String PARCEL_EVENT = "eventParcelable";
 
@@ -30,29 +33,23 @@ public class ActivityDetailActivity extends ToolbarActivity {
     //The data
     private Activity event;
 
+    private ImageView organisatorImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
 
-        Intent intent = getIntent();
-        event = intent.getParcelableExtra(PARCEL_EVENT);
+        //Get data from saved instance, or from intent
+        event = getIntent().getParcelableExtra(PARCEL_EVENT);
 
         TextView title = $(R.id.title);
         TextView date = $(R.id.date);
         TextView location = $(R.id.location);
         TextView description = $(R.id.description);
-        ImageView organisatorImage = $(R.id.event_organisator_image);
+        organisatorImage = $(R.id.event_organisator_image);
         TextView mainName = $(R.id.event_organisator_main);
         TextView smallName = $(R.id.event_organisator_small);
-
-        $(R.id.event_organisator_card).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Nog niet geïmplementeerd.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
 
         if(event.getTitle() != null){
             title.setText(event.getTitle());
@@ -179,5 +176,22 @@ public class ActivityDetailActivity extends ToolbarActivity {
         }
 
         return intent;
+    }
+
+    /**
+     * On click handler for the association.
+     *
+     * @param view The clicked view.
+     */
+    @Override
+    public void onClick(View view) {
+
+        Intent start = new Intent(this, AssociationDetailActivity.class);
+        start.putExtra(AssociationDetailActivity.PARCEL_ASSOCIATION, (Parcelable) event.getAssociation());
+
+        ActivityOptionsCompat options =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(this, organisatorImage, "logo");
+
+        ActivityCompat.startActivity(ActivityDetailActivity.this, start, options.toBundle());
     }
 }

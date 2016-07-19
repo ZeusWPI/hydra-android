@@ -39,14 +39,7 @@
                 tools:text="Titel over het artikel die zeker niet te lang is"
                 />
 
-            <View
-                android:layout_marginTop="@dimen/content_spacing"
-                android:layout_marginBottom="@dimen/content_spacing"
-                android:layout_marginRight="64dp"
-                android:layout_marginLeft="64dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/ugent_blue_dark" />
+            <include layout="@layout/x_separator_line" />
 
                 <TextView
                     android:id="@+id/author"
