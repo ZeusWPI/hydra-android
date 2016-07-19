@@ -3,35 +3,32 @@ package be.ugent.zeus.hydra.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.association.Activity;
-import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.util.Locale;
-
+/**
+ * Activity to show details of an association's event.
+ */
 public class ActivityDetailActivity extends ToolbarActivity {
 
-    //The data
-    private Activity associationActivity;
+    public static final String PARCEL_EVENT = "eventParcelable";
 
-    private ImageView imageView;
-    private TextView title;
-    private TextView association;
-    private TextView date;
-    private TextView location;
-    private TextView description;
-    private Button link;
-    private Button map;
+    private static final String GENT = "51.3,3.44";
+
+    //The data
+    private Activity event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,40 +36,51 @@ public class ActivityDetailActivity extends ToolbarActivity {
         setContentView(R.layout.activity_event_detail);
 
         Intent intent = getIntent();
-        associationActivity = intent.getParcelableExtra("associationActivity");
+        event = intent.getParcelableExtra(PARCEL_EVENT);
 
-        title = (TextView) findViewById(R.id.title);
-        association = (TextView) findViewById(R.id.association);
-        date = (TextView) findViewById(R.id.date);
-        location = (TextView) findViewById(R.id.location);
-        description = (TextView) findViewById(R.id.description);
-        imageView = (ImageView) findViewById(R.id.imageView);
-        link = (Button) findViewById(R.id.link);
-        map = (Button) findViewById(R.id.map);
+        TextView title = $(R.id.title);
+        TextView date = $(R.id.date);
+        TextView location = $(R.id.location);
+        TextView description = $(R.id.description);
+        ImageView organisatorImage = $(R.id.event_organisator_image);
+        TextView mainName = $(R.id.event_organisator_main);
+        TextView smallName = $(R.id.event_organisator_small);
 
-        if(associationActivity.getTitle() != null){
-            title.setText(associationActivity.getTitle());
+        $(R.id.event_organisator_card).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Nog niet geïmplementeerd.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        if(event.getTitle() != null){
+            title.setText(event.getTitle());
             assert getSupportActionBar() != null;
-            getSupportActionBar().setTitle(associationActivity.getTitle());
-        }
-        if(associationActivity.getAssociation() != null ) {
-            association.setText(associationActivity.getAssociation().getName());
+            getSupportActionBar().setTitle(event.getTitle());
         }
 
-        if(associationActivity.getDescription() != null && !associationActivity.getDescription().trim().isEmpty()) {
-            description.setText(associationActivity.getDescription());
+        if(event.getAssociation() != null ) {
+            mainName.setText(event.getAssociation().getDisplayName());
+            smallName.setText(event.getAssociation().getFullName());
         }
 
-        if(associationActivity.getLocation() != null) {
-            location.setText(String.format("Locatie: %s", associationActivity.getLocation()));
+        if(event.getDescription() != null && !event.getDescription().trim().isEmpty()) {
+            description.setText(event.getDescription());
         }
 
-        if(associationActivity.getStart() != null) {
+        if(event.hasLocation()) {
+            location.setText(event.getLocation());
+        } else {
+            location.setText("Zonder locatie");
+        }
+
+        if(event.getStart() != null) {
             DateTimeFormatter startTimeFormatter = DateTimeFormat.forPattern("E d MMM H:mm");
 
-            DateTime start = new DateTime(associationActivity.getStart());
-            if (associationActivity.getEnd() != null) {
-                DateTime end = new DateTime(associationActivity.getEnd());
+            DateTime start = new DateTime(event.getStart());
+            if (event.getEnd() != null) {
+                DateTime end = new DateTime(event.getEnd());
                 if (start.dayOfYear() == end.dayOfYear() || start.plusHours(12).isAfter(end)) {
                     // Use format day month start time - end time
                     DateTimeFormatter endTimeFormatter = DateTimeFormat.forPattern("H:mm");
@@ -86,39 +94,90 @@ public class ActivityDetailActivity extends ToolbarActivity {
             }
         }
 
-        Picasso.with(this).load(associationActivity.getAssociation().getImageLink()).into(imageView);
+        Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage);
+    }
 
-        if (associationActivity.getUrl() != null && !associationActivity.getUrl().trim().isEmpty()) {
-            link.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(associationActivity.getUrl()));
-                    startActivity(browserIntent);
-                }
-            });
-        } else {
-            link.setVisibility(View.GONE);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.event_link:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.getUrl()));
+                startActivity(browserIntent);
+                return true;
+            case R.id.event_location:
+                startActivity(getLocationIntent());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_event, menu);
+
+        // We need to manually set the color of this Drawable for some reason.
+        setWhiteIcon(menu, R.id.event_location);
+        setWhiteIcon(menu, R.id.event_link);
+
+        return true;
+    }
+
+    /**
+     * Remove options if we don't have the data.
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        if(!event.hasUrl()) {
+            menu.removeItem(R.id.event_link);
         }
 
-        if ((associationActivity.getLatitude() != 0.0) && (associationActivity.getLongitude() != 0.0)) {
-            map.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String uri = String.format(Locale.ENGLISH, "geo:%f,%f", associationActivity.getLatitude(), associationActivity.getLongitude());
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                    startActivity(intent);
-                }
-            });
-        } else {
-            map.setVisibility(View.GONE);
+        if(!event.hasPreciseLocation() && !event.hasLocation()) {
+            menu.removeItem(R.id.event_location);
         }
 
-        HydraApplication app = (HydraApplication) getApplication();
-        Tracker t = app.getDefaultTracker();
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     protected void sendScreen(HydraApplication application) {
-        application.sendScreenName("Activity > " + associationActivity.getTitle());
+        application.sendScreenName("Activity > " + event.getTitle());
+    }
+
+    /**
+     * Get the intent for a location. If the precise location is available, that will be used. Otherwise, we just search
+     * for the location. One location must be present.
+     *
+     * @return The intent.
+     */
+    private Intent getLocationIntent() {
+
+        assert event.hasPreciseLocation() || event.hasLocation();
+
+        Uri uriLocation;
+
+        //If there is a precise location, use that.
+        if(event.hasPreciseLocation()) {
+            if(event.hasLocation()) {
+                uriLocation = Uri.parse("geo:0,0?q=" + event.getLatitude() + "," + event.getLongitude() + "(" + event.getLocation() + ")");
+            } else {
+                uriLocation = Uri.parse("geo:0,0?q=" + event.getLatitude() + "," + event.getLongitude());
+            }
+        } else {
+            uriLocation = Uri.parse("geo:" + GENT + "?q=" + event.getLocation());
+        }
+
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, uriLocation);
+        intent.setPackage("com.google.android.apps.maps");
+        if (intent.resolveActivity(getPackageManager()) == null) {
+            Toast.makeText(getApplicationContext(), "Google Maps is niet geïnstalleerd.", Toast.LENGTH_LONG).show();
+        }
+
+        return intent;
     }
 }

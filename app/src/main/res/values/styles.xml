@@ -33,4 +33,9 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Transparant text -->
+    <style name="TransparentText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#00000000</item>
+    </style>
+
 </resources>
