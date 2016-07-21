@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,7 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".activities.SchamperArticleActivity"
     android:fitsSystemWindows="true"
-    android:transitionGroup="true">
+    android:transitionGroup="true"
+    tools:ignore="UnusedAttribute">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -18,11 +20,12 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp"
             android:fitsSystemWindows="true"
+            app:expandedTitleTextAppearance="@style/TransparentText"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <ImageView

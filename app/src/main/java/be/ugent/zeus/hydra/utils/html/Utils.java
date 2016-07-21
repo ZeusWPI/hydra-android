@@ -20,9 +20,9 @@ public class Utils {
     public static Spanned fromHtml(String html, Html.ImageGetter getter) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             //noinspection deprecation
-            return Html.fromHtml(html, getter, null);
+            return Html.fromHtml(html, getter, new HtmlTagHandler());
         } else {
-            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY, getter, null);
+            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY, getter, new HtmlTagHandler());
         }
     }
 
