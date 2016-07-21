@@ -211,7 +211,8 @@
                         android:id="@+id/description"
                         android:paddingBottom="@dimen/content_spacing"
                         android:text="@string/no_description"
-                        android:textIsSelectable="true" />
+                        android:textIsSelectable="true"
+                        style="@style/Hydra.LongText"/>
 
                 </LinearLayout>
 
