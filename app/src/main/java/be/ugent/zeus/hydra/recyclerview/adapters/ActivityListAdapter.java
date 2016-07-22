@@ -54,7 +54,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(itemView.getContext(), ActivityDetailActivity.class);
-                    intent.putExtra("associationActivity", (Parcelable) activity);
+                    intent.putExtra(ActivityDetailActivity.PARCEL_EVENT, (Parcelable) activity);
                     itemView.getContext().startActivity(intent);
                 }
             });
