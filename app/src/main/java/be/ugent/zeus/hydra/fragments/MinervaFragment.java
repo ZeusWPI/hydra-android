@@ -22,7 +22,7 @@ import be.ugent.zeus.hydra.models.minerva.Courses;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAnnouncementAdapter;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
-import be.ugent.zeus.hydra.utils.DividerItemDecoration;
+import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 
 import java.util.Collections;
 

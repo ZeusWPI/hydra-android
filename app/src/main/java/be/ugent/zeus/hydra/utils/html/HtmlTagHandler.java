@@ -43,6 +43,9 @@ import java.util.Vector;
  * <li>code</li>
  * <li>center</li>
  *
+ * More elements can be added. However, some elements, such as center, are no longer part of the HTML standard. Thus,
+ * this is 'pseudo-HTML'.
+ *
  * This class is based on work in https://github.com/skimarxall/RealTextView.
  *
  * @author Niko Strijbol

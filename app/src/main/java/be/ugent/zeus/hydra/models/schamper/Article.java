@@ -70,10 +70,14 @@ public class Article implements Serializable, Parcelable {
 
     public String getLargeImage() {
         if(getImage() != null) {
-            return getImage().replace("/regulier/", "/preview/");
+            return getLargeImage(getImage());
         } else {
             return null;
         }
+    }
+
+    public static String getLargeImage(String url) {
+        return url.replace("/regulier/", "/preview/");
     }
 
     public void setImage(String image) {

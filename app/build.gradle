@@ -76,6 +76,10 @@ dependencies {
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.1@aar'
     compile 'de.hdodenhof:circleimageview:2.1.0'
 
+    compile 'org.jsoup:jsoup:1.8.3'
+    compile 'com.github.chrisbanes:PhotoView:1.2.6'
+    compile 'com.github.fiskurgit:SimpleViewPager:1.0.8'
+
     // Used for the OAuth stuff
     compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'

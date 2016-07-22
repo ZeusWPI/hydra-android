@@ -2,24 +2,38 @@ package be.ugent.zeus.hydra.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.schamper.Article;
+import be.ugent.zeus.hydra.recyclerview.adapters.SchamperImageAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.utils.html.Utils;
+import be.ugent.zeus.hydra.utils.recycler.SpacingItemDecoration;
 import com.squareup.picasso.Picasso;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SchamperArticleActivity extends ToolbarActivity {
 
@@ -41,7 +55,16 @@ public class SchamperArticleActivity extends ToolbarActivity {
         TextView title = $(R.id.title);
         TextView date = $(R.id.date);
         TextView text = $(R.id.text);
+        TextView intro = $(R.id.intro);
         TextView author = $(R.id.author);
+        LinearLayout wrapper = $(R.id.article_wrapper);
+
+        RecyclerView imageGrid = $(R.id.image_grid);
+        SchamperImageAdapter adapter = new SchamperImageAdapter();
+        imageGrid.setAdapter(adapter);
+        imageGrid.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        int spacing = (int) getResources().getDimension(R.dimen.content_spacing);
+        imageGrid.addItemDecoration(new SpacingItemDecoration(spacing));
 
         ImageView headerImage = $(R.id.header_image);
 
@@ -58,7 +81,18 @@ public class SchamperArticleActivity extends ToolbarActivity {
         }
 
         if(article.getText() != null) {
-            text.setText(Utils.fromHtml(article.getText(), new PicassoImageGetter(text, getResources(), this)));
+            HtmlArticle art = handleHtml(article.getText());
+
+            //The intro
+            intro.setText(Utils.fromHtml(art.intro, new PicassoImageGetter(intro, getResources(), this)));
+            intro.setMovementMethod(LinkMovementMethod.getInstance());
+
+            //Make a list of images
+            //Add the images.
+            adapter.setItems(art.images);
+
+            //The body
+            text.setText(Utils.fromHtml(art.body, new PicassoImageGetter(text, getResources(), this)));
             text.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
@@ -94,7 +128,7 @@ public class SchamperArticleActivity extends ToolbarActivity {
 
         getMenuInflater().inflate(R.menu.menu_schamper, menu);
 
-        setWhiteIcon(menu, R.id.share);
+        setWhiteIcons(menu, R.id.schamper_share, R.id.schamper_browser);
 
         return true;
     }
@@ -109,14 +143,104 @@ public class SchamperArticleActivity extends ToolbarActivity {
                 supportFinishAfterTransition();
                 return true;
             //Share button
-            case R.id.share:
+            case R.id.schamper_share:
                 Intent sendIntent = new Intent(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, article.getLink());
                 sendIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sendIntent, "Deel het artikel met…"));
                 return true;
+            //Open in browser
+            case R.id.schamper_browser:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(article.getLink())));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * It would be a lot nicer if we could get the data in prepared state from the server.
+     * @param html
+     * @return
+     */
+    private HtmlArticle handleHtml(String html) {
+
+        HtmlArticle htmlArticle = new HtmlArticle();
+        Document doc = Jsoup.parse(html);
+
+        //Get intro
+        Element intro = doc.select("p.introduction").first();
+        htmlArticle.intro = intro.html();
+        intro.remove();
+
+        //Get images
+        List<ArticleImage> imagesList = new ArrayList<>();
+        Elements images = doc.select("img.image");
+
+        for (Element e: images) {
+            Element p = e.parent();
+            ArticleImage i = new ArticleImage();
+            i.caption = p.ownText();
+            i.url = e.attr("src");
+            imagesList.add(i);
+            p.remove();
+        }
+
+        htmlArticle.images = imagesList;
+        htmlArticle.body = doc.body().html();
+
+        return htmlArticle;
+    }
+
+    /**
+     * TODO: move this or not?
+     */
+    public static class ArticleImage implements Parcelable {
+        private String url;
+        private String caption;
+
+        public ArticleImage(){}
+
+        public String getUrl() {
+            return url;
+        }
+
+        public String getCaption() {
+            return caption;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.url);
+            dest.writeString(this.caption);
+        }
+
+        private ArticleImage(Parcel in) {
+            this.url = in.readString();
+            this.caption = in.readString();
+        }
+
+        public static final Parcelable.Creator<ArticleImage> CREATOR = new Parcelable.Creator<ArticleImage>() {
+            @Override
+            public ArticleImage createFromParcel(Parcel source) {
+                return new ArticleImage(source);
+            }
+
+            @Override
+            public ArticleImage[] newArray(int size) {
+                return new ArticleImage[size];
+            }
+        };
+    }
+
+    private static class HtmlArticle {
+        private String intro;
+        private String body;
+        private List<ArticleImage> images;
     }
 }

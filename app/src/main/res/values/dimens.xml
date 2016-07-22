@@ -7,6 +7,7 @@
     <!-- Material design normal keylines -->
     <dimen name="vertical_padding">16dp</dimen>
     <dimen name="keyline">72dp</dimen>
+    <dimen name="large_horizontal_padding">16dp</dimen>
 
     <!-- Material design tabs -->
     <dimen name="tabs_icon_size">24dp</dimen>
@@ -53,6 +54,7 @@
     <dimen name="list_dense_two_line_secondary_text_size">13sp</dimen>
     <dimen name="list_dense_two_line_margin_horizontal">4dp</dimen>
 
-
+    <!-- Schamper -->
+    <dimen name="schamper_image_size">192dp</dimen>
 
 </resources>
