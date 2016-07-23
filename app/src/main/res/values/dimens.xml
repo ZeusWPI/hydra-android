@@ -57,4 +57,8 @@
     <!-- Schamper -->
     <dimen name="schamper_image_size">192dp</dimen>
 
+    <!-- Mini FAB -->
+    <dimen name="mini_fab_size">40dp</dimen>
+    <dimen name="mini_fab_margin">4dp</dimen>
+
 </resources>

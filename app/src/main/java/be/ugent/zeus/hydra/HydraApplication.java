@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra;
 
 import android.app.Application;
+
 import be.ugent.android.sdk.oauth.AuthorizationManager;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
