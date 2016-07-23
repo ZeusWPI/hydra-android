@@ -135,7 +135,7 @@
                     android:textColor="?attr/colorAccent"
                     android:gravity="center_vertical" />
 
-                <!-- Here will the images come! -->
+                <!-- TODO: This is currently a bit buggy with scrolling, but not our fault, see bug #205510 -->
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/image_grid"
                     android:layout_width="match_parent"

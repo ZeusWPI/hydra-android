@@ -78,7 +78,6 @@ dependencies {
 
     compile 'org.jsoup:jsoup:1.8.3'
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
-    compile 'com.github.fiskurgit:SimpleViewPager:1.0.8'
 
     // Used for the OAuth stuff
     compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
