@@ -38,7 +38,7 @@
             android:id="@+id/fbButton"
             android:layout_marginTop="48dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/fblogolarge"
+            android:src="@drawable/fb_logo_large"
             android:background="#00ffffff"
             android:clickable="false"
             android:contentDescription="@string/facebookButtonDescription" />
