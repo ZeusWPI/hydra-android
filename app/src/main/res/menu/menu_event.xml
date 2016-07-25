@@ -4,7 +4,7 @@
 		android:id="@+id/event_location"
 		android:orderInCategory="50"
 		app:showAsAction="ifRoom"
-		android:icon="@drawable/ic_map_black_24dp"
+		android:icon="@drawable/ic_map_24dp"
 		android:title="Open kaart" />
 
 	<item

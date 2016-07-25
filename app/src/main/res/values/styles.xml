@@ -15,6 +15,7 @@
         <item name="android:textColorSecondary">@color/ugent_blue_medium_selector</item>
         <item name="android:textColorTertiary">@color/ugent_blue_medium_selector</item>
         <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
+        <item name="windowActionModeOverlay">true</item>
     </style>
 
     <!-- Style for long texts; black & lighter font + more line spacing -->

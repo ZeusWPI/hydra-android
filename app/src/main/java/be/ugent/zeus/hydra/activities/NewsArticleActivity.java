@@ -1,15 +1,17 @@
 package be.ugent.zeus.hydra.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.utils.html.Utils;
 
@@ -51,7 +53,8 @@ public class NewsArticleActivity extends ToolbarActivity {
         }
 
         if(article.isHighlighted()) {
-            title.setCompoundDrawables(null, null, ContextCompat.getDrawable(this, R.drawable.star), null);
+            Drawable d = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star_24dp, R.color.ugent_yellow_dark);
+            title.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
         }
     }
 
