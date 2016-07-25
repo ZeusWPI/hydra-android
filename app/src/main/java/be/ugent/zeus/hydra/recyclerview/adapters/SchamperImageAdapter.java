@@ -1,22 +1,20 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.SchamperArticleActivity;
 import be.ugent.zeus.hydra.recyclerview.viewholder.ImageViewHolder;
+import be.ugent.zeus.hydra.utils.ViewUtils;
 
 /**
  * Adapter for the vertically scrollable recycler with images in the Schamper articles.
@@ -54,12 +52,8 @@ public class SchamperImageAdapter extends ItemAdapter<SchamperArticleActivity.Ar
         overlay.setLayoutParams(overP);
         overlay.setScaleType(ImageView.ScaleType.CENTER);
 
-        //Get the drawable
-        Drawable d = ResourcesCompat.getDrawable(resources, R.drawable.ic_zoom_in_24dp, context.getTheme());
-        int color = ResourcesCompat.getColor(resources, R.color.white, context.getTheme());
-        assert d != null;
-        DrawableCompat.setTint(d, color);
-        overlay.setImageDrawable(d);
+        //Set the drawable
+        overlay.setImageDrawable(ViewUtils.getTintedVectorDrawable(context, R.drawable.ic_zoom_in_24dp, R.color.white));
 
         //Set tint
         View tintView = new View(context);

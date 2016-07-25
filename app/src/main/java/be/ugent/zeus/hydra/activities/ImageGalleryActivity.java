@@ -1,28 +1,26 @@
 package be.ugent.zeus.hydra.activities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.schamper.Article;
+import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.viewpager.ImagePagerAdapter;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * TODO: make our own ViewPager for the images, since this one is not that flexible, nor that stable.
  * @author Niko Strijbol
  */
 public class ImageGalleryActivity extends ToolbarActivity {
@@ -53,9 +51,7 @@ public class ImageGalleryActivity extends ToolbarActivity {
 
         //Set close icon
         assert getSupportActionBar() != null;
-        Drawable icon = DrawableCompat.wrap(ActivityCompat.getDrawable(this, R.drawable.ic_close_24dp));
-        DrawableCompat.setTint(icon, ActivityCompat.getColor(this, R.color.white));
-        getSupportActionBar().setHomeAsUpIndicator(icon);
+        getSupportActionBar().setHomeAsUpIndicator(ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_close_24dp, R.color.white));
 
         //The pager.
         pager = $(R.id.view_pager);
