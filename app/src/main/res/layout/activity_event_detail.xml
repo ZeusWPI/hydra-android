@@ -50,8 +50,8 @@
                         android:layout_width="@dimen/keyline"
                         android:layout_height="wrap_content"
                         android:scaleType="center"
-                        app:srcCompat="@drawable/ic_schedule_black_24dp"
-                        tools:src="@drawable/ic_schedule_black_24dp"
+                        app:srcCompat="@drawable/ic_schedule_24dp"
+                        tools:src="@drawable/ic_schedule_24dp"
                         android:tint="@color/white"
                         tools:ignore="MissingPrefix" />
 
