@@ -42,7 +42,7 @@ public class NewsItemViewHolder extends RecyclerView.ViewHolder implements DataV
                 newsItem.getAssociation().getName());
         info.setText(infoText);
         if (newsItem.isHighlighted()) {
-            Drawable d = ViewUtils.getTintedDrawable(title.getContext(), R.drawable.ic_star_24dp, R.color.ugent_yellow_dark);
+            Drawable d = ViewUtils.getTintedVectorDrawable(itemView.getContext(), R.drawable.ic_star_24dp, R.color.ugent_yellow_dark);
             title.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
         } else {
             title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
