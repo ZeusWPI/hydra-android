@@ -1,19 +1,39 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
+import java.util.List;
+
+import android.support.v7.util.SortedList;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.util.SortedListAdapterCallback;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.recyclerview.viewholder.NewsItemViewHolder;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 /**
  * Created by ellen on 8/3/16.
  */
-public class NewsAdapter extends ItemAdapter<NewsItem, NewsItemViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> implements Adapter<NewsItem, NewsItemViewHolder> {
+
+    private SortedList<NewsItem> data = new SortedList<>(NewsItem.class, new SortedListAdapterCallback<NewsItem>(this) {
+
+        @Override
+        public int compare(NewsItem o1, NewsItem o2) {
+            return -o1.getDate().compareTo(o2.getDate());
+        }
+
+        @Override
+        public boolean areContentsTheSame(NewsItem oldItem, NewsItem newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areItemsTheSame(NewsItem item1, NewsItem item2) {
+            return item1 == item2;
+        }
+    });
 
     @Override
     public NewsItemViewHolder onCreateViewHolder(ViewGroup p, int viewType) {
@@ -21,15 +41,18 @@ public class NewsAdapter extends ItemAdapter<NewsItem, NewsItemViewHolder> {
     }
 
     @Override
+    public void onBindViewHolder(NewsItemViewHolder holder, int position) {
+        holder.populate(data.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return data.size();
+    }
+
+    @Override
     public void setItems(List<NewsItem> list) {
-
-        Collections.sort(list, new Comparator<NewsItem>() {  // sort the array so that events are added in the right
-            @Override
-            public int compare(NewsItem lhs, NewsItem rhs) {
-                return -lhs.getDate().compareTo(rhs.getDate());
-            }
-        });
-
-        super.setItems(list);
+        data.clear();
+        data.addAll(list);
     }
 }

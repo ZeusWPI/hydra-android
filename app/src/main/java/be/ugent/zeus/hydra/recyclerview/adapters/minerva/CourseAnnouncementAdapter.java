@@ -1,8 +1,11 @@
 package be.ugent.zeus.hydra.recyclerview.adapters.minerva;
 
+import java.util.*;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
@@ -11,8 +14,6 @@ import be.ugent.zeus.hydra.models.minerva.CourseWrapper;
 import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
 import be.ugent.zeus.hydra.recyclerview.viewholder.minerva.AnnouncementViewHolder;
 import be.ugent.zeus.hydra.recyclerview.viewholder.minerva.CourseViewHolder;
-
-import java.util.*;
 
 /**
  * Adapter for a list that has courses and where those courses have child items, announcements.
@@ -53,7 +54,7 @@ public class CourseAnnouncementAdapter extends RecyclerView.Adapter<AbstractView
 
     @Override
     public void onViewRecycled(AbstractViewHolder holder) {
-        if(holder instanceof CourseViewHolder) {
+        if(holder instanceof CourseViewHolder && holder.getAdapterPosition() != RecyclerView.NO_POSITION) {
             Course c = (Course) data.get(holder.getAdapterPosition());
             CourseWrapper w = getWrapper(c);
             w.cancelLoading();
@@ -72,6 +73,16 @@ public class CourseAnnouncementAdapter extends RecyclerView.Adapter<AbstractView
         data.addAll(list);
 
         notifyDataSetChanged();
+    }
+
+    public void clear() {
+        int size = getItemCount();
+        data.clear();
+        for(Map.Entry<String, CourseWrapper> e: wrapperMap.entrySet()) {
+            e.getValue().cancelLoading();
+        }
+        wrapperMap.clear();
+        notifyItemRangeRemoved(0, size);
     }
 
     /**

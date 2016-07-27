@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
-import android.support.v7.widget.RecyclerView;
-import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import android.support.v7.widget.RecyclerView;
+
+import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
 
 /**
  * Adapter that works with a list of items.
@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public abstract class ItemAdapter<E, V extends AbstractViewHolder<E>> extends RecyclerView.Adapter<V> {
+public abstract class ItemAdapter<E, V extends AbstractViewHolder<E>> extends RecyclerView.Adapter<V> implements Adapter<E, V> {
 
     protected List<E> items = Collections.emptyList();
 
@@ -30,16 +30,14 @@ public abstract class ItemAdapter<E, V extends AbstractViewHolder<E>> extends Re
     }
 
     /**
-     * Set the items. This use the provided items. If you use collections and want a new collection, you should do
-     *
+     * Set the items. This use the provided items.
      *
      * This will also call {@link #notifyDataSetChanged()}.
      *
      * @param list The new elements.
      */
     public void setItems(List<E> list) {
-        items = new ArrayList<>();
-        items.addAll(list);
+        items = list;
         notifyDataSetChanged();
     }
 

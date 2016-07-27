@@ -1,16 +1,17 @@
 package be.ugent.zeus.hydra.fragments.common;
 
+import java.io.Serializable;
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.recyclerview.adapters.ItemAdapter;
 
-import java.io.Serializable;
-import java.util.List;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.recyclerview.adapters.Adapter;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -22,10 +23,10 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author Niko Strijbol
  * @version 20/06/2016
  */
-public abstract class RecyclerLoaderFragment<E, D extends Serializable & List<E>> extends LoaderFragment<D> {
+public abstract class RecyclerLoaderFragment<E, D extends Serializable & List<E>, A extends RecyclerView.Adapter<?> & Adapter<E, ?>> extends LoaderFragment<D> {
 
     protected RecyclerView recyclerView;
-    protected ItemAdapter<E, ?> adapter;
+    protected A adapter;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public abstract class RecyclerLoaderFragment<E, D extends Serializable & List<E>
     /**
      * @return The adapter to use.
      */
-    protected abstract ItemAdapter<E, ?> getAdapter();
+    protected abstract A getAdapter();
 
     /**
      * This must be called when data is received that has no errors.
