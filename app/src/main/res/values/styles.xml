@@ -15,6 +15,14 @@
         <item name="android:textColorSecondary">@color/ugent_blue_medium_selector</item>
         <item name="android:textColorTertiary">@color/ugent_blue_medium_selector</item>
         <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
+        <item name="windowActionModeOverlay">true</item>
+    </style>
+
+    <!-- Style for long texts; black & lighter font + more line spacing -->
+    <style name="Hydra.LongText" parent="Hydra.Main">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
     </style>
 
     <!-- Same as the main theme, except there is no action bar -->
@@ -31,6 +39,11 @@
     <!-- Needed for custom views -->
     <style name="Material.Typography.Subhead" parent="Base.TextAppearance.AppCompat.Subhead">
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Transparant text -->
+    <style name="TransparentText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#00000000</item>
     </style>
 
 </resources>

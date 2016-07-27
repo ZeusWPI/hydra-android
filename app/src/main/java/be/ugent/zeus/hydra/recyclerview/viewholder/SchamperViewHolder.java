@@ -1,13 +1,10 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.Parcelable;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.SchamperArticleActivity;
 import be.ugent.zeus.hydra.models.schamper.Article;
@@ -35,7 +32,6 @@ public class SchamperViewHolder extends AbstractViewHolder<Article> {
     }
 
     public void populate(final Article article) {
-
         title.setText(article.getTitle());
         date.setText(DateUtils.relativeDateString(article.getPubDate(), itemView.getContext()));
         author.setText(article.getAuthor());
@@ -45,11 +41,7 @@ public class SchamperViewHolder extends AbstractViewHolder<Article> {
         this.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(itemView.getContext(), SchamperArticleActivity.class);
-                intent.putExtra("article", (Parcelable) article);
-
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) itemView.getContext(), image, "hero");
-                itemView.getContext().startActivity(intent, options.toBundle());
+                SchamperArticleActivity.launchWithAnimation((Activity) itemView.getContext(), image, "hero", article);
             }
         });
     }

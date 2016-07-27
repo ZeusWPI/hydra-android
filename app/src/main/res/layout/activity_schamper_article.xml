@@ -32,15 +32,13 @@
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
                 android:fitsSystemWindows="true"
-                android:transitionName="hero"
-                />
+                android:transitionName="hero" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                />
+                app:layout_collapseMode="pin" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -60,41 +58,43 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
-                <TextView
-                    android:paddingTop="8dp"
-                    android:id="@+id/title"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:textAppearance="?android:textAppearanceLarge"
-                    tools:text="Titel over het artikel die zeker niet te lang is"
-                    android:paddingBottom="8dp"
-                    android:textSize="28sp" />
+            <TextView
+                android:paddingTop="8dp"
+                android:id="@+id/title"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:textAppearance="?android:textAppearanceLarge"
+                tools:text="Titel over het artikel die zeker niet te lang is"
+                android:paddingBottom="8dp"
+                android:textSize="28sp" />
 
-                <TextView
-                    android:id="@+id/author"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    tools:text="Auteur"
-                    android:textIsSelectable="true" />
+            <include layout="@layout/x_separator_line" />
 
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    tools:text="Datum en tijd"
-                    android:textIsSelectable="true" />
+            <TextView
+                android:id="@+id/author"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                tools:text="Auteur"
+                android:textIsSelectable="true" />
 
-                <TextView
-                    android:paddingTop="8dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/text"
-                    android:lineSpacingMultiplier="1.2"
-                    tools:text="artikelinhoud"
-                    android:textIsSelectable="true" />
+            <TextView
+                android:id="@+id/date"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                tools:text="Datum en tijd"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:paddingTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/text"
+                android:lineSpacingMultiplier="1.2"
+                tools:text="artikelinhoud"
+                android:textIsSelectable="true" />
 
 
         </LinearLayout>

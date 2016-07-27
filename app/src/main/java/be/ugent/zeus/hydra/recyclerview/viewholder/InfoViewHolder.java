@@ -1,23 +1,24 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder;
 
+import java.util.List;
+
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.content.ContextCompat;
+
 import android.view.View;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
 import be.ugent.zeus.hydra.activities.WebViewActivity;
 import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
-
-import java.util.List;
+import be.ugent.zeus.hydra.utils.ViewUtils;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -94,30 +95,12 @@ public class InfoViewHolder extends AbstractViewHolder<InfoItem> {
         });
 
         if (infoItem.getImage() != null) {
+            Context c = itemView.getContext();
+            int resId = c.getResources().getIdentifier("ic_" + infoItem.getImage(), "drawable", itemView.getContext().getPackageName());
+            int color = R.color.ugent_blue_dark;
 
-            //The drawable id
-            int resId = itemView.getContext().getResources().getIdentifier("ic_" + infoItem.getImage(), "drawable", itemView.getContext().getPackageName());
-
-            Drawable icon;
-            Drawable more;
-
-            int darkColor = ContextCompat.getColor(itemView.getContext(), R.color.ugent_blue_dark);
-
-            //For older API, we do something different
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                VectorDrawableCompat compat = VectorDrawableCompat.create(itemView.getContext().getResources(), resId, itemView.getContext().getTheme());
-                VectorDrawableCompat moreCompat = VectorDrawableCompat.create(itemView.getContext().getResources(), R.drawable.ic_chevron_right_24dp, itemView.getContext().getTheme());
-                //Tint the icon
-                compat.setTint(darkColor);
-                moreCompat.setTint(darkColor);
-                icon = compat;
-                more = moreCompat;
-            } else {
-                icon = itemView.getContext().getDrawable(resId);
-                more = itemView.getContext().getDrawable(R.drawable.ic_chevron_right_24dp);
-                icon.setTint(darkColor);
-                more.setTint(darkColor);
-            }
+            Drawable icon = ViewUtils.getTintedVectorDrawable(c, resId, color);
+            Drawable more = ViewUtils.getTintedVectorDrawable(c, R.drawable.ic_chevron_right_24dp, color);
 
             //Remove arrow if internal link
             if(androidUrl == null && url == null && html != null) {
@@ -125,7 +108,6 @@ public class InfoViewHolder extends AbstractViewHolder<InfoItem> {
             } else {
                 title.setCompoundDrawablesWithIntrinsicBounds(icon, null, more, null);
             }
-
         }
     }
 }

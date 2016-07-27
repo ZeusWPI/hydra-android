@@ -1,8 +1,11 @@
 package be.ugent.zeus.hydra.activities.common;
 
+import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Fade;
+import android.transition.Transition;
 import android.view.View;
 import be.ugent.zeus.hydra.HydraApplication;
 
@@ -35,5 +38,20 @@ public abstract class HydraActivity extends AppCompatActivity {
 
     protected void sendScreen(HydraApplication application) {
         application.sendScreenName(this.getClass().getSimpleName());
+    }
+
+    /**
+     * Set a custom fade when using transition to prevent white flashing/blinking. This excludes the status bar and
+     * navigation bar background from the animation.
+     */
+    protected void customFade() {
+        //Only do it on a version that is high enough.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Transition fade = new Fade();
+            fade.excludeTarget(android.R.id.statusBarBackground, true);
+            fade.excludeTarget(android.R.id.navigationBarBackground, true);
+            getWindow().setExitTransition(fade);
+            getWindow().setEnterTransition(fade);
+        }
     }
 }

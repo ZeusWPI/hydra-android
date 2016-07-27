@@ -113,6 +113,14 @@ public class Activity implements Parcelable, Serializable {
         this.longitude = longitude;
     }
 
+    public boolean hasPreciseLocation() {
+        return getLatitude() != 0.0 && getLongitude() != 0.0;
+    }
+
+    public boolean hasLocation() {
+        return getLocation() != null && !getLocation().trim().isEmpty();
+    }
+
     public String getDescription() {
         return description;
     }
@@ -123,6 +131,10 @@ public class Activity implements Parcelable, Serializable {
 
     public String getUrl() {
         return url;
+    }
+
+    public boolean hasUrl() {
+        return getUrl() != null && !getUrl().trim().isEmpty();
     }
 
     public void setUrl(String url) {

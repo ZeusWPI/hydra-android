@@ -1,15 +1,18 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder;
 
+import java.util.Locale;
+
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.NewsArticleActivity;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.utils.DateUtils;
-
-import java.util.Locale;
+import be.ugent.zeus.hydra.utils.ViewUtils;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -39,7 +42,8 @@ public class NewsItemViewHolder extends AbstractViewHolder<NewsItem> {
                 newsItem.getAssociation().getName());
         info.setText(infoText);
         if (newsItem.isHighlighted()) {
-            title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.star, 0);
+            Drawable d = ViewUtils.getTintedVectorDrawable(itemView.getContext(), R.drawable.ic_star_24dp, R.color.ugent_yellow_dark);
+            title.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
         } else {
             title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
