@@ -6,12 +6,7 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 
 /**
- * @author Rien Maertens
- * @since 16/02/2016.
- *
- *
-SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-boolean sf = sharedPrefs.getBoolean("pref_association_checkbox", false);
+ * @author Niko Strijbol
  */
 public class HomeFragment extends PreferenceFragment {
 
