@@ -65,6 +65,7 @@ public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
                 for(Course course : courses.getCourses()) {
                     try {
                         //listener.onAnnouncementsAdded(w, course);
+                        //noinspection unchecked
                         publishProgress(new Pair<>(course, cache.get(new WhatsNewRequest(course, app))));
                     } catch (RequestFailureException e) {
                         error = true;

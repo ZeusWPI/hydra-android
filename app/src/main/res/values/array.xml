@@ -35,6 +35,7 @@
         <item>2</item>
         <item>4</item>
         <item>5</item>
+        <item>7</item>
     </string-array>
 
     <string-array name="card_types_names">
@@ -42,5 +43,6 @@
         <item>Activiteiten</item>
         <item>Schamperartikel</item>
         <item>Nieuwsitem</item>
+        <item>Minerva-aankondigingen</item>
     </string-array>
 </resources>
