@@ -11,6 +11,7 @@ import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
@@ -34,6 +35,8 @@ public class ImageGalleryActivity extends ToolbarActivity {
     private List<SchamperArticleActivity.ArticleImage> images;
     private BottomSheetBehavior<CardView> bottomBehavior;
     private TextView bottomCaption;
+    private ImageView previous;
+    private ImageView next;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,8 @@ public class ImageGalleryActivity extends ToolbarActivity {
 
         bottomCaption = $(R.id.caption);
         bottomBehavior = BottomSheetBehavior.from(this.<CardView>$(R.id.bottom_sheet));
+        previous = $(R.id.image_previous);
+        next = $(R.id.image_next);
 
         //Get the image data
         Intent intent = getIntent();
@@ -65,7 +70,7 @@ public class ImageGalleryActivity extends ToolbarActivity {
         //Initialise the bottom sheet state
         setBottomSheetText(startPosition);
 
-        pager.setAdapter(new ImagePagerAdapter(this, urls, new PhotoViewAttacher.OnPhotoTapListener() {
+        PhotoViewAttacher.OnPhotoTapListener listener = new PhotoViewAttacher.OnPhotoTapListener() {
             @Override
             public void onPhotoTap(View view, float v, float v1) {
                 hideOrShowBottomSheet(pager.getCurrentItem());
@@ -75,17 +80,51 @@ public class ImageGalleryActivity extends ToolbarActivity {
             public void onOutsidePhotoTap() {
                 bottomBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
-        }));
+        };
+
+        pager.setAdapter(new ImagePagerAdapter(this, urls, listener));
 
         pager.setCurrentItem(startPosition, false);
 
         setTitle((startPosition + 1) + " / " + images.size());
+
+        if(startPosition == 0) {
+            previous.setVisibility(View.GONE);
+        } else if(startPosition == images.size() - 1) {
+            next.setVisibility(View.GONE);
+        }
 
         pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 setTitle((position + 1) + " / " + images.size());
                 setBottomSheetText(position);
+                if(position == 0) {
+                    previous.setVisibility(View.GONE);
+                    next.setVisibility(View.VISIBLE);
+                } else if(position == images.size() - 1) {
+                    next.setVisibility(View.GONE);
+                    previous.setVisibility(View.VISIBLE);
+                } else {
+                    next.setVisibility(View.VISIBLE);
+                    previous.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
+        //Do not check, make sure this not fireable when there is nothing.
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pager.setCurrentItem(pager.getCurrentItem() + 1);
+            }
+        });
+
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pager.setCurrentItem(pager.getCurrentItem() - 1);
             }
         });
     }
