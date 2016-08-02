@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
+import java.util.*;
+
 import android.content.SharedPreferences;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -7,12 +9,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
 import be.ugent.zeus.hydra.recyclerview.viewholder.home.*;
-
-import java.util.*;
 
 import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.*;
 
@@ -74,6 +75,8 @@ public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder<Hom
                 return new NewsItemViewHolder(getViewForLayout(R.layout.home_card_news_item, parent), this);
             case MINERVA_LOGIN:
                 return new MinervaLoginViewHolder(getViewForLayout(R.layout.home_minerva_login_card, parent));
+            case MINERVA_ANNOUNCEMENT:
+                return new MinervaAnnouncementViewHolder(getViewForLayout(R.layout.home_minerva_announcement_card, parent), this);
         }
         return null;
     }
