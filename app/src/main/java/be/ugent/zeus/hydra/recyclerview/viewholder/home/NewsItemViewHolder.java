@@ -1,48 +1,32 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 
 import android.view.View;
-import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.NewsItemCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.views.NowToolbar;
-
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
- * This would be very easy if we could just inherit from
- * {@link be.ugent.zeus.hydra.recyclerview.viewholder.NewsItemViewHolder}. That is unfortunately not the case, so we
- * use composition.
+ * Wrapper around another view holder.
  *
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class NewsItemViewHolder extends AbstractViewHolder {
+public class NewsItemViewHolder extends HideableViewHolder {
 
     private be.ugent.zeus.hydra.recyclerview.viewholder.NewsItemViewHolder holder;
 
-    private NowToolbar toolbar;
-
-    private HomeCardAdapter adapter;
-
     public NewsItemViewHolder(View v, HomeCardAdapter adapter) {
-        super(v);
-        toolbar = $(v, R.id.card_now_toolbar);
-        this.adapter = adapter;
+        super(v, adapter);
         holder = new be.ugent.zeus.hydra.recyclerview.viewholder.NewsItemViewHolder(v);
     }
 
+    @Override
     public void populate(HomeCard card) {
-        if (card.getCardType() != HomeCard.CardType.NEWS_ITEM) {
-            return; // TODO: generate error
-        }
 
-        NewsItemCard newsItemCard = (NewsItemCard) card;
-        final NewsItem newsItem = newsItemCard.getNewsItem();
+        final NewsItem newsItem = card.<NewsItemCard>checkCard(HomeCard.CardType.NEWS_ITEM).getNewsItem();
+        holder.populate(newsItem);
 
-        holder.populateData(newsItem);
-
-        toolbar.setOnClickListener(adapter.listener(HomeCard.CardType.NEWS_ITEM));
+        super.populate(card);
     }
 }

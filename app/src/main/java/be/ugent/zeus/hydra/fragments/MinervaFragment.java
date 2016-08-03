@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.*;
 import android.widget.Button;
+
 import be.ugent.android.sdk.oauth.AuthorizationManager;
 import be.ugent.android.sdk.oauth.event.AuthorizationEvent;
 import be.ugent.android.sdk.oauth.event.AuthorizationEventHandler;
@@ -17,14 +18,11 @@ import be.ugent.zeus.hydra.activities.minerva.AuthenticationActivity;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.loader.cache.file.FileCache;
-import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.Courses;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAnnouncementAdapter;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.utils.DividerItemDecoration;
-
-import java.util.Collections;
 
 import static android.app.Activity.RESULT_OK;
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
@@ -193,7 +191,7 @@ public class MinervaFragment extends LoaderFragment<Courses> {
             public void onAuthorizationEvent(AuthorizationEvent event) {
                 if(event == AuthorizationEvent.SIGNED_OUT) {
                     //Delete items
-                    adapter.setItems(Collections.<Course>emptyList());
+                    adapter.clear();
                     //Hide list
                     recyclerView.setVisibility(View.GONE);
                     //Hide progress

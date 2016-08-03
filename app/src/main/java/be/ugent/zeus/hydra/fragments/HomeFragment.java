@@ -1,5 +1,8 @@
 package be.ugent.zeus.hydra.fragments;
 
+import java.io.Serializable;
+import java.util.*;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,10 +14,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
+import be.ugent.android.sdk.oauth.AuthorizationManager;
+import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.loader.LoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
@@ -24,6 +31,9 @@ import be.ugent.zeus.hydra.models.association.Activity;
 import be.ugent.zeus.hydra.models.association.News;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.models.cards.*;
+import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.models.minerva.Courses;
+import be.ugent.zeus.hydra.models.minerva.WhatsNew;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.models.schamper.Article;
@@ -35,11 +45,10 @@ import be.ugent.zeus.hydra.requests.ActivitiesRequest;
 import be.ugent.zeus.hydra.requests.NewsRequest;
 import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
 import be.ugent.zeus.hydra.requests.SpecialEventRequest;
+import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
+import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
 import org.joda.time.DateTime;
-
-import java.io.Serializable;
-import java.util.*;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -62,12 +71,15 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
     private static final int SPECIAL_LOADER = 3;
     private static final int SCHAMPER_LOADER = 4;
     private static final int NEWS_LOADER = 5;
+    private static final int MINERVA_LOADER = 6;
 
     private final MenuCallback menuCallback = new MenuCallback();
     private final ActivityCallback activityCallback = new ActivityCallback();
     private final SpecialEventCallback specialEventCallback = new SpecialEventCallback();
     private final SchamperCallback schamperCallback = new SchamperCallback();
     private final NewsCallback newsCallback = new NewsCallback();
+    private final CourseCallback courseCallback = new CourseCallback();
+    private final AnnouncementCallback announcementCallback = new AnnouncementCallback();
 
     private boolean shouldRefresh = false;
     private boolean preferencesUpdated = false;
@@ -75,6 +87,8 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
     private HomeCardAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressBar;
+
+    private AuthorizationManager authorizationManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -101,6 +115,8 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
                 shouldRefresh = false;
             }
         });
+
+        authorizationManager = ((HydraApplication) getActivity().getApplication()).getAuthorizationManager();
 
         startLoaders();
 
@@ -141,6 +157,9 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         getLoaderManager().initLoader(SPECIAL_LOADER, null, specialEventCallback);
         getLoaderManager().initLoader(SCHAMPER_LOADER, null, schamperCallback);
         getLoaderManager().initLoader(NEWS_LOADER, null, newsCallback);
+        if(authorizationManager.isAuthenticated()) {
+            getLoaderManager().initLoader(MINERVA_LOADER, null, courseCallback);
+        }
     }
 
     /**
@@ -152,6 +171,9 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         getLoaderManager().restartLoader(SPECIAL_LOADER, null, specialEventCallback);
         getLoaderManager().restartLoader(SCHAMPER_LOADER, null, schamperCallback);
         getLoaderManager().restartLoader(NEWS_LOADER, null, newsCallback);
+        if(authorizationManager.isAuthenticated()) {
+            getLoaderManager().restartLoader(MINERVA_LOADER, null, courseCallback);
+        }
     }
 
     /**
@@ -432,32 +454,70 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         }
     }
 
-//    private void performMinervaTestLoggedInRequest() {
-//        adapter.updateCardItems(new ArrayList<HomeCard>(), HomeCard.CardType.MINERVA_LOGIN);
-//        if (!authorizationManager.isAuthenticated()) {
-//            if(authorizationManager.getCurrentToken() != null) {
-//                // previously logged in, try to authorize again
-//                minervaSpiceManager.execute(authorizationManager.buildTokenRefreshRequest(), new RequestListener<BearerToken>() {
-//                    @Override
-//                    public void onRequestFailure(SpiceException spiceException) {
-//                        // Not possible to authorize, so user should authorize possibly again
-//                        List<HomeCard> list = new ArrayList<>();
-//                        list.add(new MinervaLoginCard());
-//                        adapter.updateCardItems(list, HomeCard.CardType.MINERVA_LOGIN);
-//                    }
-//
-//                    @Override
-//                    public void onRequestSuccess(BearerToken bearerToken) {
-//                        authorizationManager.setBearerToken(bearerToken);
-//                    }
-//                });
-//            } else {
-//                // Not logged in
-//                List<HomeCard> list = new ArrayList<>();
-//                list.add(new MinervaLoginCard());
-//                adapter.updateCardItems(list, HomeCard.CardType.MINERVA_LOGIN);
-//            }
-//        }
-//    }
+    /**
+     * Note: you cannot hide special event.
+     */
+    private class CourseCallback extends AbstractLoaderCallback<Courses> {
 
+        /**
+         * This must be called when data is received that has no errors.
+         *
+         * @param data The data.
+         */
+        @Override
+        public void receiveData(@NonNull Courses data) {
+            announcementCallback.cards.clear();
+            WhatsNewRequest.getAllAnnouncements(data, (HydraApplication) getActivity().getApplication(), announcementCallback);
+        }
+
+        /**
+         * This must be called when an error occurred.
+         *
+         * @param error The exception.
+         */
+        @Override
+        public void receiveError(@NonNull Throwable error) {
+            showFailureSnackbar("speciale activiteiten");
+            loadComplete();
+        }
+
+        /**
+         * @return The request that will be executed.
+         */
+        @Override
+        public CacheRequest<Courses> getRequest() {
+            return new CoursesMinervaRequest((HydraApplication) getActivity().getApplication());
+        }
+    }
+
+    private class AnnouncementCallback implements WhatsNewRequest.AnnouncementsListener {
+
+        private List<HomeCard> cards = new ArrayList<>();
+
+        /**
+         * Called when announcements are added to the list.
+         *
+         * @param whatsNew
+         */
+        @Override
+        public void onAnnouncementsAdded(WhatsNew whatsNew, Course course) {
+            Log.d("Adding", "Adding course " + course.getTitle());
+            if(!whatsNew.getAnnouncements().isEmpty()) {
+                cards.add(new MinervaAnnouncementsCard(whatsNew.getAnnouncements(), course));
+                adapter.updateCardItems(cards, HomeCard.CardType.MINERVA_ANNOUNCEMENT);
+            }
+        }
+
+        @Override
+        public void completed() {
+            //OK
+            Log.d("Home", "Done minerva.");
+        }
+
+        @Override
+        public void error() {
+            //TODO: add error card for Minerva.
+            Log.d("Home", "NOOOOOOO minerva.");
+        }
+    }
 }

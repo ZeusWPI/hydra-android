@@ -9,7 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.v7.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,7 +25,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * @author Niko Strijbol
  */
-public class InfoViewHolder extends RecyclerView.ViewHolder implements DataViewHolder<InfoItem> {
+public class InfoViewHolder extends AbstractViewHolder<InfoItem> {
 
     private final static String HTML_API = "https://zeus.ugent.be/hydra/api/2.0/info/";
 
@@ -36,7 +36,8 @@ public class InfoViewHolder extends RecyclerView.ViewHolder implements DataViewH
         title = $(v, R.id.info_name);
     }
 
-    public void populateData(final InfoItem infoItem) {
+    @Override
+    public void populate(final InfoItem infoItem) {
         title.setText(infoItem.getTitle());
         //// TODO: 06/04/2016 set correct linkview
 

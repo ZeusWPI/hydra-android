@@ -161,6 +161,7 @@ public class MenuTable extends TableLayout {
     public void setMenu(RestoMenu menu) {
         this.menu = menu;
         //Add data
+        removeAllViewsInLayout();
         populate();
         invalidate();
         requestLayout();

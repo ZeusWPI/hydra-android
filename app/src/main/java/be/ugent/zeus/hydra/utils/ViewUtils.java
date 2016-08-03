@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorRes;
@@ -10,6 +11,8 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -64,4 +67,27 @@ public class ViewUtils {
         }
         return d;
     }
+
+    /**
+     * This method converts dp unit to equivalent pixels, depending on device density.
+     *
+     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent px equivalent to dp depending on device density
+     */
+    public static float convertDpToPixel(float dp, Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        return dp * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+    }
+
+    public static int getColor(Context context, @ColorRes int color){
+        Resources resources = context.getResources();
+        return ResourcesCompat.getColor(resources, color, context.getTheme());
+    }
+
+    public static int convertDpToPixelInt(float dp, Context context){
+        return (int) convertDpToPixel(dp, context);
+    }
+
 }

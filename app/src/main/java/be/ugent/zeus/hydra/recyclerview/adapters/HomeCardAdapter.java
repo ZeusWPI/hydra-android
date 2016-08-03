@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
+import java.util.*;
+
 import android.content.SharedPreferences;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -7,18 +9,18 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
+import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
 import be.ugent.zeus.hydra.recyclerview.viewholder.home.*;
-
-import java.util.*;
 
 import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.*;
 
 /**
  * Created by feliciaan on 06/04/16.
  */
-public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder> {
+public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder<HomeCard>> {
 
     private List<HomeCard> cardItems = new ArrayList<>();
     private SharedPreferences preferences;
@@ -47,7 +49,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void removeCardType(@HomeCard.CardType int type) {
+    private void removeCardType(@HomeCard.CardType int type) {
         Iterator<HomeCard> it = cardItems.iterator();
         while (it.hasNext()) { // Why no filter :(
             HomeCard c = it.next();
@@ -59,7 +61,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder> {
     }
 
     @Override
-    public AbstractViewHolder onCreateViewHolder(ViewGroup parent, @HomeCard.CardType int viewType) {
+    public AbstractViewHolder<HomeCard> onCreateViewHolder(ViewGroup parent, @HomeCard.CardType int viewType) {
         switch (viewType) {
             case RESTO:
                 return new RestoCardViewHolder(getViewForLayout(R.layout.home_card_resto, parent), this);
@@ -72,13 +74,14 @@ public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder> {
             case NEWS_ITEM:
                 return new NewsItemViewHolder(getViewForLayout(R.layout.home_card_news_item, parent), this);
             case MINERVA_LOGIN:
-                View v = getViewForLayout(R.layout.home_minerva_login_card, parent);
-                return new MinervaLoginViewHolder(v);
+                return new MinervaLoginViewHolder(getViewForLayout(R.layout.home_minerva_login_card, parent));
+            case MINERVA_ANNOUNCEMENT:
+                return new MinervaAnnouncementViewHolder(getViewForLayout(R.layout.home_minerva_announcement_card, parent), this);
         }
         return null;
     }
 
-    public void disableCardType(@HomeCard.CardType int viewType) {
+    private void disableCardType(@HomeCard.CardType int viewType) {
         Set<String> disabled = preferences.getStringSet("pref_disabled_cards", Collections.<String>emptySet());
         SharedPreferences.Editor editor = preferences.edit();
         Set<String> newDisabled = new HashSet<>(disabled);
@@ -94,7 +97,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(AbstractViewHolder holder, int position) {
+    public void onBindViewHolder(AbstractViewHolder<HomeCard> holder, int position) {
         HomeCard object = cardItems.get(position);
         holder.populate(object);
     }

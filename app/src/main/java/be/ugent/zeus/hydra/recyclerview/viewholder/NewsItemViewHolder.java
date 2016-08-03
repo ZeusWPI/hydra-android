@@ -5,7 +5,6 @@ import java.util.Locale;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,7 +19,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * Created by feliciaan on 18/06/16.
  */
-public class NewsItemViewHolder extends RecyclerView.ViewHolder implements DataViewHolder<NewsItem> {
+public class NewsItemViewHolder extends AbstractViewHolder<NewsItem> {
 
     public static final String PARCEL_NAME = "newsItem";
 
@@ -33,7 +32,8 @@ public class NewsItemViewHolder extends RecyclerView.ViewHolder implements DataV
         info = $(v, R.id.info);
     }
 
-    public void populateData(final NewsItem newsItem) {
+    @Override
+    public void populate(final NewsItem newsItem) {
 
         title.setText(newsItem.getTitle());
 

@@ -5,11 +5,12 @@ import android.view.View;
 
 import be.ugent.zeus.hydra.activities.minerva.AuthenticationActivity;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
+import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
 
 /**
  * Created by feliciaan on 29/06/16.
  */
-public class MinervaLoginViewHolder extends AbstractViewHolder {
+public class MinervaLoginViewHolder extends AbstractViewHolder<HomeCard> {
 
     public MinervaLoginViewHolder(View itemView) {
         super(itemView);

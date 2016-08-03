@@ -37,4 +37,13 @@ public abstract class HomeCard {
         int MINERVA_LOGIN = 6;
         int MINERVA_ANNOUNCEMENT = 7;
     }
+
+    public <C extends HomeCard> C checkCard(@CardType int type) {
+        if(getCardType() != type) {
+            throw new IllegalStateException("This card type is wrong.");
+        }
+
+        //noinspection unchecked
+        return (C) this;
+    }
 }
