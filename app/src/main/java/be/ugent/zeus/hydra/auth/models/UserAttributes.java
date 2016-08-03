@@ -18,41 +18,30 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 package be.ugent.zeus.hydra.auth.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.google.gson.annotations.SerializedName;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
 
-
-@JsonIgnoreProperties(ignoreUnknown=true)
 public class UserAttributes implements Serializable{
 
-    @JsonProperty("mail")
     @SerializedName("mail")
     public ArrayList<String> email;
 
-    @JsonProperty("jobcategory")
     @SerializedName("jobcategory")
     public ArrayList<String> jobCategory;
 
-    @JsonProperty("givenname")
     @SerializedName("givenname")
     public ArrayList<String> givenName;
 
-    @JsonProperty("surname")
     @SerializedName("surname")
     public ArrayList<String> surName;
 
-    @JsonProperty("uid")
     public ArrayList<String> uid;
 
     public String getFullName() {
         return givenName + " " + surName;
     }
-
 }

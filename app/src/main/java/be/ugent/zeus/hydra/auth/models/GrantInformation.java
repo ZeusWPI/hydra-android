@@ -25,17 +25,11 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import com.google.gson.annotations.SerializedName;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class GrantInformation implements Serializable{
 
-    @JsonProperty("scopes")
     public Collection<String> scopes;
 
-    @JsonProperty("user")
     @SerializedName("user")
     public UserAttributes userAttributes;
-
 }

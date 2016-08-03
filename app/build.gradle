@@ -66,6 +66,7 @@ dependencies {
     compile 'com.android.support:preference-v7:24.0.0'
     compile 'com.android.support:recyclerview-v7:24.0.0'
     compile 'com.android.support:design:24.0.0'
+    compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
@@ -77,8 +78,6 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
 
     // Used for the OAuth stuff
-    compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
-    compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
     compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1') {
         exclude group: 'org.apache.oltu.oauth2'
     }

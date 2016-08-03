@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -62,7 +62,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
      */
     protected RestTemplate createRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         return restTemplate;
     }
 }
