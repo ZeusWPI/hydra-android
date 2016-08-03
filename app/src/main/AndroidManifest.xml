@@ -166,7 +166,7 @@
         <activity
             android:name=".activities.minerva.AuthActivity"
             android:label="@string/title_activity_authentication"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:parentActivityName=".activities.Hydra">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data

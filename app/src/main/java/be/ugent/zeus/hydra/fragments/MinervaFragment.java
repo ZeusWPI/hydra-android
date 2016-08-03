@@ -102,8 +102,10 @@ public class MinervaFragment extends LoaderFragment<Courses> {
                         Bundle result = accountManagerFuture.getResult();
                         Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
                         maybeLoadData();
-                    } catch (OperationCanceledException | IOException | AuthenticatorException e) {
-                        Log.i(TAG, "Account not added.", e);
+                    } catch (OperationCanceledException e) {
+                        Toast.makeText(getContext().getApplicationContext(), "Je gaf geen toestemming om je account te gebruiken.", Toast.LENGTH_LONG).show();
+                    } catch (IOException | AuthenticatorException e) {
+                        Log.w(TAG, "Account not added.", e);
                     }
                 }
             }, null);

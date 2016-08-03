@@ -98,4 +98,10 @@
     <string name="title_announcement_title">Aankondiging</string>
     <string name="logout">Afmelden</string>
     <string name="title_association_activity_detail">Vereniging</string>
+
+    <string name="auth_progress_permission">Toegang vragen…</string>
+    <string name="auth_progress_information">Informatie ophalen…</string>
+    <string name="auth_progress_failure">Fout bij het inloggen.</string>
+    <string name="auth_progress_done">Klaar.</string>
+
 </resources>

@@ -8,7 +8,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.annotation.Nullable;
-import android.support.customtabs.CustomTabsIntent;
+import android.support.customtabs.*;
 
 /**
  * Utils for working with the network.
@@ -50,15 +50,18 @@ public class NetworkUtils {
     public static void launchCustomTabOrBrowser(String url, Activity context) {
         //If possible, use custom tabs
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            //Get theme color
+
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+
+            //Get theme color
             builder.setToolbarColor(ViewUtils.getPrimaryColor(context));
             CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             customTabsIntent.launchUrl(context, Uri.parse(url));
         } else {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            browserIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             context.startActivity(browserIntent);
         }
     }
-
 }

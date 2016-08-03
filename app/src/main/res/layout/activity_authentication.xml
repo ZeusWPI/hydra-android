@@ -33,7 +33,25 @@
             android:gravity="center"
             android:visibility="gone"/>
 
-        <include layout="@layout/x_progress_bar" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/progress_bar"
+                />
+
+            <TextView
+                android:id="@+id/progress_message"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
     </FrameLayout>
 

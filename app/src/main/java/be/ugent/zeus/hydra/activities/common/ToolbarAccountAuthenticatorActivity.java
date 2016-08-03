@@ -68,6 +68,7 @@ public class ToolbarAccountAuthenticatorActivity extends ToolbarActivity {
             }
             response = null;
         }
+
         NavUtils.navigateUpFromSameTask(this);
     }
 }

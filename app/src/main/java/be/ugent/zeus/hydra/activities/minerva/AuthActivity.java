@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity;
@@ -43,10 +44,14 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity {
     private AccountHelper helper = new AccountHelper();
     private AccountManager manager;
 
+    private TextView progressMessage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
+
+        progressMessage = $(R.id.progress_message);
 
         Bundle bundle = getIntent().getExtras();
 
@@ -56,6 +61,7 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity {
         manager = AccountManager.get(this);
 
         //Launch custom tab
+        progressMessage.setText(getResources().getString(R.string.auth_progress_permission));
         NetworkUtils.launchCustomTabOrBrowser(helper.getRequestUri(), this);
     }
 
@@ -80,6 +86,7 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity {
             // Successful authorization: send the code and event.
             if (errorParameter == null) {
                 InfoTask task = new InfoTask();
+                progressMessage.setText(getResources().getString(R.string.auth_progress_information));
                 task.execute(uri.getQueryParameter("code"));
             }
             // failed authorization
@@ -87,16 +94,21 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity {
                 Log.e(TAG, "Authorization failed: " + uri.getQueryParameter("error_description"));
                 finishWithError();
             }
+        } else {
+            Log.i(TAG, "Authorisation cancelled.");
+            finishWithError();
         }
     }
 
     private void finishOK(Intent intent) {
+        progressMessage.setText(getResources().getString(R.string.auth_progress_done));
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
         finishUp();
     }
 
     private void finishWithError() {
+        progressMessage.setText(getResources().getString(R.string.auth_progress_failure));
         setAccountAuthenticatorResult(null);
         finishUp();
     }
