@@ -122,7 +122,7 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity {
                 if(information.userAttributes.email.size() == 0) {
                     name = "Minerva-account";
                 } else {
-                    name = information.userAttributes.email.get(0);
+                    name = information.userAttributes.email.get(0).toLowerCase();
                 }
 
                 //Save the account.
