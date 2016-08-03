@@ -45,7 +45,6 @@ import be.ugent.zeus.hydra.requests.ActivitiesRequest;
 import be.ugent.zeus.hydra.requests.NewsRequest;
 import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
 import be.ugent.zeus.hydra.requests.SpecialEventRequest;
-import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
 import org.joda.time.DateTime;
@@ -158,7 +157,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         getLoaderManager().initLoader(SCHAMPER_LOADER, null, schamperCallback);
         getLoaderManager().initLoader(NEWS_LOADER, null, newsCallback);
         if(authorizationManager.isAuthenticated()) {
-            getLoaderManager().initLoader(MINERVA_LOADER, null, courseCallback);
+            //getLoaderManager().initLoader(MINERVA_LOADER, null, courseCallback);
         }
     }
 
@@ -172,7 +171,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         getLoaderManager().restartLoader(SCHAMPER_LOADER, null, schamperCallback);
         getLoaderManager().restartLoader(NEWS_LOADER, null, newsCallback);
         if(authorizationManager.isAuthenticated()) {
-            getLoaderManager().restartLoader(MINERVA_LOADER, null, courseCallback);
+            //getLoaderManager().restartLoader(MINERVA_LOADER, null, courseCallback);
         }
     }
 
@@ -467,7 +466,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         @Override
         public void receiveData(@NonNull Courses data) {
             announcementCallback.cards.clear();
-            WhatsNewRequest.getAllAnnouncements(data, (HydraApplication) getActivity().getApplication(), announcementCallback);
+            WhatsNewRequest.getAllAnnouncements(data, getContext(), getActivity(), announcementCallback);
         }
 
         /**
@@ -486,7 +485,8 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
          */
         @Override
         public CacheRequest<Courses> getRequest() {
-            return new CoursesMinervaRequest((HydraApplication) getActivity().getApplication());
+            return null;
+            //return new CoursesMinervaRequest((HydraApplication) getActivity().getApplication());
         }
     }
 

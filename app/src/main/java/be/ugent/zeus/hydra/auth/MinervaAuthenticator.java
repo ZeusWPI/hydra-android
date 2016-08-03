@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.auth;
 
 import java.util.Arrays;
-import java.util.Calendar;
 
 import android.accounts.*;
 import android.content.Context;
@@ -13,6 +12,9 @@ import android.util.Log;
 import be.ugent.android.sdk.oauth.json.BearerToken;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.loader.requests.Request;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 /**
  * Authenticator to save Minerva account details in the AccountManager. Minerva uses OAuth2 authentication with
@@ -22,15 +24,9 @@ import be.ugent.zeus.hydra.loader.requests.Request;
  * password (to 'refresh' the access token).
  *
  * The app handles things things like this:
- * <ul>
- *     <li>
- *         The refresh token is saved as the account's password. This should be a long-lived token. When invalid, the user has re-authenticate.
- *     </li>
- *     <li>
- *         The access token is stored as the auth token. All requests for data should extend {@link be.ugent.zeus.hydra.requests.minerva.MinervaRequest},
- *         which handles the failure condition.
- *     </li>
- * </ul>
+ * - The refresh token is saved as the account's password. This should be a long-lived token. When invalid, the user has re-authenticate.
+ * - The access token is stored as the auth token. All requests for data should extend {@link be.ugent.zeus.hydra.requests.minerva.MinervaRequest},
+ *   which handles the failure condition.
  *
  * The full flow is as follows:
  *
@@ -42,6 +38,9 @@ import be.ugent.zeus.hydra.loader.requests.Request;
  * 6. Use the access token on the data requests.
  * 7. Optionally use the saved password to get a new bearer token, and go to step 5.
  *
+ * Because the expiration date of the tokens is taken into consideration, you should not get an expired token often,
+ * but is best to still be prepared for it.
+ *
  * @see <a href="http://www.bubblecode.net/en/2016/01/22/understanding-oauth2/">Good explenation of OAuth2</a>
  *
  * @author Niko Strijbol
@@ -50,7 +49,10 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
 
     private static final String TAG = MinervaAuthenticator.class.getSimpleName();
 
-    public static final String EXPIRATION_DATE = "expDate";
+    public static final String EXP_DATE = "expDate";
+    private static final String EXP_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    public static final DateTimeFormatter formatter = DateTimeFormat.forPattern(EXP_DATE_FORMAT);
 
     private Context mContext;
     private AccountManager manager;
@@ -102,13 +104,12 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
 
         //Check the expiration date
         if(!TextUtils.isEmpty(accessToken)) {
-            int duration = Integer.parseInt(manager.getUserData(account, EXPIRATION_DATE));
-            Calendar rightNow = Calendar.getInstance();
-            Calendar expires = Calendar.getInstance();
-            expires.add(Calendar.SECOND, duration);
+            DateTime expires = formatter.parseDateTime(manager.getUserData(account, EXP_DATE));
+            DateTime now = DateTime.now();
 
             //The token is invalid, so get get new one.
-            if(rightNow.compareTo(expires) >= 0) {
+            if(now.isAfter(expires)) {
+                Log.d(TAG, "Expired token. Setting to null.");
                 accessToken = null;
             }
         }
@@ -163,7 +164,10 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
             //Execute the request.
             BearerToken token = request.performRequest();
             manager.setPassword(account, token.refreshToken);
-            manager.setUserData(account, EXPIRATION_DATE, String.valueOf(token.expiresIn));
+
+            DateTime expiration = DateTime.now().plusSeconds(token.expiresIn);
+            manager.setUserData(account, EXP_DATE, formatter.print(expiration));
+
             return token.accessToken;
         } catch (RequestFailureException e) {
             Log.i(TAG, "Getting refresh access token failed.", e);

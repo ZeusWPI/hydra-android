@@ -1,15 +1,30 @@
 package be.ugent.zeus.hydra.auth;
 
+import java.io.IOException;
+
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 
 import be.ugent.android.sdk.oauth.EndpointConfiguration;
 import be.ugent.android.sdk.oauth.OAuthConfiguration;
 import be.ugent.android.sdk.oauth.json.BearerToken;
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.loader.cache.file.FileCache;
 import be.ugent.zeus.hydra.loader.requests.Request;
+import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
+import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
+import org.joda.time.DateTime;
+
+import static be.ugent.zeus.hydra.auth.MinervaAuthenticator.EXP_DATE;
 
 /**
  * @author Niko Strijbol
@@ -17,15 +32,14 @@ import org.apache.oltu.oauth2.common.message.types.ResponseType;
  */
 public class AccountHelper {
 
-    private OAuthConfiguration config;
+    private static final String TAG = "AccountHelper";
 
-    public AccountHelper() {
-        this.config = new OAuthConfiguration.Builder()
-                .apiKey(BuildConfig.OAUTH_ID)
-                .apiSecret(BuildConfig.OAUTH_SECRET)
-                .callbackUri("https://zeus.ugent.be/hydra/oauth/callback")
-                .build();
-    }
+    //This never changes during runtime, so we use static here.
+    private static final OAuthConfiguration config = new OAuthConfiguration.Builder()
+            .apiKey(BuildConfig.OAUTH_ID)
+            .apiSecret(BuildConfig.OAUTH_SECRET)
+            .callbackUri(EndpointConfiguration.CALLBACK_URI)
+            .build();
 
     /**
      * Builds a token request based on the grant information.
@@ -59,9 +73,85 @@ public class AccountHelper {
                     .buildQueryMessage();
             return request.getLocationUri();
         } catch (OAuthSystemException e) {
-            Log.e("AccountHelper", "Error while building URI", e);
+            Log.e(TAG, "Error while building URI", e);
             //This shouldn't happen, so we intentionally crash the app.
             throw new IllegalStateException("This must not happen!", e);
         }
+    }
+
+    /**
+     * Check if a Minerva account is present.
+     *
+     * @param context The application context.
+     *
+     * @return True if there is an account, otherwise false.
+     */
+    public static boolean hasAccount(Context context) {
+        AccountManager manager = AccountManager.get(context);
+        Account[] accounts = manager.getAccountsByType(EndpointConfiguration.ACCOUNT_TYPE);
+        if(accounts.length >= 1) {
+            return true;
+        } else {
+            //If there is no account, we delete the cache immediately.
+            //Delete list of courses
+            FileCache.deleteStartingWith(CoursesMinervaRequest.BASE_KEY, context.getApplicationContext());
+            //Delete all courses
+            FileCache.deleteStartingWith(WhatsNewRequest.BASE_KEY, context.getApplicationContext());
+            return false;
+        }
+    }
+
+    /**
+     * Get an access token. This is executed in a blocking manner. This method assumes an account is present. Use
+     * the method {@link #hasAccount(Context)} to find out if there actually is an account.
+     *
+     * @param context The application context.
+     * @param activity The current foreground activity, if you want the account manager to ask the user things.
+     *
+     * @return The access token, or null if there is none.
+     */
+    public static String asyncAuthCode(Context context, Activity activity) {
+        AccountManager manager = AccountManager.get(context);
+        Account account = manager.getAccountsByType(EndpointConfiguration.ACCOUNT_TYPE)[0];
+
+        try {
+            Bundle result = manager.getAuthToken(account, EndpointConfiguration.DEFAULT_SCOPE, null, activity, null, null).getResult();
+            String token = result.getString(AccountManager.KEY_AUTHTOKEN);
+            Log.d(TAG, "Got token.");
+
+            //Check the expiration date
+            DateTime expires = getExpirationDate(manager, account);
+            DateTime now = DateTime.now();
+
+            //The token is invalid, so get get new one.
+            if(now.isAfter(expires)) {
+                Log.d(TAG, "Expired token. Setting to null.");
+                manager.invalidateAuthToken(EndpointConfiguration.ACCOUNT_TYPE, token);
+            }
+
+            //Get the token again.
+            result = manager.getAuthToken(account, EndpointConfiguration.DEFAULT_SCOPE, null, activity, null, null).getResult();
+            token = result.getString(AccountManager.KEY_AUTHTOKEN);
+
+            return token;
+
+        } catch (OperationCanceledException | IOException | AuthenticatorException e) {
+            Log.w(TAG, "Getting result failed.", e);
+            return null;
+        }
+    }
+
+    /**
+     * Get the account. This assumes there is an account.
+     * @param context
+     * @return
+     */
+    public static Account getAccount(Context context) {
+       return AccountManager.get(context).getAccountsByType(EndpointConfiguration.ACCOUNT_TYPE)[0];
+    }
+
+    public static DateTime getExpirationDate(AccountManager manager, Account account) {
+        String exp = manager.getUserData(account, EXP_DATE);
+        return MinervaAuthenticator.formatter.parseDateTime(exp);
     }
 }

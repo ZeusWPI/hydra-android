@@ -17,6 +17,7 @@ import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.loader.requests.Request;
 import be.ugent.zeus.hydra.requests.minerva.SimpleUserInfoRequest;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
+import org.joda.time.DateTime;
 
 /**
  * An activity to prompt the user to authorise our access to the account.
@@ -130,7 +131,8 @@ public class AuthActivity extends AccountAuthenticatorActivity {
                     manager.setPassword(account, result.refreshToken);
                 }
 
-                manager.setUserData(account, MinervaAuthenticator.EXPIRATION_DATE, String.valueOf(result.expiresIn));
+                DateTime expiration = DateTime.now().plusSeconds(result.expiresIn);
+                manager.setUserData(account, MinervaAuthenticator.EXP_DATE, MinervaAuthenticator.formatter.print(expiration));
                 manager.setAuthToken(account, authType, result.accessToken);
 
                 //Make intent for return value

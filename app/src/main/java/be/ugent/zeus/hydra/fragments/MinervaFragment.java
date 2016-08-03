@@ -1,20 +1,23 @@
 package be.ugent.zeus.hydra.fragments;
 
+import java.io.IOException;
+
+import android.accounts.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.*;
 import android.widget.Button;
+import android.widget.Toast;
 
-import be.ugent.android.sdk.oauth.AuthorizationManager;
-import be.ugent.android.sdk.oauth.event.AuthorizationEvent;
-import be.ugent.android.sdk.oauth.event.AuthorizationEventHandler;
+import be.ugent.android.sdk.oauth.EndpointConfiguration;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.minerva.AuthenticationActivity;
+import be.ugent.zeus.hydra.auth.AccountHelper;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.loader.cache.file.FileCache;
@@ -42,8 +45,8 @@ public class MinervaFragment extends LoaderFragment<Courses> {
     private RecyclerView recyclerView;
     private View authWrapper;
 
-    private AuthorizationManager authorizationManager;
     private CourseAnnouncementAdapter adapter;
+    private AccountManager manager;
 
     /**
      * Do not automatically start the loaders, we do it by hand.
@@ -55,7 +58,6 @@ public class MinervaFragment extends LoaderFragment<Courses> {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        authorizationManager = ((HydraApplication)getActivity().getApplication()).getAuthorizationManager();
         setHasOptionsMenu(true);
     }
 
@@ -69,14 +71,7 @@ public class MinervaFragment extends LoaderFragment<Courses> {
         super.onViewCreated(view, savedInstanceState);
         hideProgressBar();
 
-       // refresh = $(view, R.id.refresh);
-//        refresh.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                authorizationManager.invalidateToken();
-//                restartLoader();
-//            }
-//        });
+        this.manager = AccountManager.get(getContext());
 
         Button authorize = $(view, R.id.authorize);
         authorize.setOnClickListener(new View.OnClickListener() {
@@ -97,13 +92,24 @@ public class MinervaFragment extends LoaderFragment<Courses> {
     }
 
     private boolean isLoggedIn() {
-        return authorizationManager.isAuthenticated();
+        return AccountHelper.hasAccount(getContext());
     }
 
     private void maybeLaunchAuthorization() {
         if (!isLoggedIn()) {
-            Intent intent = new Intent(getContext(), AuthenticationActivity.class);
-            startActivityForResult(intent, AUTH_REQUEST);
+            manager.addAccount(EndpointConfiguration.ACCOUNT_TYPE, EndpointConfiguration.DEFAULT_SCOPE, null, null, getActivity(), new AccountManagerCallback<Bundle>() {
+                @Override
+                public void run(AccountManagerFuture<Bundle> accountManagerFuture) {
+                    try {
+                        Bundle result = accountManagerFuture.getResult();
+                        Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
+                    } catch (OperationCanceledException | IOException | AuthenticatorException e) {
+                        Log.i(TAG, "Account not added.", e);
+                    }
+                }
+            }, null);
+            //Intent intent = new Intent(getContext(), AuthenticationActivity.class);
+            //startActivityForResult(intent, AUTH_REQUEST);
         }
     }
 
@@ -160,7 +166,7 @@ public class MinervaFragment extends LoaderFragment<Courses> {
      */
     @Override
     public CacheRequest<Courses> getRequest() {
-        return new CoursesMinervaRequest((HydraApplication) getActivity().getApplication());
+        return new CoursesMinervaRequest(getContext(), getActivity());
     }
 
     @Override
@@ -186,27 +192,27 @@ public class MinervaFragment extends LoaderFragment<Courses> {
      */
     private void signOut() {
         //Sign out first, and then remove all data.
-        authorizationManager.signOut(new AuthorizationEventHandler() {
+        Account a = AccountHelper.getAccount(getContext());
+        Toast.makeText(getContext(), "Logging out...", Toast.LENGTH_SHORT).show();
+        manager.removeAccount(a, new AccountManagerCallback<Boolean>() {
             @Override
-            public void onAuthorizationEvent(AuthorizationEvent event) {
-                if(event == AuthorizationEvent.SIGNED_OUT) {
-                    //Delete items
-                    adapter.clear();
-                    //Hide list
-                    recyclerView.setVisibility(View.GONE);
-                    //Hide progress
-                    hideProgressBar();
-                    //Show login prompt
-                    authWrapper.setVisibility(View.VISIBLE);
-                    //Destroy loaders
-                    destroyLoader();
-                    //Delete cache
-                    clearCache();
-                    //Reload options
-                    getActivity().invalidateOptionsMenu();
-                }
+            public void run(AccountManagerFuture<Boolean> accountManagerFuture) {
+                //Delete items
+                adapter.clear();
+                //Hide list
+                recyclerView.setVisibility(View.GONE);
+                //Hide progress
+                hideProgressBar();
+                //Show login prompt
+                authWrapper.setVisibility(View.VISIBLE);
+                //Destroy loaders
+                destroyLoader();
+                //Delete cache
+                clearCache();
+                //Reload options
+                getActivity().invalidateOptionsMenu();
             }
-        });
+        }, null);
     }
 
     /**

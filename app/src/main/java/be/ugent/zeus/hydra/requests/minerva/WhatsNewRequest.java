@@ -1,11 +1,12 @@
 package be.ugent.zeus.hydra.requests.minerva;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.Pair;
 
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.loader.cache.file.SerializeCache;
@@ -18,14 +19,14 @@ import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_HOUR;
 /**
  * Created by feliciaan on 29/06/16.
  */
-public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
+public class WhatsNewRequest extends MinervaRequestTwo<WhatsNew> {
 
     public static final String BASE_KEY = "whatsnewRequest";
 
     private Course course;
 
-    public WhatsNewRequest(Course course, HydraApplication app) {
-        super(WhatsNew.class, app);
+    public WhatsNewRequest(Course course, Context context, Activity activity) {
+        super(WhatsNew.class, context, activity);
         this.course = course;
     }
 
@@ -51,9 +52,9 @@ public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
      * for the courses are not. Every time new announcements are loaded, they are passed to the listener.
      * @return
      */
-    public static void getAllAnnouncements(final Courses courses, final HydraApplication app, final AnnouncementsListener listener) {
+    public static void getAllAnnouncements(final Courses courses, final Context context, final Activity activity, final AnnouncementsListener listener) {
 
-        final Cache cache = new SerializeCache(app.getApplicationContext());
+        final Cache cache = new SerializeCache(context.getApplicationContext());
 
         AsyncTask<Void, Pair<Course, WhatsNew>, Void> task = new AsyncTask<Void, Pair<Course, WhatsNew>, Void>() {
 
@@ -66,7 +67,7 @@ public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
                     try {
                         //listener.onAnnouncementsAdded(w, course);
                         //noinspection unchecked
-                        publishProgress(new Pair<>(course, cache.get(new WhatsNewRequest(course, app))));
+                        publishProgress(new Pair<>(course, cache.get(new WhatsNewRequest(course, context, activity))));
                     } catch (RequestFailureException e) {
                         error = true;
                         Log.d("WhatsNewRequest", "Course what's new failed: " + course.getTitle());

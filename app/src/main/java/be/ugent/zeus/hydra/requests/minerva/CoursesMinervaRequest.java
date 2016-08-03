@@ -1,7 +1,9 @@
 package be.ugent.zeus.hydra.requests.minerva;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.HydraApplication;
+
 import be.ugent.zeus.hydra.models.minerva.Courses;
 
 import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_WEEK;
@@ -10,12 +12,12 @@ import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_WEEK;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class CoursesMinervaRequest extends MinervaRequest<Courses> {
+public class CoursesMinervaRequest extends MinervaRequestTwo<Courses> {
 
     public static final String BASE_KEY = "minerva_courses";
 
-    public CoursesMinervaRequest(HydraApplication app) {
-        super(Courses.class, app);
+    public CoursesMinervaRequest(Context context, Activity activity) {
+        super(Courses.class, context, activity);
     }
 
     @Override

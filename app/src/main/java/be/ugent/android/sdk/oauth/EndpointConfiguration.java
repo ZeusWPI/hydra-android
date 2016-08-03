@@ -34,6 +34,7 @@ public class EndpointConfiguration {
      * The URL scheme of the callback.
      */
     public final static String CALLBACK_SCHEME = "hydra-ugent";
+    public final static String CALLBACK_URI = "https://zeus.ugent.be/hydra/oauth/callback";
 
     public final static String ACCOUNT_TYPE = "be.ugent.minerva.oauth";
     public final static String DEFAULT_SCOPE = "MINERVA_NOTIFICATION_COUNT";

@@ -1,20 +1,21 @@
 package be.ugent.zeus.hydra.models.minerva;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
+
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import be.ugent.zeus.hydra.HydraApplication;
+
 import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.loader.cache.file.SerializeCache;
 import be.ugent.zeus.hydra.loader.requests.Request;
 import be.ugent.zeus.hydra.loader.requests.RequestExecutor;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Wrapper for a course and announcements.
@@ -27,15 +28,15 @@ public class CourseWrapper {
 
     private Course course;
     private List<Announcement> announcements = Collections.emptyList();
-    private HydraApplication application;
+    private Context context;
     private Cache cache;
 
     private AsyncTask task;
 
-    public CourseWrapper(Course c, HydraApplication application) {
+    public CourseWrapper(Course c, Context context) {
         this.course = c;
-        this.application = application;
-        this.cache = new SerializeCache(application.getApplicationContext());
+        this.context = context;
+        this.cache = new SerializeCache(context.getApplicationContext());
     }
 
     /**
@@ -63,7 +64,7 @@ public class CourseWrapper {
         }
 
         //Request
-        final WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, application);
+        final WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, context, null);
 
         //Wrap in request for cache
         Request<WhatsNew> request = new Request<WhatsNew>() {
