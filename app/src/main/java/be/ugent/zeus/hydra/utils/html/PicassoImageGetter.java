@@ -10,7 +10,7 @@ import android.os.AsyncTask;
 import android.support.v7.graphics.drawable.DrawableWrapper;
 import android.text.Html;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.View;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -20,11 +20,11 @@ import com.squareup.picasso.Picasso;
 public class PicassoImageGetter implements Html.ImageGetter {
 
     private final Resources resources;
-    private final TextView textView;
+    private final View view;
     private final Context context;
 
-    public PicassoImageGetter(TextView textView, Resources resources, Context context) {
-        this.textView = textView;
+    public PicassoImageGetter(View textView, Resources resources, Context context) {
+        this.view = textView;
         this.resources = resources;
         //Prevent memory leaks.
         this.context = context.getApplicationContext();
@@ -54,7 +54,8 @@ public class PicassoImageGetter implements Html.ImageGetter {
                     result.setWrappedDrawable(drawable);
                     result.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
 
-                    textView.setText(textView.getText()); // invalidate() doesn't work correctly...
+                    view.invalidate();
+                    view.requestLayout();
                 } catch (Exception e) {
                 /* nom nom nom*/
                 }

@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.activities.common;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -57,12 +58,14 @@ public abstract class ToolbarActivity extends HydraActivity {
      * Replace an icon with given ID by the same icon but in white.
      *
      * @param menu The menu.
-     * @param id The id if the icon.
+     * @param ids The ids of the icon.
      */
-    protected void setWhiteIcon(Menu menu, int id) {
-        Drawable drawable = DrawableCompat.wrap(menu.findItem(id).getIcon());
-        DrawableCompat.setTint(drawable, getResources().getColor(R.color.white));
-        menu.findItem(id).setIcon(drawable);
+    protected void setWhiteIcons(Menu menu, int... ids) {
+        for (int id: ids) {
+            Drawable drawable = DrawableCompat.wrap(menu.findItem(id).getIcon());
+            DrawableCompat.setTint(drawable, ActivityCompat.getColor(this, R.color.white));
+            menu.findItem(id).setIcon(drawable);
+        }
     }
 
     /**

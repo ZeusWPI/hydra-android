@@ -11,7 +11,7 @@ import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.resto.RestoMeta;
 import be.ugent.zeus.hydra.recyclerview.adapters.resto.MetaAdapter;
 import be.ugent.zeus.hydra.requests.resto.RestoMetaRequest;
-import be.ugent.zeus.hydra.utils.DividerItemDecoration;
+import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 
 /**
  * Activity that shows a list of sandwiches.

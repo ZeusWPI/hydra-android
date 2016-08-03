@@ -20,6 +20,7 @@ public class SchamperViewHolder extends AbstractViewHolder<Article> {
     private TextView title;
     private TextView date;
     private TextView author;
+    private TextView category;
     private ImageView image;
 
     public SchamperViewHolder(View itemView) {
@@ -29,12 +30,14 @@ public class SchamperViewHolder extends AbstractViewHolder<Article> {
         date = $(itemView, R.id.date);
         author = $(itemView, R.id.author);
         image = $(itemView, R.id.card_image);
+        category = $(itemView, R.id.schamper_category);
     }
 
     public void populate(final Article article) {
         title.setText(article.getTitle());
         date.setText(DateUtils.relativeDateString(article.getPubDate(), itemView.getContext()));
         author.setText(article.getAuthor());
+        category.setText(article.getCategory());
 
         Picasso.with(this.itemView.getContext()).load(article.getLargeImage()).into(image);
 

@@ -1,11 +1,10 @@
-package be.ugent.zeus.hydra.utils;
+package be.ugent.zeus.hydra.utils.recycler;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -19,7 +18,7 @@ import android.view.View;
  *
  * @link https://gist.github.com/alexfu/0f464fc3742f134ccd1e
  */
-public class DividerItemDecoration extends RecyclerView.ItemDecoration {
+public class DividerItemDecoration extends LinearItemDecoration {
 
     private Drawable mDivider;
 
@@ -82,22 +81,6 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
             outRect.set(0, 0, 0, mDivider.getIntrinsicHeight());
         } else {
             outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
-        }
-    }
-
-    /**
-     * Check if the orientation is vertical.
-     *
-     * @param parent The parent.
-     *
-     * @return If the orientation is vertical, true is returned.
-     */
-    private boolean isVertical(RecyclerView parent) {
-        if(parent.getLayoutManager() instanceof LinearLayoutManager) {
-            LinearLayoutManager manager = (LinearLayoutManager) parent.getLayoutManager();
-            return manager.getOrientation() == LinearLayoutManager.VERTICAL;
-        } else {
-            throw new IllegalStateException("DividerItemDecoration can only be used with a LinearLayoutManager.");
         }
     }
 }
