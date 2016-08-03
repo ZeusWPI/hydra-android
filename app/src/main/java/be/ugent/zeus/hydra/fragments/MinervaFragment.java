@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.fragments;
 import java.io.IOException;
 
 import android.accounts.*;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,10 +13,10 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.Toast;
 
-import be.ugent.zeus.hydra.auth.EndpointConfiguration;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.auth.AccountHelper;
+import be.ugent.zeus.hydra.auth.EndpointConfiguration;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.loader.cache.file.FileCache;
@@ -27,7 +26,6 @@ import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.utils.DividerItemDecoration;
 
-import static android.app.Activity.RESULT_OK;
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
@@ -103,25 +101,12 @@ public class MinervaFragment extends LoaderFragment<Courses> {
                     try {
                         Bundle result = accountManagerFuture.getResult();
                         Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
+                        maybeLoadData();
                     } catch (OperationCanceledException | IOException | AuthenticatorException e) {
                         Log.i(TAG, "Account not added.", e);
                     }
                 }
             }, null);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //We received data
-        if(requestCode == AUTH_REQUEST) {
-            //Was it ok?
-            if(resultCode == RESULT_OK) {
-                // Attempt to load data
-                maybeLoadData();
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 

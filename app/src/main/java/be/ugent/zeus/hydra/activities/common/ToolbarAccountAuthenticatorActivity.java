@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.activities.common;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.NavUtils;
 
 /**
  * This activity is the same as the framework's {@link android.accounts.AccountAuthenticatorActivity}, but for use with
@@ -25,7 +25,7 @@ import android.support.v7.app.AppCompatActivity;
  * @author Niko Strijbol
  * @see <a href="https://github.com/android/platform_frameworks_base/blob/master/core/java/android/accounts/AccountAuthenticatorActivity.java">AOSP</a>
  */
-public class AppCompatAccountAuthenticatorActivity extends AppCompatActivity {
+public class ToolbarAccountAuthenticatorActivity extends ToolbarActivity {
 
     private AccountAuthenticatorResponse response = null;
     private Bundle mResultBundle = null;
@@ -58,7 +58,7 @@ public class AppCompatAccountAuthenticatorActivity extends AppCompatActivity {
     /**
      * Sends the result or a Constants.ERROR_CODE_CANCELED error if a result isn't present.
      */
-    public void finish() {
+    public void finishUp() {
         if (response != null) {
             // send the result bundle back if set, otherwise send an error.
             if (mResultBundle != null) {
@@ -68,6 +68,6 @@ public class AppCompatAccountAuthenticatorActivity extends AppCompatActivity {
             }
             response = null;
         }
-        super.finish();
+        NavUtils.navigateUpFromSameTask(this);
     }
 }

@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.activities.minerva;
 
 import android.accounts.Account;
-import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,12 +8,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity;
+import be.ugent.zeus.hydra.auth.AccountHelper;
 import be.ugent.zeus.hydra.auth.EndpointConfiguration;
+import be.ugent.zeus.hydra.auth.MinervaAuthenticator;
 import be.ugent.zeus.hydra.auth.models.BearerToken;
 import be.ugent.zeus.hydra.auth.models.GrantInformation;
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.auth.AccountHelper;
-import be.ugent.zeus.hydra.auth.MinervaAuthenticator;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.requests.common.Request;
 import be.ugent.zeus.hydra.requests.minerva.UserInfoRequest;
@@ -24,11 +24,9 @@ import org.joda.time.DateTime;
 /**
  * An activity to prompt the user to authorise our access to the account.
  *
- * TODO: make this a support activity
- *
  * @author Niko Strijbol
  */
-public class AuthActivity extends AccountAuthenticatorActivity {
+public class AuthActivity extends ToolbarAccountAuthenticatorActivity {
 
     private static final String TAG = "AuthActivity";
 
@@ -95,12 +93,12 @@ public class AuthActivity extends AccountAuthenticatorActivity {
     private void finishOK(Intent intent) {
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
-        finish();
+        finishUp();
     }
 
     private void finishWithError() {
         setAccountAuthenticatorResult(null);
-        finish();
+        finishUp();
     }
 
     private class InfoTask extends AsyncTask<String, Void, Intent> {
