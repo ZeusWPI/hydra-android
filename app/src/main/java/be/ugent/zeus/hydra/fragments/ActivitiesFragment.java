@@ -21,7 +21,7 @@ import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.association.Activities;
 import be.ugent.zeus.hydra.models.association.Activity;
 import be.ugent.zeus.hydra.requests.ActivitiesRequest;
-import be.ugent.zeus.hydra.utils.DividerItemDecoration;
+import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.List;

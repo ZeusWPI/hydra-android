@@ -19,7 +19,14 @@
     </style>
 
     <!-- Style for long texts; black & lighter font + more line spacing -->
-    <style name="Hydra.LongText" parent="Hydra.Main">
+    <style name="Hydra.LongText" parent="Base.TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+    </style>
+
+    <!-- Style for long texts; black & lighter font + more line spacing -->
+    <style name="Hydra.LongSubhead" parent="Base.TextAppearance.AppCompat.Subhead">
         <item name="android:textColor">@android:color/black</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
         <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
@@ -40,6 +47,8 @@
     <style name="Material.Typography.Subhead" parent="Base.TextAppearance.AppCompat.Subhead">
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="Material.Typography.Caption" parent="Base.TextAppearance.AppCompat.Caption" />
 
     <!-- Transparant text -->
     <style name="TransparentText" parent="@android:style/TextAppearance">

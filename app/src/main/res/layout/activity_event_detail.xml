@@ -18,6 +18,7 @@
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:expandedTitleMarginStart="@dimen/keyline"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleTextAppearance="@style/TransparentText">
 
@@ -190,7 +191,6 @@
                 app:contentPaddingLeft="@dimen/card_text_padding_vertical"
                 app:contentPaddingRight="@dimen/card_text_padding_vertical"
                 app:contentPaddingBottom="@dimen/card_text_padding_bottom">
-
 
                 <LinearLayout
                     android:orientation="vertical"

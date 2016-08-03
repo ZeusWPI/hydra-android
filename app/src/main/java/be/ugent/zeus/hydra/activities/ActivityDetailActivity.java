@@ -117,8 +117,7 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
         getMenuInflater().inflate(R.menu.menu_event, menu);
 
         // We need to manually set the color of this Drawable for some reason.
-        setWhiteIcon(menu, R.id.event_location);
-        setWhiteIcon(menu, R.id.event_link);
+        setWhiteIcons(menu, R.id.event_location, R.id.event_link);
 
         return true;
     }
