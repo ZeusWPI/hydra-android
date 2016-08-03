@@ -18,15 +18,22 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 package be.ugent.zeus.hydra.auth.models;
+
+import com.google.gson.annotations.SerializedName;
 
 public class BearerToken {
 
+    @SerializedName("access_token")
     public String accessToken;
 
+    @SerializedName("refresh_token")
     public String refreshToken;
 
+    @SerializedName("token_type")
     public String tokenType;
 
+    @SerializedName("expires_in")
     public Integer expiresIn;
 }

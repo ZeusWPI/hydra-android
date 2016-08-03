@@ -35,7 +35,7 @@ public abstract class AccessTokenRequest implements Request<BearerToken> {
 
         try {
             accessTokenResponse = getToken();
-            return gson.fromJson(accessTokenResponse.getScope(), BearerToken.class);
+            return gson.fromJson(accessTokenResponse.getBody(), BearerToken.class);
         } catch (OAuthSystemException | OAuthProblemException e) {
             throw new RequestFailureException(e);
         }
