@@ -12,7 +12,7 @@ import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_WEEK;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class CoursesMinervaRequest extends MinervaRequestTwo<Courses> {
+public class CoursesMinervaRequest extends MinervaRequest<Courses> {
 
     public static final String BASE_KEY = "minerva_courses";
 

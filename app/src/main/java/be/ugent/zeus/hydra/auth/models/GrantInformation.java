@@ -19,25 +19,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package be.ugent.android.sdk.oauth;
+package be.ugent.zeus.hydra.auth.models;
 
-/**
- * Created by kevin on 4/22/14.
- */
-public class EndpointConfiguration {
+import java.io.Serializable;
+import java.util.Collection;
 
-    public final static String AUTHORIZATION_ENDPOINT = "https://oauthq.ugent.be/authorize";
-    public final static String TOKEN_ENDPOINT = "https://oauthq.ugent.be/access_token";
-    public final static String GRANT_INFORMATION_ENDPOINT = "https://oauthq.ugent.be/tokeninfo";
+import com.google.gson.annotations.SerializedName;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
-    /**
-     * The URL scheme of the callback.
-     */
-    public final static String CALLBACK_SCHEME = "hydra-ugent";
-    public final static String CALLBACK_URI = "https://zeus.ugent.be/hydra/oauth/callback";
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class GrantInformation implements Serializable{
 
-    public final static String ACCOUNT_TYPE = "be.ugent.minerva.oauth";
-    public final static String DEFAULT_SCOPE = "MINERVA_NOTIFICATION_COUNT";
-    //see https://github.ugent.be/Onderwijstechnologie/ugent-android-sdk/wiki/Registering-Your-Application
+    @JsonProperty("scopes")
+    public Collection<String> scopes;
+
+    @JsonProperty("user")
+    @SerializedName("user")
+    public UserAttributes userAttributes;
 
 }

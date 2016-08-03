@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2014 University Ghent
@@ -19,38 +19,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package be.ugent.android.sdk.oauth.request;
+package be.ugent.zeus.hydra.auth.models;
 
-import android.support.annotation.NonNull;
-import be.ugent.android.sdk.oauth.EndpointConfiguration;
-import be.ugent.android.sdk.oauth.json.GrantInformation;
-import be.ugent.zeus.hydra.requests.AbstractRequest;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
-public class GrantInformationRequest extends AbstractRequest<GrantInformation> {
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class BearerToken {
 
+    @JsonProperty("access_token")
+    public String accessToken;
 
-    public GrantInformationRequest() {
-        super(GrantInformation.class);
-    }
+    @JsonProperty("refresh_token")
+    public String refreshToken;
 
-    public String createCacheKey() {
-        return "cas.grantInfo";
-    }
+    @JsonProperty("token_type")
+    public String tokenType;
 
-    @NonNull
-    @Override
-    public String getCacheKey() {
-        return "cas.grantInfo";
-    }
-
-    @NonNull
-    @Override
-    protected String getAPIUrl() {
-        return EndpointConfiguration.GRANT_INFORMATION_ENDPOINT;
-    }
-
-    @Override
-    public long getCacheDuration() {
-        return 0;
-    }
+    @JsonProperty("expires_in")
+    public Integer expiresIn;
 }

@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.loader.cache;
 
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.loader.requests.Request;
+import be.ugent.zeus.hydra.requests.common.Request;
 
 /**
  * Represents a cacheable request for data. This is the class that provides the data for the {@link Cache}.

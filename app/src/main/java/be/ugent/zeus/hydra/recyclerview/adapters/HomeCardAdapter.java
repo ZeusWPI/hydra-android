@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import java.util.*;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;

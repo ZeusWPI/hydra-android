@@ -11,12 +11,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
-import be.ugent.android.sdk.oauth.EndpointConfiguration;
-import be.ugent.android.sdk.oauth.OAuthConfiguration;
-import be.ugent.android.sdk.oauth.json.BearerToken;
+import be.ugent.zeus.hydra.auth.models.BearerToken;
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.auth.requests.NewAccessTokenRequest;
+import be.ugent.zeus.hydra.auth.requests.RefreshAccessTokenRequest;
 import be.ugent.zeus.hydra.loader.cache.file.FileCache;
-import be.ugent.zeus.hydra.loader.requests.Request;
+import be.ugent.zeus.hydra.requests.common.Request;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
@@ -44,7 +44,7 @@ public class AccountHelper {
     /**
      * Builds a token request based on the grant information.
      *
-     * @return BearerTokenRequest based on an authorization code.
+     * @return Request based on an authorization token.
      */
     public Request<BearerToken> buildAuthTokenRequest(String authorizationCode) {
         return new NewAccessTokenRequest(config, authorizationCode);
@@ -53,7 +53,7 @@ public class AccountHelper {
     /**
      * Builds a token request based on the grant information.
      *
-     * @return BearerTokenRequest based on an authorization code.
+     * @return Request based on a refresh token.
      */
     public Request<BearerToken> buildRefreshTokenRequest(String authorizationCode) {
         return new RefreshAccessTokenRequest(config, authorizationCode);
@@ -143,13 +143,21 @@ public class AccountHelper {
 
     /**
      * Get the account. This assumes there is an account.
-     * @param context
-     * @return
+     * @param context The context.
+     * @return The account.
      */
     public static Account getAccount(Context context) {
        return AccountManager.get(context).getAccountsByType(EndpointConfiguration.ACCOUNT_TYPE)[0];
     }
 
+    /**
+     * Get the expiration date of the access token for an account.
+     *
+     * @param manager The account manager.
+     *
+     * @param account The account to get the date for.
+     * @return The date.
+     */
     public static DateTime getExpirationDate(AccountManager manager, Account account) {
         String exp = manager.getUserData(account, EXP_DATE);
         return MinervaAuthenticator.formatter.parseDateTime(exp);

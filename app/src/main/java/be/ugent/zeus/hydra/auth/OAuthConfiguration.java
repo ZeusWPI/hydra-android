@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2014 University Ghent
@@ -18,9 +18,14 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+package be.ugent.zeus.hydra.auth;
 
-package be.ugent.android.sdk.oauth;
-
+/**
+ * Wrapper class for the OAuth configuration.
+ *
+ * @author Niko Strijbol
+ * @author kevin
+ */
 public class OAuthConfiguration {
 
     public final String API_KEY;
@@ -34,9 +39,9 @@ public class OAuthConfiguration {
     }
 
     public static class Builder {
-        public String callbackUri;
-        public String apiSecret;
-        public String apiKey;
+        private String callbackUri;
+        private String apiSecret;
+        private String apiKey;
 
         public Builder apiKey(String apiKey) {
             this.apiKey = apiKey;
@@ -54,14 +59,16 @@ public class OAuthConfiguration {
         }
 
         public OAuthConfiguration build() {
-            if (apiKey == null)
+            if (apiKey == null) {
                 throw new IllegalStateException("Api Key required.");
-            if (apiSecret == null)
+            }
+            if (apiSecret == null) {
                 throw new IllegalStateException("Api Secret required.");
-            if (callbackUri == null)
+            }
+            if (callbackUri == null) {
                 throw new IllegalStateException("Callback Uri required");
+            }
             return new OAuthConfiguration(this);
         }
     }
-
 }

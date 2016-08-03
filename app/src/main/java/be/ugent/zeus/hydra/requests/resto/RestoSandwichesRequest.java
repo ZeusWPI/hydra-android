@@ -1,16 +1,17 @@
 package be.ugent.zeus.hydra.requests.resto;
 
 import android.support.annotation.NonNull;
+
 import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.models.resto.Sandwiches;
-import be.ugent.zeus.hydra.requests.AbstractRequest;
+import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 
 /**
  * CacheRequest the list of sandwiches.
  *
  * @author feliciaan
  */
-public class RestoSandwichesRequest extends AbstractRequest<Sandwiches> {
+public class RestoSandwichesRequest extends CacheableRequest<Sandwiches> {
 
     public RestoSandwichesRequest() {
         super(Sandwiches.class);

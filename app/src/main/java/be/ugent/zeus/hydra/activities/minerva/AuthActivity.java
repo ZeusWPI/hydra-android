@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.auth;
+package be.ugent.zeus.hydra.activities.minerva;
 
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
@@ -9,18 +9,22 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
-import be.ugent.android.sdk.oauth.EndpointConfiguration;
-import be.ugent.android.sdk.oauth.json.BearerToken;
-import be.ugent.android.sdk.oauth.json.GrantInformation;
+import be.ugent.zeus.hydra.auth.EndpointConfiguration;
+import be.ugent.zeus.hydra.auth.models.BearerToken;
+import be.ugent.zeus.hydra.auth.models.GrantInformation;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.auth.AccountHelper;
+import be.ugent.zeus.hydra.auth.MinervaAuthenticator;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.loader.requests.Request;
-import be.ugent.zeus.hydra.requests.minerva.SimpleUserInfoRequest;
+import be.ugent.zeus.hydra.requests.common.Request;
+import be.ugent.zeus.hydra.requests.minerva.UserInfoRequest;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import org.joda.time.DateTime;
 
 /**
  * An activity to prompt the user to authorise our access to the account.
+ *
+ * TODO: make this a support activity
  *
  * @author Niko Strijbol
  */
@@ -112,7 +116,7 @@ public class AuthActivity extends AccountAuthenticatorActivity {
                 BearerToken result = request.performRequest();
 
                 //Get the information
-                SimpleUserInfoRequest infoRequest = new SimpleUserInfoRequest(result.accessToken);
+                UserInfoRequest infoRequest = new UserInfoRequest(result.accessToken);
                 GrantInformation information = infoRequest.performRequest();
 
                 //Account name

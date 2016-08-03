@@ -1,7 +1,5 @@
 package be.ugent.zeus.hydra.auth;
 
-import java.util.Arrays;
-
 import android.accounts.*;
 import android.content.Context;
 import android.content.Intent;
@@ -9,9 +7,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
-import be.ugent.android.sdk.oauth.json.BearerToken;
+import be.ugent.zeus.hydra.auth.models.BearerToken;
+import be.ugent.zeus.hydra.activities.minerva.AuthActivity;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.loader.requests.Request;
+import be.ugent.zeus.hydra.requests.common.Request;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -25,8 +24,7 @@ import org.joda.time.format.DateTimeFormatter;
  *
  * The app handles things things like this:
  * - The refresh token is saved as the account's password. This should be a long-lived token. When invalid, the user has re-authenticate.
- * - The access token is stored as the auth token. All requests for data should extend {@link be.ugent.zeus.hydra.requests.minerva.MinervaRequest},
- *   which handles the failure condition.
+ * - The access token is stored as the auth token.
  *
  * The full flow is as follows:
  *
@@ -72,10 +70,6 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
 
     @Override
     public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options) throws NetworkErrorException {
-        Log.d(TAG, "Starting adding new account.");
-        Log.d(TAG, "Account type = " + accountType);
-        Log.d(TAG, "TokenType = " + authTokenType);
-        Log.d(TAG, "Required features = " + Arrays.toString(requiredFeatures));
         final Intent intent = new Intent(mContext, AuthActivity.class);
         intent.putExtra(AuthActivity.ARG_ACCOUNT_TYPE, accountType);
         intent.putExtra(AuthActivity.ARG_AUTH_TYPE, authTokenType);

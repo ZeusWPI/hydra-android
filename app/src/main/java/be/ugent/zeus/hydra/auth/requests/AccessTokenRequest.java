@@ -1,34 +1,13 @@
-/**
- * The MIT License (MIT)
- *
- * Copyright (c) 2014 University Ghent
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the "Software"), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge, publish, distribute,
- * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- *      The above copyright notice and this permission notice shall be included in all copies or
- *      substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
- * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
-package be.ugent.zeus.hydra.auth;
+package be.ugent.zeus.hydra.auth.requests;
 
 import java.io.IOException;
 
 import android.support.annotation.NonNull;
 
-import be.ugent.android.sdk.oauth.OAuthConfiguration;
-import be.ugent.android.sdk.oauth.json.BearerToken;
+import be.ugent.zeus.hydra.auth.OAuthConfiguration;
+import be.ugent.zeus.hydra.auth.models.BearerToken;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.loader.requests.Request;
+import be.ugent.zeus.hydra.requests.common.Request;
 import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
@@ -36,6 +15,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * Exchange an authorisation code for an access code.
+ *
+ * @author Niko Strijbol
  */
 public abstract class AccessTokenRequest implements Request<BearerToken> {
 

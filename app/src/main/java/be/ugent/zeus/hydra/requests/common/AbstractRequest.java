@@ -1,15 +1,14 @@
-package be.ugent.zeus.hydra.requests;
+package be.ugent.zeus.hydra.requests.common;
+
+import java.util.Map;
 
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.loader.cache.CacheRequest;
+
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.Serializable;
-import java.util.Map;
 
 /**
  * Abstract request class.
@@ -17,11 +16,9 @@ import java.util.Map;
  * @param <T> The type of the result of the request.
  *
  * @author feliciaan
+ * @author Niko Strijbol
  */
-public abstract class AbstractRequest<T extends Serializable> implements CacheRequest<T> {
-
-    protected final String DSA_API_URL = "http://student.ugent.be/hydra/api/2.0/";
-    protected final String ZEUS_API_URL = "https://zeus.UGent.be/hydra/api/";
+public abstract class AbstractRequest<T> implements Request<T> {
 
     private Class<T> clazz;
 
@@ -60,6 +57,9 @@ public abstract class AbstractRequest<T extends Serializable> implements CacheRe
         return null;
     }
 
+    /**
+     * @return The rest template used by Spring to perform the request.
+     */
     protected RestTemplate createRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());

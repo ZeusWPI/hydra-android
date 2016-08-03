@@ -1,14 +1,18 @@
 package be.ugent.zeus.hydra.requests.resto;
 
 import android.support.annotation.NonNull;
+
 import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.models.resto.RestoMeta;
-import be.ugent.zeus.hydra.requests.AbstractRequest;
+import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 
 /**
- * Created by feliciaan on 04/02/16.
+ * Request for meta information about the resto.
+ *
+ * @author feliciaan
  */
-public class RestoMetaRequest extends AbstractRequest<RestoMeta> {
+public class RestoMetaRequest extends CacheableRequest<RestoMeta> {
+
     public RestoMetaRequest() {
         super(RestoMeta.class);
     }

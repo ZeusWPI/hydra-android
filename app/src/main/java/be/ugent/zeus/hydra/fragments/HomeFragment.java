@@ -20,9 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import be.ugent.android.sdk.oauth.AuthorizationManager;
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.auth.AccountHelper;
 import be.ugent.zeus.hydra.loader.LoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.loader.cache.CacheRequest;
@@ -45,6 +44,7 @@ import be.ugent.zeus.hydra.requests.ActivitiesRequest;
 import be.ugent.zeus.hydra.requests.NewsRequest;
 import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
 import be.ugent.zeus.hydra.requests.SpecialEventRequest;
+import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
 import org.joda.time.DateTime;
@@ -64,6 +64,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 public class HomeFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final boolean DEVELOPMENT = true;
+    private static final String TAG = "HomeFragment";
 
     private static final int MENU_LOADER = 1;
     private static final int ACTIVITY_LOADER = 2;
@@ -86,8 +87,6 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
     private HomeCardAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressBar;
-
-    private AuthorizationManager authorizationManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,8 +113,6 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
                 shouldRefresh = false;
             }
         });
-
-        authorizationManager = ((HydraApplication) getActivity().getApplication()).getAuthorizationManager();
 
         startLoaders();
 
@@ -156,8 +153,8 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         getLoaderManager().initLoader(SPECIAL_LOADER, null, specialEventCallback);
         getLoaderManager().initLoader(SCHAMPER_LOADER, null, schamperCallback);
         getLoaderManager().initLoader(NEWS_LOADER, null, newsCallback);
-        if(authorizationManager.isAuthenticated()) {
-            //getLoaderManager().initLoader(MINERVA_LOADER, null, courseCallback);
+        if(AccountHelper.hasAccount(getContext())) {
+            getLoaderManager().initLoader(MINERVA_LOADER, null, courseCallback);
         }
     }
 
@@ -170,8 +167,8 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         getLoaderManager().restartLoader(SPECIAL_LOADER, null, specialEventCallback);
         getLoaderManager().restartLoader(SCHAMPER_LOADER, null, schamperCallback);
         getLoaderManager().restartLoader(NEWS_LOADER, null, newsCallback);
-        if(authorizationManager.isAuthenticated()) {
-            //getLoaderManager().restartLoader(MINERVA_LOADER, null, courseCallback);
+        if(AccountHelper.hasAccount(getContext())) {
+            getLoaderManager().restartLoader(MINERVA_LOADER, null, courseCallback);
         }
     }
 
@@ -476,7 +473,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
          */
         @Override
         public void receiveError(@NonNull Throwable error) {
-            showFailureSnackbar("speciale activiteiten");
+            showFailureSnackbar("aankondigingen");
             loadComplete();
         }
 
@@ -485,8 +482,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
          */
         @Override
         public CacheRequest<Courses> getRequest() {
-            return null;
-            //return new CoursesMinervaRequest((HydraApplication) getActivity().getApplication());
+            return new CoursesMinervaRequest(getContext(), getActivity());
         }
     }
 
@@ -501,7 +497,6 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
          */
         @Override
         public void onAnnouncementsAdded(WhatsNew whatsNew, Course course) {
-            Log.d("Adding", "Adding course " + course.getTitle());
             if(!whatsNew.getAnnouncements().isEmpty()) {
                 cards.add(new MinervaAnnouncementsCard(whatsNew.getAnnouncements(), course));
                 adapter.updateCardItems(cards, HomeCard.CardType.MINERVA_ANNOUNCEMENT);
@@ -515,9 +510,9 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         }
 
         @Override
-        public void error() {
+        public void error(Throwable e) {
             //TODO: add error card for Minerva.
-            Log.d("Home", "NOOOOOOO minerva.");
+            Log.w(TAG, "Some announcements could not be loaded.", e);
         }
     }
 }

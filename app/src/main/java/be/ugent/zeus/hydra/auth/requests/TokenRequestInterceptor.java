@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2014 University Ghent
@@ -18,8 +18,7 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
-package be.ugent.android.sdk.oauth.request;
+package be.ugent.zeus.hydra.auth.requests;
 
 import java.io.IOException;
 
@@ -34,14 +33,15 @@ import org.springframework.http.client.ClientHttpResponse;
  * Intercepts the HTTP Requests and injects the access token in the Uri.
  *
  * @author kevin
+ * @author Niko Strijbol
  */
-public class ManualAccessTokenRequestInterceptor implements ClientHttpRequestInterceptor {
+public class TokenRequestInterceptor implements ClientHttpRequestInterceptor {
 
     private final String TAG = "AccessTokenRequestInter";
 
     private final String token;
 
-    public ManualAccessTokenRequestInterceptor(String token) {
+    public TokenRequestInterceptor(String token) {
         this.token = token;
     }
 
@@ -52,8 +52,7 @@ public class ManualAccessTokenRequestInterceptor implements ClientHttpRequestInt
         request.getHeaders().set("X-Bearer-Token", token);
 
         // Log API Request
-        Log.i(TAG, String.format("API Request: %s", request.getURI().toString()));
-
+        Log.d(TAG, String.format("API Request: %s", request.getURI().toString()));
 
         // Perform CacheRequest
         return execution.execute(request, body);

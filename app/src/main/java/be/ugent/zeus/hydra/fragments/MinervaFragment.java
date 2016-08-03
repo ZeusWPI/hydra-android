@@ -14,7 +14,7 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.Toast;
 
-import be.ugent.android.sdk.oauth.EndpointConfiguration;
+import be.ugent.zeus.hydra.auth.EndpointConfiguration;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.auth.AccountHelper;
@@ -108,8 +108,6 @@ public class MinervaFragment extends LoaderFragment<Courses> {
                     }
                 }
             }, null);
-            //Intent intent = new Intent(getContext(), AuthenticationActivity.class);
-            //startActivityForResult(intent, AUTH_REQUEST);
         }
     }
 

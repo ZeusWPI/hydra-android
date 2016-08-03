@@ -19,7 +19,9 @@ import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_HOUR;
 /**
  * Created by feliciaan on 29/06/16.
  */
-public class WhatsNewRequest extends MinervaRequestTwo<WhatsNew> {
+public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
+
+    private static final String TAG = "WhatsNewRequest";
 
     public static final String BASE_KEY = "whatsnewRequest";
 
@@ -50,7 +52,6 @@ public class WhatsNewRequest extends MinervaRequestTwo<WhatsNew> {
     /**
      * Get announcements for all courses. While the initial request for the courses is executed in sync, the requests
      * for the courses are not. Every time new announcements are loaded, they are passed to the listener.
-     * @return
      */
     public static void getAllAnnouncements(final Courses courses, final Context context, final Activity activity, final AnnouncementsListener listener) {
 
@@ -58,19 +59,16 @@ public class WhatsNewRequest extends MinervaRequestTwo<WhatsNew> {
 
         AsyncTask<Void, Pair<Course, WhatsNew>, Void> task = new AsyncTask<Void, Pair<Course, WhatsNew>, Void>() {
 
-            private boolean error = false;
+            private Throwable lastError;
 
             @Override
             protected Void doInBackground(Void... voids) {
-                Log.d("Background", "Adding courses");
                 for(Course course : courses.getCourses()) {
                     try {
-                        //listener.onAnnouncementsAdded(w, course);
                         //noinspection unchecked
                         publishProgress(new Pair<>(course, cache.get(new WhatsNewRequest(course, context, activity))));
                     } catch (RequestFailureException e) {
-                        error = true;
-                        Log.d("WhatsNewRequest", "Course what's new failed: " + course.getTitle());
+                        lastError = e;
                     }
                 }
 
@@ -81,21 +79,20 @@ public class WhatsNewRequest extends MinervaRequestTwo<WhatsNew> {
             @Override
             protected final void onProgressUpdate(Pair<Course, WhatsNew>... values) {
                 Pair<Course, WhatsNew> p = values[0];
-                Log.d("Progress", "Progress for " + p.first.getTitle());
                 listener.onAnnouncementsAdded(p.second, p.first);
             }
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                if(error) {
-                    listener.error();
+                if(lastError != null) {
+                    Log.d(TAG, "An error occurred.", lastError);
+                    listener.error(lastError);
                 } else {
                     listener.completed();
                 }
             }
         };
 
-        Log.d("All announcements", "Requesting everything!");
         task.execute();
     }
 
@@ -108,6 +105,6 @@ public class WhatsNewRequest extends MinervaRequestTwo<WhatsNew> {
 
         void completed();
 
-        void error();
+        void error(Throwable lastError);
     }
 }

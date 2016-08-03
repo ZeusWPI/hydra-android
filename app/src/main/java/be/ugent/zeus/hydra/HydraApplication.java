@@ -1,34 +1,27 @@
 package be.ugent.zeus.hydra;
 
 import android.app.Application;
-import be.ugent.android.sdk.oauth.AuthorizationManager;
+
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import net.danlew.android.joda.JodaTimeAndroid;
 
-
 /**
- * Created by feliciaan on 06/04/16.
+ * The Hydra application.
+ *
+ * @author Niko Strijbol
+ * @author feliciaan
  */
 public class HydraApplication extends Application {
 
     private Tracker tracker;
-    private AuthorizationManager manager;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         JodaTimeAndroid.init(this);
-    }
-
-    public AuthorizationManager getAuthorizationManager() {
-        if(manager == null) {
-            manager = new AuthorizationManager(getApplicationContext());
-        }
-
-        return manager;
     }
 
     /**
@@ -50,6 +43,11 @@ public class HydraApplication extends Application {
         return tracker;
     }
 
+    /**
+     * Send a screen name to the analytics.
+     *
+     * @param screenName The screen name to send.
+     */
     public void sendScreenName(String screenName) {
         Tracker t = getDefaultTracker();
         t.setScreenName(screenName);

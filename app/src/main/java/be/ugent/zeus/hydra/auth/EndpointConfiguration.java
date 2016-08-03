@@ -19,25 +19,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package be.ugent.android.sdk.oauth.json;
+package be.ugent.zeus.hydra.auth;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
+/**
+ * Various constants for Minerva accounts.
+ *
+ * @author Niko Strijbol
+ * @author kevin
+ */
+public class EndpointConfiguration {
 
+    public final static String AUTHORIZATION_ENDPOINT = "https://oauthq.ugent.be/authorize";
+    public final static String TOKEN_ENDPOINT = "https://oauthq.ugent.be/access_token";
+    public final static String GRANT_INFORMATION_ENDPOINT = "https://oauthq.ugent.be/tokeninfo";
 
-@JsonIgnoreProperties(ignoreUnknown=true)
-public class BearerToken {
+    /**
+     * The URL scheme of the callback.
+     */
+    public final static String CALLBACK_SCHEME = "hydra-ugent";
+    public final static String CALLBACK_URI = "https://zeus.ugent.be/hydra/oauth/callback";
 
-    @JsonProperty("access_token")
-    public String accessToken;
-
-    @JsonProperty("refresh_token")
-    public String refreshToken;
-
-    @JsonProperty("token_type")
-    public String tokenType;
-
-    @JsonProperty("expires_in")
-    public Integer expiresIn;
-
+    public final static String ACCOUNT_TYPE = "be.ugent.minerva.oauth";
+    public final static String DEFAULT_SCOPE = "MINERVA_NOTIFICATION_COUNT";
+    //see https://github.ugent.be/Onderwijstechnologie/ugent-android-sdk/wiki/Registering-Your-Application
 }

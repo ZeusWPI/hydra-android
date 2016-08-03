@@ -13,8 +13,8 @@ import android.util.Log;
 import be.ugent.zeus.hydra.loader.cache.Cache;
 import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.loader.cache.file.SerializeCache;
-import be.ugent.zeus.hydra.loader.requests.Request;
-import be.ugent.zeus.hydra.loader.requests.RequestExecutor;
+import be.ugent.zeus.hydra.requests.common.Request;
+import be.ugent.zeus.hydra.requests.common.RequestExecutor;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 
 /**
@@ -92,7 +92,7 @@ public class CourseWrapper {
             }
 
             @Override
-            public void receiveError(RequestFailureException e) {
+            public void receiveError(@NonNull Throwable e) {
                 Log.e(TAG, "Error while getting announcements", e);
                 task = null;
                 callback.receiveError(e);

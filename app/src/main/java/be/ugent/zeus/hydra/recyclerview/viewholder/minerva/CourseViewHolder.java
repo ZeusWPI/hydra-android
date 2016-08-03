@@ -1,21 +1,21 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder.minerva;
 
+import java.util.List;
+
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.loader.requests.RequestExecutor;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.CourseWrapper;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAnnouncementAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
+import be.ugent.zeus.hydra.requests.common.RequestExecutor;
 import be.ugent.zeus.hydra.utils.html.Utils;
-
-import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -74,7 +74,7 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
             }
 
             @Override
-            public void receiveError(RequestFailureException e) {
+            public void receiveError(@NonNull Throwable e) {
                 //Hide progress bar.
                 progressBar.setVisibility(View.GONE);
             }
