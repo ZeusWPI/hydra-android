@@ -1,22 +1,24 @@
 package be.ugent.zeus.hydra.viewpager;
 
+import java.util.List;
+
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-import java.util.List;
-
 /**
- * A PagerAdapter that works with images. This adapter will use {@link com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView}
+ * A PagerAdapter that works with images. This adapter will use {@link PhotoViewAttacher}
  * as views and will use Picasso to get the images. The images will not be kept in memory, since they might be rather
  * large. Picasso will cache them on disk however, so they are not reloaded every time.
  *
@@ -35,6 +37,7 @@ public class ImagePagerAdapter extends PagerAdapter {
     private Context context;
     private List<String> images;
     private PhotoViewAttacher.OnPhotoTapListener listener;
+    private SparseArray<PhotoViewAttacher> attachers = new SparseArray<>();
 
     /**
      * @param context The activity that uses the adapter.
@@ -68,10 +71,10 @@ public class ImagePagerAdapter extends PagerAdapter {
      * as returned by {@link #instantiateItem(ViewGroup, int)}. This method is
      * required for a PagerAdapter to function properly.
      *
-     * @param view   Page View to check for association with <code>object</code>
-     * @param object Object to check for association with <code>view</code>
+     * @param view   Page View to check for association with {@code object}
+     * @param object Object to check for association with {@code view}
      *
-     * @return true if <code>view</code> is associated with the key object <code>object</code>
+     * @return true if {@code view} is associated with the key object {@code object}
      */
     @Override
     public boolean isViewFromObject(View view, Object object) {
@@ -90,7 +93,7 @@ public class ImagePagerAdapter extends PagerAdapter {
      * need to be a View, but can be some other container of the page.
      */
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         FrameLayout layout = new FrameLayout(this.context);
         layout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
@@ -104,6 +107,12 @@ public class ImagePagerAdapter extends PagerAdapter {
         final ImageView imageView = new ImageView(this.context);
         imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
+        final PhotoViewAttacher attacher = new PhotoViewAttacher(imageView);
+        attachers.put(position, attacher);
+        if(listener != null) {
+            attacher.setOnPhotoTapListener(listener);
+        }
+
         layout.addView(imageView);
         layout.addView(progressBar);
         imageView.setVisibility(View.GONE);
@@ -111,18 +120,15 @@ public class ImagePagerAdapter extends PagerAdapter {
         Picasso.with(this.context).load(images.get(position)).tag(position).into(imageView, new Callback() {
             @Override
             public void onSuccess() {
-                Log.d(TAG, "Image loaded");
+                Log.i(TAG, "Loaded image #" + position);
                 imageView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
-                PhotoViewAttacher a = new PhotoViewAttacher(imageView);
-                if(listener != null) {
-                    a.setOnPhotoTapListener(listener);
-                }
+                attacher.update();
             }
 
             @Override
             public void onError() {
-                Log.d(TAG, "Image error");
+                Log.i(TAG, "Image error");
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -143,6 +149,8 @@ public class ImagePagerAdapter extends PagerAdapter {
      */
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
+        attachers.get(position).cleanup();
+        attachers.remove(position);
         //Stop picasso
         Picasso.with(context).cancelTag(position);
         //Remove view
