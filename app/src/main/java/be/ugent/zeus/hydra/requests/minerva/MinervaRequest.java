@@ -1,7 +1,11 @@
 package be.ugent.zeus.hydra.requests.minerva;
 
+import java.io.Serializable;
+import java.util.Collections;
+
 import android.support.annotation.NonNull;
 import android.util.Log;
+
 import be.ugent.android.sdk.oauth.AuthorizationManager;
 import be.ugent.android.sdk.oauth.json.BearerToken;
 import be.ugent.android.sdk.oauth.request.AccessTokenRequestInterceptor;
@@ -10,11 +14,6 @@ import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.requests.AbstractRequest;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by feliciaan on 20/06/16.
@@ -32,11 +31,11 @@ public abstract class MinervaRequest<T extends Serializable> extends AbstractReq
         authorizationManager = app.getAuthorizationManager();
     }
 
-    protected Map<String, String> getURLVariables() {
-        Map<String, String> urlVariables = new HashMap<>();
-        urlVariables.put("access_token", authorizationManager.getAccessToken());
-        return urlVariables;
-    }
+//    protected Map<String, String> getURLVariables() {
+//        Map<String, String> urlVariables = new HashMap<>();
+//        urlVariables.put("access_token", authorizationManager.getAccessToken());
+//        return urlVariables;
+//    }
 
     /**
      * If there is no valid token, we first get a new one. Then we execute the current request.

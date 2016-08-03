@@ -21,8 +21,11 @@
 
 package be.ugent.android.sdk.oauth;
 
+import java.util.Calendar;
+
 import android.content.Context;
 import android.util.Log;
+
 import be.ugent.android.sdk.oauth.event.AuthorizationEvent;
 import be.ugent.android.sdk.oauth.event.AuthorizationEventHandler;
 import be.ugent.android.sdk.oauth.json.BearerToken;
@@ -34,8 +37,6 @@ import be.ugent.zeus.hydra.loader.requests.Request;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
-
-import java.util.Calendar;
 
 public class AuthorizationManager {
 
@@ -108,6 +109,10 @@ public class AuthorizationManager {
      */
     public Request<BearerToken> buildGrantTokenRequest(String authorizationCode) {
         return new BearerTokenRequest(configData, authorizationCode);
+    }
+
+    public OAuthConfiguration getConfig() {
+        return configData;
     }
 
     /**

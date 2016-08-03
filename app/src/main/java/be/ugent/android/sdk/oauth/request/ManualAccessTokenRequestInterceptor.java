@@ -25,7 +25,6 @@ import java.io.IOException;
 
 import android.util.Log;
 
-import be.ugent.android.sdk.oauth.AuthorizationManager;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -36,28 +35,25 @@ import org.springframework.http.client.ClientHttpResponse;
  *
  * @author kevin
  */
-public class AccessTokenRequestInterceptor implements ClientHttpRequestInterceptor {
+public class ManualAccessTokenRequestInterceptor implements ClientHttpRequestInterceptor {
 
     private final String TAG = "AccessTokenRequestInter";
 
-    private final AuthorizationManager authorizationManager;
+    private final String token;
 
-    public AccessTokenRequestInterceptor(AuthorizationManager manager) {
-        authorizationManager = manager;
+    public ManualAccessTokenRequestInterceptor(String token) {
+        this.token = token;
     }
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        if (authorizationManager.isAuthenticated()) {
-            String accessToken = authorizationManager.getAccessToken();
-            if (accessToken != null) {
-                request.getHeaders().set("Authorization", String.format("Bearer %s", accessToken));
-                request.getHeaders().set("X-Bearer-Token", accessToken);
 
-                // Log API Request
-                Log.i(TAG, String.format("API Request: %s", request.getURI().toString()));
-            }
-        }
+        request.getHeaders().set("Authorization", String.format("Bearer %s", token));
+        request.getHeaders().set("X-Bearer-Token", token);
+
+        // Log API Request
+        Log.i(TAG, String.format("API Request: %s", request.getURI().toString()));
+
 
         // Perform CacheRequest
         return execution.execute(request, body);

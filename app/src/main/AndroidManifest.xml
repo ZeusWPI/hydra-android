@@ -4,10 +4,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Network permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Account permissions -->
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
+    <!-- Override API number constraints in libraries -->
     <!-- Override Custom Tabs -->
     <uses-sdk tools:overrideLibrary="android.support.customtabs"/>
 
@@ -178,6 +185,33 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.Hydra" />
         </activity>
+
+        <activity
+            android:name=".auth.AuthActivity"
+            android:label="Beta auth"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".activities.Hydra">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
+
+            <!-- Intent filters -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="hydra-ugent" />
+            </intent-filter>
+        </activity>
+
+        <service android:name=".auth.MinervaService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
 
     </application>
 
