@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import be.ugent.zeus.hydra.activities.ImageGalleryActivity;
-import be.ugent.zeus.hydra.activities.SchamperArticleActivity;
+import be.ugent.zeus.hydra.models.schamper.ArticleImage;
 import be.ugent.zeus.hydra.recyclerview.adapters.SchamperImageAdapter;
 import com.squareup.picasso.Picasso;
 
@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
  *
  * @author Niko Strijbol
  */
-public class ImageViewHolder extends RecyclerView.ViewHolder implements DataViewHolder<SchamperArticleActivity.ArticleImage> {
+public class ImageViewHolder extends RecyclerView.ViewHolder implements DataViewHolder<ArticleImage> {
 
     private ImageView view;
     private SchamperImageAdapter adapter;
@@ -38,8 +38,8 @@ public class ImageViewHolder extends RecyclerView.ViewHolder implements DataView
      * @param data The data.
      */
     @Override
-    public void populateData(SchamperArticleActivity.ArticleImage data) {
-        Picasso.with(view.getContext()).load(data.getUrl()).into(view);
+    public void populateData(ArticleImage data) {
+        Picasso.with(view.getContext()).load(data.getLargeUrl()).into(view);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -17,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
@@ -27,13 +27,6 @@ import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.utils.html.Utils;
 import be.ugent.zeus.hydra.utils.recycler.SpacingItemDecoration;
 import com.squareup.picasso.Picasso;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SchamperArticleActivity extends ToolbarActivity {
 
@@ -80,19 +73,18 @@ public class SchamperArticleActivity extends ToolbarActivity {
             date.setText(DateUtils.relativeDateString(article.getPubDate(), date.getContext()));
         }
 
-        if(article.getText() != null) {
-            HtmlArticle art = handleHtml(article.getText());
+        if(article.getBody() != null) {
 
             //The intro
-            intro.setText(Utils.fromHtml(art.intro, new PicassoImageGetter(intro, getResources(), this)));
+            intro.setText(Utils.fromHtml(article.getIntro(), new PicassoImageGetter(intro, getResources(), this)));
             intro.setMovementMethod(LinkMovementMethod.getInstance());
 
             //Make a list of images
             //Add the images.
-            adapter.setItems(art.images);
+            adapter.setItems(article.getImages());
 
             //The body
-            text.setText(Utils.fromHtml(art.body, new PicassoImageGetter(text, getResources(), this)));
+            text.setText(Utils.fromHtml(article.getBody(), new PicassoImageGetter(text, getResources(), this)));
             text.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
@@ -156,91 +148,5 @@ public class SchamperArticleActivity extends ToolbarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    /**
-     * It would be a lot nicer if we could get the data in prepared state from the server.
-     * @param html
-     * @return
-     */
-    private HtmlArticle handleHtml(String html) {
-
-        HtmlArticle htmlArticle = new HtmlArticle();
-        Document doc = Jsoup.parse(html);
-
-        //Get intro
-        Element intro = doc.select("p.introduction").first();
-        htmlArticle.intro = intro.html();
-        intro.remove();
-
-        //Get images
-        List<ArticleImage> imagesList = new ArrayList<>();
-        Elements images = doc.select("img.image");
-
-        for (Element e: images) {
-            Element p = e.parent();
-            ArticleImage i = new ArticleImage();
-            i.caption = p.ownText();
-            i.url = e.attr("src");
-            imagesList.add(i);
-            p.remove();
-        }
-
-        htmlArticle.images = imagesList;
-        htmlArticle.body = doc.body().html();
-
-        return htmlArticle;
-    }
-
-    /**
-     * TODO: move this or not?
-     */
-    public static class ArticleImage implements Parcelable {
-        private String url;
-        private String caption;
-
-        public ArticleImage(){}
-
-        public String getUrl() {
-            return url;
-        }
-
-        public String getCaption() {
-            return caption;
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(this.url);
-            dest.writeString(this.caption);
-        }
-
-        private ArticleImage(Parcel in) {
-            this.url = in.readString();
-            this.caption = in.readString();
-        }
-
-        public static final Parcelable.Creator<ArticleImage> CREATOR = new Parcelable.Creator<ArticleImage>() {
-            @Override
-            public ArticleImage createFromParcel(Parcel source) {
-                return new ArticleImage(source);
-            }
-
-            @Override
-            public ArticleImage[] newArray(int size) {
-                return new ArticleImage[size];
-            }
-        };
-    }
-
-    private static class HtmlArticle {
-        private String intro;
-        private String body;
-        private List<ArticleImage> images;
     }
 }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.schamper.Article;
+import be.ugent.zeus.hydra.models.schamper.ArticleImage;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.viewpager.ImagePagerAdapter;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -32,7 +33,7 @@ public class ImageGalleryActivity extends ToolbarActivity {
     private static final String TAG = "ImageGalleryActivity";
 
     private ViewPager pager;
-    private List<SchamperArticleActivity.ArticleImage> images;
+    private List<ArticleImage> images;
     private BottomSheetBehavior<CardView> bottomBehavior;
     private TextView bottomCaption;
     private ImageView previous;
@@ -63,7 +64,7 @@ public class ImageGalleryActivity extends ToolbarActivity {
 
         //Get the urls
         List<String> urls = new ArrayList<>(images.size());
-        for(SchamperArticleActivity.ArticleImage articleImage: images) {
+        for(ArticleImage articleImage: images) {
             urls.add(Article.getLargeImage(articleImage.getUrl()));
         }
 

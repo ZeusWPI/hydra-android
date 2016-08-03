@@ -12,7 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.SchamperArticleActivity;
+import be.ugent.zeus.hydra.models.schamper.ArticleImage;
 import be.ugent.zeus.hydra.recyclerview.viewholder.ImageViewHolder;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 
@@ -21,7 +21,7 @@ import be.ugent.zeus.hydra.utils.ViewUtils;
  *
  * @author Niko Strijbol
  */
-public class SchamperImageAdapter extends ItemAdapter<SchamperArticleActivity.ArticleImage, ImageViewHolder> {
+public class SchamperImageAdapter extends ItemAdapter<ArticleImage, ImageViewHolder> {
 
     @Override
     public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -76,14 +76,14 @@ public class SchamperImageAdapter extends ItemAdapter<SchamperArticleActivity.Ar
      * @return The images.
      */
     @NonNull
-    public ArrayList<SchamperArticleActivity.ArticleImage> getItems() {
+    public ArrayList<ArticleImage> getItems() {
         if(items.isEmpty()) {
             //If the list is empty, it is an empty list, so we give a new empty one.
             //Caching this is not necessary, as this should not occur (that frequently).
             return new ArrayList<>();
         } else {
             //If the list is not empty, implementation details guarantee that it's an ArrayList.
-            return (ArrayList<SchamperArticleActivity.ArticleImage>) items;
+            return (ArrayList<ArticleImage>) items;
         }
     }
 }
