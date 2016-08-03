@@ -1,11 +1,29 @@
 # Hydra (Android)
+[![Get it on Google Play](http://student.ugent.be/hydra/img/store-android.png)](http://play.google.com/store/apps/details?id=be.ugent.zeus.hydra)
 
-## Quickstart
+Android version of the Hydra app, available for Ice Cream Sandwich and up.
+
+## Contributing
+
+### Quickstart
+If you don't have Android Studio already, [download it and install it](https://developer.android.com/studio/index.html).
+
 * Clone the repo, i.e. `git clone git@github.com:ZeusWPI/hydra-android.git`
-* Download Android Studio
 * Choose 'Import Project (gradle etc.)'
 * Choose the local folder
 * Have fun :)
+
+### Keys
+You will need to copy the file `app/secrets.properties.example` to `app/secrets.properties`. 
+The keys do not have to be valid to build, but then you won't be able to use the Minerva API.
+Contact us in our Slack channel for more information.
+
+### Other repos
+
+* [Main repo](https://github.com/ZeusWPI/hydra) - contains the scrapers and APIs for the data
+* [Resources](https://github.com/ZeusWPI/hydra-shared) - contains resources (e.g. images) for logos 
+* [iOS](https://github.com/ZeusWPI/hydra-iOS) - iOS app
+* [Windows](https://github.com/ZeusWPI/hydra-windows) - Windows app
 
 ## Contributors
 * Tom 'silox' Naessens
@@ -17,12 +35,9 @@
 * Rien 'R13N' Maertens
 * Ellen Vanhove
 * Michiel 'Michilus' Van den Berghe
+* Niko 'niknetniko' Strijbol
 
 
-## TODO
+## Credits
 
-* About screen
-* Attribution:
-
-Sandwich by icon 54 from the Noun Project:
-<text x="0" y="39" fill="#000000" font-size="5px" font-weight="bold" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif">Created by icon 54</text><text x="0" y="44" fill="#000000" font-size="5px" font-weight="bold" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif">from the Noun Project</text>
+ * [Sandwich](https://thenounproject.com/term/sandwich/222438/) by icon 54 from the Noun Project
