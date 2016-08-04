@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity;
@@ -20,6 +21,8 @@ import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.requests.common.Request;
 import be.ugent.zeus.hydra.requests.minerva.UserInfoRequest;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.utils.customtabs.CustomTabsHelper;
 import org.joda.time.DateTime;
 
 /**
@@ -27,7 +30,7 @@ import org.joda.time.DateTime;
  *
  * @author Niko Strijbol
  */
-public class AuthActivity extends ToolbarAccountAuthenticatorActivity {
+public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements ActivityHelper.ConnectionCallback {
 
     private static final String TAG = "AuthActivity";
 
@@ -43,8 +46,10 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity {
 
     private AccountHelper helper = new AccountHelper();
     private AccountManager manager;
+    private ActivityHelper customTabActivityHelper;
 
     private TextView progressMessage;
+    private boolean launched = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +66,22 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity {
         manager = AccountManager.get(this);
 
         //Launch custom tab
-        progressMessage.setText(getResources().getString(R.string.auth_progress_permission));
-        NetworkUtils.launchCustomTabOrBrowser(helper.getRequestUri(), this);
+        progressMessage.setText(getString(R.string.auth_progress_prepare));
+        customTabActivityHelper = CustomTabsHelper.initHelper(this, this);
+        customTabActivityHelper.setIntentFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        customTabActivityHelper.mayLaunchUrl(Uri.parse(helper.getRequestUri()), null, null);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        customTabActivityHelper.bindCustomTabsService(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        customTabActivityHelper.unbindCustomTabsService(this);
     }
 
     /**
@@ -86,7 +105,7 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity {
             // Successful authorization: send the code and event.
             if (errorParameter == null) {
                 InfoTask task = new InfoTask();
-                progressMessage.setText(getResources().getString(R.string.auth_progress_information));
+                progressMessage.setText(getString(R.string.auth_progress_information));
                 task.execute(uri.getQueryParameter("code"));
             }
             // failed authorization
@@ -101,16 +120,33 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity {
     }
 
     private void finishOK(Intent intent) {
-        progressMessage.setText(getResources().getString(R.string.auth_progress_done));
+        progressMessage.setText(getString(R.string.auth_progress_done));
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
         finishUp();
     }
 
     private void finishWithError() {
-        progressMessage.setText(getResources().getString(R.string.auth_progress_failure));
+        progressMessage.setText(getString(R.string.auth_progress_failure));
         setAccountAuthenticatorResult(null);
         finishUp();
+    }
+
+    @Override
+    public void onCustomTabsConnected(ActivityHelper activityHelper) {
+        progressMessage.setText(getString(R.string.auth_progress_permission));
+        if(!launched) {
+            if(!NetworkUtils.isUgentNetwork(this)) {
+                Toast.makeText(getApplicationContext(), R.string.auth_maybe_not_ugent, Toast.LENGTH_LONG).show();
+            }
+            activityHelper.openCustomTab(Uri.parse(helper.getRequestUri()));
+            launched = true;
+        }
+    }
+
+    @Override
+    public void onCustomTabsDisconnected(ActivityHelper helper) {
+        Log.d(TAG, "The custom tab was disconnected.");
     }
 
     private class InfoTask extends AsyncTask<String, Void, Intent> {

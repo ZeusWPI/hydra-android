@@ -85,11 +85,10 @@
     <string name="home_card_description">Activiteit door %s</string>
     <string name="by_author">Door %s</string>
     <string name="pref_home_title">Startscherm</string>
-    <string name="title_activity_authentication">Authenticatie</string>
+    <string name="title_activity_authentication">Autorisatie</string>
     <string name="account_label">Minerva</string>
-    <string name="auth_needs_ugent">Helaas werkt de Minerva-integratie voorlopig enkel op het netwerk van de UGent (VPN of Eduroam).</string>
     <string name="auth_maybe_not_ugent">Je bent waarschijnlijk niet verbonden met het netwerk van de UGent. Minerva zal dan (voorlopig) niet werken.</string>
-    <string name="minerva_authorize">Authorizeren</string>
+    <string name="minerva_authorize">Autoriseren</string>
     <string name="need_auth">Om Minerva te gebruiken dien je toestemming te geven.</string>
     <string name="auth_denied">Je gaf geen toestemming om Minerva te gebruiken.</string>
     <string name="no_network">Kon niet verbinden.</string>
@@ -99,9 +98,10 @@
     <string name="logout">Afmelden</string>
     <string name="title_association_activity_detail">Vereniging</string>
 
+    <string name="auth_progress_prepare">Klaarmaken…</string>
     <string name="auth_progress_permission">Toegang vragen…</string>
     <string name="auth_progress_information">Informatie ophalen…</string>
-    <string name="auth_progress_failure">Fout bij het inloggen.</string>
+    <string name="auth_progress_failure">Niet ingelogd.</string>
     <string name="auth_progress_done">Klaar.</string>
 
 </resources>
