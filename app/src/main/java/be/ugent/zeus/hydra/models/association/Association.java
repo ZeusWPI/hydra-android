@@ -93,6 +93,10 @@ public class Association implements Parcelable, Serializable {
     }
 
     public String getImageLink() {
+        if(internalName == null) {
+            return null;
+        }
+        
         return "https://zeus.ugent.be/hydra/api/2.0/association/logo/" + internalName.toLowerCase() + ".png";
     }
 }
