@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder;
 
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -16,7 +15,7 @@ import com.squareup.picasso.Picasso;
  *
  * @author Niko Strijbol
  */
-public class ImageViewHolder extends RecyclerView.ViewHolder implements DataViewHolder<ArticleImage> {
+public class ImageViewHolder extends AbstractViewHolder<ArticleImage> {
 
     private ImageView view;
     private SchamperImageAdapter adapter;
@@ -38,7 +37,7 @@ public class ImageViewHolder extends RecyclerView.ViewHolder implements DataView
      * @param data The data.
      */
     @Override
-    public void populateData(ArticleImage data) {
+    public void populate(ArticleImage data) {
         Picasso.with(view.getContext()).load(data.getLargeUrl()).into(view);
 
         view.setOnClickListener(new View.OnClickListener() {
