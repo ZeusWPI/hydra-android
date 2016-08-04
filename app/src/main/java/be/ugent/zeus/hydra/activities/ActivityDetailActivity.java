@@ -10,8 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
@@ -91,7 +93,12 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
             }
         }
 
-        Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage);
+        if(event.getAssociation() != null && event.getAssociation().getImageLink() != null) {
+            Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage);
+        } else {
+            organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+        }
+
     }
 
     @Override
