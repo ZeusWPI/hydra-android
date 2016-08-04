@@ -18,6 +18,7 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.association.Activity;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -94,7 +95,17 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
         }
 
         if(event.getAssociation() != null && event.getAssociation().getImageLink() != null) {
-            Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage);
+            Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage, new Callback() {
+                @Override
+                public void onSuccess() {
+                    //OK
+                }
+
+                @Override
+                public void onError() {
+                    organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+                }
+            });
         } else {
             organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
