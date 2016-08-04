@@ -173,8 +173,8 @@ public class Activity implements Parcelable, Serializable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
-        dest.writeLong(start.getTime());
-        dest.writeLong(end.getTime());
+        dest.writeLong(start != null ? start.getTime() : 0);
+        dest.writeLong(end != null ? end.getTime() : 0);
         dest.writeString(location);
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
