@@ -8,9 +8,13 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 /**
- * Created by Juta on 03/03/2016.
+ * An info item.
+ *
+ * @author Juta
+ * @author Niko Strijbol
  */
 public class InfoItem implements Parcelable, Serializable {
+
     private String title;
     private String image;
     private String html;
@@ -19,27 +23,6 @@ public class InfoItem implements Parcelable, Serializable {
     private String urlAndroid;
     @SerializedName("subcontent")
     private InfoList subContent;
-
-    protected InfoItem(Parcel in) {
-        title = in.readString();
-        image = in.readString();
-        html = in.readString();
-        url = in.readString();
-        urlAndroid = in.readString();
-        in.readList(subContent, null);
-    }
-
-    public static final Creator<InfoItem> CREATOR = new Creator<InfoItem>() {
-        @Override
-        public InfoItem createFromParcel(Parcel in) {
-            return new InfoItem(in);
-        }
-
-        @Override
-        public InfoItem[] newArray(int size) {
-            return new InfoItem[size];
-        }
-    };
 
     public String getTitle() {
         return title;
@@ -88,6 +71,42 @@ public class InfoItem implements Parcelable, Serializable {
     public void setSubContent(InfoList subContent) {
         this.subContent = subContent;
     }
+
+    /**
+     * @return The type of this info item.
+     */
+    public InfoType getType() {
+        if (getUrlAndroid() != null) {
+            return InfoType.EXTERNAL_APP;
+        } else if (getHtml() != null) {
+            return InfoType.INTERNAL;
+        } else if (getSubContent() != null) {
+            return InfoType.SUBLIST;
+        } else {
+            return InfoType.EXTERNAL_LINK;
+        }
+    }
+
+    protected InfoItem(Parcel in) {
+        title = in.readString();
+        image = in.readString();
+        html = in.readString();
+        url = in.readString();
+        urlAndroid = in.readString();
+        in.readList(subContent, null);
+    }
+
+    public static final Creator<InfoItem> CREATOR = new Creator<InfoItem>() {
+        @Override
+        public InfoItem createFromParcel(Parcel in) {
+            return new InfoItem(in);
+        }
+
+        @Override
+        public InfoItem[] newArray(int size) {
+            return new InfoItem[size];
+        }
+    };
 
     @Override
     public int describeContents() {
