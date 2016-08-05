@@ -11,6 +11,6 @@
 		android:id="@+id/event_link"
 		android:orderInCategory="100"
 		app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_open_in_new_24dp"
+        android:icon="@drawable/ic_open_in_browser_24dp"
 		android:title="Open link" />
 </menu>
