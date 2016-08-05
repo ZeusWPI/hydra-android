@@ -30,8 +30,9 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapter.CardViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
 
-    private static final DateFormat INT_FORMATTER = new SimpleDateFormat("ddMMyyyy", Locale.getDefault());
-    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private static final Locale locale = new Locale("nl");
+    private static final DateFormat INT_FORMATTER = new SimpleDateFormat("ddMMyyyy", locale);
+    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("HH:mm", locale);
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
 

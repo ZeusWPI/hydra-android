@@ -7,7 +7,6 @@ import org.joda.time.Days;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -18,8 +17,9 @@ import java.util.Locale;
  */
 public class DateUtils {
 
-    private static SimpleDateFormat WEEK_FORMATTER = new SimpleDateFormat("w", Locale.getDefault());
-    private static SimpleDateFormat DAY_FORMATTER = new SimpleDateFormat("cccc", Locale.getDefault());
+    private static Locale locale = new Locale("nl");
+    private static SimpleDateFormat WEEK_FORMATTER = new SimpleDateFormat("w", locale);
+    private static SimpleDateFormat DAY_FORMATTER = new SimpleDateFormat("cccc", locale);
     private static DateFormat DATE_FORMATTER = SimpleDateFormat.getDateInstance();
 
     /**
