@@ -20,7 +20,7 @@ public class AbstractDateJsonAdapter extends TypeAdapter<Date> {
     private DateFormat format;
 
     public AbstractDateJsonAdapter(String dateFormat) {
-        format = new SimpleDateFormat(dateFormat, Locale.getDefault());
+        format = new SimpleDateFormat(dateFormat, new Locale("nl"));
     }
 
     @Override
