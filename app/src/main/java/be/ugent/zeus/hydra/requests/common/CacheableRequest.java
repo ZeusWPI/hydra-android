@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.requests.common;
 
 import java.io.Serializable;
 
-import be.ugent.zeus.hydra.loader.cache.CacheRequest;
+import be.ugent.zeus.hydra.cache.CacheRequest;
 
 /**
  * Cacheable request. This is also the main abstract request for Zeus & DSA API requests.

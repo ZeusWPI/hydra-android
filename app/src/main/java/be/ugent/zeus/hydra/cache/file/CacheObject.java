@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.loader.cache.file;
+package be.ugent.zeus.hydra.cache.file;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import org.joda.time.DateTime;

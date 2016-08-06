@@ -17,7 +17,7 @@ import be.ugent.zeus.hydra.auth.EndpointConfiguration;
 import be.ugent.zeus.hydra.auth.MinervaAuthenticator;
 import be.ugent.zeus.hydra.auth.models.BearerToken;
 import be.ugent.zeus.hydra.auth.models.GrantInformation;
-import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.requests.common.Request;
 import be.ugent.zeus.hydra.requests.minerva.UserInfoRequest;
 import be.ugent.zeus.hydra.utils.NetworkUtils;

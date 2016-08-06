@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.loader.cache;
+package be.ugent.zeus.hydra.cache;
 
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.requests.common.Request;

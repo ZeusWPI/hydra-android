@@ -9,7 +9,7 @@ import android.util.Log;
 
 import be.ugent.zeus.hydra.auth.models.BearerToken;
 import be.ugent.zeus.hydra.activities.minerva.AuthActivity;
-import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.requests.common.Request;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;

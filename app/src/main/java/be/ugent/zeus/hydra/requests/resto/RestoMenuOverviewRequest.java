@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.requests.resto;
 
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.loader.cache.Cache;
+import be.ugent.zeus.hydra.cache.Cache;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 

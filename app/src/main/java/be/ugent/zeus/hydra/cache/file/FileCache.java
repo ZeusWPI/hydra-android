@@ -1,14 +1,14 @@
-package be.ugent.zeus.hydra.loader.cache.file;
+package be.ugent.zeus.hydra.cache.file;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.loader.cache.Cache;
-import be.ugent.zeus.hydra.loader.cache.CacheRequest;
-import be.ugent.zeus.hydra.loader.cache.exceptions.CacheException;
-import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.cache.Cache;
+import be.ugent.zeus.hydra.cache.CacheRequest;
+import be.ugent.zeus.hydra.cache.exceptions.CacheException;
+import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
 import org.joda.time.Duration;
 
 import java.io.File;

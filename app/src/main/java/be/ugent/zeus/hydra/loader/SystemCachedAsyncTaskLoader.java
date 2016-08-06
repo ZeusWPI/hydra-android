@@ -1,15 +1,17 @@
-package be.ugent.zeus.hydra.fragments.settings.loader;
+package be.ugent.zeus.hydra.loader;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import be.ugent.zeus.hydra.loader.CachedAsyncTaskLoader;
-import be.ugent.zeus.hydra.loader.ThrowableEither;
-import be.ugent.zeus.hydra.loader.cache.CacheRequest;
+
+import be.ugent.zeus.hydra.cache.Cache;
+import be.ugent.zeus.hydra.cache.CacheRequest;
+import be.ugent.zeus.hydra.cache.file.SerializeCache;
 
 import java.io.Serializable;
 
 /**
- * A special version of the loader using the framework classes for the settings. DO NOT USE OUTSIDE THE SETTINGS.
+ * A special version of the loader using the framework classes for the settings. This loader should not be preferred
+ * over the other one.
  *
  * Once we have API 23+, we might switch to this, but not before that.
  *
@@ -17,24 +19,42 @@ import java.io.Serializable;
  *
  * @author Niko Strijbol
  */
-public class CachedAsyncTaskLoaderSystem<D extends Serializable> extends AsyncTaskLoader<ThrowableEither<D>> {
+public class SystemCachedAsyncTaskLoader<D extends Serializable> extends AsyncTaskLoader<ThrowableEither<D>> {
 
     private CacheRequest<D> request;
-
     private ThrowableEither<D> data = null;
+    private boolean refresh;
+    private final Cache cache;
 
-    private boolean refresh = false;
-
-    public CachedAsyncTaskLoaderSystem(CacheRequest<D> request, Context context) {
-        super(context);
-        this.request = request;
+    /**
+     * This loader will honour the cache settings of the request.
+     *
+     * @param request The request to execute.
+     * @param context The context.
+     */
+    public SystemCachedAsyncTaskLoader(CacheRequest<D> request, Context context) {
+        this(request, context, false);
     }
 
     /**
-     * @param refresh Set the refresh flag.
+     * This loader has the option to ignore the cache.
+     *
+     * @param request   The request to execute.
+     * @param context   The context.
+     * @param freshData If the data should be fresh or maybe cached.
      */
-    public void setRefresh(boolean refresh) {
-        this.refresh = refresh;
+    public SystemCachedAsyncTaskLoader(CacheRequest<D> request, Context context, boolean freshData) {
+        super(context);
+        this.request = request;
+        this.refresh = freshData;
+        this.cache = new SerializeCache(context);
+    }
+
+    /**
+     * Sets the refresh flag. This means the next request will get new data, regardless of the cache.
+     */
+    public void setNextRefresh() {
+        this.refresh = true;
     }
 
     /**
@@ -44,15 +64,21 @@ public class CachedAsyncTaskLoaderSystem<D extends Serializable> extends AsyncTa
      *
      * If the refresh flag is set, the existing cache is ignored, a new request is made and the result of that
      * request is saved in the cache.
+     *
+     * @return The data or the error that occured while getting the data.
      */
     @Override
     public ThrowableEither<D> loadInBackground() {
-        // NEEDS API 16 and UP
-//        if(isLoadInBackgroundCanceled()) {
-//            throw new OperationCanceledException();
-//        }
 
-        return CachedAsyncTaskLoader.loadInBackground(getContext(), refresh, request);
+        //If the request is cancelled.
+        //if (isLoadInBackgroundCanceled()) {
+        //    throw new OperationCanceledException();
+        //}
+
+        //Load the data, and set the refresh flag to false.
+        ThrowableEither<D> data = LoaderHelper.loadInBackground(cache, refresh, request);
+        this.refresh = false;
+        return data;
     }
 
     /**

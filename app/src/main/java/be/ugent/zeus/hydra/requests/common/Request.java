@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.requests.common;
 
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.loader.cache.Cache;
-import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.cache.Cache;
+import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
 
 /**
  * The basis interface for a request. A request is something that returns data, not unlike a AsyncTask, but without

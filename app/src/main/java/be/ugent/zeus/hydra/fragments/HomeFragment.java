@@ -24,7 +24,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.auth.AccountHelper;
 import be.ugent.zeus.hydra.loader.LoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
-import be.ugent.zeus.hydra.loader.cache.CacheRequest;
+import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.association.Activities;
 import be.ugent.zeus.hydra.models.association.Activity;
 import be.ugent.zeus.hydra.models.association.News;

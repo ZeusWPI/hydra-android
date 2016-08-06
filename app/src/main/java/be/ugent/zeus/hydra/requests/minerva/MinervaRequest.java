@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import be.ugent.zeus.hydra.auth.AccountHelper;
-import be.ugent.zeus.hydra.loader.cache.CacheRequest;
+import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.requests.common.TokenRequest;
 
 /**

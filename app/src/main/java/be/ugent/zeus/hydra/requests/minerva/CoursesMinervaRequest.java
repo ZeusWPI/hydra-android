@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.models.minerva.Courses;
 
-import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_WEEK;
+import static be.ugent.zeus.hydra.cache.Cache.ONE_WEEK;
 
 /**
  * @author feliciaan

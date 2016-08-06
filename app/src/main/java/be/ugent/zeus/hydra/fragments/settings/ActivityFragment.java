@@ -12,7 +12,7 @@ import android.view.View;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
-import be.ugent.zeus.hydra.fragments.settings.loader.CachedAsyncTaskLoaderSystem;
+import be.ugent.zeus.hydra.loader.SystemCachedAsyncTaskLoader;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.association.Associations;
 import be.ugent.zeus.hydra.requests.AssociationsRequest;
@@ -96,7 +96,7 @@ public class ActivityFragment extends PreferenceFragment implements LoaderManage
      */
     @Override
     public Loader<ThrowableEither<Associations>> onCreateLoader(int id, Bundle args) {
-        return new CachedAsyncTaskLoaderSystem<>(new AssociationsRequest(), getActivity().getApplicationContext());
+        return new SystemCachedAsyncTaskLoader<>(new AssociationsRequest(), getActivity().getApplicationContext());
     }
 
     /**

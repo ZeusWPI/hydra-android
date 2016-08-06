@@ -7,14 +7,14 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.Pair;
 
-import be.ugent.zeus.hydra.loader.cache.Cache;
-import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.loader.cache.file.SerializeCache;
+import be.ugent.zeus.hydra.cache.Cache;
+import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.cache.file.SerializeCache;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.Courses;
 import be.ugent.zeus.hydra.models.minerva.WhatsNew;
 
-import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_HOUR;
+import static be.ugent.zeus.hydra.cache.Cache.ONE_HOUR;
 
 /**
  * Created by feliciaan on 29/06/16.

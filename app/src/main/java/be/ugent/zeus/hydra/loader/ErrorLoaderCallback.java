@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.loader;
 
 import android.support.v4.app.LoaderManager;
 
-import be.ugent.zeus.hydra.loader.cache.CacheRequest;
+import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.requests.common.RequestExecutor;
 
 /**

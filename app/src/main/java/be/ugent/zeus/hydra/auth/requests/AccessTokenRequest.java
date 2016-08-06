@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.auth.OAuthConfiguration;
 import be.ugent.zeus.hydra.auth.models.BearerToken;
-import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.requests.common.Request;
 import com.google.gson.Gson;
 import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;

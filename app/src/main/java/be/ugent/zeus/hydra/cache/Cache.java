@@ -1,8 +1,8 @@
-package be.ugent.zeus.hydra.loader.cache;
+package be.ugent.zeus.hydra.cache;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
 
 import java.io.Serializable;
 

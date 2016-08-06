@@ -1,14 +1,15 @@
-package be.ugent.zeus.hydra.loader.cache.exceptions;
+package be.ugent.zeus.hydra.cache.exceptions;
 
 /**
  * @author Niko Strijbol
  * @version 1/06/2016
  */
-public class CacheException extends Exception {
+public class CacheReadException extends CacheException {
+
     /**
      * Constructs a new {@code Exception} that includes the current stack trace.
      */
-    public CacheException() {
+    public CacheReadException() {
     }
 
     /**
@@ -16,7 +17,7 @@ public class CacheException extends Exception {
      *
      * @param throwable the cause of this exception.
      */
-    public CacheException(Throwable throwable) {
+    public CacheReadException(Throwable throwable) {
         super(throwable);
     }
 }

@@ -3,50 +3,64 @@ package be.ugent.zeus.hydra.loader;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.os.OperationCanceledException;
-import be.ugent.zeus.hydra.loader.cache.Cache;
-import be.ugent.zeus.hydra.loader.cache.CacheRequest;
-import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.loader.cache.file.SerializeCache;
+
+import be.ugent.zeus.hydra.cache.Cache;
+import be.ugent.zeus.hydra.cache.CacheRequest;
+import be.ugent.zeus.hydra.cache.file.SerializeCache;
 
 import java.io.Serializable;
 
 /**
- * Cached task loader. The task loader requires a {@link CacheRequest} that will be executed.
+ * Cached task loader. The task loader requires a {@link CacheRequest} that will be executed. This loader uses a
+ * {@link SerializeCache} to cache the responses.
  *
  * For more information about the implementation of Loaders see the link below for a detailed guide.
  *
- * It is possible for this loader to return null. This can indicate an error or an empty value, depending on the
- * request that is being executed. While not ideal, this is a side effect of the API of Loaders.
+ * The loader has the option to ignore the cache. If set, the cache is ignored for the next request only. This request
+ * does save the data in the cache. All subsequent requests will honour the cache again. If you want to ignore the
+ * cache again, you need to call {@link #setNextRefresh()}.
  *
  * @param <D> The result of the request. This value is cached, and so it must be Serializable.
  *
- * @see <a href="http://www.androiddesignpatterns.com/2012/08/implementing-loaders.html">Implementing loaders</a>
- *
  * @author Niko Strijbol
+ * @see <a href="http://www.androiddesignpatterns.com/2012/08/implementing-loaders.html">Implementing loaders</a>
  */
 public class CachedAsyncTaskLoader<D extends Serializable> extends AsyncTaskLoader<ThrowableEither<D>> {
 
     private CacheRequest<D> request;
-
     private ThrowableEither<D> data = null;
-
     private boolean refresh;
+    private final Cache cache;
 
+    /**
+     * This loader will honour the cache settings of the request.
+     *
+     * @param request The request to execute.
+     * @param context The context.
+     */
     public CachedAsyncTaskLoader(CacheRequest<D> request, Context context) {
         this(request, context, false);
     }
 
+    /**
+     * This loader has the option to ignore the cache.
+     *
+     * @param request   The request to execute.
+     * @param context   The context.
+     * @param freshData If the data should be fresh or maybe cached.
+     */
     public CachedAsyncTaskLoader(CacheRequest<D> request, Context context, boolean freshData) {
         super(context);
         this.request = request;
         this.refresh = freshData;
+        this.cache = new SerializeCache(context);
     }
 
     /**
-     * @param refresh Set the refresh flag.
+     * Sets the refresh flag. This means the next request will get new data, regardless of the cache.
      */
-    public void setRefresh(boolean refresh) {
-        this.refresh = refresh;
+    public void setNextRefresh() {
+        this.refresh = true;
     }
 
     /**
@@ -56,39 +70,21 @@ public class CachedAsyncTaskLoader<D extends Serializable> extends AsyncTaskLoad
      *
      * If the refresh flag is set, the existing cache is ignored, a new request is made and the result of that
      * request is saved in the cache.
+     *
+     * @return The data or the error that occured while getting the data.
      */
     @Override
     public ThrowableEither<D> loadInBackground() {
-        if(isLoadInBackgroundCanceled()) {
+
+        //If the request is cancelled.
+        if (isLoadInBackgroundCanceled()) {
             throw new OperationCanceledException();
         }
 
-        ThrowableEither<D> data = loadInBackground(getContext(), refresh, request);
+        //Load the data, and set the refresh flag to false.
+        ThrowableEither<D> data = LoaderHelper.loadInBackground(cache, refresh, request);
         this.refresh = false;
         return data;
-    }
-
-    /**
-     * Helper function for re-use in the system task loader.
-     */
-    public static <T extends Serializable> ThrowableEither<T> loadInBackground(Context context, boolean refresh, CacheRequest<T> request) {
-        Cache cache = new SerializeCache(context);
-
-        ThrowableEither<T> returnValue;
-
-        try {
-            T content;
-            if (refresh) {
-                content = cache.get(request, Cache.NEVER);
-            } else {
-                content = cache.get(request);
-            }
-            returnValue = new ThrowableEither<>(content);
-        } catch (RequestFailureException e) {
-            returnValue = new ThrowableEither<>(e);
-        }
-
-        return returnValue;
     }
 
     /**

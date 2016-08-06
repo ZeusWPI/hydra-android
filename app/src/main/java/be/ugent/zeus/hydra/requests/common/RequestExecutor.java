@@ -6,9 +6,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.loader.cache.CacheRequest;
-import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.loader.cache.file.SerializeCache;
+import be.ugent.zeus.hydra.cache.CacheRequest;
+import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.cache.file.SerializeCache;
 
 /**
  * Utility methods relating to executing {@link Request}s.

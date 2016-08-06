@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.loader.cache.exceptions;
+package be.ugent.zeus.hydra.cache.exceptions;
 
 /**
  * @author Niko Strijbol
