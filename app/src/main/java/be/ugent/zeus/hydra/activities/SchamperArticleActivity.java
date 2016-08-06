@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.HydraApplication;
@@ -50,7 +49,6 @@ public class SchamperArticleActivity extends ToolbarActivity {
         TextView text = $(R.id.text);
         TextView intro = $(R.id.intro);
         TextView author = $(R.id.author);
-        LinearLayout wrapper = $(R.id.article_wrapper);
 
         RecyclerView imageGrid = $(R.id.image_grid);
         SchamperImageAdapter adapter = new SchamperImageAdapter();
