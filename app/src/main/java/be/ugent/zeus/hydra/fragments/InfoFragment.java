@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
@@ -44,6 +45,7 @@ public class InfoFragment extends LoaderFragment<InfoList> {
         if (bundle != null) {
             InfoList infoItems = new InfoList();
             ArrayList<InfoItem> list = bundle.getParcelableArrayList(InfoSubItemActivity.INFO_ITEMS);
+            assert list != null;
             infoItems.addAll(list);
             receiveData(infoItems);
             this.autoStart = false;
