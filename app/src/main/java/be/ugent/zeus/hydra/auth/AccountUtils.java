@@ -119,21 +119,20 @@ public class AccountUtils {
         try {
             Bundle result = manager.getAuthToken(account, EndpointConfiguration.DEFAULT_SCOPE, null, activity, null, null).getResult();
             String token = result.getString(AccountManager.KEY_AUTHTOKEN);
-            Log.d(TAG, "Got token.");
+            Log.d(TAG, "Got bundle.");
 
             //Check the expiration date
             DateTime expires = getExpirationDate(manager, account);
             DateTime now = DateTime.now();
 
             //The token is invalid, so get get new one.
-            if(now.isAfter(expires)) {
+            if(result.get(AccountManager.KEY_AUTHTOKEN) != null && now.isAfter(expires)) {
                 Log.d(TAG, "Expired token. Setting to null.");
                 manager.invalidateAuthToken(EndpointConfiguration.ACCOUNT_TYPE, token);
+                //Get the token again.
+                result = manager.getAuthToken(account, EndpointConfiguration.DEFAULT_SCOPE, null, activity, null, null).getResult();
+                token = result.getString(AccountManager.KEY_AUTHTOKEN);
             }
-
-            //Get the token again.
-            result = manager.getAuthToken(account, EndpointConfiguration.DEFAULT_SCOPE, null, activity, null, null).getResult();
-            token = result.getString(AccountManager.KEY_AUTHTOKEN);
 
             return token;
 

@@ -1,8 +1,5 @@
 package be.ugent.zeus.hydra.fragments;
 
-import java.io.Serializable;
-import java.util.*;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,9 +19,9 @@ import android.widget.ProgressBar;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.auth.AccountUtils;
+import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.loader.LoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
-import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.association.Activities;
 import be.ugent.zeus.hydra.models.association.Activity;
 import be.ugent.zeus.hydra.models.association.News;
@@ -48,6 +45,9 @@ import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
 import org.joda.time.DateTime;
+
+import java.io.Serializable;
+import java.util.*;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -463,7 +463,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         @Override
         public void receiveData(@NonNull Courses data) {
             announcementCallback.cards.clear();
-            WhatsNewRequest.getAllAnnouncements(data, getContext(), getActivity(), announcementCallback);
+            WhatsNewRequest.getAllAnnouncements(data, getContext(), null, announcementCallback);
         }
 
         /**

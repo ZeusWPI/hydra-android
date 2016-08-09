@@ -59,17 +59,18 @@ public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
 
         AsyncTask<Void, Pair<Course, WhatsNew>, Void> task = new AsyncTask<Void, Pair<Course, WhatsNew>, Void>() {
 
-            private Throwable lastError;
+            private Throwable error;
 
             @Override
             protected Void doInBackground(Void... voids) {
-                for(Course course : courses.getCourses()) {
-                    try {
+
+                try {
+                    for (Course course : courses.getCourses()) {
                         //noinspection unchecked
                         publishProgress(new Pair<>(course, cache.get(new WhatsNewRequest(course, context, activity))));
-                    } catch (RequestFailureException e) {
-                        lastError = e;
                     }
+                } catch (RequestFailureException e) {
+                    error = e;
                 }
 
                 return null;
@@ -84,9 +85,9 @@ public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                if(lastError != null) {
-                    Log.d(TAG, "An error occurred.", lastError);
-                    listener.error(lastError);
+                if(error != null) {
+                    Log.d(TAG, "An error occurred.", error);
+                    listener.error(error);
                 } else {
                     listener.completed();
                 }
