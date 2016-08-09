@@ -20,8 +20,6 @@
  */
 package be.ugent.zeus.hydra.auth.requests;
 
-import java.io.IOException;
-
 import android.util.Log;
 
 import org.springframework.http.HttpRequest;
@@ -29,14 +27,19 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
+import java.io.IOException;
+
 /**
- * Intercepts the HTTP Requests and injects the access token in the Uri.
+ * Intercepts the HTTP Requests and injects the access token in header of the request. The token is set in two headers:
+ * - Authorization
+ * - X-Bearer-Token
  *
  * @author kevin
  * @author Niko Strijbol
  */
 public class TokenRequestInterceptor implements ClientHttpRequestInterceptor {
 
+    @SuppressWarnings("FieldCanBeLocal")
     private final String TAG = "AccessTokenRequestInter";
 
     private final String token;

@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity;
-import be.ugent.zeus.hydra.auth.AccountHelper;
+import be.ugent.zeus.hydra.auth.AccountUtils;
 import be.ugent.zeus.hydra.auth.EndpointConfiguration;
 import be.ugent.zeus.hydra.auth.MinervaAuthenticator;
 import be.ugent.zeus.hydra.auth.models.BearerToken;
@@ -44,7 +44,6 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
     private String accountType;
     private String authType;
 
-    private AccountHelper helper = new AccountHelper();
     private AccountManager manager;
     private ActivityHelper customTabActivityHelper;
 
@@ -69,7 +68,7 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
         progressMessage.setText(getString(R.string.auth_progress_prepare));
         customTabActivityHelper = CustomTabsHelper.initHelper(this, this);
         customTabActivityHelper.setIntentFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        customTabActivityHelper.mayLaunchUrl(Uri.parse(helper.getRequestUri()), null, null);
+        customTabActivityHelper.mayLaunchUrl(Uri.parse(AccountUtils.getRequestUri()), null, null);
     }
 
     @Override
@@ -139,7 +138,7 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
             if(!NetworkUtils.isUgentNetwork(this)) {
                 Toast.makeText(getApplicationContext(), R.string.auth_maybe_not_ugent, Toast.LENGTH_LONG).show();
             }
-            activityHelper.openCustomTab(Uri.parse(helper.getRequestUri()));
+            activityHelper.openCustomTab(Uri.parse(AccountUtils.getRequestUri()));
             launched = true;
         }
     }
@@ -158,38 +157,38 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
 
             //First we get an auth code.
             try {
-                Request<BearerToken> request = helper.buildAuthTokenRequest(token);
+                Request<BearerToken> request = AccountUtils.buildAuthTokenRequest(token);
                 BearerToken result = request.performRequest();
 
                 //Get the information
-                UserInfoRequest infoRequest = new UserInfoRequest(result.accessToken);
+                UserInfoRequest infoRequest = new UserInfoRequest(result.getAccessToken());
                 GrantInformation information = infoRequest.performRequest();
 
                 //Account name
                 String name;
-                if(information.userAttributes.email.size() == 0) {
+                if(information.getUserAttributes().getEmail().size() == 0) {
                     name = "Minerva-account";
                 } else {
-                    name = information.userAttributes.email.get(0).toLowerCase();
+                    name = information.getUserAttributes().getEmail().get(0).toLowerCase();
                 }
 
                 //Save the account.
                 Account account = new Account(name, accountType);
                 if(getIntent().getBooleanExtra(ARG_ADDING_NEW_ACCOUNT, false)) {
-                    manager.addAccountExplicitly(account, result.refreshToken, null);
+                    manager.addAccountExplicitly(account, result.getRefreshToken(), null);
                 } else {
-                    manager.setPassword(account, result.refreshToken);
+                    manager.setPassword(account, result.getRefreshToken());
                 }
 
-                DateTime expiration = DateTime.now().plusSeconds(result.expiresIn);
+                DateTime expiration = DateTime.now().plusSeconds(result.getExpiresIn());
                 manager.setUserData(account, MinervaAuthenticator.EXP_DATE, MinervaAuthenticator.formatter.print(expiration));
-                manager.setAuthToken(account, authType, result.accessToken);
+                manager.setAuthToken(account, authType, result.getAccessToken());
 
                 //Make intent for return value
                 Intent res = new Intent();
                 res.putExtra(AccountManager.KEY_ACCOUNT_NAME, name);
                 res.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
-                res.putExtra(AccountManager.KEY_AUTHTOKEN, result.accessToken);
+                res.putExtra(AccountManager.KEY_AUTHTOKEN, result.getAccessToken());
 
                 return res;
             } catch (RequestFailureException e) {

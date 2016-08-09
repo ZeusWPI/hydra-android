@@ -1,7 +1,5 @@
 package be.ugent.zeus.hydra.auth;
 
-import java.io.IOException;
-
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AuthenticatorException;
@@ -11,8 +9,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.auth.models.BearerToken;
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.auth.models.BearerToken;
 import be.ugent.zeus.hydra.auth.requests.NewAccessTokenRequest;
 import be.ugent.zeus.hydra.auth.requests.RefreshAccessTokenRequest;
 import be.ugent.zeus.hydra.cache.file.FileCache;
@@ -24,15 +22,19 @@ import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
 import org.joda.time.DateTime;
 
+import java.io.IOException;
+
 import static be.ugent.zeus.hydra.auth.MinervaAuthenticator.EXP_DATE;
 
 /**
+ * Helper class for working with a Minerva account.
+ *
  * @author Niko Strijbol
- * @version 3/08/2016
  */
-public class AccountHelper {
+@SuppressWarnings("WeakerAccess")
+public class AccountUtils {
 
-    private static final String TAG = "AccountHelper";
+    private static final String TAG = "AccountUtils";
 
     //This never changes during runtime, so we use static here.
     private static final OAuthConfiguration config = new OAuthConfiguration.Builder()
@@ -46,7 +48,7 @@ public class AccountHelper {
      *
      * @return Request based on an authorization token.
      */
-    public Request<BearerToken> buildAuthTokenRequest(String authorizationCode) {
+    public static Request<BearerToken> buildAuthTokenRequest(String authorizationCode) {
         return new NewAccessTokenRequest(config, authorizationCode);
     }
 
@@ -55,14 +57,14 @@ public class AccountHelper {
      *
      * @return Request based on a refresh token.
      */
-    public Request<BearerToken> buildRefreshTokenRequest(String authorizationCode) {
+    public static Request<BearerToken> buildRefreshTokenRequest(String authorizationCode) {
         return new RefreshAccessTokenRequest(config, authorizationCode);
     }
 
     /**
      * @return The URI to be displayed to use authorize use.
      */
-    public String getRequestUri() {
+    public static String getRequestUri() {
         try {
             OAuthClientRequest request = OAuthClientRequest
                     .authorizationLocation(EndpointConfiguration.AUTHORIZATION_ENDPOINT)

@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2014 University Ghent
@@ -20,28 +20,57 @@
  */
 package be.ugent.zeus.hydra.auth.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.google.gson.annotations.SerializedName;
-
-public class UserAttributes implements Serializable{
+/**
+ * Minerva user attributes.
+ *
+ * @author Niko Strijbol
+ * @author UGent
+ */
+@SuppressWarnings("unused")
+public class UserAttributes implements Serializable {
 
     @SerializedName("mail")
-    public ArrayList<String> email;
+    private ArrayList<String> email;
 
+    @SuppressWarnings("SpellCheckingInspection")
     @SerializedName("jobcategory")
-    public ArrayList<String> jobCategory;
+    private ArrayList<String> jobCategory;
 
+    @SuppressWarnings("SpellCheckingInspection")
     @SerializedName("givenname")
-    public ArrayList<String> givenName;
+    private ArrayList<String> givenName;
 
     @SerializedName("surname")
-    public ArrayList<String> surName;
+    private ArrayList<String> surName;
 
-    public ArrayList<String> uid;
+    private ArrayList<String> uid;
 
     public String getFullName() {
         return givenName + " " + surName;
+    }
+
+    public ArrayList<String> getEmail() {
+        return email;
+    }
+
+    public ArrayList<String> getJobCategory() {
+        return jobCategory;
+    }
+
+    public ArrayList<String> getGivenName() {
+        return givenName;
+    }
+
+    public ArrayList<String> getSurName() {
+        return surName;
+    }
+
+    public ArrayList<String> getUid() {
+        return uid;
     }
 }

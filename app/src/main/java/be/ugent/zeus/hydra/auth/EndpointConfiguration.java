@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2014 University Ghent
@@ -18,7 +18,6 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 package be.ugent.zeus.hydra.auth;
 
 /**
@@ -29,16 +28,16 @@ package be.ugent.zeus.hydra.auth;
  */
 public class EndpointConfiguration {
 
+    //Endpoints
     public final static String AUTHORIZATION_ENDPOINT = "https://oauthq.ugent.be/authorize";
     public final static String TOKEN_ENDPOINT = "https://oauthq.ugent.be/access_token";
     public final static String GRANT_INFORMATION_ENDPOINT = "https://oauthq.ugent.be/tokeninfo";
 
-    /**
-     * The URL scheme of the callback.
-     */
+    //The URL scheme of the callback
     public final static String CALLBACK_SCHEME = "hydra-ugent";
     public final static String CALLBACK_URI = "https://zeus.ugent.be/hydra/oauth/callback";
 
+    //Account information
     public final static String ACCOUNT_TYPE = "be.ugent.minerva.oauth";
     public final static String DEFAULT_SCOPE = "MINERVA_NOTIFICATION_COUNT";
     //see https://github.ugent.be/Onderwijstechnologie/ugent-android-sdk/wiki/Registering-Your-Application

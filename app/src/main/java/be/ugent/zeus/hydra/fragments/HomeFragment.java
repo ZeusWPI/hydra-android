@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.auth.AccountHelper;
+import be.ugent.zeus.hydra.auth.AccountUtils;
 import be.ugent.zeus.hydra.loader.LoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.cache.CacheRequest;
@@ -153,7 +153,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         getLoaderManager().initLoader(SPECIAL_LOADER, null, specialEventCallback);
         getLoaderManager().initLoader(SCHAMPER_LOADER, null, schamperCallback);
         getLoaderManager().initLoader(NEWS_LOADER, null, newsCallback);
-        if(AccountHelper.hasAccount(getContext())) {
+        if(AccountUtils.hasAccount(getContext())) {
             getLoaderManager().initLoader(MINERVA_LOADER, null, courseCallback);
         }
     }
@@ -167,7 +167,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         getLoaderManager().restartLoader(SPECIAL_LOADER, null, specialEventCallback);
         getLoaderManager().restartLoader(SCHAMPER_LOADER, null, schamperCallback);
         getLoaderManager().restartLoader(NEWS_LOADER, null, newsCallback);
-        if(AccountHelper.hasAccount(getContext())) {
+        if(AccountUtils.hasAccount(getContext())) {
             getLoaderManager().restartLoader(MINERVA_LOADER, null, courseCallback);
         }
     }

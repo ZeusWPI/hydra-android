@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.auth.AccountHelper;
+import be.ugent.zeus.hydra.auth.AccountUtils;
 import be.ugent.zeus.hydra.auth.EndpointConfiguration;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.cache.CacheRequest;
@@ -90,7 +90,7 @@ public class MinervaFragment extends LoaderFragment<Courses> {
     }
 
     private boolean isLoggedIn() {
-        return AccountHelper.hasAccount(getContext());
+        return AccountUtils.hasAccount(getContext());
     }
 
     private void maybeLaunchAuthorization() {
@@ -177,7 +177,7 @@ public class MinervaFragment extends LoaderFragment<Courses> {
      */
     private void signOut() {
         //Sign out first, and then remove all data.
-        Account a = AccountHelper.getAccount(getContext());
+        Account a = AccountUtils.getAccount(getContext());
         Toast.makeText(getContext(), "Logging out...", Toast.LENGTH_SHORT).show();
         manager.removeAccount(a, new AccountManagerCallback<Boolean>() {
             @Override

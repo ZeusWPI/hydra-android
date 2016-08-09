@@ -1,13 +1,14 @@
 package be.ugent.zeus.hydra.requests.minerva;
 
-import java.io.Serializable;
-
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.Nullable;
 
-import be.ugent.zeus.hydra.auth.AccountHelper;
+import be.ugent.zeus.hydra.auth.AccountUtils;
 import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.requests.common.TokenRequest;
+
+import java.io.Serializable;
 
 /**
  * Request for Minerva data, using the account managers token. This request assumes a valid account is present. It is up
@@ -22,14 +23,20 @@ public abstract class MinervaRequest<T extends Serializable> extends TokenReques
     protected final Context context;
     protected final Activity activity;
 
-    public MinervaRequest(Class<T> clazz, Context context, Activity activity) {
+    /**
+     * @param clazz The class of the result.
+     * @param context The application context.
+     * @param activity The activity to use for the account. If this is not null, the AccountManager may interact with
+     *                 the user. If doing the request in the background, pass null.
+     */
+    public MinervaRequest(Class<T> clazz, Context context, @Nullable Activity activity) {
         super(clazz);
         this.context = context;
         this.activity = activity;
     }
 
     @Override
-    public String getToken() {
-        return AccountHelper.asyncAuthCode(context, activity);
+    protected String getToken() {
+        return AccountUtils.asyncAuthCode(context, activity);
     }
 }

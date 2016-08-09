@@ -54,13 +54,11 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
 
     private Context mContext;
     private AccountManager manager;
-    private AccountHelper helper;
 
     public MinervaAuthenticator(Context context) {
         super(context);
         this.mContext = context;
         this.manager = AccountManager.get(context);
-        this.helper = new AccountHelper();
     }
 
     @Override
@@ -152,17 +150,17 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
      */
     private String getRefreshAccessToken(Account account, String refreshToken) {
         //Make a request.
-        Request<BearerToken> request = helper.buildRefreshTokenRequest(refreshToken);
+        Request<BearerToken> request = AccountUtils.buildRefreshTokenRequest(refreshToken);
 
         try {
             //Execute the request.
             BearerToken token = request.performRequest();
-            manager.setPassword(account, token.refreshToken);
+            manager.setPassword(account, token.getRefreshToken());
 
-            DateTime expiration = DateTime.now().plusSeconds(token.expiresIn);
+            DateTime expiration = DateTime.now().plusSeconds(token.getExpiresIn());
             manager.setUserData(account, EXP_DATE, formatter.print(expiration));
 
-            return token.accessToken;
+            return token.getAccessToken();
         } catch (RequestFailureException e) {
             Log.i(TAG, "Getting refresh access token failed.", e);
             return null;

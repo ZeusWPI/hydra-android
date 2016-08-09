@@ -1,7 +1,5 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder.minerva;
 
-import java.util.List;
-
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,6 +14,8 @@ import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAnnouncementAdapt
 import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
 import be.ugent.zeus.hydra.requests.common.RequestExecutor;
 import be.ugent.zeus.hydra.utils.html.Utils;
+
+import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -54,7 +54,7 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
     public void populate(final Course course) {
 
         name.setText(course.getTitle());
-        final CharSequence tutor = course.getTutorName() == null ? "" : Utils.fromHtml(course.getTutorName());
+        final CharSequence tutor = Utils.fromHtml(course.getTutorName());
         subtitle.setText(tutor + " - " + course.getCode());
 
         arrow.setVisibility(View.GONE);

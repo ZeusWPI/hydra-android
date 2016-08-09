@@ -55,8 +55,7 @@ class NoTabActivityHelper implements ActivityHelper {
      * @param activity The activity to be bound to the service.
      */
     @Override
-    public void bindCustomTabsService(Activity activity) {
-    }
+    public void bindCustomTabsService(Activity activity) {}
 
     @Override
     public boolean mayLaunchUrl(Uri uri, Bundle extras, List<Bundle> otherLikelyBundles) {

@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.requests.common;
 
-import java.io.Serializable;
-import java.util.Collections;
-
 import be.ugent.zeus.hydra.auth.requests.TokenRequestInterceptor;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.Serializable;
+import java.util.Collections;
 
 /**
  * A request that requires a token.

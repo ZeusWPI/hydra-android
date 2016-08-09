@@ -38,6 +38,9 @@ public class OAuthConfiguration {
         this.CALLBACK_URI = builder.callbackUri;
     }
 
+    /**
+     * Fluent builder. The methods return the current object.
+     */
     public static class Builder {
         private String callbackUri;
         private String apiSecret;

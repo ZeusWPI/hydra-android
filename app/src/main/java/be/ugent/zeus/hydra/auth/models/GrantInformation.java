@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2014 University Ghent
@@ -18,18 +18,32 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 package be.ugent.zeus.hydra.auth.models;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.Collection;
 
-import com.google.gson.annotations.SerializedName;
+/**
+ * Information about the authorisation grant.
+ *
+ * @author Niko Strijbol
+ * @author UGent
+ */
+@SuppressWarnings("unused")
+public class GrantInformation implements Serializable {
 
-public class GrantInformation implements Serializable{
-
-    public Collection<String> scopes;
+    private Collection<String> scopes;
 
     @SerializedName("user")
-    public UserAttributes userAttributes;
+    private UserAttributes userAttributes;
+
+    public Collection<String> getScopes() {
+        return scopes;
+    }
+
+    public UserAttributes getUserAttributes() {
+        return userAttributes;
+    }
 }
