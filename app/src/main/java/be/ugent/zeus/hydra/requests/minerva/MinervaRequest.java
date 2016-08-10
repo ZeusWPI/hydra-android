@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.requests.minerva;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.auth.AccountUtils;
@@ -16,7 +17,7 @@ import java.io.Serializable;
  *
  * @author Niko Strijbol
  */
-public abstract class MinervaRequest<T extends Serializable> extends TokenRequest<T> implements CacheRequest<T> {
+public abstract class MinervaRequest<T extends Serializable> extends TokenRequest<T> implements CacheRequest<T, T> {
 
     protected static final String MINERVA_API = "https://minqas.ugent.be/api/rest/v2/";
 
@@ -38,5 +39,11 @@ public abstract class MinervaRequest<T extends Serializable> extends TokenReques
     @Override
     protected String getToken() {
         return AccountUtils.asyncAuthCode(context, activity);
+    }
+
+    @NonNull
+    @Override
+    public T getData(@NonNull T data) {
+        return data;
     }
 }

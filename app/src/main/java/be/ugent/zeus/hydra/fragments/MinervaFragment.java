@@ -1,7 +1,5 @@
 package be.ugent.zeus.hydra.fragments;
 
-import java.io.IOException;
-
 import android.accounts.*;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,14 +15,15 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.auth.AccountUtils;
 import be.ugent.zeus.hydra.auth.EndpointConfiguration;
-import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.cache.file.FileCache;
+import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.models.minerva.Courses;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAnnouncementAdapter;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
+
+import java.io.IOException;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -150,7 +149,7 @@ public class MinervaFragment extends LoaderFragment<Courses> {
      * @return The request that will be executed.
      */
     @Override
-    public CacheRequest<Courses> getRequest() {
+    public CoursesMinervaRequest getRequest() {
         return new CoursesMinervaRequest(getContext(), getActivity());
     }
 

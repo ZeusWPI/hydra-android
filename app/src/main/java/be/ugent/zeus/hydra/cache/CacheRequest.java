@@ -3,6 +3,8 @@ package be.ugent.zeus.hydra.cache;
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.requests.common.Request;
 
+import java.io.Serializable;
+
 /**
  * Represents a cacheable request for data. This is the class that provides the data for the {@link Cache}.
  *
@@ -13,7 +15,7 @@ import be.ugent.zeus.hydra.requests.common.Request;
  *
  * @author Niko Strijbol
  */
-public interface CacheRequest<T> extends Request<T> {
+public interface CacheRequest<T extends Serializable, R> extends Request<T> {
 
     /**
      * @return The key under which the result will be stored by the {@link Cache}.
@@ -25,4 +27,14 @@ public interface CacheRequest<T> extends Request<T> {
      * @return The maximal duration the data should be cached.
      */
     long getCacheDuration();
+
+    /**
+     * Convert the data T from the cache to the result data R.
+     *
+     * @param data The data.
+     *
+     * @return The data.
+     */
+    @NonNull
+    R getData(@NonNull T data);
 }

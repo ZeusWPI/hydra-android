@@ -42,11 +42,11 @@ public interface Cache {
      * @throws RequestFailureException
      */
     @NonNull
-    <T extends Serializable> T get(CacheRequest<T> request, long duration) throws RequestFailureException;
+    <T extends Serializable, R> R get(CacheRequest<T, R> request, long duration) throws RequestFailureException;
 
     //This will be a default method once android supports it.
     @NonNull
-    <T extends Serializable> T get(CacheRequest<T> request) throws RequestFailureException;
+    <T extends Serializable, R> R get(CacheRequest<T, R> request) throws RequestFailureException;
 
     //This will be a default method once android supports it.
     /**
@@ -54,9 +54,9 @@ public interface Cache {
      * @return The data or null if the request failed.
      */
     @Nullable
-    <T extends Serializable> T getOrNull(CacheRequest<T> request, long duration);
+    <T extends Serializable, R> R getOrNull(CacheRequest<T, R> request, long duration);
 
     //This will be a default method once android supports it.
     @Nullable
-    <T extends Serializable> T getOrNull(CacheRequest<T> request);
+    <T extends Serializable, R> R getOrNull(CacheRequest<T, R> request);
 }

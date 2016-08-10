@@ -27,7 +27,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public abstract class LoaderFragment<D extends Serializable> extends Fragment implements ErrorLoaderCallback<D> {
+public abstract class LoaderFragment<D extends Serializable> extends Fragment implements ErrorLoaderCallback<D, D> {
 
     private static final String TAG = "LoaderFragment";
 

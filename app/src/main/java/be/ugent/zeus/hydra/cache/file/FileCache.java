@@ -111,7 +111,7 @@ public abstract class FileCache implements Cache {
      * @throws RequestFailureException
      */
     @NonNull
-    public <T extends Serializable> T get(CacheRequest<T> request, long duration) throws RequestFailureException {
+    public <T extends Serializable, R> R get(CacheRequest<T, R> request, long duration) throws RequestFailureException {
         CacheObject<T> object = readOrNull(request.getCacheKey());
         T data;
 
@@ -129,11 +129,11 @@ public abstract class FileCache implements Cache {
             data = object.getData();
         }
 
-        return data;
+        return request.getData(data);
     }
 
     @NonNull
-    public <T extends Serializable> T get(CacheRequest<T> request) throws RequestFailureException {
+    public <T extends Serializable, R> R get(CacheRequest<T, R> request) throws RequestFailureException {
         return get(request, request.getCacheDuration());
     }
 
@@ -142,7 +142,7 @@ public abstract class FileCache implements Cache {
      * @return The data or null if the request failed.
      */
     @Nullable
-    public <T extends Serializable> T getOrNull(CacheRequest<T> request, long duration) {
+    public <T extends Serializable, R> R getOrNull(CacheRequest<T, R> request, long duration) {
         try {
             return get(request, duration);
         } catch (RequestFailureException e) {
@@ -151,7 +151,7 @@ public abstract class FileCache implements Cache {
     }
 
     @Nullable
-    public <T extends Serializable> T getOrNull(CacheRequest<T> request) {
+    public <T extends Serializable, R> R getOrNull(CacheRequest<T, R> request) {
         return getOrNull(request, request.getCacheDuration());
     }
 

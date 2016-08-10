@@ -7,6 +7,7 @@ import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.BuildConfig;
@@ -112,7 +113,8 @@ public class AccountUtils {
      *
      * @return The access token, or null if there is none.
      */
-    public static String asyncAuthCode(Context context, Activity activity) {
+    @Nullable
+    public static String asyncAuthCode(Context context, @Nullable Activity activity) {
         AccountManager manager = AccountManager.get(context);
         Account account = manager.getAccountsByType(EndpointConfiguration.ACCOUNT_TYPE)[0];
 

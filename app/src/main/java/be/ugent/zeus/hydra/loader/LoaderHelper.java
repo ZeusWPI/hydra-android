@@ -18,12 +18,12 @@ class LoaderHelper {
      *
      * @see CachedAsyncTaskLoader#loadInBackground()
      */
-    static <T extends Serializable> ThrowableEither<T> loadInBackground(Cache cache, boolean refresh, CacheRequest<T> request) {
+    static <T extends Serializable, R> ThrowableEither<R> loadInBackground(Cache cache, boolean refresh, CacheRequest<T, R> request) {
 
-        ThrowableEither<T> returnValue;
+        ThrowableEither<R> returnValue;
 
         try {
-            T content;
+            R content;
             if (refresh) {
                 //Get new data
                 content = cache.get(request, Cache.NEVER);
@@ -37,5 +37,4 @@ class LoaderHelper {
 
         return returnValue;
     }
-
 }

@@ -1,7 +1,5 @@
 package be.ugent.zeus.hydra.requests.common;
 
-import java.io.Serializable;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -9,6 +7,8 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.cache.file.SerializeCache;
+
+import java.io.Serializable;
 
 /**
  * Utility methods relating to executing {@link Request}s.
@@ -67,13 +67,13 @@ public class RequestExecutor {
      * @param <T> The result.
      * @return The task, should you wish to cancel it.
      */
-    public static <T extends Serializable> AsyncTask<Void, Void, T> executeAsync(Context context, final CacheRequest<T> request, final Callback<T> callback) {
+    public static <T extends Serializable, R> AsyncTask<Void, Void, R> executeAsync(Context context, final CacheRequest<T, R> request, final Callback<R> callback) {
 
         final SerializeCache cache = new SerializeCache(context);
 
-        RequestExecutorTask<T> task = new RequestExecutorTask<T>(callback) {
+        RequestExecutorTask<R> task = new RequestExecutorTask<R>(callback) {
             @Override
-            protected T getData() throws RequestFailureException {
+            protected R getData() throws RequestFailureException {
                 return cache.get(request);
             }
         };
@@ -88,6 +88,7 @@ public class RequestExecutor {
     private static abstract class RequestExecutorTask<T> extends AsyncTask<Void, Void, T> {
 
         private final Callback<T> callback;
+        private Throwable throwable;
 
         protected RequestExecutorTask(Callback<T> callback) {
             super();
@@ -99,7 +100,7 @@ public class RequestExecutor {
             try {
                 return getData();
             } catch (RequestFailureException e) {
-                callback.receiveError(e);
+                throwable = e;
                 return null;
             }
         }
@@ -109,7 +110,7 @@ public class RequestExecutor {
             if(t != null) {
                 callback.receiveData(t);
             } else {
-                callback.receiveError(new NullPointerException("The data may not be null."));
+                callback.receiveError(throwable);
             }
         }
 

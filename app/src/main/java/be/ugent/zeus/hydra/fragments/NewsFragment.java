@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.fragments.common.RecyclerLoaderFragment;
-import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.association.News;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.recyclerview.adapters.NewsAdapter;
@@ -35,7 +34,7 @@ public class NewsFragment extends RecyclerLoaderFragment<NewsItem, News, NewsAda
      * @return The request that will be executed.
      */
     @Override
-    public CacheRequest<News> getRequest() {
+    public NewsRequest getRequest() {
         return new NewsRequest();
     }
 }

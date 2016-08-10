@@ -25,10 +25,10 @@ import java.io.Serializable;
  * @author Niko Strijbol
  * @see <a href="http://www.androiddesignpatterns.com/2012/08/implementing-loaders.html">Implementing loaders</a>
  */
-public class CachedAsyncTaskLoader<D extends Serializable> extends AsyncTaskLoader<ThrowableEither<D>> {
+public class CachedAsyncTaskLoader<D extends Serializable, R> extends AsyncTaskLoader<ThrowableEither<R>> {
 
-    private CacheRequest<D> request;
-    private ThrowableEither<D> data = null;
+    private CacheRequest<D, R> request;
+    private ThrowableEither<R> data = null;
     private boolean refresh;
     private final Cache cache;
 
@@ -38,7 +38,7 @@ public class CachedAsyncTaskLoader<D extends Serializable> extends AsyncTaskLoad
      * @param request The request to execute.
      * @param context The context.
      */
-    public CachedAsyncTaskLoader(CacheRequest<D> request, Context context) {
+    public CachedAsyncTaskLoader(CacheRequest<D, R> request, Context context) {
         this(request, context, false);
     }
 
@@ -49,7 +49,7 @@ public class CachedAsyncTaskLoader<D extends Serializable> extends AsyncTaskLoad
      * @param context   The context.
      * @param freshData If the data should be fresh or maybe cached.
      */
-    public CachedAsyncTaskLoader(CacheRequest<D> request, Context context, boolean freshData) {
+    public CachedAsyncTaskLoader(CacheRequest<D, R> request, Context context, boolean freshData) {
         super(context);
         this.request = request;
         this.refresh = freshData;
@@ -71,10 +71,10 @@ public class CachedAsyncTaskLoader<D extends Serializable> extends AsyncTaskLoad
      * If the refresh flag is set, the existing cache is ignored, a new request is made and the result of that
      * request is saved in the cache.
      *
-     * @return The data or the error that occured while getting the data.
+     * @return The data or the error that occurred while getting the data.
      */
     @Override
-    public ThrowableEither<D> loadInBackground() {
+    public ThrowableEither<R> loadInBackground() {
 
         //If the request is cancelled.
         if (isLoadInBackgroundCanceled()) {
@@ -82,7 +82,7 @@ public class CachedAsyncTaskLoader<D extends Serializable> extends AsyncTaskLoad
         }
 
         //Load the data, and set the refresh flag to false.
-        ThrowableEither<D> data = LoaderHelper.loadInBackground(cache, refresh, request);
+        ThrowableEither<R> data = LoaderHelper.loadInBackground(cache, refresh, request);
         this.refresh = false;
         return data;
     }
@@ -91,7 +91,7 @@ public class CachedAsyncTaskLoader<D extends Serializable> extends AsyncTaskLoad
      * Pass the data to the listener if the loader was not reset and the loader was started.
      */
     @Override
-    public void deliverResult(ThrowableEither<D> data) {
+    public void deliverResult(ThrowableEither<R> data) {
 
         // The Loader has been reset; ignore the result and invalidate the data.
         if (isReset()) {
