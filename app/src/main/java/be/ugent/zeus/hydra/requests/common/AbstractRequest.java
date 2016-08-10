@@ -1,14 +1,13 @@
 package be.ugent.zeus.hydra.requests.common;
 
-import java.util.Map;
-
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Map;
 
 /**
  * Abstract request class.

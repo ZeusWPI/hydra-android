@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
@@ -24,13 +25,18 @@ class SpecialEventCallback extends HomeLoaderCallback<SpecialEventWrapper> {
 
     private static final boolean DEVELOPMENT = BuildConfig.DEBUG;
 
-    public SpecialEventCallback(Context context, HomeCardAdapter adapter, ProgressCallback callback) {
+    public SpecialEventCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
         super(context, adapter, callback);
     }
 
     @Override
     protected SpecialEventRequest getCacheRequest() {
         return new SpecialEventRequest();
+    }
+
+    @Override
+    protected int getErrorName() {
+        return R.string.fragment_home_error_special;
     }
 
     @Override
@@ -45,9 +51,6 @@ class SpecialEventCallback extends HomeLoaderCallback<SpecialEventWrapper> {
         return list;
     }
 
-    /**
-     * @return The card type of the cards that are produced here.
-     */
     @Override
     protected int getCardType() {
         return HomeCard.CardType.SPECIAL_EVENT;

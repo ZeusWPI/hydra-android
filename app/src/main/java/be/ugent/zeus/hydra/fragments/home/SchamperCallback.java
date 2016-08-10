@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.fragments.home;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.SchamperCard;
 import be.ugent.zeus.hydra.models.schamper.Article;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 class SchamperCallback extends HomeLoaderCallback<Articles> {
 
-    public SchamperCallback(Context context, HomeCardAdapter adapter, ProgressCallback callback) {
+    public SchamperCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
         super(context, adapter, callback);
     }
 
@@ -33,19 +34,18 @@ class SchamperCallback extends HomeLoaderCallback<Articles> {
         return schamperCardList;
     }
 
-    /**
-     * @return The card type of the cards that are produced here.
-     */
     @Override
     protected int getCardType() {
         return HomeCard.CardType.SCHAMPER;
     }
 
-    /**
-     * @return The request to execute.
-     */
     @Override
     protected SchamperArticlesRequest getCacheRequest() {
         return new SchamperArticlesRequest();
+    }
+
+    @Override
+    protected int getErrorName() {
+        return R.string.fragment_home_error_schamper;
     }
 }

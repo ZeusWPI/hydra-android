@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.loader;
 import android.support.v4.app.LoaderManager;
 
 import be.ugent.zeus.hydra.cache.CacheRequest;
-import be.ugent.zeus.hydra.requests.common.RequestExecutor;
+import be.ugent.zeus.hydra.requests.executor.RequestCallback;
 
 import java.io.Serializable;
 
@@ -16,7 +16,7 @@ import java.io.Serializable;
  *
  * @author Niko Strijbol
  */
-public interface ErrorLoaderCallback<D extends Serializable, R> extends LoaderManager.LoaderCallbacks<ThrowableEither<R>>, RequestExecutor.Callback<R> {
+public interface ErrorLoaderCallback<D extends Serializable, R> extends LoaderManager.LoaderCallbacks<ThrowableEither<R>>, RequestCallback<R> {
 
     /**
      * @return The request that will be executed.

@@ -104,4 +104,12 @@
     <string name="auth_progress_failure">Niet ingelogd.</string>
     <string name="auth_progress_done">Klaar.</string>
 
+    <string name="fragment_home_error">Kon %s niet laden.</string>
+    <string name="fragment_home_error_minerva">minerva</string>
+    <string name="fragment_home_error_event">activiteiten</string>
+    <string name="fragment_home_error_news">nieuws</string>
+    <string name="fragment_home_error_menu">menu</string>
+    <string name="fragment_home_error_schamper">Schamper</string>
+    <string name="fragment_home_error_special">evenement</string>
+
 </resources>

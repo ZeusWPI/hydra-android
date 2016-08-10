@@ -1,16 +1,16 @@
 package be.ugent.zeus.hydra.models.schamper;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import be.ugent.zeus.hydra.models.converters.ISO8601DateJsonAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by feliciaan on 16/06/16.

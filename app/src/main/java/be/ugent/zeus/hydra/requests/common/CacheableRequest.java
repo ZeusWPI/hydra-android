@@ -7,7 +7,8 @@ import be.ugent.zeus.hydra.cache.CacheRequest;
 import java.io.Serializable;
 
 /**
- * Cacheable request. This is also the main abstract request for Zeus & DSA API requests.
+ * Cacheable request. This is also the main abstract request for Zeus & DSA API requests. This is a simple cache request
+ * that does not do any additional processing of the data.
  *
  * @param <T> The type of the result of the request.
  *

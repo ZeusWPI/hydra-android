@@ -21,6 +21,7 @@ import java.io.Serializable;
  * cache again, you need to call {@link #setNextRefresh()}.
  *
  * @param <D> The result of the request. This value is cached, and so it must be Serializable.
+ * @param <R> The result of the cached request. This enables a cached request to produce a result that is not serializable.
  *
  * @author Niko Strijbol
  * @see <a href="http://www.androiddesignpatterns.com/2012/08/implementing-loaders.html">Implementing loaders</a>

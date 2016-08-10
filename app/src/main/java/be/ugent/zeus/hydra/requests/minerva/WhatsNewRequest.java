@@ -8,7 +8,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import be.ugent.zeus.hydra.cache.Cache;
-import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 import be.ugent.zeus.hydra.cache.file.SerializeCache;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.Courses;

@@ -12,7 +12,7 @@ import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.CourseWrapper;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAnnouncementAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
-import be.ugent.zeus.hydra.requests.common.RequestExecutor;
+import be.ugent.zeus.hydra.requests.executor.RequestCallback;
 import be.ugent.zeus.hydra.utils.html.Utils;
 
 import java.util.List;
@@ -61,7 +61,7 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
         progressBar.setVisibility(View.VISIBLE);
 
         final CourseWrapper wrapper = adapter.getWrapper(course);
-        wrapper.loadAnnouncements(new RequestExecutor.Callback<List<Announcement>>() {
+        wrapper.loadAnnouncements(new RequestCallback<List<Announcement>>() {
             @Override
             public void receiveData(@NonNull List<Announcement> data) {
                 //Hide progress bar

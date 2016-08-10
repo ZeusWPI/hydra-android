@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.fragments.home;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 class RestoMenuCallback extends HomeLoaderCallback<RestoOverview> {
 
-    public RestoMenuCallback(Context context, HomeCardAdapter adapter, ProgressCallback callback) {
+    public RestoMenuCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
         super(context, adapter, callback);
     }
 
@@ -44,5 +45,10 @@ class RestoMenuCallback extends HomeLoaderCallback<RestoOverview> {
     @Override
     protected RestoMenuOverviewRequest getCacheRequest() {
         return new RestoMenuOverviewRequest();
+    }
+
+    @Override
+    protected int getErrorName() {
+        return R.string.fragment_home_error_menu;
     }
 }

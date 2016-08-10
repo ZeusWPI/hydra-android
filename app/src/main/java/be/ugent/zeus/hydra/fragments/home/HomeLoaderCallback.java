@@ -3,15 +3,17 @@ package be.ugent.zeus.hydra.fragments.home;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.content.Loader;
 import android.support.v7.preference.PreferenceManager;
 
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.cache.CacheRequest;
-import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.loader.LoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
+import be.ugent.zeus.hydra.requests.common.ProcessedCacheableRequest;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -27,9 +29,9 @@ abstract class HomeLoaderCallback<D extends Serializable> extends LoaderCallback
 
     protected final Context context;
     protected final HomeCardAdapter adapter;
-    protected final ProgressCallback callback;
+    protected final FragmentCallback callback;
 
-    public HomeLoaderCallback(Context context, HomeCardAdapter adapter, ProgressCallback callback) {
+    public HomeLoaderCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
         this.context = context;
         this.adapter = adapter;
         this.callback = callback;
@@ -56,14 +58,15 @@ abstract class HomeLoaderCallback<D extends Serializable> extends LoaderCallback
         if(!isTypeActive()) {
             return;
         }
-        callback.onError(getCardType());
+
+        String e = this.context.getString(R.string.fragment_home_error);
+        String name = this.context.getString(getErrorName());
+
+        callback.onError(String.format(e, name));
     }
 
     /**
      * Convert the loaded data to a list of home cards. This method may be called in a different thread.
-     *
-     * TODO: should this be executed in a separate thread, or should we wrap the request in a new request that already
-     * TODO: takes care of this. For now, we just do this on the main thread.
      *
      * @param data The loaded data or null if nothing needs to happen.
      * @return The converted data.
@@ -92,58 +95,26 @@ abstract class HomeLoaderCallback<D extends Serializable> extends LoaderCallback
     }
 
     /**
+     * @return Name of this request for error messages.
+     */
+    @StringRes
+    protected abstract int getErrorName();
+
+    /**
      * {@inheritDoc}
      *
      * This implementation wraps the request in a new request that also prepares the data in the background.
      *
-     * Implementations should implement {@link #getCacheRequest()} instead.
+     * Implementations should implement {@link #getCacheRequest()} most of the time and leave this alone.
      */
     @Override
-    public final CacheRequest<D, List<HomeCard>> getRequest() {
-
-        return new CacheRequest<D, List<HomeCard>>() {
-
-            private CacheRequest<D, D> request = getCacheRequest();
-
-            @NonNull
-            @Override
-            public String getCacheKey() {
-                return request.getCacheKey();
-            }
-
-            @Override
-            public long getCacheDuration() {
-                return request.getCacheDuration();
-            }
-
+    public CacheRequest<D, List<HomeCard>> getRequest() {
+        return new ProcessedCacheableRequest<D, List<HomeCard>>(getCacheRequest()) {
             @NonNull
             @Override
             public List<HomeCard> getData(@NonNull D data) {
                 return convertData(data);
             }
-
-            @NonNull
-            @Override
-            public D performRequest() throws RequestFailureException {
-                return request.performRequest();
-            }
         };
-    }
-
-    public interface ProgressCallback {
-
-        /**
-         * Called when the loading was successfully completed.
-         */
-        void onCompleted();
-
-        /**
-         * Called when an error occurred during the loading.
-         *
-         * @param cardType The type of card that had a problem.
-         */
-        void onError(@HomeCard.CardType int cardType);
-
-        boolean shouldRefresh();
     }
 }

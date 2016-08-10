@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.MinervaAnnouncementsCard;
 import be.ugent.zeus.hydra.models.minerva.Course;
@@ -28,21 +29,11 @@ class CourseCallback extends HomeLoaderCallback<Courses> {
 
     private AnnouncementCallback announcementCallback;
 
-    public CourseCallback(Context context, HomeCardAdapter adapter, ProgressCallback callback) {
+    public CourseCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
         super(context, adapter, callback);
         announcementCallback = new AnnouncementCallback();
     }
 
-    /**
-     * Convert the loaded data to a list of home cards. This method may be called in a different thread.
-     * <p>
-     * TODO: should this be executed in a separate thread, or should we wrap the request in a new request that already
-     * TODO: takes care of this. For now, we just do this on the main thread.
-     *
-     * @param data The loaded data.
-     *
-     * @return The converted data.
-     */
     @Override
     protected List<HomeCard> convertData(@NonNull Courses data) {
         announcementCallback.cards.clear();
@@ -50,9 +41,6 @@ class CourseCallback extends HomeLoaderCallback<Courses> {
         return announcementCallback.cards;
     }
 
-    /**
-     * @return The card type of the cards that are produced here.
-     */
     @Override
     protected int getCardType() {
         return HomeCard.CardType.MINERVA_ANNOUNCEMENT;
@@ -64,6 +52,11 @@ class CourseCallback extends HomeLoaderCallback<Courses> {
         return new CoursesMinervaRequest(this.context, null);
     }
 
+    @Override
+    protected int getErrorName() {
+        return R.string.fragment_home_error_minerva;
+    }
+
     /**
      * Receive the announcements.
      */
@@ -73,7 +66,7 @@ class CourseCallback extends HomeLoaderCallback<Courses> {
 
         @Override
         public void onAnnouncementsAdded(WhatsNew whatsNew, Course course) {
-            if(!whatsNew.getAnnouncements().isEmpty()) {
+            if (!whatsNew.getAnnouncements().isEmpty()) {
                 cards.add(new MinervaAnnouncementsCard(whatsNew.getAnnouncements(), course));
                 adapter.updateCardItems(cards, HomeCard.CardType.MINERVA_ANNOUNCEMENT);
             }

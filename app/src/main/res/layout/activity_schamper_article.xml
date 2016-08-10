@@ -40,6 +40,8 @@
                     android:id="@+id/header_image"
                     android:scaleType="centerCrop"
                     android:transitionName="hero"
+                    android:maxHeight="320dp"
+                    android:adjustViewBounds="true"
                     tools:src="@drawable/ic_tabs_schamper"/>
 
                 <ImageView

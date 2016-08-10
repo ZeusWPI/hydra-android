@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.fragments.home;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.association.Activities;
 import be.ugent.zeus.hydra.models.association.Activity;
 import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 class EventCallback extends HomeLoaderCallback<Activities> {
 
-    public EventCallback(Context context, HomeCardAdapter adapter, ProgressCallback callback) {
+    public EventCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
         super(context, adapter, callback);
     }
 
@@ -31,13 +32,18 @@ class EventCallback extends HomeLoaderCallback<Activities> {
     }
 
     @Override
+    protected int getErrorName() {
+        return R.string.fragment_home_error_event;
+    }
+
+    @Override
     protected List<HomeCard> convertData(@NonNull Activities data) {
         List<Activity> filteredAssociationActivities = Activities.getPreferredActivities(data, context);
         Date date = new Date();
         List<HomeCard> list = new ArrayList<>();
-        for (Activity activity: filteredAssociationActivities) {
+        for (Activity activity : filteredAssociationActivities) {
             AssociationActivityCard activityCard = new AssociationActivityCard(activity);
-            if(activityCard.getPriority() > 0 && activity.getEndDate().after(date)) {
+            if (activityCard.getPriority() > 0 && activity.getEndDate().after(date)) {
                 list.add(activityCard);
             }
         }

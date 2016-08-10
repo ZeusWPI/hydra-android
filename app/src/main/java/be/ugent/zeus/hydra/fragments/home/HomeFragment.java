@@ -16,11 +16,7 @@ import android.widget.ProgressBar;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.auth.AccountUtils;
-import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
-
-import java.util.Collections;
-import java.util.Set;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -34,7 +30,9 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author Niko Strijbol
  * @author silox
  */
-public class HomeFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, HomeLoaderCallback.ProgressCallback {
+public class HomeFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, FragmentCallback {
+
+    public static final String PREF_ACTIVE_CARDS = "pref_disabled_cards";
 
     private static final String TAG = "HomeFragment";
 
@@ -71,7 +69,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
         progressBar = $(view, R.id.progress_bar);
 
-        HomeCardAdapter adapter = new HomeCardAdapter(PreferenceManager.getDefaultSharedPreferences(getActivity()));
+        HomeCardAdapter adapter = new HomeCardAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -97,11 +95,6 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
     }
 
-    private boolean isTypeActive(@HomeCard.CardType int cardType) {
-        Set<String> data = PreferenceManager.getDefaultSharedPreferences(getActivity()).getStringSet("pref_disabled_cards", Collections.<String>emptySet());
-        return !data.contains(String.valueOf(cardType));
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -113,7 +106,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
     }
 
     /**
-     * If the fragment goes to pauze, we don't need to restart the loaders.
+     * If the fragment goes to pause, we don't need to restart the loaders.
      */
     @Override
     public void onPause() {
@@ -151,7 +144,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        if(s.equals("pref_disabled_cards")) {
+        if(s.equals(PREF_ACTIVE_CARDS)) {
             preferencesUpdated = true;
         }
     }
@@ -165,22 +158,11 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         progressBar.setVisibility(View.GONE);
     }
 
-    /**
-     * TODO: convert to text
-     */
     @Override
-    public void onError(@HomeCard.CardType int cardType) {
+    public void onError(String errorMessage) {
         assert getView() != null;
-        Snackbar.make(getView(), "Oeps! Kon " + cardType + " niet ophalen.", Snackbar.LENGTH_LONG)
-                .setAction("Opnieuw proberen", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        shouldRefresh = true;
-                        restartLoaders();
-                        shouldRefresh = false;
-                    }
-                })
-                .show();
+        progressBar.setVisibility(View.GONE);
+        Snackbar.make(getView(), errorMessage, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.loader;
 
 import be.ugent.zeus.hydra.cache.Cache;
 import be.ugent.zeus.hydra.cache.CacheRequest;
-import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 
 import java.io.Serializable;
 

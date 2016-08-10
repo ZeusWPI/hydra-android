@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.fragments.home;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.association.News;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 class NewsCallback extends HomeLoaderCallback<News> {
 
-    public NewsCallback(Context context, HomeCardAdapter adapter, ProgressCallback callback) {
+    public NewsCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
         super(context, adapter, callback);
     }
 
@@ -40,19 +41,18 @@ class NewsCallback extends HomeLoaderCallback<News> {
         return newsItemCardList;
     }
 
-    /**
-     * @return The card type of the cards that are produced here.
-     */
     @Override
     protected int getCardType() {
         return HomeCard.CardType.NEWS_ITEM;
     }
 
-    /**
-     * @return The request to execute.
-     */
     @Override
     protected NewsRequest getCacheRequest() {
         return new NewsRequest();
+    }
+
+    @Override
+    protected int getErrorName() {
+        return R.string.fragment_home_error_news;
     }
 }

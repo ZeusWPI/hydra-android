@@ -13,6 +13,13 @@ import java.io.Serializable;
  * If your cache key or cache duration depends on the result, one solution is the perform the request as soon as
  * one the of the methods is called, and saving the result locally in the class.
  *
+ * The request itself must return data of type {@code T}. Sometimes it is necessary to do additional processing of the
+ * data. Because it is often handy to also do this on the background thread, the end result of the cache request should
+ * be data of type {@code <R>}
+ *
+ * @param <T> Type of data that is cached.
+ * @param <R> Result of the request.
+ *
  * @author Niko Strijbol
  */
 public interface CacheRequest<T extends Serializable, R> extends Request<T> {
@@ -31,7 +38,7 @@ public interface CacheRequest<T extends Serializable, R> extends Request<T> {
     /**
      * Convert the data T from the cache to the result data R.
      *
-     * @param data The data.
+     * @param data The data that the request produced.
      *
      * @return The data.
      */
