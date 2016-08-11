@@ -4,10 +4,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/content_spacing"
-    android:paddingBottom="@dimen/content_spacing"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:paddingLeft="@dimen/list_two_line_padding_vertical"
+    android:paddingRight="@dimen/list_two_line_padding_vertical"
+    android:paddingTop="@dimen/list_two_line_padding_horizontal"
+    android:paddingBottom="@dimen/list_two_line_padding_horizontal"
     android:gravity="top"
     android:background="?android:attr/selectableItemBackground"
     >
@@ -34,8 +34,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/sandwich_name"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="18sp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="@dimen/list_two_line_primary_text_size"
                     />
             </LinearLayout>
 
@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/sandwich_price_medium"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/list_two_line_primary_text_size"
                     android:textIsSelectable="true" />
 
                 <TextView

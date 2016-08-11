@@ -7,6 +7,7 @@
     android:id="@+id/info_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginBottom="@dimen/card_margin"
     app:contentPaddingLeft="@dimen/card_title_padding_vertical"
     app:contentPaddingRight="@dimen/card_title_padding_vertical"

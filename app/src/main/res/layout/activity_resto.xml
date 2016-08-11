@@ -36,6 +36,8 @@
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
             android:paddingTop="@dimen/content_spacing"
+            android:paddingLeft="@dimen/resto_menu_tab_spacing"
+            android:paddingRight="@dimen/resto_menu_tab_spacing"
             />
 
         <!-- The progress bar while loading the menu -->

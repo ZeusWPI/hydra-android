@@ -1,7 +1,5 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
@@ -15,6 +13,8 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.schamper.ArticleImage;
 import be.ugent.zeus.hydra.recyclerview.viewholder.ImageViewHolder;
 import be.ugent.zeus.hydra.utils.ViewUtils;
+
+import java.util.ArrayList;
 
 /**
  * Adapter for the vertically scrollable recycler with images in the Schamper articles.
@@ -48,7 +48,7 @@ public class SchamperImageAdapter extends ItemAdapter<ArticleImage, ImageViewHol
         FrameLayout.LayoutParams overP = new FrameLayout.LayoutParams(miniFabSize, miniFabSize);
         overP.gravity = Gravity.BOTTOM | Gravity.RIGHT;
         overP.rightMargin = miniFabMargin;
-        overP.leftMargin = miniFabMargin;
+        overP.bottomMargin = miniFabMargin;
         overlay.setLayoutParams(overP);
         overlay.setScaleType(ImageView.ScaleType.CENTER);
 
@@ -60,7 +60,7 @@ public class SchamperImageAdapter extends ItemAdapter<ArticleImage, ImageViewHol
         FrameLayout.LayoutParams tintP = new FrameLayout.LayoutParams(miniFabSize, miniFabSize);
         tintP.gravity = Gravity.BOTTOM | Gravity.RIGHT;
         tintP.rightMargin = miniFabMargin;
-        tintP.leftMargin = miniFabMargin;
+        tintP.bottomMargin = miniFabMargin;
         tintView.setLayoutParams(tintP);
         tintView.setBackgroundResource(R.drawable.gradient_full_circle);
 
