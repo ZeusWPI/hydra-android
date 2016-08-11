@@ -56,7 +56,7 @@ public class SerializeCache extends FileCache {
             stream = new ObjectInputStream(new FileInputStream(new File(directory, name)));
             return (CacheObject<T>) stream.readObject();
         } catch (ClassNotFoundException | IOException e) {
-            Log.e(TAG, "Error while reading.", e);
+            Log.w(TAG, "Error while reading.", e);
             throw new CacheException(e);
         } finally {
             try {

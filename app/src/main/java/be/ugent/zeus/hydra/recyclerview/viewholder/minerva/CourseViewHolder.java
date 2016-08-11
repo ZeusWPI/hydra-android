@@ -29,6 +29,7 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
     private TextView subtitle;
     private ProgressBar progressBar;
     private ImageView arrow;
+    private ImageView error;
     private View parent;
 
     private CourseAnnouncementAdapter adapter;
@@ -41,6 +42,7 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
         parent = $(itemView, R.id.parent_layout);
         progressBar = $(itemView, R.id.progress_bar);
         arrow = $(itemView, R.id.arrow_icon);
+        error = $(itemView, R.id.error_icon);
 
         this.adapter = adapter;
     }
@@ -58,6 +60,7 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
         subtitle.setText(tutor + " - " + course.getCode());
 
         arrow.setVisibility(View.GONE);
+        error.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
         final CourseWrapper wrapper = adapter.getWrapper(course);
@@ -77,6 +80,7 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
             public void receiveError(@NonNull Throwable e) {
                 //Hide progress bar.
                 progressBar.setVisibility(View.GONE);
+                error.setVisibility(View.VISIBLE);
             }
         });
 
@@ -102,9 +106,9 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
 
     private void toggleIcon(boolean expanded) {
         if(expanded) {
-            arrow.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+            arrow.setImageResource(R.drawable.ic_keyboard_arrow_down_24dp);
         } else {
-            arrow.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+            arrow.setImageResource(R.drawable.ic_keyboard_arrow_up_24dp);
         }
     }
 }
