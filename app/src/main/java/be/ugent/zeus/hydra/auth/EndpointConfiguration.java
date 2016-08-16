@@ -38,7 +38,7 @@ public class EndpointConfiguration {
     public final static String CALLBACK_URI = "https://zeus.ugent.be/hydra/oauth/callback";
 
     //Account information
-    public final static String ACCOUNT_TYPE = "be.ugent.minerva.oauth";
+    public final static String ACCOUNT_TYPE = "be.ugent.zeus.minerva.account";
     public final static String DEFAULT_SCOPE = "MINERVA_NOTIFICATION_COUNT";
     //see https://github.ugent.be/Onderwijstechnologie/ugent-android-sdk/wiki/Registering-Your-Application
 }

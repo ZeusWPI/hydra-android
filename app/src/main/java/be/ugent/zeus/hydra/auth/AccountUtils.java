@@ -7,6 +7,7 @@ import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.BuildConfig;
@@ -112,9 +113,27 @@ public class AccountUtils {
      *
      * @return The access token, or null if there is none.
      */
+    @Nullable
     public static String asyncAuthCode(Context context, Activity activity) {
         AccountManager manager = AccountManager.get(context);
         Account account = manager.getAccountsByType(EndpointConfiguration.ACCOUNT_TYPE)[0];
+
+        return asyncAuthCode(context, account, activity);
+    }
+
+    /**
+     * Get an access token. This is executed in a blocking manner. This method assumes an account is present. Use
+     * the method {@link #hasAccount(Context)} to find out if there actually is an account.
+     *
+     * @param context The application context.
+     * @param account The account.
+     * @param activity The current foreground activity, if you want the account manager to ask the user things.
+     *
+     * @return The access token, or null if there is none.
+     */
+    @Nullable
+    public static String asyncAuthCode(Context context, Account account, Activity activity) {
+        AccountManager manager = AccountManager.get(context);
 
         try {
             Bundle result = manager.getAuthToken(account, EndpointConfiguration.DEFAULT_SCOPE, null, activity, null, null).getResult();

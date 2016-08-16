@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.fragments;
 
-import java.io.IOException;
-
 import android.accounts.*;
+import android.content.ContentResolver;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,14 +17,20 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.auth.AccountUtils;
 import be.ugent.zeus.hydra.auth.EndpointConfiguration;
-import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.cache.file.FileCache;
-import be.ugent.zeus.hydra.models.minerva.Courses;
+import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
+import be.ugent.zeus.hydra.loader.DaoLoader;
+import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.minerva.database.CourseDao;
+import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAnnouncementAdapter;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
+import be.ugent.zeus.hydra.sync.SyncService;
 import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
+
+import java.io.IOException;
+import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -34,7 +40,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author silox
  * @author Niko Strijbol
  */
-public class MinervaFragment extends LoaderFragment<Courses> {
+public class MinervaFragment extends LoaderFragment<List<Course>> {
 
     private static final String TAG = "MinervaFragment";
 
@@ -102,6 +108,7 @@ public class MinervaFragment extends LoaderFragment<Courses> {
                         Bundle result = accountManagerFuture.getResult();
                         Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
                         maybeLoadData();
+                        onAccountAdded();
                     } catch (OperationCanceledException e) {
                         Toast.makeText(getContext().getApplicationContext(), "Je gaf geen toestemming om je account te gebruiken.", Toast.LENGTH_LONG).show();
                     } catch (IOException | AuthenticatorException e) {
@@ -110,6 +117,25 @@ public class MinervaFragment extends LoaderFragment<Courses> {
                 }
             }, null);
         }
+    }
+
+    private void onAccountAdded() {
+        //Get an account
+        Account account = AccountUtils.getAccount(getContext());
+
+        //Turn on periodic syncing
+        ContentResolver.setIsSyncable(account, SyncService.MINERVA_AUTHORITY, 1);
+        ContentResolver.setSyncAutomatically(account, SyncService.MINERVA_AUTHORITY, true);
+        //24 hours for now
+        long twentyFourHours = 86400;
+        ContentResolver.addPeriodicSync(account, SyncService.MINERVA_AUTHORITY, Bundle.EMPTY, twentyFourHours);
+
+        //Request first sync
+        Log.d(TAG, "Requesting sync...");
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        ContentResolver.requestSync(account, SyncService.MINERVA_AUTHORITY, bundle);
     }
 
     /**
@@ -140,18 +166,15 @@ public class MinervaFragment extends LoaderFragment<Courses> {
      * @param data The data.
      */
     @Override
-    public void receiveData(@NonNull Courses data) {
-        adapter.setItems(data.getCourses());
+    public void receiveData(@NonNull List<Course> data) {
+        adapter.setItems(data);
         recyclerView.setVisibility(View.VISIBLE);
         getActivity().invalidateOptionsMenu();
     }
 
-    /**
-     * @return The request that will be executed.
-     */
     @Override
-    public CacheRequest<Courses> getRequest() {
-        return new CoursesMinervaRequest(getContext(), getActivity());
+    public Loader<ThrowableEither<List<Course>>> onCreateLoader(int id, Bundle args) {
+        return new DaoLoader<>(getContext(), new CourseDao(getContext()));
     }
 
     @Override
@@ -167,6 +190,8 @@ public class MinervaFragment extends LoaderFragment<Courses> {
         if(item.getItemId() == R.id.action_logout) {
             signOut();
             return true;
+        } else if (item.getItemId() == R.id.action_sync) {
+            onAccountAdded();
         }
 
         return super.onOptionsItemSelected(item);
@@ -194,6 +219,8 @@ public class MinervaFragment extends LoaderFragment<Courses> {
                 destroyLoader();
                 //Delete cache
                 clearCache();
+                //Delete database
+                CourseDao.deleteAll(getContext());
                 //Reload options
                 getActivity().invalidateOptionsMenu();
             }

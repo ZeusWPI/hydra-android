@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.requests.minerva;
 
+import android.accounts.Account;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -18,6 +19,10 @@ public class CoursesMinervaRequest extends MinervaRequest<Courses> {
 
     public CoursesMinervaRequest(Context context, Activity activity) {
         super(Courses.class, context, activity);
+    }
+
+    public CoursesMinervaRequest(Context context, Account account, Activity activity) {
+        super(Courses.class, context, account, activity);
     }
 
     @Override

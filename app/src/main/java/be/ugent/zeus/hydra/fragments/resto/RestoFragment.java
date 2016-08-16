@@ -16,7 +16,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.MenuActivity;
 import be.ugent.zeus.hydra.activities.resto.MetaActivity;
 import be.ugent.zeus.hydra.activities.resto.SandwichActivity;
-import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
+import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
 import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
@@ -32,7 +32,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author Niko Strijbol
  * @author mivdnber
  */
-public class RestoFragment extends LoaderFragment<RestoOverview> {
+public class RestoFragment extends CachedLoaderFragment<RestoOverview> {
 
     //The hour after which every resto is closed.
     public static final int CLOSING_HOUR = 20;

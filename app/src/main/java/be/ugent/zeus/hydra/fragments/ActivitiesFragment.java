@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.SettingsActivity;
 import be.ugent.zeus.hydra.recyclerview.adapters.ActivityListAdapter;
-import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
+import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
 import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.association.Activities;
 import be.ugent.zeus.hydra.models.association.Activity;
@@ -34,7 +34,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author ellen
  * @author Niko Strijbol
  */
-public class ActivitiesFragment extends LoaderFragment<Activities> implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class ActivitiesFragment extends CachedLoaderFragment<Activities> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private ActivityListAdapter adapter;
     private LinearLayout noData;

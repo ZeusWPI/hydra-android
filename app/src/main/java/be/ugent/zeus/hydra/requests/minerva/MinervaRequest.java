@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.requests.minerva;
 
+import android.accounts.Account;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ public abstract class MinervaRequest<T extends Serializable> extends TokenReques
 
     protected final Context context;
     protected final Activity activity;
+    protected final Account account;
 
     /**
      * @param clazz The class of the result.
@@ -30,13 +32,29 @@ public abstract class MinervaRequest<T extends Serializable> extends TokenReques
      *                 the user. If doing the request in the background, pass null.
      */
     public MinervaRequest(Class<T> clazz, Context context, @Nullable Activity activity) {
+        this(clazz, context, null, activity);
+    }
+
+    /**
+     * @param clazz The class of the result.
+     * @param context The application context.
+     * @param account The account to work with. Pass null to get the default account.
+     * @param activity The activity to use for the account. If this is not null, the AccountManager may interact with
+     *                 the user. If doing the request in the background, pass null.
+     */
+    public MinervaRequest(Class<T> clazz, Context context, @Nullable Account account, @Nullable Activity activity) {
         super(clazz);
         this.context = context;
         this.activity = activity;
+        this.account = account;
     }
 
     @Override
     protected String getToken() {
-        return AccountUtils.asyncAuthCode(context, activity);
+        if(account == null) {
+            return AccountUtils.asyncAuthCode(context, activity);
+        } else {
+            return AccountUtils.asyncAuthCode(context, account, activity);
+        }
     }
 }

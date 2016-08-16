@@ -13,6 +13,9 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <!-- Sync -->
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
 
     <!-- Override API number constraints in libraries -->
     <!-- Override Custom Tabs -->
@@ -178,6 +181,7 @@
             </intent-filter>
         </activity>
 
+        <!-- Account service -->
         <service android:name=".auth.MinervaService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
@@ -185,6 +189,25 @@
             <meta-data android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
+
+        <!-- Sync service -->
+        <service
+            android:name=".sync.SyncService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data android:name="android.content.SyncAdapter"
+                android:resource="@xml/adapter_minerva_sync" />
+        </service>
+
+
+        <provider
+            android:name=".sync.StubProvider"
+            android:authorities="be.ugent.zeus.hydra.minerva.provider"
+            android:exported="false"
+            android:label="@string/sync_provider_label"
+            android:syncable="true"/>
 
     </application>
 
