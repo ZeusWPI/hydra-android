@@ -1,21 +1,16 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder.minerva;
 
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.CourseWrapper;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAnnouncementAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
-import be.ugent.zeus.hydra.requests.common.RequestExecutor;
 import be.ugent.zeus.hydra.utils.html.Utils;
-
-import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -61,24 +56,24 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
         progressBar.setVisibility(View.VISIBLE);
 
         final CourseWrapper wrapper = adapter.getWrapper(course);
-        wrapper.loadAnnouncements(new RequestExecutor.Callback<List<Announcement>>() {
-            @Override
-            public void receiveData(@NonNull List<Announcement> data) {
-                //Hide progress bar
-                progressBar.setVisibility(View.GONE);
-
-                //If there is data, show icon
-                if(!data.isEmpty()) {
-                    arrow.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void receiveError(@NonNull Throwable e) {
-                //Hide progress bar.
-                progressBar.setVisibility(View.GONE);
-            }
-        });
+//        wrapper.loadAnnouncements(new RequestExecutor.Callback<List<Announcement>>() {
+//            @Override
+//            public void receiveData(@NonNull List<Announcement> data) {
+//                //Hide progress bar
+//                progressBar.setVisibility(View.GONE);
+//
+//                //If there is data, show icon
+//                if(!data.isEmpty()) {
+//                    arrow.setVisibility(View.VISIBLE);
+//                }
+//            }
+//
+//            @Override
+//            public void receiveError(@NonNull Throwable e) {
+//                //Hide progress bar.
+//                progressBar.setVisibility(View.GONE);
+//            }
+//        });
 
         //Set onclick listener
         parent.setOnClickListener(new View.OnClickListener() {

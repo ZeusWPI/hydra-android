@@ -26,7 +26,7 @@ package be.ugent.zeus.hydra.auth;
  * @author Niko Strijbol
  * @author kevin
  */
-public class EndpointConfiguration {
+public class MinervaConfig {
 
     //Endpoints
     public final static String AUTHORIZATION_ENDPOINT = "https://oauthq.ugent.be/authorize";
@@ -38,7 +38,15 @@ public class EndpointConfiguration {
     public final static String CALLBACK_URI = "https://zeus.ugent.be/hydra/oauth/callback";
 
     //Account information
-    public final static String ACCOUNT_TYPE = "be.ugent.zeus.minerva.account";
+    public final static String ACCOUNT_TYPE = "be.ugent.zeus.hydra.minerva.account";
+    public static final String ACCOUNT_AUTHORITY = "be.ugent.zeus.hydra.minerva.provider";
+
+    //Scopes
+    //These are currently not used.
     public final static String DEFAULT_SCOPE = "MINERVA_NOTIFICATION_COUNT";
+    public static final String SCOPE_NOTIFICATION_COUNT = "MINERVA_NOTIFICATION_COUNT";
+    public static final String SCOPE_COURSE_LIST = "MINERVA_COURSE_LIST";
+    public static final String SCOPE_COURSE_CONTENT = "MINERVA_COURSE_CONTENT";
+
     //see https://github.ugent.be/Onderwijstechnologie/ugent-android-sdk/wiki/Registering-Your-Application
 }

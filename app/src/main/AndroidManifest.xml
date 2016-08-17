@@ -187,23 +187,23 @@
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
             <meta-data android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
+                android:resource="@xml/minerva_authenticator" />
         </service>
 
         <!-- Sync service -->
         <service
-            android:name=".sync.SyncService"
+            android:name=".minerva.sync.SyncService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>
             </intent-filter>
             <meta-data android:name="android.content.SyncAdapter"
-                android:resource="@xml/adapter_minerva_sync" />
+                android:resource="@xml/minerva_sync_adapter" />
         </service>
 
 
         <provider
-            android:name=".sync.StubProvider"
+            android:name=".minerva.sync.StubProvider"
             android:authorities="be.ugent.zeus.hydra.minerva.provider"
             android:exported="false"
             android:label="@string/sync_provider_label"

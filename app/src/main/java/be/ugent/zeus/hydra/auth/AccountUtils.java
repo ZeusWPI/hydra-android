@@ -41,7 +41,7 @@ public class AccountUtils {
     private static final OAuthConfiguration config = new OAuthConfiguration.Builder()
             .apiKey(BuildConfig.OAUTH_ID)
             .apiSecret(BuildConfig.OAUTH_SECRET)
-            .callbackUri(EndpointConfiguration.CALLBACK_URI)
+            .callbackUri(MinervaConfig.CALLBACK_URI)
             .build();
 
     /**
@@ -68,7 +68,7 @@ public class AccountUtils {
     public static String getRequestUri() {
         try {
             OAuthClientRequest request = OAuthClientRequest
-                    .authorizationLocation(EndpointConfiguration.AUTHORIZATION_ENDPOINT)
+                    .authorizationLocation(MinervaConfig.AUTHORIZATION_ENDPOINT)
                     .setResponseType(ResponseType.CODE.toString())
                     .setClientId(config.API_KEY)
                     .setRedirectURI(config.CALLBACK_URI)
@@ -91,7 +91,7 @@ public class AccountUtils {
      */
     public static boolean hasAccount(Context context) {
         AccountManager manager = AccountManager.get(context);
-        Account[] accounts = manager.getAccountsByType(EndpointConfiguration.ACCOUNT_TYPE);
+        Account[] accounts = manager.getAccountsByType(MinervaConfig.ACCOUNT_TYPE);
         if(accounts.length >= 1) {
             return true;
         } else {
@@ -116,7 +116,7 @@ public class AccountUtils {
     @Nullable
     public static String asyncAuthCode(Context context, Activity activity) {
         AccountManager manager = AccountManager.get(context);
-        Account account = manager.getAccountsByType(EndpointConfiguration.ACCOUNT_TYPE)[0];
+        Account account = manager.getAccountsByType(MinervaConfig.ACCOUNT_TYPE)[0];
 
         return asyncAuthCode(context, account, activity);
     }
@@ -136,7 +136,7 @@ public class AccountUtils {
         AccountManager manager = AccountManager.get(context);
 
         try {
-            Bundle result = manager.getAuthToken(account, EndpointConfiguration.DEFAULT_SCOPE, null, activity, null, null).getResult();
+            Bundle result = manager.getAuthToken(account, MinervaConfig.DEFAULT_SCOPE, null, activity, null, null).getResult();
             String token = result.getString(AccountManager.KEY_AUTHTOKEN);
             Log.d(TAG, "Got bundle.");
 
@@ -147,9 +147,9 @@ public class AccountUtils {
             //The token is invalid, so get get new one.
             if(result.get(AccountManager.KEY_AUTHTOKEN) != null && now.isAfter(expires)) {
                 Log.d(TAG, "Expired token. Setting to null.");
-                manager.invalidateAuthToken(EndpointConfiguration.ACCOUNT_TYPE, token);
+                manager.invalidateAuthToken(MinervaConfig.ACCOUNT_TYPE, token);
                 //Get the token again.
-                result = manager.getAuthToken(account, EndpointConfiguration.DEFAULT_SCOPE, null, activity, null, null).getResult();
+                result = manager.getAuthToken(account, MinervaConfig.DEFAULT_SCOPE, null, activity, null, null).getResult();
                 token = result.getString(AccountManager.KEY_AUTHTOKEN);
             }
 
@@ -167,7 +167,7 @@ public class AccountUtils {
      * @return The account.
      */
     public static Account getAccount(Context context) {
-       return AccountManager.get(context).getAccountsByType(EndpointConfiguration.ACCOUNT_TYPE)[0];
+       return AccountManager.get(context).getAccountsByType(MinervaConfig.ACCOUNT_TYPE)[0];
     }
 
     /**

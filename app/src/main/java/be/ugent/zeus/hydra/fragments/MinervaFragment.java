@@ -16,17 +16,18 @@ import android.widget.Toast;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.auth.AccountUtils;
-import be.ugent.zeus.hydra.auth.EndpointConfiguration;
+import be.ugent.zeus.hydra.auth.MinervaConfig;
 import be.ugent.zeus.hydra.cache.file.FileCache;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.DaoLoader;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
-import be.ugent.zeus.hydra.minerva.database.CourseDao;
+import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
+import be.ugent.zeus.hydra.minerva.course.CourseDao;
+import be.ugent.zeus.hydra.minerva.sync.SyncAdapter;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAnnouncementAdapter;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
-import be.ugent.zeus.hydra.sync.SyncService;
 import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 
 import java.io.IOException;
@@ -44,13 +45,12 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
 
     private static final String TAG = "MinervaFragment";
 
-    private static final int AUTH_REQUEST = 1;
-
     private RecyclerView recyclerView;
     private View authWrapper;
 
     private CourseAnnouncementAdapter adapter;
     private AccountManager manager;
+    private CourseDao courseDao;
 
     /**
      * Do not automatically start the loaders, we do it by hand.
@@ -76,6 +76,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         hideProgressBar();
 
         this.manager = AccountManager.get(getContext());
+        this.courseDao = new CourseDao(getContext());
 
         Button authorize = $(view, R.id.authorize);
         authorize.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +102,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
 
     private void maybeLaunchAuthorization() {
         if (!isLoggedIn()) {
-            manager.addAccount(EndpointConfiguration.ACCOUNT_TYPE, EndpointConfiguration.DEFAULT_SCOPE, null, null, getActivity(), new AccountManagerCallback<Bundle>() {
+            manager.addAccount(MinervaConfig.ACCOUNT_TYPE, MinervaConfig.DEFAULT_SCOPE, null, null, getActivity(), new AccountManagerCallback<Bundle>() {
                 @Override
                 public void run(AccountManagerFuture<Bundle> accountManagerFuture) {
                     try {
@@ -123,19 +124,36 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         //Get an account
         Account account = AccountUtils.getAccount(getContext());
 
+        ContentResolver.setIsSyncable(account, MinervaConfig.ACCOUNT_AUTHORITY, 1);
         //Turn on periodic syncing
-        ContentResolver.setIsSyncable(account, SyncService.MINERVA_AUTHORITY, 1);
-        ContentResolver.setSyncAutomatically(account, SyncService.MINERVA_AUTHORITY, true);
+       // ContentResolver.setSyncAutomatically(account, MinervaConfig.ACCOUNT_AUTHORITY, true);
+        //TODO: is the above necessary? No idea, some say yes, others say no.
         //24 hours for now
         long twentyFourHours = 86400;
-        ContentResolver.addPeriodicSync(account, SyncService.MINERVA_AUTHORITY, Bundle.EMPTY, twentyFourHours);
+        ContentResolver.addPeriodicSync(account, MinervaConfig.ACCOUNT_AUTHORITY, Bundle.EMPTY, twentyFourHours);
 
         //Request first sync
         Log.d(TAG, "Requesting sync...");
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        ContentResolver.requestSync(account, SyncService.MINERVA_AUTHORITY, bundle);
+        bundle.putBoolean(SyncAdapter.FIRST_SYNC, true);
+        ContentResolver.requestSync(account, MinervaConfig.ACCOUNT_AUTHORITY, bundle);
+    }
+
+    private void requestSync(Account account, Bundle bundle) {
+        //Request first sync
+        Log.d(TAG, "Requesting sync...");
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        ContentResolver.requestSync(account, MinervaConfig.ACCOUNT_AUTHORITY, bundle);
+    }
+
+    private void manualSync() {
+        //Get an account
+        Account account = AccountUtils.getAccount(getContext());
+        Bundle bundle = new Bundle();
+        requestSync(account, bundle);
     }
 
     /**
@@ -174,7 +192,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
 
     @Override
     public Loader<ThrowableEither<List<Course>>> onCreateLoader(int id, Bundle args) {
-        return new DaoLoader<>(getContext(), new CourseDao(getContext()));
+        return new DaoLoader<>(getContext(), courseDao);
     }
 
     @Override
@@ -191,7 +209,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
             signOut();
             return true;
         } else if (item.getItemId() == R.id.action_sync) {
-            onAccountAdded();
+            manualSync();
         }
 
         return super.onOptionsItemSelected(item);
@@ -203,6 +221,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
     private void signOut() {
         //Sign out first, and then remove all data.
         Account a = AccountUtils.getAccount(getContext());
+        ContentResolver.cancelSync(a, MinervaConfig.ACCOUNT_AUTHORITY);
         Toast.makeText(getContext(), "Logging out...", Toast.LENGTH_SHORT).show();
         manager.removeAccount(a, new AccountManagerCallback<Boolean>() {
             @Override
@@ -220,7 +239,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
                 //Delete cache
                 clearCache();
                 //Delete database
-                CourseDao.deleteAll(getContext());
+                clearDatabase();
                 //Reload options
                 getActivity().invalidateOptionsMenu();
             }
@@ -235,5 +254,11 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         FileCache.deleteStartingWith(CoursesMinervaRequest.BASE_KEY, getContext().getApplicationContext());
         //Delete all courses
         FileCache.deleteStartingWith(WhatsNewRequest.BASE_KEY, getContext().getApplicationContext());
+    }
+
+    private void clearDatabase() {
+        courseDao.deleteAll();
+        AnnouncementDao announcementDao = new AnnouncementDao(getContext());
+        announcementDao.deleteAll();
     }
 }

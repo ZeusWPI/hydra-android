@@ -16,6 +16,7 @@ public class Course implements Serializable {
     @SerializedName("tutor_name")
     private String tutorName;
     private String student;
+    private int academicYear;
 
     public String getId() {
         return id;
@@ -63,5 +64,13 @@ public class Course implements Serializable {
 
     public void setStudent(String student) {
         this.student = student;
+    }
+
+    public int getAcademicYear() {
+        return academicYear;
+    }
+
+    public void setAcademicYear(int academicYear) {
+        this.academicYear = academicYear;
     }
 }

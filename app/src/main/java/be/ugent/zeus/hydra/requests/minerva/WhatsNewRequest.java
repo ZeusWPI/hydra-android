@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.Pair;
 
@@ -27,7 +28,7 @@ public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
 
     private Course course;
 
-    public WhatsNewRequest(Course course, Context context, Activity activity) {
+    public WhatsNewRequest(Course course, Context context, @Nullable Activity activity) {
         super(WhatsNew.class, context, activity);
         this.course = course;
     }

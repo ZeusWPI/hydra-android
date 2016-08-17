@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.auth.requests;
 
 import android.util.Log;
 
-import be.ugent.zeus.hydra.auth.EndpointConfiguration;
+import be.ugent.zeus.hydra.auth.MinervaConfig;
 import be.ugent.zeus.hydra.auth.OAuthConfiguration;
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.URLConnectionClient;
@@ -40,7 +40,7 @@ public class NewAccessTokenRequest extends AccessTokenRequest {
     protected OAuthJSONAccessTokenResponse getToken() throws OAuthProblemException, OAuthSystemException {
         Log.d(TAG, "Requesting access token based on the authorisation code.");
         OAuthClientRequest request = OAuthClientRequest
-                .tokenLocation(EndpointConfiguration.TOKEN_ENDPOINT)
+                .tokenLocation(MinervaConfig.TOKEN_ENDPOINT)
                 .setGrantType(GrantType.AUTHORIZATION_CODE)
                 .setClientId(configData.API_KEY)
                 .setClientSecret(configData.API_SECRET)

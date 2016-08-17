@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.requests.minerva;
 
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.auth.EndpointConfiguration;
+import be.ugent.zeus.hydra.auth.MinervaConfig;
 import be.ugent.zeus.hydra.auth.models.GrantInformation;
 import be.ugent.zeus.hydra.requests.common.TokenRequest;
 
@@ -28,7 +28,7 @@ public class UserInfoRequest extends TokenRequest<GrantInformation> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return EndpointConfiguration.GRANT_INFORMATION_ENDPOINT;
+        return MinervaConfig.GRANT_INFORMATION_ENDPOINT;
     }
 
     /**

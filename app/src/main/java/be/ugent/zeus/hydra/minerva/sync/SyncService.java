@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.sync;
+package be.ugent.zeus.hydra.minerva.sync;
 
 import android.app.Service;
 import android.content.Intent;
@@ -6,15 +6,14 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 /**
+ * Minerva synchronisation service.
+ *
  * @author Niko Strijbol
- * @version 16/08/2016
  */
 public class SyncService extends Service {
 
-    public static final String MINERVA_AUTHORITY = "be.ugent.zeus.hydra.minerva.provider";
-
     // Storage for an instance of the sync adapter
-    private static MinervaSyncAdapter adapter;
+    private static SyncAdapter adapter;
     // Object to use as a thread-safe lock
     private static final Object lock = new Object();
 
@@ -30,7 +29,7 @@ public class SyncService extends Service {
          */
         synchronized (lock) {
             if (adapter == null) {
-                adapter = new MinervaSyncAdapter(getApplicationContext(), true);
+                adapter = new SyncAdapter(getApplicationContext(), true);
             }
         }
     }

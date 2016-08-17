@@ -13,7 +13,7 @@ import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity;
 import be.ugent.zeus.hydra.auth.AccountUtils;
-import be.ugent.zeus.hydra.auth.EndpointConfiguration;
+import be.ugent.zeus.hydra.auth.MinervaConfig;
 import be.ugent.zeus.hydra.auth.MinervaAuthenticator;
 import be.ugent.zeus.hydra.auth.models.BearerToken;
 import be.ugent.zeus.hydra.auth.models.GrantInformation;
@@ -59,8 +59,8 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
 
         Bundle bundle = getIntent().getExtras();
 
-        accountType = bundle.getString(ARG_ACCOUNT_TYPE, EndpointConfiguration.ACCOUNT_TYPE);
-        authType = bundle.getString(ARG_AUTH_TYPE, EndpointConfiguration.DEFAULT_SCOPE);
+        accountType = bundle.getString(ARG_ACCOUNT_TYPE, MinervaConfig.ACCOUNT_TYPE);
+        authType = bundle.getString(ARG_AUTH_TYPE, MinervaConfig.DEFAULT_SCOPE);
 
         manager = AccountManager.get(this);
 
@@ -97,7 +97,7 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
         Log.d(TAG, "Uri is: " + uri);
 
         // Handle the callback URI.
-        if(uri.getScheme().equals(EndpointConfiguration.CALLBACK_SCHEME)) {
+        if(uri.getScheme().equals(MinervaConfig.CALLBACK_SCHEME)) {
 
             String errorParameter = uri.getQueryParameter("error");
 

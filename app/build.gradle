@@ -85,7 +85,8 @@ dependencies {
     }
     //This requires API 15+, but we use it anyway. Don't forget to use the normal browser if the version is too old!
     compile 'com.android.support:customtabs:24.1.1'
-    compile 'com.github.alexfu:SQLiteQueryBuilder:0.1.1'
+
+    compile 'com.github.alexfu:SQLiteQueryBuilder:0.3.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

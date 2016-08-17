@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.minerva.database;
+package be.ugent.zeus.hydra.minerva.database.query;
 
 import com.alexfu.sqlitequerybuilder.api.Column;
 
