@@ -1,10 +1,11 @@
 package be.ugent.zeus.hydra.fragments;
 
 import android.accounts.*;
-import android.content.ContentResolver;
+import android.content.*;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -108,7 +109,6 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
                     try {
                         Bundle result = accountManagerFuture.getResult();
                         Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
-                        maybeLoadData();
                         onAccountAdded();
                     } catch (OperationCanceledException e) {
                         Toast.makeText(getContext().getApplicationContext(), "Je gaf geen toestemming om je account te gebruiken.", Toast.LENGTH_LONG).show();
@@ -137,7 +137,8 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        bundle.putBoolean(SyncAdapter.FIRST_SYNC, true);
+        bundle.putBoolean(SyncAdapter.ARG_FIRST_SYNC, true);
+        bundle.putBoolean(SyncAdapter.ARG_SEND_BROADCASTS, true);
         ContentResolver.requestSync(account, MinervaConfig.ACCOUNT_AUTHORITY, bundle);
     }
 
@@ -261,4 +262,58 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         AnnouncementDao announcementDao = new AnnouncementDao(getContext());
         announcementDao.deleteAll();
     }
+
+    private Object syncListenerHandler;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getContext().registerReceiver(syncReceiver, SyncAdapter.getBroadcastFilter());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getContext().unregisterReceiver(syncReceiver);
+    }
+
+    //This will only be called if manually set to send broadcasts.
+    private BroadcastReceiver syncReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            assert getView() != null;
+            switch (intent.getAction()) {
+                case SyncAdapter.BROADCAST_SYNC_START:
+                    Log.d(TAG, "Start!");
+                    authWrapper.setVisibility(View.GONE);
+                    showProgressBar();
+                    syncBar = Snackbar.make(getView(), "Vakken ophalen...", Snackbar.LENGTH_INDEFINITE);
+                    syncBar.show();
+                    return;
+                case SyncAdapter.BROADCAST_SYNC_DONE:
+                    Log.d(TAG, "Done!");
+                    syncBar.dismiss();
+                    syncBar = null;
+                    startLoader();
+                    return;
+                case SyncAdapter.BROADCAST_SYNC_ERROR:
+                    Log.d(TAG, "Error");
+                    syncBar.setText(getString(R.string.failure));
+                    return;
+                case SyncAdapter.BROADCAST_SYNC_PROGRESS_WHATS_NEW:
+                    Log.d(TAG, "Progress");
+                    if(progressBar.isIndeterminate()) {
+                        progressBar.setIndeterminate(false);
+
+                    }
+                    int current = intent.getIntExtra(SyncAdapter.BROADCAST_ARG_SYNC_PROGRESS_CURRENT, 0);
+                    int total = intent.getIntExtra(SyncAdapter.BROADCAST_ARG_SYNC_PROGRESS_TOTAL, 0);
+                    progressBar.setMax(total);
+                    progressBar.setProgress(current);
+                    syncBar.setText("Vak " + current + " van " + total + " ophalen...");
+            }
+        }
+    };
+
+    private Snackbar syncBar;
 }
