@@ -1,14 +1,14 @@
-package be.ugent.zeus.hydra.requests.common;
-
-import java.io.Serializable;
+package be.ugent.zeus.hydra.requests.executor;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.cache.CacheRequest;
-import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.cache.file.SerializeCache;
+import be.ugent.zeus.hydra.requests.common.Request;
+import be.ugent.zeus.hydra.requests.common.RequestFailureException;
+
+import java.io.Serializable;
 
 /**
  * Utility methods relating to executing {@link Request}s.
@@ -18,28 +18,6 @@ import be.ugent.zeus.hydra.cache.file.SerializeCache;
 public class RequestExecutor {
 
     /**
-     * Callback for the request executor.
-     *
-     * @param <T> The result.
-     */
-    public interface Callback<T> {
-
-        /**
-         * Receive the data if the request was completed successfully.
-         *
-         * @param data The data.
-         */
-        void receiveData(@NonNull T data);
-
-        /**
-         * Receive an error if the request failed for some reason.
-         *
-         * @param e The occurred exception.
-         */
-        void receiveError(@NonNull Throwable e);
-    }
-
-    /**
      * Execute a request async.
      *
      * @param request The request.
@@ -47,7 +25,7 @@ public class RequestExecutor {
      * @param <T> The result.
      * @return The task, should you wish to cancel it.
      */
-    public static <T> AsyncTask<Void, Void, T> executeAsync(final Request<T> request, final Callback<T> callback) {
+    public static <T> AsyncTask<Void, Void, T> executeAsync(final Request<T> request, final RequestCallback<T> callback) {
 
         RequestExecutorTask<T> task = new RequestExecutorTask<T>(callback) {
             @Override
@@ -67,13 +45,13 @@ public class RequestExecutor {
      * @param <T> The result.
      * @return The task, should you wish to cancel it.
      */
-    public static <T extends Serializable> AsyncTask<Void, Void, T> executeAsync(Context context, final CacheRequest<T> request, final Callback<T> callback) {
+    public static <T extends Serializable, R> AsyncTask<Void, Void, R> executeAsync(Context context, final CacheRequest<T, R> request, final RequestCallback<R> callback) {
 
         final SerializeCache cache = new SerializeCache(context);
 
-        RequestExecutorTask<T> task = new RequestExecutorTask<T>(callback) {
+        RequestExecutorTask<R> task = new RequestExecutorTask<R>(callback) {
             @Override
-            protected T getData() throws RequestFailureException {
+            protected R getData() throws RequestFailureException {
                 return cache.get(request);
             }
         };
@@ -87,9 +65,10 @@ public class RequestExecutor {
      */
     private static abstract class RequestExecutorTask<T> extends AsyncTask<Void, Void, T> {
 
-        private final Callback<T> callback;
+        private final RequestCallback<T> callback;
+        private Throwable throwable;
 
-        protected RequestExecutorTask(Callback<T> callback) {
+        protected RequestExecutorTask(RequestCallback<T> callback) {
             super();
             this.callback = callback;
         }
@@ -99,7 +78,7 @@ public class RequestExecutor {
             try {
                 return getData();
             } catch (RequestFailureException e) {
-                callback.receiveError(e);
+                throwable = e;
                 return null;
             }
         }
@@ -109,7 +88,7 @@ public class RequestExecutor {
             if(t != null) {
                 callback.receiveData(t);
             } else {
-                callback.receiveError(new NullPointerException("The data may not be null."));
+                callback.receiveError(throwable);
             }
         }
 

@@ -2,7 +2,8 @@ package be.ugent.zeus.hydra.cache;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
+
+import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 
 import java.io.Serializable;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
  *
  * @author Niko Strijbol
  */
+@SuppressWarnings("unused")
 public interface Cache {
 
     //Duration constants
@@ -26,8 +28,9 @@ public interface Cache {
      * and check yourself. It is a bit more efficient than reading the file itself, so if you just need to check (large
      * amount of files), you should use this.
      *
-     * @param name Name of the cache file.
+     * @param name     Name of the cache file.
      * @param duration Expiration to check against.
+     *
      * @return True if it is expired, false otherwise.
      */
     boolean isExpired(String name, long duration);
@@ -35,28 +38,33 @@ public interface Cache {
     /**
      * Get data from a request.
      *
-     * @param request The request to get data from.
-     * @param <T> Type of data from the request.
-     *           @param duration Expiration of the
+     * @param request  The request to get data from.
+     * @param duration Expiration of the cache.
+     * @param <D>      Type of data from the request.
+     * @param <R> Result of the request.
+     *
      * @return The data
-     * @throws RequestFailureException
+     *
+     * @throws RequestFailureException If something goes wrong.
      */
     @NonNull
-    <T extends Serializable> T get(CacheRequest<T> request, long duration) throws RequestFailureException;
+    <D extends Serializable, R> R get(CacheRequest<D, R> request, long duration) throws RequestFailureException;
 
     //This will be a default method once android supports it.
     @NonNull
-    <T extends Serializable> T get(CacheRequest<T> request) throws RequestFailureException;
+    <D extends Serializable, R> R get(CacheRequest<D, R> request) throws RequestFailureException;
 
     //This will be a default method once android supports it.
+
     /**
-     * @see #get(CacheRequest)
      * @return The data or null if the request failed.
+     *
+     * @see #get(CacheRequest)
      */
     @Nullable
-    <T extends Serializable> T getOrNull(CacheRequest<T> request, long duration);
+    <D extends Serializable, R> R getOrNull(CacheRequest<D, R> request, long duration);
 
     //This will be a default method once android supports it.
     @Nullable
-    <T extends Serializable> T getOrNull(CacheRequest<T> request);
+    <D extends Serializable, R> R getOrNull(CacheRequest<D, R> request);
 }

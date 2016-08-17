@@ -13,13 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.SettingsActivity;
 import be.ugent.zeus.hydra.recyclerview.adapters.ActivityListAdapter;
 import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
 import be.ugent.zeus.hydra.cache.CacheRequest;
+import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.models.association.Activities;
 import be.ugent.zeus.hydra.models.association.Activity;
+import be.ugent.zeus.hydra.recyclerview.adapters.ActivityListAdapter;
 import be.ugent.zeus.hydra.requests.ActivitiesRequest;
 import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
@@ -145,7 +148,7 @@ public class ActivitiesFragment extends CachedLoaderFragment<Activities> impleme
      * @return The request that will be executed.
      */
     @Override
-    public CacheRequest<Activities> getRequest() {
+    public ActivitiesRequest getRequest() {
         return new ActivitiesRequest();
     }
 }

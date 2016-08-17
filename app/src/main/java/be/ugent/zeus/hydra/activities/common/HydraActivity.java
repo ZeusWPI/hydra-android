@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.view.View;
+
 import be.ugent.zeus.hydra.HydraApplication;
 
 /**

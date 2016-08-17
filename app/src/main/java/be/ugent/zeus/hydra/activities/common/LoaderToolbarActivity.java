@@ -21,7 +21,7 @@ import java.io.Serializable;
  *
  * @author Niko Strijbol
  */
-public abstract class LoaderToolbarActivity<D extends Serializable> extends ToolbarActivity implements ErrorLoaderCallback<D> {
+public abstract class LoaderToolbarActivity<D extends Serializable> extends ToolbarActivity implements ErrorLoaderCallback<D, D> {
 
     private static final String TAG = "LoaderToolbarActivity";
 

@@ -114,7 +114,7 @@ public class AccountUtils {
      * @return The access token, or null if there is none.
      */
     @Nullable
-    public static String asyncAuthCode(Context context, Activity activity) {
+    public static String asyncAuthCode(Context context, @Nullable Activity activity) {
         AccountManager manager = AccountManager.get(context);
         Account account = manager.getAccountsByType(MinervaConfig.ACCOUNT_TYPE)[0];
 

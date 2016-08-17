@@ -8,7 +8,7 @@ import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.cache.Cache;
 import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.cache.exceptions.CacheException;
-import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 import org.joda.time.Duration;
 
 import java.io.File;
@@ -24,6 +24,7 @@ import java.io.Serializable;
  *
  * @author Niko Strijbol
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class FileCache implements Cache {
 
     protected static final String TAG = "FileCache";
@@ -43,10 +44,11 @@ public abstract class FileCache implements Cache {
     }
 
     /**
-     * Write an object as JSON.
+     * Write an object as JSON. The built in Gson writer does not work on android.
      *
      * @param data The data to write.
-     * @throws CacheException
+     *
+     * @throws CacheException If something goes wrong that is not recoverable.
      */
     protected abstract <T extends Serializable> void write(String name, CacheObject<T> data) throws CacheException;
 
@@ -77,15 +79,7 @@ public abstract class FileCache implements Cache {
         }
     }
 
-    /**
-     * Is the given cache expired or not? This reads the file from disk, so if you need it afterwards, you should read
-     * and check yourself. It is a bit more efficient than reading the file itself, so if you just need to check (large
-     * amount of files), you should use this.
-     *
-     * @param name Name of the cache file.
-     * @param duration Expiration to check against.
-     * @return True if it is expired, false otherwise.
-     */
+    @Override
     public boolean isExpired(String name, long duration) {
         CacheObject<?> cacheObject = readOrNull(name);
         return cacheObject == null || duration == Cache.NEVER || cacheObject.isExpired(Duration.millis(duration));
@@ -101,17 +95,9 @@ public abstract class FileCache implements Cache {
                 || object.getVersion() != BuildConfig.VERSION_CODE; //Old cache version
     }
 
-    /**
-     * Get data from a request.
-     *
-     * @param request The request to get data from.
-     * @param <T> Type of data from the request.
-     *           @param duration Expiration of the
-     * @return The data
-     * @throws RequestFailureException
-     */
     @NonNull
-    public <T extends Serializable> T get(CacheRequest<T> request, long duration) throws RequestFailureException {
+    @Override
+    public <T extends Serializable, R> R get(CacheRequest<T, R> request, long duration) throws RequestFailureException {
         CacheObject<T> object = readOrNull(request.getCacheKey());
         T data;
 
@@ -129,20 +115,19 @@ public abstract class FileCache implements Cache {
             data = object.getData();
         }
 
-        return data;
+        //Execute the transformation on the data.
+        return request.getData(data);
     }
 
     @NonNull
-    public <T extends Serializable> T get(CacheRequest<T> request) throws RequestFailureException {
+    @Override
+    public <T extends Serializable, R> R get(CacheRequest<T, R> request) throws RequestFailureException {
         return get(request, request.getCacheDuration());
     }
 
-    /**
-     * @see #get(CacheRequest)
-     * @return The data or null if the request failed.
-     */
     @Nullable
-    public <T extends Serializable> T getOrNull(CacheRequest<T> request, long duration) {
+    @Override
+    public <T extends Serializable, R> R getOrNull(CacheRequest<T, R> request, long duration) {
         try {
             return get(request, duration);
         } catch (RequestFailureException e) {
@@ -151,7 +136,8 @@ public abstract class FileCache implements Cache {
     }
 
     @Nullable
-    public <T extends Serializable> T getOrNull(CacheRequest<T> request) {
+    @Override
+    public <T extends Serializable, R> R getOrNull(CacheRequest<T, R> request) {
         return getOrNull(request, request.getCacheDuration());
     }
 

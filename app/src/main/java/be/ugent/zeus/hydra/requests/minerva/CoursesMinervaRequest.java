@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.models.minerva.Courses;
 
@@ -17,7 +18,7 @@ public class CoursesMinervaRequest extends MinervaRequest<Courses> {
 
     public static final String BASE_KEY = "minerva_courses";
 
-    public CoursesMinervaRequest(Context context, Activity activity) {
+    public CoursesMinervaRequest(Context context, @Nullable Activity activity) {
         super(Courses.class, context, activity);
     }
 

@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
-import be.ugent.zeus.hydra.requests.common.RequestExecutor;
+import be.ugent.zeus.hydra.requests.executor.RequestCallback;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -26,7 +26,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public abstract class LoaderFragment<D> extends Fragment implements LoaderManager.LoaderCallbacks<ThrowableEither<D>>, RequestExecutor.Callback<D> {
+public abstract class LoaderFragment<D> extends Fragment implements LoaderManager.LoaderCallbacks<ThrowableEither<D>>, RequestCallback<D> {
 
     private static final String TAG = "CachedLoaderFragment";
 

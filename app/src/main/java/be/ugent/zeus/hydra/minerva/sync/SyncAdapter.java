@@ -6,7 +6,6 @@ import android.database.SQLException;
 import android.os.Bundle;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementNotificationBuilder;
 import be.ugent.zeus.hydra.minerva.course.CourseDao;
@@ -14,6 +13,7 @@ import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.Courses;
 import be.ugent.zeus.hydra.models.minerva.WhatsNew;
+import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 

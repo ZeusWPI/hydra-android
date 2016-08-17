@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.cache.file;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
 import be.ugent.zeus.hydra.cache.exceptions.CacheException;
 
 import java.io.*;
@@ -17,9 +18,8 @@ import java.io.*;
  * space, so we do not do that currently. If profiling suggests the serialisation here is really the bottleneck, which
  * is unlikely since it is about network requests, we can easily switch to fst.-
  *
- * @see [1] <a href="https://github.com/RuedigerMoeller/fast-serialization">fst</a>
- *
  * @author Niko Strijbol
+ * @see [1] <a href="https://github.com/RuedigerMoeller/fast-serialization">fst</a>
  */
 public class SerializeCache extends FileCache {
 
@@ -27,12 +27,7 @@ public class SerializeCache extends FileCache {
         super(context);
     }
 
-    /**
-     * Write an object as JSON. The built in Gson writer does not work on android.
-     *
-     * @param data The data to write.
-     * @throws CacheException
-     */
+    @Override
     protected <T extends Serializable> void write(String name, CacheObject<T> data) throws CacheException {
         ObjectOutputStream stream = null;
         try {
@@ -40,6 +35,7 @@ public class SerializeCache extends FileCache {
             stream.writeObject(data);
         } catch (IOException e) {
             Log.e(TAG, "Error while writing.", e);
+            throw new CacheException(e);
         } finally {
             try {
                 if (stream != null) {
@@ -51,15 +47,8 @@ public class SerializeCache extends FileCache {
         }
     }
 
-    /**
-     * Read data from the cache.
-     *
-     * @param name Name of the file.
-     * @param <T> The type of the CacheObject.
-     * @return The CacheObject.
-     * @throws CacheException If the file was not found.
-     */
     @NonNull
+    @Override
     @SuppressWarnings("unchecked")
     protected <T extends Serializable> CacheObject<T> read(String name) throws CacheException {
         ObjectInputStream stream = null;
@@ -67,6 +56,7 @@ public class SerializeCache extends FileCache {
             stream = new ObjectInputStream(new FileInputStream(new File(directory, name)));
             return (CacheObject<T>) stream.readObject();
         } catch (ClassNotFoundException | IOException e) {
+            Log.w(TAG, "Error while reading.", e);
             throw new CacheException(e);
         } finally {
             try {

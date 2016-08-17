@@ -139,7 +139,7 @@ public class RestoFragment extends CachedLoaderFragment<RestoOverview> {
      * @return The request that will be executed.
      */
     @Override
-    public CacheRequest<RestoOverview> getRequest() {
+    public RestoMenuOverviewRequest getRequest() {
         return new RestoMenuOverviewRequest();
     }
 }

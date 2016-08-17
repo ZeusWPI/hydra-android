@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
-import java.util.*;
-
-import android.content.Context;
+import android.app.Activity;
 import android.content.SharedPreferences;
+import android.support.annotation.UiThread;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,30 +12,44 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.fragments.home.HomeFragment;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
 import be.ugent.zeus.hydra.recyclerview.viewholder.home.*;
 
+import java.util.*;
+
 import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.*;
 
 /**
- * Created by feliciaan on 06/04/16.
+ * Adapter for {@link be.ugent.zeus.hydra.fragments.home.HomeFragment}.
+ *
+ * @author feliciaan
+ * @author Niko Strijbol
  */
 public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder<HomeCard>> {
 
-    private List<HomeCard> cardItems = new ArrayList<>();
-    private SharedPreferences preferences;
+    private final List<HomeCard> cardItems;
+    private final SharedPreferences preferences;
+    private final Activity activity;
 
-    public HomeCardAdapter(SharedPreferences preferences) {
-        this.preferences = preferences;
+    public HomeCardAdapter(Activity activity) {
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        cardItems = new ArrayList<>();
+        this.activity = activity;
     }
 
     /**
-     * Remove all items of a given type and a new list
+     * Remove all items of a given type and re-add the given list. This method is not thread safe and must be run on
+     * the UI thread.
+     *
      * @param cardList List with object implementing the card protocol
      * @param type The type of the cards
      */
+    @UiThread
     public void updateCardItems(List<HomeCard> cardList, @HomeCard.CardType int type) {
+
+        //Remove the current cards.
         removeCardType(type);
 
         cardItems.addAll(cardList);
@@ -50,6 +64,12 @@ public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder<Hom
         notifyDataSetChanged();
     }
 
+    /**
+     * Remove all cards of a certain card type. This method is not thread safe and must be run on the UI thread.
+     *
+     * @param type The type of card to remove.
+     */
+    @UiThread
     private void removeCardType(@HomeCard.CardType int type) {
         Iterator<HomeCard> it = cardItems.iterator();
         while (it.hasNext()) { // Why no filter :(
@@ -82,14 +102,19 @@ public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder<Hom
         return null;
     }
 
-    private void disableCardType(@HomeCard.CardType int viewType) {
-        Set<String> disabled = preferences.getStringSet("pref_disabled_cards", Collections.<String>emptySet());
+    /**
+     * Disable a type of card. This method is not thread safe and must be run on the UI thread.
+     *
+     * @param type The type of card to disable.
+     */
+    private void disableCardType(@HomeCard.CardType int type) {
+        Set<String> disabled = preferences.getStringSet(HomeFragment.PREF_ACTIVE_CARDS, Collections.<String>emptySet());
         SharedPreferences.Editor editor = preferences.edit();
         Set<String> newDisabled = new HashSet<>(disabled);
-        newDisabled.add(String.valueOf(viewType));
-        editor.putStringSet("pref_disabled_cards", newDisabled);
+        newDisabled.add(String.valueOf(type));
+        editor.putStringSet(HomeFragment.PREF_ACTIVE_CARDS, newDisabled);
         if(editor.commit()) {
-            removeCardType(viewType);
+            removeCardType(type);
         }
     }
 

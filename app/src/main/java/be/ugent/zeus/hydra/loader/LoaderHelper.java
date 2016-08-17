@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.loader;
 
 import be.ugent.zeus.hydra.cache.Cache;
 import be.ugent.zeus.hydra.cache.CacheRequest;
-import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 
 import java.io.Serializable;
 
@@ -18,12 +18,12 @@ class LoaderHelper {
      *
      * @see CachedAsyncTaskLoader#loadInBackground()
      */
-    static <T extends Serializable> ThrowableEither<T> loadInBackground(Cache cache, boolean refresh, CacheRequest<T> request) {
+    static <T extends Serializable, R> ThrowableEither<R> loadInBackground(Cache cache, boolean refresh, CacheRequest<T, R> request) {
 
-        ThrowableEither<T> returnValue;
+        ThrowableEither<R> returnValue;
 
         try {
-            T content;
+            R content;
             if (refresh) {
                 //Get new data
                 content = cache.get(request, Cache.NEVER);

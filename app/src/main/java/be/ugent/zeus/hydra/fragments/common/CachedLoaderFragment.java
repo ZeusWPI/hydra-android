@@ -17,7 +17,7 @@ import java.io.Serializable;
  *
  * @author Niko Strijbol
  */
-public abstract class CachedLoaderFragment<D extends Serializable> extends LoaderFragment<D> implements ErrorLoaderCallback<D> {
+public abstract class CachedLoaderFragment<D extends Serializable> extends LoaderFragment<D> implements ErrorLoaderCallback<D, D> {
 
     /**
      * Instantiate and return a new Loader for the given ID.

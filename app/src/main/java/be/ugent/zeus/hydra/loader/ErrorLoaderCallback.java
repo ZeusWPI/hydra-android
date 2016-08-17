@@ -3,7 +3,9 @@ package be.ugent.zeus.hydra.loader;
 import android.support.v4.app.LoaderManager;
 
 import be.ugent.zeus.hydra.cache.CacheRequest;
-import be.ugent.zeus.hydra.requests.common.RequestExecutor;
+import be.ugent.zeus.hydra.requests.executor.RequestCallback;
+
+import java.io.Serializable;
 
 /**
  * Defines additional methods a class should implement to work with {@link ThrowableEither} as a response.
@@ -14,10 +16,10 @@ import be.ugent.zeus.hydra.requests.common.RequestExecutor;
  *
  * @author Niko Strijbol
  */
-public interface ErrorLoaderCallback<D> extends LoaderManager.LoaderCallbacks<ThrowableEither<D>>, RequestExecutor.Callback<D> {
+public interface ErrorLoaderCallback<D extends Serializable, R> extends LoaderManager.LoaderCallbacks<ThrowableEither<R>>, RequestCallback<R> {
 
     /**
      * @return The request that will be executed.
      */
-    CacheRequest<D> getRequest();
+    CacheRequest<D, R> getRequest();
 }

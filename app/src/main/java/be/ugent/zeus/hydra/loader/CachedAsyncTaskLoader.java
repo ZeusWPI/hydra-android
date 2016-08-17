@@ -4,8 +4,8 @@ import android.content.Context;
 
 import be.ugent.zeus.hydra.cache.Cache;
 import be.ugent.zeus.hydra.cache.CacheRequest;
-import be.ugent.zeus.hydra.cache.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.cache.file.SerializeCache;
+import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 
 import java.io.Serializable;
 
@@ -20,13 +20,14 @@ import java.io.Serializable;
  * cache again, you need to call {@link #setNextRefresh()}.
  *
  * @param <D> The result of the request. This value is cached, and so it must be Serializable.
+ * @param <R> The result of the cached request. This enables a cached request to produce a result that is not serializable.
  *
  * @author Niko Strijbol
  * @see <a href="http://www.androiddesignpatterns.com/2012/08/implementing-loaders.html">Implementing loaders</a>
  */
-public class CachedAsyncTaskLoader<D extends Serializable> extends AbstractAsyncLoader<D> {
+public class CachedAsyncTaskLoader<D extends Serializable, R> extends AbstractAsyncLoader<R> {
 
-    private CacheRequest<D> request;
+    private CacheRequest<D, R> request;
     private boolean refresh;
     private final Cache cache;
 
@@ -36,7 +37,7 @@ public class CachedAsyncTaskLoader<D extends Serializable> extends AbstractAsync
      * @param request The request to execute.
      * @param context The context.
      */
-    public CachedAsyncTaskLoader(CacheRequest<D> request, Context context) {
+    public CachedAsyncTaskLoader(CacheRequest<D, R> request, Context context) {
         this(request, context, false);
     }
 
@@ -47,7 +48,7 @@ public class CachedAsyncTaskLoader<D extends Serializable> extends AbstractAsync
      * @param context   The context.
      * @param freshData If the data should be fresh or maybe cached.
      */
-    public CachedAsyncTaskLoader(CacheRequest<D> request, Context context, boolean freshData) {
+    public CachedAsyncTaskLoader(CacheRequest<D, R> request, Context context, boolean freshData) {
         super(context);
         this.request = request;
         this.refresh = freshData;
@@ -62,9 +63,9 @@ public class CachedAsyncTaskLoader<D extends Serializable> extends AbstractAsync
     }
 
     @Override
-    protected D getData() throws LoaderException {
+    protected R getData() throws LoaderException {
         try {
-            D content;
+            R content;
             if (refresh) {
                 //Get new data
                 content = cache.get(request, Cache.NEVER);

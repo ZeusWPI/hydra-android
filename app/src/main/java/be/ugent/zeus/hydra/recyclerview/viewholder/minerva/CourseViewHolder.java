@@ -1,16 +1,21 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder.minerva;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.CourseWrapper;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAnnouncementAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
+import be.ugent.zeus.hydra.requests.executor.RequestCallback;
 import be.ugent.zeus.hydra.utils.html.Utils;
+
+import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -24,6 +29,7 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
     private TextView subtitle;
     private ProgressBar progressBar;
     private ImageView arrow;
+    private ImageView error;
     private View parent;
 
     private CourseAnnouncementAdapter adapter;
@@ -36,6 +42,7 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
         parent = $(itemView, R.id.parent_layout);
         progressBar = $(itemView, R.id.progress_bar);
         arrow = $(itemView, R.id.arrow_icon);
+        error = $(itemView, R.id.error_icon);
 
         this.adapter = adapter;
     }
@@ -53,10 +60,11 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
         subtitle.setText(tutor + " - " + course.getCode());
 
         arrow.setVisibility(View.GONE);
+        error.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
         final CourseWrapper wrapper = adapter.getWrapper(course);
-//        wrapper.loadAnnouncements(new RequestExecutor.Callback<List<Announcement>>() {
+//        wrapper.loadAnnouncements(new RequestCallback<List<Announcement>>() {
 //            @Override
 //            public void receiveData(@NonNull List<Announcement> data) {
 //                //Hide progress bar
@@ -72,6 +80,7 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
 //            public void receiveError(@NonNull Throwable e) {
 //                //Hide progress bar.
 //                progressBar.setVisibility(View.GONE);
+//                error.setVisibility(View.VISIBLE);
 //            }
 //        });
 
@@ -97,9 +106,9 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
 
     private void toggleIcon(boolean expanded) {
         if(expanded) {
-            arrow.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+            arrow.setImageResource(R.drawable.ic_keyboard_arrow_down_24dp);
         } else {
-            arrow.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+            arrow.setImageResource(R.drawable.ic_keyboard_arrow_up_24dp);
         }
     }
 }
