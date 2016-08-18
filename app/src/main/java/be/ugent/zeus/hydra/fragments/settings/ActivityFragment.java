@@ -12,7 +12,7 @@ import android.view.View;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
-import be.ugent.zeus.hydra.loader.SystemCachedAsyncTaskLoader;
+import be.ugent.zeus.hydra.cache.SystemCachedAsyncTaskLoader;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.association.Associations;
 import be.ugent.zeus.hydra.requests.AssociationsRequest;

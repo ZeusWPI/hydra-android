@@ -1,8 +1,9 @@
 package be.ugent.zeus.hydra.loader;
 
 /**
+ * Exception thrown by {@link AbstractAsyncLoader} if the data cannot be loaded.
+ *
  * @author Niko Strijbol
- * @version 16/08/2016
  */
 public class LoaderException extends Exception {
 

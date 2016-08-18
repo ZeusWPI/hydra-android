@@ -193,36 +193,38 @@ public class CourseDao implements Dao<Course> {
     public List<Course> getAll() {
         Log.d(TAG, "Getting all courses");
         SQLiteDatabase db = helper.getReadableDatabase();
-
-        Cursor c = db.query(CourseTable.TABLE_NAME, null, null, null, null, null, null);
-
         List<Course> result = new ArrayList<>();
 
-        if(c != null) {
-            try {
-                int columnId = c.getColumnIndex(CourseTable.COLUMN_ID);
-                int columnCode = c.getColumnIndex(CourseTable.COLUMN_CODE);
-                int columnTitle = c.getColumnIndex(CourseTable.COLUMN_TITLE);
-                int columnDesc = c.getColumnIndex(CourseTable.COLUMN_DESCRIPTION);
-                int columnTutor = c.getColumnIndex(CourseTable.COLUMN_TUTOR);
-                int columnStudent = c.getColumnIndex(CourseTable.COLUMN_STUDENT);
-                int columnYear = c.getColumnIndex(CourseTable.COLUMN_ACADEMIC_YEAR);
+        try {
+            Cursor c = db.query(CourseTable.TABLE_NAME, null, null, null, null, null, null);
 
-                while (c.moveToNext()) {
-                    Course course = new Course();
-                    course.setId(c.getString(columnId));
-                    course.setCode(c.getString(columnCode));
-                    course.setTitle(c.getString(columnTitle));
-                    course.setDescription(c.getString(columnDesc));
-                    course.setTutorName(c.getString(columnTutor));
-                    course.setStudent(c.getString(columnStudent));
-                    course.setAcademicYear(c.getInt(columnYear));
-                    result.add(course);
+            if (c != null) {
+                try {
+                    int columnId = c.getColumnIndex(CourseTable.COLUMN_ID);
+                    int columnCode = c.getColumnIndex(CourseTable.COLUMN_CODE);
+                    int columnTitle = c.getColumnIndex(CourseTable.COLUMN_TITLE);
+                    int columnDesc = c.getColumnIndex(CourseTable.COLUMN_DESCRIPTION);
+                    int columnTutor = c.getColumnIndex(CourseTable.COLUMN_TUTOR);
+                    int columnStudent = c.getColumnIndex(CourseTable.COLUMN_STUDENT);
+                    int columnYear = c.getColumnIndex(CourseTable.COLUMN_ACADEMIC_YEAR);
+
+                    while (c.moveToNext()) {
+                        Course course = new Course();
+                        course.setId(c.getString(columnId));
+                        course.setCode(c.getString(columnCode));
+                        course.setTitle(c.getString(columnTitle));
+                        course.setDescription(c.getString(columnDesc));
+                        course.setTutorName(c.getString(columnTutor));
+                        course.setStudent(c.getString(columnStudent));
+                        course.setAcademicYear(c.getInt(columnYear));
+                        result.add(course);
+                    }
+                } finally {
+                    c.close();
                 }
-            } finally {
-                c.close();
-                db.close();
             }
+        } finally {
+            db.close();
         }
 
         return result;

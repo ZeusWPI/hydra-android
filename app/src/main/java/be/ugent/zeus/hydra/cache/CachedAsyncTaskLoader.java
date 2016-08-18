@@ -1,10 +1,11 @@
-package be.ugent.zeus.hydra.loader;
+package be.ugent.zeus.hydra.cache;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.cache.Cache;
-import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.cache.file.SerializeCache;
+import be.ugent.zeus.hydra.loader.AbstractAsyncLoader;
+import be.ugent.zeus.hydra.loader.LoaderException;
 import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 
 import java.io.Serializable;
@@ -62,6 +63,7 @@ public class CachedAsyncTaskLoader<D extends Serializable, R> extends AbstractAs
         this.refresh = true;
     }
 
+    @NonNull
     @Override
     protected R getData() throws LoaderException {
         try {

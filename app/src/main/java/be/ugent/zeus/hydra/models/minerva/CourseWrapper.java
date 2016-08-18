@@ -5,18 +5,13 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.cache.Cache;
-import be.ugent.zeus.hydra.cache.file.SerializeCache;
+import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.requests.common.Request;
 import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 import be.ugent.zeus.hydra.requests.executor.RequestCallback;
 import be.ugent.zeus.hydra.requests.executor.RequestExecutor;
-import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 /**
  * Wrapper for a course and announcements.
@@ -30,14 +25,12 @@ public class CourseWrapper {
     private Course course;
     private List<Announcement> announcements = Collections.emptyList();
     private Context context;
-    private Cache cache;
 
     private AsyncTask task;
 
     public CourseWrapper(Course c, Context context) {
         this.course = c;
         this.context = context;
-        this.cache = new SerializeCache(context.getApplicationContext());
     }
 
     /**
@@ -64,32 +57,26 @@ public class CourseWrapper {
             return;
         }
 
-        //Request
-        final WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, context, null);
-
-        //Wrap in request for cache
-        Request<WhatsNew> request = new Request<WhatsNew>() {
+        //Make request
+        Request<List<Announcement>> request = new Request<List<Announcement>>() {
             @NonNull
             @Override
-            public WhatsNew performRequest() throws RequestFailureException {
-                return cache.get(whatsNewRequest);
+            public List<Announcement> performRequest() throws RequestFailureException {
+                //Get dao
+                AnnouncementDao dao = new AnnouncementDao(context);
+                return dao.getAnnouncementsForCourse(course);
             }
         };
 
         //Do request
-        task = RequestExecutor.executeAsync(request, new RequestCallback<WhatsNew>() {
+        task = RequestExecutor.executeAsync(request, new RequestCallback<List<Announcement>>() {
             @Override
-            public void receiveData(@NonNull WhatsNew data) {
-                ListIterator<Announcement> li = data.getAnnouncements().listIterator(data.getAnnouncements().size());
-                announcements = new ArrayList<>();
-                // Iterate in reverse.
-                while (li.hasPrevious()) {
-                    Announcement a = li.previous();
-                    a.setCourse(course);
-                    announcements.add(a);
-                }
+            public void receiveData(@NonNull List<Announcement> data) {
+                Collections.reverse(data);
+                announcements = data;
+                Log.d(TAG, "got announcements!: " + data.size());
                 task = null;
-                callback.receiveData(data.getAnnouncements());
+                callback.receiveData(data);
             }
 
             @Override

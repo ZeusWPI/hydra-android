@@ -1,12 +1,16 @@
-package be.ugent.zeus.hydra.loader;
+package be.ugent.zeus.hydra.minerva.database;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.minerva.database.Dao;
+import be.ugent.zeus.hydra.loader.AbstractAsyncLoader;
+import be.ugent.zeus.hydra.loader.LoaderException;
 
 import java.util.List;
 
 /**
+ * Simple loader class that supports loading a dao.
+ *
  * @author Niko Strijbol
  */
 public class DaoLoader<D> extends AbstractAsyncLoader<List<D>> {
@@ -23,6 +27,7 @@ public class DaoLoader<D> extends AbstractAsyncLoader<List<D>> {
         this.dao = dao;
     }
 
+    @NonNull
     @Override
     protected List<D> getData() throws LoaderException {
         return dao.getAll();

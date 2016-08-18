@@ -64,25 +64,26 @@ public class CourseViewHolder extends AbstractViewHolder<Course> {
         progressBar.setVisibility(View.VISIBLE);
 
         final CourseWrapper wrapper = adapter.getWrapper(course);
-//        wrapper.loadAnnouncements(new RequestCallback<List<Announcement>>() {
-//            @Override
-//            public void receiveData(@NonNull List<Announcement> data) {
-//                //Hide progress bar
-//                progressBar.setVisibility(View.GONE);
-//
-//                //If there is data, show icon
-//                if(!data.isEmpty()) {
-//                    arrow.setVisibility(View.VISIBLE);
-//                }
-//            }
-//
-//            @Override
-//            public void receiveError(@NonNull Throwable e) {
-//                //Hide progress bar.
-//                progressBar.setVisibility(View.GONE);
-//                error.setVisibility(View.VISIBLE);
-//            }
-//        });
+
+        wrapper.loadAnnouncements(new RequestCallback<List<Announcement>>() {
+            @Override
+            public void receiveData(@NonNull List<Announcement> data) {
+                //Hide progress bar
+                progressBar.setVisibility(View.GONE);
+
+                //If there is data, show icon
+                if(!data.isEmpty()) {
+                    arrow.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void receiveError(@NonNull Throwable e) {
+                //Hide progress bar.
+                progressBar.setVisibility(View.GONE);
+                error.setVisibility(View.VISIBLE);
+            }
+        });
 
         //Set onclick listener
         parent.setOnClickListener(new View.OnClickListener() {

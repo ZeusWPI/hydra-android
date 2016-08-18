@@ -187,6 +187,58 @@ public class AnnouncementDao implements Dao<Announcement> {
     }
 
     /**
+     * Get a list of ids of the announcements for a course in the database.
+     *
+     * @param course The course.
+     *
+     * @return List of ids in the database.
+     */
+    public List<Announcement> getAnnouncementsForCourse(Course course) {
+
+        SQLiteDatabase db = helper.getReadableDatabase();
+        List<Announcement> result = new ArrayList<>();
+
+        try {
+            Cursor cursor = db.query(
+                    AnnouncementTable.TABLE_NAME,
+                    null,
+                    AnnouncementTable.COLUMN_COURSE + " = ?",
+                    new String[]{course.getId()},
+                    null, null, null);
+
+            if (cursor != null) {
+                try {
+                    int columnIndex = cursor.getColumnIndex(AnnouncementTable.COLUMN_ID);
+                    int columnTitle = cursor.getColumnIndex(AnnouncementTable.COLUMN_TITLE);
+                    int columnContent = cursor.getColumnIndex(AnnouncementTable.COLUMN_CONTENT);
+                    int columnEmailSent = cursor.getColumnIndex(AnnouncementTable.COLUMN_EMAIL_SENT);
+                    int columnSticky = cursor.getColumnIndex(AnnouncementTable.COLUMN_STICKY_UNTIL);
+                    int columnLecturer = cursor.getColumnIndex(AnnouncementTable.COLUMN_LECTURER);
+                    int columnDate = cursor.getColumnIndex(AnnouncementTable.COLUMN_DATE);
+
+                    while (cursor.moveToNext()) {
+                        Announcement a = new Announcement();
+                        a.setCourse(course);
+                        a.setItemId(cursor.getInt(columnIndex));
+                        a.setTitle(cursor.getString(columnTitle));
+                        a.setContent(cursor.getString(columnContent));
+                        a.setEmailSent(intToBool(cursor.getInt(columnEmailSent)));
+                        a.setLecturer(cursor.getString(columnLecturer));
+                        a.setDate(new Date(cursor.getLong(columnDate)));
+                        result.add(a);
+                    }
+                } finally {
+                    cursor.close();
+                }
+            }
+        } finally {
+            db.close();
+        }
+
+        return result;
+    }
+
+    /**
      * @return All elements in this dao.
      */
     @NonNull

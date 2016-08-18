@@ -1,11 +1,11 @@
-package be.ugent.zeus.hydra.loader;
+package be.ugent.zeus.hydra.cache;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 
-import be.ugent.zeus.hydra.cache.Cache;
-import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.cache.file.SerializeCache;
+import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 
 import java.io.Serializable;
 
@@ -14,6 +14,8 @@ import java.io.Serializable;
  * over the other one.
  *
  * Once we have API 23+, we might switch to this, but not before that.
+ *
+ * TODO: track fixes to compat preferences so we might use that instead.
  *
  * @see CachedAsyncTaskLoader
  *
@@ -71,7 +73,18 @@ public class SystemCachedAsyncTaskLoader<D extends Serializable, R> extends Asyn
     public ThrowableEither<R> loadInBackground() {
 
         //Load the data, and set the refresh flag to false.
-        ThrowableEither<R> data = LoaderHelper.loadInBackground(cache, refresh, request);
+        try {
+            R content;
+            if (refresh) {
+                //Get new data
+                content = cache.get(request, Cache.NEVER);
+            } else {
+                content = cache.get(request);
+            }
+            data = new ThrowableEither<>(content);
+        } catch (RequestFailureException e) {
+            data = new ThrowableEither<>(e);
+        }
         this.refresh = false;
         return data;
     }

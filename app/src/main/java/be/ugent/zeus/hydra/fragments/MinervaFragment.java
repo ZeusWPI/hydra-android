@@ -20,11 +20,12 @@ import be.ugent.zeus.hydra.auth.AccountUtils;
 import be.ugent.zeus.hydra.auth.MinervaConfig;
 import be.ugent.zeus.hydra.cache.file.FileCache;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.loader.DaoLoader;
+import be.ugent.zeus.hydra.minerva.database.DaoLoader;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.course.CourseDao;
 import be.ugent.zeus.hydra.minerva.sync.SyncAdapter;
+import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAnnouncementAdapter;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
@@ -135,11 +136,9 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         //Request first sync
         Log.d(TAG, "Requesting sync...");
         Bundle bundle = new Bundle();
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         bundle.putBoolean(SyncAdapter.ARG_FIRST_SYNC, true);
         bundle.putBoolean(SyncAdapter.ARG_SEND_BROADCASTS, true);
-        ContentResolver.requestSync(account, MinervaConfig.ACCOUNT_AUTHORITY, bundle);
+        requestSync(account, bundle);
     }
 
     private void requestSync(Account account, Bundle bundle) {
@@ -152,8 +151,10 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
 
     private void manualSync() {
         //Get an account
+        adapter.clear();
         Account account = AccountUtils.getAccount(getContext());
         Bundle bundle = new Bundle();
+        bundle.putBoolean(SyncAdapter.ARG_SEND_BROADCASTS, true);
         requestSync(account, bundle);
     }
 
@@ -263,12 +264,10 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         announcementDao.deleteAll();
     }
 
-    private Object syncListenerHandler;
-
     @Override
     public void onResume() {
         super.onResume();
-        getContext().registerReceiver(syncReceiver, SyncAdapter.getBroadcastFilter());
+        getContext().registerReceiver(syncReceiver, SyncBroadcast.getBroadcastFilter());
     }
 
     @Override
@@ -283,31 +282,31 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         public void onReceive(Context context, Intent intent) {
             assert getView() != null;
             switch (intent.getAction()) {
-                case SyncAdapter.BROADCAST_SYNC_START:
+                case SyncBroadcast.SYNC_START:
                     Log.d(TAG, "Start!");
                     authWrapper.setVisibility(View.GONE);
                     showProgressBar();
                     syncBar = Snackbar.make(getView(), "Vakken ophalen...", Snackbar.LENGTH_INDEFINITE);
                     syncBar.show();
                     return;
-                case SyncAdapter.BROADCAST_SYNC_DONE:
+                case SyncBroadcast.SYNC_DONE:
                     Log.d(TAG, "Done!");
                     syncBar.dismiss();
                     syncBar = null;
                     startLoader();
                     return;
-                case SyncAdapter.BROADCAST_SYNC_ERROR:
+                case SyncBroadcast.SYNC_ERROR:
                     Log.d(TAG, "Error");
                     syncBar.setText(getString(R.string.failure));
                     return;
-                case SyncAdapter.BROADCAST_SYNC_PROGRESS_WHATS_NEW:
+                case SyncBroadcast.SYNC_PROGRESS_WHATS_NEW:
                     Log.d(TAG, "Progress");
                     if(progressBar.isIndeterminate()) {
                         progressBar.setIndeterminate(false);
 
                     }
-                    int current = intent.getIntExtra(SyncAdapter.BROADCAST_ARG_SYNC_PROGRESS_CURRENT, 0);
-                    int total = intent.getIntExtra(SyncAdapter.BROADCAST_ARG_SYNC_PROGRESS_TOTAL, 0);
+                    int current = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_CURRENT, 0);
+                    int total = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_TOTAL, 0);
                     progressBar.setMax(total);
                     progressBar.setProgress(current);
                     syncBar.setText("Vak " + current + " van " + total + " ophalen...");
