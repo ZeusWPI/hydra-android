@@ -9,8 +9,8 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.minerva.database.DatabaseHelper;
 import be.ugent.zeus.hydra.minerva.database.Dao;
+import be.ugent.zeus.hydra.minerva.database.DatabaseHelper;
 import be.ugent.zeus.hydra.models.minerva.Course;
 
 import java.util.*;
@@ -81,8 +81,11 @@ public class CourseDao implements Dao<Course> {
             db.beginTransaction();
 
             //Delete old courses
-            String ids = TextUtils.join(", ", getRemovable(present, courses));
-            db.delete(CourseTable.TABLE_NAME, CourseTable.COLUMN_ID + " IN (?)", new String[]{ids});
+            Collection<String> idCollection = getRemovable(present, courses);
+            String[] ids = new String[idCollection.size()];
+            ids = idCollection.toArray(ids);
+            String questions = commaSeparatedQuestionMarks(idCollection.size());
+            db.delete(CourseTable.TABLE_NAME, CourseTable.COLUMN_ID + " IN (" + questions + ")", ids);
 
             for (Course course: courses ) {
 
@@ -104,6 +107,13 @@ public class CourseDao implements Dao<Course> {
             db.endTransaction();
             db.close();
         }
+    }
+
+    private static String commaSeparatedQuestionMarks(int n) {
+        String[] array = new String[n];
+        Arrays.fill(array, "?");
+
+        return TextUtils.join(", ", array);
     }
 
     public void deleteAll() {
