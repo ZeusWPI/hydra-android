@@ -190,13 +190,21 @@ public class AnnouncementDao implements Dao<Announcement> {
      * Get a list of ids of the announcements for a course in the database.
      *
      * @param course The course.
+     * @param reverse If the announcements should be reversed (newest first) or not.
      *
      * @return List of ids in the database.
      */
-    public List<Announcement> getAnnouncementsForCourse(Course course) {
+    public List<Announcement> getAnnouncementsForCourse(Course course, boolean reverse) {
 
         SQLiteDatabase db = helper.getReadableDatabase();
         List<Announcement> result = new ArrayList<>();
+
+        String order = AnnouncementTable.COLUMN_DATE;
+        if(reverse) {
+            order += " DESC";
+        } else {
+            order += " ASC";
+        }
 
         try {
             Cursor cursor = db.query(
@@ -204,7 +212,7 @@ public class AnnouncementDao implements Dao<Announcement> {
                     null,
                     AnnouncementTable.COLUMN_COURSE + " = ?",
                     new String[]{course.getId()},
-                    null, null, null);
+                    null, null, order);
 
             if (cursor != null) {
                 try {
@@ -236,6 +244,17 @@ public class AnnouncementDao implements Dao<Announcement> {
         }
 
         return result;
+    }
+
+    /**
+     * Get a list of ids of the announcements for a course in the database.
+     *
+     * @param course The course.
+     *
+     * @return List of ids in the database.
+     */
+    public List<Announcement> getAnnouncementsForCourse(Course course) {
+        return getAnnouncementsForCourse(course, false);
     }
 
     /**

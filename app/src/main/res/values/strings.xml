@@ -98,6 +98,8 @@
     <string name="logout">Afmelden</string>
     <string name="title_association_activity_detail">Vereniging</string>
 
+    <string name="activity_title_minerva_course">Minerva-vak</string>
+
     <string name="auth_progress_prepare">Klaarmaken…</string>
     <string name="auth_progress_permission">Toegang vragen…</string>
     <string name="auth_progress_information">Informatie ophalen…</string>

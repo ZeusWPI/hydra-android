@@ -1,7 +1,10 @@
-package be.ugent.zeus.hydra.fragments;
+package be.ugent.zeus.hydra.fragments.minerva;
 
 import android.accounts.*;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,20 +17,19 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.Toast;
 
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.auth.AccountUtils;
 import be.ugent.zeus.hydra.auth.MinervaConfig;
 import be.ugent.zeus.hydra.cache.file.FileCache;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.minerva.database.DaoLoader;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.course.CourseDao;
+import be.ugent.zeus.hydra.minerva.database.DaoLoader;
 import be.ugent.zeus.hydra.minerva.sync.SyncAdapter;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.models.minerva.Course;
-import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAnnouncementAdapter;
+import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAdapter;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
@@ -50,7 +52,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
     private RecyclerView recyclerView;
     private View authWrapper;
 
-    private CourseAnnouncementAdapter adapter;
+    private CourseAdapter adapter;
     private AccountManager manager;
     private CourseDao courseDao;
 
@@ -91,7 +93,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         authWrapper = $(view, R.id.auth_wrapper);
 
         recyclerView = $(view, R.id.recycler_view);
-        adapter = new CourseAnnouncementAdapter((HydraApplication) getActivity().getApplication());
+        adapter = new CourseAdapter();
 
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
@@ -127,14 +129,14 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
 
         ContentResolver.setIsSyncable(account, MinervaConfig.ACCOUNT_AUTHORITY, 1);
         //Turn on periodic syncing
-       // ContentResolver.setSyncAutomatically(account, MinervaConfig.ACCOUNT_AUTHORITY, true);
+        ContentResolver.setSyncAutomatically(account, MinervaConfig.ACCOUNT_AUTHORITY, true);
         //TODO: is the above necessary? No idea, some say yes, others say no.
         //24 hours for now
         long twentyFourHours = 86400;
         ContentResolver.addPeriodicSync(account, MinervaConfig.ACCOUNT_AUTHORITY, Bundle.EMPTY, twentyFourHours);
 
         //Request first sync
-        Log.d(TAG, "Requesting sync...");
+        Log.d(TAG, "Requesting first sync...");
         Bundle bundle = new Bundle();
         bundle.putBoolean(SyncAdapter.ARG_FIRST_SYNC, true);
         bundle.putBoolean(SyncAdapter.ARG_SEND_BROADCASTS, true);
@@ -293,11 +295,12 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
                     Log.d(TAG, "Done!");
                     syncBar.dismiss();
                     syncBar = null;
-                    startLoader();
+                    restartLoader();
                     return;
                 case SyncBroadcast.SYNC_ERROR:
                     Log.d(TAG, "Error");
                     syncBar.setText(getString(R.string.failure));
+                    syncBar.setDuration(Snackbar.LENGTH_LONG);
                     return;
                 case SyncBroadcast.SYNC_PROGRESS_WHATS_NEW:
                     Log.d(TAG, "Progress");

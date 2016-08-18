@@ -27,7 +27,17 @@ public class Announcement implements Serializable, Parcelable {
     @SerializedName("last_edit_time")
     private Date minervaDate;
 
+    private boolean read;
+
     private Course course;
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
 
     public String getTitle() {
         return title;

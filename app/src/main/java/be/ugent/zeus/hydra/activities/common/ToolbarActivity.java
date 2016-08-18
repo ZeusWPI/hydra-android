@@ -6,6 +6,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+
 import be.ugent.zeus.hydra.R;
 
 /**
@@ -73,5 +74,16 @@ public abstract class ToolbarActivity extends HydraActivity {
      */
     protected void hasParent(boolean hasParent) {
         this.hasParent = hasParent;
+    }
+
+    /**
+     * Set the title of the toolbar.
+     *
+     * @param title The title to set.
+     */
+    protected void setToolbarTitle(CharSequence title) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
     }
 }

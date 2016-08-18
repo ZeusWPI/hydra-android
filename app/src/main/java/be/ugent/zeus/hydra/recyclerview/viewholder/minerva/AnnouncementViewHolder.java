@@ -43,7 +43,7 @@ public class AnnouncementViewHolder extends AbstractViewHolder<Announcement> {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(itemView.getContext(), AnnouncementActivity.class);
-                intent.putExtra(AnnouncementActivity.PARCEL_NAME, (Parcelable) data);
+                intent.putExtra(AnnouncementActivity.ARG_ANNOUNCEMENT, (Parcelable) data);
                 itemView.getContext().startActivity(intent);
             }
         });

@@ -156,7 +156,18 @@
         <activity
             android:name=".activities.minerva.AnnouncementActivity"
             android:label="@string/title_announcement_title"
-            android:parentActivityName=".activities.Hydra">
+            android:parentActivityName=".activities.minerva.AnnouncementActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.minerva.AnnouncementActivity" />
+        </activity>
+
+        <activity
+            android:name=".activities.minerva.CourseActivity"
+            android:label="@string/activity_title_minerva_course"
+            android:parentActivityName=".activities.Hydra"
+            android:launchMode="singleTop">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

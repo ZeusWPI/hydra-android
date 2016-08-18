@@ -25,6 +25,8 @@ import java.io.Serializable;
  */
 public abstract class MinervaRequest<T extends Serializable> extends TokenRequest<T> implements CacheRequest<T, T> {
 
+    private static final String TAG = "MinervaRequest";
+
     protected static final String MINERVA_API = "https://minqas.ugent.be/api/rest/v2/";
 
     protected final Context context;
@@ -63,6 +65,7 @@ public abstract class MinervaRequest<T extends Serializable> extends TokenReques
         try {
             return super.performRequest();
         } catch (RequestFailureException e) {
+            Log.i(TAG, "Request failed", e);
             if(first && e.getCause() instanceof HttpServerErrorException) {
                 HttpServerErrorException error = (HttpServerErrorException) e.getCause();
                 if(error.getStatusCode().equals(HttpStatus.SERVICE_UNAVAILABLE)) {
@@ -83,9 +86,9 @@ public abstract class MinervaRequest<T extends Serializable> extends TokenReques
     @Override
     protected String getToken() {
         if(account == null) {
-            return AccountUtils.asyncAuthCode(context, activity);
+            return AccountUtils.syncAuthCode(context, activity);
         } else {
-            return AccountUtils.asyncAuthCode(context, account, activity);
+            return AccountUtils.syncAuthCode(context, account, activity);
         }
     }
 

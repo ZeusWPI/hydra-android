@@ -22,6 +22,12 @@ android {
             // Set this to false on release versions!
             debuggable true
         }
+        applicationVariants.all { variant ->
+            def Properties props = new Properties()
+            props.load(new FileInputStream(file('secrets.properties')))
+            variant.buildConfigField "String", "OAUTH_ID", "\""+props['OAUTH_ID']+"\""
+            variant.buildConfigField "String", "OAUTH_SECRET", "\""+props['OAUTH_SECRET']+"\""
+        }
     }
     packagingOptions {
         exclude 'META-INF/ASL2.0'
@@ -37,23 +43,6 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/notice.txt'
     }
-
-    buildTypes {
-        debug {
-            // Set this to false on release versions!
-            debuggable true
-        }
-
-        applicationVariants.all { variant ->
-            def Properties props = new Properties()
-            props.load(new FileInputStream(file('secrets.properties')))
-            variant.buildConfigField "String", "OAUTH_ID", "\""+props['OAUTH_ID']+"\""
-            variant.buildConfigField "String", "OAUTH_SECRET", "\""+props['OAUTH_SECRET']+"\""
-        }
-    }
-    productFlavors {
-    }
-
 }
 
 dependencies {
@@ -85,6 +74,8 @@ dependencies {
     }
     //This requires API 15+, but we use it anyway. Don't forget to use the normal browser if the version is too old!
     compile 'com.android.support:customtabs:24.1.1'
+
+    compile 'su.j2e:rv-joiner:1.0.9'
 
     compile 'com.github.alexfu:SQLiteQueryBuilder:0.3.0'
 }

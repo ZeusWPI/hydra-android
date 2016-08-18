@@ -60,6 +60,8 @@ public class TokenRequestInterceptor implements ClientHttpRequestInterceptor {
         // Log API Request
         Log.d(TAG, String.format("API Request: %s", request.getURI().toString()));
 
+        Log.d(TAG, getStringFromInputStream(execution.execute(request, body).getBody()));
+
         // Perform CacheRequest
         return execution.execute(request, body);
     }

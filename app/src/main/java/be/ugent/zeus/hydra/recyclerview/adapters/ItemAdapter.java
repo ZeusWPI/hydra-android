@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
-import java.util.Collections;
-import java.util.List;
-
 import android.support.v7.widget.RecyclerView;
 
 import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Adapter that works with a list of items.
@@ -39,6 +39,15 @@ public abstract class ItemAdapter<E, V extends AbstractViewHolder<E>> extends Re
     public void setItems(List<E> list) {
         items = list;
         notifyDataSetChanged();
+    }
+
+    /**
+     * Remove all items.
+     */
+    public void clear() {
+        int size = items.size();
+        items.clear();
+        notifyItemRangeRemoved(0, size);
     }
 
     @Override

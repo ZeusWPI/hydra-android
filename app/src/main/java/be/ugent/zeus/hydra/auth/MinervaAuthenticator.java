@@ -155,7 +155,10 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
         try {
             //Execute the request.
             BearerToken token = request.performRequest();
-            manager.setPassword(account, token.getRefreshToken());
+            if(token.getRefreshToken() != null) {
+                manager.setPassword(account, token.getRefreshToken());
+            }
+
 
             DateTime expiration = DateTime.now().plusSeconds(token.getExpiresIn());
             manager.setUserData(account, EXP_DATE, formatter.print(expiration));
