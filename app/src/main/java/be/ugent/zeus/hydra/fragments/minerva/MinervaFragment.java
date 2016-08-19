@@ -28,6 +28,7 @@ import be.ugent.zeus.hydra.minerva.course.CourseDao;
 import be.ugent.zeus.hydra.minerva.course.CourseDaoLoader;
 import be.ugent.zeus.hydra.minerva.sync.SyncAdapter;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
+import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAdapter;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
@@ -127,13 +128,8 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         //Get an account
         Account account = AccountUtils.getAccount(getContext());
 
-        ContentResolver.setIsSyncable(account, MinervaConfig.ACCOUNT_AUTHORITY, 1);
-        //Turn on periodic syncing
-        ContentResolver.setSyncAutomatically(account, MinervaConfig.ACCOUNT_AUTHORITY, true);
-        //TODO: is the above necessary? No idea, some say yes, others say no.
-        //24 hours for now
-        long twentyFourHours = 86400;
-        ContentResolver.addPeriodicSync(account, MinervaConfig.ACCOUNT_AUTHORITY, Bundle.EMPTY, twentyFourHours);
+        //Enable sync
+        SyncUtils.enableSync(getContext(), account);
 
         //Request first sync
         Log.d(TAG, "Requesting first sync...");

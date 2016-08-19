@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.fragments.settings;
+package be.ugent.zeus.hydra.fragments.preferences;
 
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;

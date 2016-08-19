@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.fragments.settings;
+package be.ugent.zeus.hydra.fragments.preferences;
 
 import android.app.LoaderManager;
 import android.content.Loader;

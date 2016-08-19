@@ -37,6 +37,10 @@
 
     <string name="pref_activities_title">Activiteiten</string>
 
+    <string name="pref_minerva_title">Minerva</string>
+
+    <string name="pref_minerva_category_account_title">Account &amp; synchronisatie</string>
+
     <string name="openFacebook">Ondertussen kan je een bezoekje brengen aan onze Facebook-pagina.</string>
     <string name="facebookButtonDescription">Link naar onze Facebook-pagina.</string>
     <string name="comingsoontitle">Coming soon!</string>

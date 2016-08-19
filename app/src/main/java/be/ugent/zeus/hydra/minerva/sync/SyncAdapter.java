@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.content.*;
 import android.database.SQLException;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -134,6 +135,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private void notifyUser(@NonNull Collection<Announcement> newAnnouncements) {
 
         if(newAnnouncements.isEmpty()) {
+            return;
+        }
+
+        //If we may not notify the user, stop here
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        if(!preferences.getBoolean("pref_minerva_announcement_notification", true)) {
             return;
         }
 
