@@ -4,11 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.minerva.database.Dao;
 import be.ugent.zeus.hydra.minerva.database.DatabaseHelper;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
@@ -20,7 +18,7 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
-public class AnnouncementDao implements Dao<Announcement> {
+public class AnnouncementDao {
 
     private static final String TAG = "AnnouncementDao";
 
@@ -255,14 +253,5 @@ public class AnnouncementDao implements Dao<Announcement> {
      */
     public List<Announcement> getAnnouncementsForCourse(Course course) {
         return getAnnouncementsForCourse(course, false);
-    }
-
-    /**
-     * @return All elements in this dao.
-     */
-    @NonNull
-    @Override
-    public List<Announcement> getAll() {
-        return null;
     }
 }

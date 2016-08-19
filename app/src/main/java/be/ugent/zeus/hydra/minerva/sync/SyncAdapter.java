@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementNotificationBuilder;
 import be.ugent.zeus.hydra.minerva.course.CourseDao;
@@ -66,12 +67,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             CourseDao dao = new CourseDao(getContext());
             AnnouncementDao announcementDao = new AnnouncementDao(getContext());
+            AgendaDao agendaDao = new AgendaDao(getContext());
+
             dao.synchronise(courses.getCourses());
 
             //Publish progress
             broadcast.publishIntent(SyncBroadcast.SYNC_PROGRESS_COURSES);
 
-            //Add announcements
+            //Add info
             for (int i = 0; i < courses.getCourses().size(); i++) {
                 Course course = courses.getCourses().get(i);
                 if (cancelled) {
@@ -82,6 +85,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 Log.d(TAG, "Syncing course " + course.getId());
                 WhatsNewRequest newRequest = new WhatsNewRequest(course, getContext(), null);
                 WhatsNew w = newRequest.performRequest();
+
+                //Sync agenda
+                agendaDao.synchronisePartial(w.getAgenda(), course);
+
+                //Sync announcements
                 Collection<Announcement> newOnes = announcementDao.synchronisePartial(w.getAnnouncements(), course, first);
 
                 //Publish progress

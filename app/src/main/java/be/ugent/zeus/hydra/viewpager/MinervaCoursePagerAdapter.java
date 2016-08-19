@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import be.ugent.zeus.hydra.fragments.ComingSoonFragment;
+import be.ugent.zeus.hydra.fragments.minerva.CourseAgendaFragment;
 import be.ugent.zeus.hydra.fragments.minerva.CourseAnnouncementFragment;
 import be.ugent.zeus.hydra.fragments.minerva.CourseInfoFragment;
 import be.ugent.zeus.hydra.models.minerva.Course;
@@ -31,7 +31,7 @@ public class MinervaCoursePagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return CourseAnnouncementFragment.newInstance(course);
             case 2:
-                return new ComingSoonFragment();
+                return CourseAgendaFragment.newInstance(course);
         }
 
         throw new IllegalTabException(position, getCount());

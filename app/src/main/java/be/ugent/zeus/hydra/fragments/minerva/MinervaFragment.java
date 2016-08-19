@@ -25,7 +25,7 @@ import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.course.CourseDao;
-import be.ugent.zeus.hydra.minerva.database.DaoLoader;
+import be.ugent.zeus.hydra.minerva.course.CourseDaoLoader;
 import be.ugent.zeus.hydra.minerva.sync.SyncAdapter;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.models.minerva.Course;
@@ -196,7 +196,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
 
     @Override
     public Loader<ThrowableEither<List<Course>>> onCreateLoader(int id, Bundle args) {
-        return new DaoLoader<>(getContext(), courseDao);
+        return new CourseDaoLoader(getContext(), courseDao);
     }
 
     @Override

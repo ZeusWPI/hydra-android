@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.minerva.database.Dao;
 import be.ugent.zeus.hydra.minerva.database.DatabaseHelper;
 import be.ugent.zeus.hydra.models.minerva.Course;
 
@@ -19,7 +18,7 @@ import java.util.*;
  * @author Niko Strijbol
  * @version 16/08/2016
  */
-public class CourseDao implements Dao<Course> {
+public class CourseDao {
 
     private static final String TAG = "CourseDao";
 
@@ -199,7 +198,6 @@ public class CourseDao implements Dao<Course> {
     }
 
     @NonNull
-    @Override
     public List<Course> getAll() {
         Log.d(TAG, "Getting all courses");
         SQLiteDatabase db = helper.getReadableDatabase();
