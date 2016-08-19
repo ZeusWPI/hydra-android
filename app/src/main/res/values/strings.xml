@@ -103,6 +103,7 @@
     <string name="title_association_activity_detail">Vereniging</string>
 
     <string name="activity_title_minerva_course">Minerva-vak</string>
+    <string name="activity_title_minerva_agenda">Agenda-item</string>
 
     <string name="auth_progress_prepare">Klaarmaken…</string>
     <string name="auth_progress_permission">Toegang vragen…</string>

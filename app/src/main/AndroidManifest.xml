@@ -156,11 +156,11 @@
         <activity
             android:name=".activities.minerva.AnnouncementActivity"
             android:label="@string/title_announcement_title"
-            android:parentActivityName=".activities.minerva.AnnouncementActivity">
+            android:parentActivityName=".activities.minerva.CourseActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.minerva.AnnouncementActivity" />
+                android:value=".activities.minerva.CourseActivity" />
         </activity>
 
         <activity
@@ -172,6 +172,16 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.Hydra" />
+        </activity>
+
+        <activity
+            android:name=".activities.minerva.AgendaActivity"
+            android:label="@string/activity_title_minerva_agenda"
+            android:parentActivityName=".activities.minerva.CourseActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.minerva.CourseActivity" />
         </activity>
 
         <activity

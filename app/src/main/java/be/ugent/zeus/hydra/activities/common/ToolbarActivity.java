@@ -2,8 +2,10 @@ package be.ugent.zeus.hydra.activities.common;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
@@ -49,10 +51,20 @@ public abstract class ToolbarActivity extends HydraActivity {
         setSupportActionBar(toolbar);
 
         //Set the up button.
-        assert getSupportActionBar() != null;
         if (hasParent) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getToolBar().setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    /**
+     * A non-null version of {@link #getSupportActionBar()}.
+     *
+     * @return The action bar.
+     */
+    @NonNull
+    protected ActionBar getToolBar() {
+        assert getSupportActionBar() != null;
+        return getSupportActionBar();
     }
 
     /**
@@ -74,16 +86,5 @@ public abstract class ToolbarActivity extends HydraActivity {
      */
     protected void hasParent(boolean hasParent) {
         this.hasParent = hasParent;
-    }
-
-    /**
-     * Set the title of the toolbar.
-     *
-     * @param title The title to set.
-     */
-    protected void setToolbarTitle(CharSequence title) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(title);
-        }
     }
 }

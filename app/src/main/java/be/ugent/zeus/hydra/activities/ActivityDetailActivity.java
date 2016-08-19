@@ -56,8 +56,7 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
 
         if(event.getTitle() != null){
             title.setText(event.getTitle());
-            assert getSupportActionBar() != null;
-            getSupportActionBar().setTitle(event.getTitle());
+            getToolBar().setTitle(event.getTitle());
         }
 
         if(event.getAssociation() != null ) {

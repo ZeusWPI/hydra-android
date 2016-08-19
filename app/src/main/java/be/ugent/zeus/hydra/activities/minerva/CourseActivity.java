@@ -43,7 +43,7 @@ public class CourseActivity extends ToolbarActivity {
         viewPager.setCurrentItem(1, false);
         tabLayout.setupWithViewPager(viewPager);
 
-        setToolbarTitle(course.getTitle());
+        getToolBar().setTitle(course.getTitle());
     }
 
     @Override
