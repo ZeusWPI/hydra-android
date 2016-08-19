@@ -18,6 +18,8 @@ import be.ugent.zeus.hydra.viewpager.SectionPagerAdapter;
  */
 public class Hydra extends ToolbarActivity {
 
+    public static final String ARG_TAB = "argTab";
+
     //The tab icons
     private static int[] icons = {
             R.drawable.ic_tabs_home,
@@ -28,8 +30,6 @@ public class Hydra extends ToolbarActivity {
             R.drawable.ic_tabs_info,
             R.drawable.ic_tabs_minerva,
     };
-
-    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +42,10 @@ public class Hydra extends ToolbarActivity {
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        mViewPager = $(R.id.pager);
-        mViewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
+        ViewPager viewpager = $(R.id.pager);
+        viewpager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
 
-        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 HydraApplication app = (HydraApplication) Hydra.this.getApplication();
@@ -54,7 +54,7 @@ public class Hydra extends ToolbarActivity {
         });
 
         final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
-        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 appBarLayout.setExpanded(true);
@@ -62,18 +62,15 @@ public class Hydra extends ToolbarActivity {
         });
 
         TabLayout tabLayout = $(R.id.tab_layout);
-        tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.setupWithViewPager(viewpager);
 
         for (int i = 0; i < icons.length; i++) {
             tabLayout.getTabAt(i).setIcon(icons[i]);
         }
 
-        // If the app was launched via a resto notification, open the resto tab.
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        if(action != null && action.equals(getString(R.string.resto_action))){
-            changeFragment(2);
-        }
+        //Get start position
+        int start = getIntent().getIntExtra(ARG_TAB, 0);
+        viewpager.setCurrentItem(start, false);
     }
 
     @Override
@@ -98,12 +95,5 @@ public class Hydra extends ToolbarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Set the current tab.
-     */
-    public void changeFragment(int fragment) {
-        mViewPager.setCurrentItem(fragment, false);
     }
 }
