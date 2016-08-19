@@ -41,7 +41,7 @@ public class MinervaFragment extends PreferenceFragment {
         });
 
         if(!AccountUtils.hasAccount(getAppContext())) {
-            preference.setShouldDisableView(true);
+            preference.setEnabled(false);
         }
     }
 
