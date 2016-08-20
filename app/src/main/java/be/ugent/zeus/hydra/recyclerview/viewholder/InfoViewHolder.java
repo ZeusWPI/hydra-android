@@ -16,7 +16,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public class InfoViewHolder extends AbstractViewHolder<InfoItem> {
+public class InfoViewHolder extends DataViewHolder<InfoItem> {
 
     private TextView title;
 

@@ -19,7 +19,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * Created by feliciaan on 18/06/16.
  */
-public class NewsItemViewHolder extends AbstractViewHolder<NewsItem> {
+public class NewsItemViewHolder extends DataViewHolder<NewsItem> {
 
     public static final String PARCEL_NAME = "newsItem";
 

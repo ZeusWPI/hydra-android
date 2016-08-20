@@ -2,27 +2,26 @@ package be.ugent.zeus.hydra.requests.minerva;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.util.Pair;
 
-import be.ugent.zeus.hydra.cache.Cache;
-import be.ugent.zeus.hydra.requests.common.RequestFailureException;
-import be.ugent.zeus.hydra.cache.file.SerializeCache;
 import be.ugent.zeus.hydra.models.minerva.Course;
-import be.ugent.zeus.hydra.models.minerva.Courses;
 import be.ugent.zeus.hydra.models.minerva.WhatsNew;
 
-import static be.ugent.zeus.hydra.cache.Cache.ONE_HOUR;
+import static be.ugent.zeus.hydra.cache.Cache.NEVER;
 
 /**
- * Created by feliciaan on 29/06/16.
+ * Request to get information about a course.
+ *
+ * Warning: this request should not be used. The minerva data is synchronised to the database. Use that instead. If
+ * you need new data, request a sync.
+ *
+ * This request is, as a consequence of the above, not cached.
+ *
+ * @author Niko Strijbol
+ * @author feliciaan
  */
 public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
-
-    private static final String TAG = "WhatsNewRequest";
 
     public static final String BASE_KEY = "whatsnewRequest";
 
@@ -47,66 +46,6 @@ public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
 
     @Override
     public long getCacheDuration() {
-        return ONE_HOUR;
-    }
-
-    /**
-     * Get announcements for all courses. While the initial request for the courses is executed in sync, the requests
-     * for the courses are not. Every time new announcements are loaded, they are passed to the listener.
-     */
-    public static void getAllAnnouncements(final Courses courses, final Context context, final Activity activity, final AnnouncementsListener listener) {
-
-        final Cache cache = new SerializeCache(context.getApplicationContext());
-
-        AsyncTask<Void, Pair<Course, WhatsNew>, Void> task = new AsyncTask<Void, Pair<Course, WhatsNew>, Void>() {
-
-            private Throwable error;
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-
-                try {
-                    for (Course course : courses.getCourses()) {
-                        //noinspection unchecked
-                        publishProgress(new Pair<>(course, cache.get(new WhatsNewRequest(course, context, activity))));
-                    }
-                } catch (RequestFailureException e) {
-                    error = e;
-                }
-
-                return null;
-            }
-
-            @SafeVarargs
-            @Override
-            protected final void onProgressUpdate(Pair<Course, WhatsNew>... values) {
-                Pair<Course, WhatsNew> p = values[0];
-                listener.onAnnouncementsAdded(p.second, p.first);
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                if(error != null) {
-                    Log.d(TAG, "An error occurred.", error);
-                    listener.error(error);
-                } else {
-                    listener.completed();
-                }
-            }
-        };
-
-        task.execute();
-    }
-
-    public interface AnnouncementsListener {
-
-        /**
-         * Called when announcements are added to the list.
-         */
-        void onAnnouncementsAdded(WhatsNew whatsNew, Course course);
-
-        void completed();
-
-        void error(Throwable lastError);
+        return NEVER;
     }
 }

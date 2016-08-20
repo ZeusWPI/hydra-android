@@ -17,6 +17,7 @@ import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDaoLoader;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemLoader;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.AnnouncementAdapter;
 import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 import su.j2e.rvjoiner.JoinableAdapter;
@@ -64,18 +65,18 @@ public class CourseAnnouncementFragment extends LoaderFragment<List<Announcement
         super.onViewCreated(view, savedInstanceState);
 
         dao = new AnnouncementDao(getContext());
-        readAdapter = new AnnouncementAdapter();
-        unreadAdapter = new AnnouncementAdapter();
+        readAdapter = new AnnouncementAdapter(R.layout.item_no_data);
+        unreadAdapter = new AnnouncementAdapter(R.layout.item_no_data);
 
         RecyclerView recyclerView = $(view, R.id.recycler_view);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         RvJoiner joiner = new RvJoiner();
-        joiner.add(new JoinableLayout(R.layout.fragment_minerva_course_announcement_unread));
-        joiner.add(new JoinableAdapter(readAdapter));
-        joiner.add(new JoinableLayout(R.layout.fragment_minerva_course_announcement_read));
-        joiner.add(new JoinableAdapter(unreadAdapter));
+        joiner.add(new JoinableLayout(R.layout.fragment_minerva_announcement_unread_header));
+        joiner.add(new JoinableAdapter(readAdapter, EmptyItemLoader.ITEMS_VIEW, EmptyItemLoader.EMPTY_VIEW));
+        joiner.add(new JoinableLayout(R.layout.item_minerva_announcement_read_header));
+        joiner.add(new JoinableAdapter(unreadAdapter, EmptyItemLoader.ITEMS_VIEW, EmptyItemLoader.EMPTY_VIEW));
         recyclerView.setAdapter(joiner.getAdapter());
     }
 

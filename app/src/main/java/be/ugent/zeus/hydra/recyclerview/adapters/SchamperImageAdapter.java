@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.schamper.ArticleImage;
+import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.ImageViewHolder;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 

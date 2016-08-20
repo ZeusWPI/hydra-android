@@ -5,7 +5,7 @@ import android.view.View;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.views.NowToolbar;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
@@ -15,7 +15,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public abstract class HideableViewHolder extends AbstractViewHolder<HomeCard> {
+public abstract class HideableViewHolder extends DataViewHolder<HomeCard> {
 
     protected HomeCardAdapter adapter;
     protected NowToolbar toolbar;

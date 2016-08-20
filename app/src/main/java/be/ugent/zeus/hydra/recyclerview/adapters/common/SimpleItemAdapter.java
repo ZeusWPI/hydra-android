@@ -1,8 +1,6 @@
-package be.ugent.zeus.hydra.recyclerview.adapters;
+package be.ugent.zeus.hydra.recyclerview.adapters.common;
 
 import android.support.v7.widget.RecyclerView;
-
-import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,11 +9,11 @@ import java.util.List;
  * Adapter that works with a list of items.
  *
  * @param <E> The type of the elements the data of this adapter consists of.
- * @param <V> The type of the {@link android.support.v7.widget.RecyclerView.ViewHolder}.
+ * @param <V> The type of the {@link RecyclerView.ViewHolder}.
  *
  * @author Niko Strijbol
  */
-public abstract class ItemAdapter<E, V extends AbstractViewHolder<E>> extends RecyclerView.Adapter<V> implements Adapter<E, V> {
+public abstract class SimpleItemAdapter<E, V extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<V> implements Adapter<E> {
 
     protected List<E> items = Collections.emptyList();
 
@@ -48,10 +46,5 @@ public abstract class ItemAdapter<E, V extends AbstractViewHolder<E>> extends Re
         int size = items.size();
         items.clear();
         notifyItemRangeRemoved(0, size);
-    }
-
-    @Override
-    public void onBindViewHolder(V holder, int position) {
-        holder.populate(items.get(position));
     }
 }

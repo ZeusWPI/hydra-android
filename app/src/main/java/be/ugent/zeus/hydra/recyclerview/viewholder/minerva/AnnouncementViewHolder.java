@@ -7,7 +7,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
-import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 import java.util.Locale;
@@ -16,9 +16,8 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
  * @author Niko Strijbol
- * @version 15/07/2016
  */
-public class AnnouncementViewHolder extends AbstractViewHolder<Announcement> {
+public class AnnouncementViewHolder extends DataViewHolder<Announcement> {
 
     private TextView title;
     private TextView subtitle;

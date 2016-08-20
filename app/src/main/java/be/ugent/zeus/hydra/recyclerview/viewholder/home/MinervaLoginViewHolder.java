@@ -4,12 +4,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.models.cards.HomeCard;
-import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 
 /**
  * Created by feliciaan on 29/06/16.
  */
-public class MinervaLoginViewHolder extends AbstractViewHolder<HomeCard> {
+public class MinervaLoginViewHolder extends DataViewHolder<HomeCard> {
 
     private static final String TAG = "LoginViewHolder";
 

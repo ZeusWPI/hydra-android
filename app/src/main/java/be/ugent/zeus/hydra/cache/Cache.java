@@ -10,6 +10,8 @@ import java.io.Serializable;
 /**
  * Generic interface for a cache.
  *
+ * If the cache duration is set to {@link #NEVER}, the request will not be cached at all.
+ *
  * @author Niko Strijbol
  */
 @SuppressWarnings("unused")

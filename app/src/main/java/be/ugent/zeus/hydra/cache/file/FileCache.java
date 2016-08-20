@@ -98,6 +98,14 @@ public abstract class FileCache implements Cache {
     @NonNull
     @Override
     public <T extends Serializable, R> R get(CacheRequest<T, R> request, long duration) throws RequestFailureException {
+
+        //If the cache is never, just return the data.
+        if(duration == Cache.NEVER) {
+            Log.i(TAG, "Non-cacheable request: " + request);
+            return request.getData(request.performRequest());
+        }
+
+        //Else we do the caching.
         CacheObject<T> object = readOrNull(request.getCacheKey());
         T data;
 

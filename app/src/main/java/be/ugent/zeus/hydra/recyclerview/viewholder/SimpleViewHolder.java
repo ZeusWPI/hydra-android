@@ -6,11 +6,9 @@ import android.view.View;
 /**
  * @author Niko Strijbol
  */
-public abstract class AbstractViewHolder<D> extends RecyclerView.ViewHolder {
+public class SimpleViewHolder extends RecyclerView.ViewHolder {
 
-    public AbstractViewHolder(View itemView) {
+    public SimpleViewHolder(View itemView) {
         super(itemView);
     }
-
-    public abstract void populate(D data);
 }

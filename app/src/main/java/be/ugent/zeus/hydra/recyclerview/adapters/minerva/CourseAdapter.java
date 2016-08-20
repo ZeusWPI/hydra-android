@@ -4,8 +4,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.minerva.Course;
-import be.ugent.zeus.hydra.recyclerview.adapters.ItemAdapter;
-import be.ugent.zeus.hydra.recyclerview.viewholder.CourseViewHolder;
+import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
+import be.ugent.zeus.hydra.recyclerview.viewholder.minerva.CourseViewHolder;
 
 /**
  * @author Niko Strijbol

@@ -9,7 +9,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
-import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import com.squareup.picasso.Picasso;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
@@ -17,7 +17,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * Created by feliciaan on 06/04/16.
  */
-public class SpecialEventCardViewHolder extends AbstractViewHolder<HomeCard> {
+public class SpecialEventCardViewHolder extends DataViewHolder<HomeCard> {
 
     public SpecialEventCardViewHolder(View itemView) {
         super(itemView);

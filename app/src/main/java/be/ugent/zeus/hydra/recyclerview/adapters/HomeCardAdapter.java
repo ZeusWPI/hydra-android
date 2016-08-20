@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.fragments.home.HomeFragment;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
-import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.recyclerview.viewholder.home.*;
 
 import java.util.*;
@@ -27,7 +27,7 @@ import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.*;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder<HomeCard>> {
+public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCard>> {
 
     private final List<HomeCard> cardItems;
     private final SharedPreferences preferences;
@@ -82,7 +82,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder<Hom
     }
 
     @Override
-    public AbstractViewHolder<HomeCard> onCreateViewHolder(ViewGroup parent, @HomeCard.CardType int viewType) {
+    public DataViewHolder<HomeCard> onCreateViewHolder(ViewGroup parent, @HomeCard.CardType int viewType) {
         switch (viewType) {
             case RESTO:
                 return new RestoCardViewHolder(getViewForLayout(R.layout.home_card_resto, parent), this);
@@ -123,7 +123,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<AbstractViewHolder<Hom
     }
 
     @Override
-    public void onBindViewHolder(AbstractViewHolder<HomeCard> holder, int position) {
+    public void onBindViewHolder(DataViewHolder<HomeCard> holder, int position) {
         HomeCard object = cardItems.get(position);
         holder.populate(object);
     }
