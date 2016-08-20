@@ -4,14 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
@@ -54,17 +53,10 @@ public class ViewUtils {
      * @return The drawable
      */
     public static Drawable getTintedVectorDrawable(Context context, @DrawableRes int drawable, @ColorRes int color) {
-        Drawable d;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            d = context.getDrawable(drawable);
-            assert d != null;
-            d.setTint(context.getColor(color));
-        } else {
-            VectorDrawableCompat dc = VectorDrawableCompat.create(context.getResources(), drawable, context.getTheme());
-            assert dc != null;
-            dc.setTint(ContextCompat.getColor(context, color));
-            d = dc;
-        }
+
+        Drawable d = AppCompatResources.getDrawable(context, drawable);
+        DrawableCompat.setTint(d, ContextCompat.getColor(context, color));
+
         return d;
     }
 
@@ -79,11 +71,6 @@ public class ViewUtils {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return dp * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-    }
-
-    public static int getColor(Context context, @ColorRes int color){
-        Resources resources = context.getResources();
-        return ResourcesCompat.getColor(resources, color, context.getTheme());
     }
 
     public static int convertDpToPixelInt(float dp, Context context){
