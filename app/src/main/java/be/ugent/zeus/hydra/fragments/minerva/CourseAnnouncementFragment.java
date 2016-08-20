@@ -1,8 +1,11 @@
 package be.ugent.zeus.hydra.fragments.minerva;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
@@ -66,7 +70,7 @@ public class CourseAnnouncementFragment extends LoaderFragment<List<Announcement
 
         dao = new AnnouncementDao(getContext());
         readAdapter = new AnnouncementAdapter(R.layout.item_no_data);
-        unreadAdapter = new AnnouncementAdapter(R.layout.item_no_data);
+        unreadAdapter = new AnnouncementAdapter(R.layout.item_no_data, this);
 
         RecyclerView recyclerView = $(view, R.id.recycler_view);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
@@ -114,5 +118,20 @@ public class CourseAnnouncementFragment extends LoaderFragment<List<Announcement
 
         unreadAdapter.setItems(unread);
         readAdapter.setItems(read);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == AnnouncementActivity.RESULT_ANNOUNCEMENT && resultCode == Activity.RESULT_OK) {
+            if(data.getBooleanExtra(AnnouncementActivity.RESULT_ARG_ANNOUNCEMENT_READ, false)) {
+                int id = data.getIntExtra(AnnouncementActivity.RESULT_ARG_ANNOUNCEMENT_ID, 0);
+                //Get the item
+                int pos = unreadAdapter.positionOf(id);
+                Announcement a = unreadAdapter.get(pos);
+                unreadAdapter.remove(pos);
+                readAdapter.add(a);
+                Snackbar.make(getView(), "Als gelezen gemarkeerd.", Snackbar.LENGTH_SHORT).show();
+            }
+        }
     }
 }

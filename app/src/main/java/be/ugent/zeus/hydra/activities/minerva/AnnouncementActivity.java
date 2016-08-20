@@ -27,11 +27,17 @@ public class AnnouncementActivity extends ToolbarActivity {
 
     public static final String ARG_ANNOUNCEMENT = "announcement_view";
 
+    public static final int RESULT_ANNOUNCEMENT = 1;
+    public static final String RESULT_ARG_ANNOUNCEMENT_ID = "argPos";
+    public static final String RESULT_ARG_ANNOUNCEMENT_READ = "argRead";
+
     private static final String ONLINE_URL_MOBILE = "https://minerva.ugent.be/mobile/courses/%s/announcement";
     private static final String ONLINE_URL_DESKTOP = "http://minerva.ugent.be/main/announcements/announcements.php?cidReq=%s";
 
     private Announcement announcement;
     private AnnouncementDao dao;
+    private boolean read = false;
+    private boolean resultSet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,14 +102,36 @@ public class AnnouncementActivity extends ToolbarActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        //Set the read date if needed
+        if(!announcement.isRead()) {
+            read = true;
+            announcement.setRead(new Date());
+        }
+        setResult();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
 
-        //Set the announcement to read, and then update the intent.
-        announcement.setRead(new Date());
-        dao.update(announcement);
-        Intent intent = getIntent();
-        intent.putExtra(ARG_ANNOUNCEMENT, (Parcelable) announcement);
-        setIntent(intent);
+        //Save the things
+        if(read) {
+            dao.update(announcement);
+            Intent intent = getIntent();
+            intent.putExtra(ARG_ANNOUNCEMENT, (Parcelable) announcement);
+            setIntent(intent);
+        }
+    }
+
+    private void setResult() {
+        if(!resultSet) {
+            Intent result = new Intent();
+            result.putExtra(RESULT_ARG_ANNOUNCEMENT_ID, announcement.getItemId());
+            result.putExtra(RESULT_ARG_ANNOUNCEMENT_READ, read);
+            setResult(RESULT_OK, result);
+            resultSet = true;
+        }
     }
 }
