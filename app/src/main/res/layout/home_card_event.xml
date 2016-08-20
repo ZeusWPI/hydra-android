@@ -8,9 +8,7 @@
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginBottom="@dimen/card_spacing"
-    android:clickable="true"
-    app:contentPaddingLeft="@dimen/card_title_padding_vertical"
-    app:contentPaddingRight="@dimen/card_title_padding_vertical">
+    android:clickable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,10 +20,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:icon="@drawable/ic_tabs_events"
-            android:paddingTop="@dimen/card_title_padding_top"
             />
 
         <LinearLayout
+            android:paddingRight="@dimen/card_title_padding_vertical"
+            android:paddingLeft="@dimen/card_title_padding_vertical"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

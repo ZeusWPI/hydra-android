@@ -39,8 +39,7 @@ public class Hydra extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        assert getSupportActionBar() != null;
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getToolBar().setDisplayShowTitleEnabled(false);
 
         ViewPager viewpager = $(R.id.pager);
         viewpager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
