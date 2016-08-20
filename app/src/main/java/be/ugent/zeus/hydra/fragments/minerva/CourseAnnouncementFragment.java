@@ -74,9 +74,9 @@ public class CourseAnnouncementFragment extends LoaderFragment<List<Announcement
 
         RvJoiner joiner = new RvJoiner();
         joiner.add(new JoinableLayout(R.layout.fragment_minerva_announcement_unread_header));
-        joiner.add(new JoinableAdapter(readAdapter, EmptyItemLoader.ITEMS_VIEW, EmptyItemLoader.EMPTY_VIEW));
-        joiner.add(new JoinableLayout(R.layout.item_minerva_announcement_read_header));
         joiner.add(new JoinableAdapter(unreadAdapter, EmptyItemLoader.ITEMS_VIEW, EmptyItemLoader.EMPTY_VIEW));
+        joiner.add(new JoinableLayout(R.layout.item_minerva_announcement_read_header));
+        joiner.add(new JoinableAdapter(readAdapter, EmptyItemLoader.ITEMS_VIEW, EmptyItemLoader.EMPTY_VIEW));
         recyclerView.setAdapter(joiner.getAdapter());
     }
 

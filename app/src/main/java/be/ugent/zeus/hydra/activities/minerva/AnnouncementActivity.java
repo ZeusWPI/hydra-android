@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.activities.minerva;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,10 +11,13 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.utils.html.Utils;
+
+import java.util.Date;
 
 /**
  * Show a Minerva announcement.
@@ -27,6 +31,7 @@ public class AnnouncementActivity extends ToolbarActivity {
     private static final String ONLINE_URL_DESKTOP = "http://minerva.ugent.be/main/announcements/announcements.php?cidReq=%s";
 
     private Announcement announcement;
+    private AnnouncementDao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,8 @@ public class AnnouncementActivity extends ToolbarActivity {
 
         Intent intent = getIntent();
         announcement = intent.getParcelableExtra(ARG_ANNOUNCEMENT);
+
+        dao = new AnnouncementDao(getApplicationContext());
 
         TextView title = $(R.id.title);
         TextView date = $(R.id.date);
@@ -86,5 +93,17 @@ public class AnnouncementActivity extends ToolbarActivity {
     private String getOnlineUrl() {
         //TODO: use preferences
         return String.format(ONLINE_URL_DESKTOP, announcement.getCourse().getId());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        //Set the announcement to read, and then update the intent.
+        announcement.setRead(new Date());
+        dao.update(announcement);
+        Intent intent = getIntent();
+        intent.putExtra(ARG_ANNOUNCEMENT, (Parcelable) announcement);
+        setIntent(intent);
     }
 }

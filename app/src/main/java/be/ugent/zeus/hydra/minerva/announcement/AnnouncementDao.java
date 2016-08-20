@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -23,14 +24,12 @@ public class AnnouncementDao {
     private static final String TAG = "AnnouncementDao";
 
     private final DatabaseHelper helper;
-    private final Context context;
 
     /**
      * @param context The application context.
      */
     public AnnouncementDao(Context context) {
         this.helper = DatabaseHelper.getInstance(context);
-        this.context = context;
     }
 
     /**
@@ -70,9 +69,14 @@ public class AnnouncementDao {
             String ids = TextUtils.join(", ", getRemovable(present, announcements));
             db.delete(AnnouncementTable.TABLE_NAME, AnnouncementTable.COLUMN_ID + " IN (?)", new String[]{ids});
 
-            Date date = new Date();
+            Date date = null;
+            if(first) {
+                date = new Date();
+            }
+
             for (Announcement announcement: announcements ) {
 
+                announcement.setRead(date);
                 announcement.setCourse(course);
                 ContentValues value = getValues(announcement);
 
@@ -88,9 +92,7 @@ public class AnnouncementDao {
                 }
                 //Add new announcement
                 else {
-                    if(first) {
-                        value.put(AnnouncementTable.COLUMN_READ_DATE, date.getTime());
-                    } else {
+                    if(!first) {
                         newAnnouncements.add(announcement);
                     }
                     db.insertOrThrow(AnnouncementTable.TABLE_NAME, null, value);
@@ -118,10 +120,33 @@ public class AnnouncementDao {
         values.put(AnnouncementTable.COLUMN_STICKY_UNTIL, 0);
         values.put(AnnouncementTable.COLUMN_LECTURER, a.getLecturer());
         values.put(AnnouncementTable.COLUMN_DATE, a.getDate().getTime());
-        values.put(AnnouncementTable.COLUMN_READ_DATE, 0);
-        values.put(AnnouncementTable.COLUMN_NOTIFICATION, 0);
+        values.put(AnnouncementTable.COLUMN_READ_DATE, a.isRead() ? a.getDate().getTime() : 0);
 
         return values;
+    }
+
+    /**
+     * Set the announcement as read if that is not the case already.
+     *
+     * @param a
+     */
+    public void update(Announcement a) {
+
+        Log.i(TAG, "Updating announcement " + a.getItemId());
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        try {
+            ContentValues values = getValues(a);
+            db.update(
+                    AnnouncementTable.TABLE_NAME,
+                    values,
+                    AnnouncementTable.COLUMN_ID + " = ?",
+                    new String[]{String.valueOf(a.getItemId())}
+                    );
+        } finally {
+            db.close();
+        }
     }
 
     private static boolean intToBool(int integer) {
@@ -214,25 +239,7 @@ public class AnnouncementDao {
 
             if (cursor != null) {
                 try {
-                    int columnIndex = cursor.getColumnIndex(AnnouncementTable.COLUMN_ID);
-                    int columnTitle = cursor.getColumnIndex(AnnouncementTable.COLUMN_TITLE);
-                    int columnContent = cursor.getColumnIndex(AnnouncementTable.COLUMN_CONTENT);
-                    int columnEmailSent = cursor.getColumnIndex(AnnouncementTable.COLUMN_EMAIL_SENT);
-                    int columnSticky = cursor.getColumnIndex(AnnouncementTable.COLUMN_STICKY_UNTIL);
-                    int columnLecturer = cursor.getColumnIndex(AnnouncementTable.COLUMN_LECTURER);
-                    int columnDate = cursor.getColumnIndex(AnnouncementTable.COLUMN_DATE);
-
-                    while (cursor.moveToNext()) {
-                        Announcement a = new Announcement();
-                        a.setCourse(course);
-                        a.setItemId(cursor.getInt(columnIndex));
-                        a.setTitle(cursor.getString(columnTitle));
-                        a.setContent(cursor.getString(columnContent));
-                        a.setEmailSent(intToBool(cursor.getInt(columnEmailSent)));
-                        a.setLecturer(cursor.getString(columnLecturer));
-                        a.setDate(new Date(cursor.getLong(columnDate)));
-                        result.add(a);
-                    }
+                    result = getAnnouncements(cursor, course);
                 } finally {
                     cursor.close();
                 }
@@ -253,5 +260,37 @@ public class AnnouncementDao {
      */
     public List<Announcement> getAnnouncementsForCourse(Course course) {
         return getAnnouncementsForCourse(course, false);
+    }
+
+    private List<Announcement> getAnnouncements(@NonNull Cursor cursor, Course course) {
+
+        List<Announcement> result = new ArrayList<>();
+
+        int columnIndex = cursor.getColumnIndex(AnnouncementTable.COLUMN_ID);
+        int columnTitle = cursor.getColumnIndex(AnnouncementTable.COLUMN_TITLE);
+        int columnContent = cursor.getColumnIndex(AnnouncementTable.COLUMN_CONTENT);
+        int columnEmailSent = cursor.getColumnIndex(AnnouncementTable.COLUMN_EMAIL_SENT);
+        int columnSticky = cursor.getColumnIndex(AnnouncementTable.COLUMN_STICKY_UNTIL);
+        int columnLecturer = cursor.getColumnIndex(AnnouncementTable.COLUMN_LECTURER);
+        int columnDate = cursor.getColumnIndex(AnnouncementTable.COLUMN_DATE);
+        int columnRead = cursor.getColumnIndex(AnnouncementTable.COLUMN_READ_DATE);
+
+        while (cursor.moveToNext()) {
+            Announcement a = new Announcement();
+            a.setCourse(course);
+            a.setItemId(cursor.getInt(columnIndex));
+            a.setTitle(cursor.getString(columnTitle));
+            a.setContent(cursor.getString(columnContent));
+            a.setEmailSent(intToBool(cursor.getInt(columnEmailSent)));
+            a.setLecturer(cursor.getString(columnLecturer));
+            a.setDate(new Date(cursor.getLong(columnDate)));
+            long d = cursor.getLong(columnRead);
+            if(d != 0) {
+                a.setRead(new Date(d));
+            }
+            result.add(a);
+        }
+
+        return result;
     }
 }

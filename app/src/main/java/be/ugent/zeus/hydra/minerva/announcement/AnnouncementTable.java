@@ -31,7 +31,6 @@ public final class AnnouncementTable implements BaseColumns {
 
     //Columns for the meta data we use locally
     public static final String COLUMN_READ_DATE = "read_at";
-    public static final String COLUMN_NOTIFICATION = "notified_at";
 
     /**
      * @return The SQL to create this table.
@@ -47,7 +46,6 @@ public final class AnnouncementTable implements BaseColumns {
         Column lecturer = new Column(COLUMN_LECTURER, ColumnType.TEXT);
         Column date = new Column(COLUMN_DATE, ColumnType.INTEGER);
         Column readDate = new Column(COLUMN_READ_DATE, ColumnType.INTEGER);
-        Column notificationDate = new Column(COLUMN_NOTIFICATION, ColumnType.INTEGER);
         //TODO: improve this api
         Column restraint = new ForeignKeyColumn(COLUMN_COURSE, CourseTable.TABLE_NAME, CourseTable.COLUMN_ID)
                 .cascade(true);
@@ -62,7 +60,6 @@ public final class AnnouncementTable implements BaseColumns {
                 .column(lecturer)
                 .column(date)
                 .column(readDate)
-                .column(notificationDate)
                 .column(restraint)
                 .build();
     }
