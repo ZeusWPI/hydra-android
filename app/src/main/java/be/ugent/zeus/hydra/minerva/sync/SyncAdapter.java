@@ -113,10 +113,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     syncResult.stats.numParseExceptions++;
                 }
             }
+            SyncNotificationBuilder.showError(getContext());
             broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
         } catch (SQLException e) {
             syncResult.databaseError = true;
             Log.w(TAG, "Sync error.", e);
+            SyncNotificationBuilder.showError(getContext());
             broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
         }
     }
