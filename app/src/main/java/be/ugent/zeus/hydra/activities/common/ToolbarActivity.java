@@ -3,13 +3,13 @@ package be.ugent.zeus.hydra.activities.common;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.utils.ViewUtils;
 
 /**
  * An activity where there is no action bar, and instead a {@link android.support.v7.widget.Toolbar} is used.
@@ -68,15 +68,18 @@ public abstract class ToolbarActivity extends HydraActivity {
     }
 
     /**
-     * Replace an icon with given ID by the same icon but in white.
+     * Replace an icon with given ID by the same icon but in the correct colour.
      *
      * @param menu The menu.
      * @param ids The ids of the icon.
      */
-    protected void setWhiteIcons(Menu menu, int... ids) {
+    protected void tintToolbarIcons(Menu menu, int... ids) {
+
+        int color = ViewUtils.getColor(getToolBar().getThemedContext(), android.R.attr.textColorPrimary);
+
         for (int id: ids) {
             Drawable drawable = DrawableCompat.wrap(menu.findItem(id).getIcon());
-            DrawableCompat.setTint(drawable, ActivityCompat.getColor(this, R.color.white));
+            DrawableCompat.setTint(drawable, color);
             menu.findItem(id).setIcon(drawable);
         }
     }

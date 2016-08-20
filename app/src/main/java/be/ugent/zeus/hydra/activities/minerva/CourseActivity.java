@@ -65,7 +65,7 @@ public class CourseActivity extends ToolbarActivity {
         getMenuInflater().inflate(R.menu.menu_minerva_course, menu);
 
         // We need to manually set the color of this Drawable for some reason.
-        setWhiteIcons(menu, R.id.minerva_course_link);
+        tintToolbarIcons(menu, R.id.minerva_course_link);
 
         return true;
     }

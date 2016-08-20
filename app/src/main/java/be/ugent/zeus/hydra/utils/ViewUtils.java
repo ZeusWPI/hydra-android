@@ -3,16 +3,13 @@ package be.ugent.zeus.hydra.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
+import android.support.annotation.*;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.content.res.AppCompatResources;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.View;
 
 import be.ugent.zeus.hydra.R;
@@ -39,9 +36,20 @@ public class ViewUtils {
     }
 
     public static int getPrimaryColor(Activity activity) {
-        TypedValue typedValue = new TypedValue();
-        activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-        return typedValue.data;
+        return getColor(activity, R.attr.colorPrimary);
+    }
+
+    @ColorInt
+    public static int getColor(Context context, @AttrRes int attribute) {
+
+        int[] attrs = new int[]{attribute};
+        TypedArray ta = context.obtainStyledAttributes(attrs);
+
+        try {
+            return ta.getColor(0, 0);
+        } finally {
+            ta.recycle();
+        }
     }
 
     /**

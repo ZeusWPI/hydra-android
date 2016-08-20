@@ -94,7 +94,7 @@ public class AgendaActivity extends ToolbarActivity {
         getMenuInflater().inflate(R.menu.menu_minerva_agenda, menu);
 
         // We need to manually set the color of this Drawable for some reason.
-        setWhiteIcons(menu, R.id.minerva_agenda_add);
+        tintToolbarIcons(menu, R.id.minerva_agenda_add);
 
         return true;
     }
