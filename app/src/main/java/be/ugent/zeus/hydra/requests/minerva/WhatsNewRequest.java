@@ -8,8 +8,6 @@ import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.WhatsNew;
 
-import static be.ugent.zeus.hydra.cache.Cache.NEVER;
-
 /**
  * Request to get information about a course.
  *
@@ -23,8 +21,6 @@ import static be.ugent.zeus.hydra.cache.Cache.NEVER;
  */
 public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
 
-    public static final String BASE_KEY = "whatsnewRequest";
-
     private Course course;
 
     public WhatsNewRequest(Course course, Context context, @Nullable Activity activity) {
@@ -34,18 +30,7 @@ public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
 
     @Override
     @NonNull
-    public String getCacheKey() {
-        return BASE_KEY + "." + course.getId();
-    }
-
-    @Override
-    @NonNull
     protected String getAPIUrl() {
         return MINERVA_API + "course/" + course.getId() + "/whatsnew";
-    }
-
-    @Override
-    public long getCacheDuration() {
-        return NEVER;
     }
 }

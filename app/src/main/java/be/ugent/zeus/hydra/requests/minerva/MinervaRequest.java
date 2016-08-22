@@ -10,20 +10,17 @@ import android.util.Log;
 
 import be.ugent.zeus.hydra.auth.AccountUtils;
 import be.ugent.zeus.hydra.auth.MinervaConfig;
-import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 import be.ugent.zeus.hydra.requests.common.TokenRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpServerErrorException;
-
-import java.io.Serializable;
 
 /**
  * Execute a request with a minerva account.
  *
  * @author Niko Strijbol
  */
-public abstract class MinervaRequest<T extends Serializable> extends TokenRequest<T> implements CacheRequest<T, T> {
+public abstract class MinervaRequest<T> extends TokenRequest<T> {
 
     private static final String TAG = "MinervaRequest";
 
@@ -90,11 +87,5 @@ public abstract class MinervaRequest<T extends Serializable> extends TokenReques
         } else {
             return AccountUtils.syncAuthCode(context, account, activity);
         }
-    }
-
-    @NonNull
-    @Override
-    public T getData(@NonNull T data) {
-        return data;
     }
 }

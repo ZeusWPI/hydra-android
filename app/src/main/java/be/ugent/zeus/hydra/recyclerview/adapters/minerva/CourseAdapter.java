@@ -17,4 +17,8 @@ public class CourseAdapter extends ItemAdapter<Course, CourseViewHolder> {
     public CourseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new CourseViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_minerva_course, parent, false));
     }
+
+    public Course get(int i) {
+        return items.get(i);
+    }
 }

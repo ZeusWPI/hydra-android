@@ -4,7 +4,6 @@ import be.ugent.zeus.hydra.auth.requests.TokenRequestInterceptor;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.Serializable;
 import java.util.Collections;
 
 /**
@@ -12,7 +11,7 @@ import java.util.Collections;
  *
  * @author Niko Strijbol
  */
-public abstract class TokenRequest<T extends Serializable> extends AbstractRequest<T> {
+public abstract class TokenRequest<T> extends AbstractRequest<T> {
 
     public TokenRequest(Class<T> clazz) {
         super(clazz);

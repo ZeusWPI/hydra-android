@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.UiThread;
 import android.support.v7.preference.PreferenceManager;
@@ -31,12 +31,10 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
 
     private final List<HomeCard> cardItems;
     private final SharedPreferences preferences;
-    private final Activity activity;
 
-    public HomeCardAdapter(Activity activity) {
+    public HomeCardAdapter(Context activity) {
         this.preferences = PreferenceManager.getDefaultSharedPreferences(activity);
         cardItems = new ArrayList<>();
-        this.activity = activity;
     }
 
     /**

@@ -8,8 +8,6 @@ import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.models.minerva.Courses;
 
-import static be.ugent.zeus.hydra.cache.Cache.NEVER;
-
 /**
  * Request to get a list of courses.
  *
@@ -34,18 +32,7 @@ public class CoursesMinervaRequest extends MinervaRequest<Courses> {
 
     @Override
     @NonNull
-    public String getCacheKey() {
-        return BASE_KEY;
-    }
-
-    @Override
-    @NonNull
     protected String getAPIUrl() {
         return MINERVA_API + "courses";
-    }
-
-    @Override
-    public long getCacheDuration() {
-        return NEVER;
     }
 }
