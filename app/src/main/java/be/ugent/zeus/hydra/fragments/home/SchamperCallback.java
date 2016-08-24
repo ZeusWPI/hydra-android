@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-class SchamperCallback extends HomeLoaderCallback<Articles> {
+class SchamperCallback extends CacheHomeLoaderCallback<Articles> {
 
     public SchamperCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
         super(context, adapter, callback);

@@ -124,7 +124,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         getLoaderManager().initLoader(SCHAMPER_LOADER, null, schamperCallback);
         getLoaderManager().initLoader(NEWS_LOADER, null, newsCallback);
         if(AccountUtils.hasAccount(getContext())) {
-            //getLoaderManager().initLoader(MINERVA_LOADER, null, courseCallback);
+            getLoaderManager().initLoader(MINERVA_LOADER, null, courseCallback);
         }
     }
 
@@ -138,7 +138,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         getLoaderManager().restartLoader(SCHAMPER_LOADER, null, schamperCallback);
         getLoaderManager().restartLoader(NEWS_LOADER, null, newsCallback);
         if(AccountUtils.hasAccount(getContext())) {
-            //getLoaderManager().restartLoader(MINERVA_LOADER, null, courseCallback);
+            getLoaderManager().restartLoader(MINERVA_LOADER, null, courseCallback);
         }
     }
 

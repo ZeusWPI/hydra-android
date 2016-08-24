@@ -14,10 +14,7 @@ import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.auth.models.BearerToken;
 import be.ugent.zeus.hydra.auth.requests.NewAccessTokenRequest;
 import be.ugent.zeus.hydra.auth.requests.RefreshAccessTokenRequest;
-import be.ugent.zeus.hydra.cache.file.FileCache;
 import be.ugent.zeus.hydra.requests.common.Request;
-import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
-import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
@@ -92,16 +89,7 @@ public class AccountUtils {
     public static boolean hasAccount(Context context) {
         AccountManager manager = AccountManager.get(context);
         Account[] accounts = manager.getAccountsByType(MinervaConfig.ACCOUNT_TYPE);
-        if(accounts.length >= 1) {
-            return true;
-        } else {
-            //If there is no account, we delete the cache immediately.
-            //Delete list of courses
-            FileCache.deleteStartingWith(CoursesMinervaRequest.BASE_KEY, context.getApplicationContext());
-            //Delete all courses
-            FileCache.deleteStartingWith(WhatsNewRequest.BASE_KEY, context.getApplicationContext());
-            return false;
-        }
+        return accounts.length >= 1;
     }
 
     /**

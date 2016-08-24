@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.models.cards;
 
-import java.util.List;
-
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+
+import java.util.List;
 
 /**
  * Created by feliciaan on 30/06/16.
@@ -22,9 +22,10 @@ public class MinervaAnnouncementsCard extends HomeCard {
 
     @Override
     public int getPriority() {
-        DateTime jodadate = new DateTime(this.getAnnouncements().get(0).getDate());
-        Duration duration = new Duration(jodadate, new DateTime());
-        return (int) (1000 - (duration.getStandardDays()*100));    }
+        DateTime date = new DateTime(this.getAnnouncements().get(0).getDate());
+        Duration duration = new Duration(date, new DateTime());
+        return (int) (1000 - (duration.getStandardDays() * 100));
+    }
 
     @Override
     @HomeCard.CardType

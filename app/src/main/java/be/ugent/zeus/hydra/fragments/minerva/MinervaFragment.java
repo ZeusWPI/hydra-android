@@ -20,7 +20,6 @@ import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.auth.AccountUtils;
 import be.ugent.zeus.hydra.auth.MinervaConfig;
-import be.ugent.zeus.hydra.cache.file.FileCache;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
@@ -31,8 +30,6 @@ import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAdapter;
-import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
-import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 
 import java.io.IOException;
@@ -236,24 +233,12 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
                 authWrapper.setVisibility(View.VISIBLE);
                 //Destroy loaders
                 destroyLoader();
-                //Delete cache
-                clearCache();
                 //Delete database
                 clearDatabase();
                 //Reload options
                 getActivity().invalidateOptionsMenu();
             }
         }, null);
-    }
-
-    /**
-     * Clear the cache of the existing requests.
-     */
-    private void clearCache() {
-        //Delete list of courses
-        FileCache.deleteStartingWith(CoursesMinervaRequest.BASE_KEY, getContext().getApplicationContext());
-        //Delete all courses
-        FileCache.deleteStartingWith(WhatsNewRequest.BASE_KEY, getContext().getApplicationContext());
     }
 
     private void clearDatabase() {

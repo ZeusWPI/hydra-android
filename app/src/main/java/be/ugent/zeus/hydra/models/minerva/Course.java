@@ -117,4 +117,27 @@ public class Course implements Serializable, Parcelable {
             return new Course[size];
         }
     };
+
+    /**
+     * A course is equal to this course if the ID of the course is the same.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Course course = (Course) o;
+
+        return id.equals(course.id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

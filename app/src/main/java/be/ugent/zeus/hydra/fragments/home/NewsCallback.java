@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-class NewsCallback extends HomeLoaderCallback<News> {
+class NewsCallback extends CacheHomeLoaderCallback<News> {
 
     public NewsCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
         super(context, adapter, callback);

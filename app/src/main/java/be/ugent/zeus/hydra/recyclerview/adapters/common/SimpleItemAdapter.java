@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.recyclerview.adapters.common;
 
 import android.support.v7.widget.RecyclerView;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +15,7 @@ import java.util.List;
  */
 public abstract class SimpleItemAdapter<E, V extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<V> implements Adapter<E> {
 
-    protected List<E> items = Collections.emptyList();
+    protected List<E> items = new ArrayList<>();
 
     /**
      * Returns the total number of items in the data set hold by the adapter.

@@ -140,13 +140,13 @@ public class CourseDao {
 
     private static Course getCourse(Cursor c) {
         Course course = new Course();
-        course.setId(c.getString(c.getColumnIndex(CourseTable.COLUMN_ID)));
-        course.setCode(c.getString(c.getColumnIndex(CourseTable.COLUMN_CODE)));
-        course.setTitle(c.getString(c.getColumnIndex(CourseTable.COLUMN_TITLE)));
-        course.setDescription(c.getString(c.getColumnIndex(CourseTable.COLUMN_DESCRIPTION)));
-        course.setTutorName(c.getString(c.getColumnIndex(CourseTable.COLUMN_TUTOR)));
-        course.setStudent(c.getString(c.getColumnIndex(CourseTable.COLUMN_STUDENT)));
-        course.setAcademicYear(c.getInt(c.getColumnIndex(CourseTable.COLUMN_ACADEMIC_YEAR)));
+        course.setId(c.getString(c.getColumnIndexOrThrow(CourseTable.COLUMN_ID)));
+        course.setCode(c.getString(c.getColumnIndexOrThrow(CourseTable.COLUMN_CODE)));
+        course.setTitle(c.getString(c.getColumnIndexOrThrow(CourseTable.COLUMN_TITLE)));
+        course.setDescription(c.getString(c.getColumnIndexOrThrow(CourseTable.COLUMN_DESCRIPTION)));
+        course.setTutorName(c.getString(c.getColumnIndexOrThrow(CourseTable.COLUMN_TUTOR)));
+        course.setStudent(c.getString(c.getColumnIndexOrThrow(CourseTable.COLUMN_STUDENT)));
+        course.setAcademicYear(c.getInt(c.getColumnIndexOrThrow(CourseTable.COLUMN_ACADEMIC_YEAR)));
         return course;
     }
 
@@ -208,13 +208,13 @@ public class CourseDao {
 
             if (c != null) {
                 try {
-                    int columnId = c.getColumnIndex(CourseTable.COLUMN_ID);
-                    int columnCode = c.getColumnIndex(CourseTable.COLUMN_CODE);
-                    int columnTitle = c.getColumnIndex(CourseTable.COLUMN_TITLE);
-                    int columnDesc = c.getColumnIndex(CourseTable.COLUMN_DESCRIPTION);
-                    int columnTutor = c.getColumnIndex(CourseTable.COLUMN_TUTOR);
-                    int columnStudent = c.getColumnIndex(CourseTable.COLUMN_STUDENT);
-                    int columnYear = c.getColumnIndex(CourseTable.COLUMN_ACADEMIC_YEAR);
+                    int columnId = c.getColumnIndexOrThrow(CourseTable.COLUMN_ID);
+                    int columnCode = c.getColumnIndexOrThrow(CourseTable.COLUMN_CODE);
+                    int columnTitle = c.getColumnIndexOrThrow(CourseTable.COLUMN_TITLE);
+                    int columnDesc = c.getColumnIndexOrThrow(CourseTable.COLUMN_DESCRIPTION);
+                    int columnTutor = c.getColumnIndexOrThrow(CourseTable.COLUMN_TUTOR);
+                    int columnStudent = c.getColumnIndexOrThrow(CourseTable.COLUMN_STUDENT);
+                    int columnYear = c.getColumnIndexOrThrow(CourseTable.COLUMN_ACADEMIC_YEAR);
 
                     while (c.moveToNext()) {
                         Course course = new Course();

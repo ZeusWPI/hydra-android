@@ -20,8 +20,6 @@ import be.ugent.zeus.hydra.models.minerva.Courses;
  */
 public class CoursesMinervaRequest extends MinervaRequest<Courses> {
 
-    public static final String BASE_KEY = "minerva_courses";
-
     public CoursesMinervaRequest(Context context, @Nullable Activity activity) {
         super(Courses.class, context, activity);
     }

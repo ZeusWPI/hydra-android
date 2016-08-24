@@ -4,10 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import be.ugent.zeus.hydra.minerva.course.CourseTable;
 import be.ugent.zeus.hydra.minerva.database.DatabaseHelper;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
@@ -254,6 +256,131 @@ public class AnnouncementDao {
     /**
      * Get a list of ids of the announcements for a course in the database.
      *
+     * todo: can we abstract some cursor stuff away or not?
+     *
+     * @param reverse If the announcements should be reversed (newest first) or not.
+     *
+     * @return List of ids in the database.
+     */
+    public Map<Course, List<Announcement>> getUnread(boolean reverse) {
+
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+
+        final String courseTable = "course_";
+
+        String announcementJoin =  AnnouncementTable.COLUMN_COURSE;
+        String courseJoin = courseTable + CourseTable.COLUMN_ID;
+
+        builder.setTables(
+                AnnouncementTable.TABLE_NAME +
+                        " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + announcementJoin + "=" + courseJoin);
+
+        String order = AnnouncementTable.COLUMN_DATE;
+        if(reverse) {
+            order += " DESC";
+        } else {
+            order += " ASC";
+        }
+
+        Map<Course, List<Announcement>> map = new HashMap<>();
+
+        String[] columns = new String[]{
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.COLUMN_ID,
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.COLUMN_TITLE,
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.COLUMN_CONTENT,
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.COLUMN_EMAIL_SENT,
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.COLUMN_STICKY_UNTIL,
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.COLUMN_LECTURER,
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.COLUMN_DATE,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_ID + " AS " + courseTable + CourseTable.COLUMN_ID,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_CODE + " AS " + courseTable + CourseTable.COLUMN_CODE,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_TITLE + " AS " + courseTable + CourseTable.COLUMN_TITLE,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_DESCRIPTION + " AS " + courseTable + CourseTable.COLUMN_DESCRIPTION,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_TUTOR + " AS " + courseTable + CourseTable.COLUMN_TUTOR,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_STUDENT + " AS " + courseTable + CourseTable.COLUMN_STUDENT,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_ACADEMIC_YEAR + " AS " + courseTable + CourseTable.COLUMN_ACADEMIC_YEAR,
+        };
+
+        try {
+            Cursor c = builder.query(
+                    db,
+                    columns,
+                    AnnouncementTable.COLUMN_READ_DATE + " = ?",
+                    new String[]{"0"},
+                    null, null, order);
+
+            if (c != null) {
+
+                Log.d(TAG, Arrays.toString(c.getColumnNames()));
+
+                //Course columns
+                int cColumnId = c.getColumnIndexOrThrow(courseTable + CourseTable.COLUMN_ID);
+                int cColumnCode = c.getColumnIndexOrThrow(courseTable + CourseTable.COLUMN_CODE);
+                int cColumnTitle = c.getColumnIndexOrThrow(courseTable + CourseTable.COLUMN_TITLE);
+                int cColumnDesc = c.getColumnIndexOrThrow(courseTable + CourseTable.COLUMN_DESCRIPTION);
+                int cColumnTutor = c.getColumnIndexOrThrow(courseTable + CourseTable.COLUMN_TUTOR);
+                int cColumnStudent = c.getColumnIndexOrThrow(courseTable + CourseTable.COLUMN_STUDENT);
+                int cColumnYear = c.getColumnIndexOrThrow(courseTable + CourseTable.COLUMN_ACADEMIC_YEAR);
+
+                //Announcement columns
+                int aColumnIndex = c.getColumnIndexOrThrow(AnnouncementTable.COLUMN_ID);
+                int aColumnTitle = c.getColumnIndexOrThrow(AnnouncementTable.COLUMN_TITLE);
+                int aColumnContent = c.getColumnIndexOrThrow(AnnouncementTable.COLUMN_CONTENT);
+                int aColumnEmailSent = c.getColumnIndexOrThrow(AnnouncementTable.COLUMN_EMAIL_SENT);
+                int aColumnSticky = c.getColumnIndexOrThrow(AnnouncementTable.COLUMN_STICKY_UNTIL);
+                int aColumnLecturer = c.getColumnIndexOrThrow(AnnouncementTable.COLUMN_LECTURER);
+                int aColumnDate = c.getColumnIndexOrThrow(AnnouncementTable.COLUMN_DATE);
+
+                try {
+
+                    Course currentCourse = null;
+                    while (c.moveToNext()) {
+
+                        //Get the course id
+                        String id = c.getString(cColumnId);
+
+                        if(currentCourse == null || !currentCourse.getId().equals(id)) {
+                            //Add the course
+                            currentCourse = new Course();
+                            currentCourse.setId(c.getString(cColumnId));
+                            currentCourse.setCode(c.getString(cColumnCode));
+                            currentCourse.setTitle(c.getString(cColumnTitle));
+                            currentCourse.setDescription(c.getString(cColumnDesc));
+                            currentCourse.setTutorName(c.getString(cColumnTutor));
+                            currentCourse.setStudent(c.getString(cColumnStudent));
+                            currentCourse.setAcademicYear(c.getInt(cColumnYear));
+                            map.put(currentCourse, new ArrayList<Announcement>());
+                        }
+
+                        //Get the announcement
+                        Announcement a = new Announcement();
+                        a.setCourse(currentCourse);
+                        a.setItemId(c.getInt(aColumnIndex));
+                        a.setTitle(c.getString(aColumnTitle));
+                        a.setContent(c.getString(aColumnContent));
+                        a.setEmailSent(intToBool(c.getInt(aColumnEmailSent)));
+                        a.setLecturer(c.getString(aColumnLecturer));
+                        a.setDate(new Date(c.getLong(aColumnDate)));
+
+                        map.get(currentCourse).add(a);
+                    }
+
+                } finally {
+                    c.close();
+                }
+            }
+        } finally {
+            db.close();
+        }
+
+        return map;
+    }
+
+    /**
+     * Get a list of ids of the announcements for a course in the database.
+     *
      * @param course The course.
      *
      * @return List of ids in the database.
@@ -266,14 +393,14 @@ public class AnnouncementDao {
 
         List<Announcement> result = new ArrayList<>();
 
-        int columnIndex = cursor.getColumnIndex(AnnouncementTable.COLUMN_ID);
-        int columnTitle = cursor.getColumnIndex(AnnouncementTable.COLUMN_TITLE);
-        int columnContent = cursor.getColumnIndex(AnnouncementTable.COLUMN_CONTENT);
-        int columnEmailSent = cursor.getColumnIndex(AnnouncementTable.COLUMN_EMAIL_SENT);
-        int columnSticky = cursor.getColumnIndex(AnnouncementTable.COLUMN_STICKY_UNTIL);
-        int columnLecturer = cursor.getColumnIndex(AnnouncementTable.COLUMN_LECTURER);
-        int columnDate = cursor.getColumnIndex(AnnouncementTable.COLUMN_DATE);
-        int columnRead = cursor.getColumnIndex(AnnouncementTable.COLUMN_READ_DATE);
+        int columnIndex = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_ID);
+        int columnTitle = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_TITLE);
+        int columnContent = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_CONTENT);
+        int columnEmailSent = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_EMAIL_SENT);
+        int columnSticky = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_STICKY_UNTIL);
+        int columnLecturer = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_LECTURER);
+        int columnDate = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_DATE);
+        int columnRead = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_READ_DATE);
 
         while (cursor.moveToNext()) {
             Announcement a = new Announcement();
