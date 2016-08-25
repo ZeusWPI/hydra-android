@@ -59,18 +59,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             return;
         }
 
+        //Get if this is the first sync.
         final boolean first = extras.getBoolean(ARG_FIRST_SYNC, false);
 
         CoursesMinervaRequest request = new CoursesMinervaRequest(getContext(), account, null);
 
+        final CourseDao courseDao = new CourseDao(getContext());
+        final AnnouncementDao announcementDao = new AnnouncementDao(getContext());
+        final AgendaDao agendaDao = new AgendaDao(getContext());
+
         try {
             Courses courses = request.performRequest();
 
-            CourseDao dao = new CourseDao(getContext());
-            AnnouncementDao announcementDao = new AnnouncementDao(getContext());
-            AgendaDao agendaDao = new AgendaDao(getContext());
-
-            dao.synchronise(courses.getCourses());
+            courseDao.synchronise(courses.getCourses());
 
             //Publish progress
             broadcast.publishIntent(SyncBroadcast.SYNC_PROGRESS_COURSES);

@@ -5,12 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.util.Log;
 
+import be.ugent.zeus.hydra.minerva.course.CourseExtractor;
 import be.ugent.zeus.hydra.minerva.course.CourseTable;
-import be.ugent.zeus.hydra.minerva.database.DatabaseHelper;
+import be.ugent.zeus.hydra.minerva.database.Dao;
+import be.ugent.zeus.hydra.minerva.database.Utils;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
 
@@ -21,17 +21,15 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
-public class AnnouncementDao {
+public class AnnouncementDao extends Dao {
 
     private static final String TAG = "AnnouncementDao";
-
-    private final DatabaseHelper helper;
 
     /**
      * @param context The application context.
      */
     public AnnouncementDao(Context context) {
-        this.helper = DatabaseHelper.getInstance(context);
+        super(context);
     }
 
     /**
@@ -50,50 +48,63 @@ public class AnnouncementDao {
      * Synchronise announcements for one course.
      *
      * @param announcements The announcements.
-     *
      * @param first If this is the first sync or not.
      *
      * @return The new announcements.
      */
-    public Collection<Announcement> synchronisePartial(Collection<Announcement> announcements, Course course, boolean first) {
+    public List<Announcement> synchronisePartial(Collection<Announcement> announcements, Course course, boolean first) {
+
+        //Get existing announcements.
+        Set<Integer> present = getIdsForCourse(course);
+        List<Announcement> newAnnouncements = new ArrayList<>();
 
         SQLiteDatabase db = helper.getWritableDatabase();
-
-        //Get existing courses.
-        Set<Integer> present = getIdsForCourse(db, course);
-        Set<Announcement> newAnnouncements = new HashSet<>();
 
         int counter = 0;
         try {
             db.beginTransaction();
 
-            //Delete old courses
-            String ids = TextUtils.join(", ", getRemovable(present, announcements));
-            db.delete(AnnouncementTable.TABLE_NAME, AnnouncementTable.COLUMN_ID + " IN (?)", new String[]{ids});
+            //Delete old announcements
+            Collection<Integer> idCollection = getRemovable(present, announcements);
+            Integer[] ids = new Integer[idCollection.size()];
+            ids = idCollection.toArray(ids);
+            String questions = Utils.commaSeparatedQuestionMarks(idCollection.size());
 
-            Date date = null;
+            String[] converted = new String[ids.length];
+            //Convert ids
+            for(int i = 0; i < ids.length; i++) {
+                converted[i] = ids[i].toString();
+            }
+
+            int rows = db.delete(AnnouncementTable.TABLE_NAME, AnnouncementTable.COLUMN_ID + " IN (" + questions + ")", converted);
+            Log.d(TAG, "Removed " + rows + " stale announcements.");
+
+            //If we are doing the first sync, we want to set everything to read.
+            Date date = new Date();
             if(first) {
                 date = new Date();
             }
 
-            for (Announcement announcement: announcements ) {
-
-                announcement.setRead(date);
+            for (Announcement announcement: announcements) {
+                //Make sure the course is set
                 announcement.setCourse(course);
+
                 ContentValues value = getValues(announcement);
 
-                //Update the announcement
+                //Update the announcement if it is present
                 if(present.contains(announcement.getItemId())) {
-                    value.remove(AnnouncementTable.COLUMN_ID);
+                    value.remove(AnnouncementTable.COLUMN_ID); //Don't update the id
+                    value.remove(AnnouncementTable.COLUMN_READ_DATE); //Don't update the date
                     db.update(
                             AnnouncementTable.TABLE_NAME,
                             value,
                             AnnouncementTable.COLUMN_ID + " = ?",
                             new String[]{String.valueOf(announcement.getItemId())}
                             );
-                }
-                //Add new announcement
-                else {
+                } else {
+                    //Set the date on the new announcement
+                    announcement.setRead(date);
+
                     if(!first) {
                         newAnnouncements.add(announcement);
                     }
@@ -111,6 +122,13 @@ public class AnnouncementDao {
         return newAnnouncements;
     }
 
+    /**
+     * Get values for an announcement.
+     *
+     * @param a The announcement.
+     *
+     * @return The values.
+     */
     private static ContentValues getValues(Announcement a) {
         ContentValues values = new ContentValues();
 
@@ -130,7 +148,7 @@ public class AnnouncementDao {
     /**
      * Set the announcement as read if that is not the case already.
      *
-     * @param a
+     * @param a The announcement
      */
     public void update(Announcement a) {
 
@@ -160,15 +178,27 @@ public class AnnouncementDao {
     }
 
     /**
-     * A set of ids that are not in the course.
+     * Get the list of ids that are not in the given {@code announcements}. The default usage for this is the find
+     * stale announcements that are no longer on Minerva, but still in our database.
      *
-     * @param ids Ids of local courses.
-     * @param announcements Remote announcements.
+     * This method runs in linear time: O(n), with n = size(courses).
+     *
+     * @param ids Ids of announcements in the database.
+     * @param announcements Announcements from the Minerva servers.
+     *
      * @return Local courses that can be deleted.
      */
-    private static Set<Integer> getRemovable(final Set<Integer> ids, final Collection<Announcement> announcements) {
+    private static Set<Integer> getRemovable(final Set<Integer> ids, final Iterable<Announcement> announcements) {
+        /*
+        * We copy the set of ids because we modify it. Logically we would iterate the ids and check
+        * if each id is present in the announcements. Because of how the Java collections work, we can't do that without
+        * iterating the whole collection for every id. If size(ids) = n and size(announcements) = m, this would result
+        * in a complexity of O(n^m).
+        *
+        * Instead we iterate the announcements, which is O(m). We check if the set of ids contains it, O(1), and if it
+        * does, we remove it from the set O(1). The result is thus O(m).
+        */
         Set<Integer> removable = new HashSet<>(ids);
-        //Iterate the course to prevent O(n^2)
         for (Announcement announcement: announcements) {
             if(removable.contains(announcement.getItemId())) {
                 removable.remove(announcement.getItemId());
@@ -181,22 +211,27 @@ public class AnnouncementDao {
     /**
      * Get a list of ids of the announcements for a course in the database.
      *
-     * @param db The database.
+     * @param course The course.
      *
      * @return List of ids in the database.
      */
-    private static Set<Integer> getIdsForCourse(SQLiteDatabase db, Course course) {
+    private Set<Integer> getIdsForCourse(Course course) {
 
-        Cursor cursor = db.query(
-                AnnouncementTable.TABLE_NAME,
-                new String[] {AnnouncementTable.COLUMN_ID},
-                AnnouncementTable.COLUMN_COURSE + " = ?",
-                new String[]{course.getId()},
-                null, null, null);
-
+        SQLiteDatabase db = helper.getReadableDatabase();
         Set<Integer> result = new HashSet<>();
 
-        if(cursor != null) {
+        try {
+            Cursor cursor = db.query(
+                    AnnouncementTable.TABLE_NAME,
+                    new String[] {AnnouncementTable.COLUMN_ID},
+                    AnnouncementTable.COLUMN_COURSE + " = ?",
+                    new String[]{course.getId()},
+                    null, null, null);
+
+            if(cursor == null) {
+                return result;
+            }
+
             try {
                 int columnIndex = cursor.getColumnIndex(AnnouncementTable.COLUMN_ID);
 
@@ -206,6 +241,8 @@ public class AnnouncementDao {
             } finally {
                 cursor.close();
             }
+        } finally {
+            db.close();
         }
 
         return result;
@@ -239,12 +276,20 @@ public class AnnouncementDao {
                     new String[]{course.getId()},
                     null, null, order);
 
-            if (cursor != null) {
-                try {
-                    result = getAnnouncements(cursor, course);
-                } finally {
-                    cursor.close();
+            if(cursor == null) {
+                return result;
+            }
+
+            //Get helper
+            AnnouncementExtractor extractor = new AnnouncementExtractor.Builder(cursor)
+                    .defaults().build();
+
+            try {
+                while (cursor.moveToNext()) {
+                    result.add(extractor.getAnnouncement(course));
                 }
+            } finally {
+                cursor.close();
             }
         } finally {
             db.close();
@@ -255,8 +300,6 @@ public class AnnouncementDao {
 
     /**
      * Get a list of ids of the announcements for a course in the database.
-     *
-     * todo: can we abstract some cursor stuff away or not?
      *
      * @param reverse If the announcements should be reversed (newest first) or not.
      *
@@ -273,9 +316,7 @@ public class AnnouncementDao {
         String announcementJoin =  AnnouncementTable.COLUMN_COURSE;
         String courseJoin = courseTable + CourseTable.COLUMN_ID;
 
-        builder.setTables(
-                AnnouncementTable.TABLE_NAME +
-                        " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + announcementJoin + "=" + courseJoin);
+        builder.setTables(AnnouncementTable.TABLE_NAME + " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + announcementJoin + "=" + courseJoin);
 
         String order = AnnouncementTable.COLUMN_DATE;
         if(reverse) {
@@ -294,6 +335,7 @@ public class AnnouncementDao {
                 AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.COLUMN_STICKY_UNTIL,
                 AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.COLUMN_LECTURER,
                 AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.COLUMN_DATE,
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.COLUMN_READ_DATE,
                 CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_ID + " AS " + courseTable + CourseTable.COLUMN_ID,
                 CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_CODE + " AS " + courseTable + CourseTable.COLUMN_CODE,
                 CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_TITLE + " AS " + courseTable + CourseTable.COLUMN_TITLE,
@@ -311,113 +353,49 @@ public class AnnouncementDao {
                     new String[]{"0"},
                     null, null, order);
 
-            if (c != null) {
+            if(c == null) {
+                return map;
+            }
 
-                Log.d(TAG, Arrays.toString(c.getColumnNames()));
+            Log.d(TAG, Arrays.toString(c.getColumnNames()));
 
-                //Course columns
-                int cColumnId = c.getColumnIndexOrThrow(courseTable + CourseTable.COLUMN_ID);
-                int cColumnCode = c.getColumnIndexOrThrow(courseTable + CourseTable.COLUMN_CODE);
-                int cColumnTitle = c.getColumnIndexOrThrow(courseTable + CourseTable.COLUMN_TITLE);
-                int cColumnDesc = c.getColumnIndexOrThrow(courseTable + CourseTable.COLUMN_DESCRIPTION);
-                int cColumnTutor = c.getColumnIndexOrThrow(courseTable + CourseTable.COLUMN_TUTOR);
-                int cColumnStudent = c.getColumnIndexOrThrow(courseTable + CourseTable.COLUMN_STUDENT);
-                int cColumnYear = c.getColumnIndexOrThrow(courseTable + CourseTable.COLUMN_ACADEMIC_YEAR);
+            //Save the course ID separately
+            //Get helpers
+            CourseExtractor cExtractor = new CourseExtractor.Builder(c)
+                    .columnId(courseTable + CourseTable.COLUMN_ID)
+                    .columnCode(courseTable + CourseTable.COLUMN_CODE)
+                    .columnTitle(courseTable + CourseTable.COLUMN_TITLE)
+                    .columnDesc(courseTable + CourseTable.COLUMN_DESCRIPTION)
+                    .columnTutor(courseTable + CourseTable.COLUMN_TUTOR)
+                    .columnStudent(courseTable + CourseTable.COLUMN_STUDENT)
+                    .columnYear(courseTable + CourseTable.COLUMN_ACADEMIC_YEAR)
+                    .build();
+            AnnouncementExtractor aExtractor = new AnnouncementExtractor.Builder(c).defaults().build();
 
-                //Announcement columns
-                int aColumnIndex = c.getColumnIndexOrThrow(AnnouncementTable.COLUMN_ID);
-                int aColumnTitle = c.getColumnIndexOrThrow(AnnouncementTable.COLUMN_TITLE);
-                int aColumnContent = c.getColumnIndexOrThrow(AnnouncementTable.COLUMN_CONTENT);
-                int aColumnEmailSent = c.getColumnIndexOrThrow(AnnouncementTable.COLUMN_EMAIL_SENT);
-                int aColumnSticky = c.getColumnIndexOrThrow(AnnouncementTable.COLUMN_STICKY_UNTIL);
-                int aColumnLecturer = c.getColumnIndexOrThrow(AnnouncementTable.COLUMN_LECTURER);
-                int aColumnDate = c.getColumnIndexOrThrow(AnnouncementTable.COLUMN_DATE);
+            try {
 
-                try {
+                Course currentCourse = null;
+                while (c.moveToNext()) {
 
-                    Course currentCourse = null;
-                    while (c.moveToNext()) {
+                    //Get the course id
+                    String id = c.getString(cExtractor.getColumnId());
 
-                        //Get the course id
-                        String id = c.getString(cColumnId);
-
-                        if(currentCourse == null || !currentCourse.getId().equals(id)) {
-                            //Add the course
-                            currentCourse = new Course();
-                            currentCourse.setId(c.getString(cColumnId));
-                            currentCourse.setCode(c.getString(cColumnCode));
-                            currentCourse.setTitle(c.getString(cColumnTitle));
-                            currentCourse.setDescription(c.getString(cColumnDesc));
-                            currentCourse.setTutorName(c.getString(cColumnTutor));
-                            currentCourse.setStudent(c.getString(cColumnStudent));
-                            currentCourse.setAcademicYear(c.getInt(cColumnYear));
-                            map.put(currentCourse, new ArrayList<Announcement>());
-                        }
-
-                        //Get the announcement
-                        Announcement a = new Announcement();
-                        a.setCourse(currentCourse);
-                        a.setItemId(c.getInt(aColumnIndex));
-                        a.setTitle(c.getString(aColumnTitle));
-                        a.setContent(c.getString(aColumnContent));
-                        a.setEmailSent(intToBool(c.getInt(aColumnEmailSent)));
-                        a.setLecturer(c.getString(aColumnLecturer));
-                        a.setDate(new Date(c.getLong(aColumnDate)));
-
-                        map.get(currentCourse).add(a);
+                    if(currentCourse == null || !currentCourse.getId().equals(id)) {
+                        //Add the course
+                        currentCourse = cExtractor.getCourse();
+                        map.put(currentCourse, new ArrayList<Announcement>());
                     }
 
-                } finally {
-                    c.close();
+                    map.get(currentCourse).add(aExtractor.getAnnouncement(currentCourse));
                 }
+
+            } finally {
+                c.close();
             }
         } finally {
             db.close();
         }
 
         return map;
-    }
-
-    /**
-     * Get a list of ids of the announcements for a course in the database.
-     *
-     * @param course The course.
-     *
-     * @return List of ids in the database.
-     */
-    public List<Announcement> getAnnouncementsForCourse(Course course) {
-        return getAnnouncementsForCourse(course, false);
-    }
-
-    private List<Announcement> getAnnouncements(@NonNull Cursor cursor, Course course) {
-
-        List<Announcement> result = new ArrayList<>();
-
-        int columnIndex = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_ID);
-        int columnTitle = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_TITLE);
-        int columnContent = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_CONTENT);
-        int columnEmailSent = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_EMAIL_SENT);
-        int columnSticky = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_STICKY_UNTIL);
-        int columnLecturer = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_LECTURER);
-        int columnDate = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_DATE);
-        int columnRead = cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_READ_DATE);
-
-        while (cursor.moveToNext()) {
-            Announcement a = new Announcement();
-            a.setCourse(course);
-            a.setItemId(cursor.getInt(columnIndex));
-            a.setTitle(cursor.getString(columnTitle));
-            a.setContent(cursor.getString(columnContent));
-            a.setEmailSent(intToBool(cursor.getInt(columnEmailSent)));
-            a.setLecturer(cursor.getString(columnLecturer));
-            a.setDate(new Date(cursor.getLong(columnDate)));
-            long d = cursor.getLong(columnRead);
-            if(d != 0) {
-                a.setRead(new Date(d));
-            }
-            result.add(a);
-        }
-
-        return result;
     }
 }

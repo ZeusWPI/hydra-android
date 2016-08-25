@@ -59,7 +59,7 @@ class CourseCallback extends HomeLoaderCallback {
          *
          * @param context The context.
          */
-        public DoaLoader(Context context) {
+        private DoaLoader(Context context) {
             super(context);
             announcementDao = new AnnouncementDao(context);
         }

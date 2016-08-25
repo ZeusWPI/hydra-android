@@ -45,7 +45,7 @@ public abstract class EmptyItemLoader<E, V extends DataViewHolder<E>> extends Si
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         if(viewType == EMPTY_VIEW) {
-            View v =LayoutInflater.from(parent.getContext()).inflate(this.emptyViewId, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(this.emptyViewId, parent, false);
             return new SimpleViewHolder(v);
         } else {
             return onCreateItemViewHolder(parent, viewType);

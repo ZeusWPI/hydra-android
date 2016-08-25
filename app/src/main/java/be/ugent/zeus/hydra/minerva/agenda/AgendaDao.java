@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.minerva.database.DatabaseHelper;
+import be.ugent.zeus.hydra.minerva.database.Dao;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.models.minerva.Course;
 
@@ -18,17 +18,15 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
-public class AgendaDao {
+public class AgendaDao extends Dao {
 
     private static final String TAG = "AgendaDao";
-
-    private final DatabaseHelper helper;
 
     /**
      * @param context The application context.
      */
     public AgendaDao(Context context) {
-        this.helper = DatabaseHelper.getInstance(context);
+        super(context);
     }
 
     /**
@@ -50,10 +48,10 @@ public class AgendaDao {
      */
     public void synchronisePartial(Collection<AgendaItem> agenda, Course course) {
 
-        SQLiteDatabase db = helper.getWritableDatabase();
-
         //Get existing courses.
-        Set<Integer> present = getIdsForCourse(db, course);
+        Set<Integer> present = getIdsForCourse(course);
+
+        SQLiteDatabase db = helper.getWritableDatabase();
 
         int counter = 0;
         try {
@@ -142,11 +140,13 @@ public class AgendaDao {
     /**
      * Get a list of ids of the announcements for a course in the database.
      *
-     * @param db The database.
+     * @param course The course.
      *
      * @return List of ids in the database.
      */
-    private static Set<Integer> getIdsForCourse(SQLiteDatabase db, Course course) {
+    private Set<Integer> getIdsForCourse(Course course) {
+
+        SQLiteDatabase db = helper.getReadableDatabase();
 
         Cursor cursor = db.query(
                 AgendaTable.TABLE_NAME,

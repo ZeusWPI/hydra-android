@@ -41,7 +41,12 @@ public class AnnouncementAdapter extends EmptyItemLoader<Announcement, Announcem
     }
 
     public void add(Announcement announcement) {
+        //Check for place holder
+        boolean empty = this.items.isEmpty();
         this.items.add(0, announcement);
+        if(empty) {
+            notifyItemRemoved(0);
+        }
         notifyItemInserted(0);
     }
 
