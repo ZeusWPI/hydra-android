@@ -1,10 +1,9 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder.minerva;
 
-import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.minerva.CourseActivity;
 import be.ugent.zeus.hydra.models.minerva.Course;
@@ -47,9 +46,7 @@ public class CourseViewHolder extends DataViewHolder<Course> {
         parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(itemView.getContext(), CourseActivity.class);
-                intent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) course);
-                itemView.getContext().startActivity(intent);
+                CourseActivity.start(itemView.getContext(), course);
             }
         });
     }

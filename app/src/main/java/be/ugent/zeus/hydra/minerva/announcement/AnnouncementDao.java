@@ -2,11 +2,14 @@ package be.ugent.zeus.hydra.minerva.announcement;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.minerva.course.CourseExtractor;
 import be.ugent.zeus.hydra.minerva.course.CourseTable;
 import be.ugent.zeus.hydra.minerva.database.Dao;
@@ -36,12 +39,7 @@ public class AnnouncementDao extends Dao {
      * Delete all data.
      */
     public void deleteAll() {
-        SQLiteDatabase db = helper.getWritableDatabase();
-        try {
-            db.delete(AnnouncementTable.TABLE_NAME, null, null);
-        } finally {
-            db.close();
-        }
+        helper.getWritableDatabase().delete(AnnouncementTable.TABLE_NAME, null, null);
     }
 
     /**
@@ -52,7 +50,7 @@ public class AnnouncementDao extends Dao {
      *
      * @return The new announcements.
      */
-    public List<Announcement> synchronisePartial(Collection<Announcement> announcements, Course course, boolean first) {
+    public List<Announcement> synchronisePartial(Collection<Announcement> announcements, Course course, boolean first, Context context) {
 
         //Get existing announcements.
         Set<Integer> present = getIdsForCourse(course);
@@ -80,10 +78,10 @@ public class AnnouncementDao extends Dao {
             Log.d(TAG, "Removed " + rows + " stale announcements.");
 
             //If we are doing the first sync, we want to set everything to read.
-            Date date = new Date();
-            if(first) {
-                date = new Date();
-            }
+            Date now = new Date();
+
+            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            final boolean showEmail = pref.getBoolean(MinervaFragment.PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL, MinervaFragment.PREF_DEFAULT_ANNOUNCEMENT_NOTIFICATION_EMAIL);
 
             for (Announcement announcement: announcements) {
                 //Make sure the course is set
@@ -102,12 +100,17 @@ public class AnnouncementDao extends Dao {
                             new String[]{String.valueOf(announcement.getItemId())}
                             );
                 } else {
-                    //Set the date on the new announcement
-                    announcement.setRead(date);
+                    //If this is the first sync or it has an email and is set to email, add the read date.
+                    if(first || (!showEmail && announcement.isEmailSent())) {
+                        announcement.setRead(now);
+                        value.put(AnnouncementTable.COLUMN_READ_DATE, now.getTime());
+                    }
 
-                    if(!first) {
+                    //If the announcement is unread, add it to the new announcements
+                    if(!announcement.isRead()) {
                         newAnnouncements.add(announcement);
                     }
+
                     db.insertOrThrow(AnnouncementTable.TABLE_NAME, null, value);
                     counter++;
                 }
@@ -115,7 +118,6 @@ public class AnnouncementDao extends Dao {
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
-            db.close();
         }
 
         Log.d(TAG, "New announcements for " + course.getTitle() + ": " + counter);
@@ -156,17 +158,13 @@ public class AnnouncementDao extends Dao {
 
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        try {
-            ContentValues values = getValues(a);
-            db.update(
-                    AnnouncementTable.TABLE_NAME,
-                    values,
-                    AnnouncementTable.COLUMN_ID + " = ?",
-                    new String[]{String.valueOf(a.getItemId())}
-                    );
-        } finally {
-            db.close();
-        }
+        ContentValues values = getValues(a);
+        db.update(
+                AnnouncementTable.TABLE_NAME,
+                values,
+                AnnouncementTable.COLUMN_ID + " = ?",
+                new String[]{String.valueOf(a.getItemId())}
+                );
     }
 
     private static boolean intToBool(int integer) {
@@ -220,29 +218,25 @@ public class AnnouncementDao extends Dao {
         SQLiteDatabase db = helper.getReadableDatabase();
         Set<Integer> result = new HashSet<>();
 
+        Cursor cursor = db.query(
+                AnnouncementTable.TABLE_NAME,
+                new String[] {AnnouncementTable.COLUMN_ID},
+                AnnouncementTable.COLUMN_COURSE + " = ?",
+                new String[]{course.getId()},
+                null, null, null);
+
+        if(cursor == null) {
+            return result;
+        }
+
         try {
-            Cursor cursor = db.query(
-                    AnnouncementTable.TABLE_NAME,
-                    new String[] {AnnouncementTable.COLUMN_ID},
-                    AnnouncementTable.COLUMN_COURSE + " = ?",
-                    new String[]{course.getId()},
-                    null, null, null);
+            int columnIndex = cursor.getColumnIndex(AnnouncementTable.COLUMN_ID);
 
-            if(cursor == null) {
-                return result;
-            }
-
-            try {
-                int columnIndex = cursor.getColumnIndex(AnnouncementTable.COLUMN_ID);
-
-                while (cursor.moveToNext()) {
-                    result.add(cursor.getInt(columnIndex));
-                }
-            } finally {
-                cursor.close();
+            while (cursor.moveToNext()) {
+                result.add(cursor.getInt(columnIndex));
             }
         } finally {
-            db.close();
+            cursor.close();
         }
 
         return result;
@@ -268,31 +262,27 @@ public class AnnouncementDao extends Dao {
             order += " ASC";
         }
 
+        Cursor cursor = db.query(
+                AnnouncementTable.TABLE_NAME,
+                null,
+                AnnouncementTable.COLUMN_COURSE + " = ?",
+                new String[]{course.getId()},
+                null, null, order);
+
+        if(cursor == null) {
+            return result;
+        }
+
+        //Get helper
+        AnnouncementExtractor extractor = new AnnouncementExtractor.Builder(cursor)
+                .defaults().build();
+
         try {
-            Cursor cursor = db.query(
-                    AnnouncementTable.TABLE_NAME,
-                    null,
-                    AnnouncementTable.COLUMN_COURSE + " = ?",
-                    new String[]{course.getId()},
-                    null, null, order);
-
-            if(cursor == null) {
-                return result;
-            }
-
-            //Get helper
-            AnnouncementExtractor extractor = new AnnouncementExtractor.Builder(cursor)
-                    .defaults().build();
-
-            try {
-                while (cursor.moveToNext()) {
-                    result.add(extractor.getAnnouncement(course));
-                }
-            } finally {
-                cursor.close();
+            while (cursor.moveToNext()) {
+                result.add(extractor.getAnnouncement(course));
             }
         } finally {
-            db.close();
+            cursor.close();
         }
 
         return result;
@@ -301,11 +291,9 @@ public class AnnouncementDao extends Dao {
     /**
      * Get a list of ids of the announcements for a course in the database.
      *
-     * @param reverse If the announcements should be reversed (newest first) or not.
-     *
      * @return List of ids in the database.
      */
-    public Map<Course, List<Announcement>> getUnread(boolean reverse) {
+    public Map<Course, List<Announcement>> getUnread() {
 
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -318,12 +306,7 @@ public class AnnouncementDao extends Dao {
 
         builder.setTables(AnnouncementTable.TABLE_NAME + " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + announcementJoin + "=" + courseJoin);
 
-        String order = AnnouncementTable.COLUMN_DATE;
-        if(reverse) {
-            order += " DESC";
-        } else {
-            order += " ASC";
-        }
+        String order = AnnouncementTable.COLUMN_COURSE;
 
         Map<Course, List<Announcement>> map = new HashMap<>();
 
@@ -345,55 +328,71 @@ public class AnnouncementDao extends Dao {
                 CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_ACADEMIC_YEAR + " AS " + courseTable + CourseTable.COLUMN_ACADEMIC_YEAR,
         };
 
+        Cursor c = builder.query(
+                db,
+                columns,
+                AnnouncementTable.COLUMN_READ_DATE + " = ?",
+                new String[]{"0"},
+                null,
+                null,
+                AnnouncementTable.COLUMN_COURSE + " ASC"
+        );
+
+        if(c == null) {
+            return map;
+        }
+
+        Log.d(TAG, Arrays.toString(c.getColumnNames()));
+
+        //Save the course ID separately
+        //Get helpers
+        CourseExtractor cExtractor = new CourseExtractor.Builder(c)
+                .columnId(courseTable + CourseTable.COLUMN_ID)
+                .columnCode(courseTable + CourseTable.COLUMN_CODE)
+                .columnTitle(courseTable + CourseTable.COLUMN_TITLE)
+                .columnDesc(courseTable + CourseTable.COLUMN_DESCRIPTION)
+                .columnTutor(courseTable + CourseTable.COLUMN_TUTOR)
+                .columnStudent(courseTable + CourseTable.COLUMN_STUDENT)
+                .columnYear(courseTable + CourseTable.COLUMN_ACADEMIC_YEAR)
+                .build();
+        AnnouncementExtractor aExtractor = new AnnouncementExtractor.Builder(c).defaults().build();
+
         try {
-            Cursor c = builder.query(
-                    db,
-                    columns,
-                    AnnouncementTable.COLUMN_READ_DATE + " = ?",
-                    new String[]{"0"},
-                    null, null, order);
+            Course currentCourse = null;
+            int counter = 0;
+            while (c.moveToNext()) {
 
-            if(c == null) {
-                return map;
-            }
+                //Get the course id
+                String id = c.getString(cExtractor.getColumnId());
 
-            Log.d(TAG, Arrays.toString(c.getColumnNames()));
-
-            //Save the course ID separately
-            //Get helpers
-            CourseExtractor cExtractor = new CourseExtractor.Builder(c)
-                    .columnId(courseTable + CourseTable.COLUMN_ID)
-                    .columnCode(courseTable + CourseTable.COLUMN_CODE)
-                    .columnTitle(courseTable + CourseTable.COLUMN_TITLE)
-                    .columnDesc(courseTable + CourseTable.COLUMN_DESCRIPTION)
-                    .columnTutor(courseTable + CourseTable.COLUMN_TUTOR)
-                    .columnStudent(courseTable + CourseTable.COLUMN_STUDENT)
-                    .columnYear(courseTable + CourseTable.COLUMN_ACADEMIC_YEAR)
-                    .build();
-            AnnouncementExtractor aExtractor = new AnnouncementExtractor.Builder(c).defaults().build();
-
-            try {
-
-                Course currentCourse = null;
-                while (c.moveToNext()) {
-
-                    //Get the course id
-                    String id = c.getString(cExtractor.getColumnId());
-
-                    if(currentCourse == null || !currentCourse.getId().equals(id)) {
-                        //Add the course
-                        currentCourse = cExtractor.getCourse();
-                        map.put(currentCourse, new ArrayList<Announcement>());
+                if(currentCourse == null || !currentCourse.getId().equals(id)) {
+                    if(currentCourse != null) {
+                        Log.d(TAG, "Added " + counter + " announcements for " + currentCourse.getTitle());
                     }
-
-                    map.get(currentCourse).add(aExtractor.getAnnouncement(currentCourse));
+                    //Add the course
+                    currentCourse = cExtractor.getCourse();
+                    map.put(currentCourse, new ArrayList<Announcement>());
+                    counter = 0;
                 }
 
-            } finally {
-                c.close();
+                map.get(currentCourse).add(aExtractor.getAnnouncement(currentCourse));
+                counter++;
             }
+
         } finally {
-            db.close();
+            c.close();
+        }
+
+        //Sort the announcements by date
+        Comparator<Announcement> comparator = new Comparator<Announcement>() {
+            @Override
+            public int compare(Announcement o1, Announcement o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        };
+
+        for (List<Announcement> entry : map.values()){
+            Collections.sort(entry, comparator);
         }
 
         return map;

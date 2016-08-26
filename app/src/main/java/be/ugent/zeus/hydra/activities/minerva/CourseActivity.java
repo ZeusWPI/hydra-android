@@ -1,8 +1,10 @@
 package be.ugent.zeus.hydra.activities.minerva;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -73,5 +75,11 @@ public class CourseActivity extends ToolbarActivity {
     private String getOnlineUrl() {
         //TODO: use preferences
         return String.format(ONLINE_URL_DESKTOP, course.getId());
+    }
+
+    public static void start(Context context, Course course) {
+        Intent intent = new Intent(context, CourseActivity.class);
+        intent.putExtra(ARG_COURSE, (Parcelable) course);
+        context.startActivity(intent);
     }
 }

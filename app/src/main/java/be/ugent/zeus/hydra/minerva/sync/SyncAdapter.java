@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementNotificationBuilder;
@@ -47,6 +48,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         broadcast = new SyncBroadcast(getContext());
     }
 
+    //TODO write a good, more formal overview of the sync algorithm.
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 
@@ -92,7 +94,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 agendaDao.synchronisePartial(w.getAgenda(), course);
 
                 //Sync announcements
-                Collection<Announcement> newOnes = announcementDao.synchronisePartial(w.getAnnouncements(), course, first);
+                Collection<Announcement> newOnes = announcementDao.synchronisePartial(w.getAnnouncements(), course, first, getContext());
 
                 //Publish progress
                 broadcast.publishAnnouncementDone(i + 1, courses.getCourses().size());
@@ -143,7 +145,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         //If we may not notify the user, stop here
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        if(!preferences.getBoolean("pref_minerva_announcement_notification", true)) {
+        if(!preferences.getBoolean(MinervaFragment.PREF_ANNOUNCEMENT_NOTIFICATION, true)) {
             return;
         }
 

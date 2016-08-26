@@ -56,7 +56,6 @@ public class CourseDao extends Dao {
             Log.e(TAG, "Error while inserting.", e);
         } finally {
             db.endTransaction();
-            db.close();
         }
     }
 
@@ -104,7 +103,6 @@ public class CourseDao extends Dao {
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
-            db.close();
         }
     }
 
@@ -112,12 +110,7 @@ public class CourseDao extends Dao {
      * Delete all courses from the database.
      */
     public void deleteAll() {
-        SQLiteDatabase db = helper.getWritableDatabase();
-        try {
-            db.delete(CourseTable.TABLE_NAME, null, null);
-        } finally {
-            db.close();
-        }
+        helper.getWritableDatabase().delete(CourseTable.TABLE_NAME, null, null);
     }
 
     /**
@@ -152,23 +145,19 @@ public class CourseDao extends Dao {
         SQLiteDatabase db = helper.getReadableDatabase();
         Set<String> result = new HashSet<>();
 
+        Cursor cursor = db.query(CourseTable.TABLE_NAME, new String[]{CourseTable.COLUMN_ID}, null, null, null, null, null);
+
+        if (cursor == null) {
+            return result;
+        }
+
         try {
-            Cursor cursor = db.query(CourseTable.TABLE_NAME, new String[]{CourseTable.COLUMN_ID}, null, null, null, null, null);
-
-            if (cursor == null) {
-                return result;
-            }
-
-            try {
-                int columnIndex = cursor.getColumnIndex(CourseTable.COLUMN_ID);
-                while (cursor.moveToNext()) {
-                    result.add(cursor.getString(columnIndex));
-                }
-            } finally {
-                cursor.close();
+            int columnIndex = cursor.getColumnIndex(CourseTable.COLUMN_ID);
+            while (cursor.moveToNext()) {
+                result.add(cursor.getString(columnIndex));
             }
         } finally {
-            db.close();
+            cursor.close();
         }
 
         return result;
@@ -218,28 +207,24 @@ public class CourseDao extends Dao {
         SQLiteDatabase db = helper.getReadableDatabase();
         List<Course> result = new ArrayList<>();
 
+        //Get the cursor.
+        Cursor c = db.query(CourseTable.TABLE_NAME, null, null, null, null, null, null);
+
+        //If the cursor is null, abort
+        if (c == null) {
+            return result;
+        }
+
+        //Get a helper.
+        CourseExtractor extractor = new CourseExtractor.Builder(c).defaults().build();
+
+        //Get the actual r
         try {
-            //Get the cursor.
-            Cursor c = db.query(CourseTable.TABLE_NAME, null, null, null, null, null, null);
-
-            //If the cursor is null, abort
-            if (c == null) {
-                return result;
-            }
-
-            //Get a helper.
-            CourseExtractor extractor = new CourseExtractor.Builder(c).defaults().build();
-
-            //Get the actual r
-            try {
-                while (c.moveToNext()) {
-                    result.add(extractor.getCourse());
-                }
-            } finally {
-                c.close();
+            while (c.moveToNext()) {
+                result.add(extractor.getCourse());
             }
         } finally {
-            db.close();
+            c.close();
         }
 
         return result;

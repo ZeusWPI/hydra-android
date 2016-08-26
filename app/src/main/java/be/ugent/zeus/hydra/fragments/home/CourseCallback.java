@@ -68,7 +68,7 @@ class CourseCallback extends HomeLoaderCallback {
         @Override
         protected List<HomeCard> getData() throws LoaderException {
 
-            Map<Course, List<Announcement>> map = announcementDao.getUnread(true);
+            Map<Course, List<Announcement>> map = announcementDao.getUnread();
             List<HomeCard> cards = new ArrayList<>();
 
             for (Map.Entry<Course, List<Announcement>> entry: map.entrySet()) {

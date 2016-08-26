@@ -1,6 +1,8 @@
 package be.ugent.zeus.hydra;
 
+import android.app.Activity;
 import android.app.Application;
+import android.support.annotation.NonNull;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -51,5 +53,16 @@ public class HydraApplication extends Application {
         Tracker t = getDefaultTracker();
         t.setScreenName(screenName);
         t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    /**
+     * Get the application from an activity. The application is cast to this class.
+     *
+     * @param activity The activity.
+     *
+     * @return The application.
+     */
+    public static HydraApplication getApplication(@NonNull Activity activity) {
+        return (HydraApplication) activity.getApplication();
     }
 }

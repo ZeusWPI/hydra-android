@@ -17,6 +17,14 @@ import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
  */
 public class MinervaFragment extends PreferenceFragment {
 
+    public static final String PREF_SYNC_FREQUENCY = "pref_minerva_sync_frequency";
+    public static final String PREF_ANNOUNCEMENT_NOTIFICATION = "pref_minerva_announcement_notification";
+    public static final String PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL = "pref_minerva_announcement_notification_email";
+
+    //In seconds
+    public static final String PREF_DEFAULT_SYNC_FREQUENCY = "86400";
+    public static final boolean PREF_DEFAULT_ANNOUNCEMENT_NOTIFICATION_EMAIL = false;
+
     private int oldSync;
     private int newSync;
 
@@ -28,10 +36,10 @@ public class MinervaFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.preferences_minerva);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
-        oldSync = Integer.parseInt(preferences.getString("pref_minerva_sync_frequency", "86400"));
+        oldSync = Integer.parseInt(preferences.getString(PREF_SYNC_FREQUENCY, PREF_DEFAULT_SYNC_FREQUENCY));
         newSync = oldSync;
 
-        Preference preference = findPreference("pref_minerva_sync_frequency");
+        Preference preference = findPreference(PREF_SYNC_FREQUENCY);
         preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
@@ -56,9 +64,7 @@ public class MinervaFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        HydraApplication happ = (HydraApplication) getActivity().getApplication();
-        happ.sendScreenName("settings");
+        HydraApplication.getApplication(getActivity()).sendScreenName("Minerva Settings");
     }
 
     private Context getAppContext() {
