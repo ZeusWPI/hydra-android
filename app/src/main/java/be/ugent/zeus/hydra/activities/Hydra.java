@@ -29,6 +29,7 @@ public class Hydra extends ToolbarActivity {
             R.drawable.ic_tabs_news,
             R.drawable.ic_tabs_info,
             R.drawable.ic_tabs_minerva,
+            R.drawable.ic_tabs_urgent
     };
 
     @Override

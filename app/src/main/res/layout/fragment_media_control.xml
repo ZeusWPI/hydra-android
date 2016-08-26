@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/albumImage"
+        android:layout_width="@dimen/media_control_image"
+        android:layout_height="@dimen/media_control_image"
+        android:contentDescription="@string/simplay_album_art"
+        android:src="@drawable/ic_album_24dp" />
+
+    <TextView
+        android:id="@+id/titleText"
+        style="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        tools:text="The Smashing Pumpkins"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/artistText"
+        style="?android:attr/textAppearanceMedium"
+        android:textStyle="normal"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        tools:text="The End is the Beginning is the End (Soundtrack Version)"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/borderlessButtonStyle"
+        android:id="@+id/playPauseButton"
+        android:src="@drawable/ic_play_arrow_24dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

@@ -114,3 +114,4 @@ fabric.properties
 .idea/
 
 secrets.properties
+app/src/main/assets/licenses.html

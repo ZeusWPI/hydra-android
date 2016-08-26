@@ -10,6 +10,7 @@ import android.view.View;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.AppCompatPreferenceActivity;
+import be.ugent.zeus.hydra.fragments.preferences.AboutFragment;
 import be.ugent.zeus.hydra.fragments.preferences.ActivityFragment;
 import be.ugent.zeus.hydra.fragments.preferences.HomeFragment;
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
@@ -47,6 +48,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 || ActivityFragment.class.getName().equals(fragmentName)
                 || NotificationFragment.class.getName().equals(fragmentName)
                 || HomeFragment.class.getName().equals(fragmentName)
+                || AboutFragment.class.getName().equals(fragmentName)
                 || MinervaFragment.class.getName().equals(fragmentName);
     }
 

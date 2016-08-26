@@ -1,0 +1,99 @@
+# Support libraries
+- artifact: com.android.support:+:+
+  name: Android Support Libraries
+  copyrightHolder: The Android Open Source Project
+  license: The Apache Software License, Version 2.0
+
+- artifact: com.github.alexfu:SQLiteQueryBuilder:+
+  name: SQLiteQueryBuilder
+  copyrightHolder: Alex Fu
+  license: MIT License
+  url: https://github.com/alexfu/SQLiteQueryBuilder
+
+- artifact: org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:+
+  name: Apache Oltu - OAuth 2.0 - Client
+  copyrightHolder: Apache Software Foundation
+  license: The Apache Software License, Version 2.0
+  url: https://oltu.apache.org/
+
+- artifact: com.github.chrisbanes:PhotoView:+
+  name: PhotoView
+  copyrightHolder: Chris Banes
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/chrisbanes/PhotoView
+
+- artifact: de.hdodenhof:circleimageview:+
+  name: CircleImageView
+  copyrightHolder: Henning Dodenhof
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/hdodenhof/CircleImageView
+
+- artifact: com.google.code.gson:gson:+
+  name: Gson
+  copyrightHolder: Google Inc.
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/google/gson
+
+- artifact: net.danlew:android.joda:+
+  name: joda-time-android
+  copyrightHolder: Daniel Lew
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/dlew/joda-time-android
+
+- artifact: com.squareup.picasso:picasso:+
+  name: Picasso
+  copyrightHolder: Square, Inc.
+  license: The Apache Software License, Version 2.0
+  url: http://square.github.io/picasso/
+
+- artifact: com.github.pluscubed:recycler-fast-scroll:+
+  name: recycler-fast-scroll
+  copyrightHolder: Daniel Ciao
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/plusCubed/recycler-fast-scroll
+
+- artifact: su.j2e:rv-joiner:+
+  name: rv-joiner
+  copyrightHolder: j2esu (Evgeny Egorov)
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/j2esu/rv-joiner
+
+- artifact: mylovemhz:simplay:+
+  name: Simplay
+  copyrightHolder: Allan Pichardo
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/allanpichardo/Simplay
+
+- artifact: org.springframework.android:spring-android-core:+
+  name: Spring for Android Core
+  author: Spring Authors
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/SpringSource/spring-android
+
+- artifact: org.springframework.android:spring-android-rest-template:+
+  name: Spring for Android Rest Template
+  author: Spring Authors
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/SpringSource/spring-android
+
+- artifact: com.timehop.stickyheadersrecyclerview:library:+
+  name: Sticky Headers RecyclerView
+  copyrightHolder: Timehop
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/timehop/sticky-headers-recyclerview
+
+
+- artifact: com.github.niknetniko:expandablelayout:+
+  skip: true
+
+- artifact: com.google.android.gms:+:+
+  skip: true
+
+- artifact: joda-time:joda-time:+
+  skip: true
+
+- artifact: com.google.firebase:+:+
+  skip: true
+
+- artifact: org.slf4j:slf4j-api:+
+  skip: true

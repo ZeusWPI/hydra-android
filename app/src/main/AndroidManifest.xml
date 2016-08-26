@@ -20,7 +20,7 @@
 
     <!-- Override API number constraints in libraries -->
     <!-- Override Custom Tabs -->
-    <uses-sdk tools:overrideLibrary="android.support.customtabs"/>
+    <uses-sdk tools:overrideLibrary="android.support.customtabs, com.mylovemhz.simplay"/>
 
     <application
         android:name=".HydraApplication"

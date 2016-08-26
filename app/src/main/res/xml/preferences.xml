@@ -19,6 +19,14 @@
         android:title="@string/pref_daily_notifications_title"
         android:summary="Dit staat nog niet helemaal op punt.">
     </header>
+
+    <!-- About -->
+    <header
+        android:fragment="be.ugent.zeus.hydra.fragments.preferences.AboutFragment"
+        android:title="@string/pref_about_header_title"
+        android:summary="@string/pref_about_header_summary"
+        />
+
     <!-- Minerva -->
     <header
         android:fragment="be.ugent.zeus.hydra.fragments.preferences.MinervaFragment"
