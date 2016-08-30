@@ -40,7 +40,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/name"
                     android:ellipsize="end"
-                    android:paddingTop="@dimen/card_title_padding_top"
                     style="@style/Base.TextAppearance.AppCompat.Title"
                     tools:text="Titel van het evenement die zeer lang is!" />
 
@@ -65,7 +64,6 @@
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:paddingTop="16dp"
                 android:id="@+id/imageView"
                 android:scaleType="fitCenter"
                 tools:src="@drawable/ic_event_24dp" />
