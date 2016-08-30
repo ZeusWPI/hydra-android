@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.minerva.CourseActivity;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.MinervaAnnouncementsCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
@@ -33,14 +34,14 @@ public class MinervaAnnouncementViewHolder extends HideableViewHolder {
     @Override
     public void populate(HomeCard card) {
 
-        MinervaAnnouncementsCard mCard = card.checkCard(HomeCard.CardType.MINERVA_ANNOUNCEMENT);
+        final MinervaAnnouncementsCard mCard = card.checkCard(HomeCard.CardType.MINERVA_ANNOUNCEMENT);
 
         toolbar.setTitle("Aankondigingen " + mCard.getCourse().getTitle());
 
         layout.removeAllViewsInLayout();
 
         for (int i = 0; i < 5 && i < mCard.getAnnouncements().size(); i++) {
-            View view = LayoutInflater.from(itemView.getContext()).inflate(R.layout.item_minerva_home_announcement, null);
+            View view = LayoutInflater.from(layout.getContext()).inflate(R.layout.item_minerva_home_announcement, layout, false);
 
             AnnouncementViewHolder viewHolder = new AnnouncementViewHolder(view);
             viewHolder.populate(mCard.getAnnouncements().get(i));
@@ -51,10 +52,18 @@ public class MinervaAnnouncementViewHolder extends HideableViewHolder {
         if(mCard.getAnnouncements().size() >= 5) {
             TextView textView = new TextView(itemView.getContext());
             textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            textView.setText("Nog " + (mCard.getAnnouncements().size() - 5) + " verborgen aankondigingen.");
+            textView.setText("Bekijk nog " + (mCard.getAnnouncements().size() - 5) + " aankondigingen...");
             textView.setPadding(0, convertDpToPixelInt(16, itemView.getContext()), 0, 0);
             layout.addView(textView);
         }
+
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Set onclick listener
+                CourseActivity.start(itemView.getContext(), mCard.getCourse());
+            }
+        });
 
         super.populate(card);
     }

@@ -1,5 +1,8 @@
 package be.ugent.zeus.hydra.models.minerva;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -7,7 +10,7 @@ import java.io.Serializable;
 /**
  * Created by feliciaan on 21/06/16.
  */
-public class Course implements Serializable {
+public class Course implements Serializable, Parcelable {
 
     private String id;
     private String code;
@@ -72,5 +75,69 @@ public class Course implements Serializable {
 
     public void setAcademicYear(int academicYear) {
         this.academicYear = academicYear;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.code);
+        dest.writeString(this.title);
+        dest.writeString(this.description);
+        dest.writeString(this.tutorName);
+        dest.writeString(this.student);
+        dest.writeInt(this.academicYear);
+    }
+
+    public Course() {
+    }
+
+    private Course(Parcel in) {
+        this.id = in.readString();
+        this.code = in.readString();
+        this.title = in.readString();
+        this.description = in.readString();
+        this.tutorName = in.readString();
+        this.student = in.readString();
+        this.academicYear = in.readInt();
+    }
+
+    public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>() {
+        @Override
+        public Course createFromParcel(Parcel source) {
+            return new Course(source);
+        }
+
+        @Override
+        public Course[] newArray(int size) {
+            return new Course[size];
+        }
+    };
+
+    /**
+     * A course is equal to this course if the ID of the course is the same.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Course course = (Course) o;
+
+        return id.equals(course.id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

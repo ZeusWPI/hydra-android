@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<item
+		android:id="@+id/minerva_course_link"
+		android:orderInCategory="100"
+		app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_open_in_browser_24dp"
+		android:title="Open link" />
+</menu>

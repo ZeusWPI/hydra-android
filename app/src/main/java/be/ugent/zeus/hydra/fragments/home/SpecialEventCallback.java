@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-class SpecialEventCallback extends HomeLoaderCallback<SpecialEventWrapper> {
+class SpecialEventCallback extends CacheHomeLoaderCallback<SpecialEventWrapper> {
 
     private static final boolean DEVELOPMENT = BuildConfig.DEBUG;
 

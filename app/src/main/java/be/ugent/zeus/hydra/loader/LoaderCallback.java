@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.loader;
 import android.content.Context;
 import android.support.v4.content.Loader;
 import be.ugent.zeus.hydra.activities.common.LoaderToolbarActivity;
+import be.ugent.zeus.hydra.cache.CachedAsyncTaskLoader;
 import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
 
 import java.io.Serializable;

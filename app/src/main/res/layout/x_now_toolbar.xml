@@ -11,8 +11,11 @@
 
     <ImageView
         android:id="@+id/now_toolbar_icon"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_gravity="center_vertical"
         app:srcCompat="@drawable/ic_tabs_menu"
         tools:ignore="MissingPrefix"
         android:tint="@color/ugent_blue_lighter" />
@@ -22,13 +25,18 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/card_title_padding_top"
+        android:paddingBottom="@dimen/card_title_padding_top"
         android:textColor="@color/ugent_blue_lighter"
-        android:paddingLeft="16dp"
+        android:paddingLeft="8dp"
         tools:text="Menu voor de toekomst!" />
 
     <ImageView
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_gravity="center_vertical"
         android:tint="@color/ugent_blue_lighter"
         app:srcCompat="@drawable/ic_more_vert_24dp"
         tools:ignore="MissingPrefix"

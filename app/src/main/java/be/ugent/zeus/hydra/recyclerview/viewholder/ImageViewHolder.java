@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
  *
  * @author Niko Strijbol
  */
-public class ImageViewHolder extends AbstractViewHolder<ArticleImage> {
+public class ImageViewHolder extends DataViewHolder<ArticleImage> {
 
     private ImageView view;
     private SchamperImageAdapter adapter;

@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.fragments.home;
 
 /**
- * Interface for the connection between {@link HomeFragment} and {@link HomeLoaderCallback}.
+ * Interface for the connection between {@link HomeFragment} and {@link CacheHomeLoaderCallback}.
  *
  * @author Niko Strijbol
  */

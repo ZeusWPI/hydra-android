@@ -16,7 +16,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * View holder for the schamper fragment.
  */
-public class SchamperViewHolder extends AbstractViewHolder<Article> {
+public class SchamperViewHolder extends DataViewHolder<Article> {
     private TextView title;
     private TextView date;
     private TextView author;

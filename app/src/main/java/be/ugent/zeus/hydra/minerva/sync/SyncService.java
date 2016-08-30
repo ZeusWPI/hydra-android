@@ -17,9 +17,6 @@ public class SyncService extends Service {
     // Object to use as a thread-safe lock
     private static final Object lock = new Object();
 
-    /**
-     * Instantiate the sync adapter object.
-     */
     @Override
     public void onCreate() {
         /*

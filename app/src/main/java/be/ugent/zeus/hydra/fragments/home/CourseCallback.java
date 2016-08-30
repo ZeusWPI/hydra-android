@@ -1,44 +1,37 @@
 package be.ugent.zeus.hydra.fragments.home;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.Loader;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.loader.AbstractAsyncLoader;
+import be.ugent.zeus.hydra.loader.LoaderException;
+import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.MinervaAnnouncementsCard;
+import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
-import be.ugent.zeus.hydra.models.minerva.Courses;
-import be.ugent.zeus.hydra.models.minerva.WhatsNew;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
-import be.ugent.zeus.hydra.requests.minerva.MinervaRequest;
-import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Callback for Minerva courses.
  *
  * @author Niko Strijbol
  */
-class CourseCallback extends HomeLoaderCallback<Courses> {
+class CourseCallback extends HomeLoaderCallback {
 
     private static final String TAG = "CourseCallback";
 
-    private AnnouncementCallback announcementCallback;
-
     public CourseCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
         super(context, adapter, callback);
-        announcementCallback = new AnnouncementCallback();
-    }
-
-    @Override
-    protected List<HomeCard> convertData(@NonNull Courses data) {
-        announcementCallback.cards.clear();
-        WhatsNewRequest.getAllAnnouncements(data, this.context, null, announcementCallback);
-        return announcementCallback.cards;
     }
 
     @Override
@@ -47,41 +40,44 @@ class CourseCallback extends HomeLoaderCallback<Courses> {
     }
 
     @Override
-    protected MinervaRequest<Courses> getCacheRequest() {
-        //We pass null for the activity, since we don't want ask the user anything here.
-        return new CoursesMinervaRequest(this.context, null);
-    }
-
-    @Override
     protected int getErrorName() {
         return R.string.fragment_home_error_minerva;
     }
 
-    /**
-     * Receive the announcements.
-     */
-    private class AnnouncementCallback implements WhatsNewRequest.AnnouncementsListener {
+    @Override
+    public Loader<ThrowableEither<List<HomeCard>>> onCreateLoader(int id, Bundle args) {
+        Log.d(TAG, "Called");
+        return new DoaLoader(context);
+    }
 
-        private List<HomeCard> cards = new ArrayList<>();
+    private static class DoaLoader extends AbstractAsyncLoader<List<HomeCard>> {
 
+        private AnnouncementDao announcementDao;
+
+        /**
+         * This loader has the option to ignore the cache.
+         *
+         * @param context The context.
+         */
+        private DoaLoader(Context context) {
+            super(context);
+            announcementDao = new AnnouncementDao(context);
+        }
+
+        @NonNull
         @Override
-        public void onAnnouncementsAdded(WhatsNew whatsNew, Course course) {
-            if (!whatsNew.getAnnouncements().isEmpty()) {
-                cards.add(new MinervaAnnouncementsCard(whatsNew.getAnnouncements(), course));
-                adapter.updateCardItems(cards, HomeCard.CardType.MINERVA_ANNOUNCEMENT);
+        protected List<HomeCard> getData() throws LoaderException {
+
+            Map<Course, List<Announcement>> map = announcementDao.getUnread();
+            List<HomeCard> cards = new ArrayList<>();
+
+            for (Map.Entry<Course, List<Announcement>> entry: map.entrySet()) {
+                cards.add(new MinervaAnnouncementsCard(entry.getValue(), entry.getKey()));
             }
-        }
 
-        @Override
-        public void completed() {
-            //OK
-            Log.d("Home", "Done minerva.");
-        }
+            Log.d(TAG, cards.toString());
 
-        @Override
-        public void error(Throwable e) {
-            //TODO: add error card for Minerva.
-            Log.w(TAG, "Some announcements could not be loaded.", e);
+            return cards;
         }
     }
 }

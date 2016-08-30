@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-class RestoMenuCallback extends HomeLoaderCallback<RestoOverview> {
+class RestoMenuCallback extends CacheHomeLoaderCallback<RestoOverview> {
 
     public RestoMenuCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
         super(context, adapter, callback);

@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.loader;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.os.OperationCanceledException;
 
@@ -50,6 +51,13 @@ public abstract class AbstractAsyncLoader<D> extends AsyncTaskLoader<ThrowableEi
         }
     }
 
+    /**
+     * Provide the data for the loader.
+     *
+     * @return The data.
+     * @throws LoaderException If the data could not be provided.
+     */
+    @NonNull
     protected abstract D getData() throws LoaderException;
 
     /**

@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-class EventCallback extends HomeLoaderCallback<Activities> {
+class EventCallback extends CacheHomeLoaderCallback<Activities> {
 
     public EventCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
         super(context, adapter, callback);

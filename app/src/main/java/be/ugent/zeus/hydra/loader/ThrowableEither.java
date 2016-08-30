@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 /**
  * A class that contains either a value or an exception. This is returned as result of
- * the {@link CachedAsyncTaskLoader}, to enable passing of errors.
+ * the {@link AbstractAsyncLoader}, to enable passing of errors.
  *
  * While this is conceptually a monad, Android's lack of support for Java 8 necessitates a different implementation.
  * Monad laws are thus not implemented.
@@ -62,7 +62,7 @@ public final class ThrowableEither<D> {
     @NonNull
     public Throwable getError() {
         if(throwable == null || data != null) {
-            throw new IllegalStateException("There is an error or no data.");
+            throw new IllegalStateException("There is no error.");
         }
 
         return throwable;

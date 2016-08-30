@@ -85,10 +85,12 @@ public class RequestExecutor {
 
         @Override
         protected void onPostExecute(T t) {
-            if(t != null) {
-                callback.receiveData(t);
-            } else {
-                callback.receiveError(throwable);
+            if(callback != null) {
+                if (t != null) {
+                    callback.receiveData(t);
+                } else {
+                    callback.receiveError(throwable);
+                }
             }
         }
 

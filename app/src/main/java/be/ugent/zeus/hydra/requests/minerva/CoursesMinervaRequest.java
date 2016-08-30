@@ -8,15 +8,17 @@ import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.models.minerva.Courses;
 
-import static be.ugent.zeus.hydra.cache.Cache.ONE_WEEK;
-
 /**
+ * Request to get a list of courses.
+ *
+ * Warning: this request should not be used. The minerva data is synchronised to the database. Use that instead. If
+ * you need new data, request a sync.
+ *
+ * This request is, as a consequence of the above, not cached.
  * @author feliciaan
  * @author Niko Strijbol
  */
 public class CoursesMinervaRequest extends MinervaRequest<Courses> {
-
-    public static final String BASE_KEY = "minerva_courses";
 
     public CoursesMinervaRequest(Context context, @Nullable Activity activity) {
         super(Courses.class, context, activity);
@@ -28,18 +30,7 @@ public class CoursesMinervaRequest extends MinervaRequest<Courses> {
 
     @Override
     @NonNull
-    public String getCacheKey() {
-        return BASE_KEY;
-    }
-
-    @Override
-    @NonNull
     protected String getAPIUrl() {
         return MINERVA_API + "courses";
-    }
-
-    @Override
-    public long getCacheDuration() {
-        return ONE_WEEK * 4;
     }
 }

@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.schamper.Article;
+import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.SchamperViewHolder;
 
 /**
