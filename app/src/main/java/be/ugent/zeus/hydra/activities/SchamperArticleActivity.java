@@ -36,7 +36,6 @@ public class SchamperArticleActivity extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.Hydra_Main_NoActionBar_SystemWindows);
         setContentView(R.layout.activity_schamper_article);
 
         customFade();

@@ -27,7 +27,8 @@
             android:paddingLeft="@dimen/card_title_padding_vertical"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/card_title_padding_bottom_no_content" >
 
             <LinearLayout
                 android:orientation="vertical"
@@ -56,7 +57,6 @@
                     android:id="@+id/starttime"
                     android:singleLine="true"
                     android:textColor="?android:attr/textColorSecondary"
-                    android:paddingBottom="@dimen/card_title_padding_bottom_no_content"
                     tools:text="Starttijd" />
 
             </LinearLayout>

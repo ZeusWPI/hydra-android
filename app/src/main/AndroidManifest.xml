@@ -76,7 +76,7 @@
                 android:value=".activities.Hydra" />
         </activity>
 
-        <!-- Resto overview -->
+        <!-- Resto locations overview -->
         <activity
             android:name=".activities.resto.MetaActivity"
             android:label="@string/resto_resto"
@@ -117,7 +117,8 @@
         <activity
             android:name=".activities.SchamperArticleActivity"
             android:label="@string/title_activity_schamper"
-            android:parentActivityName=".activities.Hydra">
+            android:parentActivityName=".activities.Hydra"
+            android:theme="@style/Hydra.Main.NoActionBar.SystemWindows">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
