@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
 import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
-import be.ugent.zeus.hydra.cache.CacheRequest;
-import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
 import be.ugent.zeus.hydra.recyclerview.adapters.InfoListAdapter;
@@ -43,7 +41,7 @@ public class InfoFragment extends CachedLoaderFragment<InfoList> {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         Bundle bundle = getArguments();
-        if (bundle != null) {
+        if (bundle != null && bundle.getParcelableArrayList(InfoSubItemActivity.INFO_ITEMS) != null) {
             InfoList infoItems = new InfoList();
             ArrayList<InfoItem> list = bundle.getParcelableArrayList(InfoSubItemActivity.INFO_ITEMS);
             assert list != null;
