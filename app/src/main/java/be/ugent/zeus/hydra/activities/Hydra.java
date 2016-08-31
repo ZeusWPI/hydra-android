@@ -1,17 +1,25 @@
 package be.ugent.zeus.hydra.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import be.ugent.zeus.hydra.HydraApplication;
+import android.view.View;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
-import be.ugent.zeus.hydra.viewpager.SectionPagerAdapter;
+import be.ugent.zeus.hydra.fragments.*;
+import be.ugent.zeus.hydra.fragments.home.HomeFragment;
+import be.ugent.zeus.hydra.fragments.minerva.MinervaFragment;
+import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
 
 /**
  * Main activity.
@@ -20,16 +28,8 @@ public class Hydra extends ToolbarActivity {
 
     public static final String ARG_TAB = "argTab";
 
-    //The tab icons
-    private static int[] icons = {
-            R.drawable.ic_tabs_home,
-            R.drawable.ic_tabs_schamper,
-            R.drawable.ic_tabs_menu,
-            R.drawable.ic_tabs_events,
-            R.drawable.ic_tabs_news,
-            R.drawable.ic_tabs_info,
-            R.drawable.ic_tabs_minerva,
-    };
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,62 +37,92 @@ public class Hydra extends ToolbarActivity {
         //This activity has no parent.
         hasParent(false);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
 
-        getToolBar().setDisplayShowTitleEnabled(false);
+        drawer = $(R.id.drawer_layout);
 
-        ViewPager viewpager = $(R.id.pager);
-        viewpager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
+        NavigationView view = $(R.id.navigation_view);
+        view.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
 
-        viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        toggle = new ActionBarDrawerToggle(this, drawer, this.<Toolbar>$(R.id.toolbar), R.string.drawer_open, R.string.drawer_close) {
             @Override
-            public void onPageSelected(int position) {
-                HydraApplication app = (HydraApplication) Hydra.this.getApplication();
-                app.sendScreenName("Fragment tab: " + SectionPagerAdapter.names[position]);
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, 0); // this disables the animation
             }
-        });
+        };
+        drawer.addDrawerListener(toggle);
 
-        final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
-        viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                appBarLayout.setExpanded(true);
-            }
-        });
-
-        TabLayout tabLayout = $(R.id.tab_layout);
-        tabLayout.setupWithViewPager(viewpager);
-
-        for (int i = 0; i < icons.length; i++) {
-            tabLayout.getTabAt(i).setIcon(icons[i]);
-        }
-
-        //Get start position
+        //Get start position & select it
         int start = getIntent().getIntExtra(ARG_TAB, 0);
-        viewpager.setCurrentItem(start, false);
+        selectDrawerItem(view.getMenu().getItem(start));
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater mf = getMenuInflater();
-        mf.inflate(R.menu.global, menu);
-        return true;
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        toggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        toggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        return toggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
 
-        //noinspection SimpliiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
+    private void selectDrawerItem(MenuItem menuItem) {
+        // Create a new fragment and specify the fragment to show based on nav item clicked
+        Fragment fragment;
+        switch (menuItem.getItemId()) {
+            case R.id.drawer_feed:
+                fragment = new HomeFragment();
+                break;
+            case R.id.drawer_schamper:
+                fragment = new SchamperFragment();
+                break;
+            case R.id.drawer_resto:
+                fragment = new RestoFragment();
+                break;
+            case R.id.drawer_events:
+                fragment = new ActivitiesFragment();
+                break;
+            case R.id.drawer_news:
+                fragment = new NewsFragment();
+                break;
+            case R.id.drawer_info:
+                fragment = new InfoFragment();
+                break;
+            case R.id.drawer_minerva:
+                fragment = new MinervaFragment();
+                break;
+            case R.id.drawer_pref:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return;
+            default:
+                fragment = new ComingSoonFragment();
         }
 
-        return super.onOptionsItemSelected(item);
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
+
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+        drawer.closeDrawers();
     }
 }

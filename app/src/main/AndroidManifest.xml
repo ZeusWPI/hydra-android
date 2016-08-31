@@ -33,7 +33,8 @@
         <!-- Main activity -->
         <activity
             android:name=".activities.Hydra"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/Hydra.Main.NoActionBar.SystemWindows">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -44,6 +45,7 @@
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/action_settings"
+            android:theme="@style/Hydra.Main.TextColorSelector"
             android:parentActivityName=".activities.Hydra">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->

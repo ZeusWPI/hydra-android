@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/drawer_group_main"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_feed"
+            android:icon="@drawable/ic_tabs_home"
+            android:title="@string/title_home_feed" />
+        <item
+            android:id="@+id/drawer_schamper"
+            android:icon="@drawable/ic_tabs_schamper"
+            android:title="@string/title_home_schamper" />
+        <item
+            android:id="@+id/drawer_resto"
+            android:icon="@drawable/ic_tabs_menu"
+            android:title="@string/title_home_resto" />
+        <item
+            android:id="@+id/drawer_events"
+            android:icon="@drawable/ic_tabs_events"
+            android:title="@string/title_home_events" />
+        <item
+            android:id="@+id/drawer_news"
+            android:icon="@drawable/ic_tabs_news"
+            android:title="@string/title_home_news" />
+        <item
+            android:id="@+id/drawer_info"
+            android:icon="@drawable/ic_tabs_info"
+            android:title="@string/title_home_info" />
+        <item
+            android:id="@+id/drawer_minerva"
+            android:icon="@drawable/ic_tabs_minerva"
+            android:title="@string/title_home_minerva" />
+    </group>
+
+    <group
+        android:id="@+id/drawer_group_settings"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_pref"
+            android:title="@string/title_home_pref" />
+    </group>
+</menu>

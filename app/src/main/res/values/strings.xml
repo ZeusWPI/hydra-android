@@ -121,4 +121,17 @@
     <string name="fragment_home_error_schamper">Schamper</string>
     <string name="fragment_home_error_special">evenement</string>
 
+    <string name="drawer_open">Openen</string>
+    <string name="drawer_close">Sluiten</string>
+
+    <string name="title_home_feed">Overzicht</string>
+    <string name="title_home_schamper">Schamper</string>
+    <string name="title_home_resto">Resto</string>
+    <string name="title_home_events">Evenementen</string>
+    <string name="title_home_news">Nieuws</string>
+    <string name="title_home_info">Info</string>
+    <string name="title_home_minerva">Minerva</string>
+    <string name="title_home_soon">Binnenkort</string>
+    <string name="title_home_pref">Instellingen</string>
+
 </resources>

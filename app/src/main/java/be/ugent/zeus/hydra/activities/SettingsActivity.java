@@ -29,7 +29,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Hydra_Main);
         super.onCreate(savedInstanceState);
         setupActionBar();
     }

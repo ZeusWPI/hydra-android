@@ -11,11 +11,17 @@
         <item name="android:colorBackground">@color/ugent_white</item>
         <item name="colorAccent">@color/ugent_yellow_dark</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:textColorPrimary">@color/ugent_blue_dark</item>
+        <item name="android:textColorSecondary">@color/ugent_blue_medium</item>
+        <item name="android:textColorTertiary">@color/ugent_blue_medium</item>
+        <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
+        <item name="windowActionModeOverlay">true</item>
+    </style>
+
+    <style name="Hydra.Main.TextColorSelector" parent="Hydra.Main">
         <item name="android:textColorPrimary">@color/ugent_blue_dark_selector</item>
         <item name="android:textColorSecondary">@color/ugent_blue_medium_selector</item>
         <item name="android:textColorTertiary">@color/ugent_blue_medium_selector</item>
-        <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
-        <item name="windowActionModeOverlay">true</item>
     </style>
 
     <!-- Style for long texts; black & lighter font + more line spacing -->
