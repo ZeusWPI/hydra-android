@@ -54,6 +54,11 @@ public abstract class EmptyItemLoader<E, V extends DataViewHolder<E>> extends Si
 
     protected abstract V onCreateItemViewHolder(ViewGroup parent, int viewType);
 
+    /**
+     * {@inheritDoc}
+     *
+     * This method checks the type of view holder. This is necessary, because the empty view holder cannot be bound.
+     */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof DataViewHolder) {
