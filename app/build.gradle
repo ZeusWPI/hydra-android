@@ -10,7 +10,6 @@ android {
         versionCode 203
         versionName "2.0"
         vectorDrawables.useSupportLibrary = true
-        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -80,6 +79,7 @@ dependencies {
     }
 
     //compile 'com.google.firebase:firebase-core:9.4.0'
+    //compile 'com.google.firebase:firebase-crash:9.4.0'
     compile 'com.google.firebase:firebase-messaging:9.4.0'
 
     compile 'su.j2e:rv-joiner:1.0.9'
