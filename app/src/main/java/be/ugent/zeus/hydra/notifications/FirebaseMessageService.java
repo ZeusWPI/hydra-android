@@ -6,6 +6,8 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 /**
+ * Handles receiving Firebase push notifications.
+ *
  * @author Niko Strijbol
  */
 public class FirebaseMessageService extends FirebaseMessagingService {
