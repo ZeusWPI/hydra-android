@@ -58,6 +58,9 @@ dependencies {
     compile "com.android.support:preference-v7:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
+    //This requires API 15+, but we use it anyway. Don't forget to use the normal browser if the version is too old!
+    compile "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
+
     compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     compile 'com.google.code.gson:gson:2.6.2'
@@ -75,8 +78,9 @@ dependencies {
     compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1') {
         exclude group: 'org.apache.oltu.oauth2'
     }
-    //This requires API 15+, but we use it anyway. Don't forget to use the normal browser if the version is too old!
-    compile "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
+
+    //compile 'com.google.firebase:firebase-core:9.4.0'
+    compile 'com.google.firebase:firebase-messaging:9.4.0'
 
     compile 'su.j2e:rv-joiner:1.0.9'
 

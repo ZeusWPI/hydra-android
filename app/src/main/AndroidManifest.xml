@@ -204,6 +204,14 @@
             </intent-filter>
         </activity>
 
+        <!-- Firebase messages -->
+        <service
+            android:name=".notifications.FirebaseMessageService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
         <!-- Account service -->
         <service android:name=".auth.MinervaService">
             <intent-filter>
