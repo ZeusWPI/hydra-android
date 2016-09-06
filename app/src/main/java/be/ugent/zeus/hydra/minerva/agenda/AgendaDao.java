@@ -86,11 +86,36 @@ public class AgendaDao extends Dao {
         Log.d(TAG, "New agenda for " + course.getTitle() + ": " + counter);
     }
 
+    /**
+     * Delete all agenda items, and add the given ones.
+     *
+     * @param agenda The items to add.
+     */
+    public void replace(Collection<AgendaItem> agenda) {
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        try {
+            db.beginTransaction();
+
+            //Clear all agenda items for this course.
+            db.delete(AgendaTable.TABLE_NAME, null, null);
+
+            for (AgendaItem agendaItem: agenda ) {
+                ContentValues value = getValues(agendaItem);
+                db.insertOrThrow(AgendaTable.TABLE_NAME, null, value);
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
     private static ContentValues getValues(AgendaItem a) {
         ContentValues values = new ContentValues();
 
         values.put(AgendaTable.COLUMN_ID, a.getItemId());
-        values.put(AgendaTable.COLUMN_COURSE, a.getCourse().getId());
+        values.put(AgendaTable.COLUMN_COURSE, a.getCourseId());
         values.put(AgendaTable.COLUMN_TITLE, a.getTitle());
         values.put(AgendaTable.COLUMN_CONTENT, a.getContent());
         values.put(AgendaTable.COLUMN_START_DATE, a.getStartDate().getTime());

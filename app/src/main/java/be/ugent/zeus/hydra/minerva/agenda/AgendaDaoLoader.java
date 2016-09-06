@@ -39,6 +39,6 @@ public class AgendaDaoLoader extends AbstractAsyncLoader<List<AgendaItem>> {
     @NonNull
     @Override
     protected List<AgendaItem> getData() throws LoaderException {
-        return dao.getAgendaForCourse(course, true);
+        return dao.getAgendaForCourse(course, false);
     }
 }
