@@ -18,7 +18,7 @@
             android:id="@+id/resto_tabs_slider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:tabMode="scrollable" />
 
     </android.support.design.widget.AppBarLayout>
