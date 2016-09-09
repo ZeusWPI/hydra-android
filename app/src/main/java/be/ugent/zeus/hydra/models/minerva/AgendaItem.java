@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.models.minerva;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.models.converters.ISO8601DateJsonAdapter;
 import com.google.gson.annotations.JsonAdapter;
@@ -36,6 +37,10 @@ public class AgendaItem implements Serializable, Parcelable {
     private String lastEditType;
     private Course course;
 
+    //This is used sometimes as well, when we don't need the full course.
+    @SerializedName("course_id")
+    private String courseId;
+
     public int getItemId() {
         return itemId;
     }
@@ -44,8 +49,22 @@ public class AgendaItem implements Serializable, Parcelable {
         this.itemId = itemId;
     }
 
+
+    @Nullable
     public Course getCourse() {
         return course;
+    }
+
+    public String getCourseId() {
+        if(courseId == null && course == null) {
+            return null;
+        } else {
+            if(courseId == null) {
+                return course.getId();
+            } else {
+                return courseId;
+            }
+        }
     }
 
     public void setCourse(Course course) {

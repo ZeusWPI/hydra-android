@@ -33,7 +33,8 @@
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/card_title_padding_bottom_no_content">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -54,11 +55,11 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/author"
                     android:textColor="?android:attr/textColorSecondary"
-                    android:paddingBottom="@dimen/card_title_padding_bottom_no_content"
                     tools:text="Auteur artikel" />
             </LinearLayout>
 
             <ImageView
+                android:layout_marginBottom="@dimen/card_title_padding_bottom"
                 android:transitionName="hero"
                 android:layout_width="80dp"
                 android:layout_height="80dp"

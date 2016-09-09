@@ -113,5 +113,6 @@ fabric.properties
 *.iml
 .idea/
 
+### Secrets and API keys ###
 secrets.properties
 app/src/main/assets/licenses.html

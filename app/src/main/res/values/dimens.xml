@@ -68,4 +68,6 @@
     <dimen name="mini_fab_size">40dp</dimen>
     <dimen name="mini_fab_margin">4dp</dimen>
 
+    <dimen name="hero_image_height">256dp</dimen>
+
 </resources>

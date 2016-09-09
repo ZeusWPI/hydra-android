@@ -8,19 +8,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity;
 import be.ugent.zeus.hydra.auth.AccountUtils;
-import be.ugent.zeus.hydra.auth.MinervaConfig;
 import be.ugent.zeus.hydra.auth.MinervaAuthenticator;
+import be.ugent.zeus.hydra.auth.MinervaConfig;
 import be.ugent.zeus.hydra.auth.models.BearerToken;
 import be.ugent.zeus.hydra.auth.models.GrantInformation;
-import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 import be.ugent.zeus.hydra.requests.common.Request;
+import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 import be.ugent.zeus.hydra.requests.minerva.UserInfoRequest;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.utils.customtabs.CustomTabsHelper;
 import org.joda.time.DateTime;
@@ -135,9 +133,6 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
     public void onCustomTabsConnected(ActivityHelper activityHelper) {
         progressMessage.setText(getString(R.string.auth_progress_permission));
         if(!launched) {
-            if(!NetworkUtils.isUgentNetwork(this)) {
-                Toast.makeText(getApplicationContext(), R.string.auth_maybe_not_ugent, Toast.LENGTH_LONG).show();
-            }
             activityHelper.openCustomTab(Uri.parse(AccountUtils.getRequestUri()));
             launched = true;
         }

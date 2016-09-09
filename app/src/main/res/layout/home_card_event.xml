@@ -33,14 +33,14 @@
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/card_title_padding_bottom_no_content">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/name"
                     android:ellipsize="end"
-                    android:paddingTop="@dimen/card_title_padding_top"
                     style="@style/Base.TextAppearance.AppCompat.Title"
                     tools:text="Titel van het evenement die zeer lang is!" />
 
@@ -57,15 +57,14 @@
                     android:id="@+id/starttime"
                     android:singleLine="true"
                     android:textColor="?android:attr/textColorSecondary"
-                    android:paddingBottom="@dimen/card_title_padding_bottom_no_content"
                     tools:text="Starttijd" />
 
             </LinearLayout>
 
             <ImageView
+                android:layout_marginBottom="@dimen/card_title_padding_bottom"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:paddingTop="16dp"
                 android:id="@+id/imageView"
                 android:scaleType="fitCenter"
                 tools:src="@drawable/ic_event_24dp" />
