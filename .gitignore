@@ -115,4 +115,3 @@ fabric.properties
 
 ### Secrets and API keys ###
 secrets.properties
-google-services.json
