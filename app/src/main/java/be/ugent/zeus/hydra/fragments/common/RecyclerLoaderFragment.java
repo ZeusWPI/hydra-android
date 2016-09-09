@@ -1,8 +1,5 @@
 package be.ugent.zeus.hydra.fragments.common;
 
-import java.io.Serializable;
-import java.util.List;
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,7 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.recyclerview.adapters.Adapter;
+import be.ugent.zeus.hydra.recyclerview.adapters.common.Adapter;
+
+import java.io.Serializable;
+import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -23,7 +23,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author Niko Strijbol
  * @version 20/06/2016
  */
-public abstract class RecyclerLoaderFragment<E, D extends Serializable & List<E>, A extends RecyclerView.Adapter<?> & Adapter<E, ?>> extends LoaderFragment<D> {
+public abstract class RecyclerLoaderFragment<E, D extends Serializable & List<E>, A extends RecyclerView.Adapter<?> & Adapter<E>> extends CachedLoaderFragment<D> {
 
     protected RecyclerView recyclerView;
     protected A adapter;

@@ -38,6 +38,13 @@ public abstract class HomeCard {
         int MINERVA_ANNOUNCEMENT = 7;
     }
 
+    /**
+     * Check the card type of this card.
+     *
+     * @param type The type you need.
+     * @param <C> The type of card you need.
+     * @return The cast card if it is of the right type.
+     */
     public <C extends HomeCard> C checkCard(@CardType int type) {
         if(getCardType() != type) {
             throw new IllegalStateException("This card type is wrong.");

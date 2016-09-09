@@ -1,13 +1,16 @@
 package be.ugent.zeus.hydra.requests;
 
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.loader.cache.Cache;
+import be.ugent.zeus.hydra.cache.Cache;
 import be.ugent.zeus.hydra.models.schamper.Articles;
+import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 
 /**
- * Created by feliciaan on 16/06/16.
+ * Request to get Schamper articles.
+ *
+ * @author feliciaan
  */
-public class SchamperArticlesRequest extends AbstractRequest<Articles> {
+public class SchamperArticlesRequest extends CacheableRequest<Articles> {
 
     public SchamperArticlesRequest() {
         super(Articles.class);

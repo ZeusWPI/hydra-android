@@ -1,16 +1,17 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 
-import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
-import be.ugent.zeus.hydra.activities.minerva.AuthenticationActivity;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
-import be.ugent.zeus.hydra.recyclerview.viewholder.AbstractViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 
 /**
  * Created by feliciaan on 29/06/16.
  */
-public class MinervaLoginViewHolder extends AbstractViewHolder<HomeCard> {
+public class MinervaLoginViewHolder extends DataViewHolder<HomeCard> {
+
+    private static final String TAG = "LoginViewHolder";
 
     public MinervaLoginViewHolder(View itemView) {
         super(itemView);
@@ -21,8 +22,7 @@ public class MinervaLoginViewHolder extends AbstractViewHolder<HomeCard> {
         this.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(itemView.getContext(), AuthenticationActivity.class);
-                itemView.getContext().startActivity(intent);
+                Toast.makeText(view.getContext(), "Not done yet.", Toast.LENGTH_LONG).show();
             }
         });
     }

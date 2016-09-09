@@ -39,8 +39,8 @@
     </style>
 
     <style name="Hydra.Main.NoActionBar.SystemWindows" parent="Hydra.Main.NoActionBar">
-        <item name="android:windowDrawsSystemBarBackgrounds" tools:ignore="NewApi">true</item>
-        <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
     </style>
 
     <!-- Needed for custom views -->
@@ -53,6 +53,13 @@
     <!-- Transparant text -->
     <style name="TransparentText" parent="@android:style/TextAppearance">
         <item name="android:textColor">#00000000</item>
+    </style>
+
+    <!-- Divider style -->
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?android:attr/listDivider</item>
     </style>
 
 </resources>

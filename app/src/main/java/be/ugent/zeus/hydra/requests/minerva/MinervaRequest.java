@@ -1,70 +1,91 @@
 package be.ugent.zeus.hydra.requests.minerva;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
-import be.ugent.android.sdk.oauth.AuthorizationManager;
-import be.ugent.android.sdk.oauth.json.BearerToken;
-import be.ugent.android.sdk.oauth.request.AccessTokenRequestInterceptor;
-import be.ugent.zeus.hydra.HydraApplication;
-import be.ugent.zeus.hydra.loader.cache.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.requests.AbstractRequest;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.web.client.RestTemplate;
 
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import be.ugent.zeus.hydra.auth.AccountUtils;
+import be.ugent.zeus.hydra.auth.MinervaConfig;
+import be.ugent.zeus.hydra.requests.common.RequestFailureException;
+import be.ugent.zeus.hydra.requests.common.TokenRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpServerErrorException;
 
 /**
- * Created by feliciaan on 20/06/16.
+ * Execute a request with a minerva account.
+ *
+ * @author Niko Strijbol
  */
-public abstract class MinervaRequest<T extends Serializable> extends AbstractRequest<T> {
+public abstract class MinervaRequest<T> extends TokenRequest<T> {
 
     private static final String TAG = "MinervaRequest";
 
     protected static final String MINERVA_API = "https://minqas.ugent.be/api/rest/v2/";
 
-    protected AuthorizationManager authorizationManager;
+    protected final Context context;
+    protected final Activity activity;
+    protected final Account account;
 
-    public MinervaRequest(Class<T> clazz, HydraApplication app) {
-        super(clazz);
-        authorizationManager = app.getAuthorizationManager();
-    }
-
-    protected Map<String, String> getURLVariables() {
-        Map<String, String> urlVariables = new HashMap<>();
-        urlVariables.put("access_token", authorizationManager.getAccessToken());
-        return urlVariables;
+    /**
+     * @param clazz The class of the result.
+     * @param context The application context.
+     * @param activity The activity to use for the account. If this is not null, the AccountManager may interact with
+     *                 the user. If doing the request in the background, pass null.
+     */
+    public MinervaRequest(Class<T> clazz, Context context, @Nullable Activity activity) {
+        this(clazz, context, null, activity);
     }
 
     /**
-     * If there is no valid token, we first get a new one. Then we execute the current request.
+     * @param clazz The class of the result.
+     * @param context The application context.
+     * @param account The account to work with. Pass null to get the default account.
+     * @param activity The activity to use for the account. If this is not null, the AccountManager may interact with
+     *                 the user. If doing the request in the background, pass null.
      */
+    public MinervaRequest(Class<T> clazz, Context context, @Nullable Account account, @Nullable Activity activity) {
+        super(clazz);
+        this.context = context;
+        this.activity = activity;
+        this.account = account;
+    }
+
+    private boolean first = true;
+
     @NonNull
     @Override
     public T performRequest() throws RequestFailureException {
-
-        Log.d(TAG, "Minerva data requested.");
-
-        if (!authorizationManager.isAuthenticated() || authorizationManager.getAccessToken() == null) {
-            Log.d(TAG, "Invalid/missing token; requesting new one.");
-            // perform a bearer token request prior to performing the initial request.
-            BearerToken token = authorizationManager.buildTokenRefreshRequest().performRequest();
-            authorizationManager.setBearerToken(token);
+        try {
+            return super.performRequest();
+        } catch (RequestFailureException e) {
+            Log.i(TAG, "Request failed", e);
+            if(first && e.getCause() instanceof HttpServerErrorException) {
+                HttpServerErrorException error = (HttpServerErrorException) e.getCause();
+                if(error.getStatusCode().equals(HttpStatus.SERVICE_UNAVAILABLE)) {
+                    Log.d("MinervaRequest", "Error while accessing stuff", e);
+                    //Invalidate auth token and try again.
+                    AccountManager m = AccountManager.get(context);
+                    m.invalidateAuthToken(MinervaConfig.ACCOUNT_TYPE, getToken());
+                    first = false;
+                    return performRequest();
+                }
+                throw e;
+            } else {
+                throw e;
+            }
         }
-
-        Log.d(TAG, "Executing user request.");
-        return super.performRequest();
     }
 
-    /**
-     * Set the API interceptor.
-     */
     @Override
-    protected RestTemplate createRestTemplate() {
-        RestTemplate t = super.createRestTemplate();
-        t.setInterceptors(Collections.<ClientHttpRequestInterceptor>singletonList(new AccessTokenRequestInterceptor(authorizationManager)));
-        return t;
+    protected String getToken() {
+        if(account == null) {
+            return AccountUtils.syncAuthCode(context, activity);
+        } else {
+            return AccountUtils.syncAuthCode(context, account, activity);
+        }
     }
 }

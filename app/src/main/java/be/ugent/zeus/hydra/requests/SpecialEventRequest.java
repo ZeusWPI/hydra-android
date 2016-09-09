@@ -1,13 +1,16 @@
 package be.ugent.zeus.hydra.requests;
 
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.loader.cache.Cache;
+import be.ugent.zeus.hydra.cache.Cache;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
+import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 
 /**
- * Created by feliciaan on 06/04/16.
+ * Request to get special events (such as the 12urenloop).
+ *
+ * @author feliciaan
  */
-public class SpecialEventRequest extends AbstractRequest<SpecialEventWrapper>{
+public class SpecialEventRequest extends CacheableRequest<SpecialEventWrapper> {
 
     public SpecialEventRequest() {
         super(SpecialEventWrapper.class);

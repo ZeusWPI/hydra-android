@@ -11,8 +11,9 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
+import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
+import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
 import be.ugent.zeus.hydra.recyclerview.adapters.InfoListAdapter;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
-public class InfoFragment extends LoaderFragment<InfoList> {
+public class InfoFragment extends CachedLoaderFragment<InfoList> {
 
     private InfoListAdapter adapter;
 
@@ -67,7 +68,7 @@ public class InfoFragment extends LoaderFragment<InfoList> {
      * @return The request that will be executed.
      */
     @Override
-    public CacheRequest<InfoList> getRequest() {
+    public InfoRequest getRequest() {
         return new InfoRequest();
     }
 }

@@ -1,32 +1,43 @@
 package be.ugent.zeus.hydra.requests.minerva;
 
-import be.ugent.android.sdk.oauth.EndpointConfiguration;
-import be.ugent.android.sdk.oauth.json.GrantInformation;
-import be.ugent.zeus.hydra.HydraApplication;
+import android.support.annotation.NonNull;
 
-import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_HOUR;
+import be.ugent.zeus.hydra.auth.MinervaConfig;
+import be.ugent.zeus.hydra.auth.models.GrantInformation;
+import be.ugent.zeus.hydra.requests.common.TokenRequest;
 
 /**
- * Created by feliciaan on 21/06/16.
+ * This is the user information request. This is a special request that needs a token, since this request is part of
+ * the account creation process and is called before the account is saved on the device.
+ *
+ * @author Niko Strijbol
+ * @author feliciaan
  */
-public class UserInfoRequest extends MinervaRequest<GrantInformation> {
+public class UserInfoRequest extends TokenRequest<GrantInformation> {
 
-    public UserInfoRequest(HydraApplication app) {
-        super(GrantInformation.class, app);
+    private String token;
+
+    /**
+     * @param token The access token to use with the request.
+     */
+    public UserInfoRequest(String token) {
+        super(GrantInformation.class);
+        this.token = token;
     }
 
-    @Override
-    public String getCacheKey() {
-        return "cas.grantInfo";
-    }
-
+    @NonNull
     @Override
     protected String getAPIUrl() {
-        return EndpointConfiguration.GRANT_INFORMATION_ENDPOINT;
+        return MinervaConfig.GRANT_INFORMATION_ENDPOINT;
     }
 
+    /**
+     * Get the token to use in the request.
+     *
+     * @return The token.
+     */
     @Override
-    public long getCacheDuration() {
-        return ONE_HOUR * 2;
+    protected String getToken() {
+        return token;
     }
 }

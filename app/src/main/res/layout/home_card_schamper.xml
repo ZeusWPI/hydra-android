@@ -7,9 +7,7 @@
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginBottom="@dimen/card_spacing"
-    android:clickable="true"
-    app:contentPaddingLeft="@dimen/card_title_padding_vertical"
-    app:contentPaddingRight="@dimen/card_title_padding_vertical">
+    android:clickable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,10 +20,11 @@
             android:layout_height="wrap_content"
             app:icon="@drawable/ic_tabs_schamper"
             app:title="@string/title_activity_schamper"
-            android:paddingTop="@dimen/card_title_padding_top"
             />
 
         <LinearLayout
+            android:paddingLeft="@dimen/card_title_padding_vertical"
+            android:paddingRight="@dimen/card_title_padding_vertical"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -34,13 +33,13 @@
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/card_title_padding_bottom_no_content">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/title"
-                    android:paddingTop="@dimen/card_title_padding_top"
                     style="@style/Base.TextAppearance.AppCompat.Title"
                     tools:text="Dit is een schamper artikel! Met een lange titel van meerdere lijnen!" />
 
@@ -56,17 +55,16 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/author"
                     android:textColor="?android:attr/textColorSecondary"
-                    android:paddingBottom="@dimen/card_title_padding_bottom_no_content"
                     tools:text="Auteur artikel" />
             </LinearLayout>
 
             <ImageView
+                android:layout_marginBottom="@dimen/card_title_padding_bottom"
                 android:transitionName="hero"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:id="@+id/image"
                 android:scaleType="fitCenter"
-                android:paddingTop="16dp"
                 tools:src="@drawable/ic_tabs_schamper" />
 
         </LinearLayout>

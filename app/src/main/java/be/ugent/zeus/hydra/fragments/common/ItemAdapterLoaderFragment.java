@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.fragments.common;
 import java.io.Serializable;
 import java.util.List;
 
-import be.ugent.zeus.hydra.recyclerview.adapters.ItemAdapter;
+import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 
 /**
  * @author Niko Strijbol

@@ -1,13 +1,17 @@
 package be.ugent.zeus.hydra.requests;
 
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.loader.cache.Cache;
+import be.ugent.zeus.hydra.cache.Cache;
 import be.ugent.zeus.hydra.models.association.Activities;
+import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 
 /**
- * Created by feliciaan on 27/01/16.
+ * Get the activities for all associations.
+ *
+ * @author feliciaan
+ * @author Niko Strijbol
  */
-public class ActivitiesRequest extends AbstractRequest<Activities> {
+public class ActivitiesRequest extends CacheableRequest<Activities> {
 
     public ActivitiesRequest() {
         super(Activities.class);

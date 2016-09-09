@@ -8,16 +8,16 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.common.RestoWebsiteActivity;
 import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
-import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
-import be.ugent.zeus.hydra.viewpager.MenuPagerAdapter;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
+import be.ugent.zeus.hydra.viewpager.MenuPagerAdapter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 
@@ -124,7 +124,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
     }
 
     @Override
-    public CacheRequest<RestoOverview> getRequest() {
+    public RestoMenuOverviewRequest getRequest() {
         return new RestoMenuOverviewRequest();
     }
 }

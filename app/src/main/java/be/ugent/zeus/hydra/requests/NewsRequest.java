@@ -1,13 +1,16 @@
 package be.ugent.zeus.hydra.requests;
 
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.loader.cache.Cache;
+import be.ugent.zeus.hydra.cache.Cache;
 import be.ugent.zeus.hydra.models.association.News;
+import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 
 /**
- * Created by feliciaan on 04/02/16.
+ * Request to get UGent news.
+ *
+ * @author feliciaan
  */
-public class NewsRequest extends AbstractRequest<News> {
+public class NewsRequest extends CacheableRequest<News> {
 
     public NewsRequest() {
         super(News.class);

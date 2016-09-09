@@ -5,31 +5,30 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.loader.CachedAsyncTaskLoader;
-import be.ugent.zeus.hydra.loader.ErrorLoaderCallback;
-import be.ugent.zeus.hydra.loader.ThrowableEither;
 
-import java.io.Serializable;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.requests.executor.RequestCallback;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
- * Fragment that uses the {@link be.ugent.zeus.hydra.loader.CachedAsyncTaskLoader}.
+ * Fragment that uses the {@link be.ugent.zeus.hydra.loader.AbstractAsyncLoader}.
  *
  * The fragment supports a progress bar and refresh. The progress bar is automatically hidden. This fragment is
  * mostly used in the home screen.
  *
  * @author Niko Strijbol
  */
-public abstract class LoaderFragment<D extends Serializable> extends Fragment implements ErrorLoaderCallback<D> {
+public abstract class LoaderFragment<D> extends Fragment implements LoaderManager.LoaderCallbacks<ThrowableEither<D>>, RequestCallback<D> {
 
-    private static final String TAG = "LoaderFragment";
+    private static final String TAG = "CachedLoaderFragment";
 
     // ID of the loader.
     private static final int LOADER = 0;
@@ -95,19 +94,6 @@ public abstract class LoaderFragment<D extends Serializable> extends Fragment im
     @Override
     public void onLoaderReset(Loader<ThrowableEither<D>> loader) {
         loader.reset();
-    }
-
-    /**
-     * Instantiate and return a new Loader for the given ID.
-     *
-     * @param id   The ID whose loader is to be created.
-     * @param args Any arguments supplied by the caller.
-     *
-     * @return Return a new Loader instance that is ready to start loading.
-     */
-    @Override
-    public Loader<ThrowableEither<D>> onCreateLoader(int id, Bundle args) {
-        return new CachedAsyncTaskLoader<>(getRequest(), getContext(), shouldRenew);
     }
 
     @Override

@@ -7,10 +7,9 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.fragments.common.ItemAdapterLoaderFragment;
-import be.ugent.zeus.hydra.loader.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.models.schamper.Articles;
-import be.ugent.zeus.hydra.recyclerview.adapters.ItemAdapter;
+import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.adapters.SchamperListAdapter;
 import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
 
@@ -35,7 +34,7 @@ public class SchamperFragment extends ItemAdapterLoaderFragment<Article, Article
      * @return The request that will be executed.
      */
     @Override
-    public CacheRequest<Articles> getRequest() {
+    public SchamperArticlesRequest getRequest() {
         return new SchamperArticlesRequest();
     }
 }

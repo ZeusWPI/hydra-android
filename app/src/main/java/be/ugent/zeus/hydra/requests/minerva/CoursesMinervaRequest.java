@@ -1,37 +1,36 @@
 package be.ugent.zeus.hydra.requests.minerva;
 
+import android.accounts.Account;
+import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.HydraApplication;
+import android.support.annotation.Nullable;
+
 import be.ugent.zeus.hydra.models.minerva.Courses;
 
-import static be.ugent.zeus.hydra.loader.cache.Cache.ONE_WEEK;
-
 /**
+ * Request to get a list of courses.
+ *
+ * Warning: this request should not be used. The minerva data is synchronised to the database. Use that instead. If
+ * you need new data, request a sync.
+ *
+ * This request is, as a consequence of the above, not cached.
  * @author feliciaan
  * @author Niko Strijbol
  */
 public class CoursesMinervaRequest extends MinervaRequest<Courses> {
 
-    public static final String BASE_KEY = "minerva_courses";
-
-    public CoursesMinervaRequest(HydraApplication app) {
-        super(Courses.class, app);
+    public CoursesMinervaRequest(Context context, @Nullable Activity activity) {
+        super(Courses.class, context, activity);
     }
 
-    @Override
-    @NonNull
-    public String getCacheKey() {
-        return BASE_KEY;
+    public CoursesMinervaRequest(Context context, Account account, Activity activity) {
+        super(Courses.class, context, account, activity);
     }
 
     @Override
     @NonNull
     protected String getAPIUrl() {
         return MINERVA_API + "courses";
-    }
-
-    @Override
-    public long getCacheDuration() {
-        return ONE_WEEK * 4;
     }
 }

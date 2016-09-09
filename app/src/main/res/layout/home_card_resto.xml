@@ -4,8 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:contentPaddingLeft="@dimen/card_title_padding_vertical"
-    app:contentPaddingRight="@dimen/card_title_padding_vertical"
     android:layout_marginBottom="@dimen/card_spacing"
     android:foreground="?android:attr/selectableItemBackground"
     android:clickable="true">
@@ -22,11 +20,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:icon="@drawable/ic_tabs_menu"
-            android:paddingTop="@dimen/card_title_padding_top"
-            android:paddingBottom="@dimen/card_title_padding_top"
             />
 
         <be.ugent.zeus.hydra.views.MenuTable
+            android:paddingRight="@dimen/card_title_padding_vertical"
+            android:paddingLeft="@dimen/card_title_padding_vertical"
             android:id="@+id/menu_table"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

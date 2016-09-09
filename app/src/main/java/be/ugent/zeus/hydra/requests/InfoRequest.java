@@ -1,13 +1,16 @@
 package be.ugent.zeus.hydra.requests;
 
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.loader.cache.Cache;
+import be.ugent.zeus.hydra.cache.Cache;
 import be.ugent.zeus.hydra.models.info.InfoList;
+import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 
 /**
- * Created by Juta on 03/03/2016.
+ * Request to get the information from the Zeus API.
+ *
+ * @author Juta
  */
-public class InfoRequest extends AbstractRequest<InfoList> {
+public class InfoRequest extends CacheableRequest<InfoList> {
 
     public InfoRequest() {
         super(InfoList.class);

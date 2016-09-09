@@ -27,7 +27,16 @@ public class Announcement implements Serializable, Parcelable {
     @SerializedName("last_edit_time")
     private Date minervaDate;
 
+    private Date read;
     private Course course;
+
+    public boolean isRead() {
+        return read != null;
+    }
+
+    public void setRead(Date read) {
+        this.read = read;
+    }
 
     public String getTitle() {
         return title;
@@ -85,14 +94,6 @@ public class Announcement implements Serializable, Parcelable {
         this.course = course;
     }
 
-//    public MinervaDate getMinervaDate() {
-//        return minervaDate;
-//    }
-//
-//    public void setMinervaDate(MinervaDate minervaDate) {
-//        this.minervaDate = minervaDate;
-//    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -106,6 +107,7 @@ public class Announcement implements Serializable, Parcelable {
         dest.writeInt(this.itemId);
         dest.writeString(this.lecturer);
         dest.writeLong(this.minervaDate != null ? this.minervaDate.getTime() : -1);
+        dest.writeLong(this.read != null ? this.read.getTime() : -1);
         dest.writeSerializable(this.course);
     }
 
@@ -120,6 +122,8 @@ public class Announcement implements Serializable, Parcelable {
         this.lecturer = in.readString();
         long tmpMinervaDate = in.readLong();
         this.minervaDate = tmpMinervaDate == -1 ? null : new Date(tmpMinervaDate);
+        long tmpRead = in.readLong();
+        this.read = tmpRead == -1 ? null : new Date(tmpRead);
         this.course = (Course) in.readSerializable();
     }
 

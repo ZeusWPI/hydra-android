@@ -26,7 +26,7 @@ public abstract class RestoActivity<D extends Serializable> extends LoaderToolba
         getMenuInflater().inflate(getMenuId(), menu);
 
         // We need to manually set the color of this Drawable for some reason.
-        setWhiteIcons(menu, R.id.resto_refresh);
+        tintToolbarIcons(menu, R.id.resto_refresh);
 
         return true;
     }

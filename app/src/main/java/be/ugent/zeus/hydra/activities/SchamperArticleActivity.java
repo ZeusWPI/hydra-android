@@ -36,7 +36,6 @@ public class SchamperArticleActivity extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.Hydra_Main_NoActionBar_SystemWindows);
         setContentView(R.layout.activity_schamper_article);
 
         customFade();
@@ -117,8 +116,7 @@ public class SchamperArticleActivity extends ToolbarActivity {
         super.onCreateOptionsMenu(menu);
 
         getMenuInflater().inflate(R.menu.menu_schamper, menu);
-
-        setWhiteIcons(menu, R.id.schamper_share, R.id.schamper_browser);
+        tintToolbarIcons(menu, R.id.schamper_share, R.id.schamper_browser);
 
         return true;
     }

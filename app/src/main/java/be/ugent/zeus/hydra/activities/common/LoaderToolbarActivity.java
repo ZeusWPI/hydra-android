@@ -10,18 +10,18 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.loader.CachedAsyncTaskLoader;
+import be.ugent.zeus.hydra.cache.CachedAsyncTaskLoader;
 import be.ugent.zeus.hydra.loader.ErrorLoaderCallback;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 
 import java.io.Serializable;
 
 /**
- * Activity that uses the {@link be.ugent.zeus.hydra.loader.CachedAsyncTaskLoader}.
+ * Activity that uses the {@link CachedAsyncTaskLoader}.
  *
  * @author Niko Strijbol
  */
-public abstract class LoaderToolbarActivity<D extends Serializable> extends ToolbarActivity implements ErrorLoaderCallback<D> {
+public abstract class LoaderToolbarActivity<D extends Serializable> extends ToolbarActivity implements ErrorLoaderCallback<D, D> {
 
     private static final String TAG = "LoaderToolbarActivity";
 

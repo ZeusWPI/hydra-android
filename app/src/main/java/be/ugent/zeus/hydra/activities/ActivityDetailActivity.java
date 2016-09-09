@@ -56,8 +56,7 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
 
         if(event.getTitle() != null){
             title.setText(event.getTitle());
-            assert getSupportActionBar() != null;
-            getSupportActionBar().setTitle(event.getTitle());
+            getToolBar().setTitle(event.getTitle());
         }
 
         if(event.getAssociation() != null ) {
@@ -135,7 +134,7 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
         getMenuInflater().inflate(R.menu.menu_event, menu);
 
         // We need to manually set the color of this Drawable for some reason.
-        setWhiteIcons(menu, R.id.event_location, R.id.event_link);
+        tintToolbarIcons(menu, R.id.event_location, R.id.event_link);
 
         return true;
     }

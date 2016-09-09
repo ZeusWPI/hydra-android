@@ -1,35 +1,28 @@
 package be.ugent.zeus.hydra;
 
+import android.app.Activity;
 import android.app.Application;
+import android.support.annotation.NonNull;
 
-import be.ugent.android.sdk.oauth.AuthorizationManager;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import net.danlew.android.joda.JodaTimeAndroid;
 
-
 /**
- * Created by feliciaan on 06/04/16.
+ * The Hydra application.
+ *
+ * @author Niko Strijbol
+ * @author feliciaan
  */
 public class HydraApplication extends Application {
 
     private Tracker tracker;
-    private AuthorizationManager manager;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
         JodaTimeAndroid.init(this);
-    }
-
-    public AuthorizationManager getAuthorizationManager() {
-        if(manager == null) {
-            manager = new AuthorizationManager(getApplicationContext());
-        }
-
-        return manager;
     }
 
     /**
@@ -42,7 +35,7 @@ public class HydraApplication extends Application {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
             if (BuildConfig.DEBUG) {
                 // disable google analytics while debugging
-                GoogleAnalytics.getInstance(this).setDryRun(true);
+                analytics.setDryRun(true);
             }
 
             // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
@@ -51,9 +44,25 @@ public class HydraApplication extends Application {
         return tracker;
     }
 
+    /**
+     * Send a screen name to the analytics.
+     *
+     * @param screenName The screen name to send.
+     */
     public void sendScreenName(String screenName) {
         Tracker t = getDefaultTracker();
         t.setScreenName(screenName);
         t.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    /**
+     * Get the application from an activity. The application is cast to this class.
+     *
+     * @param activity The activity.
+     *
+     * @return The application.
+     */
+    public static HydraApplication getApplication(@NonNull Activity activity) {
+        return (HydraApplication) activity.getApplication();
     }
 }

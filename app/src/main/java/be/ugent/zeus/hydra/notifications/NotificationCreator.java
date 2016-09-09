@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.NotificationCompat;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.Hydra;
@@ -16,6 +17,8 @@ import be.ugent.zeus.hydra.activities.Hydra;
  */
 public class NotificationCreator {
 
+    public static final int NOTIFICATION_ID = 1;
+
     private Context context;
     private SharedPreferences preferences;
 
@@ -25,20 +28,16 @@ public class NotificationCreator {
         this.preferences = preferences;
     }
 
-    public Notification create(){
-        Intent tmpIntent = new Intent(context, Hydra.class);
-        tmpIntent.setAction(context.getString(R.string.resto_action));
-        PendingIntent pIntent = PendingIntent.getActivity(
-                context,
-                0,
-                tmpIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
-        Notification.Builder builder = new Notification.Builder(context)
-                .setContentTitle(context.getString(R.string.restonotification_title))
+    public Notification create() {
+        Intent intent = new Intent(context, Hydra.class);
+        intent.putExtra(Hydra.ARG_TAB, 2);
+        PendingIntent pending = PendingIntent.getActivity(context, 0, intent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        builder.setContentTitle(context.getString(R.string.restonotification_title))
                 .setContentText(context.getString(R.string.restonotification_text))
                 .setSmallIcon(R.drawable.logo) //TODO: Beter logo
-                .setContentIntent(pIntent)
+                .setContentIntent(pending)
                 .setAutoCancel(true);
 
         if (preferences.getBoolean("pref_key_daily_notifications_vibrate", false)){
@@ -55,9 +54,7 @@ public class NotificationCreator {
     }
 
     public void createAndShow(){
-        NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(0, create());
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(NOTIFICATION_ID, create());
     }
 }

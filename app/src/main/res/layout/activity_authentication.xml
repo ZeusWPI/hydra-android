@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.minerva.AuthenticationActivity">
+    tools:context=".activities.minerva.AuthActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -15,26 +15,25 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/auth_needs_ugent"
-            android:paddingLeft="@dimen/vertical_padding"
-            android:paddingRight="@dimen/vertical_padding"
+        <ProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/auth_needs_ugent"
+            android:id="@+id/progress_bar"
+            />
+
+        <TextView
+            android:id="@+id/progress_message"
             android:gravity="center"
-            android:visibility="gone"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        <include layout="@layout/x_progress_bar" />
-
-    </FrameLayout>
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

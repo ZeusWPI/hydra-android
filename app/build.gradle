@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 14
@@ -10,7 +10,6 @@ android {
         versionCode 204
         versionName "2.0"
         vectorDrawables.useSupportLibrary = true
-        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -21,6 +20,12 @@ android {
         debug {
             // Set this to false on release versions!
             debuggable true
+        }
+        applicationVariants.all { variant ->
+            def Properties props = new Properties()
+            props.load(new FileInputStream(file('secrets.properties')))
+            variant.buildConfigField "String", "OAUTH_ID", "\""+props['OAUTH_ID']+"\""
+            variant.buildConfigField "String", "OAUTH_SECRET", "\""+props['OAUTH_SECRET']+"\""
         }
     }
     packagingOptions {
@@ -37,40 +42,30 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/notice.txt'
     }
-
-    buildTypes {
-        debug {
-            // Set this to false on release versions!
-            debuggable true
-        }
-
-        applicationVariants.all { variant ->
-            def Properties props = new Properties()
-            props.load(new FileInputStream(file('secrets.properties')))
-            variant.buildConfigField "String", "OAUTH_ID", "\""+props['OAUTH_ID']+"\""
-            variant.buildConfigField "String", "OAUTH_SECRET", "\""+props['OAUTH_SECRET']+"\""
-        }
-    }
-    productFlavors {
-    }
-
 }
+
+//The support library version
+final SUPPORT_LIBRARY_VERSION = '24.2.0'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v4:24.1.1'
-    compile 'com.android.support:support-v13:24.1.1'
-    compile 'com.android.support:appcompat-v7:24.1.1'
-    compile 'com.android.support:cardview-v7:24.1.1'
-    compile 'com.android.support:support-v13:24.1.1'
-    compile 'com.android.support:preference-v7:24.1.1'
-    compile 'com.android.support:recyclerview-v7:24.1.1'
-    compile 'com.android.support:design:24.1.1'
+    compile "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:support-v13:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:support-v13:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:preference-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
+    //This requires API 15+, but we use it anyway. Don't forget to use the normal browser if the version is too old!
+    compile "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
+
+    compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     compile 'net.danlew:android.joda:2.9.3.1'
-    compile 'com.google.android.gms:play-services-analytics:9.0.2'
+    compile 'com.google.android.gms:play-services-analytics:9.4.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.niknetniko:expandablelayout:master-SNAPSHOT'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.1@aar'
@@ -79,13 +74,17 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:1.3.0'
 
     // Used for the OAuth stuff
-    compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
-    compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
     compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1') {
         exclude group: 'org.apache.oltu.oauth2'
     }
-    //This requires API 15+, but we use it anyway. Don't forget to use the normal browser if the version is too old!
-    compile 'com.android.support:customtabs:24.1.1'
+
+    //compile 'com.google.firebase:firebase-core:9.4.0'
+    //compile 'com.google.firebase:firebase-crash:9.4.0'
+    compile 'com.google.firebase:firebase-messaging:9.4.0'
+
+    compile 'su.j2e:rv-joiner:1.0.9'
+
+    compile 'com.github.alexfu:SQLiteQueryBuilder:0.3.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

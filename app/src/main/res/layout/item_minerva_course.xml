@@ -2,7 +2,6 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -37,26 +36,35 @@
 
     </LinearLayout>
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+    <!--<FrameLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent">-->
 
-        <ImageView
-            android:id="@+id/arrow_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp"
-            android:tint="@color/ugent_blue_dark"
-            android:layout_gravity="center_vertical"
-            android:visibility="gone"
-            tools:ignore="MissingPrefix" />
+        <!--<ImageView-->
+            <!--android:id="@+id/arrow_icon"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:srcCompat="@drawable/ic_keyboard_arrow_down_24dp"-->
+            <!--android:tint="@color/ugent_blue_dark"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:visibility="gone"-->
+            <!--tools:ignore="MissingPrefix" />-->
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="32dp"
-            android:layout_height="32dp" />
+        <!--<ImageView-->
+            <!--android:id="@+id/error_icon"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--app:srcCompat="@drawable/ic_error_24dp"-->
+            <!--android:tint="@color/ugent_blue_dark"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:visibility="gone"-->
+            <!--tools:ignore="MissingPrefix" />-->
 
-    </FrameLayout>
+        <!--<ProgressBar-->
+            <!--android:id="@+id/progress_bar"-->
+            <!--android:layout_width="32dp"-->
+            <!--android:layout_height="32dp" />-->
 
+    <!--</FrameLayout>-->
 
 </LinearLayout>
