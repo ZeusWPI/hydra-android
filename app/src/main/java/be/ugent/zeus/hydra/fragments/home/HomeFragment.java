@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
     private SpecialEventCallback specialEventCallback;
     private SchamperCallback schamperCallback;
     private NewsCallback newsCallback;
-    private CourseCallback courseCallback;
+    private MinervaCallback courseCallback;
 
     private boolean shouldRefresh = false;
     private boolean preferencesUpdated = false;
@@ -87,7 +87,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         specialEventCallback = new SpecialEventCallback(getContext(), adapter, this);
         schamperCallback = new SchamperCallback(getContext(), adapter, this);
         newsCallback = new NewsCallback(getContext(), adapter, this);
-        courseCallback = new CourseCallback(getContext(), adapter, this);
+        courseCallback = new MinervaCallback(getContext(), adapter, this);
 
         startLoaders();
 

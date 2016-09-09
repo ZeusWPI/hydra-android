@@ -204,6 +204,19 @@
             </intent-filter>
         </activity>
 
+        <!-- SKO overview activity -->
+        <activity
+            android:name=".activities.sko.OverviewActivity"
+            android:label="@string/activity_title_sko_overview"
+            android:theme="@style/Hydra.Main.NoActionBar.Sko"
+            android:parentActivityName=".activities.Hydra">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Hydra" />
+        </activity>
+
         <!-- Firebase messages -->
         <service
             android:name=".notifications.FirebaseMessageService">
@@ -231,7 +244,6 @@
             <meta-data android:name="android.content.SyncAdapter"
                 android:resource="@xml/minerva_sync_adapter" />
         </service>
-
 
         <provider
             android:name=".minerva.sync.StubProvider"

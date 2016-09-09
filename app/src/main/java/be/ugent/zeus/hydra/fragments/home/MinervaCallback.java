@@ -26,11 +26,11 @@ import java.util.Map;
  *
  * @author Niko Strijbol
  */
-class CourseCallback extends HomeLoaderCallback {
+class MinervaCallback extends HomeLoaderCallback {
 
-    private static final String TAG = "CourseCallback";
+    private static final String TAG = "MinervaCallback";
 
-    public CourseCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
+    public MinervaCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
         super(context, adapter, callback);
     }
 

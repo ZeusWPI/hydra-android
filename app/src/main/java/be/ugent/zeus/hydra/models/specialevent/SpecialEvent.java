@@ -25,6 +25,8 @@ public class SpecialEvent implements Serializable {
     private Date end;
     private boolean development;
 
+    private boolean sko = false;
+
     public String getName() {
         return name;
     }
@@ -95,5 +97,13 @@ public class SpecialEvent implements Serializable {
 
     public void setDevelopment(boolean development) {
         this.development = development;
+    }
+
+    public boolean isSko() {
+        return sko;
+    }
+
+    public void setSko(boolean sko) {
+        this.sko = sko;
     }
 }

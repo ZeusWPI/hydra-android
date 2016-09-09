@@ -121,4 +121,8 @@
     <string name="fragment_home_error_schamper">Schamper</string>
     <string name="fragment_home_error_special">evenement</string>
 
+    <string name="activity_title_sko_overview">Student Kick-Off</string>
+
+    <string name="menu_sko_view_website">Website bekijken</string>
+
 </resources>

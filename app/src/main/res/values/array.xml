@@ -59,4 +59,11 @@
         <item>86400</item>
         <item>604800</item>
     </string-array>
+
+    <string-array name="sko_tab_names">
+        <item>Timeline</item>
+        <item>Line-up</item>
+        <item>Kaart</item>
+        <item>Student Village</item>
+    </string-array>
 </resources>
