@@ -6,11 +6,14 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
+import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.notifications.FirebaseMessageService;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 /**
+ * Preferences for the SKO portion.
+ *
  * @author Niko Strijbol
  */
 public class SkoFragment extends PreferenceFragment {
@@ -41,5 +44,11 @@ public class SkoFragment extends PreferenceFragment {
                 FirebaseMessaging.getInstance().subscribeToTopic(FirebaseMessageService.SKO_TOPIC);
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        HydraApplication.getApplication(getActivity()).sendScreenName("Settings > SKO");
     }
 }

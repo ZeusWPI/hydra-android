@@ -21,4 +21,10 @@
         android:fragment="be.ugent.zeus.hydra.fragments.preferences.MinervaFragment"
         android:title="@string/pref_minerva_title"
         android:summary="Opties voor de Minerva-integratie" />
+
+    <!-- SKO -->
+    <header
+        android:fragment="be.ugent.zeus.hydra.fragments.preferences.SkoFragment"
+        android:title="@string/pref_notifications_sko_title"
+        android:summary="SKO-opties" />
 </preference-headers>

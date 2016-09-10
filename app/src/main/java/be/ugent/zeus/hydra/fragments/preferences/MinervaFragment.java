@@ -13,6 +13,8 @@ import be.ugent.zeus.hydra.auth.AccountUtils;
 import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
 
 /**
+ * Preferences for Minerva things.
+ *
  * @author Niko Strijbol
  */
 public class MinervaFragment extends PreferenceFragment {
@@ -33,7 +35,7 @@ public class MinervaFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
 
         // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.preferences_minerva);
+        addPreferencesFromResource(R.xml.pref_minerva);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
         oldSync = Integer.parseInt(preferences.getString(PREF_SYNC_FREQUENCY, PREF_DEFAULT_SYNC_FREQUENCY));
@@ -64,7 +66,7 @@ public class MinervaFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        HydraApplication.getApplication(getActivity()).sendScreenName("Minerva Settings");
+        HydraApplication.getApplication(getActivity()).sendScreenName("Settings > Minerva");
     }
 
     private Context getAppContext() {
