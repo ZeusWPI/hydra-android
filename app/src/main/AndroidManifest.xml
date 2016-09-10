@@ -44,6 +44,7 @@
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/action_settings"
+            android:theme="@style/Hydra.Main"
             android:parentActivityName=".activities.Hydra">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
@@ -206,6 +207,7 @@
 
         <!-- SKO overview activity -->
         <activity
+            android:launchMode="singleTop"
             android:name=".activities.sko.OverviewActivity"
             android:label="@string/activity_title_sko_overview"
             android:theme="@style/Hydra.Main.NoActionBar.Sko"
@@ -215,6 +217,19 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.Hydra" />
+        </activity>
+
+        <!-- SKO preference activity -->
+        <activity
+            android:name=".activities.sko.PreferenceActivity"
+            android:label="@string/activity_title_sko_preferences"
+            android:theme="@style/Hydra.Main.NoActionBar.Sko"
+            android:parentActivityName=".activities.sko.OverviewActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.sko.OverviewActivity" />
         </activity>
 
         <!-- Firebase messages -->

@@ -8,4 +8,9 @@
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_open_in_browser_24dp"
         android:title="@string/menu_sko_view_website" />
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="110"
+        app:showAsAction="never" />
 </menu>

@@ -5,24 +5,20 @@
     <header
         android:fragment="be.ugent.zeus.hydra.fragments.preferences.HomeFragment"
         android:title="@string/pref_home_title"
-        android:summary="Opties voor het starttabblad.">
-    </header>
+        android:summary="Opties voor het starttabblad." />
 
     <header
         android:fragment="be.ugent.zeus.hydra.fragments.preferences.ActivityFragment"
         android:title="@string/pref_activities_title"
-        android:summary="Opties voor de activiteiten.">
-    </header>
+        android:summary="Opties voor de activiteiten." />
     <!-- notifications -->
     <header
         android:fragment="be.ugent.zeus.hydra.fragments.preferences.NotificationFragment"
         android:title="@string/pref_daily_notifications_title"
-        android:summary="Dit staat nog niet helemaal op punt.">
-    </header>
+        android:summary="Dit staat nog niet helemaal op punt." />
     <!-- Minerva -->
     <header
         android:fragment="be.ugent.zeus.hydra.fragments.preferences.MinervaFragment"
         android:title="@string/pref_minerva_title"
-        android:summary="Opties voor de Minerva-integratie">
-    </header>
+        android:summary="Opties voor de Minerva-integratie" />
 </preference-headers>

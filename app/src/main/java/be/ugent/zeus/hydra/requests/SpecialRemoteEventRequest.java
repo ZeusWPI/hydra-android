@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutionException;
 public class SpecialRemoteEventRequest implements Request<SpecialEventWrapper> {
 
     private static final String TAG = "RemoteEventRequest";
-    private static final String REMOTE_SKO_KEY = "is_sko_card_enabled";
+    public static final String REMOTE_SKO_KEY = "is_sko_card_enabled";
 
     private FirebaseRemoteConfig config;
 

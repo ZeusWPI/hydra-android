@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="pref_sko_notification"
+        android:title="@string/pref_sko_notification_title"
+        android:summary="@string/pref_sko_notification_desc"
+        android:defaultValue="true"/>
+
+</PreferenceScreen>

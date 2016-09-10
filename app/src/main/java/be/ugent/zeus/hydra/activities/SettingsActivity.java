@@ -23,13 +23,11 @@ import java.util.List;
  *
  * @author Niko Strijbol
  * @author Rien Maertens
- * @since 16/02/2016.
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Hydra_Main);
         super.onCreate(savedInstanceState);
         setupActionBar();
     }
