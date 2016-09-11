@@ -28,20 +28,20 @@ public abstract class AbstractRequest<T> implements Request<T> {
     @NonNull
     @Override
     public T performRequest() throws RequestFailureException {
-        RestTemplate restTemplate = createRestTemplate();
-        ResponseEntity<T> result;
-
         try {
+            RestTemplate restTemplate = createRestTemplate();
+            ResponseEntity<T> result;
+
             if (getURLVariables() == null) {
                 result = restTemplate.getForEntity(getAPIUrl(), getResultType());
             } else {
                 result = restTemplate.getForEntity(getAPIUrl(), getResultType(), getURLVariables());
             }
-        } catch (RestClientException e) {
+
+            return result.getBody();
+        } catch (RestClientException | RestTemplateException e) {
             throw new RequestFailureException(e);
         }
-
-        return result.getBody();
     }
 
     @NonNull
@@ -59,7 +59,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
     /**
      * @return The rest template used by Spring to perform the request.
      */
-    protected RestTemplate createRestTemplate() {
+    protected RestTemplate createRestTemplate() throws RestTemplateException {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
         return restTemplate;

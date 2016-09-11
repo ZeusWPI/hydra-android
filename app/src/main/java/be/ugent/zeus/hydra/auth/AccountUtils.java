@@ -4,10 +4,8 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.BuildConfig;
@@ -96,52 +94,56 @@ public class AccountUtils {
      * Get an access token. This is executed in a blocking manner. This method assumes an account is present. Use
      * the method {@link #hasAccount(Context)} to find out if there actually is an account.
      *
-     * @param context The application context.
-     * @param activity The current foreground activity, if you want the account manager to ask the user things.
+     * This method does not take an activity, and always returns the bundle instead.
      *
-     * @return The access token, or null if there is none.
+     * @see #syncAuthCode(Context, Account)
+     *
+     * @param context The application context.
+     *
+     * @return The bundle containing the access code, or an intent to re-authorise the account.
      */
-    @Nullable
-    public static String syncAuthCode(Context context, @Nullable Activity activity) {
+    public static Bundle syncAuthCode(Context context) {
         AccountManager manager = AccountManager.get(context);
         Account account = manager.getAccountsByType(MinervaConfig.ACCOUNT_TYPE)[0];
 
-        return syncAuthCode(context, account, activity);
+        return syncAuthCode(context, account);
     }
 
     /**
      * Get an access token. This is executed in a blocking manner. This method assumes an account is present. Use
      * the method {@link #hasAccount(Context)} to find out if there actually is an account.
      *
+     * This method does not take an activity, and always returns the bundle instead.
+     *
      * @param context The application context.
      * @param account The account.
-     * @param activity The current foreground activity, if you want the account manager to ask the user things.
      *
-     * @return The access token, or null if there is none.
+     * @return The bundle containing the access code, or an intent to re-authorise the account.
      */
-    @Nullable
-    public static String syncAuthCode(Context context, Account account, Activity activity) {
+    public static Bundle syncAuthCode(Context context, Account account) {
         AccountManager manager = AccountManager.get(context);
 
         try {
-            Bundle result = manager.getAuthToken(account, MinervaConfig.DEFAULT_SCOPE, null, activity, null, null).getResult();
-            String token = result.getString(AccountManager.KEY_AUTHTOKEN);
-            Log.d(TAG, "Got bundle.");
+            Bundle result = manager.getAuthToken(account, MinervaConfig.DEFAULT_SCOPE, null, null, null, null).getResult();
 
-            //Check the expiration date
-            DateTime expires = getExpirationDate(manager, account);
-            DateTime now = DateTime.now();
+            //If the bundle contains an authorisation code.
+            if(result.containsKey(AccountManager.KEY_AUTHTOKEN)) {
+                //Check the expiration date
+                DateTime expires = getExpirationDate(manager, account);
+                DateTime now = DateTime.now();
 
-            //The token is invalid, so get get new one.
-            if(result.get(AccountManager.KEY_AUTHTOKEN) != null && now.isAfter(expires)) {
-                Log.d(TAG, "Expired token. Setting to null.");
-                manager.invalidateAuthToken(MinervaConfig.ACCOUNT_TYPE, token);
-                //Get the token again.
-                result = manager.getAuthToken(account, MinervaConfig.DEFAULT_SCOPE, null, activity, null, null).getResult();
-                token = result.getString(AccountManager.KEY_AUTHTOKEN);
+                String token = result.getString(AccountManager.KEY_AUTHTOKEN);
+
+                //The token is invalid, so get get new one.
+                if(result.get(AccountManager.KEY_AUTHTOKEN) != null && now.isAfter(expires)) {
+                    Log.d(TAG, "Expired token. Setting to null.");
+                    manager.invalidateAuthToken(MinervaConfig.ACCOUNT_TYPE, token);
+                    //Get the token again.
+                    result = manager.getAuthToken(account, MinervaConfig.DEFAULT_SCOPE, null, null, null, null).getResult();
+                }
             }
 
-            return token;
+            return result;
 
         } catch (OperationCanceledException | IOException | AuthenticatorException e) {
             Log.w(TAG, "Getting result failed.", e);

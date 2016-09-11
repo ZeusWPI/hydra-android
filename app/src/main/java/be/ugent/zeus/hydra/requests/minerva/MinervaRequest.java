@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.util.Log;
 import be.ugent.zeus.hydra.auth.AccountUtils;
 import be.ugent.zeus.hydra.auth.MinervaConfig;
 import be.ugent.zeus.hydra.requests.common.RequestFailureException;
+import be.ugent.zeus.hydra.requests.common.TokenException;
 import be.ugent.zeus.hydra.requests.common.TokenRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpServerErrorException;
@@ -29,6 +31,7 @@ public abstract class MinervaRequest<T> extends TokenRequest<T> {
     protected final Context context;
     protected final Activity activity;
     protected final Account account;
+    protected Bundle accountBundle;
 
     /**
      * @param clazz The class of the result.
@@ -63,29 +66,53 @@ public abstract class MinervaRequest<T> extends TokenRequest<T> {
             return super.performRequest();
         } catch (RequestFailureException e) {
             Log.i(TAG, "Request failed", e);
+
+            //If is is a server error, the access token might be invalid.
+            //We only try again one time.
             if(first && e.getCause() instanceof HttpServerErrorException) {
                 HttpServerErrorException error = (HttpServerErrorException) e.getCause();
                 if(error.getStatusCode().equals(HttpStatus.SERVICE_UNAVAILABLE)) {
-                    Log.d("MinervaRequest", "Error while accessing stuff", e);
-                    //Invalidate auth token and try again.
-                    AccountManager m = AccountManager.get(context);
-                    m.invalidateAuthToken(MinervaConfig.ACCOUNT_TYPE, getToken());
-                    first = false;
-                    return performRequest();
+                    try {
+                        Log.d("MinervaRequest", "Error while accessing stuff", e);
+                        //Invalidate auth token and try again.
+                        AccountManager m = AccountManager.get(context);
+                        m.invalidateAuthToken(MinervaConfig.ACCOUNT_TYPE, getToken());
+                        return performRequest();
+                    } catch (TokenException e1) {
+                        throw new RequestFailureException(e1);
+                    } finally {
+                        first = false;
+                    }
+                } else { //It was something else, like servers that don't work.
+                    throw e;
                 }
-                throw e;
             } else {
+                //It was something else, like the refresh token being expired.
+                //In any case, the Bundle from the account manager has been set in this class.
                 throw e;
             }
         }
     }
 
     @Override
-    protected String getToken() {
+    protected String getToken() throws TokenException {
+
         if(account == null) {
-            return AccountUtils.syncAuthCode(context, activity);
+            accountBundle = AccountUtils.syncAuthCode(context);
         } else {
-            return AccountUtils.syncAuthCode(context, account, activity);
+            accountBundle = AccountUtils.syncAuthCode(context, account);
         }
+
+        assert accountBundle != null;
+        if(accountBundle.containsKey(AccountManager.KEY_INTENT)) {
+            throw new TokenException();
+        } else {
+            return accountBundle.getString(AccountManager.KEY_AUTHTOKEN);
+        }
+    }
+
+    @Nullable
+    public Bundle getAccountBundle() {
+        return accountBundle;
     }
 }

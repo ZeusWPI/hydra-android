@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.minerva.sync;
 
 import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.*;
 import android.database.SQLException;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.Courses;
 import be.ugent.zeus.hydra.models.minerva.WhatsNew;
 import be.ugent.zeus.hydra.requests.common.RequestFailureException;
+import be.ugent.zeus.hydra.requests.common.RestTemplateException;
 import be.ugent.zeus.hydra.requests.minerva.AgendaRequest;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
@@ -116,15 +118,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             broadcast.publishIntent(SyncBroadcast.SYNC_DONE);
         } catch (RequestFailureException e) {
             Log.w(TAG, "Sync error.", e);
-            //Adjust stats
-            if(e.getCause() != null) {
-                if(e.getCause() instanceof RequestFailureException) {
-                    syncResult.stats.numIoExceptions++;
-                } else {
-                    syncResult.stats.numParseExceptions++;
+
+            //If the failure is because the token failed, the account needs revalidation.
+            //The request should contain a bundle with an intent we can launch to revalidate the account.
+            if(e.getCause() instanceof RestTemplateException && request.getAccountBundle() != null) {
+                syncResult.stats.numAuthExceptions++;
+                Intent intent = request.getAccountBundle().getParcelable(AccountManager.KEY_INTENT);
+                SyncNotificationBuilder.showError(getContext(), intent);
+            } else { //It was something else.
+                //Adjust stats
+                if(e.getCause() != null) {
+                    if(e.getCause() instanceof RequestFailureException) {
+                        syncResult.stats.numIoExceptions++;
+                    } else {
+                        syncResult.stats.numParseExceptions++;
+                    }
                 }
+                SyncNotificationBuilder.showError(getContext());
             }
-            SyncNotificationBuilder.showError(getContext());
+
             broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
         } catch (SQLException e) {
             syncResult.databaseError = true;
