@@ -33,11 +33,11 @@ public class SyncNotificationBuilder {
         builder.setSmallIcon(R.drawable.ic_error_24dp)
                 .setAutoCancel(true)
                 .setCategory(CATEGORY_ERROR)
-                .setContentTitle("Minerva-fout")
-                .setContentText("Druk om opnieuw aanmelden vereist")
+                .setContentTitle("Minerva: opnieuw aanndelden")
+                .setContentText("Druk om opnieuw aan te melden")
                 .setContentIntent(pendingIntent)
                 .setStyle(new android.support.v4.app.NotificationCompat.BigTextStyle()
-                        .bigText("De inloggegevens zijn verouderd en opnieuw aanmelden is vereist voor uw Minerva-account.")
+                        .bigText("Je moet opnieuw aanmelden bij Minerva, want de inloggegevens zijn verouderd.")
                 );
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
