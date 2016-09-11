@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:layout_marginBottom="@dimen/card_spacing"
-    android:clickable="true">
+    android:layout_marginBottom="@dimen/card_spacing">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,44 +25,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/title"
-            android:paddingTop="@dimen/card_title_padding_top_large_title"
+            android:paddingTop="@dimen/card_title_padding_top"
             android:textSize="@dimen/card_title_size_large"
             style="@style/Base.TextAppearance.AppCompat.Title"
             tools:text="Dit is een schamper artikel! Met een lange titel van meerdere lijnen!" />
 
-        <LinearLayout
+        <TextView
             android:paddingLeft="@dimen/card_title_padding_vertical"
             android:paddingRight="@dimen/card_title_padding_vertical"
-            android:layout_width="match_parent"
+            android:paddingBottom="@dimen/card_title_padding_bottom_no_content"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="bottom"
-            android:paddingBottom="@dimen/card_title_padding_bottom_no_content">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/date"
-                    android:textColor="?android:attr/textColorSecondary"
-                    tools:text="Datum Gisteren" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/schamper_category"
-                android:textColor="@color/ugent_grey_dark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Base.TextAppearance.AppCompat.Button"
-                android:text="Geen categorie"/>
-
-        </LinearLayout>
+            android:id="@+id/date"
+            android:textColor="?android:attr/textColorSecondary"
+            tools:text="Datum Gisteren"
+            android:textSize="@dimen/card_title_size_subtitle"/>
 
     </LinearLayout>
 

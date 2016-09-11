@@ -20,7 +20,8 @@
 
     <!-- Override API number constraints in libraries -->
     <!-- Override Custom Tabs -->
-    <uses-sdk tools:overrideLibrary="android.support.customtabs"/>
+    <!-- Override because the min API is 15, but everything works -->
+    <uses-sdk tools:overrideLibrary="android.support.customtabs,com.jakewharton.threetenabp"/>
 
     <application
         android:name=".HydraApplication"
