@@ -5,9 +5,11 @@
     android:id="@+id/refresh_layout"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:scrollbars="vertical"
@@ -15,8 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingLeft="@dimen/card_margin"
-            android:paddingRight="@dimen/card_margin"
             android:paddingTop="@dimen/card_spacing" />
 
         <include layout="@layout/x_progress_bar" />
