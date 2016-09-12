@@ -22,15 +22,19 @@ public abstract class TokenRequest<T> extends AbstractRequest<T> {
      *
      * @return The token.
      */
-    protected abstract String getToken();
+    protected abstract String getToken() throws TokenException;
 
     /**
      * Set the API interceptor.
      */
     @Override
-    protected RestTemplate createRestTemplate() {
-        RestTemplate t = super.createRestTemplate();
-        t.setInterceptors(Collections.<ClientHttpRequestInterceptor>singletonList(new TokenRequestInterceptor(getToken())));
-        return t;
+    protected RestTemplate createRestTemplate() throws RestTemplateException {
+        try {
+            RestTemplate t = super.createRestTemplate();
+            t.setInterceptors(Collections.<ClientHttpRequestInterceptor>singletonList(new TokenRequestInterceptor(getToken())));
+            return t;
+        } catch (TokenException e) {
+            throw new RestTemplateException(e);
+        }
     }
 }
