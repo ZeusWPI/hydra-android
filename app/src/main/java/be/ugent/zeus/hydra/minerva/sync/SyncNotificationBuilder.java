@@ -11,13 +11,13 @@ import be.ugent.zeus.hydra.R;
 import static android.support.v4.app.NotificationCompat.CATEGORY_ERROR;
 
 /**
+ * Helper methods to display notifications relating to the Minerva sync.
+ *
  * @author Niko Strijbol
  */
 public class SyncNotificationBuilder {
 
-    private static final String TAG = "SyncNotificationBuilder";
     private static final int NOTIFICATION_ID = 600;
-
 
     /**
      * Show a notification prompting the user to renew their credentials.
@@ -42,9 +42,13 @@ public class SyncNotificationBuilder {
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(NOTIFICATION_ID, builder.build());
-
     }
 
+    /**
+     * Show general error notification.
+     *
+     * @param context The context.
+     */
     public static void showError(Context context) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setSmallIcon(R.drawable.ic_error_24dp)
@@ -58,5 +62,4 @@ public class SyncNotificationBuilder {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(NOTIFICATION_ID, builder.build());
     }
-
 }
