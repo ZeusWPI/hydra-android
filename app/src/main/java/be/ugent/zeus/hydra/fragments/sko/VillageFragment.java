@@ -3,16 +3,14 @@ package be.ugent.zeus.hydra.fragments.sko;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.SearchView;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.SearchView;
+import android.view.*;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.cache.CacheRequest;
-import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
+import be.ugent.zeus.hydra.fragments.common.RecyclerLoaderFragment;
+import be.ugent.zeus.hydra.models.sko.Exhibitor;
 import be.ugent.zeus.hydra.models.sko.Exhibitors;
 import be.ugent.zeus.hydra.recyclerview.adapters.sko.ExhibitorAdapter;
 import be.ugent.zeus.hydra.requests.sko.StuVilExhibitorRequest;
@@ -22,10 +20,16 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * @author Niko Strijbol
  */
-public class VillageFragment extends CachedLoaderFragment<Exhibitors> {
+public class VillageFragment extends RecyclerLoaderFragment<Exhibitor, Exhibitors, ExhibitorAdapter> implements SwipeRefreshLayout.OnRefreshListener {
 
-    private ExhibitorAdapter adapter;
+    private SwipeRefreshLayout refreshLayout;
     private SearchView searchView;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
@@ -37,17 +41,23 @@ public class VillageFragment extends CachedLoaderFragment<Exhibitors> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
         searchView = $(view, R.id.search_view);
-        adapter = new ExhibitorAdapter();
         searchView.setSuggestionsAdapter(null);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        searchView.setOnQueryTextListener(adapter);
+
+        refreshLayout = $(view, R.id.refresh_layout);
+        refreshLayout.setOnRefreshListener(this);
+    }
+
+    @Override
+    protected ExhibitorAdapter getAdapter() {
+        return new ExhibitorAdapter();
     }
 
     @Override
     public void receiveData(@NonNull Exhibitors data) {
-        adapter.setItems(data);
+        super.receiveData(data);
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -56,14 +66,26 @@ public class VillageFragment extends CachedLoaderFragment<Exhibitors> {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        searchView.setOnQueryTextListener(adapter);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_sko_refresh, menu);
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        searchView.setOnQueryTextListener(null);
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.action_refresh) {
+            onRefresh();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRefresh() {
+        shouldRenew = true;
+        searchView.setQuery("", false);
+        restartLoader();
+        shouldRenew = false;
     }
 }

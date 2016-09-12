@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.recyclerview.adapters.sko;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.sko.Exhibitor;
@@ -19,7 +18,9 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class ExhibitorAdapter extends ItemAdapter<Exhibitor, ExhibitorViewHolder> implements SearchView.OnQueryTextListener {
+public class ExhibitorAdapter extends ItemAdapter<Exhibitor, ExhibitorViewHolder> implements
+        android.widget.SearchView.OnQueryTextListener,
+        android.support.v7.widget.SearchView.OnQueryTextListener {
 
     private List<Exhibitor> allData;
 
@@ -43,7 +44,7 @@ public class ExhibitorAdapter extends ItemAdapter<Exhibitor, ExhibitorViewHolder
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        return true;
+        return false;
     }
 
     @Override
