@@ -22,7 +22,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class MapFragment extends Fragment {
 
-    private static final String URL = "https://zeus.ugent.be/hydra/api/1.0/grondplan.svg";
+    private static final String URL = "https://zeus.ugent.be/hydra/api/1.0/grondplan-android.html";
 
     @Nullable
     @Override

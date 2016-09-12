@@ -10,9 +10,9 @@ import be.ugent.zeus.hydra.models.sko.Exhibitors;
  *
  * @author Niko Strijbol
  */
-public class StuVilExhibitors extends SkoRequest<Exhibitors> {
+public class StuVilExhibitorRequest extends SkoRequest<Exhibitors> {
 
-    public StuVilExhibitors() {
+    public StuVilExhibitorRequest() {
         super(Exhibitors.class);
     }
 

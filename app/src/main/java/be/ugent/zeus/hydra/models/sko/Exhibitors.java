@@ -7,6 +7,6 @@ import java.util.ArrayList;
  *
  * @author Niko Strijbol
  */
-public class Exhibitors extends ArrayList<Exhibitors> {
+public class Exhibitors extends ArrayList<Exhibitor> {
 
 }
