@@ -44,7 +44,7 @@ public class SpecialRemoteEventRequest implements Request<SpecialEventWrapper> {
 
         //Add the SKO card if necessary
         try {
-            Tasks.await(config.fetch()); //Blocking fetching
+            Tasks.await(config.fetch(86400)); //Blocking fetching
             config.activateFetched();
 
             if(config.getBoolean(REMOTE_SKO_KEY)) {
