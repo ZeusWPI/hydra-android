@@ -69,8 +69,12 @@ public class LineupFragment extends CachedLoaderFragment<Stages> implements Swip
 
     @Override
     public void receiveData(@NonNull Stages data) {
-        mainStage.setItems(data.get(0).getArtists());
-        secondStage.setItems(data.get(1).getArtists());
+        if(data.size() >= 1) {
+            mainStage.setItems(data.get(0).getArtists());
+        }
+        if(data.size() >= 2) {
+            secondStage.setItems(data.get(1).getArtists());
+        }
         refreshLayout.setRefreshing(false);
     }
 
