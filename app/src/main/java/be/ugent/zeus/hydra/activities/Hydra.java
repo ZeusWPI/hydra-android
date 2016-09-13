@@ -1,13 +1,17 @@
 package be.ugent.zeus.hydra.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
@@ -19,6 +23,9 @@ import be.ugent.zeus.hydra.viewpager.SectionPagerAdapter;
 public class Hydra extends ToolbarActivity {
 
     public static final String ARG_TAB = "argTab";
+    private static final String TAG = "HydraActivity";
+    private static final String PREF_ONBOARDING = "pref_onboarding";
+    private static final int ONBOARDING_REQUEST = 5;
 
     //The tab icons
     private static int[] icons = {
@@ -31,6 +38,8 @@ public class Hydra extends ToolbarActivity {
             R.drawable.ic_tabs_minerva,
     };
 
+    private SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,6 +50,20 @@ public class Hydra extends ToolbarActivity {
 
         getToolBar().setDisplayShowTitleEnabled(false);
 
+        //The first thing we do is maybe start the onboarding.
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(preferences.getBoolean(PREF_ONBOARDING, true)) {
+            Intent intent = new Intent(this, OnboardingActivity.class);
+            startActivityForResult(intent, ONBOARDING_REQUEST);
+        } else { //Otherwise do init
+            initialise();
+        }
+    }
+
+    /**
+     * Initialise the activity. Must be NOT be called BEFORE the onCreate function (you can call it in onCreate).
+     */
+    private void initialise() {
         ViewPager viewpager = $(R.id.pager);
         viewpager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
 
@@ -94,5 +117,22 @@ public class Hydra extends ToolbarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(requestCode == ONBOARDING_REQUEST) {
+            if(resultCode == RESULT_OK) {
+                Log.i(TAG, "Onboarding complete");
+                preferences.edit().putBoolean(PREF_ONBOARDING, false).apply();
+                initialise();
+            } else {
+                Log.i(TAG, "Onboarding failed, stop app.");
+                finish();
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

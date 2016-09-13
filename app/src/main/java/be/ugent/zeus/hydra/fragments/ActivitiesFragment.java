@@ -16,10 +16,7 @@ import android.widget.LinearLayout;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.SettingsActivity;
-import be.ugent.zeus.hydra.recyclerview.adapters.ActivityListAdapter;
 import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
-import be.ugent.zeus.hydra.cache.CacheRequest;
-import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.models.association.Activities;
 import be.ugent.zeus.hydra.models.association.Activity;
 import be.ugent.zeus.hydra.recyclerview.adapters.ActivityListAdapter;
@@ -45,8 +42,9 @@ public class ActivitiesFragment extends CachedLoaderFragment<Activities> impleme
     //If the data is invalidated.
     private boolean invalid = false;
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_activities, container, false);
     }
 
