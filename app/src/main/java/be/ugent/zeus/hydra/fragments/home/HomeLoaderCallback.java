@@ -69,7 +69,7 @@ abstract class HomeLoaderCallback implements LoaderManager.LoaderCallbacks<Throw
      * @return True if the card may be shown.
      */
     protected boolean isTypeActive() {
-        Set<String> data = PreferenceManager.getDefaultSharedPreferences(this.context).getStringSet("pref_disabled_cards", Collections.<String>emptySet());
+        Set<String> data = PreferenceManager.getDefaultSharedPreferences(this.context).getStringSet(HomeFragment.PREF_DISABLED_CARDS, Collections.<String>emptySet());
         return !data.contains(String.valueOf(getCardType()));
     }
 

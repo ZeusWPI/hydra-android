@@ -1,15 +1,22 @@
 package be.ugent.zeus.hydra.fragments.onboarding;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.fragments.home.HomeFragment;
+import be.ugent.zeus.hydra.recyclerview.adapters.MultiSelectListAdapter;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
+
+import java.util.*;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -19,6 +26,8 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class HomeFeedFragment extends SlideFragment {
 
+    private MultiSelectListAdapter<String> adapter;
+    private Map<String, String> valueMapper = new HashMap<>();
 
     @Nullable
     @Override
@@ -31,32 +40,40 @@ public class HomeFeedFragment extends SlideFragment {
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView recyclerView = $(view, R.id.recycler_view);
-        LinearLayout layout = $(view, R.id.checkbox_wrapper);
 
+        adapter = new MultiSelectListAdapter<>();
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        //TODO improve how this is saved.
+        String[] values = getResources().getStringArray(R.array.card_types_names);
+        String[] ints = getResources().getStringArray(R.array.card_types_nr);
+
+        valueMapper.clear();
+        assert ints.length == values.length;
+        for(int i = 0; i < values.length; i++) {
+            valueMapper.put(values[i], ints[i]);
+        }
+
+        adapter.setValues(Arrays.asList(values), true);
     }
 
-    private static class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onPause() {
+        super.onPause();
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
+        //Save the settings.
+        //We save which cards we DON'T want, so we need to inverse it.
+        Collection<Pair<String, Boolean>> values = adapter.getItems();
+        Set<String> disabled = new HashSet<>();
 
-    private static class Adapter extends RecyclerView.Adapter<ViewHolder> {
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return null;
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-
+        for(Pair<String, Boolean> value: values) {
+            if(!value.second) {
+                disabled.add(valueMapper.get(value.first));
+            }
         }
 
-        @Override
-        public int getItemCount() {
-            return 0;
-        }
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        preferences.edit().putStringSet(HomeFragment.PREF_DISABLED_CARDS, disabled).apply();
     }
 }

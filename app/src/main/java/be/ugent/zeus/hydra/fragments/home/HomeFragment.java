@@ -32,7 +32,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class HomeFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, FragmentCallback {
 
-    public static final String PREF_ACTIVE_CARDS = "pref_disabled_cards";
+    public static final String PREF_DISABLED_CARDS = "pref_disabled_cards";
 
     private static final String TAG = "HomeFragment";
 
@@ -144,7 +144,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        if(s.equals(PREF_ACTIVE_CARDS)) {
+        if(s.equals(PREF_DISABLED_CARDS)) {
             preferencesUpdated = true;
         }
     }

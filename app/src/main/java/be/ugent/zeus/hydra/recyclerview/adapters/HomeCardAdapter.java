@@ -106,11 +106,11 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
      * @param type The type of card to disable.
      */
     private void disableCardType(@HomeCard.CardType int type) {
-        Set<String> disabled = preferences.getStringSet(HomeFragment.PREF_ACTIVE_CARDS, Collections.<String>emptySet());
+        Set<String> disabled = preferences.getStringSet(HomeFragment.PREF_DISABLED_CARDS, Collections.<String>emptySet());
         SharedPreferences.Editor editor = preferences.edit();
         Set<String> newDisabled = new HashSet<>(disabled);
         newDisabled.add(String.valueOf(type));
-        editor.putStringSet(HomeFragment.PREF_ACTIVE_CARDS, newDisabled);
+        editor.putStringSet(HomeFragment.PREF_DISABLED_CARDS, newDisabled);
         if(editor.commit()) {
             removeCardType(type);
         }

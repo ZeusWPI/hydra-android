@@ -1,8 +1,11 @@
 package be.ugent.zeus.hydra.recyclerview.adapters.common;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,5 +49,16 @@ public abstract class SimpleItemAdapter<E, V extends RecyclerView.ViewHolder> ex
         int size = items.size();
         items.clear();
         notifyItemRangeRemoved(0, size);
+    }
+
+    /**
+     * Get the items in the adapter. The returned collection is read-only. However, this is not a requirement.
+     * Implementations are free to support a modifiable return value instead.
+     *
+     * @return An unmodifiable list of the items.
+     */
+    @NonNull
+    public Collection<E> getItems() {
+        return Collections.unmodifiableCollection(this.items);
     }
 }
