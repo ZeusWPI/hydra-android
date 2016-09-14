@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.auth;
+package be.ugent.zeus.hydra.minerva.auth;
 
 import android.accounts.*;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.auth.models.BearerToken;
+import be.ugent.zeus.hydra.minerva.auth.models.BearerToken;
 import be.ugent.zeus.hydra.activities.minerva.AuthActivity;
 import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 import be.ugent.zeus.hydra.requests.common.Request;

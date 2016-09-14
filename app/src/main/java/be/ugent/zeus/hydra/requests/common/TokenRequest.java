@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.requests.common;
 
-import be.ugent.zeus.hydra.auth.requests.TokenRequestInterceptor;
+import be.ugent.zeus.hydra.minerva.auth.requests.TokenRequestInterceptor;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
 

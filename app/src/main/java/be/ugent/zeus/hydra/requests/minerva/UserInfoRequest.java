@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.requests.minerva;
 
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.auth.MinervaConfig;
-import be.ugent.zeus.hydra.auth.models.GrantInformation;
+import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
+import be.ugent.zeus.hydra.minerva.auth.models.GrantInformation;
 import be.ugent.zeus.hydra.requests.common.TokenRequest;
 
 /**

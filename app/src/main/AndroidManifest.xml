@@ -213,7 +213,7 @@
         </service>
 
         <!-- Account service -->
-        <service android:name=".auth.MinervaService">
+        <service android:name=".minerva.auth.MinervaService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>

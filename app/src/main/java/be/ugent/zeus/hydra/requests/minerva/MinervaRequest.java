@@ -9,8 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.auth.AccountUtils;
-import be.ugent.zeus.hydra.auth.MinervaConfig;
+import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
+import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 import be.ugent.zeus.hydra.requests.common.TokenException;
 import be.ugent.zeus.hydra.requests.common.TokenRequest;
@@ -26,7 +26,7 @@ public abstract class MinervaRequest<T> extends TokenRequest<T> {
 
     private static final String TAG = "MinervaRequest";
 
-    protected static final String MINERVA_API = "https://minqas.ugent.be/api/rest/v2/";
+    protected static final String MINERVA_API = "https://minerva.ugent.be/api/rest/v2/";
 
     protected final Context context;
     protected final Activity activity;

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.auth;
+package be.ugent.zeus.hydra.minerva.auth;
 
 import android.app.Service;
 import android.content.Intent;

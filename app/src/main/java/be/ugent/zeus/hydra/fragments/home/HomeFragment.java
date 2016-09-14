@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.auth.AccountUtils;
+import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
