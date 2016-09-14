@@ -75,6 +75,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         final AgendaDao agendaDao = new AgendaDao(getContext());
 
         try {
+
+            //If this is the first request, clean everything.
+            if(first) {
+                agendaDao.deleteAll();
+                announcementDao.deleteAll();
+                courseDao.deleteAll();
+            }
+
             Courses courses = request.performRequest();
             courseDao.synchronise(courses.getCourses());
 
