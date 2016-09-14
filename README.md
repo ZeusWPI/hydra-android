@@ -1,7 +1,7 @@
 # Hydra (Android)
 [![Get it on Google Play](http://student.ugent.be/hydra/img/store-android.png)](http://play.google.com/store/apps/details?id=be.ugent.zeus.hydra)
 
-Android version of the Hydra app, available for Ice Cream Sandwich and up.
+Android version of the Hydra app, available for Jelly Bean and up.
 
 ## Contributing
 
