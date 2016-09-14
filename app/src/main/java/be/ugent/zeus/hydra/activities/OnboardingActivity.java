@@ -89,6 +89,6 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
         Account account = AccountUtils.getAccount(this);
         SyncUtils.enableSync(this, account);
         //Enable broadcasts, because the user might go to the fragment.
-        SyncUtils.requestFirstSync(account, true);
+        SyncUtils.requestFirstSync(account);
     }
 }
