@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.auth;
+package be.ugent.zeus.hydra.minerva.auth;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -9,9 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.auth.models.BearerToken;
-import be.ugent.zeus.hydra.auth.requests.NewAccessTokenRequest;
-import be.ugent.zeus.hydra.auth.requests.RefreshAccessTokenRequest;
+import be.ugent.zeus.hydra.minerva.auth.models.BearerToken;
+import be.ugent.zeus.hydra.minerva.auth.requests.NewAccessTokenRequest;
+import be.ugent.zeus.hydra.minerva.auth.requests.RefreshAccessTokenRequest;
 import be.ugent.zeus.hydra.requests.common.Request;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
@@ -20,7 +20,7 @@ import org.joda.time.DateTime;
 
 import java.io.IOException;
 
-import static be.ugent.zeus.hydra.auth.MinervaAuthenticator.EXP_DATE;
+import static be.ugent.zeus.hydra.minerva.auth.MinervaAuthenticator.EXP_DATE;
 
 /**
  * Helper class for working with a Minerva account.

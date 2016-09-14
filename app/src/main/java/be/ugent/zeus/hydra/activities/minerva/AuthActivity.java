@@ -11,11 +11,11 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity;
-import be.ugent.zeus.hydra.auth.AccountUtils;
-import be.ugent.zeus.hydra.auth.MinervaAuthenticator;
-import be.ugent.zeus.hydra.auth.MinervaConfig;
-import be.ugent.zeus.hydra.auth.models.BearerToken;
-import be.ugent.zeus.hydra.auth.models.GrantInformation;
+import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
+import be.ugent.zeus.hydra.minerva.auth.MinervaAuthenticator;
+import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
+import be.ugent.zeus.hydra.minerva.auth.models.BearerToken;
+import be.ugent.zeus.hydra.minerva.auth.models.GrantInformation;
 import be.ugent.zeus.hydra.requests.common.Request;
 import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 import be.ugent.zeus.hydra.requests.minerva.UserInfoRequest;

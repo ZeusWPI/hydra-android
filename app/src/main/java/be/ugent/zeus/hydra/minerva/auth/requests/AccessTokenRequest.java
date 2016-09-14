@@ -1,9 +1,9 @@
-package be.ugent.zeus.hydra.auth.requests;
+package be.ugent.zeus.hydra.minerva.auth.requests;
 
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.auth.OAuthConfiguration;
-import be.ugent.zeus.hydra.auth.models.BearerToken;
+import be.ugent.zeus.hydra.minerva.auth.OAuthConfiguration;
+import be.ugent.zeus.hydra.minerva.auth.models.BearerToken;
 import be.ugent.zeus.hydra.requests.common.RequestFailureException;
 import be.ugent.zeus.hydra.requests.common.Request;
 import com.google.gson.Gson;

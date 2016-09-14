@@ -18,8 +18,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.auth.AccountUtils;
-import be.ugent.zeus.hydra.auth.MinervaConfig;
+import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
+import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loader.ThrowableEither;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;

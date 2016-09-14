@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.auth.AccountUtils;
-import be.ugent.zeus.hydra.auth.MinervaConfig;
+import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
+import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 
 /**
  * @author Niko Strijbol

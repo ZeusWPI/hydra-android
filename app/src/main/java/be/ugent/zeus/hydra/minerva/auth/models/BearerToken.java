@@ -18,32 +18,44 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package be.ugent.zeus.hydra.auth.models;
+package be.ugent.zeus.hydra.minerva.auth.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-import java.util.Collection;
-
 /**
- * Information about the authorisation grant.
+ * A bearer token. This contains the various tokens and meta data about the tokens the Minerva API returns.
  *
  * @author Niko Strijbol
  * @author UGent
  */
 @SuppressWarnings("unused")
-public class GrantInformation implements Serializable {
+public class BearerToken {
 
-    private Collection<String> scopes;
+    @SerializedName("access_token")
+    private String accessToken;
 
-    @SerializedName("user")
-    private UserAttributes userAttributes;
+    @SerializedName("refresh_token")
+    private String refreshToken;
 
-    public Collection<String> getScopes() {
-        return scopes;
+    @SerializedName("token_type")
+    private String tokenType;
+
+    @SerializedName("expires_in")
+    private Integer expiresIn;
+
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public UserAttributes getUserAttributes() {
-        return userAttributes;
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public String getTokenType() {
+        return tokenType;
+    }
+
+    public Integer getExpiresIn() {
+        return expiresIn;
     }
 }

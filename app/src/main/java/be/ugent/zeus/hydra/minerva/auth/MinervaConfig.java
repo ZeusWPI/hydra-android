@@ -18,10 +18,12 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package be.ugent.zeus.hydra.auth;
+package be.ugent.zeus.hydra.minerva.auth;
 
 /**
  * Various constants for Minerva accounts.
+ *
+ * The API endpoint is saved in the {@link be.ugent.zeus.hydra.requests.minerva.MinervaRequest} for now.
  *
  * @author Niko Strijbol
  * @author kevin
@@ -29,9 +31,9 @@ package be.ugent.zeus.hydra.auth;
 public class MinervaConfig {
 
     //Endpoints
-    public final static String AUTHORIZATION_ENDPOINT = "https://oauthq.ugent.be/authorize";
-    public final static String TOKEN_ENDPOINT = "https://oauthq.ugent.be/access_token";
-    public final static String GRANT_INFORMATION_ENDPOINT = "https://oauthq.ugent.be/tokeninfo";
+    public final static String AUTHORIZATION_ENDPOINT = "https://oauth.ugent.be/authorize";
+    public final static String TOKEN_ENDPOINT = "https://oauth.ugent.be/access_token";
+    public final static String GRANT_INFORMATION_ENDPOINT = "https://oauth.ugent.be/tokeninfo";
 
     //The URL scheme of the callback
     public final static String CALLBACK_SCHEME = "hydra-ugent";
