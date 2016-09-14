@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:text="Homefeed"
         android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:fontFamily="sans-serif-medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textColor="?android:textColorPrimary"/>
 
     <TextView
@@ -23,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:text="Kies wat je wilt zien in de homefeed."/>
 
     <android.support.v7.widget.RecyclerView

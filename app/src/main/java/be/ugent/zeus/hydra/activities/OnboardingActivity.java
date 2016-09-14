@@ -33,7 +33,7 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
         addSlide(new SimpleSlide.Builder()
                 .title("Welkom bij Hydra")
                 .description("Kies wat je wilt zien en doen in de app")
-                .image(R.drawable.hydra_columns)
+                .image(R.drawable.onboarding_ugent)
                 .background(R.color.ugent_blue_medium)
                 .backgroundDark(R.color.ugent_blue_dark)
                 .build());
@@ -51,9 +51,9 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
             addSlide(new SimpleSlide.Builder()
                     .title("Minerva")
                     .description("Meld je aan bij Minerva om je vakken te kunnen bekijken")
-                    .image(R.drawable.ic_tabs_minerva)
+                    .image(R.drawable.onboarding_minerva)
                     .background(R.color.ugent_blue_medium)
-                    .background(R.color.ugent_blue_dark)
+                    .backgroundDark(R.color.ugent_blue_dark)
                     .buttonCtaLabel("Aanmelden")
                     .buttonCtaClickListener(this)
                     .build());
