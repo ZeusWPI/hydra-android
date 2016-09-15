@@ -15,8 +15,8 @@ import java.util.List;
  */
 class NoTabActivityHelper implements ActivityHelper {
 
+    private final Activity activity;
     private int intentFlags;
-    private Activity activity;
 
     /**
      * Package local constructor.
