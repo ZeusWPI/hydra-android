@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.fragments.sko.FeedFragment;
+import be.ugent.zeus.hydra.fragments.sko.TimelineFragment;
 import be.ugent.zeus.hydra.fragments.sko.LineupFragment;
 import be.ugent.zeus.hydra.fragments.sko.MapFragment;
 import be.ugent.zeus.hydra.fragments.sko.VillageFragment;
@@ -29,7 +29,7 @@ public class SkoPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new FeedFragment();
+                return new TimelineFragment();
             case 1:
                 return new LineupFragment();
             case 2:

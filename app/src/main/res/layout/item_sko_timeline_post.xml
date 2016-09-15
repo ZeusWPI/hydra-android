@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/post_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/card_spacing"
+    android:layout_marginLeft="@dimen/card_margin"
+    android:layout_marginRight="@dimen/card_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/post_poster"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="400dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:paddingLeft="@dimen/card_title_padding_vertical"
+            android:paddingRight="@dimen/card_title_padding_vertical"
+            android:paddingTop="@dimen/card_title_padding_top_large_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/post_title"
+            android:textSize="@dimen/card_title_size_large"
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            tools:text="Dit is een schamper artikel! Met een lange titel van meerdere lijnen!" />
+
+        <!-- According to material spec this should have a bottom padding of 16dp, but that is ugly -->
+        <TextView
+            android:paddingLeft="@dimen/card_title_padding_vertical"
+            android:paddingRight="@dimen/card_title_padding_vertical"
+            android:id="@+id/post_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            tools:text="Bericht van facebook." />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/card_actions_padding">
+
+            <Button
+                android:id="@+id/post_button_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?attr/borderlessButtonStyle"
+                android:textColor="?attr/colorAccent"
+                android:text="Link openen"/>
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/post_expand_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                tools:src="@drawable/ic_keyboard_arrow_up_24dp"
+                style="?attr/borderlessButtonStyle" />
+
+        </LinearLayout>
+
+        <!-- According to material spec this should have a top padding of 16dp, but that is ugly -->
+        <TextView
+            android:visibility="gone"
+            android:paddingLeft="@dimen/card_text_padding_vertical"
+            android:paddingRight="@dimen/card_text_padding_vertical"
+            android:paddingBottom="@dimen/card_text_padding_bottom_no_content"
+            android:id="@+id/post_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Heel interessante tekst over iets."
+            tools:visibility="visible" />
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
