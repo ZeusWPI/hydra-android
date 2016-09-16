@@ -53,7 +53,7 @@ public class TimelineFragment extends CachedLoaderFragment<Timeline> implements 
         refreshLayout = $(view, R.id.refresh_layout);
         refreshLayout.setOnRefreshListener(this);
 
-        adapter = new TimelineAdapter(getContext(), helper);
+        adapter = new TimelineAdapter(helper);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }

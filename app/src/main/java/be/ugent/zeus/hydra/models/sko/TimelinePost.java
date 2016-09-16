@@ -4,7 +4,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringDef;
 
+import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.utils.DateUtils;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
 import java.lang.annotation.Retention;
@@ -35,6 +40,9 @@ public class TimelinePost implements Serializable {
     @SerializedName("post_type")
     private String postType;
     private String poster;
+    @SerializedName("created_at")
+    @JsonAdapter(ZonedThreeTenAdapter.class)
+    private ZonedDateTime createdAt;
 
     @Nullable
     public String getTitle() {
@@ -68,6 +76,14 @@ public class TimelinePost implements Serializable {
     @Nullable
     public String getPoster() {
         return poster;
+    }
+
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getLocalCreatedAt() {
+        return DateUtils.toLocalDateTime(getCreatedAt());
     }
 
     /**

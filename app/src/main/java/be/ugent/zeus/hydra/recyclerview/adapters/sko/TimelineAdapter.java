@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.recyclerview.adapters.sko;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +20,9 @@ import java.util.Set;
 public class TimelineAdapter extends ItemAdapter<TimelinePost, TimelineViewHolder> {
 
     private final Set<TimelinePost> timelinePosts = new HashSet<>();
-    private final Context context;
     private final ActivityHelper helper;
 
-    public TimelineAdapter(Context context, ActivityHelper helper) {
-        this.context = context;
+    public TimelineAdapter(ActivityHelper helper) {
         this.helper = helper;
     }
 
@@ -39,10 +36,6 @@ public class TimelineAdapter extends ItemAdapter<TimelinePost, TimelineViewHolde
 
     public boolean isExpanded(TimelinePost post) {
         return timelinePosts.contains(post);
-    }
-
-    public Context getContext() {
-        return context;
     }
 
     public ActivityHelper getHelper() {

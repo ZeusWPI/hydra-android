@@ -3,10 +3,10 @@ package be.ugent.zeus.hydra.models.sko;
 import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.utils.DateUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
@@ -57,7 +57,7 @@ public class Artist implements Serializable {
      * @return The converted start date.
      */
     public LocalDateTime getLocalStart() {
-        return getStart().withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
+        return DateUtils.toLocalDateTime(getStart());
     }
 
     /**
@@ -69,7 +69,7 @@ public class Artist implements Serializable {
      * @return The converted end date.
      */
     public LocalDateTime getLocalEnd() {
-        return getEnd().withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
+        return DateUtils.toLocalDateTime(getEnd());
     }
 
     /**

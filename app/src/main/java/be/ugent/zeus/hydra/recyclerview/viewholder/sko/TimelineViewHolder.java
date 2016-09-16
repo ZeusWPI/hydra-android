@@ -16,6 +16,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.sko.TimelinePost;
 import be.ugent.zeus.hydra.recyclerview.adapters.sko.TimelineAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
+import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 import com.squareup.picasso.Picasso;
 
@@ -59,7 +60,8 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
             title.setVisibility(View.VISIBLE);
             subtitle.setVisibility(View.VISIBLE);
             title.setText(post.getTitle());
-            subtitle.setText(post.getDisplayType() + " van " + post.getOrigin());
+            CharSequence dateString = DateUtils.relativeDateTimeString(post.getCreatedAt(), itemView.getContext(), true);
+            subtitle.setText(dateString + " | " + post.getDisplayType() + " van " + post.getOrigin());
         } else {
             title.setVisibility(View.GONE);
             subtitle.setVisibility(View.GONE);
@@ -115,7 +117,7 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
     }
 
     private void setButton(boolean expanded) {
-        Context c = adapter.getContext();
+        Context c = itemView.getContext();
         Drawable d;
         if(expanded) {
             d = ViewUtils.getTintedVectorDrawable(c, R.drawable.ic_keyboard_arrow_up_24dp, R.color.ugent_blue_dark);
