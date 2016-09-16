@@ -69,12 +69,16 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
         if(post.getBody() != null) {
             body.setText(post.getBody());
             setButton(adapter.isExpanded(post));
-            expandButton.setOnClickListener(new View.OnClickListener() {
+
+            //Use the same listener for both the button and the card.
+            View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     TimelineViewHolder.this.onClick(post);
                 }
-            });
+            };
+            expandButton.setOnClickListener(listener);
+            cardView.setOnClickListener(listener);
         } else {
             expandButton.setVisibility(View.GONE);
         }

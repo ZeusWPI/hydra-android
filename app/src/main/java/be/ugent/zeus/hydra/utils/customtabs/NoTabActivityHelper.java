@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsCallback;
 
 import java.util.List;
@@ -32,7 +33,7 @@ class NoTabActivityHelper implements ActivityHelper {
     }
 
     @Override
-    public void setCallback(CustomTabsCallback callback) {}
+    public void setCallback(@Nullable CustomTabsCallback callback) {}
 
     /**
      * Opens the URL in a new browser window.
@@ -49,13 +50,11 @@ class NoTabActivityHelper implements ActivityHelper {
     @Override
     public void unbindCustomTabsService(Activity activity) {}
 
-    /**
-     * Binds the activity to the Custom Tabs Service.
-     *
-     * @param activity The activity to be bound to the service.
-     */
     @Override
     public void bindCustomTabsService(Activity activity) {}
+
+    @Override
+    public void setShareMenu(boolean showShareMenu) {}
 
     @Override
     public boolean mayLaunchUrl(Uri uri, Bundle extras, List<Bundle> otherLikelyBundles) {

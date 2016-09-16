@@ -7,6 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/card_spacing"
     android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     app:contentPaddingLeft="@dimen/card_title_padding_vertical"
     app:contentPaddingRight="@dimen/card_title_padding_vertical">
 

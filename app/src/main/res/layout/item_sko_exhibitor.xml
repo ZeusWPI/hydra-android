@@ -7,7 +7,6 @@
     android:id="@+id/info_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginBottom="@dimen/card_margin"
     android:layout_marginLeft="@dimen/card_margin"
     android:layout_marginRight="@dimen/card_margin"

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.customtabs.*;
 import android.util.Log;
 
@@ -16,6 +17,8 @@ import be.ugent.zeus.hydra.utils.ViewUtils;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static android.support.customtabs.CustomTabsIntent.EXTRA_DEFAULT_SHARE_MENU_ITEM;
 
 /**
  * Helper for activities that use custom tabs.
@@ -27,14 +30,18 @@ import java.util.Set;
 class HasTabActivityHelper implements ActivityHelper {
 
     private static final String TAG = "HasTabActivityHelper";
+
     private final ConnectionCallback connectionCallback;
     private final Activity activity;
     private final boolean nativeApp;
+
+    private boolean showShareMenu;
+    private int intentFlags;
+
     private CustomTabsSession customTabsSession;
     private CustomTabsClient client;
     private CustomTabsServiceConnection connection;
     private CustomTabsCallback callback;
-    private int intentFlags;
 
     /**
      * Package local constructor.
@@ -51,7 +58,7 @@ class HasTabActivityHelper implements ActivityHelper {
     }
 
     @Override
-    public void setCallback(CustomTabsCallback callback) {
+    public void setCallback(@Nullable CustomTabsCallback callback) {
         this.callback = callback;
     }
 
@@ -80,6 +87,7 @@ class HasTabActivityHelper implements ActivityHelper {
             CustomTabsIntent customTabsIntent = builder.build();
             customTabsIntent.intent.setFlags(this.intentFlags);
             customTabsIntent.intent.setPackage(packageName);
+            customTabsIntent.intent.putExtra(EXTRA_DEFAULT_SHARE_MENU_ITEM, showShareMenu);
             customTabsIntent.launchUrl(activity, uri);
        }
     }
@@ -152,6 +160,11 @@ class HasTabActivityHelper implements ActivityHelper {
         };
 
         CustomTabsClient.bindCustomTabsService(activity, packageName, connection);
+    }
+
+    @Override
+    public void setShareMenu(boolean showShareMenu) {
+        this.showShareMenu = showShareMenu;
     }
 
     @Override

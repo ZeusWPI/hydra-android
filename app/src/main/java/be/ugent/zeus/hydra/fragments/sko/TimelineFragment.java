@@ -35,6 +35,7 @@ public class TimelineFragment extends CachedLoaderFragment<Timeline> implements 
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         helper = CustomTabsHelper.initHelper(getActivity(), null);
+        helper.setShareMenu(true);
     }
 
     @Nullable
