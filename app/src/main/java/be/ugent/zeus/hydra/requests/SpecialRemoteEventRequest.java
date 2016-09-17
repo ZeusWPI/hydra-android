@@ -61,7 +61,7 @@ public class SpecialRemoteEventRequest implements Request<SpecialEventWrapper> {
             SpecialEvent event = new SpecialEvent();
             event.setName("Student Kick-Off");
             event.setSimpleText("Ga naar de info voor de Student Kick-Off");
-            event.setImage("http://www.studentkickoff.be/sites/all/themes/SKO2013/assets/images/logo-shadow.png");
+            event.setImage("http://blog.studentkickoff.be/wp-content/uploads/2016/07/logo.png");
             event.setSko(true);
             event.setPriority(1010);
             wrapper.getSpecialEvents().add(event);
