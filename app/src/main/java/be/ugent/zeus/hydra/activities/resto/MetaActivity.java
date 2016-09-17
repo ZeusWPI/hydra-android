@@ -21,7 +21,6 @@ import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 public class MetaActivity extends RestoActivity<RestoMeta> {
 
     private MetaAdapter adapter;
-    private RecyclerView recyclerView;
 
     /**
      * Use a special menu.
@@ -36,7 +35,7 @@ public class MetaActivity extends RestoActivity<RestoMeta> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resto_meta);
 
-        recyclerView = $(R.id.resto_meta_recycler);
+        RecyclerView recyclerView = $(R.id.resto_meta_recycler);
 
         //Divider
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
@@ -57,14 +56,6 @@ public class MetaActivity extends RestoActivity<RestoMeta> {
     @Override
     public void receiveData(@NonNull RestoMeta data) {
         adapter.replaceData(data.locations);
-    }
-
-    /**
-     * @return The main view of this activity. Currently this is used for snack bars, but that may change.
-     */
-    @Override
-    protected View getView() {
-        return recyclerView;
     }
 
     @Override

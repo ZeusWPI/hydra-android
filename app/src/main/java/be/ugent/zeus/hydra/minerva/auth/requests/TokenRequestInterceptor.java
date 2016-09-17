@@ -20,8 +20,6 @@
  */
 package be.ugent.zeus.hydra.minerva.auth.requests;
 
-import android.util.Log;
-
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -58,9 +56,9 @@ public class TokenRequestInterceptor implements ClientHttpRequestInterceptor {
         request.getHeaders().set("X-Bearer-Token", token);
 
         // Log API Request
-        Log.d(TAG, String.format("API Request: %s", request.getURI().toString()));
+        //Log.d(TAG, String.format("API Request: %s", request.getURI().toString()));
 
-        Log.d(TAG, getStringFromInputStream(execution.execute(request, body).getBody()));
+        //Log.d(TAG, getStringFromInputStream(execution.execute(request, body).getBody()));
 
         // Perform CacheRequest
         return execution.execute(request, body);

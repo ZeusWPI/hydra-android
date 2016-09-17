@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.Loader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -49,6 +50,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
 
     private RecyclerView recyclerView;
     private View authWrapper;
+    private Snackbar syncBar;
 
     private CourseAdapter adapter;
     private AccountManager manager;
@@ -132,7 +134,6 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         Log.d(TAG, "Requesting first sync...");
         Bundle bundle = new Bundle();
         bundle.putBoolean(SyncAdapter.ARG_FIRST_SYNC, true);
-        bundle.putBoolean(SyncAdapter.ARG_SEND_BROADCASTS, true);
         requestSync(account, bundle);
     }
 
@@ -149,7 +150,6 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         adapter.clear();
         Account account = AccountUtils.getAccount(getContext());
         Bundle bundle = new Bundle();
-        bundle.putBoolean(SyncAdapter.ARG_SEND_BROADCASTS, true);
         requestSync(account, bundle);
     }
 
@@ -250,13 +250,17 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
     @Override
     public void onResume() {
         super.onResume();
-        getContext().registerReceiver(syncReceiver, SyncBroadcast.getBroadcastFilter());
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
+        manager.registerReceiver(syncReceiver, SyncBroadcast.getBroadcastFilter());
+        //getContext().registerReceiver(syncReceiver, SyncBroadcast.getBroadcastFilter());
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        getContext().unregisterReceiver(syncReceiver);
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
+        manager.unregisterReceiver(syncReceiver);
+        //getContext().unregisterReceiver(syncReceiver);
     }
 
     //This will only be called if manually set to send broadcasts.
@@ -267,20 +271,19 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
             switch (intent.getAction()) {
                 case SyncBroadcast.SYNC_START:
                     Log.d(TAG, "Start!");
-                    authWrapper.setVisibility(View.GONE);
-                    showProgressBar();
-                    syncBar = Snackbar.make(getView(), "Vakken ophalen...", Snackbar.LENGTH_INDEFINITE);
-                    syncBar.show();
+                    ensureSyncStatus("Vakken ophalen...");
                     return;
                 case SyncBroadcast.SYNC_DONE:
                     Log.d(TAG, "Done!");
+                    ensureSyncStatus("Klaar");
                     syncBar.dismiss();
                     syncBar = null;
+                    recyclerView.setVisibility(View.VISIBLE);
                     restartLoader();
                     return;
                 case SyncBroadcast.SYNC_ERROR:
                     Log.d(TAG, "Error");
-                    syncBar.setText(getString(R.string.failure));
+                    ensureSyncStatus(getString(R.string.failure));
                     syncBar.setDuration(Snackbar.LENGTH_LONG);
                     return;
                 case SyncBroadcast.SYNC_PROGRESS_WHATS_NEW:
@@ -293,10 +296,26 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
                     int total = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_TOTAL, 0);
                     progressBar.setMax(total);
                     progressBar.setProgress(current);
-                    syncBar.setText("Vak " + current + " van " + total + " ophalen...");
+                    ensureSyncStatus("Vak " + current + " van " + total + " ophalen...");
             }
         }
     };
 
-    private Snackbar syncBar;
+    /**
+     * Ensure the sync status is enabled, and set the the given text on the snackbar.
+     *
+     * @param text To display on the snackbar.
+     */
+    private void ensureSyncStatus(String text) {
+        assert getView() != null;
+        if(syncBar == null) {
+            authWrapper.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
+            showProgressBar();
+            syncBar = Snackbar.make(getView(), text, Snackbar.LENGTH_INDEFINITE);
+            syncBar.show();
+        } else {
+            syncBar.setText(text);
+        }
+    }
 }

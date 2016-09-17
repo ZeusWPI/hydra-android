@@ -113,12 +113,9 @@ public class SchamperArticleActivity extends ToolbarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-
         getMenuInflater().inflate(R.menu.menu_schamper, menu);
         tintToolbarIcons(menu, R.id.schamper_share, R.id.schamper_browser);
-
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

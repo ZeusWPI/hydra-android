@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity;
 import be.ugent.zeus.hydra.minerva.auth.models.BearerToken;
 import be.ugent.zeus.hydra.activities.minerva.AuthActivity;
 import be.ugent.zeus.hydra.requests.common.RequestFailureException;
@@ -73,6 +74,9 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
         intent.putExtra(AuthActivity.ARG_AUTH_TYPE, authTokenType);
         intent.putExtra(AuthActivity.ARG_ADDING_NEW_ACCOUNT, true);
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+        if(options != null) {
+            intent.putExtra(ToolbarAccountAuthenticatorActivity.ARG_EXTRA_BUNDLE, options);
+        }
 
         final Bundle bundle = new Bundle();
         bundle.putParcelable(AccountManager.KEY_INTENT, intent);

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.activities;
+package be.ugent.zeus.hydra.activities.preferences;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -7,10 +7,10 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
+
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.AppCompatPreferenceActivity;
-import be.ugent.zeus.hydra.fragments.preferences.ActivityFragment;
 import be.ugent.zeus.hydra.fragments.preferences.HomeFragment;
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.fragments.preferences.NotificationFragment;
@@ -23,7 +23,6 @@ import java.util.List;
  *
  * @author Niko Strijbol
  * @author Rien Maertens
- * @since 16/02/2016.
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
@@ -44,7 +43,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
-                || ActivityFragment.class.getName().equals(fragmentName)
                 || NotificationFragment.class.getName().equals(fragmentName)
                 || HomeFragment.class.getName().equals(fragmentName)
                 || MinervaFragment.class.getName().equals(fragmentName);

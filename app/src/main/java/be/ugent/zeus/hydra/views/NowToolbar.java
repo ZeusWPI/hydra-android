@@ -105,6 +105,10 @@ public class NowToolbar extends LinearLayout {
         requestLayout();
     }
 
+    public void setMenu(@MenuRes int menu) {
+        this.menu = menu;
+    }
+
     @NonNull
     public <T extends View> T $(@IdRes int id) {
         @SuppressWarnings("unchecked")

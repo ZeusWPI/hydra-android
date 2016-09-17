@@ -12,7 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.fragments.home.HomeFragment;
+import be.ugent.zeus.hydra.models.association.Association;
+import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.recyclerview.viewholder.home.*;
@@ -105,15 +108,32 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
      *
      * @param type The type of card to disable.
      */
-    private void disableCardType(@HomeCard.CardType int type) {
-        Set<String> disabled = preferences.getStringSet(HomeFragment.PREF_ACTIVE_CARDS, Collections.<String>emptySet());
-        SharedPreferences.Editor editor = preferences.edit();
+    public void disableCardType(@HomeCard.CardType int type) {
+        Set<String> disabled = preferences.getStringSet(HomeFragment.PREF_DISABLED_CARDS, Collections.<String>emptySet());
         Set<String> newDisabled = new HashSet<>(disabled);
         newDisabled.add(String.valueOf(type));
-        editor.putStringSet(HomeFragment.PREF_ACTIVE_CARDS, newDisabled);
-        if(editor.commit()) {
-            removeCardType(type);
+        preferences.edit().putStringSet(HomeFragment.PREF_DISABLED_CARDS, newDisabled).apply();
+        removeCardType(type);
+    }
+
+    public void disableAssociation(Association association) {
+        Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, new HashSet<String>());
+        disabled.add(association.getInternalName());
+        preferences.edit().putStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, disabled).apply();
+
+        //Why no filter :(
+        Iterator<HomeCard> it = cardItems.iterator();
+        while (it.hasNext()) { // Why no filter :(
+            HomeCard c = it.next();
+            if (c.getCardType() == ACTIVITY) {
+                AssociationActivityCard card = c.checkCard(ACTIVITY);
+                if(card.getActivity().getAssociation().getInternalName().equals(association.getInternalName())) {
+                    notifyItemRemoved(cardItems.indexOf(c));
+                    it.remove();
+                }
+            }
         }
+
     }
 
     private View getViewForLayout(int rLayout, ViewGroup parent) {

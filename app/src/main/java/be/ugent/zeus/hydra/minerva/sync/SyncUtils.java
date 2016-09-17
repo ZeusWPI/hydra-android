@@ -53,4 +53,18 @@ public class SyncUtils {
 
         ContentResolver.addPeriodicSync(account, MinervaConfig.ACCOUNT_AUTHORITY, Bundle.EMPTY, frequency);
     }
+
+    /**
+     * Request the first sync for an account. The sync will happen right now.
+     *
+     * @param account The account.
+     */
+    public static void requestFirstSync(Account account) {
+        Log.d(TAG, "Requesting first sync...");
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(SyncAdapter.ARG_FIRST_SYNC, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        ContentResolver.requestSync(account, MinervaConfig.ACCOUNT_AUTHORITY, bundle);
+    }
 }

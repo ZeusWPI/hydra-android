@@ -107,16 +107,11 @@ public abstract class LoaderToolbarActivity<D extends Serializable> extends Tool
     }
 
     /**
-     * @return The main view of this activity. Currently this is used for snack bars, but that may change.
-     */
-    protected abstract View getView();
-
-    /**
      * When the request has failed.
      */
     public void receiveError(@NonNull Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
