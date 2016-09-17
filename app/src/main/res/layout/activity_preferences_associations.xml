@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinator"
     tools:context=".activities.preferences.AssociationSelectPrefActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -58,8 +59,16 @@
                 android:scrollbarStyle="outsideOverlay"
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.futuremind.recyclerviewfastscroll.FastScroller
+                android:id="@+id/fast_scroller"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"/>
+                android:layout_gravity="right"
+                app:fastscroll__handleColor="@color/ugent_blue_dark"
+                app:fastscroll__bubbleColor="@color/ugent_blue_light" />
 
             <include layout="@layout/x_progress_bar" />
 

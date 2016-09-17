@@ -19,6 +19,8 @@ import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.association.Associations;
 import be.ugent.zeus.hydra.recyclerview.adapters.MultiSelectListAdapter;
 import be.ugent.zeus.hydra.requests.AssociationsRequest;
+import com.futuremind.recyclerviewfastscroll.FastScroller;
+import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
 import java.util.*;
 
@@ -39,7 +41,9 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
         setContentView(R.layout.activity_preferences_associations);
 
         final RecyclerView recyclerView = $(R.id.recycler_view);
+        FastScroller scroller = $(R.id.fast_scroller);
         SearchView searchView = $(R.id.search_view);
+
         recyclerView.requestFocus();
 
         adapter = new SearchableAdapter();
@@ -52,6 +56,8 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //TODO nicer bubble
+        scroller.setRecyclerView(recyclerView);
 
         searchView.setOnQueryTextListener(adapter);
         startLoader();
@@ -113,7 +119,7 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
         preferences.edit().putStringSet(PREF_ASSOCIATIONS_SHOWING, disabled).apply();
     }
 
-    private static class SearchableAdapter extends MultiSelectListAdapter<Association> implements SearchView.OnQueryTextListener {
+    private static class SearchableAdapter extends MultiSelectListAdapter<Association> implements SearchView.OnQueryTextListener, SectionTitleProvider {
 
         private List<Pair<Association, Boolean>> allData;
 
@@ -155,6 +161,11 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
             notifyDataSetChanged();
 
             return true;
+        }
+
+        @Override
+        public String getSectionTitle(int position) {
+            return items.get(position).first.getParentAssociation();
         }
     }
 }
