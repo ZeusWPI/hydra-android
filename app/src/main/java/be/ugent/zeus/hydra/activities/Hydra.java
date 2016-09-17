@@ -9,12 +9,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
 import be.ugent.zeus.hydra.viewpager.SectionPagerAdapter;
 
 /**
@@ -97,9 +97,8 @@ public class Hydra extends ToolbarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater mf = getMenuInflater();
-        mf.inflate(R.menu.global, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.global, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

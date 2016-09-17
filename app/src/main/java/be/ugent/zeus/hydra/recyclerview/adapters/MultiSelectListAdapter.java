@@ -14,7 +14,6 @@ import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
@@ -26,14 +25,20 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, MultiSelectListAdapter.ViewHolder<H>> {
 
+    protected DisplayNameProvider<H> displayNameProvider = new DisplayNameProvider<H>() {
+        @Override
+        public String getDisplayValue(H element) {
+            return element.toString();
+        }
+    };
+
     /**
      * Set the values to use.
      *
      * @param values The values.
-     *
      * @param initial The initial value.
      */
-    public void setValues(Collection<H> values, boolean initial) {
+    public void setValues(List<H> values, boolean initial) {
 
         List<Pair<H, Boolean>> list = new ArrayList<>();
 
@@ -42,6 +47,16 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
         }
 
         this.setItems(list);
+    }
+
+    /**
+     * Set the provider that converts the element to a display value.
+     *
+     * @param provider The provider.
+     */
+    public void setDisplayNameProvider(DisplayNameProvider<H> provider) {
+        displayNameProvider = provider;
+        notifyDataSetChanged();
     }
 
     /**
@@ -70,7 +85,7 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
     public void setAllChecked(boolean checked) {
 
         for (int i = 0; i < items.size(); i++){
-            Pair<H, Boolean> item = items.get(0);
+            Pair<H, Boolean> item = items.get(i);
             if(item.second != checked) {
                 H value = item.first;
                 items.set(i, new Pair<>(value, checked));
@@ -83,6 +98,10 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
     @Override
     public ViewHolder<H> onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder<>(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_checkbox_string, parent, false), this);
+    }
+
+    public interface DisplayNameProvider<H> {
+        String getDisplayValue(H element);
     }
 
     /**
@@ -113,17 +132,14 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
 
         @Override
         public void populate(Pair<E, Boolean> data) {
-
-            title.setText(data.first.toString());
+            title.setText(adapter.displayNameProvider.getDisplayValue(data.first));
             checkBox.setChecked(data.second);
-
             parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     checkBox.toggle();
                 }
             });
-
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

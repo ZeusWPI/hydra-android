@@ -7,7 +7,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
@@ -113,14 +112,6 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
     public void onLoaderReset(Loader<ThrowableEither<RestoOverview>> loader) {
         super.onLoaderReset(loader);
         pageAdapter.setData(Collections.<RestoMenu>emptyList());
-    }
-
-    /**
-     * @return The main view of this activity. Currently this is used for snackbars, but that may change.
-     */
-    @Override
-    protected View getView() {
-        return mViewPager;
     }
 
     @Override

@@ -28,14 +28,13 @@ public class SandwichActivity extends RestoWebsiteActivity<Sandwiches> {
     private static final String URL = "http://www.ugent.be/student/nl/meer-dan-studeren/resto/broodjes/overzicht.htm";
 
     private SandwichAdapter adapter;
-    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resto_sandwich);
 
-        recyclerView = $(R.id.resto_sandwich_recycler);
+        RecyclerView recyclerView = $(R.id.resto_sandwich_recycler);
 
         //Divider
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
@@ -73,14 +72,6 @@ public class SandwichActivity extends RestoWebsiteActivity<Sandwiches> {
             }
         });
         adapter.replaceData(data);
-    }
-
-    /**
-     * @return The main view of this activity. Currently this is used for snackbars, but that may change.
-     */
-    @Override
-    protected View getView() {
-        return recyclerView;
     }
 
     @Override

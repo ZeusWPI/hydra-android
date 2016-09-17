@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.SettingsActivity;
+import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
 import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
 import be.ugent.zeus.hydra.models.association.Activities;
 import be.ugent.zeus.hydra.models.association.Activity;
@@ -90,7 +90,7 @@ public class ActivitiesFragment extends CachedLoaderFragment<Activities> impleme
      */
     private void setData(@NonNull List<Activity> data) {
 
-        data = Activities.getPreferredActivities(data, getContext());
+        Activities.filterActivities(data, getContext());
 
         adapter.setData(data);
         adapter.notifyDataSetChanged();

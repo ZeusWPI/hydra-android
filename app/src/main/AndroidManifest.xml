@@ -36,9 +36,15 @@
 
         <!-- Settings -->
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name=".activities.preferences.SettingsActivity"
             android:label="@string/action_settings"
             android:parentActivityName=".activities.Hydra" />
+
+        <!-- Association select preference activity -->
+        <activity
+            android:name=".activities.preferences.AssociationSelectPrefActivity"
+            android:label="Verenigingen"
+            android:parentActivityName=".activities.preferences.SettingsActivity" />
 
         <!-- Resto overview -->
         <activity
@@ -65,7 +71,7 @@
             android:parentActivityName=".activities.Hydra"
             android:launchMode="singleTop" />
 
-        <!-- Details about assocations -->
+        <!-- Details about associations -->
         <activity
             android:name=".activities.AssociationDetailActivity"
             android:label="@string/title_association_activity_detail"

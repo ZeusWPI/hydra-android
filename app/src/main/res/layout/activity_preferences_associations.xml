@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activities.preferences.AssociationSelectPrefActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/app_bar_layout">
+
+        <include layout="@layout/x_toolbar" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:paddingTop="@dimen/activity_horizontal_margin"
+                    android:paddingLeft="@dimen/activity_vertical_margin"
+                    android:paddingRight="@dimen/activity_vertical_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Kies voor welke verenigingen activiteiten getoond moeten worden."/>
+
+                <SearchView
+                    android:id="@+id/search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:iconifiedByDefault="false"/>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:paddingTop="@dimen/content_spacing"
+                android:clipToPadding="false"
+                android:scrollbarStyle="outsideOverlay"
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"/>
+
+            <include layout="@layout/x_progress_bar" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

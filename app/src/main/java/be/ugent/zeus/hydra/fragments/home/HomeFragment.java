@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 
@@ -144,7 +145,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        if(s.equals(PREF_DISABLED_CARDS)) {
+        if(s.equals(PREF_DISABLED_CARDS) || s.equals(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING)) {
             preferencesUpdated = true;
         }
     }

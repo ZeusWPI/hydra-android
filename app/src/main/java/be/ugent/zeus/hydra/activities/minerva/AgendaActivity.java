@@ -88,15 +88,9 @@ public class AgendaActivity extends ToolbarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_minerva_agenda, menu);
-
-        // We need to manually set the color of this Drawable for some reason.
         tintToolbarIcons(menu, R.id.minerva_agenda_add);
-
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void addToCalendar() {
