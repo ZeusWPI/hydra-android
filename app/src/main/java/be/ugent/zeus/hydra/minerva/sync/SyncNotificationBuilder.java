@@ -33,7 +33,7 @@ public class SyncNotificationBuilder {
         builder.setSmallIcon(R.drawable.ic_error_24dp)
                 .setAutoCancel(true)
                 .setCategory(CATEGORY_ERROR)
-                .setContentTitle("Minerva: opnieuw aanndelden")
+                .setContentTitle("Minerva: opnieuw aanmelden")
                 .setContentText("Druk om opnieuw aan te melden")
                 .setContentIntent(pendingIntent)
                 .setStyle(new android.support.v4.app.NotificationCompat.BigTextStyle()

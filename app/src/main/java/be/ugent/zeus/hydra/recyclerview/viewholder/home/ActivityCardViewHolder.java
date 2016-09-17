@@ -2,6 +2,8 @@ package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 
 import android.content.Intent;
 import android.os.Parcelable;
+import android.support.v7.widget.PopupMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,7 +37,7 @@ public class ActivityCardViewHolder extends HideableViewHolder {
     }
 
     @Override
-    public void populate(HomeCard card) {
+    public void populate(final HomeCard card) {
 
         final Activity activity = card.<AssociationActivityCard>checkCard(HomeCard.CardType.ACTIVITY).getActivity();
 
@@ -56,6 +58,21 @@ public class ActivityCardViewHolder extends HideableViewHolder {
             }
         });
 
-        super.populate(card);
+        toolbar.setMenu(R.menu.now_toolbar_association_event);
+        toolbar.setOnClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_hide:
+                        adapter.disableCardType(card.getCardType());
+                        return true;
+                    case R.id.menu_hide_association:
+                        adapter.disableAssociation(activity.getAssociation());
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
     }
 }

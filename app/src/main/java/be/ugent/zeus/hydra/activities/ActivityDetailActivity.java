@@ -128,7 +128,6 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_event, menu);
@@ -136,7 +135,7 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
         // We need to manually set the color of this Drawable for some reason.
         tintToolbarIcons(menu, R.id.event_location, R.id.event_link);
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     /**

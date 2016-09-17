@@ -37,7 +37,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String TAG = "SyncAdapter";
 
     public static final String ARG_FIRST_SYNC = "firstSync";
-    public static final String ARG_SEND_BROADCASTS = "sendBroadcasts";
 
     private boolean cancelled = false;
     private final SyncBroadcast broadcast;
@@ -57,7 +56,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 
         Log.d(TAG, "Starting sync...");
-        broadcast.setArgs(extras);
         broadcast.publishIntent(SyncBroadcast.SYNC_START);
 
         if(cancelled) {
@@ -75,6 +73,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         final AgendaDao agendaDao = new AgendaDao(getContext());
 
         try {
+
+            //If this is the first request, clean everything.
+            if(first) {
+                agendaDao.deleteAll();
+                announcementDao.deleteAll();
+                courseDao.deleteAll();
+            }
+
             Courses courses = request.performRequest();
             courseDao.synchronise(courses.getCourses());
 

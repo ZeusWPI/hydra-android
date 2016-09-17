@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.auth.AccountUtils;
+import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
 
 /**

@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.auth.AccountUtils;
-import be.ugent.zeus.hydra.auth.MinervaConfig;
+import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
+import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 
 /**
  * @author Niko Strijbol
@@ -52,5 +52,19 @@ public class SyncUtils {
         int frequency = Integer.valueOf(preferences.getString("pref_minerva_sync_frequency", "86400"));
 
         ContentResolver.addPeriodicSync(account, MinervaConfig.ACCOUNT_AUTHORITY, Bundle.EMPTY, frequency);
+    }
+
+    /**
+     * Request the first sync for an account. The sync will happen right now.
+     *
+     * @param account The account.
+     */
+    public static void requestFirstSync(Account account) {
+        Log.d(TAG, "Requesting first sync...");
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(SyncAdapter.ARG_FIRST_SYNC, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        ContentResolver.requestSync(account, MinervaConfig.ACCOUNT_AUTHORITY, bundle);
     }
 }

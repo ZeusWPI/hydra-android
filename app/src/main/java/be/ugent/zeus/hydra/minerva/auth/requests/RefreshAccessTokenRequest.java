@@ -1,9 +1,9 @@
-package be.ugent.zeus.hydra.auth.requests;
+package be.ugent.zeus.hydra.minerva.auth.requests;
 
 import android.util.Log;
 
-import be.ugent.zeus.hydra.auth.MinervaConfig;
-import be.ugent.zeus.hydra.auth.OAuthConfiguration;
+import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
+import be.ugent.zeus.hydra.minerva.auth.OAuthConfiguration;
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.URLConnectionClient;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;

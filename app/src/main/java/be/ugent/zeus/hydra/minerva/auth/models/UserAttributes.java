@@ -18,44 +18,59 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package be.ugent.zeus.hydra.auth.models;
+package be.ugent.zeus.hydra.minerva.auth.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
- * A bearer token. This contains the various tokens and meta data about the tokens the Minerva API returns.
+ * Minerva user attributes.
  *
  * @author Niko Strijbol
  * @author UGent
  */
 @SuppressWarnings("unused")
-public class BearerToken {
+public class UserAttributes implements Serializable {
 
-    @SerializedName("access_token")
-    private String accessToken;
+    @SerializedName("mail")
+    private ArrayList<String> email;
 
-    @SerializedName("refresh_token")
-    private String refreshToken;
+    @SuppressWarnings("SpellCheckingInspection")
+    @SerializedName("jobcategory")
+    private ArrayList<String> jobCategory;
 
-    @SerializedName("token_type")
-    private String tokenType;
+    @SuppressWarnings("SpellCheckingInspection")
+    @SerializedName("givenname")
+    private ArrayList<String> givenName;
 
-    @SerializedName("expires_in")
-    private Integer expiresIn;
+    @SerializedName("surname")
+    private ArrayList<String> surName;
 
-    public String getAccessToken() {
-        return accessToken;
+    private ArrayList<String> uid;
+
+    public String getFullName() {
+        return givenName + " " + surName;
     }
 
-    public String getRefreshToken() {
-        return refreshToken;
+    public ArrayList<String> getEmail() {
+        return email;
     }
 
-    public String getTokenType() {
-        return tokenType;
+    public ArrayList<String> getJobCategory() {
+        return jobCategory;
     }
 
-    public Integer getExpiresIn() {
-        return expiresIn;
+    public ArrayList<String> getGivenName() {
+        return givenName;
+    }
+
+    public ArrayList<String> getSurName() {
+        return surName;
+    }
+
+    public ArrayList<String> getUid() {
+        return uid;
     }
 }

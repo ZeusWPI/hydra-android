@@ -38,10 +38,10 @@ class EventCallback extends CacheHomeLoaderCallback<Activities> {
 
     @Override
     protected List<HomeCard> convertData(@NonNull Activities data) {
-        List<Activity> filteredAssociationActivities = Activities.getPreferredActivities(data, context);
+        Activities.filterActivities(data, context);
         Date date = new Date();
         List<HomeCard> list = new ArrayList<>();
-        for (Activity activity : filteredAssociationActivities) {
+        for (Activity activity: data) {
             AssociationActivityCard activityCard = new AssociationActivityCard(activity);
             if (activityCard.getPriority() > 0 && activity.getEndDate().after(date)) {
                 list.add(activityCard);

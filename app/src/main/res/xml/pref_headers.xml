@@ -8,10 +8,15 @@
         android:summary="Opties voor het starttabblad." />
 
     <header
-        android:fragment="be.ugent.zeus.hydra.fragments.preferences.ActivityFragment"
         android:title="@string/pref_activities_title"
-        android:summary="Opties voor de activiteiten." />
-    <!-- notifications -->
+        android:summary="Opties voor de activiteiten.">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="be.ugent.zeus.hydra"
+            android:targetClass="be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity"/>
+    </header>
+
+    <!-- Notifications -->
     <header
         android:fragment="be.ugent.zeus.hydra.fragments.preferences.NotificationFragment"
         android:title="@string/pref_daily_notifications_title"

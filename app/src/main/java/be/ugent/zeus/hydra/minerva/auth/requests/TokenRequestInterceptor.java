@@ -18,9 +18,7 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package be.ugent.zeus.hydra.auth.requests;
-
-import android.util.Log;
+package be.ugent.zeus.hydra.minerva.auth.requests;
 
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -58,9 +56,9 @@ public class TokenRequestInterceptor implements ClientHttpRequestInterceptor {
         request.getHeaders().set("X-Bearer-Token", token);
 
         // Log API Request
-        Log.d(TAG, String.format("API Request: %s", request.getURI().toString()));
+        //Log.d(TAG, String.format("API Request: %s", request.getURI().toString()));
 
-        Log.d(TAG, getStringFromInputStream(execution.execute(request, body).getBody()));
+        //Log.d(TAG, getStringFromInputStream(execution.execute(request, body).getBody()));
 
         // Perform CacheRequest
         return execution.execute(request, body);

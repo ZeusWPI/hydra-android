@@ -1,8 +1,10 @@
 package be.ugent.zeus.hydra.minerva.sync;
 
-import android.accounts.Account;
-import android.content.*;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 
 /**
  * Class to manage sending broadcasts from the sync adapter.
@@ -44,29 +46,13 @@ public class SyncBroadcast {
      */
     public static final String ARG_SYNC_PROGRESS_CURRENT = "argNow";
 
-    private final Context context;
-    private Bundle args;
+    private final LocalBroadcastManager broadcastManager;
 
     /**
      * @param context A context that sends the broadcasts.
      */
     public SyncBroadcast(Context context) {
-        this.context = context;
-    }
-
-    /**
-     * @param args The argument bundle passed to {@link SyncAdapter#onPerformSync(Account, Bundle, String, ContentProviderClient, SyncResult)}.
-     */
-    public void setArgs(Bundle args) {
-        this.args = args;
-    }
-
-    private boolean canPublish() {
-        if(args == null) {
-            throw new IllegalStateException("The arguments cannot be null.");
-        }
-
-        return args.getBoolean(SyncAdapter.ARG_SEND_BROADCASTS, false);
+        broadcastManager = LocalBroadcastManager.getInstance(context);
     }
 
     /**
@@ -79,18 +65,13 @@ public class SyncBroadcast {
     }
 
     private void publishIntentWith(String action, Bundle extras) {
-        //Don't send if we don't need to.
-        if(!canPublish()) {
-            return;
-        }
-
         //The intent
         Intent i = new Intent(action);
         if(extras != null) {
             i.putExtras(extras);
         }
 
-        context.sendBroadcast(i);
+        broadcastManager.sendBroadcast(i);
     }
 
     void publishAnnouncementDone(int now, int total) {

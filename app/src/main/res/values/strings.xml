@@ -116,7 +116,7 @@
     <string name="auth_progress_failure">Niet ingelogd.</string>
     <string name="auth_progress_done">Klaar.</string>
 
-    <string name="sync_provider_label">Aankondigingen</string>
+    <string name="sync_provider_label">Minerva-gegevens</string>
 
     <string name="fragment_home_error">Kon %s niet laden.</string>
     <string name="fragment_home_error_minerva">minerva</string>

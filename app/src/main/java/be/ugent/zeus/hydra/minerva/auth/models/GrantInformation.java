@@ -18,59 +18,32 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package be.ugent.zeus.hydra.auth.models;
+package be.ugent.zeus.hydra.minerva.auth.models;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
 
 /**
- * Minerva user attributes.
+ * Information about the authorisation grant.
  *
  * @author Niko Strijbol
  * @author UGent
  */
 @SuppressWarnings("unused")
-public class UserAttributes implements Serializable {
+public class GrantInformation implements Serializable {
 
-    @SerializedName("mail")
-    private ArrayList<String> email;
+    private Collection<String> scopes;
 
-    @SuppressWarnings("SpellCheckingInspection")
-    @SerializedName("jobcategory")
-    private ArrayList<String> jobCategory;
+    @SerializedName("user")
+    private UserAttributes userAttributes;
 
-    @SuppressWarnings("SpellCheckingInspection")
-    @SerializedName("givenname")
-    private ArrayList<String> givenName;
-
-    @SerializedName("surname")
-    private ArrayList<String> surName;
-
-    private ArrayList<String> uid;
-
-    public String getFullName() {
-        return givenName + " " + surName;
+    public Collection<String> getScopes() {
+        return scopes;
     }
 
-    public ArrayList<String> getEmail() {
-        return email;
-    }
-
-    public ArrayList<String> getJobCategory() {
-        return jobCategory;
-    }
-
-    public ArrayList<String> getGivenName() {
-        return givenName;
-    }
-
-    public ArrayList<String> getSurName() {
-        return surName;
-    }
-
-    public ArrayList<String> getUid() {
-        return uid;
+    public UserAttributes getUserAttributes() {
+        return userAttributes;
     }
 }

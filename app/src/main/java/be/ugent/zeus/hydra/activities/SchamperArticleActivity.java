@@ -22,6 +22,7 @@ import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.recyclerview.adapters.SchamperImageAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.utils.StringUtils;
 import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.utils.html.Utils;
 import be.ugent.zeus.hydra.utils.recycler.SpacingItemDecoration;
@@ -66,8 +67,11 @@ public class SchamperArticleActivity extends ToolbarActivity {
             author.setText(article.getAuthor());
         }
 
+        String category = StringUtils.capitaliseFirst(article.getCategory());
         if(article.getPubDate() != null) {
-            date.setText(DateUtils.relativeDateString(article.getPubDate(), date.getContext()));
+            date.setText(DateUtils.relativeDateString(article.getPubDate(), date.getContext()) + " - " + category);
+        } else {
+            date.setText(category);
         }
 
         if(article.getBody() != null) {
@@ -113,12 +117,9 @@ public class SchamperArticleActivity extends ToolbarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-
         getMenuInflater().inflate(R.menu.menu_schamper, menu);
         tintToolbarIcons(menu, R.id.schamper_share, R.id.schamper_browser);
-
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
