@@ -37,6 +37,7 @@ public class MapFragment extends Fragment {
         WebView webView = $(view, R.id.web_view);
         final ProgressBar progressBar = $(view, R.id.progress_bar);
 
+        webView.setScrollContainer(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.setInitialScale(1);
         webView.setBackgroundColor(Color.TRANSPARENT);

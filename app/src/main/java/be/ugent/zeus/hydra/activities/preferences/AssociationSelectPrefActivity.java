@@ -41,6 +41,7 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
         setContentView(R.layout.activity_preferences_associations);
 
         final RecyclerView recyclerView = $(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
         FastScroller scroller = $(R.id.fast_scroller);
         SearchView searchView = $(R.id.search_view);
 

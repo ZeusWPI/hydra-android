@@ -63,7 +63,7 @@
     <string-array name="sko_tab_names">
         <item>Timeline</item>
         <item>Line-up</item>
-        <item>Kaart</item>
         <item>Student Village</item>
+        <item>Kaart</item>
     </string-array>
 </resources>

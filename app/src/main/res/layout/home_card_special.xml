@@ -40,6 +40,7 @@
         </LinearLayout>
 
         <ImageView
+            android:adjustViewBounds="true"
             android:layout_marginLeft="@dimen/card_actions_padding"
             android:layout_width="80dp"
             android:layout_height="80dp"

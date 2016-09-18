@@ -6,9 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.fragments.sko.TimelineFragment;
 import be.ugent.zeus.hydra.fragments.sko.LineupFragment;
 import be.ugent.zeus.hydra.fragments.sko.MapFragment;
+import be.ugent.zeus.hydra.fragments.sko.TimelineFragment;
 import be.ugent.zeus.hydra.fragments.sko.VillageFragment;
 
 /**
@@ -33,9 +33,9 @@ public class SkoPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new LineupFragment();
             case 2:
-                return new MapFragment();
-            case 3:
                 return new VillageFragment();
+            case 3:
+                return new MapFragment();
             default:
                 throw new IllegalTabException(position, getCount());
         }
@@ -51,5 +51,5 @@ public class SkoPagerAdapter extends FragmentPagerAdapter {
         return titles[position];
     }
 
-    public static String[] names = {"feed", "lineup", "map", "village"};
+    public static String[] names = {"feed", "lineup", "village", "map"};
 }

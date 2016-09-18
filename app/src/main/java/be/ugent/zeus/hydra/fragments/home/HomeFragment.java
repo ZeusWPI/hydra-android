@@ -67,6 +67,7 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView recyclerView = $(view, R.id.home_cards_view);
+        recyclerView.setHasFixedSize(true);
         swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
         progressBar = $(view, R.id.progress_bar);
 

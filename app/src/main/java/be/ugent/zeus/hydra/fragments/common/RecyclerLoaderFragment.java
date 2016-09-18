@@ -26,12 +26,14 @@ public abstract class RecyclerLoaderFragment<E, D extends Serializable & List<E>
 
     protected RecyclerView recyclerView;
     protected A adapter;
+    protected boolean hasFixedSize = true;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = $(view, R.id.recycler_view);
+        recyclerView.setHasFixedSize(hasFixedSize);
         adapter = getAdapter();
 
         recyclerView.setAdapter(adapter);
