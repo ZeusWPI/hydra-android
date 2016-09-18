@@ -30,7 +30,7 @@ public class SyncNotificationBuilder {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setSmallIcon(R.drawable.ic_error_24dp)
+        builder.setSmallIcon(R.drawable.ic_notification_warning)
                 .setAutoCancel(true)
                 .setCategory(CATEGORY_ERROR)
                 .setContentTitle("Minerva: opnieuw aanmelden")
@@ -51,7 +51,7 @@ public class SyncNotificationBuilder {
      */
     public static void showError(Context context) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setSmallIcon(R.drawable.ic_error_24dp)
+        builder.setSmallIcon(R.drawable.ic_notification_warning)
                 .setCategory(CATEGORY_ERROR)
                 .setContentTitle("Minerva-fout")
                 .setContentText("Synchronisatiefout")
