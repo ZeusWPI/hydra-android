@@ -2,13 +2,23 @@ package be.ugent.zeus.hydra.utils.customtabs;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.customtabs.*;
+import android.util.Log;
 
 import be.ugent.zeus.hydra.utils.ViewUtils;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import static android.support.customtabs.CustomTabsIntent.EXTRA_DEFAULT_SHARE_MENU_ITEM;
 
 /**
  * Helper for activities that use custom tabs.
@@ -19,20 +29,27 @@ import java.util.List;
  */
 class HasTabActivityHelper implements ActivityHelper {
 
+    private static final String TAG = "HasTabActivityHelper";
+
+    private final ConnectionCallback connectionCallback;
+    private final Activity activity;
+    private final boolean nativeApp;
+
+    private boolean showShareMenu;
+    private int intentFlags;
+
     private CustomTabsSession customTabsSession;
     private CustomTabsClient client;
     private CustomTabsServiceConnection connection;
     private CustomTabsCallback callback;
 
-    private ConnectionCallback connectionCallback;
-
-    private Activity activity;
-
-    private int intentFlags;
-
-    HasTabActivityHelper(Activity activity, ConnectionCallback connectionCallback) {
+    /**
+     * Package local constructor.
+     */
+    HasTabActivityHelper(Activity activity, boolean nativeApp, ConnectionCallback connectionCallback) {
         this.activity = activity;
         this.connectionCallback = connectionCallback;
+        this.nativeApp = nativeApp;
     }
 
     @Override
@@ -41,7 +58,7 @@ class HasTabActivityHelper implements ActivityHelper {
     }
 
     @Override
-    public void setCallback(CustomTabsCallback callback) {
+    public void setCallback(@Nullable CustomTabsCallback callback) {
         this.callback = callback;
     }
 
@@ -53,21 +70,31 @@ class HasTabActivityHelper implements ActivityHelper {
     @Override
     public void openCustomTab(Uri uri) {
 
-        //Else we do the custom tabs.
-        String packageName = CustomTabsHelper.getPackageNameToUse(activity);
-
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(customTabsSession);
         //Set the theme color
         builder.setToolbarColor(ViewUtils.getPrimaryColor(activity));
 
-        //Get the intent
-        CustomTabsIntent customTabsIntent = builder.build();
-        customTabsIntent.intent.setFlags(this.intentFlags);
-        customTabsIntent.launchUrl(activity, uri);
+        Set<String> nat = getNativeAppPackage(activity, uri);
+        if (nativeApp && !nat.isEmpty()) {
+            Log.d(TAG, "Using normal intent because of native app, i.e. " + nat.iterator().next());
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
+            browserIntent.setFlags(this.intentFlags);
+            activity.startActivity(browserIntent);
+        } else {
+            String packageName = CustomTabsHelper.getPackageNameToUse(activity);
+            Log.d(TAG, "No native app or native apps disabled, launching custom tab using " + packageName);
+            //Get the intent
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.intent.setFlags(this.intentFlags);
+            customTabsIntent.intent.setPackage(packageName);
+            customTabsIntent.intent.putExtra(EXTRA_DEFAULT_SHARE_MENU_ITEM, showShareMenu);
+            customTabsIntent.launchUrl(activity, uri);
+       }
     }
 
     /**
      * Unbinds the Activity from the Custom Tabs Service
+     *
      * @param activity the activity that is connected to the service
      */
     @Override
@@ -136,6 +163,11 @@ class HasTabActivityHelper implements ActivityHelper {
     }
 
     @Override
+    public void setShareMenu(boolean showShareMenu) {
+        this.showShareMenu = showShareMenu;
+    }
+
+    @Override
     public boolean mayLaunchUrl(Uri uri, Bundle extras, List<Bundle> otherLikelyBundles) {
         if (client == null) {
             return false;
@@ -143,6 +175,30 @@ class HasTabActivityHelper implements ActivityHelper {
 
         CustomTabsSession session = getSession();
         return session != null && session.mayLaunchUrl(uri, extras, otherLikelyBundles);
+    }
 
+    private static Set<String> getNativeAppPackage(Context context, Uri uri) {
+        PackageManager pm = context.getPackageManager();
+
+        //Get all Apps that resolve a generic url
+        Intent browserActivityIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.example.com"));
+        Set<String> genericResolvedList = extractPackageNames(pm.queryIntentActivities(browserActivityIntent, 0));
+
+        //Get all apps that resolve the specific Url
+        Intent specializedActivityIntent = new Intent(Intent.ACTION_VIEW, uri);
+        Set<String> resolvedSpecializedList = extractPackageNames(pm.queryIntentActivities(specializedActivityIntent, 0));
+
+        //Keep only the Urls that resolve the specific, but not the generic urls
+        resolvedSpecializedList.removeAll(genericResolvedList);
+
+        return resolvedSpecializedList;
+    }
+
+    private static Set<String> extractPackageNames(List<ResolveInfo> resolveInfos) {
+        Set<String> packageNameSet = new HashSet<>();
+        for (ResolveInfo ri : resolveInfos) {
+            packageNameSet.add(ri.activityInfo.packageName);
+        }
+        return packageNameSet;
     }
 }

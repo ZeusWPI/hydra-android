@@ -47,7 +47,7 @@ public class ActivityCardViewHolder extends HideableViewHolder {
         String description = itemView.getResources().getString(R.string.home_card_description);
         toolbar.setTitle(String.format(description, activity.getAssociation().getDisplayName()));
 
-        Picasso.with(itemView.getContext()).load(activity.getAssociation().getImageLink()).into(imageView);
+        Picasso.with(itemView.getContext()).load(activity.getAssociation().getImageLink()).fit().centerInside().into(imageView);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

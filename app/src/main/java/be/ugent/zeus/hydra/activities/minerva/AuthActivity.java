@@ -64,7 +64,7 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
 
         //Launch custom tab
         progressMessage.setText(getString(R.string.auth_progress_prepare));
-        customTabActivityHelper = CustomTabsHelper.initHelper(this, this);
+        customTabActivityHelper = CustomTabsHelper.initHelper(this, false, this);
         customTabActivityHelper.setIntentFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         customTabActivityHelper.mayLaunchUrl(Uri.parse(AccountUtils.getRequestUri()), null, null);
     }

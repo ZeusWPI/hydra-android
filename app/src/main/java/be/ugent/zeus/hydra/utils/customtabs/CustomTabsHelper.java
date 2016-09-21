@@ -95,18 +95,20 @@ public class CustomTabsHelper {
 
     /**
      * Used to check whether there is a specialized handler for a given intent.
+     *
      * @param intent The intent to check with.
+     *
      * @return Whether there is a specialized handler for the given intent.
      */
     private static boolean hasSpecializedHandlerIntents(Context context, Intent intent) {
         try {
             PackageManager pm = context.getPackageManager();
-            List<ResolveInfo> handlers = pm.queryIntentActivities(
-                    intent,
-                    PackageManager.GET_RESOLVED_FILTER);
+            List<ResolveInfo> handlers = pm.queryIntentActivities(intent, PackageManager.GET_RESOLVED_FILTER);
+
             if (handlers == null || handlers.size() == 0) {
                 return false;
             }
+
             for (ResolveInfo resolveInfo : handlers) {
                 IntentFilter filter = resolveInfo.filter;
                 if (filter == null) continue;
@@ -119,14 +121,6 @@ public class CustomTabsHelper {
         }
         return false;
     }
-
-    /**
-     * @return All possible chrome package names that provide custom tabs feature.
-     */
-    public static String[] getPackages() {
-        return new String[]{"", PACKAGE_STABLE, PACKAGE_BETA, PACKAGE_DEV, PACKAGE_LOCAL};
-    }
-
 
     /**
      * @return True if the current API is high enough, otherwise false.
@@ -142,13 +136,30 @@ public class CustomTabsHelper {
     /**
      * Get an activity helper. When custom tabs are supported, it will use those. If custom tabs are not supported,
      * it will open urls in a new browser window.
+     *
      * @param activity The activity that calls the custom tab.
      * @param callback The callback.
+     *
      * @return The helper.
      */
     public static ActivityHelper initHelper(Activity activity, ActivityHelper.ConnectionCallback callback) {
+        return initHelper(activity, true, callback);
+    }
+
+    /**
+     * Get an activity helper. When custom tabs are supported, it will use those. If custom tabs are not supported,
+     * it will open urls in a new browser window. When {@code nativeApp} is true, custom tabs will not be used when
+     * an app is available that can handle a certain url. A normal intent will be launched then.
+     *
+     * @param activity  The activity that calls the custom tab.
+     * @param nativeApp If the native app should be used if available.
+     * @param callback  The callback.
+     *
+     * @return The helper.
+     */
+    public static ActivityHelper initHelper(Activity activity, boolean nativeApp, ActivityHelper.ConnectionCallback callback) {
         if(hasSupport(activity)) {
-            return new HasTabActivityHelper(activity, callback);
+            return new HasTabActivityHelper(activity, nativeApp, callback);
         } else {
             return new NoTabActivityHelper(activity, callback);
         }

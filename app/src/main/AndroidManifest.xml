@@ -38,6 +38,7 @@
         <activity
             android:name=".activities.preferences.SettingsActivity"
             android:label="@string/action_settings"
+            android:theme="@style/Hydra.Main"
             android:parentActivityName=".activities.Hydra" />
 
         <!-- Association select preference activity -->
@@ -145,6 +146,28 @@
                 <data android:scheme="hydra-ugent" />
             </intent-filter>
         </activity>
+
+        <!-- SKO overview activity -->
+        <activity
+            android:launchMode="singleTop"
+            android:name=".activities.sko.OverviewActivity"
+            android:label="@string/activity_title_sko_overview"
+            android:theme="@style/Hydra.Main.NoActionBar.Sko"
+            android:parentActivityName=".activities.Hydra" />
+
+        <!-- SKO preference activity -->
+        <activity
+            android:name=".activities.sko.PreferenceActivity"
+            android:label="@string/activity_title_sko_preferences"
+            android:theme="@style/Hydra.Main.NoActionBar.Sko"
+            android:parentActivityName=".activities.sko.OverviewActivity" />
+
+        <!-- SKO artist page -->
+        <activity
+            android:name=".activities.sko.ArtistActivity"
+            android:label="Artiest"
+            android:theme="@style/Hydra.Main.NoActionBar.Sko.SystemWindows"
+            android:parentActivityName=".activities.sko.OverviewActivity" />
 
         <!-- Onboarding activity -->
         <activity

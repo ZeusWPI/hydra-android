@@ -64,6 +64,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     compile 'net.danlew:android.joda:2.9.3.1'
+    compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
     compile 'com.google.android.gms:play-services-analytics:9.4.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.KyoSherlock:expandablelayout:master-SNAPSHOT'
@@ -83,6 +84,11 @@ dependencies {
     //compile 'com.google.firebase:firebase-core:9.4.0'
     //compile 'com.google.firebase:firebase-crash:9.4.0'
     compile 'com.google.firebase:firebase-messaging:9.4.0'
+    compile 'com.google.firebase:firebase-config:9.4.0'
+
+    compile 'su.j2e:rv-joiner:1.0.9'
+
+    compile 'com.github.alexfu:SQLiteQueryBuilder:0.3.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

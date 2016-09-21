@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/vertical_padding"
+    android:paddingRight="@dimen/vertical_padding"
+    android:paddingTop="@dimen/list_two_line_padding_horizontal"
+    android:paddingBottom="@dimen/list_two_line_padding_horizontal">
+
+    <TextView
+        android:id="@+id/text_header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="?attr/colorAccent"
+        style="@style/Base.TextAppearance.AppCompat.Title">
+    </TextView>
+</LinearLayout>

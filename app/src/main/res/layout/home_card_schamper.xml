@@ -65,6 +65,7 @@
                 android:layout_height="80dp"
                 android:id="@+id/image"
                 android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
                 tools:src="@drawable/ic_tabs_schamper" />
 
         </LinearLayout>

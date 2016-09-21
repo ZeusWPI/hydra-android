@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.sko.OverviewActivity;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
@@ -44,8 +45,13 @@ public class SpecialEventCardViewHolder extends DataViewHolder<HomeCard> {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(specialEvent.getLink()));
-                itemView.getContext().startActivity(browserIntent);
+                Intent intent;
+                if(specialEvent.isSko()) {
+                    intent = new Intent(itemView.getContext(), OverviewActivity.class);
+                } else {
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(specialEvent.getLink()));
+                }
+                itemView.getContext().startActivity(intent);
             }
         });
     }

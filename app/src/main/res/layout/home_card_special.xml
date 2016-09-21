@@ -7,12 +7,13 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/card_spacing"
     android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     app:contentPaddingLeft="@dimen/card_title_padding_vertical"
     app:contentPaddingRight="@dimen/card_title_padding_vertical">
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
@@ -39,6 +40,7 @@
         </LinearLayout>
 
         <ImageView
+            android:adjustViewBounds="true"
             android:layout_marginLeft="@dimen/card_actions_padding"
             android:layout_width="80dp"
             android:layout_height="80dp"

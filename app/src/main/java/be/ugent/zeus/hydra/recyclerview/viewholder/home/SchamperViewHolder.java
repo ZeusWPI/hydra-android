@@ -43,7 +43,7 @@ public class SchamperViewHolder extends HideableViewHolder {
         date.setText(DateUtils.relativeDateString(article.getPubDate(), itemView.getContext()));
         author.setText(article.getAuthor());
 
-        Picasso.with(this.itemView.getContext()).load(article.getImage()).into(image);
+        Picasso.with(this.itemView.getContext()).load(article.getImage()).fit().centerInside().into(image);
 
         this.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
