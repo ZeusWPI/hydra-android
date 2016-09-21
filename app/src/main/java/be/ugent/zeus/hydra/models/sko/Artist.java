@@ -1,11 +1,8 @@
 package be.ugent.zeus.hydra.models.sko;
 
-import android.support.annotation.Nullable;
-
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZonedDateTime;
 
@@ -19,13 +16,15 @@ import java.io.Serializable;
 @SuppressWarnings("unused")
 public class Artist implements Serializable {
 
-    @SerializedName("artist")
     private String name;
     @JsonAdapter(ZonedThreeTenAdapter.class)
     private ZonedDateTime start;
     @JsonAdapter(ZonedThreeTenAdapter.class)
     private ZonedDateTime end;
-    private String picture;
+    private String banner;
+    private String image;
+    private String content;
+    private String stage;
 
     /**
      * @return The name of the act.
@@ -72,11 +71,19 @@ public class Artist implements Serializable {
         return DateUtils.toLocalDateTime(getEnd());
     }
 
-    /**
-     * @return The URL to the picture.
-     */
-    @Nullable
-    public String getPicture() {
-        return picture;
+    public String getBanner() {
+        return banner;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getStage() {
+        return stage;
     }
 }

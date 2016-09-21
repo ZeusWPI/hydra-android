@@ -12,14 +12,19 @@ import android.view.*;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
-import be.ugent.zeus.hydra.models.sko.Stages;
+import be.ugent.zeus.hydra.models.sko.Artist;
+import be.ugent.zeus.hydra.models.sko.Artists;
 import be.ugent.zeus.hydra.recyclerview.adapters.sko.LineupAdapter;
 import be.ugent.zeus.hydra.requests.sko.LineupRequest;
 import su.j2e.rvjoiner.JoinableAdapter;
 import su.j2e.rvjoiner.JoinableLayout;
 import su.j2e.rvjoiner.RvJoiner;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -28,10 +33,10 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public class LineupFragment extends CachedLoaderFragment<Stages> implements SwipeRefreshLayout.OnRefreshListener {
+public class LineupFragment extends CachedLoaderFragment<Artists> implements SwipeRefreshLayout.OnRefreshListener {
 
-    private LineupAdapter mainStage;
-    private LineupAdapter secondStage;
+    private RvJoiner joiner;
+    private Map<String, LineupAdapter> adapters = new HashMap<>();
     private SwipeRefreshLayout refreshLayout;
 
     @Override
@@ -55,26 +60,33 @@ public class LineupFragment extends CachedLoaderFragment<Stages> implements Swip
         refreshLayout = $(view, R.id.refresh_layout);
         refreshLayout.setOnRefreshListener(this);
 
-        mainStage = new LineupAdapter();
-        secondStage = new LineupAdapter();
-
-        RvJoiner joiner = new RvJoiner();
-        joiner.add(new JoinableLayout(R.layout.item_title, new Callback("Main stage")));
-        joiner.add(new JoinableAdapter(mainStage));
-        joiner.add(new JoinableLayout(R.layout.item_title, new Callback("Second stage")));
-        joiner.add(new JoinableAdapter(secondStage));
+        joiner = new RvJoiner();
         recyclerView.setAdapter(joiner.getAdapter());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
-    public void receiveData(@NonNull Stages data) {
-        if(data.size() >= 1) {
-            mainStage.setItems(data.get(0).getArtists());
+    public void receiveData(@NonNull Artists data) {
+        //Sort into stages
+        Map<String, List<Artist>> stages = new HashMap<>();
+
+        for (Artist artist: data) {
+            if(!stages.containsKey(artist.getStage())) {
+                stages.put(artist.getStage(), new ArrayList<Artist>());
+            }
+            stages.get(artist.getStage()).add(artist);
         }
-        if(data.size() >= 2) {
-            secondStage.setItems(data.get(1).getArtists());
+
+        for (Map.Entry<String, List<Artist>> entry: stages.entrySet()) {
+            if(!adapters.containsKey(entry.getKey())) {
+                LineupAdapter adapter = new LineupAdapter();
+                adapters.put(entry.getKey(), adapter);
+                joiner.add(new JoinableLayout(R.layout.item_title, new Callback(entry.getKey())));
+                joiner.add(new JoinableAdapter(adapter));
+            }
+            adapters.get(entry.getKey()).setItems(entry.getValue());
         }
+
         refreshLayout.setRefreshing(false);
     }
 
@@ -102,7 +114,7 @@ public class LineupFragment extends CachedLoaderFragment<Stages> implements Swip
     }
 
     @Override
-    public CacheRequest<Stages, Stages> getRequest() {
+    public LineupRequest getRequest() {
         return new LineupRequest();
     }
 

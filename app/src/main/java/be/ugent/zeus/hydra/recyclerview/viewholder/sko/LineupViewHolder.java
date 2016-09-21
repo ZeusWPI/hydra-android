@@ -50,7 +50,7 @@ public class LineupViewHolder extends DataViewHolder<Artist> implements View.OnC
         this.artist = artist;
         title.setText(artist.getName());
         date.setText(getDisplayDate(artist));
-        Picasso.with(this.itemView.getContext()).load(artist.getPicture()).into(image);
+        Picasso.with(this.itemView.getContext()).load(artist.getBanner()).into(image);
     }
 
     /**
