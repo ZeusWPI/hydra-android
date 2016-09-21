@@ -14,6 +14,7 @@ import be.ugent.zeus.hydra.activities.common.AppCompatPreferenceActivity;
 import be.ugent.zeus.hydra.fragments.preferences.HomeFragment;
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.fragments.preferences.NotificationFragment;
+import be.ugent.zeus.hydra.fragments.preferences.SkoFragment;
 import be.ugent.zeus.hydra.notifications.NotificationScheduler;
 
 import java.util.List;
@@ -28,14 +29,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Hydra_Main);
         super.onCreate(savedInstanceState);
         setupActionBar();
     }
 
     @Override
     public void onBuildHeaders(List<Header> target) {
-        loadHeadersFromResource(R.xml.preferences, target);
+        loadHeadersFromResource(R.xml.pref_headers, target);
     }
 
     /**
@@ -45,7 +45,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || NotificationFragment.class.getName().equals(fragmentName)
                 || HomeFragment.class.getName().equals(fragmentName)
-                || MinervaFragment.class.getName().equals(fragmentName);
+                || MinervaFragment.class.getName().equals(fragmentName)
+                || SkoFragment.class.getName().equals(fragmentName);
     }
 
     /**
@@ -83,6 +84,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected void onResume() {
         super.onResume();
         HydraApplication app = (HydraApplication) getApplication();
-        app.sendScreenName("Settings");
+        app.sendScreenName("Settings overview");
     }
 }

@@ -6,6 +6,8 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 
 /**
+ * Settings about the home feed.
+ *
  * @author Niko Strijbol
  */
 public class HomeFragment extends PreferenceFragment {
@@ -15,15 +17,13 @@ public class HomeFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
 
         // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.home);
+        addPreferencesFromResource(R.xml.pref_home_feed);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        HydraApplication happ = (HydraApplication) getActivity().getApplication();
-        happ.sendScreenName("settings");
+        HydraApplication.getApplication(getActivity()).sendScreenName("Settings > Home feed");
     }
 }
 

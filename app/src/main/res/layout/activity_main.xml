@@ -23,6 +23,7 @@
             app:contentInsetStart="40dp"
             >
 
+            <!-- Using the primary text colour does not work on older versions -->
             <ImageView android:id="@+id/main_logo"
                 android:tint="@color/white"
                 app:srcCompat="@drawable/ic_hydra"

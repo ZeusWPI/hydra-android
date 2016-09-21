@@ -24,6 +24,7 @@ import be.ugent.zeus.hydra.requests.minerva.AgendaRequest;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import org.joda.time.DateTime;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 
 import java.util.Collection;
 
@@ -149,6 +150,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             Log.w(TAG, "Sync error.", e);
             SyncNotificationBuilder.showError(getContext());
             broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
+        }  catch (HttpMessageNotReadableException e) {
+            Log.e(TAG, "Sync error.", e);
+            SyncNotificationBuilder.showError(getContext());
+            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
+            syncResult.stats.numParseExceptions++;
         }
     }
 
