@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDaoLoader;
 import be.ugent.zeus.hydra.models.minerva.Announcement;

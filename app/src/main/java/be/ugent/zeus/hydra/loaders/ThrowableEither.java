@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.loader;
+package be.ugent.zeus.hydra.loaders;
 
 import android.support.annotation.NonNull;
 

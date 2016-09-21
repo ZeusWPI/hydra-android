@@ -8,7 +8,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.requests.executor.RequestCallback;

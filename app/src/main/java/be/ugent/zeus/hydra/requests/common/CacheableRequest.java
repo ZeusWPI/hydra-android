@@ -1,8 +1,6 @@
 package be.ugent.zeus.hydra.requests.common;
 
-import android.support.annotation.NonNull;
-
-import be.ugent.zeus.hydra.cache.CacheRequest;
+import be.ugent.zeus.hydra.caching.CacheRequest;
 
 import java.io.Serializable;
 
@@ -14,18 +12,12 @@ import java.io.Serializable;
  *
  * @author feliciaan
  */
-public abstract class CacheableRequest<T extends Serializable> extends AbstractRequest<T> implements CacheRequest<T, T> {
+public abstract class CacheableRequest<T extends Serializable> extends AbstractRequest<T> implements CacheRequest<T> {
 
     protected final String DSA_API_URL = "http://student.ugent.be/hydra/api/2.0/";
     protected final String ZEUS_API_URL = "https://zeus.UGent.be/hydra/api/";
 
     public CacheableRequest(Class<T> clazz) {
         super(clazz);
-    }
-
-    @NonNull
-    @Override
-    public T getData(@NonNull T data) {
-        return data;
     }
 }

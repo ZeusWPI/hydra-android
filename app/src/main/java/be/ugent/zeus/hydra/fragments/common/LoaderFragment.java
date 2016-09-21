@@ -13,13 +13,13 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.requests.executor.RequestCallback;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
- * Fragment that uses the {@link be.ugent.zeus.hydra.loader.AbstractAsyncLoader}.
+ * Fragment that loads {@link be.ugent.zeus.hydra.caching.CacheRequest} using a loader.
  *
  * The fragment supports a progress bar and refresh. The progress bar is automatically hidden. This fragment is
  * mostly used in the home screen.

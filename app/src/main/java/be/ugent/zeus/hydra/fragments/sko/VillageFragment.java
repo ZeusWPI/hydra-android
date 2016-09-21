@@ -8,7 +8,6 @@ import android.support.v7.widget.SearchView;
 import android.view.*;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.fragments.common.RecyclerLoaderFragment;
 import be.ugent.zeus.hydra.models.sko.Exhibitor;
 import be.ugent.zeus.hydra.models.sko.Exhibitors;
@@ -62,7 +61,7 @@ public class VillageFragment extends RecyclerLoaderFragment<Exhibitor, Exhibitor
     }
 
     @Override
-    public CacheRequest<Exhibitors, Exhibitors> getRequest() {
+    public StuVilExhibitorRequest getRequest() {
         return new StuVilExhibitorRequest();
     }
 

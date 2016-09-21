@@ -22,7 +22,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.course.CourseDao;
 import be.ugent.zeus.hydra.minerva.course.CourseDaoLoader;

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.loader;
+package be.ugent.zeus.hydra.loaders;
 
 /**
  * Exception thrown by {@link AbstractAsyncLoader} if the data cannot be loaded.

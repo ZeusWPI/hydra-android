@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.*;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
 import be.ugent.zeus.hydra.models.sko.Timeline;
 import be.ugent.zeus.hydra.recyclerview.adapters.sko.TimelineAdapter;
@@ -77,7 +76,7 @@ public class TimelineFragment extends CachedLoaderFragment<Timeline> implements 
     }
 
     @Override
-    public CacheRequest<Timeline, Timeline> getRequest() {
+    public TimelineRequest getRequest() {
         return new TimelineRequest();
     }
 

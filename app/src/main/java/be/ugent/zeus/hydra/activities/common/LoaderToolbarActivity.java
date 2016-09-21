@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.activities.common;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -9,19 +10,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.cache.CachedAsyncTaskLoader;
-import be.ugent.zeus.hydra.loader.ErrorLoaderCallback;
-import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.loaders.ErrorLoaderCallback;
+import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
+import be.ugent.zeus.hydra.loaders.ThrowableEither;
+import be.ugent.zeus.hydra.requests.common.SimpleCacheRequest;
 
 import java.io.Serializable;
 
 /**
- * Activity that uses the {@link CachedAsyncTaskLoader}.
+ * Activity that loads {@link be.ugent.zeus.hydra.caching.CacheRequest} using a loader.
  *
  * @author Niko Strijbol
  */
-public abstract class LoaderToolbarActivity<D extends Serializable> extends ToolbarActivity implements ErrorLoaderCallback<D, D> {
+public abstract class LoaderToolbarActivity<D extends Serializable> extends ToolbarActivity implements ErrorLoaderCallback<D> {
 
     private static final String TAG = "LoaderToolbarActivity";
 
@@ -87,7 +90,8 @@ public abstract class LoaderToolbarActivity<D extends Serializable> extends Tool
      */
     @Override
     public Loader<ThrowableEither<D>> onCreateLoader(int id, Bundle args) {
-        return new CachedAsyncTaskLoader<>(getRequest(), getApplicationContext(), shouldRenew);
+        Context c = getApplicationContext();
+        return new RequestAsyncTaskLoader<>(new SimpleCacheRequest<>(c, getRequest(), shouldRenew), c);
     }
 
     /**

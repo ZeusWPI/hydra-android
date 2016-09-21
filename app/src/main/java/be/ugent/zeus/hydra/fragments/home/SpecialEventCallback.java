@@ -7,9 +7,9 @@ import android.support.v4.content.Loader;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.loader.AbstractAsyncLoader;
-import be.ugent.zeus.hydra.loader.LoaderException;
-import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.loaders.AbstractAsyncLoader;
+import be.ugent.zeus.hydra.loaders.LoaderException;
+import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;

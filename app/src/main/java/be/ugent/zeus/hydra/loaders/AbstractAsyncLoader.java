@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.loader;
+package be.ugent.zeus.hydra.loaders;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -26,16 +26,6 @@ public abstract class AbstractAsyncLoader<D> extends AsyncTaskLoader<ThrowableEi
         super(context);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * The data is loaded and cached by default.
-     *
-     * If the refresh flag is set, the existing cache is ignored, a new request is made and the result of that
-     * request is saved in the cache.
-     *
-     * @return The data or the error that occurred while getting the data.
-     */
     @Override
     public ThrowableEither<D> loadInBackground() {
 
