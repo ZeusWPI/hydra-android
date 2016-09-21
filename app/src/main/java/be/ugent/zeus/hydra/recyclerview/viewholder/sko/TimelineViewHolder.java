@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder.sko;
 
 import android.net.Uri;
+import android.support.annotation.DrawableRes;
 import android.support.v4.text.util.LinkifyCompat;
 import android.support.v7.widget.CardView;
 import android.text.util.Linkify;
@@ -63,6 +64,7 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
         }
         CharSequence dateString = DateUtils.relativeDateTimeString(post.getCreatedAt(), itemView.getContext(), true);
         toolbar.setTitle(post.getDisplayType() + " van " + post.getOrigin() + " • " + dateString);
+        toolbar.setIcon(getOriginIcon(post));
 
         //If there is a body, set it and set the expand button, else hide those.
         if(post.getBody() != null) {
@@ -74,6 +76,18 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
                     adapter.getHelper().openCustomTab(Uri.parse(post.getLink()));
                 }
             });
+        }
+    }
+
+    @DrawableRes
+    public static int getOriginIcon(TimelinePost post) {
+        switch (post.getOrigin()) {
+            case "facebook":
+                return R.drawable.ic_social_facebook;
+            case "instagram":
+                return R.drawable.ic_social_instagram;
+            default:
+                return R.drawable.ic_sko;
         }
     }
 }
