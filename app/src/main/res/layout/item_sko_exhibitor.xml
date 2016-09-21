@@ -35,7 +35,6 @@
                 tools:text="Titel van het evenement die zeer lang is!" />
 
             <TextView
-                android:paddingBottom="@dimen/card_title_padding_bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/content"
