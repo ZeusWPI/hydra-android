@@ -42,9 +42,9 @@ public class VillageFragment extends RecyclerLoaderFragment<Exhibitor, Exhibitor
         super.onViewCreated(view, savedInstanceState);
 
         searchView = $(view, R.id.search_view);
-        recyclerView.requestFocus();
         searchView.setSuggestionsAdapter(null);
         searchView.setOnQueryTextListener(adapter);
+        recyclerView.requestFocus();
 
         refreshLayout = $(view, R.id.refresh_layout);
         refreshLayout.setOnRefreshListener(this);

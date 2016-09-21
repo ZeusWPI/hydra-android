@@ -48,7 +48,6 @@ public class LineupViewHolder extends DataViewHolder<Artist> implements View.OnC
         title = $(itemView, R.id.title);
         date = $(itemView, R.id.date);
         image = $(itemView, R.id.card_image);
-        cardView = $(itemView, R.id.card_view);
 
         itemView.setOnCreateContextMenuListener(this);
     }
@@ -58,7 +57,7 @@ public class LineupViewHolder extends DataViewHolder<Artist> implements View.OnC
         title.setText(artist.getName());
         date.setText(getDisplayDate(artist));
         Picasso.with(this.itemView.getContext()).load(artist.getBanner()).into(image);
-        cardView.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ArtistActivity.class);
