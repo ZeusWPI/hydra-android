@@ -26,7 +26,6 @@
             android:id="@+id/post_poster"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxHeight="400dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop" />
 
@@ -39,7 +38,7 @@
             android:id="@+id/post_title"
             android:textSize="@dimen/card_title_size_large"
             style="@style/Base.TextAppearance.AppCompat.Title"
-            tools:text="Dit is een schamper artikel! Met een lange titel van meerdere lijnen!" />
+            tools:text="SKO aankondiging" />
 
         <!-- According to material spec this should have a bottom padding of 16dp, but that is ugly -->
         <TextView

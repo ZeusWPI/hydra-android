@@ -36,7 +36,7 @@ public class ArtistActivity extends ToolbarActivity {
         title.setText(artist.getName());
 
         if(artist.getImage() != null) {
-            Picasso.with(this).load(artist.getImage()).into(headerImage);
+            Picasso.with(this).load(artist.getImage()).fit().centerInside().into(headerImage);
         }
 
         date.setText(LineupViewHolder.getDisplayDate(artist));

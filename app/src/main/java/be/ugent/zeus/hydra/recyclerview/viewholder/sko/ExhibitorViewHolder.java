@@ -9,7 +9,6 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.sko.Exhibitor;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
-import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.utils.html.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -34,7 +33,6 @@ public class ExhibitorViewHolder extends DataViewHolder<Exhibitor> {
     @Override
     public void populate(final Exhibitor data) {
         name.setText(data.getName());
-        int size = ViewUtils.convertDpToPixelInt(80, itemView.getContext());
         Picasso.with(itemView.getContext()).load(data.getLogo()).fit().centerInside().into(imageView);
 
         final Spanned converted = Utils.fromHtml(data.getContent());

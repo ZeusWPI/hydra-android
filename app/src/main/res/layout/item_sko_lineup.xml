@@ -20,7 +20,6 @@
             android:id="@+id/card_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxHeight="400dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop" />
 
@@ -33,7 +32,7 @@
             android:paddingTop="@dimen/card_title_padding_top"
             android:textSize="@dimen/card_title_size_large"
             style="@style/Base.TextAppearance.AppCompat.Title"
-            tools:text="Dit is een schamper artikel! Met een lange titel van meerdere lijnen!" />
+            tools:text="Dit is een Artiest!" />
 
         <TextView
             android:paddingLeft="@dimen/card_title_padding_vertical"
