@@ -162,6 +162,13 @@
             android:theme="@style/Hydra.Main.NoActionBar.Sko"
             android:parentActivityName=".activities.sko.OverviewActivity" />
 
+        <!-- SKO artist page -->
+        <activity
+            android:name=".activities.sko.ArtistActivity"
+            android:label="Artiest"
+            android:theme="@style/Hydra.Main.NoActionBar.Sko.SystemWindows"
+            android:parentActivityName=".activities.sko.OverviewActivity" />
+
         <!-- Onboarding activity -->
         <activity
             android:name=".activities.OnboardingActivity"

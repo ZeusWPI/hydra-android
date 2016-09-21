@@ -1,5 +1,8 @@
 package be.ugent.zeus.hydra.models.sko;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import com.google.gson.annotations.JsonAdapter;
@@ -14,7 +17,7 @@ import java.io.Serializable;
  * @author Niko Strijbol
  */
 @SuppressWarnings("unused")
-public class Artist implements Serializable {
+public class Artist implements Serializable, Parcelable {
 
     private String name;
     @JsonAdapter(ZonedThreeTenAdapter.class)
@@ -86,4 +89,45 @@ public class Artist implements Serializable {
     public String getStage() {
         return stage;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeSerializable(this.start);
+        dest.writeSerializable(this.end);
+        dest.writeString(this.banner);
+        dest.writeString(this.image);
+        dest.writeString(this.content);
+        dest.writeString(this.stage);
+    }
+
+    public Artist() {
+    }
+
+    protected Artist(Parcel in) {
+        this.name = in.readString();
+        this.start = (ZonedDateTime) in.readSerializable();
+        this.end = (ZonedDateTime) in.readSerializable();
+        this.banner = in.readString();
+        this.image = in.readString();
+        this.content = in.readString();
+        this.stage = in.readString();
+    }
+
+    public static final Parcelable.Creator<Artist> CREATOR = new Parcelable.Creator<Artist>() {
+        @Override
+        public Artist createFromParcel(Parcel source) {
+            return new Artist(source);
+        }
+
+        @Override
+        public Artist[] newArray(int size) {
+            return new Artist[size];
+        }
+    };
 }

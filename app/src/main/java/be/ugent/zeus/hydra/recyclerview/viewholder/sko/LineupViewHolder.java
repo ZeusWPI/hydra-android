@@ -1,7 +1,10 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder.sko;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.provider.CalendarContract;
+import android.support.v7.widget.CardView;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.sko.ArtistActivity;
 import be.ugent.zeus.hydra.models.sko.Artist;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import com.squareup.picasso.Picasso;
@@ -18,6 +22,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 
 import java.util.Locale;
 
+import static be.ugent.zeus.hydra.activities.sko.ArtistActivity.PARCEL_ARTIST;
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
@@ -35,6 +40,7 @@ public class LineupViewHolder extends DataViewHolder<Artist> implements View.OnC
     private TextView date;
     private ImageView image;
     private Artist artist;
+    private CardView cardView;
 
     public LineupViewHolder(View itemView) {
         super(itemView);
@@ -42,6 +48,7 @@ public class LineupViewHolder extends DataViewHolder<Artist> implements View.OnC
         title = $(itemView, R.id.title);
         date = $(itemView, R.id.date);
         image = $(itemView, R.id.card_image);
+        cardView = $(itemView, R.id.card_view);
 
         itemView.setOnCreateContextMenuListener(this);
     }
@@ -51,6 +58,14 @@ public class LineupViewHolder extends DataViewHolder<Artist> implements View.OnC
         title.setText(artist.getName());
         date.setText(getDisplayDate(artist));
         Picasso.with(this.itemView.getContext()).load(artist.getBanner()).into(image);
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ArtistActivity.class);
+                intent.putExtra(PARCEL_ARTIST, (Parcelable) artist);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -64,7 +79,7 @@ public class LineupViewHolder extends DataViewHolder<Artist> implements View.OnC
      *
      * @return The text to display.
      */
-    private String getDisplayDate(Artist artist) {
+    public static String getDisplayDate(Artist artist) {
 
         LocalDateTime start = artist.getLocalStart();
         LocalDateTime end = artist.getLocalEnd();
@@ -92,18 +107,22 @@ public class LineupViewHolder extends DataViewHolder<Artist> implements View.OnC
     public boolean onMenuItemClick(MenuItem item) {
 
         if(artist != null && item.getItemId() == MENU_ID_ADD_TO_CALENDAR) {
-            Intent intent = new Intent(Intent.ACTION_INSERT)
-                    .setData(CalendarContract.Events.CONTENT_URI)
-                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, artist.getStart().toInstant().toEpochMilli())
-                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, artist.getEnd().toInstant().toEpochMilli())
-                    .putExtra(CalendarContract.Events.TITLE, artist.getName())
-                    .putExtra(CalendarContract.Events.EVENT_LOCATION, LOCATION)
-                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
-
-            title.getContext().startActivity(intent);
+            addToCalendar(title.getContext(), artist);
             return true;
         }
 
         return false;
+    }
+
+    public static void addToCalendar(Context context, Artist artist) {
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, artist.getStart().toInstant().toEpochMilli())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, artist.getEnd().toInstant().toEpochMilli())
+                .putExtra(CalendarContract.Events.TITLE, artist.getName())
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, LOCATION)
+                .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+
+        context.startActivity(intent);
     }
 }

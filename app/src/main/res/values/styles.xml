@@ -69,4 +69,9 @@
         <item name="colorAccent">@color/sko_red</item>
     </style>
 
+    <style name="Hydra.Main.NoActionBar.Sko.SystemWindows" parent="Hydra.Main.NoActionBar.Sko">
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
+    </style>
+
 </resources>
