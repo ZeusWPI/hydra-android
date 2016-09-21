@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.recyclerview.viewholder.sko;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
 import android.support.v4.text.util.LinkifyCompat;
-import android.support.v7.widget.CardView;
 import android.text.util.Linkify;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,7 +29,6 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
     private TextView title;
     private TextView subtitle;
     private TextView body;
-    private CardView cardView;
     private NowToolbar toolbar;
 
     public TimelineViewHolder(View itemView, TimelineAdapter adapter) {
@@ -39,7 +37,6 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
         poster = $(itemView, R.id.post_poster);
         title = $(itemView, R.id.post_title);
         body = $(itemView, R.id.post_body);
-        cardView = $(itemView, R.id.post_card_view);
         subtitle = $(itemView, R.id.post_subtitle);
         toolbar = $(itemView, R.id.sko_now_toolbar);
     }
@@ -47,8 +44,8 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
     @Override
     public void populate(final TimelinePost post) {
 
+        Picasso.with(itemView.getContext()).load(post.getCoverMedia()).into(poster);
         if(post.getCoverMedia() != null) {
-            Picasso.with(itemView.getContext()).load(post.getCoverMedia()).into(poster);
             int value = (int) itemView.getContext().getResources().getDimension(R.dimen.card_title_padding_top_large_title);
             title.setPadding(title.getPaddingLeft(), value, title.getPaddingRight(), title.getPaddingBottom());
         } else {
@@ -70,13 +67,20 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
         if(post.getBody() != null) {
             body.setText(post.getBody());
             LinkifyCompat.addLinks(body, Linkify.WEB_URLS);
-            cardView.setOnClickListener(new View.OnClickListener() {
+            body.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     adapter.getHelper().openCustomTab(Uri.parse(post.getLink()));
                 }
             });
         }
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.getHelper().openCustomTab(Uri.parse(post.getLink()));
+            }
+        });
     }
 
     @DrawableRes
