@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/post_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,6 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <be.ugent.zeus.hydra.views.NowToolbar
+            android:id="@+id/sko_now_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:showMenu="false" />
 
         <ImageView
             android:id="@+id/post_poster"
@@ -46,45 +52,15 @@
             style="@style/TextAppearance.AppCompat.Subhead"
             tools:text="Bericht van facebook." />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/card_actions_padding">
-
-            <Button
-                android:id="@+id/post_button_link"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="?attr/borderlessButtonStyle"
-                android:textColor="?attr/colorAccent"
-                android:text="Link openen"/>
-
-            <android.support.v4.widget.Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <ImageButton
-                android:id="@+id/post_expand_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                tools:src="@drawable/ic_keyboard_arrow_up_24dp"
-                style="?attr/borderlessButtonStyle" />
-
-        </LinearLayout>
-
         <!-- According to material spec this should have a top padding of 16dp, but that is ugly -->
         <TextView
-            android:visibility="gone"
             android:paddingLeft="@dimen/card_text_padding_vertical"
             android:paddingRight="@dimen/card_text_padding_vertical"
             android:paddingBottom="@dimen/card_text_padding_bottom_no_content"
             android:id="@+id/post_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Heel interessante tekst over iets."
-            tools:visibility="visible" />
+            tools:text="Heel interessante tekst over iets." />
 
     </LinearLayout>
 

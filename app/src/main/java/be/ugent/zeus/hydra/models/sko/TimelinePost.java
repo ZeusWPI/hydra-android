@@ -87,6 +87,24 @@ public class TimelinePost implements Serializable {
     }
 
     /**
+     * Get the url to an image as cover. If the poster is not set and this is an image, the media is used.
+     *
+     * @return The url.
+     */
+    @Nullable
+    public String getCoverMedia() {
+        if(getPoster() != null) {
+            return getPoster();
+        } else {
+            if(getPostType().equals(PHOTO)) {
+                return getMedia();
+            } else {
+                return null;
+            }
+        }
+    }
+
+    /**
      * @return The text of the type to display.
      */
     @NonNull

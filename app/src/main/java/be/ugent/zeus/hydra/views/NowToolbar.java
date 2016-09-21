@@ -65,6 +65,9 @@ public class NowToolbar extends LinearLayout {
             this.menu = a.getInt(R.styleable.NowToolbar_menu, R.menu.now_toolbar_hide);
             iconView.setImageResource(a.getResourceId(R.styleable.NowToolbar_icon, R.drawable.ic_tabs_home));
             titleView.setText(a.getString(R.styleable.NowToolbar_title));
+            if(!a.getBoolean(R.styleable.NowToolbar_showMenu, true)) {
+                menuButton.setVisibility(GONE);
+            }
         } finally {
             a.recycle();
         }

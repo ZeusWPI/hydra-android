@@ -10,42 +10,19 @@ import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.sko.TimelineViewHolder;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
  * @author Niko Strijbol
  */
 public class TimelineAdapter extends ItemAdapter<TimelinePost, TimelineViewHolder> {
 
-    private final Set<TimelinePost> timelinePosts = new HashSet<>();
     private final ActivityHelper helper;
 
     public TimelineAdapter(ActivityHelper helper) {
         this.helper = helper;
     }
 
-    public void setExpanded(TimelinePost post) {
-        timelinePosts.add(post);
-    }
-
-    public void setNotExpanded(TimelinePost post) {
-        timelinePosts.remove(post);
-    }
-
-    public boolean isExpanded(TimelinePost post) {
-        return timelinePosts.contains(post);
-    }
-
     public ActivityHelper getHelper() {
         return helper;
-    }
-
-    @Override
-    public void setItems(List<TimelinePost> list) {
-        super.setItems(list);
-        timelinePosts.clear();
     }
 
     @Override
