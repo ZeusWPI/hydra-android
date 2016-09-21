@@ -60,7 +60,9 @@ public class LineupFragment extends CachedLoaderFragment<Artists> implements Swi
         refreshLayout = $(view, R.id.refresh_layout);
         refreshLayout.setOnRefreshListener(this);
 
-        joiner = new RvJoiner();
+        if(joiner == null) {
+            joiner = new RvJoiner();
+        }
         recyclerView.setAdapter(joiner.getAdapter());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }

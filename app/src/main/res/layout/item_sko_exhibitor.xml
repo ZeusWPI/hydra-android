@@ -47,6 +47,8 @@
         </LinearLayout>
 
         <ImageView
+            android:layout_marginLeft="@dimen/content_spacing"
+            android:layout_marginStart="@dimen/content_spacing"
             android:layout_marginTop="@dimen/card_title_padding_top_large_title"
             android:layout_marginBottom="@dimen/card_title_padding_bottom"
             android:layout_width="80dp"
