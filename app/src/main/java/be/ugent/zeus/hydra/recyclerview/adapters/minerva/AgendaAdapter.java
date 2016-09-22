@@ -10,19 +10,14 @@ import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemLoader;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DateHeaderViewHolder;
 import be.ugent.zeus.hydra.recyclerview.viewholder.minerva.AgendaViewHolder;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * @author Niko Strijbol
  */
 public class AgendaAdapter extends EmptyItemLoader<AgendaItem, AgendaViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
 
-    private static final Locale locale = new Locale("nl");
-    private static final DateFormat INT_FORMATTER = new SimpleDateFormat("ddMMyyyy", locale);
+    private static final DateTimeFormatter INT_FORMATTER = DateTimeFormatter.ofPattern("ddMMyyyy");
 
     public AgendaAdapter() {
         super(R.layout.item_no_data);
@@ -43,8 +38,7 @@ public class AgendaAdapter extends EmptyItemLoader<AgendaItem, AgendaViewHolder>
         if(getItemViewType(position) == EMPTY_VIEW) {
             return -1; //No header
         } else {
-            Date date = items.get(position).getStartDate();
-            return Integer.parseInt(INT_FORMATTER.format(date));
+            return Integer.parseInt(items.get(position).getStartDate().format(INT_FORMATTER));
         }
     }
 

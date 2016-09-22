@@ -16,6 +16,8 @@ import be.ugent.zeus.hydra.minerva.database.Dao;
 import be.ugent.zeus.hydra.minerva.database.Utils;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.utils.TtbUtils;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.*;
 
@@ -78,7 +80,7 @@ public class AnnouncementDao extends Dao {
             Log.d(TAG, "Removed " + rows + " stale announcements.");
 
             //If we are doing the first sync, we want to set everything to read.
-            Date now = new Date();
+            ZonedDateTime now = ZonedDateTime.now();
 
             final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             final boolean showEmail = pref.getBoolean(MinervaFragment.PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL, MinervaFragment.PREF_DEFAULT_ANNOUNCEMENT_NOTIFICATION_EMAIL);
@@ -103,7 +105,7 @@ public class AnnouncementDao extends Dao {
                     //If this is the first sync or it has an email and is set to email, add the read date.
                     if(first || (!showEmail && announcement.isEmailSent())) {
                         announcement.setRead(now);
-                        value.put(AnnouncementTable.COLUMN_READ_DATE, now.getTime());
+                        value.put(AnnouncementTable.COLUMN_READ_DATE, TtbUtils.serialize(now));
                     }
 
                     //If the announcement is unread, add it to the new announcements
@@ -141,8 +143,8 @@ public class AnnouncementDao extends Dao {
         values.put(AnnouncementTable.COLUMN_EMAIL_SENT, boolToInt(a.isEmailSent()));
         values.put(AnnouncementTable.COLUMN_STICKY_UNTIL, 0);
         values.put(AnnouncementTable.COLUMN_LECTURER, a.getLecturer());
-        values.put(AnnouncementTable.COLUMN_DATE, a.getDate().getTime());
-        values.put(AnnouncementTable.COLUMN_READ_DATE, a.isRead() ? a.getDate().getTime() : 0);
+        values.put(AnnouncementTable.COLUMN_DATE, TtbUtils.serialize(a.getDate()));
+        values.put(AnnouncementTable.COLUMN_READ_DATE, a.isRead() ? TtbUtils.serialize(a.getDate()) : -1);
 
         return values;
     }

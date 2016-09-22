@@ -16,7 +16,7 @@ import be.ugent.zeus.hydra.requests.common.Request;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
-import org.joda.time.DateTime;
+import org.threeten.bp.LocalDateTime;
 
 import java.io.IOException;
 
@@ -129,8 +129,8 @@ public class AccountUtils {
             //If the bundle contains an authorisation code.
             if(result.containsKey(AccountManager.KEY_AUTHTOKEN)) {
                 //Check the expiration date
-                DateTime expires = getExpirationDate(manager, account);
-                DateTime now = DateTime.now();
+                LocalDateTime expires = getExpirationDate(manager, account);
+                LocalDateTime now = LocalDateTime.now();
 
                 String token = result.getString(AccountManager.KEY_AUTHTOKEN);
 
@@ -168,8 +168,8 @@ public class AccountUtils {
      * @param account The account to get the date for.
      * @return The date.
      */
-    public static DateTime getExpirationDate(AccountManager manager, Account account) {
+    public static LocalDateTime getExpirationDate(AccountManager manager, Account account) {
         String exp = manager.getUserData(account, EXP_DATE);
-        return MinervaAuthenticator.formatter.parseDateTime(exp);
+        return LocalDateTime.parse(exp, MinervaAuthenticator.formatter);
     }
 }

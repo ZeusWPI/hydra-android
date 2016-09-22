@@ -43,7 +43,7 @@ public class ActivityCardViewHolder extends HideableViewHolder {
 
         title.setText(activity.getTitle());
         association.setText(activity.getLocation());
-        start.setText(DateUtils.relativeDateString(activity.getStartDate(), itemView.getContext()));
+        start.setText(DateUtils.relativeDateTimeString(activity.getStart(), itemView.getContext(), false));
         String description = itemView.getResources().getString(R.string.home_card_description);
         toolbar.setTitle(String.format(description, activity.getAssociation().getDisplayName()));
 

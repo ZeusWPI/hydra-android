@@ -10,6 +10,7 @@ import android.util.Log;
 import be.ugent.zeus.hydra.minerva.database.Dao;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.utils.TtbUtils;
 
 import java.util.*;
 
@@ -118,23 +119,15 @@ public class AgendaDao extends Dao {
         values.put(AgendaTable.COLUMN_COURSE, a.getCourseId());
         values.put(AgendaTable.COLUMN_TITLE, a.getTitle());
         values.put(AgendaTable.COLUMN_CONTENT, a.getContent());
-        values.put(AgendaTable.COLUMN_START_DATE, a.getStartDate().getTime());
-        values.put(AgendaTable.COLUMN_END_DATE, a.getEndDate().getTime());
+        values.put(AgendaTable.COLUMN_START_DATE, TtbUtils.serialize(a.getStartDate()));
+        values.put(AgendaTable.COLUMN_END_DATE, TtbUtils.serialize(a.getEndDate()));
         values.put(AgendaTable.COLUMN_LOCATION, a.getLocation());
         values.put(AgendaTable.COLUMN_TYPE, a.getType());
         values.put(AgendaTable.COLUMN_LAST_EDIT_USER, a.getLastEditUser());
-        values.put(AgendaTable.COLUMN_LAST_EDIT, a.getLastEdited().getTime());
+        values.put(AgendaTable.COLUMN_LAST_EDIT, TtbUtils.serialize(a.getLastEdited()));
         values.put(AgendaTable.COLUMN_LAST_EDIT_TYPE, a.getLastEditType());
 
         return values;
-    }
-
-    private static boolean intToBool(int integer) {
-        return integer == 1;
-    }
-
-    private static int boolToInt(boolean bool) {
-        return bool ? 1 : 0;
     }
 
     /**
@@ -242,12 +235,12 @@ public class AgendaDao extends Dao {
                 a.setItemId(cursor.getInt(columnIndex));
                 a.setTitle(cursor.getString(columnTitle));
                 a.setContent(cursor.getString(columnContent));
-                a.setStartDate(new Date(cursor.getLong(columnStartDate)));
-                a.setEndDate(new Date(cursor.getLong(columnEndDate)));
+                a.setStartDate(TtbUtils.unserialize(cursor.getLong(columnStartDate)));
+                a.setEndDate(TtbUtils.unserialize(cursor.getLong(columnEndDate)));
                 a.setLocation(cursor.getString(columnLocation));
                 a.setType(cursor.getString(columnType));
                 a.setLastEditUser(cursor.getString(columnLastEditUser));
-                a.setLastEdited(new Date(cursor.getLong(columnLastEdit)));
+                a.setLastEdited(TtbUtils.unserialize(cursor.getLong(columnLastEdit)));
                 a.setLastEditType(cursor.getString(columnLastEditType));
                 result.add(a);
             }

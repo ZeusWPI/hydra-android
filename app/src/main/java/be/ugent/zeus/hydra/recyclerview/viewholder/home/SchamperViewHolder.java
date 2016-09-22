@@ -40,7 +40,7 @@ public class SchamperViewHolder extends HideableViewHolder {
         final Article article = card.<SchamperCard>checkCard(HomeCard.CardType.SCHAMPER).getArticle();
 
         title.setText(article.getTitle());
-        date.setText(DateUtils.relativeDateString(article.getPubDate(), itemView.getContext()));
+        date.setText(DateUtils.relativeDateTimeString(article.getPubDate(), itemView.getContext()));
         author.setText(article.getAuthor());
 
         Picasso.with(this.itemView.getContext()).load(article.getImage()).fit().centerInside().into(image);

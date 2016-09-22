@@ -17,11 +17,10 @@ import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
 import be.ugent.zeus.hydra.viewpager.MenuPagerAdapter;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeComparator;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.Collections;
-import java.util.Date;
 
 /**
  * Display the menu of the resto in a separate view, similar to the old app.
@@ -36,7 +35,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
 
     private MenuPagerAdapter pageAdapter;
     private ViewPager mViewPager;
-    private Date startDate;
+    private LocalDate startDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +66,15 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
         Intent intent = getIntent();
 
         //Get the default start date
-        Date start = new Date();
-        if(DateTime.now().isAfter(DateTime.now().withHourOfDay(RestoFragment.CLOSING_HOUR))) {
-            start = DateTime.now().plusDays(1).toDate();
+        ZonedDateTime start = ZonedDateTime.now();
+        if(start.isAfter(start.withHour(RestoFragment.CLOSING_HOUR))) {
+            start = start.plusDays(1);
         }
-        startDate = new Date(intent.getLongExtra(ARG_DATE, start.getTime()));
+        if(intent.hasExtra(ARG_DATE)) {
+            startDate = (LocalDate) intent.getSerializableExtra(ARG_DATE);
+        } else {
+            startDate = start.toLocalDate();
+        }
 
         startLoader();
     }
@@ -95,7 +98,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
         for (int i = 0; i < data.size(); i++) {
             RestoMenu menu = data.get(i);
             //Set the tab to this day!
-            if(DateTimeComparator.getDateOnlyInstance().compare(menu.getDate(), startDate) >= 0) {
+            if(menu.getDate().isEqual(startDate)) {
                 mViewPager.setCurrentItem(i, false);
                 break;
             }

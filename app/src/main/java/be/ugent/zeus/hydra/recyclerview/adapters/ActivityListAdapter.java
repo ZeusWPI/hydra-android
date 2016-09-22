@@ -7,19 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.ActivityDetailActivity;
 import be.ugent.zeus.hydra.models.association.Activity;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DateHeaderViewHolder;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -30,9 +28,8 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapter.CardViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
 
-    private static final Locale locale = new Locale("nl");
-    private static final DateFormat INT_FORMATTER = new SimpleDateFormat("ddMMyyyy", locale);
-    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("HH:mm", locale);
+    private static final DateTimeFormatter INTEGER_FORMATTER = DateTimeFormatter.ofPattern("ddMMyyyy");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
     public static class CardViewHolder extends RecyclerView.ViewHolder {
 
@@ -50,7 +47,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
         private void populate(final Activity activity) {
             title.setText(activity.getTitle());
             association.setText(activity.getAssociation().getDisplayName());
-            start.setText(FORMATTER.format(activity.getStart()));
+            start.setText(activity.getLocalStart().format(FORMATTER));
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -84,8 +81,8 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
      */
     @Override
     public long getHeaderId(int position) {
-        Date date = data.get(position).getStart();
-        return Integer.parseInt(INT_FORMATTER.format(date));
+        LocalDateTime date = data.get(position).getLocalStart();
+        return Integer.parseInt(date.format(INTEGER_FORMATTER));
     }
 
     @Override

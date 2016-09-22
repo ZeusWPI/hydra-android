@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.models.cards;
 
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
+import org.threeten.bp.Duration;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.List;
 
@@ -22,9 +22,9 @@ public class MinervaAnnouncementsCard extends HomeCard {
 
     @Override
     public int getPriority() {
-        DateTime date = new DateTime(this.getAnnouncements().get(0).getDate());
-        Duration duration = new Duration(date, new DateTime());
-        return (int) (1000 - (duration.getStandardDays() * 100));
+        ZonedDateTime date = this.getAnnouncements().get(0).getDate();
+        Duration duration = Duration.between(date, ZonedDateTime.now());
+        return (int) (1000 - (duration.toDays() * 100));
     }
 
     @Override

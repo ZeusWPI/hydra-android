@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.models.cards;
 
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.Period;
 
 /**
  * Created by silox on 18/04/16.
@@ -17,9 +17,9 @@ public class RestoMenuCard extends HomeCard {
 
     @Override
     public int getPriority() {
-        DateTime jodaDate = new DateTime(this.getRestoMenu().getDate());
-        Duration duration = new Duration(new DateTime(), jodaDate);
-        return (int) (1000 - (duration.getStandardDays()*100));
+        LocalDate date = getRestoMenu().getDate();
+        Period duration = Period.between(LocalDate.now(), date);
+        return 1000 - (duration.getDays() * 100);
     }
 
     @Override

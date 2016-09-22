@@ -8,13 +8,12 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity;
-import be.ugent.zeus.hydra.minerva.auth.models.BearerToken;
 import be.ugent.zeus.hydra.activities.minerva.AuthActivity;
-import be.ugent.zeus.hydra.requests.common.RequestFailureException;
+import be.ugent.zeus.hydra.minerva.auth.models.BearerToken;
 import be.ugent.zeus.hydra.requests.common.Request;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import be.ugent.zeus.hydra.requests.common.RequestFailureException;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * Authenticator to save Minerva account details in the AccountManager. Minerva uses OAuth2 authentication with
@@ -51,7 +50,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
     public static final String EXP_DATE = "expDate";
     private static final String EXP_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-    public static final DateTimeFormatter formatter = DateTimeFormat.forPattern(EXP_DATE_FORMAT);
+    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(EXP_DATE_FORMAT);
 
     private Context mContext;
     private AccountManager manager;
@@ -100,8 +99,8 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
 
         //Check the expiration date
         if(!TextUtils.isEmpty(accessToken)) {
-            DateTime expires = formatter.parseDateTime(manager.getUserData(account, EXP_DATE));
-            DateTime now = DateTime.now();
+            LocalDateTime expires = LocalDateTime.parse(manager.getUserData(account, EXP_DATE), formatter);
+            LocalDateTime now = LocalDateTime.now();
 
             //The token is invalid, so get get new one.
             if(now.isAfter(expires)) {
@@ -164,8 +163,8 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
             }
 
 
-            DateTime expiration = DateTime.now().plusSeconds(token.getExpiresIn());
-            manager.setUserData(account, EXP_DATE, formatter.print(expiration));
+            LocalDateTime expiration = LocalDateTime.now().plusSeconds(token.getExpiresIn());
+            manager.setUserData(account, EXP_DATE, expiration.format(formatter));
 
             return token.getAccessToken();
         } catch (RequestFailureException e) {

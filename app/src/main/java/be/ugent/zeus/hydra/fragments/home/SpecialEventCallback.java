@@ -17,9 +17,9 @@ import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.requests.SpecialRemoteEventRequest;
 import be.ugent.zeus.hydra.requests.common.RequestFailureException;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,14 +68,14 @@ class SpecialEventCallback extends HomeLoaderCallback {
 
         private List<HomeCard> convertData(@NonNull SpecialEventWrapper data) {
             List<HomeCard> list = new ArrayList<>();
-            Date now = new Date();
+            ZonedDateTime now = ZonedDateTime.now();
             for (SpecialEvent event: data.getSpecialEvents()) {
 
                 //Events without date are always shown.
                 if(event.getStart() == null && event.getEnd() == null) {
                     list.add(new SpecialEventCard(event));
                 } else {
-                    if ((event.getStart().before(now) && event.getEnd().after(now)) || (DEVELOPMENT && event.isDevelopment())) {
+                    if ((event.getStart().isBefore(now) && event.getEnd().isAfter(now)) || (DEVELOPMENT && event.isDevelopment())) {
                         list.add(new SpecialEventCard(event));
                     }
                 }

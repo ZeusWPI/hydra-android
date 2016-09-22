@@ -20,9 +20,8 @@ import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.association.Activity;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * Activity to show details of an association's event.
@@ -31,6 +30,8 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
 
     public static final String PARCEL_EVENT = "eventParcelable";
 
+    private static final DateTimeFormatter formatHour = DateTimeFormatter.ofPattern("HH:mm");
+    private static final DateTimeFormatter fullFormatter = DateTimeFormatter.ofPattern("E d MMM H:mm");
     private static final String GENT = "51.3,3.44";
 
     //The data
@@ -75,21 +76,18 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
         }
 
         if(event.getStart() != null) {
-            DateTimeFormatter startTimeFormatter = DateTimeFormat.forPattern("E d MMM H:mm");
-
-            DateTime start = new DateTime(event.getStart());
+            LocalDateTime start = event.getLocalStart();
             if (event.getEnd() != null) {
-                DateTime end = new DateTime(event.getEnd());
-                if (start.dayOfYear() == end.dayOfYear() || start.plusHours(12).isAfter(end)) {
+                LocalDateTime end = event.getLocalEnd();
+                if (start.getDayOfYear() == end.getDayOfYear() || start.plusHours(12).isAfter(end)) {
                     // Use format day month start time - end time
-                    DateTimeFormatter endTimeFormatter = DateTimeFormat.forPattern("H:mm");
-                    date.setText(String.format("%s - %s", startTimeFormatter.print(start), endTimeFormatter.print(end)));
+                    date.setText(String.format("%s - %s", start.format(formatHour), end.format(formatHour)));
                 } else {
                     // Use format with two dates
-                    date.setText(String.format("%s - %s",startTimeFormatter.print(start), startTimeFormatter.print(end)));
+                    date.setText(String.format("%s - %s", start.format(fullFormatter), end.format(fullFormatter)));
                 }
             } else {
-                date.setText(startTimeFormatter.print(start));
+                date.setText(start.format(fullFormatter));
             }
         }
 

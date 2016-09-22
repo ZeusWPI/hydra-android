@@ -14,10 +14,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.utils.html.Utils;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * @author Niko Strijbol
@@ -27,7 +24,7 @@ public class AgendaActivity extends ToolbarActivity {
     public static final String ARG_AGENDA_ITEM = "argAgendaItem";
 
     private AgendaItem agendaItem;
-    private static final DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm", new Locale("nl"));
+    private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,13 +53,11 @@ public class AgendaActivity extends ToolbarActivity {
             location.setText(agendaItem.getLocation());
         }
 
-        String start = format.format(agendaItem.getStartDate());
-        String end = format.format(agendaItem.getEndDate());
         TextView startTime = $(R.id.agenda_time_start);
-        //TODO: deta
-        startTime.setText(start);
         TextView endTime = $(R.id.agenda_time_end);
-        endTime.setText(end);
+
+        startTime.setText(agendaItem.getStartDate().format(format));
+        endTime.setText(agendaItem.getEndDate().format(format));
 
         TextView course = $(R.id.agenda_course);
         if(TextUtils.isEmpty(agendaItem.getCourse().getTitle())) {
@@ -96,8 +91,8 @@ public class AgendaActivity extends ToolbarActivity {
     private void addToCalendar() {
         Intent intent = new Intent(Intent.ACTION_INSERT)
                 .setData(CalendarContract.Events.CONTENT_URI)
-                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, agendaItem.getStartDate().getTime())
-                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, agendaItem.getEndDate().getTime())
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, agendaItem.getStartDate().toInstant().toEpochMilli())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, agendaItem.getEndDate().toInstant().toEpochMilli())
                 .putExtra(CalendarContract.Events.TITLE, agendaItem.getTitle())
                 .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
 

@@ -2,12 +2,14 @@ package be.ugent.zeus.hydra.models.minerva;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.models.converters.ISO8601DateJsonAdapter;
+
+import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by feliciaan on 29/06/16.
@@ -22,19 +24,18 @@ public class Announcement implements Serializable, Parcelable {
     private int itemId;
     @SerializedName("last_edit_user")
     private String lecturer;
-    //TODO: this ignores the timezone for now, because parsing it as MinervaDate is a lot of work; we could also switch to ThreeTenABP
-    @JsonAdapter(ISO8601DateJsonAdapter.class)
+    @JsonAdapter(ZonedThreeTenAdapter.class)
     @SerializedName("last_edit_time")
-    private Date minervaDate;
+    private ZonedDateTime minervaDate;
 
-    private Date read;
+    private ZonedDateTime read;
     private Course course;
 
     public boolean isRead() {
         return read != null;
     }
 
-    public void setRead(Date read) {
+    public void setRead(ZonedDateTime read) {
         this.read = read;
     }
 
@@ -78,11 +79,11 @@ public class Announcement implements Serializable, Parcelable {
         this.lecturer = lecturer;
     }
 
-    public Date getDate() {
+    public ZonedDateTime getDate() {
         return this.minervaDate;
     }
 
-    public void setDate(Date date) {
+    public void setDate(ZonedDateTime date) {
         this.minervaDate = date;
     }
 
@@ -106,8 +107,8 @@ public class Announcement implements Serializable, Parcelable {
         dest.writeByte(this.emailSent ? (byte) 1 : (byte) 0);
         dest.writeInt(this.itemId);
         dest.writeString(this.lecturer);
-        dest.writeLong(this.minervaDate != null ? this.minervaDate.getTime() : -1);
-        dest.writeLong(this.read != null ? this.read.getTime() : -1);
+        dest.writeLong(TtbUtils.serialize(this.minervaDate));
+        dest.writeLong(TtbUtils.serialize(this.read));
         dest.writeSerializable(this.course);
     }
 
@@ -120,10 +121,10 @@ public class Announcement implements Serializable, Parcelable {
         this.emailSent = in.readByte() != 0;
         this.itemId = in.readInt();
         this.lecturer = in.readString();
-        long tmpMinervaDate = in.readLong();
-        this.minervaDate = tmpMinervaDate == -1 ? null : new Date(tmpMinervaDate);
+        long tmp = in.readLong();
+        this.minervaDate = TtbUtils.unserialize(tmp);
         long tmpRead = in.readLong();
-        this.read = tmpRead == -1 ? null : new Date(tmpRead);
+        this.read = TtbUtils.unserialize(tmpRead);
         this.course = (Course) in.readSerializable();
     }
 

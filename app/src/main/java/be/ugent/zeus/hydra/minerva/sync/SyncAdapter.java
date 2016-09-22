@@ -23,8 +23,10 @@ import be.ugent.zeus.hydra.requests.common.RestTemplateException;
 import be.ugent.zeus.hydra.requests.minerva.AgendaRequest;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
-import org.joda.time.DateTime;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.Collection;
 
@@ -87,11 +89,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             //Synchronise agenda
             AgendaRequest agendaRequest = new AgendaRequest(getContext(), account, null);
-            DateTime now = DateTime.now();
+            ZonedDateTime now = LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault());
             //Start time
-            agendaRequest.setStart(now.withTimeAtStartOfDay().toDate());
+            agendaRequest.setStart(now);
             //End time. We take 1 month (+1 day for the start time).
-            agendaRequest.setEnd(now.plusMonths(1).plusDays(1).withTimeAtStartOfDay().toDate());
+            agendaRequest.setEnd(now.plusMonths(1).plusDays(1));
 
             agendaDao.replace(agendaRequest.performRequest().getItems());
 

@@ -23,7 +23,7 @@ import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.views.MenuTable;
-import org.joda.time.DateTime;
+import org.threeten.bp.LocalDateTime;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -125,7 +125,8 @@ public class RestoFragment extends CachedLoaderFragment<RestoOverview> {
         }
 
         RestoMenu menu = data.get(0);
-        if(DateTime.now().isAfter(DateTime.now().withHourOfDay(CLOSING_HOUR)) || DateTime.now().isAfter(new DateTime(menu.getDate()))) {
+        LocalDateTime now = LocalDateTime.now();
+        if(now.isAfter(now.withHour(CLOSING_HOUR)) || now.isAfter(menu.getDate().atStartOfDay())) {
             menu = data.get(1);
         }
 

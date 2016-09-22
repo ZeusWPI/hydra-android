@@ -5,8 +5,7 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
-
-import java.util.Date;
+import be.ugent.zeus.hydra.utils.TtbUtils;
 
 /**
  * Class to extract a {@link be.ugent.zeus.hydra.models.minerva.Announcement} from a {@link android.database.Cursor}.
@@ -47,8 +46,8 @@ class AnnouncementExtractor {
         a.setContent(cursor.getString(columnContent));
         a.setEmailSent(intToBool(cursor.getInt(columnEmailSent)));
         a.setLecturer(cursor.getString(columnLecturer));
-        a.setDate(longToDate(cursor.getLong(columnDate)));
-        a.setRead(longToDate(cursor.getLong(columnReadDate)));
+        a.setDate(TtbUtils.unserialize(cursor.getLong(columnDate)));
+        a.setRead(TtbUtils.unserialize(cursor.getLong(columnReadDate)));
 
         return a;
     }
@@ -166,23 +165,5 @@ class AnnouncementExtractor {
      */
     public static boolean intToBool(int integer) {
         return integer == 1;
-    }
-
-    /**
-     * @return 1 if {@code bool} is true, else 0.
-     */
-    public static int boolToInt(boolean bool) {
-        return bool ? 1 : 0;
-    }
-
-    /**
-     * @return Null if {@code date} is 0, else the date represented by this long.
-     */
-    public static Date longToDate(long date) {
-        if(date == 0) {
-            return null;
-        } else {
-            return new Date(date);
-        }
     }
 }

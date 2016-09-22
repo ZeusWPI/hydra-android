@@ -2,13 +2,17 @@ package be.ugent.zeus.hydra.models.association;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
-import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
+import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by feliciaan on 27/01/16.
@@ -16,10 +20,10 @@ import java.util.Date;
 public class Activity implements Parcelable, Serializable {
 
     private String title;
-    @JsonAdapter(TimeStampDateJsonAdapter.class)
-    private Date start;
-    @JsonAdapter(TimeStampDateJsonAdapter.class)
-    private Date end;
+    @JsonAdapter(ZonedThreeTenAdapter.class)
+    private ZonedDateTime start;
+    @JsonAdapter(ZonedThreeTenAdapter.class)
+    private ZonedDateTime end;
     private String location;
     private double latitude;
     private double longitude;
@@ -31,38 +35,28 @@ public class Activity implements Parcelable, Serializable {
     private boolean highlighted;
     private Association association;
 
-    protected Activity(Parcel in) {
-        title = in.readString();
-        start = new Date(in.readLong());
-        end = new Date(in.readLong());
-        location = in.readString();
-        latitude = in.readDouble();
-        longitude = in.readDouble();
-        description = in.readString();
-        url = in.readString();
-        facebookId = in.readString();
-        highlighted = in.readByte() == 1;
-        association = in.readParcelable(Association.class.getClassLoader());
+    /**
+     * Get the start date, converted to the local time zone. The resulting DateTime is the time as it is used
+     * in the current time zone.
+     *
+     * This value is calculated every time, so if you need it a lot, cache it in a local variable.
+     *
+     * @return The converted start date.
+     */
+    public LocalDateTime getLocalStart() {
+        return DateUtils.toLocalDateTime(getStart());
     }
 
-    public static final Creator<Activity> CREATOR = new Creator<Activity>() {
-        @Override
-        public Activity createFromParcel(Parcel in) {
-            return new Activity(in);
-        }
-
-        @Override
-        public Activity[] newArray(int size) {
-            return new Activity[size];
-        }
-    };
-
-    public Date getStartDate() {
-        return start;
-    }
-
-    public Date getEndDate() {
-        return end;
+    /**
+     * Get the end date, converted to the local time zone. The resulting DateTime is the time as it is used
+     * in the current time zone.
+     *
+     * This value is calculated every time, so if you need it a lot, cache it in a local variable.
+     *
+     * @return The converted end date.
+     */
+    public LocalDateTime getLocalEnd() {
+        return DateUtils.toLocalDateTime(getEnd());
     }
 
     public String getTitle() {
@@ -73,19 +67,19 @@ public class Activity implements Parcelable, Serializable {
         this.title = title;
     }
 
-    public Date getStart() {
+    public ZonedDateTime getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(ZonedDateTime start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public ZonedDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(ZonedDateTime end) {
         this.end = end;
     }
 
@@ -172,17 +166,45 @@ public class Activity implements Parcelable, Serializable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeLong(start != null ? start.getTime() : 0);
-        dest.writeLong(end != null ? end.getTime() : 0);
-        dest.writeString(location);
-        dest.writeDouble(latitude);
-        dest.writeDouble(longitude);
-        dest.writeString(description);
-        dest.writeString(url);
-        dest.writeString(facebookId);
-        dest.writeByte((byte) (highlighted ? 1 : 0));
-        dest.writeParcelable(association, flags);
-
+        dest.writeString(this.title);
+        dest.writeLong(TtbUtils.serialize(this.start));
+        dest.writeLong(TtbUtils.serialize(this.end));
+        dest.writeString(this.location);
+        dest.writeDouble(this.latitude);
+        dest.writeDouble(this.longitude);
+        dest.writeString(this.description);
+        dest.writeString(this.url);
+        dest.writeString(this.facebookId);
+        dest.writeByte(this.highlighted ? (byte) 1 : (byte) 0);
+        dest.writeParcelable(this.association, flags);
     }
+
+    public Activity() {
+    }
+
+    protected Activity(Parcel in) {
+        this.title = in.readString();
+        this.start = TtbUtils.unserialize(in.readLong());
+        this.end = TtbUtils.unserialize(in.readLong());
+        this.location = in.readString();
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
+        this.description = in.readString();
+        this.url = in.readString();
+        this.facebookId = in.readString();
+        this.highlighted = in.readByte() != 0;
+        this.association = in.readParcelable(Association.class.getClassLoader());
+    }
+
+    public static final Creator<Activity> CREATOR = new Creator<Activity>() {
+        @Override
+        public Activity createFromParcel(Parcel source) {
+            return new Activity(source);
+        }
+
+        @Override
+        public Activity[] newArray(int size) {
+            return new Activity[size];
+        }
+    };
 }
