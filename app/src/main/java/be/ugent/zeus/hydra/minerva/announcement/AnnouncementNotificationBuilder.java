@@ -10,6 +10,7 @@ import android.util.Log;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.utils.html.Utils;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -70,7 +71,6 @@ public class AnnouncementNotificationBuilder {
 
         Log.d(TAG, "Publishing notification");
 
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setSmallIcon(smallIcon)
                 .setCategory(CATEGORY_EMAIL);
@@ -93,7 +93,7 @@ public class AnnouncementNotificationBuilder {
 
         NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
         bigTextStyle.setBigContentTitle(announcement.getTitle());
-        bigTextStyle.bigText(announcement.getContent());
+        bigTextStyle.bigText(stripHtml(announcement.getContent()));
         bigTextStyle.setSummaryText(announcement.getLecturer());
 
         if(TextUtils.isEmpty(announcement.getTitle())) {
@@ -134,5 +134,9 @@ public class AnnouncementNotificationBuilder {
         } else {
             builder.setContentTitle(course.getTitle());
         }
+    }
+
+    private String stripHtml(String containingHtml) {
+        return Utils.fromHtml(containingHtml).toString();
     }
 }
