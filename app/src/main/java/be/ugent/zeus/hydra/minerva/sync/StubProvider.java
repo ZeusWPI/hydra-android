@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-/*
+/**
  * Define an implementation of ContentProvider that stubs out all methods.
  *
  * @author Niko Strijbol

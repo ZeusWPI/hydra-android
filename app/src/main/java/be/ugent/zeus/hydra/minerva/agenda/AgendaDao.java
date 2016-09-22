@@ -4,8 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.text.TextUtils;
-import android.util.Log;
 
 import be.ugent.zeus.hydra.minerva.database.Dao;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
@@ -21,8 +19,6 @@ import java.util.*;
  */
 public class AgendaDao extends Dao {
 
-    private static final String TAG = "AgendaDao";
-
     /**
      * @param context The application context.
      */
@@ -35,56 +31,6 @@ public class AgendaDao extends Dao {
      */
     public void deleteAll() {
         helper.getWritableDatabase().delete(AgendaTable.TABLE_NAME, null, null);
-    }
-
-    /**
-     * Synchronise agenda for one course.
-     *
-     * @param agenda The agenda.
-     */
-    public void synchronisePartial(Collection<AgendaItem> agenda, Course course) {
-
-        //Get existing courses.
-        Set<Integer> present = getIdsForCourse(course);
-
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        int counter = 0;
-        try {
-            db.beginTransaction();
-
-            //Delete old courses
-            String ids = TextUtils.join(", ", getRemovable(present, agenda));
-            db.delete(AgendaTable.TABLE_NAME, AgendaTable.COLUMN_ID + " IN (?)", new String[]{ids});
-
-            Date date = new Date();
-            for (AgendaItem agendaItem: agenda ) {
-
-                agendaItem.setCourse(course);
-                ContentValues value = getValues(agendaItem);
-
-                //Update the announcement
-                if(present.contains(agendaItem.getItemId())) {
-                    value.remove(AgendaTable.COLUMN_ID);
-                    db.update(
-                            AgendaTable.TABLE_NAME,
-                            value,
-                            AgendaTable.COLUMN_ID + " = ?",
-                            new String[]{String.valueOf(agendaItem.getItemId())}
-                            );
-                }
-                //Add new announcement
-                else {
-                    db.insertOrThrow(AgendaTable.TABLE_NAME, null, value);
-                    counter++;
-                }
-            }
-            db.setTransactionSuccessful();
-        } finally {
-            db.endTransaction();
-        }
-
-        Log.d(TAG, "New agenda for " + course.getTitle() + ": " + counter);
     }
 
     /**
@@ -128,62 +74,6 @@ public class AgendaDao extends Dao {
         values.put(AgendaTable.COLUMN_LAST_EDIT_TYPE, a.getLastEditType());
 
         return values;
-    }
-
-    /**
-     * A set of ids that are not in the course.
-     *
-     * @param ids Ids of local courses.
-     * @param agendaItems Remote agenda.
-     * @return Local courses that can be deleted.
-     */
-    private static Set<Integer> getRemovable(final Set<Integer> ids, final Collection<AgendaItem> agendaItems) {
-        Set<Integer> removable = new HashSet<>(ids);
-        //Iterate the course to prevent O(n^2)
-        for (AgendaItem announcement: agendaItems) {
-            if(removable.contains(announcement.getItemId())) {
-                removable.remove(announcement.getItemId());
-            }
-        }
-
-        return removable;
-    }
-
-    /**
-     * Get a list of ids of the announcements for a course in the database.
-     *
-     * @param course The course.
-     *
-     * @return List of ids in the database.
-     */
-    private Set<Integer> getIdsForCourse(Course course) {
-
-        SQLiteDatabase db = helper.getReadableDatabase();
-
-        Cursor cursor = db.query(
-                AgendaTable.TABLE_NAME,
-                new String[] {AgendaTable.COLUMN_ID},
-                AgendaTable.COLUMN_COURSE + " = ?",
-                new String[]{course.getId()},
-                null, null, null);
-
-        Set<Integer> result = new HashSet<>();
-
-        if(cursor == null) {
-            return result;
-        }
-
-        try {
-            int columnIndex = cursor.getColumnIndex(AgendaTable.COLUMN_ID);
-
-            while (cursor.moveToNext()) {
-                result.add(cursor.getInt(columnIndex));
-            }
-        } finally {
-            cursor.close();
-        }
-
-        return result;
     }
 
     /**

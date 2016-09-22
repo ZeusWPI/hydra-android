@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
 /**
- * Class to manage sending broadcasts from the sync adapter.
+ * Class to manage sending broadcasts from the sync adapter. These are local broadcasts.
  *
  * @author Niko Strijbol
  */
