@@ -1,9 +1,8 @@
 package be.ugent.zeus.hydra.fragments.common;
 
-import android.os.Bundle;
 import android.support.v4.content.Loader;
 
-import be.ugent.zeus.hydra.loaders.ErrorLoaderCallback;
+import be.ugent.zeus.hydra.caching.CacheRequest;
 import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
 import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.requests.common.SimpleCacheRequest;
@@ -18,18 +17,15 @@ import java.io.Serializable;
  *
  * @author Niko Strijbol
  */
-public abstract class CachedLoaderFragment<D extends Serializable> extends LoaderFragment<D> implements ErrorLoaderCallback<D> {
+public abstract class CachedLoaderFragment<D extends Serializable> extends LoaderFragment<D> {
 
-    /**
-     * Instantiate and return a new Loader for the given ID.
-     *
-     * @param id   The ID whose loader is to be created.
-     * @param args Any arguments supplied by the caller.
-     *
-     * @return Return a new Loader instance that is ready to start loading.
-     */
     @Override
-    public Loader<ThrowableEither<D>> onCreateLoader(int id, Bundle args) {
+    public Loader<ThrowableEither<D>> getLoader() {
         return new RequestAsyncTaskLoader<>(new SimpleCacheRequest<>(getContext(), getRequest(), shouldRenew), getContext());
     }
+
+    /**
+     * @return The request that will be executed.
+     */
+    protected abstract CacheRequest<D> getRequest();
 }

@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
  *
  * @author Niko Strijbol
  */
+@SuppressWarnings("unused")
 public final class ThrowableEither<D> {
 
     private final D data;

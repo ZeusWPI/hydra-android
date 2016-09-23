@@ -70,19 +70,6 @@ public class CourseAgendaFragment extends LoaderFragment<List<AgendaItem>> {
     }
 
     /**
-     * Instantiate and return a new Loader for the given ID.
-     *
-     * @param id   The ID whose loader is to be created.
-     * @param args Any arguments supplied by the caller.
-     *
-     * @return Return a new Loader instance that is ready to start loading.
-     */
-    @Override
-    public Loader<ThrowableEither<List<AgendaItem>>> onCreateLoader(int id, Bundle args) {
-        return new AgendaDaoLoader(getContext(), dao, course);
-    }
-
-    /**
      * Receive the data if the request was completed successfully.
      *
      * @param data The data.
@@ -90,5 +77,11 @@ public class CourseAgendaFragment extends LoaderFragment<List<AgendaItem>> {
     @Override
     public void receiveData(@NonNull List<AgendaItem> data) {
         adapter.setItems(data);
+        hideProgressBar();
+    }
+
+    @Override
+    public Loader<ThrowableEither<List<AgendaItem>>> getLoader() {
+        return new AgendaDaoLoader(getContext(), dao, course);
     }
 }

@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.caching;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import be.ugent.zeus.hydra.requests.common.RequestFailureException;
+import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 
 import java.io.Serializable;
 

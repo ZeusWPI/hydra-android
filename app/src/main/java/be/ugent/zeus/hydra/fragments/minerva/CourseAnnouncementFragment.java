@@ -85,19 +85,6 @@ public class CourseAnnouncementFragment extends LoaderFragment<List<Announcement
     }
 
     /**
-     * Instantiate and return a new Loader for the given ID.
-     *
-     * @param id   The ID whose loader is to be created.
-     * @param args Any arguments supplied by the caller.
-     *
-     * @return Return a new Loader instance that is ready to start loading.
-     */
-    @Override
-    public Loader<ThrowableEither<List<Announcement>>> onCreateLoader(int id, Bundle args) {
-        return new AnnouncementDaoLoader(getContext(), dao, course);
-    }
-
-    /**
      * Receive the data if the request was completed successfully.
      *
      * @param data The data.
@@ -133,5 +120,10 @@ public class CourseAnnouncementFragment extends LoaderFragment<List<Announcement
                 Snackbar.make(getView(), "Als gelezen gemarkeerd.", Snackbar.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public Loader<ThrowableEither<List<Announcement>>> getLoader() {
+        return new AnnouncementDaoLoader(getContext(), dao, course);
     }
 }

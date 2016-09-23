@@ -2,6 +2,8 @@ package be.ugent.zeus.hydra.requests.common;
 
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
+
 /**
  * The basis interface for a request. A request is something that returns data, not unlike a AsyncTask, but without
  * any constraints. It is basically a replacement for Supplier<T> in Java 8.

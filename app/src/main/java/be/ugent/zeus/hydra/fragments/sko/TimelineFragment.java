@@ -76,14 +76,14 @@ public class TimelineFragment extends CachedLoaderFragment<Timeline> implements 
     }
 
     @Override
-    public TimelineRequest getRequest() {
+    protected TimelineRequest getRequest() {
         return new TimelineRequest();
     }
 
     @Override
     public void onRefresh() {
         shouldRenew = true;
-        restartLoader();
+        loaderHandler.restartLoader();
         shouldRenew = false;
     }
 

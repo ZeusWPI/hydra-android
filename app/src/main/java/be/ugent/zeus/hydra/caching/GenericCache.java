@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.requests.common.RequestFailureException;
+import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import org.threeten.bp.Duration;
 
 import java.io.File;

@@ -16,7 +16,7 @@ import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.requests.SpecialRemoteEventRequest;
-import be.ugent.zeus.hydra.requests.common.RequestFailureException;
+import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;

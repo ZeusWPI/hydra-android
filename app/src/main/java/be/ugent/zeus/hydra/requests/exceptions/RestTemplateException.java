@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.requests.common;
+package be.ugent.zeus.hydra.requests.exceptions;
 
 /**
  * Exception thrown when the rest template could not be made.

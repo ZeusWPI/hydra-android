@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.common.RestoActivity;
@@ -45,7 +44,7 @@ public class MetaActivity extends RestoActivity<RestoMeta> {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        startLoader();
+        loaderHandler.startLoader();
     }
 
     /**

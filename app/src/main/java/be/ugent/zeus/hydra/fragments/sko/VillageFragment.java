@@ -61,7 +61,7 @@ public class VillageFragment extends RecyclerLoaderFragment<Exhibitor, Exhibitor
     }
 
     @Override
-    public StuVilExhibitorRequest getRequest() {
+    protected StuVilExhibitorRequest getRequest() {
         return new StuVilExhibitorRequest();
     }
 
@@ -85,7 +85,7 @@ public class VillageFragment extends RecyclerLoaderFragment<Exhibitor, Exhibitor
     public void onRefresh() {
         shouldRenew = true;
         searchView.setQuery("", false);
-        restartLoader();
+        loaderHandler.restartLoader();
         shouldRenew = false;
     }
 }

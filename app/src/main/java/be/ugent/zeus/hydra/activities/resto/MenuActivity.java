@@ -5,14 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.common.RestoWebsiteActivity;
 import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
-import be.ugent.zeus.hydra.loaders.ThrowableEither;
+import be.ugent.zeus.hydra.loaders.LoaderCallbackHandler;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
@@ -27,7 +26,7 @@ import java.util.Collections;
  *
  * @author Niko Strijbol
  */
-public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
+public class MenuActivity extends RestoWebsiteActivity<RestoOverview> implements LoaderCallbackHandler.ResetListener {
 
     public static final String ARG_DATE = "start_date";
 
@@ -36,6 +35,10 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
     private MenuPagerAdapter pageAdapter;
     private ViewPager mViewPager;
     private LocalDate startDate;
+
+    public MenuActivity() {
+        this.loaderHandler.setResetListener(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
             startDate = start.toLocalDate();
         }
 
-        startLoader();
+        loaderHandler.startLoader();
     }
 
     /**
@@ -105,20 +108,13 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> {
         }
     }
 
-    /**
-     * Called when a previously created loader is being reset, and thus making its data unavailable.  The application
-     * should at this point remove any references it has to the Loader's data.
-     *
-     * @param loader The Loader that is being reset.
-     */
-    @Override
-    public void onLoaderReset(Loader<ThrowableEither<RestoOverview>> loader) {
-        super.onLoaderReset(loader);
-        pageAdapter.setData(Collections.<RestoMenu>emptyList());
-    }
-
     @Override
     public RestoMenuOverviewRequest getRequest() {
         return new RestoMenuOverviewRequest();
+    }
+
+    @Override
+    public void onLoaderReset() {
+        pageAdapter.setData(Collections.<RestoMenu>emptyList());
     }
 }

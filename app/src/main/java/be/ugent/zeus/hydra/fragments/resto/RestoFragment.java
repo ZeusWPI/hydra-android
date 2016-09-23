@@ -117,8 +117,6 @@ public class RestoFragment extends CachedLoaderFragment<RestoOverview> {
     @Override
     public void receiveData(@NonNull RestoOverview data) {
 
-        //FragmentManager m = getChildFragmentManager();
-
         //We can't do anything without data.
         if(data.size() < 2) {
             return;
@@ -139,7 +137,7 @@ public class RestoFragment extends CachedLoaderFragment<RestoOverview> {
      * @return The request that will be executed.
      */
     @Override
-    public RestoMenuOverviewRequest getRequest() {
+    protected RestoMenuOverviewRequest getRequest() {
         return new RestoMenuOverviewRequest();
     }
 }

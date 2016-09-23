@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.caching.Cache;
 import be.ugent.zeus.hydra.caching.CacheManager;
 import be.ugent.zeus.hydra.caching.CacheRequest;
+import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 
 import java.io.Serializable;
 
@@ -24,8 +25,15 @@ public abstract class ProcessableCacheRequest<D extends Serializable, R> impleme
         this(context, request, false);
     }
 
+    /**
+     * Create a request.
+     *
+     * @param context A context. Can be any context, as the application context is taken.
+     * @param request The request.
+     * @param shouldRefresh Should fresh data be used or not.
+     */
     public ProcessableCacheRequest(Context context, CacheRequest<D> request, boolean shouldRefresh) {
-        this.context = context;
+        this.context = context.getApplicationContext();
         this.cacheRequest = request;
         this.shouldRefresh = shouldRefresh;
     }

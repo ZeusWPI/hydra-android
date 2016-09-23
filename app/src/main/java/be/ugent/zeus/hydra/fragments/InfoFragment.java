@@ -59,14 +59,13 @@ public class InfoFragment extends CachedLoaderFragment<InfoList> {
     @Override
     public void receiveData(@NonNull InfoList data) {
         adapter.setItems(data);
-        hideProgressBar();
     }
 
     /**
      * @return The request that will be executed.
      */
     @Override
-    public InfoRequest getRequest() {
+    protected InfoRequest getRequest() {
         return new InfoRequest();
     }
 }

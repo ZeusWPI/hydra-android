@@ -61,7 +61,7 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
         scroller.setRecyclerView(recyclerView);
 
         searchView.setOnQueryTextListener(adapter);
-        startLoader();
+        loaderHandler.startLoader();
     }
 
     @Override

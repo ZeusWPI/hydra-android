@@ -7,12 +7,7 @@ package be.ugent.zeus.hydra.loaders;
  */
 public class LoaderException extends Exception {
 
-    public LoaderException() {
-        super();
-    }
-
     public LoaderException(Throwable cause) {
         super(cause);
     }
-
 }
