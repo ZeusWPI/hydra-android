@@ -20,15 +20,15 @@ import java.lang.annotation.RetentionPolicy;
  *
  * @author Niko Strijbol
  */
-@SuppressWarnings("unused")
 public class TimelinePost implements Serializable {
 
     //Use string def for the post type.
     public static final String PHOTO = "photo";
     public static final String LINK = "link";
     public static final String VIDEO = "video";
+    public static final String EVENT = "event";
 
-    @StringDef({PHOTO, LINK, VIDEO})
+    @StringDef({PHOTO, LINK, VIDEO, EVENT})
     @Retention(RetentionPolicy.SOURCE)
     public @interface PostType {}
 
@@ -96,7 +96,7 @@ public class TimelinePost implements Serializable {
         if(getPoster() != null) {
             return getPoster();
         } else {
-            if(getPostType().equals(PHOTO)) {
+            if(getPostType().equals(PHOTO) || getPostType().equals(EVENT)) {
                 return getMedia();
             } else {
                 return null;
@@ -116,6 +116,8 @@ public class TimelinePost implements Serializable {
                 return "Link";
             case VIDEO:
                 return "Video";
+            case EVENT:
+                return "Evenement";
             default:
                 return "Andere";
         }
