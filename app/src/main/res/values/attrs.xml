@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="RestoMenu">
-        <attr name="soep" format="string"/>
-        <attr name="hoofdgerecht" format="string"/>
-        <attr name="groenten" format="string"/>
+    <!-- Attributes for the Google Now-like toolbar -->
+    <declare-styleable name="NowToolbar">
+        <attr name="icon" format="reference" />
+        <attr name="title" format="string" />
+        <attr name="menu" format="reference" />
+        <attr name="showMenu" format="boolean" />
+    </declare-styleable>
+
+    <!-- Attributes for the resto menu -->
+    <declare-styleable name="MenuTable">
+        <attr name="show">
+            <enum name="main" value="0" />
+            <enum name="all" value="1" />
+        </attr>
     </declare-styleable>
 </resources>

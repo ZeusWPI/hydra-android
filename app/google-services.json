@@ -1,0 +1,45 @@
+{
+  "project_info": {
+    "project_number": "758079297428",
+    "firebase_url": "https://hydra-142516.firebaseio.com",
+    "project_id": "hydra-142516",
+    "storage_bucket": "hydra-142516.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758079297428:android:f71cd3b6ae44645e",
+        "android_client_info": {
+          "package_name": "be.ugent.zeus.hydra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "758079297428-sd7em10lv8t2ldr97t0mo9hea2bhhnv0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmTnOExV9cYPVPKQM48SWEF80ciI_FYnE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-25444917-3"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

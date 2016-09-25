@@ -2,5 +2,72 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
+    <dimen name="content_spacing">8dp</dimen>
+
+    <!-- Material design normal keylines -->
+    <dimen name="vertical_padding">16dp</dimen>
+    <dimen name="keyline">72dp</dimen>
+    <dimen name="large_horizontal_padding">16dp</dimen>
+
+    <dimen name="table_row_height">48dp</dimen>
+    <dimen name="table_col_spacing">16dp</dimen>
+
+    <dimen name="card_small_horizontal_margin">0dp</dimen>
+    <dimen name="card_small_vertical_margin">0dp</dimen>
+    <dimen name="resto_menu_tab_spacing">0dp</dimen>
+
+    <!-- Material design tabs -->
+    <dimen name="tabs_icon_size">24dp</dimen>
+
+    <!-- Material design dimensions for Cards -->
+    <dimen name="card_margin">8dp</dimen>
+    <dimen name="card_spacing">8dp</dimen>
+
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="card_elevation_raised">8dp</dimen>
+
+    <dimen name="card_actions_padding">8dp</dimen>
+
+    <dimen name="card_title_size_large">24sp</dimen>
+    <dimen name="card_title_size_small">14sp</dimen>
+    <dimen name="card_title_size_subtitle">14sp</dimen>
+
+    <dimen name="card_title_padding_vertical">16dp</dimen>
+
+    <dimen name="card_title_padding_top">16dp</dimen>
+    <dimen name="card_title_padding_top_large_title">24dp</dimen>
+    <dimen name="card_title_padding_bottom">16dp</dimen>
+    <dimen name="card_title_padding_bottom_no_content">24dp</dimen>
+
+    <dimen name="card_text_size">14sp</dimen>
+
+    <dimen name="card_text_padding_vertical">16dp</dimen>
+    <dimen name="card_text_padding_top">16dp</dimen>
+    <dimen name="card_text_padding_bottom">16dp</dimen>
+    <dimen name="card_text_padding_bottom_no_content">24dp</dimen>
+
+    <!-- Material design for two-line text-only lists -->
+
+    <dimen name="list_two_line_padding_vertical">16dp</dimen>
+    <!-- This should be 20, but we use 16, since 20 is ugly -->
+    <dimen name="list_two_line_padding_horizontal">16dp</dimen>
+    <dimen name="list_two_line_primary_text_size">16sp</dimen>
+    <dimen name="list_two_line_secondary_text_size">14sp</dimen>
+    <dimen name="list_two_line_margin_horizontal">8dp</dimen>
+
+    <dimen name="list_dense_two_line_padding_vertical">8dp</dimen>
+    <dimen name="list_dense_two_line_padding_horizontal">8dp</dimen>
+    <dimen name="list_dense_two_line_primary_text_size">13sp</dimen>
+    <dimen name="list_dense_two_line_secondary_text_size">13sp</dimen>
+    <dimen name="list_dense_two_line_margin_horizontal">4dp</dimen>
+
+    <!-- Schamper -->
+    <dimen name="schamper_image_size">192dp</dimen>
+
+    <!-- Mini FAB -->
+    <dimen name="mini_fab_size">40dp</dimen>
+    <dimen name="mini_fab_margin">4dp</dimen>
+
+    <dimen name="hero_image_height">256dp</dimen>
+
 </resources>

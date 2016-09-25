@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<View xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginTop="@dimen/content_spacing"
+    android:layout_marginBottom="@dimen/content_spacing"
+    android:layout_gravity="center"
+    android:layout_width="128dp"
+    android:layout_height="1dp"
+    android:background="@color/ugent_blue_dark" />

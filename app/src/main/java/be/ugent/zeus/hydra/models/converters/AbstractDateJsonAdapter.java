@@ -1,31 +1,34 @@
 package be.ugent.zeus.hydra.models.converters;
 
+import android.util.Log;
+
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-
-import org.apache.commons.lang3.NotImplementedException;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by feliciaan on 17/02/16.
  */
 public class AbstractDateJsonAdapter extends TypeAdapter<Date> {
 
+    private static final String TAG = "AbstractDateParser";
+
     private DateFormat format;
 
     public AbstractDateJsonAdapter(String dateFormat) {
-        format = new SimpleDateFormat(dateFormat);
+        format = new SimpleDateFormat(dateFormat, new Locale("nl"));
     }
 
     @Override
-    public void write(JsonWriter out, Date value) throws IOException, NotImplementedException {
+    public void write(JsonWriter out, Date value) throws IOException {
         if (value == null) {
             out.nullValue();
             return;
@@ -45,7 +48,7 @@ public class AbstractDateJsonAdapter extends TypeAdapter<Date> {
         try {
             date = format.parse(dateString);
         } catch (ParseException e) {
-            System.err.println("Parsing failed!");
+            Log.e(TAG, "Parsing failed!", e);
         }
         return date;
     }

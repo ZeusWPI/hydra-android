@@ -1,22 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- the theme applied to the application or activity -->
-    <style name="HydraTheme"
-        parent="Theme.AppCompat">
-        <item name="actionBarStyle">@style/HydraActionBar</item>
-
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--
+        General style for activities that need a default action bar.
+        Note: it is preferred to use the toolbar, not the default action bar.
+    -->
+    <style name="Hydra.Main" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/ugent_blue_medium</item>
         <item name="colorPrimaryDark">@color/ugent_blue_dark</item>
-        <item name="colorAccent">@color/ugent_yellow_dark</item>
-    </style>
-
-    <!-- ActionBar styles -->
-    <style name="HydraActionBar"
-        parent="Theme.AppCompat.Light">
-        <item name="background">@color/ugent_blue_medium</item>
-        <item name="colorPrimary">@color/ugent_blue_medium</item>
-        <item name="colorPrimaryDark">@color/ugent_blue_dark</item>
+        <item name="android:windowBackground">@color/ugent_white</item>
         <item name="android:colorBackground">@color/ugent_white</item>
         <item name="colorAccent">@color/ugent_yellow_dark</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:textColorPrimary">@color/ugent_blue_dark_selector</item>
+        <item name="android:textColorSecondary">@color/ugent_blue_medium_selector</item>
+        <item name="android:textColorTertiary">@color/ugent_blue_medium_selector</item>
+        <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
+        <item name="windowActionModeOverlay">true</item>
     </style>
+
+    <!-- Same as the main theme, except there is no action bar -->
+    <style name="Hydra.Main.NoActionBar" parent="Hydra.Main">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- Style for long texts; black & lighter font + more line spacing -->
+    <style name="Hydra.LongText" parent="Base.TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+    </style>
+
+    <!-- Style for long texts; black & lighter font + more line spacing -->
+    <style name="Hydra.LongSubhead" parent="Base.TextAppearance.AppCompat.Subhead">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+    </style>
+
+    <style name="Hydra.Main.NoActionBar.SystemWindows" parent="Hydra.Main.NoActionBar">
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
+    </style>
+
+    <!-- Needed for custom views -->
+    <style name="Material.Typography.Subhead" parent="Base.TextAppearance.AppCompat.Subhead">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Material.Typography.Caption" parent="Base.TextAppearance.AppCompat.Caption" />
+
+    <!-- Transparant text -->
+    <style name="TransparentText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#00000000</item>
+    </style>
+
+    <!-- Divider style -->
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <!-- Style for SKO part of the app -->
+    <style name="Hydra.Main.NoActionBar.Sko" parent="Hydra.Main.NoActionBar">
+        <item name="colorPrimary">@color/sko_blue_light</item>
+        <item name="colorPrimaryDark">@color/sko_blue_dark</item>
+        <item name="colorAccent">@color/sko_red</item>
+    </style>
+
+    <style name="Hydra.Main.NoActionBar.Sko.SystemWindows" parent="Hydra.Main.NoActionBar.Sko">
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
+    </style>
+
 </resources>

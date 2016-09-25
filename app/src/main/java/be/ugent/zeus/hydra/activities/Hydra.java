@@ -1,91 +1,104 @@
 package be.ugent.zeus.hydra.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-import com.octo.android.robospice.GsonSpringAndroidSpiceService;
-import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.DurationInMillis;
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
-
+import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.adapters.SectionPagerAdapter;
-import be.ugent.zeus.hydra.models.Association.AssociationActivities;
-import be.ugent.zeus.hydra.models.Association.AssociationActivity;
-import be.ugent.zeus.hydra.models.Association.AssociationNews;
-import be.ugent.zeus.hydra.models.Association.AssociationNewsItem;
-import be.ugent.zeus.hydra.requests.AssociationNewsRequest;
+import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
+import be.ugent.zeus.hydra.viewpager.SectionPagerAdapter;
 
+/**
+ * Main activity.
+ */
+public class Hydra extends ToolbarActivity {
 
-public class Hydra extends AppCompatActivity {
+    public static final String ARG_TAB = "argTab";
+    private static final String TAG = "HydraActivity";
+    private static final String PREF_ONBOARDING = "pref_onboarding";
+    private static final int ONBOARDING_REQUEST = 5;
 
-    //------------------------------------------------------------------------
-    //this block can be pushed up into a common base class for all activities
-    //------------------------------------------------------------------------
+    //The tab icons
+    private static int[] icons = {
+            R.drawable.ic_tabs_home,
+            R.drawable.ic_tabs_schamper,
+            R.drawable.ic_tabs_menu,
+            R.drawable.ic_tabs_events,
+            R.drawable.ic_tabs_news,
+            R.drawable.ic_tabs_info,
+            R.drawable.ic_tabs_minerva,
+    };
 
-    //if you use a pre-set service,
-    //use JacksonSpringAndroidSpiceService.class instead of JsonSpiceService.class
-    protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        spiceManager.start(this);
-    }
-
-    @Override
-    protected void onStop() {
-        spiceManager.shouldStop();
-        super.onStop();
-    }
-
-    //------------------------------------------------------------------------
-    //---------end of block that can fit in a common base class for all activities
-    //------------------------------------------------------
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //This activity has no parent.
+        hasParent(false);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tab_layout);
+        setContentView(R.layout.activity_main);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        getToolBar().setDisplayShowTitleEnabled(false);
 
-        viewPager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
-        tabLayout.setupWithViewPager(viewPager);
+        //The first thing we do is maybe start the onboarding.
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(preferences.getBoolean(PREF_ONBOARDING, true)) {
+            Intent intent = new Intent(this, OnboardingActivity.class);
+            startActivityForResult(intent, ONBOARDING_REQUEST);
+        } else { //Otherwise do init
+            initialise();
+        }
+    }
 
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayShowCustomEnabled(true);
-        actionbar.setCustomView(R.layout.actionbar_centered_hydra);
+    /**
+     * Initialise the activity. Must be NOT be called BEFORE the onCreate function (you can call it in onCreate).
+     */
+    private void initialise() {
+        ViewPager viewpager = $(R.id.pager);
+        viewpager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
 
-        //icons (bad way)
-        int[] icons = {R.drawable.home, R.drawable.minerva,
-                R.drawable.resto, R.drawable.schamper, R.drawable.info};
+        viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                HydraApplication app = (HydraApplication) Hydra.this.getApplication();
+                app.sendScreenName("Fragment tab: " + SectionPagerAdapter.names[position]);
+            }
+        });
 
-        //set icons
-        tabLayout.setupWithViewPager(viewPager);
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+        final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
+        viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                appBarLayout.setExpanded(true);
+            }
+        });
+
+        TabLayout tabLayout = $(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewpager);
+
+        for (int i = 0; i < icons.length; i++) {
             tabLayout.getTabAt(i).setIcon(icons[i]);
         }
 
-        //performLoadActivityRequest();
+        //Get start position
+        int start = getIntent().getIntExtra(ARG_TAB, 0);
+        viewpager.setCurrentItem(start, false);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater mf = getMenuInflater();
-        mf.inflate(R.menu.global, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.global, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -105,43 +118,20 @@ public class Hydra extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void performLoadActivityRequest() {
-        /*AssociationActivitiesRequest r = new AssociationActivitiesRequest();
-        System.out.println("Load data");
-        spiceManager.execute(r, r.getCacheKey(), DurationInMillis.ONE_MINUTE * 15, new AssociationActivityRequestListener() );*/
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        AssociationNewsRequest r = new AssociationNewsRequest();
-        spiceManager.execute(r, r.getCacheKey(), r.getCacheDuration(), new RequestListener<AssociationNews>() {
-            @Override
-            public void onRequestFailure(SpiceException spiceException) {
-                //TextView groenten = (TextView) findViewById(R.id.groenten);
-                //groenten.setText("request failed");
-                System.out.println("Request failed");
+        if(requestCode == ONBOARDING_REQUEST) {
+            if(resultCode == RESULT_OK) {
+                Log.i(TAG, "Onboarding complete");
+                preferences.edit().putBoolean(PREF_ONBOARDING, false).apply();
+                initialise();
+            } else {
+                Log.i(TAG, "Onboarding failed, stop app.");
+                finish();
             }
-
-            @Override
-            public void onRequestSuccess(AssociationNews associationNewsItems) {
-                for (AssociationNewsItem newsItem: associationNewsItems) {
-                    System.out.println(newsItem.title + ", ");
-                }
-            }
-        });
-    }
-
-    private class AssociationActivityRequestListener implements RequestListener<AssociationActivities> {
-
-        @Override
-        public void onRequestFailure(SpiceException spiceException) {
-            System.out.println("Request failed");
         }
 
-        @Override
-        public void onRequestSuccess(AssociationActivities associationActivities) {
-            System.out.println("Activities loaded: " + associationActivities.size());
-            for (AssociationActivity activity: associationActivities) {
-                System.out.print(activity.title + ",  ");
-            }
-            System.out.println();
-        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

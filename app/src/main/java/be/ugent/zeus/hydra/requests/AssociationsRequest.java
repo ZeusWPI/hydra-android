@@ -1,23 +1,29 @@
 package be.ugent.zeus.hydra.requests;
 
-import com.octo.android.robospice.persistence.DurationInMillis;
-
-import be.ugent.zeus.hydra.models.Association.Associations;
+import android.support.annotation.NonNull;
+import be.ugent.zeus.hydra.cache.Cache;
+import be.ugent.zeus.hydra.models.association.Associations;
+import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 
 /**
- * Created by feliciaan on 04/02/16.
+ * Request to get all associations registered with the DSA.
+ *
+ * @author Niko Strijbol
+ * @author feliciaan
  */
-public class AssociationsRequest extends AbstractRequest<Associations> {
+public class AssociationsRequest extends CacheableRequest<Associations> {
 
     public AssociationsRequest() {
         super(Associations.class);
     }
 
+    @NonNull
     @Override
     public String getCacheKey() {
         return "associations.json";
     }
 
+    @NonNull
     @Override
     protected String getAPIUrl() {
         return DSA_API_URL + "associations.json";
@@ -25,6 +31,6 @@ public class AssociationsRequest extends AbstractRequest<Associations> {
 
     @Override
     public long getCacheDuration() {
-        return DurationInMillis.ONE_DAY;
+        return Cache.ONE_DAY;
     }
 }
