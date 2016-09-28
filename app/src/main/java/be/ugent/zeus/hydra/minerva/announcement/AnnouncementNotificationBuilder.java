@@ -171,7 +171,7 @@ public class AnnouncementNotificationBuilder {
                 .addNextIntent(mainActivity())
                 .addNextIntent(parentIntent)
                 .addNextIntent(resultIntent)
-                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                .getPendingIntent(announcement.getItemId(), PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private PendingIntent upIntentMore() {
@@ -181,7 +181,7 @@ public class AnnouncementNotificationBuilder {
         return TaskStackBuilder.create(context)
                 .addNextIntentWithParentStack(mainActivity())
                 .addNextIntent(resultIntent)
-                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                .getPendingIntent(course.getId().hashCode(), PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private Intent mainActivity() {
