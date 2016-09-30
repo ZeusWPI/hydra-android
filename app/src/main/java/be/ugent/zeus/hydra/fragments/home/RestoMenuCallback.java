@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
-import org.joda.time.DateTime;
+import org.threeten.bp.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ class RestoMenuCallback extends CacheHomeLoaderCallback<RestoOverview> {
     protected List<HomeCard> convertData(@NonNull RestoOverview data) {
         List<HomeCard> menuCardList = new ArrayList<>();
         for (RestoMenu menu : data) {
-            if (new DateTime(menu.getDate()).withTimeAtStartOfDay().isAfterNow()) {
+            if (menu.getDate().isAfter(LocalDate.now())) {
                 menuCardList.add(new RestoMenuCard(menu));
             }
         }

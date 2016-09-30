@@ -8,8 +8,7 @@ import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.models.minerva.Agenda;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.Date;
+import org.threeten.bp.ZonedDateTime;
 
 /**
  * Request agenda items, optionally in a time range.
@@ -18,8 +17,8 @@ import java.util.Date;
  */
 public class AgendaRequest extends MinervaRequest<Agenda> {
 
-    private Date start;
-    private Date end;
+    private ZonedDateTime start;
+    private ZonedDateTime end;
 
     public AgendaRequest(Context context, @Nullable Activity activity) {
         super(Agenda.class, context, activity);
@@ -29,11 +28,11 @@ public class AgendaRequest extends MinervaRequest<Agenda> {
         super(Agenda.class, context, account, activity);
     }
 
-    public void setStart(Date start) {
+    public void setStart(ZonedDateTime start) {
         this.start = start;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(ZonedDateTime end) {
         this.end = end;
     }
 
@@ -49,11 +48,11 @@ public class AgendaRequest extends MinervaRequest<Agenda> {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
 
         if(start != null) {
-            builder.queryParam("start", start.getTime());
+            builder.queryParam("start", start.toInstant().toEpochMilli());
         }
 
         if(end != null) {
-            builder.queryParam("end", end.getTime());
+            builder.queryParam("end", end.toInstant().toEpochMilli());
         }
 
         return builder.build().toUriString();

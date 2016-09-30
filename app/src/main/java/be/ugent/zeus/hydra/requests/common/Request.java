@@ -1,7 +1,8 @@
 package be.ugent.zeus.hydra.requests.common;
 
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.cache.Cache;
+
+import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 
 /**
  * The basis interface for a request. A request is something that returns data, not unlike a AsyncTask, but without
@@ -12,8 +13,7 @@ import be.ugent.zeus.hydra.cache.Cache;
 public interface Request<T> {
 
     /**
-     * Perform the request. This method provides the data that may or may not be cached, depending on the implementation
-     * of the used {@link Cache}.
+     * Perform the request.
      *
      * @return The data.
      *

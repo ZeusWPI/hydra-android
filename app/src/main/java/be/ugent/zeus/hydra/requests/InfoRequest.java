@@ -1,7 +1,8 @@
 package be.ugent.zeus.hydra.requests;
 
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.cache.Cache;
+
+import be.ugent.zeus.hydra.caching.Cache;
 import be.ugent.zeus.hydra.models.info.InfoList;
 import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 
@@ -30,6 +31,6 @@ public class InfoRequest extends CacheableRequest<InfoList> {
 
     @Override
     public long getCacheDuration() {
-        return Cache.ONE_HOUR * 6;
+        return Cache.ONE_DAY;
     }
 }

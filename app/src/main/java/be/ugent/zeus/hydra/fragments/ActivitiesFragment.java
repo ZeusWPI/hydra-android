@@ -146,7 +146,7 @@ public class ActivitiesFragment extends CachedLoaderFragment<Activities> impleme
      * @return The request that will be executed.
      */
     @Override
-    public ActivitiesRequest getRequest() {
+    protected ActivitiesRequest getRequest() {
         return new ActivitiesRequest();
     }
 }

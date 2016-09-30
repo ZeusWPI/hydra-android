@@ -2,14 +2,14 @@ package be.ugent.zeus.hydra.models.minerva;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
 
-import be.ugent.zeus.hydra.models.converters.ISO8601DateJsonAdapter;
+import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author Niko Strijbol
@@ -21,18 +21,18 @@ public class AgendaItem implements Serializable, Parcelable {
     private String title;
     private String content;
     @SerializedName("start_date")
-    @JsonAdapter(ISO8601DateJsonAdapter.class)
-    private Date startDate;
+    @JsonAdapter(ZonedThreeTenAdapter.class)
+    private ZonedDateTime startDate;
     @SerializedName("end_date")
-    @JsonAdapter(ISO8601DateJsonAdapter.class)
-    private Date endDate;
+    @JsonAdapter(ZonedThreeTenAdapter.class)
+    private ZonedDateTime endDate;
     private String location;
     private String type;
     @SerializedName("last_edit_user")
     private String lastEditUser;
-    @JsonAdapter(ISO8601DateJsonAdapter.class)
+    @JsonAdapter(ZonedThreeTenAdapter.class)
     @SerializedName("last_edit_time")
-    private Date lastEdited;
+    private ZonedDateTime lastEdited;
     @SerializedName("last_edit_type")
     private String lastEditType;
     private Course course;
@@ -48,7 +48,6 @@ public class AgendaItem implements Serializable, Parcelable {
         this.itemId = itemId;
     }
 
-    @Nullable
     public Course getCourse() {
         return course;
     }
@@ -85,19 +84,19 @@ public class AgendaItem implements Serializable, Parcelable {
         this.content = content;
     }
 
-    public Date getStartDate() {
+    public ZonedDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(ZonedDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public ZonedDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(ZonedDateTime endDate) {
         this.endDate = endDate;
     }
 
@@ -125,11 +124,11 @@ public class AgendaItem implements Serializable, Parcelable {
         this.lastEditUser = lastEditUser;
     }
 
-    public Date getLastEdited() {
+    public ZonedDateTime getLastEdited() {
         return lastEdited;
     }
 
-    public void setLastEdited(Date lastEdited) {
+    public void setLastEdited(ZonedDateTime lastEdited) {
         this.lastEdited = lastEdited;
     }
 
@@ -151,12 +150,12 @@ public class AgendaItem implements Serializable, Parcelable {
         dest.writeInt(this.itemId);
         dest.writeString(this.title);
         dest.writeString(this.content);
-        dest.writeLong(this.startDate != null ? this.startDate.getTime() : -1);
-        dest.writeLong(this.endDate != null ? this.endDate.getTime() : -1);
+        dest.writeSerializable(this.startDate);
+        dest.writeSerializable(this.endDate);
         dest.writeString(this.location);
         dest.writeString(this.type);
         dest.writeString(this.lastEditUser);
-        dest.writeLong(this.lastEdited != null ? this.lastEdited.getTime() : -1);
+        dest.writeLong(TtbUtils.serialize(this.lastEdited));
         dest.writeString(this.lastEditType);
         dest.writeParcelable(this.course, flags);
     }
@@ -168,15 +167,12 @@ public class AgendaItem implements Serializable, Parcelable {
         this.itemId = in.readInt();
         this.title = in.readString();
         this.content = in.readString();
-        long tmpStartDate = in.readLong();
-        this.startDate = tmpStartDate == -1 ? null : new Date(tmpStartDate);
-        long tmpEndDate = in.readLong();
-        this.endDate = tmpEndDate == -1 ? null : new Date(tmpEndDate);
+        this.startDate = (ZonedDateTime) in.readSerializable();
+        this.endDate = (ZonedDateTime) in.readSerializable();
         this.location = in.readString();
         this.type = in.readString();
         this.lastEditUser = in.readString();
-        long tmpLastEdited = in.readLong();
-        this.lastEdited = tmpLastEdited == -1 ? null : new Date(tmpLastEdited);
+        this.lastEdited = TtbUtils.unserialize(in.readLong());
         this.lastEditType = in.readString();
         this.course = in.readParcelable(Course.class.getClassLoader());
     }

@@ -10,9 +10,9 @@ import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.requests.ActivitiesRequest;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,11 +39,11 @@ class EventCallback extends CacheHomeLoaderCallback<Activities> {
     @Override
     protected List<HomeCard> convertData(@NonNull Activities data) {
         Activities.filterActivities(data, context);
-        Date date = new Date();
+        ZonedDateTime now = ZonedDateTime.now();
         List<HomeCard> list = new ArrayList<>();
         for (Activity activity: data) {
             AssociationActivityCard activityCard = new AssociationActivityCard(activity);
-            if (activityCard.getPriority() > 0 && activity.getEndDate().after(date)) {
+            if (activityCard.getPriority() > 0 && activity.getStart().isAfter(now)) {
                 list.add(activityCard);
             }
         }

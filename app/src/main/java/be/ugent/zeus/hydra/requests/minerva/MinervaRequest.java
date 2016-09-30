@@ -11,8 +11,8 @@ import android.util.Log;
 
 import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
-import be.ugent.zeus.hydra.requests.common.RequestFailureException;
-import be.ugent.zeus.hydra.requests.common.TokenException;
+import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.requests.exceptions.TokenException;
 import be.ugent.zeus.hydra.requests.common.TokenRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpServerErrorException;

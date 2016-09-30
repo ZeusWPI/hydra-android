@@ -17,14 +17,13 @@ import be.ugent.zeus.hydra.activities.resto.MenuActivity;
 import be.ugent.zeus.hydra.activities.resto.MetaActivity;
 import be.ugent.zeus.hydra.activities.resto.SandwichActivity;
 import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
-import be.ugent.zeus.hydra.cache.CacheRequest;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.views.MenuTable;
-import org.joda.time.DateTime;
+import org.threeten.bp.LocalDateTime;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -118,15 +117,14 @@ public class RestoFragment extends CachedLoaderFragment<RestoOverview> {
     @Override
     public void receiveData(@NonNull RestoOverview data) {
 
-        //FragmentManager m = getChildFragmentManager();
-
         //We can't do anything without data.
         if(data.size() < 2) {
             return;
         }
 
         RestoMenu menu = data.get(0);
-        if(DateTime.now().isAfter(DateTime.now().withHourOfDay(CLOSING_HOUR)) || DateTime.now().isAfter(new DateTime(menu.getDate()))) {
+        LocalDateTime now = LocalDateTime.now();
+        if(now.isAfter(now.withHour(CLOSING_HOUR)) || now.isAfter(menu.getDate().atStartOfDay())) {
             menu = data.get(1);
         }
 
@@ -139,7 +137,7 @@ public class RestoFragment extends CachedLoaderFragment<RestoOverview> {
      * @return The request that will be executed.
      */
     @Override
-    public RestoMenuOverviewRequest getRequest() {
+    protected RestoMenuOverviewRequest getRequest() {
         return new RestoMenuOverviewRequest();
     }
 }

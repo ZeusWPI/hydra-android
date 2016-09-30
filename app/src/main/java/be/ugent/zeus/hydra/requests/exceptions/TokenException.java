@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.requests.common;
+package be.ugent.zeus.hydra.requests.exceptions;
 
 /**
  * Exception thrown when something went wrong while getting a token.
@@ -11,7 +11,4 @@ public class TokenException extends Exception {
         super();
     }
 
-    public TokenException(Throwable cause) {
-        super(cause);
-    }
 }

@@ -18,13 +18,15 @@ import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.Courses;
 import be.ugent.zeus.hydra.models.minerva.WhatsNew;
-import be.ugent.zeus.hydra.requests.common.RequestFailureException;
-import be.ugent.zeus.hydra.requests.common.RestTemplateException;
+import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.requests.exceptions.RestTemplateException;
 import be.ugent.zeus.hydra.requests.minerva.AgendaRequest;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
-import org.joda.time.DateTime;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.Collection;
 
@@ -74,7 +76,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         final AgendaDao agendaDao = new AgendaDao(getContext());
 
         try {
-
             //If this is the first request, clean everything.
             if(first) {
                 agendaDao.deleteAll();
@@ -87,11 +88,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             //Synchronise agenda
             AgendaRequest agendaRequest = new AgendaRequest(getContext(), account, null);
-            DateTime now = DateTime.now();
+            ZonedDateTime now = LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault());
             //Start time
-            agendaRequest.setStart(now.withTimeAtStartOfDay().toDate());
+            agendaRequest.setStart(now);
             //End time. We take 1 month (+1 day for the start time).
-            agendaRequest.setEnd(now.plusMonths(1).plusDays(1).withTimeAtStartOfDay().toDate());
+            agendaRequest.setEnd(now.plusMonths(1).plusDays(1));
 
             agendaDao.replace(agendaRequest.performRequest().getItems());
 
@@ -131,31 +132,36 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             if(e.getCause() instanceof RestTemplateException && request.getAccountBundle() != null) {
                 syncResult.stats.numAuthExceptions++;
                 Intent intent = request.getAccountBundle().getParcelable(AccountManager.KEY_INTENT);
-                SyncNotificationBuilder.showError(getContext(), intent);
-            } else { //It was something else.
-                //Adjust stats
-                if(e.getCause() != null) {
-                    if(e.getCause() instanceof RequestFailureException) {
-                        syncResult.stats.numIoExceptions++;
-                    } else {
-                        syncResult.stats.numParseExceptions++;
-                    }
-                }
-                SyncNotificationBuilder.showError(getContext());
+                SyncErrorNotification.Builder.init(getContext()).authError(intent).build().show();
+                broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
             }
-
-            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
+            //It was something else.
+            else {
+                //Adjust stats
+                if(e.getCause() != null && e.getCause() instanceof RequestFailureException) {
+                    syncResult.stats.numIoExceptions++;
+                } else {
+                    syncResult.stats.numParseExceptions++;
+                }
+                syncErrorNotification();
+            }
         } catch (SQLException e) {
             syncResult.databaseError = true;
-            Log.w(TAG, "Sync error.", e);
-            SyncNotificationBuilder.showError(getContext());
-            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
-        }  catch (HttpMessageNotReadableException e) {
             Log.e(TAG, "Sync error.", e);
-            SyncNotificationBuilder.showError(getContext());
-            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
+            syncErrorNotification();
+        }  catch (HttpMessageNotReadableException e) {
             syncResult.stats.numParseExceptions++;
+            Log.e(TAG, "Sync error.", e);
+            syncErrorNotification();
         }
+    }
+
+    /**
+     * Show an error notification. This will also broadcast the error intent.
+     */
+    private void syncErrorNotification() {
+        broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
+        SyncErrorNotification.Builder.init(getContext()).genericError().build().show();
     }
 
     @Override
@@ -184,7 +190,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         AnnouncementNotificationBuilder builder = new AnnouncementNotificationBuilder(getContext().getApplicationContext());
         builder.setAnnouncements(newAnnouncements);
         builder.setCourse(newAnnouncements.iterator().next().getCourse());
-        //TODO: limit to not every course!
         builder.publish();
     }
 }

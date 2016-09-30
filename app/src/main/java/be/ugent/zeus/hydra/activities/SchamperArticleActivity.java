@@ -69,7 +69,7 @@ public class SchamperArticleActivity extends ToolbarActivity {
 
         String category = StringUtils.capitaliseFirst(article.getCategory());
         if(article.getPubDate() != null) {
-            date.setText(DateUtils.relativeDateString(article.getPubDate(), date.getContext()) + " - " + category);
+            date.setText(DateUtils.relativeDateTimeString(article.getPubDate(), date.getContext()) + " - " + category);
         } else {
             date.setText(category);
         }

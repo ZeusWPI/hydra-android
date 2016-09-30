@@ -1,4 +1,6 @@
-package be.ugent.zeus.hydra.requests.common;
+package be.ugent.zeus.hydra.requests.exceptions;
+
+import be.ugent.zeus.hydra.requests.common.Request;
 
 /**
  * Exception thrown by a {@link Request} when something goes wrong while producing the data.

@@ -14,7 +14,7 @@ import android.widget.SearchView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.LoaderToolbarActivity;
-import be.ugent.zeus.hydra.cache.CacheRequest;
+import be.ugent.zeus.hydra.caching.CacheRequest;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.association.Associations;
 import be.ugent.zeus.hydra.recyclerview.adapters.MultiSelectListAdapter;
@@ -61,7 +61,7 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
         scroller.setRecyclerView(recyclerView);
 
         searchView.setOnQueryTextListener(adapter);
-        startLoader();
+        loaderHandler.startLoader();
     }
 
     @Override
@@ -100,7 +100,7 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
     }
 
     @Override
-    public CacheRequest<Associations, Associations> getRequest() {
+    public CacheRequest<Associations> getRequest() {
         return new AssociationsRequest();
     }
 

@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.NewsItemCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.requests.NewsRequest;
-import org.joda.time.DateTime;
+import org.threeten.bp.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +29,11 @@ class NewsCallback extends CacheHomeLoaderCallback<News> {
     @Override
     protected List<HomeCard> convertData(@NonNull News data) {
         List<HomeCard> newsItemCardList = new ArrayList<>();
-        DateTime now = DateTime.now();
-        DateTime sixMonthsAgo = now.minusMonths(6);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime sixMonthsAgo = now.minusMonths(6);
 
         for (NewsItem item : data) {
-            if (sixMonthsAgo.isBefore(item.getDate().getTime())) {
+            if (sixMonthsAgo.isBefore(item.getLocalDate())) {
                 newsItemCardList.add(new NewsItemCard(item));
             }
         }

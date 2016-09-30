@@ -4,12 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.text.TextUtils;
-import android.util.Log;
 
 import be.ugent.zeus.hydra.minerva.database.Dao;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.utils.TtbUtils;
 
 import java.util.*;
 
@@ -19,8 +18,6 @@ import java.util.*;
  * @author Niko Strijbol
  */
 public class AgendaDao extends Dao {
-
-    private static final String TAG = "AgendaDao";
 
     /**
      * @param context The application context.
@@ -34,56 +31,6 @@ public class AgendaDao extends Dao {
      */
     public void deleteAll() {
         helper.getWritableDatabase().delete(AgendaTable.TABLE_NAME, null, null);
-    }
-
-    /**
-     * Synchronise agenda for one course.
-     *
-     * @param agenda The agenda.
-     */
-    public void synchronisePartial(Collection<AgendaItem> agenda, Course course) {
-
-        //Get existing courses.
-        Set<Integer> present = getIdsForCourse(course);
-
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        int counter = 0;
-        try {
-            db.beginTransaction();
-
-            //Delete old courses
-            String ids = TextUtils.join(", ", getRemovable(present, agenda));
-            db.delete(AgendaTable.TABLE_NAME, AgendaTable.COLUMN_ID + " IN (?)", new String[]{ids});
-
-            Date date = new Date();
-            for (AgendaItem agendaItem: agenda ) {
-
-                agendaItem.setCourse(course);
-                ContentValues value = getValues(agendaItem);
-
-                //Update the announcement
-                if(present.contains(agendaItem.getItemId())) {
-                    value.remove(AgendaTable.COLUMN_ID);
-                    db.update(
-                            AgendaTable.TABLE_NAME,
-                            value,
-                            AgendaTable.COLUMN_ID + " = ?",
-                            new String[]{String.valueOf(agendaItem.getItemId())}
-                            );
-                }
-                //Add new announcement
-                else {
-                    db.insertOrThrow(AgendaTable.TABLE_NAME, null, value);
-                    counter++;
-                }
-            }
-            db.setTransactionSuccessful();
-        } finally {
-            db.endTransaction();
-        }
-
-        Log.d(TAG, "New agenda for " + course.getTitle() + ": " + counter);
     }
 
     /**
@@ -118,79 +65,15 @@ public class AgendaDao extends Dao {
         values.put(AgendaTable.COLUMN_COURSE, a.getCourseId());
         values.put(AgendaTable.COLUMN_TITLE, a.getTitle());
         values.put(AgendaTable.COLUMN_CONTENT, a.getContent());
-        values.put(AgendaTable.COLUMN_START_DATE, a.getStartDate().getTime());
-        values.put(AgendaTable.COLUMN_END_DATE, a.getEndDate().getTime());
+        values.put(AgendaTable.COLUMN_START_DATE, TtbUtils.serialize(a.getStartDate()));
+        values.put(AgendaTable.COLUMN_END_DATE, TtbUtils.serialize(a.getEndDate()));
         values.put(AgendaTable.COLUMN_LOCATION, a.getLocation());
         values.put(AgendaTable.COLUMN_TYPE, a.getType());
         values.put(AgendaTable.COLUMN_LAST_EDIT_USER, a.getLastEditUser());
-        values.put(AgendaTable.COLUMN_LAST_EDIT, a.getLastEdited().getTime());
+        values.put(AgendaTable.COLUMN_LAST_EDIT, TtbUtils.serialize(a.getLastEdited()));
         values.put(AgendaTable.COLUMN_LAST_EDIT_TYPE, a.getLastEditType());
 
         return values;
-    }
-
-    private static boolean intToBool(int integer) {
-        return integer == 1;
-    }
-
-    private static int boolToInt(boolean bool) {
-        return bool ? 1 : 0;
-    }
-
-    /**
-     * A set of ids that are not in the course.
-     *
-     * @param ids Ids of local courses.
-     * @param agendaItems Remote agenda.
-     * @return Local courses that can be deleted.
-     */
-    private static Set<Integer> getRemovable(final Set<Integer> ids, final Collection<AgendaItem> agendaItems) {
-        Set<Integer> removable = new HashSet<>(ids);
-        //Iterate the course to prevent O(n^2)
-        for (AgendaItem announcement: agendaItems) {
-            if(removable.contains(announcement.getItemId())) {
-                removable.remove(announcement.getItemId());
-            }
-        }
-
-        return removable;
-    }
-
-    /**
-     * Get a list of ids of the announcements for a course in the database.
-     *
-     * @param course The course.
-     *
-     * @return List of ids in the database.
-     */
-    private Set<Integer> getIdsForCourse(Course course) {
-
-        SQLiteDatabase db = helper.getReadableDatabase();
-
-        Cursor cursor = db.query(
-                AgendaTable.TABLE_NAME,
-                new String[] {AgendaTable.COLUMN_ID},
-                AgendaTable.COLUMN_COURSE + " = ?",
-                new String[]{course.getId()},
-                null, null, null);
-
-        Set<Integer> result = new HashSet<>();
-
-        if(cursor == null) {
-            return result;
-        }
-
-        try {
-            int columnIndex = cursor.getColumnIndex(AgendaTable.COLUMN_ID);
-
-            while (cursor.moveToNext()) {
-                result.add(cursor.getInt(columnIndex));
-            }
-        } finally {
-            cursor.close();
-        }
-
-        return result;
     }
 
     /**
@@ -242,12 +125,12 @@ public class AgendaDao extends Dao {
                 a.setItemId(cursor.getInt(columnIndex));
                 a.setTitle(cursor.getString(columnTitle));
                 a.setContent(cursor.getString(columnContent));
-                a.setStartDate(new Date(cursor.getLong(columnStartDate)));
-                a.setEndDate(new Date(cursor.getLong(columnEndDate)));
+                a.setStartDate(TtbUtils.unserialize(cursor.getLong(columnStartDate)));
+                a.setEndDate(TtbUtils.unserialize(cursor.getLong(columnEndDate)));
                 a.setLocation(cursor.getString(columnLocation));
                 a.setType(cursor.getString(columnType));
                 a.setLastEditUser(cursor.getString(columnLastEditUser));
-                a.setLastEdited(new Date(cursor.getLong(columnLastEdit)));
+                a.setLastEdited(TtbUtils.unserialize(cursor.getLong(columnLastEdit)));
                 a.setLastEditType(cursor.getString(columnLastEditType));
                 result.add(a);
             }

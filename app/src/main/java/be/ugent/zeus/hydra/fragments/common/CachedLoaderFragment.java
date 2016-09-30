@@ -1,34 +1,31 @@
 package be.ugent.zeus.hydra.fragments.common;
 
-import android.os.Bundle;
 import android.support.v4.content.Loader;
 
-import be.ugent.zeus.hydra.cache.CachedAsyncTaskLoader;
-import be.ugent.zeus.hydra.loader.ErrorLoaderCallback;
-import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.caching.CacheRequest;
+import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
+import be.ugent.zeus.hydra.loaders.ThrowableEither;
+import be.ugent.zeus.hydra.requests.common.SimpleCacheRequest;
 
 import java.io.Serializable;
 
 /**
- * Fragment that uses the {@link CachedAsyncTaskLoader}.
+ * Fragment for {@link SimpleCacheRequest}.
  *
  * The fragment supports a progress bar and refresh. The progress bar is automatically hidden. This fragment is
  * mostly used in the home screen.
  *
  * @author Niko Strijbol
  */
-public abstract class CachedLoaderFragment<D extends Serializable> extends LoaderFragment<D> implements ErrorLoaderCallback<D, D> {
+public abstract class CachedLoaderFragment<D extends Serializable> extends LoaderFragment<D> {
+
+    @Override
+    public Loader<ThrowableEither<D>> getLoader() {
+        return new RequestAsyncTaskLoader<>(new SimpleCacheRequest<>(getContext(), getRequest(), shouldRenew), getContext());
+    }
 
     /**
-     * Instantiate and return a new Loader for the given ID.
-     *
-     * @param id   The ID whose loader is to be created.
-     * @param args Any arguments supplied by the caller.
-     *
-     * @return Return a new Loader instance that is ready to start loading.
+     * @return The request that will be executed.
      */
-    @Override
-    public Loader<ThrowableEither<D>> onCreateLoader(int id, Bundle args) {
-        return new CachedAsyncTaskLoader<>(getRequest(), getContext(), shouldRenew);
-    }
+    protected abstract CacheRequest<D> getRequest();
 }

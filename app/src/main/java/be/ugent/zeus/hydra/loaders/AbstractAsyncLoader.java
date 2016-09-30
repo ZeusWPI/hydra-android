@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.loader;
+package be.ugent.zeus.hydra.loaders;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -6,12 +6,15 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.os.OperationCanceledException;
 
 /**
- * Abstract background loader.
+ * Abstract background loader. This loader loads data into a {@link ThrowableEither}, to be able to communicate errors
+ * to the requester.
+ *
+ * Why a class like this is not already in the API is beyond me, as this class is, for the most part, copying code from
+ * Google's tutorials.
  *
  * @param <D> The result of the request.
  *
  * @author Niko Strijbol
- * @see <a href="http://www.androiddesignpatterns.com/2012/08/implementing-loaders.html">Implementing loaders</a>
  */
 public abstract class AbstractAsyncLoader<D> extends AsyncTaskLoader<ThrowableEither<D>> {
 
@@ -26,16 +29,6 @@ public abstract class AbstractAsyncLoader<D> extends AsyncTaskLoader<ThrowableEi
         super(context);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * The data is loaded and cached by default.
-     *
-     * If the refresh flag is set, the existing cache is ignored, a new request is made and the result of that
-     * request is saved in the cache.
-     *
-     * @return The data or the error that occurred while getting the data.
-     */
     @Override
     public ThrowableEither<D> loadInBackground() {
 

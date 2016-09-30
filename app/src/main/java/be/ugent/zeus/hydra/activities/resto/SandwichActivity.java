@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.common.RestoWebsiteActivity;
@@ -47,7 +46,7 @@ public class SandwichActivity extends RestoWebsiteActivity<Sandwiches> {
         RecyclerFastScroller s = $(R.id.fast_scroller);
         s.attachRecyclerView(recyclerView);
 
-        startLoader();
+        loaderHandler.startLoader();
     }
 
     /**

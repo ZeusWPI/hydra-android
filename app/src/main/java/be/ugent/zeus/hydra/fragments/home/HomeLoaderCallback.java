@@ -1,17 +1,15 @@
 package be.ugent.zeus.hydra.fragments.home;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.requests.executor.RequestCallback;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +20,7 @@ import java.util.Set;
  *
  * @author Niko Strijbol
  */
-abstract class HomeLoaderCallback implements LoaderManager.LoaderCallbacks<ThrowableEither<List<HomeCard>>>, RequestCallback<List<HomeCard>> {
+abstract class HomeLoaderCallback implements LoaderManager.LoaderCallbacks<ThrowableEither<List<HomeCard>>> {
 
     protected final Context context;
     protected final HomeCardAdapter adapter;
@@ -32,29 +30,6 @@ abstract class HomeLoaderCallback implements LoaderManager.LoaderCallbacks<Throw
         this.context = context;
         this.adapter = adapter;
         this.callback = callback;
-    }
-
-    @Override
-    public void receiveData(@NonNull List<HomeCard> data) {
-
-        if(!isTypeActive()) {
-            return;
-        }
-
-        adapter.updateCardItems(data, getCardType());
-        callback.onCompleted();
-    }
-
-    @Override
-    public void receiveError(@NonNull Throwable error) {
-        if(!isTypeActive()) {
-            return;
-        }
-
-        String e = this.context.getString(R.string.fragment_home_error);
-        String name = this.context.getString(getErrorName());
-
-        callback.onError(String.format(e, name));
     }
 
     /**
@@ -87,10 +62,17 @@ abstract class HomeLoaderCallback implements LoaderManager.LoaderCallbacks<Throw
      */
     @Override
     public void onLoadFinished(Loader<ThrowableEither<List<HomeCard>>> loader, ThrowableEither<List<HomeCard>> data) {
+
+        if(!isTypeActive()) {
+            return;
+        }
+
         if (data.hasError()) {
-            receiveError(data.getError());
+            String errorName = context.getString(getErrorName());
+            callback.onError(String.format(context.getString(R.string.fragment_home_error), errorName));
         } else {
-            receiveData(data.getData());
+            adapter.updateCardItems(data.getData(), getCardType());
+            callback.onCompleted();
         }
     }
 
@@ -102,6 +84,6 @@ abstract class HomeLoaderCallback implements LoaderManager.LoaderCallbacks<Throw
      */
     @Override
     public void onLoaderReset(Loader<ThrowableEither<List<HomeCard>>> loader) {
-        loader.reset();
+        //
     }
 }

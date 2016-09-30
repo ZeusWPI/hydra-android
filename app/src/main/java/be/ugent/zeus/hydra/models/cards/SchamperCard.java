@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.models.cards;
 
 import be.ugent.zeus.hydra.models.schamper.Article;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
+import org.threeten.bp.Duration;
+import org.threeten.bp.ZonedDateTime;
 
 import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.SCHAMPER;
 
@@ -18,9 +18,9 @@ public class SchamperCard extends HomeCard {
 
     @Override
     public int getPriority() {
-        DateTime jodadate = new DateTime(this.getArticle().getPubDate());
-        Duration duration = new Duration(jodadate, new DateTime());
-        return (int) (1000 - (duration.getStandardDays()*100));
+        ZonedDateTime date = getArticle().getPubDate();
+        Duration duration = Duration.between(date, ZonedDateTime.now());
+        return (int) (1000 - (duration.toDays() * 100));
     }
 
     @Override

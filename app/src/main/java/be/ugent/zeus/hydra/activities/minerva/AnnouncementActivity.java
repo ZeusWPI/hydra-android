@@ -16,8 +16,7 @@ import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.utils.html.Utils;
-
-import java.util.Date;
+import org.threeten.bp.ZonedDateTime;
 
 /**
  * Show a Minerva announcement.
@@ -59,7 +58,7 @@ public class AnnouncementActivity extends ToolbarActivity {
         }
 
         if(announcement.getDate() != null) {
-            date.setText(DateUtils.relativeDateString(announcement.getDate(), date.getContext()));
+            date.setText(DateUtils.relativeDateTimeString(announcement.getDate(), date.getContext()));
         }
 
         if(announcement.getContent() != null) {
@@ -101,7 +100,7 @@ public class AnnouncementActivity extends ToolbarActivity {
         //Set the read date if needed
         if(!announcement.isRead()) {
             read = true;
-            announcement.setRead(new Date());
+            announcement.setRead(ZonedDateTime.now());
         }
         setResult();
     }

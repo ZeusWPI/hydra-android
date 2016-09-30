@@ -3,8 +3,8 @@ package be.ugent.zeus.hydra.minerva.announcement;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.loader.AbstractAsyncLoader;
-import be.ugent.zeus.hydra.loader.LoaderException;
+import be.ugent.zeus.hydra.loaders.AbstractAsyncLoader;
+import be.ugent.zeus.hydra.loaders.LoaderException;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
 

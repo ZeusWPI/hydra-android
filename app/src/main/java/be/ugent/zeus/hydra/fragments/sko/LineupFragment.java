@@ -95,7 +95,7 @@ public class LineupFragment extends CachedLoaderFragment<Artists> implements Swi
     @Override
     public void onRefresh() {
         shouldRenew = true;
-        restartLoader();
+        loaderHandler.restartLoader();
         shouldRenew = false;
     }
 
@@ -116,7 +116,7 @@ public class LineupFragment extends CachedLoaderFragment<Artists> implements Swi
     }
 
     @Override
-    public LineupRequest getRequest() {
+    protected LineupRequest getRequest() {
         return new LineupRequest();
     }
 

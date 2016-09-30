@@ -17,11 +17,11 @@ import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.auth.models.BearerToken;
 import be.ugent.zeus.hydra.minerva.auth.models.GrantInformation;
 import be.ugent.zeus.hydra.requests.common.Request;
-import be.ugent.zeus.hydra.requests.common.RequestFailureException;
+import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.requests.minerva.UserInfoRequest;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.utils.customtabs.CustomTabsHelper;
-import org.joda.time.DateTime;
+import org.threeten.bp.LocalDateTime;
 
 /**
  * An activity to prompt the user to authorise our access to the account.
@@ -175,8 +175,8 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
                     manager.setPassword(account, result.getRefreshToken());
                 }
 
-                DateTime expiration = DateTime.now().plusSeconds(result.getExpiresIn());
-                manager.setUserData(account, MinervaAuthenticator.EXP_DATE, MinervaAuthenticator.formatter.print(expiration));
+                LocalDateTime expiration = LocalDateTime.now().plusSeconds(result.getExpiresIn());
+                manager.setUserData(account, MinervaAuthenticator.EXP_DATE, expiration.format(MinervaAuthenticator.formatter));
                 manager.setAuthToken(account, authType, result.getAccessToken());
 
                 //Make intent for return value

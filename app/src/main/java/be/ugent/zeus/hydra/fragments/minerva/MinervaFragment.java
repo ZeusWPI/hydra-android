@@ -19,11 +19,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
+import be.ugent.zeus.hydra.loaders.ThrowableEither;
+import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
-import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.loader.ThrowableEither;
-import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.course.CourseDao;
 import be.ugent.zeus.hydra.minerva.course.CourseDaoLoader;
 import be.ugent.zeus.hydra.minerva.sync.SyncAdapter;
@@ -171,7 +171,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         if(isLoggedIn()) {
             authWrapper.setVisibility(View.GONE);
             showProgressBar();
-            startLoader();
+            loaderHandler.startLoader();
         }
     }
 
@@ -185,11 +185,6 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         adapter.setItems(data);
         recyclerView.setVisibility(View.VISIBLE);
         getActivity().invalidateOptionsMenu();
-    }
-
-    @Override
-    public Loader<ThrowableEither<List<Course>>> onCreateLoader(int id, Bundle args) {
-        return new CourseDaoLoader(getContext(), courseDao);
     }
 
     @Override
@@ -232,7 +227,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
                 //Show login prompt
                 authWrapper.setVisibility(View.VISIBLE);
                 //Destroy loaders
-                destroyLoader();
+                loaderHandler.destroyLoader();
                 //Delete database
                 clearDatabase();
                 //Reload options
@@ -252,7 +247,6 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         super.onResume();
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
         manager.registerReceiver(syncReceiver, SyncBroadcast.getBroadcastFilter());
-        //getContext().registerReceiver(syncReceiver, SyncBroadcast.getBroadcastFilter());
     }
 
     @Override
@@ -260,7 +254,6 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         super.onPause();
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
         manager.unregisterReceiver(syncReceiver);
-        //getContext().unregisterReceiver(syncReceiver);
     }
 
     //This will only be called if manually set to send broadcasts.
@@ -279,7 +272,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
                     syncBar.dismiss();
                     syncBar = null;
                     recyclerView.setVisibility(View.VISIBLE);
-                    restartLoader();
+                    loaderHandler.restartLoader();
                     return;
                 case SyncBroadcast.SYNC_ERROR:
                     Log.d(TAG, "Error");
@@ -317,5 +310,10 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         } else {
             syncBar.setText(text);
         }
+    }
+
+    @Override
+    public Loader<ThrowableEither<List<Course>>> getLoader() {
+        return new CourseDaoLoader(getContext(), courseDao);
     }
 }
