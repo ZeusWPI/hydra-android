@@ -16,11 +16,11 @@
             android:targetClass="be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity"/>
     </header>
 
-    <!-- Notifications -->
+    <!-- Resto -->
     <header
-        android:fragment="be.ugent.zeus.hydra.fragments.preferences.NotificationFragment"
-        android:title="@string/pref_daily_notifications_title"
-        android:summary="Dit staat nog niet helemaal op punt." />
+        android:fragment="be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment"
+        android:title="@string/pref_resto_title"
+        android:summary="@string/pref_resto_description" />
     <!-- Minerva -->
     <header
         android:fragment="be.ugent.zeus.hydra.fragments.preferences.MinervaFragment"

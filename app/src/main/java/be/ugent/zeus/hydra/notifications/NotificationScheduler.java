@@ -7,9 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import be.ugent.zeus.hydra.preference.Time;
 
-import java.util.Calendar;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
+import org.threeten.bp.ZonedDateTime;
 
 /**
  * @author Rien Maertens
@@ -41,18 +42,29 @@ public class NotificationScheduler {
     }
 
     public void scheduleNotification(){
-        scheduleNotification(preferences.getInt("pref_daily_notifications_time", 0));
+        scheduleNotification(preferences.getString("pref_resto_notifications_time", "12:00"));
     }
 
-    public void scheduleNotification(Object time){
-        Time timeObj = new Time(time);
-        Calendar cal = timeObj.nextOccurrence();
+    public void scheduleNotification(String time) {
+
+        LocalTime notificationTime = LocalTime.parse(time);
+        LocalDateTime now = LocalDateTime.now();
+
+        ZonedDateTime nextOccurrence = ZonedDateTime.now();
+
+        //Get the next occurrence
+        if(notificationTime.isAfter(now.toLocalTime())) {
+            nextOccurrence = nextOccurrence.plusDays(1);
+        }
+
+        nextOccurrence = nextOccurrence.withHour(notificationTime.getHour()).withMinute(notificationTime.getMinute());
+
         cancelNotifications();
 
         // Daily alarm
         alarmManager.setInexactRepeating(
                 AlarmManager.RTC_WAKEUP,
-                cal.getTimeInMillis(),
+                nextOccurrence.toInstant().toEpochMilli(),
                 AlarmManager.INTERVAL_DAY,
                 pendingIntent);
     }

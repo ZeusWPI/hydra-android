@@ -15,19 +15,19 @@ import be.ugent.zeus.hydra.preference.TimePreference;
  *
  * @author Rien Maertens
  */
-public class NotificationFragment extends PreferenceFragment {
+public class RestoPreferenceFragment extends PreferenceFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.pref_notifications);
+        addPreferencesFromResource(R.xml.pref_resto);
 
         // Set and remove notifications
         final NotificationScheduler scheduler = new NotificationScheduler(getActivity());
         final CheckBoxPreference notificationCheckbox = (CheckBoxPreference) findPreference("pref_key_daily_notifications_checkbox");
-        TimePreference notificationTime = (TimePreference) findPreference("pref_daily_notifications_time");
+        TimePreference notificationTime = (TimePreference) findPreference("pref_resto_notifications_time");
 
         notificationCheckbox.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -44,7 +44,7 @@ public class NotificationFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if(notificationCheckbox.isChecked()){
-                    scheduler.scheduleNotification(newValue);
+                    scheduler.scheduleNotification((String) newValue);
                 }
                 return true;
             }
