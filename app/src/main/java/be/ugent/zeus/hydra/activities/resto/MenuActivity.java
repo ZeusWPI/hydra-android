@@ -10,14 +10,12 @@ import android.support.v4.view.ViewPager;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.common.RestoWebsiteActivity;
-import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
 import be.ugent.zeus.hydra.loaders.LoaderCallbackHandler;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
 import be.ugent.zeus.hydra.viewpager.MenuPagerAdapter;
 import org.threeten.bp.LocalDate;
-import org.threeten.bp.ZonedDateTime;
 
 import java.util.Collections;
 
@@ -69,14 +67,10 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> implements
         Intent intent = getIntent();
 
         //Get the default start date
-        ZonedDateTime start = ZonedDateTime.now();
-        if(start.isAfter(start.withHour(RestoFragment.CLOSING_HOUR))) {
-            start = start.plusDays(1);
-        }
         if(intent.hasExtra(ARG_DATE)) {
             startDate = (LocalDate) intent.getSerializableExtra(ARG_DATE);
         } else {
-            startDate = start.toLocalDate();
+            startDate = LocalDate.now();
         }
 
         loaderHandler.startLoader();

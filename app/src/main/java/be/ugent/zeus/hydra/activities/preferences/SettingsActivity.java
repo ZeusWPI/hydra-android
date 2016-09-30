@@ -13,7 +13,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.AppCompatPreferenceActivity;
 import be.ugent.zeus.hydra.fragments.preferences.HomeFragment;
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
-import be.ugent.zeus.hydra.fragments.preferences.NotificationFragment;
+import be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.fragments.preferences.SkoFragment;
 import be.ugent.zeus.hydra.notifications.NotificationScheduler;
 
@@ -43,7 +43,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
-                || NotificationFragment.class.getName().equals(fragmentName)
+                || RestoPreferenceFragment.class.getName().equals(fragmentName)
                 || HomeFragment.class.getName().equals(fragmentName)
                 || MinervaFragment.class.getName().equals(fragmentName)
                 || SkoFragment.class.getName().equals(fragmentName);

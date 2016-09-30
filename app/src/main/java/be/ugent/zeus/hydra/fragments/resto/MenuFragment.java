@@ -11,8 +11,6 @@ import be.ugent.zeus.hydra.views.MenuTable;
 
 /**
  * Displays the resto menu for one day.
- *
- * The subclasses should decided in what manner the data is represented.
  */
 public class MenuFragment extends Fragment {
 
@@ -36,9 +34,6 @@ public class MenuFragment extends Fragment {
         return fragment;
     }
 
-    /**
-     * Some implementations may wish to persist the data.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
