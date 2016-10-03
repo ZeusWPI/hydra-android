@@ -64,7 +64,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
-    compile 'com.google.android.gms:play-services-analytics:9.4.0'
+    compile 'com.google.android.gms:play-services-analytics:9.6.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.KyoSherlock:expandablelayout:master-SNAPSHOT'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.1@aar'
@@ -81,9 +81,9 @@ dependencies {
     }
 
     //compile 'com.google.firebase:firebase-core:9.4.0'
-    //compile 'com.google.firebase:firebase-crash:9.4.0'
-    compile 'com.google.firebase:firebase-messaging:9.4.0'
-    compile 'com.google.firebase:firebase-config:9.4.0'
+    releaseCompile 'com.google.firebase:firebase-crash:9.6.1'
+    compile 'com.google.firebase:firebase-messaging:9.6.1'
+    compile 'com.google.firebase:firebase-config:9.6.1'
 
     compile 'su.j2e:rv-joiner:1.0.9'
 
