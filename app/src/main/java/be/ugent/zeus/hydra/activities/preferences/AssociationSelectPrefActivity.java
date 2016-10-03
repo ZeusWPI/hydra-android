@@ -173,7 +173,9 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
             for(Map.Entry<Association, Boolean> pair: allData.entrySet()) {
                 String text = newText.toLowerCase();
                 Association a = pair.getKey();
-                if(a.getDisplayName().toLowerCase().contains(text) || (a.getFullName() != null && a.getFullName().toLowerCase().contains(text))) {
+                if(a.getDisplayName().toLowerCase().contains(text) ||
+                        (a.getFullName() != null && a.getFullName().toLowerCase().contains(text)) ||
+                        a.getInternalName().toLowerCase().contains(text)) {
                     newList.add(new Pair<>(a, pair.getValue()));
                 }
             }
