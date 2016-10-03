@@ -110,9 +110,9 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
 
         //Save the values.
         Set<String> disabled = new HashSet<>();
-        for (Pair<Association, Boolean> pair: adapter.getItems()) {
-            if(!pair.second) {
-                disabled.add(pair.first.getInternalName());
+        for (Map.Entry<Association, Boolean> pair: adapter.allData.entrySet()) {
+            if(!pair.getValue()) {
+                disabled.add(pair.getKey().getInternalName());
             }
         }
 
@@ -122,12 +122,29 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
 
     private static class SearchableAdapter extends MultiSelectListAdapter<Association> implements SearchView.OnQueryTextListener, SectionTitleProvider {
 
-        private List<Pair<Association, Boolean>> allData;
+        private Map<Association, Boolean> allData = new HashMap<>();
 
         @Override
         public void setItems(List<Pair<Association, Boolean>> list) {
             super.setItems(list);
-            allData = list;
+            for(Pair<Association, Boolean> pair: list) {
+                allData.put(pair.first, pair.second);
+            }
+        }
+
+        @Override
+        public void setChecked(int position) {
+            super.setChecked(position);
+            Pair<Association, Boolean> newData = items.get(position);
+            allData.put(newData.first, newData.second);
+        }
+
+        @Override
+        public void setAllChecked(boolean checked) {
+            super.setAllChecked(checked);
+            for(Association key: allData.keySet()) {
+                allData.put(key, checked);
+            }
         }
 
         @Override
@@ -143,17 +160,21 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
             }
 
             if(newText.isEmpty()) {
-                this.items = allData;
+                List<Pair<Association, Boolean>> newList = new ArrayList<>();
+                for(Map.Entry<Association, Boolean> pair: allData.entrySet()) {
+                    newList.add(new Pair<>(pair.getKey(), pair.getValue()));
+                }
+                this.items = newList;
                 notifyDataSetChanged();
             }
 
             List<Pair<Association, Boolean>> newList = new ArrayList<>();
 
-            for(Pair<Association, Boolean> pair: allData) {
-                Association a = pair.first;
+            for(Map.Entry<Association, Boolean> pair: allData.entrySet()) {
                 String text = newText.toLowerCase();
+                Association a = pair.getKey();
                 if(a.getDisplayName().toLowerCase().contains(text) || (a.getFullName() != null && a.getFullName().toLowerCase().contains(text))) {
-                    newList.add(pair);
+                    newList.add(new Pair<>(a, pair.getValue()));
                 }
             }
 
