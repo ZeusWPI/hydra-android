@@ -23,7 +23,7 @@ public class Activities extends ArrayList<Activity> {
      * class. While not optimal, this is a consequence of the type erasure of Java. This should be solved in Java 9, so
      * we'll probably see it in Android in 2050 or so.
      *
-     * @param data The data to filter. This list is not touched.
+     * @param data The data to filter.
      * @param context The context.
      */
     public static List<Activity> filterActivities(List<Activity> data, Context context) {

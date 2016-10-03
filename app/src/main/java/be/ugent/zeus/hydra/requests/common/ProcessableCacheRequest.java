@@ -17,7 +17,7 @@ import java.io.Serializable;
  */
 public abstract class ProcessableCacheRequest<D extends Serializable, R> implements Request<R> {
 
-    private final Context context;
+    protected final Context context;
     private final CacheRequest<D> cacheRequest;
     private boolean shouldRefresh;
 

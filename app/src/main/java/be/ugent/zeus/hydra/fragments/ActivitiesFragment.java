@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.Loader;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,12 +16,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
-import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
+import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
+import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
+import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.models.association.Activities;
 import be.ugent.zeus.hydra.models.association.Activity;
 import be.ugent.zeus.hydra.recyclerview.adapters.ActivityListAdapter;
-import be.ugent.zeus.hydra.requests.ActivitiesRequest;
+import be.ugent.zeus.hydra.requests.events.FilteredEventRequest;
 import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
@@ -34,7 +38,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author ellen
  * @author Niko Strijbol
  */
-public class ActivitiesFragment extends CachedLoaderFragment<Activities> implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class ActivitiesFragment extends LoaderFragment<Activities> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private ActivityListAdapter adapter;
     private LinearLayout noData;
@@ -92,8 +96,7 @@ public class ActivitiesFragment extends CachedLoaderFragment<Activities> impleme
 
         Activities.filterActivities(data, getContext());
 
-        adapter.setData(data);
-        adapter.notifyDataSetChanged();
+        adapter.setItems(data);
 
         //If empty, show it.
         if(data.isEmpty()) {
@@ -109,8 +112,7 @@ public class ActivitiesFragment extends CachedLoaderFragment<Activities> impleme
 
         //Refresh the data.
         if(invalid) {
-            //No need for a new thread, since this is pretty fast.
-            setData(adapter.getOriginal());
+            loaderHandler.restartLoader();
             invalid = false;
         }
     }
@@ -126,7 +128,7 @@ public class ActivitiesFragment extends CachedLoaderFragment<Activities> impleme
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equals("pref_association_checkbox") || key.equals("associationPrefListScreen")) {
+        if(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING.equals(key)) {
             invalid = true;
         }
     }
@@ -138,15 +140,11 @@ public class ActivitiesFragment extends CachedLoaderFragment<Activities> impleme
      */
     @Override
     public void receiveData(@NonNull Activities data) {
-        adapter.setOriginal(data);
         setData(data);
     }
 
-    /**
-     * @return The request that will be executed.
-     */
     @Override
-    protected ActivitiesRequest getRequest() {
-        return new ActivitiesRequest();
+    public Loader<ThrowableEither<Activities>> getLoader() {
+        return new RequestAsyncTaskLoader<>(new FilteredEventRequest(getContext(), shouldRenew), getContext());
     }
 }
