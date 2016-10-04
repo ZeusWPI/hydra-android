@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -60,18 +59,17 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
     }
 
     /**
-     * Change the boolean value at the given position to the given value. This operation DOES NOT trigger a change
+     * Change the boolean value at the given position to the reverse value. This operation DOES NOT trigger a change
      * in the recycler view data, so the methods for changed items is not called. The rationale behind this is that
      * this method is meant to be attached to a checkbox as a listener. Then the checkbox is already updated.
      *
      * Implementation note: the value at the position is replaced with a new instance.
      *
      * @param position The position.
-     * @param checked The value.
      */
-    public void setChecked(int position, boolean checked) {
-        H value = items.get(position).first;
-        items.set(position, new Pair<>(value, checked));
+    public void setChecked(int position) {
+        Pair<H, Boolean> old = items.get(position);
+        items.set(position, new Pair<>(old.first, !old.second));
     }
 
     /**
@@ -137,13 +135,14 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
             parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    adapter.setChecked(getAdapterPosition());
                     checkBox.toggle();
                 }
             });
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    adapter.setChecked(getAdapterPosition(), isChecked);
+                public void onClick(View v) {
+                    adapter.setChecked(getAdapterPosition());
                 }
             });
         }

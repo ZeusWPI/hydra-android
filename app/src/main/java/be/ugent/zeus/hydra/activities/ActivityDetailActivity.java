@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.text.util.LinkifyCompat;
+import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -67,6 +69,7 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
 
         if(event.getDescription() != null && !event.getDescription().trim().isEmpty()) {
             description.setText(event.getDescription());
+            LinkifyCompat.addLinks(description, Linkify.ALL);
         }
 
         if(event.hasLocation()) {

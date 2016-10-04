@@ -9,7 +9,7 @@ import be.ugent.zeus.hydra.models.association.Activity;
 import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.requests.ActivitiesRequest;
+import be.ugent.zeus.hydra.requests.events.ActivitiesRequest;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
