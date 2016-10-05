@@ -31,11 +31,9 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author Niko Strijbol
  * @author silox
  */
-public class HomeFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, FragmentCallback {
+public class HomeFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final String PREF_DISABLED_CARDS = "pref_disabled_cards";
-
-    private static final String TAG = "HomeFragment";
 
     private static final int MENU_LOADER = 1;
     private static final int ACTIVITY_LOADER = 2;
@@ -84,12 +82,12 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
             }
         });
 
-        menuCallback = new RestoMenuCallback(getContext(), adapter, this);
-        eventCallback = new EventCallback(getContext(), adapter, this);
-        specialEventCallback = new SpecialEventCallback(getContext(), adapter, this);
-        schamperCallback = new SchamperCallback(getContext(), adapter, this);
-        newsCallback = new NewsCallback(getContext(), adapter, this);
-        courseCallback = new MinervaCallback(getContext(), adapter, this);
+        menuCallback = new RestoMenuCallback(this, adapter);
+        eventCallback = new EventCallback(this, adapter);
+        specialEventCallback = new SpecialEventCallback(this, adapter);
+        schamperCallback = new SchamperCallback(this, adapter);
+        newsCallback = new NewsCallback(this, adapter);
+        courseCallback = new MinervaCallback(this, adapter);
 
         startLoaders();
 
@@ -154,20 +152,24 @@ public class HomeFragment extends Fragment implements SharedPreferences.OnShared
     /**
      * Called when the loading was successfully completed.
      */
-    @Override
     public void onCompleted() {
         swipeRefreshLayout.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
     }
 
-    @Override
+    /**
+     * Receive an error message.
+     * @param errorMessage The message.
+     */
     public void onError(String errorMessage) {
         assert getView() != null;
         progressBar.setVisibility(View.GONE);
         Snackbar.make(getView(), errorMessage, Snackbar.LENGTH_LONG).show();
     }
 
-    @Override
+    /**
+     * @return If the data should be refreshed or not.
+     */
     public boolean shouldRefresh() {
         return this.shouldRefresh;
     }

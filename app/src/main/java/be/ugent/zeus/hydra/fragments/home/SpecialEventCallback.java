@@ -7,15 +7,14 @@ import android.support.v4.content.Loader;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.loaders.AbstractAsyncLoader;
-import be.ugent.zeus.hydra.loaders.LoaderException;
+import be.ugent.zeus.hydra.requests.SpecialRemoteEventRequest;
+import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
 import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.SpecialEventCard;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
-import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.requests.SpecialRemoteEventRequest;
+import be.ugent.zeus.hydra.requests.common.Request;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import org.threeten.bp.ZonedDateTime;
 
@@ -27,12 +26,12 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-class SpecialEventCallback extends HomeLoaderCallback {
+class SpecialEventCallback extends AbstractCallback {
 
     private static final boolean DEVELOPMENT = BuildConfig.DEBUG;
 
-    public SpecialEventCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
-        super(context, adapter, callback);
+    public SpecialEventCallback(HomeFragment fragment, HomeCardAdapter adapter) {
+        super(fragment, adapter);
     }
 
     @Override
@@ -47,29 +46,23 @@ class SpecialEventCallback extends HomeLoaderCallback {
 
     @Override
     public Loader<ThrowableEither<List<HomeCard>>> onCreateLoader(int id, Bundle args) {
-        return new SpecialAsyncLoader(context);
+        return new RequestAsyncTaskLoader<>(new SpecialEventRequest(context, fragment.shouldRefresh()), context);
     }
 
-    private static class SpecialAsyncLoader extends AbstractAsyncLoader<List<HomeCard>> {
+    private static class SpecialEventRequest implements Request<List<HomeCard>> {
 
-        private SpecialAsyncLoader(Context context) {
-            super(context);
+        private final SpecialRemoteEventRequest remoteEventRequest;
+
+        private SpecialEventRequest(Context context, boolean shouldRefresh) {
+            remoteEventRequest = new SpecialRemoteEventRequest(context, shouldRefresh);
         }
 
         @NonNull
         @Override
-        protected List<HomeCard> getData() throws LoaderException {
-            try {
-                return convertData((new SpecialRemoteEventRequest()).performRequest());
-            } catch (RequestFailureException e) {
-                throw new LoaderException(e);
-            }
-        }
-
-        private List<HomeCard> convertData(@NonNull SpecialEventWrapper data) {
+        public List<HomeCard> performRequest() throws RequestFailureException {
             List<HomeCard> list = new ArrayList<>();
             ZonedDateTime now = ZonedDateTime.now();
-            for (SpecialEvent event: data.getSpecialEvents()) {
+            for (SpecialEvent event: remoteEventRequest.performRequest().getSpecialEvents()) {
 
                 //Events without date are always shown.
                 if(event.getStart() == null && event.getEnd() == null) {

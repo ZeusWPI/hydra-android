@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.requests;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -8,7 +9,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvents;
-import be.ugent.zeus.hydra.requests.common.Request;
+import be.ugent.zeus.hydra.requests.common.ProcessableCacheRequest;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
@@ -21,16 +22,16 @@ import java.util.concurrent.ExecutionException;
  *
  * @author Niko Strijbol
  */
-public class SpecialRemoteEventRequest implements Request<SpecialEventWrapper> {
+public class SpecialRemoteEventRequest extends ProcessableCacheRequest<SpecialEventWrapper, SpecialEventWrapper> {
 
     private static final String TAG = "RemoteEventRequest";
     public static final String REMOTE_SKO_KEY = "is_sko_card_enabled";
 
     private FirebaseRemoteConfig config;
-    private SpecialEventRequest request;
+    private RequestFailureException potentialException;
 
-    public SpecialRemoteEventRequest() {
-        request = new SpecialEventRequest();
+    public SpecialRemoteEventRequest(Context context, boolean shouldRefresh) {
+        super(context, new SpecialEventRequest(), shouldRefresh);
         config = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
                 .setDeveloperModeEnabled(BuildConfig.DEBUG)
@@ -41,11 +42,22 @@ public class SpecialRemoteEventRequest implements Request<SpecialEventWrapper> {
 
     @NonNull
     @Override
-    public SpecialEventWrapper performRequest() throws RequestFailureException {
+    public SpecialEventWrapper performRequest() {
+        try {
+            return super.performRequest();
+        } catch (RequestFailureException e) {
+            Log.w(TAG, "Error while getting special events, returning empty collection.", e);
+            potentialException = e;
+            //Empty wrapper.
+            SpecialEventWrapper wrapper = new SpecialEventWrapper();
+            wrapper.setSpecialEvents(new SpecialEvents());
+            return wrapper;
+        }
+    }
 
-        //Empty wrapper.
-        SpecialEventWrapper wrapper = new SpecialEventWrapper();
-        wrapper.setSpecialEvents(new SpecialEvents());
+    @NonNull
+    @Override
+    protected SpecialEventWrapper transform(@NonNull SpecialEventWrapper wrapper) throws RequestFailureException {
 
         //Add the SKO card if necessary.
         try {
@@ -64,21 +76,18 @@ public class SpecialRemoteEventRequest implements Request<SpecialEventWrapper> {
             event.setImage("http://blog.studentkickoff.be/wp-content/uploads/2016/07/logo.png");
             event.setSko(true);
             event.setPriority(1010);
-            wrapper.getSpecialEvents().add(event);
+            //Add to the front.
+            wrapper.getSpecialEvents().add(0, event);
         } else {
             Log.d(TAG, "Not adding SKO card.");
         }
 
-        //Add normal special events.
-        try {
-            wrapper.getSpecialEvents().addAll(request.performRequest().getSpecialEvents());
-        } catch (RequestFailureException e) {
-            //If there are no special events, we pass along the error.
-            if(wrapper.getSpecialEvents().isEmpty()) {
-                throw e;
-            }
+        //If the error is set, and the wrapper is empty, we propagate the error.
+        //If it is not empty, we return it, since the special event is present.
+        if(potentialException != null && wrapper.getSpecialEvents().isEmpty()) {
+            throw potentialException;
+        } else {
+            return wrapper;
         }
-
-        return wrapper;
     }
 }

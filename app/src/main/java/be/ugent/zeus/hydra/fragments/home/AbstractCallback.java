@@ -20,16 +20,16 @@ import java.util.Set;
  *
  * @author Niko Strijbol
  */
-abstract class HomeLoaderCallback implements LoaderManager.LoaderCallbacks<ThrowableEither<List<HomeCard>>> {
+public abstract class AbstractCallback implements LoaderManager.LoaderCallbacks<ThrowableEither<List<HomeCard>>> {
 
     protected final Context context;
     protected final HomeCardAdapter adapter;
-    protected final FragmentCallback callback;
+    protected final HomeFragment fragment;
 
-    public HomeLoaderCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
-        this.context = context;
+    public AbstractCallback(HomeFragment fragment, HomeCardAdapter adapter) {
+        this.context = fragment.getContext();
         this.adapter = adapter;
-        this.callback = callback;
+        this.fragment = fragment;
     }
 
     /**
@@ -69,10 +69,10 @@ abstract class HomeLoaderCallback implements LoaderManager.LoaderCallbacks<Throw
 
         if (data.hasError()) {
             String errorName = context.getString(getErrorName());
-            callback.onError(String.format(context.getString(R.string.fragment_home_error), errorName));
+            fragment.onError(String.format(context.getString(R.string.fragment_home_error), errorName));
         } else {
             adapter.updateCardItems(data.getData(), getCardType());
-            callback.onCompleted();
+            fragment.onCompleted();
         }
     }
 

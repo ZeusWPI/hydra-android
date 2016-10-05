@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.Loader;
-import android.util.Log;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.loaders.AbstractAsyncLoader;
@@ -26,12 +25,10 @@ import java.util.Map;
  *
  * @author Niko Strijbol
  */
-class MinervaCallback extends HomeLoaderCallback {
+class MinervaCallback extends AbstractCallback {
 
-    private static final String TAG = "MinervaCallback";
-
-    public MinervaCallback(Context context, HomeCardAdapter adapter, FragmentCallback callback) {
-        super(context, adapter, callback);
+    public MinervaCallback(HomeFragment fragment, HomeCardAdapter adapter) {
+        super(fragment, adapter);
     }
 
     @Override
@@ -46,20 +43,14 @@ class MinervaCallback extends HomeLoaderCallback {
 
     @Override
     public Loader<ThrowableEither<List<HomeCard>>> onCreateLoader(int id, Bundle args) {
-        Log.d(TAG, "Called");
-        return new DoaLoader(context);
+        return new MinervaLoader(context);
     }
 
-    private static class DoaLoader extends AbstractAsyncLoader<List<HomeCard>> {
+    private static class MinervaLoader extends AbstractAsyncLoader<List<HomeCard>> {
 
         private AnnouncementDao announcementDao;
 
-        /**
-         * This loader has the option to ignore the cache.
-         *
-         * @param context The context.
-         */
-        private DoaLoader(Context context) {
+        private MinervaLoader(Context context) {
             super(context);
             announcementDao = new AnnouncementDao(context);
         }
@@ -71,11 +62,9 @@ class MinervaCallback extends HomeLoaderCallback {
             Map<Course, List<Announcement>> map = announcementDao.getUnread();
             List<HomeCard> cards = new ArrayList<>();
 
-            for (Map.Entry<Course, List<Announcement>> entry: map.entrySet()) {
+            for (Map.Entry<Course, List<Announcement>> entry : map.entrySet()) {
                 cards.add(new MinervaAnnouncementsCard(entry.getValue(), entry.getKey()));
             }
-
-            Log.d(TAG, cards.toString());
 
             return cards;
         }

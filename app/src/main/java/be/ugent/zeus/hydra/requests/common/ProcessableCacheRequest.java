@@ -80,5 +80,5 @@ public abstract class ProcessableCacheRequest<D extends Serializable, R> impleme
      * @return Something else.
      */
     @NonNull
-    protected abstract R transform(@NonNull D data);
+    protected abstract R transform(@NonNull D data) throws RequestFailureException;
 }
