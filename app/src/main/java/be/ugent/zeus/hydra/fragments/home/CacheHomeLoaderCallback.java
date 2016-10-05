@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.Loader;
 
-import be.ugent.zeus.hydra.caching.CacheRequest;
+import be.ugent.zeus.hydra.caching.CacheableRequest;
 import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
 import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
@@ -42,11 +42,11 @@ abstract class CacheHomeLoaderCallback<D extends Serializable> extends HomeLoade
     /**
      * @return The request to execute.
      */
-    protected abstract CacheRequest<D> getCacheRequest();
+    protected abstract CacheableRequest<D> getCacheRequest();
 
     private class HomeRequest extends ProcessableCacheRequest<D, List<HomeCard>> {
 
-        private HomeRequest(Context context, CacheRequest<D> request, boolean shouldRefresh) {
+        private HomeRequest(Context context, CacheableRequest<D> request, boolean shouldRefresh) {
             super(context, request, shouldRefresh);
         }
 

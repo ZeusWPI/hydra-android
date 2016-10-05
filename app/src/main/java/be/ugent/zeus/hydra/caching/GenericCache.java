@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.Serializable;
 
 /**
- * A generic cache that uses a {@link GenericCache} the serialize and deserialize data to disk. If not supplied, the
+ * A generic cache that the serializes and deserializes data to disk. If not supplied, the
  * cache will use {@link SerializableExecutor} as a default.
  *
  * @author Niko Strijbol
@@ -49,7 +49,7 @@ class GenericCache implements Cache {
 
     @NonNull
     @Override
-    public <D extends Serializable> D get(CacheRequest<D> request, long duration) throws RequestFailureException {
+    public <D extends Serializable> D get(CacheableRequest<D> request, long duration) throws RequestFailureException {
         //Else we do the caching.
         CacheObject<D> object = readOrNull(request.getCacheKey());
         D data;
@@ -73,13 +73,13 @@ class GenericCache implements Cache {
 
     @NonNull
     @Override
-    public <R extends Serializable> R get(CacheRequest<R> request) throws RequestFailureException {
+    public <R extends Serializable> R get(CacheableRequest<R> request) throws RequestFailureException {
         return get(request, request.getCacheDuration());
     }
 
     @Nullable
     @Override
-    public <R extends Serializable> R getOrNull(CacheRequest<R> request, long duration) {
+    public <R extends Serializable> R getOrNull(CacheableRequest<R> request, long duration) {
         try {
             return get(request, duration);
         } catch (RequestFailureException e) {
@@ -90,7 +90,7 @@ class GenericCache implements Cache {
 
     @Nullable
     @Override
-    public <R extends Serializable> R getOrNull(CacheRequest<R> request) {
+    public <R extends Serializable> R getOrNull(CacheableRequest<R> request) {
         return getOrNull(request, request.getCacheDuration());
     }
 

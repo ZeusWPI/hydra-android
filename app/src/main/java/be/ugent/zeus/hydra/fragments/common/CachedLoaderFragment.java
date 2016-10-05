@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.fragments.common;
 
 import android.support.v4.content.Loader;
 
-import be.ugent.zeus.hydra.caching.CacheRequest;
+import be.ugent.zeus.hydra.caching.CacheableRequest;
 import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
 import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.requests.common.SimpleCacheRequest;
@@ -27,5 +27,5 @@ public abstract class CachedLoaderFragment<D extends Serializable> extends Loade
     /**
      * @return The request that will be executed.
      */
-    protected abstract CacheRequest<D> getRequest();
+    protected abstract CacheableRequest<D> getRequest();
 }

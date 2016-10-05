@@ -11,7 +11,7 @@ import java.io.Serializable;
  * A cache. This is a map like data structure that holds keys and objects. While the keys must be strings,
  * no restriction is applied on the objects. The objects are thus heterogeneous.
  *
- * This is a file cache for {@link CacheRequest}s. This is not a cache for a non-determined amount of keys. Use
+ * This is a file cache for {@link CacheableRequest}s. This is not a cache for a non-determined amount of keys. Use
  * something like DiskLruCache for that.
  *
  * The cache is not thread safe. You should make sure to not write using the same key from different threads at the
@@ -78,29 +78,29 @@ public interface Cache {
      * @throws RequestFailureException If the retrieval of new data fails.
      */
     @NonNull
-    <R extends Serializable> R get(CacheRequest<R> request, long duration) throws RequestFailureException;
+    <R extends Serializable> R get(CacheableRequest<R> request, long duration) throws RequestFailureException;
 
     /**
      * Same as the other method, but uses the built-in cache duration of the request.
      *
-     * @see #get(CacheRequest, long)
+     * @see #get(CacheableRequest, long)
      */
     @NonNull
-    <R extends Serializable> R get(CacheRequest<R> request) throws RequestFailureException;
+    <R extends Serializable> R get(CacheableRequest<R> request) throws RequestFailureException;
 
     /**
      * Same as the other get methods, but instead of throwing an exception, these methods return null.
      *
-     * @see #get(CacheRequest, long)
+     * @see #get(CacheableRequest, long)
      */
     @Nullable
-    <R extends Serializable> R getOrNull(CacheRequest<R> request, long duration);
+    <R extends Serializable> R getOrNull(CacheableRequest<R> request, long duration);
 
     /**
      * Same as the other method, but uses the built-in cache duration of the request.
      *
-     * @see #get(CacheRequest)
+     * @see #get(CacheableRequest)
      */
     @Nullable
-    <R extends Serializable> R getOrNull(CacheRequest<R> request);
+    <R extends Serializable> R getOrNull(CacheableRequest<R> request);
 }
