@@ -4,9 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
@@ -40,6 +42,10 @@ public class Article implements Serializable, Parcelable {
 
     public ZonedDateTime getPubDate() {
         return pubDate;
+    }
+
+    public LocalDateTime getLocalPubDate() {
+        return DateUtils.toLocalDateTime(getPubDate());
     }
 
     public String getAuthor() {

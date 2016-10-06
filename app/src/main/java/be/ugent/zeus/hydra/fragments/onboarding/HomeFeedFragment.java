@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.fragments.home.HomeFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.MultiSelectListAdapter;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 
@@ -74,6 +73,6 @@ public class HomeFeedFragment extends SlideFragment {
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        preferences.edit().putStringSet(HomeFragment.PREF_DISABLED_CARDS, disabled).apply();
+        preferences.edit().putStringSet(be.ugent.zeus.hydra.fragments.home.HomeFeedFragment.PREF_DISABLED_CARDS, disabled).apply();
     }
 }
