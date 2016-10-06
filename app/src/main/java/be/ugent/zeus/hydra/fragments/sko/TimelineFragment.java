@@ -89,7 +89,7 @@ public class TimelineFragment extends CachedLoaderFragment<Timeline> implements 
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_sko_refresh, menu);
+        inflater.inflate(R.menu.menu_refresh, menu);
     }
 
     @Override

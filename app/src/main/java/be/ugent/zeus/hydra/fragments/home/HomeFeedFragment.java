@@ -12,9 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
@@ -42,7 +40,8 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author Niko Strijbol
  * @author silox
  */
-public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, HomeFeedLoaderCallback {
+public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener,
+        HomeFeedLoaderCallback, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "HomeFeedFragment";
 
@@ -65,6 +64,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -79,19 +79,13 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
         RecyclerView recyclerView = $(view, R.id.home_cards_view);
         recyclerView.setHasFixedSize(true);
         swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
 
         adapter = new HomeCardAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                shouldRefresh = true;
-                restartLoader();
-                shouldRefresh = false;
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         swipeRefreshLayout.setRefreshing(true);
         getLoaderManager().initLoader(LOADER, null, this);
@@ -229,5 +223,29 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     private boolean isTypeActive(@HomeCard.CardType int cardType) {
         Set<String> data = preferences.getStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, Collections.<String>emptySet());
         return !data.contains(String.valueOf(cardType));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_refresh, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.action_refresh) {
+            swipeRefreshLayout.setRefreshing(true);
+            onRefresh();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRefresh() {
+        shouldRefresh = true;
+        restartLoader();
+        shouldRefresh = false;
     }
 }
