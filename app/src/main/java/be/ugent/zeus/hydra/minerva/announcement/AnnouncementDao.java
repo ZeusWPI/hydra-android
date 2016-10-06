@@ -308,8 +308,6 @@ public class AnnouncementDao extends Dao {
 
         builder.setTables(AnnouncementTable.TABLE_NAME + " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + announcementJoin + "=" + courseJoin);
 
-        String order = AnnouncementTable.COLUMN_COURSE;
-
         Map<Course, List<Announcement>> map = new HashMap<>();
 
         String[] columns = new String[]{
@@ -334,7 +332,7 @@ public class AnnouncementDao extends Dao {
                 db,
                 columns,
                 AnnouncementTable.COLUMN_READ_DATE + " = ?",
-                new String[]{"0"},
+                new String[]{"-1"},
                 null,
                 null,
                 AnnouncementTable.COLUMN_COURSE + " ASC"
