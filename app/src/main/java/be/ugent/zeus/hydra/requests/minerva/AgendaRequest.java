@@ -45,11 +45,11 @@ public class AgendaRequest extends MinervaRequest<Agenda> {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
 
         if(start != null) {
-            builder.queryParam("start", start.toInstant().toEpochMilli());
+            builder.queryParam("start", start.toEpochSecond());
         }
 
         if(end != null) {
-            builder.queryParam("end", end.toInstant().toEpochMilli());
+            builder.queryParam("end", end.toEpochSecond());
         }
 
         return builder.build().toUriString();

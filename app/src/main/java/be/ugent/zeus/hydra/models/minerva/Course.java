@@ -19,6 +19,7 @@ public class Course implements Serializable, Parcelable {
     @SerializedName("tutor_name")
     private String tutorName;
     private String student;
+    @SerializedName("academic_year")
     private int academicYear;
 
     public String getId() {
