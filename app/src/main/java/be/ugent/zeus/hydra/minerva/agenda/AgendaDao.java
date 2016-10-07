@@ -4,13 +4,19 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 
+import be.ugent.zeus.hydra.minerva.course.CourseExtractor;
+import be.ugent.zeus.hydra.minerva.course.CourseTable;
 import be.ugent.zeus.hydra.minerva.database.Dao;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.TtbUtils;
+import org.threeten.bp.Instant;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Dao to access announcements from the database.
@@ -18,6 +24,8 @@ import java.util.*;
  * @author Niko Strijbol
  */
 public class AgendaDao extends Dao {
+
+    private final static String TAG = "AgendaDao";
 
     /**
      * @param context The application context.
@@ -90,24 +98,26 @@ public class AgendaDao extends Dao {
         List<AgendaItem> result = new ArrayList<>();
 
         String order = AgendaTable.COLUMN_START_DATE;
-        if(reverse) {
+        if (reverse) {
             order += " DESC";
         } else {
             order += " ASC";
         }
 
-            Cursor cursor = db.query(
-                    AgendaTable.TABLE_NAME,
-                    null,
-                    AgendaTable.COLUMN_COURSE + " = ?",
-                    new String[]{course.getId()},
-                    null, null, order);
+        Cursor cursor = db.query(
+                AgendaTable.TABLE_NAME,
+                null,
+                AgendaTable.COLUMN_COURSE + " = ?",
+                new String[]{course.getId()},
+                null, null, order);
 
-        if(cursor == null) {
+        if (cursor == null) {
             return result;
         }
 
         try {
+            AgendaExtractor aExtractor = new AgendaExtractor.Builder(cursor).defaults().build();
+
             int columnIndex = cursor.getColumnIndex(AgendaTable.COLUMN_ID);
             int columnTitle = cursor.getColumnIndex(AgendaTable.COLUMN_TITLE);
             int columnContent = cursor.getColumnIndex(AgendaTable.COLUMN_CONTENT);
@@ -136,6 +146,81 @@ public class AgendaDao extends Dao {
             }
         } finally {
             cursor.close();
+        }
+
+        return result;
+    }
+
+    public List<AgendaItem> getFutureAgenda(Instant instant) {
+
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+
+        final String courseTable = "course_";
+
+        String agendaJoin =  AgendaTable.COLUMN_COURSE;
+        String courseJoin = courseTable + CourseTable.COLUMN_ID;
+
+        builder.setTables(AgendaTable.TABLE_NAME + " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + agendaJoin + "=" + courseJoin);
+
+        List<AgendaItem> result = new ArrayList<>();
+
+        String[] columns = new String[]{
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_ID,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_TITLE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_CONTENT,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_START_DATE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_END_DATE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LOCATION,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_TYPE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LAST_EDIT_USER,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LAST_EDIT,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LAST_EDIT_TYPE,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_ID + " AS " + courseTable + CourseTable.COLUMN_ID,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_CODE + " AS " + courseTable + CourseTable.COLUMN_CODE,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_TITLE + " AS " + courseTable + CourseTable.COLUMN_TITLE,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_DESCRIPTION + " AS " + courseTable + CourseTable.COLUMN_DESCRIPTION,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_TUTOR + " AS " + courseTable + CourseTable.COLUMN_TUTOR,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_STUDENT + " AS " + courseTable + CourseTable.COLUMN_STUDENT,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_ACADEMIC_YEAR + " AS " + courseTable + CourseTable.COLUMN_ACADEMIC_YEAR,
+        };
+
+        String now = String.valueOf(instant.toEpochMilli());
+
+        Cursor c = builder.query(
+                db,
+                columns,
+                AgendaTable.COLUMN_START_DATE + " >= ? OR " + AgendaTable.COLUMN_END_DATE + ">= ?",
+                new String[]{now, now},
+                null,
+                null,
+                AgendaTable.COLUMN_START_DATE + " ASC"
+        );
+
+        if(c == null) {
+            return result;
+        }
+
+        CourseExtractor cExtractor = new CourseExtractor.Builder(c)
+                .columnId(courseTable + CourseTable.COLUMN_ID)
+                .columnCode(courseTable + CourseTable.COLUMN_CODE)
+                .columnTitle(courseTable + CourseTable.COLUMN_TITLE)
+                .columnDesc(courseTable + CourseTable.COLUMN_DESCRIPTION)
+                .columnTutor(courseTable + CourseTable.COLUMN_TUTOR)
+                .columnStudent(courseTable + CourseTable.COLUMN_STUDENT)
+                .columnYear(courseTable + CourseTable.COLUMN_ACADEMIC_YEAR)
+                .build();
+
+        AgendaExtractor aExtractor = new AgendaExtractor.Builder(c).defaults().build();
+
+        try {
+            while (c.moveToNext()) {
+                result.add(aExtractor.getAgendaItem(cExtractor.getCourse()));
+            }
+
+        } finally {
+            c.close();
         }
 
         return result;

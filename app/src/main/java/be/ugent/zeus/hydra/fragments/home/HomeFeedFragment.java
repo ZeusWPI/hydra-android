@@ -180,9 +180,15 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
             onPartialResult(Collections.<HomeCard>emptyList(), HomeCard.CardType.NEWS_ITEM);
         }
         if(isTypeActive(HomeCard.CardType.MINERVA_ANNOUNCEMENT) && AccountUtils.hasAccount(getContext())) {
-            loader.addRequest(new MinervaDoaRequest(getContext()));
+            loader.addRequest(new MinervaAnnouncementRequest(getContext()));
         } else {
             onPartialResult(Collections.<HomeCard>emptyList(), HomeCard.CardType.MINERVA_ANNOUNCEMENT);
+        }
+
+        if(isTypeActive(HomeCard.CardType.MINERVA_AGENDA) && AccountUtils.hasAccount(getContext())) {
+            loader.addRequest(new MinervaAgendaRequest(getContext()));
+        } else {
+            onPartialResult(Collections.<HomeCard>emptyList(), HomeCard.CardType.MINERVA_AGENDA);
         }
 
         return loader;

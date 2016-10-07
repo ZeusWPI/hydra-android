@@ -15,7 +15,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.fragments.home.HomeFeedFragment;
 import be.ugent.zeus.hydra.models.association.Association;
-import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
+import be.ugent.zeus.hydra.models.cards.EventCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.recyclerview.viewholder.home.*;
@@ -99,6 +99,8 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
                 return new MinervaLoginViewHolder(getViewForLayout(R.layout.home_minerva_login_card, parent));
             case MINERVA_ANNOUNCEMENT:
                 return new MinervaAnnouncementViewHolder(getViewForLayout(R.layout.home_minerva_announcement_card, parent), this);
+            case MINERVA_AGENDA:
+                return new MinervaAgendaViewHolder(getViewForLayout(R.layout.home_minerva_agenda_card, parent), this);
         }
         return null;
     }
@@ -126,7 +128,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
         while (it.hasNext()) { // Why no filter :(
             HomeCard c = it.next();
             if (c.getCardType() == ACTIVITY) {
-                AssociationActivityCard card = c.checkCard(ACTIVITY);
+                EventCard card = c.checkCard(ACTIVITY);
                 if(card.getEvent().getAssociation().getInternalName().equals(association.getInternalName())) {
                     notifyItemRemoved(cardItems.indexOf(c));
                     it.remove();
