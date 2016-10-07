@@ -22,6 +22,7 @@ public class MinervaFragment extends PreferenceFragment {
     public static final String PREF_SYNC_FREQUENCY = "pref_minerva_sync_frequency";
     public static final String PREF_ANNOUNCEMENT_NOTIFICATION = "pref_minerva_announcement_notification";
     public static final String PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL = "pref_minerva_announcement_notification_email";
+    public static final String PREF_USE_MOBILE_URL = "pref_minerva_use_mobile_url";
 
     //In seconds
     public static final String PREF_DEFAULT_SYNC_FREQUENCY = "86400";
