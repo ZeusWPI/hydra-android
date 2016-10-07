@@ -8,7 +8,7 @@ import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.requests.common.ProcessableCacheRequest;
-import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
+import be.ugent.zeus.hydra.requests.resto.RestoMenuRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 public class RestoRequest extends ProcessableCacheRequest<RestoOverview, List<HomeCard>> implements HomeFeedRequest {
 
     public RestoRequest(Context context, boolean shouldRefresh) {
-        super(context, new RestoMenuOverviewRequest(), shouldRefresh);
+        super(context, new RestoMenuRequest(), shouldRefresh);
     }
 
     @NonNull

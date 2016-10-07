@@ -31,6 +31,6 @@ public class SchamperArticlesRequest extends CacheableRequest<Articles> {
 
     @Override
     public long getCacheDuration() {
-        return Cache.ONE_HOUR * 2;
+        return Cache.ONE_DAY;
     }
 }

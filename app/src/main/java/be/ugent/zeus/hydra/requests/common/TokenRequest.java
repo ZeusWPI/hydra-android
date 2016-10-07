@@ -9,11 +9,11 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 
 /**
- * A request that requires a token.
+ * A request that requires a token to be added to the request, for example an authentication token.
  *
  * @author Niko Strijbol
  */
-public abstract class TokenRequest<T> extends AbstractRequest<T> {
+public abstract class TokenRequest<T> extends JsonSpringRequest<T> {
 
     public TokenRequest(Class<T> clazz) {
         super(clazz);

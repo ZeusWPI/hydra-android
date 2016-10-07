@@ -21,10 +21,10 @@ import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
 import be.ugent.zeus.hydra.loaders.ThrowableEither;
-import be.ugent.zeus.hydra.models.association.Activities;
-import be.ugent.zeus.hydra.models.association.Activity;
-import be.ugent.zeus.hydra.recyclerview.adapters.ActivityListAdapter;
-import be.ugent.zeus.hydra.requests.events.FilteredEventRequest;
+import be.ugent.zeus.hydra.models.association.Events;
+import be.ugent.zeus.hydra.models.association.Event;
+import be.ugent.zeus.hydra.recyclerview.adapters.EventAdapter;
+import be.ugent.zeus.hydra.requests.association.FilteredEventRequest;
 import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
@@ -38,9 +38,9 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author ellen
  * @author Niko Strijbol
  */
-public class ActivitiesFragment extends LoaderFragment<Activities> implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class ActivitiesFragment extends LoaderFragment<Events> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private ActivityListAdapter adapter;
+    private EventAdapter adapter;
     private LinearLayout noData;
 
     //If the data is invalidated.
@@ -59,7 +59,7 @@ public class ActivitiesFragment extends LoaderFragment<Activities> implements Sh
         RecyclerView recyclerView = $(view, R.id.recycler_view);
         noData = $(view, R.id.events_no_data);
 
-        adapter = new ActivityListAdapter();
+        adapter = new EventAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
@@ -92,7 +92,7 @@ public class ActivitiesFragment extends LoaderFragment<Activities> implements Sh
      *
      * @param data The data.
      */
-    private void setData(@NonNull List<Activity> data) {
+    private void setData(@NonNull List<Event> data) {
 
         adapter.setItems(data);
 
@@ -123,12 +123,12 @@ public class ActivitiesFragment extends LoaderFragment<Activities> implements Sh
     }
 
     @Override
-    public void receiveData(@NonNull Activities data) {
+    public void receiveData(@NonNull Events data) {
         setData(data);
     }
 
     @Override
-    public Loader<ThrowableEither<Activities>> getLoader() {
+    public Loader<ThrowableEither<Events>> getLoader() {
         return new RequestAsyncTaskLoader<>(new FilteredEventRequest(getContext(), shouldRenew), getContext());
     }
 }

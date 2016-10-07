@@ -13,7 +13,7 @@ import be.ugent.zeus.hydra.activities.resto.common.RestoWebsiteActivity;
 import be.ugent.zeus.hydra.loaders.LoaderCallbackHandler;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
-import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
+import be.ugent.zeus.hydra.requests.resto.RestoMenuRequest;
 import be.ugent.zeus.hydra.viewpager.MenuPagerAdapter;
 import org.threeten.bp.LocalDate;
 
@@ -95,8 +95,8 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> implements
     }
 
     @Override
-    public RestoMenuOverviewRequest getRequest() {
-        return new RestoMenuOverviewRequest();
+    public RestoMenuRequest getRequest() {
+        return new RestoMenuRequest();
     }
 
     @Override

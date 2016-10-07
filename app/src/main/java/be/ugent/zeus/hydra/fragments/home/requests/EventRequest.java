@@ -3,12 +3,11 @@ package be.ugent.zeus.hydra.fragments.home.requests;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.models.association.Activities;
-import be.ugent.zeus.hydra.models.association.Activity;
+import be.ugent.zeus.hydra.models.association.Event;
+import be.ugent.zeus.hydra.models.association.Events;
 import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.requests.common.ProcessableCacheRequest;
-import be.ugent.zeus.hydra.requests.events.ActivitiesRequest;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
@@ -19,21 +18,21 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class EventRequest extends ProcessableCacheRequest<Activities, List<HomeCard>> implements HomeFeedRequest {
+public class EventRequest extends ProcessableCacheRequest<Events, List<HomeCard>> implements HomeFeedRequest {
 
     public EventRequest(Context context, boolean shouldRefresh) {
-        super(context, new ActivitiesRequest(), shouldRefresh);
+        super(context, new be.ugent.zeus.hydra.requests.association.EventRequest(), shouldRefresh);
     }
 
     @NonNull
     @Override
-    protected List<HomeCard> transform(@NonNull Activities data) {
-        Activities.filterActivities(data, context);
+    protected List<HomeCard> transform(@NonNull Events data) {
+        Events.filterEvents(data, context);
         ZonedDateTime now = ZonedDateTime.now();
         List<HomeCard> list = new ArrayList<>();
-        for (Activity activity : data) {
-            AssociationActivityCard activityCard = new AssociationActivityCard(activity);
-            if (activityCard.getPriority() > 0 && activity.getStart().isAfter(now)) {
+        for (Event event : data) {
+            AssociationActivityCard activityCard = new AssociationActivityCard(event);
+            if (activityCard.getPriority() > 0 && event.getStart().isAfter(now)) {
                 list.add(activityCard);
             }
         }

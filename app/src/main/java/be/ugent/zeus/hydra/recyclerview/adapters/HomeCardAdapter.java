@@ -88,7 +88,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
             case RESTO:
                 return new RestoCardViewHolder(getViewForLayout(R.layout.home_card_resto, parent), this);
             case ACTIVITY:
-                return new ActivityCardViewHolder(getViewForLayout(R.layout.home_card_event, parent), this);
+                return new EventCardViewHolder(getViewForLayout(R.layout.home_card_event, parent), this);
             case SPECIAL_EVENT:
                 return new SpecialEventCardViewHolder(getViewForLayout(R.layout.home_card_special, parent));
             case SCHAMPER:
@@ -127,7 +127,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
             HomeCard c = it.next();
             if (c.getCardType() == ACTIVITY) {
                 AssociationActivityCard card = c.checkCard(ACTIVITY);
-                if(card.getActivity().getAssociation().getInternalName().equals(association.getInternalName())) {
+                if(card.getEvent().getAssociation().getInternalName().equals(association.getInternalName())) {
                     notifyItemRemoved(cardItems.indexOf(c));
                     it.remove();
                 }

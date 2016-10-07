@@ -69,7 +69,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         //Get if this is the first sync.
         final boolean first = extras.getBoolean(ARG_FIRST_SYNC, false);
 
-        CoursesMinervaRequest request = new CoursesMinervaRequest(getContext(), account, null);
+        CoursesMinervaRequest request = new CoursesMinervaRequest(getContext(), account);
 
         final CourseDao courseDao = new CourseDao(getContext());
         final AnnouncementDao announcementDao = new AnnouncementDao(getContext());
@@ -87,7 +87,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             courseDao.synchronise(courses.getCourses());
 
             //Synchronise agenda
-            AgendaRequest agendaRequest = new AgendaRequest(getContext(), account, null);
+            AgendaRequest agendaRequest = new AgendaRequest(getContext(), account);
             ZonedDateTime now = LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault());
             //Start time
             agendaRequest.setStart(now);
@@ -108,7 +108,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 }
                 //We don't add the course to announcements here, since that would be inefficient.
                 Log.d(TAG, "Syncing course " + course.getId());
-                WhatsNewRequest newRequest = new WhatsNewRequest(course, getContext(), null);
+                WhatsNewRequest newRequest = new WhatsNewRequest(course, getContext(), account);
                 WhatsNew w = newRequest.performRequest();
 
                 //Sync announcements

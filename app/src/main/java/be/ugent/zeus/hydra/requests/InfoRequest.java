@@ -31,6 +31,6 @@ public class InfoRequest extends CacheableRequest<InfoList> {
 
     @Override
     public long getCacheDuration() {
-        return Cache.ONE_DAY;
+        return Cache.ONE_WEEK;
     }
 }

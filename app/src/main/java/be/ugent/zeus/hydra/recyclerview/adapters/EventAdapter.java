@@ -5,9 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.association.Activity;
+import be.ugent.zeus.hydra.models.association.Event;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
-import be.ugent.zeus.hydra.recyclerview.viewholder.ActivityViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.EventViewHolder;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DateHeaderViewHolder;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
@@ -17,13 +17,13 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
  * @author ellen
  * @author Niko Strijbol
  */
-public class ActivityListAdapter extends ItemAdapter<Activity, ActivityViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
+public class EventAdapter extends ItemAdapter<Event, EventViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
 
     @Override
-    public ActivityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_activity, parent, false);
-        return new ActivityViewHolder(v);
+        return new EventViewHolder(v);
     }
 
     /**

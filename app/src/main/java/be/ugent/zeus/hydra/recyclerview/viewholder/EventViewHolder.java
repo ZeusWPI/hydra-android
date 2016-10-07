@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.ActivityDetailActivity;
-import be.ugent.zeus.hydra.models.association.Activity;
+import be.ugent.zeus.hydra.models.association.Event;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
@@ -17,7 +17,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public class ActivityViewHolder extends DataViewHolder<Activity> {
+public class EventViewHolder extends DataViewHolder<Event> {
 
     private static final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -25,22 +25,22 @@ public class ActivityViewHolder extends DataViewHolder<Activity> {
     private TextView title;
     private TextView association;
 
-    public ActivityViewHolder(View v) {
+    public EventViewHolder(View v) {
         super(v);
         title = $(v, R.id.name);
         association = $(v, R.id.association);
         start = $(v, R.id.starttime);
     }
 
-    public void populate(final Activity activity) {
-        title.setText(activity.getTitle());
-        association.setText(activity.getAssociation().getDisplayName());
-        start.setText(activity.getLocalStart().format(HOUR_FORMATTER));
+    public void populate(final Event event) {
+        title.setText(event.getTitle());
+        association.setText(event.getAssociation().getDisplayName());
+        start.setText(event.getLocalStart().format(HOUR_FORMATTER));
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(itemView.getContext(), ActivityDetailActivity.class);
-                intent.putExtra(ActivityDetailActivity.PARCEL_EVENT, (Parcelable) activity);
+                intent.putExtra(ActivityDetailActivity.PARCEL_EVENT, (Parcelable) event);
                 itemView.getContext().startActivity(intent);
             }
         });

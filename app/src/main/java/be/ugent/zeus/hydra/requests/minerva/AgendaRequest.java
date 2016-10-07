@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.requests.minerva;
 
 import android.accounts.Account;
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +12,8 @@ import org.threeten.bp.ZonedDateTime;
 /**
  * Request agenda items, optionally in a time range.
  *
+ * Warning: this is an internal sync request, and should not be used to display data directly.
+ *
  * @author Niko Strijbol
  */
 public class AgendaRequest extends MinervaRequest<Agenda> {
@@ -20,12 +21,8 @@ public class AgendaRequest extends MinervaRequest<Agenda> {
     private ZonedDateTime start;
     private ZonedDateTime end;
 
-    public AgendaRequest(Context context, @Nullable Activity activity) {
-        super(Agenda.class, context, activity);
-    }
-
-    public AgendaRequest(Context context, @Nullable Account account, @Nullable Activity activity) {
-        super(Agenda.class, context, account, activity);
+    public AgendaRequest(Context context, @Nullable Account account) {
+        super(Agenda.class, context, account, null);
     }
 
     public void setStart(ZonedDateTime start) {

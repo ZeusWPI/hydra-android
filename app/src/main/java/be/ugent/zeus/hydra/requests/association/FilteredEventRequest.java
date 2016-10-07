@@ -1,9 +1,9 @@
-package be.ugent.zeus.hydra.requests.events;
+package be.ugent.zeus.hydra.requests.association;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.models.association.Activities;
+import be.ugent.zeus.hydra.models.association.Events;
 import be.ugent.zeus.hydra.requests.common.ProcessableCacheRequest;
 
 /**
@@ -11,16 +11,16 @@ import be.ugent.zeus.hydra.requests.common.ProcessableCacheRequest;
  *
  * @author Niko Strijbol
  */
-public class FilteredEventRequest extends ProcessableCacheRequest<Activities, Activities> {
+public class FilteredEventRequest extends ProcessableCacheRequest<Events, Events> {
 
     public FilteredEventRequest(Context context, boolean shouldRefresh) {
-        super(context, new ActivitiesRequest(), shouldRefresh);
+        super(context, new EventRequest(), shouldRefresh);
     }
 
     @NonNull
     @Override
-    protected Activities transform(@NonNull Activities data) {
-        Activities.filterActivities(data, context);
+    protected Events transform(@NonNull Events data) {
+        Events.filterEvents(data, context);
         return data;
     }
 }

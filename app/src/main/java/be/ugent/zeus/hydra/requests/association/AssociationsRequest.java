@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.requests;
+package be.ugent.zeus.hydra.requests.association;
 
 import android.support.annotation.NonNull;
 
@@ -32,6 +32,6 @@ public class AssociationsRequest extends CacheableRequest<Associations> {
 
     @Override
     public long getCacheDuration() {
-        return Cache.ONE_DAY;
+        return Cache.ONE_WEEK * 4;
     }
 }

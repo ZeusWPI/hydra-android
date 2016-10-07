@@ -9,12 +9,12 @@ import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import java.util.*;
 
 /**
- * Gson helper class for {@link Activity}.
+ * Gson helper class.
  *
  * @author Niko Strijbol
  * @author feliciaan
  */
-public class Activities extends ArrayList<Activity> {
+public class Events extends ArrayList<Event> {
 
     /**
      * Filter function for the events of different associations. This function works by modifying the given list.
@@ -26,12 +26,12 @@ public class Activities extends ArrayList<Activity> {
      * @param data The data to filter.
      * @param context The context.
      */
-    public static List<Activity> filterActivities(List<Activity> data, Context context) {
+    public static List<Event> filterEvents(List<Event> data, Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, new HashSet<String>());
 
         //Why no filter :(
-        Iterator<Activity> iterator = data.iterator();
+        Iterator<Event> iterator = data.iterator();
         while(iterator.hasNext()) {
             if(disabled.contains(iterator.next().getAssociation().getInternalName())) {
                 iterator.remove();

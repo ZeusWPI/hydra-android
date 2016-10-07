@@ -31,6 +31,6 @@ public class RestoSandwichesRequest extends CacheableRequest<Sandwiches> {
 
     @Override
     public long getCacheDuration() {
-        return Cache.ONE_HOUR * 12;
+        return Cache.ONE_WEEK * 3;
     }
 }
