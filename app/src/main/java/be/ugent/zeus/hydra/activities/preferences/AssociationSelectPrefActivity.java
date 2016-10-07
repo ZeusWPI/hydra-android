@@ -14,11 +14,11 @@ import android.widget.SearchView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.LoaderToolbarActivity;
-import be.ugent.zeus.hydra.caching.CacheRequest;
+import be.ugent.zeus.hydra.caching.CacheableRequest;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.association.Associations;
 import be.ugent.zeus.hydra.recyclerview.adapters.MultiSelectListAdapter;
-import be.ugent.zeus.hydra.requests.AssociationsRequest;
+import be.ugent.zeus.hydra.requests.association.AssociationsRequest;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
@@ -100,7 +100,7 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
     }
 
     @Override
-    public CacheRequest<Associations> getRequest() {
+    public CacheableRequest<Associations> getRequest() {
         return new AssociationsRequest();
     }
 

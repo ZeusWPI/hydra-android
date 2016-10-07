@@ -36,4 +36,14 @@
             android:defaultValue="false" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Overige">
+
+        <CheckBoxPreference
+            android:key="pref_minerva_use_mobile_url"
+            android:summary="Ga naar de mobiele site i.p.v. de desktopsite bij het klikken op een link naar de Minerva-site"
+            android:title="Mobiele site gebruiken"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

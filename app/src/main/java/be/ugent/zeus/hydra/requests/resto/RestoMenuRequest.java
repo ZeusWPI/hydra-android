@@ -11,9 +11,9 @@ import be.ugent.zeus.hydra.requests.common.CacheableRequest;
  *
  * @author mivdnber
  */
-public class RestoMenuOverviewRequest extends CacheableRequest<RestoOverview> {
+public class RestoMenuRequest extends CacheableRequest<RestoOverview> {
 
-    public RestoMenuOverviewRequest() {
+    public RestoMenuRequest() {
         super(RestoOverview.class);
     }
 

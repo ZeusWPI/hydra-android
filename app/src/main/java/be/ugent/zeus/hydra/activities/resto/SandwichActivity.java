@@ -49,19 +49,11 @@ public class SandwichActivity extends RestoWebsiteActivity<Sandwiches> {
         loaderHandler.startLoader();
     }
 
-    /**
-     * @return The URL for the overflow button to display a website link.
-     */
     @Override
     protected String getUrl() {
         return URL;
     }
 
-    /**
-     * This method is used to receive new data, from the request for example.
-     *
-     * @param data The new data.
-     */
     @Override
     public void receiveData(@NonNull Sandwiches data) {
         Collections.sort(data, new Comparator<Sandwich>() {

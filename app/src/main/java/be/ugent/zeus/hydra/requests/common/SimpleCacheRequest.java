@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.requests.common;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.caching.CacheRequest;
+import be.ugent.zeus.hydra.caching.CacheableRequest;
 
 import java.io.Serializable;
 
@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 public class SimpleCacheRequest<D extends Serializable> extends ProcessableCacheRequest<D, D> {
 
-    public SimpleCacheRequest(Context context, CacheRequest<D> request, boolean shouldRefresh) {
+    public SimpleCacheRequest(Context context, CacheableRequest<D> request, boolean shouldRefresh) {
         super(context, request, shouldRefresh);
     }
 

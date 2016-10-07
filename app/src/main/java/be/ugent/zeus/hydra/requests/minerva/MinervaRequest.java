@@ -18,7 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpServerErrorException;
 
 /**
- * Execute a request with a minerva account.
+ * Execute a request with a Minerva account.
  *
  * @author Niko Strijbol
  */
@@ -31,17 +31,11 @@ public abstract class MinervaRequest<T> extends TokenRequest<T> {
     protected final Context context;
     protected final Activity activity;
     protected final Account account;
-    protected Bundle accountBundle;
 
-    /**
-     * @param clazz The class of the result.
-     * @param context The application context.
-     * @param activity The activity to use for the account. If this is not null, the AccountManager may interact with
-     *                 the user. If doing the request in the background, pass null.
-     */
-    public MinervaRequest(Class<T> clazz, Context context, @Nullable Activity activity) {
-        this(clazz, context, null, activity);
-    }
+    //This variable tracks if this is the first time the request is tried or not. This prevents endless loops if the
+    //server is down for example.
+    private boolean first = true;
+    private Bundle accountBundle;
 
     /**
      * @param clazz The class of the result.
@@ -57,8 +51,15 @@ public abstract class MinervaRequest<T> extends TokenRequest<T> {
         this.account = account;
     }
 
-    private boolean first = true;
-
+    /**
+     * {@inheritDoc}
+     *
+     * After the first try, this function requests new credentials, and tries the request again, because the first
+     * time may have failed because the saved OAuth keys are invalid.
+     *
+     * If the request still fails after the first time or new OAuth keys could not be obtained, the method will throw
+     * the exception (same behavior as the parent method).
+     */
     @NonNull
     @Override
     public T performRequest() throws RequestFailureException {

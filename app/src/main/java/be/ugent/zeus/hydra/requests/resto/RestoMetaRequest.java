@@ -26,11 +26,11 @@ public class RestoMetaRequest extends CacheableRequest<RestoMeta> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return ZEUS_API_URL + "2.0/resto/meta.json"; //TODO: check me!
+        return ZEUS_API_URL + "2.0/resto/meta.json";
     }
 
     @Override
     public long getCacheDuration() {
-        return Cache.ONE_HOUR * 6;
+        return Cache.ONE_WEEK * 8;
     }
 }

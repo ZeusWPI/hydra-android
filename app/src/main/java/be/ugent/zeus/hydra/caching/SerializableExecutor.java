@@ -23,12 +23,16 @@ class SerializableExecutor implements CacheExecutor {
 
     private final File directory;
 
+    /**
+     * @param directory The cache directory, where the data should be saved.
+     */
     public SerializableExecutor(File directory) {
         this.directory = directory;
     }
 
     @Override
     public <D extends Serializable> void save(String key, CacheObject<D> data) throws CacheException {
+        //TODO try with resources
         ObjectOutputStream stream = null;
         try {
             stream = new ObjectOutputStream(new FileOutputStream(new File(directory, key)));
@@ -50,6 +54,7 @@ class SerializableExecutor implements CacheExecutor {
     @Override
     @SuppressWarnings("unchecked")
     public <D extends Serializable> CacheObject<D> read(String key) throws CacheException {
+        //TODO try with resources
         ObjectInputStream stream = null;
         try {
             stream = new ObjectInputStream(new FileInputStream(new File(directory, key)));

@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.caching.CacheRequest;
+import be.ugent.zeus.hydra.caching.CacheableRequest;
 import be.ugent.zeus.hydra.loaders.LoaderCallbackHandler;
 import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
 import be.ugent.zeus.hydra.loaders.ThrowableEither;
@@ -20,7 +20,7 @@ import be.ugent.zeus.hydra.requests.common.SimpleCacheRequest;
 import java.io.Serializable;
 
 /**
- * Activity that loads {@link be.ugent.zeus.hydra.caching.CacheRequest} using a loader.
+ * Activity that loads {@link CacheableRequest} using a loader.
  *
  * @author Niko Strijbol
  */
@@ -63,7 +63,7 @@ public abstract class LoaderToolbarActivity<D extends Serializable> extends Tool
         return new RequestAsyncTaskLoader<>(new SimpleCacheRequest<>(this, getRequest(), shouldRenew), this);
     }
 
-    protected abstract CacheRequest<D> getRequest();
+    protected abstract CacheableRequest<D> getRequest();
 
     /**
      * When the request has failed.

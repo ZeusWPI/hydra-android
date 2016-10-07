@@ -12,17 +12,12 @@ import java.io.Serializable;
  *
  * @author Niko Strijbol
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings("WeakerAccess")
 class CacheObject<T extends Serializable> implements Serializable {
 
     private long lastUpdated;
     private T data;
     private int version;
-
-    /**
-     * No-args constructor for ser
-     */
-    public CacheObject() {}
 
     /**
      * Create a new object.

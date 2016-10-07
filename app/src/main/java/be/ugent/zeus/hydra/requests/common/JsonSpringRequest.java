@@ -4,59 +4,54 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.requests.exceptions.RestTemplateException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Map;
-
 /**
- * Abstract request class.
+ * Request that uses Spring and GSON to get json data from a remote location.
  *
- * @param <T> The type of the result of the request.
+ * @param <R> The type of the result of the request.
  *
  * @author feliciaan
  * @author Niko Strijbol
  */
-public abstract class AbstractRequest<T> implements Request<T> {
+public abstract class JsonSpringRequest<R> implements Request<R> {
 
-    private Class<T> clazz;
+    private Class<R> clazz;
 
-    public AbstractRequest(Class<T> clazz) {
+    /**
+     * @param clazz The class type of the result data.
+     */
+    public JsonSpringRequest(Class<R> clazz) {
         this.clazz = clazz;
     }
 
+    /**
+     * This implementation retrieves the data from the remote location using Spring and parses the result using GSON.
+     * Most customisation should take place in the other functions, such as {@link #getResultType()}.
+     *
+     * @return The data.
+     *
+     * @throws RequestFailureException If the data could not be obtained, e.g. network conditions or malformed json.
+     */
     @NonNull
     @Override
-    public T performRequest() throws RequestFailureException {
+    public R performRequest() throws RequestFailureException {
         try {
-            RestTemplate restTemplate = createRestTemplate();
-            ResponseEntity<T> result;
-
-            if (getURLVariables() == null) {
-                result = restTemplate.getForEntity(getAPIUrl(), getResultType());
-            } else {
-                result = restTemplate.getForEntity(getAPIUrl(), getResultType(), getURLVariables());
-            }
-
-            return result.getBody();
+            return createRestTemplate().getForEntity(getAPIUrl(), getResultType()).getBody();
         } catch (RestClientException | RestTemplateException e) {
             throw new RequestFailureException(e);
         }
     }
 
     @NonNull
-    public Class<T> getResultType() {
+    private Class<R> getResultType() {
         return clazz;
     }
 
     @NonNull
     protected abstract String getAPIUrl();
-
-    protected Map<String, String> getURLVariables() {
-        return null;
-    }
 
     /**
      * @return The rest template used by Spring to perform the request.

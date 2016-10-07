@@ -15,8 +15,8 @@ import be.ugent.zeus.hydra.R;
 
 /**
  * @author Niko Strijbol
- * @version 31/05/2016
  */
+@SuppressWarnings("WeakerAccess")
 public class ViewUtils {
 
     /**

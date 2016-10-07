@@ -23,6 +23,8 @@ import android.util.Log;
  * is never set or if it is set to null then error {@link AccountManager#ERROR_CODE_CANCELED}
  * will be called on the response.
  *
+ * TODO: merge with our AuthActivity
+ *
  * @author Niko Strijbol
  * @see <a href="https://github.com/android/platform_frameworks_base/blob/master/core/java/android/accounts/AccountAuthenticatorActivity.java">AOSP</a>
  */

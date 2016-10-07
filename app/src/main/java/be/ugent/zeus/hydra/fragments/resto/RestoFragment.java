@@ -23,7 +23,7 @@ import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.requests.common.ProcessableCacheRequest;
-import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
+import be.ugent.zeus.hydra.requests.resto.RestoMenuRequest;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.views.MenuTable;
@@ -134,7 +134,7 @@ public class RestoFragment extends LoaderFragment<ArrayList<RestoMenu>> {
     @Override
     public Loader<ThrowableEither<ArrayList<RestoMenu>>> getLoader() {
         return new RequestAsyncTaskLoader<>(
-                new ProcessableCacheRequest<RestoOverview, ArrayList<RestoMenu>>(getContext(), new RestoMenuOverviewRequest(), shouldRenew) {
+                new ProcessableCacheRequest<RestoOverview, ArrayList<RestoMenu>>(getContext(), new RestoMenuRequest(), shouldRenew) {
                     @NonNull
                     @Override
                     protected ArrayList<RestoMenu> transform(@NonNull RestoOverview data) {

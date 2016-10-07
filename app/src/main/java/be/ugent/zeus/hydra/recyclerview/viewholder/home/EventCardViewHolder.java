@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.ActivityDetailActivity;
-import be.ugent.zeus.hydra.models.association.Activity;
+import be.ugent.zeus.hydra.models.association.Event;
 import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
@@ -21,14 +21,14 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * Created by feliciaan on 06/04/16.
  */
-public class ActivityCardViewHolder extends HideableViewHolder {
+public class EventCardViewHolder extends HideableViewHolder {
 
     private TextView start;
     private TextView title;
     private TextView association;
     private ImageView imageView;
 
-    public ActivityCardViewHolder(View v, HomeCardAdapter adapter) {
+    public EventCardViewHolder(View v, HomeCardAdapter adapter) {
         super(v, adapter);
         title = $(v, R.id.name);
         association = $(v, R.id.association);
@@ -39,21 +39,21 @@ public class ActivityCardViewHolder extends HideableViewHolder {
     @Override
     public void populate(final HomeCard card) {
 
-        final Activity activity = card.<AssociationActivityCard>checkCard(HomeCard.CardType.ACTIVITY).getActivity();
+        final Event event = card.<AssociationActivityCard>checkCard(HomeCard.CardType.ACTIVITY).getEvent();
 
-        title.setText(activity.getTitle());
-        association.setText(activity.getLocation());
-        start.setText(DateUtils.relativeDateTimeString(activity.getStart(), itemView.getContext(), false));
+        title.setText(event.getTitle());
+        association.setText(event.getLocation());
+        start.setText(DateUtils.relativeDateTimeString(event.getStart(), itemView.getContext(), false));
         String description = itemView.getResources().getString(R.string.home_card_description);
-        toolbar.setTitle(String.format(description, activity.getAssociation().getDisplayName()));
+        toolbar.setTitle(String.format(description, event.getAssociation().getDisplayName()));
 
-        Picasso.with(itemView.getContext()).load(activity.getAssociation().getImageLink()).fit().centerInside().into(imageView);
+        Picasso.with(itemView.getContext()).load(event.getAssociation().getImageLink()).fit().centerInside().into(imageView);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(itemView.getContext(), ActivityDetailActivity.class);
-                intent.putExtra(ActivityDetailActivity.PARCEL_EVENT, (Parcelable) activity);
+                intent.putExtra(ActivityDetailActivity.PARCEL_EVENT, (Parcelable) event);
                 itemView.getContext().startActivity(intent);
             }
         });
@@ -67,7 +67,7 @@ public class ActivityCardViewHolder extends HideableViewHolder {
                         adapter.disableCardType(card.getCardType());
                         return true;
                     case R.id.menu_hide_association:
-                        adapter.disableAssociation(activity.getAssociation());
+                        adapter.disableAssociation(event.getAssociation());
                         return true;
                     default:
                         return false;

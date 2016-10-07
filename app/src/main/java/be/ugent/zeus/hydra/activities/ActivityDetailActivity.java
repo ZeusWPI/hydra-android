@@ -19,7 +19,7 @@ import android.widget.Toast;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
-import be.ugent.zeus.hydra.models.association.Activity;
+import be.ugent.zeus.hydra.models.association.Event;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import org.threeten.bp.LocalDateTime;
@@ -37,7 +37,7 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
     private static final String GENT = "51.3,3.44";
 
     //The data
-    private Activity event;
+    private Event event;
 
     private ImageView organisatorImage;
 

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
-import be.ugent.zeus.hydra.fragments.home.HomeFragment;
+import be.ugent.zeus.hydra.fragments.home.HomeFeedFragment;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
@@ -25,7 +25,7 @@ import java.util.*;
 import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.*;
 
 /**
- * Adapter for {@link be.ugent.zeus.hydra.fragments.home.HomeFragment}.
+ * Adapter for {@link HomeFeedFragment}.
  *
  * @author feliciaan
  * @author Niko Strijbol
@@ -88,7 +88,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
             case RESTO:
                 return new RestoCardViewHolder(getViewForLayout(R.layout.home_card_resto, parent), this);
             case ACTIVITY:
-                return new ActivityCardViewHolder(getViewForLayout(R.layout.home_card_event, parent), this);
+                return new EventCardViewHolder(getViewForLayout(R.layout.home_card_event, parent), this);
             case SPECIAL_EVENT:
                 return new SpecialEventCardViewHolder(getViewForLayout(R.layout.home_card_special, parent));
             case SCHAMPER:
@@ -109,10 +109,10 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
      * @param type The type of card to disable.
      */
     public void disableCardType(@HomeCard.CardType int type) {
-        Set<String> disabled = preferences.getStringSet(HomeFragment.PREF_DISABLED_CARDS, Collections.<String>emptySet());
+        Set<String> disabled = preferences.getStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, Collections.<String>emptySet());
         Set<String> newDisabled = new HashSet<>(disabled);
         newDisabled.add(String.valueOf(type));
-        preferences.edit().putStringSet(HomeFragment.PREF_DISABLED_CARDS, newDisabled).apply();
+        preferences.edit().putStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, newDisabled).apply();
         removeCardType(type);
     }
 
@@ -127,7 +127,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
             HomeCard c = it.next();
             if (c.getCardType() == ACTIVITY) {
                 AssociationActivityCard card = c.checkCard(ACTIVITY);
-                if(card.getActivity().getAssociation().getInternalName().equals(association.getInternalName())) {
+                if(card.getEvent().getAssociation().getInternalName().equals(association.getInternalName())) {
                     notifyItemRemoved(cardItems.indexOf(c));
                     it.remove();
                 }

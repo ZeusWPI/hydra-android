@@ -1,9 +1,9 @@
-package be.ugent.zeus.hydra.requests.events;
+package be.ugent.zeus.hydra.requests.association;
 
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.caching.Cache;
-import be.ugent.zeus.hydra.models.association.Activities;
+import be.ugent.zeus.hydra.models.association.Events;
 import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 
 /**
@@ -12,10 +12,10 @@ import be.ugent.zeus.hydra.requests.common.CacheableRequest;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class ActivitiesRequest extends CacheableRequest<Activities> {
+public class EventRequest extends CacheableRequest<Events> {
 
-    public ActivitiesRequest() {
-        super(Activities.class);
+    public EventRequest() {
+        super(Events.class);
     }
 
     @NonNull

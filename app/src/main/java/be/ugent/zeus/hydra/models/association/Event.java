@@ -17,7 +17,7 @@ import java.io.Serializable;
 /**
  * Created by feliciaan on 27/01/16.
  */
-public class Activity implements Parcelable, Serializable {
+public class Event implements Parcelable, Serializable {
 
     private String title;
     @JsonAdapter(ZonedThreeTenAdapter.class)
@@ -179,10 +179,10 @@ public class Activity implements Parcelable, Serializable {
         dest.writeParcelable(this.association, flags);
     }
 
-    public Activity() {
+    public Event() {
     }
 
-    protected Activity(Parcel in) {
+    protected Event(Parcel in) {
         this.title = in.readString();
         this.start = TtbUtils.unserialize(in.readLong());
         this.end = TtbUtils.unserialize(in.readLong());
@@ -196,15 +196,15 @@ public class Activity implements Parcelable, Serializable {
         this.association = in.readParcelable(Association.class.getClassLoader());
     }
 
-    public static final Creator<Activity> CREATOR = new Creator<Activity>() {
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
         @Override
-        public Activity createFromParcel(Parcel source) {
-            return new Activity(source);
+        public Event createFromParcel(Parcel source) {
+            return new Event(source);
         }
 
         @Override
-        public Activity[] newArray(int size) {
-            return new Activity[size];
+        public Event[] newArray(int size) {
+            return new Event[size];
         }
     };
 }

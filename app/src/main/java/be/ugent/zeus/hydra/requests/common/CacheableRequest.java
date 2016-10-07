@@ -1,7 +1,5 @@
 package be.ugent.zeus.hydra.requests.common;
 
-import be.ugent.zeus.hydra.caching.CacheRequest;
-
 import java.io.Serializable;
 
 /**
@@ -12,7 +10,7 @@ import java.io.Serializable;
  *
  * @author feliciaan
  */
-public abstract class CacheableRequest<T extends Serializable> extends AbstractRequest<T> implements CacheRequest<T> {
+public abstract class CacheableRequest<T extends Serializable> extends JsonSpringRequest<T> implements be.ugent.zeus.hydra.caching.CacheableRequest<T> {
 
     protected final String DSA_API_URL = "http://student.ugent.be/hydra/api/2.0/";
     protected final String ZEUS_API_URL = "https://zeus.UGent.be/hydra/api/";

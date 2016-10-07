@@ -5,25 +5,31 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.caching.Cache;
 import be.ugent.zeus.hydra.caching.CacheManager;
-import be.ugent.zeus.hydra.caching.CacheRequest;
+import be.ugent.zeus.hydra.caching.CacheableRequest;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 
 import java.io.Serializable;
 
 /**
- * A request that takes a cache requests, gets the cached data, and then transforms that data.
+ * This request uses the {@link CacheManager#defaultCache(Context)} to retrieve data from the encapsulated
+ * {@link CacheableRequest}.
+ *
+ * After data retrieval, the data is transformed using {@link #transform(Serializable)}. The result of the
+ * transformation is returned as final data from the request.
+ *
+ * A simple implementation of this class that uses the identity function (does nothing) on the data is
+ * {@link SimpleCacheRequest}.
+ *
+ * @param <D> The data that will be retrieved from the cache.
+ * @param <R> The final result, after processing the data from the cache.
  *
  * @author Niko Strijbol
  */
 public abstract class ProcessableCacheRequest<D extends Serializable, R> implements Request<R> {
 
     protected final Context context;
-    private final CacheRequest<D> cacheRequest;
+    private final CacheableRequest<D> cacheableRequest;
     private boolean shouldRefresh;
-
-    public ProcessableCacheRequest(Context context, CacheRequest<D> request) {
-        this(context, request, false);
-    }
 
     /**
      * Create a request.
@@ -32,9 +38,9 @@ public abstract class ProcessableCacheRequest<D extends Serializable, R> impleme
      * @param request The request.
      * @param shouldRefresh Should fresh data be used or not.
      */
-    public ProcessableCacheRequest(Context context, CacheRequest<D> request, boolean shouldRefresh) {
+    public ProcessableCacheRequest(Context context, CacheableRequest<D> request, boolean shouldRefresh) {
         this.context = context.getApplicationContext();
-        this.cacheRequest = request;
+        this.cacheableRequest = request;
         this.shouldRefresh = shouldRefresh;
     }
 
@@ -55,22 +61,23 @@ public abstract class ProcessableCacheRequest<D extends Serializable, R> impleme
         D data;
 
         if(shouldRefresh) {
-            data = cache.get(cacheRequest, Cache.NEVER);
+            data = cache.get(cacheableRequest, Cache.NEVER);
             shouldRefresh = false;
         } else {
-            data = cache.get(cacheRequest);
+            data = cache.get(cacheableRequest);
         }
 
         return transform(data);
     }
 
     /**
-     * Convert the cached data to something else.
+     * Convert the cached data to something else. This is called on the same thread as {@link #performRequest()}, which
+     * is often the background thread.
      *
      * @param data The cached data.
      *
      * @return Something else.
      */
     @NonNull
-    protected abstract R transform(@NonNull D data);
+    protected abstract R transform(@NonNull D data) throws RequestFailureException;
 }

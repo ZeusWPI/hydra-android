@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.models.cards;
 
-import be.ugent.zeus.hydra.models.association.Activity;
+import be.ugent.zeus.hydra.models.association.Event;
 import org.threeten.bp.Duration;
 import org.threeten.bp.ZonedDateTime;
 
@@ -9,15 +9,15 @@ import org.threeten.bp.ZonedDateTime;
  */
 public class AssociationActivityCard extends HomeCard {
 
-    private Activity activity;
+    private Event event;
 
-    public AssociationActivityCard(Activity activity) {
-        this.activity = activity;
+    public AssociationActivityCard(Event event) {
+        this.event = event;
     }
 
     @Override
     public int getPriority() {
-        Duration duration = Duration.between(ZonedDateTime.now(), activity.getStart());
+        Duration duration = Duration.between(ZonedDateTime.now(), event.getStart());
         return 950 - Math.max(0, (int) duration.toHours()) * 4; //see 10 days in to the future
     }
 
@@ -26,7 +26,7 @@ public class AssociationActivityCard extends HomeCard {
         return CardType.ACTIVITY;
     }
 
-    public Activity getActivity() {
-        return activity;
+    public Event getEvent() {
+        return event;
     }
 }
