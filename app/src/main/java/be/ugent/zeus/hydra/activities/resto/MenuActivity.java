@@ -31,7 +31,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> implements
     private static final String URL = "http://www.ugent.be/student/nl/meer-dan-studeren/resto";
 
     private MenuPagerAdapter pageAdapter;
-    private ViewPager mViewPager;
+    private ViewPager viewPager;
     private LocalDate startDate;
 
     public MenuActivity() {
@@ -48,11 +48,11 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> implements
         pageAdapter = new MenuPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = $(R.id.resto_tabs_content);
-        mViewPager.setAdapter(pageAdapter);
+        viewPager = $(R.id.resto_tabs_content);
+        viewPager.setAdapter(pageAdapter);
 
         final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
-        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 appBarLayout.setExpanded(true);
@@ -62,7 +62,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> implements
         });
 
         TabLayout tabLayout = $(R.id.resto_tabs_slider);
-        tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.setupWithViewPager(viewPager);
 
         Intent intent = getIntent();
 
@@ -76,19 +76,11 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> implements
         loaderHandler.startLoader();
     }
 
-    /**
-     * @return The URL for the overflow button to display a website link.
-     */
     @Override
     protected String getUrl() {
         return URL;
     }
 
-    /**
-     * This method is used to receive new data.
-     *
-     * @param data The new data.
-     */
     @Override
     public void receiveData(@NonNull RestoOverview data) {
         pageAdapter.setData(data);
@@ -96,7 +88,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> implements
             RestoMenu menu = data.get(i);
             //Set the tab to this day!
             if(menu.getDate().isEqual(startDate)) {
-                mViewPager.setCurrentItem(i, false);
+                viewPager.setCurrentItem(i, false);
                 break;
             }
         }

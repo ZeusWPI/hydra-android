@@ -20,6 +20,9 @@ import java.io.Serializable;
  * A simple implementation of this class that uses the identity function (does nothing) on the data is
  * {@link SimpleCacheRequest}.
  *
+ * @param <D> The data that will be retrieved from the cache.
+ * @param <R> The final result, after processing the data from the cache.
+ *
  * @author Niko Strijbol
  */
 public abstract class ProcessableCacheRequest<D extends Serializable, R> implements Request<R> {
@@ -27,10 +30,6 @@ public abstract class ProcessableCacheRequest<D extends Serializable, R> impleme
     protected final Context context;
     private final CacheableRequest<D> cacheableRequest;
     private boolean shouldRefresh;
-
-    public ProcessableCacheRequest(Context context, CacheableRequest<D> request) {
-        this(context, request, false);
-    }
 
     /**
      * Create a request.

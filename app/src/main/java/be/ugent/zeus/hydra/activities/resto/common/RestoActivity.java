@@ -31,9 +31,6 @@ public abstract class RestoActivity<D extends Serializable> extends LoaderToolba
     @MenuRes
     protected abstract int getMenuId();
 
-    /**
-     * Add the refresh item.
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

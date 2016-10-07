@@ -169,10 +169,6 @@ public class AnnouncementDao extends Dao {
                 );
     }
 
-    private static boolean intToBool(int integer) {
-        return integer == 1;
-    }
-
     private static int boolToInt(boolean bool) {
         return bool ? 1 : 0;
     }

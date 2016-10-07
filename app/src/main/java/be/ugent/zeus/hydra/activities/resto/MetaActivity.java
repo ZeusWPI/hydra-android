@@ -21,9 +21,6 @@ public class MetaActivity extends RestoActivity<RestoMeta> {
 
     private MetaAdapter adapter;
 
-    /**
-     * Use a special menu.
-     */
     @Override
     protected int getMenuId() {
         return R.menu.menu_resto_meta;
@@ -47,11 +44,6 @@ public class MetaActivity extends RestoActivity<RestoMeta> {
         loaderHandler.startLoader();
     }
 
-    /**
-     * This method is used to receive new data, from the request for example.
-     *
-     * @param data The new data.
-     */
     @Override
     public void receiveData(@NonNull RestoMeta data) {
         adapter.replaceData(data.locations);

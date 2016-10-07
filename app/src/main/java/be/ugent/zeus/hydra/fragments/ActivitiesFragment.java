@@ -94,8 +94,6 @@ public class ActivitiesFragment extends LoaderFragment<Activities> implements Sh
      */
     private void setData(@NonNull List<Activity> data) {
 
-        Activities.filterActivities(data, getContext());
-
         adapter.setItems(data);
 
         //If empty, show it.
@@ -117,15 +115,6 @@ public class ActivitiesFragment extends LoaderFragment<Activities> implements Sh
         }
     }
 
-    /**
-     * Called when a shared preference is changed, added, or removed. This may be called even if a preference is set to
-     * its existing value.
-     * <p>
-     * <p>This callback will be run on your main thread.
-     *
-     * @param sharedPreferences The {@link SharedPreferences} that received the change.
-     * @param key               The key of the preference that was changed, added, or
-     */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING.equals(key)) {
@@ -133,11 +122,6 @@ public class ActivitiesFragment extends LoaderFragment<Activities> implements Sh
         }
     }
 
-    /**
-     * This must be called when data is received that has no errors.
-     *
-     * @param data The data.
-     */
     @Override
     public void receiveData(@NonNull Activities data) {
         setData(data);

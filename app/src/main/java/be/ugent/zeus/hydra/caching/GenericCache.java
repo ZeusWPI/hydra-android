@@ -25,11 +25,6 @@ class GenericCache implements Cache {
     private final CacheExecutor executor;
     private final File directory;
 
-    public GenericCache(CacheExecutor executor, File cacheDirectory) {
-        this.executor = executor;
-        this.directory = cacheDirectory;
-    }
-
     public GenericCache(Context context) {
         this.directory = context.getCacheDir();
         this.executor = new SerializableExecutor(this.directory);
