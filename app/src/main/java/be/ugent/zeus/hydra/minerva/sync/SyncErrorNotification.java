@@ -102,12 +102,4 @@ public class SyncErrorNotification {
             return notification;
         }
     }
-
-    /**
-     * Show general error notification.
-     *
-     * @param context The context.
-     */
-    public static void showError(Context context) {
-    }
 }

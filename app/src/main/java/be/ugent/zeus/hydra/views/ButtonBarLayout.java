@@ -28,9 +28,9 @@ import android.widget.LinearLayout;
 /**
  * An extension of LinearLayout that automatically switches to vertical orientation when it can't fit its child views
  * horizontally.
- * <p>
- * This class is copied from the support library v7, as the class their is marked as hidden.
- * <p>
+ *
+ * This class is copied from the support library v7, as the class there is marked as hidden.
+ *
  * https://github.com/android/platform_frameworks_support/blob/master/v7/appcompat/src/android/support/v7/widget/ButtonBarLayout.java
  *
  * @author AOSP
@@ -45,21 +45,21 @@ public class ButtonBarLayout extends LinearLayout {
     /**
      * Whether the current configuration allows stacking.
      */
-    private boolean mAllowStacking;
-    private int mLastWidthSize = -1;
+    private boolean allowStacking;
+    private int lastWidthSize = -1;
 
     public ButtonBarLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         final boolean allowStackingDefault = ConfigurationHelper.getScreenHeightDp(getResources()) >= ALLOW_STACKING_MIN_HEIGHT_DP;
         final TypedArray ta = context.obtainStyledAttributes(attrs, android.support.v7.appcompat.R.styleable.ButtonBarLayout);
-        mAllowStacking = allowStackingDefault;
+        allowStacking = allowStackingDefault;
         ta.recycle();
     }
 
     public void setAllowStacking(boolean allowStacking) {
-        if (mAllowStacking != allowStacking) {
-            mAllowStacking = allowStacking;
-            if (!mAllowStacking && getOrientation() == LinearLayout.VERTICAL) {
+        if (this.allowStacking != allowStacking) {
+            this.allowStacking = allowStacking;
+            if (!this.allowStacking && getOrientation() == LinearLayout.VERTICAL) {
                 setStacked(false);
             }
             requestLayout();
@@ -69,12 +69,12 @@ public class ButtonBarLayout extends LinearLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         final int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        if (mAllowStacking) {
-            if (widthSize > mLastWidthSize && isStacked()) {
+        if (allowStacking) {
+            if (widthSize > lastWidthSize && isStacked()) {
                 // We're being measured wider this time, try un-stacking.
                 setStacked(false);
             }
-            mLastWidthSize = widthSize;
+            lastWidthSize = widthSize;
         }
         boolean needsRemeasure = false;
         // If we're not stacked, make sure the measure spec is AT_MOST rather
@@ -89,7 +89,7 @@ public class ButtonBarLayout extends LinearLayout {
             initialWidthMeasureSpec = widthMeasureSpec;
         }
         super.onMeasure(initialWidthMeasureSpec, heightMeasureSpec);
-        if (mAllowStacking && !isStacked()) {
+        if (allowStacking && !isStacked()) {
             final boolean stack;
 
             if (Build.VERSION.SDK_INT >= 11) {
