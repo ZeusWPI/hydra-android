@@ -20,15 +20,9 @@ public abstract class RestoActivity<D extends Serializable> extends LoaderToolba
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(getMenuId(), menu);
-
-        // We need to manually set the color of this Drawable for some reason.
         tintToolbarIcons(menu, R.id.resto_refresh);
-
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     /**
@@ -37,9 +31,6 @@ public abstract class RestoActivity<D extends Serializable> extends LoaderToolba
     @MenuRes
     protected abstract int getMenuId();
 
-    /**
-     * Add the refresh item.
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

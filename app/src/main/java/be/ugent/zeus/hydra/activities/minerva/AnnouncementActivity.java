@@ -1,9 +1,11 @@
 package be.ugent.zeus.hydra.activities.minerva;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,13 +13,13 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.utils.html.Utils;
-
-import java.util.Date;
+import org.threeten.bp.ZonedDateTime;
 
 /**
  * Show a Minerva announcement.
@@ -59,7 +61,7 @@ public class AnnouncementActivity extends ToolbarActivity {
         }
 
         if(announcement.getDate() != null) {
-            date.setText(DateUtils.relativeDateString(announcement.getDate(), date.getContext()));
+            date.setText(DateUtils.relativeDateTimeString(announcement.getDate(), date.getContext()));
         }
 
         if(announcement.getContent() != null) {
@@ -85,20 +87,18 @@ public class AnnouncementActivity extends ToolbarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_minerva_announcement, menu);
-
-        // We need to manually set the color of this Drawable for some reason.
         tintToolbarIcons(menu, R.id.minerva_announcement_link);
-
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     private String getOnlineUrl() {
-        //TODO: use preferences
-        return String.format(ONLINE_URL_DESKTOP, announcement.getCourse().getId());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(preferences.getBoolean(MinervaFragment.PREF_USE_MOBILE_URL, false)) {
+            return String.format(ONLINE_URL_MOBILE, announcement.getCourse().getId());
+        } else {
+            return String.format(ONLINE_URL_DESKTOP, announcement.getCourse().getId());
+        }
     }
 
     @Override
@@ -107,7 +107,7 @@ public class AnnouncementActivity extends ToolbarActivity {
         //Set the read date if needed
         if(!announcement.isRead()) {
             read = true;
-            announcement.setRead(new Date());
+            announcement.setRead(ZonedDateTime.now());
         }
         setResult();
     }

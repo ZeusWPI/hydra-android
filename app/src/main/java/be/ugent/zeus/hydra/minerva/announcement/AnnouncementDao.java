@@ -16,6 +16,8 @@ import be.ugent.zeus.hydra.minerva.database.Dao;
 import be.ugent.zeus.hydra.minerva.database.Utils;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.utils.TtbUtils;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.*;
 
@@ -78,7 +80,7 @@ public class AnnouncementDao extends Dao {
             Log.d(TAG, "Removed " + rows + " stale announcements.");
 
             //If we are doing the first sync, we want to set everything to read.
-            Date now = new Date();
+            ZonedDateTime now = ZonedDateTime.now();
 
             final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             final boolean showEmail = pref.getBoolean(MinervaFragment.PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL, MinervaFragment.PREF_DEFAULT_ANNOUNCEMENT_NOTIFICATION_EMAIL);
@@ -103,7 +105,7 @@ public class AnnouncementDao extends Dao {
                     //If this is the first sync or it has an email and is set to email, add the read date.
                     if(first || (!showEmail && announcement.isEmailSent())) {
                         announcement.setRead(now);
-                        value.put(AnnouncementTable.COLUMN_READ_DATE, now.getTime());
+                        value.put(AnnouncementTable.COLUMN_READ_DATE, TtbUtils.serialize(now));
                     }
 
                     //If the announcement is unread, add it to the new announcements
@@ -141,8 +143,8 @@ public class AnnouncementDao extends Dao {
         values.put(AnnouncementTable.COLUMN_EMAIL_SENT, boolToInt(a.isEmailSent()));
         values.put(AnnouncementTable.COLUMN_STICKY_UNTIL, 0);
         values.put(AnnouncementTable.COLUMN_LECTURER, a.getLecturer());
-        values.put(AnnouncementTable.COLUMN_DATE, a.getDate().getTime());
-        values.put(AnnouncementTable.COLUMN_READ_DATE, a.isRead() ? a.getDate().getTime() : 0);
+        values.put(AnnouncementTable.COLUMN_DATE, TtbUtils.serialize(a.getDate()));
+        values.put(AnnouncementTable.COLUMN_READ_DATE, a.isRead() ? TtbUtils.serialize(a.getDate()) : -1);
 
         return values;
     }
@@ -165,10 +167,6 @@ public class AnnouncementDao extends Dao {
                 AnnouncementTable.COLUMN_ID + " = ?",
                 new String[]{String.valueOf(a.getItemId())}
                 );
-    }
-
-    private static boolean intToBool(int integer) {
-        return integer == 1;
     }
 
     private static int boolToInt(boolean bool) {
@@ -306,8 +304,6 @@ public class AnnouncementDao extends Dao {
 
         builder.setTables(AnnouncementTable.TABLE_NAME + " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + announcementJoin + "=" + courseJoin);
 
-        String order = AnnouncementTable.COLUMN_COURSE;
-
         Map<Course, List<Announcement>> map = new HashMap<>();
 
         String[] columns = new String[]{
@@ -332,7 +328,7 @@ public class AnnouncementDao extends Dao {
                 db,
                 columns,
                 AnnouncementTable.COLUMN_READ_DATE + " = ?",
-                new String[]{"0"},
+                new String[]{"-1"},
                 null,
                 null,
                 AnnouncementTable.COLUMN_COURSE + " ASC"

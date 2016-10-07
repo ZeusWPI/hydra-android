@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,15 +16,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.SettingsActivity;
-import be.ugent.zeus.hydra.recyclerview.adapters.ActivityListAdapter;
-import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
-import be.ugent.zeus.hydra.cache.CacheRequest;
+import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
+import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.models.association.Activities;
-import be.ugent.zeus.hydra.models.association.Activity;
-import be.ugent.zeus.hydra.recyclerview.adapters.ActivityListAdapter;
-import be.ugent.zeus.hydra.requests.ActivitiesRequest;
+import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
+import be.ugent.zeus.hydra.loaders.ThrowableEither;
+import be.ugent.zeus.hydra.models.association.Events;
+import be.ugent.zeus.hydra.models.association.Event;
+import be.ugent.zeus.hydra.recyclerview.adapters.EventAdapter;
+import be.ugent.zeus.hydra.requests.association.FilteredEventRequest;
 import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
@@ -37,16 +38,17 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author ellen
  * @author Niko Strijbol
  */
-public class ActivitiesFragment extends CachedLoaderFragment<Activities> implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class ActivitiesFragment extends LoaderFragment<Events> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private ActivityListAdapter adapter;
+    private EventAdapter adapter;
     private LinearLayout noData;
 
     //If the data is invalidated.
     private boolean invalid = false;
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_activities, container, false);
     }
 
@@ -57,7 +59,7 @@ public class ActivitiesFragment extends CachedLoaderFragment<Activities> impleme
         RecyclerView recyclerView = $(view, R.id.recycler_view);
         noData = $(view, R.id.events_no_data);
 
-        adapter = new ActivityListAdapter();
+        adapter = new EventAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
@@ -90,12 +92,9 @@ public class ActivitiesFragment extends CachedLoaderFragment<Activities> impleme
      *
      * @param data The data.
      */
-    private void setData(@NonNull List<Activity> data) {
+    private void setData(@NonNull List<Event> data) {
 
-        data = Activities.getPreferredActivities(data, getContext());
-
-        adapter.setData(data);
-        adapter.notifyDataSetChanged();
+        adapter.setItems(data);
 
         //If empty, show it.
         if(data.isEmpty()) {
@@ -111,44 +110,25 @@ public class ActivitiesFragment extends CachedLoaderFragment<Activities> impleme
 
         //Refresh the data.
         if(invalid) {
-            //No need for a new thread, since this is pretty fast.
-            setData(adapter.getOriginal());
+            loaderHandler.restartLoader();
             invalid = false;
         }
     }
 
-    /**
-     * Called when a shared preference is changed, added, or removed. This may be called even if a preference is set to
-     * its existing value.
-     * <p>
-     * <p>This callback will be run on your main thread.
-     *
-     * @param sharedPreferences The {@link SharedPreferences} that received the change.
-     * @param key               The key of the preference that was changed, added, or
-     */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equals("pref_association_checkbox") || key.equals("associationPrefListScreen")) {
+        if(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING.equals(key)) {
             invalid = true;
         }
     }
 
-    /**
-     * This must be called when data is received that has no errors.
-     *
-     * @param data The data.
-     */
     @Override
-    public void receiveData(@NonNull Activities data) {
-        adapter.setOriginal(data);
+    public void receiveData(@NonNull Events data) {
         setData(data);
     }
 
-    /**
-     * @return The request that will be executed.
-     */
     @Override
-    public ActivitiesRequest getRequest() {
-        return new ActivitiesRequest();
+    public Loader<ThrowableEither<Events>> getLoader() {
+        return new RequestAsyncTaskLoader<>(new FilteredEventRequest(getContext(), shouldRenew), getContext());
     }
 }

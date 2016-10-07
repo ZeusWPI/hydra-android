@@ -4,6 +4,7 @@ import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 
 /**
  * This activity is the same as the framework's {@link android.accounts.AccountAuthenticatorActivity}, but for use with
@@ -22,13 +23,23 @@ import android.support.v4.app.NavUtils;
  * is never set or if it is set to null then error {@link AccountManager#ERROR_CODE_CANCELED}
  * will be called on the response.
  *
+ * TODO: merge with our AuthActivity
+ *
  * @author Niko Strijbol
  * @see <a href="https://github.com/android/platform_frameworks_base/blob/master/core/java/android/accounts/AccountAuthenticatorActivity.java">AOSP</a>
  */
 public class ToolbarAccountAuthenticatorActivity extends ToolbarActivity {
 
+    private static final String TAG = "ToolbarAcAuthActivity";
+
+    //Extra bundle
+    public static final String ARG_EXTRA_BUNDLE = "extraBundle";
+    //Bundle key to provide up navigation or just finish the activity?
+    public static final String KEY_PROVIDE_UP_NAVIGATION = "provideUpNavigation";
+
     private AccountAuthenticatorResponse response = null;
-    private Bundle mResultBundle = null;
+    private Bundle resultBundle = null;
+    private Bundle extra = null;
 
     /**
      * Set the result that is to be sent as the result of the request that caused this Activity to be launched. If
@@ -37,7 +48,7 @@ public class ToolbarAccountAuthenticatorActivity extends ToolbarActivity {
      * @param result this is returned as the result of the AbstractAccountAuthenticator request
      */
     public final void setAccountAuthenticatorResult(Bundle result) {
-        mResultBundle = result;
+        resultBundle = result;
     }
 
     /**
@@ -53,6 +64,10 @@ public class ToolbarAccountAuthenticatorActivity extends ToolbarActivity {
         if (response != null) {
             response.onRequestContinued();
         }
+
+        if(getIntent().hasExtra(ARG_EXTRA_BUNDLE)) {
+            extra = getIntent().getBundleExtra(ARG_EXTRA_BUNDLE);
+        }
     }
 
     /**
@@ -61,14 +76,23 @@ public class ToolbarAccountAuthenticatorActivity extends ToolbarActivity {
     public void finishUp() {
         if (response != null) {
             // send the result bundle back if set, otherwise send an error.
-            if (mResultBundle != null) {
-                response.onResult(mResultBundle);
+            if (resultBundle != null) {
+                response.onResult(resultBundle);
             } else {
                 response.onError(AccountManager.ERROR_CODE_CANCELED, "canceled");
             }
             response = null;
         }
 
-        NavUtils.navigateUpFromSameTask(this);
+        if(extra != null) {
+            Log.d(TAG, "Extra's were found.");
+            if(extra.getBoolean(KEY_PROVIDE_UP_NAVIGATION, false)) {
+                NavUtils.navigateUpFromSameTask(this);
+            } else {
+                finish();
+            }
+        } else {
+            NavUtils.navigateUpFromSameTask(this);
+        }
     }
 }

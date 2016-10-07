@@ -2,13 +2,15 @@ package be.ugent.zeus.hydra.requests.minerva;
 
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.auth.MinervaConfig;
-import be.ugent.zeus.hydra.auth.models.GrantInformation;
+import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
+import be.ugent.zeus.hydra.minerva.auth.models.GrantInformation;
 import be.ugent.zeus.hydra.requests.common.TokenRequest;
 
 /**
  * This is the user information request. This is a special request that needs a token, since this request is part of
  * the account creation process and is called before the account is saved on the device.
+ *
+ * All other requests to Minerva should use the account functionality.
  *
  * @author Niko Strijbol
  * @author feliciaan

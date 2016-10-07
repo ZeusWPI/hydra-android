@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import be.ugent.zeus.hydra.fragments.*;
-import be.ugent.zeus.hydra.fragments.home.HomeFragment;
+import be.ugent.zeus.hydra.fragments.home.HomeFeedFragment;
 import be.ugent.zeus.hydra.fragments.minerva.MinervaFragment;
 import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
 import be.ugent.zeus.hydra.fragments.urgent.UrgentFragment;
@@ -30,7 +30,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case HOME:
-                return new HomeFragment();
+                return new HomeFeedFragment();
             case SCHAMPER:
                 return new SchamperFragment();
             case RESTO:

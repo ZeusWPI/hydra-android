@@ -24,6 +24,11 @@ import be.ugent.zeus.hydra.viewpager.MinervaCoursePagerAdapter;
 public class CourseActivity extends ToolbarActivity {
 
     public static final String ARG_COURSE = "argCourse";
+    public static final String ARG_TAB = "argTab";
+
+    public static final int TAB_INFO = 0;
+    public static final int TAB_ANNOUNCEMENTS = 1;
+    public static final int TAB_AGENDA = 2;
 
     private static final String ONLINE_URL_DESKTOP = "https://minerva.ugent.be/main/course_home/course_home.php?cidReq=%s";
     private static final String ONLINE_URL_MOBILE = "https://minerva.ugent.be/mobile/courses/%s";
@@ -42,7 +47,8 @@ public class CourseActivity extends ToolbarActivity {
         ViewPager viewPager = $(R.id.pager);
 
         viewPager.setAdapter(new MinervaCoursePagerAdapter(getSupportFragmentManager(), course));
-        viewPager.setCurrentItem(1, false);
+
+        viewPager.setCurrentItem(getIntent().getIntExtra(ARG_TAB, TAB_ANNOUNCEMENTS), false);
         tabLayout.setupWithViewPager(viewPager);
 
         getToolBar().setTitle(course.getTitle());
@@ -61,15 +67,9 @@ public class CourseActivity extends ToolbarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_minerva_course, menu);
-
-        // We need to manually set the color of this Drawable for some reason.
         tintToolbarIcons(menu, R.id.minerva_course_link);
-
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     private String getOnlineUrl() {

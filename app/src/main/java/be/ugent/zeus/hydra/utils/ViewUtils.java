@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -16,8 +15,8 @@ import be.ugent.zeus.hydra.R;
 
 /**
  * @author Niko Strijbol
- * @version 31/05/2016
  */
+@SuppressWarnings("WeakerAccess")
 public class ViewUtils {
 
     /**
@@ -35,8 +34,8 @@ public class ViewUtils {
         return v;
     }
 
-    public static int getPrimaryColor(Activity activity) {
-        return getColor(activity, R.attr.colorPrimary);
+    public static int getPrimaryColor(Context context) {
+        return getColor(context, R.attr.colorPrimary);
     }
 
     @ColorInt
@@ -55,15 +54,27 @@ public class ViewUtils {
     /**
      * Get a vector in the given color.
      *
-     * @param context A context
-     * @param drawable The drawable to get
-     * @param color The color to tint the drawable in
-     * @return The drawable
+     * @param context A context.
+     * @param drawable The drawable to get.
+     * @param color The color to tint the drawable in.
+     * @return The drawable.
      */
     public static Drawable getTintedVectorDrawable(Context context, @DrawableRes int drawable, @ColorRes int color) {
+        return getTintedVectorDrawableInt(context, drawable, ContextCompat.getColor(context, color));
+    }
+
+    /**
+     * Get a vector in the given color.
+     *
+     * @param context A context
+     * @param drawable The drawable to get
+     * @param color The color int to tint the drawable in.
+     * @return The drawable.
+     */
+    public static Drawable getTintedVectorDrawableInt(Context context, @DrawableRes int drawable, @ColorInt int color) {
 
         Drawable d = AppCompatResources.getDrawable(context, drawable);
-        DrawableCompat.setTint(d, ContextCompat.getColor(context, color));
+        DrawableCompat.setTint(d, color);
 
         return d;
     }

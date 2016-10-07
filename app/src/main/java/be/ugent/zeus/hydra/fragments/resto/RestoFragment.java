@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +17,18 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.MenuActivity;
 import be.ugent.zeus.hydra.activities.resto.MetaActivity;
 import be.ugent.zeus.hydra.activities.resto.SandwichActivity;
-import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
-import be.ugent.zeus.hydra.cache.CacheRequest;
+import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
+import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
+import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
-import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
+import be.ugent.zeus.hydra.requests.common.ProcessableCacheRequest;
+import be.ugent.zeus.hydra.requests.resto.RestoMenuRequest;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.views.MenuTable;
-import org.joda.time.DateTime;
+
+import java.util.ArrayList;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -32,10 +36,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author Niko Strijbol
  * @author mivdnber
  */
-public class RestoFragment extends CachedLoaderFragment<RestoOverview> {
-
-    //The hour after which every resto is closed.
-    public static final int CLOSING_HOUR = 20;
+public class RestoFragment extends LoaderFragment<ArrayList<RestoMenu>> {
 
     private TextView title;
     private MenuTable table;
@@ -58,13 +59,6 @@ public class RestoFragment extends CachedLoaderFragment<RestoOverview> {
         viewResto = $(view, R.id.home_resto_view_resto);
 
         setIcons();
-
-        viewMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MenuActivity.class));
-            }
-        });
 
         viewSandwich.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,36 +104,43 @@ public class RestoFragment extends CachedLoaderFragment<RestoOverview> {
         viewResto.setCompoundDrawablesWithIntrinsicBounds(null, restoIcon, null, null);
     }
 
-    /**
-     * This must be called when data is received that has no errors.
-     *
-     * @param data The data.
-     */
     @Override
-    public void receiveData(@NonNull RestoOverview data) {
+    public void receiveData(@NonNull ArrayList<RestoMenu> data) {
 
-        //FragmentManager m = getChildFragmentManager();
-
-        //We can't do anything without data.
-        if(data.size() < 2) {
+        //Check that we have at least one menu
+        //TODO: show error
+        if(data.size() < 1) {
             return;
         }
 
-        RestoMenu menu = data.get(0);
-        if(DateTime.now().isAfter(DateTime.now().withHourOfDay(CLOSING_HOUR)) || DateTime.now().isAfter(new DateTime(menu.getDate()))) {
-            menu = data.get(1);
-        }
+        final RestoMenu menu = data.get(0);
 
         table.setMenu(menu);
-
         title.setText(String.format(getString(R.string.resto_menu_title), DateUtils.getFriendlyDate(menu.getDate())));
+
+        viewMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MenuActivity.class);
+                intent.putExtra(MenuActivity.ARG_DATE, menu.getDate());
+                startActivity(intent);
+            }
+        });
     }
 
     /**
-     * @return The request that will be executed.
+     * Do the filtering of the menu's in the background as well.
      */
     @Override
-    public RestoMenuOverviewRequest getRequest() {
-        return new RestoMenuOverviewRequest();
+    public Loader<ThrowableEither<ArrayList<RestoMenu>>> getLoader() {
+        return new RequestAsyncTaskLoader<>(
+                new ProcessableCacheRequest<RestoOverview, ArrayList<RestoMenu>>(getContext(), new RestoMenuRequest(), shouldRenew) {
+                    @NonNull
+                    @Override
+                    protected ArrayList<RestoMenu> transform(@NonNull RestoOverview data) {
+                        return RestoOverview.filter(data, getContext());
+                    }
+                }, getContext()
+        );
     }
 }

@@ -35,7 +35,7 @@ public class AgendaViewHolder extends DataViewHolder<AgendaItem> {
     public void populate(final AgendaItem data) {
         title.setText(data.getTitle());
         String infoText = String.format(new Locale("nl"), "%s door %s",
-                DateUtils.relativeDateString(data.getStartDate(), itemView.getContext()),
+                DateUtils.relativeDateTimeString(data.getStartDate(), itemView.getContext()),
                 data.getLastEditUser());
         subtitle.setText(infoText);
 

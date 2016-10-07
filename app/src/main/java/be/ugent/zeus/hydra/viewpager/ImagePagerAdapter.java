@@ -1,7 +1,5 @@
 package be.ugent.zeus.hydra.viewpager;
 
-import java.util.List;
-
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
@@ -16,6 +14,8 @@ import android.widget.ProgressBar;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import uk.co.senab.photoview.PhotoViewAttacher;
+
+import java.util.List;
 
 /**
  * A PagerAdapter that works with images. This adapter will use {@link PhotoViewAttacher}
@@ -38,14 +38,6 @@ public class ImagePagerAdapter extends PagerAdapter {
     private List<String> images;
     private PhotoViewAttacher.OnPhotoTapListener listener;
     private SparseArray<PhotoViewAttacher> attachers = new SparseArray<>();
-
-    /**
-     * @param context The activity that uses the adapter.
-     * @param images The image URL's.
-     */
-    public ImagePagerAdapter(Context context, List<String> images) {
-        this(context, images, null);
-    }
 
     /**
      * @param context The activity that uses the adapter.

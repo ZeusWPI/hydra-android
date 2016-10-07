@@ -21,18 +21,19 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * This is used in this app mainly as the tabs in the home activity.
  *
  * @author Niko Strijbol
- * @version 20/06/2016
  */
 public abstract class RecyclerLoaderFragment<E, D extends Serializable & List<E>, A extends RecyclerView.Adapter<?> & Adapter<E>> extends CachedLoaderFragment<D> {
 
     protected RecyclerView recyclerView;
     protected A adapter;
+    protected boolean hasFixedSize = true;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = $(view, R.id.recycler_view);
+        recyclerView.setHasFixedSize(hasFixedSize);
         adapter = getAdapter();
 
         recyclerView.setAdapter(adapter);

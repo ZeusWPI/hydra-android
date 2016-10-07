@@ -67,6 +67,7 @@
                 android:layout_height="80dp"
                 android:id="@+id/imageView"
                 android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
                 tools:src="@drawable/ic_event_24dp" />
         </LinearLayout>
     </LinearLayout>

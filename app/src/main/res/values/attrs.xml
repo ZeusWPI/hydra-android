@@ -5,6 +5,7 @@
         <attr name="icon" format="reference" />
         <attr name="title" format="string" />
         <attr name="menu" format="reference" />
+        <attr name="showMenu" format="boolean" />
     </declare-styleable>
 
     <!-- Attributes for the resto menu -->

@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.Loader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,11 +19,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.auth.AccountUtils;
-import be.ugent.zeus.hydra.auth.MinervaConfig;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
+import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
+import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.course.CourseDao;
 import be.ugent.zeus.hydra.minerva.course.CourseDaoLoader;
 import be.ugent.zeus.hydra.minerva.sync.SyncAdapter;
@@ -49,6 +50,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
 
     private RecyclerView recyclerView;
     private View authWrapper;
+    private Snackbar syncBar;
 
     private CourseAdapter adapter;
     private AccountManager manager;
@@ -132,7 +134,6 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         Log.d(TAG, "Requesting first sync...");
         Bundle bundle = new Bundle();
         bundle.putBoolean(SyncAdapter.ARG_FIRST_SYNC, true);
-        bundle.putBoolean(SyncAdapter.ARG_SEND_BROADCASTS, true);
         requestSync(account, bundle);
     }
 
@@ -149,7 +150,6 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         adapter.clear();
         Account account = AccountUtils.getAccount(getContext());
         Bundle bundle = new Bundle();
-        bundle.putBoolean(SyncAdapter.ARG_SEND_BROADCASTS, true);
         requestSync(account, bundle);
     }
 
@@ -171,7 +171,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         if(isLoggedIn()) {
             authWrapper.setVisibility(View.GONE);
             showProgressBar();
-            startLoader();
+            loaderHandler.startLoader();
         }
     }
 
@@ -185,11 +185,6 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         adapter.setItems(data);
         recyclerView.setVisibility(View.VISIBLE);
         getActivity().invalidateOptionsMenu();
-    }
-
-    @Override
-    public Loader<ThrowableEither<List<Course>>> onCreateLoader(int id, Bundle args) {
-        return new CourseDaoLoader(getContext(), courseDao);
     }
 
     @Override
@@ -232,7 +227,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
                 //Show login prompt
                 authWrapper.setVisibility(View.VISIBLE);
                 //Destroy loaders
-                destroyLoader();
+                loaderHandler.destroyLoader();
                 //Delete database
                 clearDatabase();
                 //Reload options
@@ -250,13 +245,15 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
     @Override
     public void onResume() {
         super.onResume();
-        getContext().registerReceiver(syncReceiver, SyncBroadcast.getBroadcastFilter());
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
+        manager.registerReceiver(syncReceiver, SyncBroadcast.getBroadcastFilter());
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        getContext().unregisterReceiver(syncReceiver);
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
+        manager.unregisterReceiver(syncReceiver);
     }
 
     //This will only be called if manually set to send broadcasts.
@@ -267,20 +264,19 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
             switch (intent.getAction()) {
                 case SyncBroadcast.SYNC_START:
                     Log.d(TAG, "Start!");
-                    authWrapper.setVisibility(View.GONE);
-                    showProgressBar();
-                    syncBar = Snackbar.make(getView(), "Vakken ophalen...", Snackbar.LENGTH_INDEFINITE);
-                    syncBar.show();
+                    ensureSyncStatus("Vakken ophalen...");
                     return;
                 case SyncBroadcast.SYNC_DONE:
                     Log.d(TAG, "Done!");
+                    ensureSyncStatus("Klaar");
                     syncBar.dismiss();
                     syncBar = null;
-                    restartLoader();
+                    recyclerView.setVisibility(View.VISIBLE);
+                    loaderHandler.restartLoader();
                     return;
                 case SyncBroadcast.SYNC_ERROR:
                     Log.d(TAG, "Error");
-                    syncBar.setText(getString(R.string.failure));
+                    ensureSyncStatus(getString(R.string.failure));
                     syncBar.setDuration(Snackbar.LENGTH_LONG);
                     return;
                 case SyncBroadcast.SYNC_PROGRESS_WHATS_NEW:
@@ -293,10 +289,31 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
                     int total = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_TOTAL, 0);
                     progressBar.setMax(total);
                     progressBar.setProgress(current);
-                    syncBar.setText("Vak " + current + " van " + total + " ophalen...");
+                    ensureSyncStatus("Vak " + current + " van " + total + " ophalen...");
             }
         }
     };
 
-    private Snackbar syncBar;
+    /**
+     * Ensure the sync status is enabled, and set the the given text on the snackbar.
+     *
+     * @param text To display on the snackbar.
+     */
+    private void ensureSyncStatus(String text) {
+        assert getView() != null;
+        if(syncBar == null) {
+            authWrapper.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
+            showProgressBar();
+            syncBar = Snackbar.make(getView(), text, Snackbar.LENGTH_INDEFINITE);
+            syncBar.show();
+        } else {
+            syncBar.setText(text);
+        }
+    }
+
+    @Override
+    public Loader<ThrowableEither<List<Course>>> getLoader() {
+        return new CourseDaoLoader(getContext(), courseDao);
+    }
 }

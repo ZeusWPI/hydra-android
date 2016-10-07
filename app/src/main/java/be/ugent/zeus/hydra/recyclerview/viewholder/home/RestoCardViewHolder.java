@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 
 import android.content.Intent;
 import android.view.View;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.MenuActivity;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
@@ -39,7 +40,7 @@ public class RestoCardViewHolder extends HideableViewHolder {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(itemView.getContext(), MenuActivity.class);
-                intent.putExtra(MenuActivity.ARG_DATE, menu.getDate().getTime());
+                intent.putExtra(MenuActivity.ARG_DATE, menu.getDate());
                 itemView.getContext().startActivity(intent);
             }
         });

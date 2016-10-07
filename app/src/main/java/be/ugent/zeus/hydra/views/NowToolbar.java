@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ public class NowToolbar extends LinearLayout {
 
     private TextView titleView;
     private ImageView menuButton;
+    private ImageView iconView;
 
     //Menu-related things.
     @MenuRes private int menu;
@@ -49,7 +51,7 @@ public class NowToolbar extends LinearLayout {
         //Inflate from XML
         inflate(getContext(), R.layout.x_now_toolbar, this);
 
-        ImageView iconView = $(R.id.now_toolbar_icon);
+        iconView = $(R.id.now_toolbar_icon);
         titleView = $(R.id.now_toolbar_title);
         menuButton = $(R.id.now_toolbar_menu);
 
@@ -63,8 +65,13 @@ public class NowToolbar extends LinearLayout {
 
         try {
             this.menu = a.getInt(R.styleable.NowToolbar_menu, R.menu.now_toolbar_hide);
-            iconView.setImageResource(a.getResourceId(R.styleable.NowToolbar_icon, R.drawable.ic_tabs_home));
             titleView.setText(a.getString(R.styleable.NowToolbar_title));
+            if(!a.getBoolean(R.styleable.NowToolbar_showMenu, true)) {
+                menuButton.setVisibility(GONE);
+            }
+            if(a.hasValue(R.styleable.NowToolbar_icon)) {
+                setIcon(a.getResourceId(R.styleable.NowToolbar_icon, R.drawable.ic_tabs_home));
+            }
         } finally {
             a.recycle();
         }
@@ -102,7 +109,19 @@ public class NowToolbar extends LinearLayout {
     public void setTitle(CharSequence title) {
         titleView.setText(title);
         invalidate();
-        requestLayout();
+    }
+
+    public void setIcon(@DrawableRes int id) {
+        setIconTo(id);
+        invalidate();
+    }
+
+    private void setIconTo(@DrawableRes int id) {
+        iconView.setImageResource(id);
+    }
+
+    public void setMenu(@MenuRes int menu) {
+        this.menu = menu;
     }
 
     @NonNull

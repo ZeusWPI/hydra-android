@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import net.danlew.android.joda.JodaTimeAndroid;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 /**
  * The Hydra application.
@@ -22,7 +22,7 @@ public class HydraApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        JodaTimeAndroid.init(this);
+        AndroidThreeTen.init(this);
     }
 
     /**

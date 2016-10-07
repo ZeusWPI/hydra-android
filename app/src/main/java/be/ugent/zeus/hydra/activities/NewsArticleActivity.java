@@ -39,7 +39,7 @@ public class NewsArticleActivity extends ToolbarActivity {
         }
 
         if(article.getDate() != null) {
-            date.setText(DateUtils.relativeDateString(article.getDate(), date.getContext()));
+            date.setText(DateUtils.relativeDateTimeString(article.getDate(), date.getContext()));
         }
 
         if(article.getContent() != null) {

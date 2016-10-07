@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.models.cards;
 
 import be.ugent.zeus.hydra.models.association.NewsItem;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
+import org.threeten.bp.Duration;
+import org.threeten.bp.ZonedDateTime;
 
 /**
  * Created by feliciaan on 18/06/16.
@@ -23,9 +23,9 @@ public class NewsItemCard extends HomeCard {
         } else {
             multiplier = 75;
         }
-        DateTime jodaDate = new DateTime(this.getNewsItem().getDate());
-        Duration duration = new Duration(new DateTime(), jodaDate);
-        return (int) (1000 - (duration.getStandardDays() * multiplier));
+        ZonedDateTime date = getNewsItem().getDate();
+        Duration duration = Duration.between(ZonedDateTime.now(), date);
+        return (int) (1000 - (duration.toDays() * multiplier));
     }
 
     @Override

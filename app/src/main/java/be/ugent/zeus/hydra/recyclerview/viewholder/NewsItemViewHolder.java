@@ -1,7 +1,5 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder;
 
-import java.util.Locale;
-
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
@@ -13,6 +11,8 @@ import be.ugent.zeus.hydra.activities.NewsArticleActivity;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
+
+import java.util.Locale;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -38,7 +38,7 @@ public class NewsItemViewHolder extends DataViewHolder<NewsItem> {
         title.setText(newsItem.getTitle());
 
         String infoText = String.format(new Locale("nl"), "%s door %s",
-                DateUtils.relativeDateString(newsItem.getDate(), itemView.getContext()),
+                DateUtils.relativeDateTimeString(newsItem.getDate(), itemView.getContext()),
                 newsItem.getAssociation().getName());
         info.setText(infoText);
         if (newsItem.isHighlighted()) {

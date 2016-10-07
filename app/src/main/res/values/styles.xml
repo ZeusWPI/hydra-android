@@ -18,6 +18,12 @@
         <item name="windowActionModeOverlay">true</item>
     </style>
 
+    <!-- Same as the main theme, except there is no action bar -->
+    <style name="Hydra.Main.NoActionBar" parent="Hydra.Main">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <!-- Style for long texts; black & lighter font + more line spacing -->
     <style name="Hydra.LongText" parent="Base.TextAppearance.AppCompat.Body1">
         <item name="android:textColor">@android:color/black</item>
@@ -30,12 +36,6 @@
         <item name="android:textColor">@android:color/black</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
         <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
-    </style>
-
-    <!-- Same as the main theme, except there is no action bar -->
-    <style name="Hydra.Main.NoActionBar" parent="Hydra.Main">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Hydra.Main.NoActionBar.SystemWindows" parent="Hydra.Main.NoActionBar">
@@ -60,6 +60,18 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <!-- Style for SKO part of the app -->
+    <style name="Hydra.Main.NoActionBar.Sko" parent="Hydra.Main.NoActionBar">
+        <item name="colorPrimary">@color/sko_blue_light</item>
+        <item name="colorPrimaryDark">@color/sko_blue_dark</item>
+        <item name="colorAccent">@color/sko_red</item>
+    </style>
+
+    <style name="Hydra.Main.NoActionBar.Sko.SystemWindows" parent="Hydra.Main.NoActionBar.Sko">
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
     </style>
 
 </resources>

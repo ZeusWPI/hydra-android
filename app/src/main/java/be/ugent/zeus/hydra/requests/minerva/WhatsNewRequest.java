@@ -1,9 +1,8 @@
 package be.ugent.zeus.hydra.requests.minerva;
 
-import android.app.Activity;
+import android.accounts.Account;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.WhatsNew;
@@ -11,10 +10,7 @@ import be.ugent.zeus.hydra.models.minerva.WhatsNew;
 /**
  * Request to get information about a course.
  *
- * Warning: this request should not be used. The minerva data is synchronised to the database. Use that instead. If
- * you need new data, request a sync.
- *
- * This request is, as a consequence of the above, not cached.
+ * Warning: this is an internal sync request, and should not be used to display data directly.
  *
  * @author Niko Strijbol
  * @author feliciaan
@@ -23,8 +19,8 @@ public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
 
     private Course course;
 
-    public WhatsNewRequest(Course course, Context context, @Nullable Activity activity) {
-        super(WhatsNew.class, context, activity);
+    public WhatsNewRequest(Course course, Context context, Account account) {
+        super(WhatsNew.class, context, account, null);
         this.course = course;
     }
 

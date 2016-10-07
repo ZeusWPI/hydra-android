@@ -34,12 +34,6 @@
   license: The Apache Software License, Version 2.0
   url: https://github.com/google/gson
 
-- artifact: net.danlew:android.joda:+
-  name: joda-time-android
-  copyrightHolder: Daniel Lew
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/dlew/joda-time-android
-
 - artifact: com.squareup.picasso:picasso:+
   name: Picasso
   copyrightHolder: Square, Inc.
@@ -59,20 +53,14 @@
   url: https://github.com/j2esu/rv-joiner
 
 - artifact: mylovemhz:simplay:+
-  name: Simplay
+  name: Simplay (aangepaste versie)
   copyrightHolder: Allan Pichardo
   license: The Apache Software License, Version 2.0
   url: https://github.com/allanpichardo/Simplay
 
-- artifact: org.springframework.android:spring-android-core:+
-  name: Spring for Android Core
-  author: Spring Authors
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/SpringSource/spring-android
-
-- artifact: org.springframework.android:spring-android-rest-template:+
-  name: Spring for Android Rest Template
-  author: Spring Authors
+- artifact: org.springframework.android:+:+
+  name: Spring for Android
+  copyrightHolder: Spring Authors
   license: The Apache Software License, Version 2.0
   url: https://github.com/SpringSource/spring-android
 
@@ -82,9 +70,29 @@
   license: The Apache Software License, Version 2.0
   url: https://github.com/timehop/sticky-headers-recyclerview
 
+- artifact: com.jakewharton.threetenabp:threetenabp:+
+  name: ThreeTenBackport Android
+  copyrightHolder: Jake Wharton
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/JakeWharton/ThreeTenABP
 
-- artifact: com.github.niknetniko:expandablelayout:+
-  skip: true
+- artifact: com.futuremind.recyclerfastscroll:fastscroll:+
+  name: Recycler Bubble
+  copyrightHolder: Future Mind
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/FutureMind/recycler-fast-scroll
+
+- artifact: com.heinrichreimersoftware:material-intro:+
+  name: Material Intro
+  copyrightHolder: Heinrich Reimer
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/HeinrichReimer/material-intro
+
+- artifact: com.github.KyoSherlock:expandablelayout:+
+  name: ExpandableLayout
+  copyrightHolder: KyoSherlock
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/KyoSherlock/ExpandableLayout
 
 - artifact: com.google.android.gms:+:+
   skip: true
@@ -96,4 +104,7 @@
   skip: true
 
 - artifact: org.slf4j:slf4j-api:+
+  skip: true
+
+- artifact: org.threeten:threetenbp:+
   skip: true

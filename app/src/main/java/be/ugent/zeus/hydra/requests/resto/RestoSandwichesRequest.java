@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.requests.resto;
 
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.cache.Cache;
+import be.ugent.zeus.hydra.caching.Cache;
 import be.ugent.zeus.hydra.models.resto.Sandwiches;
 import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 
@@ -31,6 +31,6 @@ public class RestoSandwichesRequest extends CacheableRequest<Sandwiches> {
 
     @Override
     public long getCacheDuration() {
-        return Cache.ONE_HOUR * 12;
+        return Cache.ONE_WEEK * 3;
     }
 }

@@ -34,7 +34,7 @@ public class NewsFragment extends RecyclerLoaderFragment<NewsItem, News, NewsAda
      * @return The request that will be executed.
      */
     @Override
-    public NewsRequest getRequest() {
+    protected NewsRequest getRequest() {
         return new NewsRequest();
     }
 }

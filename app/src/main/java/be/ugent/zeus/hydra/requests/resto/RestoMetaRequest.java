@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.requests.resto;
 
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.cache.Cache;
+import be.ugent.zeus.hydra.caching.Cache;
 import be.ugent.zeus.hydra.models.resto.RestoMeta;
 import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 
@@ -26,11 +26,11 @@ public class RestoMetaRequest extends CacheableRequest<RestoMeta> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return ZEUS_API_URL + "2.0/resto/meta.json"; //TODO: check me!
+        return ZEUS_API_URL + "2.0/resto/meta.json";
     }
 
     @Override
     public long getCacheDuration() {
-        return Cache.ONE_HOUR * 6;
+        return Cache.ONE_WEEK * 8;
     }
 }

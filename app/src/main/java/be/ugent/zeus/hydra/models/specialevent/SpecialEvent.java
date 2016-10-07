@@ -1,15 +1,16 @@
 package be.ugent.zeus.hydra.models.specialevent;
 
-import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
+import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by feliciaan on 06/04/16.
  */
+@SuppressWarnings("unused")
 public class SpecialEvent implements Serializable {
 
     private String name;
@@ -19,11 +20,13 @@ public class SpecialEvent implements Serializable {
     private String image;
     private String html;
     private int priority;
-    @JsonAdapter(TimeStampDateJsonAdapter.class)
-    private Date start;
-    @JsonAdapter(TimeStampDateJsonAdapter.class)
-    private Date end;
+    @JsonAdapter(ZonedThreeTenAdapter.class)
+    private ZonedDateTime start;
+    @JsonAdapter(ZonedThreeTenAdapter.class)
+    private ZonedDateTime end;
     private boolean development;
+
+    private boolean sko = false;
 
     public String getName() {
         return name;
@@ -35,10 +38,6 @@ public class SpecialEvent implements Serializable {
 
     public String getLink() {
         return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
     }
 
     public String getSimpleText() {
@@ -61,10 +60,6 @@ public class SpecialEvent implements Serializable {
         return html;
     }
 
-    public void setHtml(String html) {
-        this.html = html;
-    }
-
     public int getPriority() {
         return priority;
     }
@@ -73,27 +68,23 @@ public class SpecialEvent implements Serializable {
         this.priority = priority;
     }
 
-    public Date getStart() {
+    public ZonedDateTime getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
-    public Date getEnd() {
+    public ZonedDateTime getEnd() {
         return end;
-    }
-
-    public void setEnd(Date end) {
-        this.end = end;
     }
 
     public boolean isDevelopment() {
         return development;
     }
 
-    public void setDevelopment(boolean development) {
-        this.development = development;
+    public boolean isSko() {
+        return sko;
+    }
+
+    public void setSko(boolean sko) {
+        this.sko = sko;
     }
 }

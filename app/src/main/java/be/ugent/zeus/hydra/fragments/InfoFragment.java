@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
 import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
-import be.ugent.zeus.hydra.cache.CacheRequest;
-import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
 import be.ugent.zeus.hydra.recyclerview.adapters.InfoListAdapter;
@@ -61,14 +59,13 @@ public class InfoFragment extends CachedLoaderFragment<InfoList> {
     @Override
     public void receiveData(@NonNull InfoList data) {
         adapter.setItems(data);
-        hideProgressBar();
     }
 
     /**
      * @return The request that will be executed.
      */
     @Override
-    public InfoRequest getRequest() {
+    protected InfoRequest getRequest() {
         return new InfoRequest();
     }
 }

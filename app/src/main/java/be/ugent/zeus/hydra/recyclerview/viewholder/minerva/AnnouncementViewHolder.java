@@ -24,7 +24,6 @@ public class AnnouncementViewHolder extends DataViewHolder<Announcement> {
 
     private TextView title;
     private TextView subtitle;
-    private View parent;
     private Fragment fragment;
 
     public AnnouncementViewHolder(View itemView) {
@@ -34,7 +33,6 @@ public class AnnouncementViewHolder extends DataViewHolder<Announcement> {
     public AnnouncementViewHolder(View itemView, @Nullable Fragment fragment) {
         super(itemView);
         title = $(itemView, R.id.title);
-        parent = $(itemView, R.id.parent_layout);
         subtitle = $(itemView, R.id.subtitle);
         this.fragment = fragment;
     }
@@ -43,7 +41,7 @@ public class AnnouncementViewHolder extends DataViewHolder<Announcement> {
     public void populate(final Announcement data) {
         title.setText(data.getTitle());
         String infoText = String.format(new Locale("nl"), "%s door %s",
-                DateUtils.relativeDateString(data.getDate(), itemView.getContext()),
+                DateUtils.relativeDateTimeString(data.getDate(), itemView.getContext(), false),
                 data.getLecturer());
         subtitle.setText(infoText);
 

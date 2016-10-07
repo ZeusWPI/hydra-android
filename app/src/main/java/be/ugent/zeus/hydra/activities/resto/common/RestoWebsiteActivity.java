@@ -10,13 +10,11 @@ import java.io.Serializable;
 
 /**
  * Activity for classes that have a URL option in the overflow menu.
+ *
  * @author Niko Strijbol
  */
 public abstract class RestoWebsiteActivity<D extends Serializable> extends RestoActivity<D> {
 
-    /**
-     * Add the website option.
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -36,9 +34,6 @@ public abstract class RestoWebsiteActivity<D extends Serializable> extends Resto
      */
     protected abstract String getUrl();
 
-    /**
-     * @return The ID of the menu to use.
-     */
     @MenuRes
     protected int getMenuId() {
         return R.menu.menu_resto;
