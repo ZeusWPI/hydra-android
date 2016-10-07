@@ -18,11 +18,11 @@ import java.util.Map;
 /**
  * @author Niko Strijbol
  */
-public class MinervaDoaRequest implements Request<List<HomeCard>>, HomeFeedRequest {
+public class MinervaAnnouncementRequest implements Request<List<HomeCard>>, HomeFeedRequest {
 
     private final AnnouncementDao dao;
 
-    public MinervaDoaRequest(Context context) {
+    public MinervaAnnouncementRequest(Context context) {
         this.dao = new AnnouncementDao(context);
     }
 

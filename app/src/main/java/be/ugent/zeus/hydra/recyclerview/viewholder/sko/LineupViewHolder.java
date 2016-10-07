@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.provider.CalendarContract;
-import android.support.v7.widget.CardView;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,7 +39,6 @@ public class LineupViewHolder extends DataViewHolder<Artist> implements View.OnC
     private TextView date;
     private ImageView image;
     private Artist artist;
-    private CardView cardView;
 
     public LineupViewHolder(View itemView) {
         super(itemView);

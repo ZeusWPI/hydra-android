@@ -48,6 +48,10 @@ public class DateUtils {
         }
     }
 
+    public static boolean isThisWeek(LocalDate date) {
+        return Period.between(LocalDate.now(), date).getDays() <= 7;
+    }
+
     /**
      * Convert a date time to a relative string. The precision is one minute, and the resulting string is
      * abbreviated.

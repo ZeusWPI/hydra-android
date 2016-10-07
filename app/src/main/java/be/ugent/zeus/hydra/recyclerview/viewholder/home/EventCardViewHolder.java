@@ -10,7 +10,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.ActivityDetailActivity;
 import be.ugent.zeus.hydra.models.association.Event;
-import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
+import be.ugent.zeus.hydra.models.cards.EventCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -39,7 +39,7 @@ public class EventCardViewHolder extends HideableViewHolder {
     @Override
     public void populate(final HomeCard card) {
 
-        final Event event = card.<AssociationActivityCard>checkCard(HomeCard.CardType.ACTIVITY).getEvent();
+        final Event event = card.<EventCard>checkCard(HomeCard.CardType.ACTIVITY).getEvent();
 
         title.setText(event.getTitle());
         association.setText(event.getLocation());

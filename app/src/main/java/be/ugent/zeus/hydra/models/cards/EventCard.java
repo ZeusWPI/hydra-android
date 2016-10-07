@@ -5,13 +5,15 @@ import org.threeten.bp.Duration;
 import org.threeten.bp.ZonedDateTime;
 
 /**
- * Created by silox on 18/04/16.
+ * Show association event.
+ *
+ * @author silox
  */
-public class AssociationActivityCard extends HomeCard {
+public class EventCard extends HomeCard {
 
     private Event event;
 
-    public AssociationActivityCard(Event event) {
+    public EventCard(Event event) {
         this.event = event;
     }
 

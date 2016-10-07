@@ -1,7 +1,5 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder.minerva;
 
-import android.content.Intent;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.TextView;
 
@@ -42,9 +40,7 @@ public class AgendaViewHolder extends DataViewHolder<AgendaItem> {
         parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(itemView.getContext(), AgendaActivity.class);
-                intent.putExtra(AgendaActivity.ARG_AGENDA_ITEM, (Parcelable) data);
-                itemView.getContext().startActivity(intent);
+                AgendaActivity.start(itemView.getContext(), data);
             }
         });
     }

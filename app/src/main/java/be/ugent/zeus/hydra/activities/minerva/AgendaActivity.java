@@ -1,7 +1,9 @@
 package be.ugent.zeus.hydra.activities.minerva;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -104,5 +106,11 @@ public class AgendaActivity extends ToolbarActivity {
             intent.putExtra(CalendarContract.Events.EVENT_LOCATION, agendaItem.getLocation());
         }
         startActivity(intent);
+    }
+
+    public static void start(Context context, AgendaItem agendaItem) {
+        Intent intent = new Intent(context, AgendaActivity.class);
+        intent.putExtra(AgendaActivity.ARG_AGENDA_ITEM, (Parcelable) agendaItem);
+        context.startActivity(intent);
     }
 }
