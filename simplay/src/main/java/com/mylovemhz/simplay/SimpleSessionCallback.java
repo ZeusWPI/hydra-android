@@ -3,6 +3,9 @@ package com.mylovemhz.simplay;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 
+/**
+ * A simple implementation of a session callback that maps the methods to the service.
+ */
 public class SimpleSessionCallback extends MediaSessionCompat.Callback {
 
     public static final String TAG = "SimpleSessionCallback";

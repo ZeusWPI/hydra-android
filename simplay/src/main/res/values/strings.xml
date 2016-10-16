@@ -2,4 +2,6 @@
     <string name="simplay_app_name">Simplay</string>
 
     <string name="simplay_album_art">Album artwork</string>
+
+    <string name="simplay_wifi_lock_description">The music player needs to keep your phone from going into sleep mode to prevent interrupting the music.</string>
 </resources>

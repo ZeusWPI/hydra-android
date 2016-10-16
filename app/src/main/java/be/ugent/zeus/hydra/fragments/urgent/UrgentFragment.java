@@ -37,6 +37,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
     private boolean isBound = false;
     private ServiceConnection serviceConnection = new MusicConnection();
     private MusicService musicService;
+    private Button urgentPlay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,8 +47,8 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button btn = $(view, R.id.urgent_play);
-        btn.setOnClickListener(new View.OnClickListener() {
+        urgentPlay = $(view, R.id.urgent_play);
+        urgentPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //We are already bound.
@@ -63,6 +64,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
 
     @Override
     public void onStop() {
+        Log.d(TAG, "Stopped urgent.");
         unbind();
         super.onStop();
     }
@@ -74,7 +76,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
      */
     @Override
     public boolean canUnbind() {
-        return false;
+        return true;
     }
 
     @Override
@@ -128,6 +130,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
         musicService.setBoundCallback(null);
         musicService = null;
         isBound = false;
+        hideMediaControls();
     }
 
     /**
@@ -138,7 +141,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
         //Add the track if needed.
         if(!hasUrgent()) {
             musicService.getTrackManager().clear();
-            musicService.getTrackManager().addTrack(new UrgentTrack());
+            musicService.getTrackManager().addTrack(new UrgentTrack(getContext()));
         }
 
         //If we are not playing, attempt to start playing.
@@ -154,14 +157,26 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
         }
     }
 
+    private MediaControlFragment fragment;
+
+    private void hideMediaControls() {
+        urgentPlay.setVisibility(View.VISIBLE);
+        if(fragment != null) {
+            FragmentTransaction t = getChildFragmentManager().beginTransaction();
+            t.remove(fragment).commit();
+        }
+    }
+
     /**
      * Init the media control fragment.
      */
     private void initMediaControls() {
-        Fragment mediaControlFragment = MediaControlFragment.newInstance(musicService.getMediaSessionToken());
+        fragment = MediaControlFragment.newInstance(musicService.getMediaToken());
         FragmentTransaction t = getChildFragmentManager().beginTransaction();
-        t.add(R.id.urgent_fragment_wrapper, mediaControlFragment);
+        t.add(R.id.urgent_fragment_wrapper, fragment);
         t.commit();
+        urgentPlay.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -199,7 +214,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
     @Override
     public void onLoading() {
         assert getView() != null;
-        Snackbar.make(getView(),"Loading track...",Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(getView(),"Loading track...",Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -238,11 +253,11 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
             musicService = binder.getService();
             musicService.setBoundCallback(UrgentFragment.this);
             musicService.setCallback(UrgentFragment.this);
-            musicService.setSmallIconResource(R.drawable.ic_urgent_notification);
             Intent startThis = new Intent(getActivity(), Hydra.class);
             startThis.putExtra(Hydra.ARG_TAB, SectionPagerAdapter.URGENT);
             PendingIntent i = PendingIntent.getActivity(getContext(), 0, startThis, PendingIntent.FLAG_UPDATE_CURRENT);
-            musicService.setContentIntent(i);
+            musicService.getNotificationManager().setContentIntent(i);
+            musicService.getNotificationManager().setIcon(R.drawable.ic_urgent_notification);
             initMediaControls();
             isBound = true;
             beginPlaying();

@@ -1,15 +1,31 @@
 package be.ugent.zeus.hydra.fragments.urgent;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.mylovemhz.simplay.Track;
+
+import static be.ugent.zeus.hydra.fragments.preferences.UrgentFragment.PREF_URGENT_USE_LOW_QUALITY;
 
 /**
  * @author Niko Strijbol
  */
 public class UrgentTrack implements Track {
 
-    public static int URGENT_ID = 1;
-    public static String ARTWORK_URL = "http://urgent.fm/sites/all/themes/urgentfm/images/logo.jpg";
-    public static final String MUSIC_URL = "http://195.10.2.96/urgent/high.mp3";
+    private static final String TAG = "UrgentTrack";
+    private static final int URGENT_ID = 1;
+    private static final String ARTWORK_URL = "http://urgent.fm/sites/all/themes/urgentfm/images/logo.jpg";
+    private static final String MUSIC_URL_HIGH = "http://195.10.10.222/urgent/high.mp3";
+    private static final String MUSIC_URL_LOW = "http://195.10.10.222/urgent/low.mp3";
+
+    private final Context context;
+
+    public UrgentTrack(Context context) {
+        this.context = context;
+    }
 
     @Override
     public int getId() {
@@ -28,7 +44,14 @@ public class UrgentTrack implements Track {
 
     @Override
     public String getUrl() {
-        return MUSIC_URL;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if(preferences.getBoolean(PREF_URGENT_USE_LOW_QUALITY, true) && NetworkUtils.isMeteredConnection(context)) {
+            Log.d(TAG, "Using low quality track.");
+            return MUSIC_URL_LOW;
+        } else {
+            Log.d(TAG, "Using high quality track.");
+            return MUSIC_URL_HIGH;
+        }
     }
 
     @Override

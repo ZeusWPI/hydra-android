@@ -1,81 +1,53 @@
 package com.mylovemhz.simplay;
 
 import android.app.Notification;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
-import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.app.NotificationCompat;
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
- * Service to play music on the background, even when the app is closed.
+ * The music is played in a foreground service, enabling people to listen to the stream even when the app itself
+ * is closed or killed.
  */
 public class MusicService extends Service implements
         MediaPlayer.OnCompletionListener,
         MediaPlayer.OnErrorListener,
         MediaPlayer.OnPreparedListener,
-        AudioManager.OnAudioFocusChangeListener
+        AudioManager.OnAudioFocusChangeListener,
+        MediaNotificationManager.NotificationListener,
+        MediaNotificationManager.MediaInfoProvider
 {
-
     private static final String TAG = "MusicService";
 
     private static final String WIFI_LOCK_TAG = "simplayMusic";
 
-    public static final int ID_NOTIFICATION = 1;
-    public static final int TIME_FFWD_RWD = 10 * 1000;
-
-    public static final String RATIONALE_WAKE_LOCK =
-            "The music player needs to keep your phone from going into sleep mode " +
-                    "to prevent interrupting the music.";
+    private static final int TIME_FFWD_RWD = 10 * 1000;
 
     public static final int REQUEST_PERMISSION_INTERNET = 0;
     public static final int REQUEST_PERMISSION_WAKE_LOCK = 1;
     public static final int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 2;
 
-    public static final String ACTION_PLAY = "action_play";
-    public static final String ACTION_PAUSE = "action_pause";
-    public static final String ACTION_REWIND = "action_rewind";
-    public static final String ACTION_FAST_FORWARD = "action_fast_forward";
-    public static final String ACTION_NEXT = "action_next";
-    public static final String ACTION_PREVIOUS = "action_previous";
-    public static final String ACTION_STOP = "action_stop";
-    public static final String ACTION_FINISH = "action_finish";
-
-    public enum State {
-        IDLE, INITIALIZED, PREPARING, PREPARED, STARTED,
-        STOPPED, PAUSED, COMPLETED, END, ERROR
-    }
+    @MediaState
+    private int state;
 
     private MediaPlayer mediaPlayer;
     private MediaSessionCompat mediaSession;
-    private State currentState;
     private WifiManager.WifiLock wifiLock;
     @Nullable
     private MusicCallback callbacks;
@@ -83,28 +55,37 @@ public class MusicService extends Service implements
     private BoundServiceCallback boundCallback;
 
     private boolean isInitialized = false;
-    @DrawableRes
-    private int smallIcon;
-    private PendingIntent contentIntent;
 
     private TrackManager trackManager;
 
-    public class LocalBinder extends Binder {
-        public MusicService getService() {
-            return MusicService.this;
-        }
-    }
-
-    private final Set<Target> temporaryTargets = new HashSet<>();
+    private MediaNotificationManager notificationManager;
 
     private final IBinder binder = new MusicBinder(this);
 
+    @Override
+    public void onCancelNotification(int id) {
+        stopForeground(true);
+    }
+
+    @Override
+    public void onPublishNotification(int id, Notification notification) {
+        startForeground(id, notification);
+
+        if (!isPlaying()) {
+            stopForeground(false);
+        }
+    }
+
     /**
-     * Initialise the media player.
+     * Initialise the media player and other stuff.
      */
     private void initialise() {
+        //Add objects for various tasks
         trackManager = new TrackManager();
         mediaPlayer = new MediaPlayer();
+        notificationManager = new MediaNotificationManager(getApplicationContext(), this);
+
+        //Initialize the right mode on the media player and attach the service.
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.setOnCompletionListener(this);
         mediaPlayer.setOnErrorListener(this);
@@ -119,7 +100,7 @@ public class MusicService extends Service implements
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         mediaSession.setCallback(new SimpleSessionCallback(this));
 
-        currentState = State.IDLE;
+        state = MediaState.IDLE;
         mediaSession.setActive(true);
 
         isInitialized = true;
@@ -156,12 +137,9 @@ public class MusicService extends Service implements
     /**
      * @return The current state of the service.
      */
-    public State getCurrentState() {
-        return currentState;
-    }
-
-    public void setContentIntent(PendingIntent contentIntent) {
-        this.contentIntent = contentIntent;
+    @MediaState
+    public int getCurrentState() {
+        return state;
     }
 
     @Override
@@ -196,28 +174,28 @@ public class MusicService extends Service implements
         String action = intent.getAction();
 
         switch (action) {
-            case ACTION_PLAY:
+            case MediaAction.PLAY:
                 play();
                 return;
-            case ACTION_PAUSE:
+            case MediaAction.PAUSE:
                 pause();
                 return;
-            case ACTION_FAST_FORWARD:
+            case MediaAction.FAST_FORWARD:
                 fastForward();
                 return;
-            case ACTION_REWIND:
+            case MediaAction.REWIND:
                 rewind();
                 return;
-            case ACTION_PREVIOUS:
+            case MediaAction.PREVIOUS:
                 previous();
                 return;
-            case ACTION_NEXT:
+            case MediaAction.NEXT:
                 next();
                 return;
-            case ACTION_STOP:
+            case MediaAction.STOP:
                 stop();
                 return;
-            case ACTION_FINISH:
+            case MediaAction.FINISH:
                 finish();
         }
     }
@@ -231,19 +209,19 @@ public class MusicService extends Service implements
     @Override
     public void onPrepared(MediaPlayer mp) {
         Log.d(TAG, "Prepared.");
-        currentState = State.PREPARED;
+        state = MediaState.PREPARED;
         updateSessionState(PlaybackStateCompat.STATE_BUFFERING);
-        showNotification();
+        notificationManager.show(this);
         play();
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
         if (!mp.isLooping()) {
-            currentState = State.COMPLETED;
-            if(trackManager.hasNext()) {
+            state = MediaState.COMPLETED;
+            if (trackManager.hasNext()) {
                 next();
-            }else{
+            } else {
                 stop();
             }
         }
@@ -251,10 +229,12 @@ public class MusicService extends Service implements
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        currentState = State.ERROR;
+        state = MediaState.ERROR;
         mp.reset();
-        currentState = State.IDLE;
-        if(callbacks != null) callbacks.onError();
+        state = MediaState.IDLE;
+        if(callbacks != null) {
+            callbacks.onError();
+        }
         return true;
     }
 
@@ -264,7 +244,7 @@ public class MusicService extends Service implements
         stop();
         mediaPlayer.release();
         mediaPlayer = null;
-        currentState = State.END;
+        state = MediaState.END;
         mediaSession.release();
     }
 
@@ -285,12 +265,12 @@ public class MusicService extends Service implements
             return; //Failed to gain audio focus
         }
 
-        if (getCurrentState() == State.STOPPED) {
+        if (getCurrentState() == MediaState.STOPPED) {
             mediaPlayer.reset();
-            currentState = State.IDLE;
+            state = MediaState.IDLE;
         }
 
-        if (getCurrentState() == State.IDLE) {
+        if (getCurrentState() == MediaState.IDLE) {
             if (track == null) {
                 return; //nothing to play
             }
@@ -300,9 +280,9 @@ public class MusicService extends Service implements
                 }
 
                 mediaPlayer.setDataSource(track.getUrl());
-                currentState = State.INITIALIZED;
+                state = MediaState.INITIALIZED;
                 mediaPlayer.prepareAsync();
-                currentState = State.PREPARING;
+                state = MediaState.PREPARING;
                 if(callbacks != null) {
                     callbacks.onLoading();
                 }
@@ -312,15 +292,15 @@ public class MusicService extends Service implements
                     callbacks.onPermissionRequired(
                             REQUEST_PERMISSION_WAKE_LOCK,
                             Manifest.permission.WAKE_LOCK,
-                            RATIONALE_WAKE_LOCK);
+                            getString(R.string.simplay_wifi_lock_description));
                 }
             }
         }
     }
 
-    private void updateSessionState(int state) {
+    private void updateSessionState(@PlaybackStateCompat.State int state) {
         int position = 0;
-        if (currentState == State.STARTED || currentState == State.PAUSED) {
+        if (getCurrentState() == MediaState.STARTED || getCurrentState() == MediaState.PAUSED) {
             position = mediaPlayer.getCurrentPosition();
         }
         PlaybackStateCompat.Builder builder = new PlaybackStateCompat.Builder();
@@ -360,16 +340,17 @@ public class MusicService extends Service implements
 
     public void play() {
         Log.d(TAG, "play()");
-        if (currentState == State.PREPARED || currentState == State.PAUSED) {
+
+        if (getCurrentState() == MediaState.PREPARED || getCurrentState() == MediaState.PAUSED) {
             mediaPlayer.start();
-            currentState = State.STARTED;
+            state = MediaState.STARTED;
             updateSessionState(PlaybackStateCompat.STATE_PLAYING);
-            showNotification();
+            notificationManager.show(this);
             if(callbacks != null) {
                 callbacks.onPlaybackStarted();
             }
         }
-        if (currentState == State.STOPPED || currentState == State.COMPLETED) {
+        if (getCurrentState() == MediaState.STOPPED || getCurrentState() == MediaState.COMPLETED) {
             try {
                 Log.d(TAG, "queueing");
                 queueTrack(trackManager.currentTrack());
@@ -382,22 +363,23 @@ public class MusicService extends Service implements
 
     public void pause() {
         Log.d(TAG, "Paused.");
-        if (currentState == State.STARTED) {
+        if (getCurrentState() == MediaState.STARTED) {
             mediaPlayer.pause();
-            currentState = State.PAUSED;
+            state = MediaState.PAUSED;
             updateSessionState(PlaybackStateCompat.STATE_PAUSED);
-            showNotification();
+            notificationManager.show(this);
         }
     }
 
+    /**
+     * Stop playback.
+     */
     public void stop() {
         Log.d(TAG, "Stopped playback.");
 
-        if (currentState == State.STARTED || currentState == State.PAUSED || currentState == State.PREPARED || currentState == State.COMPLETED) {
-            mediaPlayer.stop();
-            currentState = State.STOPPED;
-            updateSessionState(PlaybackStateCompat.STATE_STOPPED);
-            showNotification();
+        if (hasLoadedTrack()) {
+            moveToStop();
+
             if (wifiLock.isHeld()) {
                 wifiLock.release();
             }
@@ -408,6 +390,10 @@ public class MusicService extends Service implements
         }
     }
 
+    /**
+     * Terminate playback. If the service is bound, don't do anything. If not bound, stop playback, and then stop
+     * the service.
+     */
     public void finish() {
 
         //If the service is bound and blocking, don't kill everything.
@@ -420,65 +406,102 @@ public class MusicService extends Service implements
         }
 
         Log.d(TAG, "Finishing.");
-        if(currentState != State.STOPPED) {
-            stop();
-        }
+
+        moveToStop();
+
         trackManager.releaseTracks();
-        removeNotification();
+        notificationManager.remove();
         stopSelf();
     }
 
+    /**
+     * Play the next queued track. If there is no next track, this method will have no effect.
+     */
     public void next() {
-        if (trackManager.hasNext()) {
-            if (currentState == State.STARTED || currentState == State.PAUSED) {
-                mediaPlayer.stop();
-                currentState = State.STOPPED;
-                updateSessionState(PlaybackStateCompat.STATE_STOPPED);
-            }
-            if (currentState == State.STOPPED || currentState == State.COMPLETED) {
-                mediaPlayer.reset();
-                currentState = State.IDLE;
-                updateSessionState(PlaybackStateCompat.STATE_STOPPED);
-                showNotification();
-            }
-            if (currentState == State.IDLE) {
-                try {
-                    updateSessionState(PlaybackStateCompat.STATE_SKIPPING_TO_NEXT);
-                    queueTrack(trackManager.next());
-                } catch (Exception e) {
-                    stop();
-                }
-            }
+        //If there are no previous tracks.
+        if(!trackManager.hasNext()) {
+            return;
+        }
+
+        //Clean up
+        moveToIdle();
+
+        try {
+            updateSessionState(PlaybackStateCompat.STATE_SKIPPING_TO_NEXT);
+            queueTrack(trackManager.next());
+        } catch (Exception e) { //TODO
+            stop();
         }
     }
 
+    /**
+     * Play the track before the current one in the queue. If there is no previous track, this method will have no
+     * effect.
+     */
     public void previous() {
-        if (trackManager.hasPrevious()) {
-            if (currentState == State.STARTED || currentState == State.PAUSED) {
-                mediaPlayer.stop();
-                currentState = State.STOPPED;
-                updateSessionState(PlaybackStateCompat.STATE_STOPPED);
-            }
-            if (currentState == State.STOPPED) {
-                mediaPlayer.reset();
-                currentState = State.IDLE;
-                updateSessionState(PlaybackStateCompat.STATE_STOPPED);
-                showNotification();
-            }
-            if (currentState == State.IDLE) {
-                try {
-                    updateSessionState(PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS);
-                    queueTrack(trackManager.previous());
-                } catch (Exception e) {
-                    stop();
-                }
-            }
+        //There is no previous track.
+        if(!trackManager.hasPrevious()) {
+            return;
+        }
+        //Clean up
+        moveToIdle();
+
+        try {
+            updateSessionState(PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS);
+            queueTrack(trackManager.previous());
+        } catch (Exception e) { //TODO
+            stop();
+        }
+    }
+
+    /**
+     * Move the current state to idle. This function will take care of all necessary steps, i.e. stop any playing media,
+     * resetting the media player, etc.
+     *
+     * If the state could not be set to idle after the necessary steps, e.g. because the state is
+     * {@link MediaState#END}, an exception is thrown.
+     */
+    private void moveToIdle() {
+        //Stop any playing song
+        moveToStop();
+
+        //At this point, the state is always stopped.
+        //Remove any media and reset the media player.
+        mediaPlayer.reset();
+        state = MediaState.IDLE;
+        updateSessionState(PlaybackStateCompat.STATE_STOPPED);
+        //We only update the notification once.
+        notificationManager.show(this);
+
+        //If the state is not idle right now, we have an exception!
+        if(getCurrentState() != MediaState.IDLE) {
+            throw new IllegalStateException("The state could not be set to idle.");
+        }
+    }
+
+    /**
+     * Move the current state to stopped. This function will take care of all necessary steps, i.e. stop any playing media,
+     * resetting the media player, etc.
+     *
+     * If the state could not be set to stopped after the necessary steps, e.g. because the state is
+     * {@link MediaState#END}, an exception is thrown.
+     */
+    private void moveToStop() {
+        //Stop any playing song
+        if(hasLoadedTrack()) {
+            mediaPlayer.stop();
+            state = MediaState.STOPPED;
+            updateSessionState(PlaybackStateCompat.STATE_STOPPED);
+            notificationManager.show(this);
+        }
+
+        if(getCurrentState() != MediaState.STOPPED) {
+            throw new IllegalStateException("The state could not be set to stopped.");
         }
     }
 
     public void fastForward() {
-        if (currentState == State.STARTED || currentState == State.PAUSED ||
-                currentState == State.PREPARED || currentState == State.COMPLETED) {
+        if (hasLoadedTrack()) {
             if (mediaPlayer.getCurrentPosition() < mediaPlayer.getDuration() + TIME_FFWD_RWD) {
                 mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + TIME_FFWD_RWD);
                 updateSessionState(PlaybackStateCompat.STATE_FAST_FORWARDING);
@@ -487,16 +510,14 @@ public class MusicService extends Service implements
     }
 
     public void seekTo(int position){
-        if (currentState == State.STARTED || currentState == State.PAUSED ||
-                currentState == State.PREPARED || currentState == State.COMPLETED) {
-                mediaPlayer.seekTo(position);
-                updateSessionState(PlaybackStateCompat.STATE_FAST_FORWARDING);
+        if (hasLoadedTrack()) {
+            mediaPlayer.seekTo(position);
+            updateSessionState(PlaybackStateCompat.STATE_FAST_FORWARDING);
         }
     }
 
     public void rewind() {
-        if (currentState == State.STARTED || currentState == State.PAUSED ||
-                currentState == State.PREPARED || currentState == State.COMPLETED) {
+        if (hasLoadedTrack()) {
             if (mediaPlayer.getCurrentPosition() > TIME_FFWD_RWD) {
                 mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - TIME_FFWD_RWD);
                 updateSessionState(PlaybackStateCompat.STATE_REWINDING);
@@ -504,150 +525,57 @@ public class MusicService extends Service implements
         }
     }
 
-    public MediaSessionCompat.Token getMediaSessionToken() {
-        return mediaSession.getSessionToken();
+    /**
+     * Returns true if the current {@link #state} is one of the following:
+     *
+     * - {@link MediaState#STARTED}
+     * - {@link MediaState#PAUSED}
+     * - {@link MediaState#PREPARED}
+     * - {@link MediaState#COMPLETED}
+     *
+     * When this is true, there is a loaded track in the {@link MediaPlayer}.
+     *
+     * @return True if there is a track.
+     */
+    private boolean hasLoadedTrack() {
+        return getCurrentState() == MediaState.STARTED ||
+                getCurrentState() == MediaState.PAUSED ||
+                getCurrentState() == MediaState.PREPARED ||
+                getCurrentState() == MediaState.COMPLETED;
     }
 
-    private NotificationCompat.Action generateAction(int icon, String title, String intentAction) {
-        Intent intent = new Intent(getApplicationContext(), MusicService.class);
-        intent.setAction(intentAction);
-        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
-        return new NotificationCompat.Action.Builder(icon, title, pendingIntent).build();
-    }
-
-    private void showNotification() {
-        updateMetadata();
-
-        Track track;
-        try {
-            track = trackManager.currentTrack();
-        } catch (IllegalStateException e) {
-            return;
-        }
-
-        Intent intent = new Intent(getApplicationContext(), MusicService.class);
-        intent.setAction(ACTION_FINISH);
-        PendingIntent cancelIntent = PendingIntent.getService(getApplicationContext(), 1, intent, 0);
-
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext());
-        NotificationCompat.MediaStyle style = new NotificationCompat.MediaStyle(builder);
-        style.setMediaSession(getMediaSessionToken());
-        style.setShowCancelButton(true);
-        style.setCancelButtonIntent(cancelIntent);
-
-        //Position of the play pause button.
-        int playPause = 0;
-
-        if (trackManager.hasPrevious()) {
-            builder.addAction(generateAction(R.drawable.noti_ic_skip_previous_24dp, "Previous", ACTION_PREVIOUS)); //0
-            playPause++;
-        }
-
-        if (isPlaying()) {
-            builder.addAction(generateAction(R.drawable.noti_ic_pause_24dp, "Pause", ACTION_PAUSE)); //1
-        } else {
-            builder.addAction(generateAction(R.drawable.noti_ic_play_arrow_24dp, "Play", ACTION_PLAY)); // 1
-        }
-        style.setShowActionsInCompactView(playPause);
-
-        if (trackManager.hasNext()) {
-            builder.addAction(generateAction(R.drawable.noti_ic_skip_next_24dp, "Next", ACTION_NEXT)); //2
-        }
-
-        builder.setSmallIcon(smallIcon)
-               .setShowWhen(false)
-               .setContentTitle(track.getTitle())
-               .setContentText(track.getArtist())
-               .setDeleteIntent(cancelIntent)
-               .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-               .setStyle(style);
-
-        if (!TextUtils.isEmpty(track.getArtworkUrl())) {
-            try {
-                Target artTarget = new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        builder.setLargeIcon(bitmap);
-                        publishNotification(builder);
-                        temporaryTargets.remove(this);
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-                        publishNotification(builder);
-                        temporaryTargets.remove(this);
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                    }
-                };
-                temporaryTargets.add(artTarget);
-                Picasso.with(this)
-                        .load(track.getArtworkUrl())
-                        .into(artTarget);
-            } catch (IllegalArgumentException e) {
-                Bitmap icon = BitmapFactory.decodeResource(getResources(), R.id.albumImage);
-                builder.setLargeIcon(icon);
-                //no artwork. Ignore.
-                publishNotification(builder);
-            }
-        }else{
-            Bitmap icon = BitmapFactory.decodeResource(getResources(), R.id.albumImage);
-            builder.setLargeIcon(icon);
-            publishNotification(builder);
-        }
-    }
-
-    private void publishNotification(NotificationCompat.Builder builder) {
-
-        if (contentIntent != null) {
-            builder.setContentIntent(contentIntent);
-        } else {
-            Log.e(TAG, "Did you forget to setContentIntent()? Nothing will happen when you touch the notification.");
-        }
-
-        try {
-            Notification notification = builder.build();
-
-            startForeground(ID_NOTIFICATION, notification);
-
-            if (!isPlaying()) {
-                stopForeground(false);
-            }
-
-        } catch (IllegalStateException e) {
-            Log.e(TAG, "Did you forget to setSmallIconResource() in your onBind()?");
-        }
-    }
 
     public PlaybackStateCompat getPlaybackState() {
         return mediaSession.getController().getPlaybackState();
     }
 
+
+    /**
+     *
+     * @return
+     */
     public boolean isPlaying() {
-        if(getPlaybackState() == null) {
+
+        if(!hasLoadedTrack() || mediaSession.getController().getPlaybackState() == null) {
             return false;
         }
-        int state = getPlaybackState().getState();
+
+        @PlaybackStateCompat.State
+        final int state = getPlaybackState().getState();
+
         return state == PlaybackStateCompat.STATE_BUFFERING ||
                 state == PlaybackStateCompat.STATE_FAST_FORWARDING ||
                 state == PlaybackStateCompat.STATE_PLAYING ||
                 state == PlaybackStateCompat.STATE_REWINDING;
     }
 
-    /**
-     * Set the small notification icon.
-     *
-     * @param resId The icon.
-     */
-    public void setSmallIconResource(@DrawableRes int resId) {
-        this.smallIcon = resId;
+    @Override
+    public MediaSessionCompat.Token getMediaToken() {
+        return mediaSession.getSessionToken();
     }
 
-    private void updateMetadata() {
-        if(getCurrentState() == State.PREPARED) {
+    public void updateMetadata() {
+        if(getCurrentState() == MediaState.PREPARED) {
             Track track;
             try {
                 track = trackManager.currentTrack();
@@ -663,10 +591,13 @@ public class MusicService extends Service implements
         }
     }
 
-    private void removeNotification() {
-        NotificationManagerCompat manager = NotificationManagerCompat.from(getApplicationContext());
-        manager.cancel(ID_NOTIFICATION);
-        stopForeground(true);
+    @NonNull
+    public MediaNotificationManager getNotificationManager() {
+        if(isInitialized) {
+            return notificationManager;
+        } else {
+            throw new IllegalStateException("The service must be initialized first");
+        }
     }
 
     public void setCallback(MusicCallback callback) {
