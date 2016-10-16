@@ -82,6 +82,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
     @Override
     public boolean requestUnbind() {
         unbind();
+        hideMediaControls();
         return true;
     }
 
@@ -130,7 +131,6 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
         musicService.setBoundCallback(null);
         musicService = null;
         isBound = false;
-        hideMediaControls();
     }
 
     /**
@@ -157,26 +157,26 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
         }
     }
 
-    private MediaControlFragment fragment;
-
     private void hideMediaControls() {
         urgentPlay.setVisibility(View.VISIBLE);
         if(fragment != null) {
-            FragmentTransaction t = getChildFragmentManager().beginTransaction();
-            t.remove(fragment).commit();
+            getChildFragmentManager().beginTransaction().remove(fragment).commit();
+            fragment = null;
         }
     }
+
+    private MediaControlFragment fragment;
 
     /**
      * Init the media control fragment.
      */
     private void initMediaControls() {
-        fragment = MediaControlFragment.newInstance(musicService.getMediaToken());
-        FragmentTransaction t = getChildFragmentManager().beginTransaction();
-        t.add(R.id.urgent_fragment_wrapper, fragment);
-        t.commit();
+        if(fragment == null) {
+            fragment = MediaControlFragment.newInstance(musicService.getMediaToken());
+            FragmentTransaction t = getChildFragmentManager().beginTransaction();
+            t.add(R.id.urgent_fragment_wrapper, fragment).commit();
+        }
         urgentPlay.setVisibility(View.GONE);
-
     }
 
     @Override
