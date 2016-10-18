@@ -82,6 +82,17 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
         hideMediaControls();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //If the service is running, request a bind.
+        if(MusicService.isRunning(getContext())) {
+            bind();
+        } else {
+            hideMediaControls();
+        }
+    }
+
     /**
      * Bind the {@link MusicService}. If it is not running, we will start it as well. If there already is a bound
      * service, this method will do nothing.
