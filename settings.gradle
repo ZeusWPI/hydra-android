@@ -1,1 +1,1 @@
-include ':app', ':simplay'
+include ':app'

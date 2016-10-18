@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -20,10 +21,10 @@ import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.Hydra;
 import be.ugent.zeus.hydra.viewpager.SectionPagerAdapter;
-import com.mylovemhz.simplay.BoundServiceCallback;
-import com.mylovemhz.simplay.MusicBinder;
-import com.mylovemhz.simplay.MusicCallback;
-import com.mylovemhz.simplay.MusicService;
+import be.ugent.zeus.hydra.urgent.BoundServiceCallback;
+import be.ugent.zeus.hydra.urgent.MusicBinder;
+import be.ugent.zeus.hydra.urgent.MusicCallback;
+import be.ugent.zeus.hydra.urgent.MusicService;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -33,6 +34,8 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 public class UrgentFragment extends Fragment implements MusicCallback, BoundServiceCallback {
 
     private static final String TAG = "UrgentFragment";
+
+    private static final String FRAGMENT_TAG = "MediaFragment";
 
     private boolean isBound = false;
     private ServiceConnection serviceConnection = new MusicConnection();
@@ -60,6 +63,10 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
                 }
             }
         });
+        //If the service is running, request a bind.
+        if(MusicService.isRunning(getContext())) {
+            bind();
+        }
     }
 
     @Override
@@ -69,21 +76,10 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
         super.onStop();
     }
 
-    /**
-     * This is called by the service to know whether the service can be unbound or not.
-     *
-     * @return True if the service will be unbound.
-     */
     @Override
-    public boolean canUnbind() {
-        return true;
-    }
-
-    @Override
-    public boolean requestUnbind() {
+    public void requestUnbind() {
         unbind();
         hideMediaControls();
-        return true;
     }
 
     /**
@@ -159,23 +155,26 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
 
     private void hideMediaControls() {
         urgentPlay.setVisibility(View.VISIBLE);
+        FragmentManager manager = getChildFragmentManager();
+        Fragment fragment = manager.findFragmentByTag(FRAGMENT_TAG);
         if(fragment != null) {
             getChildFragmentManager().beginTransaction().remove(fragment).commit();
-            fragment = null;
         }
     }
-
-    private MediaControlFragment fragment;
-
     /**
      * Init the media control fragment.
      */
     private void initMediaControls() {
+        FragmentManager manager = getChildFragmentManager();
+        Fragment fragment = manager.findFragmentByTag(FRAGMENT_TAG);
+        Fragment newFragment = MediaControlFragment.newInstance(musicService.getMediaToken());
+        FragmentTransaction t = getChildFragmentManager().beginTransaction();
         if(fragment == null) {
-            fragment = MediaControlFragment.newInstance(musicService.getMediaToken());
-            FragmentTransaction t = getChildFragmentManager().beginTransaction();
-            t.add(R.id.urgent_fragment_wrapper, fragment).commit();
+            t.add(R.id.urgent_fragment_wrapper, newFragment, FRAGMENT_TAG);
+        } else {
+            t.replace(R.id.urgent_fragment_wrapper, newFragment, FRAGMENT_TAG);
         }
+        t.commit();
         urgentPlay.setVisibility(View.GONE);
     }
 

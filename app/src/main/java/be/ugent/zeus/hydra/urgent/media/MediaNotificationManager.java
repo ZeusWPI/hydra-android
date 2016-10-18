@@ -1,4 +1,4 @@
-package com.mylovemhz.simplay;
+package be.ugent.zeus.hydra.urgent.media;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -13,6 +13,10 @@ import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.urgent.MusicService;
+import be.ugent.zeus.hydra.urgent.track.Track;
+import be.ugent.zeus.hydra.urgent.track.TrackManager;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 

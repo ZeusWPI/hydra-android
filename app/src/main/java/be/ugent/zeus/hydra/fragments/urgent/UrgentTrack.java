@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import com.mylovemhz.simplay.Track;
+import be.ugent.zeus.hydra.urgent.track.Track;
 
 import static be.ugent.zeus.hydra.fragments.preferences.UrgentFragment.PREF_URGENT_USE_LOW_QUALITY;
 
@@ -39,7 +39,7 @@ public class UrgentTrack implements Track {
 
     @Override
     public String getTitle() {
-        return "Schamper";
+        return "Urgent.fm";
     }
 
     @Override

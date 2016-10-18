@@ -7,12 +7,11 @@
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
-    <!-- TODO: Update blank fragment layout -->
     <ImageView
         android:id="@+id/albumImage"
         android:layout_width="@dimen/media_control_image"
         android:layout_height="@dimen/media_control_image"
-        android:contentDescription="@string/simplay_album_art"
+        android:contentDescription="@string/urgent_album_art"
         android:src="@drawable/ic_album_24dp" />
 
     <TextView
@@ -42,7 +41,6 @@
         android:layout_height="wrap_content"
         style="?android:attr/borderlessButtonStyle"
         android:id="@+id/playPauseButton"
-        android:src="@drawable/ic_play_arrow_24dp"
-        android:layout_weight="1" />
+        android:src="@drawable/ic_play_arrow_24dp" />
 
 </LinearLayout>

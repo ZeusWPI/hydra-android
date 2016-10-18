@@ -52,12 +52,6 @@
   license: The Apache Software License, Version 2.0
   url: https://github.com/j2esu/rv-joiner
 
-- artifact: mylovemhz:simplay:+
-  name: Simplay (aangepaste versie)
-  copyrightHolder: Allan Pichardo
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/allanpichardo/Simplay
-
 - artifact: org.springframework.android:+:+
   name: Spring for Android
   copyrightHolder: Spring Authors

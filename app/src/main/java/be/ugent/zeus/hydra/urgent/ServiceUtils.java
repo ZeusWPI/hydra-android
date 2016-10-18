@@ -1,4 +1,4 @@
-package com.mylovemhz.simplay;
+package be.ugent.zeus.hydra.urgent;
 
 import android.app.ActivityManager;
 import android.app.Service;

@@ -1,6 +1,6 @@
 /*
  * Copyright 2016 Allan Pichardo
- * Copyright 2016 Zeus WPI
+ * Copyright 2016 Niko Strijbol
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -87,15 +87,15 @@ public class MediaControlFragment extends Fragment {
 
     public static MediaControlFragment newInstance(MediaSessionCompat.Token token) {
         MediaControlFragment instance = new MediaControlFragment();
-        instance.playDrawableResource = com.mylovemhz.simplay.R.drawable.ic_play_arrow_24dp;
-        instance.pauseDrawableResource = com.mylovemhz.simplay.R.drawable.ic_pause_24dp;
+        instance.playDrawableResource = R.drawable.ic_play_arrow_24dp;
+        instance.pauseDrawableResource = R.drawable.ic_pause_24dp;
         instance.token = token;
         return instance;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(com.mylovemhz.simplay.R.layout.fragment_media_control, container, false);
+        return inflater.inflate(R.layout.fragment_media_control, container, false);
     }
 
     @Override
@@ -122,6 +122,14 @@ public class MediaControlFragment extends Fragment {
         initViews();
     }
 
+    @Override
+    public void onDetach() {
+        if(mediaController != null) {
+            mediaController.unregisterCallback(mediaControllerCallback);
+        }
+        super.onDetach();
+    }
+
     private void initViews() {
         playPauseButton.setImageResource(playDrawableResource);
         readMetadata(mediaController.getMetadata());
@@ -136,7 +144,7 @@ public class MediaControlFragment extends Fragment {
         boolean enablePlay = false;
         switch (state.getState()) {
             case PlaybackStateCompat.STATE_STOPPED:
-                albumImage.setImageResource(com.mylovemhz.simplay.R.drawable.ic_album_24dp);
+                albumImage.setImageResource(R.drawable.ic_album_24dp);
                 artistText.setText("");
                 titleText.setText("");
             case PlaybackStateCompat.STATE_PAUSED:
@@ -185,7 +193,7 @@ public class MediaControlFragment extends Fragment {
                 Picasso.with(getContext()).load(artUrl).into(albumImage);
             } catch (IllegalArgumentException e) {
                 //no artwork
-                albumImage.setImageResource(com.mylovemhz.simplay.R.drawable.ic_album_24dp);
+                albumImage.setImageResource(R.drawable.ic_album_24dp);
             }
         }
     }

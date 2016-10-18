@@ -1,4 +1,20 @@
-package com.mylovemhz.simplay;
+/*
+ * Copyright 2016 Allan Pichardo
+ * Copyright 2016 Niko Strijbol
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package be.ugent.zeus.hydra.urgent;
 
 import android.app.Notification;
 import android.app.Service;
@@ -6,6 +22,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
@@ -19,11 +37,25 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 
+import be.ugent.zeus.hydra.Manifest;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.urgent.media.MediaAction;
+import be.ugent.zeus.hydra.urgent.media.MediaButtonEventReceiver;
+import be.ugent.zeus.hydra.urgent.media.MediaNotificationManager;
+import be.ugent.zeus.hydra.urgent.media.SimpleSessionCallback;
+import be.ugent.zeus.hydra.urgent.track.Track;
+import be.ugent.zeus.hydra.urgent.track.TrackManager;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 import java.io.IOException;
 
 /**
  * The music is played in a foreground service, enabling people to listen to the stream even when the app itself
  * is closed or killed.
+ *
+ * @author Niko Strijbol
+ * @author allanpichardo
  */
 public class MusicService extends Service implements
         MediaPlayer.OnCompletionListener,
@@ -171,33 +203,7 @@ public class MusicService extends Service implements
             return;
         }
 
-        String action = intent.getAction();
-
-        switch (action) {
-            case MediaAction.PLAY:
-                play();
-                return;
-            case MediaAction.PAUSE:
-                pause();
-                return;
-            case MediaAction.FAST_FORWARD:
-                fastForward();
-                return;
-            case MediaAction.REWIND:
-                rewind();
-                return;
-            case MediaAction.PREVIOUS:
-                previous();
-                return;
-            case MediaAction.NEXT:
-                next();
-                return;
-            case MediaAction.STOP:
-                stop();
-                return;
-            case MediaAction.FINISH:
-                finish();
-        }
+        MediaAction.doAction(intent.getAction(), this);
     }
 
     @Nullable
@@ -292,7 +298,7 @@ public class MusicService extends Service implements
                     callbacks.onPermissionRequired(
                             REQUEST_PERMISSION_WAKE_LOCK,
                             Manifest.permission.WAKE_LOCK,
-                            getString(R.string.simplay_wifi_lock_description));
+                            getString(R.string.urgent_wifi_lock_description));
                 }
             }
         }
@@ -395,11 +401,6 @@ public class MusicService extends Service implements
      * the service.
      */
     public void finish() {
-
-        //If the service is bound and blocking, don't kill everything.
-        if(boundCallback != null && !boundCallback.canUnbind()) {
-            return;
-        }
 
         if (boundCallback != null) {
             boundCallback.requestUnbind();
@@ -545,14 +546,15 @@ public class MusicService extends Service implements
     }
 
 
-    public PlaybackStateCompat getPlaybackState() {
+    /**
+     * @return The state of the media session.
+     */
+    private PlaybackStateCompat getPlaybackState() {
         return mediaSession.getController().getPlaybackState();
     }
 
-
     /**
-     *
-     * @return
+     * @return True if the service is playing music.
      */
     public boolean isPlaying() {
 
@@ -579,11 +581,30 @@ public class MusicService extends Service implements
             Track track;
             try {
                 track = trackManager.currentTrack();
-                MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder();
+                final MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder();
                 builder.putText(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, track.getArtworkUrl());
                 builder.putText(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, track.getArtist());
                 builder.putText(MediaMetadataCompat.METADATA_KEY_TITLE, track.getTitle());
                 builder.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mediaPlayer.getDuration());
+                Picasso.with(this).load("https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/11934958_10153659885443656_5991477861586446540_n.jpg?oh=c6ae014802e4fa0697df8b1d3430a727&oe=589822B9").into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        if(mediaSession != null) {
+                            builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap);
+                            mediaSession.setMetadata(builder.build());
+                        }
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
                 mediaSession.setMetadata(builder.build());
             } catch (IllegalStateException e) {
                 //nothing to update

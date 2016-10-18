@@ -1,11 +1,11 @@
-package com.mylovemhz.simplay;
+package be.ugent.zeus.hydra.urgent;
 
 import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static com.mylovemhz.simplay.MediaState.*;
+import static be.ugent.zeus.hydra.urgent.MediaState.*;
 
 /**
  * Google hates enums, so let's use ints.
