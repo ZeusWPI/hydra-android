@@ -90,14 +90,6 @@ public class Hydra extends ToolbarActivity {
             tabLayout.getTabAt(i).setIcon(icons[i]);
         }
 
-        if(getIntent().getExtras() != null) {
-            for (String key : getIntent().getExtras().keySet()) {
-                Object value = getIntent().getExtras().get(key);
-                Log.d(TAG, String.format("%s %s (%s)", key,
-                        value.toString(), value.getClass().getName()));
-            }
-        }
-
         //Get start position
         int start = getIntent().getIntExtra(ARG_TAB, 0);
         viewpager.setCurrentItem(start, false);
