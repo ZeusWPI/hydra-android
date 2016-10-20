@@ -138,4 +138,8 @@
 
     <string name="menu_sko_view_website">Website bekijken</string>
 
+    <string name="shortcut_resto_short_label">Restomenu</string>
+    <string name="shortcut_resto_long_label">Bekijk de restomenu</string>
+    <string name="shortcut_resto_disabled">Uitgeschakeld</string>
+
 </resources>

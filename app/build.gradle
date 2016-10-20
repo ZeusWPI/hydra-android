@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 209
         versionName "2.0.2"
         vectorDrawables.useSupportLibrary = true
@@ -45,7 +45,7 @@ android {
 }
 
 //The support library version
-final SUPPORT_LIBRARY_VERSION = '24.2.1'
+final SUPPORT_LIBRARY_VERSION = '25.0.0'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')

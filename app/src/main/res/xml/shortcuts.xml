@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:shortcutId="resto"
+        android:enabled="true"
+        android:icon="@drawable/ic_tabs_menu"
+        android:shortcutShortLabel="@string/shortcut_resto_short_label"
+        android:shortcutLongLabel="@string/shortcut_resto_long_label"
+        android:shortcutDisabledMessage="@string/shortcut_resto_disabled"
+        tools:ignore="UnusedAttribute">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="be.ugent.zeus.hydra"
+            android:targetClass="be.ugent.zeus.hydra.activities.Hydra">
+            <exta android:name="argTab" android:value="2" />
+        </intent>
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list is what the user sees when they
+             launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+</shortcuts>
