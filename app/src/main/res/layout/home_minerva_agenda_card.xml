@@ -18,13 +18,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:icon="@drawable/ic_tabs_minerva"
-            app:title="Nieuwe aankondiging minerva"
             />
 
         <LinearLayout
-            android:paddingBottom="@dimen/card_text_padding_bottom"
-            android:paddingLeft="@dimen/card_title_padding_vertical"
             android:paddingRight="@dimen/card_title_padding_vertical"
+            android:paddingLeft="@dimen/card_title_padding_vertical"
+            android:paddingBottom="@dimen/card_text_padding_bottom"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
