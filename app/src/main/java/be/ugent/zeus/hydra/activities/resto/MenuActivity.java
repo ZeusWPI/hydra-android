@@ -88,7 +88,7 @@ public class MenuActivity extends RestoWebsiteActivity<RestoOverview> implements
             RestoMenu menu = data.get(i);
             //Set the tab to this day!
             if(menu.getDate().isEqual(startDate)) {
-                viewPager.setCurrentItem(i, false);
+                viewPager.setCurrentItem(i, true);
                 break;
             }
         }
