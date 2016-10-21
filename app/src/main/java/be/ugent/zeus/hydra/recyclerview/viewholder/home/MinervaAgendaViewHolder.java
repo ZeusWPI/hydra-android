@@ -1,8 +1,9 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 
 import android.content.Context;
-import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
@@ -29,43 +30,41 @@ public class MinervaAgendaViewHolder extends HideableViewHolder {
     private static final DateTimeFormatter START_FORMATTER = DateTimeFormatter.ofPattern("dd/MM - HH:mm", new Locale("nl"));
     private static final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern("HH:mm", new Locale("nl"));
 
-    private TextView date;
-    private TextView location;
-    private TextView title;
+    private LinearLayout layout;
 
     public MinervaAgendaViewHolder(View v, HomeCardAdapter adapter) {
         super(v, adapter);
 
-        date = $(v, R.id.date);
-        location = $(v, R.id.location);
-        title = $(v, R.id.title);
+        layout = $(v, R.id.linear_layout);
     }
 
     @Override
     public void populate(HomeCard card) {
 
         final MinervaAgendaCard mCard = card.checkCard(HomeCard.CardType.MINERVA_AGENDA);
-        final AgendaItem item = mCard.getAgendaItem();
 
-        toolbar.setTitle("Activiteit van " + item.getCourse().getTitle());
+        toolbar.setTitle("Agenda voor " + DateUtils.getFriendlyDate(mCard.getDate()));
 
-        title.setText(item.getTitle());
-        date.setText(relativeTimeSpan(itemView.getContext(), item.getStartDate(), item.getEndDate()));
+        layout.removeAllViewsInLayout();
 
-        if (TextUtils.isEmpty(item.getLocation())) {
-            location.setVisibility(View.GONE);
-        } else {
-            location.setVisibility(View.VISIBLE);
-            location.setText(item.getLocation());
+        for (final AgendaItem item : mCard.getAgendaItems()) {
+
+            View view = LayoutInflater.from(layout.getContext()).inflate(R.layout.item_minerva_home_announcement, layout, false);
+            TextView title = $(view, R.id.title);
+            TextView subtitle = $(view, R.id.subtitle);
+
+            title.setText(item.getTitle());
+            subtitle.setText(relativeTimeSpan(view.getContext(), item.getStartDate(), item.getEndDate()) + " (" + item.getCourse().getTitle() + ")");
+
+            layout.addView(view);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AgendaActivity.start(view.getContext(), item);
+                }
+            });
         }
-
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Set onclick listener
-                AgendaActivity.start(itemView.getContext(), mCard.getAgendaItem());
-            }
-        });
 
         super.populate(card);
     }
@@ -98,11 +97,7 @@ public class MinervaAgendaViewHolder extends HideableViewHolder {
 
 
         if(start.getDayOfMonth() == end.getDayOfMonth()) {
-            String append = "";
-            if(DateUtils.isThisWeek(start.toLocalDate())) {
-                append = " (" + DateUtils.getFriendlyDate(start.toLocalDate()) + ")";
-            }
-            return DateUtils.relativeDateTimeString(start, context) + " tot " + end.format(HOUR_FORMATTER) + append;
+            return start.format(HOUR_FORMATTER) + " tot " + end.format(HOUR_FORMATTER);
         } else {
             return android.text.format.DateUtils.formatDateRange(
                     context,

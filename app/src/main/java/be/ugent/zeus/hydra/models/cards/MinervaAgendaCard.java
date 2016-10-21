@@ -1,7 +1,10 @@
 package be.ugent.zeus.hydra.models.cards;
 
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
-import org.threeten.bp.*;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.Period;
+
+import java.util.List;
 
 /**
  * Card to show Minerva agenda item.
@@ -10,20 +13,26 @@ import org.threeten.bp.*;
  */
 public class MinervaAgendaCard extends HomeCard {
 
-    private final AgendaItem agenda;
+    private final LocalDate date;
+    private final List<AgendaItem> agenda;
 
-    public MinervaAgendaCard(AgendaItem announcement) {
-        this.agenda = announcement;
+    public MinervaAgendaCard(LocalDate date, List<AgendaItem> agendaItems) {
+        this.date = date;
+        this.agenda = agendaItems;
     }
 
     @Override
     public int getPriority() {
-        Duration duration = Duration.between(ZonedDateTime.now(), agenda.getStartDate());
-        return 950 - Math.max(0, (int) duration.toHours()) * 4; //see 10 days in to the future
+        Period duration = Period.between(LocalDate.now(), date);
+        return 1000 - (duration.getDays() * 100);
     }
 
-    public AgendaItem getAgendaItem() {
+    public List<AgendaItem> getAgendaItems() {
         return agenda;
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 
     @Override
