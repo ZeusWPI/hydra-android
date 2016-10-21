@@ -16,9 +16,9 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.association.Event;
+import be.ugent.zeus.hydra.utils.html.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 /**
@@ -27,6 +27,8 @@ import org.threeten.bp.format.DateTimeFormatter;
  * @author Niko Strijbol
  */
 public class EventDetailActivity extends ToolbarActivity {
+
+    private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     public static final String PARCEL_EVENT = "eventParcelable";
 
@@ -74,21 +76,11 @@ public class EventDetailActivity extends ToolbarActivity {
             location.setText("Zonder locatie");
         }
 
-        if(event.getStart() != null) {
-            LocalDateTime start = event.getLocalStart();
-            if (event.getEnd() != null) {
-                LocalDateTime end = event.getLocalEnd();
-                if (start.getDayOfYear() == end.getDayOfYear() || start.plusHours(12).isAfter(end)) {
-                    // Use format day month start time - end time
-                    date.setText(String.format("%s - %s", start.format(formatHour), end.format(formatHour)));
-                } else {
-                    // Use format with two dates
-                    date.setText(String.format("%s - %s", start.format(fullFormatter), end.format(fullFormatter)));
-                }
-            } else {
-                date.setText(start.format(fullFormatter));
-            }
-        }
+        TextView startTime = $(R.id.time_start);
+        TextView endTime = $(R.id.time_end);
+
+        startTime.setText(event.getStart().format(format));
+        endTime.setText(event.getEnd().format(format));
 
         if(event.getAssociation() != null && event.getAssociation().getImageLink() != null) {
             Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage, new Callback() {

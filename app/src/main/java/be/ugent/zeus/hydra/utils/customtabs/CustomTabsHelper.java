@@ -158,7 +158,7 @@ public class CustomTabsHelper {
      * @return The helper.
      */
     public static ActivityHelper initHelper(Activity activity, boolean nativeApp, ActivityHelper.ConnectionCallback callback) {
-        if(hasSupport(activity)) {
+        if(hasSupport(activity) && false) {
             return new HasTabActivityHelper(activity, nativeApp, callback);
         } else {
             return new NoTabActivityHelper(activity, callback);
