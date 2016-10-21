@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
 import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +21,10 @@ import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
 import be.ugent.zeus.hydra.loaders.ThrowableEither;
-import be.ugent.zeus.hydra.models.association.Events;
 import be.ugent.zeus.hydra.models.association.Event;
+import be.ugent.zeus.hydra.models.association.Events;
 import be.ugent.zeus.hydra.recyclerview.adapters.EventAdapter;
 import be.ugent.zeus.hydra.requests.association.FilteredEventRequest;
-import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.List;
@@ -61,11 +60,10 @@ public class ActivitiesFragment extends LoaderFragment<Events> implements Shared
 
         adapter = new EventAdapter();
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
         StickyRecyclerHeadersDecoration decorator = new StickyRecyclerHeadersDecoration(adapter);
         recyclerView.addItemDecoration(decorator);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         Button refresh = $(view, R.id.events_no_data_button_refresh);
         Button filters = $(view, R.id.events_no_data_button_filters);

@@ -3,14 +3,10 @@ package be.ugent.zeus.hydra.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.text.util.LinkifyCompat;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,8 +23,10 @@ import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * Activity to show details of an association's event.
+ *
+ * @author Niko Strijbol
  */
-public class ActivityDetailActivity extends ToolbarActivity implements View.OnClickListener {
+public class EventDetailActivity extends ToolbarActivity {
 
     public static final String PARCEL_EVENT = "eventParcelable";
 
@@ -38,8 +36,6 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
 
     //The data
     private Event event;
-
-    private ImageView organisatorImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +49,7 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
         TextView date = $(R.id.date);
         TextView location = $(R.id.location);
         TextView description = $(R.id.description);
-        organisatorImage = $(R.id.event_organisator_image);
+        final ImageView organisatorImage = $(R.id.event_organisator_image);
         TextView mainName = $(R.id.event_organisator_main);
         TextView smallName = $(R.id.event_organisator_small);
 
@@ -192,22 +188,5 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
         }
 
         return intent;
-    }
-
-    /**
-     * On click handler for the association.
-     *
-     * @param view The clicked view.
-     */
-    @Override
-    public void onClick(View view) {
-
-        Intent start = new Intent(this, AssociationDetailActivity.class);
-        start.putExtra(AssociationDetailActivity.PARCEL_ASSOCIATION, (Parcelable) event.getAssociation());
-
-        ActivityOptionsCompat options =
-                ActivityOptionsCompat.makeSceneTransitionAnimation(this, organisatorImage, "logo");
-
-        ActivityCompat.startActivity(ActivityDetailActivity.this, start, options.toBundle());
     }
 }

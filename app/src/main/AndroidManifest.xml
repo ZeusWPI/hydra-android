@@ -69,16 +69,10 @@
 
         <!-- Details about association events. -->
         <activity
-            android:name=".activities.ActivityDetailActivity"
+            android:name=".activities.EventDetailActivity"
             android:label="@string/title_activity_association_activity_detail"
             android:parentActivityName=".activities.Hydra"
             android:launchMode="singleTop" />
-
-        <!-- Details about associations -->
-        <activity
-            android:name=".activities.AssociationDetailActivity"
-            android:label="@string/title_association_activity_detail"
-            android:parentActivityName=".activities.ActivityDetailActivity" />
 
         <!-- Show info items -->
         <activity

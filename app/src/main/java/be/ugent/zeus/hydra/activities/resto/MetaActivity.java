@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.activities.resto;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 
 import be.ugent.zeus.hydra.R;
@@ -10,7 +10,6 @@ import be.ugent.zeus.hydra.activities.resto.common.RestoActivity;
 import be.ugent.zeus.hydra.models.resto.RestoMeta;
 import be.ugent.zeus.hydra.recyclerview.adapters.resto.MetaAdapter;
 import be.ugent.zeus.hydra.requests.resto.RestoMetaRequest;
-import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 
 /**
  * Activity that shows a list of sandwiches.
@@ -34,11 +33,10 @@ public class MetaActivity extends RestoActivity<RestoMeta> {
         RecyclerView recyclerView = $(R.id.resto_meta_recycler);
 
         //Divider
-        recyclerView.addItemDecoration(new DividerItemDecoration(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         //Adapter
         adapter = new MetaAdapter();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
         loaderHandler.startLoader();

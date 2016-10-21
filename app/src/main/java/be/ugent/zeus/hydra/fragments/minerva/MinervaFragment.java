@@ -11,7 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
@@ -31,7 +31,6 @@ import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAdapter;
-import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 
 import java.io.IOException;
 import java.util.List;
@@ -96,8 +95,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         adapter = new CourseAdapter();
 
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
 
     private boolean isLoggedIn() {

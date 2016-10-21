@@ -13,7 +13,7 @@ import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
 import be.ugent.zeus.hydra.models.association.News;
 import be.ugent.zeus.hydra.recyclerview.adapters.NewsAdapter;
 import be.ugent.zeus.hydra.requests.NewsRequest;
-import be.ugent.zeus.hydra.utils.recycler.ItemSpacingDecoration;
+import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -37,7 +37,7 @@ public class NewsFragment extends CachedLoaderFragment<News> {
 
         RecyclerView recyclerView = $(view, R.id.recycler_view);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new ItemSpacingDecoration(getContext()));
+        recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
     }
 
     /**

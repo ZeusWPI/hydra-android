@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +23,6 @@ import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemLoader;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.AnnouncementAdapter;
-import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 import su.j2e.rvjoiner.JoinableAdapter;
 import su.j2e.rvjoiner.JoinableLayout;
 import su.j2e.rvjoiner.RvJoiner;
@@ -73,8 +72,7 @@ public class CourseAnnouncementFragment extends LoaderFragment<List<Announcement
         unreadAdapter = new AnnouncementAdapter(R.layout.item_no_data, this);
 
         RecyclerView recyclerView = $(view, R.id.recycler_view);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         RvJoiner joiner = new RvJoiner();
         joiner.add(new JoinableLayout(R.layout.fragment_minerva_announcement_unread_header));

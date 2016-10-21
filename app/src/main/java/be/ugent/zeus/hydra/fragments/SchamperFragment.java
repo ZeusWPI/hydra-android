@@ -13,7 +13,7 @@ import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
 import be.ugent.zeus.hydra.models.schamper.Articles;
 import be.ugent.zeus.hydra.recyclerview.adapters.SchamperListAdapter;
 import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
-import be.ugent.zeus.hydra.utils.recycler.ItemSpacingDecoration;
+import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -40,7 +40,7 @@ public class SchamperFragment extends CachedLoaderFragment<Articles> {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new ItemSpacingDecoration(getContext()));
+        recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
     }
 
     /**

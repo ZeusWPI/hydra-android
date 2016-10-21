@@ -23,7 +23,7 @@ import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.utils.IterableSparseArray;
-import be.ugent.zeus.hydra.utils.recycler.ItemSpacingDecoration;
+import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
 
 import java.util.Collections;
 import java.util.List;
@@ -83,7 +83,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
         adapter = new HomeCardAdapter(getActivity());
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new ItemSpacingDecoration(getContext()));
+        recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
         swipeRefreshLayout.setOnRefreshListener(this);
 
         swipeRefreshLayout.setRefreshing(true);
