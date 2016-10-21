@@ -23,8 +23,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:logo="@drawable/logo"
-        android:theme="@style/Hydra.Main.NoActionBar"
-        tools:ignore="ManifestResource,UnusedAttribute">
+        android:theme="@style/Hydra.Main.NoActionBar">
 
         <!-- Main activity -->
         <activity
@@ -34,8 +33,7 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts" />
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
         </activity>
 
         <!-- Settings -->

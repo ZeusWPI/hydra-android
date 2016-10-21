@@ -2,6 +2,8 @@ package be.ugent.zeus.hydra.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ShortcutManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
@@ -26,6 +28,10 @@ public class Hydra extends ToolbarActivity {
     private static final String TAG = "HydraActivity";
     private static final String PREF_ONBOARDING = "pref_onboarding";
     private static final int ONBOARDING_REQUEST = 5;
+
+    private static final String SHORTCUT_RESTO = "resto";
+    private static final String SHORTCUT_MINERVA = "minerva";
+
 
     //The tab icons
     private static int[] icons = {
@@ -72,6 +78,12 @@ public class Hydra extends ToolbarActivity {
             public void onPageSelected(int position) {
                 HydraApplication app = (HydraApplication) Hydra.this.getApplication();
                 app.sendScreenName("Fragment tab: " + SectionPagerAdapter.names[position]);
+                //TODO; make this more robust
+                if(position == 2) {
+                    reportShortcutUsed(SHORTCUT_RESTO);
+                } else if (position == 6) {
+                    reportShortcutUsed(SHORTCUT_MINERVA);
+                }
             }
         });
 
@@ -99,6 +111,18 @@ public class Hydra extends ToolbarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.global, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void reportShortcutUsed(String shortcutId) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            Log.d(TAG, "Report shortcut use: " + shortcutId);
+            ShortcutManager manager = getSystemService(ShortcutManager.class);
+            try {
+                manager.reportShortcutUsed(shortcutId);
+            } catch (IllegalStateException e) {
+                Log.e(TAG, "Error while reporting shortcut usage:", e);
+            }
+        }
     }
 
     @Override
