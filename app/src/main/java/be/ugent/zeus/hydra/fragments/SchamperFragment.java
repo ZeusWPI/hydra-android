@@ -1,33 +1,46 @@
 package be.ugent.zeus.hydra.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.fragments.common.RecyclerLoaderFragment;
-import be.ugent.zeus.hydra.models.schamper.Article;
+import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
 import be.ugent.zeus.hydra.models.schamper.Articles;
 import be.ugent.zeus.hydra.recyclerview.adapters.SchamperListAdapter;
-import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
+import be.ugent.zeus.hydra.utils.recycler.ItemSpacingDecoration;
+
+import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
- * Created by feliciaan on 17/06/16.
+ * Display Schamper articles in the main activity.
+ *
+ * @author Niko Strijbol
+ * @author feliciaan
  */
-public class SchamperFragment extends RecyclerLoaderFragment<Article, Articles, ItemAdapter<Article, ?>> {
+public class SchamperFragment extends CachedLoaderFragment<Articles> {
+
+    private SchamperListAdapter adapter;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_recycler_view, container, false);
+        return inflater.inflate(R.layout.fragment_schamper, container, false);
     }
 
-    /**
-     * @return The adapter to use.
-     */
     @Override
-    protected ItemAdapter<Article, ?> getAdapter() {
-        return new SchamperListAdapter();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        adapter = new SchamperListAdapter();
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new ItemSpacingDecoration(getContext()));
     }
 
     /**
@@ -36,5 +49,10 @@ public class SchamperFragment extends RecyclerLoaderFragment<Article, Articles, 
     @Override
     protected SchamperArticlesRequest getRequest() {
         return new SchamperArticlesRequest();
+    }
+
+    @Override
+    public void receiveData(@NonNull Articles data) {
+        adapter.setItems(data);
     }
 }

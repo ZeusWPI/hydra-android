@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="span_count_normal">1</integer>
+    <integer name="span_count_large">1</integer>
+
+    <string name="app_layout_manager_normal">android.support.v7.widget.LinearLayoutManager</string>
+    <string name="app_layout_manager_large">android.support.v7.widget.LinearLayoutManager</string>
+
+</resources>

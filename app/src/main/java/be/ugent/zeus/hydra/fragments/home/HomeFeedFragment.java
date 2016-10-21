@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
@@ -24,6 +23,7 @@ import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.utils.IterableSparseArray;
+import be.ugent.zeus.hydra.utils.recycler.ItemSpacingDecoration;
 
 import java.util.Collections;
 import java.util.List;
@@ -83,8 +83,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
         adapter = new HomeCardAdapter(getActivity());
         recyclerView.setAdapter(adapter);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new ItemSpacingDecoration(getContext()));
         swipeRefreshLayout.setOnRefreshListener(this);
 
         swipeRefreshLayout.setRefreshing(true);

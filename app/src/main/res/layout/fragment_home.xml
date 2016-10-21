@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,6 +15,8 @@
         android:scrollbarStyle="outsideOverlay"
         android:paddingLeft="@dimen/card_margin"
         android:paddingRight="@dimen/card_margin"
-        android:paddingTop="@dimen/card_spacing" />
+        android:paddingTop="@dimen/card_spacing"
+        app:layoutManager="@string/app_layout_manager_normal"
+        app:spanCount="@integer/span_count_normal"/>
 
 </android.support.v4.widget.SwipeRefreshLayout>
