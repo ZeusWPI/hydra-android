@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.viewpager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
 import be.ugent.zeus.hydra.fragments.*;
 import be.ugent.zeus.hydra.fragments.home.HomeFeedFragment;
 import be.ugent.zeus.hydra.fragments.minerva.MinervaFragment;

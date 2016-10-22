@@ -32,7 +32,6 @@ public class Hydra extends ToolbarActivity {
     private static final String SHORTCUT_RESTO = "resto";
     private static final String SHORTCUT_MINERVA = "minerva";
 
-
     //The tab icons
     private static int[] icons = {
             R.drawable.ic_tabs_home,
