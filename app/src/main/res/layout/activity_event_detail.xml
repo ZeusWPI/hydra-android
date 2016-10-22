@@ -45,8 +45,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:tint="@color/white"
-                        app:srcCompat="@drawable/ic_event_note_24dp"
-                        tools:src="@drawable/ic_event_note_24dp"
+                        app:srcCompat="@drawable/ic_event_note"
+                        tools:src="@drawable/ic_event_note"
                         tools:ignore="MissingPrefix" />
 
                     <TextView
@@ -112,8 +112,8 @@
                             android:layout_width="wrap_content"
                             android:layout_marginRight="32dp"
                             android:tint="@color/ugent_blue_dark"
-                            app:srcCompat="@drawable/ic_place_24dp"
-                            tools:src="@drawable/ic_place_24dp"
+                            app:srcCompat="@drawable/ic_place"
+                            tools:src="@drawable/ic_place"
                             tools:ignore="MissingPrefix" />
 
                         <TextView
@@ -145,8 +145,8 @@
                             android:layout_width="wrap_content"
                             android:layout_marginRight="32dp"
                             android:tint="@color/ugent_blue_dark"
-                            app:srcCompat="@drawable/ic_schedule_24dp"
-                            tools:src="@drawable/ic_schedule_24dp"
+                            app:srcCompat="@drawable/ic_schedule"
+                            tools:src="@drawable/ic_schedule"
                             tools:ignore="MissingPrefix" />
 
                         <GridLayout
@@ -206,7 +206,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_marginRight="@dimen/vertical_padding"
-                            tools:src="@drawable/ic_image_24dp" />
+                            tools:src="@drawable/logo_hydra" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"

@@ -19,7 +19,7 @@
             android:id="@+id/card_now_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_tabs_menu"
+            app:icon="@drawable/tabs_menu"
             />
 
         <be.ugent.zeus.hydra.views.MenuTable

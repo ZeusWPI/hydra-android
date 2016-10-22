@@ -43,7 +43,7 @@
                     android:transitionName="hero"
                     android:maxHeight="@dimen/hero_image_height"
                     android:adjustViewBounds="true"
-                    tools:src="@drawable/ic_tabs_schamper"/>
+                    tools:src="@drawable/tabs_schamper"/>
 
                 <ImageView
                     android:layout_width="match_parent"

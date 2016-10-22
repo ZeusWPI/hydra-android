@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:singleLine="true"
                 android:text="@string/home_resto_view_menu"
-                tools:drawableTop="@drawable/ic_restaurant_menu_40dp"
+                tools:drawableTop="@drawable/btn_restaurant_menu"
                 android:drawableTint="?android:colorControlNormal" />
 
             <Button
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:singleLine="true"
                 android:text="@string/home_resto_view_sandwiches"
-                tools:drawableTop="@drawable/ic_sandwich_40dp"
+                tools:drawableTop="@drawable/btn_sandwich"
                 android:drawableTint="?android:colorControlNormal" />
 
             <Button
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:singleLine="true"
                 android:text="@string/home_resto_view_resto"
-                tools:drawableTop="@drawable/ic_explore_40dp"
+                tools:drawableTop="@drawable/btn_explore"
                 android:drawableTint="?android:colorControlNormal" />
 
         </be.ugent.zeus.hydra.views.ButtonBarLayout>

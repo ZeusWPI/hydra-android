@@ -18,7 +18,7 @@
             android:id="@+id/card_now_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_tabs_schamper"
+            app:icon="@drawable/tabs_schamper"
             app:title="@string/title_activity_schamper"
             />
 
@@ -66,7 +66,7 @@
                 android:id="@+id/image"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
-                tools:src="@drawable/ic_tabs_schamper" />
+                tools:src="@drawable/tabs_schamper" />
 
         </LinearLayout>
 
