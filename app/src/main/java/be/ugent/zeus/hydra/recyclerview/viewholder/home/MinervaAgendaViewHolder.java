@@ -13,6 +13,7 @@ import be.ugent.zeus.hydra.models.cards.MinervaAgendaCard;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
@@ -80,10 +81,14 @@ public class MinervaAgendaViewHolder extends HideableViewHolder {
     private static String relativeTimeSpan(Context context, ZonedDateTime start, ZonedDateTime end) {
 
         ZonedDateTime now = ZonedDateTime.now();
+
+        LocalDateTime localStart = DateUtils.toLocalDateTime(start);
+        LocalDateTime localEnd = DateUtils.toLocalDateTime(end);
+
         if(start.isBefore(now) && end.isAfter(now)) {
             String endString = "";
             if(android.text.format.DateUtils.isToday(end.toInstant().toEpochMilli())) {
-                endString = end.format(HOUR_FORMATTER);
+                endString = localEnd.format(HOUR_FORMATTER);
             } else {
                 endString = android.text.format.DateUtils.formatDateTime(
                         context,
@@ -97,7 +102,7 @@ public class MinervaAgendaViewHolder extends HideableViewHolder {
 
 
         if(start.getDayOfMonth() == end.getDayOfMonth()) {
-            return start.format(HOUR_FORMATTER) + " tot " + end.format(HOUR_FORMATTER);
+            return localStart.format(HOUR_FORMATTER) + " tot " + localEnd.format(HOUR_FORMATTER);
         } else {
             return android.text.format.DateUtils.formatDateRange(
                     context,
