@@ -1,8 +1,5 @@
 package be.ugent.zeus.hydra.activities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
@@ -22,7 +19,14 @@ import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.viewpager.ImagePagerAdapter;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * Show images.
+ *
+ * Note that this uses {@link be.ugent.zeus.hydra.views.HackyViewPager}, since there still is a framework issue.
+ *
  * @author Niko Strijbol
  */
 public class ImageGalleryActivity extends ToolbarActivity {
@@ -89,30 +93,16 @@ public class ImageGalleryActivity extends ToolbarActivity {
 
         setTitle((startPosition + 1) + " / " + images.size());
 
-        if(startPosition == 0) {
-            previous.setVisibility(View.GONE);
-        } else if(startPosition == images.size() - 1) {
-            next.setVisibility(View.GONE);
-        }
+        configureNavigation(startPosition);
 
         pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 setTitle((position + 1) + " / " + images.size());
                 setBottomSheetText(position);
-                if(position == 0) {
-                    previous.setVisibility(View.GONE);
-                    next.setVisibility(View.VISIBLE);
-                } else if(position == images.size() - 1) {
-                    next.setVisibility(View.GONE);
-                    previous.setVisibility(View.VISIBLE);
-                } else {
-                    next.setVisibility(View.VISIBLE);
-                    previous.setVisibility(View.VISIBLE);
-                }
+                configureNavigation(position);
             }
         });
-
 
         //Do not check, make sure this not fireable when there is nothing.
         next.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +136,25 @@ public class ImageGalleryActivity extends ToolbarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Configure the previous/next button of the BottomSheet.
+     *
+     * @param position The current position.
+     */
+    private void configureNavigation(int position) {
+        if (position == 0) {
+            previous.setVisibility(View.GONE);
+        } else {
+            previous.setVisibility(View.VISIBLE);
+        }
+
+        if (position == images.size() - 1) {
+            next.setVisibility(View.GONE);
+        } else {
+            next.setVisibility(View.VISIBLE);
+        }
     }
 
     /**

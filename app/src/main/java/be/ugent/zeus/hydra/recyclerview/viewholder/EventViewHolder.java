@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.ActivityDetailActivity;
+import be.ugent.zeus.hydra.activities.EventDetailActivity;
 import be.ugent.zeus.hydra.models.association.Event;
 import org.threeten.bp.format.DateTimeFormatter;
 
@@ -39,8 +39,8 @@ public class EventViewHolder extends DataViewHolder<Event> {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(itemView.getContext(), ActivityDetailActivity.class);
-                intent.putExtra(ActivityDetailActivity.PARCEL_EVENT, (Parcelable) event);
+                Intent intent = new Intent(itemView.getContext(), EventDetailActivity.class);
+                intent.putExtra(EventDetailActivity.PARCEL_EVENT, (Parcelable) event);
                 itemView.getContext().startActivity(intent);
             }
         });

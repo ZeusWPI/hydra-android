@@ -3,14 +3,10 @@ package be.ugent.zeus.hydra.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.text.util.LinkifyCompat;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,15 +16,19 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.association.Event;
+import be.ugent.zeus.hydra.utils.html.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * Activity to show details of an association's event.
+ *
+ * @author Niko Strijbol
  */
-public class ActivityDetailActivity extends ToolbarActivity implements View.OnClickListener {
+public class EventDetailActivity extends ToolbarActivity {
+
+    private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     public static final String PARCEL_EVENT = "eventParcelable";
 
@@ -38,8 +38,6 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
 
     //The data
     private Event event;
-
-    private ImageView organisatorImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +51,7 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
         TextView date = $(R.id.date);
         TextView location = $(R.id.location);
         TextView description = $(R.id.description);
-        organisatorImage = $(R.id.event_organisator_image);
+        final ImageView organisatorImage = $(R.id.event_organisator_image);
         TextView mainName = $(R.id.event_organisator_main);
         TextView smallName = $(R.id.event_organisator_small);
 
@@ -78,21 +76,11 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
             location.setText("Zonder locatie");
         }
 
-        if(event.getStart() != null) {
-            LocalDateTime start = event.getLocalStart();
-            if (event.getEnd() != null) {
-                LocalDateTime end = event.getLocalEnd();
-                if (start.getDayOfYear() == end.getDayOfYear() || start.plusHours(12).isAfter(end)) {
-                    // Use format day month start time - end time
-                    date.setText(String.format("%s - %s", start.format(formatHour), end.format(formatHour)));
-                } else {
-                    // Use format with two dates
-                    date.setText(String.format("%s - %s", start.format(fullFormatter), end.format(fullFormatter)));
-                }
-            } else {
-                date.setText(start.format(fullFormatter));
-            }
-        }
+        TextView startTime = $(R.id.time_start);
+        TextView endTime = $(R.id.time_end);
+
+        startTime.setText(event.getStart().format(format));
+        endTime.setText(event.getEnd().format(format));
 
         if(event.getAssociation() != null && event.getAssociation().getImageLink() != null) {
             Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage, new Callback() {
@@ -192,22 +180,5 @@ public class ActivityDetailActivity extends ToolbarActivity implements View.OnCl
         }
 
         return intent;
-    }
-
-    /**
-     * On click handler for the association.
-     *
-     * @param view The clicked view.
-     */
-    @Override
-    public void onClick(View view) {
-
-        Intent start = new Intent(this, AssociationDetailActivity.class);
-        start.putExtra(AssociationDetailActivity.PARCEL_ASSOCIATION, (Parcelable) event.getAssociation());
-
-        ActivityOptionsCompat options =
-                ActivityOptionsCompat.makeSceneTransitionAnimation(this, organisatorImage, "logo");
-
-        ActivityCompat.startActivity(ActivityDetailActivity.this, start, options.toBundle());
     }
 }

@@ -6,7 +6,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.PopupMenu;
+import android.widget.PopupMenu;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
