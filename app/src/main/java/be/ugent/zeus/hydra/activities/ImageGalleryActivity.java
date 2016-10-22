@@ -61,7 +61,7 @@ public class ImageGalleryActivity extends ToolbarActivity {
 
         //Set close icon
         assert getSupportActionBar() != null;
-        getSupportActionBar().setHomeAsUpIndicator(ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_close_24dp, R.color.white));
+        getSupportActionBar().setHomeAsUpIndicator(ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_close, R.color.white));
 
         //The pager.
         pager = $(R.id.view_pager);

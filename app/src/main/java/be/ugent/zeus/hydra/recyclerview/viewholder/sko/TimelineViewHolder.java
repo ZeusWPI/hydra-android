@@ -91,7 +91,7 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
             case "instagram":
                 return R.drawable.ic_social_instagram;
             default:
-                return R.drawable.ic_sko;
+                return R.drawable.logo_sko;
         }
     }
 }

@@ -18,7 +18,7 @@
             android:id="@+id/card_now_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_tabs_news"
+            app:icon="@drawable/tabs_news"
             app:title="@string/title_activity_news"
             />
 

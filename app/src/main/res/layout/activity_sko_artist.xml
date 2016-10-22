@@ -38,7 +38,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:adjustViewBounds="true"
-                    tools:src="@drawable/ic_tabs_schamper" />
+                    tools:src="@drawable/tabs_schamper" />
 
                 <ImageView
                     android:layout_width="match_parent"

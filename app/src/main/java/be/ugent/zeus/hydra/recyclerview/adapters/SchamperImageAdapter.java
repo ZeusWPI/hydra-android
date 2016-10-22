@@ -54,7 +54,7 @@ public class SchamperImageAdapter extends ItemAdapter<ArticleImage, ImageViewHol
         overlay.setScaleType(ImageView.ScaleType.CENTER);
 
         //Set the drawable
-        overlay.setImageDrawable(ViewUtils.getTintedVectorDrawable(context, R.drawable.ic_zoom_in_24dp, R.color.white));
+        overlay.setImageDrawable(ViewUtils.getTintedVectorDrawable(context, R.drawable.ic_zoom_in, R.color.white));
 
         //Set tint
         View tintView = new View(context);

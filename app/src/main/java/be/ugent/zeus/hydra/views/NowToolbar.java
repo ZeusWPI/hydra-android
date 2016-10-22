@@ -70,7 +70,7 @@ public class NowToolbar extends LinearLayout {
                 menuButton.setVisibility(GONE);
             }
             if(a.hasValue(R.styleable.NowToolbar_icon)) {
-                setIcon(a.getResourceId(R.styleable.NowToolbar_icon, R.drawable.ic_tabs_home));
+                setIcon(a.getResourceId(R.styleable.NowToolbar_icon, R.drawable.tabs_home));
             }
         } finally {
             a.recycle();

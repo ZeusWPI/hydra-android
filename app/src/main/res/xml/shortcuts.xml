@@ -5,7 +5,7 @@
     <shortcut
         android:shortcutId="resto"
         android:enabled="true"
-        android:icon="@drawable/ic_shortcut_resto"
+        android:icon="@drawable/shortcut_resto"
         android:shortcutShortLabel="@string/shortcut_resto_short_label"
         android:shortcutLongLabel="@string/shortcut_resto_long_label"
         android:shortcutDisabledMessage="@string/shortcut_resto_disabled"
@@ -21,7 +21,7 @@
     <shortcut
         android:shortcutId="minerva"
         android:enabled="true"
-        android:icon="@drawable/ic_shortcut_minerva"
+        android:icon="@drawable/shortcut_minerva"
         android:shortcutShortLabel="@string/shortcut_minerva_short_label"
         android:shortcutLongLabel="@string/shortcut_minerva_long_label"
         android:shortcutDisabledMessage="@string/shortcut_minerva_disabled"

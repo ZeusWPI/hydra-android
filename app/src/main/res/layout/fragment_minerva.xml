@@ -26,7 +26,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:layout_gravity="center_horizontal"
-            app:srcCompat="@drawable/ic_tabs_minerva"
+            app:srcCompat="@drawable/tabs_minerva"
             android:tint="@color/ugent_blue_dark"
             tools:ignore="MissingPrefix" />
 

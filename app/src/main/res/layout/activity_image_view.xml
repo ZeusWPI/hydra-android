@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:scaleType="center"
-                app:srcCompat="@drawable/ic_chevron_left_24dp"
+                app:srcCompat="@drawable/ic_chevron_left"
                 android:tint="@color/ugent_blue_dark"
                 tools:ignore="MissingPrefix"
                 android:layout_marginRight="8dp"/>
@@ -59,7 +59,7 @@
                 android:layout_height="match_parent"
                 android:tint="@color/ugent_blue_dark"
                 android:scaleType="center"
-                app:srcCompat="@drawable/ic_chevron_right_24dp"
+                app:srcCompat="@drawable/ic_chevron_right"
                 tools:ignore="MissingPrefix"
                 android:layout_marginLeft="8dp"/>
 
