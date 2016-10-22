@@ -2,15 +2,19 @@ package be.ugent.zeus.hydra.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.DrawableRes;
+import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.resto.RestoMeal;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.utils.ViewUtils;
 
 import java.util.List;
 
@@ -51,9 +55,12 @@ public class MenuTable extends TableLayout {
      * @param title The title.
      */
     private void createTitle(String title, boolean span) {
+
+        final int rowPadding = ViewUtils.convertDpToPixelInt(4, getContext());
+
         TableRow tr = new TableRow(getContext());
         TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
-        tr.setPadding(0, 4, 0, 4);
+        tr.setPadding(0, rowPadding, 0, rowPadding);
         tr.setLayoutParams(lp);
 
         TextView v = new TextView(getContext());
@@ -64,7 +71,6 @@ public class MenuTable extends TableLayout {
         }
         v.setLayoutParams(textParam);
         v.setText(title);
-
 
         tr.addView(v);
         addView(tr);
@@ -85,42 +91,40 @@ public class MenuTable extends TableLayout {
      * @param meals The meals with dishes.
      */
     private void makeTableDishes(List<RestoMeal> meals) {
+
+        final int rowPadding = ViewUtils.convertDpToPixelInt(2, getContext());
+        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+
         for (RestoMeal meal : meals) {
             TableRow tr = new TableRow(getContext());
-            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
-            tr.setPadding(0, 4, 0, 4);
+            tr.setPadding(0, rowPadding, 0, rowPadding);
             tr.setLayoutParams(lp);
 
-            // set correct image according to kind
-            ImageView imageView = new ImageView(getContext());
+            //Set the correct image.
+            @DrawableRes
+            final int id;
             switch (meal.getKind()) {
-                case "soup":
-                    imageView.setImageResource(R.drawable.soep);
-                    break;
                 case "meat":
-                    imageView.setImageResource(R.drawable.vlees);
+                    id = R.drawable.resto_meat;
                     break;
                 case "fish":
-                    imageView.setImageResource(R.drawable.vis);
+                    id = R.drawable.resto_fish;
                     break;
                 case "vegetarian":
-                    imageView.setImageResource(R.drawable.vegi);
+                    id = R.drawable.resto_vegi;
                     break;
+                case "soup":
                 default:
-                    imageView.setImageResource(R.drawable.soep);
+                    id = R.drawable.resto_soup;
             }
 
-            imageView.setPadding(0, 5, 0, 0);
+            ImageView imageView = makeImageView(id);
+            TextView tvCenter = makeCenterTextView(meal.getName(), lp);
 
-            TextView tvCenter = new TextView(getContext());
-            tvCenter.setPadding(25, 0, 0, 0);
-            tvCenter.setLayoutParams(lp);
-            tvCenter.setText(meal.getName());
             TextView tvRight = new TextView(getContext());
             tvRight.setLayoutParams(lp);
             tvRight.setText(meal.getPrice());
             tvRight.setGravity(Gravity.END);
-
 
             tr.addView(imageView);
             tr.addView(tvCenter);
@@ -131,28 +135,54 @@ public class MenuTable extends TableLayout {
     }
 
     public void makeVegetables(List<String> vegetables) {
+
+        final int rowPadding = ViewUtils.convertDpToPixelInt(2, getContext());
+
         for (String veg: vegetables) {
 
             TableRow tr = new TableRow(getContext());
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
             tr.setLayoutParams(lp);
+            tr.setPadding(0, rowPadding, 0, rowPadding);
 
-            ImageView imageView = new ImageView(getContext());
+            ImageView imageView = makeImageView(R.drawable.resto_vegetables);
 
-            imageView.setImageResource(R.drawable.groenten);
-
-            imageView.setPadding(0,6,0,0);
-
-            TextView tvCenter = new TextView(getContext());
-            tvCenter.setPadding(25,0,0,0);
-            tvCenter.setLayoutParams(lp);
-            tvCenter.setText(veg);
+            TextView tvCenter = makeCenterTextView(veg, lp);
 
             tr.addView(imageView);
             tr.addView(tvCenter);
 
             addView(tr);
         }
+    }
+
+    /**
+     * Make an image view.
+     *
+     * @param id The ID of the drawable. Can be a vector.
+     * @return The imageview.
+     */
+    private ImageView makeImageView(@DrawableRes int id) {
+        ImageView imageView = new ImageView(getContext());
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        imageView.setImageDrawable(AppCompatResources.getDrawable(getContext(), id));
+        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
+        imageView.setLayoutParams(params);
+        return imageView;
+    }
+
+    /**
+     * Make center text.
+     * @param text The text.
+     * @param lp The layout param.
+     * @return The text view.
+     */
+    private TextView makeCenterTextView(String text, TableRow.LayoutParams lp) {
+        TextView tvCenter = new TextView(getContext());
+        tvCenter.setPadding(ViewUtils.convertDpToPixelInt(16, getContext()),0,0,0);
+        tvCenter.setLayoutParams(lp);
+        tvCenter.setText(text);
+        return tvCenter;
     }
 
     /**
