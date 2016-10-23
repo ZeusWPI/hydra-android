@@ -151,4 +151,12 @@
     <string name="urgent_album_art">Albumhoes</string>
     <string name="urgent_wifi_lock_description">The music player needs to keep your phone from going into sleep mode to prevent interrupting the music.</string>
 
+    <string name="shortcut_resto_short_label">Restomenu</string>
+    <string name="shortcut_resto_long_label">Bekijk de restomenu</string>
+    <string name="shortcut_resto_disabled">Uitgeschakeld</string>
+
+    <string name="shortcut_minerva_short_label">Minerva</string>
+    <string name="shortcut_minerva_long_label">Bekijk Minerva-dingen</string>
+    <string name="shortcut_minerva_disabled">Uitgeschakeld</string>
+
 </resources>

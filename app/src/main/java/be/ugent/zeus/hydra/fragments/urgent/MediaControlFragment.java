@@ -144,7 +144,7 @@ public class MediaControlFragment extends Fragment {
         boolean enablePlay = false;
         switch (state.getState()) {
             case PlaybackStateCompat.STATE_STOPPED:
-                albumImage.setImageResource(R.drawable.ic_album_24dp);
+                albumImage.setImageResource(R.drawable.ic_album);
                 artistText.setText("");
                 titleText.setText("");
             case PlaybackStateCompat.STATE_PAUSED:
@@ -193,7 +193,7 @@ public class MediaControlFragment extends Fragment {
                 Picasso.with(getContext()).load(artUrl).into(albumImage);
             } catch (IllegalArgumentException e) {
                 //no artwork
-                albumImage.setImageResource(R.drawable.ic_album_24dp);
+                albumImage.setImageResource(R.drawable.ic_album);
             }
         }
     }

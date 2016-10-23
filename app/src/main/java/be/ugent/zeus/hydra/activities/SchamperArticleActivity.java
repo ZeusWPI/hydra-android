@@ -25,7 +25,7 @@ import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.StringUtils;
 import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.utils.html.Utils;
-import be.ugent.zeus.hydra.utils.recycler.SpacingItemDecoration;
+import be.ugent.zeus.hydra.utils.recycler.ItemSpacingDecoration;
 import com.squareup.picasso.Picasso;
 
 public class SchamperArticleActivity extends ToolbarActivity {
@@ -55,7 +55,7 @@ public class SchamperArticleActivity extends ToolbarActivity {
         imageGrid.setAdapter(adapter);
         imageGrid.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         int spacing = (int) getResources().getDimension(R.dimen.content_spacing);
-        imageGrid.addItemDecoration(new SpacingItemDecoration(spacing));
+        imageGrid.addItemDecoration(new ItemSpacingDecoration(spacing));
 
         ImageView headerImage = $(R.id.header_image);
 

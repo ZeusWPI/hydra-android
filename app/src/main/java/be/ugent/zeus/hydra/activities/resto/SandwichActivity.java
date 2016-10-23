@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.activities.resto;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 
 import be.ugent.zeus.hydra.R;
@@ -11,7 +11,6 @@ import be.ugent.zeus.hydra.models.resto.Sandwich;
 import be.ugent.zeus.hydra.models.resto.Sandwiches;
 import be.ugent.zeus.hydra.recyclerview.adapters.resto.SandwichAdapter;
 import be.ugent.zeus.hydra.requests.resto.RestoSandwichesRequest;
-import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
 import java.util.Collections;
@@ -36,11 +35,10 @@ public class SandwichActivity extends RestoWebsiteActivity<Sandwiches> {
         RecyclerView recyclerView = $(R.id.resto_sandwich_recycler);
 
         //Divider
-        recyclerView.addItemDecoration(new DividerItemDecoration(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         //Adapter
         adapter = new SandwichAdapter(getApplicationContext());
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
         RecyclerFastScroller s = $(R.id.fast_scroller);

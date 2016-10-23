@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="be.ugent.zeus.hydra"
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    package="be.ugent.zeus.hydra"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Network permissions -->
@@ -22,6 +23,7 @@
         android:name=".HydraApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:logo="@drawable/logo"
         android:theme="@style/Hydra.Main.NoActionBar">
@@ -30,11 +32,11 @@
         <activity
             android:name=".activities.Hydra"
             android:launchMode="singleTop">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
         </activity>
 
         <!-- Settings -->
@@ -70,16 +72,10 @@
 
         <!-- Details about association events. -->
         <activity
-            android:name=".activities.ActivityDetailActivity"
+            android:name=".activities.EventDetailActivity"
             android:label="@string/title_activity_association_activity_detail"
             android:parentActivityName=".activities.Hydra"
             android:launchMode="singleTop" />
-
-        <!-- Details about associations -->
-        <activity
-            android:name=".activities.AssociationDetailActivity"
-            android:label="@string/title_association_activity_detail"
-            android:parentActivityName=".activities.ActivityDetailActivity" />
 
         <!-- Show info items -->
         <activity

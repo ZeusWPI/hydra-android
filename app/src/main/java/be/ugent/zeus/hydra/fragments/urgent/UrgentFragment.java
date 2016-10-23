@@ -267,7 +267,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
             startThis.putExtra(Hydra.ARG_TAB, SectionPagerAdapter.URGENT);
             PendingIntent i = PendingIntent.getActivity(getContext(), 0, startThis, PendingIntent.FLAG_UPDATE_CURRENT);
             musicService.getNotificationManager().setContentIntent(i);
-            musicService.getNotificationManager().setIcon(R.drawable.ic_urgent_notification);
+            musicService.getNotificationManager().setIcon(R.drawable.ic_notification_urgent);
             initMediaControls();
             isBound = true;
             beginPlaying();

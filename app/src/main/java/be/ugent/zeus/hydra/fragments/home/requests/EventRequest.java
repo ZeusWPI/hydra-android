@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.models.association.Event;
 import be.ugent.zeus.hydra.models.association.Events;
-import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
+import be.ugent.zeus.hydra.models.cards.EventCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.requests.common.ProcessableCacheRequest;
 import org.threeten.bp.ZonedDateTime;
@@ -31,7 +31,7 @@ public class EventRequest extends ProcessableCacheRequest<Events, List<HomeCard>
         ZonedDateTime now = ZonedDateTime.now();
         List<HomeCard> list = new ArrayList<>();
         for (Event event : data) {
-            AssociationActivityCard activityCard = new AssociationActivityCard(event);
+            EventCard activityCard = new EventCard(event);
             if (activityCard.getPriority() > 0 && event.getStart().isAfter(now)) {
                 list.add(activityCard);
             }

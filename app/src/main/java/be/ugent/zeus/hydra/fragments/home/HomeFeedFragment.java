@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
@@ -24,6 +23,7 @@ import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.utils.IterableSparseArray;
+import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
 
 import java.util.Collections;
 import java.util.List;
@@ -56,14 +56,11 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     private HomeCardAdapter adapter;
     private Snackbar snackbar;
 
-    private SharedPreferences preferences;
-
     private boolean wasCached = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         setHasOptionsMenu(true);
     }
 
@@ -83,8 +80,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
         adapter = new HomeCardAdapter(getActivity());
         recyclerView.setAdapter(adapter);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
         swipeRefreshLayout.setOnRefreshListener(this);
 
         swipeRefreshLayout.setRefreshing(true);
@@ -155,34 +151,48 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
         HomeFeedLoader loader = new HomeFeedLoader(getContext(), this);
 
+        Set<String> s = PreferenceManager
+                .getDefaultSharedPreferences(getContext())
+                .getStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, Collections.<String>emptySet());
+
         //Always add the special events.
         //The else clause is needed to remove any existing data from the loader.
         loader.addRequest(new SpecialEventRequest(getContext(), shouldRefresh));
 
-        if(isTypeActive(HomeCard.CardType.RESTO)) {
+        if(isTypeActive(s, HomeCard.CardType.RESTO)) {
             loader.addRequest(new RestoRequest(getContext(), shouldRefresh));
         } else {
             onPartialResult(Collections.<HomeCard>emptyList(), HomeCard.CardType.RESTO);
         }
-        if(isTypeActive(HomeCard.CardType.ACTIVITY)) {
+
+        if(isTypeActive(s, HomeCard.CardType.ACTIVITY)) {
             loader.addRequest(new EventRequest(getContext(), shouldRefresh));
         } else {
             onPartialResult(Collections.<HomeCard>emptyList(), HomeCard.CardType.ACTIVITY);
         }
-        if(isTypeActive(HomeCard.CardType.SCHAMPER)) {
+
+        if(isTypeActive(s, HomeCard.CardType.SCHAMPER)) {
             loader.addRequest(new SchamperRequest(getContext(), shouldRefresh));
         } else {
             onPartialResult(Collections.<HomeCard>emptyList(), HomeCard.CardType.SCHAMPER);
         }
-        if(isTypeActive(HomeCard.CardType.NEWS_ITEM)) {
+
+        if(isTypeActive(s, HomeCard.CardType.NEWS_ITEM)) {
             loader.addRequest(new NewsHomeRequest(getContext(), shouldRefresh));
         } else {
             onPartialResult(Collections.<HomeCard>emptyList(), HomeCard.CardType.NEWS_ITEM);
         }
-        if(isTypeActive(HomeCard.CardType.MINERVA_ANNOUNCEMENT) && AccountUtils.hasAccount(getContext())) {
-            loader.addRequest(new MinervaDoaRequest(getContext()));
+
+        if(isTypeActive(s, HomeCard.CardType.MINERVA_ANNOUNCEMENT) && AccountUtils.hasAccount(getContext())) {
+            loader.addRequest(new MinervaAnnouncementRequest(getContext()));
         } else {
             onPartialResult(Collections.<HomeCard>emptyList(), HomeCard.CardType.MINERVA_ANNOUNCEMENT);
+        }
+
+        if(isTypeActive(s, HomeCard.CardType.MINERVA_AGENDA) && AccountUtils.hasAccount(getContext())) {
+            loader.addRequest(new MinervaAgendaRequest(getContext()));
+        } else {
+            onPartialResult(Collections.<HomeCard>emptyList(), HomeCard.CardType.MINERVA_AGENDA);
         }
 
         return loader;
@@ -220,8 +230,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
      *
      * @return True if the card may be shown.
      */
-    private boolean isTypeActive(@HomeCard.CardType int cardType) {
-        Set<String> data = preferences.getStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, Collections.<String>emptySet());
+    private boolean isTypeActive(Set<String> data, @HomeCard.CardType int cardType) {
         return !data.contains(String.valueOf(cardType));
     }
 

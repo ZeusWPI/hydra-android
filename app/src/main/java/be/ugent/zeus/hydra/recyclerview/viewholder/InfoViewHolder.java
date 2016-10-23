@@ -43,7 +43,7 @@ public class InfoViewHolder extends DataViewHolder<InfoItem> {
 
         //If the item itself has an image.
         if (infoItem.getImage() != null) {
-            int resId = c.getResources().getIdentifier("ic_" + infoItem.getImage(), "drawable", itemView.getContext().getPackageName());
+            int resId = c.getResources().getIdentifier(infoItem.getImage(), "drawable", itemView.getContext().getPackageName());
             Drawable icon = ViewUtils.getTintedVectorDrawable(c, resId, color);
             title.setCompoundDrawablesWithIntrinsicBounds(icon, null, more, null);
         } else {

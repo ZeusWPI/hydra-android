@@ -6,7 +6,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.PopupMenu;
+import android.widget.PopupMenu;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -70,7 +70,7 @@ public class NowToolbar extends LinearLayout {
                 menuButton.setVisibility(GONE);
             }
             if(a.hasValue(R.styleable.NowToolbar_icon)) {
-                setIcon(a.getResourceId(R.styleable.NowToolbar_icon, R.drawable.ic_tabs_home));
+                setIcon(a.getResourceId(R.styleable.NowToolbar_icon, R.drawable.tabs_home));
             }
         } finally {
             a.recycle();

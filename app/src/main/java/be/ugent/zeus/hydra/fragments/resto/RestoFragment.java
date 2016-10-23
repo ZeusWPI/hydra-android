@@ -95,9 +95,9 @@ public class RestoFragment extends LoaderFragment<ArrayList<RestoMenu>> {
         Context c = getContext();
         int color = R.color.ugent_blue_dark;
 
-        Drawable menuIcon = ViewUtils.getTintedVectorDrawable(c, R.drawable.ic_restaurant_menu_40dp, color);
-        Drawable sandwichIcon = ViewUtils.getTintedVectorDrawable(c, R.drawable.ic_sandwich_40dp, color);
-        Drawable restoIcon = ViewUtils.getTintedVectorDrawable(c, R.drawable.ic_explore_40dp, color);
+        Drawable menuIcon = ViewUtils.getTintedVectorDrawable(c, R.drawable.btn_restaurant_menu, color);
+        Drawable sandwichIcon = ViewUtils.getTintedVectorDrawable(c, R.drawable.btn_sandwich, color);
+        Drawable restoIcon = ViewUtils.getTintedVectorDrawable(c, R.drawable.btn_explore, color);
 
         viewMenu.setCompoundDrawablesWithIntrinsicBounds(null, menuIcon, null, null);
         viewSandwich.setCompoundDrawablesWithIntrinsicBounds(null, sandwichIcon, null, null);

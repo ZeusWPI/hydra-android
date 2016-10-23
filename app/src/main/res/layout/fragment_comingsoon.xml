@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="fill_vertical">
@@ -34,11 +35,13 @@
         <ImageButton
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:scaleType="centerInside"
+            android:scaleType="fitCenter"
             android:id="@+id/fbButton"
             android:layout_marginTop="48dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/fb_logo_large"
+            app:srcCompat="@drawable/ic_social_facebook"
+            android:tint="@color/bright_blue"
+            android:adjustViewBounds="true"
             android:background="#00ffffff"
             android:clickable="false"
             android:contentDescription="@string/facebookButtonDescription" />

@@ -26,7 +26,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:layout_gravity="center_horizontal"
-            app:srcCompat="@drawable/ic_tabs_minerva"
+            app:srcCompat="@drawable/tabs_minerva"
             android:tint="@color/ugent_blue_dark"
             tools:ignore="MissingPrefix" />
 
@@ -54,7 +54,8 @@
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:layoutManager="@string/app_layout_manager_linear" />
 
     <ProgressBar
         android:paddingLeft="@dimen/vertical_padding"

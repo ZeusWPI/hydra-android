@@ -32,12 +32,18 @@ public abstract class RecyclerLoaderFragment<E, D extends Serializable & List<E>
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        recyclerView = setUpRecyclerView(view);
+    }
+
+    protected RecyclerView setUpRecyclerView(View view) {
         recyclerView = $(view, R.id.recycler_view);
         recyclerView.setHasFixedSize(hasFixedSize);
         adapter = getAdapter();
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(getLayoutManager());
+
+        return recyclerView;
     }
 
     /**

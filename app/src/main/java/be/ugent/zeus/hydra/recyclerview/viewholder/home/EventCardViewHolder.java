@@ -2,15 +2,15 @@ package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 
 import android.content.Intent;
 import android.os.Parcelable;
-import android.support.v7.widget.PopupMenu;
+import android.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.ActivityDetailActivity;
+import be.ugent.zeus.hydra.activities.EventDetailActivity;
 import be.ugent.zeus.hydra.models.association.Event;
-import be.ugent.zeus.hydra.models.cards.AssociationActivityCard;
+import be.ugent.zeus.hydra.models.cards.EventCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -39,7 +39,7 @@ public class EventCardViewHolder extends HideableViewHolder {
     @Override
     public void populate(final HomeCard card) {
 
-        final Event event = card.<AssociationActivityCard>checkCard(HomeCard.CardType.ACTIVITY).getEvent();
+        final Event event = card.<EventCard>checkCard(HomeCard.CardType.ACTIVITY).getEvent();
 
         title.setText(event.getTitle());
         association.setText(event.getLocation());
@@ -52,8 +52,8 @@ public class EventCardViewHolder extends HideableViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(itemView.getContext(), ActivityDetailActivity.class);
-                intent.putExtra(ActivityDetailActivity.PARCEL_EVENT, (Parcelable) event);
+                Intent intent = new Intent(itemView.getContext(), EventDetailActivity.class);
+                intent.putExtra(EventDetailActivity.PARCEL_EVENT, (Parcelable) event);
                 itemView.getContext().startActivity(intent);
             }
         });

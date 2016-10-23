@@ -28,7 +28,8 @@
             android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clickable="true" />
+            android:clickable="true"
+            app:layoutManager="@string/app_layout_manager_linear" />
 
         <include layout="@layout/x_progress_bar" />
 

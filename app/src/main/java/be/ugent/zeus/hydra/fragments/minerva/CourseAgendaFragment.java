@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +18,6 @@ import be.ugent.zeus.hydra.minerva.agenda.AgendaDaoLoader;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.AgendaAdapter;
-import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.List;
@@ -63,9 +62,8 @@ public class CourseAgendaFragment extends LoaderFragment<List<AgendaItem>> {
         adapter = new AgendaAdapter();
 
         RecyclerView recyclerView = $(view, R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new StickyRecyclerHeadersDecoration(adapter));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
     }
 
