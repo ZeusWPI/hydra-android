@@ -18,11 +18,34 @@ package be.ugent.zeus.hydra.urgent.track;
 
 /**
  * A track to play.
+ *
+ * @author Allan Pichardo
+ * @author Niko Strijbol
  */
 public interface Track {
+
+    /**
+     * @return The id of this track.
+     */
     int getId();
+
+    /**
+     * @return The name of the artist.
+     */
     String getArtist();
+
+    /**
+     * @return The title of the track.
+     */
     String getTitle();
+
+    /**
+     * @return The URL of the track.
+     */
     String getUrl();
+
+    /**
+     * @return The URL of the album track. If null, the defaults will be used.
+     */
     String getArtworkUrl();
 }

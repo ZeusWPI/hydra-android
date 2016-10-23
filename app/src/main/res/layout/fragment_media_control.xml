@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,7 +13,7 @@
         android:layout_width="@dimen/media_control_image"
         android:layout_height="@dimen/media_control_image"
         android:contentDescription="@string/urgent_album_art"
-        android:src="@drawable/ic_album" />
+        app:srcCompat="@drawable/ic_album" />
 
     <TextView
         android:id="@+id/titleText"
@@ -41,6 +42,6 @@
         android:layout_height="wrap_content"
         style="?android:attr/borderlessButtonStyle"
         android:id="@+id/playPauseButton"
-        android:src="@drawable/ic_play_arrow_24dp" />
+        app:srcCompat="@drawable/ic_play_arrow_24dp" />
 
 </LinearLayout>

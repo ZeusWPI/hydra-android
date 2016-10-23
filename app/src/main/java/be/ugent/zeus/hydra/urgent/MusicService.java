@@ -22,8 +22,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
@@ -45,8 +43,6 @@ import be.ugent.zeus.hydra.urgent.media.MediaNotificationManager;
 import be.ugent.zeus.hydra.urgent.media.SimpleSessionCallback;
 import be.ugent.zeus.hydra.urgent.track.Track;
 import be.ugent.zeus.hydra.urgent.track.TrackManager;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.io.IOException;
 
@@ -582,29 +578,11 @@ public class MusicService extends Service implements
             try {
                 track = trackManager.currentTrack();
                 final MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder();
-                builder.putText(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, track.getArtworkUrl());
                 builder.putText(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, track.getArtist());
                 builder.putText(MediaMetadataCompat.METADATA_KEY_TITLE, track.getTitle());
                 builder.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mediaPlayer.getDuration());
-                Picasso.with(this).load("https://scontent-bru2-1.xx.fbcdn.net/v/t1.0-9/11934958_10153659885443656_5991477861586446540_n.jpg?oh=c6ae014802e4fa0697df8b1d3430a727&oe=589822B9").into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        if(mediaSession != null) {
-                            builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap);
-                            mediaSession.setMetadata(builder.build());
-                        }
-                    }
+                builder.putText(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, track.getArtworkUrl());
 
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                    }
-                });
                 mediaSession.setMetadata(builder.build());
             } catch (IllegalStateException e) {
                 //nothing to update

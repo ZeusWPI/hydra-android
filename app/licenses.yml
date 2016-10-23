@@ -22,12 +22,6 @@
   license: The Apache Software License, Version 2.0
   url: https://github.com/chrisbanes/PhotoView
 
-- artifact: de.hdodenhof:circleimageview:+
-  name: CircleImageView
-  copyrightHolder: Henning Dodenhof
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/hdodenhof/CircleImageView
-
 - artifact: com.google.code.gson:gson:+
   name: Gson
   copyrightHolder: Google Inc.
