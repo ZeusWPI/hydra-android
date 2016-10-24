@@ -15,6 +15,9 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <!-- Urgent stuff -->
+    <permission android:name="android.permission.WAKE_LOCK"/>
+    <permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
 
     <application
         android:name=".HydraApplication"
@@ -211,6 +214,17 @@
             android:exported="false"
             android:label="@string/sync_provider_label"
             android:syncable="true" />
+
+        <!-- Urgent stuff -->
+        <service android:name="be.ugent.zeus.hydra.urgent.MusicService" />
+        <receiver android:name="be.ugent.zeus.hydra.urgent.media.MediaButtonEventReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
+            </intent-filter>
+        </receiver>
 
     </application>
 </manifest>

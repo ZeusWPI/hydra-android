@@ -1,0 +1,98 @@
+# Support libraries
+- artifact: com.android.support:+:+
+  name: Android Support Libraries
+  copyrightHolder: The Android Open Source Project
+  license: The Apache Software License, Version 2.0
+
+- artifact: com.github.alexfu:SQLiteQueryBuilder:+
+  name: SQLiteQueryBuilder
+  copyrightHolder: Alex Fu
+  license: MIT License
+  url: https://github.com/alexfu/SQLiteQueryBuilder
+
+- artifact: org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:+
+  name: Apache Oltu - OAuth 2.0 - Client
+  copyrightHolder: Apache Software Foundation
+  license: The Apache Software License, Version 2.0
+  url: https://oltu.apache.org/
+
+- artifact: com.github.chrisbanes:PhotoView:+
+  name: PhotoView
+  copyrightHolder: Chris Banes
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/chrisbanes/PhotoView
+
+- artifact: com.google.code.gson:gson:+
+  name: Gson
+  copyrightHolder: Google Inc.
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/google/gson
+
+- artifact: com.squareup.picasso:picasso:+
+  name: Picasso
+  copyrightHolder: Square, Inc.
+  license: The Apache Software License, Version 2.0
+  url: http://square.github.io/picasso/
+
+- artifact: com.github.pluscubed:recycler-fast-scroll:+
+  name: recycler-fast-scroll
+  copyrightHolder: Daniel Ciao
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/plusCubed/recycler-fast-scroll
+
+- artifact: su.j2e:rv-joiner:+
+  name: rv-joiner
+  copyrightHolder: j2esu (Evgeny Egorov)
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/j2esu/rv-joiner
+
+- artifact: org.springframework.android:+:+
+  name: Spring for Android
+  copyrightHolder: Spring Authors
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/SpringSource/spring-android
+
+- artifact: com.timehop.stickyheadersrecyclerview:library:+
+  name: Sticky Headers RecyclerView
+  copyrightHolder: Timehop
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/timehop/sticky-headers-recyclerview
+
+- artifact: com.jakewharton.threetenabp:threetenabp:+
+  name: ThreeTenBackport Android
+  copyrightHolder: Jake Wharton
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/JakeWharton/ThreeTenABP
+
+- artifact: com.futuremind.recyclerfastscroll:fastscroll:+
+  name: Recycler Bubble
+  copyrightHolder: Future Mind
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/FutureMind/recycler-fast-scroll
+
+- artifact: com.heinrichreimersoftware:material-intro:+
+  name: Material Intro
+  copyrightHolder: Heinrich Reimer
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/HeinrichReimer/material-intro
+
+- artifact: com.github.KyoSherlock:expandablelayout:+
+  name: ExpandableLayout
+  copyrightHolder: KyoSherlock
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/KyoSherlock/ExpandableLayout
+
+- artifact: com.google.android.gms:+:+
+  skip: true
+
+- artifact: joda-time:joda-time:+
+  skip: true
+
+- artifact: com.google.firebase:+:+
+  skip: true
+
+- artifact: org.slf4j:slf4j-api:+
+  skip: true
+
+- artifact: org.threeten:threetenbp:+
+  skip: true

@@ -92,6 +92,9 @@ public class ViewUtils {
         return dp * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
+    /**
+     * Same as {@link #convertDpToPixel(float, Context)}, but casted to an int.
+     */
     public static int convertDpToPixelInt(float dp, Context context){
         return (int) convertDpToPixel(dp, context);
     }

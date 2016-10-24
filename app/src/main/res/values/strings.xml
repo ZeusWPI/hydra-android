@@ -44,6 +44,21 @@
 
     <string name="pref_activities_title">Activiteiten</string>
 
+    <string name="pref_about_header_title">Over</string>
+    <string name="pref_about_header_summary">Over de app</string>
+    <string name="pref_about_licenses_title">Openbronsoftware</string>
+    <string name="pref_about_licenses_summary">Licentiedetails voor gebruikte bibliotheken</string>
+    <string name="pref_about_version_title">Versie</string>
+    <string name="pref_about_version_summary">Versie %1$s [%2$s] (%3$s)</string>
+
+    <string name="pref_about_changelog_title">Wijzigingen</string>
+    <string name="pref_about_changelog_summary">Bekijk wat er nieuw is</string>
+
+    <string name="pref_about_creator_title">Gemaakt door Zeus WPI</string>
+
+    <string name="pref_about_issues_title">Feedback</string>
+    <string name="pref_about_issues_summary">Meld fouten of geef suggesties</string>
+
     <string name="pref_minerva_title">Minerva</string>
 
     <string name="pref_minerva_category_account_title">Account &amp; synchronisatie</string>
@@ -137,6 +152,12 @@
     <string name="activity_title_sko_preferences">Instellingen</string>
 
     <string name="menu_sko_view_website">Website bekijken</string>
+    <string name="pref_notifications_urgent_title">Urgent.fm</string>
+    <string name="pref_notifications_urgent_description">Opties voor Urgent.fm</string>
+
+
+    <string name="urgent_album_art">Albumhoes</string>
+    <string name="urgent_wifi_lock_description">The music player needs to keep your phone from going into sleep mode to prevent interrupting the music.</string>
 
     <string name="shortcut_resto_short_label">Restomenu</string>
     <string name="shortcut_resto_long_label">Bekijk de restomenu</string>

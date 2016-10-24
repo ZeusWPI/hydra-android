@@ -36,6 +36,7 @@ public class AgendaItem implements Serializable, Parcelable {
     @SerializedName("last_edit_type")
     private String lastEditType;
     private Course course;
+
     //This is used sometimes as well, when we don't need the full course.
     @SerializedName("course_id")
     private String courseId;

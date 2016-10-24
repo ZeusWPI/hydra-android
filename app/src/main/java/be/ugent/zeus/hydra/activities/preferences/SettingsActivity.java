@@ -11,10 +11,7 @@ import android.view.View;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.AppCompatPreferenceActivity;
-import be.ugent.zeus.hydra.fragments.preferences.HomeFragment;
-import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
-import be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment;
-import be.ugent.zeus.hydra.fragments.preferences.SkoFragment;
+import be.ugent.zeus.hydra.fragments.preferences.*;
 import be.ugent.zeus.hydra.notifications.NotificationScheduler;
 
 import java.util.List;
@@ -46,7 +43,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 || RestoPreferenceFragment.class.getName().equals(fragmentName)
                 || HomeFragment.class.getName().equals(fragmentName)
                 || MinervaFragment.class.getName().equals(fragmentName)
-                || SkoFragment.class.getName().equals(fragmentName);
+                || UrgentFragment.class.getName().equals(fragmentName)
+                || SkoFragment.class.getName().equals(fragmentName)
+                || AboutFragment.class.getName().equals(fragmentName);
     }
 
     /**

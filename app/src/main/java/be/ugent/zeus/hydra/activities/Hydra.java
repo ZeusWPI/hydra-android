@@ -41,6 +41,7 @@ public class Hydra extends ToolbarActivity {
             R.drawable.tabs_news,
             R.drawable.tabs_info,
             R.drawable.tabs_minerva,
+            R.drawable.tabs_urgent
     };
 
     private SharedPreferences preferences;

@@ -79,24 +79,25 @@ public class HomeFeedLoader extends AsyncTaskLoader<IterableSparseArray<Throwabl
             try {
                 final List<HomeCard> result = request.performRequest();
                 results.append(request.getCardType(), new ThrowableEither<>(result));
-                if(listener != null) {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(listener != null) {
                             listener.onPartialResult(result, request.getCardType());
                         }
-                    });
-                }
+                    }
+                });
+
             } catch (RequestFailureException e) {
                 results.append(request.getCardType(), new ThrowableEither<List<HomeCard>>(e));
-                if(listener != null) {
-                    handler.post(new Runnable() {
+                handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            listener.onPartialError(request.getCardType());
+                            if(listener != null) {
+                                listener.onPartialError(request.getCardType());
+                            }
                         }
                     });
-                }
             }
         }
 

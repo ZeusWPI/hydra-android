@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.UiThread;
-import android.support.v7.preference.PreferenceManager;
 import android.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
