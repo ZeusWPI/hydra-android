@@ -104,8 +104,7 @@ public abstract class MinervaRequest<T> extends TokenRequest<T> {
             accountBundle = AccountUtils.syncAuthCode(context, account);
         }
 
-        assert accountBundle != null;
-        if(accountBundle.containsKey(AccountManager.KEY_INTENT)) {
+        if(accountBundle == null || accountBundle.containsKey(AccountManager.KEY_INTENT)) {
             throw new TokenException();
         } else {
             return accountBundle.getString(AccountManager.KEY_AUTHTOKEN);
