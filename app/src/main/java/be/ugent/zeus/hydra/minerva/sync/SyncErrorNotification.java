@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.ExceptionDialogActivity;
 
 import static android.support.v4.app.NotificationCompat.CATEGORY_ERROR;
 
@@ -46,11 +47,14 @@ public class SyncErrorNotification {
     public static class Builder {
 
         private SyncErrorNotification notification;
+        private Context context;
 
         public Builder(Context context) {
             notification = new SyncErrorNotification(context);
-            notification.builder.setSmallIcon(R.drawable.ic_notification_warning)
-            .setCategory(CATEGORY_ERROR);
+            notification.builder
+                    .setSmallIcon(R.drawable.ic_notification_warning)
+                    .setCategory(CATEGORY_ERROR);
+            this.context = context;
         }
 
         /**
@@ -86,12 +90,21 @@ public class SyncErrorNotification {
          *
          * @return This builder.
          */
-        public Builder genericError() {
+        public Builder genericError(Throwable throwable) {
+
+            String content = "Er trad een fout op bij het synchroniseren, met deze boodschap:\n\n" + throwable.getMessage();
+
+            Intent intent = ExceptionDialogActivity.startIntent(context, "Fout", content, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
             notification.builder.setContentTitle("Minerva-fout")
                     .setContentText("Synchronisatiefout")
                     .setStyle(new NotificationCompat.BigTextStyle()
                             .bigText("Er trad een fout op bij het synchroniseren met Minerva. Gegevens kunnen verouderd zijn.")
-                    );
+                    )
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent);
+
             return this;
         }
 

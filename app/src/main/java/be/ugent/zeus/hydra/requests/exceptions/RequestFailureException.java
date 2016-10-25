@@ -16,4 +16,8 @@ public class RequestFailureException extends Exception {
     public RequestFailureException(Throwable cause) {
         super(cause);
     }
+
+    public RequestFailureException(String message) {
+        super(message);
+    }
 }

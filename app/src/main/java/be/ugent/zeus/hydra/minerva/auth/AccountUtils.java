@@ -49,7 +49,7 @@ public class AccountUtils {
     }
 
     /**
-     * Builds a token request based on the grant information.
+     * Builds a token request based on the refresh token.
      *
      * @return Request based on a refresh token.
      */
@@ -102,7 +102,7 @@ public class AccountUtils {
      *
      * @return The bundle containing the access code, or an intent to re-authorise the account.
      */
-    public static Bundle syncAuthCode(Context context) {
+    public static Bundle syncAuthCode(Context context) throws IOException {
         AccountManager manager = AccountManager.get(context);
         Account account = manager.getAccountsByType(MinervaConfig.ACCOUNT_TYPE)[0];
 
@@ -120,11 +120,11 @@ public class AccountUtils {
      *
      * @return The bundle containing the access code, or an intent to re-authorise the account.
      */
-    public static Bundle syncAuthCode(Context context, Account account) {
+    public static Bundle syncAuthCode(Context context, Account account) throws IOException {
         AccountManager manager = AccountManager.get(context);
 
         try {
-            Bundle result = manager.getAuthToken(account, MinervaConfig.DEFAULT_SCOPE, null, null, null, null).getResult();
+            Bundle result = manager.getAuthToken(account, MinervaConfig.DEFAULT_SCOPE, null, true, null, null).getResult();
 
             //If the bundle contains an authorisation code.
             if(result.containsKey(AccountManager.KEY_AUTHTOKEN)) {
@@ -145,7 +145,7 @@ public class AccountUtils {
 
             return result;
 
-        } catch (OperationCanceledException | IOException | AuthenticatorException e) {
+        } catch (OperationCanceledException | AuthenticatorException e) {
             Log.w(TAG, "Getting result failed.", e);
             return null;
         }

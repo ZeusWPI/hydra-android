@@ -18,9 +18,10 @@ import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.models.minerva.Courses;
 import be.ugent.zeus.hydra.models.minerva.WhatsNew;
+import be.ugent.zeus.hydra.requests.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.requests.exceptions.RestTemplateException;
 import be.ugent.zeus.hydra.requests.minerva.AgendaRequest;
+import be.ugent.zeus.hydra.requests.minerva.AuthenticatorActionException;
 import be.ugent.zeus.hydra.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.requests.minerva.WhatsNewRequest;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -124,44 +125,44 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             }
 
             broadcast.publishIntent(SyncBroadcast.SYNC_DONE);
-        } catch (RequestFailureException e) {
-            Log.w(TAG, "Sync error.", e);
 
-            //If the failure is because the token failed, the account needs revalidation.
-            //The request should contain a bundle with an intent we can launch to revalidate the account.
-            if(e.getCause() instanceof RestTemplateException && request.getAccountBundle() != null) {
-                syncResult.stats.numAuthExceptions++;
+        } catch (IOFailureException e) {
+            Log.i(TAG, "IO error while syncing.", e);
+            syncResult.stats.numIoExceptions++;
+            syncErrorNotification(e);
+        } catch (AuthenticatorActionException e) {
+            Log.i(TAG, "Auth exception while syncing.", e);
+            syncResult.stats.numAuthExceptions++;
+            if(request.getAccountBundle() != null) {
                 Intent intent = request.getAccountBundle().getParcelable(AccountManager.KEY_INTENT);
                 SyncErrorNotification.Builder.init(getContext()).authError(intent).build().show();
                 broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
+            } else {
+                syncErrorNotification(e);
             }
-            //It was something else.
-            else {
-                //Adjust stats
-                if(e.getCause() != null && e.getCause() instanceof RequestFailureException) {
-                    syncResult.stats.numIoExceptions++;
-                } else {
-                    syncResult.stats.numParseExceptions++;
-                }
-                syncErrorNotification();
-            }
-        } catch (SQLException e) {
-            syncResult.databaseError = true;
-            Log.e(TAG, "Sync error.", e);
-            syncErrorNotification();
-        }  catch (HttpMessageNotReadableException e) {
+
+        } catch (RequestFailureException e) {
+            Log.w(TAG, "Exception during sync:", e);
+            //TODO: this needs attention.
             syncResult.stats.numParseExceptions++;
-            Log.e(TAG, "Sync error.", e);
-            syncErrorNotification();
+            syncErrorNotification(e);
+        } catch (SQLException e) {
+            Log.e(TAG, "Exception during sync:", e);
+            syncResult.databaseError = true;
+            syncErrorNotification(e);
+        }  catch (HttpMessageNotReadableException e) {
+            Log.e(TAG, "Exception during sync:", e);
+            syncResult.stats.numParseExceptions++;
+            syncErrorNotification(e);
         }
     }
 
     /**
      * Show an error notification. This will also broadcast the error intent.
      */
-    private void syncErrorNotification() {
+    private void syncErrorNotification(Throwable throwable) {
         broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
-        SyncErrorNotification.Builder.init(getContext()).genericError().build().show();
+        SyncErrorNotification.Builder.init(getContext()).genericError(throwable).build().show();
     }
 
     @Override

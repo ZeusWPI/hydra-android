@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.requests.common;
 
 import be.ugent.zeus.hydra.minerva.auth.requests.TokenRequestInterceptor;
+import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.requests.exceptions.RestTemplateException;
 import be.ugent.zeus.hydra.requests.exceptions.TokenException;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -30,7 +31,7 @@ public abstract class TokenRequest<T> extends JsonSpringRequest<T> {
      * Set the API interceptor.
      */
     @Override
-    protected RestTemplate createRestTemplate() throws RestTemplateException {
+    protected RestTemplate createRestTemplate() throws RequestFailureException {
         try {
             RestTemplate t = super.createRestTemplate();
             t.setInterceptors(Collections.<ClientHttpRequestInterceptor>singletonList(new TokenRequestInterceptor(getToken())));

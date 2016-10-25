@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.requests.common;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.requests.exceptions.RestTemplateException;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -40,7 +39,7 @@ public abstract class JsonSpringRequest<R> implements Request<R> {
     public R performRequest() throws RequestFailureException {
         try {
             return createRestTemplate().getForEntity(getAPIUrl(), getResultType()).getBody();
-        } catch (RestClientException | RestTemplateException e) {
+        } catch (RestClientException e) {
             throw new RequestFailureException(e);
         }
     }
@@ -55,8 +54,10 @@ public abstract class JsonSpringRequest<R> implements Request<R> {
 
     /**
      * @return The rest template used by Spring to perform the request.
+     *
+     * @throws be.ugent.zeus.hydra.requests.exceptions.RestTemplateException If something went wrong while creating the rest template.
      */
-    protected RestTemplate createRestTemplate() throws RestTemplateException {
+    protected RestTemplate createRestTemplate() throws RequestFailureException {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
         return restTemplate;
