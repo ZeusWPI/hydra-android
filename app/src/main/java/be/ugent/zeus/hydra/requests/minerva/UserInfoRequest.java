@@ -4,18 +4,24 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.auth.models.GrantInformation;
-import be.ugent.zeus.hydra.requests.common.TokenRequest;
+import be.ugent.zeus.hydra.minerva.auth.requests.TokenRequestInterceptor;
+import be.ugent.zeus.hydra.requests.common.JsonSpringRequest;
+import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Collections;
 
 /**
  * This is the user information request. This is a special request that needs a token, since this request is part of
  * the account creation process and is called before the account is saved on the device.
  *
- * All other requests to Minerva should use the account functionality.
+ * All other requests to Minerva should use the account functionality, which is provided in {@link MinervaRequest}.
  *
  * @author Niko Strijbol
  * @author feliciaan
  */
-public class UserInfoRequest extends TokenRequest<GrantInformation> {
+public class UserInfoRequest extends JsonSpringRequest<GrantInformation> {
 
     private String token;
 
@@ -33,13 +39,11 @@ public class UserInfoRequest extends TokenRequest<GrantInformation> {
         return MinervaConfig.GRANT_INFORMATION_ENDPOINT;
     }
 
-    /**
-     * Get the token to use in the request.
-     *
-     * @return The token.
-     */
     @Override
-    protected String getToken() {
-        return token;
+    protected RestTemplate createRestTemplate() throws RequestFailureException {
+        RestTemplate t = super.createRestTemplate();
+        //Add the token intercepter.
+        t.setInterceptors(Collections.<ClientHttpRequestInterceptor>singletonList(new TokenRequestInterceptor(token)));
+        return t;
     }
 }

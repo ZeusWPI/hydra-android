@@ -2,8 +2,10 @@ package be.ugent.zeus.hydra.requests.common;
 
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.requests.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,25 +30,22 @@ public abstract class JsonSpringRequest<R> implements Request<R> {
 
     /**
      * This implementation retrieves the data from the remote location using Spring and parses the result using GSON.
-     * Most customisation should take place in the other functions, such as {@link #getResultType()}.
      *
      * @return The data.
      *
-     * @throws RequestFailureException If the data could not be obtained, e.g. network conditions or malformed json.
+     * @throws IOFailureException If the data could not be obtained due to IO errors (i.e. network).
+     * @throws RequestFailureException If something else went wrong.
      */
     @NonNull
     @Override
     public R performRequest() throws RequestFailureException {
         try {
-            return createRestTemplate().getForEntity(getAPIUrl(), getResultType()).getBody();
+            return createRestTemplate().getForEntity(getAPIUrl(), clazz).getBody();
+        } catch (ResourceAccessException e) {
+            throw new IOFailureException(e);
         } catch (RestClientException e) {
             throw new RequestFailureException(e);
         }
-    }
-
-    @NonNull
-    private Class<R> getResultType() {
-        return clazz;
     }
 
     @NonNull
