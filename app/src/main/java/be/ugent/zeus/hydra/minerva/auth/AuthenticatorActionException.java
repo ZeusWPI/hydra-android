@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.requests.minerva;
+package be.ugent.zeus.hydra.minerva.auth;
 
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 

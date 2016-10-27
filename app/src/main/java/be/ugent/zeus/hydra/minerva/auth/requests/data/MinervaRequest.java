@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.requests.minerva;
+package be.ugent.zeus.hydra.minerva.auth.requests.data;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
+import be.ugent.zeus.hydra.minerva.auth.AuthenticatorActionException;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.auth.requests.TokenRequestInterceptor;
 import be.ugent.zeus.hydra.requests.common.JsonSpringRequest;

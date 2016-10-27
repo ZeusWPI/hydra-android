@@ -20,10 +20,12 @@
  */
 package be.ugent.zeus.hydra.minerva.auth;
 
+import be.ugent.zeus.hydra.minerva.auth.requests.data.MinervaRequest;
+
 /**
  * Various constants for Minerva accounts.
  *
- * The API endpoint is saved in the {@link be.ugent.zeus.hydra.requests.minerva.MinervaRequest} for now.
+ * The API endpoint is saved in the {@link MinervaRequest} for now.
  *
  * @author Niko Strijbol
  * @author kevin

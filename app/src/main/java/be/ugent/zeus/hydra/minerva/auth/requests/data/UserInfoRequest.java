@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.requests.minerva;
+package be.ugent.zeus.hydra.minerva.auth.requests.data;
 
 import android.support.annotation.NonNull;
 
