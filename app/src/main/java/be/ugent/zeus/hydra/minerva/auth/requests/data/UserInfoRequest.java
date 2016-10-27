@@ -42,7 +42,7 @@ public class UserInfoRequest extends JsonSpringRequest<GrantInformation> {
     @Override
     protected RestTemplate createRestTemplate() throws RequestFailureException {
         RestTemplate t = super.createRestTemplate();
-        //Add the token intercepter.
+        //Add the token interceptor.
         t.setInterceptors(Collections.<ClientHttpRequestInterceptor>singletonList(new TokenRequestInterceptor(token)));
         return t;
     }

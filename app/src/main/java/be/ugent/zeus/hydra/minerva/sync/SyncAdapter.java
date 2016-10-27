@@ -133,6 +133,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         } catch (AuthenticatorActionException e) {
             Log.i(TAG, "Auth exception while syncing.", e);
             syncResult.stats.numAuthExceptions++;
+            //This should not be null, but check it anyway.
             if(request.getAccountBundle() != null) {
                 Intent intent = request.getAccountBundle().getParcelable(AccountManager.KEY_INTENT);
                 SyncErrorNotification.Builder.init(getContext()).authError(intent).build().show();
