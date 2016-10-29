@@ -9,8 +9,8 @@ android {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 209
-        versionName "2.0.2"
+        versionCode 210
+        versionName "2.1.0"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
