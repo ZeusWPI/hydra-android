@@ -53,6 +53,7 @@ public interface Track {
      */
     String getArtworkUrl();
 
+    //Once Java 8 is usable, replace by StringConsumer
     interface UrlConsumer {
         void receive(@Nullable String url) throws IOException;
     }

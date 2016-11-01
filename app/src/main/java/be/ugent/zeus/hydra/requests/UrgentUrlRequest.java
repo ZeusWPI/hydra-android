@@ -18,6 +18,8 @@ import java.net.URL;
 import static be.ugent.zeus.hydra.fragments.preferences.UrgentFragment.PREF_URGENT_USE_LOW_QUALITY;
 
 /**
+ * Request to get the correct URL for the Urgent.fm stream. This class takes the quality settings into account.
+ *
  * @author Niko Strijbol
  */
 public class UrgentUrlRequest implements Request<String> {
