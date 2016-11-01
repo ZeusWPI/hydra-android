@@ -68,4 +68,9 @@
         <item>Student Village</item>
         <item>Kaart</item>
     </string-array>
+
+    <string-array name="resto_spinner">
+        <item>Lijst van resto\'s</item>
+        <item>Map van resto\'s</item>
+    </string-array>
 </resources>

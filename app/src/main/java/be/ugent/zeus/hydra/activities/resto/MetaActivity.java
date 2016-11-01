@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.common.RestoActivity;
 import be.ugent.zeus.hydra.models.resto.RestoMeta;
@@ -12,7 +11,7 @@ import be.ugent.zeus.hydra.recyclerview.adapters.resto.MetaAdapter;
 import be.ugent.zeus.hydra.requests.resto.RestoMetaRequest;
 
 /**
- * Activity that shows a list of sandwiches.
+ * Activity that shows a list of resto's.
  *
  * @author Niko Strijbol
  */
