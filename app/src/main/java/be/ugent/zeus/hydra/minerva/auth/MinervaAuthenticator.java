@@ -11,6 +11,7 @@ import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity
 import be.ugent.zeus.hydra.activities.minerva.AuthActivity;
 import be.ugent.zeus.hydra.minerva.auth.models.BearerToken;
 import be.ugent.zeus.hydra.requests.common.Request;
+import be.ugent.zeus.hydra.requests.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -114,8 +115,8 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
         if(TextUtils.isEmpty(accessToken)) {
             String refreshToken = am.getPassword(account);
             if(refreshToken != null) {  //This should never be null actually.
-                Log.d(TAG, "Got new access code for minerva account.");
                 accessToken = getRefreshAccessToken(account, refreshToken);
+                Log.d(TAG, "Got new access code for minerva account.");
             }
         } else {
             Log.d(TAG, "Used cached access code for minerva account.");
@@ -150,23 +151,28 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
      * @param account The account.
      * @param refreshToken The refresh token.
      * @return The new access token or null on failure.
+     *
+     * @throws NetworkErrorException If the access token could not be retrieved due to network issues.
      */
-    private String getRefreshAccessToken(Account account, String refreshToken) {
+    private String getRefreshAccessToken(Account account, String refreshToken) throws NetworkErrorException {
+
         //Make a request.
         Request<BearerToken> request = AccountUtils.buildRefreshTokenRequest(refreshToken);
 
         try {
             //Execute the request.
             BearerToken token = request.performRequest();
-            if(token.getRefreshToken() != null) {
+            if (token.getRefreshToken() != null) {
                 manager.setPassword(account, token.getRefreshToken());
             }
-
 
             LocalDateTime expiration = LocalDateTime.now().plusSeconds(token.getExpiresIn());
             manager.setUserData(account, EXP_DATE, expiration.format(formatter));
 
             return token.getAccessToken();
+        } catch (IOFailureException e) {
+            Log.w(TAG, "Could not get access token due to network failure.");
+            throw new NetworkErrorException(e);
         } catch (RequestFailureException e) {
             Log.i(TAG, "Getting refresh access token failed.", e);
             return null;

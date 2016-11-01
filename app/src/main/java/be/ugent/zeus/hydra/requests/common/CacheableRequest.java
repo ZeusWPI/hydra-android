@@ -6,6 +6,8 @@ import java.io.Serializable;
  * Cacheable request. This is also the main abstract request for Zeus & DSA API requests. This is a simple cache request
  * that does not do any additional processing of the data.
  *
+ * This class basically enforces that the result is serializable, which is a requirement to cache the data.
+ *
  * @param <T> The type of the result of the request.
  *
  * @author feliciaan

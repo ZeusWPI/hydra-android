@@ -33,6 +33,7 @@ public interface Cache {
      * Special value that indicates this request should not be cached.
      */
     long NEVER = -1;
+    long ALWAYS = -2;
     long ONE_SECOND = 1000;
     long ONE_MINUTE = 60 * ONE_SECOND;
     long ONE_HOUR = 60 * ONE_MINUTE;

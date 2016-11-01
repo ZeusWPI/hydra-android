@@ -40,7 +40,13 @@ public abstract class AbstractAsyncLoader<D> extends AsyncTaskLoader<ThrowableEi
         try {
             return new ThrowableEither<>(getData());
         } catch (LoaderException e) {
-            return new ThrowableEither<>(e);
+            //If there is a cause (which should always be the case), give back the cause,
+            //and not the loader exception.
+            if(e.getCause() != null) {
+                return new ThrowableEither<>(e.getCause());
+            } else {
+                return new ThrowableEither<>(e);
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:tools="http://schemas.android.com/tools"
-    package="be.ugent.zeus.hydra"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest package="be.ugent.zeus.hydra"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Network permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -16,16 +16,16 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
     <!-- Urgent stuff -->
-    <permission android:name="android.permission.WAKE_LOCK"/>
+    <permission android:name="android.permission.WAKE_LOCK" />
     <permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
 
     <application
         android:name=".HydraApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:logo="@drawable/logo"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Hydra.Main.NoActionBar">
 
         <!-- Main activity -->
@@ -34,17 +34,21 @@
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
 
         <!-- Settings -->
         <activity
             android:name=".activities.preferences.SettingsActivity"
             android:label="@string/action_settings"
-            android:theme="@style/Hydra.Main"
-            android:parentActivityName=".activities.Hydra" />
+            android:parentActivityName=".activities.Hydra"
+            android:theme="@style/Hydra.Main" />
 
         <!-- Association select preference activity -->
         <activity
@@ -74,8 +78,8 @@
         <activity
             android:name=".activities.EventDetailActivity"
             android:label="@string/title_activity_association_activity_detail"
-            android:parentActivityName=".activities.Hydra"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.Hydra" />
 
         <!-- Show info items -->
         <activity
@@ -87,9 +91,9 @@
         <activity
             android:name=".activities.SchamperArticleActivity"
             android:label="@string/title_activity_schamper"
+            android:launchMode="singleTop"
             android:parentActivityName=".activities.Hydra"
-            android:theme="@style/Hydra.Main.NoActionBar.SystemWindows"
-            android:launchMode="singleTop" />
+            android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
 
         <!-- Display Schamper images -->
         <activity
@@ -148,30 +152,34 @@
 
         <!-- SKO overview activity -->
         <activity
-            android:launchMode="singleTop"
             android:name=".activities.sko.OverviewActivity"
             android:label="@string/activity_title_sko_overview"
-            android:theme="@style/Hydra.Main.NoActionBar.Sko"
-            android:parentActivityName=".activities.Hydra" />
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.Hydra"
+            android:theme="@style/Hydra.Main.NoActionBar.Sko" />
 
         <!-- SKO preference activity -->
         <activity
             android:name=".activities.sko.PreferenceActivity"
             android:label="@string/activity_title_sko_preferences"
-            android:theme="@style/Hydra.Main.NoActionBar.Sko"
-            android:parentActivityName=".activities.sko.OverviewActivity" />
+            android:parentActivityName=".activities.sko.OverviewActivity"
+            android:theme="@style/Hydra.Main.NoActionBar.Sko" />
 
         <!-- SKO artist page -->
         <activity
             android:name=".activities.sko.ArtistActivity"
             android:label="Artiest"
-            android:theme="@style/Hydra.Main.NoActionBar.Sko.SystemWindows"
-            android:parentActivityName=".activities.sko.OverviewActivity" />
+            android:parentActivityName=".activities.sko.OverviewActivity"
+            android:theme="@style/Hydra.Main.NoActionBar.Sko.SystemWindows" />
 
         <!-- Onboarding activity -->
         <activity
             android:name=".activities.OnboardingActivity"
             android:theme="@style/Theme.Intro" />
+
+        <activity
+            android:name=".activities.ExceptionDialogActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
 
         <!-- Receiver for daily resto notifications -->
         <receiver android:name=".notifications.DailyNotificationReceiver" />
@@ -216,8 +224,9 @@
             android:syncable="true" />
 
         <!-- Urgent stuff -->
-        <service android:name="be.ugent.zeus.hydra.urgent.MusicService" />
-        <receiver android:name="be.ugent.zeus.hydra.urgent.media.MediaButtonEventReceiver">
+        <service android:name=".urgent.MusicService" />
+
+        <receiver android:name=".urgent.media.MediaButtonEventReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
@@ -227,4 +236,5 @@
         </receiver>
 
     </application>
+
 </manifest>

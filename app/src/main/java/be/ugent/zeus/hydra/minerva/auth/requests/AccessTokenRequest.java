@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.minerva.auth.OAuthConfiguration;
 import be.ugent.zeus.hydra.minerva.auth.models.BearerToken;
+import be.ugent.zeus.hydra.requests.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.requests.common.Request;
 import com.google.gson.Gson;
@@ -36,7 +37,9 @@ public abstract class AccessTokenRequest implements Request<BearerToken> {
         try {
             accessTokenResponse = getToken();
             return gson.fromJson(accessTokenResponse.getBody(), BearerToken.class);
-        } catch (OAuthSystemException | OAuthProblemException e) {
+        } catch (OAuthSystemException e) {
+            throw new IOFailureException(e);
+        } catch (OAuthProblemException e) {
             throw new RequestFailureException(e);
         }
     }

@@ -2,10 +2,12 @@ package be.ugent.zeus.hydra.requests.common;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import be.ugent.zeus.hydra.caching.Cache;
 import be.ugent.zeus.hydra.caching.CacheManager;
 import be.ugent.zeus.hydra.caching.CacheableRequest;
+import be.ugent.zeus.hydra.requests.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 
 import java.io.Serializable;
@@ -13,6 +15,9 @@ import java.io.Serializable;
 /**
  * This request uses the {@link CacheManager#defaultCache(Context)} to retrieve data from the encapsulated
  * {@link CacheableRequest}.
+ *
+ * If the devices is offline or there is a network error while reading new data, the cached data is returned if at
+ * all possible.
  *
  * After data retrieval, the data is transformed using {@link #transform(Serializable)}. The result of the
  * transformation is returned as final data from the request.
@@ -26,6 +31,8 @@ import java.io.Serializable;
  * @author Niko Strijbol
  */
 public abstract class ProcessableCacheRequest<D extends Serializable, R> implements Request<R> {
+
+    private static final String TAG = "ProcCacheRequest";
 
     protected final Context context;
     private final CacheableRequest<D> cacheableRequest;
@@ -60,11 +67,16 @@ public abstract class ProcessableCacheRequest<D extends Serializable, R> impleme
         Cache cache = CacheManager.defaultCache(context);
         D data;
 
-        if(shouldRefresh) {
-            data = cache.get(cacheableRequest, Cache.NEVER);
-            shouldRefresh = false;
-        } else {
-            data = cache.get(cacheableRequest);
+        try {
+            if (shouldRefresh) {
+                data = cache.get(cacheableRequest, Cache.NEVER);
+                shouldRefresh = false;
+            } else {
+                data = cache.get(cacheableRequest);
+            }
+        } catch (IOFailureException e) {
+            Log.i(TAG, "Network error, trying again...", e);
+            data = cache.get(cacheableRequest, Cache.ALWAYS);
         }
 
         return transform(data);

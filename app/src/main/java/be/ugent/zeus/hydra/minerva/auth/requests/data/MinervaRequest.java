@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.requests.minerva;
+package be.ugent.zeus.hydra.minerva.auth.requests.data;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -10,19 +10,26 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
+import be.ugent.zeus.hydra.minerva.auth.AuthenticatorActionException;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
+import be.ugent.zeus.hydra.minerva.auth.requests.TokenRequestInterceptor;
+import be.ugent.zeus.hydra.requests.common.JsonSpringRequest;
+import be.ugent.zeus.hydra.requests.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.requests.exceptions.TokenException;
-import be.ugent.zeus.hydra.requests.common.TokenRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
+import java.util.Collections;
 
 /**
  * Execute a request with a Minerva account.
  *
  * @author Niko Strijbol
  */
-public abstract class MinervaRequest<T> extends TokenRequest<T> {
+public abstract class MinervaRequest<T> extends JsonSpringRequest<T> {
 
     private static final String TAG = "MinervaRequest";
 
@@ -44,7 +51,7 @@ public abstract class MinervaRequest<T> extends TokenRequest<T> {
      * @param activity The activity to use for the account. If this is not null, the AccountManager may interact with
      *                 the user. If doing the request in the background, pass null.
      */
-    public MinervaRequest(Class<T> clazz, Context context, @Nullable Account account, @Nullable Activity activity) {
+    public MinervaRequest(Class<T> clazz, Context context, Account account, @Nullable Activity activity) {
         super(clazz);
         this.context = context;
         this.activity = activity;
@@ -63,8 +70,17 @@ public abstract class MinervaRequest<T> extends TokenRequest<T> {
     @NonNull
     @Override
     public T performRequest() throws RequestFailureException {
+        //Try the request one time.
         try {
             return super.performRequest();
+        } catch (AuthenticatorActionException e) {
+            Log.i(TAG, "User action is required.");
+            //In this case we need user interaction, so we must not try again.
+            throw e;
+        } catch (IOFailureException e) {
+            Log.i(TAG, "Network failure.");
+            //The network failed, don't try again.
+            throw e;
         } catch (RequestFailureException e) {
             Log.i(TAG, "Request failed", e);
 
@@ -74,43 +90,59 @@ public abstract class MinervaRequest<T> extends TokenRequest<T> {
                 HttpServerErrorException error = (HttpServerErrorException) e.getCause();
                 if(error.getStatusCode().equals(HttpStatus.SERVICE_UNAVAILABLE)) {
                     try {
-                        Log.d("MinervaRequest", "Error while accessing stuff", e);
+                        Log.d("MinervaRequest", "Invalid token while accessing stuff", e);
                         //Invalidate auth token and try again.
                         AccountManager m = AccountManager.get(context);
                         m.invalidateAuthToken(MinervaConfig.ACCOUNT_TYPE, getToken());
                         return performRequest();
-                    } catch (TokenException e1) {
-                        throw new RequestFailureException(e1);
                     } finally {
                         first = false;
                     }
-                } else { //It was something else, like servers that don't work.
+                } else {
+                    //It was something else, like servers that don't work.
                     throw e;
                 }
             } else {
-                //It was something else, like the refresh token being expired.
-                //In any case, the Bundle from the account manager has been set in this class.
                 throw e;
             }
         }
     }
 
-    @Override
-    protected String getToken() throws TokenException {
+    @NonNull
+    private String getToken() throws RequestFailureException {
 
-        if(account == null) {
-            accountBundle = AccountUtils.syncAuthCode(context);
-        } else {
+        //First we get the token to add to this request.
+        try {
             accountBundle = AccountUtils.syncAuthCode(context, account);
+        } catch (IOException e) {
+            throw new IOFailureException(e);
         }
 
-        if(accountBundle == null || accountBundle.containsKey(AccountManager.KEY_INTENT)) {
-            throw new TokenException();
-        } else {
+        if(accountBundle == null) {
+            throw new RequestFailureException("The account not be read.");
+        }
+
+        //If the bundle contains an intent, we throw an error.
+        if (accountBundle.containsKey(AccountManager.KEY_INTENT)) {
+            throw new AuthenticatorActionException();
+        } else { //Otherwise we can proceed.
             return accountBundle.getString(AccountManager.KEY_AUTHTOKEN);
         }
     }
 
+    @Override
+    protected RestTemplate createRestTemplate() throws RequestFailureException {
+        RestTemplate t = super.createRestTemplate();
+        t.setInterceptors(Collections.<ClientHttpRequestInterceptor>singletonList(new TokenRequestInterceptor(getToken())));
+        return t;
+    }
+
+    /**
+     * Get the account bundle. This will be set if the AccountManager determined interaction with the user is
+     * needed. If the request completed successfully, this will be null.
+     *
+     * @return The account bundle on failure, or null on success.
+     */
     @Nullable
     public Bundle getAccountBundle() {
         return accountBundle;
