@@ -5,6 +5,7 @@ apply plugin: 'com.cookpad.android.licensetools'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
+
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
@@ -12,7 +13,15 @@ android {
         versionCode 210
         versionName "2.1.0"
         vectorDrawables.useSupportLibrary = true
+
+        //Load the API keys from the file "secrets.properties".
+        def Properties props = new Properties()
+        props.load(new FileInputStream(file('secrets.properties')))
+        buildConfigField "String", "OAUTH_ID", "\"" + props['OAUTH_ID'] + "\""
+        buildConfigField "String", "OAUTH_SECRET", "\"" + props['OAUTH_SECRET'] + "\""
+        manifestPlaceholders = [ google_maps_key: props['MAPS_API_KEY'] ]
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -23,13 +32,8 @@ android {
             // Set this to false on release versions!
             debuggable true
         }
-        applicationVariants.all { variant ->
-            def Properties props = new Properties()
-            props.load(new FileInputStream(file('secrets.properties')))
-            variant.buildConfigField "String", "OAUTH_ID", "\""+props['OAUTH_ID']+"\""
-            variant.buildConfigField "String", "OAUTH_SECRET", "\""+props['OAUTH_SECRET']+"\""
-        }
     }
+
     packagingOptions {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/LICENSE'
@@ -89,6 +93,7 @@ dependencies {
     releaseCompile 'com.google.firebase:firebase-crash:9.8.0'
     compile 'com.google.firebase:firebase-messaging:9.8.0'
     compile 'com.google.firebase:firebase-config:9.8.0'
+    compile 'com.google.android.gms:play-services-maps:9.8.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
