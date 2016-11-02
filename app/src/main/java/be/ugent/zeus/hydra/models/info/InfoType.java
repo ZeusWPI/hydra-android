@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
 import be.ugent.zeus.hydra.activities.WebViewActivity;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 
 /**
@@ -27,7 +28,7 @@ public enum InfoType {
     EXTERNAL_LINK(R.drawable.ic_open_in_browser) {
         @Override
         public void doOnClick(Context context, InfoItem infoItem) {
-            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(infoItem.getUrl())));
+            NetworkUtils.maybeLaunchBrowser(context, infoItem.getUrl());
         }
     },
 
@@ -45,7 +46,7 @@ public enum InfoType {
             try {
                 context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE + androidUrl)));
             } catch (ActivityNotFoundException e) {
-                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_URL + androidUrl)));
+                NetworkUtils.maybeLaunchBrowser(context, PLAY_URL + androidUrl);
             }
         }
     },

@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.activities.sko;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -14,12 +13,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.fragments.preferences.SkoFragment;
 import be.ugent.zeus.hydra.notifications.FirebaseMessageService;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.viewpager.SkoPagerAdapter;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -88,7 +87,7 @@ public class OverviewActivity extends ToolbarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sko_visit_website:
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SKO_WEBSITE)));
+                NetworkUtils.maybeLaunchBrowser(this, SKO_WEBSITE);
                 return true;
             case R.id.action_settings:
                 startActivity(new Intent(this, PreferenceActivity.class));

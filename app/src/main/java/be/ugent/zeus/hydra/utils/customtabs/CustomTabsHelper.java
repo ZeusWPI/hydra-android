@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsService;
 import android.text.TextUtils;
 import android.util.Log;
@@ -142,7 +143,7 @@ public class CustomTabsHelper {
      *
      * @return The helper.
      */
-    public static ActivityHelper initHelper(Activity activity, ActivityHelper.ConnectionCallback callback) {
+    public static ActivityHelper initHelper(Activity activity, @Nullable ActivityHelper.ConnectionCallback callback) {
         return initHelper(activity, true, callback);
     }
 
@@ -157,8 +158,8 @@ public class CustomTabsHelper {
      *
      * @return The helper.
      */
-    public static ActivityHelper initHelper(Activity activity, boolean nativeApp, ActivityHelper.ConnectionCallback callback) {
-        if(hasSupport(activity) && false) {
+    public static ActivityHelper initHelper(Activity activity, boolean nativeApp, @Nullable ActivityHelper.ConnectionCallback callback) {
+        if(hasSupport(activity)) {
             return new HasTabActivityHelper(activity, nativeApp, callback);
         } else {
             return new NoTabActivityHelper(activity, callback);
