@@ -11,12 +11,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.association.Event;
-import be.ugent.zeus.hydra.utils.html.Utils;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -34,7 +33,7 @@ public class EventDetailActivity extends ToolbarActivity {
 
     private static final DateTimeFormatter formatHour = DateTimeFormatter.ofPattern("HH:mm");
     private static final DateTimeFormatter fullFormatter = DateTimeFormatter.ofPattern("E d MMM H:mm");
-    private static final String GENT = "51.3,3.44";
+    private static final String GENT = "51.05,3.72";
 
     //The data
     private Event event;
@@ -104,8 +103,7 @@ public class EventDetailActivity extends ToolbarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.event_link:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.getUrl()));
-                startActivity(browserIntent);
+                NetworkUtils.maybeLaunchBrowser(this, event.getUrl());
                 return true;
             case R.id.event_location:
                 startActivity(getLocationIntent());

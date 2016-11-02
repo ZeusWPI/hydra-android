@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.resto.common.RestoWebsiteActivity;
 import be.ugent.zeus.hydra.models.resto.Sandwich;
 import be.ugent.zeus.hydra.models.resto.Sandwiches;
 import be.ugent.zeus.hydra.recyclerview.adapters.resto.SandwichAdapter;
@@ -21,7 +19,7 @@ import java.util.Comparator;
  *
  * @author Niko Strijbol
  */
-public class SandwichActivity extends RestoWebsiteActivity<Sandwiches> {
+public class SandwichActivity extends RestoActivity<Sandwiches> {
 
     private static final String URL = "http://www.ugent.be/student/nl/meer-dan-studeren/resto/broodjes/overzicht.htm";
 

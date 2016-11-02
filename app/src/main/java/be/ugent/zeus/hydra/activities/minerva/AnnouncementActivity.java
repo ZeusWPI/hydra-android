@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.activities.minerva;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
@@ -10,13 +9,13 @@ import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.utils.html.Utils;
 import org.threeten.bp.ZonedDateTime;
@@ -78,7 +77,7 @@ public class AnnouncementActivity extends ToolbarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.minerva_announcement_link:
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getOnlineUrl())));
+                NetworkUtils.maybeLaunchBrowser(this, getOnlineUrl());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

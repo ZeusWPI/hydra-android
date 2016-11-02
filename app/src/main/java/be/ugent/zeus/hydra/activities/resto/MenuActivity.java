@@ -6,10 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.resto.common.RestoWebsiteActivity;
 import be.ugent.zeus.hydra.loaders.LoaderCallbackHandler;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
@@ -24,7 +22,7 @@ import java.util.Collections;
  *
  * @author Niko Strijbol
  */
-public class MenuActivity extends RestoWebsiteActivity<RestoOverview> implements LoaderCallbackHandler.ResetListener {
+public class MenuActivity extends RestoActivity<RestoOverview> implements LoaderCallbackHandler.ResetListener {
 
     public static final String ARG_DATE = "start_date";
 

@@ -19,6 +19,13 @@
     <permission android:name="android.permission.WAKE_LOCK" />
     <permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
 
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality. 
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:name=".HydraApplication"
         android:allowBackup="true"
@@ -68,10 +75,15 @@
             android:label="@string/resto_sandwich"
             android:parentActivityName=".activities.Hydra" />
 
-        <!-- Resto locations overview -->
+        <!-- The Maps API key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${google_maps_key}" />
+
+        <!-- Show a map of resto's -->
         <activity
-            android:name=".activities.resto.MetaActivity"
-            android:label="@string/resto_resto"
+            android:name=".activities.resto.RestoLocationActivity"
+            android:label="@string/title_activity_resto_location"
             android:parentActivityName=".activities.Hydra" />
 
         <!-- Details about association events. -->
@@ -176,7 +188,6 @@
         <activity
             android:name=".activities.OnboardingActivity"
             android:theme="@style/Theme.Intro" />
-
         <activity
             android:name=".activities.ExceptionDialogActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />

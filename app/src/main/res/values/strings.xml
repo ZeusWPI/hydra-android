@@ -166,5 +166,9 @@
     <string name="shortcut_minerva_short_label">Minerva</string>
     <string name="shortcut_minerva_long_label">Bekijk Minerva-dingen</string>
     <string name="shortcut_minerva_disabled">Uitgeschakeld</string>
+    <string name="title_activity_resto_location">Resto\'s</string>
+    <string name="action_center">Ga naar resto\'s</string>
+
+    <string name="error_no_activity">Niets gevonden om dit te openen!</string>
 
 </resources>

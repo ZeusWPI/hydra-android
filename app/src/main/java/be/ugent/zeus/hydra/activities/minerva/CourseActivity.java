@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.activities.minerva;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -10,10 +9,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.viewpager.MinervaCoursePagerAdapter;
 
 /**
@@ -58,7 +57,7 @@ public class CourseActivity extends ToolbarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.minerva_course_link:
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getOnlineUrl())));
+                NetworkUtils.maybeLaunchBrowser(this, getOnlineUrl());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

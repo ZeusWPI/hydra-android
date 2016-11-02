@@ -1,18 +1,15 @@
 package be.ugent.zeus.hydra.fragments.minerva;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.html.Utils;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
@@ -77,8 +74,7 @@ public class CourseInfoFragment extends Fragment {
             courseFiche.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("CourseInfoFragment",  "Going to url: " + url);
-                    view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                    NetworkUtils.maybeLaunchBrowser(view.getContext(), url);
                 }
             });
         }

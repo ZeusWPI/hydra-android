@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.models.specialevent;
 
+import android.content.Intent;
+import android.net.Uri;
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -8,7 +10,10 @@ import org.threeten.bp.ZonedDateTime;
 import java.io.Serializable;
 
 /**
- * Created by feliciaan on 06/04/16.
+ * Model for special events.
+ *
+ * @author Niko Strijbol
+ * @author feliciaan
  */
 @SuppressWarnings("unused")
 public class SpecialEvent implements Serializable {
@@ -26,7 +31,19 @@ public class SpecialEvent implements Serializable {
     private ZonedDateTime end;
     private boolean development;
 
-    private boolean sko = false;
+    private Intent viewIntent;
+
+    public void setViewIntent(Intent intent) {
+        this.viewIntent = intent;
+    }
+
+    public Intent getViewIntent() {
+        if(viewIntent == null) {
+            return new Intent(Intent.ACTION_VIEW, Uri.parse(getLink()));
+        } else {
+            return viewIntent;
+        }
+    }
 
     public String getName() {
         return name;
@@ -78,13 +95,5 @@ public class SpecialEvent implements Serializable {
 
     public boolean isDevelopment() {
         return development;
-    }
-
-    public boolean isSko() {
-        return sko;
-    }
-
-    public void setSko(boolean sko) {
-        this.sko = sko;
     }
 }

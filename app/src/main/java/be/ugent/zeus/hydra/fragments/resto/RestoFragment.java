@@ -12,10 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.MenuActivity;
-import be.ugent.zeus.hydra.activities.resto.MetaActivity;
+import be.ugent.zeus.hydra.activities.resto.RestoLocationActivity;
 import be.ugent.zeus.hydra.activities.resto.SandwichActivity;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
 import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
@@ -63,14 +62,14 @@ public class RestoFragment extends LoaderFragment<ArrayList<RestoMenu>> {
         viewSandwich.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), SandwichActivity.class));
+                startActivity(new Intent(getContext(), SandwichActivity.class));
             }
         });
 
         viewResto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MetaActivity.class));
+                startActivity(new Intent(getContext(), RestoLocationActivity.class));
             }
         });
 
@@ -79,7 +78,7 @@ public class RestoFragment extends LoaderFragment<ArrayList<RestoMenu>> {
         view.findViewById(R.id.menu_today_card).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MenuActivity.class));
+                startActivity(new Intent(getContext(), MenuActivity.class));
             }
         });
     }

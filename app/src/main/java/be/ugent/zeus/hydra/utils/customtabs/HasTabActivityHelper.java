@@ -46,7 +46,7 @@ class HasTabActivityHelper implements ActivityHelper {
     /**
      * Package local constructor.
      */
-    HasTabActivityHelper(Activity activity, boolean nativeApp, ConnectionCallback connectionCallback) {
+    HasTabActivityHelper(Activity activity, boolean nativeApp, @Nullable ConnectionCallback connectionCallback) {
         this.activity = activity;
         this.connectionCallback = connectionCallback;
         this.nativeApp = nativeApp;

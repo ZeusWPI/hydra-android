@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsCallback;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 import java.util.List;
 
@@ -22,9 +23,11 @@ class NoTabActivityHelper implements ActivityHelper {
     /**
      * Package local constructor.
      */
-    NoTabActivityHelper(Activity activity, ConnectionCallback connectionCallback) {
+    NoTabActivityHelper(Activity activity, @Nullable ConnectionCallback connectionCallback) {
         this.activity = activity;
-        connectionCallback.onCustomTabsConnected(this);
+        if(connectionCallback != null) {
+            connectionCallback.onCustomTabsConnected(this);
+        }
     }
 
     @Override
@@ -44,7 +47,7 @@ class NoTabActivityHelper implements ActivityHelper {
     public void openCustomTab(Uri uri) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
         browserIntent.setFlags(this.intentFlags);
-        activity.startActivity(browserIntent);
+        NetworkUtils.maybeLaunchIntent(activity, browserIntent);
     }
 
     @Override

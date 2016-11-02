@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
@@ -15,13 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
 import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.recyclerview.adapters.SchamperImageAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.StringUtils;
 import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.utils.html.Utils;
@@ -140,7 +139,7 @@ public class SchamperArticleActivity extends ToolbarActivity {
                 return true;
             //Open in browser
             case R.id.schamper_browser:
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(article.getLink())));
+                NetworkUtils.maybeLaunchBrowser(this, article.getLink());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

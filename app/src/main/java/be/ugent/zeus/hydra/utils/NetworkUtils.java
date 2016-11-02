@@ -1,8 +1,14 @@
 package be.ugent.zeus.hydra.utils;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.util.Log;
+import android.widget.Toast;
+import be.ugent.zeus.hydra.R;
 
 /**
  * Utilities related to network things.
@@ -10,6 +16,8 @@ import android.net.NetworkInfo;
  * @author Niko Strijbol
  */
 public class NetworkUtils {
+
+    private static final String TAG = "NetworkUtils";
 
     /**
      * Check if the device is connected to the internet.
@@ -37,5 +45,18 @@ public class NetworkUtils {
     public static boolean isMeteredConnection(Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return manager.isActiveNetworkMetered();
+    }
+
+    public static void maybeLaunchBrowser(Context context, String url) {
+        maybeLaunchIntent(context, new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+    }
+
+    public static void maybeLaunchIntent(Context context, Intent intent) {
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Log.w(TAG, "Launching intent failed.", e);
+            Toast.makeText(context, R.string.error_no_activity, Toast.LENGTH_LONG).show();
+        }
     }
 }

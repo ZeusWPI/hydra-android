@@ -1,11 +1,13 @@
 package be.ugent.zeus.hydra.requests;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.sko.OverviewActivity;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvents;
@@ -74,8 +76,8 @@ public class SpecialRemoteEventRequest extends ProcessableCacheRequest<SpecialEv
             event.setName("Student Kick-Off");
             event.setSimpleText("Ga naar de info voor de Student Kick-Off");
             event.setImage("http://blog.studentkickoff.be/wp-content/uploads/2016/07/logo.png");
-            event.setSko(true);
             event.setPriority(1010);
+            event.setViewIntent(new Intent(context, OverviewActivity.class));
             //Add to the front.
             wrapper.getSpecialEvents().add(0, event);
         } else {
