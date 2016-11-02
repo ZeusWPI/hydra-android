@@ -70,7 +70,7 @@ public class SpecialRemoteEventRequest extends ProcessableCacheRequest<SpecialEv
             Log.w(TAG, "Error while getting remote config.", e);
         }
 
-        //if(config.getBoolean(REMOTE_SKO_KEY)) {
+        if(config.getBoolean(REMOTE_SKO_KEY)) {
             Log.d(TAG, "Adding SKO card.");
             SpecialEvent event = new SpecialEvent();
             event.setName("Student Kick-Off");
@@ -80,9 +80,9 @@ public class SpecialRemoteEventRequest extends ProcessableCacheRequest<SpecialEv
             event.setViewIntent(new Intent(context, OverviewActivity.class));
             //Add to the front.
             wrapper.getSpecialEvents().add(0, event);
-      //  } else {
-      //      Log.d(TAG, "Not adding SKO card.");
-      //  }
+        } else {
+            Log.d(TAG, "Not adding SKO card.");
+        }
 
         //If the error is set, and the wrapper is empty, we propagate the error.
         //If it is not empty, we return it, since the special event is present.
