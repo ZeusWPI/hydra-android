@@ -1,15 +1,13 @@
 package be.ugent.zeus.hydra.fragments.urgent;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.os.AsyncTask;
 import android.util.Log;
-
-import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.requests.UrgentUrlRequest;
+import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.urgent.track.Track;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
 
-import static be.ugent.zeus.hydra.fragments.preferences.UrgentFragment.PREF_URGENT_USE_LOW_QUALITY;
+import java.io.IOException;
 
 /**
  * @author Niko Strijbol
@@ -19,8 +17,6 @@ public class UrgentTrack implements Track {
     private static final String TAG = "UrgentTrack";
     private static final int URGENT_ID = 1;
     private static final String ARTWORK_URL = "http://urgent.fm/sites/all/themes/urgentfm/images/logo.jpg";
-    private static final String MUSIC_URL_HIGH = "http://195.10.10.222/urgent/high.mp3";
-    private static final String MUSIC_URL_LOW = "http://195.10.10.222/urgent/low.mp3";
 
     private final Context context;
 
@@ -44,15 +40,28 @@ public class UrgentTrack implements Track {
     }
 
     @Override
-    public String getUrl() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if(preferences.getBoolean(PREF_URGENT_USE_LOW_QUALITY, true) && NetworkUtils.isMeteredConnection(context)) {
-            Log.d(TAG, "Using low quality track.");
-            return MUSIC_URL_LOW;
-        } else {
-            Log.d(TAG, "Using high quality track.");
-            return MUSIC_URL_HIGH;
-        }
+    public void getUrl(final UrlConsumer consumer) {
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... voids) {
+                try {
+                    return new UrgentUrlRequest(context).performRequest();
+                } catch (RequestFailureException e) {
+                    Log.w(TAG, "Error while getting url: ", e);
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                try {
+                    consumer.receive(s);
+                } catch (IOException e) {
+                    Log.w(TAG, "Error while doing URL", e);
+                }
+            }
+        }.execute();
     }
 
     @Override

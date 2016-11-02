@@ -16,6 +16,10 @@
  */
 package be.ugent.zeus.hydra.urgent.track;
 
+import android.support.annotation.Nullable;
+
+import java.io.IOException;
+
 /**
  * A track to play.
  *
@@ -42,10 +46,15 @@ public interface Track {
     /**
      * @return The URL of the track.
      */
-    String getUrl();
+    void getUrl(UrlConsumer consumer);
 
     /**
      * @return The URL of the album track. If null, the defaults will be used.
      */
     String getArtworkUrl();
+
+    //Once Java 8 is usable, replace by StringConsumer
+    interface UrlConsumer {
+        void receive(@Nullable String url) throws IOException;
+    }
 }

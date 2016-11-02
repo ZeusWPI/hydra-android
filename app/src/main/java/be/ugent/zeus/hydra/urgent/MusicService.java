@@ -34,7 +34,6 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
-
 import be.ugent.zeus.hydra.Manifest;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.urgent.media.MediaAction;
@@ -273,30 +272,40 @@ public class MusicService extends Service implements
         }
 
         if (getCurrentState() == MediaState.IDLE) {
+
             if (track == null) {
                 return; //nothing to play
             }
-            if (hasPermission(Manifest.permission.WAKE_LOCK)) {
-                if (!wifiLock.isHeld()) {
-                    wifiLock.acquire();
-                }
 
-                mediaPlayer.setDataSource(track.getUrl());
-                state = MediaState.INITIALIZED;
-                mediaPlayer.prepareAsync();
-                state = MediaState.PREPARING;
-                if(callbacks != null) {
-                    callbacks.onLoading();
+            track.getUrl(new Track.UrlConsumer() {
+                @Override
+                public void receive(@Nullable String url) throws IOException {
+                    if (url == null) {
+                        return; //nothing to play
+                    }
+                    if (hasPermission(Manifest.permission.WAKE_LOCK)) {
+                        if (!wifiLock.isHeld()) {
+                            wifiLock.acquire();
+                        }
+
+                        mediaPlayer.setDataSource(url);
+                        state = MediaState.INITIALIZED;
+                        mediaPlayer.prepareAsync();
+                        state = MediaState.PREPARING;
+                        if(callbacks != null) {
+                            callbacks.onLoading();
+                        }
+                    } else {
+                        Log.e(TAG, "need permission " + Manifest.permission.WAKE_LOCK);
+                        if (callbacks != null) {
+                            callbacks.onPermissionRequired(
+                                    REQUEST_PERMISSION_WAKE_LOCK,
+                                    Manifest.permission.WAKE_LOCK,
+                                    getString(R.string.urgent_wifi_lock_description));
+                        }
+                    }
                 }
-            } else {
-                Log.e(TAG, "need permission " + Manifest.permission.WAKE_LOCK);
-                if (callbacks != null) {
-                    callbacks.onPermissionRequired(
-                            REQUEST_PERMISSION_WAKE_LOCK,
-                            Manifest.permission.WAKE_LOCK,
-                            getString(R.string.urgent_wifi_lock_description));
-                }
-            }
+            });
         }
     }
 
