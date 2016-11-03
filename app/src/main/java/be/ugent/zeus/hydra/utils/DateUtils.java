@@ -1,12 +1,14 @@
 package be.ugent.zeus.hydra.utils;
 
 import android.content.Context;
-
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import org.threeten.bp.*;
+import org.threeten.bp.chrono.Chronology;
 import org.threeten.bp.format.DateTimeFormatter;
+import org.threeten.bp.format.DateTimeFormatterBuilder;
+import org.threeten.bp.format.FormatStyle;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 /**
@@ -18,18 +20,25 @@ public class DateUtils {
 
     private static Locale locale = new Locale("nl");
     private static DateTimeFormatter WEEK_FORMATTER = DateTimeFormatter.ofPattern("w", locale);
-    private static DateTimeFormatter DAY_FORMATTER = DateTimeFormatter.ofPattern("cccc", locale);
-    private static DateFormat DATE_FORMATTER = SimpleDateFormat.getDateInstance(DateFormat.DEFAULT, locale);
+
+    //Package private formatters for test.
+    @VisibleForTesting
+    static DateTimeFormatter DAY_FORMATTER = DateTimeFormatter.ofPattern("cccc", locale);
+    @VisibleForTesting
+    static DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale);
 
     /**
      * Get the date in friendly format.
      */
-    public static String getFriendlyDate(LocalDate date) {
+    public static String getFriendlyDate(@NonNull LocalDate date) {
         LocalDate today = LocalDate.now();
 
         int thisWeek = Integer.parseInt(today.format(WEEK_FORMATTER));
         int week = Integer.parseInt(date.format(WEEK_FORMATTER));
         int daysBetween = Period.between(today, date).getDays();
+
+        DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale);
+        DateTimeFormatterBuilder.getLocalizedDateTimePattern(FormatStyle.MEDIUM, FormatStyle.MEDIUM, Chronology.ofLocale(locale), locale);
 
         if (daysBetween == 0) {
             return "vandaag";
@@ -38,18 +47,14 @@ public class DateUtils {
         } else if (daysBetween == 2) {
             return "overmorgen";
         } else if (daysBetween < 0) {
-            return DATE_FORMATTER.format(DateTimeUtils.toDate(date.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        } else if (daysBetween <= 7) {
+            return DATE_FORMATTER.format(date);
+        } else if (daysBetween < 7) {
             return DAY_FORMATTER.format(date).toLowerCase();
         } else if (week == thisWeek + 1) {
             return "volgende " + DAY_FORMATTER.format(date).toLowerCase();
         } else {
-            return DATE_FORMATTER.format(DateTimeUtils.toDate(date.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            return DATE_FORMATTER.format(date);
         }
-    }
-
-    public static boolean isThisWeek(LocalDate date) {
-        return Period.between(LocalDate.now(), date).getDays() <= 7;
     }
 
     /**

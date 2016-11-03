@@ -2,6 +2,8 @@ package be.ugent.zeus.hydra.models.specialevent;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -33,10 +35,21 @@ public class SpecialEvent implements Serializable {
 
     private Intent viewIntent;
 
-    public void setViewIntent(Intent intent) {
+    /**
+     * Set the viewing intent. Passing null will cause the default intent to be used.
+     * @param intent The intent or null for the default.
+     */
+    public void setViewIntent(@Nullable Intent intent) {
         this.viewIntent = intent;
     }
 
+    /**
+     * Get the intent to view this event. This places the responsibility on the event. By default, the browser is
+     * opened, but a custom intent can be set.
+     *
+     * @return The intent.
+     */
+    @NonNull
     public Intent getViewIntent() {
         if(viewIntent == null) {
             return new Intent(Intent.ACTION_VIEW, Uri.parse(getLink()));

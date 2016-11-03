@@ -94,6 +94,15 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:9.8.0'
     compile 'com.google.firebase:firebase-config:9.8.0'
     compile 'com.google.android.gms:play-services-maps:9.8.0'
+
+    //Test code
+    testCompile 'junit:junit:4.12'
+    testCompile "org.mockito:mockito-core:2.2.9"
+
+    //Enable the normal library for unit tests
+    testCompile ('org.threeten:threetenbp:1.3.2'){
+        exclude group:'com.jakewharton.threetenabp', module:'threetenabp'
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'
