@@ -39,6 +39,10 @@ public class Announcement implements Serializable, Parcelable {
         this.read = read;
     }
 
+    public ZonedDateTime getRead() {
+        return read;
+    }
+
     public String getTitle() {
         return title;
     }

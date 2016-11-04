@@ -144,7 +144,7 @@ public class AnnouncementDao extends Dao {
         values.put(AnnouncementTable.COLUMN_STICKY_UNTIL, 0);
         values.put(AnnouncementTable.COLUMN_LECTURER, a.getLecturer());
         values.put(AnnouncementTable.COLUMN_DATE, TtbUtils.serialize(a.getDate()));
-        values.put(AnnouncementTable.COLUMN_READ_DATE, a.isRead() ? TtbUtils.serialize(a.getDate()) : -1);
+        values.put(AnnouncementTable.COLUMN_READ_DATE, TtbUtils.serialize(a.getRead()));
 
         return values;
     }
