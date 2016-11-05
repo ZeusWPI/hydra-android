@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
@@ -44,9 +45,13 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
     }
 
     @Override
-    public void onDataUpdated(List<HomeCard> data, DiffUtil.DiffResult update) {
+    public void onDataUpdated(List<HomeCard> data, @Nullable DiffUtil.DiffResult update) {
         this.cardItems = data;
-        update.dispatchUpdatesTo(this);
+        if(update != null) {
+            update.dispatchUpdatesTo(this);
+        } else {
+            notifyDataSetChanged();
+        }
     }
 
     @Override

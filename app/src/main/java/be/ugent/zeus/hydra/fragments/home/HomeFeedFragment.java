@@ -8,14 +8,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.preference.PreferenceManager;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
 import android.view.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
-import be.ugent.zeus.hydra.fragments.home.loader.HomeDiffCallback;
 import be.ugent.zeus.hydra.fragments.home.loader.HomeFeedLoader;
 import be.ugent.zeus.hydra.fragments.home.loader.HomeFeedLoaderCallback;
 import be.ugent.zeus.hydra.fragments.home.requests.*;
@@ -54,6 +52,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private HomeCardAdapter adapter;
+    private RecyclerView recyclerView;
     private Snackbar snackbar;
 
     private boolean wasCached = true;
@@ -73,7 +72,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = $(view, R.id.home_cards_view);
+        recyclerView = $(view, R.id.home_cards_view);
         recyclerView.setHasFixedSize(true);
         swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
@@ -140,6 +139,9 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
         //Do nothing
         Log.i(TAG, "Added card type: " + cardType);
         wasCached = false;
+        if(!shouldRefresh) {
+            recyclerView.scrollToPosition(0);
+        }
     }
 
     @Override
@@ -208,11 +210,9 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
                 onPartialError(error);
             }
 
-            final List<HomeCard> newData = new ArrayList<>(data.second);
-            final List<HomeCard> oldData = adapter.getCurrentList();
-            final DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new HomeDiffCallback(oldData, newData), false);
-            adapter.onDataUpdated(newData, diff);
+            adapter.onDataUpdated(new ArrayList<>(data.second), null);
         }
+        shouldRefresh = false;
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -251,6 +251,5 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     public void onRefresh() {
         shouldRefresh = true;
         restartLoader();
-        shouldRefresh = false;
     }
 }
