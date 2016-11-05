@@ -2,8 +2,10 @@ package be.ugent.zeus.hydra.activities.minerva;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -11,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.viewpager.MinervaCoursePagerAdapter;
@@ -72,8 +75,12 @@ public class CourseActivity extends ToolbarActivity {
     }
 
     private String getOnlineUrl() {
-        //TODO: use preferences
-        return String.format(ONLINE_URL_DESKTOP, course.getId());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(preferences.getBoolean(MinervaFragment.PREF_USE_MOBILE_URL, false)) {
+            return String.format(ONLINE_URL_MOBILE, course.getId());
+        } else {
+            return String.format(ONLINE_URL_DESKTOP, course.getId());
+        }
     }
 
     public static void start(Context context, Course course) {

@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
@@ -108,15 +107,12 @@ public class CourseAnnouncementFragment extends LoaderFragment<List<Announcement
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == AnnouncementActivity.RESULT_ANNOUNCEMENT && resultCode == Activity.RESULT_OK) {
-            if(data.getBooleanExtra(AnnouncementActivity.RESULT_ARG_ANNOUNCEMENT_READ, false)) {
-                int id = data.getIntExtra(AnnouncementActivity.RESULT_ARG_ANNOUNCEMENT_ID, 0);
-                //Get the item
-                int pos = unreadAdapter.positionOf(id);
-                Announcement a = unreadAdapter.get(pos);
-                unreadAdapter.remove(pos);
-                readAdapter.add(a);
-                Snackbar.make(getView(), "Als gelezen gemarkeerd.", Snackbar.LENGTH_SHORT).show();
-            }
+            int id = data.getIntExtra(AnnouncementActivity.RESULT_ARG_ANNOUNCEMENT_ID, 0);
+            int pos = unreadAdapter.positionOf(id);
+            Announcement a = unreadAdapter.get(pos);
+            unreadAdapter.remove(pos);
+            readAdapter.add(a);
+            Snackbar.make(getView(), "Als gelezen gemarkeerd.", Snackbar.LENGTH_SHORT).show();
         }
     }
 

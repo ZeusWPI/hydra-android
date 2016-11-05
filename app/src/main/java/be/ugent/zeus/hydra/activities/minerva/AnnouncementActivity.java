@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.activities.minerva;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
@@ -37,8 +37,6 @@ public class AnnouncementActivity extends ToolbarActivity {
 
     private Announcement announcement;
     private AnnouncementDao dao;
-    private boolean read = false;
-    private boolean resultSet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,37 +98,26 @@ public class AnnouncementActivity extends ToolbarActivity {
         }
     }
 
+
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         //Set the read date if needed
         if(!announcement.isRead()) {
-            read = true;
             announcement.setRead(ZonedDateTime.now());
-        }
-        setResult();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        //Save the things
-        if(read) {
-            dao.update(announcement);
-            Intent intent = getIntent();
-            intent.putExtra(ARG_ANNOUNCEMENT, (Parcelable) announcement);
-            setIntent(intent);
+            setResult();
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    dao.update(announcement);
+                }
+            });
         }
     }
 
     private void setResult() {
-        if(!resultSet) {
-            Intent result = new Intent();
-            result.putExtra(RESULT_ARG_ANNOUNCEMENT_ID, announcement.getItemId());
-            result.putExtra(RESULT_ARG_ANNOUNCEMENT_READ, read);
-            setResult(RESULT_OK, result);
-            resultSet = true;
-        }
+        Intent result = new Intent();
+        result.putExtra(RESULT_ARG_ANNOUNCEMENT_ID, announcement.getItemId());
+        setResult(RESULT_OK, result);
     }
 }

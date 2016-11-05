@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.minerva.course.CourseExtractor;
 import be.ugent.zeus.hydra.minerva.course.CourseTable;
@@ -150,16 +149,13 @@ public class AnnouncementDao extends Dao {
     }
 
     /**
-     * Set the announcement as read if that is not the case already.
+     * Update an announcement. This should not be called on the UI thread.
      *
-     * @param a The announcement
+     * @param a The announcement to update.
      */
-    public void update(Announcement a) {
-
-        Log.i(TAG, "Updating announcement " + a.getItemId());
+    public void update(final Announcement a) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
-
         ContentValues values = getValues(a);
         db.update(
                 AnnouncementTable.TABLE_NAME,
@@ -167,6 +163,8 @@ public class AnnouncementDao extends Dao {
                 AnnouncementTable.COLUMN_ID + " = ?",
                 new String[]{String.valueOf(a.getItemId())}
                 );
+
+        Log.i(TAG, "Updated announcement " + a.getItemId());
     }
 
     private static int boolToInt(boolean bool) {
