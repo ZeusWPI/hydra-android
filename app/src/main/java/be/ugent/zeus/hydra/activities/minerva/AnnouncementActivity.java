@@ -106,12 +106,7 @@ public class AnnouncementActivity extends ToolbarActivity {
         if(!announcement.isRead()) {
             announcement.setRead(ZonedDateTime.now());
             setResult();
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    dao.update(announcement);
-                }
-            });
+            AsyncTask.execute(() -> dao.update(announcement));
         }
     }
 

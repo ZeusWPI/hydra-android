@@ -99,6 +99,6 @@ public class MenuActivity extends RestoActivity<RestoOverview> implements Loader
 
     @Override
     public void onLoaderReset() {
-        pageAdapter.setData(Collections.<RestoMenu>emptyList());
+        pageAdapter.setData(Collections.emptyList());
     }
 }

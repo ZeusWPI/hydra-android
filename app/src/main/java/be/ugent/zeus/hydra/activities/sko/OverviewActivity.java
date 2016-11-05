@@ -12,7 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
@@ -99,13 +98,10 @@ public class OverviewActivity extends ToolbarActivity {
 
     private void showNotificationSnackbar() {
         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Meldingen ingeschakeld", Snackbar.LENGTH_LONG);
-        snackbar.setAction("Uitschakelen", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseMessageService.SKO_TOPIC);
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(OverviewActivity.this);
-                prefs.edit().putBoolean(SkoFragment.PREF_SKO_NOTIFICATION, false).apply();
-            }
+        snackbar.setAction("Uitschakelen", v -> {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseMessageService.SKO_TOPIC);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(OverviewActivity.this);
+            prefs.edit().putBoolean(SkoFragment.PREF_SKO_NOTIFICATION, false).apply();
         });
         snackbar.show();
     }

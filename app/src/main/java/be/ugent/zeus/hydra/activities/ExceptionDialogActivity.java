@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
@@ -34,19 +33,9 @@ public class ExceptionDialogActivity extends AppCompatActivity {
             builder.setIcon(intent.getIntExtra(ARG_ICON, 0));
         }
 
-        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                ExceptionDialogActivity.this.finish();
-            }
-        });
+        builder.setOnDismissListener(dialogInterface -> ExceptionDialogActivity.this.finish());
 
-        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                ExceptionDialogActivity.this.finish();
-            }
-        });
+        builder.setNeutralButton("OK", (dialogInterface, i) -> ExceptionDialogActivity.this.finish());
 
         builder.show();
     }

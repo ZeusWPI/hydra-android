@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.fragments.home.requests;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.models.cards.RestoMenuCard;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;

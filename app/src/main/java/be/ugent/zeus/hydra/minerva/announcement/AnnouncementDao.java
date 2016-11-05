@@ -365,7 +365,7 @@ public class AnnouncementDao extends Dao {
                     }
                     //Add the course
                     currentCourse = cExtractor.getCourse();
-                    map.put(currentCourse, new ArrayList<Announcement>());
+                    map.put(currentCourse, new ArrayList<>());
                     counter = 0;
                 }
 
@@ -378,12 +378,7 @@ public class AnnouncementDao extends Dao {
         }
 
         //Sort the announcements by date
-        Comparator<Announcement> comparator = new Comparator<Announcement>() {
-            @Override
-            public int compare(Announcement o1, Announcement o2) {
-                return o1.getDate().compareTo(o2.getDate());
-            }
-        };
+        Comparator<Announcement> comparator = (o1, o2) -> o1.getDate().compareTo(o2.getDate());
 
         for (List<Announcement> entry : map.values()){
             Collections.sort(entry, comparator);

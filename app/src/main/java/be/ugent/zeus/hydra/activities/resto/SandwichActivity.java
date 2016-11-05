@@ -5,14 +5,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.resto.Sandwich;
 import be.ugent.zeus.hydra.models.resto.Sandwiches;
 import be.ugent.zeus.hydra.recyclerview.adapters.resto.SandwichAdapter;
 import be.ugent.zeus.hydra.requests.resto.RestoSandwichesRequest;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
 import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * Activity that shows a list of sandwiches.
@@ -52,12 +50,7 @@ public class SandwichActivity extends RestoActivity<Sandwiches> {
 
     @Override
     public void receiveData(@NonNull Sandwiches data) {
-        Collections.sort(data, new Comparator<Sandwich>() {
-            @Override
-            public int compare(Sandwich lhs, Sandwich rhs) {
-                return lhs.name.compareToIgnoreCase(rhs.name);
-            }
-        });
+        Collections.sort(data, (lhs, rhs) -> lhs.name.compareToIgnoreCase(rhs.name));
         adapter.replaceData(data);
     }
 

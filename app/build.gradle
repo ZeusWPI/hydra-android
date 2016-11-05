@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.cookpad.android.licensetools'
 
 android {
@@ -13,6 +12,11 @@ android {
         versionCode 210
         versionName "2.1.0"
         vectorDrawables.useSupportLibrary = true
+        
+        //Enable jack support
+        jackOptions {
+            enabled true
+        }
 
         //Load the API keys from the file "secrets.properties".
         def Properties props = new Properties()
@@ -20,6 +24,11 @@ android {
         buildConfigField "String", "OAUTH_ID", "\"" + props['OAUTH_ID'] + "\""
         buildConfigField "String", "OAUTH_SECRET", "\"" + props['OAUTH_SECRET'] + "\""
         manifestPlaceholders = [ google_maps_key: props['MAPS_API_KEY'] ]
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {

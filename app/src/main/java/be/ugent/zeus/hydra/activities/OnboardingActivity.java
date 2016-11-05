@@ -67,19 +67,16 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
         Bundle options = new Bundle();
         options.putBoolean(ToolbarAccountAuthenticatorActivity.KEY_PROVIDE_UP_NAVIGATION, false);
 
-        manager.addAccount(MinervaConfig.ACCOUNT_TYPE, MinervaConfig.DEFAULT_SCOPE, null, options, this, new AccountManagerCallback<Bundle>() {
-            @Override
-            public void run(AccountManagerFuture<Bundle> accountManagerFuture) {
-                try {
-                    v.setVisibility(View.GONE);
-                    Bundle result = accountManagerFuture.getResult();
-                    Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
-                    onAccountCreated();
-                } catch (OperationCanceledException e) {
-                    Toast.makeText(getApplicationContext(), "Je gaf geen toestemming om je account te gebruiken.", Toast.LENGTH_LONG).show();
-                } catch (IOException | AuthenticatorException e) {
-                    Log.w(TAG, "Account not added.", e);
-                }
+        manager.addAccount(MinervaConfig.ACCOUNT_TYPE, MinervaConfig.DEFAULT_SCOPE, null, options, this, accountManagerFuture -> {
+            try {
+                v.setVisibility(View.GONE);
+                Bundle result = accountManagerFuture.getResult();
+                Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
+                onAccountCreated();
+            } catch (OperationCanceledException e) {
+                Toast.makeText(getApplicationContext(), "Je gaf geen toestemming om je account te gebruiken.", Toast.LENGTH_LONG).show();
+            } catch (IOException | AuthenticatorException e) {
+                Log.w(TAG, "Account not added.", e);
             }
         }, null);
     }

@@ -105,19 +105,9 @@ public class ImageGalleryActivity extends ToolbarActivity {
         });
 
         //Do not check, make sure this not fireable when there is nothing.
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pager.setCurrentItem(pager.getCurrentItem() + 1);
-            }
-        });
+        next.setOnClickListener(view -> pager.setCurrentItem(pager.getCurrentItem() + 1));
 
-        previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pager.setCurrentItem(pager.getCurrentItem() - 1);
-            }
-        });
+        previous.setOnClickListener(view -> pager.setCurrentItem(pager.getCurrentItem() - 1));
     }
 
     @Override

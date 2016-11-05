@@ -48,12 +48,7 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
         recyclerView.requestFocus();
 
         adapter = new SearchableAdapter();
-        adapter.setDisplayNameProvider(new MultiSelectListAdapter.DisplayNameProvider<Association>() {
-            @Override
-            public String getDisplayValue(Association element) {
-                return element.getName();
-            }
-        });
+        adapter.setDisplayNameProvider(Association::getName);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -89,7 +84,7 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
     public void receiveData(@NonNull Associations data) {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> disabled = preferences.getStringSet(PREF_ASSOCIATIONS_SHOWING, Collections.<String>emptySet());
+        Set<String> disabled = preferences.getStringSet(PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
         List<Pair<Association, Boolean>> values = new ArrayList<>();
 
         for(Association association: data) {

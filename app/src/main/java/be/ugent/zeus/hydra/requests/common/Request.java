@@ -10,6 +10,7 @@ import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
  *
  * @author Niko Strijbol
  */
+@FunctionalInterface
 public interface Request<T> {
 
     /**

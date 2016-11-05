@@ -43,7 +43,7 @@ public class MinervaAgendaRequest implements Request<List<HomeCard>>, HomeFeedRe
         for (AgendaItem item: list) {
 
             if(!map.containsKey(DateUtils.toLocalDateTime(item.getStartDate()).toLocalDate())) {
-                map.put(DateUtils.toLocalDateTime(item.getStartDate()).toLocalDate(), new ArrayList<AgendaItem>());
+                map.put(DateUtils.toLocalDateTime(item.getStartDate()).toLocalDate(), new ArrayList<>());
             }
 
             map.get(DateUtils.toLocalDateTime(item.getStartDate()).toLocalDate()).add(item);

@@ -74,7 +74,7 @@ public class LineupFragment extends CachedLoaderFragment<Artists> implements Swi
 
         for (Artist artist: data) {
             if(!stages.containsKey(artist.getStage())) {
-                stages.put(artist.getStage(), new ArrayList<Artist>());
+                stages.put(artist.getStage(), new ArrayList<>());
             }
             stages.get(artist.getStage()).add(artist);
         }

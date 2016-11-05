@@ -28,7 +28,7 @@ public class Events extends ArrayList<Event> {
      */
     public static List<Event> filterEvents(List<Event> data, Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, new HashSet<String>());
+        Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, new HashSet<>());
 
         //Why no filter :(
         Iterator<Event> iterator = data.iterator();
