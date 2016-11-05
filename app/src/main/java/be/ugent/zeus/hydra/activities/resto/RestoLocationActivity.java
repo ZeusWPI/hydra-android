@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.LoaderToolbarActivity;
 import be.ugent.zeus.hydra.caching.CacheableRequest;
-import be.ugent.zeus.hydra.models.resto.RestoLocation;
+import be.ugent.zeus.hydra.models.resto.Resto;
 import be.ugent.zeus.hydra.models.resto.RestoMeta;
 import be.ugent.zeus.hydra.requests.resto.RestoMetaRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -105,7 +105,7 @@ public class RestoLocationActivity extends LoaderToolbarActivity<RestoMeta> impl
         }
 
         map.getUiSettings().setMyLocationButtonEnabled(true);
-        for (RestoLocation location : meta.locations) {
+        for (Resto location : meta.locations) {
             LatLng pos = new LatLng(location.latitude, location.longitude);
             map.addMarker(
                     new MarkerOptions()

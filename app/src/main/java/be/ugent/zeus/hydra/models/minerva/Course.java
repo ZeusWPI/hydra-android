@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.models.minerva;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import be.ugent.zeus.hydra.utils.Objects;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -119,26 +120,16 @@ public class Course implements Serializable, Parcelable {
         }
     };
 
-    /**
-     * A course is equal to this course if the ID of the course is the same.
-     */
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-
-        return id.equals(course.id);
-
+        return Objects.equals(id, course.id);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return Objects.hash(id);
     }
 }

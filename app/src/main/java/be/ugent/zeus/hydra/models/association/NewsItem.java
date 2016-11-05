@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.utils.Objects;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import org.threeten.bp.LocalDateTime;
@@ -110,4 +111,17 @@ public class NewsItem implements Serializable, Parcelable {
             return new NewsItem[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NewsItem newsItem = (NewsItem) o;
+        return id == newsItem.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

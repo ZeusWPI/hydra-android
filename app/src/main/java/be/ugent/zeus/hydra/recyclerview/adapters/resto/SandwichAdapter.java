@@ -80,18 +80,18 @@ public class SandwichAdapter extends RecyclerView.Adapter<SandwichAdapter.Sandwi
 
         //Set the data.
         holder.name.setText(sandwich.name);
-        holder.mediumPrice.setText(String.format(r.getString(R.string.sandwich_price_medium), sandwich.price_medium));
-        holder.smallPrice.setText(String.format(r.getString(R.string.sandwich_price_small), sandwich.price_small));
-        String ingredients = TextUtils.join(", ", sandwich.ingredients);
+        holder.mediumPrice.setText(String.format(r.getString(R.string.sandwich_price_medium), sandwich.getPriceMedium()));
+        holder.smallPrice.setText(String.format(r.getString(R.string.sandwich_price_small), sandwich.getPriceSmall()));
+        String ingredients = TextUtils.join(", ", sandwich.getIngredients());
         holder.ingredients.setText(String.format(r.getString(R.string.sandwich_ingredients), ingredients));
         holder.expandableLayout.setExpanded(expanded.get(position));
         holder.expandableLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(holder.expandableLayout.isExpanded()) {
-                    expanded.delete(position);
+                    expanded.delete(holder.getAdapterPosition());
                 } else {
-                    expanded.put(position, true);
+                    expanded.put(holder.getAdapterPosition(), true);
                 }
                 holder.expandableLayout.toggleExpansion();
             }

@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.models.minerva;
 
+import be.ugent.zeus.hydra.utils.Objects;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -37,5 +38,19 @@ public class WhatsNew implements Serializable {
 
     public void setAgenda(ArrayList<AgendaItem> agenda) {
         this.agenda = agenda;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WhatsNew whatsNew = (WhatsNew) o;
+        return Objects.equals(announcements, whatsNew.announcements) &&
+                Objects.equals(agenda, whatsNew.agenda);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(announcements, agenda);
     }
 }

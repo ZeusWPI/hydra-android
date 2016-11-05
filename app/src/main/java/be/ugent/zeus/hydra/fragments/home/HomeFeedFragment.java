@@ -8,23 +8,23 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
 import android.view.*;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
+import be.ugent.zeus.hydra.fragments.home.loader.HomeDiffCallback;
 import be.ugent.zeus.hydra.fragments.home.loader.HomeFeedLoader;
 import be.ugent.zeus.hydra.fragments.home.loader.HomeFeedLoaderCallback;
 import be.ugent.zeus.hydra.fragments.home.requests.*;
-import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
-import be.ugent.zeus.hydra.utils.IterableSparseArray;
 import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -47,7 +47,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
     public static final String PREF_DISABLED_CARDS = "pref_disabled_cards";
 
-    private static final int LOADER = 0;
+    public static final int LOADER = 0;
 
     private boolean shouldRefresh = false;
     private boolean preferencesUpdated = false;
@@ -78,7 +78,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
         swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
 
-        adapter = new HomeCardAdapter(getActivity());
+        adapter = new HomeCardAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -136,8 +136,9 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     }
 
     @Override
-    public void onPartialResult(List<HomeCard> data, @HomeCard.CardType int cardType) {
-        adapter.updateCardItems(data, cardType);
+    public void onNewDataUpdate(@HomeCard.CardType int cardType) {
+        //Do nothing
+        Log.i(TAG, "Added card type: " + cardType);
         wasCached = false;
     }
 
@@ -147,9 +148,9 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     }
 
     @Override
-    public Loader<IterableSparseArray<ThrowableEither<List<HomeCard>>>> onCreateLoader(int id, Bundle args) {
+    public Loader<Pair<Set<Integer>, List<HomeCard>>> onCreateLoader(int id, Bundle args) {
 
-        HomeFeedLoader loader = new HomeFeedLoader(getContext(), this);
+        HomeFeedLoader loader = new HomeFeedLoader(getContext(), this, adapter);
 
         Set<String> s = PreferenceManager
                 .getDefaultSharedPreferences(getContext())
@@ -162,66 +163,61 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
         if(isTypeActive(s, HomeCard.CardType.RESTO)) {
             loader.addRequest(new RestoRequest(getContext(), shouldRefresh));
         } else {
-            onPartialResult(Collections.<HomeCard>emptyList(), HomeCard.CardType.RESTO);
+            adapter.removeCardType(HomeCard.CardType.RESTO);
         }
 
         if(isTypeActive(s, HomeCard.CardType.ACTIVITY)) {
             loader.addRequest(new EventRequest(getContext(), shouldRefresh));
         } else {
-            onPartialResult(Collections.<HomeCard>emptyList(), HomeCard.CardType.ACTIVITY);
+            adapter.removeCardType(HomeCard.CardType.ACTIVITY);
         }
 
         if(isTypeActive(s, HomeCard.CardType.SCHAMPER)) {
             loader.addRequest(new SchamperRequest(getContext(), shouldRefresh));
         } else {
-            onPartialResult(Collections.<HomeCard>emptyList(), HomeCard.CardType.SCHAMPER);
+            adapter.removeCardType(HomeCard.CardType.SCHAMPER);
         }
 
         if(isTypeActive(s, HomeCard.CardType.NEWS_ITEM)) {
             loader.addRequest(new NewsHomeRequest(getContext(), shouldRefresh));
         } else {
-            onPartialResult(Collections.<HomeCard>emptyList(), HomeCard.CardType.NEWS_ITEM);
+            adapter.removeCardType(HomeCard.CardType.NEWS_ITEM);
         }
 
         if(isTypeActive(s, HomeCard.CardType.MINERVA_ANNOUNCEMENT) && AccountUtils.hasAccount(getContext())) {
             loader.addRequest(new MinervaAnnouncementRequest(getContext()));
         } else {
-            onPartialResult(Collections.<HomeCard>emptyList(), HomeCard.CardType.MINERVA_ANNOUNCEMENT);
+            adapter.removeCardType(HomeCard.CardType.MINERVA_ANNOUNCEMENT);
         }
 
         if(isTypeActive(s, HomeCard.CardType.MINERVA_AGENDA) && AccountUtils.hasAccount(getContext())) {
             loader.addRequest(new MinervaAgendaRequest(getContext()));
         } else {
-            onPartialResult(Collections.<HomeCard>emptyList(), HomeCard.CardType.MINERVA_AGENDA);
+            adapter.removeCardType(HomeCard.CardType.MINERVA_AGENDA);
         }
 
         return loader;
     }
 
     @Override
-    public void onLoadFinished(Loader<IterableSparseArray<ThrowableEither<List<HomeCard>>>> loader, IterableSparseArray<ThrowableEither<List<HomeCard>>> data) {
-
-        if(wasCached) {
-            Log.d(TAG, "Received cached data");
-            for(Pair<Integer, ThrowableEither<List<HomeCard>>> item: data.pairIterable()) {
-                if(item.second.hasError()) {
-                    //noinspection WrongConstant
-                    onPartialError(item.first);
-                } else {
-                    //noinspection WrongConstant
-                    onPartialResult(item.second.getData(), item.first);
-                }
-            }
-        }
-
-        wasCached = true;
-
+    public void onLoadFinished(Loader<Pair<Set<Integer>, List<HomeCard>>> l, Pair<Set<Integer>, List<HomeCard>> data) {
         Log.i(TAG, "Finished loading data");
+        if(wasCached) {
+            for(Integer error: data.first) {
+                //noinspection WrongConstant
+                onPartialError(error);
+            }
+
+            final List<HomeCard> newData = new ArrayList<>(data.second);
+            final List<HomeCard> oldData = adapter.getCurrentList();
+            final DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new HomeDiffCallback(oldData, newData), false);
+            adapter.onDataUpdated(newData, diff);
+        }
         swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void onLoaderReset(Loader<IterableSparseArray<ThrowableEither<List<HomeCard>>>> loader) {
+    public void onLoaderReset(Loader<Pair<Set<Integer>, List<HomeCard>>> loader) {
         //Do nothing.
     }
 

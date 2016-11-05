@@ -2,6 +2,8 @@ package be.ugent.zeus.hydra.models.resto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import be.ugent.zeus.hydra.utils.Objects;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,10 +12,29 @@ import java.util.ArrayList;
  * Created by feliciaan on 04/02/16.
  */
 public class Sandwich implements Parcelable, Serializable {
+
     public String name;
-    public ArrayList<String> ingredients;
-    public String price_small;
-    public String price_medium;
+    private ArrayList<String> ingredients;
+    @SerializedName("price_small")
+    private String priceSmall;
+    @SerializedName("price_medium")
+    private String priceMedium;
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<String> getIngredients() {
+        return ingredients;
+    }
+
+    public String getPriceSmall() {
+        return priceSmall;
+    }
+
+    public String getPriceMedium() {
+        return priceMedium;
+    }
 
     @Override
     public int describeContents() {
@@ -24,18 +45,15 @@ public class Sandwich implements Parcelable, Serializable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
         dest.writeStringList(this.ingredients);
-        dest.writeString(this.price_small);
-        dest.writeString(this.price_medium);
-    }
-
-    public Sandwich() {
+        dest.writeString(this.priceSmall);
+        dest.writeString(this.priceMedium);
     }
 
     protected Sandwich(Parcel in) {
         this.name = in.readString();
         this.ingredients = in.createStringArrayList();
-        this.price_small = in.readString();
-        this.price_medium = in.readString();
+        this.priceSmall = in.readString();
+        this.priceMedium = in.readString();
     }
 
     public static final Parcelable.Creator<Sandwich> CREATOR = new Parcelable.Creator<Sandwich>() {
@@ -49,4 +67,20 @@ public class Sandwich implements Parcelable, Serializable {
             return new Sandwich[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Sandwich sandwich = (Sandwich) o;
+        return Objects.equals(name, sandwich.name) &&
+                Objects.equals(ingredients, sandwich.ingredients) &&
+                Objects.equals(priceSmall, sandwich.priceSmall) &&
+                Objects.equals(priceMedium, sandwich.priceMedium);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, ingredients, priceSmall, priceMedium);
+    }
 }

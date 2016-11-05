@@ -1,11 +1,15 @@
 package be.ugent.zeus.hydra.models.cards;
 
 import be.ugent.zeus.hydra.models.association.NewsItem;
+import be.ugent.zeus.hydra.utils.Objects;
 import org.threeten.bp.Duration;
 import org.threeten.bp.ZonedDateTime;
 
 /**
- * Created by feliciaan on 18/06/16.
+ * Home card for {@link NewsItem}.
+ *
+ * @author Niko Strijbol
+ * @author feliciaan
  */
 public class NewsItemCard extends HomeCard {
 
@@ -37,7 +41,16 @@ public class NewsItemCard extends HomeCard {
         return newsItem;
     }
 
-    public void setNewsItem(NewsItem newsItem) {
-        this.newsItem = newsItem;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NewsItemCard that = (NewsItemCard) o;
+        return Objects.equals(newsItem, that.newsItem);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(newsItem);
     }
 }

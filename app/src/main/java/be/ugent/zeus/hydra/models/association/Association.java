@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.utils.Objects;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -27,11 +28,6 @@ public class Association implements Parcelable, Serializable {
     private String displayName;
     @SerializedName("parent_association")
     private String parentAssociation;
-
-    @SuppressWarnings("unused")
-    private Association() {
-        //GSON no args constructor
-    }
 
     /**
      * @return A name for this association. If a full name is available, that is returned. If not, the display name is.
@@ -64,22 +60,6 @@ public class Association implements Parcelable, Serializable {
         return "https://zeus.ugent.be/hydra/api/2.0/association/logo/" + internalName.toLowerCase() + ".png";
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Association that = (Association) o;
-
-        return internalName.equals(that.internalName);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return internalName.hashCode();
-    }
-
     public static final Creator<Association> CREATOR = new Creator<Association>() {
         @Override
         public Association createFromParcel(Parcel in) {
@@ -110,5 +90,18 @@ public class Association implements Parcelable, Serializable {
         fullName = in.readString();
         displayName = in.readString();
         parentAssociation = in.readString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Association that = (Association) o;
+        return Objects.equals(internalName, that.internalName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(internalName);
     }
 }

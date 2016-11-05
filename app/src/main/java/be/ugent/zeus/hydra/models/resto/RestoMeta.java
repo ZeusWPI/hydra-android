@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Created by feliciaan on 04/02/16.
  */
 public class RestoMeta implements Parcelable, Serializable {
-    public ArrayList<RestoLocation> locations;
+    public ArrayList<Resto> locations;
 
     @Override
     public int describeContents() {
@@ -26,7 +26,7 @@ public class RestoMeta implements Parcelable, Serializable {
     }
 
     protected RestoMeta(Parcel in) {
-        this.locations = in.createTypedArrayList(RestoLocation.CREATOR);
+        this.locations = in.createTypedArrayList(Resto.CREATOR);
     }
 
     public static final Parcelable.Creator<RestoMeta> CREATOR = new Parcelable.Creator<RestoMeta>() {

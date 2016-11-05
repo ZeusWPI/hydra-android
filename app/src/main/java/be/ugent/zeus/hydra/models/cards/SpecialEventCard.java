@@ -1,9 +1,13 @@
 package be.ugent.zeus.hydra.models.cards;
 
 import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
+import be.ugent.zeus.hydra.utils.Objects;
 
 /**
- * Created by silox on 18/04/16.
+ * Home card for a {@link SpecialEvent}.
+ *
+ * @author Niko Strijbol
+ * @author silox
  */
 public class SpecialEventCard extends HomeCard {
 
@@ -25,5 +29,18 @@ public class SpecialEventCard extends HomeCard {
 
     public SpecialEvent getSpecialEvent() {
         return specialEvent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SpecialEventCard that = (SpecialEventCard) o;
+        return Objects.equals(specialEvent, that.specialEvent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(specialEvent);
     }
 }

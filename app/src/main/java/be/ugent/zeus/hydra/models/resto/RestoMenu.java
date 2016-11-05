@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.models.resto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import be.ugent.zeus.hydra.models.converters.DateThreeTenAdapter;
+import be.ugent.zeus.hydra.utils.Objects;
 import com.google.gson.annotations.JsonAdapter;
 import org.threeten.bp.LocalDate;
 
@@ -134,4 +134,19 @@ public class RestoMenu implements Parcelable, Serializable {
             return new RestoMenu[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RestoMenu restoMenu = (RestoMenu) o;
+        return open == restoMenu.open &&
+                Objects.equals(date, restoMenu.date) &&
+                Objects.equals(meals, restoMenu.meals);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(open, date, meals);
+    }
 }

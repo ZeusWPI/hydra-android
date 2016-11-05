@@ -1,19 +1,20 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.annotation.UiThread;
-import android.widget.PopupMenu;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.PopupMenu;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.fragments.home.HomeFeedFragment;
+import be.ugent.zeus.hydra.fragments.home.loader.DataCallback;
+import be.ugent.zeus.hydra.fragments.home.loader.HomeFeedLoader;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.cards.EventCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
@@ -30,39 +31,27 @@ import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.*;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCard>> {
+public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCard>> implements DataCallback<List<HomeCard>> {
 
-    private final List<HomeCard> cardItems;
+    private List<HomeCard> cardItems = Collections.emptyList();
     private final SharedPreferences preferences;
+    private final HomeFeedFragment fragment;
 
-    public HomeCardAdapter(Context activity) {
-        this.preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-        cardItems = new ArrayList<>();
+
+    public HomeCardAdapter(HomeFeedFragment fragment) {
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(fragment.getContext());
+        this.fragment = fragment;
     }
 
-    /**
-     * Remove all items of a given type and re-add the given list. This method is not thread safe and must be run on
-     * the UI thread.
-     *
-     * @param cardList List with object implementing the card protocol
-     * @param type The type of the cards
-     */
-    @UiThread
-    public void updateCardItems(List<HomeCard> cardList, @HomeCard.CardType int type) {
+    @Override
+    public void onDataUpdated(List<HomeCard> data, DiffUtil.DiffResult update) {
+        this.cardItems = data;
+        update.dispatchUpdatesTo(this);
+    }
 
-        //Remove the current cards.
-        removeCardType(type);
-
-        cardItems.addAll(cardList);
-
-        Collections.sort(cardItems, new Comparator<HomeCard>() {
-            @Override
-            public int compare(HomeCard lhs, HomeCard rhs) {
-                return -(lhs.getPriority() - rhs.getPriority());
-            }
-        });
-
-        notifyDataSetChanged();
+    @Override
+    public List<HomeCard> getCurrentList() {
+        return cardItems;
     }
 
     /**
@@ -70,8 +59,8 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
      *
      * @param type The type of card to remove.
      */
-    @UiThread
-    private void removeCardType(@HomeCard.CardType int type) {
+    public void removeCardType(@HomeCard.CardType int type) {
+        //TODO: must this go to a background thread?
         Iterator<HomeCard> it = cardItems.iterator();
         while (it.hasNext()) { // Why no filter :(
             HomeCard c = it.next();
@@ -116,6 +105,8 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
         newDisabled.add(String.valueOf(type));
         preferences.edit().putStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, newDisabled).apply();
         removeCardType(type);
+        HomeFeedLoader loader = (HomeFeedLoader) fragment.getLoaderManager().<Pair<Set<Integer>, List<HomeCard>>>getLoader(HomeFeedFragment.LOADER);
+        loader.removeCards(type);
     }
 
     public void disableAssociation(Association association) {
@@ -135,7 +126,8 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
                 }
             }
         }
-
+        HomeFeedLoader loader = (HomeFeedLoader) fragment.getLoaderManager().<Pair<Set<Integer>, List<HomeCard>>>getLoader(HomeFeedFragment.LOADER);
+        loader.removeAssociations(association);
     }
 
     private View getViewForLayout(int rLayout, ViewGroup parent) {

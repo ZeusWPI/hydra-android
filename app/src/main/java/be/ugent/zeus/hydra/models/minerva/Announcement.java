@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.utils.Objects;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -143,4 +144,17 @@ public class Announcement implements Serializable, Parcelable {
             return new Announcement[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Announcement that = (Announcement) o;
+        return itemId == that.itemId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(itemId);
+    }
 }

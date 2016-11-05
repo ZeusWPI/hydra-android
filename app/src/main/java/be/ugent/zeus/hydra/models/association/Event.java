@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.utils.Objects;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -15,7 +16,10 @@ import org.threeten.bp.ZonedDateTime;
 import java.io.Serializable;
 
 /**
- * Created by feliciaan on 27/01/16.
+ * Event from an {@link Association}.
+ *
+ * @author Niko Strijbol
+ * @author feliciaan
  */
 public class Event implements Parcelable, Serializable {
 
@@ -179,9 +183,6 @@ public class Event implements Parcelable, Serializable {
         dest.writeParcelable(this.association, flags);
     }
 
-    public Event() {
-    }
-
     protected Event(Parcel in) {
         this.title = in.readString();
         this.start = TtbUtils.unserialize(in.readLong());
@@ -207,4 +208,27 @@ public class Event implements Parcelable, Serializable {
             return new Event[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Double.compare(event.latitude, latitude) == 0 &&
+                Double.compare(event.longitude, longitude) == 0 &&
+                highlighted == event.highlighted &&
+                Objects.equals(title, event.title) &&
+                Objects.equals(start, event.start) &&
+                Objects.equals(end, event.end) &&
+                Objects.equals(location, event.location) &&
+                Objects.equals(description, event.description) &&
+                Objects.equals(url, event.url) &&
+                Objects.equals(facebookId, event.facebookId) &&
+                Objects.equals(association, event.association);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, start, end, location, latitude, longitude, description, url, facebookId, highlighted, association);
+    }
 }
