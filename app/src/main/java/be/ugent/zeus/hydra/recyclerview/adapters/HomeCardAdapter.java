@@ -35,12 +35,9 @@ import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.*;
 public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCard>> implements DataCallback<List<HomeCard>> {
 
     private List<HomeCard> cardItems = Collections.emptyList();
-    private final SharedPreferences preferences;
     private final HomeFeedFragment fragment;
 
-
     public HomeCardAdapter(HomeFeedFragment fragment) {
-        this.preferences = PreferenceManager.getDefaultSharedPreferences(fragment.getContext());
         this.fragment = fragment;
     }
 
@@ -105,6 +102,7 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
      * @param type The type of card to disable.
      */
     public void disableCardType(@HomeCard.CardType int type) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(fragment.getContext());
         Set<String> disabled = preferences.getStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, Collections.<String>emptySet());
         Set<String> newDisabled = new HashSet<>(disabled);
         newDisabled.add(String.valueOf(type));
@@ -115,9 +113,11 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
     }
 
     public void disableAssociation(Association association) {
-        Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, new HashSet<String>());
-        disabled.add(association.getInternalName());
-        preferences.edit().putStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, disabled).apply();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(fragment.getContext());
+        Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, Collections.<String>emptySet());
+        Set<String> newDisabled = new HashSet<>(disabled);
+        newDisabled.add(association.getInternalName());
+        preferences.edit().putStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, newDisabled).apply();
 
         //Why no filter :(
         Iterator<HomeCard> it = cardItems.iterator();
