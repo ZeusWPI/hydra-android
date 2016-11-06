@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.fragments.preferences.SkoFragment;
 
 /**
@@ -12,7 +12,7 @@ import be.ugent.zeus.hydra.fragments.preferences.SkoFragment;
  *
  * @author Niko Strijbol
  */
-public class PreferenceActivity extends ToolbarActivity {
+public class PreferenceActivity extends HydraActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

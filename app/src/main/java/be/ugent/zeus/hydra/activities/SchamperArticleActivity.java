@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
@@ -9,14 +10,15 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.LinkMovementMethod;
+import android.transition.Fade;
+import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.recyclerview.adapters.SchamperImageAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -27,7 +29,7 @@ import be.ugent.zeus.hydra.utils.html.Utils;
 import be.ugent.zeus.hydra.utils.recycler.ItemSpacingDecoration;
 import com.squareup.picasso.Picasso;
 
-public class SchamperArticleActivity extends ToolbarActivity {
+public class SchamperArticleActivity extends HydraActivity {
 
     public static final String PARCEL_ARTICLE = "article";
 
@@ -95,8 +97,8 @@ public class SchamperArticleActivity extends ToolbarActivity {
     }
 
     @Override
-    protected void sendScreen(HydraApplication application) {
-        application.sendScreenName("Schamper article > " + article.getTitle());
+    protected String getScreenName() {
+        return "Schamper article > " + article.getTitle();
     }
 
     /**
@@ -117,7 +119,7 @@ public class SchamperArticleActivity extends ToolbarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_schamper, menu);
-        tintToolbarIcons(menu, R.id.schamper_share, R.id.schamper_browser);
+        toolbarPlugin.tintToolbarIcons(menu, R.id.schamper_share, R.id.schamper_browser);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -143,6 +145,21 @@ public class SchamperArticleActivity extends ToolbarActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /**
+     * Set a custom fade when using transition to prevent white flashing/blinking. This excludes the status bar and
+     * navigation bar background from the animation.
+     */
+    private void customFade() {
+        //Only do it on a version that is high enough.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Transition fade = new Fade();
+            fade.excludeTarget(android.R.id.statusBarBackground, true);
+            fade.excludeTarget(android.R.id.navigationBarBackground, true);
+            getWindow().setExitTransition(fade);
+            getWindow().setEnterTransition(fade);
         }
     }
 }

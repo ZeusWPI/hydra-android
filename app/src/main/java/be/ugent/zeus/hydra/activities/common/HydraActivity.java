@@ -1,21 +1,23 @@
 package be.ugent.zeus.hydra.activities.common;
 
-import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.transition.Fade;
-import android.transition.Transition;
 import android.view.View;
+import be.ugent.zeus.hydra.activities.plugins.AnalyticsPlugin;
+import be.ugent.zeus.hydra.activities.plugins.ToolbarPlugin;
+import be.ugent.zeus.hydra.activities.plugins.common.Plugin;
+import be.ugent.zeus.hydra.activities.plugins.common.PluginActivity;
 
-import be.ugent.zeus.hydra.HydraApplication;
+import java.util.List;
 
 /**
- * Abstract class with common methods.
+ * Abstract class with common methods and support for a toolbar.
  *
  * @author Niko Strijbol
  */
-public abstract class HydraActivity extends AppCompatActivity {
+public abstract class HydraActivity extends PluginActivity {
+
+    protected ToolbarPlugin toolbarPlugin = new ToolbarPlugin(hasParent());
 
     /**
      * Finds a view that was identified by the id attribute from the XML that was processed in {@link #onCreate}. This
@@ -32,27 +34,20 @@ public abstract class HydraActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        sendScreen((HydraApplication) getApplication());
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugins.add(new AnalyticsPlugin(this::getScreenName));
+        plugins.add(toolbarPlugin);
     }
 
-    protected void sendScreen(HydraApplication application) {
-        application.sendScreenName(this.getClass().getSimpleName());
+    protected String getScreenName() {
+        return getClass().getSimpleName();
     }
 
     /**
-     * Set a custom fade when using transition to prevent white flashing/blinking. This excludes the status bar and
-     * navigation bar background from the animation.
+     * Set if the activity has a parent or not.
      */
-    protected void customFade() {
-        //Only do it on a version that is high enough.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Transition fade = new Fade();
-            fade.excludeTarget(android.R.id.statusBarBackground, true);
-            fade.excludeTarget(android.R.id.navigationBarBackground, true);
-            getWindow().setExitTransition(fade);
-            getWindow().setEnterTransition(fade);
-        }
+    protected boolean hasParent() {
+        return true;
     }
 }

@@ -40,7 +40,7 @@ public class SandwichActivity extends RestoActivity<Sandwiches> {
         RecyclerFastScroller s = $(R.id.fast_scroller);
         s.attachRecyclerView(recyclerView);
 
-        loaderHandler.startLoader();
+        loaderPlugin.startLoader();
     }
 
     @Override

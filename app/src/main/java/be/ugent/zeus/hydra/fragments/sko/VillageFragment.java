@@ -85,7 +85,7 @@ public class VillageFragment extends RecyclerLoaderFragment<Exhibitor, Exhibitor
     public void onRefresh() {
         shouldRenew = true;
         searchView.setQuery("", false);
-        loaderHandler.restartLoader();
+        loaderPlugin.restartLoader();
         shouldRenew = false;
     }
 }

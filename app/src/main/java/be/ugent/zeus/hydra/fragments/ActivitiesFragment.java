@@ -108,7 +108,7 @@ public class ActivitiesFragment extends LoaderFragment<Events> implements Shared
 
         //Refresh the data.
         if(invalid) {
-            loaderHandler.restartLoader();
+            loaderPlugin.restartLoader();
             invalid = false;
         }
     }

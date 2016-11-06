@@ -11,9 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.models.association.Event;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Callback;
@@ -25,7 +24,7 @@ import org.threeten.bp.format.DateTimeFormatter;
  *
  * @author Niko Strijbol
  */
-public class EventDetailActivity extends ToolbarActivity {
+public class EventDetailActivity extends HydraActivity {
 
     private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
@@ -56,7 +55,7 @@ public class EventDetailActivity extends ToolbarActivity {
 
         if(event.getTitle() != null){
             title.setText(event.getTitle());
-            getToolBar().setTitle(event.getTitle());
+            toolbarPlugin.getToolBar().setTitle(event.getTitle());
         }
 
         if(event.getAssociation() != null ) {
@@ -120,7 +119,7 @@ public class EventDetailActivity extends ToolbarActivity {
         getMenuInflater().inflate(R.menu.menu_event, menu);
 
         // We need to manually set the color of this Drawable for some reason.
-        tintToolbarIcons(menu, R.id.event_location, R.id.event_link);
+        toolbarPlugin.tintToolbarIcons(menu, R.id.event_location, R.id.event_link);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -143,8 +142,8 @@ public class EventDetailActivity extends ToolbarActivity {
     }
 
     @Override
-    protected void sendScreen(HydraApplication application) {
-        application.sendScreenName("Activity > " + event.getTitle());
+    protected String getScreenName() {
+        return "Activity > " + event.getTitle();
     }
 
     /**

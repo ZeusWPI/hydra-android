@@ -1,61 +1,43 @@
 package be.ugent.zeus.hydra.activities.common;
 
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.plugins.LoaderPlugin;
+import be.ugent.zeus.hydra.activities.plugins.ProgressBarPlugin;
+import be.ugent.zeus.hydra.activities.plugins.common.Plugin;
 import be.ugent.zeus.hydra.caching.CacheableRequest;
-import be.ugent.zeus.hydra.loaders.LoaderCallbackHandler;
+import be.ugent.zeus.hydra.loaders.LoaderCallback;
 import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
 import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.requests.common.SimpleCacheRequest;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Activity that loads {@link CacheableRequest} using a loader.
  *
  * @author Niko Strijbol
  */
-public abstract class LoaderToolbarActivity<D extends Serializable> extends ToolbarActivity implements LoaderCallbackHandler.LoaderCallback<D>, LoaderCallbackHandler.ProgressbarListener {
+public abstract class LoaderToolbarActivity<D extends Serializable> extends HydraActivity implements LoaderCallback<D> {
 
     private static final String TAG = "LoaderToolbarActivity";
 
-    protected LoaderCallbackHandler<D> loaderHandler = new LoaderCallbackHandler<>(this, this);
-    // ID of the loader.
     protected boolean shouldRenew = false;
     //The progress bar. Is used if not null.
-    protected ProgressBar progressBar;
-
-    /**
-     * {@inheritDoc}
-     *
-     * Also sets the progress bar.
-     */
-    @Override
-    public void setContentView(@LayoutRes int layoutResID) {
-        super.setContentView(layoutResID);
-        progressBar = $(R.id.progress_bar);
-    }
+    protected ProgressBarPlugin barPlugin = new ProgressBarPlugin();
+    protected LoaderPlugin<D> loaderPlugin = new LoaderPlugin<>(this, barPlugin);
 
     @Override
-    public LoaderManager getTheLoaderManager() {
-        return getSupportLoaderManager();
-    }
-
-    public void hideProgressBar() {
-        progressBar.setVisibility(View.GONE);
-    }
-
-    public void showProgressBar() {
-        progressBar.setVisibility(View.VISIBLE);
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugins.add(barPlugin);
+        plugins.add(loaderPlugin);
     }
 
     @Override
@@ -78,7 +60,7 @@ public abstract class LoaderToolbarActivity<D extends Serializable> extends Tool
                     }
                 })
                 .show();
-        hideProgressBar();
+        barPlugin.hideProgressBar();
     }
 
     /**
@@ -87,7 +69,7 @@ public abstract class LoaderToolbarActivity<D extends Serializable> extends Tool
     protected void refresh() {
         Toast.makeText(getApplicationContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
         shouldRenew = true;
-        loaderHandler.restartLoader();
+        loaderPlugin.restartLoader();
         shouldRenew = false;
     }
 }

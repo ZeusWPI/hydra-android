@@ -1,51 +1,52 @@
 package be.ugent.zeus.hydra.fragments.common;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.loaders.LoaderCallbackHandler;
+import be.ugent.zeus.hydra.activities.plugins.AutoStartLoaderPlugin;
+import be.ugent.zeus.hydra.activities.plugins.LoaderPlugin;
+import be.ugent.zeus.hydra.activities.plugins.ProgressBarPlugin;
+import be.ugent.zeus.hydra.activities.plugins.common.Plugin;
+import be.ugent.zeus.hydra.activities.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.loaders.LoaderCallback;
+import be.ugent.zeus.hydra.loaders.ProgressbarListener;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import java.util.List;
 
 /**
  * @author Niko Strijbol
  */
-public abstract class LoaderFragment<D> extends Fragment implements LoaderCallbackHandler.LoaderCallback<D>, LoaderCallbackHandler.ProgressbarListener {
+public abstract class LoaderFragment<D> extends PluginFragment implements LoaderCallback<D>, ProgressbarListener {
 
     private static final String TAG = "CachedLoaderFragment";
 
-    protected LoaderCallbackHandler<D> loaderHandler = new LoaderCallbackHandler<>(this, this);
     protected boolean shouldRenew = false;
-    protected ProgressBar progressBar;
+    protected ProgressBarPlugin barPlugin = new ProgressBarPlugin();
+    protected LoaderPlugin<D> loaderPlugin = new AutoStartLoaderPlugin<D>(this, barPlugin, false);
     protected boolean autoStart = true;
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        progressBar = $(view, R.id.progress_bar);
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugins.add(barPlugin);
+        plugins.add(loaderPlugin);
     }
 
     /**
      * Hide the progress bar.
      */
     public void hideProgressBar() {
-        progressBar.setVisibility(View.GONE);
+        barPlugin.hideProgressBar();
     }
 
     /**
      * Show the progress bar.
      */
     public void showProgressBar() {
-        progressBar.setVisibility(View.VISIBLE);
+        barPlugin.showProgressBar();
     }
 
     /**
@@ -54,16 +55,8 @@ public abstract class LoaderFragment<D> extends Fragment implements LoaderCallba
     protected void refresh() {
         Toast.makeText(getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
         this.shouldRenew = true;
-        loaderHandler.restartLoader();
+        loaderPlugin.restartLoader();
         this.shouldRenew = false;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if(autoStart) {
-            loaderHandler.startLoader();
-        }
     }
 
     /**
@@ -83,15 +76,10 @@ public abstract class LoaderFragment<D> extends Fragment implements LoaderCallba
                     @Override
                     public void onClick(View v) {
                         shouldRenew = true;
-                        loaderHandler.restartLoader();
+                        loaderPlugin.restartLoader();
                         shouldRenew = false;
                     }
                 })
                 .show();
-    }
-
-    @Override
-    public LoaderManager getTheLoaderManager() {
-        return getLoaderManager();
     }
 }

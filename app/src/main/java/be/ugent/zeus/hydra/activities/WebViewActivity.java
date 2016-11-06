@@ -9,14 +9,14 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 
 /**
  * Displays a web view.
  *
  * @author Niko Strijbol
  */
-public class WebViewActivity extends ToolbarActivity {
+public class WebViewActivity extends HydraActivity {
 
     public static final String URL = "be.ugent.zeus.hydra.url";
     public static final String TITLE = "be.ugent.zeus.hydra.title";

@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.utils.html.Utils;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -21,7 +21,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 /**
  * @author Niko Strijbol
  */
-public class AgendaActivity extends ToolbarActivity {
+public class AgendaActivity extends HydraActivity {
 
     public static final String ARG_AGENDA_ITEM = "argAgendaItem";
 
@@ -38,7 +38,7 @@ public class AgendaActivity extends ToolbarActivity {
 
         TextView title = $(R.id.title);
         title.setText(agendaItem.getTitle());
-        getToolBar().setTitle(agendaItem.getTitle());
+        toolbarPlugin.getToolBar().setTitle(agendaItem.getTitle());
 
         //Description
         if(!TextUtils.isEmpty(agendaItem.getContent())) {
@@ -86,7 +86,7 @@ public class AgendaActivity extends ToolbarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_minerva_agenda, menu);
-        tintToolbarIcons(menu, R.id.minerva_agenda_add);
+        toolbarPlugin.tintToolbarIcons(menu, R.id.minerva_agenda_add);
         return super.onCreateOptionsMenu(menu);
     }
 

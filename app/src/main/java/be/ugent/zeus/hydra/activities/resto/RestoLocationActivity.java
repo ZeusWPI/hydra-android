@@ -38,7 +38,7 @@ public class RestoLocationActivity extends LoaderToolbarActivity<RestoMeta> impl
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        loaderHandler.startLoader();
+        loaderPlugin.startLoader();
     }
 
 
@@ -76,7 +76,7 @@ public class RestoLocationActivity extends LoaderToolbarActivity<RestoMeta> impl
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_resto_location, menu);
-        tintToolbarIcons(menu, R.id.resto_refresh, R.id.resto_center);
+        toolbarPlugin.tintToolbarIcons(menu, R.id.resto_refresh, R.id.resto_center);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -115,7 +115,7 @@ public class RestoLocationActivity extends LoaderToolbarActivity<RestoMeta> impl
             );
         }
         centerDefault();
-        hideProgressBar();
+        barPlugin.hideProgressBar();
     }
 
     private void centerDefault() {

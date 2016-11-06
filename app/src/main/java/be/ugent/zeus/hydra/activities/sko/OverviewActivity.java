@@ -14,7 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.fragments.preferences.SkoFragment;
 import be.ugent.zeus.hydra.notifications.FirebaseMessageService;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -26,7 +26,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
  *
  * @author Niko Strijbol
  */
-public class OverviewActivity extends ToolbarActivity {
+public class OverviewActivity extends HydraActivity {
 
     private static final String TAG = "SkoOverviewActivity";
 
@@ -78,7 +78,7 @@ public class OverviewActivity extends ToolbarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_sko, menu);
-        tintToolbarIcons(menu, R.id.sko_visit_website);
+        toolbarPlugin.tintToolbarIcons(menu, R.id.sko_visit_website);
         return true;
     }
 

@@ -56,13 +56,13 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
         scroller.setRecyclerView(recyclerView);
 
         searchView.setOnQueryTextListener(adapter);
-        loaderHandler.startLoader();
+        loaderPlugin.startLoader();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_pref_selectors, menu);
-        tintToolbarIcons(menu, R.id.action_select_all, R.id.action_select_none);
+        toolbarPlugin.tintToolbarIcons(menu, R.id.action_select_all, R.id.action_select_none);
         return super.onCreateOptionsMenu(menu);
     }
 

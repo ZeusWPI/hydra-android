@@ -28,7 +28,7 @@ import android.util.Log;
  * @author Niko Strijbol
  * @see <a href="https://github.com/android/platform_frameworks_base/blob/master/core/java/android/accounts/AccountAuthenticatorActivity.java">AOSP</a>
  */
-public class ToolbarAccountAuthenticatorActivity extends ToolbarActivity {
+public class ToolbarAccountAuthenticatorActivity extends HydraActivity {
 
     private static final String TAG = "ToolbarAcAuthActivity";
 

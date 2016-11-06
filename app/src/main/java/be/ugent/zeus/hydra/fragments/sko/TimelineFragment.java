@@ -83,7 +83,7 @@ public class TimelineFragment extends CachedLoaderFragment<Timeline> implements 
     @Override
     public void onRefresh() {
         shouldRenew = true;
-        loaderHandler.restartLoader();
+        loaderPlugin.restartLoader();
         shouldRenew = false;
     }
 

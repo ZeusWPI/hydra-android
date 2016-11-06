@@ -15,14 +15,14 @@ import android.view.MenuItem;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
 import be.ugent.zeus.hydra.viewpager.SectionPagerAdapter;
 
 /**
  * Main activity.
  */
-public class Hydra extends ToolbarActivity {
+public class Hydra extends HydraActivity {
 
     public static final String ARG_TAB = "argTab";
     private static final String TAG = "HydraActivity";
@@ -48,13 +48,10 @@ public class Hydra extends ToolbarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        //This activity has no parent.
-        hasParent(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getToolBar().setDisplayShowTitleEnabled(false);
+        toolbarPlugin.getToolBar().setDisplayShowTitleEnabled(false);
 
         //The first thing we do is maybe start the onboarding.
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -64,6 +61,11 @@ public class Hydra extends ToolbarActivity {
         } else { //Otherwise do init
             initialise();
         }
+    }
+
+    @Override
+    protected boolean hasParent() {
+        return false;
     }
 
     /**

@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
@@ -24,7 +24,7 @@ import org.threeten.bp.ZonedDateTime;
  * Show a Minerva announcement.
  * @author Niko Strijbol
  */
-public class AnnouncementActivity extends ToolbarActivity {
+public class AnnouncementActivity extends HydraActivity {
 
     public static final String ARG_ANNOUNCEMENT = "announcement_view";
 
@@ -85,7 +85,7 @@ public class AnnouncementActivity extends ToolbarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_minerva_announcement, menu);
-        tintToolbarIcons(menu, R.id.minerva_announcement_link);
+        toolbarPlugin.tintToolbarIcons(menu, R.id.minerva_announcement_link);
         return super.onCreateOptionsMenu(menu);
     }
 

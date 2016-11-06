@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
@@ -169,7 +170,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         if(isLoggedIn()) {
             authWrapper.setVisibility(View.GONE);
             showProgressBar();
-            loaderHandler.startLoader();
+            loaderPlugin.startLoader();
         }
     }
 
@@ -225,7 +226,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
                 //Show login prompt
                 authWrapper.setVisibility(View.VISIBLE);
                 //Destroy loaders
-                loaderHandler.destroyLoader();
+                loaderPlugin.destroyLoader();
                 //Delete database
                 clearDatabase();
                 //Reload options
@@ -270,7 +271,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
                     syncBar.dismiss();
                     syncBar = null;
                     recyclerView.setVisibility(View.VISIBLE);
-                    loaderHandler.restartLoader();
+                    loaderPlugin.restartLoader();
                     return;
                 case SyncBroadcast.SYNC_ERROR:
                     Log.d(TAG, "Error");
@@ -279,6 +280,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
                     return;
                 case SyncBroadcast.SYNC_PROGRESS_WHATS_NEW:
                     Log.d(TAG, "Progress");
+                    ProgressBar progressBar = barPlugin.getProgressBar();
                     if(progressBar.isIndeterminate()) {
                         progressBar.setIndeterminate(false);
 

@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.models.schamper.ArticleImage;
 import be.ugent.zeus.hydra.utils.ViewUtils;
@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class ImageGalleryActivity extends ToolbarActivity {
+public class ImageGalleryActivity extends HydraActivity {
 
     public static final String PARCEL_IMAGES = "parcelImages";
     public static final String PARCEL_POSITION = "parcelPosition";

@@ -12,7 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -23,7 +23,7 @@ import be.ugent.zeus.hydra.viewpager.MinervaCoursePagerAdapter;
  *
  * @author Niko Strijbol
  */
-public class CourseActivity extends ToolbarActivity {
+public class CourseActivity extends HydraActivity {
 
     public static final String ARG_COURSE = "argCourse";
     public static final String ARG_TAB = "argTab";
@@ -53,7 +53,7 @@ public class CourseActivity extends ToolbarActivity {
         viewPager.setCurrentItem(getIntent().getIntExtra(ARG_TAB, TAB_ANNOUNCEMENTS), false);
         tabLayout.setupWithViewPager(viewPager);
 
-        getToolBar().setTitle(course.getTitle());
+        toolbarPlugin.getToolBar().setTitle(course.getTitle());
     }
 
     @Override
@@ -70,7 +70,7 @@ public class CourseActivity extends ToolbarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_minerva_course, menu);
-        tintToolbarIcons(menu, R.id.minerva_course_link);
+        toolbarPlugin.tintToolbarIcons(menu, R.id.minerva_course_link);
         return super.onCreateOptionsMenu(menu);
     }
 

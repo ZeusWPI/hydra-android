@@ -21,7 +21,7 @@ public abstract class RestoActivity<D extends Serializable> extends LoaderToolba
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_resto, menu);
-        tintToolbarIcons(menu, R.id.resto_refresh);
+        toolbarPlugin.tintToolbarIcons(menu, R.id.resto_refresh);
         return super.onCreateOptionsMenu(menu);
     }
 

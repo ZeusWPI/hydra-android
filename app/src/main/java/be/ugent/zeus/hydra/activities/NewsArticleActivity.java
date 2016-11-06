@@ -5,10 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
-
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
@@ -17,7 +15,7 @@ import be.ugent.zeus.hydra.utils.html.Utils;
 
 import static be.ugent.zeus.hydra.recyclerview.viewholder.NewsItemViewHolder.PARCEL_NAME;
 
-public class NewsArticleActivity extends ToolbarActivity {
+public class NewsArticleActivity extends HydraActivity {
 
     private String title;
 
@@ -59,7 +57,7 @@ public class NewsArticleActivity extends ToolbarActivity {
     }
 
     @Override
-    protected void sendScreen(HydraApplication application) {
-        application.sendScreenName("News article > " + title);
+    protected String getScreenName() {
+        return "News article > " + title;
     }
 }
