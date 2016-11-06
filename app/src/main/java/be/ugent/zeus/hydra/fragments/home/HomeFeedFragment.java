@@ -212,6 +212,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
             adapter.onDataUpdated(new ArrayList<>(data.second), null);
         }
+        wasCached = true;
         shouldRefresh = false;
         swipeRefreshLayout.setRefreshing(false);
     }
