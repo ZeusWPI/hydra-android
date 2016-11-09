@@ -6,26 +6,25 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.plugins.AutoStartLoaderPlugin;
-import be.ugent.zeus.hydra.activities.plugins.LoaderPlugin;
-import be.ugent.zeus.hydra.activities.plugins.ProgressBarPlugin;
-import be.ugent.zeus.hydra.activities.plugins.common.Plugin;
-import be.ugent.zeus.hydra.activities.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.plugins.AutoStartLoaderPlugin;
+import be.ugent.zeus.hydra.plugins.LoaderPlugin;
+import be.ugent.zeus.hydra.plugins.ProgressBarPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.loaders.LoaderCallback;
-import be.ugent.zeus.hydra.loaders.ProgressbarListener;
 
 import java.util.List;
 
 /**
  * @author Niko Strijbol
  */
-public abstract class LoaderFragment<D> extends PluginFragment implements LoaderCallback<D>, ProgressbarListener {
+public abstract class LoaderFragment<D> extends PluginFragment implements LoaderCallback<D>, LoaderCallback.DataCallbacks<D> {
 
     private static final String TAG = "CachedLoaderFragment";
 
     protected boolean shouldRenew = false;
     protected ProgressBarPlugin barPlugin = new ProgressBarPlugin();
-    protected LoaderPlugin<D> loaderPlugin = new AutoStartLoaderPlugin<D>(this, barPlugin, false);
+    protected LoaderPlugin<D> loaderPlugin = new AutoStartLoaderPlugin<>(this,this, barPlugin, false);
     protected boolean autoStart = true;
 
     @Override
@@ -33,20 +32,6 @@ public abstract class LoaderFragment<D> extends PluginFragment implements Loader
         super.onAddPlugins(plugins);
         plugins.add(barPlugin);
         plugins.add(loaderPlugin);
-    }
-
-    /**
-     * Hide the progress bar.
-     */
-    public void hideProgressBar() {
-        barPlugin.hideProgressBar();
-    }
-
-    /**
-     * Show the progress bar.
-     */
-    public void showProgressBar() {
-        barPlugin.showProgressBar();
     }
 
     /**
@@ -69,7 +54,7 @@ public abstract class LoaderFragment<D> extends PluginFragment implements Loader
     @Override
     public void receiveError(@NonNull Throwable error) {
         assert getView() != null;
-        hideProgressBar();
+        barPlugin.hideProgressBar();
         Log.e(TAG, "Error while getting data.", error);
         Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), new View.OnClickListener() {

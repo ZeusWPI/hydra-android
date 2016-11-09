@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.activities.plugins.common;
+package be.ugent.zeus.hydra.plugins.common;
 
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -38,6 +38,11 @@ public class PluginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         onAddPlugins(plugins);
+        List<Plugin> recursive = new ArrayList<>();
+        for(Plugin plugin: plugins) {
+            plugin.onAddPlugins(recursive);
+        }
+        plugins.addAll(recursive);
         for(Plugin plugin: plugins) {
             plugin.setProvider(ContextProvider.getProvider(this));
         }

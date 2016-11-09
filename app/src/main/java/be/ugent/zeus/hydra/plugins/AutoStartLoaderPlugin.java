@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.activities.plugins;
+package be.ugent.zeus.hydra.plugins;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,9 +13,10 @@ public class AutoStartLoaderPlugin<D> extends LoaderPlugin<D> {
 
     public AutoStartLoaderPlugin(
             LoaderCallback<D> callback,
+            LoaderCallback.DataCallbacks<D> dataCallbacks,
             @Nullable ProgressBarPlugin progressBarPlugin,
             boolean autoStart) {
-        super(callback, progressBarPlugin);
+        super(callback, dataCallbacks, progressBarPlugin);
         this.autoStart = true;
     }
 

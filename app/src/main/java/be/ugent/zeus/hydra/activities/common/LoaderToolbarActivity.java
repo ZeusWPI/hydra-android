@@ -7,9 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.plugins.LoaderPlugin;
-import be.ugent.zeus.hydra.activities.plugins.ProgressBarPlugin;
-import be.ugent.zeus.hydra.activities.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.LoaderPlugin;
+import be.ugent.zeus.hydra.plugins.ProgressBarPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.caching.CacheableRequest;
 import be.ugent.zeus.hydra.loaders.LoaderCallback;
 import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
@@ -24,14 +24,14 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public abstract class LoaderToolbarActivity<D extends Serializable> extends HydraActivity implements LoaderCallback<D> {
+public abstract class LoaderToolbarActivity<D extends Serializable> extends HydraActivity implements LoaderCallback<D>, LoaderCallback.DataCallbacks<D> {
 
     private static final String TAG = "LoaderToolbarActivity";
 
     protected boolean shouldRenew = false;
     //The progress bar. Is used if not null.
     protected ProgressBarPlugin barPlugin = new ProgressBarPlugin();
-    protected LoaderPlugin<D> loaderPlugin = new LoaderPlugin<>(this, barPlugin);
+    protected LoaderPlugin<D> loaderPlugin = new LoaderPlugin<>(this, this, barPlugin);
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {

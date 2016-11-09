@@ -3,10 +3,10 @@ package be.ugent.zeus.hydra.activities.common;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.view.View;
-import be.ugent.zeus.hydra.activities.plugins.AnalyticsPlugin;
-import be.ugent.zeus.hydra.activities.plugins.ToolbarPlugin;
-import be.ugent.zeus.hydra.activities.plugins.common.Plugin;
-import be.ugent.zeus.hydra.activities.plugins.common.PluginActivity;
+import be.ugent.zeus.hydra.plugins.AnalyticsPlugin;
+import be.ugent.zeus.hydra.plugins.ToolbarPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.PluginActivity;
 
 import java.util.List;
 

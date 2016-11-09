@@ -1,8 +1,8 @@
-package be.ugent.zeus.hydra.activities.plugins;
+package be.ugent.zeus.hydra.plugins;
 
 import android.util.Log;
 import be.ugent.zeus.hydra.HydraApplication;
-import be.ugent.zeus.hydra.activities.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
 
 /**
  * Plugin to send default analytics screen.

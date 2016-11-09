@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.activities.plugins.common;
+package be.ugent.zeus.hydra.plugins.common;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -45,6 +45,11 @@ public class PluginFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         onAddPlugins(otherPlugins);
+        List<Plugin> recursive = new ArrayList<>();
+        for(Plugin plugin: otherPlugins) {
+            plugin.onAddPlugins(recursive);
+        }
+        otherPlugins.addAll(recursive);
         for(Plugin plugin: otherPlugins) {
             if(plugin instanceof FragmentPlugin) {
                 fragmentPlugins.add((FragmentPlugin) plugin);

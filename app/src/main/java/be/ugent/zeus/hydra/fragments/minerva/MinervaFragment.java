@@ -77,7 +77,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        hideProgressBar();
+        barPlugin.hideProgressBar();
 
         this.manager = AccountManager.get(getContext());
         this.courseDao = new CourseDao(getContext());
@@ -169,7 +169,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         //If we are logged in, we can start loading the data.
         if(isLoggedIn()) {
             authWrapper.setVisibility(View.GONE);
-            showProgressBar();
+            barPlugin.showProgressBar();
             loaderPlugin.startLoader();
         }
     }
@@ -222,7 +222,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
                 //Hide list
                 recyclerView.setVisibility(View.GONE);
                 //Hide progress
-                hideProgressBar();
+                barPlugin.hideProgressBar();
                 //Show login prompt
                 authWrapper.setVisibility(View.VISIBLE);
                 //Destroy loaders
@@ -304,7 +304,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         if(syncBar == null) {
             authWrapper.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE);
-            showProgressBar();
+            barPlugin.showProgressBar();
             syncBar = Snackbar.make(getView(), text, Snackbar.LENGTH_INDEFINITE);
             syncBar.show();
         } else {

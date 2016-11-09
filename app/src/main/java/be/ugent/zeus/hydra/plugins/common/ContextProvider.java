@@ -1,10 +1,11 @@
-package be.ugent.zeus.hydra.activities.plugins.common;
+package be.ugent.zeus.hydra.plugins.common;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 /**
  * @author Niko Strijbol
@@ -30,6 +31,8 @@ public final class ContextProvider {
         Context getContext();
 
         Class<?> getHostClass();
+
+        View getRoot();
     }
 
     public static class FragmentProvider implements Provider {
@@ -58,6 +61,11 @@ public final class ContextProvider {
         @Override
         public Class<?> getHostClass() {
             return getFragment().getClass();
+        }
+
+        @Override
+        public View getRoot() {
+            return fragment.getView();
         }
 
         public Fragment getFragment() {
@@ -91,6 +99,11 @@ public final class ContextProvider {
         @Override
         public Class<?> getHostClass() {
             return getActivity().getClass();
+        }
+
+        @Override
+        public View getRoot() {
+            return activity.findViewById(android.R.id.content);
         }
 
         public AppCompatActivity getActivity() {

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.activities.plugins;
+package be.ugent.zeus.hydra.plugins;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,8 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.plugins.common.ContextProvider;
-import be.ugent.zeus.hydra.activities.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.ContextProvider;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;

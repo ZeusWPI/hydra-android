@@ -1,13 +1,13 @@
-package be.ugent.zeus.hydra.activities.plugins;
+package be.ugent.zeus.hydra.plugins;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import be.ugent.zeus.hydra.activities.plugins.common.FragmentPlugin;
 import be.ugent.zeus.hydra.loaders.LoaderCallback;
 import be.ugent.zeus.hydra.loaders.ResetListener;
 import be.ugent.zeus.hydra.loaders.ThrowableEither;
+import be.ugent.zeus.hydra.plugins.common.FragmentPlugin;
 
 /**
  * @author Niko Strijbol
@@ -17,15 +17,18 @@ public class LoaderPlugin<D> extends FragmentPlugin implements LoaderManager.Loa
     private static int LOADER_ID = 0;
 
     private final LoaderCallback<D> callback;
+    private final LoaderCallback.DataCallbacks<D> dataCallbacks;
     private ResetListener resetListener;
 
     private final ProgressBarPlugin progressBarPlugin;
 
     public LoaderPlugin(
             LoaderCallback<D> callback,
+            LoaderCallback.DataCallbacks<D> dataCallbacks,
             @Nullable ProgressBarPlugin progressBarPlugin) {
         this.callback = callback;
         this.progressBarPlugin = progressBarPlugin;
+        this.dataCallbacks = dataCallbacks;
     }
 
     public void setResetListener(ResetListener resetListener) {
@@ -40,9 +43,9 @@ public class LoaderPlugin<D> extends FragmentPlugin implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<ThrowableEither<D>> loader, ThrowableEither<D> data) {
         if(data.hasError()) {
-            callback.receiveError(data.getError());
+            dataCallbacks.receiveError(data.getError());
         } else {
-            callback.receiveData(data.getData());
+            dataCallbacks.receiveData(data.getData());
         }
 
         if(progressBarPlugin != null) {

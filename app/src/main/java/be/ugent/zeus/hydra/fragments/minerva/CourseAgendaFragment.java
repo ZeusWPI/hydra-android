@@ -75,7 +75,7 @@ public class CourseAgendaFragment extends LoaderFragment<List<AgendaItem>> {
     @Override
     public void receiveData(@NonNull List<AgendaItem> data) {
         adapter.setItems(data);
-        hideProgressBar();
+        barPlugin.hideProgressBar();
     }
 
     @Override

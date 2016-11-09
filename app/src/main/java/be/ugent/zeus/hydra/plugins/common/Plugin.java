@@ -1,10 +1,13 @@
-package be.ugent.zeus.hydra.activities.plugins.common;
+package be.ugent.zeus.hydra.plugins.common;
 
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Niko Strijbol
@@ -23,6 +26,20 @@ public abstract class Plugin {
             throw new IllegalStateException("getHost was called too early.");
         }
         return provider;
+    }
+
+    /**
+     * You should call the super method AFTER adding your own.
+     * @param plugins
+     */
+    @CallSuper
+    protected void onAddPlugins(List<Plugin> plugins) {
+        //Nothing
+        List<Plugin> recursive = new ArrayList<>();
+        for(Plugin plugin: plugins) {
+            plugin.onAddPlugins(recursive);
+        }
+        plugins.addAll(recursive);
     }
 
     @CallSuper
