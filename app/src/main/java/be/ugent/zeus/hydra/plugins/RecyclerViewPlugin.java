@@ -11,7 +11,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.caching.CacheableRequest;
 import be.ugent.zeus.hydra.loaders.LoaderCallback;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
-import be.ugent.zeus.hydra.recyclerview.adapters.common.SimpleItemAdapter;
+import be.ugent.zeus.hydra.recyclerview.adapters.common.Adapter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,11 +27,19 @@ public class RecyclerViewPlugin<D extends Serializable, E extends ArrayList<D>> 
     private static final String TAG = "RecyclerViewPlugin";
 
     private final RequestPlugin<E> requestPlugin;
-    private final SimpleItemAdapter<D, ?> adapter;
+    private final Adapter<D, ?> adapter;
     private RecyclerView recyclerView;
 
-    public RecyclerViewPlugin(CacheableRequest<E> request, SimpleItemAdapter<D, ?> adapter) {
-        requestPlugin = new RequestPlugin<>(this, request);
+    @Nullable
+    private LoaderCallback.DataCallbacks<E> callback;
+
+    public RecyclerViewPlugin(CacheableRequest<E> request, Adapter<D, ?> adapter) {
+        this.requestPlugin = new RequestPlugin<>(this, request);
+        this.adapter = adapter;
+    }
+
+    public RecyclerViewPlugin(RequestPlugin.RequestProvider<E> provider, Adapter<D, ?> adapter) {
+        this.requestPlugin = new RequestPlugin<>(this, provider);
         this.adapter = adapter;
     }
 
@@ -51,6 +59,9 @@ public class RecyclerViewPlugin<D extends Serializable, E extends ArrayList<D>> 
     @Override
     public void receiveData(@NonNull E data) {
         adapter.setItems(data);
+        if(callback != null) {
+            callback.receiveData(data);
+        }
     }
 
     @Override
@@ -59,6 +70,9 @@ public class RecyclerViewPlugin<D extends Serializable, E extends ArrayList<D>> 
         Snackbar.make(getHost().getRoot(), getHost().getContext().getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getHost().getContext().getString(R.string.again), v -> requestPlugin.refresh())
                 .show();
+        if(callback != null) {
+            callback.receiveError(e);
+        }
     }
 
     public RequestPlugin<E> getRequestPlugin() {
@@ -67,5 +81,9 @@ public class RecyclerViewPlugin<D extends Serializable, E extends ArrayList<D>> 
 
     public RecyclerView getRecyclerView() {
         return recyclerView;
+    }
+
+    public void setCallback(LoaderCallback.DataCallbacks<E> callback) {
+        this.callback = callback;
     }
 }

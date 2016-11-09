@@ -26,7 +26,8 @@ public class PluginActivity extends AppCompatActivity {
     }
 
     /**
-     * This method allows activities to register plugins. The plugins should be added to the list.
+     * This method allows to register plugins. The plugins should be added to the given list. This method is also
+     * suitable for initialising the plugin, as it will be called before anything else.
      *
      * @param plugins The list.
      */

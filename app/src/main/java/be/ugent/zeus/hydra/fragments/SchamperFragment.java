@@ -27,8 +27,7 @@ import java.util.List;
 public class SchamperFragment extends PluginFragment {
 
     private final SchamperListAdapter adapter = new SchamperListAdapter();
-    private final SchamperArticlesRequest request = new SchamperArticlesRequest();
-    private final RecyclerViewPlugin<Article, Articles> plugin = new RecyclerViewPlugin<>(request, adapter);
+    private final RecyclerViewPlugin<Article, Articles> plugin = new RecyclerViewPlugin<>(new SchamperArticlesRequest(), adapter);
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_schamper, container, false);

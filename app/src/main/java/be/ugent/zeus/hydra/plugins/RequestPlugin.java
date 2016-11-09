@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.plugins;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.content.Loader;
 import android.widget.Toast;
@@ -9,6 +10,8 @@ import be.ugent.zeus.hydra.loaders.LoaderCallback;
 import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
 import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.requests.common.Request;
+import be.ugent.zeus.hydra.requests.common.SimpleCacheRequest;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,11 +26,15 @@ public class RequestPlugin<D extends Serializable> extends Plugin implements Loa
 
     private boolean refreshFlag;
 
-    private final CacheableRequest<D> request;
+    private final RequestProvider<D> provider;
     private final LoaderCallback.DataCallbacks<D> callback;
 
     public RequestPlugin(LoaderCallback.DataCallbacks<D> callback, CacheableRequest<D> request) {
-        this.request = request;
+        this(callback, (c, b) -> new SimpleCacheRequest<>(c, request, b));
+    }
+
+    public RequestPlugin(LoaderCallback.DataCallbacks<D> callback, RequestProvider<D> provider) {
+        this.provider = provider;
         this.callback = callback;
     }
 
@@ -52,7 +59,8 @@ public class RequestPlugin<D extends Serializable> extends Plugin implements Loa
 
     @Override
     public Loader<ThrowableEither<D>> getLoader() {
-        Loader<ThrowableEither<D>> loader = RequestAsyncTaskLoader.getSimpleLoader(getHost().getContext(), request, refreshFlag);
+        Request<D> request = provider.getRequest(getHost().getContext(), refreshFlag);
+        Loader<ThrowableEither<D>> loader = new RequestAsyncTaskLoader<>(request, getHost().getContext());
         refreshFlag = false;
         return loader;
     }
@@ -82,5 +90,10 @@ public class RequestPlugin<D extends Serializable> extends Plugin implements Loa
         Toast.makeText(getHost().getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
         setRefreshFlag(true);
         loaderPlugin.restartLoader();
+    }
+
+    @FunctionalInterface
+    public interface RequestProvider<D> {
+        Request<D> getRequest(Context context, boolean shouldRefresh);
     }
 }

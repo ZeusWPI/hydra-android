@@ -25,8 +25,9 @@ public class RestoRequest extends ProcessableCacheRequest<RestoOverview, List<Ho
     @Override
     protected List<HomeCard> transform(@NonNull RestoOverview data) {
         List<HomeCard> menuCardList = new ArrayList<>();
+        RestoOverview.filter(data, context);
 
-        for (RestoMenu menu : RestoOverview.filter(data, context)) {
+        for (RestoMenu menu: data) {
             menuCardList.add(new RestoMenuCard(menu));
         }
 

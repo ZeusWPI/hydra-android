@@ -22,7 +22,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public abstract class RecyclerLoaderFragment<E, D extends Serializable & List<E>, A extends RecyclerView.Adapter<?> & Adapter<E>> extends CachedLoaderFragment<D> {
+public abstract class RecyclerLoaderFragment<E, D extends Serializable & List<E>, A extends Adapter<E, ?>> extends CachedLoaderFragment<D> {
 
     protected RecyclerView recyclerView;
     protected A adapter;

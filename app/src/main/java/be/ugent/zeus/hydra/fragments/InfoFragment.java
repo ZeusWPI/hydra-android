@@ -18,17 +18,20 @@ import be.ugent.zeus.hydra.requests.InfoRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Display info items.
+ *
+ * @author Niko Strijbol
+ */
 public class InfoFragment extends PluginFragment {
 
-    private static final String TAG = "InfoFragment";
-
     private final InfoListAdapter adapter = new InfoListAdapter();
-    private final InfoRequest request = new InfoRequest();
-    private final RecyclerViewPlugin<InfoItem, InfoList> recyclerPlugin = new RecyclerViewPlugin<>(request, adapter);
+    private final RecyclerViewPlugin<InfoItem, InfoList> recyclerPlugin = new RecyclerViewPlugin<>(new InfoRequest(), adapter);
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
+        recyclerPlugin.getRequestPlugin().getLoaderPlugin().setAutoStart(false);
         plugins.add(recyclerPlugin);
     }
 

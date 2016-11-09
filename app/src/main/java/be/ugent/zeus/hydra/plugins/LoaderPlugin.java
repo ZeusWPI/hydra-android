@@ -22,6 +22,8 @@ public class LoaderPlugin<D> extends FragmentPlugin implements LoaderManager.Loa
 
     private final ProgressBarPlugin progressBarPlugin;
 
+    private boolean autoStart = true;
+
     public LoaderPlugin(
             LoaderCallback<D> callback,
             LoaderCallback.DataCallbacks<D> dataCallbacks,
@@ -29,6 +31,18 @@ public class LoaderPlugin<D> extends FragmentPlugin implements LoaderManager.Loa
         this.callback = callback;
         this.progressBarPlugin = progressBarPlugin;
         this.dataCallbacks = dataCallbacks;
+    }
+
+    public void setAutoStart(boolean start) {
+        this.autoStart = start;
+    }
+
+    @Override
+    protected void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(autoStart) {
+            startLoader();
+        }
     }
 
     public void setResetListener(ResetListener resetListener) {

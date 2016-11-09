@@ -20,7 +20,7 @@ public class UrgentTrack implements Track {
 
     private final Context context;
 
-    public UrgentTrack(Context context) {
+    UrgentTrack(Context context) {
         this.context = context;
     }
 
