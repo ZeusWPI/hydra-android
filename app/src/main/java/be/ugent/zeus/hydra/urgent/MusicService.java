@@ -395,7 +395,7 @@ public class MusicService extends Service implements
                 wifiLock.release();
             }
 
-            if(callbacks != null) {
+            if(callbacks != null && state == MediaState.STOPPED) {
                 callbacks.onPlaybackStopped();
             }
         }
@@ -415,9 +415,11 @@ public class MusicService extends Service implements
 
         moveToStop();
 
-        trackManager.releaseTracks();
-        notificationManager.remove();
-        stopSelf();
+        if(state == MediaState.STOPPED) {
+            trackManager.releaseTracks();
+            notificationManager.remove();
+            stopSelf();
+        }
     }
 
     /**
@@ -471,6 +473,10 @@ public class MusicService extends Service implements
         //Stop any playing song
         moveToStop();
 
+        if(state != MediaState.STOPPED) {
+            return;
+        }
+
         //At this point, the state is always stopped.
         //Remove any media and reset the media player.
         mediaPlayer.reset();
@@ -502,7 +508,7 @@ public class MusicService extends Service implements
         }
 
         if(getCurrentState() != MediaState.STOPPED) {
-            throw new IllegalStateException("The state could not be set to stopped.");
+            Log.e(TAG, "The state could not be set to stopped.");
         }
     }
 
