@@ -25,10 +25,7 @@ import su.j2e.rvjoiner.JoinableAdapter;
 import su.j2e.rvjoiner.JoinableLayout;
 import su.j2e.rvjoiner.RvJoiner;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -84,7 +81,7 @@ public class LineupFragment extends PluginFragment implements SwipeRefreshLayout
     @Override
     public void receiveData(@NonNull Artists data) {
         //Sort into stages
-        Map<String, List<Artist>> stages = new HashMap<>();
+        Map<String, List<Artist>> stages = new LinkedHashMap<>();
 
         for (Artist artist: data) {
             if(!stages.containsKey(artist.getStage())) {
