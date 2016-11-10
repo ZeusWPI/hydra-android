@@ -14,7 +14,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class ProgressBarPlugin extends Plugin {
 
-    protected ProgressBar progressBar;
+    private ProgressBar progressBar;
 
     @Override
     protected void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

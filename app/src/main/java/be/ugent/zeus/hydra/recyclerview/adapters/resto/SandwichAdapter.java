@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.recyclerview.adapters.resto;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,10 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.resto.Sandwich;
+import be.ugent.zeus.hydra.recyclerview.adapters.common.SimpleItemAdapter;
 import com.kyo.expandablelayout.ExpandableLayout;
-
-import java.util.Collections;
-import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -23,9 +20,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public class SandwichAdapter extends RecyclerView.Adapter<SandwichAdapter.SandwichHolder> {
-
-    private Context context;
+public class SandwichAdapter extends SimpleItemAdapter<Sandwich, SandwichAdapter.SandwichHolder> {
 
     public static class SandwichHolder extends RecyclerView.ViewHolder {
 
@@ -46,20 +41,7 @@ public class SandwichAdapter extends RecyclerView.Adapter<SandwichAdapter.Sandwi
         }
     }
 
-    private List<Sandwich> data = Collections.emptyList();
     private SparseBooleanArray expanded = new SparseBooleanArray();
-
-    public SandwichAdapter(Context context) {
-        this.context = context;
-    }
-
-    /**
-     * @param data Replace the current data.
-     */
-    public void replaceData(List<Sandwich> data) {
-        this.data = data;
-        notifyDataSetChanged();
-    }
 
     @Override
     public SandwichHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -74,9 +56,9 @@ public class SandwichAdapter extends RecyclerView.Adapter<SandwichAdapter.Sandwi
     @Override
     public void onBindViewHolder(final SandwichHolder holder, final int position) {
         //Get sandwich from data.
-        Sandwich sandwich = data.get(position);
+        Sandwich sandwich = items.get(position);
 
-        Resources r = context.getResources();
+        Resources r = holder.itemView.getResources();
 
         //Set the data.
         holder.name.setText(sandwich.name);
@@ -85,21 +67,13 @@ public class SandwichAdapter extends RecyclerView.Adapter<SandwichAdapter.Sandwi
         String ingredients = TextUtils.join(", ", sandwich.getIngredients());
         holder.ingredients.setText(String.format(r.getString(R.string.sandwich_ingredients), ingredients));
         holder.expandableLayout.setExpanded(expanded.get(position));
-        holder.expandableLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(holder.expandableLayout.isExpanded()) {
-                    expanded.delete(holder.getAdapterPosition());
-                } else {
-                    expanded.put(holder.getAdapterPosition(), true);
-                }
-                holder.expandableLayout.toggleExpansion();
+        holder.expandableLayout.setOnClickListener(v -> {
+            if(holder.expandableLayout.isExpanded()) {
+                expanded.delete(holder.getAdapterPosition());
+            } else {
+                expanded.put(holder.getAdapterPosition(), true);
             }
+            holder.expandableLayout.toggleExpansion();
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        return data.size();
     }
 }

@@ -1,12 +1,12 @@
 package be.ugent.zeus.hydra.plugins;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v4.content.Loader;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.caching.CacheableRequest;
-import be.ugent.zeus.hydra.loaders.LoaderCallback;
+import be.ugent.zeus.hydra.loaders.DataCallback;
+import be.ugent.zeus.hydra.loaders.LoaderProvider;
 import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
 import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
@@ -19,50 +19,56 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class RequestPlugin<D extends Serializable> extends Plugin implements LoaderCallback<D>, LoaderCallback.DataCallbacks<D> {
+public class RequestPlugin<D> extends Plugin {
 
-    private ProgressBarPlugin progressBarPlugin = new ProgressBarPlugin();
-    private LoaderPlugin<D> loaderPlugin = new LoaderPlugin<>(this, this, progressBarPlugin);
+    private final ProgressBarPlugin progressBarPlugin = new ProgressBarPlugin();
+    private final LoaderPlugin<D> loaderPlugin;
 
     private boolean refreshFlag;
 
-    private final RequestProvider<D> provider;
-    private final LoaderCallback.DataCallbacks<D> callback;
-
-    public RequestPlugin(LoaderCallback.DataCallbacks<D> callback, CacheableRequest<D> request) {
-        this(callback, (c, b) -> new SimpleCacheRequest<>(c, request, b));
+    /**
+     * Wrap a request in a SimpleCacheRequest. This will enable caching.
+     *
+     * This function exists because of weaknesses in the Java generics. Ideally, there would be a second constructor,
+     * taking a request as an argument and wrapping it for us. However, this would require <code>D</code> to extend
+     * Serializable, which we don't want. Then we could not use this with non-cached requests.
+     *
+     * Ideally:
+     * <code>
+     *     public <D must be Serializable here> RequestPlugin (DataCallbacks<D> d, CacheableRequest<D> r)
+     * </code>
+     *
+     * There is no way to indicate that D must be serializable for this method only. By wrapping the request with
+     * this function, it does work without losing type safety.
+     *
+     * @param request The request.
+     * @param <T> The type.
+     * @return The wrapper.
+     */
+    public static <T extends Serializable> RequestProvider<T> wrap(CacheableRequest<T> request) {
+        return (c, b) -> new SimpleCacheRequest<>(c, request, b);
     }
 
-    public RequestPlugin(LoaderCallback.DataCallbacks<D> callback, RequestProvider<D> provider) {
-        this.provider = provider;
-        this.callback = callback;
+    /**
+     * Note: if you need caching for a {@link CacheableRequest}, you can use the function {@link #wrap(CacheableRequest)},
+     * which will construct a RequestProvider for a CacheableRequest that utilises caching.
+     *
+     * @param callback The data callbacks.
+     * @param provider The request provider.
+     */
+    public RequestPlugin(DataCallback<D> callback, RequestProvider<D> provider) {
+        this.loaderPlugin = new LoaderPlugin<>(new DefaultCallback(provider), callback, progressBarPlugin);
+    }
+
+    public RequestPlugin(DataCallback<D> callback, LoaderProvider<D> provider) {
+        this.loaderPlugin = new LoaderPlugin<>(provider, callback, progressBarPlugin);
     }
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
         plugins.add(progressBarPlugin);
         plugins.add(loaderPlugin);
-        super.onAddPlugins(plugins);
-    }
-
-    @Override
-    public void receiveData(@NonNull D data) {
-        progressBarPlugin.hideProgressBar();
-        callback.receiveData(data);
-    }
-
-    @Override
-    public void receiveError(@NonNull Throwable e) {
-        progressBarPlugin.hideProgressBar();
-        callback.receiveError(e);
-    }
-
-    @Override
-    public Loader<ThrowableEither<D>> getLoader() {
-        Request<D> request = provider.getRequest(getHost().getContext(), refreshFlag);
-        Loader<ThrowableEither<D>> loader = new RequestAsyncTaskLoader<>(request, getHost().getContext());
-        refreshFlag = false;
-        return loader;
     }
 
     /**
@@ -95,5 +101,22 @@ public class RequestPlugin<D extends Serializable> extends Plugin implements Loa
     @FunctionalInterface
     public interface RequestProvider<D> {
         Request<D> getRequest(Context context, boolean shouldRefresh);
+    }
+
+    private class DefaultCallback implements LoaderProvider<D> {
+
+        private final RequestProvider<D> provider;
+
+        private DefaultCallback(RequestProvider<D> provider) {
+            this.provider = provider;
+        }
+
+        @Override
+        public Loader<ThrowableEither<D>> getLoader(Context context) {
+            Request<D> request = provider.getRequest(context, refreshFlag);
+            Loader<ThrowableEither<D>> loader = new RequestAsyncTaskLoader<>(request, context);
+            refreshFlag = false;
+            return loader;
+        }
     }
 }

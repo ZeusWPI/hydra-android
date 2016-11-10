@@ -4,17 +4,21 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.*;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
+import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.models.sko.Timeline;
+import be.ugent.zeus.hydra.models.sko.TimelinePost;
+import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
+import be.ugent.zeus.hydra.plugins.RequestPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.sko.TimelineAdapter;
 import be.ugent.zeus.hydra.requests.sko.TimelineRequest;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.utils.customtabs.CustomTabsHelper;
+
+import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -23,11 +27,19 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public class TimelineFragment extends CachedLoaderFragment<Timeline> implements SwipeRefreshLayout.OnRefreshListener {
+public class TimelineFragment extends PluginFragment implements SwipeRefreshLayout.OnRefreshListener, DataCallback<Timeline> {
 
-    private TimelineAdapter adapter;
     private SwipeRefreshLayout refreshLayout;
     private ActivityHelper helper;
+    private final TimelineRequest request = new TimelineRequest();
+    private RecyclerViewPlugin<TimelinePost, Timeline> plugin = new RecyclerViewPlugin<>(RequestPlugin.wrap(request), null);
+
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugin.setCallback(this);
+        plugins.add(plugin);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +47,7 @@ public class TimelineFragment extends CachedLoaderFragment<Timeline> implements 
         setHasOptionsMenu(true);
         helper = CustomTabsHelper.initHelper(getActivity(), null);
         helper.setShareMenu(true);
+        plugin.setAdapter(new TimelineAdapter(helper));
     }
 
     @Nullable
@@ -46,15 +59,8 @@ public class TimelineFragment extends CachedLoaderFragment<Timeline> implements 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
-
         refreshLayout = $(view, R.id.refresh_layout);
         refreshLayout.setOnRefreshListener(this);
-
-        adapter = new TimelineAdapter(helper);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
@@ -71,20 +77,17 @@ public class TimelineFragment extends CachedLoaderFragment<Timeline> implements 
 
     @Override
     public void receiveData(@NonNull Timeline data) {
-        adapter.setItems(data);
         refreshLayout.setRefreshing(false);
     }
 
     @Override
-    protected TimelineRequest getRequest() {
-        return new TimelineRequest();
+    public void receiveError(@NonNull Throwable e) {
+        //
     }
 
     @Override
     public void onRefresh() {
-        shouldRenew = true;
-        loaderPlugin.restartLoader();
-        shouldRenew = false;
+        plugin.getRequestPlugin().refresh();
     }
 
     @Override

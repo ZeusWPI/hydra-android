@@ -30,8 +30,6 @@ public final class ContextProvider {
 
         Context getContext();
 
-        Class<?> getHostClass();
-
         View getRoot();
     }
 
@@ -56,11 +54,6 @@ public final class ContextProvider {
         @Override
         public Context getContext() {
             return fragment.getContext();
-        }
-
-        @Override
-        public Class<?> getHostClass() {
-            return getFragment().getClass();
         }
 
         @Override
@@ -94,11 +87,6 @@ public final class ContextProvider {
         @Override
         public Context getContext() {
             return activity;
-        }
-
-        @Override
-        public Class<?> getHostClass() {
-            return getActivity().getClass();
         }
 
         @Override

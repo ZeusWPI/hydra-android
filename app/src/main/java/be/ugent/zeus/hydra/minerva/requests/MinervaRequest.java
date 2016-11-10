@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.minerva.auth.requests.data;
+package be.ugent.zeus.hydra.minerva.requests;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;

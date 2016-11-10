@@ -37,7 +37,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:paddingTop="@dimen/card_spacing" />
+                android:paddingTop="@dimen/card_spacing"
+                app:layoutManager="@string/app_layout_manager_normal"/>
 
             <include layout="@layout/x_progress_bar" />
         </FrameLayout>

@@ -143,7 +143,7 @@ public class EventDetailActivity extends HydraActivity {
 
     @Override
     protected String getScreenName() {
-        return "Activity > " + event.getTitle();
+        return "Event > " + event.getTitle();
     }
 
     /**

@@ -67,20 +67,10 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
         if(post.getBody() != null) {
             body.setText(post.getBody());
             LinkifyCompat.addLinks(body, Linkify.WEB_URLS);
-            body.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    adapter.getHelper().openCustomTab(Uri.parse(post.getLink()));
-                }
-            });
+            body.setOnClickListener(v -> adapter.getHelper().openCustomTab(Uri.parse(post.getLink())));
         }
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                adapter.getHelper().openCustomTab(Uri.parse(post.getLink()));
-            }
-        });
+        itemView.setOnClickListener(v -> adapter.getHelper().openCustomTab(Uri.parse(post.getLink())));
     }
 
     @DrawableRes

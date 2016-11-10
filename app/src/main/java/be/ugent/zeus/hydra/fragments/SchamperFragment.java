@@ -10,6 +10,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.models.schamper.Articles;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
+import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.SchamperListAdapter;
@@ -27,7 +28,7 @@ import java.util.List;
 public class SchamperFragment extends PluginFragment {
 
     private final SchamperListAdapter adapter = new SchamperListAdapter();
-    private final RecyclerViewPlugin<Article, Articles> plugin = new RecyclerViewPlugin<>(new SchamperArticlesRequest(), adapter);
+    private final RecyclerViewPlugin<Article, Articles> plugin = new RecyclerViewPlugin<>(RequestPlugin.wrap(new SchamperArticlesRequest()), adapter);
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_schamper, container, false);
@@ -45,6 +46,6 @@ public class SchamperFragment extends PluginFragment {
 
         RecyclerView recyclerView = plugin.getRecyclerView();
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
+        plugin.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
     }
 }

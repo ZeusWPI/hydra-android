@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.fragments.minerva;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,17 +10,23 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.minerva.AnnouncementActivity;
-import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
+import be.ugent.zeus.hydra.loaders.DataCallback;
+import be.ugent.zeus.hydra.loaders.LoaderProvider;
 import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDaoLoader;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.plugins.LoaderPlugin;
+import be.ugent.zeus.hydra.plugins.ProgressBarPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemLoader;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.AnnouncementAdapter;
 import su.j2e.rvjoiner.JoinableAdapter;
@@ -34,14 +41,18 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * @author Niko Strijbol
  */
-public class CourseAnnouncementFragment extends LoaderFragment<List<Announcement>> {
+public class CourseAnnouncementFragment extends PluginFragment implements DataCallback<List<Announcement>>, LoaderProvider<List<Announcement>> {
 
     private static final String ARG_COURSE = "argCourse";
+    private static final String TAG = "CourseAnnouncementFragm";
 
     private Course course;
     private AnnouncementDao dao;
     private AnnouncementAdapter unreadAdapter;
     private AnnouncementAdapter readAdapter;
+
+    private final ProgressBarPlugin progressBarPlugin = new ProgressBarPlugin();
+    private LoaderPlugin<List<Announcement>> plugin = new LoaderPlugin<>(this, this, progressBarPlugin);
 
     public static CourseAnnouncementFragment newInstance(Course course) {
         CourseAnnouncementFragment fragment = new CourseAnnouncementFragment();
@@ -49,6 +60,13 @@ public class CourseAnnouncementFragment extends LoaderFragment<List<Announcement
         data.putParcelable(ARG_COURSE, course);
         fragment.setArguments(data);
         return fragment;
+    }
+
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugins.add(progressBarPlugin);
+        plugins.add(plugin);
     }
 
     @Override
@@ -105,6 +123,11 @@ public class CourseAnnouncementFragment extends LoaderFragment<List<Announcement
     }
 
     @Override
+    public void receiveError(@NonNull Throwable e) {
+        Log.e(TAG, "Error while receiving data: ", e);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == AnnouncementActivity.RESULT_ANNOUNCEMENT && resultCode == Activity.RESULT_OK) {
             int id = data.getIntExtra(AnnouncementActivity.RESULT_ARG_ANNOUNCEMENT_ID, 0);
@@ -117,7 +140,7 @@ public class CourseAnnouncementFragment extends LoaderFragment<List<Announcement
     }
 
     @Override
-    public Loader<ThrowableEither<List<Announcement>>> getLoader() {
-        return new AnnouncementDaoLoader(getContext(), dao, course);
+    public Loader<ThrowableEither<List<Announcement>>> getLoader(Context context) {
+        return new AnnouncementDaoLoader(context, dao, course);
     }
 }

@@ -20,7 +20,7 @@
  */
 package be.ugent.zeus.hydra.minerva.auth;
 
-import be.ugent.zeus.hydra.minerva.auth.requests.data.MinervaRequest;
+import be.ugent.zeus.hydra.minerva.requests.MinervaRequest;
 
 /**
  * Various constants for Minerva accounts.

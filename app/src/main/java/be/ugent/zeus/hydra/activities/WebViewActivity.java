@@ -3,13 +3,14 @@ package be.ugent.zeus.hydra.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
+import be.ugent.zeus.hydra.plugins.ProgressBarPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
+
+import java.util.List;
 
 /**
  * Displays a web view.
@@ -21,7 +22,13 @@ public class WebViewActivity extends HydraActivity {
     public static final String URL = "be.ugent.zeus.hydra.url";
     public static final String TITLE = "be.ugent.zeus.hydra.title";
 
-    private ProgressBar progressBar;
+    private ProgressBarPlugin progressBarPlugin = new ProgressBarPlugin();
+
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugins.add(progressBarPlugin);
+    }
 
     @Override
     @SuppressLint("SetJavaScriptEnabled")
@@ -30,12 +37,11 @@ public class WebViewActivity extends HydraActivity {
         setContentView(R.layout.activity_webview);
 
         WebView webView = $(R.id.web_view);
-        progressBar = $(R.id.progress_bar);
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
-                progressBar.setVisibility(View.GONE);
+                progressBarPlugin.hideProgressBar();
             }
         });
 
@@ -51,9 +57,7 @@ public class WebViewActivity extends HydraActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        HydraApplication app = (HydraApplication) getApplication();
-        app.sendScreenName("Webview > " + getTitle());
+    protected String getScreenName() {
+        return "Webview > " + getTitle();
     }
 }

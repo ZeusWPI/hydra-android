@@ -5,16 +5,20 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.*;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
+import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.models.sko.Artist;
 import be.ugent.zeus.hydra.models.sko.Artists;
+import be.ugent.zeus.hydra.plugins.RequestPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.sko.LineupAdapter;
 import be.ugent.zeus.hydra.requests.sko.LineupRequest;
 import su.j2e.rvjoiner.JoinableAdapter;
@@ -33,11 +37,21 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public class LineupFragment extends CachedLoaderFragment<Artists> implements SwipeRefreshLayout.OnRefreshListener {
+public class LineupFragment extends PluginFragment implements SwipeRefreshLayout.OnRefreshListener, DataCallback<Artists> {
+
+    private static final String TAG = "LineupFragment";
 
     private RvJoiner joiner;
     private Map<String, LineupAdapter> adapters = new HashMap<>();
     private SwipeRefreshLayout refreshLayout;
+
+    private RequestPlugin<Artists> plugin = new RequestPlugin<>(this, RequestPlugin.wrap(new LineupRequest()));
+
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugins.add(plugin);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,10 +107,16 @@ public class LineupFragment extends CachedLoaderFragment<Artists> implements Swi
     }
 
     @Override
+    public void receiveError(@NonNull Throwable e) {
+        Log.e(TAG, "Error while getting data.", e);
+        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.again), v -> onRefresh())
+                .show();
+    }
+
+    @Override
     public void onRefresh() {
-        shouldRenew = true;
-        loaderPlugin.restartLoader();
-        shouldRenew = false;
+        plugin.refresh();
     }
 
     @Override
@@ -113,11 +133,6 @@ public class LineupFragment extends CachedLoaderFragment<Artists> implements Swi
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected LineupRequest getRequest() {
-        return new LineupRequest();
     }
 
     /**

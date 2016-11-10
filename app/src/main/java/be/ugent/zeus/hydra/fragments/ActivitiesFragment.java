@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import android.widget.LinearLayout;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
-import be.ugent.zeus.hydra.loaders.LoaderCallback;
+import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.models.association.Event;
 import be.ugent.zeus.hydra.models.association.Events;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
@@ -36,7 +35,9 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author ellen
  * @author Niko Strijbol
  */
-public class ActivitiesFragment extends PluginFragment implements SharedPreferences.OnSharedPreferenceChangeListener, LoaderCallback.DataCallbacks<Events> {
+public class ActivitiesFragment extends PluginFragment implements SharedPreferences.OnSharedPreferenceChangeListener, DataCallback<Events> {
+
+    private static final String TAG = "ActivitiesFragment";
 
     private final EventAdapter adapter = new EventAdapter();
     private final RecyclerViewPlugin<Event, Events> plugin = new RecyclerViewPlugin<>(FilteredEventRequest::new, adapter);
@@ -64,10 +65,8 @@ public class ActivitiesFragment extends PluginFragment implements SharedPreferen
 
         noData = $(view, R.id.events_no_data);
 
-        RecyclerView recyclerView = plugin.getRecyclerView();
-        StickyRecyclerHeadersDecoration decorator = new StickyRecyclerHeadersDecoration(adapter);
-        recyclerView.addItemDecoration(decorator);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        plugin.addItemDecoration(new StickyRecyclerHeadersDecoration(adapter));
+        plugin.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         Button refresh = $(view, R.id.events_no_data_button_refresh);
         Button filters = $(view, R.id.events_no_data_button_filters);

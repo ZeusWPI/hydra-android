@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.plugins;
 
-import android.util.Log;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 
@@ -11,13 +10,7 @@ import be.ugent.zeus.hydra.plugins.common.Plugin;
  */
 public class AnalyticsPlugin extends Plugin {
 
-    private static final String TAG = "AnalyticsPlugin";
-
     private NameProvider screenName;
-
-    public AnalyticsPlugin() {
-        this(null);
-    }
 
     public AnalyticsPlugin(NameProvider screenName) {
         this.screenName = screenName;
@@ -26,17 +19,11 @@ public class AnalyticsPlugin extends Plugin {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume()");
         sendScreen((HydraApplication) getHost().getContext().getApplicationContext());
     }
 
     private void sendScreen(HydraApplication application) {
-        Log.d(TAG, "Sent message.");
-        if(screenName == null) {
-            application.sendScreenName(getHost().getHostClass().getSimpleName());
-        } else {
-            application.sendScreenName(screenName.provideName());
-        }
+        application.sendScreenName(screenName.provideName());
     }
 
     @FunctionalInterface

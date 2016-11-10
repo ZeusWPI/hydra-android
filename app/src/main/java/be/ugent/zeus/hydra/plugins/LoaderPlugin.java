@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import be.ugent.zeus.hydra.loaders.LoaderCallback;
+import be.ugent.zeus.hydra.loaders.DataCallback;
+import be.ugent.zeus.hydra.loaders.LoaderProvider;
 import be.ugent.zeus.hydra.loaders.ResetListener;
 import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.plugins.common.FragmentPlugin;
@@ -16,8 +17,8 @@ public class LoaderPlugin<D> extends FragmentPlugin implements LoaderManager.Loa
 
     private static int LOADER_ID = 0;
 
-    private final LoaderCallback<D> callback;
-    private final LoaderCallback.DataCallbacks<D> dataCallbacks;
+    private final LoaderProvider<D> provider;
+    private final DataCallback<D> dataCallbacks;
     private ResetListener resetListener;
 
     private final ProgressBarPlugin progressBarPlugin;
@@ -25,10 +26,10 @@ public class LoaderPlugin<D> extends FragmentPlugin implements LoaderManager.Loa
     private boolean autoStart = true;
 
     public LoaderPlugin(
-            LoaderCallback<D> callback,
-            LoaderCallback.DataCallbacks<D> dataCallbacks,
+            LoaderProvider<D> provider,
+            DataCallback<D> dataCallbacks,
             @Nullable ProgressBarPlugin progressBarPlugin) {
-        this.callback = callback;
+        this.provider = provider;
         this.progressBarPlugin = progressBarPlugin;
         this.dataCallbacks = dataCallbacks;
     }
@@ -51,7 +52,7 @@ public class LoaderPlugin<D> extends FragmentPlugin implements LoaderManager.Loa
 
     @Override
     public Loader<ThrowableEither<D>> onCreateLoader(int id, Bundle args) {
-        return callback.getLoader();
+        return provider.getLoader(getHost().getContext());
     }
 
     @Override

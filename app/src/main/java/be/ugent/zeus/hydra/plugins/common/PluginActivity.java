@@ -10,20 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Activity that hosts plugins.
+ *
+ * To use plugins in your activity, extend this class. Then add the needed plugins in {@link #onAddPlugins(List)}.
+ *
  * @author Niko Strijbol
  */
 public class PluginActivity extends AppCompatActivity {
 
     private List<Plugin> plugins = new ArrayList<>();
-
-    private boolean created;
-
-    protected void addPlugin(Plugin plugin) {
-        if(created) {
-            throw new IllegalStateException("You must add plugins in the constructor or the function onAddPlugins().");
-        }
-        plugins.add(plugin);
-    }
+    private Bundle savedInstance;
 
     /**
      * This method allows to register plugins. The plugins should be added to the given list. This method is also
@@ -47,7 +43,6 @@ public class PluginActivity extends AppCompatActivity {
         for(Plugin plugin: plugins) {
             plugin.setProvider(ContextProvider.getProvider(this));
         }
-        created = true;
         super.onCreate(savedInstanceState);
         savedInstance = savedInstanceState;
 
@@ -55,8 +50,6 @@ public class PluginActivity extends AppCompatActivity {
             plugin.onCreate(savedInstanceState);
         }
     }
-
-    private Bundle savedInstance;
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {

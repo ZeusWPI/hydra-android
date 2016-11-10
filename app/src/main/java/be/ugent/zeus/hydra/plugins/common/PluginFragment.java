@@ -11,26 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * A fragment that hosts plugins.
+ *
+ * To use plugins with fragments, extend this class. Then add the needed plugins in {@link #onAddPlugins(List)}.
+ *
  * @author Niko Strijbol
  */
 public class PluginFragment extends Fragment {
 
     private List<FragmentPlugin> fragmentPlugins = new ArrayList<>();
     private List<Plugin> otherPlugins = new ArrayList<>();
-
-    private boolean created;
-
-    protected void addPlugin(Plugin plugin) {
-        if(created) {
-            throw new IllegalStateException("You must add plugins in the constructor or the function onAddPlugins().");
-        }
-        otherPlugins.add(plugin);
-    }
-
-    protected void addPlugin(FragmentPlugin plugin) {
-        addPlugin((Plugin) plugin);
-        fragmentPlugins.add(plugin);
-    }
 
     /**
      * This method allows to register plugins. The plugins should be added to the given list. This method is also
@@ -57,7 +47,6 @@ public class PluginFragment extends Fragment {
             }
             plugin.setProvider(ContextProvider.getProvider(this));
         }
-        created = true;
         super.onAttach(context);
         for(FragmentPlugin plugin: fragmentPlugins) {
             plugin.onAttach(context);

@@ -9,12 +9,11 @@ import android.util.Log;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.caching.CacheableRequest;
-import be.ugent.zeus.hydra.loaders.LoaderCallback;
+import be.ugent.zeus.hydra.loaders.DataCallback;
+import be.ugent.zeus.hydra.loaders.LoaderProvider;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.Adapter;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
@@ -22,24 +21,33 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * @author Niko Strijbol
  */
-public class RecyclerViewPlugin<D extends Serializable, E extends ArrayList<D>> extends Plugin implements LoaderCallback.DataCallbacks<E> {
+public class RecyclerViewPlugin<D, E extends List<D>> extends Plugin implements DataCallback<E> {
 
     private static final String TAG = "RecyclerViewPlugin";
 
     private final RequestPlugin<E> requestPlugin;
-    private final Adapter<D, ?> adapter;
+    private Adapter<D, ?> adapter;
     private RecyclerView recyclerView;
 
-    @Nullable
-    private LoaderCallback.DataCallbacks<E> callback;
+    private boolean adapterSet;
 
-    public RecyclerViewPlugin(CacheableRequest<E> request, Adapter<D, ?> adapter) {
-        this.requestPlugin = new RequestPlugin<>(this, request);
+    @Nullable
+    private DataCallback<E> callback;
+
+    /**
+     * Note: if you need caching for a {@link CacheableRequest}, you can use the function {@link RequestPlugin#wrap(CacheableRequest)},
+     * which will construct a RequestProvider for a CacheableRequest that utilises caching.
+     *
+     * @param adapter The adapter.
+     * @param provider The request provider.
+     */
+    public RecyclerViewPlugin(RequestPlugin.RequestProvider<E> provider, @Nullable Adapter<D, ?> adapter) {
+        this.requestPlugin = new RequestPlugin<>(this, provider);
         this.adapter = adapter;
     }
 
-    public RecyclerViewPlugin(RequestPlugin.RequestProvider<E> provider, Adapter<D, ?> adapter) {
-        this.requestPlugin = new RequestPlugin<>(this, provider);
+    public RecyclerViewPlugin(LoaderProvider<E> provider, @Nullable Adapter<D, ?> adapter) {
+        this.requestPlugin = new RequestPlugin<E>(this, provider);
         this.adapter = adapter;
     }
 
@@ -53,7 +61,11 @@ public class RecyclerViewPlugin<D extends Serializable, E extends ArrayList<D>> 
     protected void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = $(view, R.id.recycler_view);
+        if(adapter == null) {
+            Log.w(TAG, "No adapter was set, so nothing will happen.");
+        }
         recyclerView.setAdapter(adapter);
+        adapterSet = true;
     }
 
     @Override
@@ -75,6 +87,13 @@ public class RecyclerViewPlugin<D extends Serializable, E extends ArrayList<D>> 
         }
     }
 
+    public void setAdapter(Adapter<D, ?> adapter) {
+        if(adapterSet) {
+            throw new IllegalStateException("The adapter must be set before onViewCreated()");
+        }
+        this.adapter = adapter;
+    }
+
     public RequestPlugin<E> getRequestPlugin() {
         return requestPlugin;
     }
@@ -83,7 +102,19 @@ public class RecyclerViewPlugin<D extends Serializable, E extends ArrayList<D>> 
         return recyclerView;
     }
 
-    public void setCallback(LoaderCallback.DataCallbacks<E> callback) {
+    public void setCallback(DataCallback<E> callback) {
         this.callback = callback;
+    }
+
+    public void addItemDecoration(RecyclerView.ItemDecoration decoration) {
+        recyclerView.addItemDecoration(decoration);
+    }
+
+    public void hideRecyclerView() {
+        recyclerView.setVisibility(View.GONE);
+    }
+
+    public void showRecyclerView() {
+        recyclerView.setVisibility(View.VISIBLE);
     }
 }
