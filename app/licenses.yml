@@ -82,12 +82,6 @@
   license: The Apache Software License, Version 2.0
   url: https://github.com/KyoSherlock/ExpandableLayout
 
-- artifact:  com.pascalwelsch.compositeandroid:+:+
-  name: Composite Android
-  copyrightHolder: Pascal Welsch
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/passsy/CompositeAndroid
-
 - artifact: com.google.android.gms:+:+
   skip: true
 

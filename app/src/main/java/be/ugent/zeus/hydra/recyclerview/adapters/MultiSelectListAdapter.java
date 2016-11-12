@@ -132,19 +132,11 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
         public void populate(Pair<E, Boolean> data) {
             title.setText(adapter.displayNameProvider.getDisplayValue(data.first));
             checkBox.setChecked(data.second);
-            parent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    adapter.setChecked(getAdapterPosition());
-                    checkBox.toggle();
-                }
+            parent.setOnClickListener(v -> {
+                adapter.setChecked(getAdapterPosition());
+                checkBox.toggle();
             });
-            checkBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    adapter.setChecked(getAdapterPosition());
-                }
-            });
+            checkBox.setOnClickListener(v -> adapter.setChecked(getAdapterPosition()));
         }
     }
 }

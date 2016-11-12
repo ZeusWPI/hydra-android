@@ -45,16 +45,13 @@ public class AnnouncementViewHolder extends DataViewHolder<Announcement> {
                 data.getLecturer());
         subtitle.setText(infoText);
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(itemView.getContext(), AnnouncementActivity.class);
-                intent.putExtra(AnnouncementActivity.ARG_ANNOUNCEMENT, (Parcelable) data);
-                if(fragment == null) {
-                    itemView.getContext().startActivity(intent);
-                } else {
-                    fragment.startActivityForResult(intent, AnnouncementActivity.RESULT_ANNOUNCEMENT);
-                }
+        itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), AnnouncementActivity.class);
+            intent.putExtra(AnnouncementActivity.ARG_ANNOUNCEMENT, (Parcelable) data);
+            if(fragment == null) {
+                v.getContext().startActivity(intent);
+            } else {
+                fragment.startActivityForResult(intent, AnnouncementActivity.RESULT_ANNOUNCEMENT);
             }
         });
     }

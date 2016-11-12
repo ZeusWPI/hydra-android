@@ -28,7 +28,6 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class MinervaAgendaViewHolder extends HideableViewHolder {
 
-    private static final DateTimeFormatter START_FORMATTER = DateTimeFormatter.ofPattern("dd/MM - HH:mm", new Locale("nl"));
     private static final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern("HH:mm", new Locale("nl"));
 
     private LinearLayout layout;
@@ -59,12 +58,7 @@ public class MinervaAgendaViewHolder extends HideableViewHolder {
 
             layout.addView(view);
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    AgendaActivity.start(view.getContext(), item);
-                }
-            });
+            view.setOnClickListener(v -> AgendaActivity.start(v.getContext(), item));
         }
 
         super.populate(card);

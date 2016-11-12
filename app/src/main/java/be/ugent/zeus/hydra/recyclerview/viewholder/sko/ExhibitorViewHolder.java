@@ -38,15 +38,12 @@ public class ExhibitorViewHolder extends DataViewHolder<Exhibitor> {
         final Spanned converted = Utils.fromHtml(data.getContent());
 
         content.setText(converted);
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setTitle(data.getName());
-                builder.setMessage(converted);
-                builder.setPositiveButton("OK", null);
-                builder.show();
-            }
+        itemView.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setTitle(data.getName());
+            builder.setMessage(converted);
+            builder.setPositiveButton("OK", null);
+            builder.show();
         });
     }
 }

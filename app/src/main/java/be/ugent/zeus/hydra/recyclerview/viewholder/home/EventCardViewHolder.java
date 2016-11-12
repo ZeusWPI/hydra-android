@@ -2,8 +2,6 @@ package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 
 import android.content.Intent;
 import android.os.Parcelable;
-import android.widget.PopupMenu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,32 +44,27 @@ public class EventCardViewHolder extends HideableViewHolder {
         start.setText(DateUtils.relativeDateTimeString(event.getStart(), itemView.getContext(), false));
         String description = itemView.getResources().getString(R.string.home_card_description);
         toolbar.setTitle(String.format(description, event.getAssociation().getDisplayName()));
+        debugPosition(card.getPriority());
 
         Picasso.with(itemView.getContext()).load(event.getAssociation().getImageLink()).fit().centerInside().into(imageView);
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(itemView.getContext(), EventDetailActivity.class);
-                intent.putExtra(EventDetailActivity.PARCEL_EVENT, (Parcelable) event);
-                itemView.getContext().startActivity(intent);
-            }
+        itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(itemView.getContext(), EventDetailActivity.class);
+            intent.putExtra(EventDetailActivity.PARCEL_EVENT, (Parcelable) event);
+            itemView.getContext().startActivity(intent);
         });
 
         toolbar.setMenu(R.menu.now_toolbar_association_event);
-        toolbar.setOnClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu_hide:
-                        adapter.disableCardType(card.getCardType());
-                        return true;
-                    case R.id.menu_hide_association:
-                        adapter.disableAssociation(event.getAssociation());
-                        return true;
-                    default:
-                        return false;
-                }
+        toolbar.setOnClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.menu_hide:
+                    adapter.disableCardType(card.getCardType());
+                    return true;
+                case R.id.menu_hide_association:
+                    adapter.disableAssociation(event.getAssociation());
+                    return true;
+                default:
+                    return false;
             }
         });
     }

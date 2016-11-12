@@ -1,7 +1,9 @@
 package be.ugent.zeus.hydra.fragments.home.loader;
 
+import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.support.v4.app.LoaderManager;
+import android.support.v7.util.DiffUtil;
 import android.util.Pair;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 
@@ -21,7 +23,7 @@ public interface HomeFeedLoaderCallback extends LoaderManager.LoaderCallbacks<Pa
      * @param cardType The type of card that was updated.
      */
     @UiThread
-    void onNewDataUpdate(@HomeCard.CardType int cardType);
+    void onPartialUpdate(List<HomeCard> data, @Nullable DiffUtil.DiffResult updaten, @HomeCard.CardType int cardType);
 
     @UiThread
     void onPartialError(@HomeCard.CardType int cardType);

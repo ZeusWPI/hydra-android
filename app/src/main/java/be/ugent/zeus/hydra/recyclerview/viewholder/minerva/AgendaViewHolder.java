@@ -37,11 +37,6 @@ public class AgendaViewHolder extends DataViewHolder<AgendaItem> {
                 data.getLastEditUser());
         subtitle.setText(infoText);
 
-        parent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AgendaActivity.start(itemView.getContext(), data);
-            }
-        });
+        parent.setOnClickListener(view -> AgendaActivity.start(view.getContext(), data));
     }
 }

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
@@ -27,6 +28,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import static be.ugent.zeus.hydra.fragments.home.operations.RequestOperation.add;
+import static be.ugent.zeus.hydra.fragments.home.operations.RemoveOperation.del;
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
@@ -45,7 +48,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
     public static final String PREF_DISABLED_CARDS = "pref_disabled_cards";
 
-    public static final int LOADER = 0;
+    private static final int LOADER = 0;
 
     private boolean shouldRefresh = false;
     private boolean preferencesUpdated = false;
@@ -56,6 +59,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     private Snackbar snackbar;
 
     private boolean wasCached = true;
+    private List<HomeCard> tempData;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,6 +117,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
      * Restart the loaders
      */
     private void restartLoader() {
+        tempData = getLoader().oldData();
         getLoaderManager().restartLoader(LOADER, null, this);
     }
 
@@ -135,13 +140,17 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     }
 
     @Override
-    public void onNewDataUpdate(@HomeCard.CardType int cardType) {
-        //Do nothing
+    public void onPartialUpdate(List<HomeCard> data, @Nullable DiffUtil.DiffResult update, @HomeCard.CardType int cardType) {
         Log.i(TAG, "Added card type: " + cardType);
+        adapter.setData(data, update);
         wasCached = false;
         if(!shouldRefresh) {
             recyclerView.scrollToPosition(0);
         }
+    }
+
+    public HomeFeedLoader getLoader() {
+        return (HomeFeedLoader) getLoaderManager().<Pair<Set<Integer>, List<HomeCard>>>getLoader(LOADER);
     }
 
     @Override
@@ -152,50 +161,50 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     @Override
     public Loader<Pair<Set<Integer>, List<HomeCard>>> onCreateLoader(int id, Bundle args) {
 
-        HomeFeedLoader loader = new HomeFeedLoader(getContext(), this, adapter);
+        HomeFeedLoader loader = new HomeFeedLoader(getContext(), this, tempData);
+        tempData = null;
 
         Set<String> s = PreferenceManager
                 .getDefaultSharedPreferences(getContext())
                 .getStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, Collections.<String>emptySet());
 
         //Always add the special events.
-        //The else clause is needed to remove any existing data from the loader.
-        loader.addRequest(new SpecialEventRequest(getContext(), shouldRefresh));
+        loader.addOperation(add(new SpecialEventRequest(getContext(), shouldRefresh)));
 
         if(isTypeActive(s, HomeCard.CardType.RESTO)) {
-            loader.addRequest(new RestoRequest(getContext(), shouldRefresh));
+            loader.addOperation(add(new RestoRequest(getContext(), shouldRefresh)));
         } else {
-            adapter.removeCardType(HomeCard.CardType.RESTO);
+            loader.addOperation(del(HomeCard.CardType.RESTO));
         }
 
         if(isTypeActive(s, HomeCard.CardType.ACTIVITY)) {
-            loader.addRequest(new EventRequest(getContext(), shouldRefresh));
+            loader.addOperation(add(new EventRequest(getContext(), shouldRefresh)));
         } else {
-            adapter.removeCardType(HomeCard.CardType.ACTIVITY);
+            loader.addOperation(del(HomeCard.CardType.ACTIVITY));
         }
 
         if(isTypeActive(s, HomeCard.CardType.SCHAMPER)) {
-            loader.addRequest(new SchamperRequest(getContext(), shouldRefresh));
+            loader.addOperation(add(new SchamperRequest(getContext(), shouldRefresh)));
         } else {
-            adapter.removeCardType(HomeCard.CardType.SCHAMPER);
+            loader.addOperation(del(HomeCard.CardType.SCHAMPER));
         }
 
         if(isTypeActive(s, HomeCard.CardType.NEWS_ITEM)) {
-            loader.addRequest(new NewsHomeRequest(getContext(), shouldRefresh));
+            loader.addOperation(add(new NewsHomeRequest(getContext(), shouldRefresh)));
         } else {
-            adapter.removeCardType(HomeCard.CardType.NEWS_ITEM);
+            loader.addOperation(del(HomeCard.CardType.NEWS_ITEM));
         }
 
         if(isTypeActive(s, HomeCard.CardType.MINERVA_ANNOUNCEMENT) && AccountUtils.hasAccount(getContext())) {
-            loader.addRequest(new MinervaAnnouncementRequest(getContext()));
+            loader.addOperation(add(new MinervaAnnouncementRequest(getContext())));
         } else {
-            adapter.removeCardType(HomeCard.CardType.MINERVA_ANNOUNCEMENT);
+            loader.addOperation(del(HomeCard.CardType.MINERVA_ANNOUNCEMENT));
         }
 
         if(isTypeActive(s, HomeCard.CardType.MINERVA_AGENDA) && AccountUtils.hasAccount(getContext())) {
-            loader.addRequest(new MinervaAgendaRequest(getContext()));
+            loader.addOperation(add(new MinervaAgendaRequest(getContext())));
         } else {
-            adapter.removeCardType(HomeCard.CardType.MINERVA_AGENDA);
+            loader.addOperation(del(HomeCard.CardType.MINERVA_AGENDA));
         }
 
         return loader;
@@ -210,7 +219,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
                 onPartialError(error);
             }
 
-            adapter.onDataUpdated(new ArrayList<>(data.second), null);
+            adapter.setData(new ArrayList<>(data.second), null);
         }
         wasCached = true;
         shouldRefresh = false;
@@ -219,7 +228,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
     @Override
     public void onLoaderReset(Loader<Pair<Set<Integer>, List<HomeCard>>> loader) {
-        //Do nothing.
+
     }
 
     /**

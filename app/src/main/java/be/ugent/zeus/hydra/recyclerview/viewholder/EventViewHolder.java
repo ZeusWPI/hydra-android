@@ -36,13 +36,10 @@ public class EventViewHolder extends DataViewHolder<Event> {
         title.setText(event.getTitle());
         association.setText(event.getAssociation().getDisplayName());
         start.setText(event.getLocalStart().format(HOUR_FORMATTER));
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(itemView.getContext(), EventDetailActivity.class);
-                intent.putExtra(EventDetailActivity.PARCEL_EVENT, (Parcelable) event);
-                itemView.getContext().startActivity(intent);
-            }
+        itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(itemView.getContext(), EventDetailActivity.class);
+            intent.putExtra(EventDetailActivity.PARCEL_EVENT, (Parcelable) event);
+            itemView.getContext().startActivity(intent);
         });
     }
 }

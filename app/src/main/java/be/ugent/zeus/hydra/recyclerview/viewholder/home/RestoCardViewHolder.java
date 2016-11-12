@@ -36,13 +36,10 @@ public class RestoCardViewHolder extends HideableViewHolder {
         populate(menu);
 
         // click listener
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(itemView.getContext(), MenuActivity.class);
-                intent.putExtra(MenuActivity.ARG_DATE, menu.getDate());
-                itemView.getContext().startActivity(intent);
-            }
+        itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(itemView.getContext(), MenuActivity.class);
+            intent.putExtra(MenuActivity.ARG_DATE, menu.getDate());
+            itemView.getContext().startActivity(intent);
         });
 
         super.populate(card);

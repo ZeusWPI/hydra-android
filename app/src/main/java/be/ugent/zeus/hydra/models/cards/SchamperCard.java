@@ -25,7 +25,7 @@ public class SchamperCard extends HomeCard {
     public int getPriority() {
         ZonedDateTime date = getArticle().getPubDate();
         Duration duration = Duration.between(date, ZonedDateTime.now());
-        return (int) (1000 - (duration.toDays() * 100));
+        return (int) Math.max(0, duration.toDays() * 8);
     }
 
     @Override

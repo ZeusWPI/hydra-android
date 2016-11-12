@@ -45,12 +45,7 @@ public class SchamperViewHolder extends HideableViewHolder {
 
         Picasso.with(this.itemView.getContext()).load(article.getImage()).fit().centerInside().into(image);
 
-        this.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SchamperArticleActivity.launchWithAnimation((Activity) itemView.getContext(), image, "hero", article);
-            }
-        });
+        this.itemView.setOnClickListener(v -> SchamperArticleActivity.launchWithAnimation((Activity) itemView.getContext(), image, "hero", article));
 
         super.populate(card);
     }

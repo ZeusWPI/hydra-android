@@ -41,11 +41,6 @@ public class SchamperViewHolder extends DataViewHolder<Article> {
 
         Picasso.with(this.itemView.getContext()).load(article.getLargeImage()).into(image);
 
-        this.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SchamperArticleActivity.launchWithAnimation((Activity) itemView.getContext(), image, "hero", article);
-            }
-        });
+        this.itemView.setOnClickListener(v -> SchamperArticleActivity.launchWithAnimation((Activity) itemView.getContext(), image, "hero", article));
     }
 }

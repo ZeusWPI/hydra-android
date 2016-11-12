@@ -23,7 +23,8 @@ public class EventCard extends HomeCard {
     @Override
     public int getPriority() {
         Duration duration = Duration.between(ZonedDateTime.now(), event.getStart());
-        return 950 - Math.max(0, (int) duration.toHours()) * 4; //see 10 days in to the future
+        long calc = 1000 - (duration.toHours() * 6) + (event.getTitle().charAt(0) + event.getAssociation().getInternalName().charAt(0)) / 2;
+        return (int) Math.max(0, calc);
     }
 
     @Override

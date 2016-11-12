@@ -23,7 +23,7 @@ public class RestoMenuCard extends HomeCard {
     public int getPriority() {
         LocalDate date = getRestoMenu().getDate();
         Period duration = Period.between(LocalDate.now(), date);
-        return 1000 - (duration.getDays() * 100);
+        return 1000 - duration.getDays() * 100;
     }
 
     @Override

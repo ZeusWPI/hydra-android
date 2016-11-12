@@ -14,37 +14,35 @@ import com.squareup.picasso.Picasso;
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
- * Created by feliciaan on 06/04/16.
+ * @author Niko Strijbol
+ * @author feliciaan
  */
 public class SpecialEventCardViewHolder extends DataViewHolder<HomeCard> {
 
+    private TextView title;
+    private TextView text;
+    private ImageView image;
+    private TextView position;
+
     public SpecialEventCardViewHolder(View itemView) {
         super(itemView);
+        title = $(itemView, R.id.title);
+        text = $(itemView, R.id.text);
+        image = $(itemView, R.id.image);
+        position = $(itemView, R.id.position);
     }
 
     @Override
     public void populate(HomeCard card) {
-        if (card.getCardType() != HomeCard.CardType.SPECIAL_EVENT) {
-            return; //TODO: give warning
-        }
-
-        final SpecialEventCard eventCard = (SpecialEventCard) card;
+        final SpecialEventCard eventCard = card.checkCard(HomeCard.CardType.SPECIAL_EVENT);
         final SpecialEvent specialEvent = eventCard.getSpecialEvent();
 
-        TextView titleView = $(itemView, R.id.title);
-        titleView.setText(specialEvent.getName());
+        title.setText(specialEvent.getName());
+        text.setText(specialEvent.getSimpleText());
+        Picasso.with(itemView.getContext()).load(specialEvent.getImage()).into(image);
 
-        TextView textView = $(itemView, R.id.text);
-        textView.setText(specialEvent.getSimpleText());
+        position.setText(String.valueOf(card.getPriority()));
 
-        ImageView imageView = $(itemView, R.id.imageView);
-        Picasso.with(itemView.getContext()).load(specialEvent.getImage()).into(imageView);
-
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NetworkUtils.maybeLaunchIntent(v.getContext(), specialEvent.getViewIntent());
-            }
-        });
+        itemView.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(v.getContext(), specialEvent.getViewIntent()));
     }
 }

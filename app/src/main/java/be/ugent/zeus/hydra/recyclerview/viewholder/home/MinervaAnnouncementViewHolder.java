@@ -57,12 +57,9 @@ public class MinervaAnnouncementViewHolder extends HideableViewHolder {
             layout.addView(textView);
         }
 
-        layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Set onclick listener
-                CourseActivity.start(itemView.getContext(), mCard.getCourse());
-            }
+        layout.setOnClickListener(v -> {
+            //Set onclick listener
+            CourseActivity.start(v.getContext(), mCard.getCourse());
         });
 
         super.populate(card);

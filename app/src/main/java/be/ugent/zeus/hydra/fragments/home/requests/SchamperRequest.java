@@ -27,9 +27,9 @@ public class SchamperRequest extends ProcessableCacheRequest<Articles, List<Home
     @Override
     protected List<HomeCard> transform(@NonNull Articles data) {
         List<HomeCard> schamperCardList = new ArrayList<>();
-        LocalDateTime twoMonthsAgo = LocalDateTime.now().minusMonths(2);
+        LocalDateTime twoMonthsAgo = LocalDateTime.now().minusMonths(1);
         for (Article article : data) {
-            if (twoMonthsAgo.isBefore(article.getLocalPubDate())) {
+            if (article.getLocalPubDate().isAfter(twoMonthsAgo)) {
                 schamperCardList.add(new SchamperCard(article));
             }
         }

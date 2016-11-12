@@ -2,12 +2,16 @@ package be.ugent.zeus.hydra.fragments.home.loader;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.os.OperationCanceledException;
 import android.support.v7.util.DiffUtil;
 import android.util.Log;
 import android.util.Pair;
+import be.ugent.zeus.hydra.fragments.home.operations.FeedOperation;
 import be.ugent.zeus.hydra.fragments.home.requests.HomeFeedRequest;
+import be.ugent.zeus.hydra.fragments.home.operations.RemoveOperation;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.cards.EventCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
@@ -22,12 +26,9 @@ import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.ACTIVITY;
  * A customized loader for the home feed. This loaders takes a number of {@link HomeFeedRequest}s, and starts executing
  * them. Requests are processed in the same order they were added.
  *
- * Because loading a lot of requests may result in a long waiting time for the user, this loader will report partial
- * results to a {@link HomeFeedLoaderCallback}, and {@link DataCallback}. The results are also prepared in the background,
- * so you should not have to do any processing in the CallBack.
- *
- * When the data is cached, the {@link DataCallback} is still called once with the data, but the {@link HomeFeedLoaderCallback}
- * is not called.
+ * Because loading a lot of operations may result in a long waiting time for the user, this loader will report partial
+ * results to a {@link HomeFeedLoaderCallback}. The results are also prepared in the
+ * background, so you should not have to do any processing in the CallBack.
  *
  * Note: while this loader could be abstracted to support other types, we currently don't do this as this would a lot
  * of complexity for nothing.
@@ -36,37 +37,52 @@ import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.ACTIVITY;
  */
 public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<HomeCard>>> {
 
-    //The requests to get data from.
-    private IterableSparseArray<HomeFeedRequest> requests = new IterableSparseArray<>();
+    private static final String TAG = "HomeFeedLoader";
+
+    private IterableSparseArray<FeedOperation> operations = new IterableSparseArray<>();
     //The listener. This is a copy of the built-in listener, but casted and accessible.
     private HomeFeedLoaderCallback listener;
-    //The data provider
-    private DataCallback<List<HomeCard>> dataCallback;
 
     //The data
     private Pair<Set<Integer>, List<HomeCard>> data;
+    private List<HomeCard> initialData;
 
     /**
      * @param context The context.
      */
-    public HomeFeedLoader(Context context, HomeFeedLoaderCallback callback, DataCallback<List<HomeCard>> dataCallback) {
+    public HomeFeedLoader(Context context, HomeFeedLoaderCallback callback, @Nullable List<HomeCard> initialData) {
         super(context);
         this.listener = callback;
-        this.dataCallback = dataCallback;
+        this.initialData = initialData;
+        Log.d(TAG, "Loader made.");
     }
 
     /**
-     * Schedule a new request. You must add requests before the loader has started.
+     * Schedule a new operation. You must add operations before the loader has started. The new operation is append
+     * to the existing operations and will be executed in order of arrival.
      *
-     * @param request The request to add.
+     * @param operation The request to add.
      */
-    public void addRequest(HomeFeedRequest request) {
+    public void addOperation(FeedOperation operation) {
 
         if(isStarted()) {
-            throw new IllegalStateException("Requests must be added before the loader is started.");
+            throw new IllegalStateException("Operations must be added before the loader is started.");
         }
 
-        requests.append(request.getCardType(), request);
+        Log.d(TAG, "addOperation: Operation added");
+
+        operations.append(operation.getCardType(), operation);
+    }
+
+    /**
+     * Get the current data. This must ONLY be used when getting data to create a new loader.
+     * @return The data.
+     */
+    public List<HomeCard> oldData() {
+        if(data != null) {
+            return data.second;
+        }
+        return null;
     }
 
     /**
@@ -78,71 +94,54 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
     public Pair<Set<Integer>, List<HomeCard>> loadInBackground() {
 
         //Handler to post updates to the UI thread.
-        Handler handler = new Handler(getContext().getMainLooper());
+        Handler handler = new Handler(Looper.getMainLooper());
 
         //We initialize with a copy of the existing data; we do reset the errors.
-        List<HomeCard> results;
-        if(dataCallback != null) {
-            results = new ArrayList<>(dataCallback.getCurrentList());
-        } else {
-            results = new ArrayList<>();
-        }
+        List<HomeCard> results = initialData == null ? Collections.emptyList() : initialData;
         Set<Integer> errors = new HashSet<>();
 
-        for(final HomeFeedRequest request: requests) {
+        for (final FeedOperation operation : operations) {
             //If the request is cancelled.
             if (isLoadInBackgroundCanceled()) {
                 throw new OperationCanceledException();
             }
 
-            try {
-                final List<HomeCard> result = request.performRequest();
-                addAndSort(results, result, request.getCardType());
+            Log.d(TAG, "Operation loaded");
 
-                if(listener != null && dataCallback != null) {
-                    //Get a copy of the data
-                    final List<HomeCard> newData = new ArrayList<>(results);
-                    final List<HomeCard> oldData = dataCallback.getCurrentList();
-                    final DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new HomeDiffCallback(oldData, newData), false);
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            //The listener may be set to null at this point.
-                            if(listener != null && dataCallback != null) {
-                                dataCallback.onDataUpdated(newData, diff);
-                                listener.onNewDataUpdate(request.getCardType());
-                            }
-                        }
-                    });
-                }
-            } catch (RequestFailureException e) {
-                errors.add(request.getCardType());
-                handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(listener != null) {
-                                listener.onPartialError(request.getCardType());
-                            }
-                        }
-                    });
-            }
+            results = executeOperation(handler, operation, errors, results);
         }
 
         return new Pair<>(errors, results);
     }
 
-    private void addAndSort(List<HomeCard> list, Collection<HomeCard> toAdd, @HomeCard.CardType int type) {
-        //Remove all cards from this type
-        Iterator<HomeCard> it = list.iterator();
-        while (it.hasNext()) { // Why no filter :(
-            HomeCard c = it.next();
-            if (c.getCardType() == type) {
-                it.remove();
-            }
+    private List<HomeCard> executeOperation(Handler handler, FeedOperation operation, Set<Integer> errors, List<HomeCard> results) {
+
+        List<HomeCard> newResults = results;
+
+        try {
+            //Try performing the operation.
+            Pair<List<HomeCard>, DiffUtil.DiffResult> result = operation.transform(results);
+            //Save results in loader
+            newResults = result.first;
+
+            //Report the partial result to the main thread.
+            handler.post(() -> {
+                if (!isAbandoned()) {
+                    listener.onPartialUpdate(result.first, result.second, operation.getCardType());
+                }
+            });
+
+        } catch (RequestFailureException e) {
+            errors.add(operation.getCardType());
+            //Report the error
+            handler.post(() -> {
+                if (!isAbandoned()) {
+                    listener.onPartialError(operation.getCardType());
+                }
+            });
         }
 
-        list.addAll(toAdd);
-        Collections.sort(list);
+        return newResults;
     }
 
     @Override
@@ -189,10 +188,9 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
     }
 
     @Override
-    public void unregisterListener(OnLoadCompleteListener<Pair<Set<Integer>, List<HomeCard>>> listener) {
-        super.unregisterListener(listener);
+    protected void onAbandon() {
+        super.onAbandon();
         this.listener = null;
-        this.dataCallback = null;
     }
 
     @Override
@@ -206,27 +204,37 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
         data = null;
     }
 
-    private void removeCards(List<HomeCard> list, @HomeCard.CardType int type) {
-        //Remove all cards from this type
-        Iterator<HomeCard> it = list.iterator();
-        while (it.hasNext()) { // Why no filter :(
-            HomeCard c = it.next();
-            if (c.getCardType() == type) {
-                it.remove();
-            }
-        }
-    }
+    /**
+     * Remove a type of cards. Note: this will run on the main thread.
+     *
+     * @param type The type to remove.
+     */
+    public void removeType(@HomeCard.CardType int type) {
 
-    public void removeCards(@HomeCard.CardType int type) {
-        if(data != null) {
-            removeCards(data.second, type);
+        if(!isStarted() || data == null) {
+            return;
         }
+
+        //Replace the operation with an empty one.
+        FeedOperation op = new RemoveOperation(type);
+        operations.append(type, op);
+
+        //Re-execute the operation.
+        List<HomeCard> currentData = data.second;
+        Set<Integer> errors = data.first;
+        Handler h = new Handler(Looper.getMainLooper());
+        List<HomeCard> newData = executeOperation(h, op, errors, currentData);
+
+        //Deliver the results.
+        deliverResult(new Pair<>(errors, newData));
     }
 
     public void removeAssociations(Association association) {
-        if(data == null) {
+
+        if(!isStarted() || data == null) {
             return;
         }
+
         //Why no filter :(
         Iterator<HomeCard> it = data.second.iterator();
         while (it.hasNext()) { // Why no filter :(
@@ -238,5 +246,7 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
                 }
             }
         }
+
+        deliverResult(data);
     }
 }

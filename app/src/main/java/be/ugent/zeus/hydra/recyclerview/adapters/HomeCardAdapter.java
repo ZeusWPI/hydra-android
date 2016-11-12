@@ -1,28 +1,23 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.fragments.home.HomeFeedFragment;
-import be.ugent.zeus.hydra.fragments.home.loader.DataCallback;
-import be.ugent.zeus.hydra.fragments.home.loader.HomeFeedLoader;
 import be.ugent.zeus.hydra.models.association.Association;
-import be.ugent.zeus.hydra.models.cards.EventCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.recyclerview.viewholder.home.*;
+import be.ugent.zeus.hydra.utils.PreferencesUtils;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.*;
 
@@ -32,19 +27,26 @@ import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.*;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCard>> implements DataCallback<List<HomeCard>> {
+public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCard>> {
+
+    private static final String TAG = "HomeCardAdapter";
 
     private List<HomeCard> cardItems = Collections.emptyList();
     private final HomeFeedFragment fragment;
 
     public HomeCardAdapter(HomeFeedFragment fragment) {
         this.fragment = fragment;
+        setHasStableIds(true);
     }
 
     @Override
-    public void onDataUpdated(List<HomeCard> data, @Nullable DiffUtil.DiffResult update) {
+    public long getItemId(int position) {
+        return cardItems.get(position).hashCode();
+    }
+
+    public void setData(List<HomeCard> data, @Nullable DiffUtil.DiffResult update) {
         this.cardItems = data;
-        if(update != null) {
+        if (update != null) {
             update.dispatchUpdatesTo(this);
         } else {
             notifyDataSetChanged();
@@ -52,91 +54,66 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
     }
 
     @Override
-    public List<HomeCard> getCurrentList() {
-        return cardItems;
-    }
-
-    /**
-     * Remove all cards of a certain card type. This method is not thread safe and must be run on the UI thread.
-     *
-     * @param type The type of card to remove.
-     */
-    public void removeCardType(@HomeCard.CardType int type) {
-        //TODO: must this go to a background thread?
-        Iterator<HomeCard> it = cardItems.iterator();
-        while (it.hasNext()) { // Why no filter :(
-            HomeCard c = it.next();
-            if (c.getCardType() == type) {
-                notifyItemRemoved(cardItems.indexOf(c));
-                it.remove();
-            }
-        }
-    }
-
-    @Override
     public DataViewHolder<HomeCard> onCreateViewHolder(ViewGroup parent, @HomeCard.CardType int viewType) {
         switch (viewType) {
             case RESTO:
-                return new RestoCardViewHolder(getViewForLayout(R.layout.home_card_resto, parent), this);
+                return new RestoCardViewHolder(view(R.layout.home_card_resto, parent), this);
             case ACTIVITY:
-                return new EventCardViewHolder(getViewForLayout(R.layout.home_card_event, parent), this);
+                return new EventCardViewHolder(view(R.layout.home_card_event, parent), this);
             case SPECIAL_EVENT:
-                return new SpecialEventCardViewHolder(getViewForLayout(R.layout.home_card_special, parent));
+                return new SpecialEventCardViewHolder(view(R.layout.home_card_special, parent));
             case SCHAMPER:
-                return new SchamperViewHolder(getViewForLayout(R.layout.home_card_schamper, parent), this);
+                return new SchamperViewHolder(view(R.layout.home_card_schamper, parent), this);
             case NEWS_ITEM:
-                return new NewsItemViewHolder(getViewForLayout(R.layout.home_card_news_item, parent), this);
+                return new NewsItemViewHolder(view(R.layout.home_card_news_item, parent), this);
             case MINERVA_LOGIN:
-                return new MinervaLoginViewHolder(getViewForLayout(R.layout.home_minerva_login_card, parent));
+                return new MinervaLoginViewHolder(view(R.layout.home_minerva_login_card, parent));
             case MINERVA_ANNOUNCEMENT:
-                return new MinervaAnnouncementViewHolder(getViewForLayout(R.layout.home_minerva_announcement_card, parent), this);
+                return new MinervaAnnouncementViewHolder(view(R.layout.home_minerva_announcement_card, parent), this);
             case MINERVA_AGENDA:
-                return new MinervaAgendaViewHolder(getViewForLayout(R.layout.home_minerva_agenda_card, parent), this);
+                return new MinervaAgendaViewHolder(view(R.layout.home_minerva_agenda_card, parent), this);
         }
         return null;
     }
 
+    private View view(int rLayout, ViewGroup parent) {
+        return LayoutInflater.from(parent.getContext()).inflate(rLayout, parent, false);
+    }
+
     /**
-     * Disable a type of card. This method is not thread safe and must be run on the UI thread.
+     * Disable a type of card.
      *
      * @param type The type of card to disable.
      */
     public void disableCardType(@HomeCard.CardType int type) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(fragment.getContext());
-        Set<String> disabled = preferences.getStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, Collections.<String>emptySet());
-        Set<String> newDisabled = new HashSet<>(disabled);
-        newDisabled.add(String.valueOf(type));
-        preferences.edit().putStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, newDisabled).apply();
-        removeCardType(type);
-        HomeFeedLoader loader = (HomeFeedLoader) fragment.getLoaderManager().<Pair<Set<Integer>, List<HomeCard>>>getLoader(HomeFeedFragment.LOADER);
-        loader.removeCards(type);
+
+        //Save preferences first
+        PreferencesUtils.addToStringSet(
+                fragment.getContext(),
+                HomeFeedFragment.PREF_DISABLED_CARDS,
+                String.valueOf(type)
+        );
+
+        //Remove existing cards from the loader.
+        fragment.getLoader().removeType(type);
     }
 
+    /**
+     * Disable an association.
+     *
+     * @param association The association of the card to disable.
+     */
     public void disableAssociation(Association association) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(fragment.getContext());
-        Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, Collections.<String>emptySet());
-        Set<String> newDisabled = new HashSet<>(disabled);
-        newDisabled.add(association.getInternalName());
-        preferences.edit().putStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, newDisabled).apply();
 
-        //Why no filter :(
-        Iterator<HomeCard> it = cardItems.iterator();
-        while (it.hasNext()) { // Why no filter :(
-            HomeCard c = it.next();
-            if (c.getCardType() == ACTIVITY) {
-                EventCard card = c.checkCard(ACTIVITY);
-                if(card.getEvent().getAssociation().getInternalName().equals(association.getInternalName())) {
-                    notifyItemRemoved(cardItems.indexOf(c));
-                    it.remove();
-                }
-            }
-        }
-        HomeFeedLoader loader = (HomeFeedLoader) fragment.getLoaderManager().<Pair<Set<Integer>, List<HomeCard>>>getLoader(HomeFeedFragment.LOADER);
-        loader.removeAssociations(association);
-    }
+        //First save in preferences
+        PreferencesUtils.addToStringSet(
+                fragment.getContext(),
+                AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
+                association.getInternalName()
+        );
 
-    private View getViewForLayout(int rLayout, ViewGroup parent) {
-        return LayoutInflater.from(parent.getContext()).inflate(rLayout, parent, false);
+        //Remove existing cards from the loader.
+        fragment.getLoader().removeAssociations(association);
     }
 
     @Override
@@ -164,15 +141,12 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
      * @return A listener that will hide the given card type in this adapter.
      */
     public PopupMenu.OnMenuItemClickListener listener(@HomeCard.CardType final int type) {
-        return new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId() == R.id.menu_hide) {
-                    disableCardType(type);
-                    return true;
-                }
-                return false;
+        return item -> {
+            if(item.getItemId() == R.id.menu_hide) {
+                disableCardType(type);
+                return true;
             }
+            return false;
         };
     }
 }
