@@ -103,10 +103,9 @@ class GenericCache implements Cache {
      * @return True if fresh data should be uses, for various reasons.
      */
     private boolean shouldRefresh(CacheObject<?> object, long duration) {
-        return duration != ALWAYS //The cache never expires.
-                && (object == null //No cache
-                || duration == Cache.NEVER  //Never cache
+        return object == null || (duration != ALWAYS //The cache never expires.
+                && (duration == Cache.NEVER  //Never cache
                 || object.isExpired(Duration.ofMillis(duration)) //Expired cache
-                || object.getVersion() != BuildConfig.VERSION_CODE); //Old cache version
+                || object.getVersion() != BuildConfig.VERSION_CODE)); //Old cache version
     }
 }

@@ -24,7 +24,7 @@ public class EventCard extends HomeCard {
     public int getPriority() {
         Duration duration = Duration.between(ZonedDateTime.now(), event.getStart());
         long calc = 1000 - (duration.toHours() * 6) + (event.getTitle().charAt(0) + event.getAssociation().getInternalName().charAt(0)) / 2;
-        return (int) Math.max(0, calc);
+        return Math.min((int) Math.max(0, calc), 1000);
     }
 
     @Override
