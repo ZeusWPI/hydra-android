@@ -3,15 +3,14 @@ package be.ugent.zeus.hydra.fragments.home.loader;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.Nullable;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.os.OperationCanceledException;
 import android.support.v7.util.DiffUtil;
 import android.util.Log;
 import android.util.Pair;
 import be.ugent.zeus.hydra.fragments.home.operations.FeedOperation;
-import be.ugent.zeus.hydra.fragments.home.requests.HomeFeedRequest;
 import be.ugent.zeus.hydra.fragments.home.operations.RemoveOperation;
+import be.ugent.zeus.hydra.fragments.home.requests.HomeFeedRequest;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.cards.EventCard;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
@@ -45,15 +44,13 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
 
     //The data
     private Pair<Set<Integer>, List<HomeCard>> data;
-    private List<HomeCard> initialData;
 
     /**
      * @param context The context.
      */
-    public HomeFeedLoader(Context context, HomeFeedLoaderCallback callback, @Nullable List<HomeCard> initialData) {
+    public HomeFeedLoader(Context context, HomeFeedLoaderCallback callback) {
         super(context);
         this.listener = callback;
-        this.initialData = initialData;
         Log.d(TAG, "Loader made.");
     }
 
@@ -75,17 +72,6 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
     }
 
     /**
-     * Get the current data. This must ONLY be used when getting data to create a new loader.
-     * @return The data.
-     */
-    public List<HomeCard> oldData() {
-        if(data != null) {
-            return data.second;
-        }
-        return null;
-    }
-
-    /**
      * {@inheritDoc}
      *
      * This method will call the {@link HomeFeedLoaderCallback}'s methods.
@@ -97,7 +83,13 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
         Handler handler = new Handler(Looper.getMainLooper());
 
         //We initialize with a copy of the existing data; we do reset the errors.
-        List<HomeCard> results = initialData == null ? Collections.emptyList() : initialData;
+        List<HomeCard> results;
+        if(listener == null) {
+            results = Collections.emptyList();
+        } else {
+            results = listener.getExistingData();
+        }
+
         Set<Integer> errors = new HashSet<>();
 
         for (final FeedOperation operation : operations) {

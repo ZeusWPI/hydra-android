@@ -59,7 +59,6 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     private Snackbar snackbar;
 
     private boolean wasCached = true;
-    private List<HomeCard> tempData;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,7 +116,6 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
      * Restart the loaders
      */
     private void restartLoader() {
-        tempData = getLoader().oldData();
         getLoaderManager().restartLoader(LOADER, null, this);
     }
 
@@ -137,6 +135,11 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
             snackbar.setText(message);
             snackbar.show();
         }
+    }
+
+    @Override
+    public List<HomeCard> getExistingData() {
+        return adapter.getData();
     }
 
     @Override
@@ -161,8 +164,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     @Override
     public Loader<Pair<Set<Integer>, List<HomeCard>>> onCreateLoader(int id, Bundle args) {
 
-        HomeFeedLoader loader = new HomeFeedLoader(getContext(), this, tempData);
-        tempData = null;
+        HomeFeedLoader loader = new HomeFeedLoader(getContext(), this);
 
         Set<String> s = PreferenceManager
                 .getDefaultSharedPreferences(getContext())

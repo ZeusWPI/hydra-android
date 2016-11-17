@@ -29,8 +29,6 @@ import static be.ugent.zeus.hydra.models.cards.HomeCard.CardType.*;
  */
 public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCard>> {
 
-    private static final String TAG = "HomeCardAdapter";
-
     private List<HomeCard> cardItems = Collections.emptyList();
     private final HomeFeedFragment fragment;
 
@@ -131,6 +129,10 @@ public class HomeCardAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
     @HomeCard.CardType
     public int getItemViewType(int position) {
         return cardItems.get(position).getCardType();
+    }
+
+    public List<HomeCard> getData() {
+        return cardItems;
     }
 
     /**

@@ -15,7 +15,15 @@ import java.util.Set;
  *
  * @author Niko Strijbol
  */
-public interface HomeFeedLoaderCallback extends LoaderManager.LoaderCallbacks<Pair<Set<Integer>, List<HomeCard>>>{
+public interface HomeFeedLoaderCallback extends LoaderManager.LoaderCallbacks<Pair<Set<Integer>, List<HomeCard>>> {
+
+    /**
+     * This method is called by the loader before calculating a diff. Care should be taken to ensure that the cards
+     * are not updated between a call to this method and the subsequent arrival of data, or some data could be lost.
+     *
+     * @return The existing data, or an empty list if there is no existing data.
+     */
+    List<HomeCard> getExistingData();
 
     /**
      * This is called when the adapter receives an update.
