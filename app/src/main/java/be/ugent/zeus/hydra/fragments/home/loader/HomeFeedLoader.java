@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.fragments.home.loader;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.os.OperationCanceledException;
 import android.support.v7.util.DiffUtil;
@@ -227,18 +228,44 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
             return;
         }
 
-        //Why no filter :(
-        Iterator<HomeCard> it = data.second.iterator();
-        while (it.hasNext()) { // Why no filter :(
-            HomeCard c = it.next();
-            if (c.getCardType() == ACTIVITY) {
-                EventCard card = c.checkCard(ACTIVITY);
-                if (card.getEvent().getAssociation().getInternalName().equals(association.getInternalName())) {
-                    it.remove();
+        Set<HomeCard> toRemove = new HashSet<>();
+
+        for(HomeCard card: data.second) {
+            if(card.getCardType() == ACTIVITY) {
+                EventCard eventCard = card.checkCard(ACTIVITY);
+                if(eventCard.getEvent().getAssociation().equals(association)) {
+                    toRemove.add(eventCard);
                 }
             }
         }
 
-        deliverResult(data);
+        List<HomeCard> currentData = data.second;
+        Set<Integer> errors = data.first;
+        Handler h = new Handler(Looper.getMainLooper());
+        List<HomeCard> newData = executeOperation(h, new FeedOperation() {
+            @NonNull
+            @Override
+            public Pair<List<HomeCard>, DiffUtil.DiffResult> transform(List<HomeCard> current) throws RequestFailureException {
+                List<HomeCard> newData = new ArrayList<>(current);
+                Iterator<HomeCard> it = newData.iterator();
+                while (it.hasNext()) { // Why no filter :(
+                    HomeCard c = it.next();
+                    if(toRemove.contains(c)) {
+                        it.remove();
+                    }
+                }
+                final DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new HomeDiffCallback(current, newData), true);
+
+                return new Pair<>(newData, diff);
+            }
+
+            @Override
+            public int getCardType() {
+                //Unneeded here
+                return ACTIVITY;
+            }
+        }, errors, currentData);
+
+        deliverResult(new Pair<>(errors, newData));
     }
 }

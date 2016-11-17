@@ -28,8 +28,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static be.ugent.zeus.hydra.fragments.home.operations.RequestOperation.add;
 import static be.ugent.zeus.hydra.fragments.home.operations.RemoveOperation.del;
+import static be.ugent.zeus.hydra.fragments.home.operations.RequestOperation.add;
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**

@@ -179,7 +179,7 @@ public class Event implements Parcelable, Serializable {
         dest.writeString(this.description);
         dest.writeString(this.url);
         dest.writeString(this.facebookId);
-        dest.writeByte(this.highlighted ? (byte) 1 : (byte) 0);
+        dest.writeByte((byte) (this.highlighted ? 1 : 0));
         dest.writeParcelable(this.association, flags);
     }
 
