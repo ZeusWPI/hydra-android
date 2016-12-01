@@ -22,14 +22,12 @@ public class SpecialEventCardViewHolder extends DataViewHolder<HomeCard> {
     private TextView title;
     private TextView text;
     private ImageView image;
-    private TextView position;
 
     public SpecialEventCardViewHolder(View itemView) {
         super(itemView);
         title = $(itemView, R.id.title);
         text = $(itemView, R.id.text);
         image = $(itemView, R.id.image);
-        position = $(itemView, R.id.position);
     }
 
     @Override
@@ -40,8 +38,6 @@ public class SpecialEventCardViewHolder extends DataViewHolder<HomeCard> {
         title.setText(specialEvent.getName());
         text.setText(specialEvent.getSimpleText());
         Picasso.with(itemView.getContext()).load(specialEvent.getImage()).into(image);
-
-        position.setText(String.valueOf(card.getPriority()));
 
         itemView.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(v.getContext(), specialEvent.getViewIntent()));
     }

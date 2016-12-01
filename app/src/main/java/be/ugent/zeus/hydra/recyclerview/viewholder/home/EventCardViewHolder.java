@@ -44,7 +44,6 @@ public class EventCardViewHolder extends HideableViewHolder {
         start.setText(DateUtils.relativeDateTimeString(event.getStart(), itemView.getContext(), false));
         String description = itemView.getResources().getString(R.string.home_card_description);
         toolbar.setTitle(String.format(description, event.getAssociation().getDisplayName()));
-        debugPosition(card.getPriority());
 
         Picasso.with(itemView.getContext()).load(event.getAssociation().getImageLink()).fit().centerInside().into(imageView);
 

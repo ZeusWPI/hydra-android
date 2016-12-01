@@ -1,8 +1,6 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder.home;
 
 import android.view.View;
-
-import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.cards.HomeCard;
 import be.ugent.zeus.hydra.recyclerview.adapters.HomeCardAdapter;
@@ -30,12 +28,5 @@ public abstract class HideableViewHolder extends DataViewHolder<HomeCard> {
     @Override
     public void populate(HomeCard card) {
         toolbar.setOnClickListener(adapter.listener(card.getCardType()));
-        debugPosition(card.getPriority());
-    }
-
-    protected void debugPosition(int pos) {
-        if(BuildConfig.DEBUG) {
-            toolbar.setTitle(toolbar.getTitle() + " pos: " + pos);
-        }
     }
 }
