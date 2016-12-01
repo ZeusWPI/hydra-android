@@ -1,8 +1,12 @@
 package be.ugent.zeus.hydra.fragments.urgent;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.requests.UrgentUrlRequest;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.urgent.track.Track;
@@ -16,7 +20,6 @@ public class UrgentTrack implements Track {
 
     private static final String TAG = "UrgentTrack";
     private static final int URGENT_ID = 1;
-    private static final String ARTWORK_URL = "http://urgent.fm/sites/all/themes/urgentfm/images/logo.jpg";
 
     private final Context context;
 
@@ -65,7 +68,8 @@ public class UrgentTrack implements Track {
     }
 
     @Override
-    public String getArtworkUrl() {
-        return ARTWORK_URL;
+    @Nullable
+    public Bitmap getAlbumArtwork() {
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_urgent);
     }
 }

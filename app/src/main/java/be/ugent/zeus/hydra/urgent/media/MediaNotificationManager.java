@@ -4,24 +4,15 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.NotificationCompat;
-import android.text.TextUtils;
 import android.util.Log;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.urgent.MusicService;
 import be.ugent.zeus.hydra.urgent.track.Track;
 import be.ugent.zeus.hydra.urgent.track.TrackManager;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Manages the media notification(s).
@@ -36,13 +27,9 @@ public class MediaNotificationManager {
     private final Context context;
     private final NotificationListener listener;
 
-    //TODO check if this needs a better hashcode
-    private Set<Target> targets = new HashSet<>();
-
     @DrawableRes
     private int icon;
     private PendingIntent contentIntent;
-
 
     public MediaNotificationManager(Context context, NotificationListener listener) {
         this.context = context;
@@ -129,42 +116,15 @@ public class MediaNotificationManager {
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setStyle(style);
 
-        if (!TextUtils.isEmpty(track.getArtworkUrl())) {
-            try {
-                Target artTarget = new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        builder.setLargeIcon(bitmap);
-                        publishNotification(builder);
-                        targets.remove(this);
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-                        publishNotification(builder);
-                        targets.remove(this);
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                    }
-                };
-                targets.add(artTarget);
-                Picasso.with(context)
-                        .load(track.getArtworkUrl())
-                        .into(artTarget);
-            } catch (IllegalArgumentException e) {
-                Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.id.albumImage);
-                builder.setLargeIcon(icon);
-                //no artwork. Ignore.
-                publishNotification(builder);
-            }
-        }else{
-            Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.id.albumImage);
-            builder.setLargeIcon(icon);
-            publishNotification(builder);
+        //Add album artwork if available
+        if (track.getAlbumArtwork() != null) {
+            builder.setLargeIcon(track.getAlbumArtwork());
+        } else {
+            builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.id.albumImage));
         }
+
+        //We are ready! Show the notification.
+        publishNotification(builder);
     }
 
     private NotificationCompat.Action generateAction(@DrawableRes int icon, String title, String intentAction) {
@@ -190,6 +150,5 @@ public class MediaNotificationManager {
         TrackManager getTrackManager();
 
         void updateMetadata();
-
     }
 }

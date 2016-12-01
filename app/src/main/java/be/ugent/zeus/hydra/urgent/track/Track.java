@@ -16,6 +16,7 @@
  */
 package be.ugent.zeus.hydra.urgent.track;
 
+import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
 import java.io.IOException;
@@ -51,9 +52,11 @@ public interface Track {
     /**
      * @return The URL of the album track. If null, the defaults will be used.
      */
-    String getArtworkUrl();
+    @Nullable
+    Bitmap getAlbumArtwork();
 
     //Once Java 8 is usable, replace by StringConsumer
+    @FunctionalInterface
     interface UrlConsumer {
         void receive(@Nullable String url) throws IOException;
     }

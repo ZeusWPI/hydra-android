@@ -589,18 +589,22 @@ public class MusicService extends Service implements
 
     public void updateMetadata() {
         if(getCurrentState() == MediaState.PREPARED) {
-            Track track;
             try {
-                track = trackManager.currentTrack();
+                Track track = trackManager.currentTrack();
                 final MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder();
                 builder.putText(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, track.getArtist());
                 builder.putText(MediaMetadataCompat.METADATA_KEY_TITLE, track.getTitle());
                 builder.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mediaPlayer.getDuration());
-                builder.putText(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, track.getArtworkUrl());
+
+                //Add the album artwork if it is available.
+                if (track.getAlbumArtwork() != null) {
+                    builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, track.getAlbumArtwork());
+                }
 
                 mediaSession.setMetadata(builder.build());
             } catch (IllegalStateException e) {
                 //nothing to update
+                Log.w(TAG, e);
             }
         }
     }
