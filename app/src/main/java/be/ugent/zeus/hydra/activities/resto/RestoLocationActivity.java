@@ -2,14 +2,20 @@ package be.ugent.zeus.hydra.activities.resto;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.v13.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.loaders.DataCallback;
@@ -18,16 +24,20 @@ import be.ugent.zeus.hydra.models.resto.RestoMeta;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.requests.resto.RestoMetaRequest;
+import be.ugent.zeus.hydra.utils.ViewUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class RestoLocationActivity extends HydraActivity implements OnMapReadyCallback, DataCallback<RestoMeta> {
+public class RestoLocationActivity extends HydraActivity implements OnMapReadyCallback, DataCallback<RestoMeta>, GoogleMap.OnMarkerClickListener {
 
     private static final LatLng DEFAULT_LOCATION = new LatLng(51.05, 3.72); //Gent
     private static final float DEFAULT_ZOOM = 12; //Between city & street zoom
@@ -38,9 +48,19 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
 
     private GoogleMap map;
     private RestoMeta meta;
+    private BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
+
+    private TextView restoName;
+    private TextView restoAddress;
+    private ImageView restoIcon;
 
     private final RestoMetaRequest restoMetaRequest = new RestoMetaRequest();
     private final RequestPlugin<RestoMeta> plugin = new RequestPlugin<>(this, RequestPlugin.wrap(restoMetaRequest));
+
+    private Map<LatLng, Resto> lookup = new HashMap<>();
+
+    public RestoLocationActivity() {
+    }
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
@@ -52,9 +72,23 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resto_location);
+        restoName = $(R.id.resto_name);
+        restoAddress = $(R.id.resto_address);
+        restoIcon = $(R.id.resto_icon);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        bottomSheetBehavior = BottomSheetBehavior.from($(R.id.bottom_sheet));
+        bottomSheetBehavior.setHideable(true);
+        bottomSheetBehavior.setPeekHeight(ViewUtils.convertDpToPixelInt(80, this));
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        $(R.id.bottom_sheet_title).setOnClickListener(view -> {
+            if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            } else { //We assume it is expanded.
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
         plugin.getLoaderPlugin().startLoader();
     }
 
@@ -71,7 +105,8 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-
+        map.setOnMarkerClickListener(this);
+        map.setOnMapClickListener(latLng -> bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN));
         if (meta != null) {
             addData();
         }
@@ -117,6 +152,8 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
 
     private void addData() {
 
+        lookup.clear();
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             map.setMyLocationEnabled(true);
             map.getUiSettings().setMyLocationButtonEnabled(true);
@@ -133,6 +170,7 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
                             .title(location.name)
                             .snippet(location.address)
             );
+            lookup.put(pos, location);
         }
         centerDefault();
         plugin.getProgressBarPlugin().hideProgressBar();
@@ -158,5 +196,25 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
                 map.getUiSettings().setMyLocationButtonEnabled(true);
             }
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        restoName.setText(marker.getTitle());
+        restoAddress.setText(marker.getSnippet());
+
+        Resto resto = lookup.get(marker.getPosition());
+        if (resto != null) {
+            restoIcon.setVisibility(View.VISIBLE);
+            Drawable drawable = ViewUtils.getTintedVectorDrawableInt(this, resto.getTypeIcon(), restoName.getCurrentTextColor());
+            restoIcon.setImageDrawable(drawable);
+        } else {
+            restoIcon.setVisibility(View.GONE);
+        }
+
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+        return true;
     }
 }

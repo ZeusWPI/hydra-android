@@ -37,9 +37,12 @@ public class HydraApplication extends Application {
                 // disable google analytics while debugging
                 analytics.setDryRun(true);
             }
+            analytics.enableAutoActivityReports(this);
 
             // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
             tracker = analytics.newTracker(R.xml.global_tracker);
+            tracker.enableExceptionReporting(true);
+            tracker.enableAutoActivityTracking(true);
         }
         return tracker;
     }

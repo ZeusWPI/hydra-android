@@ -2,6 +2,8 @@ package be.ugent.zeus.hydra.models.resto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.DrawableRes;
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.utils.Objects;
 
 import java.io.Serializable;
@@ -38,6 +40,20 @@ public class Resto implements Parcelable, Serializable {
         this.latitude = in.readDouble();
         this.longitude = in.readDouble();
         this.type = in.readString();
+    }
+
+    @DrawableRes
+    public int getTypeIcon() {
+        switch (this.type) {
+
+            case "cafetaria":
+                return R.drawable.ic_local_cafe;
+            case "club":
+                return R.drawable.ic_restaurant;
+            case "resto":
+            default:
+                return R.drawable.ic_local_dining;
+        }
     }
 
     public static final Parcelable.Creator<Resto> CREATOR = new Parcelable.Creator<Resto>() {

@@ -32,4 +32,61 @@
 
     </FrameLayout>
 
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <LinearLayout
+            android:id="@+id/bottom_sheet_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginTop="@dimen/content_spacing"
+                android:padding="16dp"
+                android:id="@+id/resto_icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                tools:src="@drawable/logo_hydra"
+                android:scaleType="fitCenter"/>
+
+            <LinearLayout
+                android:paddingTop="@dimen/activity_horizontal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/content_spacing">
+
+                <TextView
+                    android:id="@+id/resto_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="De Brug (resto)"
+                    style="@style/Base.TextAppearance.AppCompat.Title" />
+
+                <TextView
+                    android:id="@+id/resto_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Dit is een mooi address." />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dit is een testgerogheoghfgoihfgipefhgpzfhgpfghfdpoghdfpoghdfphgdfphgdfphgpdfhgpdfhgpdfgodfjgdfgdff" />
+
+    </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>
