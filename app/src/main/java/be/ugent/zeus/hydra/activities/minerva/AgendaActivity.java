@@ -38,7 +38,7 @@ public class AgendaActivity extends HydraActivity {
 
         TextView title = $(R.id.title);
         title.setText(agendaItem.getTitle());
-        toolbarPlugin.getToolBar().setTitle(agendaItem.getTitle());
+        getToolbar().setTitle(agendaItem.getTitle());
 
         //Description
         if(!TextUtils.isEmpty(agendaItem.getContent())) {
@@ -86,7 +86,7 @@ public class AgendaActivity extends HydraActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_minerva_agenda, menu);
-        toolbarPlugin.tintToolbarIcons(menu, R.id.minerva_agenda_add);
+        tintToolbarIcons(menu, R.id.minerva_agenda_add);
         return super.onCreateOptionsMenu(menu);
     }
 

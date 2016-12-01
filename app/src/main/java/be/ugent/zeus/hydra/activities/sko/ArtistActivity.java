@@ -52,7 +52,7 @@ public class ArtistActivity extends HydraActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_sko_artist, menu);
-        toolbarPlugin.tintToolbarIcons(menu, R.id.sko_add_to_calendar);
+        tintToolbarIcons(menu, R.id.sko_add_to_calendar);
         return super.onCreateOptionsMenu(menu);
     }
 

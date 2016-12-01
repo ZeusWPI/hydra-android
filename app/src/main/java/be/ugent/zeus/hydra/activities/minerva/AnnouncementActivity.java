@@ -88,7 +88,7 @@ public class AnnouncementActivity extends HydraActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_minerva_announcement, menu);
-        toolbarPlugin.tintToolbarIcons(menu, R.id.minerva_announcement_link);
+        tintToolbarIcons(menu, R.id.minerva_announcement_link);
         return super.onCreateOptionsMenu(menu);
     }
 

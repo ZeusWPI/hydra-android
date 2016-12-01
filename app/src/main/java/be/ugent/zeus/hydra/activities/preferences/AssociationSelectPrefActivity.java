@@ -73,7 +73,7 @@ public class AssociationSelectPrefActivity extends HydraActivity implements Data
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_pref_selectors, menu);
-        toolbarPlugin.tintToolbarIcons(menu, R.id.action_select_all, R.id.action_select_none);
+        tintToolbarIcons(menu, R.id.action_select_all, R.id.action_select_none);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -78,7 +78,7 @@ public class OverviewActivity extends HydraActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_sko, menu);
-        toolbarPlugin.tintToolbarIcons(menu, R.id.sko_visit_website);
+        tintToolbarIcons(menu, R.id.sko_visit_website);
         return true;
     }
 

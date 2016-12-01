@@ -51,7 +51,7 @@ public class Hydra extends HydraActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbarPlugin.getToolBar().setDisplayShowTitleEnabled(false);
+        getToolbar().setDisplayShowTitleEnabled(false);
 
         //The first thing we do is maybe start the onboarding.
         preferences = PreferenceManager.getDefaultSharedPreferences(this);

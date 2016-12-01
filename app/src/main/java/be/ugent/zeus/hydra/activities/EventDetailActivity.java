@@ -55,7 +55,7 @@ public class EventDetailActivity extends HydraActivity {
 
         if(event.getTitle() != null){
             title.setText(event.getTitle());
-            toolbarPlugin.getToolBar().setTitle(event.getTitle());
+            getToolbar().setTitle(event.getTitle());
         }
 
         if(event.getAssociation() != null ) {
@@ -119,7 +119,7 @@ public class EventDetailActivity extends HydraActivity {
         getMenuInflater().inflate(R.menu.menu_event, menu);
 
         // We need to manually set the color of this Drawable for some reason.
-        toolbarPlugin.tintToolbarIcons(menu, R.id.event_location, R.id.event_link);
+        tintToolbarIcons(menu, R.id.event_location, R.id.event_link);
 
         return super.onCreateOptionsMenu(menu);
     }

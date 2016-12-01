@@ -119,7 +119,7 @@ public class SchamperArticleActivity extends HydraActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_schamper, menu);
-        toolbarPlugin.tintToolbarIcons(menu, R.id.schamper_share, R.id.schamper_browser);
+        tintToolbarIcons(menu, R.id.schamper_share, R.id.schamper_browser);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -113,7 +113,7 @@ public class MenuActivity extends HydraActivity implements DataCallback<RestoOve
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_resto, menu);
-        toolbarPlugin.tintToolbarIcons(menu, R.id.resto_refresh);
+        tintToolbarIcons(menu, R.id.resto_refresh);
         return super.onCreateOptionsMenu(menu);
     }
 

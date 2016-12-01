@@ -53,7 +53,7 @@ public class CourseActivity extends HydraActivity {
         viewPager.setCurrentItem(getIntent().getIntExtra(ARG_TAB, TAB_ANNOUNCEMENTS), false);
         tabLayout.setupWithViewPager(viewPager);
 
-        toolbarPlugin.getToolBar().setTitle(course.getTitle());
+        getToolbar().setTitle(course.getTitle());
     }
 
     @Override
@@ -70,7 +70,7 @@ public class CourseActivity extends HydraActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_minerva_course, menu);
-        toolbarPlugin.tintToolbarIcons(menu, R.id.minerva_course_link);
+        tintToolbarIcons(menu, R.id.minerva_course_link);
         return super.onCreateOptionsMenu(menu);
     }
 

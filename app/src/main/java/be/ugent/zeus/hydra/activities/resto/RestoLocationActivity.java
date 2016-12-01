@@ -96,7 +96,7 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_resto_location, menu);
-        toolbarPlugin.tintToolbarIcons(menu, R.id.resto_refresh, R.id.resto_center);
+        tintToolbarIcons(menu, R.id.resto_refresh, R.id.resto_center);
         return super.onCreateOptionsMenu(menu);
     }
 
