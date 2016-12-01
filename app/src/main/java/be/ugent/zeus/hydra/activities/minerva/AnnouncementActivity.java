@@ -41,7 +41,7 @@ public class AnnouncementActivity extends HydraActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_announcement);
+        setContentView(R.layout.activity_minerva_announcement);
 
         Intent intent = getIntent();
         announcement = intent.getParcelableExtra(ARG_ANNOUNCEMENT);
@@ -52,13 +52,16 @@ public class AnnouncementActivity extends HydraActivity {
         TextView date = $(R.id.date);
         TextView text = $(R.id.text);
         TextView author = $(R.id.author);
+        TextView course = $(R.id.course);
+
+        course.setText(announcement.getCourse().getTitle());
 
         if(announcement.getLecturer() != null ) {
             author.setText(announcement.getLecturer());
         }
 
         if(announcement.getDate() != null) {
-            date.setText(DateUtils.relativeDateTimeString(announcement.getDate(), date.getContext()));
+            date.setText(DateUtils.relativeDateTimeString(announcement.getDate(), this));
         }
 
         if(announcement.getContent() != null) {

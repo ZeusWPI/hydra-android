@@ -58,6 +58,10 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     private RecyclerView recyclerView;
     private Snackbar snackbar;
 
+    /**
+     * This boolean indicates whether the data from the loader was cached or not. If it was, the partial update
+     * function will not be called.
+     */
     private boolean wasCached = true;
 
     @Override
@@ -230,7 +234,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
     @Override
     public void onLoaderReset(Loader<Pair<Set<Integer>, List<HomeCard>>> loader) {
-
+        //Do nothing
     }
 
     /**

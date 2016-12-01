@@ -26,7 +26,9 @@ public interface HomeFeedLoaderCallback extends LoaderManager.LoaderCallbacks<Pa
     List<HomeCard> getExistingData();
 
     /**
-     * This is called when the adapter receives an update.
+     * This is called when the adapter receives new data.
+     *
+     * Note that the adapter does NOT receive an update if the data was cached by the loader.
      *
      * @param cardType The type of card that was updated.
      */
