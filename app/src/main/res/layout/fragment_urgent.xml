@@ -2,7 +2,9 @@
 
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,13 +12,39 @@
         android:orientation="vertical"
         android:paddingTop="@dimen/activity_horizontal_margin">
 
-        <Button
-            android:layout_gravity="center"
-            android:id="@+id/urgent_play"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/urgent_play_wrapper"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin"
-            android:text="Afspelen"/>
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/albumImage"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="@dimen/media_control_image"
+                android:layout_height="@dimen/media_control_image"
+                android:contentDescription="@string/urgent_album_art"
+                app:srcCompat="@drawable/logo_urgent" />
+
+            <TextView
+                style="?android:attr/textAppearanceMedium"
+                android:textStyle="bold"
+                android:ellipsize="marquee"
+                android:text="Urgent.fm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingTop="@dimen/content_spacing"
+                android:paddingBottom="@dimen/content_spacing" />
+
+            <Button
+                android:layout_gravity="center"
+                android:id="@+id/urgent_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:text="Afspelen"/>
+        </LinearLayout>
 
         <FrameLayout
             android:id="@+id/urgent_fragment_wrapper"

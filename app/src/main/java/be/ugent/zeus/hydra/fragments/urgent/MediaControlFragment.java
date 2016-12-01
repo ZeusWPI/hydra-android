@@ -34,9 +34,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import be.ugent.zeus.hydra.R;
-import com.squareup.picasso.Picasso;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -186,13 +184,14 @@ public class MediaControlFragment extends Fragment {
 
     private void readMetadata(MediaMetadataCompat metadata) {
         if (metadata != null) {
+            //These must be set at least.
             artistText.setText(metadata.getText(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST));
             titleText.setText(metadata.getText(MediaMetadataCompat.METADATA_KEY_TITLE));
-            String artUrl = metadata.getText(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI).toString();
-            try {
-                Picasso.with(getContext()).load(artUrl).into(albumImage);
-            } catch (IllegalArgumentException e) {
-                //no artwork
+
+            //Try setting the album art.
+            if (metadata.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART) != null) {
+                albumImage.setImageBitmap(metadata.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART));
+            } else {
                 albumImage.setImageResource(R.drawable.ic_album);
             }
         }

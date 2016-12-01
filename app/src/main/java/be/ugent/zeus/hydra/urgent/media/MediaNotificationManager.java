@@ -120,7 +120,7 @@ public class MediaNotificationManager {
         if (track.getAlbumArtwork() != null) {
             builder.setLargeIcon(track.getAlbumArtwork());
         } else {
-            builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.id.albumImage));
+            builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_album));
         }
 
         //We are ready! Show the notification.
