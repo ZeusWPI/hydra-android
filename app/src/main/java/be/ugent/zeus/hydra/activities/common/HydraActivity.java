@@ -13,7 +13,6 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.plugins.common.PluginActivity;
 import be.ugent.zeus.hydra.utils.ViewUtils;
-import com.google.android.gms.analytics.GoogleAnalytics;
 
 /**
  * Common activity. This activity supports:
@@ -62,18 +61,6 @@ public abstract class HydraActivity extends PluginActivity {
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         setUpActionBar();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        GoogleAnalytics.getInstance(this).reportActivityStart(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
     @Override
