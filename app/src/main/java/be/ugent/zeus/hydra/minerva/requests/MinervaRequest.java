@@ -126,7 +126,9 @@ public abstract class MinervaRequest<T> extends JsonSpringRequest<T> {
         if (accountBundle.containsKey(AccountManager.KEY_INTENT)) {
             throw new AuthenticatorActionException();
         } else { //Otherwise we can proceed.
-            return accountBundle.getString(AccountManager.KEY_AUTHTOKEN);
+            String token = accountBundle.getString(AccountManager.KEY_AUTHTOKEN);
+            Log.d(TAG, "Minerva auth key: " + token);
+            return token;
         }
     }
 

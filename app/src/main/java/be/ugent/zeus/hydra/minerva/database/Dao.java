@@ -16,11 +16,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 public abstract class Dao {
 
     protected final SQLiteOpenHelper helper;
+    protected final Context context;
 
     /**
      * @param context The application context.
      */
     public Dao(Context context) {
+        this.context = context;
         this.helper = DatabaseHelper.getInstance(context);
     }
 }

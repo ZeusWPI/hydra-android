@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
@@ -37,95 +38,6 @@ public class AnnouncementDao extends Dao {
     }
 
     /**
-     * Delete all data.
-     */
-    public void deleteAll() {
-        helper.getWritableDatabase().delete(AnnouncementTable.TABLE_NAME, null, null);
-    }
-
-    /**
-     * Synchronise announcements for one course.
-     *
-     * @param announcements The announcements.
-     * @param first If this is the first sync or not.
-     *
-     * @return The new announcements.
-     */
-    public List<Announcement> synchronisePartial(Collection<Announcement> announcements, Course course, boolean first, Context context) {
-
-        //Get existing announcements.
-        Set<Integer> present = getIdsForCourse(course);
-        List<Announcement> newAnnouncements = new ArrayList<>();
-
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        int counter = 0;
-        try {
-            db.beginTransaction();
-
-            //Delete old announcements
-            Collection<Integer> idCollection = getRemovable(present, announcements);
-            Integer[] ids = new Integer[idCollection.size()];
-            ids = idCollection.toArray(ids);
-            String questions = Utils.commaSeparatedQuestionMarks(idCollection.size());
-
-            String[] converted = new String[ids.length];
-            //Convert ids
-            for(int i = 0; i < ids.length; i++) {
-                converted[i] = ids[i].toString();
-            }
-
-            int rows = db.delete(AnnouncementTable.TABLE_NAME, AnnouncementTable.COLUMN_ID + " IN (" + questions + ")", converted);
-            Log.d(TAG, "Removed " + rows + " stale announcements.");
-
-            //If we are doing the first sync, we want to set everything to read.
-            ZonedDateTime now = ZonedDateTime.now();
-
-            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-            final boolean showEmail = pref.getBoolean(MinervaFragment.PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL, MinervaFragment.PREF_DEFAULT_ANNOUNCEMENT_NOTIFICATION_EMAIL);
-
-            for (Announcement announcement: announcements) {
-                //Make sure the course is set
-                announcement.setCourse(course);
-
-                ContentValues value = getValues(announcement);
-
-                //Update the announcement if it is present
-                if(present.contains(announcement.getItemId())) {
-                    value.remove(AnnouncementTable.COLUMN_ID); //Don't update the id
-                    value.remove(AnnouncementTable.COLUMN_READ_DATE); //Don't update the date
-                    db.update(
-                            AnnouncementTable.TABLE_NAME,
-                            value,
-                            AnnouncementTable.COLUMN_ID + " = ?",
-                            new String[]{String.valueOf(announcement.getItemId())}
-                            );
-                } else {
-                    //If this is the first sync or it has an email and is set to email, add the read date.
-                    if(first || (!showEmail && announcement.isEmailSent())) {
-                        announcement.setRead(now);
-                        value.put(AnnouncementTable.COLUMN_READ_DATE, TtbUtils.serialize(now));
-                    }
-
-                    //If the announcement is unread, add it to the new announcements
-                    if(!announcement.isRead()) {
-                        newAnnouncements.add(announcement);
-                    }
-
-                    db.insertOrThrow(AnnouncementTable.TABLE_NAME, null, value);
-                    counter++;
-                }
-            }
-            db.setTransactionSuccessful();
-        } finally {
-            db.endTransaction();
-        }
-
-        Log.d(TAG, "New announcements for " + course.getTitle() + ": " + counter);
-        return newAnnouncements;
-    }
-
-    /**
      * Get values for an announcement.
      *
      * @param a The announcement.
@@ -139,13 +51,153 @@ public class AnnouncementDao extends Dao {
         values.put(AnnouncementTable.COLUMN_COURSE, a.getCourse().getId());
         values.put(AnnouncementTable.COLUMN_TITLE, a.getTitle());
         values.put(AnnouncementTable.COLUMN_CONTENT, a.getContent());
-        values.put(AnnouncementTable.COLUMN_EMAIL_SENT, boolToInt(a.isEmailSent()));
+        values.put(AnnouncementTable.COLUMN_EMAIL_SENT, Utils.boolToInt(a.isEmailSent()));
         values.put(AnnouncementTable.COLUMN_STICKY_UNTIL, 0);
         values.put(AnnouncementTable.COLUMN_LECTURER, a.getLecturer());
         values.put(AnnouncementTable.COLUMN_DATE, TtbUtils.serialize(a.getDate()));
         values.put(AnnouncementTable.COLUMN_READ_DATE, TtbUtils.serialize(a.getRead()));
 
         return values;
+    }
+
+    /**
+     * Delete all data.
+     */
+    public void deleteAll() {
+        helper.getWritableDatabase().delete(AnnouncementTable.TABLE_NAME, null, null);
+    }
+
+    /**
+     * Synchronize the announcements based on a sync object.
+     *
+     * @param object The sync object.
+     *
+     * @return All new announcements. This might be useful, e.g. to notify the user.
+     */
+    public Collection<Announcement> synchronize(SyncObject object) {
+
+        //Get existing announcements for this course.
+        Set<Announcement> existing = new HashSet<>(getAnnouncementsForCourse(object.getCourse(), false));
+        Set<Announcement> unread = new HashSet<>(object.getNewObjects());
+
+        List<Announcement> newAnnouncements = new ArrayList<>();
+
+        //*************************************************************
+        // Remove stale announcements; these are no longer on the site.
+        //*************************************************************
+
+        //Gather the ids of the announcements that should be removed from the database.
+        Set<Integer> stale = new HashSet<>();
+        for (Announcement a : existing) {
+            if (!object.getAllObjects().contains(a)) {
+                stale.add(a.getItemId());
+            }
+        }
+
+        //Remove the stale ids
+        remove(stale);
+
+        //*************************************************************************************
+        // Synchronize the rest of the announcements; make sure they are present or up to date.
+        //*************************************************************************************
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ZonedDateTime now = ZonedDateTime.now();
+        int counter = 0;
+
+        //If new unread announcements for which an email has been sent should count as new.
+        final boolean ignoreEmailed = !showEmailed();
+
+        try {
+            db.beginTransaction();
+            for (Announcement announcement : object.getAllObjects()) {
+                //Ensure course is set
+                announcement.setCourse(object.getCourse());
+
+                ContentValues contentValues = getValues(announcement);
+
+                //Check if the announcement exists or not - if true, update it
+                if (existing.contains(announcement)) {
+
+                    //If the announcement was read online, update the status
+                    if(unread.contains(announcement)) {
+                        contentValues.remove(AnnouncementTable.COLUMN_READ_DATE); //Don't update the date
+                    } else {
+                        announcement.setRead(now);
+                        contentValues.put(AnnouncementTable.COLUMN_READ_DATE, TtbUtils.serialize(now));
+                    }
+
+                    //Do not update ID
+                    contentValues.remove(AnnouncementTable.COLUMN_ID); //Don't update the id
+
+                    db.update(
+                            AnnouncementTable.TABLE_NAME,
+                            contentValues,
+                            AnnouncementTable.COLUMN_ID + " = ?",
+                            new String[]{String.valueOf(announcement.getItemId())}
+                    );
+                } else {
+
+                    //If this is not read online or it has an email and is set to email, add the read date.
+                    if ((ignoreEmailed && announcement.isEmailSent()) || !unread.contains(announcement)) {
+                        announcement.setRead(now);
+                        contentValues.put(AnnouncementTable.COLUMN_READ_DATE, TtbUtils.serialize(now));
+                    }
+
+                    //If the announcement is unread, add it to the new announcements
+                    if (!announcement.isRead()) {
+                        newAnnouncements.add(announcement);
+                    }
+
+                    db.insertOrThrow(AnnouncementTable.TABLE_NAME, null, contentValues);
+                    counter++;
+                }
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+
+        Log.d(TAG, "New announcements for " + object.getCourse().getTitle() + ": " + counter);
+        return newAnnouncements;
+    }
+
+    /**
+     * Remove the announcements with given ID. If an ID is given that is not in the database, the behavior is
+     * undefined.
+     *
+     * @param ids The ids of the announcements to remove.
+     *
+     * @return The number of rows affected. See {@link SQLiteDatabase#delete(String, String, String[])}.
+     */
+    public int remove(Collection<Integer> ids) {
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        //Prepare the ids
+        String[] converted = new String[ids.size()];
+        Integer[] arrayIds = new Integer[ids.size()];
+        arrayIds = ids.toArray(arrayIds);
+
+        //Convert ids
+        for (int i = 0; i < arrayIds.length; i++) {
+            converted[i] = arrayIds[i].toString();
+        }
+
+        //Prepare a list of unknowns
+        String questions = Utils.commaSeparatedQuestionMarks(ids.size());
+
+        int rows = db.delete(AnnouncementTable.TABLE_NAME, AnnouncementTable.COLUMN_ID + " IN (" + questions + ")", converted);
+        Log.d(TAG, "Removed " + rows + " stale announcements.");
+        return rows;
+    }
+
+    /**
+     * @return True if announcements that were emailed should be shown as new or not.
+     */
+    private boolean showEmailed() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        return pref.getBoolean(MinervaFragment.PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL, MinervaFragment.PREF_DEFAULT_ANNOUNCEMENT_NOTIFICATION_EMAIL);
     }
 
     /**
@@ -162,86 +214,15 @@ public class AnnouncementDao extends Dao {
                 values,
                 AnnouncementTable.COLUMN_ID + " = ?",
                 new String[]{String.valueOf(a.getItemId())}
-                );
+        );
 
         Log.i(TAG, "Updated announcement " + a.getItemId());
     }
 
-    private static int boolToInt(boolean bool) {
-        return bool ? 1 : 0;
-    }
-
-    /**
-     * Get the list of ids that are not in the given {@code announcements}. The default usage for this is the find
-     * stale announcements that are no longer on Minerva, but still in our database.
-     *
-     * This method runs in linear time: O(n), with n = size(courses).
-     *
-     * @param ids Ids of announcements in the database.
-     * @param announcements Announcements from the Minerva servers.
-     *
-     * @return Local courses that can be deleted.
-     */
-    private static Set<Integer> getRemovable(final Set<Integer> ids, final Iterable<Announcement> announcements) {
-        /*
-        * We copy the set of ids because we modify it. Logically we would iterate the ids and check
-        * if each id is present in the announcements. Because of how the Java collections work, we can't do that without
-        * iterating the whole collection for every id. If size(ids) = n and size(announcements) = m, this would result
-        * in a complexity of O(n^m).
-        *
-        * Instead we iterate the announcements, which is O(m). We check if the set of ids contains it, O(1), and if it
-        * does, we remove it from the set O(1). The result is thus O(m).
-        */
-        Set<Integer> removable = new HashSet<>(ids);
-        for (Announcement announcement: announcements) {
-            if(removable.contains(announcement.getItemId())) {
-                removable.remove(announcement.getItemId());
-            }
-        }
-
-        return removable;
-    }
-
     /**
      * Get a list of ids of the announcements for a course in the database.
      *
-     * @param course The course.
-     *
-     * @return List of ids in the database.
-     */
-    private Set<Integer> getIdsForCourse(Course course) {
-
-        SQLiteDatabase db = helper.getReadableDatabase();
-        Set<Integer> result = new HashSet<>();
-
-        Cursor cursor = db.query(
-                AnnouncementTable.TABLE_NAME,
-                new String[] {AnnouncementTable.COLUMN_ID},
-                AnnouncementTable.COLUMN_COURSE + " = ?",
-                new String[]{course.getId()},
-                null, null, null);
-
-        if(cursor == null) {
-            return result;
-        }
-
-        try {
-            int columnIndex = cursor.getColumnIndex(AnnouncementTable.COLUMN_ID);
-
-            while (cursor.moveToNext()) {
-                result.add(cursor.getInt(columnIndex));
-            }
-        } finally {
-            cursor.close();
-        }
-
-        return result;
-    }
-
-    /**
-     * Get a list of ids of the announcements for a course in the database.
-     *
-     * @param course The course.
+     * @param course  The course.
      * @param reverse If the announcements should be reversed (newest first) or not.
      *
      * @return List of ids in the database.
@@ -252,7 +233,7 @@ public class AnnouncementDao extends Dao {
         List<Announcement> result = new ArrayList<>();
 
         String order = AnnouncementTable.COLUMN_DATE;
-        if(reverse) {
+        if (reverse) {
             order += " DESC";
         } else {
             order += " ASC";
@@ -265,7 +246,7 @@ public class AnnouncementDao extends Dao {
                 new String[]{course.getId()},
                 null, null, order);
 
-        if(cursor == null) {
+        if (cursor == null) {
             return result;
         }
 
@@ -297,7 +278,7 @@ public class AnnouncementDao extends Dao {
 
         final String courseTable = "course_";
 
-        String announcementJoin =  AnnouncementTable.COLUMN_COURSE;
+        String announcementJoin = AnnouncementTable.COLUMN_COURSE;
         String courseJoin = courseTable + CourseTable.COLUMN_ID;
 
         builder.setTables(AnnouncementTable.TABLE_NAME + " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + announcementJoin + "=" + courseJoin);
@@ -332,7 +313,7 @@ public class AnnouncementDao extends Dao {
                 AnnouncementTable.COLUMN_COURSE + " ASC"
         );
 
-        if(c == null) {
+        if (c == null) {
             return map;
         }
 
@@ -359,8 +340,8 @@ public class AnnouncementDao extends Dao {
                 //Get the course id
                 String id = c.getString(cExtractor.getColumnId());
 
-                if(currentCourse == null || !currentCourse.getId().equals(id)) {
-                    if(currentCourse != null) {
+                if (currentCourse == null || !currentCourse.getId().equals(id)) {
+                    if (currentCourse != null) {
                         Log.d(TAG, "Added " + counter + " announcements for " + currentCourse.getTitle());
                     }
                     //Add the course
@@ -380,8 +361,12 @@ public class AnnouncementDao extends Dao {
         //Sort the announcements by date
         Comparator<Announcement> comparator = (o1, o2) -> o1.getDate().compareTo(o2.getDate());
 
-        for (List<Announcement> entry : map.values()){
-            Collections.sort(entry, comparator);
+        for (List<Announcement> entry : map.values()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                entry.sort(comparator);
+            } else {
+                Collections.sort(entry, comparator);
+            }
         }
 
         return map;

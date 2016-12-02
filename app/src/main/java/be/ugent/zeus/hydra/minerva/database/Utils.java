@@ -23,4 +23,15 @@ public class Utils {
         Arrays.fill(array, "?");
         return TextUtils.join(", ", array);
     }
+
+    /**
+     * Convert a boolean to an int.
+     *
+     * @param bool The boolean.
+     *
+     * @return 1 if true, 0 otherwise.
+     */
+    public static int boolToInt(boolean bool) {
+        return bool ? 1 : 0;
+    }
 }

@@ -20,6 +20,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Deze aankondigingen zijn al gelezen in de Hydra-app, maar nog niet op de site van Minerva. Eens ze daar ook gelezen zijn, verschijnen ze hier niet meer." />
+        android:text="Gelezen aankondingingen. We kunnen aankondigingen gelezen in de app niet als gelezen marken op de Minerva-site, dus daar blijven ze als nieuw staan." />
 
 </LinearLayout>
