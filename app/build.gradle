@@ -84,7 +84,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
-    compile 'com.google.android.gms:play-services-analytics:9.8.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.KyoSherlock:expandablelayout:master-SNAPSHOT'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
@@ -99,11 +98,14 @@ dependencies {
         exclude group: 'org.apache.oltu.oauth2'
     }
 
+    compile 'com.google.android.gms:play-services-analytics:10.0.1'
+    compile 'com.google.android.gms:play-services-maps:10.0.1'
+
     //compile 'com.google.firebase:firebase-core:9.4.0'
-    releaseCompile 'com.google.firebase:firebase-crash:9.8.0'
-    compile 'com.google.firebase:firebase-messaging:9.8.0'
-    compile 'com.google.firebase:firebase-config:9.8.0'
-    compile 'com.google.android.gms:play-services-maps:9.8.0'
+    releaseCompile 'com.google.firebase:firebase-crash:10.0.1'
+    compile 'com.google.firebase:firebase-messaging:10.0.1'
+    compile 'com.google.firebase:firebase-config:10.0.1'
+
 
     //Test code
     testCompile 'junit:junit:4.12'
