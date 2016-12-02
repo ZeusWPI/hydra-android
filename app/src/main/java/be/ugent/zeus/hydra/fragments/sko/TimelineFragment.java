@@ -17,6 +17,7 @@ import be.ugent.zeus.hydra.recyclerview.adapters.sko.TimelineAdapter;
 import be.ugent.zeus.hydra.requests.sko.TimelineRequest;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.utils.customtabs.CustomTabsHelper;
+import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
 
 import java.util.List;
 
@@ -61,6 +62,7 @@ public class TimelineFragment extends PluginFragment implements SwipeRefreshLayo
         super.onViewCreated(view, savedInstanceState);
         refreshLayout = $(view, R.id.refresh_layout);
         refreshLayout.setOnRefreshListener(this);
+        plugin.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
     }
 
     @Override

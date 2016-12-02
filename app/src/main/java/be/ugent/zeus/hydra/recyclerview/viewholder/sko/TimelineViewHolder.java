@@ -60,7 +60,7 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
             title.setVisibility(View.GONE);
         }
         CharSequence dateString = DateUtils.relativeDateTimeString(post.getCreatedAt(), itemView.getContext(), true);
-        toolbar.setTitle(post.getDisplayType() + " van " + post.getOrigin() + " • " + dateString);
+        toolbar.setTitle(post.getDisplayType() + " van " + post.getOrigin() + " \u2022 " + dateString);
         toolbar.setIcon(getOriginIcon(post));
 
         //If there is a body, set it and set the expand button, else hide those.
