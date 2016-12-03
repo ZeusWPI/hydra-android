@@ -88,10 +88,10 @@ public class NewsItem implements Serializable, Parcelable {
         dest.writeString(this.content);
         dest.writeParcelable(this.association, flags);
         dest.writeLong(TtbUtils.serialize(this.date));
-        dest.writeByte(this.highlighted ? (byte) 1 : (byte) 0);
+        dest.writeByte((byte) (this.highlighted ? 1 : 0));
     }
 
-    protected NewsItem(Parcel in) {
+    private NewsItem(Parcel in) {
         this.id = in.readInt();
         this.title = in.readString();
         this.content = in.readString();

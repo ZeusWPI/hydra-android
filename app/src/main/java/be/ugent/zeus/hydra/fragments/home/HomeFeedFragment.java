@@ -172,7 +172,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
         Set<String> s = PreferenceManager
                 .getDefaultSharedPreferences(getContext())
-                .getStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, Collections.<String>emptySet());
+                .getStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, Collections.emptySet());
 
         //Always add the special events.
         loader.addOperation(add(new SpecialEventRequest(getContext(), shouldRefresh)));

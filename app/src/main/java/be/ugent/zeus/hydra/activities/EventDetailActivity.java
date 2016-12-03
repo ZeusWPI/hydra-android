@@ -105,7 +105,7 @@ public class EventDetailActivity extends HydraActivity {
                 NetworkUtils.maybeLaunchBrowser(this, event.getUrl());
                 return true;
             case R.id.event_location:
-                startActivity(getLocationIntent());
+                NetworkUtils.maybeLaunchIntent(this, getLocationIntent());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -153,8 +153,6 @@ public class EventDetailActivity extends HydraActivity {
      * @return The intent.
      */
     private Intent getLocationIntent() {
-
-        assert event.hasPreciseLocation() || event.hasLocation();
 
         Uri uriLocation;
 

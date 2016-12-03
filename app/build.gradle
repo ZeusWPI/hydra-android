@@ -19,7 +19,7 @@ android {
         }
 
         //Load the API keys from the file "secrets.properties".
-        def Properties props = new Properties()
+        Properties props = new Properties()
         props.load(new FileInputStream(file('secrets.properties')))
         buildConfigField "String", "OAUTH_ID", "\"" + props['OAUTH_ID'] + "\""
         buildConfigField "String", "OAUTH_SECRET", "\"" + props['OAUTH_SECRET'] + "\""

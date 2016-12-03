@@ -80,7 +80,7 @@ public class MinervaAgendaViewHolder extends HideableViewHolder {
         LocalDateTime localEnd = DateUtils.toLocalDateTime(end);
 
         if(start.isBefore(now) && end.isAfter(now)) {
-            String endString = "";
+            String endString;
             if(android.text.format.DateUtils.isToday(end.toInstant().toEpochMilli())) {
                 endString = localEnd.format(HOUR_FORMATTER);
             } else {

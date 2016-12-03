@@ -190,12 +190,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage(rationale);
-            builder.setNeutralButton("Got it", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    askForPermission(requestCode, permission);
-                }
-            });
+            builder.setNeutralButton("Got it", (dialog, which) -> askForPermission(requestCode, permission));
             builder.create().show();
         } else {
             // No explanation needed, we can request the permission.

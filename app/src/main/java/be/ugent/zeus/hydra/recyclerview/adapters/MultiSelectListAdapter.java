@@ -24,12 +24,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, MultiSelectListAdapter.ViewHolder<H>> {
 
-    protected DisplayNameProvider<H> displayNameProvider = new DisplayNameProvider<H>() {
-        @Override
-        public String getDisplayValue(H element) {
-            return element.toString();
-        }
-    };
+    protected DisplayNameProvider<H> displayNameProvider = Object::toString;
 
     /**
      * Set the values to use.
@@ -98,6 +93,7 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
         return new ViewHolder<>(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_checkbox_string, parent, false), this);
     }
 
+    @FunctionalInterface
     public interface DisplayNameProvider<H> {
         String getDisplayValue(H element);
     }

@@ -101,6 +101,7 @@ public class Hydra extends HydraActivity {
         tabLayout.setupWithViewPager(viewpager);
 
         for (int i = 0; i < icons.length; i++) {
+            //noinspection ConstantConditions
             tabLayout.getTabAt(i).setIcon(icons[i]);
         }
 

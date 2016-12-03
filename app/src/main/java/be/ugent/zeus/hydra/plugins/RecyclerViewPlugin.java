@@ -31,7 +31,6 @@ public class RecyclerViewPlugin<D, E extends List<D>> extends Plugin implements 
 
     private boolean adapterSet;
 
-    @Nullable
     private DataCallback<E> callback;
 
     /**

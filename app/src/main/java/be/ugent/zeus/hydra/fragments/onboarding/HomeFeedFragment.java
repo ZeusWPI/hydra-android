@@ -49,7 +49,6 @@ public class HomeFeedFragment extends SlideFragment {
         String[] ints = getResources().getStringArray(R.array.card_types_nr);
 
         valueMapper.clear();
-        assert ints.length == values.length;
         for(int i = 0; i < values.length; i++) {
             valueMapper.put(values[i], ints[i]);
         }

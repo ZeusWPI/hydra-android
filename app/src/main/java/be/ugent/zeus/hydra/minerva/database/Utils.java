@@ -34,4 +34,8 @@ public class Utils {
     public static int boolToInt(boolean bool) {
         return bool ? 1 : 0;
     }
+
+    public static boolean intToBool(int anInt) {
+        return anInt == 1;
+    }
 }

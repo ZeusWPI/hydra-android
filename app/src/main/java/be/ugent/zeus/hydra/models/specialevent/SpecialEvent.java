@@ -34,7 +34,7 @@ public class SpecialEvent implements Serializable {
     private ZonedDateTime end;
     private boolean development;
 
-    private Intent viewIntent;
+    private transient Intent viewIntent;
 
     /**
      * Set the viewing intent. Passing null will cause the default intent to be used.

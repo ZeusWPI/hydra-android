@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class PluginActivity extends AppCompatActivity {
+public abstract class PluginActivity extends AppCompatActivity {
 
     private List<Plugin> plugins = new ArrayList<>();
     private Bundle savedInstance;

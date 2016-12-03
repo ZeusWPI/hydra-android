@@ -74,6 +74,7 @@ public class ViewUtils {
     public static Drawable getTintedVectorDrawableInt(Context context, @DrawableRes int drawable, @ColorInt int color) {
 
         Drawable d = AppCompatResources.getDrawable(context, drawable);
+        assert d != null;
         DrawableCompat.setTint(d, color);
 
         return d;

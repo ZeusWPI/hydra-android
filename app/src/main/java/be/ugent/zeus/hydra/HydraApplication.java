@@ -15,6 +15,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
  * @author Niko Strijbol
  * @author feliciaan
  */
+@SuppressWarnings("WeakerAccess")
 public class HydraApplication extends Application {
 
     private Tracker tracker;

@@ -162,14 +162,11 @@ public class MediaControlFragment extends Fragment {
             playPauseButton.setImageResource(pauseDrawableResource);
         }
 
-        playPauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getPlaybackState() == PlaybackStateCompat.STATE_PLAYING) {
-                    mediaController.getTransportControls().pause();
-                } else {
-                    mediaController.getTransportControls().play();
-                }
+        playPauseButton.setOnClickListener(v -> {
+            if (getPlaybackState() == PlaybackStateCompat.STATE_PLAYING) {
+                mediaController.getTransportControls().pause();
+            } else {
+                mediaController.getTransportControls().play();
             }
         });
     }

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
 import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.minerva.auth.AuthenticatorActionException;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
@@ -17,7 +16,6 @@ import be.ugent.zeus.hydra.requests.common.JsonSpringRequest;
 import be.ugent.zeus.hydra.requests.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -135,7 +133,7 @@ public abstract class MinervaRequest<T> extends JsonSpringRequest<T> {
     @Override
     protected RestTemplate createRestTemplate() throws RequestFailureException {
         RestTemplate t = super.createRestTemplate();
-        t.setInterceptors(Collections.<ClientHttpRequestInterceptor>singletonList(new TokenRequestInterceptor(getToken())));
+        t.setInterceptors(Collections.singletonList(new TokenRequestInterceptor(getToken())));
         return t;
     }
 

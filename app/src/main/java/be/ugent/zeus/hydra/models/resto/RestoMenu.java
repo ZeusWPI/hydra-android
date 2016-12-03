@@ -107,7 +107,7 @@ public class RestoMenu implements Parcelable, Serializable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte(this.open ? (byte) 1 : (byte) 0);
+        dest.writeByte((byte) (this.open ? 1 : 0));
         dest.writeLong(this.date != null ? this.date.toEpochDay() : -1);
         dest.writeList(this.meals);
         dest.writeStringList(this.vegetables);

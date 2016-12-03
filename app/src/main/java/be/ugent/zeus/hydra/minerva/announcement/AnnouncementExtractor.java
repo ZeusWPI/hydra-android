@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.minerva.announcement;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.minerva.database.Utils;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.TtbUtils;
@@ -44,7 +45,7 @@ class AnnouncementExtractor {
         a.setItemId(cursor.getInt(columnIndex));
         a.setTitle(cursor.getString(columnTitle));
         a.setContent(cursor.getString(columnContent));
-        a.setEmailSent(intToBool(cursor.getInt(columnEmailSent)));
+        a.setEmailSent(Utils.intToBool(cursor.getInt(columnEmailSent)));
         a.setLecturer(cursor.getString(columnLecturer));
         a.setDate(TtbUtils.unserialize(cursor.getLong(columnDate)));
         a.setRead(TtbUtils.unserialize(cursor.getLong(columnReadDate)));
@@ -158,12 +159,5 @@ class AnnouncementExtractor {
         public AnnouncementExtractor build() {
             return extractor;
         }
-    }
-
-    /**
-     * @return True if {@code integer} is 1, else false.
-     */
-    public static boolean intToBool(int integer) {
-        return integer == 1;
     }
 }

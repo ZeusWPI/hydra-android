@@ -43,8 +43,6 @@ import be.ugent.zeus.hydra.urgent.media.SimpleSessionCallback;
 import be.ugent.zeus.hydra.urgent.track.Track;
 import be.ugent.zeus.hydra.urgent.track.TrackManager;
 
-import java.io.IOException;
-
 /**
  * The music is played in a foreground service, enabling people to listen to the stream even when the app itself
  * is closed or killed.
@@ -76,9 +74,7 @@ public class MusicService extends Service implements
     private MediaPlayer mediaPlayer;
     private MediaSessionCompat mediaSession;
     private WifiManager.WifiLock wifiLock;
-    @Nullable
     private MusicCallback callbacks;
-    @Nullable
     private BoundServiceCallback boundCallback;
 
     private boolean isInitialized = false;
@@ -253,10 +249,8 @@ public class MusicService extends Service implements
      * Cue a track for playing.
      *
      * @param track The track to play. If this is null, nothing will happen.
-     *
-     * @throws IOException
      */
-    private void queueTrack(Track track) throws IOException {
+    private void queueTrack(Track track) {
         Log.d(TAG, "Cue Track...");
         stop();
 
@@ -277,32 +271,29 @@ public class MusicService extends Service implements
                 return; //nothing to play
             }
 
-            track.getUrl(new Track.UrlConsumer() {
-                @Override
-                public void receive(@Nullable String url) throws IOException {
-                    if (url == null) {
-                        return; //nothing to play
+            track.getUrl(url -> {
+                if (url == null) {
+                    return; //nothing to play
+                }
+                if (hasPermission(Manifest.permission.WAKE_LOCK)) {
+                    if (!wifiLock.isHeld()) {
+                        wifiLock.acquire();
                     }
-                    if (hasPermission(Manifest.permission.WAKE_LOCK)) {
-                        if (!wifiLock.isHeld()) {
-                            wifiLock.acquire();
-                        }
 
-                        mediaPlayer.setDataSource(url);
-                        state = MediaState.INITIALIZED;
-                        mediaPlayer.prepareAsync();
-                        state = MediaState.PREPARING;
-                        if(callbacks != null) {
-                            callbacks.onLoading();
-                        }
-                    } else {
-                        Log.e(TAG, "need permission " + Manifest.permission.WAKE_LOCK);
-                        if (callbacks != null) {
-                            callbacks.onPermissionRequired(
-                                    REQUEST_PERMISSION_WAKE_LOCK,
-                                    Manifest.permission.WAKE_LOCK,
-                                    getString(R.string.urgent_wifi_lock_description));
-                        }
+                    mediaPlayer.setDataSource(url);
+                    state = MediaState.INITIALIZED;
+                    mediaPlayer.prepareAsync();
+                    state = MediaState.PREPARING;
+                    if(callbacks != null) {
+                        callbacks.onLoading();
+                    }
+                } else {
+                    Log.e(TAG, "need permission " + Manifest.permission.WAKE_LOCK);
+                    if (callbacks != null) {
+                        callbacks.onPermissionRequired(
+                                REQUEST_PERMISSION_WAKE_LOCK,
+                                Manifest.permission.WAKE_LOCK,
+                                getString(R.string.urgent_wifi_lock_description));
                     }
                 }
             });
@@ -362,13 +353,8 @@ public class MusicService extends Service implements
             }
         }
         if (getCurrentState() == MediaState.STOPPED || getCurrentState() == MediaState.COMPLETED) {
-            try {
-                Log.d(TAG, "queueing");
-                queueTrack(trackManager.currentTrack());
-            } catch (IOException e) {
-                stop();
-                Log.w(TAG, "Error while queueing to play.");
-            }
+            Log.d(TAG, "queueing");
+            queueTrack(trackManager.currentTrack());
         }
     }
 
@@ -625,12 +611,7 @@ public class MusicService extends Service implements
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if (requestCode == REQUEST_PERMISSION_WAKE_LOCK) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                try {
-                    queueTrack(trackManager.currentTrack());
-                } catch (IOException e) {
-                    Log.e(TAG, e.getMessage());
-                    stop();
-                }
+                queueTrack(trackManager.currentTrack());
             } else {
                 //TODO cannot get wifi lock
                 stop();

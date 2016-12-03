@@ -106,7 +106,7 @@ public class Article implements Serializable, Parcelable {
     public Article() {
     }
 
-    protected Article(Parcel in) {
+    private Article(Parcel in) {
         this.title = in.readString();
         this.link = in.readString();
         this.pubDate = TtbUtils.unserialize(in.readLong());

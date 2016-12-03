@@ -14,17 +14,14 @@ import static org.junit.Assert.assertNull;
  */
 public class TtbUtilsTest {
 
-    private LocalDateTime localDateTime;
     private ZonedDateTime zonedDateTime;
     private long zoneMilli;
-    private long localMilli;
 
     @Before
     public void setUp() {
-        localDateTime = LocalDateTime.now();
+        LocalDateTime localDateTime = LocalDateTime.now();
         zonedDateTime = ZonedDateTime.of(localDateTime, ZoneId.systemDefault());
         zoneMilli = zonedDateTime.withZoneSameInstant(TtbUtils.ZONE).toInstant().toEpochMilli();
-        localMilli = localDateTime.toInstant(TtbUtils.ZONE).toEpochMilli();
     }
 
     @Test
@@ -45,6 +42,6 @@ public class TtbUtilsTest {
 
     @Test
     public void serializeZonedNull() {
-        assertEquals(-1, TtbUtils.serialize((ZonedDateTime) null));
+        assertEquals(-1, TtbUtils.serialize(null));
     }
 }

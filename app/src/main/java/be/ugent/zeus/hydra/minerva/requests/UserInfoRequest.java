@@ -1,13 +1,11 @@
 package be.ugent.zeus.hydra.minerva.requests;
 
 import android.support.annotation.NonNull;
-
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.auth.models.GrantInformation;
 import be.ugent.zeus.hydra.minerva.auth.requests.TokenRequestInterceptor;
 import be.ugent.zeus.hydra.requests.common.JsonSpringRequest;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
@@ -43,7 +41,7 @@ public class UserInfoRequest extends JsonSpringRequest<GrantInformation> {
     protected RestTemplate createRestTemplate() throws RequestFailureException {
         RestTemplate t = super.createRestTemplate();
         //Add the token interceptor.
-        t.setInterceptors(Collections.<ClientHttpRequestInterceptor>singletonList(new TokenRequestInterceptor(token)));
+        t.setInterceptors(Collections.singletonList(new TokenRequestInterceptor(token)));
         return t;
     }
 }

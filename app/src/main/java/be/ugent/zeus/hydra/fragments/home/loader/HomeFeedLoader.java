@@ -245,7 +245,7 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
         List<HomeCard> newData = executeOperation(h, new FeedOperation() {
             @NonNull
             @Override
-            public Pair<List<HomeCard>, DiffUtil.DiffResult> transform(List<HomeCard> current) throws RequestFailureException {
+            public Pair<List<HomeCard>, DiffUtil.DiffResult> transform(List<HomeCard> current) {
                 List<HomeCard> newData = new ArrayList<>(current);
                 Iterator<HomeCard> it = newData.iterator();
                 while (it.hasNext()) { // Why no filter :(

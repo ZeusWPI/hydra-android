@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 /**
  * @author Niko Strijbol
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class FragmentPlugin extends Plugin {
 
     protected void onAttach(Context context) {
