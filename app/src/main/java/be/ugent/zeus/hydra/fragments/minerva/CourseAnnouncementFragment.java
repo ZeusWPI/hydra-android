@@ -29,6 +29,7 @@ import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemLoader;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.AnnouncementAdapter;
+import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 import su.j2e.rvjoiner.JoinableAdapter;
 import su.j2e.rvjoiner.JoinableLayout;
 import su.j2e.rvjoiner.RvJoiner;
@@ -89,6 +90,7 @@ public class CourseAnnouncementFragment extends PluginFragment implements DataCa
         unreadAdapter = new AnnouncementAdapter(R.layout.item_no_data, this);
 
         RecyclerView recyclerView = $(view, R.id.recycler_view);
+        RecyclerFastScroller scroller = $(view, R.id.fast_scroller);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         RvJoiner joiner = new RvJoiner();
@@ -97,6 +99,10 @@ public class CourseAnnouncementFragment extends PluginFragment implements DataCa
         joiner.add(new JoinableLayout(R.layout.item_minerva_announcement_read_header));
         joiner.add(new JoinableAdapter(readAdapter, EmptyItemLoader.ITEMS_VIEW, EmptyItemLoader.EMPTY_VIEW));
         recyclerView.setAdapter(joiner.getAdapter());
+
+        scroller.attachRecyclerView(recyclerView);
+        //HydraActivity a = (HydraActivity) getActivity();
+        //scroller.attachAppBarLayout(a.$(R.id.coordinator_layout), a.$(R.id.app_bar_layout));
     }
 
     /**
