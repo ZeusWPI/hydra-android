@@ -1,11 +1,8 @@
 package be.ugent.zeus.hydra.recyclerview.adapters.minerva;
 
-import android.support.annotation.LayoutRes;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemLoader;
@@ -18,21 +15,14 @@ import be.ugent.zeus.hydra.recyclerview.viewholder.minerva.AnnouncementViewHolde
  */
 public class AnnouncementAdapter extends EmptyItemLoader<Announcement, AnnouncementViewHolder> {
 
-    private Fragment fragment;
-
-    public AnnouncementAdapter(@LayoutRes int emptyViewId) {
-        super(emptyViewId);
-    }
-
-    public AnnouncementAdapter(@LayoutRes int emptyViewId, Fragment fragment) {
-        super(emptyViewId);
-        this.fragment = fragment;
+    public AnnouncementAdapter() {
+        super(R.layout.item_no_data);
     }
 
     @Override
     protected AnnouncementViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_minerva_announcement, parent, false);
-        return new AnnouncementViewHolder(v, fragment);
+        return new AnnouncementViewHolder(v);
     }
 
     public void remove(int position) {
@@ -52,15 +42,5 @@ public class AnnouncementAdapter extends EmptyItemLoader<Announcement, Announcem
 
     public Announcement get(int position) {
         return items.get(position);
-    }
-
-    public int positionOf(int id) {
-        for (int i = 0; i < items.size(); i++) {
-            if(items.get(i).getItemId() == id) {
-                return i;
-            }
-        }
-
-        return -1;
     }
 }

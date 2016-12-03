@@ -47,7 +47,7 @@ public class RecyclerViewPlugin<D, E extends List<D>> extends Plugin implements 
     }
 
     public RecyclerViewPlugin(LoaderProvider<E> provider, @Nullable Adapter<D, ?> adapter) {
-        this.requestPlugin = new RequestPlugin<E>(this, provider);
+        this.requestPlugin = new RequestPlugin<>(this, provider);
         this.adapter = adapter;
     }
 

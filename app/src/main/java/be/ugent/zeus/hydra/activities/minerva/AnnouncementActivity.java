@@ -28,10 +28,6 @@ public class AnnouncementActivity extends HydraActivity {
 
     public static final String ARG_ANNOUNCEMENT = "announcement_view";
 
-    public static final int RESULT_ANNOUNCEMENT = 1;
-    public static final String RESULT_ARG_ANNOUNCEMENT_ID = "argPos";
-    public static final String RESULT_ARG_ANNOUNCEMENT_READ = "argRead";
-
     private static final String ONLINE_URL_MOBILE = "https://minerva.ugent.be/mobile/courses/%s/announcement";
     private static final String ONLINE_URL_DESKTOP = "http://minerva.ugent.be/main/announcements/announcements.php?cidReq=%s";
 
@@ -56,20 +52,20 @@ public class AnnouncementActivity extends HydraActivity {
 
         course.setText(announcement.getCourse().getTitle());
 
-        if(announcement.getLecturer() != null ) {
+        if (announcement.getLecturer() != null) {
             author.setText(announcement.getLecturer());
         }
 
-        if(announcement.getDate() != null) {
+        if (announcement.getDate() != null) {
             date.setText(DateUtils.relativeDateTimeString(announcement.getDate(), this));
         }
 
-        if(announcement.getContent() != null) {
+        if (announcement.getContent() != null) {
             text.setText(Utils.fromHtml(announcement.getContent(), new PicassoImageGetter(text, getResources(), this)));
             text.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
-        if(announcement.getTitle() != null) {
+        if (announcement.getTitle() != null) {
             title.setText(announcement.getTitle());
         }
     }
@@ -101,21 +97,13 @@ public class AnnouncementActivity extends HydraActivity {
         }
     }
 
-
     @Override
     protected void onResume() {
-        super.onResume();
+        super.onPause();
         //Set the read date if needed
         if(!announcement.isRead()) {
             announcement.setRead(ZonedDateTime.now());
-            setResult();
             AsyncTask.execute(() -> dao.update(announcement));
         }
-    }
-
-    private void setResult() {
-        Intent result = new Intent();
-        result.putExtra(RESULT_ARG_ANNOUNCEMENT_ID, announcement.getItemId());
-        setResult(RESULT_OK, result);
     }
 }
