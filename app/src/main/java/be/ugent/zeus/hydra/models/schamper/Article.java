@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.Objects;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -135,12 +134,12 @@ public class Article implements Serializable, Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Article article = (Article) o;
-        return Objects.equals(link, article.link) &&
-                Objects.equals(pubDate, article.pubDate);
+        return java8.util.Objects.equals(link, article.link) &&
+                java8.util.Objects.equals(pubDate, article.pubDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(link, pubDate);
+        return java8.util.Objects.hash(link, pubDate);
     }
 }

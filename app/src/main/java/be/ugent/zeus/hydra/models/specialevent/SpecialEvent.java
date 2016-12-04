@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
-import be.ugent.zeus.hydra.utils.Objects;
+import java8.util.Objects;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import org.threeten.bp.ZonedDateTime;
@@ -122,8 +122,8 @@ public class SpecialEvent implements Serializable {
                 Objects.equals(simpleText, that.simpleText) &&
                 Objects.equals(image, that.image) &&
                 Objects.equals(html, that.html) &&
-                Objects.equals(start, that.start) &&
-                Objects.equals(end, that.end);
+                java8.util.Objects.equals(start, that.start) &&
+                java8.util.Objects.equals(end, that.end);
     }
 
     @Override

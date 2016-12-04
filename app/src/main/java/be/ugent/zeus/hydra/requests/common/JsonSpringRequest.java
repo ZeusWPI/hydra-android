@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.requests.common;
 
 import android.support.annotation.NonNull;
-
 import be.ugent.zeus.hydra.requests.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;

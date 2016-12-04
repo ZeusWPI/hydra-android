@@ -2,12 +2,13 @@ package be.ugent.zeus.hydra.models.minerva;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
-import be.ugent.zeus.hydra.utils.Objects;
+import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import java8.util.Objects;
+import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
@@ -88,6 +89,10 @@ public class AgendaItem implements Serializable, Parcelable {
 
     public ZonedDateTime getStartDate() {
         return startDate;
+    }
+
+    public LocalDate getLocalStartDate() {
+        return DateUtils.toLocalDateTime(getStartDate()).toLocalDate();
     }
 
     public void setStartDate(ZonedDateTime startDate) {

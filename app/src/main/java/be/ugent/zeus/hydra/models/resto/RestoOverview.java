@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.models.resto;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import java8.util.stream.Stream;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.LocalTime;
@@ -45,5 +46,22 @@ public class RestoOverview extends ArrayList<RestoMenu> {
                 it.remove();
             }
         }
+    }
+
+    /**
+     * Filter the resto menu's. This will remove resto's that are before today, or are today but are after the closing
+     * time.
+     *
+     * @param data The data to filter.
+     */
+    public static Stream<RestoMenu> filter(Stream<RestoMenu> data, Context context) {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        LocalTime closingHour = LocalTime.parse(preferences.getString(PREF_RESTO_CLOSING_HOUR, DEFAULT_CLOSING_TIME));
+        LocalDate today = LocalDate.now();
+        boolean isEarlyEnough = LocalDateTime.now().isBefore(LocalDateTime.of(LocalDate.now(), closingHour));
+
+        return data.filter(m -> m.getDate().isAfter(today) || (m.getDate().isEqual(today) && isEarlyEnough));
     }
 }

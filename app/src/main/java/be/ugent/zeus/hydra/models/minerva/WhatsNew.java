@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.models.minerva;
 
-import be.ugent.zeus.hydra.utils.Objects;
+import java8.util.Objects;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;

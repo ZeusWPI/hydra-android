@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
-import be.ugent.zeus.hydra.utils.Objects;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -174,6 +173,6 @@ public class Announcement implements Serializable, Parcelable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(itemId);
+        return java8.util.Objects.hash(itemId);
     }
 }

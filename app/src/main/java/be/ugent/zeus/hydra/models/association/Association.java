@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.utils.Objects;
+import java8.util.Objects;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -102,6 +102,6 @@ public class Association implements Parcelable, Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(internalName);
+        return java8.util.Objects.hash(internalName);
     }
 }

@@ -72,6 +72,6 @@ public class HomeFeedFragment extends SlideFragment {
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        preferences.edit().putStringSet(be.ugent.zeus.hydra.fragments.home.HomeFeedFragment.PREF_DISABLED_CARDS, disabled).apply();
+        preferences.edit().putStringSet(be.ugent.zeus.hydra.homefeed.HomeFeedFragment.PREF_DISABLED_CARDS, disabled).apply();
     }
 }

@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.models.resto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.utils.Objects;
 import com.google.gson.annotations.SerializedName;
+import java8.util.Objects;
 
 import java.io.Serializable;
 

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.Objects;
+import java8.util.Objects;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import org.threeten.bp.LocalDateTime;

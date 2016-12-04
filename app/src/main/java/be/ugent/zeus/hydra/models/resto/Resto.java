@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.models.resto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.utils.Objects;
 
 import java.io.Serializable;
 
@@ -59,13 +58,13 @@ public class Resto implements Parcelable, Serializable {
         Resto resto = (Resto) o;
         return Double.compare(resto.latitude, latitude) == 0 &&
                 Double.compare(resto.longitude, longitude) == 0 &&
-                Objects.equals(name, resto.name) &&
-                Objects.equals(address, resto.address) &&
-                Objects.equals(type, resto.type);
+                java8.util.Objects.equals(name, resto.name) &&
+                java8.util.Objects.equals(address, resto.address) &&
+                java8.util.Objects.equals(type, resto.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, address, latitude, longitude, type);
+        return java8.util.Objects.hash(name, address, latitude, longitude, type);
     }
 }

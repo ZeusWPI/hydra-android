@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.models.resto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.utils.Objects;
+import java8.util.Objects;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -74,13 +74,13 @@ public class Sandwich implements Parcelable, Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Sandwich sandwich = (Sandwich) o;
         return Objects.equals(name, sandwich.name) &&
-                Objects.equals(ingredients, sandwich.ingredients) &&
-                Objects.equals(priceSmall, sandwich.priceSmall) &&
-                Objects.equals(priceMedium, sandwich.priceMedium);
+                java8.util.Objects.equals(ingredients, sandwich.ingredients) &&
+                java8.util.Objects.equals(priceSmall, sandwich.priceSmall) &&
+                java8.util.Objects.equals(priceMedium, sandwich.priceMedium);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, ingredients, priceSmall, priceMedium);
+        return java8.util.Objects.hash(name, ingredients, priceSmall, priceMedium);
     }
 }
