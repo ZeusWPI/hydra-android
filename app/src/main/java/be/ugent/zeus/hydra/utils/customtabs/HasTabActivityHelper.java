@@ -14,6 +14,7 @@ import android.util.Log;
 
 import be.ugent.zeus.hydra.utils.ViewUtils;
 
+import java.lang.ref.WeakReference;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +33,7 @@ class HasTabActivityHelper implements ActivityHelper {
     private static final String TAG = "HasTabActivityHelper";
 
     private final ConnectionCallback connectionCallback;
-    private final Activity activity;
+    private final WeakReference<Activity> activity;
     private final boolean nativeApp;
 
     private boolean showShareMenu;
@@ -47,7 +48,7 @@ class HasTabActivityHelper implements ActivityHelper {
      * Package local constructor.
      */
     HasTabActivityHelper(Activity activity, boolean nativeApp, @Nullable ConnectionCallback connectionCallback) {
-        this.activity = activity;
+        this.activity = new WeakReference<>(activity);
         this.connectionCallback = connectionCallback;
         this.nativeApp = nativeApp;
     }
@@ -72,23 +73,23 @@ class HasTabActivityHelper implements ActivityHelper {
 
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(customTabsSession);
         //Set the theme color
-        builder.setToolbarColor(ViewUtils.getPrimaryColor(activity));
+        builder.setToolbarColor(ViewUtils.getPrimaryColor(activity.get()));
 
-        Set<String> nat = getNativeAppPackage(activity, uri);
+        Set<String> nat = getNativeAppPackage(activity.get(), uri);
         if (nativeApp && !nat.isEmpty()) {
             Log.d(TAG, "Using normal intent because of native app, i.e. " + nat.iterator().next());
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
             browserIntent.setFlags(this.intentFlags);
-            activity.startActivity(browserIntent);
+            activity.get().startActivity(browserIntent);
         } else {
-            String packageName = CustomTabsHelper.getPackageNameToUse(activity);
+            String packageName = CustomTabsHelper.getPackageNameToUse(activity.get());
             Log.d(TAG, "No native app or native apps disabled, launching custom tab using " + packageName);
             //Get the intent
             CustomTabsIntent customTabsIntent = builder.build();
             customTabsIntent.intent.setFlags(this.intentFlags);
             customTabsIntent.intent.setPackage(packageName);
             customTabsIntent.intent.putExtra(EXTRA_DEFAULT_SHARE_MENU_ITEM, showShareMenu);
-            customTabsIntent.launchUrl(activity, uri);
+            customTabsIntent.launchUrl(activity.get(), uri);
        }
     }
 

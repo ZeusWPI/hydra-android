@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsCallback;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -17,14 +18,14 @@ import java.util.List;
  */
 class NoTabActivityHelper implements ActivityHelper {
 
-    private final Activity activity;
+    private final WeakReference<Activity> activity;
     private int intentFlags;
 
     /**
      * Package local constructor.
      */
     NoTabActivityHelper(Activity activity, @Nullable ConnectionCallback connectionCallback) {
-        this.activity = activity;
+        this.activity = new WeakReference<>(activity);
         if(connectionCallback != null) {
             connectionCallback.onCustomTabsConnected(this);
         }
@@ -47,7 +48,7 @@ class NoTabActivityHelper implements ActivityHelper {
     public void openCustomTab(Uri uri) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
         browserIntent.setFlags(this.intentFlags);
-        NetworkUtils.maybeLaunchIntent(activity, browserIntent);
+        NetworkUtils.maybeLaunchIntent(activity.get(), browserIntent);
     }
 
     @Override
