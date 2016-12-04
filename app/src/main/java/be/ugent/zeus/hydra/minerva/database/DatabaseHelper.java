@@ -33,8 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private DatabaseHelper(Context context) {
-        //super(context, NAME, new DebugCursorFactory(true), VERSION);
-        super(context, NAME, null, VERSION);
+        super(context.getApplicationContext(), NAME, null, VERSION);
     }
 
     @Override
