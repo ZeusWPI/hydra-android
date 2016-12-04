@@ -24,7 +24,7 @@ public class UrgentTrack implements Track {
     private final Context context;
 
     UrgentTrack(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
     }
 
     @Override
