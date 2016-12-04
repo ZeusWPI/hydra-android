@@ -1,9 +1,11 @@
-package be.ugent.zeus.hydra.minerva.database.query;
+package be.ugent.zeus.hydra.minerva.database;
+
+import com.alexfu.sqlitequerybuilder.api.Column;
 
 /**
  * @author Niko Strijbol
  */
-public class ForeignKeyColumn extends SimpleColumn {
+public class ForeignKeyColumn extends Column {
 
     private final String key;
     private final String foreignTable;
@@ -11,6 +13,7 @@ public class ForeignKeyColumn extends SimpleColumn {
     private boolean cascade;
 
     public ForeignKeyColumn(String key, String foreignTable, String foreignKey) {
+        super(null, null);
         this.foreignKey = foreignKey;
         this.foreignTable = foreignTable;
         this.key = key;
