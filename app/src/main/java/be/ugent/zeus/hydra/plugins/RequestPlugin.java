@@ -12,6 +12,7 @@ import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.requests.common.Request;
 import be.ugent.zeus.hydra.requests.common.SimpleCacheRequest;
+import java8.util.function.BiFunction;
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,7 +31,7 @@ public class RequestPlugin<D> extends Plugin {
      * Wrap a request in a SimpleCacheRequest. This will enable caching.
      *
      * This function exists because of weaknesses in the Java generics. Ideally, there would be a second constructor,
-     * taking a request as an argument and wrapping it for us. However, this would require <code>D</code> to extend
+     * taking a request as an argument and wrapping it for us. However, this would require {@code D} to extend
      * Serializable, which we don't want. Then we could not use this with non-cached requests.
      *
      * Ideally:
@@ -45,18 +46,18 @@ public class RequestPlugin<D> extends Plugin {
      * @param <T> The type.
      * @return The wrapper.
      */
-    public static <T extends Serializable> RequestProvider<T> wrap(CacheableRequest<T> request) {
+    public static <T extends Serializable> BiFunction<Context, Boolean, Request<T>> wrap(CacheableRequest<T> request) {
         return (c, b) -> new SimpleCacheRequest<>(c, request, b);
     }
 
     /**
      * Note: if you need caching for a {@link CacheableRequest}, you can use the function {@link #wrap(CacheableRequest)},
-     * which will construct a RequestProvider for a CacheableRequest that utilises caching.
+     * which will construct a request provider for a CacheableRequest that utilises caching.
      *
      * @param callback The data callbacks.
      * @param provider The request provider.
      */
-    public RequestPlugin(DataCallback<D> callback, RequestProvider<D> provider) {
+    public RequestPlugin(DataCallback<D> callback, BiFunction<Context, Boolean, Request<D>> provider) {
         this.loaderPlugin = new LoaderPlugin<>(new DefaultCallback(provider), callback, progressBarPlugin);
     }
 
@@ -98,22 +99,17 @@ public class RequestPlugin<D> extends Plugin {
         loaderPlugin.restartLoader();
     }
 
-    @FunctionalInterface
-    public interface RequestProvider<D> {
-        Request<D> getRequest(Context context, boolean shouldRefresh);
-    }
-
     private class DefaultCallback implements LoaderProvider<D> {
 
-        private final RequestProvider<D> provider;
+        private final BiFunction<Context, Boolean, Request<D>> provider;
 
-        private DefaultCallback(RequestProvider<D> provider) {
+        private DefaultCallback(BiFunction<Context, Boolean, Request<D>> provider) {
             this.provider = provider;
         }
 
         @Override
         public Loader<ThrowableEither<D>> getLoader(Context context) {
-            Request<D> request = provider.getRequest(context, refreshFlag);
+            Request<D> request = provider.apply(context, refreshFlag);
             Loader<ThrowableEither<D>> loader = new RequestAsyncTaskLoader<>(request, context);
             refreshFlag = false;
             return loader;

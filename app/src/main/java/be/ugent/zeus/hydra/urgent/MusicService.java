@@ -43,6 +43,8 @@ import be.ugent.zeus.hydra.urgent.media.SimpleSessionCallback;
 import be.ugent.zeus.hydra.urgent.track.Track;
 import be.ugent.zeus.hydra.urgent.track.TrackManager;
 
+import java.io.IOException;
+
 /**
  * The music is played in a foreground service, enabling people to listen to the stream even when the app itself
  * is closed or killed.
@@ -271,8 +273,8 @@ public class MusicService extends Service implements
                 return; //nothing to play
             }
 
-            track.getUrl(url -> {
-                if (url == null) {
+            track.getUrl(s -> {
+                if (s == null) {
                     return; //nothing to play
                 }
                 if (hasPermission(Manifest.permission.WAKE_LOCK)) {
@@ -280,7 +282,11 @@ public class MusicService extends Service implements
                         wifiLock.acquire();
                     }
 
-                    mediaPlayer.setDataSource(url);
+                    try {
+                        mediaPlayer.setDataSource(s);
+                    } catch (IOException e) {
+                        Log.e(TAG, "Error getting URL", e);
+                    }
                     state = MediaState.INITIALIZED;
                     mediaPlayer.prepareAsync();
                     state = MediaState.PREPARING;

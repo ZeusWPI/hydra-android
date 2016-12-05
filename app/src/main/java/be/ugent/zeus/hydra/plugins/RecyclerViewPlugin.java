@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.plugins;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,8 @@ import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.loaders.LoaderProvider;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.Adapter;
+import be.ugent.zeus.hydra.requests.common.Request;
+import java8.util.function.BiFunction;
 
 import java.util.List;
 
@@ -35,12 +38,12 @@ public class RecyclerViewPlugin<D, E extends List<D>> extends Plugin implements 
 
     /**
      * Note: if you need caching for a {@link CacheableRequest}, you can use the function {@link RequestPlugin#wrap(CacheableRequest)},
-     * which will construct a RequestProvider for a CacheableRequest that utilises caching.
+     * which will construct a request provider for a CacheableRequest that utilises caching.
      *
      * @param adapter The adapter.
      * @param provider The request provider.
      */
-    public RecyclerViewPlugin(RequestPlugin.RequestProvider<E> provider, @Nullable Adapter<D, ?> adapter) {
+    public RecyclerViewPlugin(BiFunction<Context, Boolean, Request<E>> provider, @Nullable Adapter<D, ?> adapter) {
         this.requestPlugin = new RequestPlugin<>(this, provider);
         this.adapter = adapter;
     }
