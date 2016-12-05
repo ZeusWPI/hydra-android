@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+//Enable this when disabling jack
+//apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.cookpad.android.licensetools'
 
 android {
@@ -14,6 +16,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         
         //Enable jack support
+        //When disabling jack, DON'T forget to enable retrolambda
         jackOptions {
             enabled true
         }
@@ -110,7 +113,7 @@ dependencies {
 
     //Test code
     testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-core:2.2.9"
+    testCompile 'org.mockito:mockito-core:2.2.9'
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
