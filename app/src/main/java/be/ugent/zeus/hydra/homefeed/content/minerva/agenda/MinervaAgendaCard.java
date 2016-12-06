@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.homefeed.content.minerva.agenda;
 
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
+import be.ugent.zeus.hydra.homefeed.content.PriorityUtils;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import java8.util.Objects;
 import org.threeten.bp.LocalDate;
@@ -34,7 +35,7 @@ class MinervaAgendaCard extends HomeCard {
     @Override
     public int getPriority() {
         Period duration = Period.between(LocalDate.now(), date);
-        return 1000 - (duration.getDays() * 100);
+        return PriorityUtils.lerp(duration.getDays(), 0, 31);
     }
 
     @Override

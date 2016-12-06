@@ -66,11 +66,9 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
      */
     public void addOperation(FeedOperation operation) {
 
-        if(isStarted()) {
+        if (isStarted()) {
             throw new IllegalStateException("Operations must be added before the loader is started.");
         }
-
-        Log.d(TAG, "addOperation: Operation added");
 
         operations.append(operation.getCardType(), operation);
     }

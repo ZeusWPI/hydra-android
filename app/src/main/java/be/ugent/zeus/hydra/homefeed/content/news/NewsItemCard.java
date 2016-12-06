@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.homefeed.content.news;
 
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
+import be.ugent.zeus.hydra.homefeed.content.PriorityUtils;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import java8.util.Objects;
 import org.threeten.bp.Duration;
@@ -22,15 +23,10 @@ public class NewsItemCard extends HomeCard {
 
     @Override
     public int getPriority() {
-        int multiplier;
-        if (getNewsItem().isHighlighted()) {
-            multiplier = 45;
-        } else {
-            multiplier = 75;
-        }
+        //TODO: multiplier for highlight
         ZonedDateTime date = getNewsItem().getDate();
         Duration duration = Duration.between(ZonedDateTime.now(), date);
-        return (int) (1000 - (duration.toDays() * multiplier));
+        return PriorityUtils.lerp((int) duration.toDays(), 0, 62);
     }
 
     @Override

@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.homefeed.content.schamper;
 
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.models.schamper.Article;
+import be.ugent.zeus.hydra.homefeed.content.PriorityUtils;
 import org.threeten.bp.Duration;
 import org.threeten.bp.ZonedDateTime;
 
@@ -29,7 +30,10 @@ class SchamperCard extends HomeCard {
     public int getPriority() {
         ZonedDateTime date = article.getPubDate();
         Duration duration = Duration.between(date, ZonedDateTime.now());
-        return (int) Math.max(0, duration.toDays() * 8);
+        //We rescale the two month period of articles to [0,1000].
+        //We then invert the result, since 1000 is the highest priority.
+        //This is in fact reverse lineair interpolation
+        return PriorityUtils.lerp((int) duration.toDays(), 0, 60);
     }
 
     @Override

@@ -12,7 +12,7 @@ public class MinervaLoginCard extends HomeCard {
 
     @Override
     public int getPriority() {
-        return 850;
+        return 50;
     }
 
     @Override

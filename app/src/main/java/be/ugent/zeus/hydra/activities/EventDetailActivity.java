@@ -1,12 +1,20 @@
 package be.ugent.zeus.hydra.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.text.util.LinkifyCompat;
 import android.text.util.Linkify;
+import android.transition.Fade;
+import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,17 +38,32 @@ public class EventDetailActivity extends HydraActivity {
 
     public static final String PARCEL_EVENT = "eventParcelable";
 
-    private static final DateTimeFormatter formatHour = DateTimeFormatter.ofPattern("HH:mm");
-    private static final DateTimeFormatter fullFormatter = DateTimeFormatter.ofPattern("E d MMM H:mm");
     private static final String GENT = "51.05,3.72";
 
     //The data
     private Event event;
 
+    /**
+     * Launch this activity with a transition.
+     *
+     * @param activity The activity that launches the intent.
+     * @param view The view to transition.
+     * @param name The name of the transition.
+     * @param event The event.
+     */
+    public static void launchWithAnimation(Activity activity, View view, String name, Parcelable event) {
+        Intent intent = new Intent(activity, EventDetailActivity.class);
+        intent.putExtra(PARCEL_EVENT, event);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, view, name);
+        ActivityCompat.startActivity(activity, intent, options.toBundle());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
+
+        customFade();
 
         //Get data from saved instance, or from intent
         event = getIntent().getParcelableExtra(PARCEL_EVENT);
@@ -101,6 +124,10 @@ public class EventDetailActivity extends HydraActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            //Up button
+            case android.R.id.home:
+                supportFinishAfterTransition();
+                return true;
             case R.id.event_link:
                 NetworkUtils.maybeLaunchBrowser(this, event.getUrl());
                 return true;
@@ -167,7 +194,6 @@ public class EventDetailActivity extends HydraActivity {
             uriLocation = Uri.parse("geo:" + GENT + "?q=" + event.getLocation());
         }
 
-
         Intent intent = new Intent(Intent.ACTION_VIEW, uriLocation);
         intent.setPackage("com.google.android.apps.maps");
         if (intent.resolveActivity(getPackageManager()) == null) {
@@ -175,5 +201,20 @@ public class EventDetailActivity extends HydraActivity {
         }
 
         return intent;
+    }
+
+    /**
+     * Set a custom fade when using transition to prevent white flashing/blinking. This excludes the status bar and
+     * navigation bar background from the animation.
+     */
+    private void customFade() {
+        //Only do it on a version that is high enough.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Transition fade = new Fade();
+            fade.excludeTarget(android.R.id.statusBarBackground, true);
+            fade.excludeTarget(android.R.id.navigationBarBackground, true);
+            getWindow().setExitTransition(fade);
+            getWindow().setEnterTransition(fade);
+        }
     }
 }

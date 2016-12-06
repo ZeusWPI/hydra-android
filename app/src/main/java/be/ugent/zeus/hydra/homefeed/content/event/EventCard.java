@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.homefeed.content.event;
 
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
+import be.ugent.zeus.hydra.homefeed.content.PriorityUtils;
 import be.ugent.zeus.hydra.models.association.Event;
 import java8.util.Objects;
 import org.threeten.bp.Duration;
@@ -24,8 +25,8 @@ public class EventCard extends HomeCard {
     @Override
     public int getPriority() {
         Duration duration = Duration.between(ZonedDateTime.now(), event.getStart());
-        long calc = 1000 - (duration.toHours() * 6) + (event.getTitle().charAt(0) + event.getAssociation().getInternalName().charAt(0)) / 2;
-        return Math.min((int) Math.max(0, calc), 1000);
+        //Add some to 24*30 for better ordering
+        return PriorityUtils.lerp((int) duration.toHours(), 0, 744);
     }
 
     @Override

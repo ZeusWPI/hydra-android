@@ -15,6 +15,8 @@ import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.SchamperListAdapter;
 import be.ugent.zeus.hydra.requests.SchamperArticlesRequest;
+import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.utils.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
 
 import java.util.List;
@@ -27,8 +29,8 @@ import java.util.List;
  */
 public class SchamperFragment extends PluginFragment {
 
-    private final SchamperListAdapter adapter = new SchamperListAdapter();
-    private final RecyclerViewPlugin<Article, Articles> plugin = new RecyclerViewPlugin<>(RequestPlugin.wrap(new SchamperArticlesRequest()), adapter);
+    private final RecyclerViewPlugin<Article, Articles> plugin = new RecyclerViewPlugin<>(RequestPlugin.wrap(new SchamperArticlesRequest()), null);
+    private ActivityHelper helper;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_schamper, container, false);
@@ -41,11 +43,31 @@ public class SchamperFragment extends PluginFragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        helper = CustomTabsHelper.initHelper(getActivity(), null);
+        helper.setShareMenu(true);
+        plugin.setAdapter(new SchamperListAdapter(helper));
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView recyclerView = plugin.getRecyclerView();
         recyclerView.setHasFixedSize(true);
         plugin.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        helper.bindCustomTabsService(getActivity());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        helper.unbindCustomTabsService(getActivity());
     }
 }

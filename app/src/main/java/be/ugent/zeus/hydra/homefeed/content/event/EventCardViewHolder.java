@@ -1,15 +1,14 @@
 package be.ugent.zeus.hydra.homefeed.content.event;
 
-import android.content.Intent;
-import android.os.Parcelable;
+import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.EventDetailActivity;
-import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.homefeed.content.HideableViewHolder;
+import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.models.association.Event;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import com.squareup.picasso.Picasso;
@@ -47,12 +46,9 @@ public class EventCardViewHolder extends HideableViewHolder {
 
         Picasso.with(itemView.getContext()).load(event.getAssociation().getImageLink()).fit().centerInside().into(imageView);
 
-        itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(itemView.getContext(), EventDetailActivity.class);
-            intent.putExtra(EventDetailActivity.PARCEL_EVENT, (Parcelable) event);
-            itemView.getContext().startActivity(intent);
-        });
+        itemView.setOnClickListener(v -> EventDetailActivity.launchWithAnimation(((Activity) itemView.getContext()), imageView, "logo", event));
 
+        priority.setText("Priority: " + card.getPriority());
         toolbar.setMenu(R.menu.now_toolbar_association_event);
         toolbar.setOnClickListener(item -> {
             switch (item.getItemId()) {

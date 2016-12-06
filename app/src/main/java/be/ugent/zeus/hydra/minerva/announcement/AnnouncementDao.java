@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
@@ -310,7 +309,7 @@ public class AnnouncementDao extends Dao {
                 new String[]{"-1"},
                 null,
                 null,
-                AnnouncementTable.COLUMN_COURSE + " ASC"
+                AnnouncementTable.COLUMN_COURSE + " ASC, " + AnnouncementTable.COLUMN_DATE + " DESC"
         );
 
         if (c == null) {
@@ -359,15 +358,15 @@ public class AnnouncementDao extends Dao {
         }
 
         //Sort the announcements by date
-        Comparator<Announcement> comparator = (o1, o2) -> o1.getDate().compareTo(o2.getDate());
-
-        for (List<Announcement> entry : map.values()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                entry.sort(comparator);
-            } else {
-                Collections.sort(entry, comparator);
-            }
-        }
+//        Comparator<Announcement> comparator = (o1, o2) -> o1.getDate().compareTo(o2.getDate());
+//
+//        for (List<Announcement> entry : map.values()) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                entry.sort(comparator);
+//            } else {
+//                Collections.sort(entry, comparator);
+//            }
+//        }
 
         return map;
     }

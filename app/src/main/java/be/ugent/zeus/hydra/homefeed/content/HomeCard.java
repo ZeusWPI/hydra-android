@@ -13,9 +13,15 @@ import static be.ugent.zeus.hydra.homefeed.content.HomeCard.CardType.*;
  *
  * Every subclass should have a {@link CardType} associated with it. This is to facilitate working with adapters.
  *
- * Every card must define a priority between 0 and 1000. This value is also used as the base for the comparison.
+ * Every card must give itself a priority in [0,1000]. This defines the natural ordening of the cards; 0 is the
+ * card with the highest priority, 1000 has the lowest priority. Cards should generally strive to produce unique
+ * priorities for a certain card type, as the order of two cards with the same priority is not defined.
  *
- * Implementations must provide working {@link #equals(Object)} and {@link #hashCode()} functions.
+ * An easy way to calculate a correct priority is using {@link PriorityUtils}, which can calculate a priority for a
+ * card that has a score in an interval, e.g. the days between the card's date and today.
+ *
+ * Implementations must provide working {@link #equals(Object)} and {@link #hashCode()} functions. These functions are
+ * used to calculate differences between collections of cards.
  *
  * @author Niko Strijbol
  * @author feliciaan
@@ -23,7 +29,7 @@ import static be.ugent.zeus.hydra.homefeed.content.HomeCard.CardType.*;
 public abstract class HomeCard implements Comparable<HomeCard> {
 
     /**
-     * @return Priority should be a number between min inf and 1000.
+     * @return Priority should be a number between 0 and 1000. See the class description.
      */
     public abstract int getPriority();
 
@@ -90,6 +96,6 @@ public abstract class HomeCard implements Comparable<HomeCard> {
      */
     @Override
     public int compareTo(HomeCard homeCard) {
-        return -Integers.compare(this.getPriority(), homeCard.getPriority());
+        return Integers.compare(this.getPriority(), homeCard.getPriority());
     }
 }
