@@ -25,6 +25,8 @@ import be.ugent.zeus.hydra.homefeed.content.schamper.SchamperRequest;
 import be.ugent.zeus.hydra.homefeed.content.specialevent.SpecialEventRequest;
 import be.ugent.zeus.hydra.homefeed.loader.HomeFeedLoader;
 import be.ugent.zeus.hydra.homefeed.loader.HomeFeedLoaderCallback;
+import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.utils.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
 import java8.util.function.Function;
 
@@ -63,6 +65,8 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     private RecyclerView recyclerView;
     private Snackbar snackbar;
 
+    private ActivityHelper helper;
+
     /**
      * This boolean indicates whether the data from the loader was cached or not. If it was, the partial update
      * function will not be called.
@@ -73,6 +77,12 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        helper = CustomTabsHelper.initHelper(getActivity(), null);
+        helper.setShareMenu(true);
+    }
+
+    public ActivityHelper getHelper() {
+        return helper;
     }
 
     @Override
@@ -112,6 +122,12 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        helper.bindCustomTabsService(getActivity());
+    }
+
     /**
      * If the fragment goes to pause, we don't need to restart the loaders.
      */
@@ -119,6 +135,12 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     public void onPause() {
         super.onPause();
         preferencesUpdated = false;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        helper.unbindCustomTabsService(getActivity());
     }
 
     /**

@@ -22,7 +22,7 @@ import be.ugent.zeus.hydra.viewpager.SectionPagerAdapter;
 /**
  * Main activity.
  */
-public class Hydra extends HydraActivity {
+public class MainActivity extends HydraActivity {
 
     public static final String ARG_TAB = "argTab";
     private static final String TAG = "HydraActivity";
@@ -78,7 +78,7 @@ public class Hydra extends HydraActivity {
         viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                HydraApplication app = (HydraApplication) Hydra.this.getApplication();
+                HydraApplication app = (HydraApplication) MainActivity.this.getApplication();
                 app.sendScreenName("Fragment tab: " + SectionPagerAdapter.names[position]);
                 //TODO; make this more robust
                 if(position == 2) {

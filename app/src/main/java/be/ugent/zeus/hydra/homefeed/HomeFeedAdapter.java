@@ -21,6 +21,7 @@ import be.ugent.zeus.hydra.homefeed.content.specialevent.SpecialEventCardViewHol
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
+import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,6 +42,10 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
     public HomeFeedAdapter(HomeFeedFragment fragment) {
         this.fragment = fragment;
         setHasStableIds(true);
+    }
+
+    public ActivityHelper getHelper() {
+        return fragment.getHelper();
     }
 
     @Override

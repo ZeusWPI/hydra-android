@@ -12,7 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.Hydra;
+import be.ugent.zeus.hydra.activities.MainActivity;
 import be.ugent.zeus.hydra.activities.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.activities.minerva.CourseActivity;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
@@ -185,8 +185,8 @@ public class AnnouncementNotificationBuilder {
     }
 
     private Intent mainActivity() {
-        Intent intent = new Intent(context, Hydra.class);
-        intent.putExtra(Hydra.ARG_TAB, 6);
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(MainActivity.ARG_TAB, 6);
         return intent;
     }
 }

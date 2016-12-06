@@ -9,7 +9,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.NotificationCompat;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.Hydra;
+import be.ugent.zeus.hydra.activities.MainActivity;
 
 /**
  * @author Rien Maertens
@@ -29,8 +29,8 @@ public class NotificationCreator {
     }
 
     public Notification create() {
-        Intent intent = new Intent(context, Hydra.class);
-        intent.putExtra(Hydra.ARG_TAB, 2);
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(MainActivity.ARG_TAB, 2);
         PendingIntent pending = PendingIntent.getActivity(context, 0, intent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);

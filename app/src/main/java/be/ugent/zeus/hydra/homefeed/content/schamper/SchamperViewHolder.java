@@ -1,14 +1,13 @@
 package be.ugent.zeus.hydra.homefeed.content.schamper;
 
-import android.app.Activity;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.SchamperArticleActivity;
-import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.homefeed.content.HideableViewHolder;
+import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import com.squareup.picasso.Picasso;
@@ -48,6 +47,6 @@ public class SchamperViewHolder extends HideableViewHolder {
 
         Picasso.with(this.itemView.getContext()).load(article.getImage()).fit().centerInside().into(image);
 
-        this.itemView.setOnClickListener(v -> SchamperArticleActivity.launchWithAnimation((Activity) itemView.getContext(), image, "hero", article));
+        this.itemView.setOnClickListener(v -> adapter.getHelper().openCustomTab(Uri.parse(article.getLink())));
     }
 }
