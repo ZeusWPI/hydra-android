@@ -60,7 +60,7 @@ public class UrgentTrack implements Track {
     /**
      * Task to get the URL. This class is not static, since we need the context.
      */
-    private class UrlTask extends AsyncTask<Void, Void, String> {
+    private static class UrlTask extends AsyncTask<Void, Void, String> {
 
         private final Consumer<String> consumer;
 
@@ -71,7 +71,7 @@ public class UrgentTrack implements Track {
         @Override
         protected String doInBackground(Void... voids) {
             try {
-                return new UrgentUrlRequest(context).performRequest();
+                return new UrgentUrlRequest().performRequest();
             } catch (RequestFailureException e) {
                 Log.w(TAG, "Error while getting url: ", e);
                 return null;

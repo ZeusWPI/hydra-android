@@ -28,12 +28,6 @@
         android:summary="Opties voor de Minerva-integratie">
     </header>
 
-    <!-- Urgent -->
-    <header
-        android:fragment="be.ugent.zeus.hydra.fragments.preferences.UrgentFragment"
-        android:title="@string/pref_notifications_urgent_title"
-        android:summary="@string/pref_notifications_urgent_description" />
-
     <!-- SKO -->
     <header
         android:fragment="be.ugent.zeus.hydra.fragments.preferences.SkoFragment"
