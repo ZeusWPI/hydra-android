@@ -18,8 +18,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static android.support.customtabs.CustomTabsIntent.EXTRA_DEFAULT_SHARE_MENU_ITEM;
-
 /**
  * Helper for activities that use custom tabs.
  *
@@ -83,11 +81,14 @@ class HasTabActivityHelper implements ActivityHelper {
         } else {
             String packageName = CustomTabsHelper.getPackageNameToUse(activity.get());
             Log.d(TAG, "No native app or native apps disabled, launching custom tab using " + packageName);
+            //Add sharing if needed
+            if (showShareMenu) {
+                builder.addDefaultShareMenuItem();
+            }
             //Get the intent
             CustomTabsIntent customTabsIntent = builder.build();
             customTabsIntent.intent.setFlags(this.intentFlags);
             customTabsIntent.intent.setPackage(packageName);
-            customTabsIntent.intent.putExtra(EXTRA_DEFAULT_SHARE_MENU_ITEM, showShareMenu);
             customTabsIntent.launchUrl(activity.get(), uri);
        }
     }

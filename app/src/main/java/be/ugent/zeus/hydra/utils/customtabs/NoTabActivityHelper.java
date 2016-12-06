@@ -20,15 +20,14 @@ class NoTabActivityHelper implements ActivityHelper {
 
     private final Context context;
     private int intentFlags;
+    private final ConnectionCallback connectionCallback;
 
     /**
      * Package local constructor.
      */
     NoTabActivityHelper(Context context, @Nullable ConnectionCallback connectionCallback) {
         this.context = context.getApplicationContext();
-        if(connectionCallback != null) {
-            connectionCallback.onCustomTabsConnected(this);
-        }
+        this.connectionCallback = connectionCallback;
     }
 
     @Override
@@ -52,10 +51,18 @@ class NoTabActivityHelper implements ActivityHelper {
     }
 
     @Override
-    public void unbindCustomTabsService(Activity activity) {}
+    public void unbindCustomTabsService(Activity activity) {
+        if (connectionCallback != null) {
+            connectionCallback.onCustomTabsDisconnected(this);
+        }
+    }
 
     @Override
-    public void bindCustomTabsService(Activity activity) {}
+    public void bindCustomTabsService(Activity activity) {
+        if (connectionCallback != null) {
+            connectionCallback.onCustomTabsConnected(this);
+        }
+    }
 
     @Override
     public void setShareMenu(boolean showShareMenu) {}
