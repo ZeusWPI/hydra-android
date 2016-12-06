@@ -78,7 +78,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         helper = CustomTabsHelper.initHelper(getActivity(), null);
-        helper.setShareMenu(true);
+        helper.setShareMenu();
     }
 
     public ActivityHelper getHelper() {

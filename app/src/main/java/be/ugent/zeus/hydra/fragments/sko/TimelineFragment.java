@@ -47,7 +47,7 @@ public class TimelineFragment extends PluginFragment implements SwipeRefreshLayo
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         helper = CustomTabsHelper.initHelper(getActivity(), null);
-        helper.setShareMenu(true);
+        helper.setShareMenu();
         plugin.setAdapter(new TimelineAdapter(helper));
     }
 

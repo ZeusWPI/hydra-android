@@ -164,8 +164,8 @@ class HasTabActivityHelper implements ActivityHelper {
     }
 
     @Override
-    public void setShareMenu(boolean showShareMenu) {
-        this.showShareMenu = showShareMenu;
+    public void setShareMenu() {
+        this.showShareMenu = true;
     }
 
     @Override

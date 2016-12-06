@@ -65,7 +65,7 @@ class NoTabActivityHelper implements ActivityHelper {
     }
 
     @Override
-    public void setShareMenu(boolean showShareMenu) {}
+    public void setShareMenu() {}
 
     @Override
     public boolean mayLaunchUrl(Uri uri, Bundle extras, List<Bundle> otherLikelyBundles) {

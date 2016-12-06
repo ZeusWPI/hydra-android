@@ -46,7 +46,7 @@ public class SchamperFragment extends PluginFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         helper = CustomTabsHelper.initHelper(getActivity(), null);
-        helper.setShareMenu(true);
+        helper.setShareMenu();
         plugin.setAdapter(new SchamperListAdapter(helper));
     }
 
