@@ -217,7 +217,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     @Override
     public void onLoadFinished(Loader<Pair<Set<Integer>, List<HomeCard>>> l, Pair<Set<Integer>, List<HomeCard>> data) {
         Log.i(TAG, "Finished loading data");
-        if(wasCached) {
+        if (wasCached) {
             for(Integer error: data.first) {
                 //noinspection WrongConstant
                 onPartialError(error);
@@ -225,6 +225,12 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
             adapter.setData(new ArrayList<>(data.second), null);
         }
+
+        //Scroll to top if not refreshed
+        if (!shouldRefresh) {
+            recyclerView.scrollToPosition(0);
+        }
+
         wasCached = true;
         shouldRefresh = false;
         swipeRefreshLayout.setRefreshing(false);

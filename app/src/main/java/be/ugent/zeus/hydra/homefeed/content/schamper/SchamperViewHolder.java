@@ -6,11 +6,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.homefeed.HomeFeedAdapter;
+import be.ugent.zeus.hydra.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.homefeed.content.HideableViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import com.squareup.picasso.Picasso;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -45,7 +45,7 @@ public class SchamperViewHolder extends HideableViewHolder {
         date.setText(DateUtils.relativeDateTimeString(article.getPubDate(), itemView.getContext()));
         author.setText(article.getAuthor());
 
-        Picasso.with(this.itemView.getContext()).load(article.getImage()).fit().centerInside().into(image);
+        FeedUtils.loadThumbnail(itemView.getContext(), article.getImage(), image);
 
         this.itemView.setOnClickListener(v -> adapter.getHelper().openCustomTab(Uri.parse(article.getLink())));
     }

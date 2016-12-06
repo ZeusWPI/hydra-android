@@ -7,11 +7,11 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.EventDetailActivity;
 import be.ugent.zeus.hydra.homefeed.HomeFeedAdapter;
+import be.ugent.zeus.hydra.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.homefeed.content.HideableViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.models.association.Event;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import com.squareup.picasso.Picasso;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -44,7 +44,7 @@ public class EventCardViewHolder extends HideableViewHolder {
         String description = itemView.getResources().getString(R.string.home_card_description);
         toolbar.setTitle(String.format(description, event.getAssociation().getDisplayName()));
 
-        Picasso.with(itemView.getContext()).load(event.getAssociation().getImageLink()).fit().centerInside().into(imageView);
+        FeedUtils.loadThumbnail(itemView.getContext(), event.getAssociation().getImageLink(), imageView);
 
         itemView.setOnClickListener(v -> EventDetailActivity.launchWithAnimation(((Activity) itemView.getContext()), imageView, "logo", event));
 

@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.homefeed.content.minerva.announcement;
 
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.homefeed.content.PriorityUtils;
+import be.ugent.zeus.hydra.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import java8.util.Objects;
@@ -38,7 +38,7 @@ class MinervaAnnouncementsCard extends HomeCard {
     public int getPriority() {
         ZonedDateTime date = getAnnouncements().get(0).getDate();
         Duration duration = Duration.between(date, ZonedDateTime.now());
-        return PriorityUtils.lerp((int) duration.toHours(), 0, 1488);
+        return FeedUtils.lerp((int) duration.toHours(), 0, 1488);
     }
 
     @Override

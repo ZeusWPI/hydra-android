@@ -17,7 +17,7 @@ import static be.ugent.zeus.hydra.homefeed.content.HomeCard.CardType.*;
  * card with the highest priority, 1000 has the lowest priority. Cards should generally strive to produce unique
  * priorities for a certain card type, as the order of two cards with the same priority is not defined.
  *
- * An easy way to calculate a correct priority is using {@link PriorityUtils}, which can calculate a priority for a
+ * An easy way to calculate a correct priority is using {@link FeedUtils}, which can calculate a priority for a
  * card that has a score in an interval, e.g. the days between the card's date and today.
  *
  * Implementations must provide working {@link #equals(Object)} and {@link #hashCode()} functions. These functions are
