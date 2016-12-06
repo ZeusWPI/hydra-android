@@ -60,7 +60,6 @@
 
             <ImageView
                 android:layout_marginBottom="@dimen/card_title_padding_bottom"
-                android:transitionName="hero"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:id="@+id/image"

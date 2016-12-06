@@ -41,10 +41,10 @@ public class FeedUtils {
         return Math.min((int) ((x - a) * (double) FEED_MAX_VALUE / (b - a)), FEED_MAX_VALUE);
     }
 
-    private static boolean isDataFree(Context context) {
+    private static boolean isDataConstrained(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean setting = preferences.getBoolean(HomeFragment.PREF_DATA_SAVER, HomeFragment.PREF_DATA_SAVER_DEFAULT);
-        return !(NetworkUtils.isMeteredConnection(context) && setting);
+        return setting && NetworkUtils.isMeteredConnection(context);
     }
 
     /**
@@ -57,7 +57,7 @@ public class FeedUtils {
     public static void loadThumbnail(Context context, String image, ImageView target) {
         RequestCreator creator = Picasso.with(context).load(image).fit().centerInside();
 
-        if (FeedUtils.isDataFree(context)) {
+        if (FeedUtils.isDataConstrained(context)) {
             creator.networkPolicy(NetworkPolicy.OFFLINE);
         }
 
