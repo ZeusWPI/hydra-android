@@ -39,6 +39,7 @@ public class MinervaAgendaViewHolder extends HideableViewHolder {
 
     @Override
     public void populate(HomeCard card) {
+        super.populate(card);
 
         final MinervaAgendaCard mCard = card.checkCard(HomeCard.CardType.MINERVA_AGENDA);
 
@@ -59,8 +60,6 @@ public class MinervaAgendaViewHolder extends HideableViewHolder {
 
             view.setOnClickListener(v -> AgendaActivity.start(v.getContext(), item));
         }
-
-        super.populate(card);
     }
 
     /**

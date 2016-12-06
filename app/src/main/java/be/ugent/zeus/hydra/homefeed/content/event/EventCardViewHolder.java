@@ -48,7 +48,7 @@ public class EventCardViewHolder extends HideableViewHolder {
 
         itemView.setOnClickListener(v -> EventDetailActivity.launchWithAnimation(((Activity) itemView.getContext()), imageView, "logo", event));
 
-        priority.setText("Priority: " + card.getPriority());
+        debugPriority(card);
         toolbar.setMenu(R.menu.now_toolbar_association_event);
         toolbar.setOnClickListener(item -> {
             switch (item.getItemId()) {

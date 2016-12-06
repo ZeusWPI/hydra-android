@@ -178,9 +178,6 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
         Log.i(TAG, "Added card type: " + cardType);
         adapter.setData(data, update);
         wasCached = false;
-        if(!shouldRefresh) {
-            recyclerView.scrollToPosition(0);
-        }
     }
 
     public HomeFeedLoader getLoader() {
