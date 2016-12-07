@@ -46,6 +46,12 @@ android {
         }
     }
 
+    //We don't want exceptions, but values. This enables using the Log class (and related).
+    //TODO: maybe we should just move tests that depend on this to the android tests?
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     packagingOptions {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/LICENSE'

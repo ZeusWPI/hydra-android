@@ -7,6 +7,10 @@ package be.ugent.zeus.hydra.caching;
  */
 class CacheException extends Exception {
 
+    public CacheException(String message) {
+        super(message);
+    }
+
     public CacheException(Throwable throwable) {
         super(throwable);
     }

@@ -26,7 +26,7 @@ class SerializableExecutor implements CacheExecutor {
     /**
      * @param directory The cache directory, where the data should be saved.
      */
-    public SerializableExecutor(File directory) {
+    SerializableExecutor(File directory) {
         this.directory = directory;
     }
 

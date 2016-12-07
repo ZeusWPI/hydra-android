@@ -15,9 +15,9 @@ import java.io.Serializable;
 @SuppressWarnings("WeakerAccess")
 class CacheObject<T extends Serializable> implements Serializable {
 
-    private long lastUpdated;
-    private T data;
-    private int version;
+    private final long lastUpdated;
+    private final T data;
+    private final int version;
 
     /**
      * Create a new object.
@@ -28,6 +28,12 @@ class CacheObject<T extends Serializable> implements Serializable {
         this.lastUpdated = Instant.now().toEpochMilli();
         this.data = data;
         this.version = BuildConfig.VERSION_CODE;
+    }
+
+    CacheObject(long lastUpdated, T data, int version) {
+        this.lastUpdated = lastUpdated;
+        this.data = data;
+        this.version = version;
     }
 
     /**
