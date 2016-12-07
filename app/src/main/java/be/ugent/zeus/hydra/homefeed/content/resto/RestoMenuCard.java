@@ -28,7 +28,7 @@ class RestoMenuCard extends HomeCard {
     @Override
     public int getPriority() {
         Period duration = Period.between(LocalDate.now(), restoMenu.getDate());
-        return FeedUtils.lerp((int) ((duration.getDays() - 0.5) * 24), 0, 504);
+        return Math.max(0, FeedUtils.lerp((int) ((duration.getDays() - 0.5) * 24), 0, 504));
     }
 
     @Override
