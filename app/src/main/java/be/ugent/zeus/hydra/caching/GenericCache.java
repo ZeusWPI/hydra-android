@@ -35,6 +35,10 @@ class GenericCache implements Cache {
         this.executor = executor;
     }
 
+    File getDirectory() {
+        return directory;
+    }
+
     @Override
     public boolean isExpired(String key, long duration) {
         CacheObject<?> cacheObject = readOrNull(key);

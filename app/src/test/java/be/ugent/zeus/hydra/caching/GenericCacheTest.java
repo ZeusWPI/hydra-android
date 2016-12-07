@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.caching;
 
+import android.content.Context;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import org.junit.Before;
@@ -13,6 +14,8 @@ import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Niko Strijbol
@@ -22,13 +25,18 @@ public class GenericCacheTest {
     private GenericCache cache;
     private TestExecutor executor;
 
-    private static final long MILLIS = Instant.now().toEpochMilli();
-    private static final int BUILD = BuildConfig.VERSION_CODE;
-
     @Before
     public void setUp() throws Exception {
         executor = new TestExecutor();
         cache = new GenericCache(new File(""), executor);
+    }
+
+    @Test
+    public void constructor() {
+        Context context = mock(Context.class);
+        when(context.getCacheDir()).thenReturn(new File(""));
+        GenericCache cache = new GenericCache(context);
+        assertEquals(cache.getDirectory(), new File(""));
     }
 
     @Test
@@ -144,6 +152,14 @@ public class GenericCacheTest {
 
         assertTrue(cache.shouldRefresh(object, Cache.NEVER));
         assertFalse(cache.shouldRefresh(object, Cache.ALWAYS));
+    }
+
+    @Test
+    public void isExpired() throws Exception {
+        executor.setUpdated(Instant.now().toEpochMilli());
+        assertFalse(cache.isExpired(TestObject.TEST_FILE_KEY, Cache.ONE_HOUR));
+        executor.setUpdated(Instant.now().minus(31, ChronoUnit.DAYS).toEpochMilli());
+        assertTrue(cache.isExpired(TestObject.TEST_FILE_KEY, Cache.ONE_HOUR));
     }
 
     @Test
