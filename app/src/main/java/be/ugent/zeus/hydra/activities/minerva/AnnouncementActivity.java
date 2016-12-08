@@ -22,6 +22,7 @@ import org.threeten.bp.ZonedDateTime;
 
 /**
  * Show a Minerva announcement.
+ *
  * @author Niko Strijbol
  */
 public class AnnouncementActivity extends HydraActivity {
@@ -90,7 +91,7 @@ public class AnnouncementActivity extends HydraActivity {
 
     private String getOnlineUrl() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if(preferences.getBoolean(MinervaFragment.PREF_USE_MOBILE_URL, false)) {
+        if (preferences.getBoolean(MinervaFragment.PREF_USE_MOBILE_URL, false)) {
             return String.format(ONLINE_URL_MOBILE, announcement.getCourse().getId());
         } else {
             return String.format(ONLINE_URL_DESKTOP, announcement.getCourse().getId());
@@ -101,7 +102,7 @@ public class AnnouncementActivity extends HydraActivity {
     protected void onResume() {
         super.onPause();
         //Set the read date if needed
-        if(!announcement.isRead()) {
+        if (!announcement.isRead()) {
             announcement.setRead(ZonedDateTime.now());
             AsyncTask.execute(() -> dao.update(announcement));
         }

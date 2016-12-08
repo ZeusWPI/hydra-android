@@ -9,7 +9,7 @@ import android.util.Log;
 /**
  * This activity is the same as the framework's {@link android.accounts.AccountAuthenticatorActivity}, but for use with
  * {@link android.support.v7.app.AppCompatActivity}.
- *
+ * <p>
  * Base class for implementing an Activity that is used to help implement an
  * AbstractAccountAuthenticator. If the AbstractAccountAuthenticator needs to use an activity
  * to handle the request then it can have the activity extend AccountAuthenticatorActivity.
@@ -22,7 +22,7 @@ import android.util.Log;
  * This result will be sent as the result of the request when the activity finishes. If this
  * is never set or if it is set to null then error {@link AccountManager#ERROR_CODE_CANCELED}
  * will be called on the response.
- *
+ * <p>
  * TODO: merge with our AuthActivity
  *
  * @author Niko Strijbol
@@ -30,13 +30,11 @@ import android.util.Log;
  */
 public class ToolbarAccountAuthenticatorActivity extends HydraActivity {
 
-    private static final String TAG = "ToolbarAcAuthActivity";
-
     //Extra bundle
     public static final String ARG_EXTRA_BUNDLE = "extraBundle";
     //Bundle key to provide up navigation or just finish the activity?
     public static final String KEY_PROVIDE_UP_NAVIGATION = "provideUpNavigation";
-
+    private static final String TAG = "ToolbarAcAuthActivity";
     private AccountAuthenticatorResponse response = null;
     private Bundle resultBundle = null;
     private Bundle extra = null;
@@ -65,7 +63,7 @@ public class ToolbarAccountAuthenticatorActivity extends HydraActivity {
             response.onRequestContinued();
         }
 
-        if(getIntent().hasExtra(ARG_EXTRA_BUNDLE)) {
+        if (getIntent().hasExtra(ARG_EXTRA_BUNDLE)) {
             extra = getIntent().getBundleExtra(ARG_EXTRA_BUNDLE);
         }
     }
@@ -84,9 +82,9 @@ public class ToolbarAccountAuthenticatorActivity extends HydraActivity {
             response = null;
         }
 
-        if(extra != null) {
+        if (extra != null) {
             Log.d(TAG, "Extra's were found.");
-            if(extra.getBoolean(KEY_PROVIDE_UP_NAVIGATION, false)) {
+            if (extra.getBoolean(KEY_PROVIDE_UP_NAVIGATION, false)) {
                 NavUtils.navigateUpFromSameTask(this);
             } else {
                 finish();

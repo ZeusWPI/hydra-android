@@ -33,13 +33,13 @@ public class ArtistActivity extends HydraActivity {
 
         title.setText(artist.getName());
 
-        if(artist.getImage() != null) {
+        if (artist.getImage() != null) {
             Picasso.with(this).load(artist.getImage()).fit().centerInside().into(headerImage);
         }
 
         date.setText(LineupViewHolder.getDisplayDate(artist));
 
-        if(artist.getContent() != null) {
+        if (artist.getContent() != null) {
             content.setText(artist.getContent());
         }
     }

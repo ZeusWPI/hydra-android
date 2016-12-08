@@ -12,7 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
@@ -55,7 +54,7 @@ public class MainActivity extends HydraActivity {
 
         //The first thing we do is maybe start the onboarding.
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if(preferences.getBoolean(PREF_ONBOARDING, true)) {
+        if (preferences.getBoolean(PREF_ONBOARDING, true)) {
             Intent intent = new Intent(this, OnboardingActivity.class);
             startActivityForResult(intent, ONBOARDING_REQUEST);
         } else { //Otherwise do init

@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
@@ -23,10 +22,16 @@ import org.threeten.bp.format.DateTimeFormatter;
  */
 public class AgendaActivity extends HydraActivity {
 
-    public static final String ARG_AGENDA_ITEM = "argAgendaItem";
+    private static final String ARG_AGENDA_ITEM = "argAgendaItem";
+    private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     private AgendaItem agendaItem;
-    private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+    public static void start(Context context, AgendaItem agendaItem) {
+        Intent intent = new Intent(context, AgendaActivity.class);
+        intent.putExtra(ARG_AGENDA_ITEM, (Parcelable) agendaItem);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,12 +46,12 @@ public class AgendaActivity extends HydraActivity {
         getToolbar().setTitle(agendaItem.getTitle());
 
         //Description
-        if(!TextUtils.isEmpty(agendaItem.getContent())) {
+        if (!TextUtils.isEmpty(agendaItem.getContent())) {
             TextView description = $(R.id.agenda_description);
             description.setText(Utils.fromHtml(agendaItem.getContent()));
         }
 
-        if(TextUtils.isEmpty(agendaItem.getLocation())) {
+        if (TextUtils.isEmpty(agendaItem.getLocation())) {
             $(R.id.agenda_location_row).setVisibility(View.GONE);
             $(R.id.divider_below_location).setVisibility(View.GONE);
         } else {
@@ -62,13 +67,13 @@ public class AgendaActivity extends HydraActivity {
         endTime.setText(agendaItem.getEndDate().format(format));
 
         TextView course = $(R.id.agenda_course);
-        if(TextUtils.isEmpty(agendaItem.getCourse().getTitle())) {
+        if (TextUtils.isEmpty(agendaItem.getCourse().getTitle())) {
             course.setText(agendaItem.getCourse().getCode());
         } else {
             course.setText(agendaItem.getCourse().getTitle());
         }
 
-        TextView edit =$(R.id.agenda_organiser);
+        TextView edit = $(R.id.agenda_organiser);
         edit.setText(agendaItem.getLastEditUser());
     }
 
@@ -98,19 +103,13 @@ public class AgendaActivity extends HydraActivity {
                 .putExtra(CalendarContract.Events.TITLE, agendaItem.getTitle())
                 .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
 
-        if(!TextUtils.isEmpty(agendaItem.getContent())) {
+        if (!TextUtils.isEmpty(agendaItem.getContent())) {
             intent.putExtra(CalendarContract.Events.DESCRIPTION, agendaItem.getContent());
         }
 
-        if(!TextUtils.isEmpty(agendaItem.getLocation())) {
+        if (!TextUtils.isEmpty(agendaItem.getLocation())) {
             intent.putExtra(CalendarContract.Events.EVENT_LOCATION, agendaItem.getLocation());
         }
         startActivity(intent);
-    }
-
-    public static void start(Context context, AgendaItem agendaItem) {
-        Intent intent = new Intent(context, AgendaActivity.class);
-        intent.putExtra(AgendaActivity.ARG_AGENDA_ITEM, (Parcelable) agendaItem);
-        context.startActivity(intent);
     }
 }

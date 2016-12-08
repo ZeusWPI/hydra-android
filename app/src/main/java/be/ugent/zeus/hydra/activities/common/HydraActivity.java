@@ -74,13 +74,11 @@ public abstract class HydraActivity extends PluginActivity {
      * Replace an icon with given ID by the same icon but in the correct colour.
      *
      * @param menu The menu.
-     * @param ids The ids of the icon.
+     * @param ids  The ids of the icon.
      */
     public void tintToolbarIcons(Menu menu, int... ids) {
-
         int color = ViewUtils.getColor(getToolbar().getThemedContext(), android.R.attr.textColorPrimary);
-
-        for (int id: ids) {
+        for (int id : ids) {
             Drawable drawable = DrawableCompat.wrap(menu.findItem(id).getIcon());
             DrawableCompat.setTint(drawable, color);
             menu.findItem(id).setIcon(drawable);

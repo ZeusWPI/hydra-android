@@ -35,12 +35,10 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
     private static final int MY_LOCATION_REQUEST_CODE = 1;
 
     private static final String TAG = "RestoLocationActivity";
-
-    private GoogleMap map;
-    private RestoMeta meta;
-
     private final RestoMetaRequest restoMetaRequest = new RestoMetaRequest();
     private final RequestPlugin<RestoMeta> plugin = new RequestPlugin<>(this, RequestPlugin.wrap(restoMetaRequest));
+    private GoogleMap map;
+    private RestoMeta meta;
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
@@ -102,7 +100,6 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.resto_refresh:
                 plugin.refresh();
@@ -139,7 +136,7 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
     }
 
     private void centerDefault() {
-        if(map != null) {
+        if (map != null) {
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
         }
     }

@@ -28,11 +28,9 @@ import com.google.firebase.messaging.FirebaseMessaging;
  */
 public class OverviewActivity extends HydraActivity {
 
-    private static final String TAG = "SkoOverviewActivity";
-
-    private static final String SKO_WEBSITE = "http://www.studentkickoff.be/";
-
     public static final String ARG_TAB = "argTab";
+    private static final String TAG = "SkoOverviewActivity";
+    private static final String SKO_WEBSITE = "http://www.studentkickoff.be/";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,18 +40,14 @@ public class OverviewActivity extends HydraActivity {
         ViewPager viewpager = $(R.id.pager);
         viewpager.setAdapter(new SkoPagerAdapter(getSupportFragmentManager(), this));
 
-        viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                HydraApplication app = (HydraApplication) OverviewActivity.this.getApplication();
-                app.sendScreenName("SKO tab: " + SkoPagerAdapter.names[position]);
-            }
-        });
-
         final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
         viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+                //Log tabs
+                HydraApplication app = (HydraApplication) OverviewActivity.this.getApplication();
+                app.sendScreenName("SKO tab: " + SkoPagerAdapter.names[position]);
+                //Expand
                 appBarLayout.setExpanded(true);
             }
         });
@@ -67,7 +61,7 @@ public class OverviewActivity extends HydraActivity {
 
         //Subscribe to topic if needed
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if(!prefs.contains(SkoFragment.PREF_SKO_NOTIFICATION)) {
+        if (!prefs.contains(SkoFragment.PREF_SKO_NOTIFICATION)) {
             Log.i(TAG, "Subscribing to notifications.");
             FirebaseMessaging.getInstance().subscribeToTopic(FirebaseMessageService.SKO_TOPIC);
             prefs.edit().putBoolean(SkoFragment.PREF_SKO_NOTIFICATION, true).apply();

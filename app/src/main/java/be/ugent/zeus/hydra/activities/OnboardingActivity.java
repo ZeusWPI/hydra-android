@@ -1,11 +1,13 @@
 package be.ugent.zeus.hydra.activities;
 
-import android.accounts.*;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity;
 import be.ugent.zeus.hydra.fragments.onboarding.HomeFeedFragment;
@@ -20,6 +22,8 @@ import java.io.IOException;
 
 /**
  * Show onboarding for new users.
+ *
+ * @author Niko Strijbol
  */
 public class OnboardingActivity extends IntroActivity implements View.OnClickListener {
 
@@ -47,7 +51,7 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
 
         //Check if the user already has an account. This is possible, because clearing the application data does not
         //remove the account.
-        if(!AccountUtils.hasAccount(this)) {
+        if (!AccountUtils.hasAccount(this)) {
             addSlide(new SimpleSlide.Builder()
                     .title("Minerva")
                     .description("Meld je aan bij Minerva om je vakken te kunnen bekijken")

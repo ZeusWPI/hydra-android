@@ -58,7 +58,7 @@ class GenericCache implements Cache {
         CacheObject<D> object = readOrNull(request.getCacheKey());
         D data;
 
-        if(shouldRefresh(object, duration)) {
+        if (shouldRefresh(object, duration)) {
             Log.i(TAG, "New response for request " + request.getCacheKey());
             data = request.performRequest();
             object = new CacheObject<>(data);

@@ -98,7 +98,7 @@ public class AssociationSelectPrefActivity extends HydraActivity implements Data
         Set<String> disabled = preferences.getStringSet(PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
         List<Pair<Association, Boolean>> values = new ArrayList<>();
 
-        for(Association association: data) {
+        for (Association association : data) {
             values.add(new Pair<>(association, !disabled.contains(association.getInternalName())));
         }
 
@@ -119,8 +119,8 @@ public class AssociationSelectPrefActivity extends HydraActivity implements Data
 
         //Save the values.
         Set<String> disabled = new HashSet<>();
-        for (Map.Entry<Association, Boolean> pair: adapter.allData.entrySet()) {
-            if(!pair.getValue()) {
+        for (Map.Entry<Association, Boolean> pair : adapter.allData.entrySet()) {
+            if (!pair.getValue()) {
                 disabled.add(pair.getKey().getInternalName());
             }
         }
@@ -136,7 +136,7 @@ public class AssociationSelectPrefActivity extends HydraActivity implements Data
         @Override
         public void setItems(List<Pair<Association, Boolean>> list) {
             super.setItems(list);
-            for(Pair<Association, Boolean> pair: list) {
+            for (Pair<Association, Boolean> pair : list) {
                 allData.put(pair.first, pair.second);
             }
         }
@@ -151,7 +151,7 @@ public class AssociationSelectPrefActivity extends HydraActivity implements Data
         @Override
         public void setAllChecked(boolean checked) {
             super.setAllChecked(checked);
-            for(Association key: allData.keySet()) {
+            for (Association key : allData.keySet()) {
                 allData.put(key, checked);
             }
         }
@@ -164,13 +164,13 @@ public class AssociationSelectPrefActivity extends HydraActivity implements Data
         @Override
         public boolean onQueryTextChange(String newText) {
 
-            if(allData == null) {
+            if (allData == null) {
                 return true;
             }
 
-            if(newText.isEmpty()) {
+            if (newText.isEmpty()) {
                 List<Pair<Association, Boolean>> newList = new ArrayList<>();
-                for(Map.Entry<Association, Boolean> pair: allData.entrySet()) {
+                for (Map.Entry<Association, Boolean> pair : allData.entrySet()) {
                     newList.add(new Pair<>(pair.getKey(), pair.getValue()));
                 }
                 this.items = newList;
@@ -179,10 +179,10 @@ public class AssociationSelectPrefActivity extends HydraActivity implements Data
 
             List<Pair<Association, Boolean>> newList = new ArrayList<>();
 
-            for(Map.Entry<Association, Boolean> pair: allData.entrySet()) {
+            for (Map.Entry<Association, Boolean> pair : allData.entrySet()) {
                 String text = newText.toLowerCase();
                 Association a = pair.getKey();
-                if(a.getDisplayName().toLowerCase().contains(text) ||
+                if (a.getDisplayName().toLowerCase().contains(text) ||
                         (a.getFullName() != null && a.getFullName().toLowerCase().contains(text)) ||
                         a.getInternalName().toLowerCase().contains(text)) {
                     newList.add(new Pair<>(a, pair.getValue()));

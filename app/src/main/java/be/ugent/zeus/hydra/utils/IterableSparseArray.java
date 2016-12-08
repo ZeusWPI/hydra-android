@@ -16,7 +16,6 @@ public class IterableSparseArray<E> extends SparseArray<E> implements Iterable<E
     public Iterator<E> iterator() {
 
         return new Iterator<E>() {
-
             private int current;
 
             @Override

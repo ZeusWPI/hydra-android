@@ -15,6 +15,11 @@ import be.ugent.zeus.hydra.utils.html.Utils;
 
 import static be.ugent.zeus.hydra.recyclerview.viewholder.NewsItemViewHolder.PARCEL_NAME;
 
+/**
+ * Display a news article from DSA.
+ *
+ * @author Niko Strijbol
+ */
 public class NewsArticleActivity extends HydraActivity {
 
     private String title;
@@ -32,25 +37,25 @@ public class NewsArticleActivity extends HydraActivity {
         TextView text = $(R.id.text);
         TextView author = $(R.id.author);
 
-        if(article.getAssociation() != null ) {
+        if (article.getAssociation() != null) {
             author.setText(article.getAssociation().getDisplayName());
         }
 
-        if(article.getDate() != null) {
+        if (article.getDate() != null) {
             date.setText(DateUtils.relativeDateTimeString(article.getDate(), date.getContext()));
         }
 
-        if(article.getContent() != null) {
+        if (article.getContent() != null) {
             text.setText(Utils.fromHtml(article.getContent(), new PicassoImageGetter(text, getResources(), this)));
             text.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
-        if(article.getTitle() != null) {
+        if (article.getTitle() != null) {
             title.setText(article.getTitle());
             this.title = article.getTitle();
         }
 
-        if(article.isHighlighted()) {
+        if (article.isHighlighted()) {
             Drawable d = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star, R.color.ugent_yellow_dark);
             title.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
         }

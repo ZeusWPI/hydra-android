@@ -6,7 +6,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-
 import be.ugent.zeus.hydra.R;
 
 /**
@@ -37,7 +36,7 @@ public class SpanItemSpacingDecoration extends RecyclerView.ItemDecoration {
     public void getItemOffsets(Rect outRect, final View view, final RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
 
-        //If this is not a LinearLayoutManager, do nothing. Otherwise extract the span.
+        //If this is not supported, do nothing. Otherwise extract the span.
         if (!(parent.getLayoutManager() instanceof StaggeredGridLayoutManager || parent.getLayoutManager() instanceof GridLayoutManager)) {
             return;
         }
@@ -45,7 +44,7 @@ public class SpanItemSpacingDecoration extends RecyclerView.ItemDecoration {
         final int itemSpan;
         final int spanCount;
 
-        if(parent.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+        if (parent.getLayoutManager() instanceof StaggeredGridLayoutManager) {
             itemSpan = ((StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams()).getSpanIndex();
             spanCount = ((StaggeredGridLayoutManager) parent.getLayoutManager()).getSpanCount();
 

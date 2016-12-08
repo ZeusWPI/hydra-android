@@ -37,18 +37,18 @@ public class PluginFragment extends Fragment {
     public void onAttach(Context context) {
         onAddPlugins(otherPlugins);
         List<Plugin> recursive = new ArrayList<>();
-        for(Plugin plugin: otherPlugins) {
+        for (Plugin plugin : otherPlugins) {
             plugin.onAddPlugins(recursive);
         }
         otherPlugins.addAll(recursive);
-        for(Plugin plugin: otherPlugins) {
-            if(plugin instanceof FragmentPlugin) {
+        for (Plugin plugin : otherPlugins) {
+            if (plugin instanceof FragmentPlugin) {
                 fragmentPlugins.add((FragmentPlugin) plugin);
             }
             plugin.setProvider(ContextProvider.getProvider(this));
         }
         super.onAttach(context);
-        for(FragmentPlugin plugin: fragmentPlugins) {
+        for (FragmentPlugin plugin : fragmentPlugins) {
             plugin.onAttach(context);
         }
     }
@@ -56,7 +56,7 @@ public class PluginFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        for(Plugin plugin: otherPlugins) {
+        for (Plugin plugin : otherPlugins) {
             plugin.onCreate(savedInstanceState);
         }
     }
@@ -64,7 +64,7 @@ public class PluginFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        for(Plugin plugin: otherPlugins) {
+        for (Plugin plugin : otherPlugins) {
             plugin.onViewCreated(view, savedInstanceState);
         }
     }
@@ -72,7 +72,7 @@ public class PluginFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        for(FragmentPlugin plugin: fragmentPlugins) {
+        for (FragmentPlugin plugin : fragmentPlugins) {
             plugin.onActivityCreated(savedInstanceState);
         }
     }
@@ -80,7 +80,7 @@ public class PluginFragment extends Fragment {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        for(FragmentPlugin plugin: fragmentPlugins) {
+        for (FragmentPlugin plugin : fragmentPlugins) {
             plugin.onViewStateRestored(savedInstanceState);
         }
     }
@@ -88,7 +88,7 @@ public class PluginFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        for(Plugin plugin: otherPlugins) {
+        for (Plugin plugin : otherPlugins) {
             plugin.onStart();
         }
     }
@@ -96,7 +96,7 @@ public class PluginFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        for(Plugin plugin: otherPlugins) {
+        for (Plugin plugin : otherPlugins) {
             plugin.onResume();
         }
     }
@@ -104,7 +104,7 @@ public class PluginFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        for(Plugin plugin: otherPlugins) {
+        for (Plugin plugin : otherPlugins) {
             plugin.onPause();
         }
     }
@@ -112,7 +112,7 @@ public class PluginFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        for(Plugin plugin: otherPlugins) {
+        for (Plugin plugin : otherPlugins) {
             plugin.onStop();
         }
     }
@@ -120,7 +120,7 @@ public class PluginFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        for(FragmentPlugin plugin: fragmentPlugins) {
+        for (FragmentPlugin plugin : fragmentPlugins) {
             plugin.onDestroyView();
         }
     }
@@ -128,7 +128,7 @@ public class PluginFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        for(Plugin plugin: otherPlugins) {
+        for (Plugin plugin : otherPlugins) {
             plugin.onDestroy();
         }
     }
@@ -136,7 +136,7 @@ public class PluginFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        for(FragmentPlugin plugin: fragmentPlugins) {
+        for (FragmentPlugin plugin : fragmentPlugins) {
             plugin.onDetach();
         }
     }

@@ -25,7 +25,7 @@ public class InfoSubItemActivity extends HydraActivity {
 
         // Set title
         String title = intent.getStringExtra(INFO_TITLE);
-        getSupportActionBar().setTitle(title);
+        getToolbar().setTitle(title);
 
         // Create bundle for fragment
         ArrayList<InfoItem> infoList = intent.getParcelableArrayListExtra(INFO_ITEMS);

@@ -47,10 +47,25 @@ public class NetworkUtils {
         return manager.isActiveNetworkMetered();
     }
 
+    /**
+     * Opens a browser for the given url.
+     *
+     * @param context The context to launch from.
+     * @param url     The url to launch.
+     *
+     * @see #maybeLaunchIntent(Context, Intent)
+     */
     public static void maybeLaunchBrowser(Context context, String url) {
         maybeLaunchIntent(context, new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
     }
 
+    /**
+     * Launch an intent. This method is meant to launch implicit intents. It will also catch an error if nothing
+     * can open the intent and display a toast instead.
+     *
+     * @param context The context to launch from.
+     * @param intent  The launch intent.
+     */
     public static void maybeLaunchIntent(Context context, Intent intent) {
         try {
             context.startActivity(intent);

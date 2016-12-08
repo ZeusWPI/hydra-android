@@ -10,13 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * A plugin is a light weight object that can receive a small subset of the Activity/Fragment lifecycle callbacks.
+ *
+ * You can add plugins to {@link PluginFragment} or {@link PluginActivity}, which will enable them.
+ *
  * @author Niko Strijbol
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class Plugin {
 
     private ContextProvider.Provider provider;
 
-    final void setProvider(ContextProvider.Provider provider) {
+    protected void setProvider(ContextProvider.Provider provider) {
         this.provider = provider;
     }
 
@@ -30,11 +35,11 @@ public abstract class Plugin {
 
     /**
      * You should call the super method AFTER adding your own.
-     * @param plugins
+     *
+     * @param plugins The list of plugins.
      */
     @CallSuper
     protected void onAddPlugins(List<Plugin> plugins) {
-        //Nothing
         List<Plugin> recursive = new ArrayList<>();
         for(Plugin plugin: plugins) {
             plugin.onAddPlugins(recursive);
@@ -43,43 +48,28 @@ public abstract class Plugin {
     }
 
     @CallSuper
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-
-    }
+    protected void onCreate(@Nullable Bundle savedInstanceState) {}
 
     /**
      * In an activity, this is called after {@link android.app.Activity#setContentView(int)}.
      */
-    protected void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    }
+    protected void onViewCreated(View view, @Nullable Bundle savedInstanceState) {}
 
     @CallSuper
-    protected void onStart() {
-
-    }
+    protected void onStart() {}
 
     @CallSuper
-    protected void onResume() {
-
-    }
+    protected void onResume() {}
 
     @CallSuper
-    protected void onPause() {
-
-    }
+    protected void onPause() {}
 
     @CallSuper
-    protected void onStop() {
-
-    }
+    protected void onStop() {}
 
     @CallSuper
-    protected void onRestart() {
-
-    }
+    protected void onRestart() {}
 
     @CallSuper
-    protected void onDestroy() {
-
-    }
+    protected void onDestroy() {}
 }

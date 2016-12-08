@@ -34,22 +34,19 @@ import org.threeten.bp.format.DateTimeFormatter;
  */
 public class EventDetailActivity extends HydraActivity {
 
-    private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
     public static final String PARCEL_EVENT = "eventParcelable";
-
+    private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     private static final String GENT = "51.05,3.72";
 
-    //The data
     private Event event;
 
     /**
      * Launch this activity with a transition.
      *
      * @param activity The activity that launches the intent.
-     * @param view The view to transition.
-     * @param name The name of the transition.
-     * @param event The event.
+     * @param view     The view to transition.
+     * @param name     The name of the transition.
+     * @param event    The event.
      */
     public static void launchWithAnimation(Activity activity, View view, String name, Parcelable event) {
         Intent intent = new Intent(activity, EventDetailActivity.class);
@@ -69,29 +66,28 @@ public class EventDetailActivity extends HydraActivity {
         event = getIntent().getParcelableExtra(PARCEL_EVENT);
 
         TextView title = $(R.id.title);
-        TextView date = $(R.id.date);
         TextView location = $(R.id.location);
         TextView description = $(R.id.description);
         final ImageView organisatorImage = $(R.id.event_organisator_image);
         TextView mainName = $(R.id.event_organisator_main);
         TextView smallName = $(R.id.event_organisator_small);
 
-        if(event.getTitle() != null){
+        if (event.getTitle() != null) {
             title.setText(event.getTitle());
             getToolbar().setTitle(event.getTitle());
         }
 
-        if(event.getAssociation() != null ) {
+        if (event.getAssociation() != null) {
             mainName.setText(event.getAssociation().getDisplayName());
             smallName.setText(event.getAssociation().getFullName());
         }
 
-        if(event.getDescription() != null && !event.getDescription().trim().isEmpty()) {
+        if (event.getDescription() != null && !event.getDescription().trim().isEmpty()) {
             description.setText(event.getDescription());
             LinkifyCompat.addLinks(description, Linkify.ALL);
         }
 
-        if(event.hasLocation()) {
+        if (event.hasLocation()) {
             location.setText(event.getLocation());
         } else {
             location.setText("Zonder locatie");
@@ -103,13 +99,8 @@ public class EventDetailActivity extends HydraActivity {
         startTime.setText(event.getStart().format(format));
         endTime.setText(event.getEnd().format(format));
 
-        if(event.getAssociation() != null && event.getAssociation().getImageLink() != null) {
-            Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage, new Callback() {
-                @Override
-                public void onSuccess() {
-                    //OK
-                }
-
+        if (event.getAssociation() != null && event.getAssociation().getImageLink() != null) {
+            Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage, new Callback.EmptyCallback() {
                 @Override
                 public void onError() {
                     organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
@@ -118,7 +109,6 @@ public class EventDetailActivity extends HydraActivity {
         } else {
             organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
-
     }
 
     @Override
@@ -157,11 +147,11 @@ public class EventDetailActivity extends HydraActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-        if(!event.hasUrl()) {
+        if (!event.hasUrl()) {
             menu.removeItem(R.id.event_link);
         }
 
-        if(!event.hasPreciseLocation() && !event.hasLocation()) {
+        if (!(event.hasPreciseLocation() || event.hasLocation())) {
             menu.removeItem(R.id.event_location);
         }
 
@@ -184,8 +174,8 @@ public class EventDetailActivity extends HydraActivity {
         Uri uriLocation;
 
         //If there is a precise location, use that.
-        if(event.hasPreciseLocation()) {
-            if(event.hasLocation()) {
+        if (event.hasPreciseLocation()) {
+            if (event.hasLocation()) {
                 uriLocation = Uri.parse("geo:0,0?q=" + event.getLatitude() + "," + event.getLongitude() + "(" + event.getLocation() + ")");
             } else {
                 uriLocation = Uri.parse("geo:0,0?q=" + event.getLatitude() + "," + event.getLongitude());

@@ -8,32 +8,71 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 /**
+ * Support class for {@link Plugin}s. This class provides common contexts to the Plugins.
+ *
+ * Since plugins can be used with both Activities and Fragments, this encapsulate the difference and tries to unify
+ * the access to contexts.
+ *
  * @author Niko Strijbol
  */
-public final class ContextProvider {
+final class ContextProvider {
 
-    private ContextProvider() {}
+    private ContextProvider() {
+    }
 
+    /**
+     * Create a provider from a Fragment.
+     *
+     * @param fragment The fragment.
+     *
+     * @return A provider.
+     */
     static FragmentProvider getProvider(Fragment fragment) {
         return new FragmentProvider(fragment);
     }
 
+    /**
+     * Create a provider from an Activity.
+     *
+     * @param activity The activity.
+     *
+     * @return A provider.
+     */
     static ActivityProvider getProvider(AppCompatActivity activity) {
         return new ActivityProvider(activity);
     }
 
+    /**
+     * The actual interface with the provide contexts.
+     */
     public interface Provider {
 
+        /**
+         * Get the loader manager.
+         *
+         * @return The loader manager.
+         */
         LoaderManager getLoaderManager();
 
+        /**
+         * The fragment manager. This is not the child fragment manager.
+         *
+         * @return The fragment manager.
+         */
         FragmentManager getFragmentManager();
 
+        /**
+         * @return The context.
+         */
         Context getContext();
 
+        /**
+         * @return The root view.
+         */
         View getRoot();
     }
 
-    public static class FragmentProvider implements Provider {
+    static class FragmentProvider implements Provider {
 
         private final Fragment fragment;
 
@@ -66,7 +105,7 @@ public final class ContextProvider {
         }
     }
 
-    public static class ActivityProvider implements Provider {
+    static class ActivityProvider implements Provider {
 
         private final AppCompatActivity activity;
 

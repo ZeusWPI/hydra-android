@@ -37,12 +37,10 @@ public class MenuActivity extends HydraActivity implements DataCallback<RestoOve
 
     private static final String URL = "http://www.ugent.be/student/nl/meer-dan-studeren/resto";
     private static final String TAG = "MenuActivity";
-
+    private final RequestPlugin<RestoOverview> plugin = new RequestPlugin<>(this, RequestPlugin.wrap(new RestoMenuRequest()));
     private MenuPagerAdapter pageAdapter;
     private ViewPager viewPager;
     private LocalDate startDate;
-
-    private final RequestPlugin<RestoOverview> plugin = new RequestPlugin<>(this, RequestPlugin.wrap(new RestoMenuRequest()));
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
@@ -55,7 +53,7 @@ public class MenuActivity extends HydraActivity implements DataCallback<RestoOve
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resto);
-        
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         pageAdapter = new MenuPagerAdapter(getSupportFragmentManager());
@@ -80,7 +78,7 @@ public class MenuActivity extends HydraActivity implements DataCallback<RestoOve
         Intent intent = getIntent();
 
         //Get the default start date
-        if(intent.hasExtra(ARG_DATE)) {
+        if (intent.hasExtra(ARG_DATE)) {
             startDate = (LocalDate) intent.getSerializableExtra(ARG_DATE);
         } else {
             startDate = LocalDate.now();
@@ -95,7 +93,7 @@ public class MenuActivity extends HydraActivity implements DataCallback<RestoOve
         for (int i = 0; i < data.size(); i++) {
             RestoMenu menu = data.get(i);
             //Set the tab to this day!
-            if(menu.getDate().isEqual(startDate)) {
+            if (menu.getDate().isEqual(startDate)) {
                 viewPager.setCurrentItem(i, true);
                 break;
             }
@@ -119,7 +117,6 @@ public class MenuActivity extends HydraActivity implements DataCallback<RestoOve
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 plugin.refresh();

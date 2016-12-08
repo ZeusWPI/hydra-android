@@ -103,7 +103,7 @@ public class RestoFragment extends PluginFragment implements DataCallback<RestoO
     public void receiveData(@NonNull RestoOverview data) {
         //Check that we have at least one menu
         //TODO: show error
-        if(data.size() < 1) {
+        if (data.size() < 1) {
             return;
         }
 

@@ -1,15 +1,16 @@
 package be.ugent.zeus.hydra.utils;
 
 import android.support.annotation.Nullable;
-
 import android.support.annotation.VisibleForTesting;
-import org.threeten.bp.*;
+import org.threeten.bp.Instant;
+import org.threeten.bp.ZoneOffset;
+import org.threeten.bp.ZonedDateTime;
 
 /**
  * Utility methods to serialize {@link ZonedDateTime}, preserving the zone information.
  *
- * While implementation details are not guaranteed to stay the same, they might be important for use in database, they
- * are described here.
+ * While implementation details are not guaranteed to stay the same, they might be important for use in database, so
+ * they are described here.
  *
  * Serializing happens by converting the given ZonedDateTime to another one, with a static, non-changing time zone. At
  * present this time zone is UTC. This new ZonedDateTime is then converted to an Instant, which is then converted to
@@ -36,7 +37,7 @@ public class TtbUtils {
      * @return The representation in epoch milli.
      */
     public static long serialize(@Nullable ZonedDateTime dateTime) {
-        if(dateTime == null) {
+        if (dateTime == null) {
             return -1;
         }
         return dateTime.withZoneSameInstant(ZONE).toInstant().toEpochMilli();
@@ -51,7 +52,7 @@ public class TtbUtils {
      * @return A ZonedDateTime representing the epoch milli.
      */
     public static ZonedDateTime unserialize(long epochMilli) {
-        if(epochMilli == -1) {
+        if (epochMilli == -1) {
             return null;
         }
         return Instant.ofEpochMilli(epochMilli).atZone(ZONE);

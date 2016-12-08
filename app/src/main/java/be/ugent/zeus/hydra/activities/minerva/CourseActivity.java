@@ -37,6 +37,12 @@ public class CourseActivity extends HydraActivity {
 
     private Course course;
 
+    public static void start(Context context, Course course) {
+        Intent intent = new Intent(context, CourseActivity.class);
+        intent.putExtra(ARG_COURSE, (Parcelable) course);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,16 +82,10 @@ public class CourseActivity extends HydraActivity {
 
     private String getOnlineUrl() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if(preferences.getBoolean(MinervaFragment.PREF_USE_MOBILE_URL, false)) {
+        if (preferences.getBoolean(MinervaFragment.PREF_USE_MOBILE_URL, false)) {
             return String.format(ONLINE_URL_MOBILE, course.getId());
         } else {
             return String.format(ONLINE_URL_DESKTOP, course.getId());
         }
-    }
-
-    public static void start(Context context, Course course) {
-        Intent intent = new Intent(context, CourseActivity.class);
-        intent.putExtra(ARG_COURSE, (Parcelable) course);
-        context.startActivity(intent);
     }
 }
