@@ -76,11 +76,11 @@ public class SyncErrorNotification {
         public Builder authError(Intent authIntent) {
             PendingIntent pendingIntent = PendingIntent.getActivity(notification.context, 0, authIntent, 0);
             notification.builder.setAutoCancel(true)
-                    .setContentTitle("Minerva: opnieuw aanmelden")
-                    .setContentText("Druk om opnieuw aan te melden")
+                    .setContentTitle(context.getString(R.string.minerva_notification_again))
+                    .setContentText(context.getString(R.string.minerva_notification_text))
                     .setContentIntent(pendingIntent)
                     .setStyle(new NotificationCompat.BigTextStyle()
-                            .bigText("Je moet opnieuw aanmelden bij Minerva, want de inloggegevens zijn verouderd.")
+                            .bigText(context.getString(R.string.minerva_notification_big_text))
                     );
             return this;
         }
@@ -92,15 +92,15 @@ public class SyncErrorNotification {
          */
         public Builder genericError(Throwable throwable) {
 
-            String content = "Er trad een fout op bij het synchroniseren, met deze boodschap:\n\n" + throwable.getMessage();
+            String content = context.getString(R.string.minerva_error_with, throwable.getMessage());
 
             Intent intent = ExceptionDialogActivity.startIntent(context, "Fout", content, 0);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            notification.builder.setContentTitle("Minerva-fout")
-                    .setContentText("Synchronisatiefout")
+            notification.builder.setContentTitle(context.getString(R.string.minerva_modal_title))
+                    .setContentText(context.getString(R.string.minerva_modal_content))
                     .setStyle(new NotificationCompat.BigTextStyle()
-                            .bigText("Er trad een fout op bij het synchroniseren met Minerva. Gegevens kunnen verouderd zijn.")
+                            .bigText(context.getString(R.string.minerva_modal_big))
                     )
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent);

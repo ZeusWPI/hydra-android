@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import be.ugent.zeus.hydra.R;
 
 /**
  * Activity to show a dialog.
@@ -52,7 +53,7 @@ public class ExceptionDialogActivity extends AppCompatActivity {
         }
 
         builder.setOnDismissListener(dialogInterface -> ExceptionDialogActivity.this.finish());
-        builder.setNeutralButton("OK", (dialogInterface, i) -> ExceptionDialogActivity.this.finish());
+        builder.setNeutralButton(R.string.ok, (dialogInterface, i) -> ExceptionDialogActivity.this.finish());
         builder.show();
     }
 }

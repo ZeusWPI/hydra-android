@@ -77,7 +77,7 @@ public class CourseInfoFragment extends Fragment {
 
     private String getAcademicYear() {
         if(course.getAcademicYear() == 0) {
-            return "Zonder";
+            return getContext().getString(R.string.without);
         } else {
             return String.valueOf(course.getAcademicYear());
         }

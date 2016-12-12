@@ -35,7 +35,8 @@ public class MinervaAnnouncementViewHolder extends HideableViewHolder {
 
         final MinervaAnnouncementsCard mCard = card.checkCard(HomeCard.CardType.MINERVA_ANNOUNCEMENT);
 
-        toolbar.setTitle("Aankondigingen " + mCard.getCourse().getTitle());
+        String titleS = itemView.getContext().getString(R.string.home_feed_card_announcement_title, mCard.getCourse().getTitle());
+        toolbar.setTitle(titleS);
 
         layout.removeAllViewsInLayout();
 
@@ -51,7 +52,8 @@ public class MinervaAnnouncementViewHolder extends HideableViewHolder {
         if (mCard.getAnnouncements().size() >= 5) {
             TextView textView = new TextView(itemView.getContext());
             textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            textView.setText("Bekijk nog " + (mCard.getAnnouncements().size() - 5) + " aankondigingen...");
+
+            textView.setText(itemView.getContext().getString(R.string.home_feed_card_announcement_more, mCard.getAnnouncements().size() - 5));
             textView.setPadding(0, convertDpToPixelInt(16, itemView.getContext()), 0, 0);
             layout.addView(textView);
         }

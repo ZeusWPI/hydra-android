@@ -21,7 +21,6 @@
     <!-- Content descriptions -->
     <string name="hydra_icon_content_description">Hydra icoon</string>
 
-    <string name="ActivitiesWelcome">Welkom bij het activiteitenfragment</string>
     <string name="title_activity_association_activity_detail">Evenement</string>
 
     <!-- Settings -->
@@ -84,8 +83,8 @@
     <string name="saturday">zaterdag</string>
     <string name="sunday">zondag</string>
 
-    <string name="restonotification_title">Resto menu</string>
-    <string name="restonotification_text">Bekijk het menu van de resto in de Hydra-app.</string>
+    <string name="resto_notification_title">Resto menu</string>
+    <string name="resto_notification_text">Bekijk het menu van de resto in de Hydra-app.</string>
 
     <string name="resto_action">OPEN RESTO PLOX!</string>
     <string name="section_format">Tab</string>
@@ -170,5 +169,45 @@
     <string name="action_center">Ga naar resto\'s</string>
 
     <string name="error_no_activity">Niets gevonden om dit te openen!</string>
+    <string name="events_no_location">Zonder locatie</string>
+    <string name="title_license">Licenties</string>
+    <string name="agenda_subtitle">%1$s door %2$s</string>
+    <string name="home_feed_announcement_title">%d aankondigingen</string>
+    <string name="home_feed_announcement_more">nog %d aankondigingen…</string>
+    <string name="announcement_notification_content">Nieuwe aankondiging</string>
+    <string name="announcement_notification_title">Aankondiging in %s</string>
+    <string name="without">Zonder</string>
+    <string name="ok">OK</string>
+    <string name="home_feed_not_loaded">Kom sommige dingen niet ophalen.</string>
+    <string name="offline_data_use">Offline data gebruikt.</string>
+    <string name="action_add_to_menu">Toevoegen aan agenda</string>
+    <string name="resto_closed">De resto is gesloten op deze dag.</string>
+    <string name="resto_main_dish">Hoofdgerechten</string>
+    <string name="resto_side_dish">Bijgerechten</string>
+    <string name="vegetables">Groenten</string>
+    <string name="home_feed_agenda_title">Agenda voor %s</string>
+    <string name="home_feed_card_announcement_title">Aankondigingen %s</string>
+    <string name="home_feed_card_announcement_more">Bekijk nog %d aankondigingen…</string>
+    <string name="minerva_no_permission">Je gaf geen toestemming om je account te gebruiken.</string>
+    <string name="minerva_sync_getting_courses">Vakken ophalen…</string>
+    <string name="minerva_sync_done">Klaar.</string>
+    <string name="minerva_sync_progress">Vak %1$d van %2$d ophalen…</string>
+    <string name="not_done_yet">Nog niet klaar</string>
+    <string name="onboarding_welcome">Welkom bij Hydra</string>
+    <string name="onboarding_welcome_description">Kies wat je wilt zien en doen in de app</string>
+    <string name="onboarding_minerva_title">Minerva</string>
+    <string name="onboarding_minerva_description">Meld je aan bij Minerva om je vakken te kunnen bekijken</string>
+    <string name="onboarding_minerva_button">Aanmelden</string>
+    <string name="sko_notification_off">Meldingen uitgeschakeld</string>
+    <string name="turn_off">Uitschakelen</string>
+    <string name="minerva_notification_again">Minerva: opnieuw aanmelden</string>
+    <string name="minerva_notification_text">Druk om opnieuw aan te melden</string>
+    <string name="minerva_notification_big_text">Je moet opnieuw aanmelden bij Minerva, want de inloggegevens zijn verouderd.</string>
+    <string name="minerva_modal_title">Minerva-fout</string>
+    <string name="minerva_modal_content">Synchronisatiefout</string>
+    <string name="minerva_modal_big">Er trad een fout op bij het synchroniseren met Minerva. Gegevens kunnen verouderd zijn.</string>
+    <string name="minerva_error_with">Er trad een fout op bij het synchroniseren, met deze boodschap:\\n\\n%s</string>
+    <string name="urgent_loading">Radio laden…</string>
+    <string name="oops">Oeps!</string>
 
 </resources>

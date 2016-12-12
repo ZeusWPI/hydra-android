@@ -104,8 +104,8 @@ public class AnnouncementNotificationBuilder {
         bigTextStyle.bigText(stripHtml(announcement.getContent()));
         bigTextStyle.setSummaryText(announcement.getLecturer());
 
-        if(TextUtils.isEmpty(announcement.getTitle())) {
-            builder.setContentText("Nieuwe aankondiging.");
+        if (TextUtils.isEmpty(announcement.getTitle())) {
+            builder.setContentText(context.getString(R.string.announcement_notification_content));
         } else {
             builder.setContentText(announcement.getTitle());
         }
@@ -123,7 +123,7 @@ public class AnnouncementNotificationBuilder {
 
         setTitle(builder);
 
-        builder.setContentText(announcements.size() + " aankondigingen");
+        builder.setContentText(context.getString(R.string.home_feed_announcement_title, announcements.size()));
 
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 
@@ -133,8 +133,8 @@ public class AnnouncementNotificationBuilder {
             inboxStyle.addLine(iterator.next().getTitle());
         }
 
-        if(announcements.size() > 4) {
-            inboxStyle.setSummaryText("nog " + (announcements.size() - 4) + " aankondigingen...");
+        if (announcements.size() > 4) {
+            inboxStyle.setSummaryText(context.getString(R.string.home_feed_announcement_more, announcements.size() - 4));
         }
 
         //Click intent
@@ -150,7 +150,7 @@ public class AnnouncementNotificationBuilder {
 
     private void setTitle(NotificationCompat.Builder builder) {
         if(TextUtils.isEmpty(course.getTitle())) {
-            builder.setContentTitle("Aankondiging in " + course.getCode());
+            builder.setContentTitle(context.getString(R.string.announcement_notification_title, course.getCode()));
         } else {
             builder.setContentTitle(course.getTitle());
         }

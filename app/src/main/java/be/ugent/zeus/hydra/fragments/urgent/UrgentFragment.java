@@ -216,7 +216,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
     @Override
     public void onLoading() {
         assert getView() != null;
-        Snackbar.make(getView(),"Loading track...",Snackbar.LENGTH_LONG).show();
+        Snackbar.make(getView(), R.string.urgent_loading, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -231,7 +231,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
 
     @Override
     public void onError() {
-        Toast.makeText(getContext().getApplicationContext(), "Oeps!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext().getApplicationContext(), R.string.oops, Toast.LENGTH_SHORT).show();
     }
 
     /**

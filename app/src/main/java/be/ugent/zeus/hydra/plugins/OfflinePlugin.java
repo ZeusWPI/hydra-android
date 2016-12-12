@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.plugins;
 
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -29,6 +30,21 @@ public class OfflinePlugin extends Plugin implements SnackbarHandler {
     }
 
     public void showSnackbar(String message, @Snackbar.Duration int length, @Nullable SwipeRefreshLayout.OnRefreshListener listener) {
+
+        if (snackbar == null) {
+            snackbar = Snackbar.make(view, message, length);
+            if (listener != null) {
+                snackbar.setAction(R.string.action_refresh, v -> listener.onRefresh());
+            }
+        } else {
+            snackbar.setText(message);
+            snackbar.setDuration(length);
+        }
+
+        snackbar.show();
+    }
+
+    public void showSnackbar(@StringRes int message, @Snackbar.Duration int length, @Nullable SwipeRefreshLayout.OnRefreshListener listener) {
 
         if (snackbar == null) {
             snackbar = Snackbar.make(view, message, length);

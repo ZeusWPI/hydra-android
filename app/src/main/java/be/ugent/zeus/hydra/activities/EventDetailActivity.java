@@ -90,7 +90,7 @@ public class EventDetailActivity extends HydraActivity {
         if (event.hasLocation()) {
             location.setText(event.getLocation());
         } else {
-            location.setText("Zonder locatie");
+            location.setText(R.string.events_no_location);
         }
 
         TextView startTime = $(R.id.time_start);

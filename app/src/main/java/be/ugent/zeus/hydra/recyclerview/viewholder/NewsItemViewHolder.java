@@ -5,14 +5,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.NewsArticleActivity;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
-
-import java.util.Locale;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -37,7 +34,7 @@ public class NewsItemViewHolder extends DataViewHolder<NewsItem> {
 
         title.setText(newsItem.getTitle());
 
-        String infoText = String.format(new Locale("nl"), "%s door %s",
+        String infoText = itemView.getContext().getString(R.string.agenda_subtitle,
                 DateUtils.relativeDateTimeString(newsItem.getDate(), itemView.getContext()),
                 newsItem.getAssociation().getName());
         info.setText(infoText);

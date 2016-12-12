@@ -42,7 +42,7 @@ public class ExhibitorViewHolder extends DataViewHolder<Exhibitor> {
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
             builder.setTitle(data.getName());
             builder.setMessage(converted);
-            builder.setPositiveButton("OK", null);
+            builder.setPositiveButton(R.string.ok, null);
             builder.show();
         });
     }
