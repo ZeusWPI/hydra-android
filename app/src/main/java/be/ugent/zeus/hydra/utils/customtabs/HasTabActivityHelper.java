@@ -37,7 +37,7 @@ class HasTabActivityHelper implements ActivityHelper {
     private int intentFlags;
 
     private CustomTabsSession customTabsSession;
-    private CustomTabsClient client;
+    private WeakReference<CustomTabsClient> client;
     private CustomTabsServiceConnection connection;
     private CustomTabsCallback callback;
 
@@ -118,7 +118,7 @@ class HasTabActivityHelper implements ActivityHelper {
         if (client == null) {
             customTabsSession = null;
         } else if (customTabsSession == null) {
-            customTabsSession = client.newSession(this.callback);
+            customTabsSession = client.get().newSession(this.callback);
         }
 
         return customTabsSession;
@@ -142,8 +142,8 @@ class HasTabActivityHelper implements ActivityHelper {
         connection = new CustomTabsServiceConnection() {
             @Override
             public void onCustomTabsServiceConnected(ComponentName name, CustomTabsClient client) {
-                HasTabActivityHelper.this.client = client;
-                HasTabActivityHelper.this.client.warmup(0L);
+                HasTabActivityHelper.this.client = new WeakReference<>(client);
+                HasTabActivityHelper.this.client.get().warmup(0L);
                 if (connectionCallback != null) {
                     connectionCallback.onCustomTabsConnected(HasTabActivityHelper.this);
                 }
