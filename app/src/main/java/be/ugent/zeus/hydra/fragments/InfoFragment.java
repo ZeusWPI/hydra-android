@@ -1,29 +1,40 @@
 package be.ugent.zeus.hydra.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
-import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
 import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
+import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
+import be.ugent.zeus.hydra.plugins.RequestPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.InfoListAdapter;
 import be.ugent.zeus.hydra.requests.InfoRequest;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+/**
+ * Display info items.
+ *
+ * @author Niko Strijbol
+ */
+public class InfoFragment extends PluginFragment {
 
-public class InfoFragment extends CachedLoaderFragment<InfoList> {
+    private final InfoListAdapter adapter = new InfoListAdapter();
+    private final RecyclerViewPlugin<InfoItem, InfoList> recyclerPlugin = new RecyclerViewPlugin<>(RequestPlugin.wrap(new InfoRequest()), adapter);
 
-    private InfoListAdapter adapter;
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        recyclerPlugin.getRequestPlugin().getLoaderPlugin().setAutoStart(false);
+        plugins.add(recyclerPlugin);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,39 +45,16 @@ public class InfoFragment extends CachedLoaderFragment<InfoList> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
-        adapter = new InfoListAdapter();
-
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         Bundle bundle = getArguments();
         if (bundle != null) {
             InfoList infoItems = new InfoList();
             ArrayList<InfoItem> list = bundle.getParcelableArrayList(InfoSubItemActivity.INFO_ITEMS);
             assert list != null;
             infoItems.addAll(list);
-            receiveData(infoItems);
-            this.autoStart = false;
+            recyclerPlugin.receiveData(infoItems);
+            recyclerPlugin.getRequestPlugin().getProgressBarPlugin().hideProgressBar();
+        } else {
+            recyclerPlugin.getRequestPlugin().getLoaderPlugin().startLoader();
         }
-    }
-
-    /**
-     * This must be called when data is received that has no errors.
-     *
-     * @param data The data.
-     */
-    @Override
-    public void receiveData(@NonNull InfoList data) {
-        adapter.setItems(data);
-        hideProgressBar();
-    }
-
-    /**
-     * @return The request that will be executed.
-     */
-    @Override
-    protected InfoRequest getRequest() {
-        return new InfoRequest();
     }
 }

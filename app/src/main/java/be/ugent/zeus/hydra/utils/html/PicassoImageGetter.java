@@ -35,7 +35,6 @@ public class PicassoImageGetter implements Html.ImageGetter {
         final DrawableWrapper result = new DrawableWrapper(new ColorDrawable());
 
         new AsyncTask<Void, Void, Bitmap>() {
-
             @Override
             protected Bitmap doInBackground(final Void... meh) {
                 try {

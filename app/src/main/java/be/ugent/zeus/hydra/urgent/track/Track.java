@@ -16,9 +16,10 @@
  */
 package be.ugent.zeus.hydra.urgent.track;
 
+import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-import java.io.IOException;
+import java8.util.function.Consumer;
 
 /**
  * A track to play.
@@ -36,25 +37,25 @@ public interface Track {
     /**
      * @return The name of the artist.
      */
+    @Nullable
     String getArtist();
 
     /**
      * @return The title of the track.
      */
+    @NonNull
     String getTitle();
 
     /**
-     * @return The URL of the track.
+     * Calling this method will instruct the track to provide an URL that can be played.
+     *
+     * @param consumer The receiver of the url.
      */
-    void getUrl(UrlConsumer consumer);
+    void getUrl(Consumer<String> consumer);
 
     /**
      * @return The URL of the album track. If null, the defaults will be used.
      */
-    String getArtworkUrl();
-
-    //Once Java 8 is usable, replace by StringConsumer
-    interface UrlConsumer {
-        void receive(@Nullable String url) throws IOException;
-    }
+    @Nullable
+    Bitmap getAlbumArtwork();
 }

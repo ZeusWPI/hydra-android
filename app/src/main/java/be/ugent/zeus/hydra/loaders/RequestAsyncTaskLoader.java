@@ -2,9 +2,12 @@ package be.ugent.zeus.hydra.loaders;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-
+import be.ugent.zeus.hydra.caching.CacheableRequest;
 import be.ugent.zeus.hydra.requests.common.Request;
+import be.ugent.zeus.hydra.requests.common.SimpleCacheRequest;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
+
+import java.io.Serializable;
 
 /**
  * Loader to load data from a {@link Request}.
@@ -32,5 +35,9 @@ public class RequestAsyncTaskLoader<D> extends AbstractAsyncLoader<D> {
         } catch (RequestFailureException e) {
             throw new LoaderException(e);
         }
+    }
+
+    public static <T extends Serializable> RequestAsyncTaskLoader<T> getSimpleLoader(Context context, CacheableRequest<T> request, boolean shouldRefresh) {
+        return new RequestAsyncTaskLoader<>(new SimpleCacheRequest<>(context, request, shouldRefresh), context);
     }
 }

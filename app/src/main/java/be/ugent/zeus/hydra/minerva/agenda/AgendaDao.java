@@ -116,34 +116,12 @@ public class AgendaDao extends Dao {
         }
 
         try {
-            AgendaExtractor aExtractor = new AgendaExtractor.Builder(cursor).defaults().build();
-
-            int columnIndex = cursor.getColumnIndex(AgendaTable.COLUMN_ID);
-            int columnTitle = cursor.getColumnIndex(AgendaTable.COLUMN_TITLE);
-            int columnContent = cursor.getColumnIndex(AgendaTable.COLUMN_CONTENT);
-            int columnStartDate = cursor.getColumnIndex(AgendaTable.COLUMN_START_DATE);
-            int columnEndDate = cursor.getColumnIndex(AgendaTable.COLUMN_END_DATE);
-            int columnLocation = cursor.getColumnIndex(AgendaTable.COLUMN_LOCATION);
-            int columnType = cursor.getColumnIndex(AgendaTable.COLUMN_TYPE);
-            int columnLastEditUser = cursor.getColumnIndex(AgendaTable.COLUMN_LAST_EDIT_USER);
-            int columnLastEdit = cursor.getColumnIndex(AgendaTable.COLUMN_LAST_EDIT);
-            int columnLastEditType = cursor.getColumnIndex(AgendaTable.COLUMN_LAST_EDIT_TYPE);
+            AgendaExtractor extractor = new AgendaExtractor.Builder(cursor).defaults().build();
 
             while (cursor.moveToNext()) {
-                AgendaItem a = new AgendaItem();
-                a.setCourse(course);
-                a.setItemId(cursor.getInt(columnIndex));
-                a.setTitle(cursor.getString(columnTitle));
-                a.setContent(cursor.getString(columnContent));
-                a.setStartDate(TtbUtils.unserialize(cursor.getLong(columnStartDate)));
-                a.setEndDate(TtbUtils.unserialize(cursor.getLong(columnEndDate)));
-                a.setLocation(cursor.getString(columnLocation));
-                a.setType(cursor.getString(columnType));
-                a.setLastEditUser(cursor.getString(columnLastEditUser));
-                a.setLastEdited(TtbUtils.unserialize(cursor.getLong(columnLastEdit)));
-                a.setLastEditType(cursor.getString(columnLastEditType));
-                result.add(a);
+                result.add(extractor.getAgendaItem(course));
             }
+
         } finally {
             cursor.close();
         }

@@ -19,7 +19,7 @@ public class CacheManager {
      * @return The default cache.
      */
     public static synchronized Cache defaultCache(Context context) {
-        if(cache == null) {
+        if (cache == null) {
             cache = new GenericCache(context);
         }
 

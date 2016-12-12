@@ -15,16 +15,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.Hydra;
-import be.ugent.zeus.hydra.viewpager.SectionPagerAdapter;
+import be.ugent.zeus.hydra.activities.MainActivity;
 import be.ugent.zeus.hydra.urgent.BoundServiceCallback;
 import be.ugent.zeus.hydra.urgent.MusicBinder;
 import be.ugent.zeus.hydra.urgent.MusicCallback;
 import be.ugent.zeus.hydra.urgent.MusicService;
+import be.ugent.zeus.hydra.viewpager.SectionPagerAdapter;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -40,7 +38,9 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
     private boolean isBound = false;
     private ServiceConnection serviceConnection = new MusicConnection();
     private MusicService musicService;
-    private Button urgentPlay;
+    private View urgentPlayWrapper;
+
+    private boolean freshStart = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,21 +50,19 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        urgentPlay = $(view, R.id.urgent_play);
-        urgentPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //We are already bound.
-                if(isBound) {
-                    beginPlaying();
-                } else {
-                    //The callback will start playing.
-                    bind();
-                }
+        urgentPlayWrapper = $(view, R.id.urgent_play_wrapper);
+        $(view, R.id.urgent_play).setOnClickListener(v -> {
+            //We are already bound.
+            if (isBound) {
+                beginPlaying();
+            } else {
+                //The callback will start playing.
+                freshStart = true;
+                bind();
             }
         });
         //If the service is running, request a bind.
-        if(MusicService.isRunning(getContext())) {
+        if (MusicService.isRunning(getContext())) {
             bind();
         }
     }
@@ -158,14 +156,13 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
             try {
                 musicService.startPlaying();
             } catch (Exception e) {
-                e.printStackTrace();
                 Log.e("UrgentFragment", "Error while playing.", e);
             }
         }
     }
 
     private void hideMediaControls() {
-        urgentPlay.setVisibility(View.VISIBLE);
+        urgentPlayWrapper.setVisibility(View.VISIBLE);
         FragmentManager manager = getChildFragmentManager();
         Fragment fragment = manager.findFragmentByTag(FRAGMENT_TAG);
         if(fragment != null) {
@@ -186,7 +183,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
             t.replace(R.id.urgent_fragment_wrapper, newFragment, FRAGMENT_TAG);
         }
         t.commit();
-        urgentPlay.setVisibility(View.GONE);
+        urgentPlayWrapper.setVisibility(View.GONE);
     }
 
     @Override
@@ -196,12 +193,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage(rationale);
-            builder.setNeutralButton("Got it", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    askForPermission(requestCode, permission);
-                }
-            });
+            builder.setNeutralButton("Got it", (dialog, which) -> askForPermission(requestCode, permission));
             builder.create().show();
         } else {
             // No explanation needed, we can request the permission.
@@ -263,14 +255,17 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
             musicService = binder.getService();
             musicService.setBoundCallback(UrgentFragment.this);
             musicService.setCallback(UrgentFragment.this);
-            Intent startThis = new Intent(getActivity(), Hydra.class);
-            startThis.putExtra(Hydra.ARG_TAB, SectionPagerAdapter.URGENT);
+            Intent startThis = new Intent(getActivity(), MainActivity.class);
+            startThis.putExtra(MainActivity.ARG_TAB, SectionPagerAdapter.URGENT);
             PendingIntent i = PendingIntent.getActivity(getContext(), 0, startThis, PendingIntent.FLAG_UPDATE_CURRENT);
             musicService.getNotificationManager().setContentIntent(i);
             musicService.getNotificationManager().setIcon(R.drawable.ic_notification_urgent);
             initMediaControls();
             isBound = true;
-            beginPlaying();
+            if (freshStart) {
+                freshStart = false;
+                beginPlaying();
+            }
         }
 
         @Override

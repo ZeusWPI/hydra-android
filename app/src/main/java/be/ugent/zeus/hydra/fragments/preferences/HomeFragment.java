@@ -12,6 +12,9 @@ import be.ugent.zeus.hydra.R;
  */
 public class HomeFragment extends PreferenceFragment {
 
+    public static final String PREF_DATA_SAVER = "pref_home_feed_save_data";
+    public static final boolean PREF_DATA_SAVER_DEFAULT = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

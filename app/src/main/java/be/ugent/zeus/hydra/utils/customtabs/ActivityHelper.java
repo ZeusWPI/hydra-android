@@ -54,9 +54,8 @@ public interface ActivityHelper {
     /**
      * Show the default share menu or not. This is disabled by default.
      *
-     * @param showShareMenu Show the menu or not.
      */
-    void setShareMenu(boolean showShareMenu);
+    void setShareMenu();
 
     /**
      * Prime the custom tab with likely urls.

@@ -5,18 +5,21 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.LoaderToolbarActivity;
-import be.ugent.zeus.hydra.caching.CacheableRequest;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
+import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.association.Associations;
+import be.ugent.zeus.hydra.plugins.RequestPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.recyclerview.adapters.MultiSelectListAdapter;
 import be.ugent.zeus.hydra.requests.association.AssociationsRequest;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
@@ -29,11 +32,19 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
-public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associations> {
+public class AssociationSelectPrefActivity extends HydraActivity implements DataCallback<Associations> {
 
     public static final String PREF_ASSOCIATIONS_SHOWING = "pref_associations_showing";
+    private static final String TAG = "AssociationSelectPrefAc";
 
-    private SearchableAdapter adapter;
+    private SearchableAdapter adapter = new SearchableAdapter();
+    private RequestPlugin<Associations> plugin = new RequestPlugin<>(this, RequestPlugin.wrap(new AssociationsRequest()));
+
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugins.add(plugin);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,12 +59,7 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
         recyclerView.requestFocus();
 
         adapter = new SearchableAdapter();
-        adapter.setDisplayNameProvider(new MultiSelectListAdapter.DisplayNameProvider<Association>() {
-            @Override
-            public String getDisplayValue(Association element) {
-                return element.getName();
-            }
-        });
+        adapter.setDisplayNameProvider(Association::getName);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -61,7 +67,7 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
         scroller.setRecyclerView(recyclerView);
 
         searchView.setOnQueryTextListener(adapter);
-        loaderHandler.startLoader();
+        plugin.getLoaderPlugin().startLoader();
     }
 
     @Override
@@ -89,10 +95,10 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
     public void receiveData(@NonNull Associations data) {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> disabled = preferences.getStringSet(PREF_ASSOCIATIONS_SHOWING, Collections.<String>emptySet());
+        Set<String> disabled = preferences.getStringSet(PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
         List<Pair<Association, Boolean>> values = new ArrayList<>();
 
-        for(Association association: data) {
+        for (Association association : data) {
             values.add(new Pair<>(association, !disabled.contains(association.getInternalName())));
         }
 
@@ -100,8 +106,11 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
     }
 
     @Override
-    public CacheableRequest<Associations> getRequest() {
-        return new AssociationsRequest();
+    public void receiveError(@NonNull Throwable e) {
+        Log.e(TAG, "Error while getting data.", e);
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.again), v -> plugin.refresh())
+                .show();
     }
 
     @Override
@@ -110,8 +119,8 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
 
         //Save the values.
         Set<String> disabled = new HashSet<>();
-        for (Map.Entry<Association, Boolean> pair: adapter.allData.entrySet()) {
-            if(!pair.getValue()) {
+        for (Map.Entry<Association, Boolean> pair : adapter.allData.entrySet()) {
+            if (!pair.getValue()) {
                 disabled.add(pair.getKey().getInternalName());
             }
         }
@@ -127,7 +136,7 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
         @Override
         public void setItems(List<Pair<Association, Boolean>> list) {
             super.setItems(list);
-            for(Pair<Association, Boolean> pair: list) {
+            for (Pair<Association, Boolean> pair : list) {
                 allData.put(pair.first, pair.second);
             }
         }
@@ -142,7 +151,7 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
         @Override
         public void setAllChecked(boolean checked) {
             super.setAllChecked(checked);
-            for(Association key: allData.keySet()) {
+            for (Association key : allData.keySet()) {
                 allData.put(key, checked);
             }
         }
@@ -155,13 +164,13 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
         @Override
         public boolean onQueryTextChange(String newText) {
 
-            if(allData == null) {
+            if (allData == null) {
                 return true;
             }
 
-            if(newText.isEmpty()) {
+            if (newText.isEmpty()) {
                 List<Pair<Association, Boolean>> newList = new ArrayList<>();
-                for(Map.Entry<Association, Boolean> pair: allData.entrySet()) {
+                for (Map.Entry<Association, Boolean> pair : allData.entrySet()) {
                     newList.add(new Pair<>(pair.getKey(), pair.getValue()));
                 }
                 this.items = newList;
@@ -170,10 +179,10 @@ public class AssociationSelectPrefActivity extends LoaderToolbarActivity<Associa
 
             List<Pair<Association, Boolean>> newList = new ArrayList<>();
 
-            for(Map.Entry<Association, Boolean> pair: allData.entrySet()) {
+            for (Map.Entry<Association, Boolean> pair : allData.entrySet()) {
                 String text = newText.toLowerCase();
                 Association a = pair.getKey();
-                if(a.getDisplayName().toLowerCase().contains(text) ||
+                if (a.getDisplayName().toLowerCase().contains(text) ||
                         (a.getFullName() != null && a.getFullName().toLowerCase().contains(text)) ||
                         a.getInternalName().toLowerCase().contains(text)) {
                     newList.add(new Pair<>(a, pair.getValue()));

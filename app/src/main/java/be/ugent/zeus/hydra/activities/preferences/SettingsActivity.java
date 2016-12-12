@@ -43,7 +43,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 || RestoPreferenceFragment.class.getName().equals(fragmentName)
                 || HomeFragment.class.getName().equals(fragmentName)
                 || MinervaFragment.class.getName().equals(fragmentName)
-                || UrgentFragment.class.getName().equals(fragmentName)
                 || SkoFragment.class.getName().equals(fragmentName)
                 || AboutFragment.class.getName().equals(fragmentName);
     }

@@ -48,13 +48,10 @@ public class NewsItemViewHolder extends DataViewHolder<NewsItem> {
             title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(itemView.getContext(), NewsArticleActivity.class);
-                intent.putExtra(PARCEL_NAME, (Parcelable) newsItem);
-                itemView.getContext().startActivity(intent);
-            }
+        itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(itemView.getContext(), NewsArticleActivity.class);
+            intent.putExtra(PARCEL_NAME, (Parcelable) newsItem);
+            itemView.getContext().startActivity(intent);
         });
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public abstract class SimpleItemAdapter<E, V extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<V> implements Adapter<E> {
+public abstract class SimpleItemAdapter<E, V extends RecyclerView.ViewHolder> extends Adapter<E, V> {
 
     protected List<E> items = new ArrayList<>();
 

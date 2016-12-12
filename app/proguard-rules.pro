@@ -17,3 +17,11 @@
 #}
 
 -keep class com.kyo.expandablelayout.** {*;}
+-keep class be.ugent.zeus.hydra.** {*;}
+
+-dontwarn java.lang.invoke.*
+-dontwarn java8.**
+-dontwarn org.springframework.**
+-dontwarn com.squareup.okhttp.**
+-dontwarn org.apache.oltu.**
+-dontwarn org.slf4j.**

@@ -12,10 +12,9 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.fragments.preferences.SkoFragment;
 import be.ugent.zeus.hydra.notifications.FirebaseMessageService;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -27,13 +26,11 @@ import com.google.firebase.messaging.FirebaseMessaging;
  *
  * @author Niko Strijbol
  */
-public class OverviewActivity extends ToolbarActivity {
-
-    private static final String TAG = "SkoOverviewActivity";
-
-    private static final String SKO_WEBSITE = "http://www.studentkickoff.be/";
+public class OverviewActivity extends HydraActivity {
 
     public static final String ARG_TAB = "argTab";
+    private static final String TAG = "SkoOverviewActivity";
+    private static final String SKO_WEBSITE = "http://www.studentkickoff.be/";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,18 +40,14 @@ public class OverviewActivity extends ToolbarActivity {
         ViewPager viewpager = $(R.id.pager);
         viewpager.setAdapter(new SkoPagerAdapter(getSupportFragmentManager(), this));
 
-        viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                HydraApplication app = (HydraApplication) OverviewActivity.this.getApplication();
-                app.sendScreenName("SKO tab: " + SkoPagerAdapter.names[position]);
-            }
-        });
-
         final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
         viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+                //Log tabs
+                HydraApplication app = (HydraApplication) OverviewActivity.this.getApplication();
+                app.sendScreenName("SKO tab: " + SkoPagerAdapter.names[position]);
+                //Expand
                 appBarLayout.setExpanded(true);
             }
         });
@@ -68,7 +61,7 @@ public class OverviewActivity extends ToolbarActivity {
 
         //Subscribe to topic if needed
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if(!prefs.contains(SkoFragment.PREF_SKO_NOTIFICATION)) {
+        if (!prefs.contains(SkoFragment.PREF_SKO_NOTIFICATION)) {
             Log.i(TAG, "Subscribing to notifications.");
             FirebaseMessaging.getInstance().subscribeToTopic(FirebaseMessageService.SKO_TOPIC);
             prefs.edit().putBoolean(SkoFragment.PREF_SKO_NOTIFICATION, true).apply();
@@ -99,13 +92,10 @@ public class OverviewActivity extends ToolbarActivity {
 
     private void showNotificationSnackbar() {
         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Meldingen ingeschakeld", Snackbar.LENGTH_LONG);
-        snackbar.setAction("Uitschakelen", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseMessageService.SKO_TOPIC);
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(OverviewActivity.this);
-                prefs.edit().putBoolean(SkoFragment.PREF_SKO_NOTIFICATION, false).apply();
-            }
+        snackbar.setAction("Uitschakelen", v -> {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseMessageService.SKO_TOPIC);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(OverviewActivity.this);
+            prefs.edit().putBoolean(SkoFragment.PREF_SKO_NOTIFICATION, false).apply();
         });
         snackbar.show();
     }

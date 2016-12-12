@@ -30,12 +30,7 @@ public class InfoViewHolder extends DataViewHolder<InfoItem> {
 
         title.setText(infoItem.getTitle());
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                infoItem.getType().doOnClick(v.getContext(), infoItem);
-            }
-        });
+        itemView.setOnClickListener(v -> infoItem.getType().doOnClick(v.getContext(), infoItem));
 
         int color = R.color.ugent_blue_dark;
         Context c = itemView.getContext();

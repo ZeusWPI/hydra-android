@@ -76,6 +76,7 @@ public abstract class ProcessableCacheRequest<D extends Serializable, R> impleme
             }
         } catch (IOFailureException e) {
             Log.i(TAG, "Network error, trying again...", e);
+            OfflineBroadcaster.broadcastNetworkError(context);
             data = cache.get(cacheableRequest, Cache.ALWAYS);
         }
 

@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.minerva.agenda;
 import android.provider.BaseColumns;
 
 import be.ugent.zeus.hydra.minerva.course.CourseTable;
-import be.ugent.zeus.hydra.minerva.database.query.ForeignKeyColumn;
+import be.ugent.zeus.hydra.minerva.database.ForeignKeyColumn;
 import com.alexfu.sqlitequerybuilder.api.Column;
 import com.alexfu.sqlitequerybuilder.api.ColumnConstraint;
 import com.alexfu.sqlitequerybuilder.api.ColumnType;

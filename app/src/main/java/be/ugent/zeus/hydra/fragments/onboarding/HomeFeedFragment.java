@@ -49,7 +49,6 @@ public class HomeFeedFragment extends SlideFragment {
         String[] ints = getResources().getStringArray(R.array.card_types_nr);
 
         valueMapper.clear();
-        assert ints.length == values.length;
         for(int i = 0; i < values.length; i++) {
             valueMapper.put(values[i], ints[i]);
         }
@@ -73,6 +72,6 @@ public class HomeFeedFragment extends SlideFragment {
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        preferences.edit().putStringSet(be.ugent.zeus.hydra.fragments.home.HomeFeedFragment.PREF_DISABLED_CARDS, disabled).apply();
+        preferences.edit().putStringSet(be.ugent.zeus.hydra.homefeed.HomeFeedFragment.PREF_DISABLED_CARDS, disabled).apply();
     }
 }

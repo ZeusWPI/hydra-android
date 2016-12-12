@@ -43,12 +43,9 @@ public class MinervaFragment extends PreferenceFragment {
         newSync = oldSync;
 
         Preference preference = findPreference(PREF_SYNC_FREQUENCY);
-        preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                newSync = Integer.parseInt((String) o);
-                return true;
-            }
+        preference.setOnPreferenceChangeListener((preference1, o) -> {
+            newSync = Integer.parseInt((String) o);
+            return true;
         });
 
         if(!AccountUtils.hasAccount(getAppContext())) {

@@ -6,15 +6,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.models.sko.Artist;
 import be.ugent.zeus.hydra.recyclerview.viewholder.sko.LineupViewHolder;
 import com.squareup.picasso.Picasso;
 
-public class ArtistActivity extends ToolbarActivity {
+public class ArtistActivity extends HydraActivity {
 
     public static final String PARCEL_ARTIST = "artist";
 
@@ -35,20 +33,20 @@ public class ArtistActivity extends ToolbarActivity {
 
         title.setText(artist.getName());
 
-        if(artist.getImage() != null) {
+        if (artist.getImage() != null) {
             Picasso.with(this).load(artist.getImage()).fit().centerInside().into(headerImage);
         }
 
         date.setText(LineupViewHolder.getDisplayDate(artist));
 
-        if(artist.getContent() != null) {
+        if (artist.getContent() != null) {
             content.setText(artist.getContent());
         }
     }
 
     @Override
-    protected void sendScreen(HydraApplication application) {
-        application.sendScreenName("SKO artist > " + artist.getName());
+    protected String getScreenName() {
+        return "SKO artist > " + artist.getName();
     }
 
     @Override

@@ -105,7 +105,7 @@ public class Article implements Serializable, Parcelable {
     public Article() {
     }
 
-    protected Article(Parcel in) {
+    private Article(Parcel in) {
         this.title = in.readString();
         this.link = in.readString();
         this.pubDate = TtbUtils.unserialize(in.readLong());
@@ -128,4 +128,18 @@ public class Article implements Serializable, Parcelable {
             return new Article[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Article article = (Article) o;
+        return java8.util.Objects.equals(link, article.link) &&
+                java8.util.Objects.equals(pubDate, article.pubDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return java8.util.Objects.hash(link, pubDate);
+    }
 }

@@ -6,7 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.Loader;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +17,18 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.MenuActivity;
 import be.ugent.zeus.hydra.activities.resto.RestoLocationActivity;
 import be.ugent.zeus.hydra.activities.resto.SandwichActivity;
-import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
-import be.ugent.zeus.hydra.loaders.ThrowableEither;
+import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
-import be.ugent.zeus.hydra.requests.common.ProcessableCacheRequest;
-import be.ugent.zeus.hydra.requests.resto.RestoMenuRequest;
+import be.ugent.zeus.hydra.plugins.RequestPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.requests.resto.FilteredMenuRequest;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.views.MenuTable;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -35,13 +36,23 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author Niko Strijbol
  * @author mivdnber
  */
-public class RestoFragment extends LoaderFragment<ArrayList<RestoMenu>> {
+public class RestoFragment extends PluginFragment implements DataCallback<RestoOverview> {
+
+    private static final String TAG = "RestoFragment";
 
     private TextView title;
     private MenuTable table;
     private Button viewMenu;
     private Button viewSandwich;
     private Button viewResto;
+
+    private RequestPlugin<RestoOverview> plugin = new RequestPlugin<>(this, FilteredMenuRequest::new);
+
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugins.add(plugin);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,28 +70,13 @@ public class RestoFragment extends LoaderFragment<ArrayList<RestoMenu>> {
 
         setIcons();
 
-        viewSandwich.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), SandwichActivity.class));
-            }
-        });
+        viewSandwich.setOnClickListener(v -> startActivity(new Intent(getContext(), SandwichActivity.class)));
 
-        viewResto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), RestoLocationActivity.class));
-            }
-        });
+        viewResto.setOnClickListener(v -> startActivity(new Intent(getContext(), RestoLocationActivity.class)));
 
         title = $(view, R.id.menu_today_card_title);
 
-        view.findViewById(R.id.menu_today_card).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), MenuActivity.class));
-            }
-        });
+        view.findViewById(R.id.menu_today_card).setOnClickListener(v -> startActivity(new Intent(getContext(), MenuActivity.class)));
     }
 
     /**
@@ -104,11 +100,10 @@ public class RestoFragment extends LoaderFragment<ArrayList<RestoMenu>> {
     }
 
     @Override
-    public void receiveData(@NonNull ArrayList<RestoMenu> data) {
-
+    public void receiveData(@NonNull RestoOverview data) {
         //Check that we have at least one menu
         //TODO: show error
-        if(data.size() < 1) {
+        if (data.size() < 1) {
             return;
         }
 
@@ -117,29 +112,19 @@ public class RestoFragment extends LoaderFragment<ArrayList<RestoMenu>> {
         table.setMenu(menu);
         title.setText(String.format(getString(R.string.resto_menu_title), DateUtils.getFriendlyDate(menu.getDate())));
 
-        viewMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MenuActivity.class);
-                intent.putExtra(MenuActivity.ARG_DATE, menu.getDate());
-                startActivity(intent);
-            }
+        viewMenu.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), MenuActivity.class);
+            intent.putExtra(MenuActivity.ARG_DATE, menu.getDate());
+            startActivity(intent);
         });
     }
 
-    /**
-     * Do the filtering of the menu's in the background as well.
-     */
     @Override
-    public Loader<ThrowableEither<ArrayList<RestoMenu>>> getLoader() {
-        return new RequestAsyncTaskLoader<>(
-                new ProcessableCacheRequest<RestoOverview, ArrayList<RestoMenu>>(getContext(), new RestoMenuRequest(), shouldRenew) {
-                    @NonNull
-                    @Override
-                    protected ArrayList<RestoMenu> transform(@NonNull RestoOverview data) {
-                        return RestoOverview.filter(data, getContext());
-                    }
-                }, getContext()
-        );
+    public void receiveError(@NonNull Throwable e) {
+        assert getView() != null;
+        Log.e(TAG, "Error while getting data.", e);
+        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.again), v -> plugin.refresh())
+                .show();
     }
 }

@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity;
 import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
@@ -16,9 +15,9 @@ import be.ugent.zeus.hydra.minerva.auth.MinervaAuthenticator;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.auth.models.BearerToken;
 import be.ugent.zeus.hydra.minerva.auth.models.GrantInformation;
+import be.ugent.zeus.hydra.minerva.requests.UserInfoRequest;
 import be.ugent.zeus.hydra.requests.common.Request;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.minerva.auth.requests.data.UserInfoRequest;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.utils.customtabs.CustomTabsHelper;
 import org.threeten.bp.LocalDateTime;
@@ -30,15 +29,13 @@ import org.threeten.bp.LocalDateTime;
  */
 public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements ActivityHelper.ConnectionCallback {
 
-    private static final String TAG = "AuthActivity";
-
     //The account type we want.
     public static final String ARG_ACCOUNT_TYPE = "accountType";
     //The auth type or scope.
     public static final String ARG_AUTH_TYPE = "authType";
     //Adding a new account or not?
     public static final String ARG_ADDING_NEW_ACCOUNT = "addingNewAccount";
-
+    private static final String TAG = "AuthActivity";
     private String accountType;
     private String authType;
 
@@ -95,7 +92,7 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
         Log.d(TAG, "Uri is: " + uri);
 
         // Handle the callback URI.
-        if(uri.getScheme().equals(MinervaConfig.CALLBACK_SCHEME)) {
+        if (uri.getScheme().equals(MinervaConfig.CALLBACK_SCHEME)) {
 
             String errorParameter = uri.getQueryParameter("error");
 
@@ -132,7 +129,7 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
     @Override
     public void onCustomTabsConnected(ActivityHelper activityHelper) {
         progressMessage.setText(getString(R.string.auth_progress_permission));
-        if(!launched) {
+        if (!launched) {
             activityHelper.openCustomTab(Uri.parse(AccountUtils.getRequestUri()));
             launched = true;
         }
@@ -161,7 +158,7 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
 
                 //Account name
                 String name;
-                if(information.getUserAttributes().getEmail().size() == 0) {
+                if (information.getUserAttributes().getEmail().size() == 0) {
                     name = "Minerva-account";
                 } else {
                     name = information.getUserAttributes().getEmail().get(0).toLowerCase();
@@ -169,7 +166,7 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
 
                 //Save the account.
                 Account account = new Account(name, accountType);
-                if(getIntent().getBooleanExtra(ARG_ADDING_NEW_ACCOUNT, false)) {
+                if (getIntent().getBooleanExtra(ARG_ADDING_NEW_ACCOUNT, false)) {
                     manager.addAccountExplicitly(account, result.getRefreshToken(), null);
                 } else {
                     manager.setPassword(account, result.getRefreshToken());
@@ -194,7 +191,7 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
 
         @Override
         protected void onPostExecute(Intent intent) {
-            if(intent == null) {
+            if (intent == null) {
                 finishWithError();
             } else {
                 finishOK(intent);

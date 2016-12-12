@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.utils.customtabs;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,17 +18,16 @@ import java.util.List;
  */
 class NoTabActivityHelper implements ActivityHelper {
 
-    private final Activity activity;
+    private final Context context;
     private int intentFlags;
+    private final ConnectionCallback connectionCallback;
 
     /**
      * Package local constructor.
      */
-    NoTabActivityHelper(Activity activity, @Nullable ConnectionCallback connectionCallback) {
-        this.activity = activity;
-        if(connectionCallback != null) {
-            connectionCallback.onCustomTabsConnected(this);
-        }
+    NoTabActivityHelper(Context context, @Nullable ConnectionCallback connectionCallback) {
+        this.context = context.getApplicationContext();
+        this.connectionCallback = connectionCallback;
     }
 
     @Override
@@ -47,17 +47,25 @@ class NoTabActivityHelper implements ActivityHelper {
     public void openCustomTab(Uri uri) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
         browserIntent.setFlags(this.intentFlags);
-        NetworkUtils.maybeLaunchIntent(activity, browserIntent);
+        NetworkUtils.maybeLaunchIntent(context, browserIntent);
     }
 
     @Override
-    public void unbindCustomTabsService(Activity activity) {}
+    public void unbindCustomTabsService(Activity activity) {
+        if (connectionCallback != null) {
+            connectionCallback.onCustomTabsDisconnected(this);
+        }
+    }
 
     @Override
-    public void bindCustomTabsService(Activity activity) {}
+    public void bindCustomTabsService(Activity activity) {
+        if (connectionCallback != null) {
+            connectionCallback.onCustomTabsConnected(this);
+        }
+    }
 
     @Override
-    public void setShareMenu(boolean showShareMenu) {}
+    public void setShareMenu() {}
 
     @Override
     public boolean mayLaunchUrl(Uri uri, Bundle extras, List<Bundle> otherLikelyBundles) {

@@ -21,7 +21,7 @@ public class DailyNotificationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         Set<String> weekdays =
-                prefs.getStringSet("pref_daily_notifications_days_of_week", new HashSet<String>());
+                prefs.getStringSet("pref_daily_notifications_days_of_week", new HashSet<>());
 
 
         int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);

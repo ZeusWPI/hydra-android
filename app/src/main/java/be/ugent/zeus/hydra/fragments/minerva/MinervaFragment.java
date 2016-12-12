@@ -1,6 +1,9 @@
 package be.ugent.zeus.hydra.fragments.minerva;
 
-import android.accounts.*;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -9,18 +12,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.loaders.ThrowableEither;
+import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
@@ -30,6 +30,9 @@ import be.ugent.zeus.hydra.minerva.sync.SyncAdapter;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
 import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.CourseAdapter;
 
 import java.io.IOException;
@@ -43,23 +46,25 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author silox
  * @author Niko Strijbol
  */
-public class MinervaFragment extends LoaderFragment<List<Course>> {
+public class MinervaFragment extends PluginFragment implements DataCallback<List<Course>> {
 
     private static final String TAG = "MinervaFragment";
 
-    private RecyclerView recyclerView;
     private View authWrapper;
     private Snackbar syncBar;
 
-    private CourseAdapter adapter;
+    private CourseAdapter adapter = new CourseAdapter();
     private AccountManager manager;
     private CourseDao courseDao;
 
-    /**
-     * Do not automatically start the loaders, we do it by hand.
-     */
-    public MinervaFragment() {
-        autoStart = false;
+    private RecyclerViewPlugin<Course, List<Course>> plugin = new RecyclerViewPlugin<>(c -> new CourseDaoLoader(c, courseDao), adapter);
+
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugin.getRequestPlugin().getLoaderPlugin().setAutoStart(false);
+        plugin.setCallback(this);
+        plugins.add(plugin);
     }
 
     @Override
@@ -76,26 +81,17 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        hideProgressBar();
+        plugin.getRequestPlugin().getProgressBarPlugin().hideProgressBar();
 
         this.manager = AccountManager.get(getContext());
         this.courseDao = new CourseDao(getContext());
 
         Button authorize = $(view, R.id.authorize);
-        authorize.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                maybeLaunchAuthorization();
-            }
-        });
+        authorize.setOnClickListener(view1 -> maybeLaunchAuthorization());
 
         authWrapper = $(view, R.id.auth_wrapper);
 
-        recyclerView = $(view, R.id.recycler_view);
-        adapter = new CourseAdapter();
-
-        recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        plugin.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
 
     private boolean isLoggedIn() {
@@ -104,18 +100,15 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
 
     private void maybeLaunchAuthorization() {
         if (!isLoggedIn()) {
-            manager.addAccount(MinervaConfig.ACCOUNT_TYPE, MinervaConfig.DEFAULT_SCOPE, null, null, getActivity(), new AccountManagerCallback<Bundle>() {
-                @Override
-                public void run(AccountManagerFuture<Bundle> accountManagerFuture) {
-                    try {
-                        Bundle result = accountManagerFuture.getResult();
-                        Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
-                        onAccountAdded();
-                    } catch (OperationCanceledException e) {
-                        Toast.makeText(getContext().getApplicationContext(), "Je gaf geen toestemming om je account te gebruiken.", Toast.LENGTH_LONG).show();
-                    } catch (IOException | AuthenticatorException e) {
-                        Log.w(TAG, "Account not added.", e);
-                    }
+            manager.addAccount(MinervaConfig.ACCOUNT_TYPE, MinervaConfig.DEFAULT_SCOPE, null, null, getActivity(), accountManagerFuture -> {
+                try {
+                    Bundle result = accountManagerFuture.getResult();
+                    Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
+                    onAccountAdded();
+                } catch (OperationCanceledException e) {
+                    Toast.makeText(getContext().getApplicationContext(), "Je gaf geen toestemming om je account te gebruiken.", Toast.LENGTH_LONG).show();
+                } catch (IOException | AuthenticatorException e) {
+                    Log.w(TAG, "Account not added.", e);
                 }
             }, null);
         }
@@ -168,21 +161,20 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         //If we are logged in, we can start loading the data.
         if(isLoggedIn()) {
             authWrapper.setVisibility(View.GONE);
-            showProgressBar();
-            loaderHandler.startLoader();
+            plugin.getRequestPlugin().getProgressBarPlugin().showProgressBar();
+            plugin.getRequestPlugin().getLoaderPlugin().startLoader();
         }
     }
 
-    /**
-     * This must be called when data is received that has no errors.
-     *
-     * @param data The data.
-     */
     @Override
     public void receiveData(@NonNull List<Course> data) {
-        adapter.setItems(data);
-        recyclerView.setVisibility(View.VISIBLE);
+        plugin.showRecyclerView();
         getActivity().invalidateOptionsMenu();
+    }
+
+    @Override
+    public void receiveError(@NonNull Throwable e) {
+        //Do nothing, as this should not happen.
     }
 
     @Override
@@ -213,24 +205,21 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         Account a = AccountUtils.getAccount(getContext());
         ContentResolver.cancelSync(a, MinervaConfig.ACCOUNT_AUTHORITY);
         Toast.makeText(getContext(), "Logging out...", Toast.LENGTH_SHORT).show();
-        manager.removeAccount(a, new AccountManagerCallback<Boolean>() {
-            @Override
-            public void run(AccountManagerFuture<Boolean> accountManagerFuture) {
-                //Delete items
-                adapter.clear();
-                //Hide list
-                recyclerView.setVisibility(View.GONE);
-                //Hide progress
-                hideProgressBar();
-                //Show login prompt
-                authWrapper.setVisibility(View.VISIBLE);
-                //Destroy loaders
-                loaderHandler.destroyLoader();
-                //Delete database
-                clearDatabase();
-                //Reload options
-                getActivity().invalidateOptionsMenu();
-            }
+        manager.removeAccount(a, accountManagerFuture -> {
+            //Delete items
+            adapter.clear();
+            //Hide list
+            plugin.hideRecyclerView();
+            //Hide progress
+            plugin.getRequestPlugin().getProgressBarPlugin().hideProgressBar();
+            //Show login prompt
+            authWrapper.setVisibility(View.VISIBLE);
+            //Destroy loaders
+            plugin.getRequestPlugin().getLoaderPlugin().destroyLoader();
+            //Delete database
+            clearDatabase();
+            //Reload options
+            getActivity().invalidateOptionsMenu();
         }, null);
     }
 
@@ -269,8 +258,8 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
                     ensureSyncStatus("Klaar");
                     syncBar.dismiss();
                     syncBar = null;
-                    recyclerView.setVisibility(View.VISIBLE);
-                    loaderHandler.restartLoader();
+                    plugin.showRecyclerView();
+                    plugin.getRequestPlugin().getLoaderPlugin().restartLoader();
                     return;
                 case SyncBroadcast.SYNC_ERROR:
                     Log.d(TAG, "Error");
@@ -279,6 +268,7 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
                     return;
                 case SyncBroadcast.SYNC_PROGRESS_WHATS_NEW:
                     Log.d(TAG, "Progress");
+                    ProgressBar progressBar = plugin.getRequestPlugin().getProgressBarPlugin().getProgressBar();
                     if(progressBar.isIndeterminate()) {
                         progressBar.setIndeterminate(false);
 
@@ -301,17 +291,12 @@ public class MinervaFragment extends LoaderFragment<List<Course>> {
         assert getView() != null;
         if(syncBar == null) {
             authWrapper.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.GONE);
-            showProgressBar();
+            plugin.getRecyclerView().setVisibility(View.GONE);
+            plugin.getRequestPlugin().getProgressBarPlugin().showProgressBar();
             syncBar = Snackbar.make(getView(), text, Snackbar.LENGTH_INDEFINITE);
             syncBar.show();
         } else {
             syncBar.setText(text);
         }
-    }
-
-    @Override
-    public Loader<ThrowableEither<List<Course>>> getLoader() {
-        return new CourseDaoLoader(getContext(), courseDao);
     }
 }

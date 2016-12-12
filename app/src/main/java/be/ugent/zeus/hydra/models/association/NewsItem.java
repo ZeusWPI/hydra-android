@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import java8.util.Objects;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import org.threeten.bp.LocalDateTime;
@@ -87,10 +88,10 @@ public class NewsItem implements Serializable, Parcelable {
         dest.writeString(this.content);
         dest.writeParcelable(this.association, flags);
         dest.writeLong(TtbUtils.serialize(this.date));
-        dest.writeByte(this.highlighted ? (byte) 1 : (byte) 0);
+        dest.writeByte((byte) (this.highlighted ? 1 : 0));
     }
 
-    protected NewsItem(Parcel in) {
+    private NewsItem(Parcel in) {
         this.id = in.readInt();
         this.title = in.readString();
         this.content = in.readString();
@@ -110,4 +111,17 @@ public class NewsItem implements Serializable, Parcelable {
             return new NewsItem[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NewsItem newsItem = (NewsItem) o;
+        return id == newsItem.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

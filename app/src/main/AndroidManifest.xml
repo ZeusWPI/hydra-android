@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="be.ugent.zeus.hydra"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Network permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -37,7 +36,7 @@
 
         <!-- Main activity -->
         <activity
-            android:name=".activities.Hydra"
+            android:name=".activities.MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,7 +53,7 @@
         <activity
             android:name=".activities.preferences.SettingsActivity"
             android:label="@string/action_settings"
-            android:parentActivityName=".activities.Hydra"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/Hydra.Main" />
 
         <!-- Association select preference activity -->
@@ -67,13 +66,13 @@
         <activity
             android:name=".activities.resto.MenuActivity"
             android:label="@string/resto_menu"
-            android:parentActivityName=".activities.Hydra" />
+            android:parentActivityName=".activities.MainActivity" />
 
         <!-- Sandwich overview -->
         <activity
             android:name=".activities.resto.SandwichActivity"
             android:label="@string/resto_sandwich"
-            android:parentActivityName=".activities.Hydra" />
+            android:parentActivityName=".activities.MainActivity" />
 
         <!-- The Maps API key -->
         <meta-data
@@ -84,53 +83,39 @@
         <activity
             android:name=".activities.resto.RestoLocationActivity"
             android:label="@string/title_activity_resto_location"
-            android:parentActivityName=".activities.Hydra" />
+            android:parentActivityName=".activities.MainActivity" />
 
         <!-- Details about association events. -->
         <activity
             android:name=".activities.EventDetailActivity"
             android:label="@string/title_activity_association_activity_detail"
             android:launchMode="singleTop"
-            android:parentActivityName=".activities.Hydra" />
+            android:parentActivityName=".activities.MainActivity" />
 
         <!-- Show info items -->
         <activity
             android:name=".activities.InfoSubItemActivity"
             android:label="@string/title_activity_info_sub_item"
-            android:parentActivityName=".activities.Hydra" />
-
-        <!-- Display a Schamper article -->
-        <activity
-            android:name=".activities.SchamperArticleActivity"
-            android:label="@string/title_activity_schamper"
-            android:launchMode="singleTop"
-            android:parentActivityName=".activities.Hydra"
-            android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
-
-        <!-- Display Schamper images -->
-        <activity
-            android:name=".activities.ImageGalleryActivity"
-            android:label="Afbeelding"
-            android:parentActivityName=".activities.SchamperArticleActivity" />
+            android:parentActivityName=".activities.MainActivity" />
 
         <!-- Show news article -->
         <activity
             android:name=".activities.NewsArticleActivity"
             android:label="@string/title_activity_news"
-            android:parentActivityName=".activities.Hydra" />
+            android:parentActivityName=".activities.MainActivity" />
 
         <!-- Show a web view -->
         <activity
             android:name=".activities.WebViewActivity"
             android:label="@string/title_activity_hydra_web_view"
-            android:parentActivityName=".activities.Hydra" />
+            android:parentActivityName=".activities.MainActivity" />
 
         <!-- Show a Minerva course -->
         <activity
             android:name=".activities.minerva.CourseActivity"
             android:label="@string/activity_title_minerva_course"
             android:launchMode="singleTop"
-            android:parentActivityName=".activities.Hydra" />
+            android:parentActivityName=".activities.MainActivity" />
 
         <!-- Show a Minerva announcement -->
         <activity
@@ -149,7 +134,7 @@
             android:name=".activities.minerva.AuthActivity"
             android:label="@string/title_activity_authentication"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.Hydra">
+            android:parentActivityName=".activities.MainActivity">
 
             <!-- Intent filters: handle the custom URL scheme -->
             <intent-filter>
@@ -167,7 +152,7 @@
             android:name=".activities.sko.OverviewActivity"
             android:label="@string/activity_title_sko_overview"
             android:launchMode="singleTop"
-            android:parentActivityName=".activities.Hydra"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.Sko" />
 
         <!-- SKO preference activity -->

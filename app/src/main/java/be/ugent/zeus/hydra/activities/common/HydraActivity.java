@@ -1,21 +1,28 @@
 package be.ugent.zeus.hydra.activities.common;
 
-import android.os.Build;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.transition.Fade;
-import android.transition.Transition;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
-
 import be.ugent.zeus.hydra.HydraApplication;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.plugins.common.PluginActivity;
+import be.ugent.zeus.hydra.utils.ViewUtils;
 
 /**
- * Abstract class with common methods.
+ * Common activity. This activity supports:
+ * - a toolbar
+ * - analytics
+ * - plugins
  *
  * @author Niko Strijbol
  */
-public abstract class HydraActivity extends AppCompatActivity {
+public abstract class HydraActivity extends PluginActivity {
 
     /**
      * Finds a view that was identified by the id attribute from the XML that was processed in {@link #onCreate}. This
@@ -31,28 +38,61 @@ public abstract class HydraActivity extends AppCompatActivity {
         return v;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        sendScreen((HydraApplication) getApplication());
-    }
-
-    protected void sendScreen(HydraApplication application) {
-        application.sendScreenName(this.getClass().getSimpleName());
+    protected ActionBar getToolbar() {
+        assert getSupportActionBar() != null;
+        return getSupportActionBar();
     }
 
     /**
-     * Set a custom fade when using transition to prevent white flashing/blinking. This excludes the status bar and
-     * navigation bar background from the animation.
+     * Set the toolbar as action bar, and set it up to have an up button, if
      */
-    protected void customFade() {
-        //Only do it on a version that is high enough.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Transition fade = new Fade();
-            fade.excludeTarget(android.R.id.statusBarBackground, true);
-            fade.excludeTarget(android.R.id.navigationBarBackground, true);
-            getWindow().setExitTransition(fade);
-            getWindow().setEnterTransition(fade);
+    private void setUpActionBar() {
+        Toolbar toolbar = $(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+
+        //Set the up button.
+        if (hasParent()) {
+            getToolbar().setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
+        setUpActionBar();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        HydraApplication application = (HydraApplication) getApplicationContext();
+        application.sendScreenName(getScreenName());
+    }
+
+    /**
+     * Replace an icon with given ID by the same icon but in the correct colour.
+     *
+     * @param menu The menu.
+     * @param ids  The ids of the icon.
+     */
+    public void tintToolbarIcons(Menu menu, int... ids) {
+        int color = ViewUtils.getColor(getToolbar().getThemedContext(), android.R.attr.textColorPrimary);
+        for (int id : ids) {
+            Drawable drawable = DrawableCompat.wrap(menu.findItem(id).getIcon());
+            DrawableCompat.setTint(drawable, color);
+            menu.findItem(id).setIcon(drawable);
+        }
+    }
+
+    protected String getScreenName() {
+        return getClass().getSimpleName();
+    }
+
+    /**
+     * Set if the activity has a parent or not.
+     */
+    protected boolean hasParent() {
+        return true;
     }
 }

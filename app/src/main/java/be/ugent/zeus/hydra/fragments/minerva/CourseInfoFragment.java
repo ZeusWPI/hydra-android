@@ -71,12 +71,7 @@ public class CourseInfoFragment extends Fragment {
             $(v, R.id.course_fiche_header).setVisibility(View.GONE);
             courseFiche.setVisibility(View.GONE);
         } else {
-            courseFiche.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    NetworkUtils.maybeLaunchBrowser(view.getContext(), url);
-                }
-            });
+            courseFiche.setOnClickListener(view -> NetworkUtils.maybeLaunchBrowser(view.getContext(), url));
         }
     }
 

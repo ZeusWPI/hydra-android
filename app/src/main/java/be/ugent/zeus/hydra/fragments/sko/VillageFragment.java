@@ -6,23 +6,42 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
 import android.view.*;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.fragments.common.RecyclerLoaderFragment;
+import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.models.sko.Exhibitor;
 import be.ugent.zeus.hydra.models.sko.Exhibitors;
+import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
+import be.ugent.zeus.hydra.plugins.RequestPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.sko.ExhibitorAdapter;
 import be.ugent.zeus.hydra.requests.sko.StuVilExhibitorRequest;
+
+import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
  * @author Niko Strijbol
  */
-public class VillageFragment extends RecyclerLoaderFragment<Exhibitor, Exhibitors, ExhibitorAdapter> implements SwipeRefreshLayout.OnRefreshListener {
+public class VillageFragment extends PluginFragment implements DataCallback<Exhibitors>, SwipeRefreshLayout.OnRefreshListener {
+
+    private static final String TAG = "VillageFragment";
 
     private SwipeRefreshLayout refreshLayout;
     private SearchView searchView;
+    private ExhibitorAdapter adapter = new ExhibitorAdapter();
+    private RecyclerViewPlugin<Exhibitor, Exhibitors> plugin = new RecyclerViewPlugin<>(
+            RequestPlugin.wrap(new StuVilExhibitorRequest()),
+            adapter
+    );
+
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugin.setCallback(this);
+        plugins.add(plugin);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,26 +62,20 @@ public class VillageFragment extends RecyclerLoaderFragment<Exhibitor, Exhibitor
         searchView = $(view, R.id.search_view);
         searchView.setSuggestionsAdapter(null);
         searchView.setOnQueryTextListener(adapter);
-        recyclerView.requestFocus();
+        plugin.getRecyclerView().requestFocus();
 
         refreshLayout = $(view, R.id.refresh_layout);
         refreshLayout.setOnRefreshListener(this);
     }
 
     @Override
-    protected ExhibitorAdapter getAdapter() {
-        return new ExhibitorAdapter();
-    }
-
-    @Override
     public void receiveData(@NonNull Exhibitors data) {
-        super.receiveData(data);
         refreshLayout.setRefreshing(false);
     }
 
     @Override
-    protected StuVilExhibitorRequest getRequest() {
-        return new StuVilExhibitorRequest();
+    public void receiveError(@NonNull Throwable e) {
+        //
     }
 
     @Override
@@ -83,9 +96,7 @@ public class VillageFragment extends RecyclerLoaderFragment<Exhibitor, Exhibitor
 
     @Override
     public void onRefresh() {
-        shouldRenew = true;
         searchView.setQuery("", false);
-        loaderHandler.restartLoader();
-        shouldRenew = false;
+        plugin.getRequestPlugin().refresh();
     }
 }

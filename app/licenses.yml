@@ -16,12 +16,6 @@
   license: The Apache Software License, Version 2.0
   url: https://oltu.apache.org/
 
-- artifact: com.github.chrisbanes:PhotoView:+
-  name: PhotoView
-  copyrightHolder: Chris Banes
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/chrisbanes/PhotoView
-
 - artifact: com.google.code.gson:gson:+
   name: Gson
   copyrightHolder: Google Inc.
@@ -81,6 +75,15 @@
   copyrightHolder: KyoSherlock
   license: The Apache Software License, Version 2.0
   url: https://github.com/KyoSherlock/ExpandableLayout
+
+- artifact: com.squareup.leakcanary:leakcanary-android-no-op:+
+  name: No op LeakCanary for Android
+  copyrightHolder: Square, Inc.
+  license: The Apache Software License, Version 2.0
+  url: http://github.com/square/leakcanary/
+
+- artifact: net.sourceforge.streamsupport:streamsupport:+
+  skip: true
 
 - artifact: com.google.android.gms:+:+
   skip: true

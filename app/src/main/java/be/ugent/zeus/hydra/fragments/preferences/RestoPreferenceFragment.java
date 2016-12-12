@@ -2,9 +2,7 @@ package be.ugent.zeus.hydra.fragments.preferences;
 
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
-import android.preference.Preference;
 import android.preference.PreferenceFragment;
-
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.notifications.NotificationScheduler;
@@ -29,25 +27,19 @@ public class RestoPreferenceFragment extends PreferenceFragment {
         final CheckBoxPreference notificationCheckbox = (CheckBoxPreference) findPreference("pref_key_daily_notifications_checkbox");
         TimePreference notificationTime = (TimePreference) findPreference("pref_resto_notifications_time");
 
-        notificationCheckbox.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if((boolean)newValue){
-                    scheduler.scheduleNotification();
-                } else {
-                    scheduler.cancelNotifications();
-                }
-                return true;
+        notificationCheckbox.setOnPreferenceChangeListener((preference, newValue) -> {
+            if((boolean)newValue){
+                scheduler.scheduleNotification();
+            } else {
+                scheduler.cancelNotifications();
             }
+            return true;
         });
-        notificationTime.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if(notificationCheckbox.isChecked()){
-                    scheduler.scheduleNotification((String) newValue);
-                }
-                return true;
+        notificationTime.setOnPreferenceChangeListener((preference, newValue) -> {
+            if(notificationCheckbox.isChecked()){
+                scheduler.scheduleNotification((String) newValue);
             }
+            return true;
         });
     }
 

@@ -3,11 +3,11 @@ package be.ugent.zeus.hydra;
 import android.app.Activity;
 import android.app.Application;
 import android.support.annotation.NonNull;
-
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.jakewharton.threetenabp.AndroidThreeTen;
+import com.squareup.leakcanary.LeakCanary;
 
 /**
  * The Hydra application.
@@ -15,6 +15,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
  * @author Niko Strijbol
  * @author feliciaan
  */
+@SuppressWarnings("WeakerAccess")
 public class HydraApplication extends Application {
 
     private Tracker tracker;
@@ -22,7 +23,13 @@ public class HydraApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
         AndroidThreeTen.init(this);
+        LeakCanary.install(this);
     }
 
     /**

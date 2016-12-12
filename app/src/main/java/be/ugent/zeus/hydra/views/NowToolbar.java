@@ -83,14 +83,11 @@ public class NowToolbar extends LinearLayout {
      * @param listener The listener.
      */
     public void setOnClickListener(final PopupMenu.OnMenuItemClickListener listener) {
-        menuButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(v.getContext(), v);
-                popup.inflate(menu);
-                popup.setOnMenuItemClickListener(listener);
-                popup.show();
-            }
+        menuButton.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(v.getContext(), v);
+            popup.inflate(menu);
+            popup.setOnMenuItemClickListener(listener);
+            popup.show();
         });
     }
 

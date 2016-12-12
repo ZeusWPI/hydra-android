@@ -1,11 +1,13 @@
 package be.ugent.zeus.hydra.activities;
 
-import android.accounts.*;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity;
 import be.ugent.zeus.hydra.fragments.onboarding.HomeFeedFragment;
@@ -20,6 +22,8 @@ import java.io.IOException;
 
 /**
  * Show onboarding for new users.
+ *
+ * @author Niko Strijbol
  */
 public class OnboardingActivity extends IntroActivity implements View.OnClickListener {
 
@@ -47,7 +51,7 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
 
         //Check if the user already has an account. This is possible, because clearing the application data does not
         //remove the account.
-        if(!AccountUtils.hasAccount(this)) {
+        if (!AccountUtils.hasAccount(this)) {
             addSlide(new SimpleSlide.Builder()
                     .title("Minerva")
                     .description("Meld je aan bij Minerva om je vakken te kunnen bekijken")
@@ -67,19 +71,16 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
         Bundle options = new Bundle();
         options.putBoolean(ToolbarAccountAuthenticatorActivity.KEY_PROVIDE_UP_NAVIGATION, false);
 
-        manager.addAccount(MinervaConfig.ACCOUNT_TYPE, MinervaConfig.DEFAULT_SCOPE, null, options, this, new AccountManagerCallback<Bundle>() {
-            @Override
-            public void run(AccountManagerFuture<Bundle> accountManagerFuture) {
-                try {
-                    v.setVisibility(View.GONE);
-                    Bundle result = accountManagerFuture.getResult();
-                    Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
-                    onAccountCreated();
-                } catch (OperationCanceledException e) {
-                    Toast.makeText(getApplicationContext(), "Je gaf geen toestemming om je account te gebruiken.", Toast.LENGTH_LONG).show();
-                } catch (IOException | AuthenticatorException e) {
-                    Log.w(TAG, "Account not added.", e);
-                }
+        manager.addAccount(MinervaConfig.ACCOUNT_TYPE, MinervaConfig.DEFAULT_SCOPE, null, options, this, accountManagerFuture -> {
+            try {
+                v.setVisibility(View.GONE);
+                Bundle result = accountManagerFuture.getResult();
+                Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
+                onAccountCreated();
+            } catch (OperationCanceledException e) {
+                Toast.makeText(getApplicationContext(), "Je gaf geen toestemming om je account te gebruiken.", Toast.LENGTH_LONG).show();
+            } catch (IOException | AuthenticatorException e) {
+                Log.w(TAG, "Account not added.", e);
             }
         }, null);
     }

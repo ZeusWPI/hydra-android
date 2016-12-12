@@ -1,19 +1,26 @@
 package be.ugent.zeus.hydra.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.text.util.LinkifyCompat;
 import android.text.util.Linkify;
+import android.transition.Fade;
+import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.ToolbarActivity;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.models.association.Event;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Callback;
@@ -25,51 +32,62 @@ import org.threeten.bp.format.DateTimeFormatter;
  *
  * @author Niko Strijbol
  */
-public class EventDetailActivity extends ToolbarActivity {
-
-    private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+public class EventDetailActivity extends HydraActivity {
 
     public static final String PARCEL_EVENT = "eventParcelable";
-
-    private static final DateTimeFormatter formatHour = DateTimeFormatter.ofPattern("HH:mm");
-    private static final DateTimeFormatter fullFormatter = DateTimeFormatter.ofPattern("E d MMM H:mm");
+    private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     private static final String GENT = "51.05,3.72";
 
-    //The data
     private Event event;
+
+    /**
+     * Launch this activity with a transition.
+     *
+     * @param activity The activity that launches the intent.
+     * @param view     The view to transition.
+     * @param name     The name of the transition.
+     * @param event    The event.
+     */
+    public static void launchWithAnimation(Activity activity, View view, String name, Parcelable event) {
+        Intent intent = new Intent(activity, EventDetailActivity.class);
+        intent.putExtra(PARCEL_EVENT, event);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, view, name);
+        ActivityCompat.startActivity(activity, intent, options.toBundle());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
 
+        customFade();
+
         //Get data from saved instance, or from intent
         event = getIntent().getParcelableExtra(PARCEL_EVENT);
 
         TextView title = $(R.id.title);
-        TextView date = $(R.id.date);
         TextView location = $(R.id.location);
         TextView description = $(R.id.description);
         final ImageView organisatorImage = $(R.id.event_organisator_image);
         TextView mainName = $(R.id.event_organisator_main);
         TextView smallName = $(R.id.event_organisator_small);
 
-        if(event.getTitle() != null){
+        if (event.getTitle() != null) {
             title.setText(event.getTitle());
-            getToolBar().setTitle(event.getTitle());
+            getToolbar().setTitle(event.getTitle());
         }
 
-        if(event.getAssociation() != null ) {
+        if (event.getAssociation() != null) {
             mainName.setText(event.getAssociation().getDisplayName());
             smallName.setText(event.getAssociation().getFullName());
         }
 
-        if(event.getDescription() != null && !event.getDescription().trim().isEmpty()) {
+        if (event.getDescription() != null && !event.getDescription().trim().isEmpty()) {
             description.setText(event.getDescription());
             LinkifyCompat.addLinks(description, Linkify.ALL);
         }
 
-        if(event.hasLocation()) {
+        if (event.hasLocation()) {
             location.setText(event.getLocation());
         } else {
             location.setText("Zonder locatie");
@@ -81,13 +99,8 @@ public class EventDetailActivity extends ToolbarActivity {
         startTime.setText(event.getStart().format(format));
         endTime.setText(event.getEnd().format(format));
 
-        if(event.getAssociation() != null && event.getAssociation().getImageLink() != null) {
-            Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage, new Callback() {
-                @Override
-                public void onSuccess() {
-                    //OK
-                }
-
+        if (event.getAssociation() != null && event.getAssociation().getImageLink() != null) {
+            Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage, new Callback.EmptyCallback() {
                 @Override
                 public void onError() {
                     organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
@@ -96,17 +109,20 @@ public class EventDetailActivity extends ToolbarActivity {
         } else {
             organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            //Up button
+            case android.R.id.home:
+                supportFinishAfterTransition();
+                return true;
             case R.id.event_link:
                 NetworkUtils.maybeLaunchBrowser(this, event.getUrl());
                 return true;
             case R.id.event_location:
-                startActivity(getLocationIntent());
+                NetworkUtils.maybeLaunchIntent(this, getLocationIntent());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -131,11 +147,11 @@ public class EventDetailActivity extends ToolbarActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-        if(!event.hasUrl()) {
+        if (!event.hasUrl()) {
             menu.removeItem(R.id.event_link);
         }
 
-        if(!event.hasPreciseLocation() && !event.hasLocation()) {
+        if (!(event.hasPreciseLocation() || event.hasLocation())) {
             menu.removeItem(R.id.event_location);
         }
 
@@ -143,8 +159,8 @@ public class EventDetailActivity extends ToolbarActivity {
     }
 
     @Override
-    protected void sendScreen(HydraApplication application) {
-        application.sendScreenName("Activity > " + event.getTitle());
+    protected String getScreenName() {
+        return "Event > " + event.getTitle();
     }
 
     /**
@@ -155,13 +171,11 @@ public class EventDetailActivity extends ToolbarActivity {
      */
     private Intent getLocationIntent() {
 
-        assert event.hasPreciseLocation() || event.hasLocation();
-
         Uri uriLocation;
 
         //If there is a precise location, use that.
-        if(event.hasPreciseLocation()) {
-            if(event.hasLocation()) {
+        if (event.hasPreciseLocation()) {
+            if (event.hasLocation()) {
                 uriLocation = Uri.parse("geo:0,0?q=" + event.getLatitude() + "," + event.getLongitude() + "(" + event.getLocation() + ")");
             } else {
                 uriLocation = Uri.parse("geo:0,0?q=" + event.getLatitude() + "," + event.getLongitude());
@@ -170,7 +184,6 @@ public class EventDetailActivity extends ToolbarActivity {
             uriLocation = Uri.parse("geo:" + GENT + "?q=" + event.getLocation());
         }
 
-
         Intent intent = new Intent(Intent.ACTION_VIEW, uriLocation);
         intent.setPackage("com.google.android.apps.maps");
         if (intent.resolveActivity(getPackageManager()) == null) {
@@ -178,5 +191,20 @@ public class EventDetailActivity extends ToolbarActivity {
         }
 
         return intent;
+    }
+
+    /**
+     * Set a custom fade when using transition to prevent white flashing/blinking. This excludes the status bar and
+     * navigation bar background from the animation.
+     */
+    private void customFade() {
+        //Only do it on a version that is high enough.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Transition fade = new Fade();
+            fade.excludeTarget(android.R.id.statusBarBackground, true);
+            fade.excludeTarget(android.R.id.navigationBarBackground, true);
+            getWindow().setExitTransition(fade);
+            getWindow().setEnterTransition(fade);
+        }
     }
 }

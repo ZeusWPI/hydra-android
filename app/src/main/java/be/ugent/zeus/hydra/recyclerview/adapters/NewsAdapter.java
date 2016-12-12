@@ -1,11 +1,9 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import android.support.v7.util.SortedList;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.util.SortedListAdapterCallback;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.association.NewsItem;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.Adapter;
@@ -16,7 +14,7 @@ import java.util.List;
 /**
  * Created by ellen on 8/3/16.
  */
-public class NewsAdapter extends RecyclerView.Adapter<NewsItemViewHolder> implements Adapter<NewsItem> {
+public class NewsAdapter extends Adapter<NewsItem, NewsItemViewHolder> {
 
     private SortedList<NewsItem> data = new SortedList<>(NewsItem.class, new SortedListAdapterCallback<NewsItem>(this) {
 

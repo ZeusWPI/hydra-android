@@ -70,7 +70,7 @@ public class SpecialRemoteEventRequest extends ProcessableCacheRequest<SpecialEv
             Log.w(TAG, "Error while getting remote config.", e);
         }
 
-        if(config.getBoolean(REMOTE_SKO_KEY)) {
+        if(config.getBoolean(REMOTE_SKO_KEY) || BuildConfig.DEBUG) {
             Log.d(TAG, "Adding SKO card.");
             SpecialEvent event = new SpecialEvent();
             event.setName("Student Kick-Off");

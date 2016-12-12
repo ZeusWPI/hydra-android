@@ -4,15 +4,19 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v13.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.common.LoaderToolbarActivity;
-import be.ugent.zeus.hydra.caching.CacheableRequest;
-import be.ugent.zeus.hydra.models.resto.RestoLocation;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
+import be.ugent.zeus.hydra.loaders.DataCallback;
+import be.ugent.zeus.hydra.models.resto.Resto;
 import be.ugent.zeus.hydra.models.resto.RestoMeta;
+import be.ugent.zeus.hydra.plugins.RequestPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.requests.resto.RestoMetaRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,15 +25,26 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class RestoLocationActivity extends LoaderToolbarActivity<RestoMeta> implements OnMapReadyCallback {
+import java.util.List;
+
+public class RestoLocationActivity extends HydraActivity implements OnMapReadyCallback, DataCallback<RestoMeta> {
 
     private static final LatLng DEFAULT_LOCATION = new LatLng(51.05, 3.72); //Gent
     private static final float DEFAULT_ZOOM = 12; //Between city & street zoom
 
     private static final int MY_LOCATION_REQUEST_CODE = 1;
 
+    private static final String TAG = "RestoLocationActivity";
+    private final RestoMetaRequest restoMetaRequest = new RestoMetaRequest();
+    private final RequestPlugin<RestoMeta> plugin = new RequestPlugin<>(this, RequestPlugin.wrap(restoMetaRequest));
     private GoogleMap map;
     private RestoMeta meta;
+
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugins.add(plugin);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +53,7 @@ public class RestoLocationActivity extends LoaderToolbarActivity<RestoMeta> impl
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        loaderHandler.startLoader();
+        plugin.getLoaderPlugin().startLoader();
     }
 
 
@@ -61,16 +76,19 @@ public class RestoLocationActivity extends LoaderToolbarActivity<RestoMeta> impl
     }
 
     @Override
-    protected CacheableRequest<RestoMeta> getRequest() {
-        return new RestoMetaRequest();
-    }
-
-    @Override
     public void receiveData(@NonNull RestoMeta data) {
         meta = data;
         if (map != null) {
             addData();
         }
+    }
+
+    @Override
+    public void receiveError(@NonNull Throwable e) {
+        Log.e(TAG, "Error while getting data.", e);
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.again), v -> plugin.refresh())
+                .show();
     }
 
     @Override
@@ -82,10 +100,9 @@ public class RestoLocationActivity extends LoaderToolbarActivity<RestoMeta> impl
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.resto_refresh:
-                refresh();
+                plugin.refresh();
                 return true;
             case R.id.resto_center:
                 centerDefault();
@@ -105,7 +122,7 @@ public class RestoLocationActivity extends LoaderToolbarActivity<RestoMeta> impl
         }
 
         map.getUiSettings().setMyLocationButtonEnabled(true);
-        for (RestoLocation location : meta.locations) {
+        for (Resto location : meta.locations) {
             LatLng pos = new LatLng(location.latitude, location.longitude);
             map.addMarker(
                     new MarkerOptions()
@@ -115,11 +132,11 @@ public class RestoLocationActivity extends LoaderToolbarActivity<RestoMeta> impl
             );
         }
         centerDefault();
-        hideProgressBar();
+        plugin.getProgressBarPlugin().hideProgressBar();
     }
 
     private void centerDefault() {
-        if(map != null) {
+        if (map != null) {
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, DEFAULT_ZOOM));
         }
     }

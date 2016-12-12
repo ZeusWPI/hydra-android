@@ -32,10 +32,8 @@ public abstract class AccessTokenRequest implements Request<BearerToken> {
     @NonNull
     @Override
     public BearerToken performRequest() throws RequestFailureException {
-        OAuthJSONAccessTokenResponse accessTokenResponse;
-
         try {
-            accessTokenResponse = getToken();
+            OAuthJSONAccessTokenResponse accessTokenResponse = getToken();
             return gson.fromJson(accessTokenResponse.getBody(), BearerToken.class);
         } catch (OAuthSystemException e) {
             throw new IOFailureException(e);

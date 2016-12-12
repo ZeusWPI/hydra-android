@@ -3,8 +3,8 @@ package be.ugent.zeus.hydra.caching;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
-
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import org.threeten.bp.Duration;
@@ -25,15 +25,24 @@ class GenericCache implements Cache {
     private final CacheExecutor executor;
     private final File directory;
 
-    public GenericCache(Context context) {
+    GenericCache(Context context) {
         this.directory = context.getCacheDir();
         this.executor = new SerializableExecutor(this.directory);
+    }
+
+    GenericCache(File directory, CacheExecutor executor) {
+        this.directory = directory;
+        this.executor = executor;
+    }
+
+    File getDirectory() {
+        return directory;
     }
 
     @Override
     public boolean isExpired(String key, long duration) {
         CacheObject<?> cacheObject = readOrNull(key);
-        return cacheObject == null || duration == Cache.NEVER || cacheObject.isExpired(Duration.ofMillis(duration));
+        return shouldRefresh(cacheObject, duration);
     }
 
     @Override
@@ -49,7 +58,7 @@ class GenericCache implements Cache {
         CacheObject<D> object = readOrNull(request.getCacheKey());
         D data;
 
-        if(shouldRefresh(object, duration)) {
+        if (shouldRefresh(object, duration)) {
             Log.i(TAG, "New response for request " + request.getCacheKey());
             data = request.performRequest();
             object = new CacheObject<>(data);
@@ -60,6 +69,7 @@ class GenericCache implements Cache {
             }
         } else {
             Log.i(TAG, "Cached response for request" + request);
+            assert object != null;
             data = object.getData();
         }
 
@@ -100,13 +110,13 @@ class GenericCache implements Cache {
     }
 
     /**
-     * @return True if fresh data should be uses, for various reasons.
+     * @return True if fresh data should be used, for various reasons.
      */
-    private boolean shouldRefresh(CacheObject<?> object, long duration) {
-        return duration != ALWAYS //The cache never expires.
-                && (object == null //No cache
-                || duration == Cache.NEVER  //Never cache
+    @VisibleForTesting
+    boolean shouldRefresh(CacheObject<?> object, long duration) {
+        return object == null || (duration != ALWAYS //The cache never expires.
+                && (duration == Cache.NEVER  //Never cache
                 || object.isExpired(Duration.ofMillis(duration)) //Expired cache
-                || object.getVersion() != BuildConfig.VERSION_CODE); //Old cache version
+                || object.getVersion() != BuildConfig.VERSION_CODE)); //Old cache version
     }
 }

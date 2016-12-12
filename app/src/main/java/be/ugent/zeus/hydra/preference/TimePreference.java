@@ -99,13 +99,14 @@ public class TimePreference extends DialogPreference {
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-        if (defaultValue == null) {
-            defaultValue = "00:00";
+        Object defaultValue1 = defaultValue;
+        if (defaultValue1 == null) {
+            defaultValue1 = "00:00";
         }
         if (restoreValue) {
-            time = LocalTime.parse(getPersistedString((String) defaultValue));
+            time = LocalTime.parse(getPersistedString((String) defaultValue1));
         } else {
-            time = LocalTime.parse((CharSequence) defaultValue);
+            time = LocalTime.parse((CharSequence) defaultValue1);
         }
         setSummary(getSummary());
     }

@@ -20,7 +20,6 @@ public class AboutFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_about);
 
-        //Preference library = findPreference("pref_about_licenses");
         Preference version = findPreference("pref_about_version");
 
         version.setSummary(String.format(
@@ -30,18 +29,15 @@ public class AboutFragment extends PreferenceFragment {
                 BuildConfig.DEBUG ? "debug" : "release"
         ));
 
-        findPreference("pref_about_licenses").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
+        findPreference("pref_about_licenses").setOnPreferenceClickListener(preference -> {
 
-                Intent intent = new Intent(getActivity().getApplicationContext(), WebViewActivity.class);
-                intent.putExtra(WebViewActivity.TITLE, "Licenties");
-                intent.putExtra(WebViewActivity.URL, "file:///android_asset/licenses.html");
+            Intent intent = new Intent(getActivity().getApplicationContext(), WebViewActivity.class);
+            intent.putExtra(WebViewActivity.TITLE, "Licenties");
+            intent.putExtra(WebViewActivity.URL, "file:///android_asset/licenses.html");
 
-                getActivity().startActivity(intent);
+            getActivity().startActivity(intent);
 
-                return false;
-            }
+            return false;
         });
     }
 

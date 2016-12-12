@@ -11,6 +11,13 @@
         tools:listitem="@layout/item_minerva_course"
         app:layoutManager="@string/app_layout_manager_linear" />
 
+    <com.pluscubed.recyclerfastscroll.RecyclerFastScroller
+        android:id="@+id/fast_scroller"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        app:rfs_hideDelay="1000"/>
+
     <include layout="@layout/x_progress_bar" />
 
 </FrameLayout>

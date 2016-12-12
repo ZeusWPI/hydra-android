@@ -1,9 +1,10 @@
 package be.ugent.zeus.hydra.requests.common;
 
 import android.support.annotation.NonNull;
-
 import be.ugent.zeus.hydra.requests.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
+import com.google.firebase.crash.FirebaseCrash;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
@@ -45,6 +46,9 @@ public abstract class JsonSpringRequest<R> implements Request<R> {
             throw new IOFailureException(e);
         } catch (RestClientException e) {
             throw new RequestFailureException(e);
+        } catch (HttpMessageConversionException e) {
+            FirebaseCrash.report(e);
+            throw new RequestFailureException("Could not read JSON for " + getAPIUrl(), e);
         }
     }
 

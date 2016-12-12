@@ -16,7 +16,6 @@ public class IterableSparseArray<E> extends SparseArray<E> implements Iterable<E
     public Iterator<E> iterator() {
 
         return new Iterator<E>() {
-
             private int current;
 
             @Override
@@ -35,25 +34,20 @@ public class IterableSparseArray<E> extends SparseArray<E> implements Iterable<E
      * @return An iterator over the key/values of this array.
      */
     public Iterable<Pair<Integer, E>> pairIterable() {
-        return new Iterable<Pair<Integer, E>>() {
+        return () -> new Iterator<Pair<Integer, E>>() {
+
+            private int current;
+
             @Override
-            public Iterator<Pair<Integer, E>> iterator() {
-                return new Iterator<Pair<Integer, E>>() {
+            public boolean hasNext() {
+                return size() > current;
+            }
 
-                    private int current;
-
-                    @Override
-                    public boolean hasNext() {
-                        return size() > current;
-                    }
-
-                    @Override
-                    public Pair<Integer, E> next() {
-                        Pair<Integer, E> pair = new Pair<>(keyAt(current), valueAt(current));
-                        current++;
-                        return pair;
-                    }
-                };
+            @Override
+            public Pair<Integer, E> next() {
+                Pair<Integer, E> pair = new Pair<>(keyAt(current), valueAt(current));
+                current++;
+                return pair;
             }
         };
     }

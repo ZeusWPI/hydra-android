@@ -60,27 +60,17 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
             title.setVisibility(View.GONE);
         }
         CharSequence dateString = DateUtils.relativeDateTimeString(post.getCreatedAt(), itemView.getContext(), true);
-        toolbar.setTitle(post.getDisplayType() + " van " + post.getOrigin() + " • " + dateString);
+        toolbar.setTitle(post.getDisplayType() + " van " + post.getOrigin() + " \u2022 " + dateString);
         toolbar.setIcon(getOriginIcon(post));
 
         //If there is a body, set it and set the expand button, else hide those.
         if(post.getBody() != null) {
             body.setText(post.getBody());
             LinkifyCompat.addLinks(body, Linkify.WEB_URLS);
-            body.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    adapter.getHelper().openCustomTab(Uri.parse(post.getLink()));
-                }
-            });
+            body.setOnClickListener(v -> adapter.getHelper().openCustomTab(Uri.parse(post.getLink())));
         }
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                adapter.getHelper().openCustomTab(Uri.parse(post.getLink()));
-            }
-        });
+        itemView.setOnClickListener(v -> adapter.getHelper().openCustomTab(Uri.parse(post.getLink())));
     }
 
     @DrawableRes

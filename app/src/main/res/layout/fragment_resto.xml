@@ -73,28 +73,28 @@
                 android:id="@+id/home_resto_view"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:singleLine="true"
                 android:text="@string/home_resto_view_menu"
                 tools:drawableTop="@drawable/btn_restaurant_menu"
-                android:drawableTint="?android:colorControlNormal" />
+                android:drawableTint="?android:colorControlNormal"
+                android:maxLines="1" />
 
             <Button
                 android:id="@+id/home_resto_view_sandwich"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:singleLine="true"
                 android:text="@string/home_resto_view_sandwiches"
                 tools:drawableTop="@drawable/btn_sandwich"
-                android:drawableTint="?android:colorControlNormal" />
+                android:drawableTint="?android:colorControlNormal"
+                android:maxLines="1" />
 
             <Button
                 android:id="@+id/home_resto_view_resto"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:singleLine="true"
                 android:text="@string/home_resto_view_resto"
                 tools:drawableTop="@drawable/btn_explore"
-                android:drawableTint="?android:colorControlNormal" />
+                android:drawableTint="?android:colorControlNormal"
+                android:maxLines="1" />
 
         </be.ugent.zeus.hydra.views.ButtonBarLayout>
 

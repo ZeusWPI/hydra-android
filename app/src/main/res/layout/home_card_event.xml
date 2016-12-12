@@ -55,13 +55,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/starttime"
-                    android:singleLine="true"
                     android:textColor="?android:attr/textColorSecondary"
-                    tools:text="Starttijd" />
+                    tools:text="Starttijd"
+                    android:maxLines="1" />
 
             </LinearLayout>
 
             <ImageView
+                android:transitionName="logo"
                 android:layout_marginBottom="@dimen/card_title_padding_bottom"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
