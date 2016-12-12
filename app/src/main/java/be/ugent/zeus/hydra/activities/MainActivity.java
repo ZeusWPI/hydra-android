@@ -16,7 +16,11 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
+import be.ugent.zeus.hydra.plugins.OfflinePlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.viewpager.SectionPagerAdapter;
+
+import java.util.List;
 
 /**
  * Main activity.
@@ -44,6 +48,13 @@ public class MainActivity extends HydraActivity {
     };
 
     private SharedPreferences preferences;
+    private OfflinePlugin plugin = new OfflinePlugin();
+
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugins.add(plugin);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +62,7 @@ public class MainActivity extends HydraActivity {
         setContentView(R.layout.activity_main);
 
         getToolbar().setDisplayShowTitleEnabled(false);
+        plugin.setView($(R.id.pager));
 
         //The first thing we do is maybe start the onboarding.
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -60,6 +72,10 @@ public class MainActivity extends HydraActivity {
         } else { //Otherwise do init
             initialise();
         }
+    }
+
+    public OfflinePlugin getOfflinePlugin() {
+        return plugin;
     }
 
     @Override
@@ -74,6 +90,7 @@ public class MainActivity extends HydraActivity {
         ViewPager viewpager = $(R.id.pager);
         viewpager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
 
+        final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
         viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -85,14 +102,8 @@ public class MainActivity extends HydraActivity {
                 } else if (position == 6) {
                     reportShortcutUsed(SHORTCUT_MINERVA);
                 }
-            }
-        });
-
-        final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
-        viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
                 appBarLayout.setExpanded(true);
+                plugin.dismiss();
             }
         });
 
@@ -147,7 +158,7 @@ public class MainActivity extends HydraActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(requestCode == ONBOARDING_REQUEST) {
+        if (requestCode == ONBOARDING_REQUEST) {
             if(resultCode == RESULT_OK) {
                 Log.i(TAG, "Onboarding complete");
                 preferences.edit().putBoolean(PREF_ONBOARDING, false).apply();

@@ -316,8 +316,6 @@ public class AnnouncementDao extends Dao {
             return map;
         }
 
-        Log.d(TAG, Arrays.toString(c.getColumnNames()));
-
         //Save the course ID separately
         //Get helpers
         CourseExtractor cExtractor = new CourseExtractor.Builder(c)

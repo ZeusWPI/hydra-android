@@ -1,11 +1,15 @@
 package be.ugent.zeus.hydra.homefeed;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.util.DiffUtil;
@@ -14,6 +18,7 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.*;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.MainActivity;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.content.event.EventRequest;
@@ -25,6 +30,8 @@ import be.ugent.zeus.hydra.homefeed.content.schamper.SchamperRequest;
 import be.ugent.zeus.hydra.homefeed.content.specialevent.SpecialEventRequest;
 import be.ugent.zeus.hydra.homefeed.loader.HomeFeedLoader;
 import be.ugent.zeus.hydra.homefeed.loader.HomeFeedLoaderCallback;
+import be.ugent.zeus.hydra.plugins.OfflinePlugin;
+import be.ugent.zeus.hydra.requests.common.OfflineBroadcaster;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.utils.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
@@ -63,7 +70,6 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     private SwipeRefreshLayout swipeRefreshLayout;
     private HomeFeedAdapter adapter;
     private RecyclerView recyclerView;
-    private Snackbar snackbar;
 
     private ActivityHelper helper;
 
@@ -111,11 +117,18 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
         PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
     }
 
+    private OfflinePlugin getPlugin() {
+        return ((MainActivity) getActivity()).getOfflinePlugin();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
 
-        if(preferencesUpdated) {
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
+        manager.registerReceiver(receiver, OfflineBroadcaster.getBroadcastFilter());
+
+        if (preferencesUpdated) {
             swipeRefreshLayout.setRefreshing(true);
             restartLoader();
             preferencesUpdated = false;
@@ -134,6 +147,8 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     @Override
     public void onPause() {
         super.onPause();
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
+        manager.unregisterReceiver(receiver);
         preferencesUpdated = false;
     }
 
@@ -158,14 +173,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     }
 
     private void showErrorMessage(String message) {
-        if(snackbar == null) {
-            assert getView() != null;
-            snackbar = Snackbar.make(getView(), message, Snackbar.LENGTH_LONG);
-            snackbar.show();
-        } else {
-            snackbar.setText(message);
-            snackbar.show();
-        }
+        getPlugin().showSnackbar(message, Snackbar.LENGTH_LONG, null);
     }
 
     @Override
@@ -258,7 +266,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId() == R.id.action_refresh) {
+        if (item.getItemId() == R.id.action_refresh) {
             swipeRefreshLayout.setRefreshing(true);
             onRefresh();
             return true;
@@ -270,6 +278,16 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     @Override
     public void onRefresh() {
         shouldRefresh = true;
+        getPlugin().dismiss();
         restartLoader();
     }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(OfflineBroadcaster.OFFLINE)) {
+                getPlugin().showSnackbar("Offline data gebruikt.", Snackbar.LENGTH_INDEFINITE, HomeFeedFragment.this);
+            }
+        }
+    };
 }
