@@ -106,7 +106,7 @@ public class MinervaFragment extends PluginFragment implements DataCallback<List
                     Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
                     onAccountAdded();
                 } catch (OperationCanceledException e) {
-                    Toast.makeText(getContext().getApplicationContext(), "Je gaf geen toestemming om je account te gebruiken.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext().getApplicationContext(), R.string.minerva_no_permission, Toast.LENGTH_LONG).show();
                 } catch (IOException | AuthenticatorException e) {
                     Log.w(TAG, "Account not added.", e);
                 }
@@ -251,11 +251,11 @@ public class MinervaFragment extends PluginFragment implements DataCallback<List
             switch (intent.getAction()) {
                 case SyncBroadcast.SYNC_START:
                     Log.d(TAG, "Start!");
-                    ensureSyncStatus("Vakken ophalen...");
+                    ensureSyncStatus(getString(R.string.minerva_sync_getting_courses));
                     return;
                 case SyncBroadcast.SYNC_DONE:
                     Log.d(TAG, "Done!");
-                    ensureSyncStatus("Klaar");
+                    ensureSyncStatus(getString(R.string.minerva_sync_done));
                     syncBar.dismiss();
                     syncBar = null;
                     plugin.showRecyclerView();
@@ -277,7 +277,7 @@ public class MinervaFragment extends PluginFragment implements DataCallback<List
                     int total = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_TOTAL, 0);
                     progressBar.setMax(total);
                     progressBar.setProgress(current);
-                    ensureSyncStatus("Vak " + current + " van " + total + " ophalen...");
+                    ensureSyncStatus(getString(R.string.minerva_sync_progress, current, total));
             }
         }
     };

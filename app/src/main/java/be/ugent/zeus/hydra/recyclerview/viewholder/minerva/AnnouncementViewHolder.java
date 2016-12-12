@@ -12,8 +12,6 @@ import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
-import java.util.Locale;
-
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
@@ -33,7 +31,7 @@ public class AnnouncementViewHolder extends DataViewHolder<Announcement> {
     @Override
     public void populate(final Announcement data) {
         title.setText(data.getTitle());
-        String infoText = String.format(new Locale("nl"), "%s door %s",
+        String infoText = itemView.getContext().getString(R.string.agenda_subtitle,
                 DateUtils.relativeDateTimeString(data.getDate(), itemView.getContext(), false),
                 data.getLecturer());
         subtitle.setText(infoText);

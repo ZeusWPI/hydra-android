@@ -210,18 +210,18 @@ public class MenuTable extends TableLayout {
     private void populate() {
 
         if (!menu.isOpen()) {
-            createTitle("De resto is gesloten op deze dag.", false);
+            createTitle(getContext().getString(R.string.resto_closed), false);
             return;
         }
 
         setColumnStretchable(1, true);
 
         if (mode == ALL) {
-            createTitle("Hoofdgerechten");
+            createTitle(getContext().getString(R.string.resto_main_dish));
             makeTableDishes(menu.getMainDishes());
-            createTitle("Bijgerechten");
+            createTitle(getContext().getString(R.string.resto_side_dish));
             makeTableDishes(menu.getSideDishes());
-            createTitle("Groenten");
+            createTitle(getContext().getString(R.string.vegetables));
             makeVegetables(menu.getVegetables());
         } else {
             makeTableDishes(menu.getMainDishes());

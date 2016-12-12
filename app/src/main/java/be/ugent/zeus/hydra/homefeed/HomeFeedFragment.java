@@ -194,7 +194,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
     @Override
     public void onPartialError(@HomeCard.CardType int cardType) {
-        showErrorMessage("Kon sommige dingen niet ophalen.");
+        showErrorMessage(getContext().getString(R.string.home_feed_not_loaded));
     }
 
     @Override
@@ -286,7 +286,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(OfflineBroadcaster.OFFLINE)) {
-                getPlugin().showSnackbar("Offline data gebruikt.", Snackbar.LENGTH_INDEFINITE, HomeFeedFragment.this);
+                getPlugin().showSnackbar(R.string.offline_data_use, Snackbar.LENGTH_INDEFINITE, HomeFeedFragment.this);
             }
         }
     };

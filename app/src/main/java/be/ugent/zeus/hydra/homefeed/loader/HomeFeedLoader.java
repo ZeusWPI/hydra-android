@@ -100,8 +100,6 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
                 throw new OperationCanceledException();
             }
 
-            Log.d(TAG, "Operation loaded");
-
             results = executeOperation(handler, operation, errors, results);
         }
 
@@ -159,7 +157,6 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
 
         // If the data is available, deliver it.
         if (data != null) {
-            Log.d("Loader", "Cached data");
             deliverResult(data);
         }
 

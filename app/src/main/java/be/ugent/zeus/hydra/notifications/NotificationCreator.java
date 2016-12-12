@@ -34,8 +34,8 @@ public class NotificationCreator {
         PendingIntent pending = PendingIntent.getActivity(context, 0, intent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setContentTitle(context.getString(R.string.restonotification_title))
-                .setContentText(context.getString(R.string.restonotification_text))
+        builder.setContentTitle(context.getString(R.string.resto_notification_title))
+                .setContentText(context.getString(R.string.resto_notification_text))
                 .setSmallIcon(R.drawable.logo) //TODO: Beter logo
                 .setContentIntent(pending)
                 .setAutoCancel(true);

@@ -35,8 +35,8 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
 
         //First tab
         addSlide(new SimpleSlide.Builder()
-                .title("Welkom bij Hydra")
-                .description("Kies wat je wilt zien en doen in de app")
+                .title(R.string.onboarding_welcome)
+                .description(R.string.onboarding_welcome_description)
                 .image(R.drawable.logo_onboarding_ugent)
                 .background(R.color.ugent_blue_medium)
                 .backgroundDark(R.color.ugent_blue_dark)
@@ -53,12 +53,12 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
         //remove the account.
         if (!AccountUtils.hasAccount(this)) {
             addSlide(new SimpleSlide.Builder()
-                    .title("Minerva")
-                    .description("Meld je aan bij Minerva om je vakken te kunnen bekijken")
+                    .title(R.string.onboarding_minerva_title)
+                    .description(R.string.onboarding_minerva_description)
                     .image(R.drawable.logo_onboarding_minerva)
                     .background(R.color.ugent_blue_medium)
                     .backgroundDark(R.color.ugent_blue_dark)
-                    .buttonCtaLabel("Aanmelden")
+                    .buttonCtaLabel(R.string.onboarding_minerva_button)
                     .buttonCtaClickListener(this)
                     .build());
         }
@@ -78,7 +78,7 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
                 Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
                 onAccountCreated();
             } catch (OperationCanceledException e) {
-                Toast.makeText(getApplicationContext(), "Je gaf geen toestemming om je account te gebruiken.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.minerva_no_permission, Toast.LENGTH_LONG).show();
             } catch (IOException | AuthenticatorException e) {
                 Log.w(TAG, "Account not added.", e);
             }

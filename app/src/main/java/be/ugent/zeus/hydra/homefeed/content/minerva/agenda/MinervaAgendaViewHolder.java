@@ -43,7 +43,8 @@ public class MinervaAgendaViewHolder extends HideableViewHolder {
 
         final MinervaAgendaCard mCard = card.checkCard(HomeCard.CardType.MINERVA_AGENDA);
 
-        toolbar.setTitle("Agenda voor " + DateUtils.getFriendlyDate(mCard.getDate()));
+        String titleS = itemView.getContext().getString(R.string.home_feed_agenda_title, DateUtils.getFriendlyDate(mCard.getDate()));
+        toolbar.setTitle(titleS);
 
         layout.removeAllViewsInLayout();
 
