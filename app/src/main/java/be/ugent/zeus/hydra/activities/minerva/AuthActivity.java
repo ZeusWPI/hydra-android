@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity;
@@ -64,6 +65,18 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
         customTabActivityHelper = CustomTabsHelper.initHelper(this, false, this);
         customTabActivityHelper.setIntentFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         customTabActivityHelper.mayLaunchUrl(Uri.parse(AccountUtils.getRequestUri()), null, null);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finishUp();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
