@@ -40,6 +40,8 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
     private MusicService musicService;
     private View urgentPlayWrapper;
 
+    private boolean freshStart = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_urgent, container, false);
@@ -51,15 +53,16 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
         urgentPlayWrapper = $(view, R.id.urgent_play_wrapper);
         $(view, R.id.urgent_play).setOnClickListener(v -> {
             //We are already bound.
-            if(isBound) {
+            if (isBound) {
                 beginPlaying();
             } else {
                 //The callback will start playing.
+                freshStart = true;
                 bind();
             }
         });
         //If the service is running, request a bind.
-        if(MusicService.isRunning(getContext())) {
+        if (MusicService.isRunning(getContext())) {
             bind();
         }
     }
@@ -259,7 +262,10 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
             musicService.getNotificationManager().setIcon(R.drawable.ic_notification_urgent);
             initMediaControls();
             isBound = true;
-            beginPlaying();
+            if (freshStart) {
+                freshStart = false;
+                beginPlaying();
+            }
         }
 
         @Override
