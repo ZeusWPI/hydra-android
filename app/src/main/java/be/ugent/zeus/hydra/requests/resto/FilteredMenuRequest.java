@@ -14,7 +14,7 @@ import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 public class FilteredMenuRequest extends ProcessableCacheRequest<RestoOverview, RestoOverview> {
 
     public FilteredMenuRequest(Context context, boolean shouldRefresh) {
-        super(context, new RestoMenuRequest(), shouldRefresh);
+        super(context, new RestoMenuRequest(context), shouldRefresh);
     }
 
     @NonNull

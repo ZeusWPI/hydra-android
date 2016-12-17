@@ -1,9 +1,12 @@
 package be.ugent.zeus.hydra.homefeed.content.resto;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.MenuActivity;
+import be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.homefeed.content.HideableViewHolder;
@@ -22,9 +25,13 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 public class RestoCardViewHolder extends HideableViewHolder {
 
     private final MenuTable table;
+    private final SharedPreferences preferences;
+    private final String[] restos;
 
     public RestoCardViewHolder(View v, HomeFeedAdapter adapter) {
         super(v, adapter);
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(v.getContext());
+        this.restos = v.getContext().getResources().getStringArray(R.array.resto_location);
         table = $(v, R.id.menu_table);
     }
 
@@ -34,7 +41,8 @@ public class RestoCardViewHolder extends HideableViewHolder {
 
         RestoMenu menu = card.<RestoMenuCard>checkCard(HomeCard.CardType.RESTO).getRestoMenu();
         String text = itemView.getResources().getString(R.string.resto_menu_title);
-        toolbar.setTitle(String.format(text, DateUtils.getFriendlyDate(menu.getDate())));
+        String resto = restos[Integer.parseInt(preferences.getString(RestoPreferenceFragment.PREF_RESTO, RestoPreferenceFragment.PREF_DEFAULT_RESTO))];
+        toolbar.setTitle(String.format(text, DateUtils.getFriendlyDate(menu.getDate()), resto));
 
         table.setMenu(menu);
 

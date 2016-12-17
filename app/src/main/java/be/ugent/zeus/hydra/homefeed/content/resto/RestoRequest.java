@@ -16,7 +16,7 @@ import java8.util.stream.StreamSupport;
 public class RestoRequest extends ProcessableCacheRequest<RestoOverview, Stream<HomeCard>> implements HomeFeedRequest {
 
     public RestoRequest(Context context, boolean shouldRefresh) {
-        super(context, new RestoMenuRequest(), shouldRefresh);
+        super(context, new RestoMenuRequest(context), shouldRefresh);
     }
 
     @NonNull

@@ -15,6 +15,9 @@ import be.ugent.zeus.hydra.preference.TimePreference;
  */
 public class RestoPreferenceFragment extends PreferenceFragment {
 
+    public static final String PREF_RESTO = "pref_resto_choice";
+    public static final String PREF_DEFAULT_RESTO = "0";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

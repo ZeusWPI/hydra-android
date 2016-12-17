@@ -45,17 +45,6 @@ public class OfflinePlugin extends Plugin implements SnackbarHandler {
     }
 
     public void showSnackbar(@StringRes int message, @Snackbar.Duration int length, @Nullable SwipeRefreshLayout.OnRefreshListener listener) {
-
-        if (snackbar == null) {
-            snackbar = Snackbar.make(view, message, length);
-            if (listener != null) {
-                snackbar.setAction(R.string.action_refresh, v -> listener.onRefresh());
-            }
-        } else {
-            snackbar.setText(message);
-            snackbar.setDuration(length);
-        }
-
-        snackbar.show();
+        showSnackbar(getHost().getContext().getString(message), length, listener);
     }
 }
