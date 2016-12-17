@@ -111,7 +111,6 @@ public class MenuActivity extends HydraActivity implements DataCallback<RestoOve
     @Override
     public void receiveData(@NonNull RestoOverview data) {
         pageAdapter.setData(data);
-        //If the current item is not 0, we already have a position.
         for (int i = 0; i < data.size(); i++) {
             RestoMenu menu = data.get(i);
             //Set the tab to this day!
