@@ -11,10 +11,10 @@ android {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 220
-        versionName "2.2.0"
+        versionCode 221
+        versionName "2.2.1"
         vectorDrawables.useSupportLibrary = true
-        
+
         //Enable jack support
         //When disabling jack, DON'T forget to enable retrolambda
 //        jackOptions {
