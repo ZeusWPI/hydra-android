@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
@@ -132,7 +133,7 @@ public class MenuActivity extends HydraActivity implements DataCallback<RestoOve
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_resto, menu);
-        tintToolbarIcons(menu, R.id.resto_refresh);
+        tintToolbarIcons(menu, R.id.action_refresh);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -141,6 +142,7 @@ public class MenuActivity extends HydraActivity implements DataCallback<RestoOve
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 plugin.refresh();
+                Toast.makeText(getApplicationContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.resto_show_website:
                 NetworkUtils.maybeLaunchBrowser(this, URL);
