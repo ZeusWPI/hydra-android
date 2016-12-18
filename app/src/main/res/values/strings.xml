@@ -41,6 +41,10 @@
     <string name="pref_resto_closing_title">Sluitingsuur</string>
     <string name="pref_resto_closing_description">Kies vanaf welk uur de menu voor de volgende dag getoond wordt.</string>
 
+    <string name="pref_resto_choice">Keuze resto</string>
+    <string name="pref_resto_choice_title">Kies een resto</string>
+    <string name="pref_resto_choice_summary">%s</string>
+
     <string name="pref_activities_title">Activiteiten</string>
 
     <string name="pref_about_header_title">Over</string>
@@ -111,7 +115,8 @@
     <string name="events_customize_filters">Filters aanpassen</string>
     <string name="title_activity_schamper">Schamperartikel</string>
     <string name="title_activity_news">Nieuwsartikel</string>
-    <string name="resto_menu_title">Menu van %s</string>
+    <string name="resto_menu_title">Menu van %1$s • %2$s</string>
+    <string name="resto_menu_title_short">Menu van %1$s</string>
     <string name="home_card_description">Activiteit door %s</string>
     <string name="by_author">Door %s</string>
     <string name="pref_home_title">Startscherm</string>

@@ -26,6 +26,7 @@ public class RequestPlugin<D> extends Plugin {
     private final LoaderPlugin<D> loaderPlugin;
 
     private boolean refreshFlag;
+    private boolean useToast = true;
 
     /**
      * Wrap a request in a SimpleCacheRequest. This will enable caching.
@@ -72,6 +73,10 @@ public class RequestPlugin<D> extends Plugin {
         plugins.add(loaderPlugin);
     }
 
+    public void setUsesToast(boolean usesToast) {
+        this.useToast = usesToast;
+    }
+
     /**
      * Set the refresh flag. If set to true, the next request will be set to true,
      * while the flag will be set to false after the next request.
@@ -94,7 +99,9 @@ public class RequestPlugin<D> extends Plugin {
      * Refresh the data.
      */
     public void refresh() {
-        Toast.makeText(getHost().getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
+        if (useToast) {
+            Toast.makeText(getHost().getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
+        }
         setRefreshFlag(true);
         loaderPlugin.restartLoader();
     }

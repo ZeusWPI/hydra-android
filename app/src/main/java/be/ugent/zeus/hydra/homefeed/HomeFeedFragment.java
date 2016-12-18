@@ -20,6 +20,7 @@ import android.view.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.MainActivity;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
+import be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.content.event.EventRequest;
 import be.ugent.zeus.hydra.homefeed.content.minerva.agenda.MinervaAgendaRequest;
@@ -64,8 +65,8 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
     private static final int LOADER = 0;
 
-    private boolean shouldRefresh = false;
-    private boolean preferencesUpdated = false;
+    private boolean shouldRefresh;
+    private boolean preferencesUpdated;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private HomeFeedAdapter adapter;
@@ -158,6 +159,12 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
         helper.unbindCustomTabsService(getActivity());
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(getContext()).unregisterOnSharedPreferenceChangeListener(this);
+    }
+
     /**
      * Restart the loaders
      */
@@ -167,7 +174,9 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        if(s.equals(PREF_DISABLED_CARDS) || s.equals(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING)) {
+        if (s.equals(PREF_DISABLED_CARDS) ||
+                s.equals(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING) ||
+                s.equals(RestoPreferenceFragment.PREF_RESTO)) {
             preferencesUpdated = true;
         }
     }

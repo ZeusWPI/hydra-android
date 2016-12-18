@@ -2,11 +2,13 @@ package be.ugent.zeus.hydra.fragments.resto;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.MenuActivity;
 import be.ugent.zeus.hydra.activities.resto.RestoLocationActivity;
 import be.ugent.zeus.hydra.activities.resto.SandwichActivity;
+import be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
@@ -36,7 +39,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author Niko Strijbol
  * @author mivdnber
  */
-public class RestoFragment extends PluginFragment implements DataCallback<RestoOverview> {
+public class RestoFragment extends PluginFragment implements DataCallback<RestoOverview>, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = "RestoFragment";
 
@@ -45,6 +48,8 @@ public class RestoFragment extends PluginFragment implements DataCallback<RestoO
     private Button viewMenu;
     private Button viewSandwich;
     private Button viewResto;
+
+    private boolean preferencesUpdated;
 
     private RequestPlugin<RestoOverview> plugin = new RequestPlugin<>(this, FilteredMenuRequest::new);
 
@@ -77,6 +82,28 @@ public class RestoFragment extends PluginFragment implements DataCallback<RestoO
         title = $(view, R.id.menu_today_card_title);
 
         view.findViewById(R.id.menu_today_card).setOnClickListener(v -> startActivity(new Intent(getContext(), MenuActivity.class)));
+        PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (preferencesUpdated) {
+            plugin.refresh();
+            preferencesUpdated = false;
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        preferencesUpdated = false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(getContext()).unregisterOnSharedPreferenceChangeListener(this);
     }
 
     /**
@@ -110,7 +137,7 @@ public class RestoFragment extends PluginFragment implements DataCallback<RestoO
         final RestoMenu menu = data.get(0);
 
         table.setMenu(menu);
-        title.setText(String.format(getString(R.string.resto_menu_title), DateUtils.getFriendlyDate(menu.getDate())));
+        title.setText(String.format(getString(R.string.resto_menu_title_short), DateUtils.getFriendlyDate(menu.getDate())));
 
         viewMenu.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), MenuActivity.class);
@@ -126,5 +153,12 @@ public class RestoFragment extends PluginFragment implements DataCallback<RestoO
         Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> plugin.refresh())
                 .show();
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(RestoPreferenceFragment.PREF_RESTO)) {
+            preferencesUpdated = true;
+        }
     }
 }

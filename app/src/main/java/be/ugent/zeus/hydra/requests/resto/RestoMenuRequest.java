@@ -1,8 +1,12 @@
 package be.ugent.zeus.hydra.requests.resto;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.caching.Cache;
+import be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 
@@ -13,8 +17,11 @@ import be.ugent.zeus.hydra.requests.common.CacheableRequest;
  */
 public class RestoMenuRequest extends CacheableRequest<RestoOverview> {
 
-    public RestoMenuRequest() {
+    private final Context context;
+
+    public RestoMenuRequest(Context context) {
         super(RestoOverview.class);
+        this.context = context.getApplicationContext(); //Prevent leak
     }
 
     @NonNull
@@ -26,7 +33,17 @@ public class RestoMenuRequest extends CacheableRequest<RestoOverview> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return ZEUS_API_URL + "2.0/resto/menu/nl/overview.json";
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String resto = preferences.getString(RestoPreferenceFragment.PREF_RESTO, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
+
+        switch (resto) {
+            case "1":
+                return ZEUS_API_URL + "2.0/resto/menu/nl-sintjansvest/overview.json";
+            case "0":
+            default:
+                return ZEUS_API_URL + "2.0/resto/menu/nl/overview.json";
+        }
     }
 
     @Override
