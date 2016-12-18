@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 //Enable this when disabling jack
-//apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.cookpad.android.licensetools'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
@@ -17,9 +17,9 @@ android {
         
         //Enable jack support
         //When disabling jack, DON'T forget to enable retrolambda
-        jackOptions {
-            enabled true
-        }
+//        jackOptions {
+//            enabled true
+//        }
 
         //Load the API keys from the file "secrets.properties".
         Properties props = new Properties()
@@ -73,7 +73,7 @@ project.afterEvaluate {
 }
 
 //The support library version
-final SUPPORT_LIBRARY_VERSION = '25.0.1'
+final SUPPORT_LIBRARY_VERSION = '25.1.0'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -111,7 +111,11 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:10.0.1'
 
     compile 'com.google.firebase:firebase-core:10.0.1'
-    compile 'com.google.firebase:firebase-crash:10.0.1'
+
+    testCompile project(':firebasenoop')
+    debugCompile project(':firebasenoop')
+    releaseCompile 'com.google.firebase:firebase-crash:10.0.1'
+
     compile 'com.google.firebase:firebase-messaging:10.0.1'
     compile 'com.google.firebase:firebase-config:10.0.1'
 
