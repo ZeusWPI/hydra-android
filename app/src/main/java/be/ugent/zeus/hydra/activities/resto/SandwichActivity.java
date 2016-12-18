@@ -68,7 +68,7 @@ public class SandwichActivity extends HydraActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_resto, menu);
-        tintToolbarIcons(menu, R.id.resto_refresh);
+        tintToolbarIcons(menu, R.id.action_refresh);
         return true;
     }
 }
