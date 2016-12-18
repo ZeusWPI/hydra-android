@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 //Enable this when disabling jack
-//apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.cookpad.android.licensetools'
 
 android {
@@ -17,9 +17,9 @@ android {
         
         //Enable jack support
         //When disabling jack, DON'T forget to enable retrolambda
-        jackOptions {
-            enabled true
-        }
+//        jackOptions {
+//            enabled true
+//        }
 
         //Load the API keys from the file "secrets.properties".
         Properties props = new Properties()
@@ -73,7 +73,7 @@ project.afterEvaluate {
 }
 
 //The support library version
-final SUPPORT_LIBRARY_VERSION = '25.0.1'
+final SUPPORT_LIBRARY_VERSION = '25.1.0'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
