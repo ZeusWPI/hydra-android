@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -49,6 +50,7 @@ public class MainActivity extends HydraActivity implements FragmentManager.OnBac
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
+    private AppBarLayout appBarLayout;
 
     private SharedPreferences preferences;
     private OfflinePlugin plugin = new OfflinePlugin();
@@ -77,6 +79,7 @@ public class MainActivity extends HydraActivity implements FragmentManager.OnBac
     private void initialize(Bundle savedInstanceState) {
         drawer = $(R.id.drawer_layout);
         navigationView = $(R.id.navigation_view);
+        appBarLayout = $(R.id.app_bar_layout);
 
         navigationView.setNavigationItemSelectedListener(
                 menuItem -> {
@@ -189,6 +192,7 @@ public class MainActivity extends HydraActivity implements FragmentManager.OnBac
         fragmentManager.beginTransaction().replace(R.id.content, fragment).addToBackStack(name).commit();
 
         //updateDrawer(menuItem);
+        appBarLayout.setExpanded(true);
     }
 
     private void updateDrawer(MenuItem item) {
@@ -230,7 +234,7 @@ public class MainActivity extends HydraActivity implements FragmentManager.OnBac
     @Override
     public void onBackStackChanged() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content);
-        if(fragment != null) {
+        if (fragment != null) {
             int id = getFragmentMenuId(fragment);
             updateDrawer(navigationView.getMenu().findItem(id));
         }
