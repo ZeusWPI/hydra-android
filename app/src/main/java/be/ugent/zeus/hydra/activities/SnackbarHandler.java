@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 /**
  * @author Niko Strijbol
  */
+@FunctionalInterface
 public interface SnackbarHandler {
 
     void showSnackbar(String message, @Snackbar.Duration int length, @Nullable SwipeRefreshLayout.OnRefreshListener listener);

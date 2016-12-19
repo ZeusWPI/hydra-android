@@ -11,6 +11,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
+import java8.util.function.Function;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, MultiSelectListAdapter.ViewHolder<H>> {
 
-    protected DisplayNameProvider<H> displayNameProvider = Object::toString;
+    protected Function<H, String> displayNameProvider = Object::toString;
 
     /**
      * Set the values to use.
@@ -48,7 +49,7 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
      *
      * @param provider The provider.
      */
-    public void setDisplayNameProvider(DisplayNameProvider<H> provider) {
+    public void setDisplayNameProvider(Function<H, String> provider) {
         displayNameProvider = provider;
         notifyDataSetChanged();
     }
@@ -93,11 +94,6 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
         return new ViewHolder<>(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_checkbox_string, parent, false), this);
     }
 
-    @FunctionalInterface
-    public interface DisplayNameProvider<H> {
-        String getDisplayValue(H element);
-    }
-
     /**
      * Simple view holder.
      *
@@ -126,7 +122,7 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
 
         @Override
         public void populate(Pair<E, Boolean> data) {
-            title.setText(adapter.displayNameProvider.getDisplayValue(data.first));
+            title.setText(adapter.displayNameProvider.apply(data.first));
             checkBox.setChecked(data.second);
             parent.setOnClickListener(v -> {
                 adapter.setChecked(getAdapterPosition());
