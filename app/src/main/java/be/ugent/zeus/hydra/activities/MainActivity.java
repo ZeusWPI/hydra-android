@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * Main activity.
  */
-public class MainActivity extends HydraActivity implements FragmentManager.OnBackStackChangedListener {
+public class MainActivity extends HydraActivity {
 
     public static final String ARG_TAB = "argTab";
     private static final String TAG = "HydraActivity";
@@ -94,9 +94,6 @@ public class MainActivity extends HydraActivity implements FragmentManager.OnBac
             }
         };
         drawer.addDrawerListener(toggle);
-
-        getSupportFragmentManager().addOnBackStackChangedListener(this);
-
         plugin.setView($(android.R.id.content));
 
         //If the instance is null, we must initialise a fragment, otherwise android does it for us.
@@ -104,7 +101,7 @@ public class MainActivity extends HydraActivity implements FragmentManager.OnBac
             //Get start position & select it
             int start = getIntent().getIntExtra(ARG_TAB, 0);
             selectDrawerItem(navigationView.getMenu().getItem(start));
-        } else {
+        } else { //Update title, since this is not saved apparently.
             //Current fragment
             FragmentManager manager = getSupportFragmentManager();
             Fragment current = manager.findFragmentById(R.id.content);
@@ -133,8 +130,21 @@ public class MainActivity extends HydraActivity implements FragmentManager.OnBac
         return toggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Select a drawer item. This will update the fragment to the new one from the menu item, if it is a different one
+     * than the current one.
+     *
+     * Note: this function does not update the drawer.
+     *
+     * @param menuItem The item to display.
+     */
     private void selectDrawerItem(MenuItem menuItem) {
+
+        updateDrawer(menuItem);
+
         // Create a new fragment and specify the fragment to show based on nav item clicked
+        Log.d(TAG, "selectDrawerItem: Selecting item");
+
         Fragment fragment;
         switch (menuItem.getItemId()) {
             case R.id.drawer_feed:
@@ -191,11 +201,18 @@ public class MainActivity extends HydraActivity implements FragmentManager.OnBac
         fragmentManager.popBackStackImmediate(name, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentManager.beginTransaction().replace(R.id.content, fragment).addToBackStack(name).commit();
 
-        //updateDrawer(menuItem);
         appBarLayout.setExpanded(true);
     }
 
+    /**
+     * Manually set the drawer item, and close the drawers. This will not update the fragment.
+     *
+     * @param item The item to mark as current.
+     */
     private void updateDrawer(MenuItem item) {
+
+        Log.d(TAG, "updateDrawer: Updating item");
+
         // Highlight the selected item has been done by NavigationView
         item.setChecked(true);
         // Set action bar title
@@ -214,6 +231,11 @@ public class MainActivity extends HydraActivity implements FragmentManager.OnBac
                 getSupportFragmentManager().popBackStackImmediate();
             }
             super.onBackPressed();
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content);
+            if (fragment != null) {
+                int id = getFragmentMenuId(fragment);
+                updateDrawer(navigationView.getMenu().findItem(id));
+            }
         }
     }
 
@@ -229,15 +251,6 @@ public class MainActivity extends HydraActivity implements FragmentManager.OnBac
     @IdRes
     private int getFragmentMenuId(Fragment fragment) {
         return fragment.getArguments().getInt(FRAGMENT_MENU_ID);
-    }
-
-    @Override
-    public void onBackStackChanged() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content);
-        if (fragment != null) {
-            int id = getFragmentMenuId(fragment);
-            updateDrawer(navigationView.getMenu().findItem(id));
-        }
     }
 
     @Override
