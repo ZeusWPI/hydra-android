@@ -101,6 +101,11 @@ public class MainActivity extends HydraActivity implements FragmentManager.OnBac
             //Get start position & select it
             int start = getIntent().getIntExtra(ARG_TAB, 0);
             selectDrawerItem(navigationView.getMenu().getItem(start));
+        } else {
+            //Current fragment
+            FragmentManager manager = getSupportFragmentManager();
+            Fragment current = manager.findFragmentById(R.id.content);
+            setTitle(navigationView.getMenu().findItem(getFragmentMenuId(current)).getTitle());
         }
     }
 
@@ -219,8 +224,7 @@ public class MainActivity extends HydraActivity implements FragmentManager.OnBac
      */
     @IdRes
     private int getFragmentMenuId(Fragment fragment) {
-        Bundle bundle = fragment.getArguments();
-        return bundle.getInt(FRAGMENT_MENU_ID);
+        return fragment.getArguments().getInt(FRAGMENT_MENU_ID);
     }
 
     @Override
