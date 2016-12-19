@@ -30,12 +30,7 @@ public class InfoViewHolder extends DataViewHolder<InfoItem> {
 
         title.setText(infoItem.getTitle());
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                infoItem.getType().doOnClick(v.getContext(), infoItem);
-            }
-        });
+        itemView.setOnClickListener(v -> infoItem.getType().doOnClick(v.getContext(), infoItem));
 
         int color = R.color.ugent_blue_dark;
         Context c = itemView.getContext();
@@ -43,7 +38,7 @@ public class InfoViewHolder extends DataViewHolder<InfoItem> {
 
         //If the item itself has an image.
         if (infoItem.getImage() != null) {
-            int resId = c.getResources().getIdentifier("ic_" + infoItem.getImage(), "drawable", itemView.getContext().getPackageName());
+            int resId = c.getResources().getIdentifier(infoItem.getImage(), "drawable", itemView.getContext().getPackageName());
             Drawable icon = ViewUtils.getTintedVectorDrawable(c, resId, color);
             title.setCompoundDrawablesWithIntrinsicBounds(icon, null, more, null);
         } else {

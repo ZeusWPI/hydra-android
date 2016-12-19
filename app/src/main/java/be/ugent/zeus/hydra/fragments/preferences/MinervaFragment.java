@@ -9,10 +9,12 @@ import android.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.auth.AccountUtils;
+import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
 
 /**
+ * Preferences for Minerva things.
+ *
  * @author Niko Strijbol
  */
 public class MinervaFragment extends PreferenceFragment {
@@ -20,6 +22,7 @@ public class MinervaFragment extends PreferenceFragment {
     public static final String PREF_SYNC_FREQUENCY = "pref_minerva_sync_frequency";
     public static final String PREF_ANNOUNCEMENT_NOTIFICATION = "pref_minerva_announcement_notification";
     public static final String PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL = "pref_minerva_announcement_notification_email";
+    public static final String PREF_USE_MOBILE_URL = "pref_minerva_use_mobile_url";
 
     //In seconds
     public static final String PREF_DEFAULT_SYNC_FREQUENCY = "86400";
@@ -33,19 +36,16 @@ public class MinervaFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
 
         // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.preferences_minerva);
+        addPreferencesFromResource(R.xml.pref_minerva);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
         oldSync = Integer.parseInt(preferences.getString(PREF_SYNC_FREQUENCY, PREF_DEFAULT_SYNC_FREQUENCY));
         newSync = oldSync;
 
         Preference preference = findPreference(PREF_SYNC_FREQUENCY);
-        preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                newSync = Integer.parseInt((String) o);
-                return true;
-            }
+        preference.setOnPreferenceChangeListener((preference1, o) -> {
+            newSync = Integer.parseInt((String) o);
+            return true;
         });
 
         if(!AccountUtils.hasAccount(getAppContext())) {
@@ -64,7 +64,7 @@ public class MinervaFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        HydraApplication.getApplication(getActivity()).sendScreenName("Minerva Settings");
+        HydraApplication.getApplication(getActivity()).sendScreenName("Settings > Minerva");
     }
 
     private Context getAppContext() {

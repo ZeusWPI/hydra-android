@@ -1,15 +1,23 @@
 package be.ugent.zeus.hydra.minerva.announcement;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.MainActivity;
+import be.ugent.zeus.hydra.activities.minerva.AnnouncementActivity;
+import be.ugent.zeus.hydra.activities.minerva.CourseActivity;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.utils.html.Utils;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -70,10 +78,10 @@ public class AnnouncementNotificationBuilder {
 
         Log.d(TAG, "Publishing notification");
 
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setSmallIcon(smallIcon)
-                .setCategory(CATEGORY_EMAIL);
+                .setCategory(CATEGORY_EMAIL)
+                .setAutoCancel(true);
 
         //For one message
         if(announcements.size() == 1) {
@@ -93,14 +101,19 @@ public class AnnouncementNotificationBuilder {
 
         NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
         bigTextStyle.setBigContentTitle(announcement.getTitle());
-        bigTextStyle.bigText(announcement.getContent());
+        bigTextStyle.bigText(stripHtml(announcement.getContent()));
         bigTextStyle.setSummaryText(announcement.getLecturer());
 
-        if(TextUtils.isEmpty(announcement.getTitle())) {
-            builder.setContentText("Nieuwe aankondiging.");
+        if (TextUtils.isEmpty(announcement.getTitle())) {
+            builder.setContentText(context.getString(R.string.announcement_notification_content));
         } else {
             builder.setContentText(announcement.getTitle());
         }
+
+        //Ensure course is set
+        announcement.setCourse(course);
+
+        builder.setContentIntent(upIntentOne(announcement));
 
         builder.setStyle(bigTextStyle);
         return builder;
@@ -110,7 +123,7 @@ public class AnnouncementNotificationBuilder {
 
         setTitle(builder);
 
-        builder.setContentText(announcements.size() + " aankondigingen");
+        builder.setContentText(context.getString(R.string.home_feed_announcement_title, announcements.size()));
 
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 
@@ -120,9 +133,16 @@ public class AnnouncementNotificationBuilder {
             inboxStyle.addLine(iterator.next().getTitle());
         }
 
-        if(announcements.size() > 4) {
-            inboxStyle.setSummaryText("nog " + (announcements.size() - 4) + " aankondigingen...");
+        if (announcements.size() > 4) {
+            inboxStyle.setSummaryText(context.getString(R.string.home_feed_announcement_more, announcements.size() - 4));
         }
+
+        //Click intent
+        Intent intent = new Intent(context, CourseActivity.class);
+        intent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) course);
+        intent.putExtra(CourseActivity.ARG_TAB, CourseActivity.TAB_ANNOUNCEMENTS);
+
+        builder.setContentIntent(upIntentMore());
 
         builder.setStyle(inboxStyle);
         return builder;
@@ -130,9 +150,43 @@ public class AnnouncementNotificationBuilder {
 
     private void setTitle(NotificationCompat.Builder builder) {
         if(TextUtils.isEmpty(course.getTitle())) {
-            builder.setContentTitle("Aankondiging in " + course.getCode());
+            builder.setContentTitle(context.getString(R.string.announcement_notification_title, course.getCode()));
         } else {
             builder.setContentTitle(course.getTitle());
         }
+    }
+
+    private String stripHtml(String containingHtml) {
+        return Utils.fromHtml(containingHtml).toString();
+    }
+
+    private PendingIntent upIntentOne(Announcement announcement) {
+        Intent resultIntent = new Intent(context, AnnouncementActivity.class);
+        resultIntent.putExtra(AnnouncementActivity.ARG_ANNOUNCEMENT, (Parcelable) announcement);
+
+        Intent parentIntent = new Intent(context, CourseActivity.class);
+        parentIntent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) announcement.getCourse());
+
+        return TaskStackBuilder.create(context)
+                .addNextIntent(mainActivity())
+                .addNextIntent(parentIntent)
+                .addNextIntent(resultIntent)
+                .getPendingIntent(announcement.getItemId(), PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private PendingIntent upIntentMore() {
+        Intent resultIntent = new Intent(context, CourseActivity.class);
+        resultIntent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) course);
+
+        return TaskStackBuilder.create(context)
+                .addNextIntentWithParentStack(mainActivity())
+                .addNextIntent(resultIntent)
+                .getPendingIntent(course.getId().hashCode(), PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private Intent mainActivity() {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(MainActivity.ARG_TAB, 6);
+        return intent;
     }
 }

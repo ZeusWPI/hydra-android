@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/info_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/card_margin"
+    android:layout_marginLeft="@dimen/card_margin"
+    android:layout_marginRight="@dimen/card_margin"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:paddingRight="@dimen/card_title_padding_vertical"
+        android:paddingLeft="@dimen/card_title_padding_vertical"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/card_title_padding_bottom_no_content">
+
+            <TextView
+                android:paddingTop="@dimen/card_title_padding_top_large_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/name"
+                android:ellipsize="end"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                tools:text="Titel van het evenement die zeer lang is!" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/content"
+                android:textColor="?android:attr/textColorSecondary"
+                tools:text="Beschrijving"
+                android:maxLines="3"
+                android:ellipsize="end" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_marginLeft="@dimen/content_spacing"
+            android:layout_marginStart="@dimen/content_spacing"
+            android:layout_marginTop="@dimen/card_title_padding_top_large_title"
+            android:layout_marginBottom="@dimen/card_title_padding_bottom"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/logo"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            tools:src="@drawable/ic_event" />
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
+

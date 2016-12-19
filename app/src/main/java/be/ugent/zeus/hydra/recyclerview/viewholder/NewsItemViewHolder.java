@@ -1,13 +1,10 @@
 package be.ugent.zeus.hydra.recyclerview.viewholder;
 
-import java.util.Locale;
-
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.NewsArticleActivity;
 import be.ugent.zeus.hydra.models.association.NewsItem;
@@ -37,24 +34,21 @@ public class NewsItemViewHolder extends DataViewHolder<NewsItem> {
 
         title.setText(newsItem.getTitle());
 
-        String infoText = String.format(new Locale("nl"), "%s door %s",
-                DateUtils.relativeDateString(newsItem.getDate(), itemView.getContext()),
+        String infoText = itemView.getContext().getString(R.string.agenda_subtitle,
+                DateUtils.relativeDateTimeString(newsItem.getDate(), itemView.getContext()),
                 newsItem.getAssociation().getName());
         info.setText(infoText);
         if (newsItem.isHighlighted()) {
-            Drawable d = ViewUtils.getTintedVectorDrawable(itemView.getContext(), R.drawable.ic_star_24dp, R.color.ugent_yellow_dark);
+            Drawable d = ViewUtils.getTintedVectorDrawable(itemView.getContext(), R.drawable.ic_star, R.color.ugent_yellow_dark);
             title.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
         } else {
             title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(itemView.getContext(), NewsArticleActivity.class);
-                intent.putExtra(PARCEL_NAME, (Parcelable) newsItem);
-                itemView.getContext().startActivity(intent);
-            }
+        itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(itemView.getContext(), NewsArticleActivity.class);
+            intent.putExtra(PARCEL_NAME, (Parcelable) newsItem);
+            itemView.getContext().startActivity(intent);
         });
     }
 }

@@ -41,13 +41,7 @@ public class CourseViewHolder extends DataViewHolder<Course> {
         final CharSequence tutor = Utils.fromHtml(course.getTutorName());
         subtitle.setText(tutor + " - " + course.getCode());
 
-
         //Set onclick listener
-        parent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CourseActivity.start(itemView.getContext(), course);
-            }
-        });
+        parent.setOnClickListener(view -> CourseActivity.start(view.getContext(), course));
     }
 }

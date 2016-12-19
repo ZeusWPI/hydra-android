@@ -3,28 +3,26 @@ package be.ugent.zeus.hydra.fragments;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.SettingsActivity;
-import be.ugent.zeus.hydra.recyclerview.adapters.ActivityListAdapter;
-import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
-import be.ugent.zeus.hydra.cache.CacheRequest;
-import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.models.association.Activities;
-import be.ugent.zeus.hydra.models.association.Activity;
-import be.ugent.zeus.hydra.recyclerview.adapters.ActivityListAdapter;
-import be.ugent.zeus.hydra.requests.ActivitiesRequest;
-import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
+import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
+import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
+import be.ugent.zeus.hydra.loaders.DataCallback;
+import be.ugent.zeus.hydra.models.association.Event;
+import be.ugent.zeus.hydra.models.association.Events;
+import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.recyclerview.adapters.EventAdapter;
+import be.ugent.zeus.hydra.requests.association.FilteredEventRequest;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.List;
@@ -37,16 +35,27 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author ellen
  * @author Niko Strijbol
  */
-public class ActivitiesFragment extends CachedLoaderFragment<Activities> implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class ActivitiesFragment extends PluginFragment implements SharedPreferences.OnSharedPreferenceChangeListener, DataCallback<Events> {
 
-    private ActivityListAdapter adapter;
+    private static final String TAG = "ActivitiesFragment";
+
+    private final EventAdapter adapter = new EventAdapter();
+    private final RecyclerViewPlugin<Event, Events> plugin = new RecyclerViewPlugin<>(FilteredEventRequest::new, adapter);
     private LinearLayout noData;
 
     //If the data is invalidated.
     private boolean invalid = false;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugin.setCallback(this);
+        plugins.add(plugin);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_activities, container, false);
     }
 
@@ -54,49 +63,41 @@ public class ActivitiesFragment extends CachedLoaderFragment<Activities> impleme
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
         noData = $(view, R.id.events_no_data);
 
-        adapter = new ActivityListAdapter();
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-
-        StickyRecyclerHeadersDecoration decorator = new StickyRecyclerHeadersDecoration(adapter);
-        recyclerView.addItemDecoration(decorator);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
+        plugin.addItemDecoration(new StickyRecyclerHeadersDecoration(adapter));
+        plugin.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         Button refresh = $(view, R.id.events_no_data_button_refresh);
         Button filters = $(view, R.id.events_no_data_button_filters);
 
-        refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refresh();
-            }
-        });
-        filters.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), SettingsActivity.class));
-            }
-        });
+        refresh.setOnClickListener(v -> plugin.getRequestPlugin().refresh());
+        filters.setOnClickListener(v -> startActivity(new Intent(getContext(), SettingsActivity.class)));
 
         //Register this class in the settings.
         PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
     }
 
-    /**
-     * Set the data. This assumes the data has been set once already. If the data is empty, a snackbar will be shown.
-     *
-     * @param data The data.
-     */
-    private void setData(@NonNull List<Activity> data) {
+    @Override
+    public void onResume() {
+        super.onResume();
 
-        data = Activities.getPreferredActivities(data, getContext());
+        //Refresh the data.
+        if (invalid) {
+            plugin.getRequestPlugin().getLoaderPlugin().restartLoader();
+            invalid = false;
+        }
+    }
 
-        adapter.setData(data);
-        adapter.notifyDataSetChanged();
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING.equals(key)) {
+            invalid = true;
+        }
+    }
 
+    @Override
+    public void receiveData(@NonNull Events data) {
         //If empty, show it.
         if(data.isEmpty()) {
             noData.setVisibility(View.VISIBLE);
@@ -106,49 +107,7 @@ public class ActivitiesFragment extends CachedLoaderFragment<Activities> impleme
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        //Refresh the data.
-        if(invalid) {
-            //No need for a new thread, since this is pretty fast.
-            setData(adapter.getOriginal());
-            invalid = false;
-        }
-    }
-
-    /**
-     * Called when a shared preference is changed, added, or removed. This may be called even if a preference is set to
-     * its existing value.
-     * <p>
-     * <p>This callback will be run on your main thread.
-     *
-     * @param sharedPreferences The {@link SharedPreferences} that received the change.
-     * @param key               The key of the preference that was changed, added, or
-     */
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equals("pref_association_checkbox") || key.equals("associationPrefListScreen")) {
-            invalid = true;
-        }
-    }
-
-    /**
-     * This must be called when data is received that has no errors.
-     *
-     * @param data The data.
-     */
-    @Override
-    public void receiveData(@NonNull Activities data) {
-        adapter.setOriginal(data);
-        setData(data);
-    }
-
-    /**
-     * @return The request that will be executed.
-     */
-    @Override
-    public ActivitiesRequest getRequest() {
-        return new ActivitiesRequest();
+    public void receiveError(@NonNull Throwable e) {
+        //Nothing
     }
 }

@@ -27,10 +27,10 @@ import android.text.style.BulletSpan;
 import android.text.style.LeadingMarginSpan;
 import android.text.style.TypefaceSpan;
 import android.util.Log;
-
 import org.xml.sax.XMLReader;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Custom HTML tag handler to support more tags.
@@ -56,8 +56,8 @@ public class HtmlTagHandler implements Html.TagHandler {
 
     private static final String TAG = "TagHandler";
 
-    private int mListItemCount = 0;
-    private Vector<String> mListParents = new Vector<>();
+    private int listItemCount = 0;
+    private List<String> listParents = new ArrayList<>();
 
     private static class Code {
     }
@@ -72,8 +72,8 @@ public class HtmlTagHandler implements Html.TagHandler {
             Log.v(TAG, "opening, output: " + output.toString());
 
             if (tag.equalsIgnoreCase("ul") || tag.equalsIgnoreCase("ol") || tag.equalsIgnoreCase("dd")) {
-                mListParents.add(tag);
-                mListItemCount = 0;
+                listParents.add(tag);
+                listItemCount = 0;
             } else if (tag.equalsIgnoreCase("code")) {
                 start(output, new Code());
             } else if (tag.equalsIgnoreCase("center")) {
@@ -84,8 +84,8 @@ public class HtmlTagHandler implements Html.TagHandler {
             Log.v(TAG, "closing, output: " + output.toString());
 
             if (tag.equalsIgnoreCase("ul") || tag.equalsIgnoreCase("ol") || tag.equalsIgnoreCase("dd")) {
-                mListParents.remove(tag);
-                mListItemCount = 0;
+                listParents.remove(tag);
+                listItemCount = 0;
             } else if (tag.equalsIgnoreCase("li")) {
                 handleListTag(output);
             } else if (tag.equalsIgnoreCase("code")) {
@@ -152,23 +152,23 @@ public class HtmlTagHandler implements Html.TagHandler {
     }
 
     private void handleListTag(Editable output) {
-        if (mListParents.lastElement().equals("ul")) {
+        if (listParents.get(listParents.size() - 1).equals("ul")) {
             output.append("\n");
             String[] split = output.toString().split("\n");
 
             int lastIndex = split.length - 1;
             int start = output.length() - split[lastIndex].length() - 1;
-            output.setSpan(new BulletSpan(15 * mListParents.size()), start, output.length(), 0);
-        } else if (mListParents.lastElement().equals("ol")) {
-            mListItemCount++;
+            output.setSpan(new BulletSpan(15 * listParents.size()), start, output.length(), 0);
+        } else if (listParents.get(listParents.size() - 1).equals("ol")) {
+            listItemCount++;
 
             output.append("\n");
             String[] split = output.toString().split("\n");
 
             int lastIndex = split.length - 1;
             int start = output.length() - split[lastIndex].length() - 1;
-            output.insert(start, mListItemCount + ". ");
-            output.setSpan(new LeadingMarginSpan.Standard(15 * mListParents.size()), start, output.length(), 0);
+            output.insert(start, listItemCount + ". ");
+            output.setSpan(new LeadingMarginSpan.Standard(15 * listParents.size()), start, output.length(), 0);
         }
     }
 }

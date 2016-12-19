@@ -1,40 +1,39 @@
 package be.ugent.zeus.hydra.fragments.minerva;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.fragments.common.LoaderFragment;
-import be.ugent.zeus.hydra.loader.ThrowableEither;
+import be.ugent.zeus.hydra.loaders.LoaderProvider;
+import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDaoLoader;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.minerva.AgendaAdapter;
-import be.ugent.zeus.hydra.utils.recycler.DividerItemDecoration;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.List;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
-
 /**
  * @author Niko Strijbol
  */
-public class CourseAgendaFragment extends LoaderFragment<List<AgendaItem>> {
+public class CourseAgendaFragment extends PluginFragment implements LoaderProvider<List<AgendaItem>> {
 
     private static final String ARG_COURSE = "argCourse";
 
     private Course course;
     private AgendaDao dao;
-    private AgendaAdapter adapter;
+    private AgendaAdapter adapter = new AgendaAdapter();
+    private RecyclerViewPlugin<AgendaItem, List<AgendaItem>> plugin = new RecyclerViewPlugin<>(this, adapter);
 
     public static CourseAgendaFragment newInstance(Course course) {
         CourseAgendaFragment fragment = new CourseAgendaFragment();
@@ -42,6 +41,12 @@ public class CourseAgendaFragment extends LoaderFragment<List<AgendaItem>> {
         data.putParcelable(ARG_COURSE, course);
         fragment.setArguments(data);
         return fragment;
+    }
+
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugins.add(plugin);
     }
 
     @Override
@@ -60,35 +65,13 @@ public class CourseAgendaFragment extends LoaderFragment<List<AgendaItem>> {
         super.onViewCreated(view, savedInstanceState);
 
         dao = new AgendaDao(getContext());
-        adapter = new AgendaAdapter();
 
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(new StickyRecyclerHeadersDecoration(adapter));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
-        recyclerView.setAdapter(adapter);
+        plugin.addItemDecoration(new StickyRecyclerHeadersDecoration(adapter));
+        plugin.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
 
-    /**
-     * Instantiate and return a new Loader for the given ID.
-     *
-     * @param id   The ID whose loader is to be created.
-     * @param args Any arguments supplied by the caller.
-     *
-     * @return Return a new Loader instance that is ready to start loading.
-     */
     @Override
-    public Loader<ThrowableEither<List<AgendaItem>>> onCreateLoader(int id, Bundle args) {
-        return new AgendaDaoLoader(getContext(), dao, course);
-    }
-
-    /**
-     * Receive the data if the request was completed successfully.
-     *
-     * @param data The data.
-     */
-    @Override
-    public void receiveData(@NonNull List<AgendaItem> data) {
-        adapter.setItems(data);
+    public Loader<ThrowableEither<List<AgendaItem>>> getLoader(Context context) {
+        return new AgendaDaoLoader(context, dao, course);
     }
 }

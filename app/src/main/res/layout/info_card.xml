@@ -22,7 +22,7 @@
         tools:text="Informatienaam"
         android:id="@+id/info_name"
         tools:drawableLeft="@mipmap/ic_launcher"
-        tools:drawableRight="@drawable/ic_chevron_right_24dp"
+        tools:drawableRight="@drawable/ic_chevron_right"
         android:drawablePadding="@dimen/card_title_padding_vertical"
         android:gravity="center_vertical" />
 

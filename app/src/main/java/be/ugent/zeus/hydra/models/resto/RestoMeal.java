@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.models.resto;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
+import java8.util.Objects;
 
 import java.io.Serializable;
 
@@ -18,9 +19,6 @@ public class RestoMeal implements Parcelable, Serializable {
     private String price;
     private MealType type;
     private String kind;
-
-    public RestoMeal() {
-    }
 
     public String getName() {
         return name;
@@ -93,4 +91,20 @@ public class RestoMeal implements Parcelable, Serializable {
             return new RestoMeal[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RestoMeal restoMeal = (RestoMeal) o;
+        return Objects.equals(name, restoMeal.name) &&
+                Objects.equals(price, restoMeal.price) &&
+                type == restoMeal.type &&
+                Objects.equals(kind, restoMeal.kind);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, price, type, kind);
+    }
 }

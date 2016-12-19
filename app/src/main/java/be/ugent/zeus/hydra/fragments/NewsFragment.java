@@ -1,40 +1,48 @@
 package be.ugent.zeus.hydra.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.fragments.common.RecyclerLoaderFragment;
 import be.ugent.zeus.hydra.models.association.News;
 import be.ugent.zeus.hydra.models.association.NewsItem;
+import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
+import be.ugent.zeus.hydra.plugins.RequestPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.NewsAdapter;
 import be.ugent.zeus.hydra.requests.NewsRequest;
+import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
+
+import java.util.List;
 
 /**
- * Created by Ellen on 07/04/2016.
+ * Display DSA news.
+ *
+ * @author Ellen
+ * @author Niko Strijbol
  */
-public class NewsFragment extends RecyclerLoaderFragment<NewsItem, News, NewsAdapter> {
+public class NewsFragment extends PluginFragment {
+
+    private final NewsAdapter adapter = new NewsAdapter();
+    private final RecyclerViewPlugin<NewsItem, News> plugin = new RecyclerViewPlugin<>(RequestPlugin.wrap(new NewsRequest()), adapter);
+
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugins.add(plugin);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_recycler_view, container, false);
+        return inflater.inflate(R.layout.fragment_news, container, false);
     }
 
-    /**
-     * @return The adapter to use.
-     */
     @Override
-    protected NewsAdapter getAdapter() {
-        return new NewsAdapter();
-    }
-
-    /**
-     * @return The request that will be executed.
-     */
-    @Override
-    public NewsRequest getRequest() {
-        return new NewsRequest();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        plugin.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
     }
 }

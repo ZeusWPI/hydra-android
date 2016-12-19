@@ -2,23 +2,29 @@ package be.ugent.zeus.hydra.models.association;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
-import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
+import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.utils.DateUtils;
+import java8.util.Objects;
+import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by feliciaan on 04/02/16.
  */
 public class NewsItem implements Serializable, Parcelable {
+
     private int id;
     private String title;
     private String content;
     private Association association;
-    @JsonAdapter(TimeStampDateJsonAdapter.class)
-    private Date date;
+    @JsonAdapter(ZonedThreeTenAdapter.class)
+    private ZonedDateTime date;
     @JsonAdapter(BooleanJsonAdapter.class)
     private boolean highlighted;
 
@@ -54,20 +60,20 @@ public class NewsItem implements Serializable, Parcelable {
         this.association = association;
     }
 
-    public Date getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
+    }
+
+    public LocalDateTime getLocalDate() {
+        return DateUtils.toLocalDateTime(getDate());
     }
 
     public boolean isHighlighted() {
         return highlighted;
-    }
-
-    public void setHighlighted(boolean highlighted) {
-        this.highlighted = highlighted;
     }
 
     @Override
@@ -81,20 +87,16 @@ public class NewsItem implements Serializable, Parcelable {
         dest.writeString(this.title);
         dest.writeString(this.content);
         dest.writeParcelable(this.association, flags);
-        dest.writeLong(this.date != null ? this.date.getTime() : -1);
-        dest.writeByte(this.highlighted ? (byte) 1 : (byte) 0);
+        dest.writeLong(TtbUtils.serialize(this.date));
+        dest.writeByte((byte) (this.highlighted ? 1 : 0));
     }
 
-    public NewsItem() {
-    }
-
-    protected NewsItem(Parcel in) {
+    private NewsItem(Parcel in) {
         this.id = in.readInt();
         this.title = in.readString();
         this.content = in.readString();
         this.association = in.readParcelable(Association.class.getClassLoader());
-        long tmpDate = in.readLong();
-        this.date = tmpDate == -1 ? null : new Date(tmpDate);
+        this.date = TtbUtils.unserialize(in.readLong());
         this.highlighted = in.readByte() != 0;
     }
 
@@ -109,4 +111,17 @@ public class NewsItem implements Serializable, Parcelable {
             return new NewsItem[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NewsItem newsItem = (NewsItem) o;
+        return id == newsItem.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

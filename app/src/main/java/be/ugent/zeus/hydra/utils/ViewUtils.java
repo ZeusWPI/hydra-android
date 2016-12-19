@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -11,13 +10,12 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.content.res.AppCompatResources;
 import android.util.DisplayMetrics;
 import android.view.View;
-
 import be.ugent.zeus.hydra.R;
 
 /**
  * @author Niko Strijbol
- * @version 31/05/2016
  */
+@SuppressWarnings("WeakerAccess")
 public class ViewUtils {
 
     /**
@@ -35,8 +33,9 @@ public class ViewUtils {
         return v;
     }
 
-    public static int getPrimaryColor(Activity activity) {
-        return getColor(activity, R.attr.colorPrimary);
+    @ColorInt
+    public static int getPrimaryColor(Context context) {
+        return getColor(context, R.attr.colorPrimary);
     }
 
     @ColorInt
@@ -55,15 +54,30 @@ public class ViewUtils {
     /**
      * Get a vector in the given color.
      *
-     * @param context A context
-     * @param drawable The drawable to get
-     * @param color The color to tint the drawable in
-     * @return The drawable
+     * @param context  A context.
+     * @param drawable The drawable to get.
+     * @param color    The color to tint the drawable in.
+     *
+     * @return The drawable.
      */
     public static Drawable getTintedVectorDrawable(Context context, @DrawableRes int drawable, @ColorRes int color) {
+        return getTintedVectorDrawableInt(context, drawable, ContextCompat.getColor(context, color));
+    }
+
+    /**
+     * Get a vector in the given color.
+     *
+     * @param context  A context
+     * @param drawable The drawable to get
+     * @param color    The color int to tint the drawable in.
+     *
+     * @return The drawable.
+     */
+    public static Drawable getTintedVectorDrawableInt(Context context, @DrawableRes int drawable, @ColorInt int color) {
 
         Drawable d = AppCompatResources.getDrawable(context, drawable);
-        DrawableCompat.setTint(d, ContextCompat.getColor(context, color));
+        assert d != null;
+        DrawableCompat.setTint(d, color);
 
         return d;
     }
@@ -71,18 +85,21 @@ public class ViewUtils {
     /**
      * This method converts dp unit to equivalent pixels, depending on device density.
      *
-     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
+     * @param dp      A value in dp (density independent pixels) unit. Which we need to convert into pixels
      * @param context Context to get resources and device specific display metrics
+     *
      * @return A float value to represent px equivalent to dp depending on device density
      */
-    public static float convertDpToPixel(float dp, Context context){
+    public static float convertDpToPixel(float dp, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        return dp * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        return dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
-    public static int convertDpToPixelInt(float dp, Context context){
+    /**
+     * Same as {@link #convertDpToPixel(float, Context)}, but casted to an int.
+     */
+    public static int convertDpToPixelInt(float dp, Context context) {
         return (int) convertDpToPixel(dp, context);
     }
-
 }

@@ -21,7 +21,6 @@
     <!-- Content descriptions -->
     <string name="hydra_icon_content_description">Hydra icoon</string>
 
-    <string name="ActivitiesWelcome">Welkom bij het activiteitenfragment</string>
     <string name="title_activity_association_activity_detail">Evenement</string>
 
     <!-- Settings -->
@@ -35,11 +34,42 @@
     <string name="pref_daily_notifications_test_summary">Laat een voorbeeldnotificatie zien.</string>
     <string name="pref_daily_notifications_test_title">Voorbeeld</string>
 
+    <string name="pref_resto_title">Resto</string>
+    <string name="pref_resto_description">Instellingen voor de studentenrestaurants</string>
+
+    <string name="pref_resto_closing_hour">Sluitingsuur</string>
+    <string name="pref_resto_closing_title">Sluitingsuur</string>
+    <string name="pref_resto_closing_description">Kies vanaf welk uur de menu voor de volgende dag getoond wordt.</string>
+
+    <string name="pref_resto_choice">Keuze resto</string>
+    <string name="pref_resto_choice_title">Kies een resto</string>
+    <string name="pref_resto_choice_summary">%s</string>
+
     <string name="pref_activities_title">Activiteiten</string>
+
+    <string name="pref_about_header_title">Over</string>
+    <string name="pref_about_header_summary">Over de app</string>
+    <string name="pref_about_licenses_title">Openbronsoftware</string>
+    <string name="pref_about_licenses_summary">Licentiedetails voor gebruikte bibliotheken</string>
+    <string name="pref_about_version_title">Versie</string>
+    <string name="pref_about_version_summary">Versie %1$s [%2$d] (%3$s)</string>
+
+    <string name="pref_about_changelog_title">Wijzigingen</string>
+    <string name="pref_about_changelog_summary">Bekijk wat er nieuw is</string>
+
+    <string name="pref_about_creator_title">Gemaakt door Zeus WPI</string>
+
+    <string name="pref_about_issues_title">Feedback</string>
+    <string name="pref_about_issues_summary">Meld fouten of geef suggesties</string>
 
     <string name="pref_minerva_title">Minerva</string>
 
     <string name="pref_minerva_category_account_title">Account &amp; synchronisatie</string>
+
+    <string name="pref_sko_notification_title">Meldingen</string>
+    <string name="pref_sko_notification_desc">Krijg meldingen over SKO</string>
+
+    <string name="pref_notifications_sko_title">Student Kick-Off</string>
 
     <string name="openFacebook">Ondertussen kan je een bezoekje brengen aan onze Facebook-pagina.</string>
     <string name="facebookButtonDescription">Link naar onze Facebook-pagina.</string>
@@ -57,8 +87,8 @@
     <string name="saturday">zaterdag</string>
     <string name="sunday">zondag</string>
 
-    <string name="restonotification_title">Resto menu</string>
-    <string name="restonotification_text">Bekijk het menu van de resto in de Hydra-app.</string>
+    <string name="resto_notification_title">Resto menu</string>
+    <string name="resto_notification_text">Bekijk het menu van de resto in de Hydra-app.</string>
 
     <string name="resto_action">OPEN RESTO PLOX!</string>
     <string name="section_format">Tab</string>
@@ -85,7 +115,8 @@
     <string name="events_customize_filters">Filters aanpassen</string>
     <string name="title_activity_schamper">Schamperartikel</string>
     <string name="title_activity_news">Nieuwsartikel</string>
-    <string name="resto_menu_title">Menu voor %s</string>
+    <string name="resto_menu_title">Menu van %1$s • %2$s</string>
+    <string name="resto_menu_title_short">Menu van %1$s</string>
     <string name="home_card_description">Activiteit door %s</string>
     <string name="by_author">Door %s</string>
     <string name="pref_home_title">Startscherm</string>
@@ -111,7 +142,7 @@
     <string name="auth_progress_failure">Niet ingelogd.</string>
     <string name="auth_progress_done">Klaar.</string>
 
-    <string name="sync_provider_label">Aankondigingen</string>
+    <string name="sync_provider_label">Minerva-gegevens</string>
 
     <string name="fragment_home_error">Kon %s niet laden.</string>
     <string name="fragment_home_error_minerva">minerva</string>
@@ -133,5 +164,69 @@
     <string name="title_home_minerva">Minerva</string>
     <string name="title_home_soon">Binnenkort</string>
     <string name="title_home_pref">Instellingen</string>
+
+    <string name="activity_title_sko_overview">Student Kick-Off</string>
+    <string name="activity_title_sko_preferences">Instellingen</string>
+
+    <string name="menu_sko_view_website">Website bekijken</string>
+    <string name="pref_notifications_urgent_title">Urgent.fm</string>
+    <string name="pref_notifications_urgent_description">Opties voor Urgent.fm</string>
+
+
+    <string name="urgent_album_art">Albumhoes</string>
+    <string name="urgent_wifi_lock_description">The music player needs to keep your phone from going into sleep mode to prevent interrupting the music.</string>
+
+    <string name="shortcut_resto_short_label">Restomenu</string>
+    <string name="shortcut_resto_long_label">Bekijk de restomenu</string>
+    <string name="shortcut_resto_disabled">Uitgeschakeld</string>
+
+    <string name="shortcut_minerva_short_label">Minerva</string>
+    <string name="shortcut_minerva_long_label">Bekijk Minerva-dingen</string>
+    <string name="shortcut_minerva_disabled">Uitgeschakeld</string>
+    <string name="title_activity_resto_location">Resto\'s</string>
+    <string name="action_center">Ga naar resto\'s</string>
+
+    <string name="error_no_activity">Niets gevonden om dit te openen!</string>
+    <string name="events_no_location">Zonder locatie</string>
+    <string name="title_license">Licenties</string>
+    <string name="agenda_subtitle">%1$s door %2$s</string>
+    <string name="home_feed_announcement_title">%d aankondigingen</string>
+    <string name="home_feed_announcement_more">nog %d aankondigingen…</string>
+    <string name="announcement_notification_content">Nieuwe aankondiging</string>
+    <string name="announcement_notification_title">Aankondiging in %s</string>
+    <string name="without">Zonder</string>
+    <string name="ok">OK</string>
+    <string name="home_feed_not_loaded">Kom sommige dingen niet ophalen.</string>
+    <string name="offline_data_use">Offline data gebruikt.</string>
+    <string name="action_add_to_menu">Toevoegen aan agenda</string>
+    <string name="resto_closed">De resto is gesloten op deze dag.</string>
+    <string name="resto_main_dish">Hoofdgerechten</string>
+    <string name="resto_side_dish">Bijgerechten</string>
+    <string name="vegetables">Groenten</string>
+    <string name="home_feed_agenda_title">Agenda voor %s</string>
+    <string name="home_feed_card_announcement_title">Aankondigingen %s</string>
+    <string name="home_feed_card_announcement_more">Bekijk nog %d aankondigingen…</string>
+    <string name="minerva_no_permission">Je gaf geen toestemming om je account te gebruiken.</string>
+    <string name="minerva_sync_getting_courses">Vakken ophalen…</string>
+    <string name="minerva_sync_done">Klaar.</string>
+    <string name="minerva_sync_progress">Vak %1$d van %2$d ophalen…</string>
+    <string name="not_done_yet">Nog niet klaar</string>
+    <string name="onboarding_welcome">Welkom bij Hydra</string>
+    <string name="onboarding_welcome_description">Kies wat je wilt zien en doen in de app</string>
+    <string name="onboarding_minerva_title">Minerva</string>
+    <string name="onboarding_minerva_description">Meld je aan bij Minerva om je vakken te kunnen bekijken</string>
+    <string name="onboarding_minerva_button">Aanmelden</string>
+    <string name="sko_notification_off">Meldingen uitgeschakeld</string>
+    <string name="turn_off">Uitschakelen</string>
+    <string name="minerva_notification_again">Minerva: opnieuw aanmelden</string>
+    <string name="minerva_notification_text">Druk om opnieuw aan te melden</string>
+    <string name="minerva_notification_big_text">Je moet opnieuw aanmelden bij Minerva, want de inloggegevens zijn verouderd.</string>
+    <string name="minerva_modal_title">Minerva-fout</string>
+    <string name="minerva_modal_content">Synchronisatiefout</string>
+    <string name="minerva_modal_big">Er trad een fout op bij het synchroniseren met Minerva. Gegevens kunnen verouderd zijn.</string>
+    <string name="minerva_error_with">Er trad een fout op bij het synchroniseren, met deze boodschap:\\n\\n%s</string>
+    <string name="urgent_loading">Radio laden…</string>
+    <string name="oops">Oeps!</string>
+    <string name="title_home_urgent">Urgent</string>
 
 </resources>

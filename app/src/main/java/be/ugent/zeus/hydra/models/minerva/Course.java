@@ -19,6 +19,7 @@ public class Course implements Serializable, Parcelable {
     @SerializedName("tutor_name")
     private String tutorName;
     private String student;
+    @SerializedName("academic_year")
     private int academicYear;
 
     public String getId() {
@@ -118,26 +119,16 @@ public class Course implements Serializable, Parcelable {
         }
     };
 
-    /**
-     * A course is equal to this course if the ID of the course is the same.
-     */
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-
-        return id.equals(course.id);
-
+        return java8.util.Objects.equals(id, course.id);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return java8.util.Objects.hash(id);
     }
 }

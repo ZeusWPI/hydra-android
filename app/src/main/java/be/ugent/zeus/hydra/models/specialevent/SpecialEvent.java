@@ -1,15 +1,24 @@
 package be.ugent.zeus.hydra.models.specialevent;
 
-import be.ugent.zeus.hydra.models.converters.TimeStampDateJsonAdapter;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
+import java8.util.Objects;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
- * Created by feliciaan on 06/04/16.
+ * Model for special events.
+ *
+ * @author Niko Strijbol
+ * @author feliciaan
  */
+@SuppressWarnings("unused")
 public class SpecialEvent implements Serializable {
 
     private String name;
@@ -19,11 +28,36 @@ public class SpecialEvent implements Serializable {
     private String image;
     private String html;
     private int priority;
-    @JsonAdapter(TimeStampDateJsonAdapter.class)
-    private Date start;
-    @JsonAdapter(TimeStampDateJsonAdapter.class)
-    private Date end;
+    @JsonAdapter(ZonedThreeTenAdapter.class)
+    private ZonedDateTime start;
+    @JsonAdapter(ZonedThreeTenAdapter.class)
+    private ZonedDateTime end;
     private boolean development;
+
+    private transient Intent viewIntent;
+
+    /**
+     * Set the viewing intent. Passing null will cause the default intent to be used.
+     * @param intent The intent or null for the default.
+     */
+    public void setViewIntent(@Nullable Intent intent) {
+        this.viewIntent = intent;
+    }
+
+    /**
+     * Get the intent to view this event. This places the responsibility on the event. By default, the browser is
+     * opened, but a custom intent can be set.
+     *
+     * @return The intent.
+     */
+    @NonNull
+    public Intent getViewIntent() {
+        if(viewIntent == null) {
+            return new Intent(Intent.ACTION_VIEW, Uri.parse(getLink()));
+        } else {
+            return viewIntent;
+        }
+    }
 
     public String getName() {
         return name;
@@ -35,10 +69,6 @@ public class SpecialEvent implements Serializable {
 
     public String getLink() {
         return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
     }
 
     public String getSimpleText() {
@@ -61,10 +91,6 @@ public class SpecialEvent implements Serializable {
         return html;
     }
 
-    public void setHtml(String html) {
-        this.html = html;
-    }
-
     public int getPriority() {
         return priority;
     }
@@ -73,27 +99,35 @@ public class SpecialEvent implements Serializable {
         this.priority = priority;
     }
 
-    public Date getStart() {
+    public ZonedDateTime getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
-    public Date getEnd() {
+    public ZonedDateTime getEnd() {
         return end;
-    }
-
-    public void setEnd(Date end) {
-        this.end = end;
     }
 
     public boolean isDevelopment() {
         return development;
     }
 
-    public void setDevelopment(boolean development) {
-        this.development = development;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SpecialEvent that = (SpecialEvent) o;
+        return priority == that.priority &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(link, that.link) &&
+                Objects.equals(simpleText, that.simpleText) &&
+                Objects.equals(image, that.image) &&
+                Objects.equals(html, that.html) &&
+                java8.util.Objects.equals(start, that.start) &&
+                java8.util.Objects.equals(end, that.end);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, link, simpleText, image, html, priority, start, end);
     }
 }

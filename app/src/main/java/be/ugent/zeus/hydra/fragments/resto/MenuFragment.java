@@ -10,23 +10,15 @@ import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.views.MenuTable;
 
 /**
- * Displays the resto menu for one day.
+ * Displays the resto menu for one day. This is mostly used in the view pager.
  *
- * The subclasses should decided in what manner the data is represented.
+ * @author Niko Strijbol
  */
 public class MenuFragment extends Fragment {
 
-    /**
-     * The fragment argument representing the section number for this fragment.
-     */
     private static final String ARG_DATA_MENU = "resto_menu";
 
-    /**
-     * The fragment argument representing the section number for this fragment.
-     */
     private RestoMenu data;
-
-    public MenuFragment() {}
 
     public static MenuFragment newInstance(RestoMenu menu) {
         MenuFragment fragment = new MenuFragment();
@@ -36,9 +28,6 @@ public class MenuFragment extends Fragment {
         return fragment;
     }
 
-    /**
-     * Some implementations may wish to persist the data.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

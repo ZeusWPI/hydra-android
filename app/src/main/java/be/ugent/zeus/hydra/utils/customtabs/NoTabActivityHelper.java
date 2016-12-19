@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsCallback;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -15,15 +18,16 @@ import java.util.List;
  */
 class NoTabActivityHelper implements ActivityHelper {
 
+    private final WeakReference<Activity> activity;
     private int intentFlags;
-    private Activity activity;
+    private final ConnectionCallback connectionCallback;
 
     /**
      * Package local constructor.
      */
-    NoTabActivityHelper(Activity activity, ConnectionCallback connectionCallback) {
-        this.activity = activity;
-        connectionCallback.onCustomTabsConnected(this);
+    NoTabActivityHelper(Activity activity, @Nullable ConnectionCallback connectionCallback) {
+        this.activity = new WeakReference<>(activity);
+        this.connectionCallback = connectionCallback;
     }
 
     @Override
@@ -32,7 +36,7 @@ class NoTabActivityHelper implements ActivityHelper {
     }
 
     @Override
-    public void setCallback(CustomTabsCallback callback) {}
+    public void setCallback(@Nullable CustomTabsCallback callback) {}
 
     /**
      * Opens the URL in a new browser window.
@@ -43,19 +47,25 @@ class NoTabActivityHelper implements ActivityHelper {
     public void openCustomTab(Uri uri) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
         browserIntent.setFlags(this.intentFlags);
-        activity.startActivity(browserIntent);
+        NetworkUtils.maybeLaunchIntent(activity.get(), browserIntent);
     }
 
     @Override
-    public void unbindCustomTabsService(Activity activity) {}
+    public void unbindCustomTabsService(Activity activity) {
+        if (connectionCallback != null) {
+            connectionCallback.onCustomTabsDisconnected(this);
+        }
+    }
 
-    /**
-     * Binds the activity to the Custom Tabs Service.
-     *
-     * @param activity The activity to be bound to the service.
-     */
     @Override
-    public void bindCustomTabsService(Activity activity) {}
+    public void bindCustomTabsService(Activity activity) {
+        if (connectionCallback != null) {
+            connectionCallback.onCustomTabsConnected(this);
+        }
+    }
+
+    @Override
+    public void setShareMenu() {}
 
     @Override
     public boolean mayLaunchUrl(Uri uri, Bundle extras, List<Bundle> otherLikelyBundles) {

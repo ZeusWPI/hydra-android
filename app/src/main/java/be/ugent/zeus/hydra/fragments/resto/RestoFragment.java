@@ -2,29 +2,36 @@ package be.ugent.zeus.hydra.fragments.resto;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v7.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.resto.MenuActivity;
-import be.ugent.zeus.hydra.activities.resto.MetaActivity;
+import be.ugent.zeus.hydra.activities.resto.RestoLocationActivity;
 import be.ugent.zeus.hydra.activities.resto.SandwichActivity;
-import be.ugent.zeus.hydra.fragments.common.CachedLoaderFragment;
-import be.ugent.zeus.hydra.cache.CacheRequest;
+import be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment;
+import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
-import be.ugent.zeus.hydra.requests.resto.RestoMenuOverviewRequest;
+import be.ugent.zeus.hydra.plugins.RequestPlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.requests.resto.FilteredMenuRequest;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.views.MenuTable;
-import org.joda.time.DateTime;
+
+import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -32,16 +39,25 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author Niko Strijbol
  * @author mivdnber
  */
-public class RestoFragment extends CachedLoaderFragment<RestoOverview> {
+public class RestoFragment extends PluginFragment implements DataCallback<RestoOverview>, SharedPreferences.OnSharedPreferenceChangeListener {
 
-    //The hour after which every resto is closed.
-    public static final int CLOSING_HOUR = 20;
+    private static final String TAG = "RestoFragment";
 
     private TextView title;
     private MenuTable table;
     private Button viewMenu;
     private Button viewSandwich;
     private Button viewResto;
+
+    private boolean preferencesUpdated;
+
+    private RequestPlugin<RestoOverview> plugin = new RequestPlugin<>(this, FilteredMenuRequest::new);
+
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugins.add(plugin);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,35 +75,35 @@ public class RestoFragment extends CachedLoaderFragment<RestoOverview> {
 
         setIcons();
 
-        viewMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MenuActivity.class));
-            }
-        });
+        viewSandwich.setOnClickListener(v -> startActivity(new Intent(getContext(), SandwichActivity.class)));
 
-        viewSandwich.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), SandwichActivity.class));
-            }
-        });
-
-        viewResto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MetaActivity.class));
-            }
-        });
+        viewResto.setOnClickListener(v -> startActivity(new Intent(getContext(), RestoLocationActivity.class)));
 
         title = $(view, R.id.menu_today_card_title);
 
-        view.findViewById(R.id.menu_today_card).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MenuActivity.class));
-            }
-        });
+        view.findViewById(R.id.menu_today_card).setOnClickListener(v -> startActivity(new Intent(getContext(), MenuActivity.class)));
+        PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (preferencesUpdated) {
+            plugin.refresh();
+            preferencesUpdated = false;
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        preferencesUpdated = false;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(getContext()).unregisterOnSharedPreferenceChangeListener(this);
     }
 
     /**
@@ -101,45 +117,48 @@ public class RestoFragment extends CachedLoaderFragment<RestoOverview> {
         Context c = getContext();
         int color = R.color.ugent_blue_dark;
 
-        Drawable menuIcon = ViewUtils.getTintedVectorDrawable(c, R.drawable.ic_restaurant_menu_40dp, color);
-        Drawable sandwichIcon = ViewUtils.getTintedVectorDrawable(c, R.drawable.ic_sandwich_40dp, color);
-        Drawable restoIcon = ViewUtils.getTintedVectorDrawable(c, R.drawable.ic_explore_40dp, color);
+        Drawable menuIcon = ViewUtils.getTintedVectorDrawable(c, R.drawable.btn_restaurant_menu, color);
+        Drawable sandwichIcon = ViewUtils.getTintedVectorDrawable(c, R.drawable.btn_sandwich, color);
+        Drawable restoIcon = ViewUtils.getTintedVectorDrawable(c, R.drawable.btn_explore, color);
 
         viewMenu.setCompoundDrawablesWithIntrinsicBounds(null, menuIcon, null, null);
         viewSandwich.setCompoundDrawablesWithIntrinsicBounds(null, sandwichIcon, null, null);
         viewResto.setCompoundDrawablesWithIntrinsicBounds(null, restoIcon, null, null);
     }
 
-    /**
-     * This must be called when data is received that has no errors.
-     *
-     * @param data The data.
-     */
     @Override
     public void receiveData(@NonNull RestoOverview data) {
-
-        //FragmentManager m = getChildFragmentManager();
-
-        //We can't do anything without data.
-        if(data.size() < 2) {
+        //Check that we have at least one menu
+        //TODO: show error
+        if (data.size() < 1) {
             return;
         }
 
-        RestoMenu menu = data.get(0);
-        if(DateTime.now().isAfter(DateTime.now().withHourOfDay(CLOSING_HOUR)) || DateTime.now().isAfter(new DateTime(menu.getDate()))) {
-            menu = data.get(1);
-        }
+        final RestoMenu menu = data.get(0);
 
         table.setMenu(menu);
+        title.setText(String.format(getString(R.string.resto_menu_title_short), DateUtils.getFriendlyDate(menu.getDate())));
 
-        title.setText(String.format(getString(R.string.resto_menu_title), DateUtils.getFriendlyDate(menu.getDate())));
+        viewMenu.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), MenuActivity.class);
+            intent.putExtra(MenuActivity.ARG_DATE, menu.getDate());
+            startActivity(intent);
+        });
     }
 
-    /**
-     * @return The request that will be executed.
-     */
     @Override
-    public RestoMenuOverviewRequest getRequest() {
-        return new RestoMenuOverviewRequest();
+    public void receiveError(@NonNull Throwable e) {
+        assert getView() != null;
+        Log.e(TAG, "Error while getting data.", e);
+        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.again), v -> plugin.refresh())
+                .show();
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(RestoPreferenceFragment.PREF_RESTO)) {
+            preferencesUpdated = true;
+        }
     }
 }

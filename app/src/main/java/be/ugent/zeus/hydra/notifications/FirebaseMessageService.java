@@ -14,6 +14,8 @@ public class FirebaseMessageService extends FirebaseMessagingService {
 
     private static final String TAG = "FirebaseMessageService";
 
+    public static final String SKO_TOPIC = "studentkickoff";
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // ...

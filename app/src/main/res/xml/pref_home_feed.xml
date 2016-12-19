@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<MultiSelectListPreference
+		android:key="pref_disabled_cards"
+		android:summary="Kies welke soort kaarten je niet wilt zien op de startscherm."
+		android:title="Kaartsoorten"
+        android:entries="@array/card_types_names"
+        android:entryValues="@array/card_types_nr"
+        android:defaultValue="@array/empty_array"/>
+
+	<CheckBoxPreference
+		android:key="pref_home_feed_save_data"
+		android:summary="Bespaar data door miniaturen niet te laden bij mobiele verbindingen."
+		android:title="Databesparing"
+		android:defaultValue="false" />
+</PreferenceScreen>

@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
 import be.ugent.zeus.hydra.activities.WebViewActivity;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 
 /**
@@ -24,15 +25,15 @@ import be.ugent.zeus.hydra.utils.ViewUtils;
 public enum InfoType {
 
     //Opens in the browser
-    EXTERNAL_LINK(R.drawable.ic_open_in_browser_24dp) {
+    EXTERNAL_LINK(R.drawable.ic_open_in_browser) {
         @Override
         public void doOnClick(Context context, InfoItem infoItem) {
-            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(infoItem.getUrl())));
+            NetworkUtils.maybeLaunchBrowser(context, infoItem.getUrl());
         }
     },
 
     //Opens in another app
-    EXTERNAL_APP(R.drawable.ic_open_in_new_24dp) {
+    EXTERNAL_APP(R.drawable.ic_open_in_new) {
 
         private static final String PLAY_STORE = "market://details?id=";
         private static final String PLAY_URL = "https://play.google.com/store/apps/details?id=";
@@ -45,7 +46,7 @@ public enum InfoType {
             try {
                 context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_STORE + androidUrl)));
             } catch (ActivityNotFoundException e) {
-                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(PLAY_URL + androidUrl)));
+                NetworkUtils.maybeLaunchBrowser(context, PLAY_URL + androidUrl);
             }
         }
     },
@@ -65,7 +66,7 @@ public enum InfoType {
     },
 
     //Opens a new list of info items.
-    SUBLIST(R.drawable.ic_chevron_right_24dp) {
+    SUBLIST(R.drawable.ic_chevron_right) {
         @Override
         public void doOnClick(Context context, InfoItem infoItem) {
             Intent intent = new Intent(context, InfoSubItemActivity.class);

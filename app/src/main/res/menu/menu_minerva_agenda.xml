@@ -5,6 +5,6 @@
 		android:id="@+id/minerva_agenda_add"
 		android:orderInCategory="100"
 		app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_event_add_24dp"
+        android:icon="@drawable/ic_event_add"
 		android:title="Toevoegen aan agenda" />
 </menu>

@@ -16,7 +16,7 @@
         android:padding="8dp"
         android:layout_marginLeft="8dp"
         android:layout_gravity="center_vertical"
-        app:srcCompat="@drawable/ic_tabs_menu"
+        tools:src="@drawable/tabs_resto"
         tools:ignore="MissingPrefix"
         android:tint="@color/ugent_blue_lighter" />
 
@@ -38,7 +38,7 @@
         android:layout_marginRight="8dp"
         android:layout_gravity="center_vertical"
         android:tint="@color/ugent_blue_lighter"
-        app:srcCompat="@drawable/ic_more_vert_24dp"
+        app:srcCompat="@drawable/ic_more_vert"
         tools:ignore="MissingPrefix"
         android:id="@+id/now_toolbar_menu" />
 

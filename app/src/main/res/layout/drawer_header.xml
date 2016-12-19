@@ -12,13 +12,13 @@
         android:paddingBottom="8dp"
         android:paddingLeft="@dimen/vertical_padding"
         android:tint="?android:attr/textColorPrimary"
-        app:srcCompat="@drawable/ic_hydra"
+        app:srcCompat="@drawable/logo_hydra"
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="left"
         android:scaleType="fitStart"
         tools:ignore="MissingPrefix"
-        tools:src="@drawable/ic_hydra"/>
+        tools:src="@drawable/logo_hydra"/>
 
     <View xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"

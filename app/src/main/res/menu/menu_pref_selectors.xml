@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_select_all"
+        android:orderInCategory="50"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_select_all"
+        android:title="Alles selecteren" />
+
+    <item
+        android:id="@+id/action_select_none"
+        android:orderInCategory="60"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_select_none"
+        android:title="Niets selecteren" />
+
+</menu>

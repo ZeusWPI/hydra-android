@@ -2,12 +2,12 @@ package be.ugent.zeus.hydra.models.resto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.models.converters.RestoDateJsonAdapter;
+import be.ugent.zeus.hydra.models.converters.DateThreeTenAdapter;
 import com.google.gson.annotations.JsonAdapter;
+import org.threeten.bp.LocalDate;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -20,15 +20,12 @@ import java.util.List;
 public class RestoMenu implements Parcelable, Serializable {
 
     private boolean open;
-    @JsonAdapter(RestoDateJsonAdapter.class)
-    private Date date;
+    @JsonAdapter(DateThreeTenAdapter.class)
+    private LocalDate date;
     private List<RestoMeal> meals;
     private List<RestoMeal> sideDishes;
     private List<RestoMeal> mainDishes;
     private List<String> vegetables;
-
-    public RestoMenu() {
-    }
 
     /**
      * Sort the meals available in the menu.
@@ -80,11 +77,11 @@ public class RestoMenu implements Parcelable, Serializable {
         this.vegetables = vegetables;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -109,8 +106,8 @@ public class RestoMenu implements Parcelable, Serializable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte(this.open ? (byte) 1 : (byte) 0);
-        dest.writeLong(this.date != null ? this.date.getTime() : -1);
+        dest.writeByte((byte) (this.open ? 1 : 0));
+        dest.writeLong(this.date != null ? this.date.toEpochDay() : -1);
         dest.writeList(this.meals);
         dest.writeStringList(this.vegetables);
     }
@@ -118,7 +115,7 @@ public class RestoMenu implements Parcelable, Serializable {
     protected RestoMenu(Parcel in) {
         this.open = in.readByte() != 0;
         long tmpDate = in.readLong();
-        this.date = tmpDate == -1 ? null : new Date(tmpDate);
+        this.date = tmpDate == -1 ? null : LocalDate.ofEpochDay(tmpDate);
         this.meals = new ArrayList<>();
         in.readList(this.meals,RestoMeal.class.getClassLoader());
         this.vegetables = in.createStringArrayList();
@@ -136,4 +133,19 @@ public class RestoMenu implements Parcelable, Serializable {
             return new RestoMenu[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RestoMenu restoMenu = (RestoMenu) o;
+        return open == restoMenu.open &&
+                java8.util.Objects.equals(date, restoMenu.date) &&
+                java8.util.Objects.equals(meals, restoMenu.meals);
+    }
+
+    @Override
+    public int hashCode() {
+        return java8.util.Objects.hash(open, date, meals);
+    }
 }

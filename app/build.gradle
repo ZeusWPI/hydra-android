@@ -1,16 +1,39 @@
 apply plugin: 'com.android.application'
+//Enable this when disabling jack
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.cookpad.android.licensetools'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
-        minSdkVersion 14
-        targetSdkVersion 24
-        versionCode 203
-        versionName "2.0"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 223
+        versionName "2.2.3"
         vectorDrawables.useSupportLibrary = true
+
+        //Enable jack support
+        //When disabling jack, DON'T forget to enable retrolambda
+//        jackOptions {
+//            enabled true
+//        }
+
+        //Load the API keys from the file "secrets.progperties".
+        Properties props = new Properties()
+        props.load(new FileInputStream(file('secrets.properties')))
+        buildConfigField "String", "OAUTH_ID", "\"" + props['OAUTH_ID'] + "\""
+        buildConfigField "String", "OAUTH_SECRET", "\"" + props['OAUTH_SECRET'] + "\""
+        manifestPlaceholders = [ google_maps_key: props['MAPS_API_KEY'] ]
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -21,13 +44,14 @@ android {
             // Set this to false on release versions!
             debuggable true
         }
-        applicationVariants.all { variant ->
-            def Properties props = new Properties()
-            props.load(new FileInputStream(file('secrets.properties')))
-            variant.buildConfigField "String", "OAUTH_ID", "\""+props['OAUTH_ID']+"\""
-            variant.buildConfigField "String", "OAUTH_SECRET", "\""+props['OAUTH_SECRET']+"\""
-        }
     }
+
+    //We don't want exceptions, but values. This enables using the Log class (and related).
+    //TODO: maybe we should just move tests that depend on this to the android tests?
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     packagingOptions {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/LICENSE'
@@ -44,8 +68,12 @@ android {
     }
 }
 
+project.afterEvaluate {
+    preBuild.dependsOn checkLicenses, generateLicensePage
+}
+
 //The support library version
-final SUPPORT_LIBRARY_VERSION = '24.2.0'
+final SUPPORT_LIBRARY_VERSION = '25.1.0'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -56,35 +84,53 @@ dependencies {
     compile "com.android.support:support-v13:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:preference-v7:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:gridlayout-v7:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
-    //This requires API 15+, but we use it anyway. Don't forget to use the normal browser if the version is too old!
     compile "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
 
     compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
-    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
-    compile 'net.danlew:android.joda:2.9.3.1'
-    compile 'com.google.android.gms:play-services-analytics:9.4.0'
+    compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
+    compile 'net.sourceforge.streamsupport:streamsupport:1.5.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.niknetniko:expandablelayout:master-SNAPSHOT'
-    compile 'com.github.pluscubed:recycler-fast-scroll:0.3.1@aar'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
-
-    compile 'com.github.chrisbanes:PhotoView:1.3.0'
+    compile 'com.github.KyoSherlock:expandablelayout:master-SNAPSHOT'
+    compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
+    compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.4'
+    compile 'com.heinrichreimersoftware:material-intro:1.6'
+    compile 'su.j2e:rv-joiner:1.0.9'
+    compile 'com.github.alexfu:SQLiteQueryBuilder:0.3.0'
 
     // Used for the OAuth stuff
-    compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1') {
+    compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
         exclude group: 'org.apache.oltu.oauth2'
     }
 
-    //compile 'com.google.firebase:firebase-core:9.4.0'
-    //compile 'com.google.firebase:firebase-crash:9.4.0'
-    compile 'com.google.firebase:firebase-messaging:9.4.0'
+    compile 'com.google.android.gms:play-services-analytics:10.0.1'
+    compile 'com.google.android.gms:play-services-maps:10.0.1'
 
-    compile 'su.j2e:rv-joiner:1.0.9'
+    compile 'com.google.firebase:firebase-core:10.0.1'
 
-    compile 'com.github.alexfu:SQLiteQueryBuilder:0.3.0'
+    testCompile project(':firebasenoop')
+    debugCompile project(':firebasenoop')
+    releaseCompile 'com.google.firebase:firebase-crash:10.0.1'
+
+    compile 'com.google.firebase:firebase-messaging:10.0.1'
+    compile 'com.google.firebase:firebase-config:10.0.1'
+
+    //Test code
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.2.9'
+
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+
+    //Enable the normal library for unit tests
+    testCompile ('org.threeten:threetenbp:1.3.2'){
+        exclude group:'com.jakewharton.threetenabp', module:'threetenabp'
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'

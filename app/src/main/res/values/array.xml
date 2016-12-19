@@ -36,6 +36,7 @@
         <item>4</item>
         <item>5</item>
         <item>7</item>
+        <item>8</item>
     </string-array>
 
     <string-array name="card_types_names">
@@ -44,6 +45,7 @@
         <item>Schamperartikel</item>
         <item>Nieuwsitem</item>
         <item>Minerva-aankondigingen</item>
+        <item>Minerva-agenda</item>
     </string-array>
 
     <string-array name="minerva_frequencies_text">
@@ -59,4 +61,22 @@
         <item>86400</item>
         <item>604800</item>
     </string-array>
+
+    <string-array name="sko_tab_names">
+        <item>Timeline</item>
+        <item>Line-up</item>
+        <item>Student Village</item>
+        <item>Kaart</item>
+    </string-array>
+
+    <string-array name="resto_location">
+        <item>Algemeen</item>
+        <item>Sint-Jansvest</item>
+    </string-array>
+
+    <string-array name="nr_resto_location">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
 </resources>

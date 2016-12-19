@@ -11,7 +11,8 @@
     android:paddingBottom="@dimen/list_two_line_padding_horizontal"
     android:orientation="horizontal"
     android:background="?android:attr/selectableItemBackground"
-    android:clickable="true">
+    android:clickable="true"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -44,7 +45,7 @@
             <!--android:id="@+id/arrow_icon"-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
-            <!--app:srcCompat="@drawable/ic_keyboard_arrow_down_24dp"-->
+            <!--app:srcCompat="@drawable/ic_keyboard_arrow_down"-->
             <!--android:tint="@color/ugent_blue_dark"-->
             <!--android:layout_gravity="center_vertical"-->
             <!--android:visibility="gone"-->
@@ -54,7 +55,7 @@
             <!--android:id="@+id/error_icon"-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
-            <!--app:srcCompat="@drawable/ic_error_24dp"-->
+            <!--app:srcCompat="@drawable/ic_error"-->
             <!--android:tint="@color/ugent_blue_dark"-->
             <!--android:layout_gravity="center_vertical"-->
             <!--android:visibility="gone"-->

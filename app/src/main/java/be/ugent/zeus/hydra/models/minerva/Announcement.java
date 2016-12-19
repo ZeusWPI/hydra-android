@@ -2,15 +2,21 @@ package be.ugent.zeus.hydra.models.minerva;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.models.converters.ISO8601DateJsonAdapter;
+
+import android.support.annotation.Nullable;
+import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
- * Created by feliciaan on 29/06/16.
+ * Minerva announcement model class.
+ *
+ * @author Niko Strijbol
+ * @author feliciaan
  */
 public class Announcement implements Serializable, Parcelable {
 
@@ -22,20 +28,41 @@ public class Announcement implements Serializable, Parcelable {
     private int itemId;
     @SerializedName("last_edit_user")
     private String lecturer;
-    //TODO: this ignores the timezone for now, because parsing it as MinervaDate is a lot of work; we could also switch to ThreeTenABP
-    @JsonAdapter(ISO8601DateJsonAdapter.class)
+    @JsonAdapter(ZonedThreeTenAdapter.class)
     @SerializedName("last_edit_time")
-    private Date minervaDate;
+    private ZonedDateTime minervaDate;
 
-    private Date read;
+    private ZonedDateTime read;
     private Course course;
 
+    public Announcement() {
+        //No-args constructor
+    }
+
+    /**
+     * @return True if the announcement has been read.
+     */
     public boolean isRead() {
         return read != null;
     }
 
-    public void setRead(Date read) {
+    /**
+     * Set the moment the announcement was read. To persist, use {@link be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao}.
+     *
+     * @param read The date or null to set to unread.
+     */
+    public void setRead(ZonedDateTime read) {
         this.read = read;
+    }
+
+    /**
+     * Get the date this announcement was read or null if not read.
+     *
+     * @return The date or null.
+     */
+    @Nullable
+    public ZonedDateTime getRead() {
+        return read;
     }
 
     public String getTitle() {
@@ -78,11 +105,11 @@ public class Announcement implements Serializable, Parcelable {
         this.lecturer = lecturer;
     }
 
-    public Date getDate() {
+    public ZonedDateTime getDate() {
         return this.minervaDate;
     }
 
-    public void setDate(Date date) {
+    public void setDate(ZonedDateTime date) {
         this.minervaDate = date;
     }
 
@@ -103,15 +130,12 @@ public class Announcement implements Serializable, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.title);
         dest.writeString(this.content);
-        dest.writeByte(this.emailSent ? (byte) 1 : (byte) 0);
+        dest.writeByte((byte) (this.emailSent ? 1 : 0));
         dest.writeInt(this.itemId);
         dest.writeString(this.lecturer);
-        dest.writeLong(this.minervaDate != null ? this.minervaDate.getTime() : -1);
-        dest.writeLong(this.read != null ? this.read.getTime() : -1);
+        dest.writeLong(TtbUtils.serialize(this.minervaDate));
+        dest.writeLong(TtbUtils.serialize(this.read));
         dest.writeSerializable(this.course);
-    }
-
-    public Announcement() {
     }
 
     protected Announcement(Parcel in) {
@@ -120,10 +144,10 @@ public class Announcement implements Serializable, Parcelable {
         this.emailSent = in.readByte() != 0;
         this.itemId = in.readInt();
         this.lecturer = in.readString();
-        long tmpMinervaDate = in.readLong();
-        this.minervaDate = tmpMinervaDate == -1 ? null : new Date(tmpMinervaDate);
+        long tmp = in.readLong();
+        this.minervaDate = TtbUtils.unserialize(tmp);
         long tmpRead = in.readLong();
-        this.read = tmpRead == -1 ? null : new Date(tmpRead);
+        this.read = TtbUtils.unserialize(tmpRead);
         this.course = (Course) in.readSerializable();
     }
 
@@ -138,4 +162,17 @@ public class Announcement implements Serializable, Parcelable {
             return new Announcement[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Announcement that = (Announcement) o;
+        return itemId == that.itemId;
+    }
+
+    @Override
+    public int hashCode() {
+        return java8.util.Objects.hash(itemId);
+    }
 }

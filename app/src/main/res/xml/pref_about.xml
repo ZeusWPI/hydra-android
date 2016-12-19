@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="pref_about_version"
+        android:title="@string/pref_about_version_title"
+        android:summary="@string/pref_about_version_summary"
+        android:persistent="false" />
+
+    <Preference
+        android:key="pref_about_changelog"
+        android:title="@string/pref_about_changelog_title"
+        android:summary="@string/pref_about_changelog_summary"
+        android:persistent="false">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://github.com/ZeusWPI/hydra-android/releases" />
+    </Preference>
+
+    <Preference
+        android:key="pref_about_issues"
+        android:title="@string/pref_about_issues_title"
+        android:summary="@string/pref_about_issues_summary"
+        android:persistent="false">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://github.com/ZeusWPI/hydra-android/issues" />
+    </Preference>
+
+    <Preference
+        android:key="pref_about_licenses"
+        android:title="@string/pref_about_licenses_title"
+        android:summary="@string/pref_about_licenses_summary"
+        android:persistent="false" />
+
+    <Preference
+        android:key="pref_about_creator"
+        android:title="@string/pref_about_creator_title"
+        android:persistent="false" />
+
+</PreferenceScreen>
