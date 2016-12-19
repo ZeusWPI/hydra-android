@@ -199,7 +199,7 @@ public class MainActivity extends HydraActivity {
 
         String name = String.valueOf(menuItem.getItemId());
         fragmentManager.popBackStackImmediate(name, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        fragmentManager.beginTransaction().replace(R.id.content, fragment).addToBackStack(name).commit();
+        fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
 
         appBarLayout.setExpanded(true);
     }
@@ -225,17 +225,25 @@ public class MainActivity extends HydraActivity {
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+            return;
+        }
+
+        //If it is empty, we attempt to go the the start one.
+        //Update the title
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content);
+        if (fragment != null) {
+            int id = getFragmentMenuId(fragment);
+            MenuItem item = navigationView.getMenu().findItem(id);
+            MenuItem original = navigationView.getMenu().getItem(getIntent().getIntExtra(ARG_TAB, 0));
+
+            //We are good
+            if (item == original) {
+                super.onBackPressed();
+            } else {
+                selectDrawerItem(original);
+            }
         } else {
-            //If the initial fragment is here, pop it.
-            if(getSupportFragmentManager().getBackStackEntryCount() == 1) {
-                getSupportFragmentManager().popBackStackImmediate();
-            }
             super.onBackPressed();
-            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content);
-            if (fragment != null) {
-                int id = getFragmentMenuId(fragment);
-                updateDrawer(navigationView.getMenu().findItem(id));
-            }
         }
     }
 
