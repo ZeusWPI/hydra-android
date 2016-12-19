@@ -16,7 +16,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
@@ -236,12 +235,6 @@ public class MainActivity extends HydraActivity implements FragmentManager.OnBac
     @Override
     protected boolean hasParent() {
         return false;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_refresh, menu);
-        return super.onCreateOptionsMenu(menu);
     }
 
     private void reportShortcutUsed(String shortcutId) {
