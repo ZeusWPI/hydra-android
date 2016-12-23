@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.widget.LinearLayout;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
-import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.models.association.Event;
 import be.ugent.zeus.hydra.models.association.Events;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
@@ -35,9 +33,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author ellen
  * @author Niko Strijbol
  */
-public class ActivitiesFragment extends PluginFragment implements SharedPreferences.OnSharedPreferenceChangeListener, DataCallback<Events> {
-
-    private static final String TAG = "ActivitiesFragment";
+public class ActivitiesFragment extends PluginFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private final EventAdapter adapter = new EventAdapter();
     private final RecyclerViewPlugin<Event, Events> plugin = new RecyclerViewPlugin<>(FilteredEventRequest::new, adapter);
@@ -49,7 +45,11 @@ public class ActivitiesFragment extends PluginFragment implements SharedPreferen
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
-        plugin.setCallback(this);
+
+        plugin.defaultError()
+                .hasProgress()
+                .setDataCallback(this::receiveData);
+
         plugins.add(plugin);
     }
 
@@ -71,7 +71,7 @@ public class ActivitiesFragment extends PluginFragment implements SharedPreferen
         Button refresh = $(view, R.id.events_no_data_button_refresh);
         Button filters = $(view, R.id.events_no_data_button_filters);
 
-        refresh.setOnClickListener(v -> plugin.getRequestPlugin().refresh());
+        refresh.setOnClickListener(v -> plugin.refresh());
         filters.setOnClickListener(v -> startActivity(new Intent(getContext(), SettingsActivity.class)));
 
         //Register this class in the settings.
@@ -84,7 +84,7 @@ public class ActivitiesFragment extends PluginFragment implements SharedPreferen
 
         //Refresh the data.
         if (invalid) {
-            plugin.getRequestPlugin().getLoaderPlugin().restartLoader();
+            plugin.restartLoader();
             invalid = false;
         }
     }
@@ -96,18 +96,12 @@ public class ActivitiesFragment extends PluginFragment implements SharedPreferen
         }
     }
 
-    @Override
-    public void receiveData(@NonNull Events data) {
+    private void receiveData(Events data) {
         //If empty, show it.
         if(data.isEmpty()) {
             noData.setVisibility(View.VISIBLE);
         } else {
             noData.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void receiveError(@NonNull Throwable e) {
-        //Nothing
     }
 }

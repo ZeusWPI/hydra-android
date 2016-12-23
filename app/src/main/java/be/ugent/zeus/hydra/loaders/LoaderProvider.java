@@ -6,20 +6,17 @@ import android.support.v4.content.Loader;
 /**
  * Simple interface to provide a {@link Loader}.
  *
- * Once the min SDK is Java 8 (API 24+), we can replace by a generic one.
- *
  * @author Niko Strijbol
  */
 @FunctionalInterface
-public interface LoaderProvider<T> {
+public interface LoaderProvider<D> {
 
     /**
-     * Provide a loader. The returned loader must be fresh, in the sense that you cannot rely on the caller of this
-     * function to preserve state or make any guarantees to save instances.
-     *
-     * The returned loader must work as if it were a newly initialized one.
+     * Equivalent of {@link android.support.v4.app.LoaderManager.LoaderCallbacks#getLoader(int)},
+     * but simplified. The behavior of this method must be equivalent to the one above. This method is for use with
+     * one loader, as it does not support ids.
      *
      * @return The loader.
      */
-    Loader<ThrowableEither<T>> getLoader(Context context);
+    Loader<LoaderResult<D>> getLoader(Context context);
 }

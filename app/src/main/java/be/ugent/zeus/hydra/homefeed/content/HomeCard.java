@@ -43,7 +43,7 @@ public abstract class HomeCard implements Comparable<HomeCard> {
      * Android is horrible with enums, since Google doesn't know what they are doing apparently. Sigh.
      */
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({RESTO, ACTIVITY, SPECIAL_EVENT, SCHAMPER, NEWS_ITEM, MINERVA_LOGIN, MINERVA_ANNOUNCEMENT, MINERVA_AGENDA})
+    @IntDef({RESTO, ACTIVITY, SPECIAL_EVENT, SCHAMPER, NEWS_ITEM, MINERVA_LOGIN, MINERVA_ANNOUNCEMENT, MINERVA_AGENDA, DEBUG})
     public @interface CardType {
         int RESTO = 1;
         int ACTIVITY = 2;
@@ -53,6 +53,7 @@ public abstract class HomeCard implements Comparable<HomeCard> {
         int MINERVA_LOGIN = 6;
         int MINERVA_ANNOUNCEMENT = 7;
         int MINERVA_AGENDA = 8;
+        int DEBUG = 100;
     }
 
     /**

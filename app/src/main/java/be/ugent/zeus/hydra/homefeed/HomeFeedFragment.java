@@ -17,11 +17,13 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
 import android.view.*;
+import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.MainActivity;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
+import be.ugent.zeus.hydra.homefeed.content.debug.WaitRequest;
 import be.ugent.zeus.hydra.homefeed.content.event.EventRequest;
 import be.ugent.zeus.hydra.homefeed.content.minerva.agenda.MinervaAgendaRequest;
 import be.ugent.zeus.hydra.homefeed.content.minerva.announcement.MinervaAnnouncementRequest;
@@ -140,6 +142,8 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     public void onStart() {
         super.onStart();
         helper.bindCustomTabsService(getActivity());
+        //Register this class in the settings.
+        PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
     }
 
     /**
@@ -157,12 +161,15 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     public void onStop() {
         super.onStop();
         helper.unbindCustomTabsService(getActivity());
+        PreferenceManager.getDefaultSharedPreferences(getContext()).unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        PreferenceManager.getDefaultSharedPreferences(getContext()).unregisterOnSharedPreferenceChangeListener(this);
+    public void onDestroyView() {
+        super.onDestroyView();
+        //See https://code.google.com/p/android/issues/detail?id=78062
+        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.clearAnimation();
     }
 
     /**
@@ -227,6 +234,10 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
         loader.addOperation(get(d, () -> new NewsRequest(getContext(), shouldRefresh), HomeCard.CardType.NEWS_ITEM));
         loader.addOperation(get(d, () -> new MinervaAnnouncementRequest(getContext()), HomeCard.CardType.MINERVA_ANNOUNCEMENT));
         loader.addOperation(get(d, () -> new MinervaAgendaRequest(getContext()), HomeCard.CardType.MINERVA_AGENDA));
+
+        if(BuildConfig.DEBUG && true) {
+            loader.addOperation(add(new WaitRequest()));
+        }
 
         return loader;
     }

@@ -13,6 +13,7 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.plugins.common.PluginActivity;
 import be.ugent.zeus.hydra.utils.ViewUtils;
+import java8.util.function.Supplier;
 
 /**
  * Common activity. This activity supports:
@@ -41,6 +42,10 @@ public abstract class HydraActivity extends PluginActivity {
     protected ActionBar getToolbar() {
         assert getSupportActionBar() != null;
         return getSupportActionBar();
+    }
+
+    protected Supplier<View> content() {
+        return () -> findViewById(android.R.id.content);
     }
 
     /**

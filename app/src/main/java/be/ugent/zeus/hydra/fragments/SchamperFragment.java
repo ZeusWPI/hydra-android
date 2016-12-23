@@ -10,7 +10,6 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.models.schamper.Articles;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.SchamperListAdapter;
@@ -29,7 +28,7 @@ import java.util.List;
  */
 public class SchamperFragment extends PluginFragment {
 
-    private final RecyclerViewPlugin<Article, Articles> plugin = new RecyclerViewPlugin<>(RequestPlugin.wrap(new SchamperArticlesRequest()), null);
+    private final RecyclerViewPlugin<Article, Articles> plugin = RecyclerViewPlugin.cached(new SchamperArticlesRequest(), null);
     private ActivityHelper helper;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,6 +38,7 @@ public class SchamperFragment extends PluginFragment {
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
+        plugin.defaultError().hasProgress();
         plugins.add(plugin);
     }
 

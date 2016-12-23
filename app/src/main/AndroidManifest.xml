@@ -111,6 +111,12 @@
             android:label="@string/title_activity_hydra_web_view"
             android:parentActivityName=".activities.MainActivity" />
 
+        <!-- Show library view -->
+        <activity
+            android:name=".library.LibraryListActivity"
+            android:label="@string/title_activity_libraries"
+            android:parentActivityName=".activities.MainActivity" />
+
         <!-- Show a Minerva course -->
         <activity
             android:name=".activities.minerva.CourseActivity"

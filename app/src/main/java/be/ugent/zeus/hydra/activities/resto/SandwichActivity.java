@@ -10,7 +10,6 @@ import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.models.resto.Sandwich;
 import be.ugent.zeus.hydra.models.resto.Sandwiches;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.recyclerview.adapters.resto.SandwichAdapter;
 import be.ugent.zeus.hydra.requests.resto.RestoSandwichesRequest;
@@ -30,11 +29,12 @@ public class SandwichActivity extends HydraActivity {
 
     private SandwichAdapter adapter = new SandwichAdapter();
     private RestoSandwichesRequest request = new RestoSandwichesRequest();
-    private RecyclerViewPlugin<Sandwich, Sandwiches> plugin = new RecyclerViewPlugin<>(RequestPlugin.wrap(request), adapter);
+    private RecyclerViewPlugin<Sandwich, Sandwiches> plugin = RecyclerViewPlugin.cached(request, adapter);
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
+        plugin.defaultError().hasProgress();
         plugins.add(plugin);
     }
 
@@ -48,14 +48,14 @@ public class SandwichActivity extends HydraActivity {
         RecyclerFastScroller s = $(R.id.fast_scroller);
         s.attachRecyclerView(recyclerView);
 
-        plugin.getRequestPlugin().getLoaderPlugin().startLoader();
+        plugin.startLoader();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                plugin.getRequestPlugin().refresh();
+                plugin.refresh();
                 return true;
             case R.id.resto_show_website:
                 NetworkUtils.maybeLaunchBrowser(this, URL);

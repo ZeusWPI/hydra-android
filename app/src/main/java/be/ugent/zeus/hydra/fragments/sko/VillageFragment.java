@@ -1,17 +1,14 @@
 package be.ugent.zeus.hydra.fragments.sko;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
 import android.view.*;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.models.sko.Exhibitor;
 import be.ugent.zeus.hydra.models.sko.Exhibitors;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.sko.ExhibitorAdapter;
@@ -24,22 +21,19 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * @author Niko Strijbol
  */
-public class VillageFragment extends PluginFragment implements DataCallback<Exhibitors>, SwipeRefreshLayout.OnRefreshListener {
+public class VillageFragment extends PluginFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "VillageFragment";
 
     private SwipeRefreshLayout refreshLayout;
     private SearchView searchView;
     private ExhibitorAdapter adapter = new ExhibitorAdapter();
-    private RecyclerViewPlugin<Exhibitor, Exhibitors> plugin = new RecyclerViewPlugin<>(
-            RequestPlugin.wrap(new StuVilExhibitorRequest()),
-            adapter
-    );
+    private RecyclerViewPlugin<Exhibitor, Exhibitors> plugin = RecyclerViewPlugin.cached(new StuVilExhibitorRequest(), adapter);
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
-        plugin.setCallback(this);
+        plugin.hasProgress().defaultError().setFinishCallback(i -> refreshLayout.setRefreshing(false));
         plugins.add(plugin);
     }
 
@@ -66,16 +60,7 @@ public class VillageFragment extends PluginFragment implements DataCallback<Exhi
 
         refreshLayout = $(view, R.id.refresh_layout);
         refreshLayout.setOnRefreshListener(this);
-    }
-
-    @Override
-    public void receiveData(@NonNull Exhibitors data) {
-        refreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void receiveError(@NonNull Throwable e) {
-        //
+        plugin.getRecyclerView().requestFocus();
     }
 
     @Override
@@ -97,6 +82,6 @@ public class VillageFragment extends PluginFragment implements DataCallback<Exhi
     @Override
     public void onRefresh() {
         searchView.setQuery("", false);
-        plugin.getRequestPlugin().refresh();
+        plugin.refresh();
     }
 }

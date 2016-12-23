@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.minerva.announcement;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.loaders.AbstractAsyncLoader;
+import be.ugent.zeus.hydra.loaders.AbstractLoader;
 import be.ugent.zeus.hydra.loaders.LoaderException;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class AnnouncementDaoLoader extends AbstractAsyncLoader<List<Announcement>> {
+public class AnnouncementDaoLoader extends AbstractLoader<List<Announcement>> {
 
     private AnnouncementDao dao;
     private Course course;
@@ -38,7 +38,7 @@ public class AnnouncementDaoLoader extends AbstractAsyncLoader<List<Announcement
      */
     @NonNull
     @Override
-    protected List<Announcement> getData() throws LoaderException {
+    protected List<Announcement> loadData() throws LoaderException {
         return dao.getAnnouncementsForCourse(course, true);
     }
 }

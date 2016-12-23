@@ -1,17 +1,18 @@
 package be.ugent.zeus.hydra.plugins;
 
 import android.content.Context;
-import android.support.v4.content.Loader;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.caching.CacheableRequest;
-import be.ugent.zeus.hydra.loaders.DataCallback;
+import be.ugent.zeus.hydra.loaders.LoaderPlugin;
 import be.ugent.zeus.hydra.loaders.LoaderProvider;
-import be.ugent.zeus.hydra.loaders.RequestAsyncTaskLoader;
-import be.ugent.zeus.hydra.loaders.ThrowableEither;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.requests.RequestAsyncTaskLoader;
 import be.ugent.zeus.hydra.requests.common.Request;
 import be.ugent.zeus.hydra.requests.common.SimpleCacheRequest;
+import java8.util.Optional;
 import java8.util.function.BiFunction;
 
 import java.io.Serializable;
@@ -20,106 +21,91 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class RequestPlugin<D> extends Plugin {
+public class RequestPlugin<D> extends LoaderPlugin<D> {
 
-    private final ProgressBarPlugin progressBarPlugin = new ProgressBarPlugin();
-    private final LoaderPlugin<D> loaderPlugin;
+    private static final String TAG = "RequestPlugin2";
 
-    private boolean refreshFlag;
-    private boolean useToast = true;
+    private boolean refreshRequested = false;
+    private ProgressBarPlugin progressBarPlugin;
 
-    /**
-     * Wrap a request in a SimpleCacheRequest. This will enable caching.
-     *
-     * This function exists because of weaknesses in the Java generics. Ideally, there would be a second constructor,
-     * taking a request as an argument and wrapping it for us. However, this would require {@code D} to extend
-     * Serializable, which we don't want. Then we could not use this with non-cached requests.
-     *
-     * Ideally:
-     * <code>
-     *     public <D must be Serializable here> RequestPlugin (DataCallbacks<D> d, CacheableRequest<D> r)
-     * </code>
-     *
-     * There is no way to indicate that D must be serializable for this method only. By wrapping the request with
-     * this function, it does work without losing type safety.
-     *
-     * @param request The request.
-     * @param <T> The type.
-     * @return The wrapper.
-     */
-    public static <T extends Serializable> BiFunction<Context, Boolean, Request<T>> wrap(CacheableRequest<T> request) {
-        return (c, b) -> new SimpleCacheRequest<>(c, request, b);
+    //TODO: remove this
+    private boolean usesToast = true;
+
+    public RequestPlugin(LoaderProvider<D> provider) {
+        super(provider);
+    }
+
+    public <T> RequestPlugin(BiFunction<Context, Boolean, Request<D>> provider) {
+        super();
+        this.setLoaderProvider(c -> new RequestAsyncTaskLoader<>(c, provider.apply(c, refreshRequested)));
     }
 
     /**
-     * Note: if you need caching for a {@link CacheableRequest}, you can use the function {@link #wrap(CacheableRequest)},
-     * which will construct a request provider for a CacheableRequest that utilises caching.
+     * Instantiate a RequestPlugin with a cacheable request, and effectively caching the request.
      *
-     * @param callback The data callbacks.
-     * @param provider The request provider.
+     * The sole reason this is a static method is because Java's type system is not strong enough to enforce
+     * Serializable on the type parameter for one constructor and not the others.
+     *
+     * @param request The request to use.
+     * @param <D>     The type parameter of the request.
+     *
+     * @return An instance of RequestPlugin.
      */
-    public RequestPlugin(DataCallback<D> callback, BiFunction<Context, Boolean, Request<D>> provider) {
-        this.loaderPlugin = new LoaderPlugin<>(new DefaultCallback(provider), callback, progressBarPlugin);
+    public static <D extends Serializable> RequestPlugin<D> cached(CacheableRequest<D> request) {
+        return new RequestPlugin<>((c, b) -> new SimpleCacheRequest<>(c, request, b));
     }
 
-    public RequestPlugin(DataCallback<D> callback, LoaderProvider<D> provider) {
-        this.loaderPlugin = new LoaderPlugin<>(provider, callback, progressBarPlugin);
+    public RequestPlugin<D> hasProgress() {
+        progressBarPlugin = new ProgressBarPlugin();
+        setFinishCallback(progressBarPlugin.getFinishedCallback());
+        return this;
     }
 
-    @Override
-    protected void onAddPlugins(List<Plugin> plugins) {
-        super.onAddPlugins(plugins);
-        plugins.add(progressBarPlugin);
-        plugins.add(loaderPlugin);
+    public RequestPlugin<D> noToast() {
+        this.usesToast = false;
+        return this;
     }
 
-    public void setUsesToast(boolean usesToast) {
-        this.useToast = usesToast;
+    public Optional<ProgressBarPlugin> getProgressBarPlugin() {
+        return Optional.ofNullable(progressBarPlugin);
     }
 
     /**
-     * Set the refresh flag. If set to true, the next request will be set to true,
-     * while the flag will be set to false after the next request.
+     * Enable the default error handling. What this actually does is not defined.
      *
-     * @param refreshFlag
+     * However, currently this shows a SnackBar containing a message and a button to refresh the data.
+     *
+     * @return The plugin for fluent use.
      */
-    public void setRefreshFlag(boolean refreshFlag) {
-        this.refreshFlag = refreshFlag;
-    }
-
-    public LoaderPlugin<D> getLoaderPlugin() {
-        return loaderPlugin;
-    }
-
-    public ProgressBarPlugin getProgressBarPlugin() {
-        return progressBarPlugin;
+    public RequestPlugin<D> defaultError() {
+        setErrorCallback(throwable -> {
+            Context c = getHost().getContext();
+            Log.e(TAG, "Error while getting data.", throwable);
+            Snackbar.make(getHost().getRoot(), c.getString(R.string.failure), Snackbar.LENGTH_LONG)
+                    .setAction(c.getString(R.string.again), v -> refresh())
+                    .show();
+        });
+        return this;
     }
 
     /**
      * Refresh the data.
      */
     public void refresh() {
-        if (useToast) {
+        if (usesToast) {
             Toast.makeText(getHost().getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
         }
-        setRefreshFlag(true);
-        loaderPlugin.restartLoader();
+
+        refreshRequested = true;
+        restartLoader();
+        refreshRequested = false;
     }
 
-    private class DefaultCallback implements LoaderProvider<D> {
-
-        private final BiFunction<Context, Boolean, Request<D>> provider;
-
-        private DefaultCallback(BiFunction<Context, Boolean, Request<D>> provider) {
-            this.provider = provider;
-        }
-
-        @Override
-        public Loader<ThrowableEither<D>> getLoader(Context context) {
-            Request<D> request = provider.apply(context, refreshFlag);
-            Loader<ThrowableEither<D>> loader = new RequestAsyncTaskLoader<>(request, context);
-            refreshFlag = false;
-            return loader;
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        if (progressBarPlugin != null) {
+            plugins.add(progressBarPlugin);
         }
     }
 }

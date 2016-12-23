@@ -199,7 +199,10 @@ public class MainActivity extends HydraActivity {
 
         String name = String.valueOf(menuItem.getItemId());
         fragmentManager.popBackStackImmediate(name, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.content, fragment)
+                .commit();
 
         appBarLayout.setExpanded(true);
     }
@@ -210,9 +213,6 @@ public class MainActivity extends HydraActivity {
      * @param item The item to mark as current.
      */
     private void updateDrawer(MenuItem item) {
-
-        Log.d(TAG, "updateDrawer: Updating item");
-
         // Highlight the selected item has been done by NavigationView
         item.setChecked(true);
         // Set action bar title

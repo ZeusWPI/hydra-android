@@ -3,30 +3,44 @@ package be.ugent.zeus.hydra.loaders;
 import android.support.annotation.NonNull;
 
 /**
+ * A result from a {@link AbstractLoader}.
+ *
+ * This class contains an error OR a value, but not both.
+ *
+ *
  * A class that contains either a value or an exception. This is returned as result of
- * the {@link AbstractAsyncLoader}, to enable passing of errors.
+ * the {@link AbstractLoader}, to enable passing of errors.
  *
- * While this is conceptually a monad, Android's lack of support for Java 8 necessitates a different implementation.
- * Monad laws are thus not implemented.
+ * Conceptually this can be seen as an Either monad.
  *
- * @param <D> The type of the data this maybe contains.
+ * @param <D> The type of the data it should contain.
  *
  * @author Niko Strijbol
  */
 @SuppressWarnings("unused")
-public final class ThrowableEither<D> {
+public final class LoaderResult<D> {
 
     private final D data;
-    private final Throwable throwable;
+    private final LoaderException throwable;
 
-    public ThrowableEither(@NonNull D response) {
+    /**
+     * Initialize the result with a data value.
+     *
+     * @param response The data. Must not be null.
+     */
+    public LoaderResult(@NonNull D response) {
         this.data = response;
         this.throwable = null;
     }
 
-    public ThrowableEither(@NonNull Throwable response) {
+    /**
+     * Initialize the result with an error value.
+     *
+     * @param exception The occurred exception.
+     */
+    public LoaderResult(@NonNull LoaderException exception) {
         this.data = null;
-        this.throwable = response;
+        this.throwable = exception;
     }
 
     /**
@@ -61,7 +75,7 @@ public final class ThrowableEither<D> {
      * @throws IllegalStateException If there is no exception.
      */
     @NonNull
-    public Throwable getError() {
+    public LoaderException getError() {
         if(throwable == null || data != null) {
             throw new IllegalStateException("There is no error.");
         }

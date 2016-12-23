@@ -127,6 +127,10 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 
+    debugCompile "com.github.brianPlummer:tinydancer:0.1.0"
+    releaseCompile "com.github.brianPlummer:tinydancer-noop:0.1.0"
+    testCompile "com.github.brianPlummer:tinydancer-noop:0.1.0"
+
     //Enable the normal library for unit tests
     testCompile ('org.threeten:threetenbp:1.3.2'){
         exclude group:'com.jakewharton.threetenabp', module:'threetenabp'

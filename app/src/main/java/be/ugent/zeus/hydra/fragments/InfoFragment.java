@@ -9,8 +9,8 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
 import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.models.info.InfoList;
+import be.ugent.zeus.hydra.plugins.ProgressBarPlugin;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.InfoListAdapter;
@@ -27,12 +27,14 @@ import java.util.List;
 public class InfoFragment extends PluginFragment {
 
     private final InfoListAdapter adapter = new InfoListAdapter();
-    private final RecyclerViewPlugin<InfoItem, InfoList> recyclerPlugin = new RecyclerViewPlugin<>(RequestPlugin.wrap(new InfoRequest()), adapter);
+    private final RecyclerViewPlugin<InfoItem, InfoList> recyclerPlugin = RecyclerViewPlugin.cached(new InfoRequest(), adapter);
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
-        recyclerPlugin.getRequestPlugin().getLoaderPlugin().setAutoStart(false);
+        recyclerPlugin.defaultError()
+                .hasProgress()
+                .setAutoStart(false);
         plugins.add(recyclerPlugin);
     }
 
@@ -52,9 +54,9 @@ public class InfoFragment extends PluginFragment {
             assert list != null;
             infoItems.addAll(list);
             recyclerPlugin.receiveData(infoItems);
-            recyclerPlugin.getRequestPlugin().getProgressBarPlugin().hideProgressBar();
+            recyclerPlugin.getProgressBarPlugin().ifPresent(ProgressBarPlugin::hideProgressBar);
         } else {
-            recyclerPlugin.getRequestPlugin().getLoaderPlugin().startLoader();
+            recyclerPlugin.startLoader();
         }
     }
 }

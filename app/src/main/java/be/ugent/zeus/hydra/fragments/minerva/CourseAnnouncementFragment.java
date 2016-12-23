@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.loaders.LoaderProvider;
-import be.ugent.zeus.hydra.loaders.ThrowableEither;
+import be.ugent.zeus.hydra.loaders.LoaderResult;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDaoLoader;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
@@ -75,7 +75,7 @@ public class CourseAnnouncementFragment extends PluginFragment implements Loader
     }
 
     @Override
-    public Loader<ThrowableEither<List<Announcement>>> getLoader(Context context) {
+    public Loader<LoaderResult<List<Announcement>>> getLoader(Context context) {
         return new AnnouncementDaoLoader(context, dao, course);
     }
 }

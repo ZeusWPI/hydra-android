@@ -114,7 +114,7 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
 
             //Report the partial result to the main thread.
             handler.post(() -> {
-                if (!isAbandoned()) {
+                if (isStarted() && listener != null) {
                     listener.onPartialUpdate(result.first, result.second, operation.getCardType());
                 }
             });
@@ -125,7 +125,7 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
             errors.add(operation.getCardType());
             //Report the error
             handler.post(() -> {
-                if (!isAbandoned()) {
+                if (isStarted() && listener != null) {
                     listener.onPartialError(operation.getCardType());
                 }
             });
@@ -172,6 +172,7 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
     protected void onStopLoading() {
         super.onStopLoading();
 
+        Log.d(TAG, "onStopLoading: Stopping loader");
         // Stop the request.
         cancelLoad();
     }
@@ -179,15 +180,27 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
     @Override
     protected void onAbandon() {
         super.onAbandon();
-        this.listener = null;
+        Log.d(TAG, "onAbandon: Abandoned loader");
+
+        //In conformance with the documentation, we don't update the listener anymore, but still keep the data.
+        listener = null;
     }
 
     @Override
     protected void onReset() {
         super.onReset();
 
-        // Ensure the loader has stopped.
-        onStopLoading();
+        Log.d(TAG, "onReset: Reset loader");
+
+        // Ensure the loader has stopped. This should not be necessary, but all Google's examples do it.
+        // However, we only do it when the loader is started.
+        if (isStarted()) {
+            onStopLoading();
+        }
+
+        //Reset the listener. Do this here as well as in onAbandon, since the latter is only called sometimes.
+        //See https://medium.com/@ianhlake/onabandon-is-only-called-by-loadermanager-when-a-loader-is-restarted-via-restartloader-as-per-bdc11452c60#.mox3hc7la
+        listener = null;
 
         // Reset the data.
         data = null;
@@ -200,7 +213,7 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
      */
     public void removeType(@HomeCard.CardType int type) {
 
-        if(!isStarted() || data == null) {
+        if (!isStarted() || data == null) {
             return;
         }
 
@@ -220,7 +233,7 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
 
     public void removeAssociations(Association association) {
 
-        if(!isStarted() || data == null) {
+        if (!isStarted() || data == null) {
             return;
         }
 

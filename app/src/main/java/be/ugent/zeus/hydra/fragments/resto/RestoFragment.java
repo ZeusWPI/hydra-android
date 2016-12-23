@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +17,6 @@ import be.ugent.zeus.hydra.activities.resto.MenuActivity;
 import be.ugent.zeus.hydra.activities.resto.RestoLocationActivity;
 import be.ugent.zeus.hydra.activities.resto.SandwichActivity;
 import be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment;
-import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
@@ -39,7 +35,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author Niko Strijbol
  * @author mivdnber
  */
-public class RestoFragment extends PluginFragment implements DataCallback<RestoOverview>, SharedPreferences.OnSharedPreferenceChangeListener {
+public class RestoFragment extends PluginFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = "RestoFragment";
 
@@ -51,11 +47,12 @@ public class RestoFragment extends PluginFragment implements DataCallback<RestoO
 
     private boolean preferencesUpdated;
 
-    private RequestPlugin<RestoOverview> plugin = new RequestPlugin<>(this, FilteredMenuRequest::new);
+    private RequestPlugin<RestoOverview> plugin = new RequestPlugin<>(FilteredMenuRequest::new);
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
+        plugin.defaultError().hasProgress().setDataCallback(this::receiveData);
         plugins.add(plugin);
     }
 
@@ -126,8 +123,7 @@ public class RestoFragment extends PluginFragment implements DataCallback<RestoO
         viewResto.setCompoundDrawablesWithIntrinsicBounds(null, restoIcon, null, null);
     }
 
-    @Override
-    public void receiveData(@NonNull RestoOverview data) {
+    private void receiveData(RestoOverview data) {
         //Check that we have at least one menu
         //TODO: show error
         if (data.size() < 1) {
@@ -144,15 +140,6 @@ public class RestoFragment extends PluginFragment implements DataCallback<RestoO
             intent.putExtra(MenuActivity.ARG_DATE, menu.getDate());
             startActivity(intent);
         });
-    }
-
-    @Override
-    public void receiveError(@NonNull Throwable e) {
-        assert getView() != null;
-        Log.e(TAG, "Error while getting data.", e);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> plugin.refresh())
-                .show();
     }
 
     @Override

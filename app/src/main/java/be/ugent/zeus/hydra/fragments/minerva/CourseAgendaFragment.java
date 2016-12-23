@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.loaders.LoaderProvider;
-import be.ugent.zeus.hydra.loaders.ThrowableEither;
+import be.ugent.zeus.hydra.loaders.LoaderResult;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDaoLoader;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
@@ -71,7 +71,7 @@ public class CourseAgendaFragment extends PluginFragment implements LoaderProvid
     }
 
     @Override
-    public Loader<ThrowableEither<List<AgendaItem>>> getLoader(Context context) {
+    public Loader<LoaderResult<List<AgendaItem>>> getLoader(Context context) {
         return new AgendaDaoLoader(context, dao, course);
     }
 }
