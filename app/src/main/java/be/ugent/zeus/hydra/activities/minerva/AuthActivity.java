@@ -102,6 +102,11 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
 
         Uri uri = intent.getData();
 
+        //Fix some bugs
+        if (uri == null) {
+            return;
+        }
+
         Log.d(TAG, "Uri is: " + uri);
 
         // Handle the callback URI.
