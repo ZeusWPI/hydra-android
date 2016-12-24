@@ -15,6 +15,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.association.Associations;
+import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.recyclerview.adapters.MultiSelectListAdapter;
 import be.ugent.zeus.hydra.requests.association.AssociationsRequest;
@@ -33,14 +34,14 @@ public class AssociationSelectPrefActivity extends HydraActivity {
     public static final String PREF_ASSOCIATIONS_SHOWING = "pref_associations_showing";
 
     private SearchableAdapter adapter = new SearchableAdapter();
-    private RequestPlugin<Associations> plugin = RequestPlugin.instance(new AssociationsRequest())
-            .withProgress()
-            .setDataCallback(this::receiveData)
-            .defaultError(content());
+    private RequestPlugin<Associations> plugin = RequestPlugin.cached(new AssociationsRequest());
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
+        plugin.hasProgress()
+                .defaultError()
+                .setDataCallback(this::receiveData);
         plugins.add(plugin);
     }
 
@@ -65,7 +66,7 @@ public class AssociationSelectPrefActivity extends HydraActivity {
         scroller.setRecyclerView(recyclerView);
 
         searchView.setOnQueryTextListener(adapter);
-        plugin.getLoaderPlugin().startLoader();
+        plugin.startLoader();
     }
 
     @Override

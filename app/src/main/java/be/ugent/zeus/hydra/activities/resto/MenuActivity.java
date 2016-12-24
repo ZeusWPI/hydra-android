@@ -21,6 +21,7 @@ import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
+import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.requests.resto.RestoMenuRequest;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -47,11 +48,11 @@ public class MenuActivity extends HydraActivity implements AdapterView.OnItemSel
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
-        plugin = RequestPlugin.instance(new RestoMenuRequest(this))
-                .withProgress()
-                .setDataCallback(this::receiveData)
-                .defaultError(content())
-                .setUsesToast(false);
+        plugin = RequestPlugin.cached(new RestoMenuRequest(this));
+        plugin.hasProgress()
+                .defaultError()
+                .noToast()
+                .setDataCallback(this::receiveData);
         plugins.add(plugin);
     }
 
@@ -104,7 +105,7 @@ public class MenuActivity extends HydraActivity implements AdapterView.OnItemSel
             startDate = LocalDate.now();
         }
 
-        plugin.getLoaderPlugin().startLoader();
+        plugin.startLoader();
     }
 
     private void receiveData(@NonNull RestoOverview data) {

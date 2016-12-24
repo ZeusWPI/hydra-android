@@ -12,6 +12,8 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.models.resto.Resto;
 import be.ugent.zeus.hydra.models.resto.RestoMeta;
+import be.ugent.zeus.hydra.plugins.ProgressBarPlugin;
+import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.requests.resto.RestoMetaRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,16 +33,16 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
     private static final int MY_LOCATION_REQUEST_CODE = 1;
 
     private final RestoMetaRequest restoMetaRequest = new RestoMetaRequest();
-    private final RequestPlugin<RestoMeta> plugin = RequestPlugin.instance(restoMetaRequest)
-            .withProgress()
-            .setDataCallback(this::receiveData)
-            .defaultError(content());
+    private final RequestPlugin<RestoMeta> plugin = RequestPlugin.cached(restoMetaRequest);
     private GoogleMap map;
     private RestoMeta meta;
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
+        plugin.hasProgress()
+                .defaultError()
+                .setDataCallback(this::receiveData);
         plugins.add(plugin);
     }
 
@@ -51,7 +53,7 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        plugin.getLoaderPlugin().startLoader();
+        plugin.startLoader();
     }
 
 
@@ -121,7 +123,7 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
             );
         }
         centerDefault();
-        plugin.getProgressBarPlugin().hideProgressBar();
+        plugin.getProgressBarPlugin().ifPresent(ProgressBarPlugin::hideProgressBar);
     }
 
     private void centerDefault() {

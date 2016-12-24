@@ -9,7 +9,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
@@ -20,7 +19,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
@@ -30,6 +28,7 @@ import be.ugent.zeus.hydra.minerva.sync.SyncAdapter;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
 import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.plugins.ProgressBarPlugin;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
@@ -46,7 +45,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author silox
  * @author Niko Strijbol
  */
-public class MinervaFragment extends PluginFragment implements DataCallback<List<Course>> {
+public class MinervaFragment extends PluginFragment {
 
     private static final String TAG = "MinervaFragment";
 
@@ -62,8 +61,9 @@ public class MinervaFragment extends PluginFragment implements DataCallback<List
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
-        plugin.getRequestPlugin().getLoaderPlugin().setAutoStart(false);
-        plugin.setCallback(this);
+        plugin.hasProgress()
+                .setAutoStart(false)
+                .setDataCallback(this::receiveData);
         plugins.add(plugin);
     }
 
@@ -81,7 +81,7 @@ public class MinervaFragment extends PluginFragment implements DataCallback<List
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        plugin.getRequestPlugin().getProgressBarPlugin().hideProgressBar();
+        plugin.getProgressBarPlugin().ifPresent(ProgressBarPlugin::hideProgressBar);
 
         this.manager = AccountManager.get(getContext());
         this.courseDao = new CourseDao(getContext());
@@ -161,20 +161,14 @@ public class MinervaFragment extends PluginFragment implements DataCallback<List
         //If we are logged in, we can start loading the data.
         if(isLoggedIn()) {
             authWrapper.setVisibility(View.GONE);
-            plugin.getRequestPlugin().getProgressBarPlugin().showProgressBar();
-            plugin.getRequestPlugin().getLoaderPlugin().startLoader();
+            plugin.getProgressBarPlugin().ifPresent(ProgressBarPlugin::showProgressBar);
+            plugin.startLoader();
         }
     }
 
-    @Override
-    public void receiveData(@NonNull List<Course> data) {
+    private void receiveData(List<Course> data) {
         plugin.showRecyclerView();
         getActivity().invalidateOptionsMenu();
-    }
-
-    @Override
-    public void receiveError(@NonNull Throwable e) {
-        //Do nothing, as this should not happen.
     }
 
     @Override
@@ -211,11 +205,11 @@ public class MinervaFragment extends PluginFragment implements DataCallback<List
             //Hide list
             plugin.hideRecyclerView();
             //Hide progress
-            plugin.getRequestPlugin().getProgressBarPlugin().hideProgressBar();
+            plugin.getProgressBarPlugin().ifPresent(ProgressBarPlugin::hideProgressBar);
             //Show login prompt
             authWrapper.setVisibility(View.VISIBLE);
             //Destroy loaders
-            plugin.getRequestPlugin().getLoaderPlugin().destroyLoader();
+            plugin.destroyLoader();
             //Delete database
             clearDatabase();
             //Reload options
@@ -259,7 +253,7 @@ public class MinervaFragment extends PluginFragment implements DataCallback<List
                     syncBar.dismiss();
                     syncBar = null;
                     plugin.showRecyclerView();
-                    plugin.getRequestPlugin().getLoaderPlugin().restartLoader();
+                    plugin.restartLoader();
                     return;
                 case SyncBroadcast.SYNC_ERROR:
                     Log.d(TAG, "Error");
@@ -268,15 +262,16 @@ public class MinervaFragment extends PluginFragment implements DataCallback<List
                     return;
                 case SyncBroadcast.SYNC_PROGRESS_WHATS_NEW:
                     Log.d(TAG, "Progress");
-                    ProgressBar progressBar = plugin.getRequestPlugin().getProgressBarPlugin().getProgressBar();
-                    if(progressBar.isIndeterminate()) {
-                        progressBar.setIndeterminate(false);
-
-                    }
                     int current = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_CURRENT, 0);
                     int total = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_TOTAL, 0);
-                    progressBar.setMax(total);
-                    progressBar.setProgress(current);
+                    plugin.getProgressBarPlugin().ifPresent(progressBarPlugin -> {
+                        ProgressBar progressBar = progressBarPlugin.getProgressBar();
+                        if (progressBar.isIndeterminate()) {
+                            progressBar.setIndeterminate(false);
+                        }
+                        progressBar.setMax(total);
+                        progressBar.setProgress(current);
+                    });
                     ensureSyncStatus(getString(R.string.minerva_sync_progress, current, total));
             }
         }
@@ -292,7 +287,7 @@ public class MinervaFragment extends PluginFragment implements DataCallback<List
         if(syncBar == null) {
             authWrapper.setVisibility(View.GONE);
             plugin.getRecyclerView().setVisibility(View.GONE);
-            plugin.getRequestPlugin().getProgressBarPlugin().showProgressBar();
+            plugin.getProgressBarPlugin().ifPresent(ProgressBarPlugin::showProgressBar);
             syncBar = Snackbar.make(getView(), text, Snackbar.LENGTH_INDEFINITE);
             syncBar.show();
         } else {
