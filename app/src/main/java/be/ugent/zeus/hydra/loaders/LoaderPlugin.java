@@ -6,6 +6,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import be.ugent.zeus.hydra.plugins.common.FragmentPlugin;
+import be.ugent.zeus.hydra.utils.FunctionalUtils;
 import java8.util.function.Consumer;
 
 /**
@@ -30,6 +31,7 @@ import java8.util.function.Consumer;
  *
  * @author Niko Strijbol
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class LoaderPlugin<D> extends FragmentPlugin implements LoaderManager.LoaderCallbacks<LoaderResult<D>> {
 
     private static final String TAG = "LoaderPlugin";
@@ -38,7 +40,7 @@ public class LoaderPlugin<D> extends FragmentPlugin implements LoaderManager.Loa
 
     private LoaderProvider<D> provider;
     private Consumer<D> dataConsumer;
-    private Consumer<Throwable> errorConsumer;
+    private Consumer<Throwable> errorListener;
     private Consumer<Loader<LoaderResult<D>>> resetListener;
     private Consumer<LoaderResult<D>> resultListener;
 
@@ -67,20 +69,32 @@ public class LoaderPlugin<D> extends FragmentPlugin implements LoaderManager.Loa
     }
 
     /**
-     * @param errorConsumer The error callback.
+     * Set an error listener. Existing listeners will still be called. To remove all callbacks, pass null.
+     *
+     * @param errorListener An additional listener, or null to remove all listeners.
      */
-    public LoaderPlugin<D> setErrorCallback(Consumer<Throwable> errorConsumer) {
-        this.errorConsumer = errorConsumer;
+    public LoaderPlugin<D> addErrorListener(Consumer<Throwable> errorListener) {
+        this.errorListener = FunctionalUtils.maybeAndThen(this.errorListener, errorListener);
         return this;
     }
 
-    public LoaderPlugin<D> setResetListener(Consumer<Loader<LoaderResult<D>>> resetListener) {
-        this.resetListener = resetListener;
+    /**
+     * Set a reset listener. Existing listeners will still be called. To remove all callbacks, pass null.
+     *
+     * @param resetListener An additional listener, or null to remove all listeners.
+     */
+    public LoaderPlugin<D> addResetListener(@Nullable Consumer<Loader<LoaderResult<D>>> resetListener) {
+        this.resetListener = FunctionalUtils.maybeAndThen(this.resetListener, resetListener);
         return this;
     }
 
-    public LoaderPlugin<D> setFinishCallback(Consumer<LoaderResult<D>> finishCallback) {
-        this.resultListener = finishCallback;
+    /**
+     * Set a result listener. Existing listeners will still be called. To remove all callbacks, pass null.
+     *
+     * @param resultListener An additional listener, or null to remove all listeners.
+     */
+    public LoaderPlugin<D> addResultListener(@Nullable Consumer<LoaderResult<D>> resultListener) {
+        this.resultListener = FunctionalUtils.maybeAndThen(this.resultListener, resultListener);
         return this;
     }
 
@@ -107,8 +121,8 @@ public class LoaderPlugin<D> extends FragmentPlugin implements LoaderManager.Loa
 
         //If there is an error.
         if (data.hasError()) {
-            if (errorConsumer != null) {
-                errorConsumer.accept(data.getError().getCause());
+            if (errorListener != null) {
+                errorListener.accept(data.getError().getCause());
             } else {
                 Log.d(TAG, "Error occurred in loader, but no one was listening!", data.getError());
             }

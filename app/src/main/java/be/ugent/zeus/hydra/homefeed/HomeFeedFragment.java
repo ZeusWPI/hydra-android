@@ -61,6 +61,8 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener,
         HomeFeedLoaderCallback, SwipeRefreshLayout.OnRefreshListener {
 
+    private static final boolean ADD_STALL_REQUEST = false;
+
     private static final String TAG = "HomeFeedFragment";
 
     public static final String PREF_DISABLED_CARDS = "pref_disabled_cards";
@@ -235,7 +237,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
         loader.addOperation(get(d, () -> new MinervaAnnouncementRequest(getContext()), HomeCard.CardType.MINERVA_ANNOUNCEMENT));
         loader.addOperation(get(d, () -> new MinervaAgendaRequest(getContext()), HomeCard.CardType.MINERVA_AGENDA));
 
-        if(BuildConfig.DEBUG && true) {
+        if(BuildConfig.DEBUG && ADD_STALL_REQUEST) {
             loader.addOperation(add(new WaitRequest()));
         }
 

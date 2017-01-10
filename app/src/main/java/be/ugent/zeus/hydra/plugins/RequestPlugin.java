@@ -57,7 +57,7 @@ public class RequestPlugin<D> extends LoaderPlugin<D> {
 
     public RequestPlugin<D> hasProgress() {
         progressBarPlugin = new ProgressBarPlugin();
-        setFinishCallback(progressBarPlugin.getFinishedCallback());
+        addResultListener(progressBarPlugin.getFinishedCallback());
         return this;
     }
 
@@ -78,7 +78,7 @@ public class RequestPlugin<D> extends LoaderPlugin<D> {
      * @return The plugin for fluent use.
      */
     public RequestPlugin<D> defaultError() {
-        setErrorCallback(throwable -> {
+        addErrorListener(throwable -> {
             Context c = getHost().getContext();
             Log.e(TAG, "Error while getting data.", throwable);
             Snackbar.make(getHost().getRoot(), c.getString(R.string.failure), Snackbar.LENGTH_LONG)

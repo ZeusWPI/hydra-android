@@ -35,7 +35,7 @@ public class TimelineFragment extends PluginFragment implements SwipeRefreshLayo
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
-        plugin.hasProgress().defaultError().setFinishCallback(i -> refreshLayout.setRefreshing(false));
+        plugin.hasProgress().defaultError().addResultListener(i -> refreshLayout.setRefreshing(false));
         plugins.add(plugin);
     }
 
