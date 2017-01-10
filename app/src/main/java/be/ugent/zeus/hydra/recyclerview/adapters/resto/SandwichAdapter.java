@@ -4,13 +4,13 @@ import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.SparseBooleanArray;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.resto.Sandwich;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.SimpleItemAdapter;
+import be.ugent.zeus.hydra.utils.ViewUtils;
 import com.kyo.expandablelayout.ExpandableLayout;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
@@ -22,7 +22,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class SandwichAdapter extends SimpleItemAdapter<Sandwich, SandwichAdapter.SandwichHolder> {
 
-    public static class SandwichHolder extends RecyclerView.ViewHolder {
+    static class SandwichHolder extends RecyclerView.ViewHolder {
 
         private TextView name;
         private TextView smallPrice;
@@ -45,12 +45,7 @@ public class SandwichAdapter extends SimpleItemAdapter<Sandwich, SandwichAdapter
 
     @Override
     public SandwichHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
-        //Inflate the layout
-        View sandwichView = inflater.inflate(R.layout.item_sandwich, parent, false);
-
-        return new SandwichHolder(sandwichView);
+        return new SandwichHolder(ViewUtils.inflate(parent, R.layout.item_sandwich));
     }
 
     @Override

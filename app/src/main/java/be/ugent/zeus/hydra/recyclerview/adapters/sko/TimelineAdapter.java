@@ -1,13 +1,11 @@
 package be.ugent.zeus.hydra.recyclerview.adapters.sko;
 
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.sko.TimelinePost;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.sko.TimelineViewHolder;
+import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
 
 /**
@@ -27,8 +25,6 @@ public class TimelineAdapter extends ItemAdapter<TimelinePost, TimelineViewHolde
 
     @Override
     public TimelineViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_sko_timeline_post, parent, false);
-        return new TimelineViewHolder(v, this);
+        return new TimelineViewHolder(ViewUtils.inflate(parent, R.layout.item_sko_timeline_post), this);
     }
 }

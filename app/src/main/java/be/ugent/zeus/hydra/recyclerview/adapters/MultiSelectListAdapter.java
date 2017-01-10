@@ -1,16 +1,15 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import android.util.Pair;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
+import be.ugent.zeus.hydra.utils.ViewUtils;
 import java8.util.function.Function;
 
 import java.util.ArrayList;
@@ -91,7 +90,7 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
 
     @Override
     public ViewHolder<H> onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder<>(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_checkbox_string, parent, false), this);
+        return new ViewHolder<>(ViewUtils.inflate(parent, R.layout.item_checkbox_string), this);
     }
 
     /**

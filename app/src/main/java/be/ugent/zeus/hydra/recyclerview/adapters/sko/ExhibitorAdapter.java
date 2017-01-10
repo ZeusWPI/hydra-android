@@ -1,16 +1,14 @@
 package be.ugent.zeus.hydra.recyclerview.adapters.sko;
 
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.sko.Exhibitor;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.sko.ExhibitorViewHolder;
+import be.ugent.zeus.hydra.utils.ViewUtils;
+import java8.lang.Iterables;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -37,9 +35,7 @@ public class ExhibitorAdapter extends ItemAdapter<Exhibitor, ExhibitorViewHolder
 
     @Override
     public ExhibitorViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_sko_exhibitor, parent, false);
-        return new ExhibitorViewHolder(v);
+        return new ExhibitorViewHolder(ViewUtils.inflate(parent, R.layout.item_sko_exhibitor));
     }
 
     @Override
@@ -61,14 +57,7 @@ public class ExhibitorAdapter extends ItemAdapter<Exhibitor, ExhibitorViewHolder
         }
 
         List<Exhibitor> newList = new ArrayList<>(allData);
-
-        Iterator<Exhibitor> iter = newList.iterator();
-        while(iter.hasNext()) {
-            Exhibitor next = iter.next();
-            if(!next.getName().toLowerCase().contains(newText.toLowerCase())) {
-                iter.remove();
-            }
-        }
+        Iterables.removeIf(newList, next -> !next.getName().toLowerCase().contains(newText.toLowerCase()));
 
         //Manually update.
         this.items = newList;

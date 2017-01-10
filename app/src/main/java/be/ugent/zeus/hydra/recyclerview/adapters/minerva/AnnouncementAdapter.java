@@ -1,12 +1,11 @@
 package be.ugent.zeus.hydra.recyclerview.adapters.minerva;
 
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemLoader;
 import be.ugent.zeus.hydra.recyclerview.viewholder.minerva.AnnouncementViewHolder;
+import be.ugent.zeus.hydra.utils.ViewUtils;
 
 /**
  * Adapteer for announcements.
@@ -21,8 +20,7 @@ public class AnnouncementAdapter extends EmptyItemLoader<Announcement, Announcem
 
     @Override
     protected AnnouncementViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_minerva_announcement, parent, false);
-        return new AnnouncementViewHolder(v);
+        return new AnnouncementViewHolder(ViewUtils.inflate(parent, R.layout.item_minerva_announcement));
     }
 
     public void remove(int position) {
@@ -34,7 +32,7 @@ public class AnnouncementAdapter extends EmptyItemLoader<Announcement, Announcem
         //Check for place holder
         boolean empty = this.items.isEmpty();
         this.items.add(0, announcement);
-        if(empty) {
+        if (empty) {
             notifyItemRemoved(0);
         }
         notifyItemInserted(0);
