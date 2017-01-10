@@ -51,8 +51,14 @@ public class AnnouncementViewHolder extends DataViewHolder<Announcement> {
     }
 
     private void markAsRead() {
+        //Due to a bug on older android versions, we need to set the padding again.
+        int top = itemView.getPaddingTop();
+        int right = itemView.getPaddingRight();
+        int bottom = itemView.getPaddingBottom();
+        int left = itemView.getPaddingLeft();
         TypedValue outValue = new TypedValue();
         itemView.getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
         itemView.setBackgroundResource(outValue.resourceId);
+        itemView.setPadding(left, top, right, bottom);
     }
 }

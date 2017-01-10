@@ -49,6 +49,7 @@ public class CourseAnnouncementFragment extends PluginFragment implements Loader
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
+        plugin.hasProgress();
         plugins.add(plugin);
     }
 
