@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.library.LibraryListActivity;
+import be.ugent.zeus.hydra.library.LibraryListFragment;
 import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 
@@ -33,7 +33,7 @@ public class InfoViewHolder extends DataViewHolder<InfoItem> {
         title.setText(infoItem.getTitle());
 
         if(infoItem.getTitle().equals("Bibliotheek")) {
-            itemView.setOnClickListener(v -> v.getContext().startActivity(new Intent(v.getContext(), LibraryListActivity.class)));
+            itemView.setOnClickListener(v -> v.getContext().startActivity(new Intent(v.getContext(), LibraryListFragment.class)));
         } else {
             itemView.setOnClickListener(v -> infoItem.getType().doOnClick(v.getContext(), infoItem));
         }

@@ -229,5 +229,6 @@
     <string name="oops">Oeps!</string>
     <string name="title_home_urgent">Urgent</string>
     <string name="title_activity_libraries">Bibliotheken</string>
+    <string name="title_library">Bibliotheken</string>
 
 </resources>

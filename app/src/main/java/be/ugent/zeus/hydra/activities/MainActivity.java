@@ -27,6 +27,7 @@ import be.ugent.zeus.hydra.fragments.minerva.MinervaFragment;
 import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
 import be.ugent.zeus.hydra.fragments.urgent.UrgentFragment;
 import be.ugent.zeus.hydra.homefeed.HomeFeedFragment;
+import be.ugent.zeus.hydra.library.LibraryListFragment;
 import be.ugent.zeus.hydra.plugins.OfflinePlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 
@@ -172,6 +173,9 @@ public class MainActivity extends HydraActivity {
                 break;
             case R.id.drawer_urgent:
                 fragment = new UrgentFragment();
+                break;
+            case R.id.drawer_library:
+                fragment = new LibraryListFragment();
                 break;
             case R.id.drawer_pref: //Launch new activity
                 drawer.closeDrawer(GravityCompat.START);
