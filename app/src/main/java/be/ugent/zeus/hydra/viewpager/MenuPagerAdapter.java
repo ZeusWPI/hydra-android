@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import be.ugent.zeus.hydra.fragments.resto.MenuFragment;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import org.threeten.bp.LocalDate;
 
 import java.util.Collections;
 import java.util.List;
@@ -44,8 +45,8 @@ public class MenuPagerAdapter extends FragmentStatePagerAdapter {
         return data.size();
     }
 
-    public String getTabDate(int position) {
-        return data.get(position).getDate().toString();
+    public LocalDate getTabDate(int position) {
+        return data.get(position).getDate();
     }
 
     /**

@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra;
 import android.app.Activity;
 import android.app.Application;
 import android.support.annotation.NonNull;
-import com.codemonkeylabs.fpslibrary.TinyDancer;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -31,7 +30,6 @@ public class HydraApplication extends Application {
         }
         AndroidThreeTen.init(this);
         LeakCanary.install(this);
-        TinyDancer.create().show(this);
     }
 
     /**

@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
@@ -51,7 +50,6 @@ public class MenuActivity extends HydraActivity implements AdapterView.OnItemSel
         plugin = RequestPlugin.cached(new RestoMenuRequest(this));
         plugin.hasProgress()
                 .defaultError()
-                .noToast()
                 .setDataCallback(this::receiveData);
         plugins.add(plugin);
     }
@@ -77,7 +75,7 @@ public class MenuActivity extends HydraActivity implements AdapterView.OnItemSel
             public void onPageSelected(int position) {
                 appBarLayout.setExpanded(true);
                 HydraApplication app = (HydraApplication) MenuActivity.this.getApplication();
-                app.sendScreenName("Menu tab: " + pageAdapter.getTabDate(position));
+                app.sendScreenName("Menu tab: " + pageAdapter.getTabDate(position).toString());
             }
         });
 
@@ -132,7 +130,7 @@ public class MenuActivity extends HydraActivity implements AdapterView.OnItemSel
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 plugin.refresh();
-                Toast.makeText(getApplicationContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.resto_show_website:
                 NetworkUtils.maybeLaunchBrowser(this, URL);
@@ -148,6 +146,8 @@ public class MenuActivity extends HydraActivity implements AdapterView.OnItemSel
         preferences.edit()
                 .putString(RestoPreferenceFragment.PREF_RESTO, String.valueOf(position))
                 .apply();
+        //The start should be the day we have currently selected.
+        startDate = pageAdapter.getTabDate(viewPager.getCurrentItem());
         plugin.refresh();
     }
 

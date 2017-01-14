@@ -72,9 +72,9 @@ public class MainActivity extends HydraActivity {
         if (preferences.getBoolean(PREF_ONBOARDING, true)) {
             Intent intent = new Intent(this, OnboardingActivity.class);
             startActivityForResult(intent, ONBOARDING_REQUEST);
-        } else {
-            initialize(savedInstanceState);
         }
+
+        initialize(savedInstanceState);
     }
 
     private void initialize(Bundle savedInstanceState) {
@@ -88,7 +88,7 @@ public class MainActivity extends HydraActivity {
                     return true;
                 });
 
-        toggle = new ActionBarDrawerToggle(this, drawer, this.$(R.id.toolbar), R.string.drawer_open, R.string.drawer_close) {
+        toggle = new ActionBarDrawerToggle(this, drawer, $(R.id.toolbar), R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, 0); // this disables the animation
