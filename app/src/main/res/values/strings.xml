@@ -231,5 +231,7 @@
     <string name="title_activity_libraries">Bibliotheken</string>
     <string name="title_library">Bibliotheken</string>
     <string name="resto_menu_date">Datum van menu: %s</string>
+    <string name="error_oh_no">Oh nee!</string>
+    <string name="error_description">Er was een probleem bij het ophalen van de data. Controleer uw verbinding en probeer opnieuw.</string>
 
 </resources>

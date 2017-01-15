@@ -19,8 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:icon="@drawable/tabs_schamper"
-            app:title="@string/title_activity_schamper"
-            />
+            app:title="@string/title_activity_schamper" />
 
         <LinearLayout
             android:paddingLeft="@dimen/card_title_padding_vertical"

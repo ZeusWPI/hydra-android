@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.resto.SandwichActivity"
+    tools:menu="menu_resto"
     android:id="@+id/coordinator">
 
     <android.support.design.widget.AppBarLayout
@@ -27,6 +28,7 @@
             android:scrollbars="none"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            tools:listitem="@layout/item_sandwich"
             app:layoutManager="@string/app_layout_manager_linear" />
 
         <com.pluscubed.recyclerfastscroll.RecyclerFastScroller

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,14 +10,12 @@
     android:paddingTop="@dimen/list_two_line_padding_horizontal"
     android:paddingBottom="@dimen/list_two_line_padding_horizontal"
     android:gravity="top"
-    android:background="?android:attr/selectableItemBackground"
-    >
+    android:background="?android:attr/selectableItemBackground">
 
     <com.kyo.expandablelayout.ExpandableLayout
         android:id="@+id/expandable_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +35,7 @@
                     android:id="@+id/sandwich_name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textSize="@dimen/list_two_line_primary_text_size"
-                    />
+                    tools:text="Naam van het broodje" />
             </LinearLayout>
 
             <LinearLayout
@@ -51,13 +50,15 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/sandwich_price_medium"
                     android:textSize="@dimen/list_two_line_primary_text_size"
-                    android:textIsSelectable="true" />
+                    android:textIsSelectable="true"
+                    tools:text="Prijs groot" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/sandwich_price_small"
-                    android:textIsSelectable="true" />
+                    android:textIsSelectable="true"
+                    tools:text="Prijs klein" />
             </LinearLayout>
         </LinearLayout>
 
