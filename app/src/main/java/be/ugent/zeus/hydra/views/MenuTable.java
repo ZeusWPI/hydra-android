@@ -65,8 +65,8 @@ public class MenuTable extends TableLayout {
 
         TextView v = new TextView(getContext());
         TableRow.LayoutParams textParam = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+        textParam.span = 3;
         if (span) {
-            textParam.span = 3;
             v.setTextAppearance(getContext(), R.style.Material_Typography_Subhead);
         }
         v.setLayoutParams(textParam);
