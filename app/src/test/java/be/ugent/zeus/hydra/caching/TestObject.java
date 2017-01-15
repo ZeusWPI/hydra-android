@@ -11,7 +11,15 @@ public class TestObject implements Serializable {
 
     static final String TEST_FILE_KEY = "testFile";
 
-    private String data = "TestObjectData";
+    private final String data;
+
+    TestObject() {
+        this("TestObjectData");
+    }
+
+    TestObject(String data) {
+        this.data = data;
+    }
 
     @Override
     public boolean equals(Object o) {
