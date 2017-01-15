@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.fragments.minerva;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,7 @@ public class CourseInfoFragment extends Fragment {
         courseTutor.setText(Utils.fromHtml(course.getTutorName()));
         courseYear.setText(getAcademicYear());
 
-        if(course.getDescription() == null) {
+        if(TextUtils.isEmpty(course.getDescription())) {
             $(v, R.id.course_description_header).setVisibility(View.GONE);
         } else {
             courseDescription.setText(Utils.fromHtml(course.getDescription()));

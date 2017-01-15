@@ -46,6 +46,7 @@ public class CourseAgendaFragment extends PluginFragment implements LoaderProvid
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
+        plugin.hasProgress();
         plugins.add(plugin);
     }
 

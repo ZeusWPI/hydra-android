@@ -16,7 +16,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
@@ -87,7 +86,7 @@ public class MinervaFragment extends PluginFragment {
         this.courseDao = new CourseDao(getContext());
 
         Button authorize = $(view, R.id.authorize);
-        authorize.setOnClickListener(view1 -> maybeLaunchAuthorization());
+        authorize.setOnClickListener(v -> maybeLaunchAuthorization());
 
         authWrapper = $(view, R.id.auth_wrapper);
 
@@ -124,7 +123,7 @@ public class MinervaFragment extends PluginFragment {
         //Request first sync
         Log.d(TAG, "Requesting first sync...");
         Bundle bundle = new Bundle();
-        bundle.putBoolean(SyncAdapter.ARG_FIRST_SYNC, true);
+        bundle.putBoolean(SyncAdapter.EXTRA_FIRST_SYNC, true);
         requestSync(account, bundle);
     }
 
@@ -264,14 +263,6 @@ public class MinervaFragment extends PluginFragment {
                     Log.d(TAG, "Progress");
                     int current = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_CURRENT, 0);
                     int total = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_TOTAL, 0);
-                    plugin.getProgressBarPlugin().ifPresent(progressBarPlugin -> {
-                        ProgressBar progressBar = progressBarPlugin.getProgressBar();
-                        if (progressBar.isIndeterminate()) {
-                            progressBar.setIndeterminate(false);
-                        }
-                        progressBar.setMax(total);
-                        progressBar.setProgress(current);
-                    });
                     ensureSyncStatus(getString(R.string.minerva_sync_progress, current, total));
             }
         }
@@ -284,10 +275,8 @@ public class MinervaFragment extends PluginFragment {
      */
     private void ensureSyncStatus(String text) {
         assert getView() != null;
-        if(syncBar == null) {
+        if (syncBar == null) {
             authWrapper.setVisibility(View.GONE);
-            plugin.getRecyclerView().setVisibility(View.GONE);
-            plugin.getProgressBarPlugin().ifPresent(ProgressBarPlugin::showProgressBar);
             syncBar = Snackbar.make(getView(), text, Snackbar.LENGTH_INDEFINITE);
             syncBar.show();
         } else {

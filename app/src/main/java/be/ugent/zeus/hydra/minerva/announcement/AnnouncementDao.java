@@ -219,6 +219,18 @@ public class AnnouncementDao extends Dao {
     }
 
     /**
+     * Update an announcement. This should not be called on the UI thread.
+     *
+     * @param a The announcement to update.
+     */
+    public void add(final Announcement a) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = getValues(a);
+        db.insertOrThrow(AnnouncementTable.TABLE_NAME, null, values);
+        Log.i(TAG, "Added announcement " + a.getItemId());
+    }
+
+    /**
      * Get a list of ids of the announcements for a course in the database.
      *
      * @param course  The course.

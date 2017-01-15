@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
@@ -23,88 +24,121 @@ import be.ugent.zeus.hydra.models.minerva.*;
 import be.ugent.zeus.hydra.requests.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.*;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
- * The sync adapter for minerva stuff.
+ * The sync adapter for the Minerva integration. Since Minerva synchronisation is currently one way only, this adapter
+ * could be seen as a glorified download manager.
+ *
+ * There is currently one flags that can be used to influence behavior; {@link #EXTRA_FIRST_SYNC}.
+ * See their documentation for details on what they do.
+ *
+ * The sync adapter will broadcast it's progress, so you can subscribe to be updated. See {@link SyncBroadcast}.
  *
  * @author Niko Strijbol
  */
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
+    /**
+     * This is a boolean flag; and is false by default.
+     *
+     * Indicate that this is the first synchronisation for an account. This will prompt a removal of any present data,
+     * since Android sometimes deletes accounts without removing data.
+     *
+     * It will also suppress notifications about newly synchronised items, regardless of the user settings. When syncing
+     * for the first time, the user does not want to be bombarded with notifications about new announcements.
+     */
+    public static final String EXTRA_FIRST_SYNC = "firstSync";
     private static final String TAG = "SyncAdapter";
-
-    public static final String ARG_FIRST_SYNC = "firstSync";
-
-    private boolean cancelled = false;
     private final SyncBroadcast broadcast;
+    private boolean isCancelled = false;
 
-    public SyncAdapter(Context context, boolean autoInitialize) {
+    SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         broadcast = new SyncBroadcast(getContext());
     }
 
-    //TODO write a good, more formal overview of the sync algorithm.
+    // TODO write a good, more formal overview of the sync algorithm.
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 
         Log.d(TAG, "Starting sync...");
         broadcast.publishIntent(SyncBroadcast.SYNC_START);
 
-        if(cancelled) {
+        if (isCancelled) {
             broadcast.publishIntent(SyncBroadcast.SYNC_CANCELLED);
             return;
         }
 
-        //Get if this is the first sync.
-        final boolean first = extras.getBoolean(ARG_FIRST_SYNC, false);
+        final boolean isFirstSync = extras.getBoolean(EXTRA_FIRST_SYNC, false);
 
-        CoursesMinervaRequest request = new CoursesMinervaRequest(getContext(), account);
-
+        //Get access to the data
         final CourseDao courseDao = new CourseDao(getContext());
         final AnnouncementDao announcementDao = new AnnouncementDao(getContext());
         final AgendaDao agendaDao = new AgendaDao(getContext());
 
+        // The request to sync the courses.
+        CoursesMinervaRequest request = new CoursesMinervaRequest(getContext(), account);
+
         try {
-            //If this is the first request, clean everything.
-            if(first) {
+
+            // If this is the first request, clean everything.
+            if (isFirstSync) {
                 agendaDao.deleteAll();
                 announcementDao.deleteAll();
                 courseDao.deleteAll();
             }
 
             Courses courses = request.performRequest();
-            courseDao.synchronise(courses.getCourses());
 
-            //Synchronise agenda
+            // Add debug course on every sync.
+            if (BuildConfig.DEBUG) {
+                LocalDateTime now = LocalDateTime.now();
+                Course newCourse = new Course();
+                newCourse.setId(now.toString());
+                newCourse.setAcademicYear(now.getYear());
+                newCourse.setCode("COURSE");
+                newCourse.setDescription("Een debug-vak van de app zelf.");
+                newCourse.setStudent("WHAT IS THIS?");
+                newCourse.setTutorName("Hydra-app");
+                newCourse.setTitle("Course from " + now.toString());
+                courses.getCourses().add(newCourse);
+            }
+
+            courseDao.synchronise(courses.getCourses());
+            // Publish progress.
+            broadcast.publishIntent(SyncBroadcast.SYNC_COURSES);
+
+            // Synchronise the agenda.
             synchronizeAgenda(agendaDao, account);
 
-            //Publish progress
-            broadcast.publishIntent(SyncBroadcast.SYNC_PROGRESS_COURSES);
-
-            //Add info
+            // Synchronize announcements for each course. There is no method to do this in one request.
             for (int i = 0; i < courses.getCourses().size(); i++) {
                 Course course = courses.getCourses().get(i);
-                if (cancelled) {
+                if (isCancelled) {
                     broadcast.publishIntent(SyncBroadcast.SYNC_CANCELLED);
                     return;
                 }
 
-                //We don't add the course to announcements here, since that would be inefficient.
                 Log.d(TAG, "Syncing course " + course.getId());
 
-                //Sync announcements
-                Collection<Announcement> newOnes = synchronizeAnnouncements(announcementDao, account, first, course);
+                // Sync announcements
+                Collection<Announcement> newOnes;
+                if (!course.getCode().equals("COURSE")) { //TODO DEBUG
+                    newOnes = synchronizeAnnouncements(announcementDao, account, isFirstSync, course);
+                } else {
+                    addAnnouncement(announcementDao, course);
+                    newOnes = Collections.emptyList();
+                }
 
-                //Publish progress
-                broadcast.publishAnnouncementDone(i + 1, courses.getCourses().size());
+                // Publish progress
+                broadcast.publishAnnouncementDone(i + 1, courses.getCourses().size(), course);
 
-                //If not the first time, show notifications
-                if (!first) {
+                // If not the first time, show notifications
+                if (!isFirstSync) {
                     notifyUser(newOnes);
                 }
             }
@@ -118,25 +152,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         } catch (AuthenticatorActionException e) {
             Log.i(TAG, "Auth exception while syncing.", e);
             syncResult.stats.numAuthExceptions++;
-            //This should not be null, but check it anyway.
-            if(request.getAccountBundle() != null) {
+            // This should not be null, but check it anyway.
+            if (request.getAccountBundle() != null) {
                 Intent intent = request.getAccountBundle().getParcelable(AccountManager.KEY_INTENT);
                 SyncErrorNotification.Builder.init(getContext()).authError(intent).build().show();
                 broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
             } else {
                 syncErrorNotification(e);
             }
-
         } catch (RequestFailureException e) {
             Log.w(TAG, "Exception during sync:", e);
-            //TODO: this needs attention.
+            // TODO: this needs attention.
             syncResult.stats.numParseExceptions++;
             syncErrorNotification(e);
         } catch (SQLException e) {
             Log.e(TAG, "Exception during sync:", e);
             syncResult.databaseError = true;
             syncErrorNotification(e);
-        }  catch (HttpMessageNotReadableException e) {
+        } catch (HttpMessageNotReadableException e) {
             Log.e(TAG, "Exception during sync:", e);
             syncResult.stats.numParseExceptions++;
             syncErrorNotification(e);
@@ -154,7 +187,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onSyncCanceled() {
         super.onSyncCanceled();
-        this.cancelled = true;
+        this.isCancelled = true;
     }
 
     /**
@@ -164,13 +197,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
      */
     private void notifyUser(@NonNull Collection<Announcement> newAnnouncements) {
 
-        if(newAnnouncements.isEmpty()) {
+        if (newAnnouncements.isEmpty()) {
             return;
         }
 
-        //If we may not notify the user, stop here
+        // If we may not notify the user, stop here.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        if(!preferences.getBoolean(MinervaFragment.PREF_ANNOUNCEMENT_NOTIFICATION, true)) {
+        if (!preferences.getBoolean(MinervaFragment.PREF_ANNOUNCEMENT_NOTIFICATION, true)) {
             return;
         }
 
@@ -186,15 +219,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
      * @param account The Minerva-account.
      */
     private void synchronizeAgenda(AgendaDao dao, Account account) throws RequestFailureException {
-        //Synchronise agenda
+        // Synchronise agenda
         AgendaRequest agendaRequest = new AgendaRequest(getContext(), account);
         ZonedDateTime now = LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault());
-        //Start time
+        // Start time
         agendaRequest.setStart(now);
-        //End time. We take 1 month (+1 day for the start time).
+        // End time. We take 1 month (+1 day for the start time).
         agendaRequest.setEnd(now.plusMonths(1).plusDays(1));
 
         dao.replace(agendaRequest.performRequest().getItems());
+        broadcast.publishIntent(SyncBroadcast.SYNC_AGENDA);
     }
 
     /**
@@ -202,14 +236,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
      */
     private Collection<Announcement> synchronizeAnnouncements(AnnouncementDao dao, Account account, boolean first, Course course) throws RequestFailureException {
 
-        //First we get all courses. The dao marks the new ones as unread.
+        // First we get all courses. The dao marks the new ones as unread.
         AnnouncementsRequest announcementsRequest = new AnnouncementsRequest(getContext(), account, null, course);
         Announcements announcements = announcementsRequest.performRequest();
 
         WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, getContext(), account);
         WhatsNew whatsNew = whatsNewRequest.performRequest();
 
-        //Construct object
+        // Construct object
         SyncObject object = new SyncObject.Builder(course)
                 .allObjects(announcements.getAnnouncements())
                 .newObjects(whatsNew.getAnnouncements())
@@ -218,5 +252,17 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         //Sync announcements
         return dao.synchronize(object);
+    }
+
+    private void addAnnouncement(AnnouncementDao dao, Course course) {
+        LocalDateTime now = LocalDateTime.now();
+        Announcement announcement = new Announcement();
+        announcement.setTitle("TEST FROM " + now.toString());
+        announcement.setCourse(course);
+        announcement.setContent("DEBUG");
+        announcement.setItemId((int) Instant.now().toEpochMilli());
+        announcement.setDate(now.atZone(ZoneId.systemDefault()));
+        announcement.setLecturer("Niko");
+        dao.add(announcement);
     }
 }

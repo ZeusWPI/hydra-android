@@ -1,10 +1,11 @@
 package be.ugent.zeus.hydra.minerva.course;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.support.annotation.NonNull;
-
-import be.ugent.zeus.hydra.loaders.AbstractLoader;
+import be.ugent.zeus.hydra.loaders.BroadcastLoader;
 import be.ugent.zeus.hydra.loaders.LoaderException;
+import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.models.minerva.Course;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class CourseDaoLoader extends AbstractLoader<List<Course>> {
+public class CourseDaoLoader extends BroadcastLoader<List<Course>> {
 
     private CourseDao dao;
 
@@ -22,7 +23,7 @@ public class CourseDaoLoader extends AbstractLoader<List<Course>> {
      * @param context The context.
      */
     public CourseDaoLoader(Context context, CourseDao dao) {
-        super(context);
+        super(context, new IntentFilter(SyncBroadcast.SYNC_COURSES));
         this.dao = dao;
     }
 

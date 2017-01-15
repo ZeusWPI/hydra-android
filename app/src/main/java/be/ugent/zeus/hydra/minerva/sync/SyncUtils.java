@@ -62,7 +62,7 @@ public class SyncUtils {
     public static void requestFirstSync(Account account) {
         Log.d(TAG, "Requesting first sync...");
         Bundle bundle = new Bundle();
-        bundle.putBoolean(SyncAdapter.ARG_FIRST_SYNC, true);
+        bundle.putBoolean(SyncAdapter.EXTRA_FIRST_SYNC, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         ContentResolver.requestSync(account, MinervaConfig.ACCOUNT_AUTHORITY, bundle);
