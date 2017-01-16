@@ -136,11 +136,7 @@ public class MinervaFragment extends PluginFragment {
     }
 
     private void manualSync() {
-        //Get an account
-        adapter.clear();
-        Account account = AccountUtils.getAccount(getContext());
-        Bundle bundle = new Bundle();
-        requestSync(account, bundle);
+        requestSync(AccountUtils.getAccount(getContext()), new Bundle());
     }
 
     /**

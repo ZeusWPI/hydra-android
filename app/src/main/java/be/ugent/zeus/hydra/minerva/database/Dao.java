@@ -22,7 +22,7 @@ public abstract class Dao {
      * @param context The application context.
      */
     public Dao(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
         this.helper = DatabaseHelper.getInstance(context);
     }
 }

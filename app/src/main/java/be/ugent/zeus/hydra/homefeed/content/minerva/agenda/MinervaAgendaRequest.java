@@ -35,7 +35,7 @@ public class MinervaAgendaRequest implements HomeFeedRequest {
 
         //Note: in real Java 8 streams, we could concat the operations below.
         //Sort the items per day
-        Map<LocalDate, List<AgendaItem>> perDay = StreamSupport.stream(dao.getFutureAgenda(Instant.now()))
+        Map<LocalDate, List<AgendaItem>> perDay = dao.getFutureAgenda(Instant.now())
                         .collect(Collectors.groupingBy(AgendaItem::getLocalStartDate));
 
         //Convert it to a view

@@ -117,7 +117,7 @@ public abstract class AbstractLoader<D> extends AsyncTaskLoader<LoaderResult<D>>
         onStopLoading();
 
         // Reset the data.
-        data = null;
+        onReleaseResources();
     }
 
     /**

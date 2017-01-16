@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.loaders.BroadcastLoader;
+import be.ugent.zeus.hydra.loaders.ContentChangedReceiver;
 import be.ugent.zeus.hydra.loaders.LoaderException;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
+import java8.util.function.BiPredicate;
 
 import java.util.List;
 
@@ -47,13 +49,7 @@ public class AnnouncementDaoLoader extends BroadcastLoader<List<Announcement>> {
 
     @Override
     protected BroadcastReceiver getReceiver() {
-        return new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (course.getId().equals(intent.getStringExtra(SyncBroadcast.ARG_SYNC_PROGRESS_COURSE))) {
-                    onContentChanged();
-                }
-            }
-        };
+        BiPredicate<Context, Intent> predicate = (c, i) -> course.getId().equals(i.getStringExtra(SyncBroadcast.ARG_SYNC_PROGRESS_COURSE));
+        return new ContentChangedReceiver(this, predicate);
     }
 }

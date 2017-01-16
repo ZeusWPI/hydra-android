@@ -5,13 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
-
 import be.ugent.zeus.hydra.minerva.course.CourseExtractor;
 import be.ugent.zeus.hydra.minerva.course.CourseTable;
 import be.ugent.zeus.hydra.minerva.database.Dao;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.TtbUtils;
+import java8.util.stream.RefStreams;
+import java8.util.stream.Stream;
+import java8.util.stream.StreamSupport;
 import org.threeten.bp.Instant;
 
 import java.util.ArrayList;
@@ -56,7 +58,7 @@ public class AgendaDao extends Dao {
             //Clear all agenda items for this course.
             db.delete(AgendaTable.TABLE_NAME, null, null);
 
-            for (AgendaItem agendaItem: agenda ) {
+            for (AgendaItem agendaItem: agenda) {
                 ContentValues value = getValues(agendaItem);
                 db.insertOrThrow(AgendaTable.TABLE_NAME, null, value);
             }
@@ -129,7 +131,7 @@ public class AgendaDao extends Dao {
         return result;
     }
 
-    public List<AgendaItem> getFutureAgenda(Instant instant) {
+    public Stream<AgendaItem> getFutureAgenda(Instant instant) {
 
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -141,8 +143,6 @@ public class AgendaDao extends Dao {
         String courseJoin = courseTable + CourseTable.COLUMN_ID;
 
         builder.setTables(AgendaTable.TABLE_NAME + " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + agendaJoin + "=" + courseJoin);
-
-        List<AgendaItem> result = new ArrayList<>();
 
         String[] columns = new String[]{
                 AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_ID,
@@ -176,8 +176,8 @@ public class AgendaDao extends Dao {
                 AgendaTable.COLUMN_START_DATE + " ASC"
         );
 
-        if(c == null) {
-            return result;
+        if (c == null) {
+            return RefStreams.empty();
         }
 
         CourseExtractor cExtractor = new CourseExtractor.Builder(c)
@@ -191,6 +191,7 @@ public class AgendaDao extends Dao {
                 .build();
 
         AgendaExtractor aExtractor = new AgendaExtractor.Builder(c).defaults().build();
+        List<AgendaItem> result = new ArrayList<>();
 
         try {
             while (c.moveToNext()) {
@@ -201,6 +202,6 @@ public class AgendaDao extends Dao {
             c.close();
         }
 
-        return result;
+        return StreamSupport.stream(result);
     }
 }

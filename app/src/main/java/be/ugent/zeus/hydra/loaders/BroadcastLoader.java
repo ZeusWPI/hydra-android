@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.loaders;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
@@ -14,7 +13,7 @@ import android.support.v4.content.LocalBroadcastManager;
 public abstract class BroadcastLoader<D> extends AbstractLoader<D> {
 
     private final IntentFilter filter;
-    private final BroadcastReceiver receiver = getReceiver();
+    private BroadcastReceiver receiver;
 
     public BroadcastLoader(Context context, IntentFilter filter) {
         super(context);
@@ -24,6 +23,7 @@ public abstract class BroadcastLoader<D> extends AbstractLoader<D> {
     @Override
     protected void onStartLoading() {
         super.onStartLoading();
+        receiver = getReceiver();
         // Register the broadcast receiver.
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
         manager.registerReceiver(receiver, filter);
@@ -32,17 +32,14 @@ public abstract class BroadcastLoader<D> extends AbstractLoader<D> {
     @Override
     protected void onReset() {
         super.onReset();
-        // Unregister the content monitor.
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
-        manager.unregisterReceiver(receiver);
+        if (receiver != null) {
+            LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
+            manager.unregisterReceiver(receiver);
+            receiver = null;
+        }
     }
 
     protected BroadcastReceiver getReceiver() {
-        return new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                onContentChanged();
-            }
-        };
+        return new ContentChangedReceiver(this);
     }
 }
