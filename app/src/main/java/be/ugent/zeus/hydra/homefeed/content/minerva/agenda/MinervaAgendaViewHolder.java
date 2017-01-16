@@ -7,9 +7,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.minerva.AgendaActivity;
-import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.homefeed.content.HideableViewHolder;
+import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import org.threeten.bp.LocalDateTime;
@@ -29,11 +29,10 @@ public class MinervaAgendaViewHolder extends HideableViewHolder {
 
     private static final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern("HH:mm", new Locale("nl"));
 
-    private LinearLayout layout;
+    private final LinearLayout layout;
 
     public MinervaAgendaViewHolder(View v, HomeFeedAdapter adapter) {
         super(v, adapter);
-
         layout = $(v, R.id.linear_layout);
     }
 

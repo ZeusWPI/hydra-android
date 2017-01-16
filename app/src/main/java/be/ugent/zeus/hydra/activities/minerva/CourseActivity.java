@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -18,6 +19,10 @@ import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.viewpager.MinervaCoursePagerAdapter;
 
+import java.lang.annotation.Retention;
+
+import static java.lang.annotation.RetentionPolicy.SOURCE;
+
 /**
  * Activity that displays a certain course.
  *
@@ -28,9 +33,13 @@ public class CourseActivity extends HydraActivity {
     public static final String ARG_COURSE = "argCourse";
     public static final String ARG_TAB = "argTab";
 
-    public static final int TAB_INFO = 0;
-    public static final int TAB_ANNOUNCEMENTS = 1;
-    public static final int TAB_AGENDA = 2;
+    @Retention(SOURCE)
+    @IntDef({Tab.INFO, Tab.ANNOUNCEMENTS, Tab.AGENDA})
+    public @interface Tab {
+        int INFO = 0;
+        int ANNOUNCEMENTS = 1;
+        int AGENDA = 2;
+    }
 
     private static final String ONLINE_URL_DESKTOP = "https://minerva.ugent.be/main/course_home/course_home.php?cidReq=%s";
     private static final String ONLINE_URL_MOBILE = "https://minerva.ugent.be/mobile/courses/%s";
@@ -38,8 +47,13 @@ public class CourseActivity extends HydraActivity {
     private Course course;
 
     public static void start(Context context, Course course) {
+        start(context, course, Tab.ANNOUNCEMENTS);
+    }
+
+    public static void start(Context context, Course course, @Tab int tab) {
         Intent intent = new Intent(context, CourseActivity.class);
         intent.putExtra(ARG_COURSE, (Parcelable) course);
+        intent.putExtra(ARG_TAB, tab);
         context.startActivity(intent);
     }
 
@@ -56,7 +70,7 @@ public class CourseActivity extends HydraActivity {
 
         viewPager.setAdapter(new MinervaCoursePagerAdapter(getSupportFragmentManager(), course));
 
-        viewPager.setCurrentItem(getIntent().getIntExtra(ARG_TAB, TAB_ANNOUNCEMENTS), false);
+        viewPager.setCurrentItem(getIntent().getIntExtra(ARG_TAB, Tab.ANNOUNCEMENTS), false);
         tabLayout.setupWithViewPager(viewPager);
 
         getToolbar().setTitle(course.getTitle());

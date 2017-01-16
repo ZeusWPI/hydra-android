@@ -140,7 +140,6 @@ public class AnnouncementNotificationBuilder {
         //Click intent
         Intent intent = new Intent(context, CourseActivity.class);
         intent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) course);
-        intent.putExtra(CourseActivity.ARG_TAB, CourseActivity.TAB_ANNOUNCEMENTS);
 
         builder.setContentIntent(upIntentMore());
 

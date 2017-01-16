@@ -1,29 +1,29 @@
 package be.ugent.zeus.hydra.homefeed.loader;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.os.OperationCanceledException;
 import android.support.v7.util.DiffUtil;
 import android.util.Log;
 import android.util.Pair;
+import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
+import be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment;
+import be.ugent.zeus.hydra.homefeed.HomeFeedFragment;
 import be.ugent.zeus.hydra.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.homefeed.content.event.EventCard;
 import be.ugent.zeus.hydra.homefeed.feed.FeedOperation;
-import be.ugent.zeus.hydra.homefeed.feed.OperationFactory;
-import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.utils.IterableSparseArray;
-import java8.util.function.Predicate;
+import java8.util.J8Arrays;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static be.ugent.zeus.hydra.homefeed.content.HomeCard.CardType.ACTIVITY;
 
 /**
  * A customized loader for the home feed. This loaders takes a number of {@link HomeFeedRequest}s, and starts executing
@@ -49,6 +49,15 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
     //The data
     private Pair<Set<Integer>, List<HomeCard>> data;
 
+    //For which settings the loader must refresh
+    private static String[] watchedPreferences = {
+            HomeFeedFragment.PREF_DISABLED_CARDS,
+            AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
+            RestoPreferenceFragment.PREF_RESTO
+    };
+
+    private PreferenceListener preferenceListener;
+
     /**
      * @param context The context.
      */
@@ -56,21 +65,6 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
         super(context);
         this.listener = callback;
         Log.d(TAG, "Loader made.");
-    }
-
-    /**
-     * Schedule a new operation. You must add operations before the loader has started. The new operation is append
-     * to the existing operations and will be executed in order of arrival.
-     *
-     * @param operation The request to add.
-     */
-    public void addOperation(FeedOperation operation) {
-
-        if (isStarted()) {
-            throw new IllegalStateException("Operations must be added before the loader is started.");
-        }
-
-        operations.append(operation.getCardType(), operation);
     }
 
     /**
@@ -84,12 +78,20 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
         //Handler to post updates to the UI thread.
         Handler handler = new Handler(Looper.getMainLooper());
 
+        // Get the operations.
+        if (listener == null) {
+            operations = new IterableSparseArray<>();
+        } else {
+            operations = listener.onScheduleOperations(getContext());
+        }
+
         //We initialize with a copy of the existing data; we do reset the errors.
         List<HomeCard> results;
-        if(listener == null) {
+
+        if (data == null) {
             results = Collections.emptyList();
         } else {
-            results = listener.getExistingData();
+            results = data.second;
         }
 
         Set<Integer> errors = new HashSet<>();
@@ -166,6 +168,11 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
         if (takeContentChanged() || data == null) {
             forceLoad();
         }
+
+        // Listen to changes
+        SharedPreferences manager = PreferenceManager.getDefaultSharedPreferences(getContext());
+        preferenceListener = new PreferenceListener();
+        manager.registerOnSharedPreferenceChangeListener(preferenceListener);
     }
 
     @Override
@@ -198,6 +205,13 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
             onStopLoading();
         }
 
+        // Stop listening
+        if (preferenceListener != null) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            preferences.unregisterOnSharedPreferenceChangeListener(preferenceListener);
+            preferenceListener = null;
+        }
+
         //Reset the listener. Do this here as well as in onAbandon, since the latter is only called sometimes.
         //See https://medium.com/@ianhlake/onabandon-is-only-called-by-loadermanager-when-a-loader-is-restarted-via-restartloader-as-per-bdc11452c60#.mox3hc7la
         listener = null;
@@ -206,46 +220,13 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
         data = null;
     }
 
-    /**
-     * Remove a type of cards. Note: this will run on the main thread.
-     *
-     * @param type The type to remove.
-     */
-    public void removeType(@HomeCard.CardType int type) {
-
-        if (!isStarted() || data == null) {
-            return;
+    private class PreferenceListener implements SharedPreferences.OnSharedPreferenceChangeListener {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (J8Arrays.stream(watchedPreferences).anyMatch(key::contains)) {
+                Log.d(TAG, "onSharedPreferenceChanged: Content was changed.");
+                onContentChanged();
+            }
         }
-
-        //Replace the operation with an empty one.
-        FeedOperation op = OperationFactory.del(type);
-        operations.append(type, op);
-
-        //Re-execute the operation.
-        List<HomeCard> currentData = data.second;
-        Set<Integer> errors = data.first;
-        Handler h = new Handler(Looper.getMainLooper());
-        List<HomeCard> newData = executeOperation(h, op, errors, currentData);
-
-        //Deliver the results.
-        deliverResult(new Pair<>(errors, newData));
-    }
-
-    public void removeAssociations(Association association) {
-
-        if (!isStarted() || data == null) {
-            return;
-        }
-
-        //Remove cards from the association
-        Predicate<HomeCard> predicate = c -> c.getCardType() == ACTIVITY && c.<EventCard>checkCard(ACTIVITY).getEvent().getAssociation().equals(association);
-
-        List<HomeCard> currentData = data.second;
-        Set<Integer> errors = data.first;
-        Handler h = new Handler(Looper.getMainLooper());
-        FeedOperation op = OperationFactory.del(ACTIVITY, predicate);
-        List<HomeCard> newData = executeOperation(h, op, errors, currentData);
-
-        deliverResult(new Pair<>(errors, newData));
     }
 }

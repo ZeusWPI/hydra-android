@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.homefeed;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -20,8 +19,6 @@ import android.view.*;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.MainActivity;
-import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
-import be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.content.debug.WaitRequest;
 import be.ugent.zeus.hydra.homefeed.content.event.EventRequest;
@@ -31,10 +28,13 @@ import be.ugent.zeus.hydra.homefeed.content.news.NewsRequest;
 import be.ugent.zeus.hydra.homefeed.content.resto.RestoRequest;
 import be.ugent.zeus.hydra.homefeed.content.schamper.SchamperRequest;
 import be.ugent.zeus.hydra.homefeed.content.specialevent.SpecialEventRequest;
+import be.ugent.zeus.hydra.homefeed.feed.FeedOperation;
+import be.ugent.zeus.hydra.homefeed.loader.FeedCollection;
 import be.ugent.zeus.hydra.homefeed.loader.HomeFeedLoader;
 import be.ugent.zeus.hydra.homefeed.loader.HomeFeedLoaderCallback;
 import be.ugent.zeus.hydra.plugins.OfflinePlugin;
 import be.ugent.zeus.hydra.requests.common.OfflineBroadcaster;
+import be.ugent.zeus.hydra.utils.IterableSparseArray;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.utils.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
@@ -58,8 +58,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author Niko Strijbol
  * @author silox
  */
-public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener,
-        HomeFeedLoaderCallback, SwipeRefreshLayout.OnRefreshListener {
+public class HomeFeedFragment extends Fragment implements HomeFeedLoaderCallback, SwipeRefreshLayout.OnRefreshListener {
 
     private static final boolean ADD_STALL_REQUEST = false;
 
@@ -117,9 +116,6 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
         swipeRefreshLayout.setRefreshing(true);
         getLoaderManager().initLoader(LOADER, null, this);
-
-        //Register this class in the settings.
-        PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
     }
 
     private OfflinePlugin getPlugin() {
@@ -135,7 +131,7 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
         if (preferencesUpdated) {
             swipeRefreshLayout.setRefreshing(true);
-            restartLoader();
+            refreshLoader();
             preferencesUpdated = false;
         }
     }
@@ -144,8 +140,6 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     public void onStart() {
         super.onStart();
         helper.bindCustomTabsService(getActivity());
-        //Register this class in the settings.
-        PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
     }
 
     /**
@@ -163,7 +157,6 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     public void onStop() {
         super.onStop();
         helper.unbindCustomTabsService(getActivity());
-        PreferenceManager.getDefaultSharedPreferences(getContext()).unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -177,26 +170,13 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     /**
      * Restart the loaders
      */
-    private void restartLoader() {
-        getLoaderManager().restartLoader(LOADER, null, this);
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        if (s.equals(PREF_DISABLED_CARDS) ||
-                s.equals(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING) ||
-                s.equals(RestoPreferenceFragment.PREF_RESTO)) {
-            preferencesUpdated = true;
-        }
+    private void refreshLoader() {
+        getLoader().onContentChanged();
     }
 
     private void showErrorMessage(String message) {
+        //noinspection WrongConstant
         getPlugin().showSnackbar(message, Snackbar.LENGTH_LONG, null);
-    }
-
-    @Override
-    public List<HomeCard> getExistingData() {
-        return adapter.getData();
     }
 
     @Override
@@ -217,31 +197,41 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
 
     @Override
     public Loader<Pair<Set<Integer>, List<HomeCard>>> onCreateLoader(int id, Bundle args) {
+        return new HomeFeedLoader(getContext(), this);
+    }
 
-        HomeFeedLoader loader = new HomeFeedLoader(getContext(), this);
+    /**
+     * Called by the loader to retrieve the operations that should be executed. This method may be called from another
+     * thread.
+     *
+     * @return The operations to execute.
+     */
+    @Override
+    public IterableSparseArray<FeedOperation> onScheduleOperations(Context c) {
+        FeedCollection operations = new FeedCollection();
 
         Set<String> s = PreferenceManager
-                .getDefaultSharedPreferences(getContext())
+                .getDefaultSharedPreferences(c)
                 .getStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, Collections.emptySet());
 
         Function<Integer, Boolean> d = i -> isTypeActive(s, i);
 
         //Always add the special events.
-        loader.addOperation(add(new SpecialEventRequest(getContext(), shouldRefresh)));
+        operations.add(add(new SpecialEventRequest(c, shouldRefresh)));
 
         //Add other stuff if needed
-        loader.addOperation(get(d, () -> new RestoRequest(getContext(), shouldRefresh), HomeCard.CardType.RESTO));
-        loader.addOperation(get(d, () -> new EventRequest(getContext(), shouldRefresh), HomeCard.CardType.ACTIVITY));
-        loader.addOperation(get(d, () -> new SchamperRequest(getContext(), shouldRefresh), HomeCard.CardType.SCHAMPER));
-        loader.addOperation(get(d, () -> new NewsRequest(getContext(), shouldRefresh), HomeCard.CardType.NEWS_ITEM));
-        loader.addOperation(get(d, () -> new MinervaAnnouncementRequest(getContext()), HomeCard.CardType.MINERVA_ANNOUNCEMENT));
-        loader.addOperation(get(d, () -> new MinervaAgendaRequest(getContext()), HomeCard.CardType.MINERVA_AGENDA));
+        operations.add(get(d, () -> new RestoRequest(c, shouldRefresh), HomeCard.CardType.RESTO));
+        operations.add(get(d, () -> new EventRequest(c, shouldRefresh), HomeCard.CardType.ACTIVITY));
+        operations.add(get(d, () -> new SchamperRequest(c, shouldRefresh), HomeCard.CardType.SCHAMPER));
+        operations.add(get(d, () -> new NewsRequest(c, shouldRefresh), HomeCard.CardType.NEWS_ITEM));
+        operations.add(get(d, () -> new MinervaAnnouncementRequest(c), HomeCard.CardType.MINERVA_ANNOUNCEMENT));
+        operations.add(get(d, () -> new MinervaAgendaRequest(c), HomeCard.CardType.MINERVA_AGENDA));
 
-        if(BuildConfig.DEBUG && ADD_STALL_REQUEST) {
-            loader.addOperation(add(new WaitRequest()));
+        if (BuildConfig.DEBUG && ADD_STALL_REQUEST) {
+            operations.add(add(new WaitRequest()));
         }
 
-        return loader;
+        return operations;
     }
 
     @Override
@@ -301,13 +291,14 @@ public class HomeFeedFragment extends Fragment implements SharedPreferences.OnSh
     public void onRefresh() {
         shouldRefresh = true;
         getPlugin().dismiss();
-        restartLoader();
+        refreshLoader();
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(OfflineBroadcaster.OFFLINE)) {
+                //noinspection WrongConstant
                 getPlugin().showSnackbar(R.string.offline_data_use, Snackbar.LENGTH_INDEFINITE, HomeFeedFragment.this);
             }
         }

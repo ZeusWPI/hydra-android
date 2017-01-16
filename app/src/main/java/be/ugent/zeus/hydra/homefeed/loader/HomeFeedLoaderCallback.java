@@ -1,11 +1,14 @@
 package be.ugent.zeus.hydra.homefeed.loader;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.support.v4.app.LoaderManager;
 import android.support.v7.util.DiffUtil;
 import android.util.Pair;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
+import be.ugent.zeus.hydra.homefeed.feed.FeedOperation;
+import be.ugent.zeus.hydra.utils.IterableSparseArray;
 
 import java.util.List;
 import java.util.Set;
@@ -17,13 +20,7 @@ import java.util.Set;
  */
 public interface HomeFeedLoaderCallback extends LoaderManager.LoaderCallbacks<Pair<Set<Integer>, List<HomeCard>>> {
 
-    /**
-     * This method is called by the loader before calculating a diff. Care should be taken to ensure that the cards
-     * are not updated between a call to this method and the subsequent arrival of data, or some data could be lost.
-     *
-     * @return The existing data, or an empty list if there is no existing data.
-     */
-    List<HomeCard> getExistingData();
+    IterableSparseArray<FeedOperation> onScheduleOperations(Context context);
 
     /**
      * This is called when the adapter receives new data.
@@ -33,7 +30,7 @@ public interface HomeFeedLoaderCallback extends LoaderManager.LoaderCallbacks<Pa
      * @param cardType The type of card that was updated.
      */
     @UiThread
-    void onPartialUpdate(List<HomeCard> data, @Nullable DiffUtil.DiffResult updaten, @HomeCard.CardType int cardType);
+    void onPartialUpdate(List<HomeCard> data, @Nullable DiffUtil.DiffResult updated, @HomeCard.CardType int cardType);
 
     @UiThread
     void onPartialError(@HomeCard.CardType int cardType);
