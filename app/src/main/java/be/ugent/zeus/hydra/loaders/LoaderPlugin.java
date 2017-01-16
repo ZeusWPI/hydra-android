@@ -118,8 +118,7 @@ public class LoaderPlugin<D> extends FragmentPlugin implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<LoaderResult<D>> loader, LoaderResult<D> data) {
-
-        //If there is an error.
+        // If there is an error.
         if (data.hasError()) {
             if (errorListener != null) {
                 errorListener.accept(data.getError().getCause());

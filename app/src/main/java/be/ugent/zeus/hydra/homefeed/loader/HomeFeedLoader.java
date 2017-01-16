@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.homefeed.loader;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.os.OperationCanceledException;
 import android.support.v7.util.DiffUtil;
 import android.util.Log;
@@ -16,6 +16,8 @@ import be.ugent.zeus.hydra.homefeed.HomeFeedFragment;
 import be.ugent.zeus.hydra.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.feed.FeedOperation;
+import be.ugent.zeus.hydra.minerva.database.DatabaseBroadcaster;
+import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.utils.IterableSparseArray;
 import java8.util.J8Arrays;
@@ -42,7 +44,6 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
 
     private static final String TAG = "HomeFeedLoader";
 
-    private IterableSparseArray<FeedOperation> operations = new IterableSparseArray<>();
     //The listener. This is a copy of the built-in listener, but casted and accessible.
     private HomeFeedLoaderCallback listener;
 
@@ -57,6 +58,7 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
     };
 
     private PreferenceListener preferenceListener;
+    private BroadcastReceiver broadcastReceiver;
 
     /**
      * @param context The context.
@@ -79,6 +81,7 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
         Handler handler = new Handler(Looper.getMainLooper());
 
         // Get the operations.
+        IterableSparseArray<FeedOperation> operations;
         if (listener == null) {
             operations = new IterableSparseArray<>();
         } else {
@@ -170,9 +173,15 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
         }
 
         // Listen to changes
-        SharedPreferences manager = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         preferenceListener = new PreferenceListener();
-        manager.registerOnSharedPreferenceChangeListener(preferenceListener);
+        preferences.registerOnSharedPreferenceChangeListener(preferenceListener);
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(SyncBroadcast.SYNC_DONE);
+        intentFilter.addAction(DatabaseBroadcaster.MINERVA_ANNOUNCEMENT_UPDATED);
+        broadcastReceiver = new BroadcastListener();
+        manager.registerReceiver(broadcastReceiver, intentFilter);
     }
 
     @Override
@@ -211,6 +220,11 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
             preferences.unregisterOnSharedPreferenceChangeListener(preferenceListener);
             preferenceListener = null;
         }
+        if (broadcastReceiver != null) {
+            LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
+            manager.unregisterReceiver(broadcastReceiver);
+            broadcastReceiver = null;
+        }
 
         //Reset the listener. Do this here as well as in onAbandon, since the latter is only called sometimes.
         //See https://medium.com/@ianhlake/onabandon-is-only-called-by-loadermanager-when-a-loader-is-restarted-via-restartloader-as-per-bdc11452c60#.mox3hc7la
@@ -224,9 +238,17 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if (J8Arrays.stream(watchedPreferences).anyMatch(key::contains)) {
-                Log.d(TAG, "onSharedPreferenceChanged: Content was changed.");
+                Log.d(TAG, "onSharedPreferenceChanged: Content was changed due to SharedPreferences.");
                 onContentChanged();
             }
+        }
+    }
+
+    private class BroadcastListener extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "onSharedPreferenceChanged: Content was changed due to LocalBroadcast.");
+            onContentChanged();
         }
     }
 }

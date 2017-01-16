@@ -17,6 +17,7 @@ public abstract class Dao {
 
     protected final SQLiteOpenHelper helper;
     protected final Context context;
+    protected final DatabaseBroadcaster broadcaster;
 
     /**
      * @param context The application context.
@@ -24,5 +25,6 @@ public abstract class Dao {
     public Dao(Context context) {
         this.context = context.getApplicationContext();
         this.helper = DatabaseHelper.getInstance(context);
+        this.broadcaster = new DatabaseBroadcaster(context);
     }
 }

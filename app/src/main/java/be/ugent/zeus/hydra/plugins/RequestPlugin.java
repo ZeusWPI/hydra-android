@@ -14,6 +14,7 @@ import be.ugent.zeus.hydra.requests.common.Request;
 import be.ugent.zeus.hydra.requests.common.SimpleCacheRequest;
 import java8.util.Optional;
 import java8.util.function.BiFunction;
+import java8.util.function.Function;
 
 import java.io.Serializable;
 import java.util.List;
@@ -35,9 +36,23 @@ public class RequestPlugin<D> extends LoaderPlugin<D> {
         super(provider);
     }
 
-    public <T> RequestPlugin(BiFunction<Context, Boolean, Request<D>> provider) {
+    public RequestPlugin() {
         super();
-        this.setLoaderProvider(c -> new RequestAsyncTaskLoader<>(c, provider.apply(c, refreshRequested)));
+    }
+
+    public RequestPlugin(BiFunction<Context, Boolean, Request<D>> provider) {
+        super();
+        setLoaderProvider((LoaderProvider<D>) c -> new RequestAsyncTaskLoader<>(c, provider.apply(c, refreshRequested)));
+    }
+
+    public RequestPlugin(Function<Boolean, LoaderProvider<D>> loaderSupplier) {
+        super();
+        setLoaderProvider(loaderSupplier.apply(refreshRequested));
+    }
+
+    public RequestPlugin<D> setLoaderProvider(Function<Boolean, LoaderProvider<D>> provider) {
+        setLoaderProvider(provider.apply(refreshRequested));
+        return this;
     }
 
     /**

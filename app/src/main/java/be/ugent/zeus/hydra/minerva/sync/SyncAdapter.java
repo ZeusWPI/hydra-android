@@ -130,8 +130,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 if (!course.getCode().equals("COURSE")) { //TODO DEBUG
                     newOnes = synchronizeAnnouncements(announcementDao, account, isFirstSync, course);
                 } else {
-                    addAnnouncement(announcementDao, course);
-                    newOnes = Collections.emptyList();
+                    Announcement a = addAnnouncement(announcementDao, course);
+                    newOnes = Collections.singleton(a);
                 }
 
                 // Publish progress
@@ -254,7 +254,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         return dao.synchronize(object);
     }
 
-    private void addAnnouncement(AnnouncementDao dao, Course course) {
+    private Announcement addAnnouncement(AnnouncementDao dao, Course course) {
         LocalDateTime now = LocalDateTime.now();
         Announcement announcement = new Announcement();
         announcement.setTitle("TEST FROM " + now.toString());
@@ -264,5 +264,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         announcement.setDate(now.atZone(ZoneId.systemDefault()));
         announcement.setLecturer("Niko");
         dao.add(announcement);
+        return announcement;
     }
 }

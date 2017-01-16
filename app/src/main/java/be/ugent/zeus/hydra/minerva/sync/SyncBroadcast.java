@@ -17,31 +17,31 @@ public class SyncBroadcast {
     /**
      * The synchronisation has started.
      */
-    public static final String SYNC_START = "be.ugent.zeus.minerva.sync.start";
+    public static final String SYNC_START = "be.ugent.zeus.hydra.minerva.sync.start";
     /**
      * The synchronisation was completed successfully.
      */
-    public static final String SYNC_DONE = "be.ugent.zeus.minerva.sync.done";
+    public static final String SYNC_DONE = "be.ugent.zeus.hydra.minerva.sync.done";
     /**
      * The synchronisation has halted because of an error.
      */
-    public static final String SYNC_ERROR = "be.ugent.zeus.minerva.sync.error";
+    public static final String SYNC_ERROR = "be.ugent.zeus.hydra.minerva.sync.error";
     /**
      * The synchronisation has halted because of a cancel request.
      */
-    public static final String SYNC_CANCELLED = "be.ugent.minerva.sync.cancelled";
+    public static final String SYNC_CANCELLED = "be.ugent.hydra.minerva.sync.cancelled";
     /**
      * The synchronisation has progressed and the list of courses itself has been loaded.
      */
-    public static final String SYNC_COURSES = "be.ugent.zeus.minerva.sync.courses";
+    public static final String SYNC_COURSES = "be.ugent.hydra.zeus.minerva.sync.courses";
     /**
      * The synchronisation has progressed and the Minerva agenda has been synchronised.
      */
-    public static final String SYNC_AGENDA = "be.ugent.zeus.minerva.sync.agenda";
+    public static final String SYNC_AGENDA = "be.ugent.hydra.zeus.minerva.sync.agenda";
     /**
      * The synchronisation has progressed and information for a course has been loaded.
      */
-    public static final String SYNC_PROGRESS_WHATS_NEW = "be.ugent.zeus.minerva.sync.course_data";
+    public static final String SYNC_PROGRESS_WHATS_NEW = "be.ugent.hydra.zeus.minerva.sync.course_data";
     /**
      * Argument for {@link #SYNC_PROGRESS_WHATS_NEW}, the total number of things to load.
      */
@@ -76,7 +76,7 @@ public class SyncBroadcast {
     private void publishIntentWith(String action, Bundle extras) {
         //The intent
         Intent i = new Intent(action);
-        if(extras != null) {
+        if (extras != null) {
             i.putExtras(extras);
         }
 

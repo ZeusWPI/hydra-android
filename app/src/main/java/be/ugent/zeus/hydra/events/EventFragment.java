@@ -1,9 +1,7 @@
-package be.ugent.zeus.hydra.fragments;
+package be.ugent.zeus.hydra.events;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.view.LayoutInflater;
@@ -12,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
+import be.ugent.zeus.hydra.loaders.LoaderProvider;
 import be.ugent.zeus.hydra.models.association.Event;
 import be.ugent.zeus.hydra.models.association.Events;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
@@ -22,6 +20,7 @@ import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.EventAdapter;
 import be.ugent.zeus.hydra.requests.association.FilteredEventRequest;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
+import java8.util.function.Function;
 
 import java.util.List;
 
@@ -33,14 +32,12 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author ellen
  * @author Niko Strijbol
  */
-public class ActivitiesFragment extends PluginFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class EventFragment extends PluginFragment {
 
     private final EventAdapter adapter = new EventAdapter();
-    private final RecyclerViewPlugin<Event, Events> plugin = new RecyclerViewPlugin<>(FilteredEventRequest::new, adapter);
+    private final Function<Boolean, LoaderProvider<Events>> supplier = b -> c -> new EventLoader(c, new FilteredEventRequest(c, b));
+    private final RecyclerViewPlugin<Event, Events> plugin = new RecyclerViewPlugin<>(supplier, adapter);
     private LinearLayout noData;
-
-    //If the data is invalidated.
-    private boolean invalid = false;
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
@@ -73,32 +70,11 @@ public class ActivitiesFragment extends PluginFragment implements SharedPreferen
 
         refresh.setOnClickListener(v -> plugin.refresh());
         filters.setOnClickListener(v -> startActivity(new Intent(getContext(), SettingsActivity.class)));
-
-        //Register this class in the settings.
-        PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        //Refresh the data.
-        if (invalid) {
-            plugin.restartLoader();
-            invalid = false;
-        }
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING.equals(key)) {
-            invalid = true;
-        }
     }
 
     private void receiveData(Events data) {
         //If empty, show it.
-        if(data.isEmpty()) {
+        if (data.isEmpty()) {
             noData.setVisibility(View.VISIBLE);
         } else {
             noData.setVisibility(View.GONE);

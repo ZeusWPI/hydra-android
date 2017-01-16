@@ -18,6 +18,7 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.loaders.LoaderProvider;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
@@ -55,7 +56,8 @@ public class MinervaFragment extends PluginFragment {
     private AccountManager manager;
     private CourseDao courseDao;
 
-    private RecyclerViewPlugin<Course, List<Course>> plugin = new RecyclerViewPlugin<>(c -> new CourseDaoLoader(c, courseDao), adapter);
+    private RecyclerViewPlugin<Course, List<Course>> plugin =
+            new RecyclerViewPlugin<>((LoaderProvider<List<Course>>)  c -> new CourseDaoLoader(c, courseDao), adapter);
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {

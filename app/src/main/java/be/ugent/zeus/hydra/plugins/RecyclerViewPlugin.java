@@ -14,6 +14,7 @@ import be.ugent.zeus.hydra.requests.common.Request;
 import be.ugent.zeus.hydra.requests.common.SimpleCacheRequest;
 import java8.util.function.BiFunction;
 import java8.util.function.Consumer;
+import java8.util.function.Function;
 
 import java.io.Serializable;
 import java.util.List;
@@ -42,6 +43,12 @@ public class RecyclerViewPlugin<D, E extends List<D>> extends RequestPlugin<E> {
 
     public RecyclerViewPlugin(LoaderProvider<E> provider, @Nullable Adapter<D, ?> adapter) {
         super(provider);
+        this.adapter = adapter;
+        super.setDataCallback(this::receiveData);
+    }
+
+    public RecyclerViewPlugin(Function<Boolean, LoaderProvider<E>> supplier, @Nullable Adapter<D, ?> adapter) {
+        super(supplier);
         this.adapter = adapter;
         super.setDataCallback(this::receiveData);
     }

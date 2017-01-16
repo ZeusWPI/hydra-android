@@ -30,7 +30,7 @@ import static android.support.v4.app.NotificationCompat.CATEGORY_EMAIL;
 public class AnnouncementNotificationBuilder {
 
     private static final String TAG = "AnnounceNotiBuilder";
-    private static final int NOTIFICATION_ID = 1;
+    public static final int NOTIFICATION_ID = 5646;
 
     private final Context context;
 
@@ -63,7 +63,7 @@ public class AnnouncementNotificationBuilder {
 
     public void publish() {
 
-        if(announcements == null) {
+        if (announcements == null) {
             throw new IllegalStateException("Announcements must be set.");
         }
 

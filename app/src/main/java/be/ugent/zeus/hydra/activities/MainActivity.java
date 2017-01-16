@@ -22,6 +22,7 @@ import android.view.View;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
+import be.ugent.zeus.hydra.events.EventFragment;
 import be.ugent.zeus.hydra.fragments.*;
 import be.ugent.zeus.hydra.fragments.minerva.MinervaFragment;
 import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
@@ -159,7 +160,7 @@ public class MainActivity extends HydraActivity {
                 fragment = new RestoFragment();
                 break;
             case R.id.drawer_events:
-                fragment = new ActivitiesFragment();
+                fragment = new EventFragment();
                 break;
             case R.id.drawer_news:
                 fragment = new NewsFragment();
