@@ -13,11 +13,11 @@ import org.threeten.bp.ZonedDateTime;
  * @author Niko Strijbol
  * @author feliciaan
  */
-public class NewsItemCard extends HomeCard {
+class NewsItemCard extends HomeCard {
 
     private NewsItem newsItem;
 
-    public NewsItemCard(NewsItem newsItem) {
+    NewsItemCard(NewsItem newsItem) {
         this.newsItem = newsItem;
     }
 

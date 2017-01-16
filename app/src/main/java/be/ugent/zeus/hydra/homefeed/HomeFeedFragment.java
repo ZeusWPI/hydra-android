@@ -19,6 +19,7 @@ import android.view.*;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.MainActivity;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.content.debug.WaitRequest;
 import be.ugent.zeus.hydra.homefeed.content.event.EventRequest;
@@ -54,6 +55,8 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  *
  * The user has the possibility to decide to hide certain card types. When a user disables a certain type of cards,
  * we do not retrieve the data.
+ *
+ * This is the fragment responsible for showing the list. The data is loaded in {@link HomeFeedLoader}.
  *
  * @author Niko Strijbol
  * @author silox
@@ -273,6 +276,9 @@ public class HomeFeedFragment extends Fragment implements HomeFeedLoaderCallback
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
+        //TODO there must a better of doing this
+        HydraActivity activity = (HydraActivity) getActivity();
+        HydraActivity.tintToolbarIcons(activity.getToolbar(), menu, R.id.action_refresh);
     }
 
     @Override

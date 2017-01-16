@@ -66,8 +66,8 @@ public abstract class HomeCard implements Comparable<HomeCard> {
      * @return The cast card if it is of the right type.
      */
     public <C extends HomeCard> C checkCard(@CardType int type) {
-        if(getCardType() != type) {
-            throw new ClassCastException("This card type is wrong.");
+        if (getCardType() != type) {
+            throw new ClassCastException("This card has the wrong type.");
         }
 
         //noinspection unchecked

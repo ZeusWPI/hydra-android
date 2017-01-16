@@ -39,7 +39,7 @@ public abstract class HydraActivity extends PluginActivity {
         return v;
     }
 
-    protected ActionBar getToolbar() {
+    public ActionBar getToolbar() {
         assert getSupportActionBar() != null;
         return getSupportActionBar();
     }
@@ -82,7 +82,17 @@ public abstract class HydraActivity extends PluginActivity {
      * @param ids  The ids of the icon.
      */
     public void tintToolbarIcons(Menu menu, int... ids) {
-        int color = ViewUtils.getColor(getToolbar().getThemedContext(), android.R.attr.textColorPrimary);
+        tintToolbarIcons(getToolbar(), menu, ids);
+    }
+
+    /**
+     * Replace an icon with given ID by the same icon but in the correct colour.
+     *
+     * @param menu The menu.
+     * @param ids  The ids of the icon.
+     */
+    public static void tintToolbarIcons(ActionBar toolbar, Menu menu, int... ids) {
+        int color = ViewUtils.getColor(toolbar.getThemedContext(), android.R.attr.textColorPrimary);
         for (int id : ids) {
             Drawable drawable = DrawableCompat.wrap(menu.findItem(id).getIcon());
             DrawableCompat.setTint(drawable, color);

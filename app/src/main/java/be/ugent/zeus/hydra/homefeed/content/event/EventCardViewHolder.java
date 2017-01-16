@@ -16,14 +16,17 @@ import be.ugent.zeus.hydra.utils.DateUtils;
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
 /**
- * Created by feliciaan on 06/04/16.
+ * View holder for cards containing events.
+ *
+ * @author Niko Strijbol
+ * @author feliciaan
  */
 public class EventCardViewHolder extends HideableViewHolder {
 
-    private TextView start;
-    private TextView title;
-    private TextView association;
-    private ImageView imageView;
+    private final TextView start;
+    private final TextView title;
+    private final TextView association;
+    private final ImageView imageView;
 
     public EventCardViewHolder(View v, HomeFeedAdapter adapter) {
         super(v, adapter);
