@@ -232,7 +232,7 @@ public class MinervaFragment extends PluginFragment {
         super.onPause();
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
         manager.unregisterReceiver(syncReceiver);
-        if (syncBar.isShown()) {
+        if (syncBar != null && syncBar.isShown()) {
             syncBar.dismiss();
         }
     }
