@@ -71,8 +71,9 @@ public class HomeFeedFragment extends Fragment implements HomeFeedLoaderCallback
 
     private static final int LOADER = 0;
 
-    private boolean shouldRefresh;
-    private boolean preferencesUpdated;
+    private volatile boolean shouldRefresh;
+
+    private boolean firstRun;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private HomeFeedAdapter adapter;
@@ -119,6 +120,7 @@ public class HomeFeedFragment extends Fragment implements HomeFeedLoaderCallback
 
         swipeRefreshLayout.setRefreshing(true);
         getLoaderManager().initLoader(LOADER, null, this);
+        firstRun = true;
     }
 
     private OfflinePlugin getPlugin() {
@@ -128,15 +130,8 @@ public class HomeFeedFragment extends Fragment implements HomeFeedLoaderCallback
     @Override
     public void onResume() {
         super.onResume();
-
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
         manager.registerReceiver(receiver, OfflineBroadcaster.getBroadcastFilter());
-
-        if (preferencesUpdated) {
-            swipeRefreshLayout.setRefreshing(true);
-            refreshLoader();
-            preferencesUpdated = false;
-        }
     }
 
     @Override
@@ -153,7 +148,6 @@ public class HomeFeedFragment extends Fragment implements HomeFeedLoaderCallback
         super.onPause();
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
         manager.unregisterReceiver(receiver);
-        preferencesUpdated = false;
     }
 
     @Override
@@ -247,15 +241,17 @@ public class HomeFeedFragment extends Fragment implements HomeFeedLoaderCallback
             }
 
             adapter.setData(new ArrayList<>(data.second), null);
+            Log.d(TAG, "onLoadFinished: cached");
         }
 
         //Scroll to top if not refreshed
-        if (!shouldRefresh) {
+        if (!shouldRefresh && !wasCached && firstRun) {
             recyclerView.scrollToPosition(0);
         }
 
         wasCached = true;
         shouldRefresh = false;
+        firstRun = false;
         swipeRefreshLayout.setRefreshing(false);
     }
 

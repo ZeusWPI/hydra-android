@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import java8.util.function.BiPredicate;
 
 /**
@@ -14,6 +15,8 @@ import java8.util.function.BiPredicate;
  * @author Niko Strijbol
  */
 public class ContentChangedReceiver extends BroadcastReceiver {
+
+    private static final String TAG = "ContentChangedReceiver";
 
     private final Loader<?> loader;
 
@@ -31,6 +34,7 @@ public class ContentChangedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (predicate == null || predicate.test(context, intent)) {
+            Log.d(TAG, "onReceive: Content was changed due to LocalBroadcast.");
             loader.onContentChanged();
         }
     }

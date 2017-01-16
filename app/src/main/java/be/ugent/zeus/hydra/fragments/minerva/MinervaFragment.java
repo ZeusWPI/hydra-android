@@ -232,6 +232,9 @@ public class MinervaFragment extends PluginFragment {
         super.onPause();
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
         manager.unregisterReceiver(syncReceiver);
+        if (syncBar.isShown()) {
+            syncBar.dismiss();
+        }
     }
 
     //This will only be called if manually set to send broadcasts.
