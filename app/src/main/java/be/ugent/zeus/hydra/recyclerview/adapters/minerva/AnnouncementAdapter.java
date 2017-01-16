@@ -22,23 +22,4 @@ public class AnnouncementAdapter extends EmptyItemLoader<Announcement, Announcem
     protected AnnouncementViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
         return new AnnouncementViewHolder(ViewUtils.inflate(parent, R.layout.item_minerva_announcement));
     }
-
-    public void remove(int position) {
-        this.items.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    public void add(Announcement announcement) {
-        //Check for place holder
-        boolean empty = this.items.isEmpty();
-        this.items.add(0, announcement);
-        if (empty) {
-            notifyItemRemoved(0);
-        }
-        notifyItemInserted(0);
-    }
-
-    public Announcement get(int position) {
-        return items.get(position);
-    }
 }

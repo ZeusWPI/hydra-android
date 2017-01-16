@@ -105,7 +105,6 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
         private MultiSelectListAdapter<E> adapter;
         private TextView title;
 
-
         /**
          * The constructor is the place to bind views and other non-data related stuff.
          *

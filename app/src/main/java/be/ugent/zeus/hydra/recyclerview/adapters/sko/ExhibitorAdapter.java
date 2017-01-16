@@ -46,12 +46,12 @@ public class ExhibitorAdapter extends ItemAdapter<Exhibitor, ExhibitorViewHolder
     @Override
     public boolean onQueryTextChange(String newText) {
 
-        if(allData == null) {
+        if (allData == null) {
             return true;
         }
 
-        if(newText.isEmpty()) {
-            //Manually update.
+        if (newText.isEmpty()) {
+            // Manually update.
             this.items = allData;
             notifyDataSetChanged();
         }
@@ -59,7 +59,7 @@ public class ExhibitorAdapter extends ItemAdapter<Exhibitor, ExhibitorViewHolder
         List<Exhibitor> newList = new ArrayList<>(allData);
         Iterables.removeIf(newList, next -> !next.getName().toLowerCase().contains(newText.toLowerCase()));
 
-        //Manually update.
+        // Manually update.
         this.items = newList;
         notifyDataSetChanged();
 

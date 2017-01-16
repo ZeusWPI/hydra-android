@@ -5,9 +5,9 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
-import java8.util.Objects;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import java8.util.Objects;
 import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
@@ -52,7 +52,7 @@ public class SpecialEvent implements Serializable {
      */
     @NonNull
     public Intent getViewIntent() {
-        if(viewIntent == null) {
+        if (viewIntent == null) {
             return new Intent(Intent.ACTION_VIEW, Uri.parse(getLink()));
         } else {
             return viewIntent;

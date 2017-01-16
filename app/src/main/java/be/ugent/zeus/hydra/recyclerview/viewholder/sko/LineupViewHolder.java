@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.sko.ArtistActivity;
 import be.ugent.zeus.hydra.models.sko.Artist;
@@ -50,18 +49,6 @@ public class LineupViewHolder extends DataViewHolder<Artist> implements View.OnC
         itemView.setOnCreateContextMenuListener(this);
     }
 
-    public void populate(final Artist artist) {
-        this.artist = artist;
-        title.setText(artist.getName());
-        date.setText(getDisplayDate(artist));
-        Picasso.with(this.itemView.getContext()).load(artist.getBanner()).into(image);
-        itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), ArtistActivity.class);
-            intent.putExtra(PARCEL_ARTIST, (Parcelable) artist);
-            v.getContext().startActivity(intent);
-        });
-    }
-
     /**
      * Get the display date. The resulting string is of the following format:
      *
@@ -78,35 +65,16 @@ public class LineupViewHolder extends DataViewHolder<Artist> implements View.OnC
         LocalDateTime start = artist.getLocalStart();
         LocalDateTime end = artist.getLocalEnd();
 
-        //Add the start date and time
+        // Add the start date and time.
         String date = start.format(format) + " tot ";
 
-        if(start.getDayOfMonth() == end.getDayOfMonth()) {
+        if (start.getDayOfMonth() == end.getDayOfMonth()) {
             date += end.format(hourFormat);
         } else {
-            date +=  end.format(format);
+            date += end.format(format);
         }
 
         return date;
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if(artist != null) {
-            String string = itemView.getContext().getString(R.string.action_add_to_menu);
-            menu.add(Menu.NONE, MENU_ID_ADD_TO_CALENDAR, 0, string).setOnMenuItemClickListener(this);
-        }
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-
-        if(artist != null && item.getItemId() == MENU_ID_ADD_TO_CALENDAR) {
-            addToCalendar(title.getContext(), artist);
-            return true;
-        }
-
-        return false;
     }
 
     public static void addToCalendar(Context context, Artist artist) {
@@ -119,5 +87,36 @@ public class LineupViewHolder extends DataViewHolder<Artist> implements View.OnC
                 .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
 
         context.startActivity(intent);
+    }
+
+    public void populate(final Artist artist) {
+        this.artist = artist;
+        title.setText(artist.getName());
+        date.setText(getDisplayDate(artist));
+        Picasso.with(this.itemView.getContext()).load(artist.getBanner()).into(image);
+        itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), ArtistActivity.class);
+            intent.putExtra(PARCEL_ARTIST, (Parcelable) artist);
+            v.getContext().startActivity(intent);
+        });
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if (artist != null) {
+            String string = itemView.getContext().getString(R.string.action_add_to_menu);
+            menu.add(Menu.NONE, MENU_ID_ADD_TO_CALENDAR, 0, string).setOnMenuItemClickListener(this);
+        }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+
+        if (artist != null && item.getItemId() == MENU_ID_ADD_TO_CALENDAR) {
+            addToCalendar(title.getContext(), artist);
+            return true;
+        }
+
+        return false;
     }
 }

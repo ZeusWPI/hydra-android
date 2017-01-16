@@ -109,7 +109,7 @@ public class Artist implements Serializable, Parcelable {
     public Artist() {
     }
 
-    protected Artist(Parcel in) {
+    private Artist(Parcel in) {
         this.name = in.readString();
         this.start = (ZonedDateTime) in.readSerializable();
         this.end = (ZonedDateTime) in.readSerializable();

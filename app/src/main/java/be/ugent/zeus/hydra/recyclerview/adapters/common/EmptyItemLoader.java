@@ -43,8 +43,7 @@ public abstract class EmptyItemLoader<E, V extends DataViewHolder<E>> extends Si
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        if(viewType == EMPTY_VIEW) {
+        if (viewType == EMPTY_VIEW) {
             View v = LayoutInflater.from(parent.getContext()).inflate(this.emptyViewId, parent, false);
             return new SimpleViewHolder(v);
         } else {
@@ -61,7 +60,7 @@ public abstract class EmptyItemLoader<E, V extends DataViewHolder<E>> extends Si
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof DataViewHolder) {
+        if (holder instanceof DataViewHolder) {
             @SuppressWarnings("unchecked")
             DataViewHolder<E> viewHolder = (DataViewHolder<E>) holder;
             viewHolder.populate(items.get(position));

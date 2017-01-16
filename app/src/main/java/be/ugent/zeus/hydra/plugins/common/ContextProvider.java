@@ -17,8 +17,7 @@ import android.view.View;
  */
 final class ContextProvider {
 
-    private ContextProvider() {
-    }
+    private ContextProvider() {}
 
     /**
      * Create a provider from a Fragment.

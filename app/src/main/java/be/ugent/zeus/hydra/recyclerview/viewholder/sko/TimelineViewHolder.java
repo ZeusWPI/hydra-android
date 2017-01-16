@@ -7,7 +7,6 @@ import android.text.util.Linkify;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.sko.TimelinePost;
 import be.ugent.zeus.hydra.recyclerview.adapters.sko.TimelineAdapter;
@@ -41,18 +40,30 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
         toolbar = $(itemView, R.id.sko_now_toolbar);
     }
 
+    @DrawableRes
+    private static int getOriginIcon(TimelinePost post) {
+        switch (post.getOrigin()) {
+            case "facebook":
+                return R.drawable.ic_social_facebook;
+            case "instagram":
+                return R.drawable.ic_social_instagram;
+            default:
+                return R.drawable.logo_sko;
+        }
+    }
+
     @Override
     public void populate(final TimelinePost post) {
 
         Picasso.with(itemView.getContext()).load(post.getCoverMedia()).into(poster);
-        if(post.getCoverMedia() != null) {
+        if (post.getCoverMedia() != null) {
             int value = (int) itemView.getContext().getResources().getDimension(R.dimen.card_title_padding_top_large_title);
             title.setPadding(title.getPaddingLeft(), value, title.getPaddingRight(), title.getPaddingBottom());
         } else {
             title.setPadding(title.getPaddingLeft(), 0, title.getPaddingRight(), title.getPaddingBottom());
         }
 
-        if(post.getTitle() != null) {
+        if (post.getTitle() != null) {
             title.setVisibility(View.VISIBLE);
             subtitle.setVisibility(View.VISIBLE);
             title.setText(post.getTitle());
@@ -63,25 +74,13 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
         toolbar.setTitle(post.getDisplayType() + " van " + post.getOrigin() + " \u2022 " + dateString);
         toolbar.setIcon(getOriginIcon(post));
 
-        //If there is a body, set it and set the expand button, else hide those.
-        if(post.getBody() != null) {
+        // If there is a body, set it and set the expand button, else hide those.
+        if (post.getBody() != null) {
             body.setText(post.getBody());
             LinkifyCompat.addLinks(body, Linkify.WEB_URLS);
             body.setOnClickListener(v -> adapter.getHelper().openCustomTab(Uri.parse(post.getLink())));
         }
 
         itemView.setOnClickListener(v -> adapter.getHelper().openCustomTab(Uri.parse(post.getLink())));
-    }
-
-    @DrawableRes
-    public static int getOriginIcon(TimelinePost post) {
-        switch (post.getOrigin()) {
-            case "facebook":
-                return R.drawable.ic_social_facebook;
-            case "instagram":
-                return R.drawable.ic_social_instagram;
-            default:
-                return R.drawable.logo_sko;
-        }
     }
 }

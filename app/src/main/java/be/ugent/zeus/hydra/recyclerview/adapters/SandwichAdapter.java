@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.recyclerview.adapters.resto;
+package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;

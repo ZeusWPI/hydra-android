@@ -36,17 +36,17 @@ public abstract class PluginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         onAddPlugins(plugins);
         List<Plugin> recursive = new ArrayList<>();
-        for(Plugin plugin: plugins) {
+        for (Plugin plugin : plugins) {
             plugin.onAddPlugins(recursive);
         }
         plugins.addAll(recursive);
-        for(Plugin plugin: plugins) {
+        for (Plugin plugin : plugins) {
             plugin.setProvider(ContextProvider.getProvider(this));
         }
         super.onCreate(savedInstanceState);
         savedInstance = savedInstanceState;
 
-        for(Plugin plugin: plugins) {
+        for (Plugin plugin : plugins) {
             plugin.onCreate(savedInstanceState);
         }
     }
@@ -54,7 +54,7 @@ public abstract class PluginActivity extends AppCompatActivity {
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
-        for(Plugin plugin: plugins) {
+        for (Plugin plugin : plugins) {
             plugin.onViewCreated(findViewById(android.R.id.content), savedInstance);
         }
     }
@@ -62,7 +62,7 @@ public abstract class PluginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        for(Plugin plugin: plugins) {
+        for (Plugin plugin : plugins) {
             plugin.onStart();
         }
     }
@@ -70,7 +70,7 @@ public abstract class PluginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        for(Plugin plugin: plugins) {
+        for (Plugin plugin : plugins) {
             plugin.onResume();
         }
     }
@@ -78,7 +78,7 @@ public abstract class PluginActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        for(Plugin plugin: plugins) {
+        for (Plugin plugin : plugins) {
             plugin.onPause();
         }
     }
@@ -86,7 +86,7 @@ public abstract class PluginActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        for(Plugin plugin: plugins) {
+        for (Plugin plugin : plugins) {
             plugin.onStop();
         }
     }
@@ -94,7 +94,7 @@ public abstract class PluginActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        for(Plugin plugin: plugins) {
+        for (Plugin plugin : plugins) {
             plugin.onRestart();
         }
     }
@@ -102,7 +102,7 @@ public abstract class PluginActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        for(Plugin plugin: plugins) {
+        for (Plugin plugin : plugins) {
             plugin.onDestroy();
         }
     }
