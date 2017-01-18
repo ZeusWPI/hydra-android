@@ -26,8 +26,10 @@
 
         </android.support.v7.widget.Toolbar>
 
+        <!-- TODO: investigate padding -->
         <android.support.design.widget.TabLayout
             android:id="@+id/resto_tabs_slider"
+            app:tabContentStart="@dimen/keyline_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -38,8 +40,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <!-- The tabbed menu page -->
         <android.support.v4.view.ViewPager
@@ -49,8 +50,7 @@
             android:animateLayoutChanges="true"
             android:paddingTop="@dimen/content_spacing"
             android:paddingLeft="@dimen/resto_menu_tab_spacing"
-            android:paddingRight="@dimen/resto_menu_tab_spacing"
-            />
+            android:paddingRight="@dimen/resto_menu_tab_spacing" />
 
         <!-- The progress bar while loading the menu -->
         <include layout="@layout/x_progress_bar" />

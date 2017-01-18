@@ -9,6 +9,7 @@
     <dimen name="vertical_padding">16dp</dimen>
     <dimen name="keyline">72dp</dimen>
     <dimen name="keyline_fixed">72dp</dimen>
+    <dimen name="keyline_tab">60dp</dimen><!-- keyline (71) - 12 (tab padding) -->
     <dimen name="large_horizontal_padding">16dp</dimen>
 
     <dimen name="table_row_height">48dp</dimen>
