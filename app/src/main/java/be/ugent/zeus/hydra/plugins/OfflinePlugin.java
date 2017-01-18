@@ -6,13 +6,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.SnackbarHandler;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 
 /**
  * @author Niko Strijbol
  */
-public class OfflinePlugin extends Plugin implements SnackbarHandler {
+public class OfflinePlugin extends Plugin {
 
     private View view;
 

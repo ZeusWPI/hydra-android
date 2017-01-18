@@ -23,16 +23,15 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
 import be.ugent.zeus.hydra.events.EventFragment;
-import be.ugent.zeus.hydra.fragments.*;
+import be.ugent.zeus.hydra.fragments.ComingSoonFragment;
+import be.ugent.zeus.hydra.fragments.InfoFragment;
+import be.ugent.zeus.hydra.fragments.NewsFragment;
+import be.ugent.zeus.hydra.fragments.SchamperFragment;
 import be.ugent.zeus.hydra.fragments.minerva.MinervaFragment;
 import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
 import be.ugent.zeus.hydra.fragments.urgent.UrgentFragment;
 import be.ugent.zeus.hydra.homefeed.HomeFeedFragment;
 import be.ugent.zeus.hydra.library.LibraryListFragment;
-import be.ugent.zeus.hydra.plugins.OfflinePlugin;
-import be.ugent.zeus.hydra.plugins.common.Plugin;
-
-import java.util.List;
 
 /**
  * Main activity.
@@ -55,13 +54,6 @@ public class MainActivity extends HydraActivity {
     private AppBarLayout appBarLayout;
 
     private SharedPreferences preferences;
-    private OfflinePlugin plugin = new OfflinePlugin();
-
-    @Override
-    protected void onAddPlugins(List<Plugin> plugins) {
-        super.onAddPlugins(plugins);
-        plugins.add(plugin);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +88,6 @@ public class MainActivity extends HydraActivity {
             }
         };
         drawer.addDrawerListener(toggle);
-        plugin.setView($(android.R.id.content));
 
         //If the instance is null, we must initialise a fragment, otherwise android does it for us.
         if (savedInstanceState == null) {
@@ -109,10 +100,6 @@ public class MainActivity extends HydraActivity {
             Fragment current = manager.findFragmentById(R.id.content);
             setTitle(navigationView.getMenu().findItem(getFragmentMenuId(current)).getTitle());
         }
-    }
-
-    public OfflinePlugin getOfflinePlugin() {
-        return plugin;
     }
 
     @Override

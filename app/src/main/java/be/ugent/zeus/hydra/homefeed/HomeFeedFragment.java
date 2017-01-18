@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,7 +17,6 @@ import android.util.Pair;
 import android.view.*;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.MainActivity;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.content.debug.WaitRequest;
@@ -34,6 +32,8 @@ import be.ugent.zeus.hydra.homefeed.loader.FeedCollection;
 import be.ugent.zeus.hydra.homefeed.loader.HomeFeedLoader;
 import be.ugent.zeus.hydra.homefeed.loader.HomeFeedLoaderCallback;
 import be.ugent.zeus.hydra.plugins.OfflinePlugin;
+import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.requests.common.OfflineBroadcaster;
 import be.ugent.zeus.hydra.utils.IterableSparseArray;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
@@ -61,7 +61,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author Niko Strijbol
  * @author silox
  */
-public class HomeFeedFragment extends Fragment implements HomeFeedLoaderCallback, SwipeRefreshLayout.OnRefreshListener {
+public class HomeFeedFragment extends PluginFragment implements HomeFeedLoaderCallback, SwipeRefreshLayout.OnRefreshListener {
 
     private static final boolean ADD_STALL_REQUEST = false;
 
@@ -81,11 +81,19 @@ public class HomeFeedFragment extends Fragment implements HomeFeedLoaderCallback
 
     private ActivityHelper helper;
 
+    private OfflinePlugin plugin = new OfflinePlugin();
+
     /**
      * This boolean indicates whether the data from the loader was cached or not. If it was, the partial update
      * function will not be called.
      */
     private boolean wasCached = true;
+
+    @Override
+    protected void onAddPlugins(List<Plugin> plugins) {
+        super.onAddPlugins(plugins);
+        plugins.add(plugin);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,14 +125,11 @@ public class HomeFeedFragment extends Fragment implements HomeFeedLoaderCallback
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
         swipeRefreshLayout.setOnRefreshListener(this);
+        plugin.setView(view);
 
         swipeRefreshLayout.setRefreshing(true);
         getLoaderManager().initLoader(LOADER, null, this);
         firstRun = true;
-    }
-
-    private OfflinePlugin getPlugin() {
-        return ((MainActivity) getActivity()).getOfflinePlugin();
     }
 
     @Override
@@ -148,6 +153,7 @@ public class HomeFeedFragment extends Fragment implements HomeFeedLoaderCallback
         super.onPause();
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
         manager.unregisterReceiver(receiver);
+        plugin.dismiss();
     }
 
     @Override
@@ -173,7 +179,7 @@ public class HomeFeedFragment extends Fragment implements HomeFeedLoaderCallback
 
     private void showErrorMessage(String message) {
         //noinspection WrongConstant
-        getPlugin().showSnackbar(message, Snackbar.LENGTH_LONG, null);
+       plugin.showSnackbar(message, Snackbar.LENGTH_LONG, null);
     }
 
     @Override
@@ -292,7 +298,7 @@ public class HomeFeedFragment extends Fragment implements HomeFeedLoaderCallback
     @Override
     public void onRefresh() {
         shouldRefresh = true;
-        getPlugin().dismiss();
+        plugin.dismiss();
         refreshLoader();
     }
 
@@ -301,7 +307,7 @@ public class HomeFeedFragment extends Fragment implements HomeFeedLoaderCallback
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(OfflineBroadcaster.OFFLINE)) {
                 //noinspection WrongConstant
-                getPlugin().showSnackbar(R.string.offline_data_use, Snackbar.LENGTH_INDEFINITE, HomeFeedFragment.this);
+                plugin.showSnackbar(R.string.offline_data_use, Snackbar.LENGTH_INDEFINITE, HomeFeedFragment.this);
             }
         }
     };
