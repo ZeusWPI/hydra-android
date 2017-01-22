@@ -22,7 +22,8 @@ import java.io.Serializable;
  * If the cache duration is set to {@link #NEVER}, the request will not be cached at all. The duration of the cache has
  * a millisecond precision.
  *
- * Note: using 0 as duration is undefined behavior.
+ * Note: using 0 as duration is undefined behavior. You should in general only use multiples of the available
+ * constants.
  *
  * @author Niko Strijbol
  */
