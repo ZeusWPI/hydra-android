@@ -129,6 +129,14 @@ public class MainActivity extends HydraActivity {
      */
     private void selectDrawerItem(MenuItem menuItem) {
 
+        // First check if it are settings, then we don't update anything.
+        if (menuItem.getItemId() == R.id.drawer_pref) {
+            drawer.closeDrawer(GravityCompat.START);
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return;
+        }
+
         updateDrawer(menuItem);
 
         // Create a new fragment and specify the fragment to show based on nav item clicked
@@ -165,11 +173,6 @@ public class MainActivity extends HydraActivity {
             case R.id.drawer_library:
                 fragment = new LibraryListFragment();
                 break;
-            case R.id.drawer_pref: //Launch new activity
-                drawer.closeDrawer(GravityCompat.START);
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return;
             default:
                 fragment = new ComingSoonFragment();
         }
