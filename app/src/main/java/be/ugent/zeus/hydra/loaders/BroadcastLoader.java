@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
+import be.ugent.zeus.hydra.loaders.changes.BroadcastListener;
 
 /**
  * A loader that will listen for changes from a {@link android.support.v4.content.LocalBroadcastManager}.
@@ -40,6 +41,6 @@ public abstract class BroadcastLoader<D> extends AbstractLoader<D> {
     }
 
     protected BroadcastReceiver getReceiver() {
-        return new ContentChangedReceiver(this);
+        return new BroadcastListener(this);
     }
 }

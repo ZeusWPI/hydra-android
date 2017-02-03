@@ -16,7 +16,7 @@ import be.ugent.zeus.hydra.homefeed.HomeFeedFragment;
 import be.ugent.zeus.hydra.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.feed.FeedOperation;
-import be.ugent.zeus.hydra.loaders.ContentChangedReceiver;
+import be.ugent.zeus.hydra.loaders.changes.BroadcastListener;
 import be.ugent.zeus.hydra.minerva.database.DatabaseBroadcaster;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
@@ -59,7 +59,7 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
     };
 
     private PreferenceListener preferenceListener;
-    private ContentChangedReceiver broadcastReceiver;
+    private BroadcastListener broadcastReceiver;
 
     /**
      * @param context The context.
@@ -181,7 +181,7 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(SyncBroadcast.SYNC_DONE);
         intentFilter.addAction(DatabaseBroadcaster.MINERVA_ANNOUNCEMENT_UPDATED);
-        broadcastReceiver = new ContentChangedReceiver(this);
+        broadcastReceiver = new BroadcastListener(this);
         manager.registerReceiver(broadcastReceiver, intentFilter);
     }
 

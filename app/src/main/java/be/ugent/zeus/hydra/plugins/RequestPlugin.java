@@ -29,30 +29,18 @@ public class RequestPlugin<D> extends LoaderPlugin<D> {
     private boolean refreshRequested = false;
     private ProgressBarPlugin progressBarPlugin;
 
-    //TODO: remove this
-    private boolean usesToast = true;
-
     public RequestPlugin(LoaderProvider<D> provider) {
         super(provider);
     }
 
-    public RequestPlugin() {
-        super();
-    }
-
     public RequestPlugin(BiFunction<Context, Boolean, Request<D>> provider) {
         super();
-        setLoaderProvider((LoaderProvider<D>) c -> new RequestAsyncTaskLoader<>(c, provider.apply(c, refreshRequested)));
+        setLoaderProvider(c -> new RequestAsyncTaskLoader<>(c, provider.apply(c, refreshRequested)));
     }
 
     public RequestPlugin(Function<Boolean, LoaderProvider<D>> loaderSupplier) {
         super();
         setLoaderProvider(loaderSupplier.apply(refreshRequested));
-    }
-
-    public RequestPlugin<D> setLoaderProvider(Function<Boolean, LoaderProvider<D>> provider) {
-        setLoaderProvider(provider.apply(refreshRequested));
-        return this;
     }
 
     /**
@@ -73,11 +61,6 @@ public class RequestPlugin<D> extends LoaderPlugin<D> {
     public RequestPlugin<D> hasProgress() {
         progressBarPlugin = new ProgressBarPlugin();
         addResultListener(progressBarPlugin.getFinishedCallback());
-        return this;
-    }
-
-    public RequestPlugin<D> noToast() {
-        this.usesToast = false;
         return this;
     }
 
@@ -107,10 +90,7 @@ public class RequestPlugin<D> extends LoaderPlugin<D> {
      * Refresh the data.
      */
     public void refresh() {
-        if (usesToast) {
-            Toast.makeText(getHost().getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
-        }
-
+        Toast.makeText(getHost().getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
         refreshRequested = true;
         restartLoader();
         refreshRequested = false;

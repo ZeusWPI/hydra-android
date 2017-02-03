@@ -18,7 +18,6 @@ import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.EventAdapter;
-import be.ugent.zeus.hydra.requests.association.FilteredEventRequest;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 import java8.util.function.Function;
 
@@ -35,7 +34,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 public class EventFragment extends PluginFragment {
 
     private final EventAdapter adapter = new EventAdapter();
-    private final Function<Boolean, LoaderProvider<Events>> supplier = b -> c -> new EventLoader(c, new FilteredEventRequest(c, b));
+    private final Function<Boolean, LoaderProvider<Events>> supplier = b -> c -> EventLoader.filteredEvents(b, c);
     private final RecyclerViewPlugin<Event, Events> plugin = new RecyclerViewPlugin<>(supplier, adapter);
     private LinearLayout noData;
 
@@ -45,7 +44,14 @@ public class EventFragment extends PluginFragment {
 
         plugin.defaultError()
                 .hasProgress()
-                .setDataCallback(this::receiveData);
+                .setDataCallback(events -> {
+                    // If there is no data, show the UI.
+                    if (events.isEmpty()) {
+                        noData.setVisibility(View.VISIBLE);
+                    } else {
+                        noData.setVisibility(View.GONE);
+                    }
+                });
 
         plugins.add(plugin);
     }
@@ -70,14 +76,5 @@ public class EventFragment extends PluginFragment {
 
         refresh.setOnClickListener(v -> plugin.refresh());
         filters.setOnClickListener(v -> startActivity(new Intent(getContext(), SettingsActivity.class)));
-    }
-
-    private void receiveData(Events data) {
-        //If empty, show it.
-        if (data.isEmpty()) {
-            noData.setVisibility(View.VISIBLE);
-        } else {
-            noData.setVisibility(View.GONE);
-        }
     }
 }

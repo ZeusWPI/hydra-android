@@ -116,8 +116,10 @@ public abstract class AbstractLoader<D> extends AsyncTaskLoader<LoaderResult<D>>
         // Ensure the loader has stopped.
         onStopLoading();
 
-        // Reset the data.
-        onReleaseResources();
+        // Reset the data if needed.
+        if (data != null) {
+            onReleaseResources();
+        }
     }
 
     /**

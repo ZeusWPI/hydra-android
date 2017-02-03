@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.loaders.BroadcastLoader;
-import be.ugent.zeus.hydra.loaders.ContentChangedReceiver;
+import be.ugent.zeus.hydra.loaders.changes.BroadcastListener;
 import be.ugent.zeus.hydra.loaders.LoaderException;
 import be.ugent.zeus.hydra.minerva.database.DatabaseBroadcaster;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
@@ -64,6 +64,6 @@ public class AnnouncementDaoLoader extends BroadcastLoader<List<Announcement>> {
         BiPredicate<Context, Intent> updatePredicate = (c, i) ->
                 i.getAction().equals(DatabaseBroadcaster.MINERVA_ANNOUNCEMENT_UPDATED)
                         && course.getId().equals(i.getStringExtra(DatabaseBroadcaster.ARG_MINERVA_ANNOUNCEMENT_COURSE));
-        return new ContentChangedReceiver(this, BiPredicates.or(syncPredicate, updatePredicate));
+        return new BroadcastListener(this, BiPredicates.or(syncPredicate, updatePredicate));
     }
 }
