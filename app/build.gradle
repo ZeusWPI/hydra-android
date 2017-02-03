@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-//Enable this when disabling jack
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.cookpad.android.licensetools'
 
@@ -14,12 +13,6 @@ android {
         versionCode 223
         versionName "2.2.3"
         vectorDrawables.useSupportLibrary = true
-
-        //Enable jack support
-        //When disabling jack, DON'T forget to enable retrolambda
-//        jackOptions {
-//            enabled true
-//        }
 
         //Load the API keys from the file "secrets.progperties".
         Properties props = new Properties()
