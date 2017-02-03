@@ -66,7 +66,7 @@ project.afterEvaluate {
 }
 
 //The support library version
-final SUPPORT_LIBRARY_VERSION = '25.1.0'
+final SUPPORT_LIBRARY_VERSION = '25.1.1'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -85,12 +85,12 @@ dependencies {
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
-    compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
-    compile 'net.sourceforge.streamsupport:streamsupport:1.5.2'
+    compile 'com.jakewharton.threetenabp:threetenabp:1.0.5'
+    compile 'net.sourceforge.streamsupport:streamsupport:1.5.3'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.KyoSherlock:expandablelayout:master-SNAPSHOT'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
-    compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.4'
+    compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
     compile 'com.heinrichreimersoftware:material-intro:1.6'
     compile 'su.j2e:rv-joiner:1.0.9'
     compile 'com.github.alexfu:SQLiteQueryBuilder:0.3.0'
@@ -114,7 +114,7 @@ dependencies {
 
     //Test code
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.2.9'
+    testCompile 'org.mockito:mockito-core:2.7.0'
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'

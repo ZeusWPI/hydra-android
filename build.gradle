@@ -6,12 +6,12 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.2.3'
         classpath 'com.google.gms:google-services:3.0.0'
-        classpath 'com.cookpad.android.licensetools:license-tools-plugin:0.17.0'
+        classpath 'com.cookpad.android.licensetools:license-tools-plugin:0.19.1'
 
         //When disabling jack, uncomment this
-        classpath 'me.tatarka:gradle-retrolambda:3.4.0'
+        classpath 'me.tatarka:gradle-retrolambda:3.5.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
