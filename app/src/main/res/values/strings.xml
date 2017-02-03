@@ -237,5 +237,6 @@
     <string name="library_opening_header_date">Datum</string>
     <string name="library_opening_header_hours">Openingsuren</string>
     <string name="library_favourite">Opslaan</string>
+    <string name="menu_library_catalogue">Catalogus openen</string>
 
 </resources>

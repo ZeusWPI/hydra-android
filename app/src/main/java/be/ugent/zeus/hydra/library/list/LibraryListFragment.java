@@ -5,10 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.loaders.LoaderProvider;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
@@ -16,6 +15,7 @@ import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.TextCallback;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemLoader;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 import java8.util.function.Function;
 import su.j2e.rvjoiner.JoinableAdapter;
@@ -31,6 +31,8 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class LibraryListFragment extends PluginFragment {
 
+    private static final String LIB_URL = "http://lib.ugent.be/";
+
     public static final String PREF_LIBRARY_FAVOURITES = "pref_library_favourites";
 
     private final RvJoiner joiner = new RvJoiner();
@@ -38,6 +40,12 @@ public class LibraryListFragment extends PluginFragment {
     private final LibraryListAdapter all = new LibraryListAdapter();
     private final RequestPlugin<Pair<List<Library>, List<Library>>> plugin =
             new RequestPlugin<>((Function<Boolean, LoaderProvider<Pair<List<Library>, List<Library>>>>) b -> c -> LibraryLoader.sortedLibrary(b, c));
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Nullable
     @Override
@@ -73,5 +81,24 @@ public class LibraryListFragment extends PluginFragment {
     private void receiveData(Pair<List<Library>, List<Library>> libraries) {
         favourites.setItems(libraries.second);
         all.setItems(libraries.first);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_library_list, menu);
+        HydraActivity activity = (HydraActivity) getActivity();
+        activity.tintToolbarIcons(menu, R.id.library_visit_catalogue);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.library_visit_catalogue:
+                NetworkUtils.maybeLaunchBrowser(getContext(), LIB_URL);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

@@ -168,7 +168,7 @@ public class DetailActivity extends HydraActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_library, menu);
+        getMenuInflater().inflate(R.menu.menu_library_details, menu);
         tintToolbarIcons(menu, R.id.library_location, R.id.library_email, R.id.library_phone);
         if (!library.hasTelephone()) {
             menu.removeItem(R.id.library_phone);
