@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
@@ -27,7 +26,6 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.threeten.bp.*;
 
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * The sync adapter for the Minerva integration. Since Minerva synchronisation is currently one way only, this adapter
@@ -94,20 +92,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
             Courses courses = request.performRequest();
 
-            // Add debug course on every sync.
-            if (BuildConfig.DEBUG) {
-                LocalDateTime now = LocalDateTime.now();
-                Course newCourse = new Course();
-                newCourse.setId(now.toString());
-                newCourse.setAcademicYear(now.getYear());
-                newCourse.setCode("COURSE");
-                newCourse.setDescription("Een debug-vak van de app zelf.");
-                newCourse.setStudent("WHAT IS THIS?");
-                newCourse.setTutorName("Hydra-app");
-                newCourse.setTitle("Course from " + now.toString());
-                courses.getCourses().add(newCourse);
-            }
-
             courseDao.synchronise(courses.getCourses());
             // Publish progress.
             broadcast.publishIntent(SyncBroadcast.SYNC_COURSES);
@@ -126,13 +110,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 Log.d(TAG, "Syncing course " + course.getId());
 
                 // Sync announcements
-                Collection<Announcement> newOnes;
-                if (!course.getCode().equals("COURSE")) { //TODO DEBUG
-                    newOnes = synchronizeAnnouncements(announcementDao, account, isFirstSync, course);
-                } else {
-                    Announcement a = addAnnouncement(announcementDao, course);
-                    newOnes = Collections.singleton(a);
-                }
+                Collection<Announcement> newOnes = synchronizeAnnouncements(announcementDao, account, isFirstSync, course);
 
                 // Publish progress
                 broadcast.publishAnnouncementDone(i + 1, courses.getCourses().size(), course);
@@ -252,18 +230,5 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         //Sync announcements
         return dao.synchronize(object);
-    }
-
-    private Announcement addAnnouncement(AnnouncementDao dao, Course course) {
-        LocalDateTime now = LocalDateTime.now();
-        Announcement announcement = new Announcement();
-        announcement.setTitle("TEST FROM " + now.toString());
-        announcement.setCourse(course);
-        announcement.setContent("DEBUG");
-        announcement.setItemId((int) Instant.now().toEpochMilli());
-        announcement.setDate(now.atZone(ZoneId.systemDefault()));
-        announcement.setLecturer("Niko");
-        dao.add(announcement);
-        return announcement;
     }
 }
