@@ -147,7 +147,9 @@ public class MenuActivity extends HydraActivity implements AdapterView.OnItemSel
                 .putString(RestoPreferenceFragment.PREF_RESTO, String.valueOf(position))
                 .apply();
         //The start should be the day we have currently selected.
-        startDate = pageAdapter.getTabDate(viewPager.getCurrentItem());
+        if (pageAdapter.getCount() > viewPager.getCurrentItem()) {
+            startDate = pageAdapter.getTabDate(viewPager.getCurrentItem());
+        }
         plugin.refresh();
     }
 
