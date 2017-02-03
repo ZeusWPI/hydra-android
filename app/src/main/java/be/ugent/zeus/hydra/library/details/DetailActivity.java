@@ -2,11 +2,16 @@ package be.ugent.zeus.hydra.library.details;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,17 +20,21 @@ import android.widget.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.library.Library;
+import be.ugent.zeus.hydra.library.list.LibraryListFragment;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.utils.PreferencesUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 import com.squareup.picasso.Picasso;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Activity to display information about one {@link Library}.
@@ -37,7 +46,7 @@ public class DetailActivity extends HydraActivity {
     private static final String ARG_LIBRARY = "argLibrary";
 
     private Library library;
-
+    private Button button;
     private FrameLayout layout;
 
     // Due to the lambda, library should be not null when this is called.
@@ -86,6 +95,33 @@ public class DetailActivity extends HydraActivity {
             textView.setText(makeFullAddressText());
             container.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(DetailActivity.this, mapsIntent()));
         }
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Set<String> favourites = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
+
+        button = $(R.id.library_favourite);
+        Drawable[] drawables = button.getCompoundDrawables();
+        Drawable drawable = drawables[0];
+        if (favourites.contains(library.getCode())) {
+            button.setSelected(true);
+            DrawableCompat.setTint(drawable, ActivityCompat.getColor(this, R.color.ugent_yellow_dark));
+        } else {
+            DrawableCompat.setTint(drawable, ActivityCompat.getColor(this, R.color.ugent_blue_dark));
+            button.setSelected(false);
+        }
+
+        // Save/remove libraries on button click
+        button.setOnClickListener(v -> {
+            if (button.isSelected()) {
+                PreferencesUtils.removeFromStringSet(DetailActivity.this, LibraryListFragment.PREF_LIBRARY_FAVOURITES, library.getCode());
+                DrawableCompat.setTint(drawable, ActivityCompat.getColor(DetailActivity.this, R.color.ugent_blue_dark));
+                button.setSelected(false);
+            } else {
+                PreferencesUtils.addToStringSet(DetailActivity.this, LibraryListFragment.PREF_LIBRARY_FAVOURITES, library.getCode());
+                DrawableCompat.setTint(drawable, ActivityCompat.getColor(DetailActivity.this, R.color.ugent_yellow_dark));
+                button.setSelected(true);
+            }
+        });
 
         plugin.startLoader();
     }

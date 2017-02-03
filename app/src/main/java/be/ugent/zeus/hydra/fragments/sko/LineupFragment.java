@@ -6,13 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.*;
-import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.sko.Artist;
 import be.ugent.zeus.hydra.models.sko.Artists;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.recyclerview.TextCallback;
 import be.ugent.zeus.hydra.recyclerview.adapters.sko.LineupAdapter;
 import be.ugent.zeus.hydra.requests.sko.LineupRequest;
 import su.j2e.rvjoiner.JoinableAdapter;
@@ -87,7 +87,7 @@ public class LineupFragment extends PluginFragment implements SwipeRefreshLayout
             if(!adapters.containsKey(entry.getKey())) {
                 LineupAdapter adapter = new LineupAdapter();
                 adapters.put(entry.getKey(), adapter);
-                joiner.add(new JoinableLayout(R.layout.item_title, new Callback(entry.getKey())));
+                joiner.add(new JoinableLayout(R.layout.item_title, new TextCallback(entry.getKey())));
                 joiner.add(new JoinableAdapter(adapter));
             }
             adapters.get(entry.getKey()).setItems(entry.getValue());
@@ -115,23 +115,5 @@ public class LineupFragment extends PluginFragment implements SwipeRefreshLayout
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Callback for the header.
-     */
-    private static class Callback implements JoinableLayout.Callback {
-
-        private String text;
-
-        Callback(String text) {
-            this.text = text;
-        }
-
-        @Override
-        public void onInflateComplete(View view, ViewGroup parent) {
-            TextView v = $(view, R.id.text_header);
-            v.setText(text);
-        }
     }
 }

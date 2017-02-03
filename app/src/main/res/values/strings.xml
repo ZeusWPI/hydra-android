@@ -236,5 +236,6 @@
     <string name="schamper_error">Kon artikel niet openen.</string>
     <string name="library_opening_header_date">Datum</string>
     <string name="library_opening_header_hours">Openingsuren</string>
+    <string name="library_favourite">Opslaan</string>
 
 </resources>
