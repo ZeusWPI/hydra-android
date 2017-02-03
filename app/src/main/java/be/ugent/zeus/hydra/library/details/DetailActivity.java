@@ -154,7 +154,7 @@ public class DetailActivity extends HydraActivity {
             case R.id.library_phone:
                 if (library.hasTelephone()) {
                     Intent phoneIntent = new Intent(Intent.ACTION_DIAL);
-                    phoneIntent.setData(Uri.fromParts("tel:", library.getTelephone().get(0), null));
+                    phoneIntent.setData(Uri.fromParts("tel", library.getTelephone().get(0), null));
                     NetworkUtils.maybeLaunchIntent(this, phoneIntent);
                 }
                 return true;
