@@ -8,6 +8,7 @@ import org.threeten.bp.chrono.Chronology;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeFormatterBuilder;
 import org.threeten.bp.format.FormatStyle;
+import org.threeten.bp.temporal.ChronoUnit;
 
 import java.util.Locale;
 
@@ -35,7 +36,7 @@ public class DateUtils {
 
         int thisWeek = Integer.parseInt(today.format(WEEK_FORMATTER));
         int week = Integer.parseInt(date.format(WEEK_FORMATTER));
-        int daysBetween = Period.between(today, date).getDays();
+        long daysBetween = ChronoUnit.DAYS.between(today, date);
 
         DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale);
         DateTimeFormatterBuilder.getLocalizedDateTimePattern(FormatStyle.MEDIUM, FormatStyle.MEDIUM, Chronology.ofLocale(locale), locale);
