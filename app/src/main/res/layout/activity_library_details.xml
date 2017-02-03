@@ -117,7 +117,6 @@
                         android:id="@+id/library_favourite"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_star"
                         android:gravity="left|center_vertical"
                         android:text="@string/library_favourite"
                         style="?attr/borderlessButtonStyle"/>

@@ -100,15 +100,17 @@ public class DetailActivity extends HydraActivity {
         Set<String> favourites = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
 
         button = $(R.id.library_favourite);
-        Drawable[] drawables = button.getCompoundDrawables();
-        Drawable drawable = drawables[0];
+        // Set compound drawable in code, for backwards comparability.
+        Drawable drawable;
         if (favourites.contains(library.getCode())) {
             button.setSelected(true);
-            DrawableCompat.setTint(drawable, ActivityCompat.getColor(this, R.color.ugent_yellow_dark));
+            drawable = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star, R.color.ugent_yellow_dark);
         } else {
-            DrawableCompat.setTint(drawable, ActivityCompat.getColor(this, R.color.ugent_blue_dark));
+            drawable = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star, R.color.ugent_blue_dark);
             button.setSelected(false);
         }
+
+        button.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 
         // Save/remove libraries on button click
         button.setOnClickListener(v -> {
