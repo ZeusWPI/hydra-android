@@ -89,6 +89,7 @@ dependencies {
     compile 'net.sourceforge.streamsupport:streamsupport:1.5.3'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.KyoSherlock:expandablelayout:master-SNAPSHOT'
+    compile 'net.cachapa.expandablelayout:expandablelayout:2.7'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
     compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
     compile 'com.heinrichreimersoftware:material-intro:1.6'

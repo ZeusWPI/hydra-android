@@ -12,7 +12,9 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.text.util.LinkifyCompat;
 import android.text.TextUtils;
+import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,9 +29,11 @@ import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
+import be.ugent.zeus.hydra.utils.html.Utils;
 import com.squareup.picasso.Picasso;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +42,8 @@ import java.util.Set;
 
 /**
  * Activity to display information about one {@link Library}.
+ * <p>
+ * TODO: investigate if the view hierarchy can be less deep.
  *
  * @author Niko Strijbol
  */
@@ -47,6 +53,7 @@ public class DetailActivity extends HydraActivity {
 
     private Library library;
     private Button button;
+    private Button expandButton;
     private FrameLayout layout;
 
     // Due to the lambda, library should be not null when this is called.
@@ -87,13 +94,12 @@ public class DetailActivity extends HydraActivity {
         getToolbar().setTitle(library.getName());
 
         String address = makeFullAddressText();
-        View container = $(R.id.library_address_card);
         if (TextUtils.isEmpty(address)) {
-            container.setVisibility(View.GONE);
+            $(R.id.library_address_card).setVisibility(View.GONE);
         } else {
             TextView textView = $(R.id.library_address);
             textView.setText(makeFullAddressText());
-            container.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(DetailActivity.this, mapsIntent()));
+            textView.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(DetailActivity.this, mapsIntent()));
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -125,7 +131,61 @@ public class DetailActivity extends HydraActivity {
             }
         });
 
+        ExpandableLayout layout = $(R.id.expandable_layout);
+        expandButton = $(R.id.expand_button);
+        expandButton.setOnClickListener(v -> {
+            layout.toggle();
+        });
+
+        layout.setOnExpansionUpdateListener(f -> {
+            if (f == 0) {
+                expandButton.setText(R.string.library_more);
+            } else if (f == 1) {
+                expandButton.setText(R.string.library_less);
+            }
+        });
+
+        TextView remarks = $(R.id.library_remarks);
+        String comments = library.getCommentsAsString();
+        if (TextUtils.isEmpty(comments)) {
+            remarks.setVisibility(View.GONE);
+            $(R.id.library_remarks_divider).setVisibility(View.GONE);
+            $(R.id.library_remarks_title).setVisibility(View.GONE);
+        } else {
+            remarks.setText(Utils.fromHtml(comments));
+        }
+
+        TextView email = $(R.id.library_mail_row_text);
+        email.setText(library.getEmail());
+        LinkifyCompat.addLinks(email, Linkify.EMAIL_ADDRESSES);
+        TextView phone = $(R.id.library_phone_row_text);
+        String phoneString = library.getPhones();
+        if (TextUtils.isEmpty(phoneString)) {
+            phone.setText(R.string.library_no_phone);
+        } else {
+            phone.setText(phoneString);
+            LinkifyCompat.addLinks(phone, Linkify.PHONE_NUMBERS);
+        }
+        TextView contact = $(R.id.library_contact_row_text);
+        contact.setText(library.getContact());
+
         plugin.startLoader();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save the toggle button state.
+        outState.putString("button", String.valueOf(expandButton.getText()));
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore the toggle button state.
+        if (savedInstanceState != null && savedInstanceState.get("button") != null) {
+            expandButton.setText(savedInstanceState.getString("button"));
+        }
     }
 
     /**
@@ -150,7 +210,7 @@ public class DetailActivity extends HydraActivity {
         header.addView(hoursHeader);
         tableLayout.addView(header);
 
-        for (OpeningHours hours: list) {
+        for (OpeningHours hours : list) {
             TableRow tableRow = new TableRow(this);
             tableRow.setPadding(0, rowPadding, 0, rowPadding);
             TextView date = new TextView(this);
@@ -169,9 +229,12 @@ public class DetailActivity extends HydraActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_library_details, menu);
-        tintToolbarIcons(menu, R.id.library_location, R.id.library_email, R.id.library_phone);
+        tintToolbarIcons(menu, R.id.library_location, R.id.library_email, R.id.library_phone, R.id.library_url);
         if (!library.hasTelephone()) {
             menu.removeItem(R.id.library_phone);
+        }
+        if (library.getLink() == null) {
+            menu.removeItem(R.id.library_url);
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -196,11 +259,19 @@ public class DetailActivity extends HydraActivity {
                     NetworkUtils.maybeLaunchIntent(this, phoneIntent);
                 }
                 return true;
+            case R.id.library_url:
+                if (library.getLink() != null) {
+                    NetworkUtils.maybeLaunchBrowser(this, library.getLink());
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    /**
+     * @return Intent to launch Google Maps to show the location of the library.
+     */
     private Intent mapsIntent() {
         Uri uri = Uri.parse("geo:" + library.getLatitude() + "," + library.getLongitude() + "0?q=" + library.addressAsString());
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -208,14 +279,21 @@ public class DetailActivity extends HydraActivity {
         return intent;
     }
 
+    /**
+     * @return A generated address, containing the campus and faculty (and department) in addition to the address.
+     */
     private String makeFullAddressText() {
         List<String> parts = new ArrayList<>();
         parts.add(library.getName());
         if (!TextUtils.isEmpty(library.getCampus())) {
             String campus = library.getCampus();
-            if (!TextUtils.isEmpty(library.getDepartement())) {
-                campus += " (" + library.getDepartement() + ")";
+            if (!TextUtils.isEmpty(library.getFaculty())) {
+                campus += " (" + library.getFaculty();
+                if (!TextUtils.isEmpty(library.getDepartment())) {
+                    campus += ", " + library.getDepartment();
+                }
             }
+            campus += ")";
             parts.add(campus);
         }
         parts.addAll(library.getAddress());

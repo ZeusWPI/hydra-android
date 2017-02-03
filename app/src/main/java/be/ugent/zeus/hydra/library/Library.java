@@ -16,11 +16,13 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * Model for a library.
+ *
  * @author Niko Strijbol
  */
 public class Library implements Serializable, Parcelable {
 
-    private String departement;
+    private String department;
     private String email;
     private List<String> address;
     private String name;
@@ -32,28 +34,29 @@ public class Library implements Serializable, Parcelable {
     private String thumbnail;
     @SerializedName("image_url")
     private String image;
-
     @SerializedName("lat")
     private String latitude;
     @SerializedName("long")
     private String longitude;
-
+    @SerializedName("comments")
+    private List<String> comments;
     private String contact;
-
     private String campus;
     private String faculty;
     private String link;
-
     @SerializedName("created_at")
     @JsonAdapter(ZonedThreeTenAdapter.class)
     private ZonedDateTime createdAt;
-
     @SerializedName("updated_at")
     @JsonAdapter(ZonedThreeTenAdapter.class)
     private ZonedDateTime updatedAt;
 
-    public String getDepartement() {
-        return departement;
+    public Library() {
+        // No-args constructor
+    }
+
+    public String getDepartment() {
+        return department;
     }
 
     public String getEmail() {
@@ -120,6 +123,31 @@ public class Library implements Serializable, Parcelable {
         return updatedAt;
     }
 
+    /**
+     * @return Concatenated comments (no delimiter) or null if there are no comments.
+     */
+    public String getCommentsAsString() {
+        if (comments == null) {
+            return null;
+        } else {
+            return StreamSupport.stream(comments).collect(Collectors.joining());
+        }
+    }
+
+    /**
+     * @return Concatenated phones (semi-colon delimiter) or null if there are no phones.
+     */
+    public String getPhones() {
+        if (getTelephone() == null) {
+            return null;
+        } else {
+            return StreamSupport.stream(getTelephone()).collect(Collectors.joining("; "));
+        }
+    }
+
+    /**
+     * @return The URL to the image of this library, or an URL to a placeholder.
+     */
     @NonNull
     public String getEnsuredImage() {
         if (TextUtils.isEmpty(getImage())) {
@@ -129,6 +157,9 @@ public class Library implements Serializable, Parcelable {
         }
     }
 
+    /**
+     * @return Concatenated addresses (newline delimiter) or null if there is no address.
+     */
     @NonNull
     public String addressAsString() {
         if (getAddress() == null) {
@@ -138,6 +169,9 @@ public class Library implements Serializable, Parcelable {
         }
     }
 
+    /**
+     * @return True if there is at least one telephone number.
+     */
     public boolean hasTelephone() {
         return getTelephone() != null && getTelephone().size() > 0;
     }
@@ -149,7 +183,7 @@ public class Library implements Serializable, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.departement);
+        dest.writeString(this.department);
         dest.writeString(this.email);
         dest.writeStringList(this.address);
         dest.writeString(this.name);
@@ -160,6 +194,7 @@ public class Library implements Serializable, Parcelable {
         dest.writeString(this.image);
         dest.writeString(this.latitude);
         dest.writeString(this.longitude);
+        dest.writeStringList(this.comments);
         dest.writeString(this.contact);
         dest.writeString(this.campus);
         dest.writeString(this.faculty);
@@ -168,11 +203,11 @@ public class Library implements Serializable, Parcelable {
         dest.writeSerializable(this.updatedAt);
     }
 
-    public Library() {
-    }
-
+    /**
+     * Parcelable constructor.
+     */
     protected Library(Parcel in) {
-        this.departement = in.readString();
+        this.department = in.readString();
         this.email = in.readString();
         this.address = in.createStringArrayList();
         this.name = in.readString();
@@ -183,6 +218,7 @@ public class Library implements Serializable, Parcelable {
         this.image = in.readString();
         this.latitude = in.readString();
         this.longitude = in.readString();
+        this.comments = in.createStringArrayList();
         this.contact = in.readString();
         this.campus = in.readString();
         this.faculty = in.readString();
@@ -191,7 +227,7 @@ public class Library implements Serializable, Parcelable {
         this.updatedAt = (ZonedDateTime) in.readSerializable();
     }
 
-    public static final Parcelable.Creator<Library> CREATOR = new Parcelable.Creator<Library>() {
+    public static final Creator<Library> CREATOR = new Creator<Library>() {
         @Override
         public Library createFromParcel(Parcel source) {
             return new Library(source);
