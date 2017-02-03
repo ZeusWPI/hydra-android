@@ -1,9 +1,15 @@
 package be.ugent.zeus.hydra.library;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
@@ -12,7 +18,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class Library implements Serializable {
+public class Library implements Serializable, Parcelable {
 
     private String departement;
     private String email;
@@ -113,4 +119,87 @@ public class Library implements Serializable {
     public ZonedDateTime getUpdatedAt() {
         return updatedAt;
     }
+
+    @NonNull
+    public String getEnsuredImage() {
+        if (TextUtils.isEmpty(getImage())) {
+            return "https://unsplash.it/1600/900?image=1073";
+        } else {
+            return getImage();
+        }
+    }
+
+    @NonNull
+    public String addressAsString() {
+        if (getAddress() == null) {
+            return "";
+        } else {
+            return StreamSupport.stream(getAddress()).collect(Collectors.joining("\n"));
+        }
+    }
+
+    public boolean hasTelephone() {
+        return getTelephone() != null && getTelephone().size() > 0;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.departement);
+        dest.writeString(this.email);
+        dest.writeStringList(this.address);
+        dest.writeString(this.name);
+        dest.writeString(this.code);
+        dest.writeStringList(this.telephone);
+        dest.writeByte((byte) (this.active ? 1 : 0));
+        dest.writeString(this.thumbnail);
+        dest.writeString(this.image);
+        dest.writeString(this.latitude);
+        dest.writeString(this.longitude);
+        dest.writeString(this.contact);
+        dest.writeString(this.campus);
+        dest.writeString(this.faculty);
+        dest.writeString(this.link);
+        dest.writeSerializable(this.createdAt);
+        dest.writeSerializable(this.updatedAt);
+    }
+
+    public Library() {
+    }
+
+    protected Library(Parcel in) {
+        this.departement = in.readString();
+        this.email = in.readString();
+        this.address = in.createStringArrayList();
+        this.name = in.readString();
+        this.code = in.readString();
+        this.telephone = in.createStringArrayList();
+        this.active = in.readByte() != 0;
+        this.thumbnail = in.readString();
+        this.image = in.readString();
+        this.latitude = in.readString();
+        this.longitude = in.readString();
+        this.contact = in.readString();
+        this.campus = in.readString();
+        this.faculty = in.readString();
+        this.link = in.readString();
+        this.createdAt = (ZonedDateTime) in.readSerializable();
+        this.updatedAt = (ZonedDateTime) in.readSerializable();
+    }
+
+    public static final Parcelable.Creator<Library> CREATOR = new Parcelable.Creator<Library>() {
+        @Override
+        public Library createFromParcel(Parcel source) {
+            return new Library(source);
+        }
+
+        @Override
+        public Library[] newArray(int size) {
+            return new Library[size];
+        }
+    };
 }

@@ -1,8 +1,9 @@
-package be.ugent.zeus.hydra.library;
+package be.ugent.zeus.hydra.library.list;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 
 /**

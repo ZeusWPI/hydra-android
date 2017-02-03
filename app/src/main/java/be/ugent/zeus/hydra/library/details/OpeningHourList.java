@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.library;
+package be.ugent.zeus.hydra.library.details;
 
 import java.util.ArrayList;
 

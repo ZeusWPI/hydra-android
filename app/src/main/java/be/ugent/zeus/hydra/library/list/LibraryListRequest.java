@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.library;
+package be.ugent.zeus.hydra.library.list;
 
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.caching.Cache;

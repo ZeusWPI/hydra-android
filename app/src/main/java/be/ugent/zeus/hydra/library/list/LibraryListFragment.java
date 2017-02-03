@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.library;
+package be.ugent.zeus.hydra.library.list;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;

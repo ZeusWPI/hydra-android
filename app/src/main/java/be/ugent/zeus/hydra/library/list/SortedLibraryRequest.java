@@ -1,7 +1,8 @@
-package be.ugent.zeus.hydra.library;
+package be.ugent.zeus.hydra.library.list;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.requests.common.ProcessableCacheRequest;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import java8.util.Comparators;
