@@ -40,7 +40,7 @@ public class AnnouncementNotificationBuilder {
     private Course course;
 
     public AnnouncementNotificationBuilder(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
 
         //Set default values
         smallIcon = R.drawable.ic_notification_announcement;
@@ -185,7 +185,7 @@ public class AnnouncementNotificationBuilder {
 
     private Intent mainActivity() {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(MainActivity.ARG_TAB, 6);
+        intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_minerva);
         return intent;
     }
 }

@@ -92,8 +92,8 @@ public class MainActivity extends HydraActivity {
         //If the instance is null, we must initialise a fragment, otherwise android does it for us.
         if (savedInstanceState == null) {
             //Get start position & select it
-            int start = getIntent().getIntExtra(ARG_TAB, 0);
-            selectDrawerItem(navigationView.getMenu().getItem(start));
+            int start = getIntent().getIntExtra(ARG_TAB, R.id.drawer_feed);
+            selectDrawerItem(navigationView.getMenu().findItem(start));
         } else { //Update title, since this is not saved apparently.
             //Current fragment
             FragmentManager manager = getSupportFragmentManager();
@@ -229,7 +229,7 @@ public class MainActivity extends HydraActivity {
         if (fragment != null) {
             int id = getFragmentMenuId(fragment);
             MenuItem item = navigationView.getMenu().findItem(id);
-            MenuItem original = navigationView.getMenu().getItem(getIntent().getIntExtra(ARG_TAB, 0));
+            MenuItem original = navigationView.getMenu().findItem(getIntent().getIntExtra(ARG_TAB, R.id.drawer_feed));
 
             //We are good
             if (item == original) {

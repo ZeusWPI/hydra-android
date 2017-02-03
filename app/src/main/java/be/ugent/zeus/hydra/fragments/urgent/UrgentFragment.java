@@ -258,7 +258,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
             musicService.setBoundCallback(UrgentFragment.this);
             musicService.setCallback(UrgentFragment.this);
             Intent startThis = new Intent(getActivity(), MainActivity.class);
-            startThis.putExtra(MainActivity.ARG_TAB, 7);
+            startThis.putExtra(MainActivity.ARG_TAB, R.id.drawer_urgent);
             PendingIntent i = PendingIntent.getActivity(getContext(), 0, startThis, PendingIntent.FLAG_UPDATE_CURRENT);
             musicService.getNotificationManager().setContentIntent(i);
             musicService.getNotificationManager().setIcon(R.drawable.ic_notification_urgent);

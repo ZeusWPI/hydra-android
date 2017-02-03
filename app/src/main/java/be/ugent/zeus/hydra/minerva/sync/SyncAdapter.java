@@ -207,7 +207,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             return;
         }
 
-        AnnouncementNotificationBuilder builder = new AnnouncementNotificationBuilder(getContext().getApplicationContext());
+        AnnouncementNotificationBuilder builder = new AnnouncementNotificationBuilder(getContext());
         builder.setAnnouncements(newAnnouncements);
         builder.setCourse(newAnnouncements.iterator().next().getCourse());
         builder.publish();
