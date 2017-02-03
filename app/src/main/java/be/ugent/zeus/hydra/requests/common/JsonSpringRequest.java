@@ -47,8 +47,10 @@ public abstract class JsonSpringRequest<R> implements Request<R> {
         } catch (RestClientException e) {
             throw new RequestFailureException(e);
         } catch (HttpMessageConversionException e) {
-            FirebaseCrash.report(e);
-            throw new RequestFailureException("Could not read JSON for " + getAPIUrl(), e);
+            // We log the wrapping exception in Firebase to be able to view the URL of the failing request.
+            RequestFailureException wrapping = new RequestFailureException("Could not read JSON for " + getAPIUrl(), e);
+            FirebaseCrash.report(wrapping);
+            throw wrapping;
         }
     }
 
