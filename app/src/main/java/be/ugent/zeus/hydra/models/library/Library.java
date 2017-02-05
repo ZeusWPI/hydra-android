@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import java8.util.Objects;
@@ -202,8 +203,8 @@ public final class Library implements Serializable, Parcelable {
         dest.writeString(this.campus);
         dest.writeString(this.faculty);
         dest.writeString(this.link);
-        dest.writeSerializable(this.createdAt);
-        dest.writeSerializable(this.updatedAt);
+        dest.writeLong(TtbUtils.serialize(this.createdAt));
+        dest.writeLong(TtbUtils.serialize(this.updatedAt));
     }
 
     /**
@@ -226,8 +227,8 @@ public final class Library implements Serializable, Parcelable {
         this.campus = in.readString();
         this.faculty = in.readString();
         this.link = in.readString();
-        this.createdAt = (ZonedDateTime) in.readSerializable();
-        this.updatedAt = (ZonedDateTime) in.readSerializable();
+        this.createdAt = TtbUtils.unserialize(in.readLong());
+        this.updatedAt = TtbUtils.unserialize(in.readLong());
     }
 
     public static final Creator<Library> CREATOR = new Creator<Library>() {

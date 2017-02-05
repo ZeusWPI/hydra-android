@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.recyclerview.adapters.common;
 import java8.util.stream.Collectors;
 import java8.util.stream.IntStreams;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -42,18 +43,18 @@ public class AdapterTest {
         assertTrue(adapter.getItems().isEmpty());
     }
 
-//    @Test
-//    public void testSetItemsAndFull() {
-//        fillAdapter();
-//        assertTrue(adapter.takeChanged());
-//        assertEquals(NR_OF_OBJECTS, adapter.getItemCount());
-//        assertEquals(Adapter.ITEM_TYPE, adapter.getItemViewType(0));
-//    }
-//
-//    @Test
-//    public void testClear() {
-//        fillAdapter();
-//        adapter.clear();
-//        testEmpty();
-//    }
+    @Ignore @Test
+    public void testSetItemsAndFull() {
+        fillAdapter();
+        assertTrue(adapter.takeChanged());
+        assertEquals(NR_OF_OBJECTS, adapter.getItemCount());
+        assertEquals(Adapter.ITEM_TYPE, adapter.getItemViewType(0));
+    }
+
+    @Ignore @Test
+    public void testClear() {
+        fillAdapter();
+        adapter.clear();
+        testEmpty();
+    }
 }

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.events;
+package be.ugent.zeus.hydra.fragments.events;
 
 import android.content.Context;
 import android.content.SharedPreferences;

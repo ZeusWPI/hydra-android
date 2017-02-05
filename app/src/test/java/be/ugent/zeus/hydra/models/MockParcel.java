@@ -80,6 +80,9 @@ public class MockParcel {
         doAnswer(write).when(mockedParcel).writeStringList(anyList());
         doAnswer(write).when(mockedParcel).writeStringArray(any(String[].class));
         doAnswer(write).when(mockedParcel).writeBooleanArray(any(boolean[].class));
+        doAnswer(write).when(mockedParcel).writeTypedList(anyList());
+        doAnswer(write).when(mockedParcel).writeParcelable(any(Parcelable.class), anyInt());
+        doAnswer(write).when(mockedParcel).writeList(anyList());
     }
 
     /**
@@ -111,6 +114,8 @@ public class MockParcel {
         doAnswer(answer).when(mockedParcel).createStringArrayList();
         doAnswer(answer).when(mockedParcel).createStringArray();
         doAnswer(answer).when(mockedParcel).createBooleanArray();
+        doAnswer(answer).when(mockedParcel).createTypedArrayList(any());
+        doAnswer(answer).when(mockedParcel).readParcelable(any(ClassLoader.class));
     }
 
     /**

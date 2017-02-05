@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.events;
+package be.ugent.zeus.hydra.fragments.events;
 
 import android.content.Intent;
 import android.os.Bundle;

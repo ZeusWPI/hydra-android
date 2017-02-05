@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author Niko Strijbol
  * @author Mitch
  */
-public class RestoMeal implements Parcelable, Serializable {
+public final class RestoMeal implements Parcelable, Serializable {
 
     private String name;
     private String price;

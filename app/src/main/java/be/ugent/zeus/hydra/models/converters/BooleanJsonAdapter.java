@@ -8,9 +8,12 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
 /**
- * Created by feliciaan on 17/02/16.
+ * Read booleans from a zero (0) or one (1).
+ *
+ * @author feliciaan
  */
 public class BooleanJsonAdapter extends TypeAdapter<Boolean> {
+
     @Override
     public void write(JsonWriter out, Boolean value) throws IOException {
         out.value(value ? 1 : 0);
@@ -18,12 +21,12 @@ public class BooleanJsonAdapter extends TypeAdapter<Boolean> {
 
     @Override
     public Boolean read(JsonReader in) throws IOException {
+
         if (in.peek() == JsonToken.NULL) {
             in.nextNull();
             return null;
         }
-        int i = in.nextInt();
 
-        return i == 1;
+        return in.nextInt() == 1;
     }
 }

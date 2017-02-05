@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @author Niko Strijbol
  * @author feliciaan
  */
-public class Announcement implements Serializable, Parcelable {
+public final class Announcement implements Serializable, Parcelable {
 
     private String title;
     private String content;
@@ -135,7 +135,7 @@ public class Announcement implements Serializable, Parcelable {
         dest.writeString(this.lecturer);
         dest.writeLong(TtbUtils.serialize(this.minervaDate));
         dest.writeLong(TtbUtils.serialize(this.read));
-        dest.writeSerializable(this.course);
+        dest.writeParcelable(this.course, flags);
     }
 
     protected Announcement(Parcel in) {
@@ -148,7 +148,7 @@ public class Announcement implements Serializable, Parcelable {
         this.minervaDate = TtbUtils.unserialize(tmp);
         long tmpRead = in.readLong();
         this.read = TtbUtils.unserialize(tmpRead);
-        this.course = (Course) in.readSerializable();
+        this.course = in.readParcelable(Course.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Announcement> CREATOR = new Parcelable.Creator<Announcement>() {

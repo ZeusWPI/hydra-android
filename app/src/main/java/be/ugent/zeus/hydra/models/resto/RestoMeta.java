@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.models.resto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import java8.util.Objects;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,7 +10,8 @@ import java.util.ArrayList;
 /**
  * Created by feliciaan on 04/02/16.
  */
-public class RestoMeta implements Parcelable, Serializable {
+public final class RestoMeta implements Parcelable, Serializable {
+
     public ArrayList<Resto> locations;
 
     @Override
@@ -40,4 +42,17 @@ public class RestoMeta implements Parcelable, Serializable {
             return new RestoMeta[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RestoMeta restoMeta = (RestoMeta) o;
+        return Objects.equals(locations, restoMeta.locations);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(locations);
+    }
 }

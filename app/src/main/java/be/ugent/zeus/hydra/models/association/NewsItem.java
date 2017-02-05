@@ -15,9 +15,12 @@ import org.threeten.bp.ZonedDateTime;
 import java.io.Serializable;
 
 /**
- * Created by feliciaan on 04/02/16.
+ * A DSA news item. Every news item is associated with an {@link Association}.
+ *
+ * @author Niko Strijbol
+ * @author feliciaan
  */
-public class NewsItem implements Serializable, Parcelable {
+public final class NewsItem implements Serializable, Parcelable {
 
     private int id;
     private String title;

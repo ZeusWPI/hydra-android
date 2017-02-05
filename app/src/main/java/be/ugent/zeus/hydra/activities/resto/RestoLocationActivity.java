@@ -114,12 +114,12 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
 
         map.getUiSettings().setMyLocationButtonEnabled(true);
         for (Resto location : meta.locations) {
-            LatLng pos = new LatLng(location.latitude, location.longitude);
+            LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
             map.addMarker(
                     new MarkerOptions()
                             .position(pos)
-                            .title(location.name)
-                            .snippet(location.address)
+                            .title(location.getName())
+                            .snippet(location.getAddress())
             );
         }
         centerDefault();
