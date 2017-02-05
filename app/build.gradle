@@ -125,6 +125,12 @@ dependencies {
     testCompile ('org.threeten:threetenbp:1.3.2'){
         exclude group:'com.jakewharton.threetenabp', module:'threetenabp'
     }
+
+    testCompile 'nl.jqno.equalsverifier:equalsverifier:2.2.1'
+    testCompile ('com.shazam:shazamcrest:0.11') {
+        exclude group: 'com.google.code.gson', module: 'gson'
+    }
+    testCompile 'io.github.benas:random-beans:3.5.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
