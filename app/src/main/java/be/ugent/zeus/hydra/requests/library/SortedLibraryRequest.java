@@ -1,11 +1,13 @@
-package be.ugent.zeus.hydra.library.list;
+package be.ugent.zeus.hydra.requests.library;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
-import be.ugent.zeus.hydra.library.Library;
+import be.ugent.zeus.hydra.models.library.LibraryList;
+import be.ugent.zeus.hydra.fragments.library.LibraryListFragment;
+import be.ugent.zeus.hydra.models.library.Library;
 import be.ugent.zeus.hydra.requests.common.ProcessableCacheRequest;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import java8.util.Comparators;

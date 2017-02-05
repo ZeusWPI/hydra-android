@@ -31,7 +31,7 @@ import be.ugent.zeus.hydra.fragments.minerva.MinervaFragment;
 import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
 import be.ugent.zeus.hydra.fragments.urgent.UrgentFragment;
 import be.ugent.zeus.hydra.homefeed.HomeFeedFragment;
-import be.ugent.zeus.hydra.library.list.LibraryListFragment;
+import be.ugent.zeus.hydra.fragments.library.LibraryListFragment;
 
 /**
  * Main activity.

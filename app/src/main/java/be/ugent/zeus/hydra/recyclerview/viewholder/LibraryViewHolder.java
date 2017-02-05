@@ -1,11 +1,10 @@
-package be.ugent.zeus.hydra.library.list;
+package be.ugent.zeus.hydra.recyclerview.viewholder;
 
 import android.view.View;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.library.Library;
-import be.ugent.zeus.hydra.library.details.DetailActivity;
-import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
+import be.ugent.zeus.hydra.activities.LibraryDetailActivity;
+import be.ugent.zeus.hydra.models.library.Library;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -28,6 +27,6 @@ public class LibraryViewHolder extends DataViewHolder<Library> {
         title.setText(data.getName());
         subtitle.setText(data.getCampus());
 
-        itemView.setOnClickListener(v -> DetailActivity.launchActivity(v.getContext(), data));
+        itemView.setOnClickListener(v -> LibraryDetailActivity.launchActivity(v.getContext(), data));
     }
 }

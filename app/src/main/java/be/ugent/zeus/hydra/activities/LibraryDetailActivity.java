@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.library.details;
+package be.ugent.zeus.hydra.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,10 +21,13 @@ import android.view.View;
 import android.widget.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
-import be.ugent.zeus.hydra.library.Library;
-import be.ugent.zeus.hydra.library.list.LibraryListFragment;
+import be.ugent.zeus.hydra.models.library.Library;
+import be.ugent.zeus.hydra.fragments.library.LibraryListFragment;
+import be.ugent.zeus.hydra.models.library.OpeningHourList;
+import be.ugent.zeus.hydra.models.library.OpeningHours;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.requests.library.OpeningHoursRequest;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
@@ -47,7 +50,7 @@ import java.util.Set;
  *
  * @author Niko Strijbol
  */
-public class DetailActivity extends HydraActivity {
+public class LibraryDetailActivity extends HydraActivity {
 
     private static final String ARG_LIBRARY = "argLibrary";
 
@@ -60,7 +63,7 @@ public class DetailActivity extends HydraActivity {
     private RequestPlugin<OpeningHourList> plugin = new RequestPlugin<>((c, b) -> new OpeningHoursRequest(library));
 
     public static void launchActivity(Context context, Library library) {
-        Intent intent = new Intent(context, DetailActivity.class);
+        Intent intent = new Intent(context, LibraryDetailActivity.class);
         intent.putExtra(ARG_LIBRARY, (Parcelable) library);
         context.startActivity(intent);
     }
@@ -99,7 +102,7 @@ public class DetailActivity extends HydraActivity {
         } else {
             TextView textView = $(R.id.library_address);
             textView.setText(makeFullAddressText());
-            textView.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(DetailActivity.this, mapsIntent()));
+            textView.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(LibraryDetailActivity.this, mapsIntent()));
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -121,12 +124,12 @@ public class DetailActivity extends HydraActivity {
         // Save/remove libraries on button click
         button.setOnClickListener(v -> {
             if (button.isSelected()) {
-                PreferencesUtils.removeFromStringSet(DetailActivity.this, LibraryListFragment.PREF_LIBRARY_FAVOURITES, library.getCode());
-                DrawableCompat.setTint(drawable, ActivityCompat.getColor(DetailActivity.this, R.color.ugent_blue_dark));
+                PreferencesUtils.removeFromStringSet(LibraryDetailActivity.this, LibraryListFragment.PREF_LIBRARY_FAVOURITES, library.getCode());
+                DrawableCompat.setTint(drawable, ActivityCompat.getColor(LibraryDetailActivity.this, R.color.ugent_blue_dark));
                 button.setSelected(false);
             } else {
-                PreferencesUtils.addToStringSet(DetailActivity.this, LibraryListFragment.PREF_LIBRARY_FAVOURITES, library.getCode());
-                DrawableCompat.setTint(drawable, ActivityCompat.getColor(DetailActivity.this, R.color.ugent_yellow_dark));
+                PreferencesUtils.addToStringSet(LibraryDetailActivity.this, LibraryListFragment.PREF_LIBRARY_FAVOURITES, library.getCode());
+                DrawableCompat.setTint(drawable, ActivityCompat.getColor(LibraryDetailActivity.this, R.color.ugent_yellow_dark));
                 button.setSelected(true);
             }
         });

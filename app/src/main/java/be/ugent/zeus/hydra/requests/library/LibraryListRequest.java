@@ -1,7 +1,8 @@
-package be.ugent.zeus.hydra.library.list;
+package be.ugent.zeus.hydra.requests.library;
 
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.caching.Cache;
+import be.ugent.zeus.hydra.models.library.LibraryList;
 import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 
 /**

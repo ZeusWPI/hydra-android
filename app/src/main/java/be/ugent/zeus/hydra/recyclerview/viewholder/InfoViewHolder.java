@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.library.list.LibraryListFragment;
+import be.ugent.zeus.hydra.fragments.library.LibraryListFragment;
 import be.ugent.zeus.hydra.models.info.InfoItem;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 

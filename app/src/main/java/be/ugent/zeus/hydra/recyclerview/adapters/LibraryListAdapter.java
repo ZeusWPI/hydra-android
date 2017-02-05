@@ -1,10 +1,11 @@
-package be.ugent.zeus.hydra.library.list;
+package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.library.Library;
+import be.ugent.zeus.hydra.models.library.Library;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemAdapter;
+import be.ugent.zeus.hydra.recyclerview.viewholder.LibraryViewHolder;
 
 /**
  * Adapter for a list of libraries, with support for showing a message when there are no libraries.

@@ -1,8 +1,9 @@
-package be.ugent.zeus.hydra.library.details;
+package be.ugent.zeus.hydra.requests.library;
 
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.caching.Cache;
-import be.ugent.zeus.hydra.library.Library;
+import be.ugent.zeus.hydra.models.library.Library;
+import be.ugent.zeus.hydra.models.library.OpeningHourList;
 import be.ugent.zeus.hydra.requests.common.CacheableRequest;
 
 /**

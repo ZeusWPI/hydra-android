@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.library.list;
+package be.ugent.zeus.hydra.fragments.library;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,12 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
-import be.ugent.zeus.hydra.library.Library;
+import be.ugent.zeus.hydra.models.library.Library;
 import be.ugent.zeus.hydra.loaders.LoaderProvider;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.TextCallback;
+import be.ugent.zeus.hydra.recyclerview.adapters.LibraryListAdapter;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemAdapter;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;

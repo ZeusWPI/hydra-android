@@ -1,6 +1,5 @@
-package be.ugent.zeus.hydra.library.list;
+package be.ugent.zeus.hydra.models.library;
 
-import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;

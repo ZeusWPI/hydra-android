@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.library;
+package be.ugent.zeus.hydra.models.library;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,6 +8,7 @@ import be.ugent.zeus.hydra.models.converters.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import java8.util.Objects;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 import org.threeten.bp.ZonedDateTime;
@@ -18,9 +19,11 @@ import java.util.List;
 /**
  * Model for a library.
  *
+ * A library is uniquely defined by it's code. The equals/hashCode methods operate on this assumption.
+ *
  * @author Niko Strijbol
  */
-public class Library implements Serializable, Parcelable {
+public final class Library implements Serializable, Parcelable {
 
     private String department;
     private String email;
@@ -238,4 +241,17 @@ public class Library implements Serializable, Parcelable {
             return new Library[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Library library = (Library) o;
+        return Objects.equals(code, library.code);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code);
+    }
 }

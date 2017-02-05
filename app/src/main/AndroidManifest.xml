@@ -183,7 +183,7 @@
 
         <!-- Library details -->
         <activity
-            android:name=".library.details.DetailActivity"
+            android:name=".activities.LibraryDetailActivity"
             android:label="Bibliotheek"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
