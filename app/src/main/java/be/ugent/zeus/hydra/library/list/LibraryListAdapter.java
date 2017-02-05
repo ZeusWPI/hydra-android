@@ -4,14 +4,14 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.library.Library;
-import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemLoader;
+import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemAdapter;
 
 /**
  * Adapter for a list of libraries, with support for showing a message when there are no libraries.
  *
  * @author Niko Strijbol
  */
-public class LibraryListAdapter extends EmptyItemLoader<Library, LibraryViewHolder> {
+public class LibraryListAdapter extends EmptyItemAdapter<Library, LibraryViewHolder> {
 
     public LibraryListAdapter() {
         super(R.layout.item_no_data);

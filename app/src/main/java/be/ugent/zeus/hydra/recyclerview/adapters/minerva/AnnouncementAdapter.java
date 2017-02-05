@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.recyclerview.adapters.minerva;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
-import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemLoader;
+import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.minerva.AnnouncementViewHolder;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 
@@ -12,7 +12,7 @@ import be.ugent.zeus.hydra.utils.ViewUtils;
  *
  * @author Niko Strijbol
  */
-public class AnnouncementAdapter extends EmptyItemLoader<Announcement, AnnouncementViewHolder> {
+public class AnnouncementAdapter extends EmptyItemAdapter<Announcement, AnnouncementViewHolder> {
 
     public AnnouncementAdapter() {
         super(R.layout.item_no_data);

@@ -14,7 +14,7 @@ import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.TextCallback;
-import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemLoader;
+import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemAdapter;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 import java8.util.function.Function;
@@ -71,9 +71,9 @@ public class LibraryListFragment extends PluginFragment {
         s.attachRecyclerView(recyclerView);
 
         joiner.add(new JoinableLayout(R.layout.item_title, new TextCallback("Favorieten")));
-        joiner.add(new JoinableAdapter(favourites, EmptyItemLoader.ITEMS_VIEW, EmptyItemLoader.EMPTY_VIEW));
+        joiner.add(new JoinableAdapter(favourites, EmptyItemAdapter.ITEM_TYPE, EmptyItemAdapter.EMPTY_TYPE));
         joiner.add(new JoinableLayout(R.layout.item_title, new TextCallback("Alle")));
-        joiner.add(new JoinableAdapter(all, EmptyItemLoader.ITEMS_VIEW, EmptyItemLoader.EMPTY_VIEW));
+        joiner.add(new JoinableAdapter(all, EmptyItemAdapter.ITEM_TYPE, EmptyItemAdapter.EMPTY_TYPE));
 
         recyclerView.setAdapter(joiner.getAdapter());
     }

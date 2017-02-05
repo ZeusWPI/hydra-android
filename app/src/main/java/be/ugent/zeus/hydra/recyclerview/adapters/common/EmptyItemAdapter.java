@@ -1,28 +1,27 @@
 package be.ugent.zeus.hydra.recyclerview.adapters.common;
 
 import android.support.annotation.LayoutRes;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.recyclerview.viewholder.SimpleViewHolder;
 
 /**
  * Extension of {@link ItemAdapter} that shows a specified view when there are no items.
  *
+ * Note: due Java restrictions, this is not a child of {@link ItemAdapter}.
+ *
  * @author Niko Strijbol
  */
-public abstract class EmptyItemLoader<E, V extends DataViewHolder<E>> extends SimpleItemAdapter<E, RecyclerView.ViewHolder> {
+public abstract class EmptyItemAdapter<E, V extends DataViewHolder<E>> extends Adapter<E, DataViewHolder<?>> {
 
-    public static final int ITEMS_VIEW = 0;
-    public static final int EMPTY_VIEW = 1;
+    public static final int EMPTY_TYPE = 1;
 
     @LayoutRes
-    protected int emptyViewId;
+    private int emptyViewId;
 
-    public EmptyItemLoader(@LayoutRes int emptyViewId) {
+    public EmptyItemAdapter(@LayoutRes int emptyViewId) {
         this.emptyViewId = emptyViewId;
     }
 
@@ -38,13 +37,13 @@ public abstract class EmptyItemLoader<E, V extends DataViewHolder<E>> extends Si
 
     @Override
     public int getItemViewType(int position) {
-        return items.isEmpty() ? EMPTY_VIEW : super.getItemViewType(position);
+        return items.isEmpty() ? EMPTY_TYPE : super.getItemViewType(position);
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == EMPTY_VIEW) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(this.emptyViewId, parent, false);
+    public DataViewHolder<?> onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == EMPTY_TYPE) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(emptyViewId, parent, false);
             return new SimpleViewHolder(v);
         } else {
             return onCreateItemViewHolder(parent, viewType);
@@ -59,8 +58,8 @@ public abstract class EmptyItemLoader<E, V extends DataViewHolder<E>> extends Si
      * This method checks the type of view holder. This is necessary, because the empty view holder cannot be bound.
      */
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof DataViewHolder) {
+    public void onBindViewHolder(DataViewHolder<?> holder, int position) {
+        if (holder.getItemViewType() == ITEM_TYPE) {
             @SuppressWarnings("unchecked")
             DataViewHolder<E> viewHolder = (DataViewHolder<E>) holder;
             viewHolder.populate(items.get(position));

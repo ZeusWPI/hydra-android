@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.resto.Sandwich;
-import be.ugent.zeus.hydra.recyclerview.adapters.common.SimpleItemAdapter;
+import be.ugent.zeus.hydra.recyclerview.adapters.common.Adapter;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 import com.kyo.expandablelayout.ExpandableLayout;
 
@@ -20,7 +20,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public class SandwichAdapter extends SimpleItemAdapter<Sandwich, SandwichAdapter.SandwichHolder> {
+public class SandwichAdapter extends Adapter<Sandwich, SandwichAdapter.SandwichHolder> {
 
     static class SandwichHolder extends RecyclerView.ViewHolder {
 

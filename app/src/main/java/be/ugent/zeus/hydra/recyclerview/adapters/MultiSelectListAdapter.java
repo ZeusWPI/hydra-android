@@ -77,7 +77,7 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
      */
     public void setAllChecked(boolean checked) {
 
-        for (int i = 0; i < items.size(); i++){
+        for (int i = 0; i < getItemCount(); i++){
             Pair<H, Boolean> item = items.get(i);
             if(item.second != checked) {
                 H value = item.first;

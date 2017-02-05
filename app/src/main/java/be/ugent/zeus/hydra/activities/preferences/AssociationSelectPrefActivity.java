@@ -124,9 +124,9 @@ public class AssociationSelectPrefActivity extends HydraActivity {
         private Map<Association, Boolean> allData = new HashMap<>();
 
         @Override
-        public void setItems(List<Pair<Association, Boolean>> list) {
-            super.setItems(list);
-            for (Pair<Association, Boolean> pair : list) {
+        public void setItems(List<Pair<Association, Boolean>> items) {
+            super.setItems(items);
+            for (Pair<Association, Boolean> pair : items) {
                 allData.put(pair.first, pair.second);
             }
         }

@@ -25,12 +25,12 @@ public class ExhibitorAdapter extends ItemAdapter<Exhibitor, ExhibitorViewHolder
     /**
      * Set the original data set. This will save them to allow for search.
      *
-     * @param list The new elements.
+     * @param items The new elements.
      */
     @Override
-    public void setItems(List<Exhibitor> list) {
-        super.setItems(list);
-        allData = new ArrayList<>(list);
+    public void setItems(List<Exhibitor> items) {
+        super.setItems(items);
+        allData = new ArrayList<>(items);
     }
 
     @Override
