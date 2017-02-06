@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
 import android.view.*;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.models.sko.Exhibitor;
 import be.ugent.zeus.hydra.models.sko.Exhibitors;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
@@ -66,6 +67,8 @@ public class VillageFragment extends PluginFragment implements SwipeRefreshLayou
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
+        HydraActivity activity = (HydraActivity) getActivity();
+        HydraActivity.tintToolbarIcons(activity.getToolbar(), menu, R.id.action_refresh);
     }
 
     @Override
