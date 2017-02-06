@@ -216,6 +216,7 @@ public class MenuTable extends TableLayout {
         }
 
         setColumnStretchable(1, true);
+        setColumnShrinkable(1, true);
 
         if (mode == ALL) {
             //Add actual menu data
