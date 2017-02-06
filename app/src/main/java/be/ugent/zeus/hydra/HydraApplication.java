@@ -8,6 +8,7 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
+import jonathanfinerty.once.Once;
 
 /**
  * The Hydra application.
@@ -30,6 +31,7 @@ public class HydraApplication extends Application {
         }
         AndroidThreeTen.init(this);
         LeakCanary.install(this);
+        Once.initialise(this);
     }
 
     /**

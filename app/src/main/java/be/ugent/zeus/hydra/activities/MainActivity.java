@@ -1,12 +1,10 @@
 package be.ugent.zeus.hydra.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ShortcutManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -23,16 +21,17 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
-import be.ugent.zeus.hydra.fragments.events.EventFragment;
 import be.ugent.zeus.hydra.fragments.ComingSoonFragment;
 import be.ugent.zeus.hydra.fragments.InfoFragment;
 import be.ugent.zeus.hydra.fragments.NewsFragment;
 import be.ugent.zeus.hydra.fragments.SchamperFragment;
+import be.ugent.zeus.hydra.fragments.events.EventFragment;
+import be.ugent.zeus.hydra.fragments.library.LibraryListFragment;
 import be.ugent.zeus.hydra.fragments.minerva.MinervaFragment;
 import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
 import be.ugent.zeus.hydra.fragments.urgent.UrgentFragment;
 import be.ugent.zeus.hydra.homefeed.HomeFeedFragment;
-import be.ugent.zeus.hydra.fragments.library.LibraryListFragment;
+import jonathanfinerty.once.Once;
 
 /**
  * Main activity.
@@ -41,8 +40,11 @@ public class MainActivity extends HydraActivity {
 
     public static final String ARG_TAB = "argTab";
     private static final String TAG = "HydraActivity";
-    private static final String PREF_ONBOARDING = "pref_onboarding";
+
+    private static final String ONCE_ONBOARDING = "once_onboarding";
     private static final int ONBOARDING_REQUEST = 5;
+
+    private static final String ONCE_DRAWER = "once_drawer";
 
     private static final String FRAGMENT_MENU_ID = "backStack";
 
@@ -54,16 +56,13 @@ public class MainActivity extends HydraActivity {
     private NavigationView navigationView;
     private AppBarLayout appBarLayout;
 
-    private SharedPreferences preferences;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //The first thing we do is maybe start the onboarding.
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.getBoolean(PREF_ONBOARDING, true)) {
+        // Show onboarding if the user has not completed it yet.
+        if (!Once.beenDone(ONCE_ONBOARDING)) {
             Intent intent = new Intent(this, OnboardingActivity.class);
             startActivityForResult(intent, ONBOARDING_REQUEST);
         }
@@ -87,6 +86,12 @@ public class MainActivity extends HydraActivity {
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, 0); // this disables the animation
             }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                Once.markDone(ONCE_DRAWER);
+            }
         };
         drawer.addDrawerListener(toggle);
 
@@ -100,6 +105,11 @@ public class MainActivity extends HydraActivity {
             FragmentManager manager = getSupportFragmentManager();
             Fragment current = manager.findFragmentById(R.id.content);
             setTitle(navigationView.getMenu().findItem(getFragmentMenuId(current)).getTitle());
+        }
+
+        // If this is the first time, open the drawer.
+        if (!Once.beenDone(ONCE_DRAWER)) {
+            drawer.openDrawer(GravityCompat.START);
         }
     }
 
@@ -283,7 +293,7 @@ public class MainActivity extends HydraActivity {
         if (requestCode == ONBOARDING_REQUEST) {
             if(resultCode == RESULT_OK) {
                 Log.i(TAG, "Onboarding complete");
-                preferences.edit().putBoolean(PREF_ONBOARDING, false).apply();
+                Once.markDone(ONCE_ONBOARDING);
                 initialize(null);
             } else {
                 Log.i(TAG, "Onboarding failed, stop app.");

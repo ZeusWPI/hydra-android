@@ -80,12 +80,19 @@
   name: No op LeakCanary for Android
   copyrightHolder: Square, Inc.
   license: The Apache Software License, Version 2.0
-  url: http://github.com/square/leakcanary/
+  url: http://github.com/square/leakcanary
+
 - artifact: net.cachapa.expandablelayout:expandablelayout:+
   name: expandablelayout
   copyrightHolder: Daniel Cachapa
   license: The Apache Software License, Version 2.0
   url: https://github.com/cachapa/ExpandableLayout
+
+- artifact: com.jonathanfinerty.once:once:+
+  name: Once
+  copyrightHolder: Jon Finerty
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/jonfinerty/Once
 
 - artifact: net.sourceforge.streamsupport:streamsupport:+
   skip: true
