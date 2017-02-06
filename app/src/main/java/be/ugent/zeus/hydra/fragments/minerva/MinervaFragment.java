@@ -234,6 +234,7 @@ public class MinervaFragment extends PluginFragment {
         manager.unregisterReceiver(syncReceiver);
         if (syncBar != null && syncBar.isShown()) {
             syncBar.dismiss();
+            syncBar = null;
         }
     }
 
