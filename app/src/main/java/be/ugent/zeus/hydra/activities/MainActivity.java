@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
@@ -212,6 +213,9 @@ public class MainActivity extends HydraActivity {
         item.setChecked(true);
         // Set action bar title
         setTitle(item.getTitle());
+        // Log it for Analytics
+        HydraApplication application = (HydraApplication) getApplication();
+        application.sendScreenName("Main > " + item.getTitle());
         // Close the navigation drawer
         drawer.closeDrawers();
     }
