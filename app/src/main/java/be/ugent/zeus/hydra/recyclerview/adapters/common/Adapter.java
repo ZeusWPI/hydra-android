@@ -45,6 +45,11 @@ public abstract class Adapter<D, VH extends RecyclerView.ViewHolder> extends Rec
         notifyDataSetChanged();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return ITEM_TYPE;
+    }
+
     /**
      * Remove all items from the adapter.
      */

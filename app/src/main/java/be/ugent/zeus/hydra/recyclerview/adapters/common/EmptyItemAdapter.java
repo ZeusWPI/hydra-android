@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.recyclerview.adapters.common;
 
 import android.support.annotation.LayoutRes;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import be.ugent.zeus.hydra.recyclerview.viewholder.SimpleViewHolder;
  *
  * @author Niko Strijbol
  */
-public abstract class EmptyItemAdapter<E, V extends DataViewHolder<E>> extends Adapter<E, DataViewHolder<?>> {
+public abstract class EmptyItemAdapter<E, V extends DataViewHolder<E>> extends Adapter<E, RecyclerView.ViewHolder> {
 
     public static final int EMPTY_TYPE = 1;
 
@@ -41,7 +42,7 @@ public abstract class EmptyItemAdapter<E, V extends DataViewHolder<E>> extends A
     }
 
     @Override
-    public DataViewHolder<?> onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == EMPTY_TYPE) {
             View v = LayoutInflater.from(parent.getContext()).inflate(emptyViewId, parent, false);
             return new SimpleViewHolder(v);
@@ -58,8 +59,9 @@ public abstract class EmptyItemAdapter<E, V extends DataViewHolder<E>> extends A
      * This method checks the type of view holder. This is necessary, because the empty view holder cannot be bound.
      */
     @Override
-    public void onBindViewHolder(DataViewHolder<?> holder, int position) {
-        if (holder.getItemViewType() == ITEM_TYPE) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        // We use instance of here instead of getItemType(), because this makes it easy to work with RvJoiner.
+        if (holder instanceof DataViewHolder) {
             @SuppressWarnings("unchecked")
             DataViewHolder<E> viewHolder = (DataViewHolder<E>) holder;
             viewHolder.populate(items.get(position));
