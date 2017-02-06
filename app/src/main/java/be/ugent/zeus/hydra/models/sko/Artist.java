@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import com.google.gson.annotations.JsonAdapter;
+import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZonedDateTime;
 
@@ -14,10 +15,11 @@ import java.io.Serializable;
 /**
  * An SKO artist.
  *
+ * An artist is uniquely defined by his/her name, stage, start and stop time.
+ *
  * @author Niko Strijbol
  */
-@SuppressWarnings("unused")
-public class Artist implements Serializable, Parcelable {
+public final class Artist implements Serializable, Parcelable {
 
     private String name;
     @JsonAdapter(ZonedThreeTenAdapter.class)
@@ -130,4 +132,20 @@ public class Artist implements Serializable, Parcelable {
             return new Artist[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Artist artist = (Artist) o;
+        return Objects.equals(name, artist.name) &&
+                Objects.equals(start, artist.start) &&
+                Objects.equals(end, artist.end) &&
+                Objects.equals(stage, artist.stage);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, start, end, stage);
+    }
 }
