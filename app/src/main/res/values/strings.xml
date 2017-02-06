@@ -227,7 +227,7 @@
     <string name="minerva_error_with">Er trad een fout op bij het synchroniseren, met deze boodschap:\\n\\n%s</string>
     <string name="urgent_loading">Radio laden…</string>
     <string name="oops">Oeps!</string>
-    <string name="title_home_urgent">Urgent</string>
+    <string name="title_home_urgent">Urgent.fm</string>
     <string name="title_activity_libraries">Bibliotheken</string>
     <string name="title_library">Bibliotheken</string>
     <string name="resto_menu_date">Datum van menu: %s</string>

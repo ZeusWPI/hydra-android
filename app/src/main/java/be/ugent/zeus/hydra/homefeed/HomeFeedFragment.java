@@ -27,6 +27,7 @@ import be.ugent.zeus.hydra.homefeed.content.news.NewsRequest;
 import be.ugent.zeus.hydra.homefeed.content.resto.RestoRequest;
 import be.ugent.zeus.hydra.homefeed.content.schamper.SchamperRequest;
 import be.ugent.zeus.hydra.homefeed.content.specialevent.SpecialEventRequest;
+import be.ugent.zeus.hydra.homefeed.content.urgent.UrgentRequest;
 import be.ugent.zeus.hydra.homefeed.feed.FeedOperation;
 import be.ugent.zeus.hydra.homefeed.loader.FeedCollection;
 import be.ugent.zeus.hydra.homefeed.loader.HomeFeedLoader;
@@ -229,6 +230,7 @@ public class HomeFeedFragment extends PluginFragment implements HomeFeedLoaderCa
         operations.add(get(d, () -> new NewsRequest(c, shouldRefresh), HomeCard.CardType.NEWS_ITEM));
         operations.add(get(d, () -> new MinervaAnnouncementRequest(c), HomeCard.CardType.MINERVA_ANNOUNCEMENT));
         operations.add(get(d, () -> new MinervaAgendaRequest(c), HomeCard.CardType.MINERVA_AGENDA));
+        operations.add(get(d, UrgentRequest::new, HomeCard.CardType.URGENT_FM));
 
         if (BuildConfig.DEBUG && ADD_STALL_REQUEST) {
             operations.add(add(new WaitRequest()));

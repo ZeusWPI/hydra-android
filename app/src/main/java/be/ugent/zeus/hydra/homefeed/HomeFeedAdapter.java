@@ -19,6 +19,7 @@ import be.ugent.zeus.hydra.homefeed.content.news.NewsItemViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.resto.RestoCardViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.schamper.SchamperViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.specialevent.SpecialEventCardViewHolder;
+import be.ugent.zeus.hydra.homefeed.content.urgent.UrgentViewHolder;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
@@ -91,6 +92,8 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
                 return new MinervaAnnouncementViewHolder(view(R.layout.home_minerva_announcement_card, parent), this);
             case MINERVA_AGENDA:
                 return new MinervaAgendaViewHolder(view(R.layout.home_minerva_agenda_card, parent), this);
+            case URGENT_FM:
+                return new UrgentViewHolder(view(R.layout.home_card_urgent, parent), this);
             case DEBUG:
             default:
                 return null;

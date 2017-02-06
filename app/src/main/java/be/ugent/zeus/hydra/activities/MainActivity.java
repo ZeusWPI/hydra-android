@@ -293,4 +293,14 @@ public class MainActivity extends HydraActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        // Change item while the activity is running.
+        if (intent.hasExtra(ARG_TAB)) {
+            int start = intent.getIntExtra(ARG_TAB, R.id.drawer_feed);
+            selectDrawerItem(navigationView.getMenu().findItem(start));
+        }
+    }
 }
