@@ -7,7 +7,6 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.schamper.Article;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
 import com.squareup.picasso.Picasso;
 
@@ -44,13 +43,7 @@ public class SchamperViewHolder extends DataViewHolder<Article> {
         date.setText(DateUtils.relativeDateTimeString(article.getPubDate(), itemView.getContext()));
         author.setText(article.getAuthor());
         category.setText(article.getCategory());
-
-        if (NetworkUtils.isMeteredConnection(itemView.getContext())) {
-            Picasso.with(this.itemView.getContext()).load(article.getImage()).into(image);
-        } else {
-            Picasso.with(this.itemView.getContext()).load(article.getLargeImage()).into(image);
-        }
-
+        Picasso.with(this.itemView.getContext()).load(article.getImage()).into(image);
         this.itemView.setOnClickListener(v -> helper.openCustomTab(Uri.parse(article.getLink())));
     }
 }

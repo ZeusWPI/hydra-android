@@ -26,7 +26,7 @@ public class SchamperArticlesRequest extends CacheableRequest<Articles> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return ZEUS_API_URL + "1.0/schamper/daily_android.json";
+        return ZEUS_API_URL + "1.0/schamper/daily.json";
     }
 
     @Override
