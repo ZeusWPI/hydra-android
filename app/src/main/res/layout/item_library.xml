@@ -18,13 +18,13 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textSize="@dimen/list_two_line_primary_text_size"
         android:id="@+id/title"
-        tools:text="Titel" />
+        tools:text="Bibliotheek" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/list_two_line_secondary_text_size"
         android:id="@+id/subtitle"
-        tools:text="Lesgever + code" />
+        tools:text="Meer informatie" />
 
 </LinearLayout>
