@@ -1,13 +1,14 @@
 package be.ugent.zeus.hydra.homefeed.loader;
 
-import android.content.*;
+import android.content.Context;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.os.OperationCanceledException;
-import android.support.v7.util.DiffUtil;
 import android.util.Log;
 import android.util.Pair;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
@@ -116,16 +117,16 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
 
         try {
             //Try performing the operation.
-            Pair<List<HomeCard>, DiffUtil.DiffResult> result = operation.transform(results);
+            List<HomeCard> result = operation.transform(results);
 
             //Report the partial result to the main thread.
             handler.post(() -> {
                 if (isStarted() && listener != null) {
-                    listener.onPartialUpdate(result.first, result.second, operation.getCardType());
+                    listener.onPartialUpdate(result, operation.getCardType());
                 }
             });
 
-            return result.first;
+            return result;
 
         } catch (RequestFailureException e) {
             errors.add(operation.getCardType());

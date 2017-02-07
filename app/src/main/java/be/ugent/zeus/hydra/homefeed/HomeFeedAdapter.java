@@ -20,6 +20,7 @@ import be.ugent.zeus.hydra.homefeed.content.resto.RestoCardViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.schamper.SchamperViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.specialevent.SpecialEventCardViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.urgent.UrgentViewHolder;
+import be.ugent.zeus.hydra.homefeed.loader.HomeDiffCallback;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
@@ -33,6 +34,11 @@ import static be.ugent.zeus.hydra.homefeed.content.HomeCard.CardType.*;
 
 /**
  * Adapter for {@link HomeFeedFragment}.
+ *
+ * TODO: currently DiffResult is calculated on the main thread, investigate this.
+ * Note: this used to be calculated by the loader, but this resulted in crashes due to stale data.
+ * Another alternative is not using this, but calling notifyDataChanged directly. However, the docs/internet seem to
+ * say it is not a problem calculating diffResult on the main thread.
  *
  * @author feliciaan
  * @author Niko Strijbol
@@ -64,13 +70,10 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
         return cardItems.get(position).hashCode();
     }
 
-    public void setData(List<HomeCard> data, @Nullable DiffUtil.DiffResult update) {
+    public void setData(List<HomeCard> data) {
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new HomeDiffCallback(this.cardItems, data));
         this.cardItems = data;
-        if (update != null) {
-            update.dispatchUpdatesTo(this);
-        } else {
-            notifyDataSetChanged();
-        }
+        result.dispatchUpdatesTo(this);
     }
 
     @Override

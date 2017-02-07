@@ -10,7 +10,6 @@ import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.preference.PreferenceManager;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
@@ -57,7 +56,24 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * The user has the possibility to decide to hide certain card types. When a user disables a certain type of cards,
  * we do not retrieve the data.
  *
- * This is the fragment responsible for showing the list. The data is loaded in {@link HomeFeedLoader}.
+ * Getting the home feed data is not very simple, mainly because we want partial updates. The home feed consists of a
+ * bunch of {@link HomeFeedRequest}s that are executed, and the result is shown in the RecyclerView. As there can be up
+ * to 9 requests, we can't just load everything and then display it at once; this would show an empty screen for a long
+ * time.
+ *
+ * Instead, we add data to the RecyclerView as soon the a request is completed. Roughly, the data flow for a request is:
+ *
+ * 1. This fragment creates a new {@link HomeFeedLoader}, and adds the requests.
+ * 2. The Loader executes the requests one after another, on a different thread of course.
+ * 3. When a request is completed, the loader sends the data to this fragment, in {@link #onPartialUpdate(List, int)}.
+ *    The Loader also saves the data internally.
+ * 4. The fragment passes the data to the {@link HomeFeedAdapter}.
+ * 5. The adapter passes the data (and optional DiffResult) to the RecyclerView.
+ * 6. Repeat 3-5 for every request.
+ * 7. Finally, the loader is done, and {@link #onLoadFinished(Loader, Pair)} is called.
+ *
+ * If the data is cached in the loader, e.g. a rotation has occurred, the data is delivered directly to
+ * {@link #onLoadFinished(Loader, Pair)}, without the partial updates.
  *
  * @author Niko Strijbol
  * @author silox
@@ -184,9 +200,9 @@ public class HomeFeedFragment extends PluginFragment implements HomeFeedLoaderCa
     }
 
     @Override
-    public void onPartialUpdate(List<HomeCard> data, @Nullable DiffUtil.DiffResult update, @HomeCard.CardType int cardType) {
+    public void onPartialUpdate(List<HomeCard> data, @HomeCard.CardType int cardType) {
         Log.i(TAG, "Added card type: " + cardType);
-        adapter.setData(data, update);
+        adapter.setData(data);
         wasCached = false;
     }
 
@@ -248,7 +264,7 @@ public class HomeFeedFragment extends PluginFragment implements HomeFeedLoaderCa
                 onPartialError(error);
             }
 
-            adapter.setData(new ArrayList<>(data.second), null);
+            adapter.setData(new ArrayList<>(data.second));
             Log.d(TAG, "onLoadFinished: cached");
         }
 
@@ -308,7 +324,7 @@ public class HomeFeedFragment extends PluginFragment implements HomeFeedLoaderCa
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(OfflineBroadcaster.OFFLINE)) {
-                //noinspection WrongConstant
+                //noinspection WrongConstant -> library bug
                 plugin.showSnackbar(R.string.offline_data_use, Snackbar.LENGTH_INDEFINITE, HomeFeedFragment.this);
             }
         }

@@ -1,10 +1,7 @@
 package be.ugent.zeus.hydra.homefeed.feed;
 
 import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
-import android.util.Pair;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.homefeed.loader.HomeDiffCallback;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import java8.util.function.Predicate;
 import java8.util.function.Predicates;
@@ -35,14 +32,8 @@ class RemoveOperation implements FeedOperation {
 
     @NonNull
     @Override
-    public Pair<List<HomeCard>, DiffUtil.DiffResult> transform(List<HomeCard> current) throws RequestFailureException {
-
-        List<HomeCard> newList = StreamSupport.stream(current).filter(Predicates.negate(predicate)).collect(Collectors.toList());
-
-        //Calculate diff
-        final DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new HomeDiffCallback(current, newList), true);
-
-        return new Pair<>(newList, diff);
+    public List<HomeCard> transform(List<HomeCard> current) throws RequestFailureException {
+        return StreamSupport.stream(current).filter(Predicates.negate(predicate)).collect(Collectors.toList());
     }
 
     @Override

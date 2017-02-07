@@ -1,10 +1,8 @@
 package be.ugent.zeus.hydra.homefeed.loader;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.support.v4.app.LoaderManager;
-import android.support.v7.util.DiffUtil;
 import android.util.Pair;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.feed.FeedOperation;
@@ -27,10 +25,11 @@ public interface HomeFeedLoaderCallback extends LoaderManager.LoaderCallbacks<Pa
      *
      * Note that the adapter does NOT receive an update if the data was cached by the loader.
      *
+     * @param data The new data for the adapter. This is the full data, not a partial result.
      * @param cardType The type of card that was updated.
      */
     @UiThread
-    void onPartialUpdate(List<HomeCard> data, @Nullable DiffUtil.DiffResult updated, @HomeCard.CardType int cardType);
+    void onPartialUpdate(List<HomeCard> data, @HomeCard.CardType int cardType);
 
     @UiThread
     void onPartialError(@HomeCard.CardType int cardType);

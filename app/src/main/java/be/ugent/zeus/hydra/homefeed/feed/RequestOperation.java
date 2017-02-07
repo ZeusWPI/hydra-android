@@ -1,11 +1,8 @@
 package be.ugent.zeus.hydra.homefeed.feed;
 
 import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
-import android.util.Pair;
 import be.ugent.zeus.hydra.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.homefeed.loader.HomeDiffCallback;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import java8.util.stream.Collectors;
 import java8.util.stream.RefStreams;
@@ -27,24 +24,25 @@ class RequestOperation implements FeedOperation {
         this.request = request;
     }
 
+
     @NonNull
     @Override
-    public Pair<List<HomeCard>, DiffUtil.DiffResult> transform(final List<HomeCard> current) throws RequestFailureException {
+    public List<HomeCard> transform(final List<HomeCard> current) throws RequestFailureException {
 
         //Filter existing cards away.
         Stream<HomeCard> temp = StreamSupport.stream(current)
                 .filter(c -> c.getCardType() != request.getCardType());
 
+        Stream<HomeCard> temp2 = StreamSupport.stream(current)
+                .filter(c -> c.getCardType() != request.getCardType());
+
+
+        RefStreams.concat(temp2, request.performRequest()).sorted().collect(Collectors.toList());
         //TODO: why does concat not work here?
-        @SuppressWarnings("unchecked")
-        List<HomeCard> newList = RefStreams.of(temp, request.performRequest()).flatMap(x -> x)
+        //noinspection unchecked
+        return RefStreams.of(temp, request.performRequest()).flatMap(x -> x)
                 .sorted()
                 .collect(Collectors.toList());
-
-        //Calculate a diff.
-        DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new HomeDiffCallback(current, newList), true);
-
-        return new Pair<>(newList, diff);
     }
 
     @Override
