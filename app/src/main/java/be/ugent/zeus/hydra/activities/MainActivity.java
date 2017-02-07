@@ -39,6 +39,7 @@ import jonathanfinerty.once.Once;
 public class MainActivity extends HydraActivity {
 
     public static final String ARG_TAB = "argTab";
+    public static final String ARG_TAB_SHORTCUT = "argTabShortcut";
     private static final String TAG = "HydraActivity";
 
     private static final String ONCE_ONBOARDING = "once_onboarding";
@@ -97,9 +98,15 @@ public class MainActivity extends HydraActivity {
 
         //If the instance is null, we must initialise a fragment, otherwise android does it for us.
         if (savedInstanceState == null) {
-            //Get start position & select it
-            int start = getIntent().getIntExtra(ARG_TAB, R.id.drawer_feed);
-            selectDrawerItem(navigationView.getMenu().findItem(start));
+            // If we get a position, use that (for the shortcuts)
+            if (getIntent().hasExtra(ARG_TAB_SHORTCUT)) {
+                int position = getIntent().getIntExtra(ARG_TAB_SHORTCUT, 0);
+                selectDrawerItem(navigationView.getMenu().getItem(position));
+            } else {
+                // Get start position & select it
+                int start = getIntent().getIntExtra(ARG_TAB, R.id.drawer_feed);
+                selectDrawerItem(navigationView.getMenu().findItem(start));
+            }
         } else { //Update title, since this is not saved apparently.
             //Current fragment
             FragmentManager manager = getSupportFragmentManager();
