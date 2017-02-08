@@ -24,25 +24,26 @@ class RequestOperation implements FeedOperation {
         this.request = request;
     }
 
-
+    /**
+     * This methods removes all card instances of this operation's card type, performs the request and adds the results
+     * back to the list.
+     *
+     * This means that while the cards may be logically equal, they will not be the same instance.
+     *
+     * @param current The current cards.
+     *
+     * @return The updates cards.
+     * @throws RequestFailureException If the request fails.
+     */
     @NonNull
     @Override
     public List<HomeCard> transform(final List<HomeCard> current) throws RequestFailureException {
 
-        //Filter existing cards away.
+        // Filter existing cards away.
         Stream<HomeCard> temp = StreamSupport.stream(current)
                 .filter(c -> c.getCardType() != request.getCardType());
 
-        Stream<HomeCard> temp2 = StreamSupport.stream(current)
-                .filter(c -> c.getCardType() != request.getCardType());
-
-
-        RefStreams.concat(temp2, request.performRequest()).sorted().collect(Collectors.toList());
-        //TODO: why does concat not work here?
-        //noinspection unchecked
-        return RefStreams.of(temp, request.performRequest()).flatMap(x -> x)
-                .sorted()
-                .collect(Collectors.toList());
+        return RefStreams.concat(temp, request.performRequest()).sorted().collect(Collectors.toList());
     }
 
     @Override

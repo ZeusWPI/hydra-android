@@ -190,7 +190,6 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
     protected void onStopLoading() {
         super.onStopLoading();
 
-        Log.d(TAG, "onStopLoading: Stopping loader");
         // Stop the request.
         cancelLoad();
     }
@@ -198,7 +197,6 @@ public class HomeFeedLoader extends AsyncTaskLoader<Pair<Set<Integer>, List<Home
     @Override
     protected void onAbandon() {
         super.onAbandon();
-        Log.d(TAG, "onAbandon: Abandoned loader");
 
         //In conformance with the documentation, we don't update the listener anymore, but still keep the data.
         listener = null;
