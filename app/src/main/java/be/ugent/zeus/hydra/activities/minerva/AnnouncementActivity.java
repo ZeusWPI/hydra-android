@@ -99,7 +99,7 @@ public class AnnouncementActivity extends HydraActivity {
     }
 
     @Override
-    protected void onResume() {
+    protected void onPause() {
         super.onPause();
         //Set the read date if needed
         if (!announcement.isRead()) {
