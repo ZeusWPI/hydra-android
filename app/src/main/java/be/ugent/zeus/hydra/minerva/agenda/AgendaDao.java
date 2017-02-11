@@ -18,6 +18,7 @@ import org.threeten.bp.Instant;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -55,7 +56,7 @@ public class AgendaDao extends Dao {
         try {
             db.beginTransaction();
 
-            //Clear all agenda items for this course.
+            // Clear all agenda items.
             db.delete(AgendaTable.TABLE_NAME, null, null);
 
             for (AgendaItem agendaItem: agenda) {
@@ -203,5 +204,77 @@ public class AgendaDao extends Dao {
         }
 
         return StreamSupport.stream(result);
+    }
+
+    public Collection<AgendaItem> getAll() {
+
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+
+        final String courseTable = "course_";
+
+        String agendaJoin =  AgendaTable.COLUMN_COURSE;
+        String courseJoin = courseTable + CourseTable.COLUMN_ID;
+
+        builder.setTables(AgendaTable.TABLE_NAME + " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + agendaJoin + "=" + courseJoin);
+
+        String[] columns = new String[]{
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_ID,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_TITLE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_CONTENT,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_START_DATE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_END_DATE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LOCATION,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_TYPE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LAST_EDIT_USER,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LAST_EDIT,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LAST_EDIT_TYPE,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_ID + " AS " + courseTable + CourseTable.COLUMN_ID,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_CODE + " AS " + courseTable + CourseTable.COLUMN_CODE,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_TITLE + " AS " + courseTable + CourseTable.COLUMN_TITLE,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_DESCRIPTION + " AS " + courseTable + CourseTable.COLUMN_DESCRIPTION,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_TUTOR + " AS " + courseTable + CourseTable.COLUMN_TUTOR,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_STUDENT + " AS " + courseTable + CourseTable.COLUMN_STUDENT,
+                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_ACADEMIC_YEAR + " AS " + courseTable + CourseTable.COLUMN_ACADEMIC_YEAR,
+        };
+
+        Cursor c = builder.query(
+                db,
+                columns,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        if (c == null) {
+            return Collections.emptyList();
+        }
+
+        CourseExtractor cExtractor = new CourseExtractor.Builder(c)
+                .columnId(courseTable + CourseTable.COLUMN_ID)
+                .columnCode(courseTable + CourseTable.COLUMN_CODE)
+                .columnTitle(courseTable + CourseTable.COLUMN_TITLE)
+                .columnDesc(courseTable + CourseTable.COLUMN_DESCRIPTION)
+                .columnTutor(courseTable + CourseTable.COLUMN_TUTOR)
+                .columnStudent(courseTable + CourseTable.COLUMN_STUDENT)
+                .columnYear(courseTable + CourseTable.COLUMN_ACADEMIC_YEAR)
+                .build();
+
+        AgendaExtractor aExtractor = new AgendaExtractor.Builder(c).defaults().build();
+        List<AgendaItem> result = new ArrayList<>();
+
+        try {
+            while (c.moveToNext()) {
+                result.add(aExtractor.getAgendaItem(cExtractor.getCourse()));
+            }
+
+        } finally {
+            c.close();
+        }
+
+        return result;
     }
 }

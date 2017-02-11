@@ -134,11 +134,20 @@ public class MinervaFragment extends PluginFragment {
         Log.d(TAG, "Requesting sync...");
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        ContentResolver.requestSync(account, MinervaConfig.ACCOUNT_AUTHORITY, bundle);
+        ContentResolver.requestSync(account, MinervaConfig.ANNOUNCEMENT_AUTHORITY, bundle);
     }
 
     private void manualSync() {
         requestSync(AccountUtils.getAccount(getContext()), new Bundle());
+    }
+
+    private void manualSyncCalendar() {
+        Account account = AccountUtils.getAccount(getContext());
+        Bundle bundle = new Bundle();
+        Log.d(TAG, "Requesting calendar sync...");
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        ContentResolver.requestSync(account, MinervaConfig.CALENDAR_AUTHORITY, bundle);
     }
 
     /**
@@ -177,15 +186,19 @@ public class MinervaFragment extends PluginFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        if(item.getItemId() == R.id.action_logout) {
-            signOut();
-            return true;
-        } else if (item.getItemId() == R.id.action_sync) {
-            manualSync();
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                signOut();
+                return true;
+            case R.id.action_sync:
+                manualSync();
+                return true;
+            case R.id.action_sync_calendar:
+                manualSyncCalendar();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -194,7 +207,7 @@ public class MinervaFragment extends PluginFragment {
     private void signOut() {
         //Sign out first, and then remove all data.
         Account a = AccountUtils.getAccount(getContext());
-        ContentResolver.cancelSync(a, MinervaConfig.ACCOUNT_AUTHORITY);
+        ContentResolver.cancelSync(a, MinervaConfig.ANNOUNCEMENT_AUTHORITY);
         Toast.makeText(getContext(), "Logging out...", Toast.LENGTH_SHORT).show();
         manager.removeAccount(a, accountManagerFuture -> {
             //Delete items

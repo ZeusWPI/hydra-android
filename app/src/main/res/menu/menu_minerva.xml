@@ -9,4 +9,9 @@
         android:id="@+id/action_sync"
         android:title="Sync"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_sync_calendar"
+        android:title="Agenda synchroniseren"
+        app:showAsAction="never" />
 </menu>

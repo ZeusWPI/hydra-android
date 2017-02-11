@@ -43,7 +43,8 @@ public class MinervaConfig {
 
     //Account information
     public final static String ACCOUNT_TYPE = "be.ugent.zeus.hydra.minerva.account";
-    public static final String ACCOUNT_AUTHORITY = "be.ugent.zeus.hydra.minerva.provider";
+    public static final String ANNOUNCEMENT_AUTHORITY = "be.ugent.zeus.hydra.minerva.provider";
+    public static final String CALENDAR_AUTHORITY = "be.ugent.zeus.hydra.minerva.calendar.provider";
 
     //Scopes
     //These are currently not used.

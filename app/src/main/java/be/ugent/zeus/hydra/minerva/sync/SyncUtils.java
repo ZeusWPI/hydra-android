@@ -28,12 +28,12 @@ public class SyncUtils {
         Account account = AccountUtils.getAccount(context);
 
         //If the account is not syncable, do not enable anything.
-        if(ContentResolver.getSyncAutomatically(account, MinervaConfig.ACCOUNT_AUTHORITY)) {
+        if(ContentResolver.getSyncAutomatically(account, MinervaConfig.ANNOUNCEMENT_AUTHORITY)) {
             Log.i(TAG, "Changing sync frequency to " + frequency);
             //Remove the periodic sync
-            ContentResolver.removePeriodicSync(account, MinervaConfig.ACCOUNT_AUTHORITY, Bundle.EMPTY);
+            ContentResolver.removePeriodicSync(account, MinervaConfig.ANNOUNCEMENT_AUTHORITY, Bundle.EMPTY);
             //Re-add the sync
-            ContentResolver.addPeriodicSync(account, MinervaConfig.ACCOUNT_AUTHORITY, Bundle.EMPTY, frequency);
+            ContentResolver.addPeriodicSync(account, MinervaConfig.ANNOUNCEMENT_AUTHORITY, Bundle.EMPTY, frequency);
         }
     }
 
@@ -45,13 +45,13 @@ public class SyncUtils {
      * @param account The account.
      */
     public static void enableSync(Context context, Account account) {
-        ContentResolver.setIsSyncable(account, MinervaConfig.ACCOUNT_AUTHORITY, 1);
-        ContentResolver.setSyncAutomatically(account, MinervaConfig.ACCOUNT_AUTHORITY, true);
+        ContentResolver.setIsSyncable(account, MinervaConfig.ANNOUNCEMENT_AUTHORITY, 1);
+        ContentResolver.setSyncAutomatically(account, MinervaConfig.ANNOUNCEMENT_AUTHORITY, true);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         int frequency = Integer.valueOf(preferences.getString("pref_minerva_sync_frequency", "86400"));
 
-        ContentResolver.addPeriodicSync(account, MinervaConfig.ACCOUNT_AUTHORITY, Bundle.EMPTY, frequency);
+        ContentResolver.addPeriodicSync(account, MinervaConfig.ANNOUNCEMENT_AUTHORITY, Bundle.EMPTY, frequency);
     }
 
     /**
@@ -65,6 +65,6 @@ public class SyncUtils {
         bundle.putBoolean(SyncAdapter.EXTRA_FIRST_SYNC, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        ContentResolver.requestSync(account, MinervaConfig.ACCOUNT_AUTHORITY, bundle);
+        ContentResolver.requestSync(account, MinervaConfig.ANNOUNCEMENT_AUTHORITY, bundle);
     }
 }

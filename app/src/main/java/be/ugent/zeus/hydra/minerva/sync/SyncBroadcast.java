@@ -69,7 +69,7 @@ public class SyncBroadcast {
      *
      * @param action The intent action to publish.
      */
-    void publishIntent(String action) {
+    public void publishIntent(String action) {
         publishIntentWith(action, null);
     }
 

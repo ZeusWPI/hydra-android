@@ -142,7 +142,8 @@
     <string name="auth_progress_failure">Niet ingelogd.</string>
     <string name="auth_progress_done">Klaar.</string>
 
-    <string name="sync_provider_label">Minerva-gegevens</string>
+    <string name="minerva_sync_announcement_provider">Aankondigingen</string>
+    <string name="minerva_sync_calendar_provider">Agenda</string>
 
     <string name="fragment_home_error">Kon %s niet laden.</string>
     <string name="fragment_home_error_minerva">minerva</string>
@@ -250,5 +251,9 @@
     <string name="library_address_title">Adres</string>
     <string name="library_more">Meer</string>
     <string name="library_less">Minder</string>
+    <string name="minerva_calender_name">Minerva-agenda</string>
+    <string name="minerva_calendar_permission_title">Machtiging nodig</string>
+    <string name="minerva_calendar_permission_text">Hydra moet met de agenda kunnen werken om de Minerva-agenda te tonen. Zonder machtiging wordt de agenda niet gesynchroniseerd. We zullen het de volgende keer nogmaals vragen.</string>
+    <string name="minerva_calendar_permission_rationale">Hydra moet met de agenda kunnen werken om de Minerva-agenda te tonen. Zonder machtiging wordt de agenda niet gesynchroniseerd.</string>
 
 </resources>
