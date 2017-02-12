@@ -18,6 +18,8 @@ import java.io.Serializable;
  */
 public final class AgendaItem implements Serializable, Parcelable {
 
+    public static final long NO_CALENDAR_ID = -1;
+
     @SerializedName("item_id")
     private int itemId;
     private String title;
@@ -38,6 +40,7 @@ public final class AgendaItem implements Serializable, Parcelable {
     @SerializedName("last_edit_type")
     private String lastEditType;
     private Course course;
+    private long calendarId = NO_CALENDAR_ID;
 
     //This is used sometimes as well, when we don't need the full course.
     @SerializedName("course_id")
@@ -59,7 +62,7 @@ public final class AgendaItem implements Serializable, Parcelable {
         if (courseId == null && course == null) {
             return null;
         } else {
-            if(courseId == null) {
+            if (courseId == null) {
                 return course.getId();
             } else {
                 return courseId;
@@ -209,5 +212,14 @@ public final class AgendaItem implements Serializable, Parcelable {
     @Override
     public int hashCode() {
         return Objects.hash(itemId);
+    }
+
+    public long getCalendarId() {
+        return calendarId;
+    }
+
+    public AgendaItem setCalendarId(long calendarId) {
+        this.calendarId = calendarId;
+        return this;
     }
 }

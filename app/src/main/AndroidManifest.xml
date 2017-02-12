@@ -185,7 +185,7 @@
             android:name=".activities.ExceptionDialogActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
         <activity
-            android:name=".fragments.minerva.CalendarPermissionActivity"
+            android:name=".activities.minerva.CalendarPermissionActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
 
         <!-- Library details -->
@@ -217,7 +217,7 @@
 
         <!-- Announcement sync service -->
         <service
-            android:name=".minerva.sync.SyncService"
+            android:name=".minerva.announcement.sync.Service"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -229,7 +229,7 @@
 
         <!-- Stub announcement provider -->
         <provider
-            android:name=".minerva.sync.StubProvider"
+            android:name=".minerva.announcement.sync.Provider"
             android:authorities="be.ugent.zeus.hydra.minerva.provider"
             android:exported="false"
             android:label="@string/minerva_sync_announcement_provider"

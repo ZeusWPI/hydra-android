@@ -28,6 +28,7 @@ class AgendaExtractor {
     private int columnLastEditUser;
     private int columnLastEdit;
     private int columnLastEditType;
+    private int columnCalendarId;
 
     private final Cursor cursor;
 
@@ -53,6 +54,7 @@ class AgendaExtractor {
         a.setLastEditUser(cursor.getString(columnLastEditUser));
         a.setLastEdited(TtbUtils.unserialize(cursor.getLong(columnLastEdit)));
         a.setLastEditType(cursor.getString(columnLastEditType));
+        a.setCalendarId(cursor.getLong(columnCalendarId));
 
         return a;
     }
@@ -113,16 +115,17 @@ class AgendaExtractor {
          * Set every column int to the default value. The default value is the column name in the database table.
          */
         public Builder defaults() {
-            extractor.columnIndex = extract(AgendaTable.COLUMN_ID);
-            extractor.columnTitle = extract(AgendaTable.COLUMN_TITLE);
-            extractor.columnContent = extract(AgendaTable.COLUMN_CONTENT);
-            extractor.columnStartDate = extract(AgendaTable.COLUMN_START_DATE);
-            extractor.columnEndDate = extract(AgendaTable.COLUMN_END_DATE);
-            extractor.columnLocation = extract(AgendaTable.COLUMN_LOCATION);
-            extractor.columnType = extract(AgendaTable.COLUMN_TYPE);
-            extractor.columnLastEditUser = extract(AgendaTable.COLUMN_LAST_EDIT_USER);
-            extractor.columnLastEdit = extract(AgendaTable.COLUMN_LAST_EDIT);
-            extractor.columnLastEditType = extract(AgendaTable.COLUMN_LAST_EDIT_TYPE);
+            extractor.columnIndex = extract(AgendaTable.Columns.ID);
+            extractor.columnTitle = extract(AgendaTable.Columns.TITLE);
+            extractor.columnContent = extract(AgendaTable.Columns.CONTENT);
+            extractor.columnStartDate = extract(AgendaTable.Columns.START_DATE);
+            extractor.columnEndDate = extract(AgendaTable.Columns.END_DATE);
+            extractor.columnLocation = extract(AgendaTable.Columns.LOCATION);
+            extractor.columnType = extract(AgendaTable.Columns.TYPE);
+            extractor.columnLastEditUser = extract(AgendaTable.Columns.LAST_EDIT_USER);
+            extractor.columnLastEdit = extract(AgendaTable.Columns.LAST_EDIT);
+            extractor.columnLastEditType = extract(AgendaTable.Columns.LAST_EDIT_TYPE);
+            extractor.columnCalendarId = extract(AgendaTable.Columns.CALENDAR_ID);
             return this;
         }
 
@@ -180,6 +183,10 @@ class AgendaExtractor {
             return this;
         }
 
+        public Builder columnCalendarId(String columnName) {
+            extractor.columnCalendarId = extract(columnName);
+            return this;
+        }
 
         public AgendaExtractor build() {
             return extractor;

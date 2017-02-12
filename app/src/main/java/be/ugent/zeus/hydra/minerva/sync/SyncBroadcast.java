@@ -83,7 +83,7 @@ public class SyncBroadcast {
         broadcastManager.sendBroadcast(i);
     }
 
-    void publishAnnouncementDone(int now, int total, Course course) {
+    public void publishAnnouncementDone(int now, int total, Course course) {
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SYNC_PROGRESS_TOTAL, total);
         bundle.putInt(ARG_SYNC_PROGRESS_CURRENT, now);

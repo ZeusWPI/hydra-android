@@ -19,12 +19,13 @@ import android.widget.Button;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.loaders.LoaderProvider;
+import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.course.CourseDao;
 import be.ugent.zeus.hydra.minerva.course.CourseDaoLoader;
-import be.ugent.zeus.hydra.minerva.sync.SyncAdapter;
+import be.ugent.zeus.hydra.minerva.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
 import be.ugent.zeus.hydra.models.minerva.Course;
@@ -125,16 +126,17 @@ public class MinervaFragment extends PluginFragment {
         //Request first sync
         Log.d(TAG, "Requesting first sync...");
         Bundle bundle = new Bundle();
-        bundle.putBoolean(SyncAdapter.EXTRA_FIRST_SYNC, true);
+        bundle.putBoolean(MinervaAdapter.EXTRA_FIRST_SYNC, true);
         requestSync(account, bundle);
     }
 
     private void requestSync(Account account, Bundle bundle) {
         //Request first sync
-        Log.d(TAG, "Requesting sync...");
+        Log.d(TAG, "Requesting full sync...");
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         ContentResolver.requestSync(account, MinervaConfig.ANNOUNCEMENT_AUTHORITY, bundle);
+        ContentResolver.requestSync(account, MinervaConfig.CALENDAR_AUTHORITY, bundle);
     }
 
     private void manualSync() {
@@ -231,6 +233,8 @@ public class MinervaFragment extends PluginFragment {
         courseDao.deleteAll();
         AnnouncementDao announcementDao = new AnnouncementDao(getContext());
         announcementDao.deleteAll();
+        AgendaDao dao = new AgendaDao(getContext());
+        dao.deleteAll();
     }
 
     @Override

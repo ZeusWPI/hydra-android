@@ -18,38 +18,41 @@ public final class AgendaTable implements BaseColumns {
 
     public static final String TABLE_NAME = "minerva_agenda";
 
-    //Columns for the data
-    public static final String COLUMN_ID = _ID;
-    public static final String COLUMN_COURSE = "course";
-    public static final String COLUMN_TITLE = "title";
-    public static final String COLUMN_CONTENT = "content";
-    public static final String COLUMN_START_DATE = "start_date";
-    public static final String COLUMN_END_DATE = "end_date";
-    public static final String COLUMN_LOCATION = "location";
-    public static final String COLUMN_TYPE = "type";
-    public static final String COLUMN_LAST_EDIT_USER = "last_edit_user";
-    public static final String COLUMN_LAST_EDIT = "last_edit";
-    public static final String COLUMN_LAST_EDIT_TYPE = "last_edit_type";
+    public interface Columns extends BaseColumns {
+        //Columns for the data
+        String ID = _ID;
+        String COURSE = "course";
+        String TITLE = "title";
+        String CONTENT = "content";
+        String START_DATE = "start_date";
+        String END_DATE = "end_date";
+        String LOCATION = "location";
+        String TYPE = "type";
+        String LAST_EDIT_USER = "last_edit_user";
+        String LAST_EDIT = "last_edit";
+        String LAST_EDIT_TYPE = "last_edit_type";
+        String CALENDAR_ID = "calendar_id";
+    }
 
     /**
      * @return The SQL to create this table.
      */
     public static String createTableQuery() {
 
-        Column id = new Column(COLUMN_ID, ColumnType.INTEGER, ColumnConstraint.PRIMARY_KEY);
-        Column course = new Column(COLUMN_COURSE, ColumnType.TEXT, ColumnConstraint.NOT_NULL);
-        Column title = new Column(COLUMN_TITLE, ColumnType.TEXT);
-        Column content = new Column(COLUMN_CONTENT, ColumnType.TEXT);
-        Column startDate = new Column(COLUMN_START_DATE, ColumnType.INTEGER);
-        Column endDate = new Column(COLUMN_END_DATE, ColumnType.INTEGER);
-        Column location = new Column(COLUMN_LOCATION, ColumnType.TEXT);
-        Column type = new Column(COLUMN_TYPE, ColumnType.TEXT);
-        Column lastEditUser = new Column(COLUMN_LAST_EDIT_USER, ColumnType.TEXT);
-        Column lastEdit = new Column(COLUMN_LAST_EDIT, ColumnType.INTEGER);
-        Column lastEditType = new Column(COLUMN_LAST_EDIT_TYPE, ColumnType.TEXT);
-        //TODO: improve this api
+        Column id = new Column(Columns.ID, ColumnType.INTEGER, ColumnConstraint.PRIMARY_KEY);
+        Column course = new Column(Columns.COURSE, ColumnType.TEXT, ColumnConstraint.NOT_NULL);
+        Column title = new Column(Columns.TITLE, ColumnType.TEXT);
+        Column content = new Column(Columns.CONTENT, ColumnType.TEXT);
+        Column startDate = new Column(Columns.START_DATE, ColumnType.INTEGER);
+        Column endDate = new Column(Columns.END_DATE, ColumnType.INTEGER);
+        Column location = new Column(Columns.LOCATION, ColumnType.TEXT);
+        Column type = new Column(Columns.TYPE, ColumnType.TEXT);
+        Column lastEditUser = new Column(Columns.LAST_EDIT_USER, ColumnType.TEXT);
+        Column lastEdit = new Column(Columns.LAST_EDIT, ColumnType.INTEGER);
+        Column lastEditType = new Column(Columns.LAST_EDIT_TYPE, ColumnType.TEXT);
+        Column calenderId = new Column(Columns.CALENDAR_ID, ColumnType.INTEGER);
 
-        Column restraint = new ForeignKeyColumn(COLUMN_COURSE, CourseTable.TABLE_NAME, CourseTable.COLUMN_ID)
+        Column restraint = new ForeignKeyColumn(Columns.COURSE, CourseTable.TABLE_NAME, CourseTable.COLUMN_ID)
                 .cascade(true);
 
         return SQLiteQueryBuilder.create().table(TABLE_NAME)
@@ -64,6 +67,7 @@ public final class AgendaTable implements BaseColumns {
                 .column(lastEditUser)
                 .column(lastEdit)
                 .column(lastEditType)
+                .column(calenderId)
                 .column(restraint)
                 .build();
     }

@@ -31,6 +31,7 @@ import be.ugent.zeus.hydra.homefeed.feed.FeedOperation;
 import be.ugent.zeus.hydra.homefeed.loader.FeedCollection;
 import be.ugent.zeus.hydra.homefeed.loader.HomeFeedLoader;
 import be.ugent.zeus.hydra.homefeed.loader.HomeFeedLoaderCallback;
+import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.plugins.OfflinePlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
@@ -233,6 +234,11 @@ public class HomeFeedFragment extends PluginFragment implements HomeFeedLoaderCa
         Set<String> s = PreferenceManager
                 .getDefaultSharedPreferences(c)
                 .getStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, Collections.emptySet());
+
+        if (!AccountUtils.hasAccount(getContext())) {
+            s.remove(String.valueOf(HomeCard.CardType.MINERVA_AGENDA));
+            s.remove(String.valueOf(HomeCard.CardType.MINERVA_ANNOUNCEMENT));
+        }
 
         Function<Integer, Boolean> d = i -> isTypeActive(s, i);
 

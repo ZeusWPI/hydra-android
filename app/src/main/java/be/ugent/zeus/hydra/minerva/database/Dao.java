@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  *
  * @author Niko Strijbol
  */
-public abstract class Dao {
+public abstract class Dao<E> {
 
     protected final SQLiteOpenHelper helper;
     protected final Context context;

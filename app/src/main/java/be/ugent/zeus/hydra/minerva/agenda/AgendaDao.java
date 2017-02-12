@@ -16,13 +16,12 @@ import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
 import org.threeten.bp.Instant;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+
+import static be.ugent.zeus.hydra.minerva.database.Utils.*;
 
 /**
- * Dao to access announcements from the database.
+ * The database access object (DAO), to work with Minerva calendar items.
  *
  * @author Niko Strijbol
  */
@@ -45,24 +44,64 @@ public class AgendaDao extends Dao {
     }
 
     /**
-     * Delete all agenda items, and add the given ones.
+     * Delete all calendar items that match the given ID's. If the collection is null, everything will be deleted.
      *
-     * @param agenda The items to add.
+     * @param ids The ID's to delete, or null for everything.
      */
-    public void replace(Collection<AgendaItem> agenda) {
+    public void delete(Collection<Integer> ids) {
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        if (ids == null) {
+            db.delete(AgendaTable.TABLE_NAME, null, null);
+        } else if (ids.size() == 1) {
+            db.delete(AgendaTable.TABLE_NAME, where(AgendaTable.Columns.ID), args(ids));
+        } else {
+            db.delete(AgendaTable.TABLE_NAME, in(AgendaTable.Columns.ID, ids.size()), args(ids));
+        }
+    }
+
+    /**
+     * Update existing items. Every column will be replaced with the value from the corresponding object.
+     *
+     * @param items The items to update.
+     */
+    public void update(Collection<AgendaItem> items) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
 
         try {
             db.beginTransaction();
 
-            // Clear all agenda items.
-            db.delete(AgendaTable.TABLE_NAME, null, null);
+            for (AgendaItem item: items) {
+                ContentValues values = getValues(item);
+                values.remove(AgendaTable.Columns.ID);
+                db.update(AgendaTable.TABLE_NAME, values, where(AgendaTable.Columns.ID), args(item.getItemId()));
+            }
 
-            for (AgendaItem agendaItem: agenda) {
+            db.setTransactionSuccessful();
+
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    /**
+     * Add new items to the database.
+     *
+     * @param items The items to add.
+     */
+    public void insert(Collection<AgendaItem> items) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        try {
+            db.beginTransaction();
+
+            for (AgendaItem agendaItem: items) {
                 ContentValues value = getValues(agendaItem);
                 db.insertOrThrow(AgendaTable.TABLE_NAME, null, value);
             }
+
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -72,17 +111,18 @@ public class AgendaDao extends Dao {
     private static ContentValues getValues(AgendaItem a) {
         ContentValues values = new ContentValues();
 
-        values.put(AgendaTable.COLUMN_ID, a.getItemId());
-        values.put(AgendaTable.COLUMN_COURSE, a.getCourseId());
-        values.put(AgendaTable.COLUMN_TITLE, a.getTitle());
-        values.put(AgendaTable.COLUMN_CONTENT, a.getContent());
-        values.put(AgendaTable.COLUMN_START_DATE, TtbUtils.serialize(a.getStartDate()));
-        values.put(AgendaTable.COLUMN_END_DATE, TtbUtils.serialize(a.getEndDate()));
-        values.put(AgendaTable.COLUMN_LOCATION, a.getLocation());
-        values.put(AgendaTable.COLUMN_TYPE, a.getType());
-        values.put(AgendaTable.COLUMN_LAST_EDIT_USER, a.getLastEditUser());
-        values.put(AgendaTable.COLUMN_LAST_EDIT, TtbUtils.serialize(a.getLastEdited()));
-        values.put(AgendaTable.COLUMN_LAST_EDIT_TYPE, a.getLastEditType());
+        values.put(AgendaTable.Columns.ID, a.getItemId());
+        values.put(AgendaTable.Columns.COURSE, a.getCourseId());
+        values.put(AgendaTable.Columns.TITLE, a.getTitle());
+        values.put(AgendaTable.Columns.CONTENT, a.getContent());
+        values.put(AgendaTable.Columns.START_DATE, TtbUtils.serialize(a.getStartDate()));
+        values.put(AgendaTable.Columns.END_DATE, TtbUtils.serialize(a.getEndDate()));
+        values.put(AgendaTable.Columns.LOCATION, a.getLocation());
+        values.put(AgendaTable.Columns.TYPE, a.getType());
+        values.put(AgendaTable.Columns.LAST_EDIT_USER, a.getLastEditUser());
+        values.put(AgendaTable.Columns.LAST_EDIT, TtbUtils.serialize(a.getLastEdited()));
+        values.put(AgendaTable.Columns.LAST_EDIT_TYPE, a.getLastEditType());
+        values.put(AgendaTable.Columns.CALENDAR_ID, a.getCalendarId());
 
         return values;
     }
@@ -100,7 +140,7 @@ public class AgendaDao extends Dao {
         SQLiteDatabase db = helper.getReadableDatabase();
         List<AgendaItem> result = new ArrayList<>();
 
-        String order = AgendaTable.COLUMN_START_DATE;
+        String order = AgendaTable.Columns.START_DATE;
         if (reverse) {
             order += " DESC";
         } else {
@@ -110,7 +150,7 @@ public class AgendaDao extends Dao {
         Cursor cursor = db.query(
                 AgendaTable.TABLE_NAME,
                 null,
-                AgendaTable.COLUMN_COURSE + " = ?",
+                AgendaTable.Columns.COURSE + " = ?",
                 new String[]{course.getId()},
                 null, null, order);
 
@@ -140,22 +180,23 @@ public class AgendaDao extends Dao {
 
         final String courseTable = "course_";
 
-        String agendaJoin =  AgendaTable.COLUMN_COURSE;
+        String agendaJoin =  AgendaTable.Columns.COURSE;
         String courseJoin = courseTable + CourseTable.COLUMN_ID;
 
         builder.setTables(AgendaTable.TABLE_NAME + " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + agendaJoin + "=" + courseJoin);
 
         String[] columns = new String[]{
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_ID,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_TITLE,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_CONTENT,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_START_DATE,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_END_DATE,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LOCATION,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_TYPE,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LAST_EDIT_USER,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LAST_EDIT,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LAST_EDIT_TYPE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.ID,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.TITLE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.CONTENT,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.START_DATE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.END_DATE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LOCATION,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.TYPE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LAST_EDIT_USER,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LAST_EDIT,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LAST_EDIT_TYPE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.CALENDAR_ID,
                 CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_ID + " AS " + courseTable + CourseTable.COLUMN_ID,
                 CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_CODE + " AS " + courseTable + CourseTable.COLUMN_CODE,
                 CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_TITLE + " AS " + courseTable + CourseTable.COLUMN_TITLE,
@@ -170,11 +211,11 @@ public class AgendaDao extends Dao {
         Cursor c = builder.query(
                 db,
                 columns,
-                AgendaTable.COLUMN_START_DATE + " >= ? OR " + AgendaTable.COLUMN_END_DATE + ">= ?",
+                AgendaTable.Columns.START_DATE + " >= ? OR " + AgendaTable.Columns.END_DATE + ">= ?",
                 new String[]{now, now},
                 null,
                 null,
-                AgendaTable.COLUMN_START_DATE + " ASC"
+                AgendaTable.Columns.START_DATE + " ASC"
         );
 
         if (c == null) {
@@ -206,42 +247,13 @@ public class AgendaDao extends Dao {
         return StreamSupport.stream(result);
     }
 
-    public Collection<AgendaItem> getAll() {
+    public Collection<Integer> getAllIds() {
 
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-
-        final String courseTable = "course_";
-
-        String agendaJoin =  AgendaTable.COLUMN_COURSE;
-        String courseJoin = courseTable + CourseTable.COLUMN_ID;
-
-        builder.setTables(AgendaTable.TABLE_NAME + " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + agendaJoin + "=" + courseJoin);
-
-        String[] columns = new String[]{
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_ID,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_TITLE,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_CONTENT,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_START_DATE,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_END_DATE,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LOCATION,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_TYPE,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LAST_EDIT_USER,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LAST_EDIT,
-                AgendaTable.TABLE_NAME + "." + AgendaTable.COLUMN_LAST_EDIT_TYPE,
-                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_ID + " AS " + courseTable + CourseTable.COLUMN_ID,
-                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_CODE + " AS " + courseTable + CourseTable.COLUMN_CODE,
-                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_TITLE + " AS " + courseTable + CourseTable.COLUMN_TITLE,
-                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_DESCRIPTION + " AS " + courseTable + CourseTable.COLUMN_DESCRIPTION,
-                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_TUTOR + " AS " + courseTable + CourseTable.COLUMN_TUTOR,
-                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_STUDENT + " AS " + courseTable + CourseTable.COLUMN_STUDENT,
-                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_ACADEMIC_YEAR + " AS " + courseTable + CourseTable.COLUMN_ACADEMIC_YEAR,
-        };
-
-        Cursor c = builder.query(
-                db,
-                columns,
+        Cursor cursor = db.query(
+                AgendaTable.TABLE_NAME,
+                new String[]{AgendaTable.Columns.ID},
                 null,
                 null,
                 null,
@@ -249,30 +261,49 @@ public class AgendaDao extends Dao {
                 null
         );
 
-        if (c == null) {
+        if (cursor == null) {
+            return Collections.emptySet();
+        }
+
+        Set<Integer> ids = new HashSet<>();
+
+        try {
+            while (cursor.moveToNext()) {
+                ids.add(cursor.getInt(cursor.getColumnIndexOrThrow(AgendaTable.Columns.ID)));
+            }
+        } finally {
+            cursor.close();
+        }
+
+        return ids;
+    }
+
+    public Collection<Long> getCalendarIdsForIds(Collection<Integer> agendaIds) {
+
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                AgendaTable.TABLE_NAME,
+                new String[]{AgendaTable.Columns.CALENDAR_ID},
+                in(AgendaTable.Columns.ID, agendaIds.size()),
+                args(agendaIds),
+                null,
+                null,
+                null
+        );
+
+        if (cursor == null) {
             return Collections.emptyList();
         }
 
-        CourseExtractor cExtractor = new CourseExtractor.Builder(c)
-                .columnId(courseTable + CourseTable.COLUMN_ID)
-                .columnCode(courseTable + CourseTable.COLUMN_CODE)
-                .columnTitle(courseTable + CourseTable.COLUMN_TITLE)
-                .columnDesc(courseTable + CourseTable.COLUMN_DESCRIPTION)
-                .columnTutor(courseTable + CourseTable.COLUMN_TUTOR)
-                .columnStudent(courseTable + CourseTable.COLUMN_STUDENT)
-                .columnYear(courseTable + CourseTable.COLUMN_ACADEMIC_YEAR)
-                .build();
-
-        AgendaExtractor aExtractor = new AgendaExtractor.Builder(c).defaults().build();
-        List<AgendaItem> result = new ArrayList<>();
+        Set<Long> result = new HashSet<>();
 
         try {
-            while (c.moveToNext()) {
-                result.add(aExtractor.getAgendaItem(cExtractor.getCourse()));
+            while(cursor.moveToNext()) {
+                result.add(cursor.getLong(cursor.getColumnIndexOrThrow(AgendaTable.Columns.CALENDAR_ID)));
             }
-
         } finally {
-            c.close();
+            cursor.close();
         }
 
         return result;

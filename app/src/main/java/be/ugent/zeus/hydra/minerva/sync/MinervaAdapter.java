@@ -83,7 +83,7 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
             broadcast.publishIntent(SyncBroadcast.SYNC_COURSES);
 
             // Do implementations
-            onPerformCheckedSync(account, extras, authority, provider, syncResult, isFirstSync);
+            onPerformCheckedSync(courses, account, extras, authority, provider, syncResult, isFirstSync);
 
             broadcast.publishIntent(SyncBroadcast.SYNC_DONE);
 
@@ -140,5 +140,5 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
      *
      * @see #onPerformSync(Account, Bundle, String, ContentProviderClient, SyncResult)
      */
-    protected abstract void onPerformCheckedSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult results, boolean isFirstSync) throws RequestFailureException;
+    protected abstract void onPerformCheckedSync(Courses courses, Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult results, boolean isFirstSync) throws RequestFailureException;
 }
