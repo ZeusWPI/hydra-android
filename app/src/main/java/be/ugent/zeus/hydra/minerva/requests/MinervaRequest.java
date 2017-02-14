@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.minerva.requests;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,7 +33,6 @@ public abstract class MinervaRequest<T> extends JsonSpringRequest<T> {
     protected static final String MINERVA_API = "https://minerva.ugent.be/api/rest/v2/";
 
     protected final Context context;
-    protected final Activity activity;
     protected final Account account;
 
     //This variable tracks if this is the first time the request is tried or not. This prevents endless loops if the
@@ -46,13 +44,10 @@ public abstract class MinervaRequest<T> extends JsonSpringRequest<T> {
      * @param clazz The class of the result.
      * @param context The application context.
      * @param account The account to work with. Pass null to get the default account.
-     * @param activity The activity to use for the account. If this is not null, the AccountManager may interact with
-     *                 the user. If doing the request in the background, pass null.
      */
-    public MinervaRequest(Class<T> clazz, Context context, Account account, @Nullable Activity activity) {
+    public MinervaRequest(Class<T> clazz, Context context, Account account) {
         super(clazz);
         this.context = context;
-        this.activity = activity;
         this.account = account;
     }
 
@@ -109,7 +104,7 @@ public abstract class MinervaRequest<T> extends JsonSpringRequest<T> {
     @NonNull
     private String getToken() throws RequestFailureException {
 
-        //First we get the token to add to this request.
+        //First we get the token to insert to this request.
         try {
             accountBundle = AccountUtils.syncAuthCode(context, account);
         } catch (IOException e) {

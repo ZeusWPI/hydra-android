@@ -64,6 +64,18 @@
         <item>604800</item>
     </string-array>
 
+    <string-array name="minerva_frequencies_long_text">
+        <item>1 dag</item>
+        <item>1 week</item>
+        <item>1 maand</item>
+    </string-array>
+
+    <string-array name="minerva_frequencies_long_seconds">
+        <item>86400</item>
+        <item>604800</item>
+        <item>2592000</item>
+    </string-array>
+
     <string-array name="sko_tab_names">
         <item>Timeline</item>
         <item>Line-up</item>

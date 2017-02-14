@@ -192,7 +192,7 @@ public class LibraryDetailActivity extends HydraActivity {
     }
 
     /**
-     * Generate a table containing the opening hours and add it to the views.
+     * Generate a table containing the opening hours and insert it to the views.
      *
      * @param list The list of opening hours.
      */

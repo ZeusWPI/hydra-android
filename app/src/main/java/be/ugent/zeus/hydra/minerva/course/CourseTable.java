@@ -12,30 +12,31 @@ import com.alexfu.sqlitequerybuilder.api.SQLiteQueryBuilder;
  *
  * @author Niko Strijbol
  */
-public final class CourseTable implements BaseColumns {
+public final class CourseTable {
 
     public static final String TABLE_NAME = "minerva_courses";
 
-    //Columns
-    public static final String COLUMN_ID = _ID;
-    public static final String COLUMN_CODE = "code";
-    public static final String COLUMN_TITLE = "title";
-    public static final String COLUMN_DESCRIPTION = "description";
-    public static final String COLUMN_TUTOR = "tutor";
-    public static final String COLUMN_STUDENT = "student";
-    public static final String COLUMN_ACADEMIC_YEAR = "academic_year";
+    public interface Columns extends BaseColumns {
+        String ID = _ID;
+        String CODE = "code";
+        String TITLE = "title";
+        String DESCRIPTION = "description";
+        String TUTOR = "tutor";
+        String STUDENT = "student";
+        String ACADEMIC_YEAR = "academic_year";
+    }
 
     /**
      * @return The SQL to create this table.
      */
     public static String createTableQuery() {
-        Column id = new Column(COLUMN_ID, ColumnType.TEXT, ColumnConstraint.PRIMARY_KEY);
-        Column code = new Column(COLUMN_CODE, ColumnType.TEXT);
-        Column title = new Column(COLUMN_TITLE, ColumnType.TEXT);
-        Column description = new Column(COLUMN_DESCRIPTION, ColumnType.TEXT);
-        Column tutor = new Column(COLUMN_TUTOR, ColumnType.TEXT);
-        Column student = new Column(COLUMN_STUDENT, ColumnType.TEXT);
-        Column year = new Column(COLUMN_ACADEMIC_YEAR, ColumnType.INTEGER);
+        Column id = new Column(Columns.ID, ColumnType.TEXT, ColumnConstraint.PRIMARY_KEY);
+        Column code = new Column(Columns.CODE, ColumnType.TEXT);
+        Column title = new Column(Columns.TITLE, ColumnType.TEXT);
+        Column description = new Column(Columns.DESCRIPTION, ColumnType.TEXT);
+        Column tutor = new Column(Columns.TUTOR, ColumnType.TEXT);
+        Column student = new Column(Columns.STUDENT, ColumnType.TEXT);
+        Column year = new Column(Columns.ACADEMIC_YEAR, ColumnType.INTEGER);
 
         return SQLiteQueryBuilder.create().table(TABLE_NAME)
                 .column(id)

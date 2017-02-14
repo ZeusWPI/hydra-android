@@ -14,40 +14,42 @@ import com.alexfu.sqlitequerybuilder.api.SQLiteQueryBuilder;
  *
  * @author Niko Strijbol
  */
-public final class AnnouncementTable implements BaseColumns {
+public final class AnnouncementTable {
 
     public static final String TABLE_NAME = "minerva_announcements";
 
-    //Columns for the data
-    public static final String COLUMN_ID = _ID;
-    public static final String COLUMN_COURSE = "course";
-    public static final String COLUMN_TITLE = "title";
-    public static final String COLUMN_CONTENT = "content";
-    public static final String COLUMN_EMAIL_SENT = "email_sent";
-    public static final String COLUMN_STICKY_UNTIL = "sticky_until";
-    public static final String COLUMN_LECTURER = "last_edit_user";
-    public static final String COLUMN_DATE = "date";
 
+    public interface Columns extends BaseColumns {
+        //Columns for the data
+        String ID = _ID;
+        String COURSE = "course";
+        String TITLE = "title";
+        String CONTENT = "content";
+        String EMAIL_SENT = "email_sent";
+        String STICKY_UNTIL = "sticky_until";
+        String LECTURER = "last_edit_user";
+        String DATE = "date";
 
-    //Columns for the meta data we use locally
-    public static final String COLUMN_READ_DATE = "read_at";
+        //Columns for the meta data we use locally
+        String READ_DATE = "read_at";
+    }
 
     /**
      * @return The SQL to create this table.
      */
     public static String createTableQuery() {
 
-        Column id = new Column(COLUMN_ID, ColumnType.INTEGER, ColumnConstraint.PRIMARY_KEY);
-        Column course = new Column(COLUMN_COURSE, ColumnType.TEXT, ColumnConstraint.NOT_NULL);
-        Column title = new Column(COLUMN_TITLE, ColumnType.TEXT);
-        Column content = new Column(COLUMN_CONTENT, ColumnType.TEXT);
-        Column emailSent = new Column(COLUMN_EMAIL_SENT, ColumnType.INTEGER);
-        Column stickyUntil = new Column(COLUMN_STICKY_UNTIL, ColumnType.INTEGER);
-        Column lecturer = new Column(COLUMN_LECTURER, ColumnType.TEXT);
-        Column date = new Column(COLUMN_DATE, ColumnType.INTEGER);
-        Column readDate = new Column(COLUMN_READ_DATE, ColumnType.INTEGER);
+        Column id = new Column(Columns.ID, ColumnType.INTEGER, ColumnConstraint.PRIMARY_KEY);
+        Column course = new Column(Columns.COURSE, ColumnType.TEXT, ColumnConstraint.NOT_NULL);
+        Column title = new Column(Columns.TITLE, ColumnType.TEXT);
+        Column content = new Column(Columns.CONTENT, ColumnType.TEXT);
+        Column emailSent = new Column(Columns.EMAIL_SENT, ColumnType.INTEGER);
+        Column stickyUntil = new Column(Columns.STICKY_UNTIL, ColumnType.INTEGER);
+        Column lecturer = new Column(Columns.LECTURER, ColumnType.TEXT);
+        Column date = new Column(Columns.DATE, ColumnType.INTEGER);
+        Column readDate = new Column(Columns.READ_DATE, ColumnType.INTEGER);
         //TODO: improve this api
-        Column restraint = new ForeignKeyColumn(COLUMN_COURSE, CourseTable.TABLE_NAME, CourseTable.COLUMN_ID)
+        Column restraint = new ForeignKeyColumn(Columns.COURSE, CourseTable.TABLE_NAME, CourseTable.Columns.ID)
                 .cascade(true);
 
         return SQLiteQueryBuilder.create().table(TABLE_NAME)

@@ -25,6 +25,7 @@ import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.course.CourseDao;
 import be.ugent.zeus.hydra.minerva.course.CourseDaoLoader;
+import be.ugent.zeus.hydra.minerva.course.sync.Adapter;
 import be.ugent.zeus.hydra.minerva.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
@@ -120,36 +121,13 @@ public class MinervaFragment extends PluginFragment {
         //Get an account
         Account account = AccountUtils.getAccount(getContext());
 
-        //Enable sync
-        SyncUtils.enableSync(getContext(), account);
-
         //Request first sync
         Log.d(TAG, "Requesting first sync...");
         Bundle bundle = new Bundle();
         bundle.putBoolean(MinervaAdapter.EXTRA_FIRST_SYNC, true);
-        requestSync(account, bundle);
-    }
-
-    private void requestSync(Account account, Bundle bundle) {
-        //Request first sync
-        Log.d(TAG, "Requesting full sync...");
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        ContentResolver.requestSync(account, MinervaConfig.ANNOUNCEMENT_AUTHORITY, bundle);
-        ContentResolver.requestSync(account, MinervaConfig.CALENDAR_AUTHORITY, bundle);
-    }
-
-    private void manualSync() {
-        requestSync(AccountUtils.getAccount(getContext()), new Bundle());
-    }
-
-    private void manualSyncCalendar() {
-        Account account = AccountUtils.getAccount(getContext());
-        Bundle bundle = new Bundle();
-        Log.d(TAG, "Requesting calendar sync...");
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        ContentResolver.requestSync(account, MinervaConfig.CALENDAR_AUTHORITY, bundle);
+        bundle.putBoolean(Adapter.EXTRA_SCHEDULE_AGENDA, true);
+        bundle.putBoolean(Adapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
+        SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
     }
 
     /**
@@ -192,15 +170,30 @@ public class MinervaFragment extends PluginFragment {
             case R.id.action_logout:
                 signOut();
                 return true;
-            case R.id.action_sync:
-                manualSync();
+            case R.id.action_sync_all:
+                manualSync(true, true);
+                return true;
+            case R.id.action_sync_announcements:
+                manualSync(true, false);
                 return true;
             case R.id.action_sync_calendar:
-                manualSyncCalendar();
+                manualSync(false, true);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void manualSync(boolean announcements, boolean calendar) {
+        Account account = AccountUtils.getAccount(getContext());
+        Bundle bundle = new Bundle();
+        if (announcements) {
+            bundle.putBoolean(Adapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
+        }
+        if (calendar) {
+            bundle.putBoolean(Adapter.EXTRA_SCHEDULE_AGENDA, true);
+        }
+        SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
     }
 
     /**
@@ -209,7 +202,9 @@ public class MinervaFragment extends PluginFragment {
     private void signOut() {
         //Sign out first, and then remove all data.
         Account a = AccountUtils.getAccount(getContext());
+        ContentResolver.cancelSync(a, MinervaConfig.COURSE_AUTHORITY);
         ContentResolver.cancelSync(a, MinervaConfig.ANNOUNCEMENT_AUTHORITY);
+        ContentResolver.cancelSync(a, MinervaConfig.CALENDAR_AUTHORITY);
         Toast.makeText(getContext(), "Logging out...", Toast.LENGTH_SHORT).show();
         manager.removeAccount(a, accountManagerFuture -> {
             //Delete items

@@ -97,13 +97,13 @@ public class CourseExtractor {
          */
         public Builder defaults() {
 
-            extractor.columnId = extractor.cursor.getColumnIndexOrThrow(CourseTable.COLUMN_ID);
-            extractor.columnCode = extractor.cursor.getColumnIndexOrThrow(CourseTable.COLUMN_CODE);
-            extractor.columnTitle = extractor.cursor.getColumnIndexOrThrow(CourseTable.COLUMN_TITLE);
-            extractor.columnDesc = extractor.cursor.getColumnIndexOrThrow(CourseTable.COLUMN_DESCRIPTION);
-            extractor.columnTutor = extractor.cursor.getColumnIndexOrThrow(CourseTable.COLUMN_TUTOR);
-            extractor.columnStudent = extractor.cursor.getColumnIndexOrThrow(CourseTable.COLUMN_STUDENT);
-            extractor.columnYear = extractor.cursor.getColumnIndexOrThrow(CourseTable.COLUMN_ACADEMIC_YEAR);
+            extractor.columnId = extractor.cursor.getColumnIndexOrThrow(CourseTable.Columns.ID);
+            extractor.columnCode = extractor.cursor.getColumnIndexOrThrow(CourseTable.Columns.CODE);
+            extractor.columnTitle = extractor.cursor.getColumnIndexOrThrow(CourseTable.Columns.TITLE);
+            extractor.columnDesc = extractor.cursor.getColumnIndexOrThrow(CourseTable.Columns.DESCRIPTION);
+            extractor.columnTutor = extractor.cursor.getColumnIndexOrThrow(CourseTable.Columns.TUTOR);
+            extractor.columnStudent = extractor.cursor.getColumnIndexOrThrow(CourseTable.Columns.STUDENT);
+            extractor.columnYear = extractor.cursor.getColumnIndexOrThrow(CourseTable.Columns.ACADEMIC_YEAR);
 
             return this;
         }

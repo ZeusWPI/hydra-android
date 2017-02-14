@@ -1,11 +1,9 @@
 package be.ugent.zeus.hydra.minerva.requests;
 
 import android.accounts.Account;
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import be.ugent.zeus.hydra.models.minerva.Hello;
 
 /**
@@ -15,8 +13,8 @@ import be.ugent.zeus.hydra.models.minerva.Hello;
  */
 public class HelloMinervaRequest extends MinervaRequest<Hello> {
 
-    public HelloMinervaRequest(Context context, @Nullable Account account, @Nullable Activity activity) {
-        super(Hello.class, context, account, activity);
+    public HelloMinervaRequest(Context context, @Nullable Account account) {
+        super(Hello.class, context, account);
     }
 
     @NonNull

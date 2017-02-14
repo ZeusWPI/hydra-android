@@ -198,7 +198,7 @@ public class MainActivity extends HydraActivity {
         //Set the ID
         setArguments(fragment, menuItem.getItemId());
 
-        //We use a back stack for the fragments. When a new fragment is shown, we add it to the back stack.
+        //We use a back stack for the fragments. When a new fragment is shown, we insert it to the back stack.
         //If the fragment is already in the back stack, we restore the back stack to that fragment.
         FragmentManager fragmentManager = getSupportFragmentManager();
 

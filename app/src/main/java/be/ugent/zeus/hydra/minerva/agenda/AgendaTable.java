@@ -52,7 +52,7 @@ public final class AgendaTable implements BaseColumns {
         Column lastEditType = new Column(Columns.LAST_EDIT_TYPE, ColumnType.TEXT);
         Column calenderId = new Column(Columns.CALENDAR_ID, ColumnType.INTEGER);
 
-        Column restraint = new ForeignKeyColumn(Columns.COURSE, CourseTable.TABLE_NAME, CourseTable.COLUMN_ID)
+        Column restraint = new ForeignKeyColumn(Columns.COURSE, CourseTable.TABLE_NAME, CourseTable.Columns.ID)
                 .cascade(true);
 
         return SQLiteQueryBuilder.create().table(TABLE_NAME)

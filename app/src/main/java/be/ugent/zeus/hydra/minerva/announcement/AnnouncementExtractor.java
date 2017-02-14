@@ -101,14 +101,14 @@ class AnnouncementExtractor {
          * Set every column int to the default value. The default value is the column name in the database table.
          */
         public Builder defaults() {
-            extractor.columnIndex = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_ID);
-            extractor.columnTitle = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_TITLE);
-            extractor.columnContent = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_CONTENT);
-            extractor.columnEmailSent = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_EMAIL_SENT);
-            extractor.columnSticky = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_STICKY_UNTIL);
-            extractor.columnLecturer = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_LECTURER);
-            extractor.columnDate = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_DATE);
-            extractor.columnReadDate = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.COLUMN_READ_DATE);
+            extractor.columnIndex = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.Columns.ID);
+            extractor.columnTitle = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.Columns.TITLE);
+            extractor.columnContent = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.Columns.CONTENT);
+            extractor.columnEmailSent = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.Columns.EMAIL_SENT);
+            extractor.columnSticky = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.Columns.STICKY_UNTIL);
+            extractor.columnLecturer = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.Columns.LECTURER);
+            extractor.columnDate = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.Columns.DATE);
+            extractor.columnReadDate = extractor.cursor.getColumnIndexOrThrow(AnnouncementTable.Columns.READ_DATE);
             return this;
         }
 

@@ -255,5 +255,10 @@
     <string name="minerva_calendar_permission_title">Machtiging nodig</string>
     <string name="minerva_calendar_permission_text">Hydra moet met de agenda kunnen werken om de Minerva-agenda te tonen. Zonder machtiging wordt de agenda niet gesynchroniseerd. We zullen het de volgende keer nogmaals vragen.</string>
     <string name="minerva_calendar_permission_rationale">Hydra moet met de agenda kunnen werken om de Minerva-agenda te tonen. Zonder machtiging wordt de agenda niet gesynchroniseerd.</string>
+    <string name="minerva_action_sync_parent">Synchroniseren</string>
+    <string name="minerva_action_sync_all">Alles</string>
+    <string name="minerva_action_sync_calendar">Agenda</string>
+    <string name="minerva_action_sync_announcements">Aankondigingen</string>
+    <string name="minerva_sync_course">Vakken</string>
 
 </resources>

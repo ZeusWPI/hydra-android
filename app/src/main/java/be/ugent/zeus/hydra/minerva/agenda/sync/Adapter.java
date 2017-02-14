@@ -8,8 +8,10 @@ import android.app.PendingIntent;
 import android.content.*;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
@@ -17,16 +19,18 @@ import android.util.Log;
 import android.util.SparseArray;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.minerva.CalendarPermissionActivity;
+import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
+import be.ugent.zeus.hydra.minerva.course.CourseDao;
 import be.ugent.zeus.hydra.minerva.requests.AgendaRequest;
 import be.ugent.zeus.hydra.minerva.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
+import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
 import be.ugent.zeus.hydra.minerva.sync.Synchronisation;
 import be.ugent.zeus.hydra.models.minerva.Agenda;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.models.minerva.Course;
-import be.ugent.zeus.hydra.models.minerva.Courses;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import java8.util.function.Functions;
 import java8.util.stream.Collectors;
@@ -56,8 +60,7 @@ public class Adapter extends MinervaAdapter {
     }
 
     @Override
-    protected void onPerformCheckedSync(Courses courses,
-                                        Account account,
+    protected void onPerformCheckedSync(Account account,
                                         Bundle extras,
                                         String authority,
                                         ContentProviderClient provider,
@@ -65,6 +68,8 @@ public class Adapter extends MinervaAdapter {
                                         boolean isFirstSync) throws RequestFailureException {
 
         dao = new AgendaDao(getContext());
+        final CourseDao courseDao = new CourseDao(getContext());
+        List<Course> courses = courseDao.getAll();
 
         // Delete everything on the first sync.
         if (isFirstSync) {
@@ -72,6 +77,7 @@ public class Adapter extends MinervaAdapter {
         }
 
         AgendaRequest agendaRequest = new AgendaRequest(getContext(), account);
+        request = agendaRequest; // Enable errors.
         ZonedDateTime now = LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault());
         // Start time.
         agendaRequest.setStart(now.minusMonths(2));
@@ -86,7 +92,7 @@ public class Adapter extends MinervaAdapter {
                 existingIds,
                 agenda.getItems(),
                 AgendaItem::getItemId);
-        Synchronisation.Classification<AgendaItem, Integer> classification = sync.classify();
+        Synchronisation.Diff<AgendaItem, Integer> diff = sync.diff();
 
         // Check for permission for Calendar access.
         int permissionRead = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CALENDAR);
@@ -98,18 +104,29 @@ public class Adapter extends MinervaAdapter {
             handleNoPermission();
         } else {
             // First, we synchronise the items to the calendar. This will modify the items if necessary.
-            // It will add Calendar ids to the items that need it.
-            synchronizeCalendar(courses, account, classification, isFirstSync);
+            // It will insert Calendar ids to the items that need it.
+            synchronizeCalendar(courses, account, diff, isFirstSync);
         }
 
         // Remove stale items from our database.
-        dao.delete(classification.getStaleIds());
+        dao.delete(diff.getStaleIds());
 
         // Update existing items in our database.
-        dao.update(classification.getUpdated());
+        dao.update(diff.getUpdated());
 
-        // Add new items to our database.
-        dao.insert(classification.getNew());
+        try {
+            // Add new items to our database.
+            dao.insert(diff.getNew());
+        } catch (SQLException e) {
+            // This is thrown when the foreign key fails.
+            // This means we have an agenda item for a course that doesn't exist!
+            // We abort the synchronisation, and launch the course synchronisation.
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(be.ugent.zeus.hydra.minerva.course.sync.Adapter.EXTRA_SCHEDULE_AGENDA, true);
+            SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
+
+            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
+        }
 
         // Synchronisation is finished.
         broadcast.publishIntent(SyncBroadcast.SYNC_AGENDA);
@@ -148,12 +165,12 @@ public class Adapter extends MinervaAdapter {
     /**
      * Synchronise AgendaItems with the calendar.
      */
-    private void synchronizeCalendar(Courses courses, Account account, Synchronisation.Classification<AgendaItem, Integer> classification, boolean isFirstSync) {
+    private void synchronizeCalendar(List<Course> courses, Account account, Synchronisation.Diff<AgendaItem, Integer> diff, boolean isFirstSync) {
 
         ContentResolver resolver = getContext().getContentResolver();
         Uri uri = adapterUri(CalendarContract.Events.CONTENT_URI, account);
 
-        Map<String, Course> courseMap = StreamSupport.stream(courses.getCourses())
+        Map<String, Course> courseMap = StreamSupport.stream(courses)
                 .collect(Collectors.toMap(Course::getId, Functions.identity()));
 
         // Add calendar if needed
@@ -169,14 +186,14 @@ public class Adapter extends MinervaAdapter {
         }
 
         // Remove Calendar items we don't need anymore.
-        Collection<Long> toRemove = dao.getCalendarIdsForIds(classification.getStaleIds());
+        Collection<Long> toRemove = dao.getCalendarIdsForIds(diff.getStaleIds());
 
         for (long id: toRemove) {
             Uri itemUri = ContentUris.withAppendedId(uri, id);
             resolver.delete(itemUri, null, null);
         }
 
-        List<AgendaItem> items = new ArrayList<>(classification.getUpdated());
+        List<AgendaItem> items = new ArrayList<>(diff.getUpdated());
 
         // Get agenda id's
         Collection<Long> updatedIds = dao.getCalendarIdsForIds(StreamSupport.stream(items)
@@ -191,7 +208,7 @@ public class Adapter extends MinervaAdapter {
         }
 
         // Update Calendar items, as they might have changed.
-        for (AgendaItem updatedItem: classification.getUpdated()) {
+        for (AgendaItem updatedItem: diff.getUpdated()) {
             updatedItem.setCourse(courseMap.get(updatedItem.getCourseId()));
             long itemCalendarId = map.get(updatedItem.getItemId(), AgendaItem.NO_CALENDAR_ID);
             ContentValues values = toCalendarValues(calendarId, updatedItem);
@@ -207,7 +224,7 @@ public class Adapter extends MinervaAdapter {
         }
 
         // Add new items
-        for (AgendaItem newItem: classification.getNew()) {
+        for (AgendaItem newItem: diff.getNew()) {
             newItem.setCourse(courseMap.get(newItem.getCourseId()));
             ContentValues values = toCalendarValues(calendarId, newItem);
             long id = insert(resolver, values, account);
@@ -266,7 +283,6 @@ public class Adapter extends MinervaAdapter {
         contentValues.put(CalendarContract.Events.DTEND, item.getEndDate().toInstant().toEpochMilli());
         contentValues.put(CalendarContract.Events.EVENT_LOCATION, item.getLocation());
         contentValues.put(CalendarContract.Events.SYNC_DATA1, item.getItemId());
-        contentValues.put(CalendarContract.Events.SYNC_DATA2, item.getCourseId());
         return contentValues;
     }
 
@@ -274,7 +290,7 @@ public class Adapter extends MinervaAdapter {
      * Insert an item into the calendar.
      *
      * @param resolver The content resolver.
-     * @param values The values of the item to add.
+     * @param values The values of the item to insert.
      * @return The ID of the item.
      */
     private long insert(ContentResolver resolver, ContentValues values, Account account) {
@@ -338,5 +354,14 @@ public class Adapter extends MinervaAdapter {
         }
 
         return NO_CALENDAR;
+    }
+
+    @Override
+    protected void afterSync(Account account, Bundle extras, boolean isFirstSync) {
+        if (isFirstSync) {
+            SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(getContext());
+            int freq = Integer.parseInt(p.getString(MinervaFragment.PREF_SYNC_FREQUENCY_CALENDAR, MinervaFragment.PREF_DEFAULT_SYNC_FREQUENCY));
+            SyncUtils.enable(account, MinervaConfig.CALENDAR_AUTHORITY, freq);
+        }
     }
 }

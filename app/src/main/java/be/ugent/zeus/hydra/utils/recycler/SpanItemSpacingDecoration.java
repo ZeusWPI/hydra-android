@@ -9,7 +9,7 @@ import android.view.View;
 import be.ugent.zeus.hydra.R;
 
 /**
- * Add spacing to elements for a staggered grid. This will add spacing on the right of every element, except for the
+ * Add spacing to elements for a staggered grid. This will insert spacing on the right of every element, except for the
  * last span column.
  *
  * If the layout manager is not a {@link StaggeredGridLayoutManager} or {@link GridLayoutManager}, this will do nothing.

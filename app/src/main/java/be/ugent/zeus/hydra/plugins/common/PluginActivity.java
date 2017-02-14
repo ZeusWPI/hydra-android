@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Activity that hosts plugins.
  *
- * To use plugins in your activity, extend this class. Then add the needed plugins in {@link #onAddPlugins(List)}.
+ * To use plugins in your activity, extend this class. Then insert the needed plugins in {@link #onAddPlugins(List)}.
  *
  * @author Niko Strijbol
  */

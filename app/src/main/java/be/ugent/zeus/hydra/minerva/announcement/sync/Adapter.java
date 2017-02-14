@@ -5,6 +5,7 @@ import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SyncResult;
+import android.database.SQLException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -12,15 +13,22 @@ import android.util.Log;
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementNotificationBuilder;
-import be.ugent.zeus.hydra.minerva.announcement.SyncObject;
+import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
+import be.ugent.zeus.hydra.minerva.course.CourseDao;
 import be.ugent.zeus.hydra.minerva.requests.AnnouncementsRequest;
 import be.ugent.zeus.hydra.minerva.requests.WhatsNewRequest;
 import be.ugent.zeus.hydra.minerva.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
-import be.ugent.zeus.hydra.models.minerva.*;
+import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
+import be.ugent.zeus.hydra.minerva.sync.Synchronisation;
+import be.ugent.zeus.hydra.models.minerva.Announcement;
+import be.ugent.zeus.hydra.models.minerva.Announcements;
+import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.models.minerva.WhatsNew;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
+import org.threeten.bp.ZonedDateTime;
 
-import java.util.Collection;
+import java.util.*;
 
 /**
  * The sync adapter for Minerva announcements.
@@ -33,13 +41,14 @@ public class Adapter extends MinervaAdapter {
 
     private static final String TAG = "AnnouncementSyncAdapter";
 
+    private AnnouncementDao dao;
+
     Adapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
     }
 
     @Override
-    protected void onPerformCheckedSync(Courses courses,
-                                        Account account,
+    protected void onPerformCheckedSync(Account account,
                                         Bundle extras,
                                         String authority,
                                         ContentProviderClient provider,
@@ -47,34 +56,48 @@ public class Adapter extends MinervaAdapter {
                                         boolean isFirstSync) throws RequestFailureException {
 
         //Get access to the data
-        final AnnouncementDao announcementDao = new AnnouncementDao(getContext());
+        dao = new AnnouncementDao(getContext());
+        final CourseDao courseDao = new CourseDao(getContext());
 
         // If this is the first request, clean everything.
         if (isFirstSync) {
-            announcementDao.deleteAll();
+            dao.deleteAll();
         }
 
-        // Synchronize announcements for each course. There is no method to do this in one request.
-        for (int i = 0; i < courses.getCourses().size(); i++) {
-            Course course = courses.getCourses().get(i);
+        List<Course> courses = courseDao.getAll();
 
-            if (isCancelled) {
-                broadcast.publishIntent(SyncBroadcast.SYNC_CANCELLED);
-                return;
+        try {
+            // Synchronize announcements for each course. There is no method to do this in one request.
+            for (int i = 0; i < courses.size(); i++) {
+                Course course = courses.get(i);
+
+                if (isCancelled) {
+                    broadcast.publishIntent(SyncBroadcast.SYNC_CANCELLED);
+                    return;
+                }
+
+                Log.d(TAG, "Syncing course " + course.getId());
+
+                // Sync announcements
+                Collection<Announcement> newOnes = synchronizeAnnouncements(account, isFirstSync, course);
+
+                // Publish progress
+                broadcast.publishAnnouncementDone(i + 1, courses.size(), course);
+
+                // If not the first time, show notifications
+                if (!isFirstSync) {
+                    notifyUser(newOnes);
+                }
             }
+        } catch (SQLException e) {
+            // This is thrown when the foreign key fails.
+            // This means we have an agenda item for a course that doesn't exist!
+            // We abort the synchronisation, and launch the course synchronisation.
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(be.ugent.zeus.hydra.minerva.course.sync.Adapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
+            SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
 
-            Log.d(TAG, "Syncing course " + course.getId());
-
-            // Sync announcements
-            Collection<Announcement> newOnes = synchronizeAnnouncements(announcementDao, account, isFirstSync, course);
-
-            // Publish progress
-            broadcast.publishAnnouncementDone(i + 1, courses.getCourses().size(), course);
-
-            // If not the first time, show notifications
-            if (!isFirstSync) {
-                notifyUser(newOnes);
-            }
+            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
         }
     }
 
@@ -104,23 +127,76 @@ public class Adapter extends MinervaAdapter {
     /**
      * Synchronize the announcements.
      */
-    private Collection<Announcement> synchronizeAnnouncements(AnnouncementDao dao, Account account, boolean first, Course course) throws RequestFailureException {
+    private Collection<Announcement> synchronizeAnnouncements(Account account, boolean first, Course course) throws RequestFailureException {
 
-        // First we get all courses. The dao marks the new ones as unread.
-        AnnouncementsRequest announcementsRequest = new AnnouncementsRequest(getContext(), account, null, course);
+        // First we get all announcements for the course.
+        AnnouncementsRequest announcementsRequest = new AnnouncementsRequest(getContext(), account, course);
         Announcements announcements = announcementsRequest.performRequest();
 
+        // Get all existing announcements
+        Map<Integer, ZonedDateTime> existing = dao.getIdsAndReadDateForCourse(course);
+
+        // We calculate the diff
+        Synchronisation<Announcement, Integer> synchronisation = new Synchronisation<>(
+                existing.keySet(),
+                announcements.getAnnouncements(),
+                Announcement::getItemId
+        );
+        Synchronisation.Diff<Announcement, Integer> diff = synchronisation.diff();
+
+        // Then we see what requests are actually new.
         WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, getContext(), account);
+        request = whatsNewRequest;
         WhatsNew whatsNew = whatsNewRequest.performRequest();
 
-        // Construct object
-        SyncObject object = new SyncObject.Builder(course)
-                .allObjects(announcements.getAnnouncements())
-                .newObjects(whatsNew.getAnnouncements())
-                .setFirstSync(first)
-                .build();
+        Set<Announcement> unReadOnes = new HashSet<>(whatsNew.getAnnouncements());
+        List<Announcement> unread = new ArrayList<>();
 
-        //Sync announcements
-        return dao.synchronize(object);
+        // Check if we need to show emailed or not
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        final boolean showEmail = pref.getBoolean(MinervaFragment.PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL, MinervaFragment.PREF_DEFAULT_ANNOUNCEMENT_NOTIFICATION_EMAIL);
+
+        ZonedDateTime now = ZonedDateTime.now();
+        // Modify updated
+        for (Announcement announcement: diff.getUpdated()) {
+            announcement.setCourse(course);
+            // If the announcement is already read, recover the existing read date
+            if (!unReadOnes.contains(announcement)) {
+                if (existing.containsKey(announcement.getItemId())) {
+                    announcement.setRead(existing.get(announcement.getItemId()));
+                } else {
+                    announcement.setRead(now);
+                }
+            } else {
+                if (showEmail) {
+                    unread.add(announcement);
+                }
+            }
+        }
+
+        for (Announcement announcement: diff.getNew()) {
+            announcement.setCourse(course);
+            if (!unReadOnes.contains(announcement)) {
+                announcement.setRead(now);
+            } else {
+                if (showEmail) {
+                    unread.add(announcement);
+                }
+            }
+        }
+
+        // Do the actual synchronisation
+        diff.apply(dao);
+
+        return unread;
+    }
+
+    @Override
+    protected void afterSync(Account account, Bundle extras, boolean isFirstSync) {
+        if (isFirstSync) {
+            SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(getContext());
+            int freq = Integer.parseInt(p.getString(MinervaFragment.PREF_SYNC_FREQUENCY_ANNOUNCEMENT, MinervaFragment.PREF_DEFAULT_SYNC_FREQUENCY));
+            SyncUtils.enable(account, MinervaConfig.ANNOUNCEMENT_AUTHORITY, freq);
+        }
     }
 }

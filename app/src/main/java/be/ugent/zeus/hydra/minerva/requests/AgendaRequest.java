@@ -22,7 +22,7 @@ public class AgendaRequest extends MinervaRequest<Agenda> {
     private ZonedDateTime end;
 
     public AgendaRequest(Context context, @Nullable Account account) {
-        super(Agenda.class, context, account, null);
+        super(Agenda.class, context, account);
     }
 
     public void setStart(ZonedDateTime start) {

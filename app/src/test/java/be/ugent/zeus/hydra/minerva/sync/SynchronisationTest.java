@@ -19,15 +19,15 @@ public class SynchronisationTest {
         Set<Integer> oldData = new HashSet<>(Arrays.asList(2, 63, 3, 4, 5, 65, 100, -56565, 0));
 
         Synchronisation<Integer, Integer> synchronisation = new Synchronisation<>(oldData, newData, Functions.identity());
-        Synchronisation.Classification<Integer, Integer> classification = synchronisation.classify();
+        Synchronisation.Diff<Integer, Integer> diff = synchronisation.diff();
 
         Collection<Integer> expectedNew = Collections.singleton(1);
         Collection<Integer> expectedStale = Arrays.asList(63, 65, 100, -56565, 0);
         Collection<Integer> expectedUpdated = Arrays.asList(2, 3, 4, 5);
 
-        assertCollectionEquals(expectedNew, classification.getNew());
-        assertCollectionEquals(expectedStale, classification.getStaleIds());
-        assertCollectionEquals(expectedUpdated, classification.getUpdated());
+        assertCollectionEquals(expectedNew, diff.getNew());
+        assertCollectionEquals(expectedStale, diff.getStaleIds());
+        assertCollectionEquals(expectedUpdated, diff.getUpdated());
     }
 
     @Test
@@ -37,11 +37,11 @@ public class SynchronisationTest {
         Set<Integer> oldData = new HashSet<>(Arrays.asList(2, 63, 3, 4, 5, 65, 100, -56565, 0));
 
         Synchronisation<Integer, Integer> synchronisation = new Synchronisation<>(oldData, newData, Functions.identity());
-        Synchronisation.Classification<Integer, Integer> classification = synchronisation.classify();
+        Synchronisation.Diff<Integer, Integer> diff = synchronisation.diff();
 
-        assertCollectionEquals(Collections.emptyList(), classification.getNew());
-        assertCollectionEquals(oldData, classification.getStaleIds());
-        assertCollectionEquals(Collections.emptyList(), classification.getUpdated());
+        assertCollectionEquals(Collections.emptyList(), diff.getNew());
+        assertCollectionEquals(oldData, diff.getStaleIds());
+        assertCollectionEquals(Collections.emptyList(), diff.getUpdated());
     }
 
     private static class TestObject {
@@ -84,24 +84,24 @@ public class SynchronisationTest {
                 newData,
                 o -> o.id
         );
-        Synchronisation.Classification<TestObject, String> classification = synchronisation.classify();
+        Synchronisation.Diff<TestObject, String> diff = synchronisation.diff();
 
         Set<TestObject> expectedUpdates = new HashSet<>();
         for (int i = 0; i < 20; i++) {
             expectedUpdates.add(new TestObject("ID" + i));
         }
-        assertCollectionEquals(expectedUpdates, classification.getUpdated()); // Test updated ids.
+        assertCollectionEquals(expectedUpdates, diff.getUpdated()); // Test updated ids.
 
         Set<TestObject> expectedNew = new HashSet<>();
         for (int i = 20; i < 50; i++) {
             expectedNew.add(new TestObject("ID" + i));
         }
-        assertCollectionEquals(expectedNew, classification.getNew());
+        assertCollectionEquals(expectedNew, diff.getNew());
 
         Set<String> expectedStale = new HashSet<>();
         for (int i = -5; i < 0; i++) {
             expectedStale.add("ID" + i);
         }
-        assertCollectionEquals(expectedStale, classification.getStaleIds());
+        assertCollectionEquals(expectedStale, diff.getStaleIds());
     }
 }

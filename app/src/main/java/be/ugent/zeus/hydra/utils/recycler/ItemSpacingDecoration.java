@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
- * Simple item decorator that add space between elements in a {@link LinearLayoutManager}. If it is not a linear layout
+ * Simple item decorator that insert space between elements in a {@link LinearLayoutManager}. If it is not a linear layout
  * manager, this will do nothing.
  *
  * If the layout manager is in vertical mode, the space will be added to the bottom of the items.

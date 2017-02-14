@@ -23,6 +23,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Singleton - can we avoid this? Should we? I don't know.
     private static DatabaseHelper instance;
 
+    private final Context context;
+
     public static DatabaseHelper getInstance(Context context) {
         if (instance == null) {
             instance = new DatabaseHelper(context);
@@ -32,6 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private DatabaseHelper(Context context) {
         super(context.getApplicationContext(), NAME, null, VERSION);
+        this.context = context.getApplicationContext();
     }
 
     @Override
@@ -52,6 +55,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.execSQL("ALTER TABLE " + AgendaTable.TABLE_NAME + " ADD COLUMN " + AgendaTable.Columns.CALENDAR_ID + " INTEGER");
                 // Add data
                 db.execSQL("UPDATE " + AgendaTable.TABLE_NAME + " SET " + AgendaTable.Columns.CALENDAR_ID + "=-1");
+                // Schedule new adapters on the default.
+                // TODO
             } else {
                 //Do database upgrade.
                 Log.i(TAG, "Upgrading database from " + oldVersion + " to " + newVersion);

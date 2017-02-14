@@ -17,7 +17,7 @@ import be.ugent.zeus.hydra.models.minerva.Courses;
 public class CoursesMinervaRequest extends MinervaRequest<Courses> {
 
     public CoursesMinervaRequest(Context context, Account account) {
-        super(Courses.class, context, account, null);
+        super(Courses.class, context, account);
     }
 
     @Override

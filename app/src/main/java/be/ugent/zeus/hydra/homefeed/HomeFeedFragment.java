@@ -62,7 +62,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * to 9 requests, we can't just load everything and then display it at once; this would show an empty screen for a long
  * time.
  *
- * Instead, we add data to the RecyclerView as soon the a request is completed. Roughly, the data flow for a request is:
+ * Instead, we insert data to the RecyclerView as soon the a request is completed. Roughly, the data flow for a request is:
  *
  * 1. This fragment creates a new {@link HomeFeedLoader}, and adds the requests.
  * 2. The Loader executes the requests one after another, on a different thread of course.
@@ -242,7 +242,7 @@ public class HomeFeedFragment extends PluginFragment implements HomeFeedLoaderCa
 
         Function<Integer, Boolean> d = i -> isTypeActive(s, i);
 
-        //Always add the special events.
+        //Always insert the special events.
         operations.add(add(new SpecialEventRequest(c, shouldRefresh)));
 
         //Add other stuff if needed

@@ -20,7 +20,7 @@ public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
     private Course course;
 
     public WhatsNewRequest(Course course, Context context, Account account) {
-        super(WhatsNew.class, context, account, null);
+        super(WhatsNew.class, context, account);
         this.course = course;
     }
 

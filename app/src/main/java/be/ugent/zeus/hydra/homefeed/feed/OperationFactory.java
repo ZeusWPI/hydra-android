@@ -14,9 +14,9 @@ import java8.util.function.Supplier;
 public final class OperationFactory {
 
     /**
-     * Create an operation that will add the request to the feed.
+     * Create an operation that will insert the request to the feed.
      *
-     * @param request The request to add.
+     * @param request The request to insert.
      *
      * @return The operation.
      */

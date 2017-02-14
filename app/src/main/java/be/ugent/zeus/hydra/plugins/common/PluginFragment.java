@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * A fragment that hosts plugins.
  *
- * To use plugins with fragments, extend this class. Then add the needed plugins in {@link #onAddPlugins(List)}.
+ * To use plugins with fragments, extend this class. Then insert the needed plugins in {@link #onAddPlugins(List)}.
  *
  * @author Niko Strijbol
  */

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * A plugin is a light weight object that can receive a small subset of the Activity/Fragment lifecycle callbacks.
  *
- * You can add plugins to {@link PluginFragment} or {@link PluginActivity}, which will enable them.
+ * You can insert plugins to {@link PluginFragment} or {@link PluginActivity}, which will enable them.
  *
  * @author Niko Strijbol
  */

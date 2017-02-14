@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.minerva.sync;
 
+import be.ugent.zeus.hydra.minerva.database.DiffDao;
 import java8.util.function.Function;
 
 import java.util.Collection;
@@ -9,7 +10,7 @@ import java.util.Iterator;
 /**
  * This class helps with one-way synchronisation.
  *
- * The algorithm will classify elements into three categories. See {@link Classification}.
+ * The algorithm will diff elements into three categories. See {@link Diff}.
  *
  * @param <E> The type of the elements.
  * @param <ID> The type of the primary key of the elements.
@@ -18,7 +19,7 @@ import java.util.Iterator;
  */
 public class Synchronisation<E, ID> {
 
-    private final Classification<E, ID> classification;
+    private final Diff<E, ID> diff;
 
     private boolean classified;
 
@@ -32,7 +33,7 @@ public class Synchronisation<E, ID> {
      * If the equals method return false even though the elements are equal, the old element will be removed and the new
      * one added.
      *
-     * As noted at {@link #classify()}, the underlying collections influence the complexity of this class' operations.
+     * As noted at {@link #diff()}, the underlying collections influence the complexity of this class' operations.
      * A good collection is a set.
      *
      * @param originalIds The primary keys of the data already on the device.
@@ -41,7 +42,7 @@ public class Synchronisation<E, ID> {
      *                  identify function.
      */
     public Synchronisation(Collection<ID> originalIds, Collection<E> newData, Function<E, ID> container) {
-        this.classification = new Classification<>(
+        this.diff = new Diff<>(
                 new HashSet<>(originalIds),
                 new HashSet<>(),
                 new HashSet<>(newData)
@@ -60,38 +61,38 @@ public class Synchronisation<E, ID> {
      *
      * @return The result.
      */
-    public Classification<E, ID> classify() {
+    public Diff<E, ID> diff() {
 
         if (classified) {
-            return classification;
+            return diff;
         }
 
-        for (Iterator<E> it = classification.newElements.iterator(); it.hasNext();) {
+        for (Iterator<E> it = diff.newElements.iterator(); it.hasNext();) {
             E element = it.next();
             ID id = container.apply(element);
-            if (classification.staleElementsIds.contains(id)) {
-                classification.updatedElements.add(element);
-                classification.staleElementsIds.remove(id);
+            if (diff.staleElementsIds.contains(id)) {
+                diff.updatedElements.add(element);
+                diff.staleElementsIds.remove(id);
                 it.remove();
             }
         }
 
         classified = true;
-        return classification;
+        return diff;
     }
 
     /**
-     * The result of the classification. There are three classes: stale, updated and new.
+     * The result of the diff. There are three classes: stale, updated and new.
      *
      * @param <E> The type of the elements.
      */
-    public static class Classification<E, ID> {
+    public static class Diff<E, ID> {
 
         private final Collection<ID> staleElementsIds;
         private final Collection<E> updatedElements;
         private final Collection<E> newElements;
 
-        private Classification(Collection<ID> staleElementsIds, Collection<E> updatedElements, Collection<E> newElements) {
+        private Diff(Collection<ID> staleElementsIds, Collection<E> updatedElements, Collection<E> newElements) {
             this.staleElementsIds = staleElementsIds;
             this.updatedElements = updatedElements;
             this.newElements = newElements;
@@ -124,6 +125,17 @@ public class Synchronisation<E, ID> {
          */
         public Collection<E> getNew() {
             return newElements;
+        }
+
+        /**
+         * Execute the diff automatically. This will delete, update and insert the elements, in that order.
+         *
+         * @param dao The
+         */
+        public void apply(DiffDao<E, ID> dao) {
+            dao.delete(getStaleIds());
+            dao.update(getUpdated());
+            dao.insert(getNew());
         }
     }
 }

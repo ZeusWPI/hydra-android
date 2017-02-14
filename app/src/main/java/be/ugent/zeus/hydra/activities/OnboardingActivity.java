@@ -13,6 +13,7 @@ import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity
 import be.ugent.zeus.hydra.fragments.onboarding.HomeFeedFragment;
 import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
+import be.ugent.zeus.hydra.minerva.course.sync.Adapter;
 import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
@@ -88,8 +89,10 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
     private void onAccountCreated() {
         //Get an account
         Account account = AccountUtils.getAccount(this);
-        SyncUtils.enableSync(this, account);
-        //Enable broadcasts, because the user might go to the fragment.
-        SyncUtils.requestFirstSync(account);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(Adapter.EXTRA_SCHEDULE_AGENDA, true);
+        bundle.putBoolean(Adapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
+        bundle.putBoolean(Adapter.EXTRA_FIRST_SYNC, true);
+        SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
     }
 }

@@ -26,7 +26,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <!-- We add our own calendar provider -->
+    <!-- We insert our own calendar provider -->
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
@@ -224,7 +224,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.content.SyncAdapter"
-                android:resource="@xml/minerva_sync_adapter" />
+                android:resource="@xml/minerva_sync_announcement" />
         </service>
 
         <!-- Stub announcement provider -->
@@ -244,7 +244,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.content.SyncAdapter"
-                android:resource="@xml/minerva_calendar_sync" />
+                android:resource="@xml/minerva_sync_calendar" />
         </service>
 
         <!-- Stub calendar provider -->
@@ -253,6 +253,26 @@
             android:authorities="be.ugent.zeus.hydra.minerva.calendar.provider"
             android:exported="false"
             android:label="@string/minerva_sync_calendar_provider"
+            android:syncable="true" />
+
+        <!-- Course sync service -->
+        <service
+            android:name=".minerva.course.sync.Service"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/minerva_sync_course" />
+        </service>
+
+        <!-- Stub course provider -->
+        <provider
+            android:name=".minerva.course.sync.Provider"
+            android:authorities="be.ugent.zeus.hydra.minerva.course.provider"
+            android:exported="false"
+            android:label="@string/minerva_sync_course"
             android:syncable="true" />
 
         <!-- Urgent stuff -->

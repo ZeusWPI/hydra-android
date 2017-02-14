@@ -50,7 +50,7 @@ public class MenuTable extends TableLayout {
     }
 
     /**
-     * Create and add a title view.
+     * Create and insert a title view.
      *
      * @param title The title.
      */
@@ -77,7 +77,7 @@ public class MenuTable extends TableLayout {
     }
 
     /**
-     * Create and add a title view.
+     * Create and insert a title view.
      *
      * @param title The title.
      */

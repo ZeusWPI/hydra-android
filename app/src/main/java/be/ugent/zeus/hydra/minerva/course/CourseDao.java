@@ -9,10 +9,15 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.minerva.database.Dao;
+import be.ugent.zeus.hydra.minerva.database.DiffDao;
 import be.ugent.zeus.hydra.minerva.database.Utils;
 import be.ugent.zeus.hydra.models.minerva.Course;
 
 import java.util.*;
+
+import static be.ugent.zeus.hydra.minerva.database.Utils.args;
+import static be.ugent.zeus.hydra.minerva.database.Utils.in;
+import static be.ugent.zeus.hydra.minerva.database.Utils.where;
 
 /**
  * This class provides easy access to the {@link Course}s in the database.
@@ -21,7 +26,7 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
-public class CourseDao extends Dao {
+public class CourseDao extends Dao implements DiffDao<Course, String> {
 
     private static final String TAG = "CourseDao";
 
@@ -32,17 +37,17 @@ public class CourseDao extends Dao {
         super(context);
     }
 
-    public void add(Course course) {
-        add(Collections.singleton(course));
+    public void insert(Course course) {
+        insert(Collections.singleton(course));
     }
 
     /**
      * Add new courses to the database. This method assumes the courses are not in the database already. If they are,
      * you should remove them first, or update them instead.
      *
-     * @param courses The courses to add.
+     * @param courses The courses to insert.
      */
-    public void add(Collection<Course> courses) {
+    public void insert(Collection<Course> courses) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -52,8 +57,6 @@ public class CourseDao extends Dao {
                 db.insertOrThrow(CourseTable.TABLE_NAME, null, getValues(course));
             }
             db.setTransactionSuccessful();
-        } catch (SQLException e) {
-            Log.e(TAG, "Error while inserting.", e);
         } finally {
             db.endTransaction();
         }
@@ -63,8 +66,11 @@ public class CourseDao extends Dao {
      * Synchronise a collection of courses with the database. The end result is that the database will only contain
      * the provided courses. Data that is not present in the courses will be retained.
      *
-     * @param courses The courses to add.
+     * @deprecated This method does not belong in a dao.
+     *
+     * @param courses The courses to insert.
      */
+    @Deprecated
     public void synchronise(Collection<Course> courses) throws SQLException {
 
         //Get existing courses.
@@ -81,7 +87,7 @@ public class CourseDao extends Dao {
             ids = idCollection.toArray(ids);
             String questions = Utils.commaSeparatedQuestionMarks(idCollection.size());
 
-            int rows = db.delete(CourseTable.TABLE_NAME, CourseTable.COLUMN_ID + " IN (" + questions + ")", ids);
+            int rows = db.delete(CourseTable.TABLE_NAME, CourseTable.Columns.ID + " IN (" + questions + ")", ids);
             Log.d(TAG, "Removed " + rows + " stale courses.");
 
             for (Course course: courses ) {
@@ -89,10 +95,10 @@ public class CourseDao extends Dao {
                 //Get the values
                 ContentValues value = getValues(course);
 
-                //If the course is present, we update it's rows, otherwise we add it to the database.
+                //If the course is present, we update it's rows, otherwise we insert it to the database.
                 if(present.contains(course.getId())) {
-                    value.remove(CourseTable.COLUMN_ID); //We don't need to set this
-                    db.update(CourseTable.TABLE_NAME, value, CourseTable.COLUMN_ID + " = ?", new String[]{course.getId()});
+                    value.remove(CourseTable.Columns.ID); //We don't need to set this
+                    db.update(CourseTable.TABLE_NAME, value, CourseTable.Columns.ID + " = ?", new String[]{course.getId()});
                 }
                 //Add new course
                 else {
@@ -107,10 +113,53 @@ public class CourseDao extends Dao {
     }
 
     /**
+     * Delete all calendar items that match the given ID's. If the collection is null, everything will be deleted.
+     *
+     * @param ids The ID's to delete, or null for everything.
+     */
+    public void delete(Collection<String> ids) {
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        if (ids == null) {
+            db.delete(CourseTable.TABLE_NAME, null, null);
+        } else if (ids.size() == 1) {
+            db.delete(CourseTable.TABLE_NAME, where(CourseTable.Columns.ID), args(ids));
+        } else {
+            db.delete(CourseTable.TABLE_NAME, in(CourseTable.Columns.ID, ids.size()), args(ids));
+        }
+    }
+
+    /**
      * Delete all courses from the database.
      */
     public void deleteAll() {
         helper.getWritableDatabase().delete(CourseTable.TABLE_NAME, null, null);
+    }
+
+    /**
+     * Update existing items. Every column will be replaced with the value from the corresponding object.
+     *
+     * @param items The items to update.
+     */
+    public void update(Collection<Course> items) {
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        try {
+            db.beginTransaction();
+
+            for (Course item: items) {
+                ContentValues values = getValues(item);
+                values.remove(CourseTable.Columns.ID);
+                db.update(CourseTable.TABLE_NAME, values, where(CourseTable.Columns.ID), args(item.getId()));
+            }
+
+            db.setTransactionSuccessful();
+
+        } finally {
+            db.endTransaction();
+        }
     }
 
     /**
@@ -123,13 +172,13 @@ public class CourseDao extends Dao {
     private static ContentValues getValues(Course course) {
         ContentValues values = new ContentValues();
 
-        values.put(CourseTable.COLUMN_ID, course.getId());
-        values.put(CourseTable.COLUMN_CODE, course.getCode());
-        values.put(CourseTable.COLUMN_TITLE, course.getTitle());
-        values.put(CourseTable.COLUMN_DESCRIPTION, course.getDescription());
-        values.put(CourseTable.COLUMN_TUTOR, course.getTutorName());
-        values.put(CourseTable.COLUMN_STUDENT, course.getStudent());
-        values.put(CourseTable.COLUMN_ACADEMIC_YEAR, course.getAcademicYear());
+        values.put(CourseTable.Columns.ID, course.getId());
+        values.put(CourseTable.Columns.CODE, course.getCode());
+        values.put(CourseTable.Columns.TITLE, course.getTitle());
+        values.put(CourseTable.Columns.DESCRIPTION, course.getDescription());
+        values.put(CourseTable.Columns.TUTOR, course.getTutorName());
+        values.put(CourseTable.Columns.STUDENT, course.getStudent());
+        values.put(CourseTable.Columns.ACADEMIC_YEAR, course.getAcademicYear());
 
         return values;
     }
@@ -145,14 +194,14 @@ public class CourseDao extends Dao {
         SQLiteDatabase db = helper.getReadableDatabase();
         Set<String> result = new HashSet<>();
 
-        Cursor cursor = db.query(CourseTable.TABLE_NAME, new String[]{CourseTable.COLUMN_ID}, null, null, null, null, null);
+        Cursor cursor = db.query(CourseTable.TABLE_NAME, new String[]{CourseTable.Columns.ID}, null, null, null, null, null);
 
         if (cursor == null) {
             return result;
         }
 
         try {
-            int columnIndex = cursor.getColumnIndex(CourseTable.COLUMN_ID);
+            int columnIndex = cursor.getColumnIndex(CourseTable.Columns.ID);
             while (cursor.moveToNext()) {
                 result.add(cursor.getString(columnIndex));
             }
@@ -208,7 +257,14 @@ public class CourseDao extends Dao {
         List<Course> result = new ArrayList<>();
 
         //Get the cursor.
-        Cursor c = db.query(CourseTable.TABLE_NAME, null, null, null, null, null, null);
+        Cursor c = db.query(
+                CourseTable.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                CourseTable.Columns.TITLE);
 
         //If the cursor is null, abort
         if (c == null) {

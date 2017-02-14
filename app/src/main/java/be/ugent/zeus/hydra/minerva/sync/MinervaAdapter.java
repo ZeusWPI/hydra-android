@@ -7,9 +7,7 @@ import android.database.SQLException;
 import android.os.Bundle;
 import android.util.Log;
 import be.ugent.zeus.hydra.minerva.auth.AuthenticatorActionException;
-import be.ugent.zeus.hydra.minerva.course.CourseDao;
-import be.ugent.zeus.hydra.minerva.requests.CoursesMinervaRequest;
-import be.ugent.zeus.hydra.models.minerva.Courses;
+import be.ugent.zeus.hydra.minerva.requests.MinervaRequest;
 import be.ugent.zeus.hydra.requests.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -50,6 +48,12 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
 
     protected final SyncBroadcast broadcast;
 
+    /**
+     * Implementing classes can use this to store the executed request. This enables automatic error handling. If this
+     * is not used, authentication errors will not be handled.
+     */
+    protected MinervaRequest<?> request;
+
     public MinervaAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         broadcast = new SyncBroadcast(context);
@@ -66,24 +70,14 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
         }
 
         final boolean isFirstSync = extras.getBoolean(EXTRA_FIRST_SYNC, false);
-        final CourseDao courseDao = new CourseDao(getContext());
-        final CoursesMinervaRequest request = new CoursesMinervaRequest(getContext(), account);
 
         try {
+            onPerformCheckedSync(account, extras, authority, provider, syncResult, isFirstSync);
 
-            // If this is the first request, clean everything.
-            if (isFirstSync) {
-                courseDao.deleteAll();
+            if (isCancelled) {
+                broadcast.publishIntent(SyncBroadcast.SYNC_CANCELLED);
+                return;
             }
-
-            Courses courses = request.performRequest();
-
-            courseDao.synchronise(courses.getCourses());
-            // Publish progress.
-            broadcast.publishIntent(SyncBroadcast.SYNC_COURSES);
-
-            // Do implementations
-            onPerformCheckedSync(courses, account, extras, authority, provider, syncResult, isFirstSync);
 
             broadcast.publishIntent(SyncBroadcast.SYNC_DONE);
 
@@ -95,12 +89,13 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
             Log.i(TAG, "Auth exception while syncing.", e);
             syncResult.stats.numAuthExceptions++;
             // This should not be null, but check it anyway.
-            if (request.getAccountBundle() != null) {
+            if (request != null && request.getAccountBundle() != null) {
                 Intent intent = request.getAccountBundle().getParcelable(AccountManager.KEY_INTENT);
                 SyncErrorNotification.Builder.init(getContext()).authError(intent).build().show();
                 broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
             } else {
-                syncErrorNotification(e);
+                Log.w(TAG, "Auth exception during sync, but no error intent was found. Ignoring error.");
+                //syncErrorNotification(e);
             }
         } catch (RequestFailureException e) {
             Log.w(TAG, "Exception during sync:", e);
@@ -116,6 +111,8 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
             syncResult.stats.numParseExceptions++;
             syncErrorNotification(e);
         }
+
+        afterSync(account, extras, isFirstSync);
     }
 
     @Override
@@ -136,9 +133,11 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
      * Same as {@link #onPerformSync(Account, Bundle, String, ContentProviderClient, SyncResult)}, except various
      * exceptions are already catched and handled.
      *
-     * At this point, the list of courses has been successfully synchronised.
-     *
      * @see #onPerformSync(Account, Bundle, String, ContentProviderClient, SyncResult)
      */
-    protected abstract void onPerformCheckedSync(Courses courses, Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult results, boolean isFirstSync) throws RequestFailureException;
+    protected abstract void onPerformCheckedSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult results, boolean isFirstSync) throws RequestFailureException;
+
+    protected void afterSync(Account account, Bundle extras, boolean isFirstSync) {
+        // Nothing.
+    }
 }

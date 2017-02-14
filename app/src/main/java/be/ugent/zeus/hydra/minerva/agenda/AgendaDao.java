@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import be.ugent.zeus.hydra.minerva.course.CourseExtractor;
 import be.ugent.zeus.hydra.minerva.course.CourseTable;
 import be.ugent.zeus.hydra.minerva.database.Dao;
+import be.ugent.zeus.hydra.minerva.database.DiffDao;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.TtbUtils;
@@ -25,9 +26,7 @@ import static be.ugent.zeus.hydra.minerva.database.Utils.*;
  *
  * @author Niko Strijbol
  */
-public class AgendaDao extends Dao {
-
-    private final static String TAG = "AgendaDao";
+public class AgendaDao extends Dao implements DiffDao<AgendaItem, Integer> {
 
     /**
      * @param context The application context.
@@ -89,19 +88,16 @@ public class AgendaDao extends Dao {
     /**
      * Add new items to the database.
      *
-     * @param items The items to add.
+     * @param items The items to insert.
      */
     public void insert(Collection<AgendaItem> items) {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         try {
             db.beginTransaction();
-
             for (AgendaItem agendaItem: items) {
-                ContentValues value = getValues(agendaItem);
-                db.insertOrThrow(AgendaTable.TABLE_NAME, null, value);
+                db.insertOrThrow(AgendaTable.TABLE_NAME, null, getValues(agendaItem));
             }
-
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -181,7 +177,7 @@ public class AgendaDao extends Dao {
         final String courseTable = "course_";
 
         String agendaJoin =  AgendaTable.Columns.COURSE;
-        String courseJoin = courseTable + CourseTable.COLUMN_ID;
+        String courseJoin = courseTable + CourseTable.Columns.ID;
 
         builder.setTables(AgendaTable.TABLE_NAME + " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + agendaJoin + "=" + courseJoin);
 
@@ -197,13 +193,13 @@ public class AgendaDao extends Dao {
                 AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LAST_EDIT,
                 AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LAST_EDIT_TYPE,
                 AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.CALENDAR_ID,
-                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_ID + " AS " + courseTable + CourseTable.COLUMN_ID,
-                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_CODE + " AS " + courseTable + CourseTable.COLUMN_CODE,
-                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_TITLE + " AS " + courseTable + CourseTable.COLUMN_TITLE,
-                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_DESCRIPTION + " AS " + courseTable + CourseTable.COLUMN_DESCRIPTION,
-                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_TUTOR + " AS " + courseTable + CourseTable.COLUMN_TUTOR,
-                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_STUDENT + " AS " + courseTable + CourseTable.COLUMN_STUDENT,
-                CourseTable.TABLE_NAME + "." + CourseTable.COLUMN_ACADEMIC_YEAR + " AS " + courseTable + CourseTable.COLUMN_ACADEMIC_YEAR,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.ID + " AS " + courseTable + CourseTable.Columns.ID,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.CODE + " AS " + courseTable + CourseTable.Columns.CODE,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.TITLE + " AS " + courseTable + CourseTable.Columns.TITLE,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.DESCRIPTION + " AS " + courseTable + CourseTable.Columns.DESCRIPTION,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.TUTOR + " AS " + courseTable + CourseTable.Columns.TUTOR,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.STUDENT + " AS " + courseTable + CourseTable.Columns.STUDENT,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.ACADEMIC_YEAR + " AS " + courseTable + CourseTable.Columns.ACADEMIC_YEAR,
         };
 
         String now = String.valueOf(instant.toEpochMilli());
@@ -223,13 +219,13 @@ public class AgendaDao extends Dao {
         }
 
         CourseExtractor cExtractor = new CourseExtractor.Builder(c)
-                .columnId(courseTable + CourseTable.COLUMN_ID)
-                .columnCode(courseTable + CourseTable.COLUMN_CODE)
-                .columnTitle(courseTable + CourseTable.COLUMN_TITLE)
-                .columnDesc(courseTable + CourseTable.COLUMN_DESCRIPTION)
-                .columnTutor(courseTable + CourseTable.COLUMN_TUTOR)
-                .columnStudent(courseTable + CourseTable.COLUMN_STUDENT)
-                .columnYear(courseTable + CourseTable.COLUMN_ACADEMIC_YEAR)
+                .columnId(courseTable + CourseTable.Columns.ID)
+                .columnCode(courseTable + CourseTable.Columns.CODE)
+                .columnTitle(courseTable + CourseTable.Columns.TITLE)
+                .columnDesc(courseTable + CourseTable.Columns.DESCRIPTION)
+                .columnTutor(courseTable + CourseTable.Columns.TUTOR)
+                .columnStudent(courseTable + CourseTable.Columns.STUDENT)
+                .columnYear(courseTable + CourseTable.Columns.ACADEMIC_YEAR)
                 .build();
 
         AgendaExtractor aExtractor = new AgendaExtractor.Builder(c).defaults().build();
