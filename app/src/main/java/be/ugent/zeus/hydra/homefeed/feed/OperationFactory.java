@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.homefeed.feed;
 
 import be.ugent.zeus.hydra.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
-import java8.util.function.Function;
+import java8.util.function.IntPredicate;
 import java8.util.function.Predicate;
 import java8.util.function.Supplier;
 
@@ -50,17 +50,17 @@ public final class OperationFactory {
      * Utility method to get an operation. If {@code isActive} evaluates to true, this method will call
      * {@link #add(HomeFeedRequest)}, and otherwise {@link #del(int)}.
      *
-     * @param isActive If the type is active or not.
+     * @param isIgnored If the card type should be ignored or not. Must return true if the card must be ignored.
      * @param supplier The request supplier. Use a supplier so the request only gets made when needed.
      * @param type     Type of the home card.
      *
      * @return The operation.
      */
-    public static FeedOperation get(Function<Integer, Boolean> isActive, Supplier<HomeFeedRequest> supplier, @HomeCard.CardType int type) {
-        if (isActive.apply(type)) {
-            return add(supplier.get());
-        } else {
+    public static FeedOperation get(IntPredicate isIgnored, Supplier<HomeFeedRequest> supplier, @HomeCard.CardType int type) {
+        if (isIgnored.test(type)) {
             return del(type);
+        } else {
+            return add(supplier.get());
         }
     }
 }

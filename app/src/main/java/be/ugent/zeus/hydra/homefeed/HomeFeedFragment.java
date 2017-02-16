@@ -37,10 +37,13 @@ import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.requests.common.OfflineBroadcaster;
 import be.ugent.zeus.hydra.utils.IterableSparseArray;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.utils.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
-import java8.util.function.Function;
+import java8.util.function.IntPredicate;
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,7 +65,8 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * to 9 requests, we can't just load everything and then display it at once; this would show an empty screen for a long
  * time.
  *
- * Instead, we insert data to the RecyclerView as soon the a request is completed. Roughly, the data flow for a request is:
+ * Instead, we insert data to the RecyclerView as soon the a request is completed.
+ * Roughly, the data flow for a request is:
  *
  * 1. This fragment creates a new {@link HomeFeedLoader}, and adds the requests.
  * 2. The Loader executes the requests one after another, on a different thread of course.
@@ -188,13 +192,6 @@ public class HomeFeedFragment extends PluginFragment implements HomeFeedLoaderCa
         swipeRefreshLayout.clearAnimation();
     }
 
-    /**
-     * Restart the loaders
-     */
-    private void refreshLoader() {
-        getLoader().onContentChanged();
-    }
-
     private void showErrorMessage(String message) {
         //noinspection WrongConstant
        plugin.showSnackbar(message, Snackbar.LENGTH_LONG, null);
@@ -231,16 +228,25 @@ public class HomeFeedFragment extends PluginFragment implements HomeFeedLoaderCa
     public IterableSparseArray<FeedOperation> onScheduleOperations(Context c) {
         FeedCollection operations = new FeedCollection();
 
-        Set<String> s = PreferenceManager
+        Set<Integer> s = StreamSupport.stream(PreferenceManager
                 .getDefaultSharedPreferences(c)
-                .getStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, Collections.emptySet());
+                .getStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, Collections.emptySet()))
+                .map(Integer::parseInt)
+                .collect(Collectors.toSet());
 
+        // Don't do Minerva if there is no account.
         if (!AccountUtils.hasAccount(getContext())) {
-            s.remove(String.valueOf(HomeCard.CardType.MINERVA_AGENDA));
-            s.remove(String.valueOf(HomeCard.CardType.MINERVA_ANNOUNCEMENT));
+            s.add(HomeCard.CardType.MINERVA_AGENDA);
+            s.add(HomeCard.CardType.MINERVA_ANNOUNCEMENT);
         }
 
-        Function<Integer, Boolean> d = i -> isTypeActive(s, i);
+        // Don't do Urgent.fm if there is no network.
+        if (!NetworkUtils.isConnected(getContext())) {
+            s.add(HomeCard.CardType.URGENT_FM);
+        }
+
+        // Test if the card type is ignored or not.
+        IntPredicate d = s::contains;
 
         //Always insert the special events.
         operations.add(add(new SpecialEventRequest(c, shouldRefresh)));
@@ -254,6 +260,7 @@ public class HomeFeedFragment extends PluginFragment implements HomeFeedLoaderCa
         operations.add(get(d, () -> new MinervaAgendaRequest(c), HomeCard.CardType.MINERVA_AGENDA));
         operations.add(get(d, UrgentRequest::new, HomeCard.CardType.URGENT_FM));
 
+        // Add debug request.
         if (BuildConfig.DEBUG && ADD_STALL_REQUEST) {
             operations.add(add(new WaitRequest()));
         }
@@ -290,15 +297,6 @@ public class HomeFeedFragment extends PluginFragment implements HomeFeedLoaderCa
         //Do nothing
     }
 
-    /**
-     * Check to see if a card type is showable.
-     *
-     * @return True if the card may be shown.
-     */
-    private boolean isTypeActive(Set<String> data, @HomeCard.CardType int cardType) {
-        return !data.contains(String.valueOf(cardType));
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
@@ -323,7 +321,8 @@ public class HomeFeedFragment extends PluginFragment implements HomeFeedLoaderCa
     public void onRefresh() {
         shouldRefresh = true;
         plugin.dismiss();
-        refreshLoader();
+        swipeRefreshLayout.setRefreshing(true);
+        getLoader().onContentChanged();
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {

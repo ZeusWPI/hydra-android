@@ -36,7 +36,7 @@ public abstract class HomeCard implements Comparable<HomeCard> {
     /**
      * @return The card type.
      */
-    @HomeCard.CardType
+    @CardType
     public abstract int getCardType();
 
     /**
