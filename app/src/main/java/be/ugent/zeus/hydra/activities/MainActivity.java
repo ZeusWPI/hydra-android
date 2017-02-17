@@ -1,26 +1,37 @@
 package be.ugent.zeus.hydra.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ShortcutManager;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
-import be.ugent.zeus.hydra.plugins.OfflinePlugin;
-import be.ugent.zeus.hydra.plugins.common.Plugin;
-import be.ugent.zeus.hydra.viewpager.SectionPagerAdapter;
-
-import java.util.List;
+import be.ugent.zeus.hydra.fragments.ComingSoonFragment;
+import be.ugent.zeus.hydra.fragments.InfoFragment;
+import be.ugent.zeus.hydra.fragments.NewsFragment;
+import be.ugent.zeus.hydra.fragments.SchamperFragment;
+import be.ugent.zeus.hydra.fragments.events.EventFragment;
+import be.ugent.zeus.hydra.fragments.library.LibraryListFragment;
+import be.ugent.zeus.hydra.fragments.minerva.MinervaFragment;
+import be.ugent.zeus.hydra.fragments.resto.RestoFragment;
+import be.ugent.zeus.hydra.fragments.urgent.UrgentFragment;
+import be.ugent.zeus.hydra.homefeed.HomeFeedFragment;
+import jonathanfinerty.once.Once;
 
 /**
  * Main activity.
@@ -28,102 +39,247 @@ import java.util.List;
 public class MainActivity extends HydraActivity {
 
     public static final String ARG_TAB = "argTab";
+    public static final String ARG_TAB_SHORTCUT = "argTabShortcut";
     private static final String TAG = "HydraActivity";
-    private static final String PREF_ONBOARDING = "pref_onboarding";
+
+    private static final String ONCE_ONBOARDING = "once_onboarding";
     private static final int ONBOARDING_REQUEST = 5;
+
+    private static final String ONCE_DRAWER = "once_drawer";
+
+    private static final String FRAGMENT_MENU_ID = "backStack";
 
     private static final String SHORTCUT_RESTO = "resto";
     private static final String SHORTCUT_MINERVA = "minerva";
 
-    //The tab icons
-    private static int[] icons = {
-            R.drawable.tabs_home,
-            R.drawable.tabs_schamper,
-            R.drawable.tabs_resto,
-            R.drawable.tabs_events,
-            R.drawable.tabs_news,
-            R.drawable.tabs_info,
-            R.drawable.tabs_minerva,
-            R.drawable.tabs_urgent
-    };
-
-    private SharedPreferences preferences;
-    private OfflinePlugin plugin = new OfflinePlugin();
-
-    @Override
-    protected void onAddPlugins(List<Plugin> plugins) {
-        super.onAddPlugins(plugins);
-        plugins.add(plugin);
-    }
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
+    private AppBarLayout appBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getToolbar().setDisplayShowTitleEnabled(false);
-        plugin.setView($(R.id.pager));
-
-        //The first thing we do is maybe start the onboarding.
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.getBoolean(PREF_ONBOARDING, true)) {
+        // Show onboarding if the user has not completed it yet.
+        if (!Once.beenDone(ONCE_ONBOARDING)) {
             Intent intent = new Intent(this, OnboardingActivity.class);
             startActivityForResult(intent, ONBOARDING_REQUEST);
-        } else { //Otherwise do init
-            initialise();
+        }
+
+        initialize(savedInstanceState);
+    }
+
+    private void initialize(Bundle savedInstanceState) {
+        drawer = $(R.id.drawer_layout);
+        navigationView = $(R.id.navigation_view);
+        appBarLayout = $(R.id.app_bar_layout);
+
+        navigationView.setNavigationItemSelectedListener(
+                menuItem -> {
+                    selectDrawerItem(menuItem);
+                    return true;
+                });
+
+        toggle = new ActionBarDrawerToggle(this, drawer, $(R.id.toolbar), R.string.drawer_open, R.string.drawer_close) {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, 0); // this disables the animation
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                Once.markDone(ONCE_DRAWER);
+            }
+        };
+        drawer.addDrawerListener(toggle);
+
+        //If the instance is null, we must initialise a fragment, otherwise android does it for us.
+        if (savedInstanceState == null) {
+            // If we get a position, use that (for the shortcuts)
+            if (getIntent().hasExtra(ARG_TAB_SHORTCUT)) {
+                int position = getIntent().getIntExtra(ARG_TAB_SHORTCUT, 0);
+                selectDrawerItem(navigationView.getMenu().getItem(position));
+            } else {
+                // Get start position & select it
+                int start = getIntent().getIntExtra(ARG_TAB, R.id.drawer_feed);
+                selectDrawerItem(navigationView.getMenu().findItem(start));
+            }
+        } else { //Update title, since this is not saved apparently.
+            //Current fragment
+            FragmentManager manager = getSupportFragmentManager();
+            Fragment current = manager.findFragmentById(R.id.content);
+            setTitle(navigationView.getMenu().findItem(getFragmentMenuId(current)).getTitle());
+        }
+
+        // If this is the first time, open the drawer.
+        if (!Once.beenDone(ONCE_DRAWER)) {
+            drawer.openDrawer(GravityCompat.START);
         }
     }
 
-    public OfflinePlugin getOfflinePlugin() {
-        return plugin;
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        toggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        toggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return toggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Select a drawer item. This will update the fragment to the new one from the menu item, if it is a different one
+     * than the current one.
+     *
+     * Note: this function does not update the drawer.
+     *
+     * @param menuItem The item to display.
+     */
+    private void selectDrawerItem(MenuItem menuItem) {
+
+        // First check if it are settings, then we don't update anything.
+        if (menuItem.getItemId() == R.id.drawer_pref) {
+            drawer.closeDrawer(GravityCompat.START);
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return;
+        }
+
+        updateDrawer(menuItem);
+
+        // Create a new fragment and specify the fragment to show based on nav item clicked
+        Log.d(TAG, "selectDrawerItem: Selecting item");
+
+        Fragment fragment;
+        switch (menuItem.getItemId()) {
+            case R.id.drawer_feed:
+                fragment = new HomeFeedFragment();
+                break;
+            case R.id.drawer_schamper:
+                fragment = new SchamperFragment();
+                break;
+            case R.id.drawer_resto:
+                reportShortcutUsed(SHORTCUT_RESTO);
+                fragment = new RestoFragment();
+                break;
+            case R.id.drawer_events:
+                fragment = new EventFragment();
+                break;
+            case R.id.drawer_news:
+                fragment = new NewsFragment();
+                break;
+            case R.id.drawer_info:
+                fragment = new InfoFragment();
+                break;
+            case R.id.drawer_minerva:
+                reportShortcutUsed(SHORTCUT_MINERVA);
+                fragment = new MinervaFragment();
+                break;
+            case R.id.drawer_urgent:
+                fragment = new UrgentFragment();
+                break;
+            case R.id.drawer_library:
+                fragment = new LibraryListFragment();
+                break;
+            default:
+                fragment = new ComingSoonFragment();
+        }
+
+        //Set the ID
+        setArguments(fragment, menuItem.getItemId());
+
+        //We use a back stack for the fragments. When a new fragment is shown, we add it to the back stack.
+        //If the fragment is already in the back stack, we restore the back stack to that fragment.
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        //Current fragment
+        Fragment current = fragmentManager.findFragmentById(R.id.content);
+
+        //If this is the same fragment, don't do anything.
+        if(current != null && current.getClass().equals(fragment.getClass())) {
+            return;
+        }
+
+        String name = String.valueOf(menuItem.getItemId());
+        fragmentManager.popBackStackImmediate(name, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.content, fragment)
+                .commit();
+
+        appBarLayout.setExpanded(true);
+    }
+
+    /**
+     * Manually set the drawer item, and close the drawers. This will not update the fragment.
+     *
+     * @param item The item to mark as current.
+     */
+    private void updateDrawer(MenuItem item) {
+        // Highlight the selected item has been done by NavigationView
+        item.setChecked(true);
+        // Set action bar title
+        setTitle(item.getTitle());
+        // Log it for Analytics
+        HydraApplication application = (HydraApplication) getApplication();
+        application.sendScreenName("Main > " + item.getTitle());
+        // Close the navigation drawer
+        drawer.closeDrawers();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+            return;
+        }
+
+        //If it is empty, we attempt to go the the start one.
+        //Update the title
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content);
+        if (fragment != null) {
+            int id = getFragmentMenuId(fragment);
+            MenuItem item = navigationView.getMenu().findItem(id);
+            MenuItem original = navigationView.getMenu().findItem(getIntent().getIntExtra(ARG_TAB, R.id.drawer_feed));
+
+            //We are good
+            if (item == original) {
+                super.onBackPressed();
+            } else {
+                selectDrawerItem(original);
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void setArguments(Fragment fragment, @IdRes int id) {
+        Bundle arguments = new Bundle();
+        arguments.putInt(FRAGMENT_MENU_ID, id);
+        fragment.setArguments(arguments);
+    }
+
+    /**
+     * Get the position of a fragment in the menu. While stupid, there is no other way to do this.
+     */
+    @IdRes
+    private int getFragmentMenuId(Fragment fragment) {
+        return fragment.getArguments().getInt(FRAGMENT_MENU_ID);
     }
 
     @Override
     protected boolean hasParent() {
         return false;
-    }
-
-    /**
-     * Initialise the activity. Must be NOT be called BEFORE the onCreate function (you can call it in onCreate).
-     */
-    private void initialise() {
-        ViewPager viewpager = $(R.id.pager);
-        viewpager.setAdapter(new SectionPagerAdapter(getSupportFragmentManager()));
-
-        final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
-        viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                HydraApplication app = (HydraApplication) MainActivity.this.getApplication();
-                app.sendScreenName("Fragment tab: " + SectionPagerAdapter.names[position]);
-                //TODO; make this more robust
-                if(position == 2) {
-                    reportShortcutUsed(SHORTCUT_RESTO);
-                } else if (position == 6) {
-                    reportShortcutUsed(SHORTCUT_MINERVA);
-                }
-                appBarLayout.setExpanded(true);
-                plugin.dismiss();
-            }
-        });
-
-        TabLayout tabLayout = $(R.id.tab_layout);
-        tabLayout.setupWithViewPager(viewpager);
-
-        for (int i = 0; i < icons.length; i++) {
-            //noinspection ConstantConditions
-            tabLayout.getTabAt(i).setIcon(icons[i]);
-        }
-
-        //Get start position
-        int start = getIntent().getIntExtra(ARG_TAB, 0);
-        viewpager.setCurrentItem(start, false);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.global, menu);
-        return super.onCreateOptionsMenu(menu);
     }
 
     private void reportShortcutUsed(String shortcutId) {
@@ -139,30 +295,13 @@ public class MainActivity extends HydraActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimpliiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == ONBOARDING_REQUEST) {
             if(resultCode == RESULT_OK) {
                 Log.i(TAG, "Onboarding complete");
-                preferences.edit().putBoolean(PREF_ONBOARDING, false).apply();
-                initialise();
+                Once.markDone(ONCE_ONBOARDING);
+                initialize(null);
             } else {
                 Log.i(TAG, "Onboarding failed, stop app.");
                 finish();
@@ -170,5 +309,15 @@ public class MainActivity extends HydraActivity {
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        // Change item while the activity is running.
+        if (intent.hasExtra(ARG_TAB)) {
+            int start = intent.getIntExtra(ARG_TAB, R.id.drawer_feed);
+            selectDrawerItem(navigationView.getMenu().findItem(start));
+        }
     }
 }

@@ -16,7 +16,7 @@ import java.io.Serializable;
 /**
  * @author Niko Strijbol
  */
-public class AgendaItem implements Serializable, Parcelable {
+public final class AgendaItem implements Serializable, Parcelable {
 
     @SerializedName("item_id")
     private int itemId;
@@ -56,7 +56,7 @@ public class AgendaItem implements Serializable, Parcelable {
     }
 
     public String getCourseId() {
-        if(courseId == null && course == null) {
+        if (courseId == null && course == null) {
             return null;
         } else {
             if(courseId == null) {
@@ -165,6 +165,7 @@ public class AgendaItem implements Serializable, Parcelable {
         dest.writeLong(TtbUtils.serialize(this.lastEdited));
         dest.writeString(this.lastEditType);
         dest.writeParcelable(this.course, flags);
+        dest.writeString(this.courseId);
     }
 
     public AgendaItem() {
@@ -182,6 +183,7 @@ public class AgendaItem implements Serializable, Parcelable {
         this.lastEdited = TtbUtils.unserialize(in.readLong());
         this.lastEditType = in.readString();
         this.course = in.readParcelable(Course.class.getClassLoader());
+        this.courseId = in.readString();
     }
 
     public static final Parcelable.Creator<AgendaItem> CREATOR = new Parcelable.Creator<AgendaItem>() {

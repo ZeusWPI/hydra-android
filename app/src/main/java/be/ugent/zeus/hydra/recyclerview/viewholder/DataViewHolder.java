@@ -4,7 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
- * A view holder that displays data.
+ * A generic view holder, intended as root of all other view holders.
+ *
+ * This view holder is designed to be used with an {@link be.ugent.zeus.hydra.recyclerview.adapters.common.Adapter}.
+ *
+ * @param <D> The type of the data this view holder displays.
  *
  * @author Niko Strijbol
  */

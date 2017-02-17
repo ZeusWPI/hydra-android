@@ -1,7 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -13,6 +14,7 @@
         android:paddingLeft="@dimen/card_margin"
         android:paddingRight="@dimen/card_margin"
         android:paddingTop="@dimen/card_spacing"
+        tools:listitem="@layout/item_schamper"
         app:layoutManager="@string/app_layout_manager_large"
         app:spanCount="@integer/span_count_large"/>
 

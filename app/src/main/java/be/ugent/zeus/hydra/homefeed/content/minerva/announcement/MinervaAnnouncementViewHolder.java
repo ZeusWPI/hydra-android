@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.homefeed.content.minerva.announcement;
 
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,12 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.convertDpToPixelInt;
 public class MinervaAnnouncementViewHolder extends HideableViewHolder {
 
     private final LinearLayout layout;
+    private final CardView cardView;
 
     public MinervaAnnouncementViewHolder(View v, HomeFeedAdapter adapter) {
         super(v, adapter);
         layout = $(v, R.id.linear_layout);
+        cardView = $(v, R.id.card_view);
     }
 
     @Override
@@ -58,6 +61,6 @@ public class MinervaAnnouncementViewHolder extends HideableViewHolder {
             layout.addView(textView);
         }
 
-        layout.setOnClickListener(v -> CourseActivity.start(v.getContext(), mCard.getCourse()));
+        cardView.setOnClickListener(v -> CourseActivity.start(v.getContext(), mCard.getCourse()));
     }
 }

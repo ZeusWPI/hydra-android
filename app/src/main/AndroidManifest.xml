@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="be.ugent.zeus.hydra"
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    package="be.ugent.zeus.hydra"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Network permissions -->
@@ -32,12 +33,15 @@
         android:label="@string/app_name"
         android:logo="@drawable/logo"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Hydra.Main.NoActionBar">
+        android:theme="@style/Hydra.Main.NoActionBar"
+        tools:ignore="ManifestResource"
+        tools:targetApi="25">
 
         <!-- Main activity -->
         <activity
             android:name=".activities.MainActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/Hydra.Main.NoActionBar.SystemWindows">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,8 +57,8 @@
         <activity
             android:name=".activities.preferences.SettingsActivity"
             android:label="@string/action_settings"
-            android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/Hydra.Main" />
+            android:theme="@style/Hydra.Main.TextColorSelector"
+            android:parentActivityName=".activities.MainActivity" />
 
         <!-- Association select preference activity -->
         <activity
@@ -176,6 +180,13 @@
         <activity
             android:name=".activities.ExceptionDialogActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+
+        <!-- Library details -->
+        <activity
+            android:name=".activities.LibraryDetailActivity"
+            android:label="Bibliotheek"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
 
         <!-- Receiver for daily resto notifications -->
         <receiver android:name=".notifications.DailyNotificationReceiver" />

@@ -1,23 +1,19 @@
 package be.ugent.zeus.hydra.fragments.sko;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.*;
-import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.loaders.DataCallback;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.models.sko.Artist;
 import be.ugent.zeus.hydra.models.sko.Artists;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.recyclerview.TextCallback;
 import be.ugent.zeus.hydra.recyclerview.adapters.sko.LineupAdapter;
 import be.ugent.zeus.hydra.requests.sko.LineupRequest;
 import su.j2e.rvjoiner.JoinableAdapter;
@@ -33,7 +29,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public class LineupFragment extends PluginFragment implements SwipeRefreshLayout.OnRefreshListener, DataCallback<Artists> {
+public class LineupFragment extends PluginFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "LineupFragment";
 
@@ -41,11 +37,12 @@ public class LineupFragment extends PluginFragment implements SwipeRefreshLayout
     private Map<String, LineupAdapter> adapters = new HashMap<>();
     private SwipeRefreshLayout refreshLayout;
 
-    private RequestPlugin<Artists> plugin = new RequestPlugin<>(this, RequestPlugin.wrap(new LineupRequest()));
+    private RequestPlugin<Artists> plugin = RequestPlugin.cached(new LineupRequest());
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
+        plugin.hasProgress().defaultError().setDataCallback(this::receiveData);
         plugins.add(plugin);
     }
 
@@ -76,8 +73,7 @@ public class LineupFragment extends PluginFragment implements SwipeRefreshLayout
         recyclerView.setAdapter(joiner.getAdapter());
     }
 
-    @Override
-    public void receiveData(@NonNull Artists data) {
+    private void receiveData(@NonNull Artists data) {
         //Sort into stages
         Map<String, List<Artist>> stages = new LinkedHashMap<>();
 
@@ -92,21 +88,13 @@ public class LineupFragment extends PluginFragment implements SwipeRefreshLayout
             if(!adapters.containsKey(entry.getKey())) {
                 LineupAdapter adapter = new LineupAdapter();
                 adapters.put(entry.getKey(), adapter);
-                joiner.add(new JoinableLayout(R.layout.item_title, new Callback(entry.getKey())));
+                joiner.add(new JoinableLayout(R.layout.item_title, new TextCallback(entry.getKey())));
                 joiner.add(new JoinableAdapter(adapter));
             }
             adapters.get(entry.getKey()).setItems(entry.getValue());
         }
 
         refreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void receiveError(@NonNull Throwable e) {
-        Log.e(TAG, "Error while getting data.", e);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> onRefresh())
-                .show();
     }
 
     @Override
@@ -117,6 +105,8 @@ public class LineupFragment extends PluginFragment implements SwipeRefreshLayout
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
+        HydraActivity activity = (HydraActivity) getActivity();
+        HydraActivity.tintToolbarIcons(activity.getToolbar(), menu, R.id.action_refresh);
     }
 
     @Override
@@ -128,27 +118,5 @@ public class LineupFragment extends PluginFragment implements SwipeRefreshLayout
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Callback for the header.
-     */
-    private static class Callback implements JoinableLayout.Callback {
-
-        private String text;
-
-        public Callback(String text) {
-            this.text = text;
-        }
-
-        public Callback(@StringRes int id, Context context) {
-            text = context.getString(id);
-        }
-
-        @Override
-        public void onInflateComplete(View view, ViewGroup parent) {
-            TextView v = $(view, R.id.text_header);
-            v.setText(text);
-        }
     }
 }

@@ -2,10 +2,11 @@ package be.ugent.zeus.hydra.models.info;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.google.gson.annotations.SerializedName;
+import java8.util.Objects;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * An info item.
@@ -13,7 +14,7 @@ import java.io.Serializable;
  * @author Juta
  * @author Niko Strijbol
  */
-public class InfoItem implements Parcelable, Serializable {
+public final class InfoItem implements Parcelable, Serializable {
 
     private String title;
     private String image;
@@ -22,7 +23,7 @@ public class InfoItem implements Parcelable, Serializable {
     @SerializedName("url-android")
     private String urlAndroid;
     @SerializedName("subcontent")
-    private InfoList subContent;
+    private ArrayList<InfoItem> subContent;
 
     public String getTitle() {
         return title;
@@ -64,11 +65,11 @@ public class InfoItem implements Parcelable, Serializable {
         this.urlAndroid = urlAndroid;
     }
 
-    public InfoList getSubContent() {
+    public ArrayList<InfoItem> getSubContent() {
         return subContent;
     }
 
-    public void setSubContent(InfoList subContent) {
+    public void setSubContent(ArrayList<InfoItem> subContent) {
         this.subContent = subContent;
     }
 
@@ -87,13 +88,15 @@ public class InfoItem implements Parcelable, Serializable {
         }
     }
 
+    public InfoItem() {}
+
     protected InfoItem(Parcel in) {
         title = in.readString();
         image = in.readString();
         html = in.readString();
         url = in.readString();
         urlAndroid = in.readString();
-        in.readList(subContent, null);
+        subContent = in.createTypedArrayList(CREATOR);
     }
 
     public static final Creator<InfoItem> CREATOR = new Creator<InfoItem>() {
@@ -120,6 +123,24 @@ public class InfoItem implements Parcelable, Serializable {
         dest.writeString(html);
         dest.writeString(url);
         dest.writeString(urlAndroid);
-        dest.writeList(subContent);
+        dest.writeTypedList(subContent);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InfoItem infoItem = (InfoItem) o;
+        return Objects.equals(title, infoItem.title) &&
+                Objects.equals(image, infoItem.image) &&
+                Objects.equals(html, infoItem.html) &&
+                Objects.equals(url, infoItem.url) &&
+                Objects.equals(urlAndroid, infoItem.urlAndroid) &&
+                Objects.equals(subContent, infoItem.subContent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, image, html, url, urlAndroid, subContent);
     }
 }

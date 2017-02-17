@@ -2,8 +2,6 @@ package be.ugent.zeus.hydra.homefeed.feed;
 
 import android.support.annotation.AnyThread;
 import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
-import android.util.Pair;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 
@@ -28,7 +26,7 @@ public interface FeedOperation {
      */
     @NonNull
     @AnyThread
-    Pair<List<HomeCard>, DiffUtil.DiffResult> transform(List<HomeCard> current) throws RequestFailureException;
+    List<HomeCard> transform(List<HomeCard> current) throws RequestFailureException;
 
     /**
      * The type of card that will be added/removed by this operation.

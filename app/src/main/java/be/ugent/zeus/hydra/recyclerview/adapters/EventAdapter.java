@@ -1,14 +1,12 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.association.Event;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
-import be.ugent.zeus.hydra.recyclerview.viewholder.EventViewHolder;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DateHeaderViewHolder;
+import be.ugent.zeus.hydra.recyclerview.viewholder.EventViewHolder;
+import be.ugent.zeus.hydra.utils.ViewUtils;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 /**
@@ -21,9 +19,7 @@ public class EventAdapter extends ItemAdapter<Event, EventViewHolder> implements
 
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_activity, parent, false);
-        return new EventViewHolder(v);
+        return new EventViewHolder(ViewUtils.inflate(parent, R.layout.item_activity));
     }
 
     /**
@@ -36,9 +32,7 @@ public class EventAdapter extends ItemAdapter<Event, EventViewHolder> implements
 
     @Override
     public DateHeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_date_header, parent, false);
-        return new DateHeaderViewHolder(view);
+        return new DateHeaderViewHolder(ViewUtils.inflate(parent, R.layout.item_date_header));
     }
 
     @Override

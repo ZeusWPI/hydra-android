@@ -6,6 +6,7 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -27,7 +28,7 @@ public class TtbUtilsTest {
     @Test
     public void unserializeZoned() {
         //Compare the unserialized result.
-        assertEquals(zonedDateTime, TtbUtils.unserialize(zoneMilli).withZoneSameInstant(zonedDateTime.getZone()));
+        assertTrue(zonedDateTime.isEqual(TtbUtils.unserialize(zoneMilli)));
     }
 
     @Test

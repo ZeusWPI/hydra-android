@@ -6,30 +6,17 @@ import android.os.Parcelable;
 import java.io.Serializable;
 
 /**
- * A resto.
- * Created by feliciaan on 04/02/16.
+ * A restaurant.
+ *
+ * @author feliciaan
  */
-public class Resto implements Parcelable, Serializable {
+public final class Resto implements Parcelable, Serializable {
 
-    public String name;
-    public String address;
-    public double latitude;
-    public double longitude;
-    public String type;
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.name);
-        dest.writeString(this.address);
-        dest.writeDouble(this.latitude);
-        dest.writeDouble(this.longitude);
-        dest.writeString(this.type);
-    }
+    private String name;
+    private String address;
+    private double latitude;
+    private double longitude;
+    private String type;
 
     protected Resto(Parcel in) {
         this.name = in.readString();
@@ -39,17 +26,25 @@ public class Resto implements Parcelable, Serializable {
         this.type = in.readString();
     }
 
-    public static final Parcelable.Creator<Resto> CREATOR = new Parcelable.Creator<Resto>() {
-        @Override
-        public Resto createFromParcel(Parcel source) {
-            return new Resto(source);
-        }
+    public String getName() {
+        return name;
+    }
 
-        @Override
-        public Resto[] newArray(int size) {
-            return new Resto[size];
-        }
-    };
+    public String getAddress() {
+        return address;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public String getType() {
+        return type;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -67,4 +62,30 @@ public class Resto implements Parcelable, Serializable {
     public int hashCode() {
         return java8.util.Objects.hash(name, address, latitude, longitude, type);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.address);
+        dest.writeDouble(this.latitude);
+        dest.writeDouble(this.longitude);
+        dest.writeString(this.type);
+    }
+
+    public static final Parcelable.Creator<Resto> CREATOR = new Parcelable.Creator<Resto>() {
+        @Override
+        public Resto createFromParcel(Parcel source) {
+            return new Resto(source);
+        }
+
+        @Override
+        public Resto[] newArray(int size) {
+            return new Resto[size];
+        }
+    };
 }

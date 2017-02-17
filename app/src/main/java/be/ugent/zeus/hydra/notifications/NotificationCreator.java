@@ -23,14 +23,14 @@ public class NotificationCreator {
     private SharedPreferences preferences;
 
 
-    public NotificationCreator(Context context, SharedPreferences preferences){
+    public NotificationCreator(Context context, SharedPreferences preferences) {
         this.context = context;
         this.preferences = preferences;
     }
 
     public Notification create() {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(MainActivity.ARG_TAB, 2);
+        intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_resto);
         PendingIntent pending = PendingIntent.getActivity(context, 0, intent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);

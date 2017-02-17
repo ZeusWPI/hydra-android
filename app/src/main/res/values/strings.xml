@@ -152,6 +152,19 @@
     <string name="fragment_home_error_schamper">Schamper</string>
     <string name="fragment_home_error_special">evenement</string>
 
+    <string name="drawer_open">Openen</string>
+    <string name="drawer_close">Sluiten</string>
+
+    <string name="title_home_feed">Overzicht</string>
+    <string name="title_home_schamper">Schamper</string>
+    <string name="title_home_resto">Resto</string>
+    <string name="title_home_events">Evenementen</string>
+    <string name="title_home_news">Nieuws</string>
+    <string name="title_home_info">Info</string>
+    <string name="title_home_minerva">Minerva</string>
+    <string name="title_home_soon">Binnenkort</string>
+    <string name="title_home_pref">Instellingen</string>
+
     <string name="activity_title_sko_overview">Student Kick-Off</string>
     <string name="activity_title_sko_preferences">Instellingen</string>
 
@@ -214,5 +227,28 @@
     <string name="minerva_error_with">Er trad een fout op bij het synchroniseren, met deze boodschap:\\n\\n%s</string>
     <string name="urgent_loading">Radio laden…</string>
     <string name="oops">Oeps!</string>
+    <string name="title_home_urgent">Urgent.fm</string>
+    <string name="title_activity_libraries">Bibliotheken</string>
+    <string name="title_library">Bibliotheken</string>
+    <string name="resto_menu_date">Datum van menu: %s</string>
+    <string name="error_oh_no">Oh nee!</string>
+    <string name="error_description">Er was een probleem bij het ophalen van de data. Controleer uw verbinding en probeer opnieuw.</string>
+    <string name="schamper_error">Kon artikel niet openen.</string>
+    <string name="library_opening_header_date">Datum</string>
+    <string name="library_opening_header_hours">Openingsuren</string>
+    <string name="library_favourite">Opslaan</string>
+    <string name="menu_library_catalogue">Catalogus openen</string>
+    <string name="library_open_website">Website openen</string>
+    <string name="library_open_map">Open kaart</string>
+    <string name="library_send_mail">E-mail versturen</string>
+    <string name="library_call">Bellen</string>
+    <string name="library_no_phone">Geen telefoon</string>
+    <string name="library_details_email">E-mail</string>
+    <string name="library_details_phone">Telefoon</string>
+    <string name="library_details_contact">Verantwoordelijke</string>
+    <string name="library_opening_hours_title">Openingsuren</string>
+    <string name="library_address_title">Adres</string>
+    <string name="library_more">Meer</string>
+    <string name="library_less">Minder</string>
 
 </resources>

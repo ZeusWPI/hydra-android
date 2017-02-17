@@ -1,7 +1,10 @@
 package be.ugent.zeus.hydra.fragments.urgent;
 
 import android.app.PendingIntent;
-import android.content.*;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
@@ -22,7 +25,6 @@ import be.ugent.zeus.hydra.urgent.BoundServiceCallback;
 import be.ugent.zeus.hydra.urgent.MusicBinder;
 import be.ugent.zeus.hydra.urgent.MusicCallback;
 import be.ugent.zeus.hydra.urgent.MusicService;
-import be.ugent.zeus.hydra.viewpager.SectionPagerAdapter;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -256,7 +258,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
             musicService.setBoundCallback(UrgentFragment.this);
             musicService.setCallback(UrgentFragment.this);
             Intent startThis = new Intent(getActivity(), MainActivity.class);
-            startThis.putExtra(MainActivity.ARG_TAB, SectionPagerAdapter.URGENT);
+            startThis.putExtra(MainActivity.ARG_TAB, R.id.drawer_urgent);
             PendingIntent i = PendingIntent.getActivity(getContext(), 0, startThis, PendingIntent.FLAG_UPDATE_CURRENT);
             musicService.getNotificationManager().setContentIntent(i);
             musicService.getNotificationManager().setIcon(R.drawable.ic_notification_urgent);

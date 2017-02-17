@@ -1,16 +1,16 @@
 package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import android.util.Pair;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
+import be.ugent.zeus.hydra.utils.ViewUtils;
+import java8.util.function.Function;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  */
 public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, MultiSelectListAdapter.ViewHolder<H>> {
 
-    protected DisplayNameProvider<H> displayNameProvider = Object::toString;
+    protected Function<H, String> displayNameProvider = Object::toString;
 
     /**
      * Set the values to use.
@@ -48,7 +48,7 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
      *
      * @param provider The provider.
      */
-    public void setDisplayNameProvider(DisplayNameProvider<H> provider) {
+    public void setDisplayNameProvider(Function<H, String> provider) {
         displayNameProvider = provider;
         notifyDataSetChanged();
     }
@@ -77,7 +77,7 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
      */
     public void setAllChecked(boolean checked) {
 
-        for (int i = 0; i < items.size(); i++){
+        for (int i = 0; i < getItemCount(); i++){
             Pair<H, Boolean> item = items.get(i);
             if(item.second != checked) {
                 H value = item.first;
@@ -90,12 +90,7 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
 
     @Override
     public ViewHolder<H> onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder<>(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_checkbox_string, parent, false), this);
-    }
-
-    @FunctionalInterface
-    public interface DisplayNameProvider<H> {
-        String getDisplayValue(H element);
+        return new ViewHolder<>(ViewUtils.inflate(parent, R.layout.item_checkbox_string), this);
     }
 
     /**
@@ -109,7 +104,6 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
         private LinearLayout parent;
         private MultiSelectListAdapter<E> adapter;
         private TextView title;
-
 
         /**
          * The constructor is the place to bind views and other non-data related stuff.
@@ -126,7 +120,7 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
 
         @Override
         public void populate(Pair<E, Boolean> data) {
-            title.setText(adapter.displayNameProvider.getDisplayValue(data.first));
+            title.setText(adapter.displayNameProvider.apply(data.first));
             checkBox.setChecked(data.second);
             parent.setOnClickListener(v -> {
                 adapter.setChecked(getAdapterPosition());

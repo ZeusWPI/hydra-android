@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by feliciaan on 29/06/16.
  */
-public class WhatsNew implements Serializable {
+public final class WhatsNew implements Serializable {
 
     @SerializedName("announcement")
     private ArrayList<Announcement> announcements;

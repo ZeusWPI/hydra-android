@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.DrawableRes;
@@ -10,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.resto.RestoMeal;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
@@ -65,8 +65,8 @@ public class MenuTable extends TableLayout {
 
         TextView v = new TextView(getContext());
         TableRow.LayoutParams textParam = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
-        if(span) {
-            textParam.span = 3;
+        textParam.span = 3;
+        if (span) {
             v.setTextAppearance(getContext(), R.style.Material_Typography_Subhead);
         }
         v.setLayoutParams(textParam);
@@ -207,6 +207,7 @@ public class MenuTable extends TableLayout {
     /**
      * Add content.
      */
+    @SuppressLint("SetTextI18n")
     private void populate() {
 
         if (!menu.isOpen()) {
@@ -215,14 +216,18 @@ public class MenuTable extends TableLayout {
         }
 
         setColumnStretchable(1, true);
+        setColumnShrinkable(1, true);
 
         if (mode == ALL) {
+            //Add actual menu data
             createTitle(getContext().getString(R.string.resto_main_dish));
             makeTableDishes(menu.getMainDishes());
             createTitle(getContext().getString(R.string.resto_side_dish));
             makeTableDishes(menu.getSideDishes());
             createTitle(getContext().getString(R.string.vegetables));
             makeVegetables(menu.getVegetables());
+            //Add date data
+            createTitle(String.format(getContext().getString(R.string.resto_menu_date), menu.getDate().toString()), false);
         } else {
             makeTableDishes(menu.getMainDishes());
         }

@@ -1,13 +1,15 @@
 package be.ugent.zeus.hydra.models.sko;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringDef;
-
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZonedDateTime;
 
@@ -20,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
  *
  * @author Niko Strijbol
  */
-public class TimelinePost implements Serializable {
+public final class TimelinePost implements Serializable, Parcelable {
 
     //Use string def for the post type.
     public static final String PHOTO = "photo";
@@ -122,4 +124,63 @@ public class TimelinePost implements Serializable {
                 return "Andere";
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.title);
+        dest.writeString(this.body);
+        dest.writeString(this.link);
+        dest.writeString(this.media);
+        dest.writeString(this.origin);
+        dest.writeString(this.postType);
+        dest.writeString(this.poster);
+        dest.writeSerializable(this.createdAt);
+    }
+
+    public TimelinePost() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimelinePost that = (TimelinePost) o;
+        return Objects.equals(title, that.title) &&
+                Objects.equals(body, that.body) &&
+                Objects.equals(postType, that.postType) &&
+                Objects.equals(createdAt, that.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, body, postType, createdAt);
+    }
+
+    protected TimelinePost(Parcel in) {
+        this.title = in.readString();
+        this.body = in.readString();
+        this.link = in.readString();
+        this.media = in.readString();
+        this.origin = in.readString();
+        this.postType = in.readString();
+        this.poster = in.readString();
+        this.createdAt = (ZonedDateTime) in.readSerializable();
+    }
+
+    public static final Parcelable.Creator<TimelinePost> CREATOR = new Parcelable.Creator<TimelinePost>() {
+        @Override
+        public TimelinePost createFromParcel(Parcel source) {
+            return new TimelinePost(source);
+        }
+
+        @Override
+        public TimelinePost[] newArray(int size) {
+            return new TimelinePost[size];
+        }
+    };
 }

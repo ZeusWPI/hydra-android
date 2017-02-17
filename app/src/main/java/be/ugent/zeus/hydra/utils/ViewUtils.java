@@ -9,7 +9,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.content.res.AppCompatResources;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 
 /**
@@ -101,5 +103,16 @@ public class ViewUtils {
      */
     public static int convertDpToPixelInt(float dp, Context context) {
         return (int) convertDpToPixel(dp, context);
+    }
+
+    /**
+     * Shorter function for inflating a view without attaching it to the parent.
+     * @param parent The parent layout.
+     * @param resource The XML resource to inflate.
+     * @return The view.
+     */
+    public static View inflate(ViewGroup parent, @LayoutRes int resource) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        return inflater.inflate(resource, parent, false);
     }
 }

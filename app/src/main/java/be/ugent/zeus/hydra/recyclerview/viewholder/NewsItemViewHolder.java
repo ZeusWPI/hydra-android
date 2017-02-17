@@ -46,9 +46,9 @@ public class NewsItemViewHolder extends DataViewHolder<NewsItem> {
         }
 
         itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(itemView.getContext(), NewsArticleActivity.class);
+            Intent intent = new Intent(v.getContext(), NewsArticleActivity.class);
             intent.putExtra(PARCEL_NAME, (Parcelable) newsItem);
-            itemView.getContext().startActivity(intent);
+            v.getContext().startActivity(intent);
         });
     }
 }

@@ -6,22 +6,18 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment;
-import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
@@ -38,12 +34,11 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class MenuActivity extends HydraActivity implements DataCallback<RestoOverview>, AdapterView.OnItemSelectedListener {
+public class MenuActivity extends HydraActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String ARG_DATE = "start_date";
 
     private static final String URL = "http://www.ugent.be/student/nl/meer-dan-studeren/resto";
-    private static final String TAG = "MenuActivity";
     private RequestPlugin<RestoOverview> plugin;
     private MenuPagerAdapter pageAdapter;
     private ViewPager viewPager;
@@ -52,8 +47,10 @@ public class MenuActivity extends HydraActivity implements DataCallback<RestoOve
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
-        plugin = new RequestPlugin<>(this, RequestPlugin.wrap(new RestoMenuRequest(this)));
-        plugin.setUsesToast(false);
+        plugin = RequestPlugin.cached(new RestoMenuRequest(this));
+        plugin.hasProgress()
+                .defaultError()
+                .setDataCallback(this::receiveData);
         plugins.add(plugin);
     }
 
@@ -78,7 +75,7 @@ public class MenuActivity extends HydraActivity implements DataCallback<RestoOve
             public void onPageSelected(int position) {
                 appBarLayout.setExpanded(true);
                 HydraApplication app = (HydraApplication) MenuActivity.this.getApplication();
-                app.sendScreenName("Menu tab: " + pageAdapter.getTabDate(position));
+                app.sendScreenName("Menu tab: " + pageAdapter.getTabDate(position).toString());
             }
         });
 
@@ -106,11 +103,10 @@ public class MenuActivity extends HydraActivity implements DataCallback<RestoOve
             startDate = LocalDate.now();
         }
 
-        plugin.getLoaderPlugin().startLoader();
+        plugin.startLoader();
     }
 
-    @Override
-    public void receiveData(@NonNull RestoOverview data) {
+    private void receiveData(@NonNull RestoOverview data) {
         pageAdapter.setData(data);
         for (int i = 0; i < data.size(); i++) {
             RestoMenu menu = data.get(i);
@@ -120,14 +116,6 @@ public class MenuActivity extends HydraActivity implements DataCallback<RestoOve
                 break;
             }
         }
-    }
-
-    @Override
-    public void receiveError(@NonNull Throwable e) {
-        Log.e(TAG, "Error while getting data.", e);
-        Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> plugin.refresh())
-                .show();
     }
 
     @Override
@@ -142,7 +130,7 @@ public class MenuActivity extends HydraActivity implements DataCallback<RestoOve
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 plugin.refresh();
-                Toast.makeText(getApplicationContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.resto_show_website:
                 NetworkUtils.maybeLaunchBrowser(this, URL);
@@ -158,6 +146,10 @@ public class MenuActivity extends HydraActivity implements DataCallback<RestoOve
         preferences.edit()
                 .putString(RestoPreferenceFragment.PREF_RESTO, String.valueOf(position))
                 .apply();
+        //The start should be the day we have currently selected.
+        if (pageAdapter.getCount() > viewPager.getCurrentItem()) {
+            startDate = pageAdapter.getTabDate(viewPager.getCurrentItem());
+        }
         plugin.refresh();
     }
 

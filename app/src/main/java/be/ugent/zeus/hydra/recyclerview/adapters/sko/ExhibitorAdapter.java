@@ -1,16 +1,14 @@
 package be.ugent.zeus.hydra.recyclerview.adapters.sko;
 
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.models.sko.Exhibitor;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.sko.ExhibitorViewHolder;
+import be.ugent.zeus.hydra.utils.ViewUtils;
+import java8.lang.Iterables;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -27,19 +25,17 @@ public class ExhibitorAdapter extends ItemAdapter<Exhibitor, ExhibitorViewHolder
     /**
      * Set the original data set. This will save them to allow for search.
      *
-     * @param list The new elements.
+     * @param items The new elements.
      */
     @Override
-    public void setItems(List<Exhibitor> list) {
-        super.setItems(list);
-        allData = new ArrayList<>(list);
+    public void setItems(List<Exhibitor> items) {
+        super.setItems(items);
+        allData = new ArrayList<>(items);
     }
 
     @Override
     public ExhibitorViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_sko_exhibitor, parent, false);
-        return new ExhibitorViewHolder(v);
+        return new ExhibitorViewHolder(ViewUtils.inflate(parent, R.layout.item_sko_exhibitor));
     }
 
     @Override
@@ -50,27 +46,20 @@ public class ExhibitorAdapter extends ItemAdapter<Exhibitor, ExhibitorViewHolder
     @Override
     public boolean onQueryTextChange(String newText) {
 
-        if(allData == null) {
+        if (allData == null) {
             return true;
         }
 
-        if(newText.isEmpty()) {
-            //Manually update.
+        if (newText.isEmpty()) {
+            // Manually update.
             this.items = allData;
             notifyDataSetChanged();
         }
 
         List<Exhibitor> newList = new ArrayList<>(allData);
+        Iterables.removeIf(newList, next -> !next.getName().toLowerCase().contains(newText.toLowerCase()));
 
-        Iterator<Exhibitor> iter = newList.iterator();
-        while(iter.hasNext()) {
-            Exhibitor next = iter.next();
-            if(!next.getName().toLowerCase().contains(newText.toLowerCase())) {
-                iter.remove();
-            }
-        }
-
-        //Manually update.
+        // Manually update.
         this.items = newList;
         notifyDataSetChanged();
 

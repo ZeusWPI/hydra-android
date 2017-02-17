@@ -30,7 +30,7 @@ import static android.support.v4.app.NotificationCompat.CATEGORY_EMAIL;
 public class AnnouncementNotificationBuilder {
 
     private static final String TAG = "AnnounceNotiBuilder";
-    private static final int NOTIFICATION_ID = 1;
+    public static final int NOTIFICATION_ID = 5646;
 
     private final Context context;
 
@@ -40,7 +40,7 @@ public class AnnouncementNotificationBuilder {
     private Course course;
 
     public AnnouncementNotificationBuilder(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
 
         //Set default values
         smallIcon = R.drawable.ic_notification_announcement;
@@ -63,7 +63,7 @@ public class AnnouncementNotificationBuilder {
 
     public void publish() {
 
-        if(announcements == null) {
+        if (announcements == null) {
             throw new IllegalStateException("Announcements must be set.");
         }
 
@@ -140,7 +140,6 @@ public class AnnouncementNotificationBuilder {
         //Click intent
         Intent intent = new Intent(context, CourseActivity.class);
         intent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) course);
-        intent.putExtra(CourseActivity.ARG_TAB, CourseActivity.TAB_ANNOUNCEMENTS);
 
         builder.setContentIntent(upIntentMore());
 
@@ -186,7 +185,7 @@ public class AnnouncementNotificationBuilder {
 
     private Intent mainActivity() {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(MainActivity.ARG_TAB, 6);
+        intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_minerva);
         return intent;
     }
 }

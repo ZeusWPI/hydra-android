@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.models.schamper;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import be.ugent.zeus.hydra.models.converters.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.TtbUtils;
@@ -12,13 +11,13 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by feliciaan on 16/06/16.
+ * Model for a Schamper article.
+ *
+ * @author feliciaan
  */
-public class Article implements Serializable, Parcelable {
+public final class Article implements Serializable, Parcelable {
 
     private String title;
     private String link;
@@ -26,11 +25,9 @@ public class Article implements Serializable, Parcelable {
     @SerializedName("pub_date")
     private ZonedDateTime pubDate;
     private String author;
-    private String body;
+    private String text;
     private String image;
     private String category;
-    private String intro;
-    private ArrayList<ArticleImage> images;
 
     public String getTitle() {
         return title;
@@ -52,36 +49,16 @@ public class Article implements Serializable, Parcelable {
         return author;
     }
 
-    public String getBody() {
-        return body;
+    public String getText() {
+        return text;
     }
 
     public String getCategory() {
         return category;
     }
 
-    public String getIntro() {
-        return intro;
-    }
-
-    public List<ArticleImage> getImages() {
-        return images;
-    }
-
     public String getImage() {
         return image;
-    }
-
-    public String getLargeImage() {
-        if(getImage() != null) {
-            return getLargeImage(getImage());
-        } else {
-            return null;
-        }
-    }
-
-    public static String getLargeImage(String url) {
-        return url.replace("/regulier/", "/preview/");
     }
 
     @Override
@@ -95,11 +72,9 @@ public class Article implements Serializable, Parcelable {
         dest.writeString(this.link);
         dest.writeLong(TtbUtils.serialize(this.pubDate));
         dest.writeString(this.author);
-        dest.writeString(this.body);
+        dest.writeString(this.text);
         dest.writeString(this.image);
         dest.writeString(this.category);
-        dest.writeString(this.intro);
-        dest.writeTypedList(this.images);
     }
 
     public Article() {
@@ -110,11 +85,9 @@ public class Article implements Serializable, Parcelable {
         this.link = in.readString();
         this.pubDate = TtbUtils.unserialize(in.readLong());
         this.author = in.readString();
-        this.body = in.readString();
+        this.text = in.readString();
         this.image = in.readString();
         this.category = in.readString();
-        this.intro = in.readString();
-        this.images = in.createTypedArrayList(ArticleImage.CREATOR);
     }
 
     public static final Creator<Article> CREATOR = new Creator<Article>() {

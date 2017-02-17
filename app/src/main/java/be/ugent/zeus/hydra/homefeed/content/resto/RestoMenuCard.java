@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.homefeed.content.resto;
 
-import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.content.FeedUtils;
+import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import java8.util.Objects;
 import org.threeten.bp.LocalDate;
-import org.threeten.bp.Period;
+import org.threeten.bp.temporal.ChronoUnit;
 
 /**
  * Home card for {@link RestoMenu}.
@@ -27,8 +27,8 @@ class RestoMenuCard extends HomeCard {
 
     @Override
     public int getPriority() {
-        Period duration = Period.between(LocalDate.now(), restoMenu.getDate());
-        return Math.max(0, FeedUtils.lerp((int) ((duration.getDays() - 0.5) * 24), 0, 504));
+        int duration = (int) ChronoUnit.DAYS.between(LocalDate.now(), restoMenu.getDate());
+        return Math.max(0, FeedUtils.lerp((int) ((duration - 0.5) * 24), 0, 504));
     }
 
     @Override

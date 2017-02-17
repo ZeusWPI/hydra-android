@@ -21,7 +21,7 @@ import java.io.Serializable;
  * @author Niko Strijbol
  * @author feliciaan
  */
-public class Event implements Parcelable, Serializable {
+public final class Event implements Parcelable, Serializable {
 
     private String title;
     @JsonAdapter(ZonedThreeTenAdapter.class)

@@ -4,17 +4,15 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v13.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
-import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.models.resto.Resto;
 import be.ugent.zeus.hydra.models.resto.RestoMeta;
+import be.ugent.zeus.hydra.plugins.ProgressBarPlugin;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.requests.resto.RestoMetaRequest;
@@ -27,22 +25,24 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
-public class RestoLocationActivity extends HydraActivity implements OnMapReadyCallback, DataCallback<RestoMeta> {
+public class RestoLocationActivity extends HydraActivity implements OnMapReadyCallback {
 
     private static final LatLng DEFAULT_LOCATION = new LatLng(51.05, 3.72); //Gent
     private static final float DEFAULT_ZOOM = 12; //Between city & street zoom
 
     private static final int MY_LOCATION_REQUEST_CODE = 1;
 
-    private static final String TAG = "RestoLocationActivity";
     private final RestoMetaRequest restoMetaRequest = new RestoMetaRequest();
-    private final RequestPlugin<RestoMeta> plugin = new RequestPlugin<>(this, RequestPlugin.wrap(restoMetaRequest));
+    private final RequestPlugin<RestoMeta> plugin = RequestPlugin.cached(restoMetaRequest);
     private GoogleMap map;
     private RestoMeta meta;
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
+        plugin.hasProgress()
+                .defaultError()
+                .setDataCallback(this::receiveData);
         plugins.add(plugin);
     }
 
@@ -53,7 +53,7 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        plugin.getLoaderPlugin().startLoader();
+        plugin.startLoader();
     }
 
 
@@ -75,20 +75,11 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
         }
     }
 
-    @Override
-    public void receiveData(@NonNull RestoMeta data) {
+    private void receiveData(@NonNull RestoMeta data) {
         meta = data;
         if (map != null) {
             addData();
         }
-    }
-
-    @Override
-    public void receiveError(@NonNull Throwable e) {
-        Log.e(TAG, "Error while getting data.", e);
-        Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> plugin.refresh())
-                .show();
     }
 
     @Override
@@ -123,16 +114,16 @@ public class RestoLocationActivity extends HydraActivity implements OnMapReadyCa
 
         map.getUiSettings().setMyLocationButtonEnabled(true);
         for (Resto location : meta.locations) {
-            LatLng pos = new LatLng(location.latitude, location.longitude);
+            LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
             map.addMarker(
                     new MarkerOptions()
                             .position(pos)
-                            .title(location.name)
-                            .snippet(location.address)
+                            .title(location.getName())
+                            .snippet(location.getAddress())
             );
         }
         centerDefault();
-        plugin.getProgressBarPlugin().hideProgressBar();
+        plugin.getProgressBarPlugin().ifPresent(ProgressBarPlugin::hideProgressBar);
     }
 
     private void centerDefault() {

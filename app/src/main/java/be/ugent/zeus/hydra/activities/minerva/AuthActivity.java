@@ -36,6 +36,7 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
     public static final String ARG_AUTH_TYPE = "authType";
     //Adding a new account or not?
     public static final String ARG_ADDING_NEW_ACCOUNT = "addingNewAccount";
+
     private static final String TAG = "AuthActivity";
     private String accountType;
     private String authType;
@@ -69,7 +70,6 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case android.R.id.home:
                 finishUp();
@@ -105,7 +105,7 @@ public class AuthActivity extends ToolbarAccountAuthenticatorActivity implements
         Log.d(TAG, "Uri is: " + uri);
 
         // Handle the callback URI.
-        if (uri.getScheme().equals(MinervaConfig.CALLBACK_SCHEME)) {
+        if (uri != null && MinervaConfig.CALLBACK_SCHEME.equals(uri.getScheme())) {
 
             String errorParameter = uri.getQueryParameter("error");
 

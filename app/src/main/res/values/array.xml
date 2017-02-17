@@ -37,6 +37,7 @@
         <item>5</item>
         <item>7</item>
         <item>8</item>
+        <item>9</item>
     </string-array>
 
     <string-array name="card_types_names">
@@ -46,6 +47,7 @@
         <item>Nieuwsitem</item>
         <item>Minerva-aankondigingen</item>
         <item>Minerva-agenda</item>
+        <item>Urgent.fm</item>
     </string-array>
 
     <string-array name="minerva_frequencies_text">

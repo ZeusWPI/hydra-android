@@ -55,16 +55,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
+        tools:listitem="@layout/item_minerva_course"
         app:layoutManager="@string/app_layout_manager_linear" />
 
-    <ProgressBar
-        android:paddingLeft="@dimen/vertical_padding"
-        android:paddingRight="@dimen/vertical_padding"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/progress_bar"
-        android:layout_gravity="center_vertical"
-        style="?android:attr/progressBarStyleHorizontal"
-        />
+    <include layout="@layout/x_progress_bar" />
 
 </FrameLayout>

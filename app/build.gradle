@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-//Enable this when disabling jack
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.cookpad.android.licensetools'
 
@@ -14,12 +13,6 @@ android {
         versionCode 223
         versionName "2.2.3"
         vectorDrawables.useSupportLibrary = true
-
-        //Enable jack support
-        //When disabling jack, DON'T forget to enable retrolambda
-//        jackOptions {
-//            enabled true
-//        }
 
         //Load the API keys from the file "secrets.progperties".
         Properties props = new Properties()
@@ -73,7 +66,7 @@ project.afterEvaluate {
 }
 
 //The support library version
-final SUPPORT_LIBRARY_VERSION = '25.1.0'
+final SUPPORT_LIBRARY_VERSION = '25.1.1'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -84,7 +77,6 @@ dependencies {
     compile "com.android.support:support-v13:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:preference-v7:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:gridlayout-v7:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
 
@@ -92,15 +84,17 @@ dependencies {
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
-    compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
-    compile 'net.sourceforge.streamsupport:streamsupport:1.5.2'
+    compile 'com.jakewharton.threetenabp:threetenabp:1.0.5'
+    compile 'net.sourceforge.streamsupport:streamsupport:1.5.3'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.KyoSherlock:expandablelayout:master-SNAPSHOT'
+    compile 'net.cachapa.expandablelayout:expandablelayout:2.7'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
-    compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.4'
+    compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
     compile 'com.heinrichreimersoftware:material-intro:1.6'
     compile 'su.j2e:rv-joiner:1.0.9'
     compile 'com.github.alexfu:SQLiteQueryBuilder:0.3.0'
+    compile 'com.jonathanfinerty.once:once:1.2.1'
 
     // Used for the OAuth stuff
     compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
@@ -121,7 +115,7 @@ dependencies {
 
     //Test code
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.2.9'
+    testCompile 'org.mockito:mockito-core:2.7.0'
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
@@ -131,6 +125,15 @@ dependencies {
     testCompile ('org.threeten:threetenbp:1.3.2'){
         exclude group:'com.jakewharton.threetenabp', module:'threetenabp'
     }
+
+    testCompile 'nl.jqno.equalsverifier:equalsverifier:2.2.1'
+    testCompile ('com.shazam:shazamcrest:0.11') {
+        exclude group: 'com.google.code.gson', module: 'gson'
+    }
+    testCompile 'io.github.benas:random-beans:3.5.0'
+    testCompile 'org.apache.commons:commons-lang3:3.5'
+    testCompile 'org.hamcrest:hamcrest-core:1.3'
+    testCompile 'com.googlecode:openbeans:1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

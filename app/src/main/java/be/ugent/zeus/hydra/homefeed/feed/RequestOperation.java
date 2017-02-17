@@ -1,11 +1,8 @@
 package be.ugent.zeus.hydra.homefeed.feed;
 
 import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
-import android.util.Pair;
 import be.ugent.zeus.hydra.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.homefeed.loader.HomeDiffCallback;
 import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import java8.util.stream.Collectors;
 import java8.util.stream.RefStreams;
@@ -27,24 +24,26 @@ class RequestOperation implements FeedOperation {
         this.request = request;
     }
 
+    /**
+     * This methods removes all card instances of this operation's card type, performs the request and adds the results
+     * back to the list.
+     *
+     * This means that while the cards may be logically equal, they will not be the same instance.
+     *
+     * @param current The current cards.
+     *
+     * @return The updates cards.
+     * @throws RequestFailureException If the request fails.
+     */
     @NonNull
     @Override
-    public Pair<List<HomeCard>, DiffUtil.DiffResult> transform(final List<HomeCard> current) throws RequestFailureException {
+    public List<HomeCard> transform(final List<HomeCard> current) throws RequestFailureException {
 
-        //Filter existing cards away.
+        // Filter existing cards away.
         Stream<HomeCard> temp = StreamSupport.stream(current)
                 .filter(c -> c.getCardType() != request.getCardType());
 
-        //TODO: why does concat not work here?
-        @SuppressWarnings("unchecked")
-        List<HomeCard> newList = RefStreams.of(temp, request.performRequest()).flatMap(x -> x)
-                .sorted()
-                .collect(Collectors.toList());
-
-        //Calculate a diff.
-        DiffUtil.DiffResult diff = DiffUtil.calculateDiff(new HomeDiffCallback(current, newList), true);
-
-        return new Pair<>(newList, diff);
+        return RefStreams.concat(temp, request.performRequest()).sorted().collect(Collectors.toList());
     }
 
     @Override

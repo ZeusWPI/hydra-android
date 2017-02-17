@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.fragments.minerva;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.loaders.LoaderProvider;
-import be.ugent.zeus.hydra.loaders.ThrowableEither;
+import be.ugent.zeus.hydra.loaders.LoaderResult;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDaoLoader;
+import be.ugent.zeus.hydra.minerva.announcement.AnnouncementNotificationBuilder;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
@@ -49,6 +51,7 @@ public class CourseAnnouncementFragment extends PluginFragment implements Loader
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
+        plugin.hasProgress();
         plugins.add(plugin);
     }
 
@@ -56,6 +59,14 @@ public class CourseAnnouncementFragment extends PluginFragment implements Loader
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         course = getArguments().getParcelable(ARG_COURSE);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check for notification we want to remove.
+        NotificationManager manager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.cancel(course.getId(), AnnouncementNotificationBuilder.NOTIFICATION_ID);
     }
 
     @Override
@@ -75,7 +86,7 @@ public class CourseAnnouncementFragment extends PluginFragment implements Loader
     }
 
     @Override
-    public Loader<ThrowableEither<List<Announcement>>> getLoader(Context context) {
+    public Loader<LoaderResult<List<Announcement>>> getLoader(Context context) {
         return new AnnouncementDaoLoader(context, dao, course);
     }
 }

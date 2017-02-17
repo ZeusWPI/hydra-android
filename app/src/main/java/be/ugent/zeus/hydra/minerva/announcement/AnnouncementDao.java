@@ -6,12 +6,14 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.minerva.course.CourseExtractor;
 import be.ugent.zeus.hydra.minerva.course.CourseTable;
 import be.ugent.zeus.hydra.minerva.database.Dao;
+import be.ugent.zeus.hydra.minerva.database.DatabaseBroadcaster;
 import be.ugent.zeus.hydra.minerva.database.Utils;
 import be.ugent.zeus.hydra.models.minerva.Announcement;
 import be.ugent.zeus.hydra.models.minerva.Course;
@@ -216,6 +218,23 @@ public class AnnouncementDao extends Dao {
         );
 
         Log.i(TAG, "Updated announcement " + a.getItemId());
+        // Prepare to send the broadcast.
+        Bundle extras = new Bundle();
+        extras.putInt(DatabaseBroadcaster.ARG_MINERVA_ANNOUNCEMENT_ID, a.getItemId());
+        extras.putString(DatabaseBroadcaster.ARG_MINERVA_ANNOUNCEMENT_COURSE, a.getCourse().getId());
+        broadcaster.publishIntentWith(DatabaseBroadcaster.MINERVA_ANNOUNCEMENT_UPDATED, extras);
+    }
+
+    /**
+     * Update an announcement. This should not be called on the UI thread.
+     *
+     * @param a The announcement to update.
+     */
+    public void add(final Announcement a) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = getValues(a);
+        db.insertOrThrow(AnnouncementTable.TABLE_NAME, null, values);
+        Log.i(TAG, "Added announcement " + a.getItemId());
     }
 
     /**

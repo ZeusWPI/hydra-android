@@ -5,17 +5,14 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
-import be.ugent.zeus.hydra.loaders.DataCallback;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.models.association.Associations;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
@@ -32,17 +29,19 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
-public class AssociationSelectPrefActivity extends HydraActivity implements DataCallback<Associations> {
+public class AssociationSelectPrefActivity extends HydraActivity {
 
     public static final String PREF_ASSOCIATIONS_SHOWING = "pref_associations_showing";
-    private static final String TAG = "AssociationSelectPrefAc";
 
     private SearchableAdapter adapter = new SearchableAdapter();
-    private RequestPlugin<Associations> plugin = new RequestPlugin<>(this, RequestPlugin.wrap(new AssociationsRequest()));
+    private RequestPlugin<Associations> plugin = RequestPlugin.cached(new AssociationsRequest());
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
+        plugin.hasProgress()
+                .defaultError()
+                .setDataCallback(this::receiveData);
         plugins.add(plugin);
     }
 
@@ -67,7 +66,7 @@ public class AssociationSelectPrefActivity extends HydraActivity implements Data
         scroller.setRecyclerView(recyclerView);
 
         searchView.setOnQueryTextListener(adapter);
-        plugin.getLoaderPlugin().startLoader();
+        plugin.startLoader();
     }
 
     @Override
@@ -91,8 +90,7 @@ public class AssociationSelectPrefActivity extends HydraActivity implements Data
         }
     }
 
-    @Override
-    public void receiveData(@NonNull Associations data) {
+    private void receiveData(@NonNull Associations data) {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> disabled = preferences.getStringSet(PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
@@ -103,14 +101,6 @@ public class AssociationSelectPrefActivity extends HydraActivity implements Data
         }
 
         adapter.setItems(values);
-    }
-
-    @Override
-    public void receiveError(@NonNull Throwable e) {
-        Log.e(TAG, "Error while getting data.", e);
-        Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> plugin.refresh())
-                .show();
     }
 
     @Override
@@ -134,9 +124,9 @@ public class AssociationSelectPrefActivity extends HydraActivity implements Data
         private Map<Association, Boolean> allData = new HashMap<>();
 
         @Override
-        public void setItems(List<Pair<Association, Boolean>> list) {
-            super.setItems(list);
-            for (Pair<Association, Boolean> pair : list) {
+        public void setItems(List<Pair<Association, Boolean>> items) {
+            super.setItems(items);
+            for (Pair<Association, Boolean> pair : items) {
                 allData.put(pair.first, pair.second);
             }
         }

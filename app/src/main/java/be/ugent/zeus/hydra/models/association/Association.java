@@ -18,7 +18,7 @@ import java.io.Serializable;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class Association implements Parcelable, Serializable {
+public final class Association implements Parcelable, Serializable {
 
     @SerializedName("internal_name")
     private String internalName;

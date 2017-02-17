@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by feliciaan on 04/02/16.
  */
-public class Sandwich implements Parcelable, Serializable {
+public final class Sandwich implements Parcelable, Serializable {
 
     public String name;
     private ArrayList<String> ingredients;

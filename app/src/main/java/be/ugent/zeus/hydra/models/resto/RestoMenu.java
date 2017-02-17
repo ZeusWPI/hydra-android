@@ -17,14 +17,14 @@ import java.util.List;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class RestoMenu implements Parcelable, Serializable {
+public final class RestoMenu implements Parcelable, Serializable {
 
     private boolean open;
     @JsonAdapter(DateThreeTenAdapter.class)
     private LocalDate date;
     private List<RestoMeal> meals;
-    private List<RestoMeal> sideDishes;
-    private List<RestoMeal> mainDishes;
+    private transient List<RestoMeal> sideDishes;
+    private transient List<RestoMeal> mainDishes;
     private List<String> vegetables;
 
     /**
@@ -108,7 +108,7 @@ public class RestoMenu implements Parcelable, Serializable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeByte((byte) (this.open ? 1 : 0));
         dest.writeLong(this.date != null ? this.date.toEpochDay() : -1);
-        dest.writeList(this.meals);
+        dest.writeTypedList(this.meals);
         dest.writeStringList(this.vegetables);
     }
 
@@ -116,8 +116,7 @@ public class RestoMenu implements Parcelable, Serializable {
         this.open = in.readByte() != 0;
         long tmpDate = in.readLong();
         this.date = tmpDate == -1 ? null : LocalDate.ofEpochDay(tmpDate);
-        this.meals = new ArrayList<>();
-        in.readList(this.meals,RestoMeal.class.getClassLoader());
+        this.meals = in.createTypedArrayList(RestoMeal.CREATOR);
         this.vegetables = in.createStringArrayList();
         fillCategories();
     }

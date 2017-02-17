@@ -2,6 +2,7 @@
 
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/refresh_layout"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
@@ -21,6 +22,7 @@
             android:paddingLeft="@dimen/card_margin"
             android:paddingRight="@dimen/card_margin"
             app:spanCount="@integer/span_count_normal"
+            tools:listitem="@layout/item_sko_timeline_post"
             app:layoutManager="@string/app_layout_manager_normal"/>
 
         <include layout="@layout/x_progress_bar" />

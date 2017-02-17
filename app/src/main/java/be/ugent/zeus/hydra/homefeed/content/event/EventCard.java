@@ -14,11 +14,11 @@ import org.threeten.bp.ZonedDateTime;
  * @author silox
  * @author Niko Strijbol
  */
-public class EventCard extends HomeCard {
+class EventCard extends HomeCard {
 
     private Event event;
 
-    public EventCard(Event event) {
+    EventCard(Event event) {
         this.event = event;
     }
 

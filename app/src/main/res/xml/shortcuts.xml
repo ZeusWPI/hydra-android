@@ -14,7 +14,7 @@
             android:action="android.intent.action.VIEW"
             android:targetPackage="be.ugent.zeus.hydra"
             android:targetClass="be.ugent.zeus.hydra.activities.MainActivity">
-            <extra android:name="argTab" android:value="2" />
+            <extra android:name="argTabShortcut" android:value="1" />
         </intent>
     </shortcut>
 
@@ -30,7 +30,7 @@
             android:action="android.intent.action.VIEW"
             android:targetPackage="be.ugent.zeus.hydra"
             android:targetClass="be.ugent.zeus.hydra.activities.MainActivity">
-            <extra android:name="argTab" android:value="6" />
+            <extra android:name="argTabShortcut" android:value="2" />
         </intent>
     </shortcut>
 

@@ -27,7 +27,7 @@ public abstract class Plugin {
 
     @NonNull
     protected ContextProvider.Provider getHost() {
-        if(provider == null) {
+        if (provider == null) {
             throw new IllegalStateException("getHost was called too early.");
         }
         return provider;
@@ -41,7 +41,7 @@ public abstract class Plugin {
     @CallSuper
     protected void onAddPlugins(List<Plugin> plugins) {
         List<Plugin> recursive = new ArrayList<>();
-        for(Plugin plugin: plugins) {
+        for (Plugin plugin : plugins) {
             plugin.onAddPlugins(recursive);
         }
         plugins.addAll(recursive);

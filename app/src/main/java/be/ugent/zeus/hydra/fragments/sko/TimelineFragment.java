@@ -1,16 +1,14 @@
 package be.ugent.zeus.hydra.fragments.sko;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.*;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.loaders.DataCallback;
+import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.models.sko.Timeline;
 import be.ugent.zeus.hydra.models.sko.TimelinePost;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.sko.TimelineAdapter;
@@ -28,17 +26,17 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public class TimelineFragment extends PluginFragment implements SwipeRefreshLayout.OnRefreshListener, DataCallback<Timeline> {
+public class TimelineFragment extends PluginFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private SwipeRefreshLayout refreshLayout;
     private ActivityHelper helper;
     private final TimelineRequest request = new TimelineRequest();
-    private RecyclerViewPlugin<TimelinePost, Timeline> plugin = new RecyclerViewPlugin<>(RequestPlugin.wrap(request), null);
+    private RecyclerViewPlugin<TimelinePost, Timeline> plugin = RecyclerViewPlugin.cached(request, null);
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
         super.onAddPlugins(plugins);
-        plugin.setCallback(this);
+        plugin.hasProgress().defaultError().addResultListener(i -> refreshLayout.setRefreshing(false));
         plugins.add(plugin);
     }
 
@@ -78,23 +76,15 @@ public class TimelineFragment extends PluginFragment implements SwipeRefreshLayo
     }
 
     @Override
-    public void receiveData(@NonNull Timeline data) {
-        refreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void receiveError(@NonNull Throwable e) {
-        //
-    }
-
-    @Override
     public void onRefresh() {
-        plugin.getRequestPlugin().refresh();
+        plugin.refresh();
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
+        HydraActivity activity = (HydraActivity) getActivity();
+        HydraActivity.tintToolbarIcons(activity.getToolbar(), menu, R.id.action_refresh);
     }
 
     @Override

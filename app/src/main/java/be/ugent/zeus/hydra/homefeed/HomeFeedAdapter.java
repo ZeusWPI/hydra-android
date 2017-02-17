@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.homefeed;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -11,18 +12,21 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.content.event.EventCardViewHolder;
-import be.ugent.zeus.hydra.homefeed.content.minerva.login.MinervaLoginViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.minerva.agenda.MinervaAgendaViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.minerva.announcement.MinervaAnnouncementViewHolder;
+import be.ugent.zeus.hydra.homefeed.content.minerva.login.MinervaLoginViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.news.NewsItemViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.resto.RestoCardViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.schamper.SchamperViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.specialevent.SpecialEventCardViewHolder;
+import be.ugent.zeus.hydra.homefeed.content.urgent.UrgentViewHolder;
+import be.ugent.zeus.hydra.homefeed.loader.HomeDiffCallback;
 import be.ugent.zeus.hydra.models.association.Association;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
 
+import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,21 +35,34 @@ import static be.ugent.zeus.hydra.homefeed.content.HomeCard.CardType.*;
 /**
  * Adapter for {@link HomeFeedFragment}.
  *
+ * TODO: currently DiffResult is calculated on the main thread, investigate this.
+ * Note: this used to be calculated by the loader, but this resulted in crashes due to stale data.
+ * Another alternative is not using this, but calling notifyDataChanged directly. However, the docs/internet seem to
+ * say it is not a problem calculating diffResult on the main thread.
+ *
  * @author feliciaan
  * @author Niko Strijbol
  */
 public class HomeFeedAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCard>> {
 
     private List<HomeCard> cardItems = Collections.emptyList();
-    private final HomeFeedFragment fragment;
+    private final WeakReference<HomeFeedFragment> fragment;
+    private final Context context;
 
-    public HomeFeedAdapter(HomeFeedFragment fragment) {
-        this.fragment = fragment;
+    HomeFeedAdapter(HomeFeedFragment fragment) {
+        this.fragment = new WeakReference<>(fragment);
+        this.context = fragment.getContext().getApplicationContext();
         setHasStableIds(true);
     }
 
+    @Nullable
     public ActivityHelper getHelper() {
-        return fragment.getHelper();
+        HomeFeedFragment fragment = this.fragment.get();
+        if (fragment != null) {
+            return fragment.getHelper();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -53,13 +70,10 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
         return cardItems.get(position).hashCode();
     }
 
-    public void setData(List<HomeCard> data, @Nullable DiffUtil.DiffResult update) {
+    public void setData(List<HomeCard> data) {
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new HomeDiffCallback(this.cardItems, data));
         this.cardItems = data;
-        if (update != null) {
-            update.dispatchUpdatesTo(this);
-        } else {
-            notifyDataSetChanged();
-        }
+        result.dispatchUpdatesTo(this);
     }
 
     @Override
@@ -81,30 +95,16 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
                 return new MinervaAnnouncementViewHolder(view(R.layout.home_minerva_announcement_card, parent), this);
             case MINERVA_AGENDA:
                 return new MinervaAgendaViewHolder(view(R.layout.home_minerva_agenda_card, parent), this);
+            case URGENT_FM:
+                return new UrgentViewHolder(view(R.layout.home_card_urgent, parent), this);
+            case DEBUG:
+            default:
+                return null;
         }
-        return null;
     }
 
     private View view(int rLayout, ViewGroup parent) {
         return LayoutInflater.from(parent.getContext()).inflate(rLayout, parent, false);
-    }
-
-    /**
-     * Disable a type of card.
-     *
-     * @param type The type of card to disable.
-     */
-    public void disableCardType(@HomeCard.CardType int type) {
-
-        //Save preferences first
-        PreferencesUtils.addToStringSet(
-                fragment.getContext(),
-                HomeFeedFragment.PREF_DISABLED_CARDS,
-                String.valueOf(type)
-        );
-
-        //Remove existing cards from the loader.
-        fragment.getLoader().removeType(type);
     }
 
     /**
@@ -113,22 +113,16 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
      * @param association The association of the card to disable.
      */
     public void disableAssociation(Association association) {
-
-        //First save in preferences
         PreferencesUtils.addToStringSet(
-                fragment.getContext(),
+                context,
                 AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
                 association.getInternalName()
         );
-
-        //Remove existing cards from the loader.
-        fragment.getLoader().removeAssociations(association);
     }
 
     @Override
     public void onBindViewHolder(DataViewHolder<HomeCard> holder, int position) {
-        HomeCard object = cardItems.get(position);
-        holder.populate(object);
+        holder.populate(cardItems.get(position));
     }
 
     @Override
@@ -142,8 +136,18 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
         return cardItems.get(position).getCardType();
     }
 
-    public List<HomeCard> getData() {
-        return cardItems;
+    /**
+     * Disable a type of card.
+     *
+     * @param type The type of card to disable.
+     */
+    public void disableCardType(@HomeCard.CardType int type) {
+        //Save preferences first
+        PreferencesUtils.addToStringSet(
+                context,
+                HomeFeedFragment.PREF_DISABLED_CARDS,
+                String.valueOf(type)
+        );
     }
 
     /**
@@ -155,7 +159,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
      */
     public PopupMenu.OnMenuItemClickListener listener(@HomeCard.CardType final int type) {
         return item -> {
-            if(item.getItemId() == R.id.menu_hide) {
+            if (item.getItemId() == R.id.menu_hide) {
                 disableCardType(type);
                 return true;
             }

@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * Created by feliciaan on 21/06/16.
  */
-public class Course implements Serializable, Parcelable {
+public final class Course implements Serializable, Parcelable {
 
     private String id;
     private String code;

@@ -4,7 +4,9 @@
     android:id="@+id/checkbox_wrapper"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.OnboardingActivity">
 
     <TextView
         android:paddingTop="@dimen/large_horizontal_padding"
@@ -32,6 +34,7 @@
         android:paddingTop="@dimen/large_horizontal_padding"
         android:paddingLeft="@dimen/vertical_padding"
         android:paddingRight="@dimen/vertical_padding"
+        tools:listitem="@layout/item_checkbox_string"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
