@@ -59,7 +59,38 @@ public class MinervaFragment extends PluginFragment {
     private CourseDao courseDao;
 
     private RecyclerViewPlugin<Course, List<Course>> plugin =
-            new RecyclerViewPlugin<>((LoaderProvider<List<Course>>)  c -> new CourseDaoLoader(c, courseDao), adapter);
+            new RecyclerViewPlugin<>((LoaderProvider<List<Course>>) c -> new CourseDaoLoader(c, courseDao), adapter);
+    //This will only be called if manually set to send broadcasts.
+    private BroadcastReceiver syncReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            assert getView() != null;
+            switch (intent.getAction()) {
+                case SyncBroadcast.SYNC_START:
+                    Log.d(TAG, "Start!");
+                    ensureSyncStatus(getString(R.string.minerva_sync_getting_courses));
+                    return;
+                case SyncBroadcast.SYNC_DONE:
+                    Log.d(TAG, "Done!");
+                    ensureSyncStatus(getString(R.string.minerva_sync_done));
+                    syncBar.dismiss();
+                    syncBar = null;
+                    plugin.showRecyclerView();
+                    plugin.restartLoader();
+                    return;
+                case SyncBroadcast.SYNC_ERROR:
+                    Log.d(TAG, "Error");
+                    ensureSyncStatus(getString(R.string.failure));
+                    syncBar.setDuration(Snackbar.LENGTH_LONG);
+                    return;
+                case SyncBroadcast.SYNC_PROGRESS_WHATS_NEW:
+                    Log.d(TAG, "Progress");
+                    int current = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_CURRENT, 0);
+                    int total = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_TOTAL, 0);
+                    ensureSyncStatus(getString(R.string.minerva_sync_progress, current, total));
+            }
+        }
+    };
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
@@ -145,7 +176,7 @@ public class MinervaFragment extends PluginFragment {
      */
     private void maybeLoadData() {
         //If we are logged in, we can start loading the data.
-        if(isLoggedIn()) {
+        if (isLoggedIn()) {
             authWrapper.setVisibility(View.GONE);
             plugin.getProgressBarPlugin().ifPresent(ProgressBarPlugin::showProgressBar);
             plugin.startLoader();
@@ -159,7 +190,7 @@ public class MinervaFragment extends PluginFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if(isLoggedIn()) {
+        if (isLoggedIn()) {
             inflater.inflate(R.menu.menu_minerva, menu);
         }
     }
@@ -193,6 +224,8 @@ public class MinervaFragment extends PluginFragment {
         if (calendar) {
             bundle.putBoolean(Adapter.EXTRA_SCHEDULE_AGENDA, true);
         }
+        Toast.makeText(getContext(), R.string.minerva_syncing, Toast.LENGTH_LONG)
+                .show();
         SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
     }
 
@@ -249,38 +282,6 @@ public class MinervaFragment extends PluginFragment {
             syncBar = null;
         }
     }
-
-    //This will only be called if manually set to send broadcasts.
-    private BroadcastReceiver syncReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            assert getView() != null;
-            switch (intent.getAction()) {
-                case SyncBroadcast.SYNC_START:
-                    Log.d(TAG, "Start!");
-                    ensureSyncStatus(getString(R.string.minerva_sync_getting_courses));
-                    return;
-                case SyncBroadcast.SYNC_DONE:
-                    Log.d(TAG, "Done!");
-                    ensureSyncStatus(getString(R.string.minerva_sync_done));
-                    syncBar.dismiss();
-                    syncBar = null;
-                    plugin.showRecyclerView();
-                    plugin.restartLoader();
-                    return;
-                case SyncBroadcast.SYNC_ERROR:
-                    Log.d(TAG, "Error");
-                    ensureSyncStatus(getString(R.string.failure));
-                    syncBar.setDuration(Snackbar.LENGTH_LONG);
-                    return;
-                case SyncBroadcast.SYNC_PROGRESS_WHATS_NEW:
-                    Log.d(TAG, "Progress");
-                    int current = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_CURRENT, 0);
-                    int total = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_TOTAL, 0);
-                    ensureSyncStatus(getString(R.string.minerva_sync_progress, current, total));
-            }
-        }
-    };
 
     /**
      * Ensure the sync status is enabled, and set the the given text on the snackbar.

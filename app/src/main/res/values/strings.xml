@@ -260,5 +260,6 @@
     <string name="minerva_action_sync_calendar">Agenda</string>
     <string name="minerva_action_sync_announcements">Aankondigingen</string>
     <string name="minerva_sync_course">Vakken</string>
+    <string name="minerva_syncing">Synchroniseren…</string>
 
 </resources>
