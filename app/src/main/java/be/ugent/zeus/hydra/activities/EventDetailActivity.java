@@ -96,8 +96,8 @@ public class EventDetailActivity extends HydraActivity {
         TextView startTime = $(R.id.time_start);
         TextView endTime = $(R.id.time_end);
 
-        startTime.setText(event.getStart().format(format));
-        endTime.setText(event.getEnd().format(format));
+        startTime.setText(event.getLocalStart().format(format));
+        endTime.setText(event.getLocalEnd().format(format));
 
         if (event.getAssociation() != null && event.getAssociation().getImageLink() != null) {
             Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage, new Callback.EmptyCallback() {
