@@ -133,7 +133,7 @@
 
         <!-- Show a Minerva agenda item -->
         <activity
-            android:name=".activities.minerva.AgendaActivity"
+            android:name=".activities.minerva.agenda.AgendaActivity"
             android:label="@string/activity_title_minerva_agenda"
             android:parentActivityName=".activities.minerva.CourseActivity" />
 

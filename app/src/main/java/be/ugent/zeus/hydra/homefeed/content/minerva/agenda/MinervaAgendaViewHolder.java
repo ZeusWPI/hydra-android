@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.minerva.AgendaActivity;
+import be.ugent.zeus.hydra.activities.minerva.agenda.AgendaActivity;
 import be.ugent.zeus.hydra.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.homefeed.content.HideableViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
@@ -58,7 +58,7 @@ public class MinervaAgendaViewHolder extends HideableViewHolder {
 
             layout.addView(view);
 
-            view.setOnClickListener(v -> AgendaActivity.start(v.getContext(), item));
+            view.setOnClickListener(v -> AgendaActivity.start(v.getContext(), item.getItemId()));
         }
     }
 

@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.minerva.AgendaActivity;
+import be.ugent.zeus.hydra.activities.minerva.agenda.AgendaActivity;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -38,6 +38,6 @@ public class AgendaViewHolder extends DataViewHolder<AgendaItem> {
                 data.getLastEditUser());
         subtitle.setText(infoText);
 
-        parent.setOnClickListener(view -> AgendaActivity.start(view.getContext(), data));
+        parent.setOnClickListener(view -> AgendaActivity.start(view.getContext(), data.getItemId()));
     }
 }

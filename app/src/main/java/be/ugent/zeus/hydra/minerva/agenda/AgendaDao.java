@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.minerva.course.CourseExtractor;
 import be.ugent.zeus.hydra.minerva.course.CourseTable;
 import be.ugent.zeus.hydra.minerva.database.Dao;
@@ -300,6 +301,85 @@ public class AgendaDao extends Dao implements DiffDao<AgendaItem, Integer> {
             }
         } finally {
             cursor.close();
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a single agenda item by it's ID.
+     *
+     * @param id The ID.
+     *
+     * @return The agenda item or null if not found.
+     */
+    @Nullable
+    public AgendaItem getItem(int id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+
+        final String courseTable = "course_";
+
+        String agendaJoin =  AgendaTable.Columns.COURSE;
+        String courseJoin = courseTable + CourseTable.Columns.ID;
+
+        builder.setTables(AgendaTable.TABLE_NAME + " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + agendaJoin + "=" + courseJoin);
+
+        String[] columns = new String[]{
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.ID,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.TITLE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.CONTENT,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.START_DATE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.END_DATE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LOCATION,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.TYPE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LAST_EDIT_USER,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LAST_EDIT,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LAST_EDIT_TYPE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.CALENDAR_ID,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.ID + " AS " + courseTable + CourseTable.Columns.ID,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.CODE + " AS " + courseTable + CourseTable.Columns.CODE,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.TITLE + " AS " + courseTable + CourseTable.Columns.TITLE,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.DESCRIPTION + " AS " + courseTable + CourseTable.Columns.DESCRIPTION,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.TUTOR + " AS " + courseTable + CourseTable.Columns.TUTOR,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.STUDENT + " AS " + courseTable + CourseTable.Columns.STUDENT,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.ACADEMIC_YEAR + " AS " + courseTable + CourseTable.Columns.ACADEMIC_YEAR,
+        };
+
+        Cursor c = builder.query(
+                db,
+                columns,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.ID + " = ?",
+                new String[]{String.valueOf(id)},
+                null,
+                null,
+                null
+        );
+
+        if (c == null) {
+            return null;
+        }
+
+        CourseExtractor cExtractor = new CourseExtractor.Builder(c)
+                .columnId(courseTable + CourseTable.Columns.ID)
+                .columnCode(courseTable + CourseTable.Columns.CODE)
+                .columnTitle(courseTable + CourseTable.Columns.TITLE)
+                .columnDesc(courseTable + CourseTable.Columns.DESCRIPTION)
+                .columnTutor(courseTable + CourseTable.Columns.TUTOR)
+                .columnStudent(courseTable + CourseTable.Columns.STUDENT)
+                .columnYear(courseTable + CourseTable.Columns.ACADEMIC_YEAR)
+                .build();
+
+        AgendaExtractor aExtractor = new AgendaExtractor.Builder(c).defaults().build();
+        AgendaItem result = null;
+
+        try {
+            if (c.moveToNext()) {
+                result = aExtractor.getAgendaItem(cExtractor.getCourse());
+            }
+        } finally {
+            c.close();
         }
 
         return result;

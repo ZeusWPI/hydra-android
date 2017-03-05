@@ -7,6 +7,10 @@ package be.ugent.zeus.hydra.loaders;
  */
 public class LoaderException extends Exception {
 
+    public LoaderException(String message) {
+        super(message);
+    }
+
     public LoaderException(Throwable cause) {
         super(cause);
     }
