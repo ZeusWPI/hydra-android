@@ -3,12 +3,9 @@ package be.ugent.zeus.hydra.minerva.course.sync;
 import android.accounts.Account;
 import android.content.ContentProviderClient;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.course.CourseDao;
 import be.ugent.zeus.hydra.minerva.requests.CoursesMinervaRequest;
@@ -99,9 +96,8 @@ public class Adapter extends MinervaAdapter {
     protected void afterSync(Account account, Bundle extras, boolean isFirstSync) {
 
         if (isFirstSync) {
-            SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(getContext());
-            int courseFreq = Integer.parseInt(p.getString(MinervaFragment.PREF_SYNC_FREQUENCY_COURSE, MinervaFragment.PREF_DEFAULT_SYNC_LONG_FREQUENCY));
-            SyncUtils.enable(account, MinervaConfig.COURSE_AUTHORITY, courseFreq);
+            long frequency = SyncUtils.frequencyFor(getContext(), MinervaConfig.COURSE_AUTHORITY);
+            SyncUtils.enable(account, MinervaConfig.COURSE_AUTHORITY, frequency);
         }
 
         // Schedule other synchronisations if needed.

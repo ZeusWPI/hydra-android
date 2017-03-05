@@ -11,7 +11,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
@@ -19,7 +18,6 @@ import android.util.Log;
 import android.util.SparseArray;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.minerva.CalendarPermissionActivity;
-import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.course.CourseDao;
@@ -359,9 +357,8 @@ public class Adapter extends MinervaAdapter {
     @Override
     protected void afterSync(Account account, Bundle extras, boolean isFirstSync) {
         if (isFirstSync) {
-            SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(getContext());
-            int freq = Integer.parseInt(p.getString(MinervaFragment.PREF_SYNC_FREQUENCY_CALENDAR, MinervaFragment.PREF_DEFAULT_SYNC_FREQUENCY));
-            SyncUtils.enable(account, MinervaConfig.CALENDAR_AUTHORITY, freq);
+            long frequency = SyncUtils.frequencyFor(getContext(), MinervaConfig.CALENDAR_AUTHORITY);
+            SyncUtils.enable(account, MinervaConfig.CALENDAR_AUTHORITY, frequency);
         }
     }
 }

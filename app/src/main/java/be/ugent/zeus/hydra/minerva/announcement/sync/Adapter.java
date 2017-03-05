@@ -193,10 +193,10 @@ public class Adapter extends MinervaAdapter {
 
     @Override
     protected void afterSync(Account account, Bundle extras, boolean isFirstSync) {
+        // If this is the first time we synchronise, we enable automatic synchronisation.
         if (isFirstSync) {
-            SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(getContext());
-            int freq = Integer.parseInt(p.getString(MinervaFragment.PREF_SYNC_FREQUENCY_ANNOUNCEMENT, MinervaFragment.PREF_DEFAULT_SYNC_FREQUENCY));
-            SyncUtils.enable(account, MinervaConfig.ANNOUNCEMENT_AUTHORITY, freq);
+            long frequency = SyncUtils.frequencyFor(getContext(), MinervaConfig.ANNOUNCEMENT_AUTHORITY);
+            SyncUtils.enable(account, MinervaConfig.ANNOUNCEMENT_AUTHORITY, frequency);
         }
     }
 }
