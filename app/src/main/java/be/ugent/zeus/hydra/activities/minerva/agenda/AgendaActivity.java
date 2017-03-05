@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -141,67 +140,30 @@ public class AgendaActivity extends HydraActivity implements LoaderProvider<Agen
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.minerva_agenda_add).setEnabled(item != null);
-        menu.findItem(R.id.minerva_agenda_add).setVisible(item != null);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    private Intent mainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_minerva);
-        return intent;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Provide up navigation if opened from outside Hydra-
                 Intent upIntent = NavUtils.getParentActivityIntent(this);
                 if (NavUtils.shouldUpRecreateTask(this, upIntent) && this.item != null) {
-                    Intent intent = new Intent(this, CourseActivity.class);
-                    intent.putExtra(CourseActivity.ARG_TAB, CourseActivity.Tab.AGENDA);
-                    intent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) this.item.getCourse());
+                    // Intent for the course activity
+                    Intent courseIntent = new Intent(this, CourseActivity.class);
+                    courseIntent.putExtra(CourseActivity.ARG_TAB, CourseActivity.Tab.AGENDA);
+                    courseIntent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) this.item.getCourse());
+                    // Intent for the main activity
+                    Intent mainIntent = new Intent(this, MainActivity.class);
+                    mainIntent.putExtra(MainActivity.ARG_TAB, R.id.drawer_minerva);
                     TaskStackBuilder.create(this)
-                            .addNextIntent(intent)
-                            .addNextIntent(mainActivity())
+                            .addNextIntent(courseIntent)
+                            .addNextIntent(mainIntent)
                             .startActivities();
                 } else {
                     NavUtils.navigateUpTo(this, upIntent);
                 }
                 return true;
-            case R.id.minerva_agenda_add:
-                addToCalendar();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_minerva_agenda, menu);
-        tintToolbarIcons(menu, R.id.minerva_agenda_add);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    private void addToCalendar() {
-        Intent intent = new Intent(Intent.ACTION_INSERT)
-                .setData(CalendarContract.Events.CONTENT_URI)
-                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, item.getStartDate().toInstant().toEpochMilli())
-                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, item.getEndDate().toInstant().toEpochMilli())
-                .putExtra(CalendarContract.Events.TITLE, item.getTitle())
-                .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
-
-        if (!TextUtils.isEmpty(item.getContent())) {
-            intent.putExtra(CalendarContract.Events.DESCRIPTION, item.getContent());
-        }
-
-        if (!TextUtils.isEmpty(item.getLocation())) {
-            intent.putExtra(CalendarContract.Events.EVENT_LOCATION, item.getLocation());
-        }
-        startActivity(intent);
     }
 
     @Override
