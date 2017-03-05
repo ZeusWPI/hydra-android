@@ -132,7 +132,7 @@ public class AgendaDao extends Dao implements DiffDao<AgendaItem, Integer> {
      *
      * @return List of ids in the database.
      */
-    public List<AgendaItem> getAgendaForCourse(Course course, boolean reverse) {
+    public List<AgendaItem> getAgendaForCourse(Course course, boolean reverse, boolean future) {
 
         SQLiteDatabase db = helper.getReadableDatabase();
         List<AgendaItem> result = new ArrayList<>();
@@ -144,11 +144,26 @@ public class AgendaDao extends Dao implements DiffDao<AgendaItem, Integer> {
             order += " ASC";
         }
 
+        String selection = AgendaTable.Columns.COURSE + " = ?";
+
+        if (future) {
+            selection += " AND " + AgendaTable.Columns.END_DATE + " >= ?";
+        }
+
+        String[] values;
+
+        if (future) {
+            String now = String.valueOf(Instant.now().toEpochMilli());
+            values = new String[]{course.getId(), now};
+        } else {
+            values = new String[]{course.getId()};
+        }
+
         Cursor cursor = db.query(
                 AgendaTable.TABLE_NAME,
                 null,
-                AgendaTable.Columns.COURSE + " = ?",
-                new String[]{course.getId()},
+                selection,
+                values,
                 null, null, order);
 
         if (cursor == null) {

@@ -40,6 +40,6 @@ public class AgendaDaoLoader extends BroadcastLoader<List<AgendaItem>> {
     @NonNull
     @Override
     protected List<AgendaItem> loadData() throws LoaderException {
-        return dao.getAgendaForCourse(course, false);
+        return dao.getAgendaForCourse(course, false, true);
     }
 }
