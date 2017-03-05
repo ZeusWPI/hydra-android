@@ -84,7 +84,6 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
         } catch (IOFailureException e) {
             Log.i(TAG, "IO error while syncing.", e);
             syncResult.stats.numIoExceptions++;
-            syncErrorNotification(e);
         } catch (AuthenticatorActionException e) {
             Log.i(TAG, "Auth exception while syncing.", e);
             syncResult.stats.numAuthExceptions++;
@@ -95,21 +94,17 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
                 broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
             } else {
                 Log.w(TAG, "Auth exception during sync, but no error intent was found. Ignoring error.");
-                //syncErrorNotification(e);
             }
         } catch (RequestFailureException e) {
             Log.w(TAG, "Exception during sync:", e);
             // TODO: this needs attention.
             syncResult.stats.numParseExceptions++;
-            syncErrorNotification(e);
         } catch (SQLException e) {
             Log.e(TAG, "Exception during sync:", e);
             syncResult.databaseError = true;
-            syncErrorNotification(e);
         } catch (HttpMessageNotReadableException e) {
             Log.e(TAG, "Exception during sync:", e);
             syncResult.stats.numParseExceptions++;
-            syncErrorNotification(e);
         }
 
         afterSync(account, extras, isFirstSync);
@@ -122,20 +117,17 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
     }
 
     /**
-     * Show an error notification. This will also broadcast the error intent.
-     */
-    protected void syncErrorNotification(Throwable throwable) {
-        broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
-        SyncErrorNotification.Builder.init(getContext()).genericError(throwable).build().show();
-    }
-
-    /**
      * Same as {@link #onPerformSync(Account, Bundle, String, ContentProviderClient, SyncResult)}, except various
      * exceptions are already catched and handled.
      *
      * @see #onPerformSync(Account, Bundle, String, ContentProviderClient, SyncResult)
      */
-    protected abstract void onPerformCheckedSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult results, boolean isFirstSync) throws RequestFailureException;
+    protected abstract void onPerformCheckedSync(Account account,
+                                                 Bundle extras,
+                                                 String authority,
+                                                 ContentProviderClient provider,
+                                                 SyncResult results,
+                                                 boolean isFirstSync) throws RequestFailureException;
 
     protected void afterSync(Account account, Bundle extras, boolean isFirstSync) {
         // Nothing.
