@@ -1,10 +1,14 @@
 package be.ugent.zeus.hydra.activities.minerva.agenda;
 
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -12,7 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.activities.MainActivity;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
+import be.ugent.zeus.hydra.activities.minerva.CourseActivity;
 import be.ugent.zeus.hydra.loaders.LoaderPlugin;
 import be.ugent.zeus.hydra.loaders.LoaderProvider;
 import be.ugent.zeus.hydra.loaders.LoaderResult;
@@ -47,8 +53,12 @@ public class AgendaActivity extends HydraActivity implements LoaderProvider<Agen
 
     public static void start(Context context, int agendaId) {
         Intent intent = new Intent(context, AgendaActivity.class);
-        intent.putExtra(ARG_AGENDA_ITEM, agendaId);
+        intent.putExtra(CalendarContract.Events.CUSTOM_APP_URI, getUri(agendaId));
         context.startActivity(intent);
+    }
+
+    public static String getUri(int id) {
+        return "hydra://minerva/calendar/" + id;
     }
 
     @Override
@@ -68,7 +78,8 @@ public class AgendaActivity extends HydraActivity implements LoaderProvider<Agen
         setContentView(R.layout.activity_minerva_agenda);
 
         Intent intent = getIntent();
-        agendaItemId = intent.getIntExtra(ARG_AGENDA_ITEM, -1);
+        Uri uri = Uri.parse(intent.getStringExtra(CalendarContract.EXTRA_CUSTOM_APP_URI));
+        agendaItemId = Integer.valueOf(uri.getLastPathSegment());
 
         errorView = $(R.id.error_view);
         normalView = $(R.id.normal_view);
@@ -77,7 +88,7 @@ public class AgendaActivity extends HydraActivity implements LoaderProvider<Agen
     }
 
     private void onResult(AgendaItem result) {
-
+        setResult(RESULT_OK);
         errorView.setVisibility(GONE);
         normalView.setVisibility(VISIBLE);
         invalidateOptionsMenu();
@@ -136,9 +147,30 @@ public class AgendaActivity extends HydraActivity implements LoaderProvider<Agen
         return super.onPrepareOptionsMenu(menu);
     }
 
+    private Intent mainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_minerva);
+        return intent;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                // Provide up navigation if opened from outside Hydra-
+                Intent upIntent = NavUtils.getParentActivityIntent(this);
+                if (NavUtils.shouldUpRecreateTask(this, upIntent) && this.item != null) {
+                    Intent intent = new Intent(this, CourseActivity.class);
+                    intent.putExtra(CourseActivity.ARG_TAB, CourseActivity.Tab.AGENDA);
+                    intent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) this.item.getCourse());
+                    TaskStackBuilder.create(this)
+                            .addNextIntent(intent)
+                            .addNextIntent(mainActivity())
+                            .startActivities();
+                } else {
+                    NavUtils.navigateUpTo(this, upIntent);
+                }
+                return true;
             case R.id.minerva_agenda_add:
                 addToCalendar();
                 return true;

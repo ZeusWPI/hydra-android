@@ -16,8 +16,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.util.SparseArray;
+import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.minerva.CalendarPermissionActivity;
+import be.ugent.zeus.hydra.activities.minerva.agenda.AgendaActivity;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.minerva.auth.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.course.CourseDao;
@@ -281,6 +283,8 @@ public class Adapter extends MinervaAdapter {
         contentValues.put(CalendarContract.Events.DTEND, item.getEndDate().toInstant().toEpochMilli());
         contentValues.put(CalendarContract.Events.EVENT_LOCATION, item.getLocation());
         contentValues.put(CalendarContract.Events.SYNC_DATA1, item.getItemId());
+        contentValues.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, BuildConfig.APPLICATION_ID);
+        contentValues.put(CalendarContract.Events.CUSTOM_APP_URI, AgendaActivity.getUri(item.getItemId()));
         return contentValues;
     }
 

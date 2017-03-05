@@ -135,7 +135,13 @@
         <activity
             android:name=".activities.minerva.agenda.AgendaActivity"
             android:label="@string/activity_title_minerva_agenda"
-            android:parentActivityName=".activities.minerva.CourseActivity" />
+            android:parentActivityName=".activities.minerva.CourseActivity">
+            <intent-filter>
+                <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="vnd.android.cursor.item/event" />
+            </intent-filter>
+        </activity>
 
         <!-- Minerva auth activity -->
         <activity
