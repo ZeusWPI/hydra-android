@@ -10,8 +10,8 @@ import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
 import java8.util.stream.Collectors;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
-import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.List;
 import java.util.Map;
@@ -33,9 +33,12 @@ public class MinervaAgendaRequest implements HomeFeedRequest {
     @Override
     public Stream<HomeCard> performRequest() throws RequestFailureException {
 
+        ZonedDateTime now = ZonedDateTime.now();
+        // Only display things up to 3 weeks from now.
+        ZonedDateTime oneMonth = now.plusWeeks(3);
         //Note: in real Java 8 streams, we could concat the operations below.
         //Sort the items per day
-        Map<LocalDate, List<AgendaItem>> perDay = dao.getFutureAgenda(Instant.now())
+        Map<LocalDate, List<AgendaItem>> perDay = dao.getFutureAgenda(now.toInstant(), oneMonth.toInstant())
                         .collect(Collectors.groupingBy(AgendaItem::getLocalStartDate));
 
         //Convert it to a view

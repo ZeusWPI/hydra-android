@@ -82,8 +82,8 @@ public class Adapter extends MinervaAdapter {
         ZonedDateTime now = LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault());
         // Start time.
         agendaRequest.setStart(now.minusMonths(2));
-        // End time. We take 1 month (+1 day for the start time).
-        agendaRequest.setEnd(now.plusMonths(1).plusDays(1));
+        // End time. We take 4 month (+1 day for the start time).
+        agendaRequest.setEnd(now.plusMonths(4).plusDays(1));
 
         Agenda agenda = agendaRequest.performRequest();
 

@@ -184,7 +184,7 @@ public class AgendaDao extends Dao implements DiffDao<AgendaItem, Integer> {
         return result;
     }
 
-    public Stream<AgendaItem> getFutureAgenda(Instant instant) {
+    public Stream<AgendaItem> getFutureAgenda(Instant instant, @Nullable Instant upperLimit) {
 
         SQLiteDatabase db = helper.getReadableDatabase();
 
@@ -219,12 +219,24 @@ public class AgendaDao extends Dao implements DiffDao<AgendaItem, Integer> {
         };
 
         String now = String.valueOf(instant.toEpochMilli());
+        String selection = "(" + AgendaTable.Columns.START_DATE + " >= ? OR " + AgendaTable.Columns.END_DATE + ">= ?)";
+
+        if (upperLimit != null) {
+            selection += " AND " + AgendaTable.Columns.START_DATE + " <= ?";
+        }
+
+        String values[];
+        if (upperLimit != null) {
+            values = new String[]{now, now, String.valueOf(upperLimit.toEpochMilli())};
+        } else {
+            values = new String[]{now, now};
+        }
 
         Cursor c = builder.query(
                 db,
                 columns,
-                AgendaTable.Columns.START_DATE + " >= ? OR " + AgendaTable.Columns.END_DATE + ">= ?",
-                new String[]{now, now},
+                selection,
+                values,
                 null,
                 null,
                 AgendaTable.Columns.START_DATE + " ASC"
