@@ -5,6 +5,7 @@ import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import java8.util.Objects;
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
 
 import java.util.List;
@@ -15,6 +16,10 @@ import java.util.List;
  * @author Niko Strijbol
  */
 class MinervaAgendaCard extends HomeCard {
+
+    // From 11 h to 15 h we are more interested in the menu.
+    private static final LocalDateTime disInterestStart = LocalDateTime.now().withHour(11).withMinute(0);
+    private static final LocalDateTime disInterestEnd = LocalDateTime.now().withHour(15).withMinute(0);
 
     private final LocalDate date;
     private final List<AgendaItem> agenda;
@@ -34,8 +39,13 @@ class MinervaAgendaCard extends HomeCard {
 
     @Override
     public int getPriority() {
-        int duration = (int) ChronoUnit.DAYS.between(LocalDate.now(), date);
-        return FeedUtils.lerp(duration, 0, 31);
+        LocalDateTime now = LocalDateTime.now();
+        int duration = (int) ChronoUnit.DAYS.between(now.toLocalDate(), date);
+        if (!(now.isAfter(disInterestStart) && now.isBefore(disInterestEnd))) {
+            return FeedUtils.lerp(duration, 0, 21) - 5;
+        } else {
+            return FeedUtils.lerp(duration, 0, 21);
+        }
     }
 
     @Override

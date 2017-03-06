@@ -20,6 +20,11 @@ import static be.ugent.zeus.hydra.homefeed.content.HomeCard.CardType.*;
  * An easy way to calculate a correct priority is using {@link FeedUtils}, which can calculate a priority for a
  * card that has a score in an interval, e.g. the days between the card's date and today.
  *
+ * The implementation shifts the priority to [10,1010]. The first interval [0,10[ should be used very sparingly for
+ * special occasions, such as giving the resto card a temporarily higher score because it is eating time.
+ *
+ * The negative values ]-Inf,0[ are reserved for use with special cards.
+ *
  * Implementations must provide working {@link #equals(Object)} and {@link #hashCode()} functions. These functions are
  * used to calculate differences between collections of cards.
  *
@@ -29,7 +34,7 @@ import static be.ugent.zeus.hydra.homefeed.content.HomeCard.CardType.*;
 public abstract class HomeCard implements Comparable<HomeCard> {
 
     /**
-     * @return Priority should be a number between 0 and 1000. See the class description.
+     * @return Priority should be a number between 0 and 1010. See the class description.
      */
     public abstract int getPriority();
 

@@ -20,12 +20,17 @@ import com.squareup.picasso.RequestCreator;
 public class FeedUtils {
 
     /**
-     * The upper limit on the feed.
+     * The special shift.
      */
-    public static int FEED_MAX_VALUE = 1000;
+    public static int FEED_SPECIAL_SHIFT = 10;
 
     /**
-     * Lineair interpolation of the value x ∈ [a,b] to [0,FEED_MAX_VALUE]. The formula used is:
+     * The upper limit on the feed.
+     */
+    public static int FEED_MAX_VALUE = 1000 + FEED_SPECIAL_SHIFT;
+
+    /**
+     * Lineair interpolation of the value x ∈ [a,b] to [10,FEED_MAX_VALUE]. The formula used is:
      *
      * x' = (c - a) * FEED_MAX_VALUE / (b - a)
      *
@@ -38,7 +43,7 @@ public class FeedUtils {
      * @return The interpolated value in [y,z].
      */
     public static int lerp(int x, int a, int b) {
-        return Math.min((int) ((x - a) * (double) FEED_MAX_VALUE / (b - a)), FEED_MAX_VALUE);
+        return Math.min((int) ((x - a) * (double) FEED_MAX_VALUE / (b - a)), FEED_MAX_VALUE) + FEED_SPECIAL_SHIFT;
     }
 
     private static boolean isDataConstrained(Context context) {

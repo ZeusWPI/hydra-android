@@ -4,7 +4,7 @@ import be.ugent.zeus.hydra.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.models.resto.RestoMenu;
 import java8.util.Objects;
-import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
 
 /**
@@ -14,6 +14,10 @@ import org.threeten.bp.temporal.ChronoUnit;
  * @author silox
  */
 class RestoMenuCard extends HomeCard {
+
+    // From 11 h to 15 h we are more interested in the menu.
+    private static final LocalDateTime interestStart = LocalDateTime.now().withHour(11).withMinute(0);
+    private static final LocalDateTime interestEnd = LocalDateTime.now().withHour(15).withMinute(0);
 
     private final RestoMenu restoMenu;
 
@@ -27,8 +31,14 @@ class RestoMenuCard extends HomeCard {
 
     @Override
     public int getPriority() {
-        int duration = (int) ChronoUnit.DAYS.between(LocalDate.now(), restoMenu.getDate());
-        return Math.max(0, FeedUtils.lerp((int) ((duration - 0.5) * 24), 0, 504));
+        LocalDateTime now = LocalDateTime.now();
+        int duration = (int) ChronoUnit.DAYS.between(now.toLocalDate(), restoMenu.getDate());
+        if (now.isAfter(interestStart) && now.isBefore(interestEnd)) {
+            return Math.max(FeedUtils.FEED_SPECIAL_SHIFT, FeedUtils.lerp((int) ((duration - 0.5) * 24), 0, 504)) - 5;
+        } else {
+            return Math.max(FeedUtils.FEED_SPECIAL_SHIFT, FeedUtils.lerp((int) ((duration - 0.5) * 24), 0, 504));
+        }
+
     }
 
     @Override

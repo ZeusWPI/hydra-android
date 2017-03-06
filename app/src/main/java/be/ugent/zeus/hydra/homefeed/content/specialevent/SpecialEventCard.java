@@ -27,7 +27,7 @@ class SpecialEventCard extends HomeCard {
     public int getPriority() {
         //We get the complement, as the server assumes 1000 = highest priority. This is for
         //historical reasons.
-        return FeedUtils.FEED_MAX_VALUE - specialEvent.getPriority();
+        return FeedUtils.FEED_MAX_VALUE - specialEvent.getPriority() - FeedUtils.FEED_SPECIAL_SHIFT;
     }
 
     @Override
