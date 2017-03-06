@@ -262,5 +262,7 @@
     <string name="minerva_sync_course">Vakken</string>
     <string name="minerva_syncing">Synchroniseren…</string>
     <string name="minerva_calendar_not_found">Agenda-item werd niet gevonden.</string>
+    <string name="minerva_calendar_duration">%1$s – %2$s</string>
+    <string name="minerva_calendar_friendly_date">%1$s (%2$s)</string>
 
 </resources>

@@ -12,6 +12,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeFormatterBuilder;
 import org.threeten.bp.format.FormatStyle;
 import org.threeten.bp.temporal.ChronoUnit;
+import org.threeten.bp.temporal.IsoFields;
 
 import java.util.Locale;
 
@@ -39,7 +40,7 @@ public class DateUtils {
         LocalDate today = LocalDate.now();
 
         int thisWeek = Integer.parseInt(today.format(WEEK_FORMATTER));
-        int week = Integer.parseInt(date.format(WEEK_FORMATTER));
+        int week = date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
         long daysBetween = ChronoUnit.DAYS.between(today, date);
 
         DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale);
@@ -60,6 +61,21 @@ public class DateUtils {
         } else {
             return DATE_FORMATTER.format(date);
         }
+    }
+
+    /**
+     * Check if for a given date, the {@link #getFriendlyDate(LocalDate)} would return a friendly date or not.
+     *
+     * @param date The date to check.
+     *
+     * @return True if a friendly date would be returned.
+     */
+    public static boolean isFriendly(@NonNull LocalDate date) {
+        LocalDate today = LocalDate.now();
+        long daysBetween = ChronoUnit.DAYS.between(today, date);
+        int week = date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
+        int thisWeek = Integer.parseInt(today.format(WEEK_FORMATTER));
+        return daysBetween == 0 || daysBetween == 1 || daysBetween == 2 || daysBetween >= 0 && (daysBetween < 7 || week == thisWeek + 1);
     }
 
     /**

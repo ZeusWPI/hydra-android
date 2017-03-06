@@ -25,7 +25,9 @@ import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.plugins.ProgressBarPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.html.Utils;
+import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import java.util.List;
@@ -38,8 +40,8 @@ import static android.view.View.VISIBLE;
  */
 public class AgendaActivity extends HydraActivity implements LoaderProvider<AgendaItem> {
 
-    private static final String ARG_AGENDA_ITEM = "argAgendaItem";
-    private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private static final DateTimeFormatter DAY_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
     private LoaderPlugin<AgendaItem> plugin = new LoaderPlugin<>(this);
     private ProgressBarPlugin barPlugin = new ProgressBarPlugin();
@@ -112,11 +114,36 @@ public class AgendaActivity extends HydraActivity implements LoaderProvider<Agen
             location.setText(item.getLocation());
         }
 
-        TextView startTime = $(R.id.agenda_time_start);
-        TextView endTime = $(R.id.agenda_time_end);
+        TextView dayTime = $(R.id.agenda_time_day);
+        TextView hourTime = $(R.id.agenda_time_hour);
 
-        startTime.setText(item.getStartDate().format(format));
-        endTime.setText(item.getEndDate().format(format));
+        LocalDateTime localStart = DateUtils.toLocalDateTime(item.getStartDate());
+        LocalDateTime localEnd = DateUtils.toLocalDateTime(item.getEndDate());
+
+        // If they are on the same day, don't display the day on the end date.
+        if (localStart.toLocalDate().equals(localEnd.toLocalDate())) {
+            if (DateUtils.isFriendly(localStart.toLocalDate())) {
+                dayTime.setText(getString(
+                        R.string.minerva_calendar_friendly_date,
+                        DateUtils.getFriendlyDate(localStart.toLocalDate()),
+                        localStart.format(DAY_FORMATTER)
+                ));
+            } else {
+                dayTime.setText(localStart.format(DAY_FORMATTER));
+            }
+        } else {
+            dayTime.setText(getString(
+                    R.string.minerva_calendar_duration,
+                    localStart.format(DAY_FORMATTER),
+                    localEnd.format(DAY_FORMATTER)
+            ));
+        }
+
+        hourTime.setText(getString(
+                R.string.minerva_calendar_duration,
+                localStart.format(HOUR_FORMATTER),
+                localEnd.format(HOUR_FORMATTER)
+        ));
 
         TextView course = $(R.id.agenda_course);
         if (TextUtils.isEmpty(item.getCourse().getTitle())) {
