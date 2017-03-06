@@ -66,7 +66,8 @@ project.afterEvaluate {
 }
 
 //The support library version
-final SUPPORT_LIBRARY_VERSION = '25.1.1'
+final SUPPORT_LIBRARY_VERSION = '25.2.0'
+final GMS_VERSION = '10.2.0'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -88,7 +89,7 @@ dependencies {
     compile 'net.sourceforge.streamsupport:streamsupport:1.5.3'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.KyoSherlock:expandablelayout:master-SNAPSHOT'
-    compile 'net.cachapa.expandablelayout:expandablelayout:2.7'
+    compile 'net.cachapa.expandablelayout:expandablelayout:2.8'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
     compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
     compile 'com.heinrichreimersoftware:material-intro:1.6'
@@ -102,17 +103,17 @@ dependencies {
         exclude group: 'org.apache.oltu.oauth2'
     }
 
-    compile 'com.google.android.gms:play-services-analytics:10.0.1'
-    compile 'com.google.android.gms:play-services-maps:10.0.1'
+    compile "com.google.android.gms:play-services-analytics:$GMS_VERSION"
+    compile "com.google.android.gms:play-services-maps:$GMS_VERSION"
 
-    compile 'com.google.firebase:firebase-core:10.0.1'
+    compile "com.google.firebase:firebase-core:$GMS_VERSION"
 
     testCompile project(':firebasenoop')
     debugCompile project(':firebasenoop')
-    releaseCompile 'com.google.firebase:firebase-crash:10.0.1'
+    releaseCompile "com.google.firebase:firebase-crash:$GMS_VERSION"
 
-    compile 'com.google.firebase:firebase-messaging:10.0.1'
-    compile 'com.google.firebase:firebase-config:10.0.1'
+    compile "com.google.firebase:firebase-messaging:$GMS_VERSION"
+    compile "com.google.firebase:firebase-config:$GMS_VERSION"
 
     //Test code
     testCompile 'junit:junit:4.12'
