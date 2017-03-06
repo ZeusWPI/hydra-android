@@ -2,14 +2,11 @@ package be.ugent.zeus.hydra.recyclerview.viewholder.minerva;
 
 import android.view.View;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.minerva.agenda.AgendaActivity;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
-
-import java.util.Locale;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 
@@ -32,12 +29,7 @@ public class AgendaViewHolder extends DataViewHolder<AgendaItem> {
     @Override
     public void populate(final AgendaItem data) {
         title.setText(data.getTitle());
-        String subtitleString = itemView.getContext().getString(R.string.agenda_subtitle);
-        String infoText = String.format(new Locale("nl"), subtitleString,
-                DateUtils.relativeDateTimeString(data.getStartDate(), itemView.getContext()),
-                data.getLastEditUser());
-        subtitle.setText(infoText);
-
+        subtitle.setText(DateUtils.relativeTimeSpan(itemView.getContext(), data.getStartDate(), data.getEndDate()));
         parent.setOnClickListener(view -> AgendaActivity.start(view.getContext(), data.getItemId()));
     }
 }

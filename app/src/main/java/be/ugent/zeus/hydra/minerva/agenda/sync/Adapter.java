@@ -36,6 +36,7 @@ import java8.util.function.Functions;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 import jonathanfinerty.once.Once;
+import org.threeten.bp.DateTimeUtils;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
@@ -258,7 +259,7 @@ public class Adapter extends MinervaAdapter {
         values.put(CalendarContract.Calendars.CALENDAR_COLOR, getCalendarColour());
         values.put(CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL, CalendarContract.Calendars.CAL_ACCESS_RESPOND);
         values.put(CalendarContract.Calendars.OWNER_ACCOUNT, account.name);
-        values.put(CalendarContract.Calendars.CALENDAR_TIME_ZONE, getCalendarTimeZone());
+        //values.put(CalendarContract.Calendars.CALENDAR_TIME_ZONE, getCalendarTimeZone());
         values.put(CalendarContract.Calendars.CAN_MODIFY_TIME_ZONE, 1);
         values.put(CalendarContract.Calendars.SYNC_EVENTS, 1);
 
@@ -277,10 +278,13 @@ public class Adapter extends MinervaAdapter {
     private ContentValues toCalendarValues(long calendarId, AgendaItem item) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(CalendarContract.Events.CALENDAR_ID, calendarId);
-        contentValues.put(CalendarContract.Events.TITLE, item.getCourse().getTitle() + ": " + item.getTitle());
+        contentValues.put(CalendarContract.Events.TITLE, item.getTitle());
         contentValues.put(CalendarContract.Events.DESCRIPTION, item.getContent());
         contentValues.put(CalendarContract.Events.DTSTART, item.getStartDate().toInstant().toEpochMilli());
         contentValues.put(CalendarContract.Events.DTEND, item.getEndDate().toInstant().toEpochMilli());
+        // Convert Java 8 TimeZone to old TimeZone
+        TimeZone zone = DateTimeUtils.toTimeZone(item.getStartDate().getZone());
+        contentValues.put(CalendarContract.Events.EVENT_TIMEZONE, zone.getID());
         contentValues.put(CalendarContract.Events.EVENT_LOCATION, item.getLocation());
         contentValues.put(CalendarContract.Events.SYNC_DATA1, item.getItemId());
         contentValues.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, BuildConfig.APPLICATION_ID);

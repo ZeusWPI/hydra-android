@@ -94,6 +94,7 @@ public class SyncUtils {
             case MinervaConfig.COURSE_AUTHORITY:
                 prefKey = MinervaFragment.PREF_SYNC_FREQUENCY_COURSE;
                 prefDefault = MinervaFragment.PREF_DEFAULT_SYNC_LONG_FREQUENCY;
+                break;
             default:
                 throw new IllegalArgumentException("Unknown authority: " + authority);
         }

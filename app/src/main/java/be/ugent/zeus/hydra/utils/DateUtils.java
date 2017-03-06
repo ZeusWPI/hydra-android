@@ -3,7 +3,10 @@ package be.ugent.zeus.hydra.utils;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import org.threeten.bp.*;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.chrono.Chronology;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeFormatterBuilder;
@@ -21,6 +24,7 @@ public class DateUtils {
 
     private static Locale locale = new Locale("nl");
     private static DateTimeFormatter WEEK_FORMATTER = DateTimeFormatter.ofPattern("w", locale);
+    private static DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern("HH:mm", new Locale("nl"));
 
     //Package private formatters for test.
     @VisibleForTesting
@@ -100,5 +104,48 @@ public class DateUtils {
      */
     public static LocalDateTime toLocalDateTime(final ZonedDateTime dateTime) {
         return dateTime.withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
+    }
+
+    /**
+     * Get a relative date string for a start and stop date. The string accounts for events that are on the same day,
+     * by not showing the day twice for example.
+     *
+     * @param start The start date. Should be before the end date.
+     * @param end The end date.
+     * @return The string.
+     */
+    public static String relativeTimeSpan(Context context, ZonedDateTime start, ZonedDateTime end) {
+
+        ZonedDateTime now = ZonedDateTime.now();
+
+        LocalDateTime localStart = DateUtils.toLocalDateTime(start);
+        LocalDateTime localEnd = DateUtils.toLocalDateTime(end);
+
+        if (start.isBefore(now) && end.isAfter(now)) {
+            String endString;
+            if (android.text.format.DateUtils.isToday(end.toInstant().toEpochMilli())) {
+                endString = localEnd.format(HOUR_FORMATTER);
+            } else {
+                endString = android.text.format.DateUtils.formatDateTime(
+                        context,
+                        end.toInstant().toEpochMilli(),
+                        android.text.format.DateUtils.FORMAT_SHOW_DATE | android.text.format.DateUtils.FORMAT_SHOW_TIME
+                );
+            }
+
+            return "Nu tot " + endString;
+        }
+
+
+        if (start.getDayOfMonth() == end.getDayOfMonth()) {
+            return localStart.format(HOUR_FORMATTER) + " tot " + localEnd.format(HOUR_FORMATTER);
+        } else {
+            return android.text.format.DateUtils.formatDateRange(
+                    context,
+                    start.toInstant().toEpochMilli(),
+                    end.toInstant().toEpochMilli(),
+                    android.text.format.DateUtils.FORMAT_SHOW_DATE | android.text.format.DateUtils.FORMAT_SHOW_TIME
+            );
+        }
     }
 }
