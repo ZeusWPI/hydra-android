@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.recyclerview.adapters.sko;
 
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.sko.Artist;
+import be.ugent.zeus.hydra.data.models.sko.Artist;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.sko.LineupViewHolder;
 import be.ugent.zeus.hydra.utils.ViewUtils;

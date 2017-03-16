@@ -13,8 +13,8 @@ import be.ugent.zeus.hydra.minerva.database.Dao;
 import be.ugent.zeus.hydra.minerva.database.DatabaseBroadcaster;
 import be.ugent.zeus.hydra.minerva.database.DiffDao;
 import be.ugent.zeus.hydra.minerva.database.Utils;
-import be.ugent.zeus.hydra.models.minerva.Announcement;
-import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.Announcement;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 import org.threeten.bp.ZonedDateTime;
 

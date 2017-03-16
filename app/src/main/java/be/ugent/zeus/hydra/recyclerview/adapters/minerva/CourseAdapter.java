@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.recyclerview.adapters.minerva;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.DiffSearchableItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.minerva.CourseViewHolder;
 import be.ugent.zeus.hydra.utils.ViewUtils;

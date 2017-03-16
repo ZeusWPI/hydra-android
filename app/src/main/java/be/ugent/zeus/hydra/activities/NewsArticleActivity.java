@@ -7,7 +7,7 @@ import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
-import be.ugent.zeus.hydra.models.association.NewsItem;
+import be.ugent.zeus.hydra.data.models.association.NewsItem;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
@@ -38,7 +38,7 @@ public class NewsArticleActivity extends HydraActivity {
         TextView author = $(R.id.author);
 
         if (article.getAssociation() != null) {
-            author.setText(article.getAssociation().getDisplayName());
+            author.setText(article.getAssociation().displayName());
         }
 
         if (article.getDate() != null) {

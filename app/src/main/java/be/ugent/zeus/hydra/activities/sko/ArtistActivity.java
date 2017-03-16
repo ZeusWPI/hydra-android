@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
-import be.ugent.zeus.hydra.models.sko.Artist;
+import be.ugent.zeus.hydra.data.models.sko.Artist;
 import be.ugent.zeus.hydra.recyclerview.viewholder.sko.LineupViewHolder;
 import com.squareup.picasso.Picasso;
 

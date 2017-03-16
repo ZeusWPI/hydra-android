@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.homefeed.content.schamper;
 
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.models.schamper.Article;
+import be.ugent.zeus.hydra.data.models.schamper.Article;
 import be.ugent.zeus.hydra.homefeed.content.FeedUtils;
 import org.threeten.bp.Duration;
 import org.threeten.bp.ZonedDateTime;

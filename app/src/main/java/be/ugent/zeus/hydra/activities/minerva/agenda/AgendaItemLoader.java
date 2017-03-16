@@ -7,7 +7,7 @@ import be.ugent.zeus.hydra.loaders.BroadcastLoader;
 import be.ugent.zeus.hydra.loaders.LoaderException;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
-import be.ugent.zeus.hydra.models.minerva.AgendaItem;
+import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 
 /**
  * @author Niko Strijbol

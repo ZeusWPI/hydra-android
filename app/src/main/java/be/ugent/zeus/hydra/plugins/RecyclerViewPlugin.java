@@ -7,12 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.caching.CacheableRequest;
+import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
 import be.ugent.zeus.hydra.loaders.plugin.LoaderPlugin;
 import be.ugent.zeus.hydra.loaders.plugin.LoaderProvider;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.Adapter;
-import be.ugent.zeus.hydra.requests.common.Request;
-import be.ugent.zeus.hydra.requests.common.SimpleCacheRequest;
+import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.data.network.SimpleCacheRequest;
 import java8.util.function.BiFunction;
 import java8.util.function.Consumer;
 import java8.util.function.Consumers;

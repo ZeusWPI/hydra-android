@@ -10,8 +10,8 @@ import be.ugent.zeus.hydra.loaders.changes.BroadcastListener;
 import be.ugent.zeus.hydra.loaders.LoaderException;
 import be.ugent.zeus.hydra.minerva.database.DatabaseBroadcaster;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
-import be.ugent.zeus.hydra.models.minerva.Announcement;
-import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.Announcement;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 import java8.util.function.BiPredicate;
 import java8.util.function.BiPredicates;
 

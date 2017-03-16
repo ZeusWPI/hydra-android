@@ -7,13 +7,13 @@ import android.support.v7.widget.SearchView;
 import android.view.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
-import be.ugent.zeus.hydra.models.sko.Exhibitor;
-import be.ugent.zeus.hydra.models.sko.Exhibitors;
+import be.ugent.zeus.hydra.data.models.sko.Exhibitor;
+import be.ugent.zeus.hydra.data.models.sko.Exhibitors;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.sko.ExhibitorAdapter;
-import be.ugent.zeus.hydra.requests.sko.StuVilExhibitorRequest;
+import be.ugent.zeus.hydra.data.network.requests.sko.StuVilExhibitorRequest;
 
 import java.util.List;
 

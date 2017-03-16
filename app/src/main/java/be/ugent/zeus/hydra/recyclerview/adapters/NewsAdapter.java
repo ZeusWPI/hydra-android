@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.association.NewsItem;
+import be.ugent.zeus.hydra.data.models.association.NewsItem;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.NewsItemViewHolder;
 import be.ugent.zeus.hydra.utils.ViewUtils;

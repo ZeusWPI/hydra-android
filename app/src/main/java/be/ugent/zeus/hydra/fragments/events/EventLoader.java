@@ -5,10 +5,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.loaders.changes.PreferenceListener;
-import be.ugent.zeus.hydra.models.association.Events;
-import be.ugent.zeus.hydra.requests.RequestAsyncTaskLoader;
-import be.ugent.zeus.hydra.requests.association.FilteredEventRequest;
-import be.ugent.zeus.hydra.requests.common.Request;
+import be.ugent.zeus.hydra.data.models.association.Events;
+import be.ugent.zeus.hydra.data.network.RequestAsyncTaskLoader;
+import be.ugent.zeus.hydra.data.network.requests.association.FilteredEventRequest;
+import be.ugent.zeus.hydra.data.network.Request;
 
 /**
  * Loader for {@link Events}. This loader will listen to the options and refresh when they have changed.

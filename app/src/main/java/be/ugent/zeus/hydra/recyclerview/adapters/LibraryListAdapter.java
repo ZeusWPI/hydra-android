@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.recyclerview.adapters;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.library.Library;
+import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.LibraryViewHolder;
 

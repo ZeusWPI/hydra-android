@@ -19,7 +19,7 @@ import be.ugent.zeus.hydra.homefeed.content.resto.RestoCardViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.schamper.SchamperViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.specialevent.SpecialEventCardViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.urgent.UrgentViewHolder;
-import be.ugent.zeus.hydra.models.association.Association;
+import be.ugent.zeus.hydra.data.models.association.Association;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.DiffAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
@@ -107,7 +107,7 @@ public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCa
         PreferencesUtils.addToStringSet(
                 context,
                 AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
-                association.getInternalName()
+                association.internalName()
         );
     }
 

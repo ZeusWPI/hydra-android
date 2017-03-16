@@ -9,7 +9,7 @@ import be.ugent.zeus.hydra.activities.minerva.agenda.AgendaActivity;
 import be.ugent.zeus.hydra.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.homefeed.content.HideableViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.models.minerva.AgendaItem;
+import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;

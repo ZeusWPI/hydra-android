@@ -11,7 +11,7 @@ import be.ugent.zeus.hydra.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.homefeed.content.HideableViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.models.schamper.Article;
+import be.ugent.zeus.hydra.data.models.schamper.Article;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
 

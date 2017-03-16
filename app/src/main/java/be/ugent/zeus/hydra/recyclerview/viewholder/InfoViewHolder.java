@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.fragments.library.LibraryListFragment;
-import be.ugent.zeus.hydra.models.info.InfoItem;
+import be.ugent.zeus.hydra.data.models.info.InfoItem;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;

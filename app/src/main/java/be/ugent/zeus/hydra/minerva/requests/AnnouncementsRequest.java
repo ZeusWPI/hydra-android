@@ -3,8 +3,8 @@ package be.ugent.zeus.hydra.minerva.requests;
 import android.accounts.Account;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.models.minerva.Announcements;
-import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.Announcements;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 
 /**
  * This request retrieves all announcements for a specific course.

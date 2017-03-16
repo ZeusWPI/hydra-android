@@ -6,13 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.association.News;
-import be.ugent.zeus.hydra.models.association.NewsItem;
+import be.ugent.zeus.hydra.data.models.association.News;
+import be.ugent.zeus.hydra.data.models.association.NewsItem;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.NewsAdapter;
-import be.ugent.zeus.hydra.requests.NewsRequest;
+import be.ugent.zeus.hydra.data.network.requests.NewsRequest;
 import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
 
 import java.util.List;

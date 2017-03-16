@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.html.Utils;
 

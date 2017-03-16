@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
-import be.ugent.zeus.hydra.models.association.Event;
+import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -78,8 +78,8 @@ public class EventDetailActivity extends HydraActivity {
         }
 
         if (event.getAssociation() != null) {
-            mainName.setText(event.getAssociation().getDisplayName());
-            smallName.setText(event.getAssociation().getFullName());
+            mainName.setText(event.getAssociation().displayName());
+            smallName.setText(event.getAssociation().fullName());
         }
 
         if (event.getDescription() != null && !event.getDescription().trim().isEmpty()) {
@@ -99,8 +99,8 @@ public class EventDetailActivity extends HydraActivity {
         startTime.setText(event.getLocalStart().format(format));
         endTime.setText(event.getLocalEnd().format(format));
 
-        if (event.getAssociation() != null && event.getAssociation().getImageLink() != null) {
-            Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage, new Callback.EmptyCallback() {
+        if (event.getAssociation() != null && event.getAssociation().imageLink() != null) {
+            Picasso.with(this).load(event.getAssociation().imageLink()).into(organisatorImage, new Callback.EmptyCallback() {
                 @Override
                 public void onError() {
                     organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));

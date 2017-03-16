@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.recyclerview.adapters;
 
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.association.Event;
+import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.ItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DateHeaderViewHolder;
 import be.ugent.zeus.hydra.recyclerview.viewholder.EventViewHolder;

@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.homefeed.content.HideableViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.models.association.Event;
+import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
@@ -45,9 +45,9 @@ public class EventCardViewHolder extends HideableViewHolder {
         association.setText(event.getLocation());
         start.setText(DateUtils.relativeDateTimeString(event.getStart(), itemView.getContext(), false));
         String description = itemView.getResources().getString(R.string.home_card_description);
-        toolbar.setTitle(String.format(description, event.getAssociation().getDisplayName()));
+        toolbar.setTitle(String.format(description, event.getAssociation().internalName()));
 
-        FeedUtils.loadThumbnail(itemView.getContext(), event.getAssociation().getImageLink(), imageView);
+        FeedUtils.loadThumbnail(itemView.getContext(), event.getAssociation().imageLink(), imageView);
 
         itemView.setOnClickListener(v -> EventDetailActivity.launchWithAnimation(((Activity) itemView.getContext()), imageView, "logo", event));
 

@@ -11,7 +11,7 @@ import android.util.Log;
 import be.ugent.zeus.hydra.minerva.database.Dao;
 import be.ugent.zeus.hydra.minerva.database.DiffDao;
 import be.ugent.zeus.hydra.minerva.database.Utils;
-import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 
 import java.util.*;
 

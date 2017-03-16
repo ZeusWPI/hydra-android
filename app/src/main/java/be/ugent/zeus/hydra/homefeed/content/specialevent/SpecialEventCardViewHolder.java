@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
+import be.ugent.zeus.hydra.data.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;

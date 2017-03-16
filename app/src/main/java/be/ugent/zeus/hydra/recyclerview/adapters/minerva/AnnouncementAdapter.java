@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.recyclerview.adapters.minerva;
 
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.minerva.Announcement;
+import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.minerva.AnnouncementViewHolder;
 import be.ugent.zeus.hydra.utils.ViewUtils;

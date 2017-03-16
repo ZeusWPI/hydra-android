@@ -15,6 +15,7 @@ public class Utils {
 
     public static <T> T generate(Class<T> clazz, String... exclude) {
         return EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
+                .scanClasspathForConcreteTypes(true)
                 .randomize(ZonedDateTime.class, (Randomizer<ZonedDateTime>) ZonedDateTime::now)
                 .randomize(LocalDate.class, (Randomizer<LocalDate>) LocalDate::now)
                 .build()

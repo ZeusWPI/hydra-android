@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.homefeed.content.HideableViewHolder;
-import be.ugent.zeus.hydra.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.views.MenuTable;
 

@@ -3,10 +3,10 @@ package be.ugent.zeus.hydra.minerva.course;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 
 /**
- * Class to extract a {@link be.ugent.zeus.hydra.models.minerva.Course} from a {@link android.database.Cursor}.
+ * Class to extract a {@link be.ugent.zeus.hydra.data.models.minerva.Course} from a {@link android.database.Cursor}.
  *
  * This class should be set up once per database request. Build this class with the builder class.
  *

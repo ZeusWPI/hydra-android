@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.sko.TimelinePost;
+import be.ugent.zeus.hydra.data.models.sko.TimelinePost;
 import be.ugent.zeus.hydra.recyclerview.adapters.sko.TimelineAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;

@@ -15,8 +15,8 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.MainActivity;
 import be.ugent.zeus.hydra.activities.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.activities.minerva.CourseActivity;
-import be.ugent.zeus.hydra.models.minerva.Announcement;
-import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.Announcement;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.html.Utils;
 
 import java.util.Collection;

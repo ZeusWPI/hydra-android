@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
-import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.viewpager.MinervaCoursePagerAdapter;
 

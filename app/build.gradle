@@ -98,6 +98,15 @@ dependencies {
     compile 'com.jonathanfinerty.once:once:1.2.1'
     compile 'com.karumi:dexter:3.0.2'
 
+    // AutoValue related things.
+    provided 'com.jakewharton.auto.value:auto-value-annotations:1.3'
+    annotationProcessor 'com.google.auto.value:auto-value:1.3'
+    annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.5'
+    annotationProcessor 'com.github.reggar:auto-value-ignore-hash-equals:1.1.2'
+    compile 'com.ryanharter.auto.value:auto-value-parcel-adapter:0.2.5'
+    annotationProcessor 'com.ryanharter.auto.value:auto-value-gson:0.4.6'
+    provided 'com.ryanharter.auto.value:auto-value-gson:0.4.6'
+
     // Used for the OAuth stuff
     compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
         exclude group: 'org.apache.oltu.oauth2'

@@ -17,12 +17,12 @@ import be.ugent.zeus.hydra.activities.resto.MenuActivity;
 import be.ugent.zeus.hydra.activities.resto.RestoLocationActivity;
 import be.ugent.zeus.hydra.activities.resto.SandwichActivity;
 import be.ugent.zeus.hydra.fragments.preferences.RestoPreferenceFragment;
-import be.ugent.zeus.hydra.models.resto.RestoMenu;
-import be.ugent.zeus.hydra.models.resto.RestoOverview;
+import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.data.models.resto.RestoOverview;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
-import be.ugent.zeus.hydra.requests.resto.FilteredMenuRequest;
+import be.ugent.zeus.hydra.data.network.requests.resto.FilteredMenuRequest;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.views.MenuTable;
@@ -38,6 +38,9 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 public class RestoFragment extends PluginFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = "RestoFragment";
+
+    public static final String DEFAULT_CLOSING_TIME = "21:00";
+    public static final String PREF_RESTO_CLOSING_HOUR = "pref_resto_closing_hour";
 
     private TextView title;
     private MenuTable table;

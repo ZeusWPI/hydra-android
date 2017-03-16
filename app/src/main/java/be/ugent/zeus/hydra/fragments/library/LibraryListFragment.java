@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
-import be.ugent.zeus.hydra.models.library.Library;
+import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.loaders.plugin.LoaderProvider;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;

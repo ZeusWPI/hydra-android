@@ -4,12 +4,12 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.minerva.database.Utils;
-import be.ugent.zeus.hydra.models.minerva.Announcement;
-import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.Announcement;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 
 /**
- * Class to extract a {@link be.ugent.zeus.hydra.models.minerva.Announcement} from a {@link android.database.Cursor}.
+ * Class to extract a {@link be.ugent.zeus.hydra.data.models.minerva.Announcement} from a {@link android.database.Cursor}.
  *
  * This class should be set up once per database request. Build this class with the builder class.
  *

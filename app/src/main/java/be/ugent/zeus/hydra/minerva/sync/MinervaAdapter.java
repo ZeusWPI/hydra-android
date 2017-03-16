@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import be.ugent.zeus.hydra.minerva.auth.AuthenticatorActionException;
 import be.ugent.zeus.hydra.minerva.requests.MinervaRequest;
-import be.ugent.zeus.hydra.requests.exceptions.IOFailureException;
-import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 
 /**

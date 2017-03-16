@@ -10,9 +10,9 @@ import android.util.Log;
 import be.ugent.zeus.hydra.activities.common.ToolbarAccountAuthenticatorActivity;
 import be.ugent.zeus.hydra.activities.minerva.AuthActivity;
 import be.ugent.zeus.hydra.minerva.auth.models.BearerToken;
-import be.ugent.zeus.hydra.requests.common.Request;
-import be.ugent.zeus.hydra.requests.exceptions.IOFailureException;
-import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 

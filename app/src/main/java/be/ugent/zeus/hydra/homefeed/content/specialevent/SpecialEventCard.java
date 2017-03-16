@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.homefeed.content.specialevent;
 
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.content.FeedUtils;
-import be.ugent.zeus.hydra.models.specialevent.SpecialEvent;
+import be.ugent.zeus.hydra.data.models.specialevent.SpecialEvent;
 import java8.util.Objects;
 
 /**

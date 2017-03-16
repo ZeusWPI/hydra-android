@@ -22,7 +22,7 @@ import be.ugent.zeus.hydra.loaders.plugin.LoaderPlugin;
 import be.ugent.zeus.hydra.loaders.plugin.LoaderProvider;
 import be.ugent.zeus.hydra.loaders.LoaderResult;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
-import be.ugent.zeus.hydra.models.minerva.AgendaItem;
+import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.plugins.ProgressBarPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.utils.DateUtils;

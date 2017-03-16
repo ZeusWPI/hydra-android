@@ -20,7 +20,7 @@ import be.ugent.zeus.hydra.homefeed.feed.FeedOperation;
 import be.ugent.zeus.hydra.loaders.changes.BroadcastListener;
 import be.ugent.zeus.hydra.minerva.database.DatabaseBroadcaster;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
-import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.utils.IterableSparseArray;
 import java8.util.J8Arrays;
 

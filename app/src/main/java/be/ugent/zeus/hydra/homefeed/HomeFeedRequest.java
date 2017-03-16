@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.homefeed;
 
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.requests.common.Request;
+import be.ugent.zeus.hydra.data.network.Request;
 import java8.util.stream.Stream;
 
 /**

@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.homefeed.content.resto;
 
 import be.ugent.zeus.hydra.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
 import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.temporal.ChronoUnit;

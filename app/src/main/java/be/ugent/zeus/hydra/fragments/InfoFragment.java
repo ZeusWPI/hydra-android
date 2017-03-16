@@ -7,14 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
-import be.ugent.zeus.hydra.models.info.InfoItem;
-import be.ugent.zeus.hydra.models.info.InfoList;
+import be.ugent.zeus.hydra.data.models.info.InfoItem;
+import be.ugent.zeus.hydra.data.models.info.InfoList;
 import be.ugent.zeus.hydra.plugins.ProgressBarPlugin;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.recyclerview.adapters.InfoListAdapter;
-import be.ugent.zeus.hydra.requests.InfoRequest;
+import be.ugent.zeus.hydra.data.network.requests.InfoRequest;
 
 import java.util.ArrayList;
 import java.util.List;

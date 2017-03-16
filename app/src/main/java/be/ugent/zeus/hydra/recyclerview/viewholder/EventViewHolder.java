@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.EventDetailActivity;
-import be.ugent.zeus.hydra.models.association.Event;
+import be.ugent.zeus.hydra.data.models.association.Event;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
@@ -34,7 +34,7 @@ public class EventViewHolder extends DataViewHolder<Event> {
 
     public void populate(final Event event) {
         title.setText(event.getTitle());
-        association.setText(event.getAssociation().getDisplayName());
+        association.setText(event.getAssociation().displayName());
         start.setText(event.getLocalStart().format(HOUR_FORMATTER));
         itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), EventDetailActivity.class);

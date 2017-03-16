@@ -5,7 +5,7 @@ import android.os.Bundle;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.fragments.InfoFragment;
-import be.ugent.zeus.hydra.models.info.InfoItem;
+import be.ugent.zeus.hydra.data.models.info.InfoItem;
 
 import java.util.ArrayList;
 

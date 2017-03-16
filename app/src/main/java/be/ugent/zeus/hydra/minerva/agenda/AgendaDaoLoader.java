@@ -6,8 +6,8 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.loaders.BroadcastLoader;
 import be.ugent.zeus.hydra.loaders.LoaderException;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
-import be.ugent.zeus.hydra.models.minerva.AgendaItem;
-import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 
 import java.util.List;
 

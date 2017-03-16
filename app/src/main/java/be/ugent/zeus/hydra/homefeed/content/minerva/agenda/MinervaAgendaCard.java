@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.homefeed.content.minerva.agenda;
 
 import be.ugent.zeus.hydra.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.models.minerva.AgendaItem;
+import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import java8.util.Objects;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;

@@ -13,7 +13,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.fragments.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
-import be.ugent.zeus.hydra.models.minerva.Announcement;
+import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;

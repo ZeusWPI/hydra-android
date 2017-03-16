@@ -13,12 +13,12 @@ import android.view.MenuItem;
 import android.widget.SearchView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
-import be.ugent.zeus.hydra.models.association.Association;
-import be.ugent.zeus.hydra.models.association.Associations;
+import be.ugent.zeus.hydra.data.models.association.Association;
+import be.ugent.zeus.hydra.data.models.association.Associations;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.recyclerview.adapters.MultiSelectListAdapter;
-import be.ugent.zeus.hydra.requests.association.AssociationsRequest;
+import be.ugent.zeus.hydra.data.network.requests.association.AssociationsRequest;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
@@ -58,7 +58,7 @@ public class AssociationSelectPrefActivity extends HydraActivity {
         recyclerView.requestFocus();
 
         adapter = new SearchableAdapter();
-        adapter.setDisplayNameProvider(Association::getName);
+        adapter.setDisplayNameProvider(Association::name);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -97,7 +97,7 @@ public class AssociationSelectPrefActivity extends HydraActivity {
         List<Pair<Association, Boolean>> values = new ArrayList<>();
 
         for (Association association : data) {
-            values.add(new Pair<>(association, !disabled.contains(association.getInternalName())));
+            values.add(new Pair<>(association, !disabled.contains(association.internalName())));
         }
 
         adapter.setItems(values);
@@ -111,7 +111,7 @@ public class AssociationSelectPrefActivity extends HydraActivity {
         Set<String> disabled = new HashSet<>();
         for (Map.Entry<Association, Boolean> pair : adapter.allData.entrySet()) {
             if (!pair.getValue()) {
-                disabled.add(pair.getKey().getInternalName());
+                disabled.add(pair.getKey().internalName());
             }
         }
 
@@ -172,9 +172,9 @@ public class AssociationSelectPrefActivity extends HydraActivity {
             for (Map.Entry<Association, Boolean> pair : allData.entrySet()) {
                 String text = newText.toLowerCase();
                 Association a = pair.getKey();
-                if (a.getDisplayName().toLowerCase().contains(text) ||
-                        (a.getFullName() != null && a.getFullName().toLowerCase().contains(text)) ||
-                        a.getInternalName().toLowerCase().contains(text)) {
+                if (a.displayName().toLowerCase().contains(text) ||
+                        (a.fullName() != null && a.fullName().toLowerCase().contains(text)) ||
+                        a.internalName().toLowerCase().contains(text)) {
                     newList.add(new Pair<>(a, pair.getValue()));
                 }
             }
@@ -188,7 +188,7 @@ public class AssociationSelectPrefActivity extends HydraActivity {
 
         @Override
         public String getSectionTitle(int position) {
-            return items.get(position).first.getParentAssociation();
+            return items.get(position).first.parentAssociation();
         }
     }
 }

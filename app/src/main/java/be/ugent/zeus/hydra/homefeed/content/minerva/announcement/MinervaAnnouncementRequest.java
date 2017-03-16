@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
-import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
 

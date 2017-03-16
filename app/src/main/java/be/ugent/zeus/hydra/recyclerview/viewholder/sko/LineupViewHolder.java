@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.sko.ArtistActivity;
-import be.ugent.zeus.hydra.models.sko.Artist;
+import be.ugent.zeus.hydra.data.models.sko.Artist;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import com.squareup.picasso.Picasso;
 import org.threeten.bp.LocalDateTime;

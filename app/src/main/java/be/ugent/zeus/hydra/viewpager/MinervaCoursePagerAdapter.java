@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import be.ugent.zeus.hydra.fragments.minerva.CourseAgendaFragment;
 import be.ugent.zeus.hydra.fragments.minerva.CourseAnnouncementFragment;
 import be.ugent.zeus.hydra.fragments.minerva.CourseInfoFragment;
-import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 
 /**
  * This provides the tabs in a minerva course.

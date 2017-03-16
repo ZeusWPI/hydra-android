@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.minerva.CourseActivity;
-import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.html.Utils;
 

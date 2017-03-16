@@ -6,13 +6,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.caching.CacheableRequest;
+import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
 import be.ugent.zeus.hydra.loaders.plugin.LoaderPlugin;
 import be.ugent.zeus.hydra.loaders.plugin.LoaderProvider;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
-import be.ugent.zeus.hydra.requests.RequestAsyncTaskLoader;
-import be.ugent.zeus.hydra.requests.common.Request;
-import be.ugent.zeus.hydra.requests.common.SimpleCacheRequest;
+import be.ugent.zeus.hydra.data.network.RequestAsyncTaskLoader;
+import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.data.network.SimpleCacheRequest;
 import java8.util.Optional;
 import java8.util.function.BiFunction;
 import java8.util.function.Function;

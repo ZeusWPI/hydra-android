@@ -21,11 +21,11 @@ import be.ugent.zeus.hydra.minerva.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
 import be.ugent.zeus.hydra.minerva.sync.Synchronisation;
-import be.ugent.zeus.hydra.models.minerva.Announcement;
-import be.ugent.zeus.hydra.models.minerva.Announcements;
-import be.ugent.zeus.hydra.models.minerva.Course;
-import be.ugent.zeus.hydra.models.minerva.WhatsNew;
-import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.data.models.minerva.Announcement;
+import be.ugent.zeus.hydra.data.models.minerva.Announcements;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.WhatsNew;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.*;

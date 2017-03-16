@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.homefeed.content.news;
 
 import android.view.View;
 import be.ugent.zeus.hydra.homefeed.content.HideableViewHolder;
-import be.ugent.zeus.hydra.models.association.NewsItem;
+import be.ugent.zeus.hydra.data.models.association.NewsItem;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.homefeed.HomeFeedAdapter;
 

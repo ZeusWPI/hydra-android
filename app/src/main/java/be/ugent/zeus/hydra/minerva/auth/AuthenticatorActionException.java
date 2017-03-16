@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.minerva.auth;
 
-import be.ugent.zeus.hydra.requests.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 
 /**
  * Thrown when user action is required, e.g. the refresh token has expired.

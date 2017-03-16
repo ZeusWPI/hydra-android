@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.LibraryDetailActivity;
-import be.ugent.zeus.hydra.models.library.Library;
+import be.ugent.zeus.hydra.data.models.library.Library;
 
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 

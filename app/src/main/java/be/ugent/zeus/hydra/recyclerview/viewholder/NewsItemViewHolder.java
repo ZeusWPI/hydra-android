@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.NewsArticleActivity;
-import be.ugent.zeus.hydra.models.association.NewsItem;
+import be.ugent.zeus.hydra.data.models.association.NewsItem;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 
@@ -36,7 +36,7 @@ public class NewsItemViewHolder extends DataViewHolder<NewsItem> {
 
         String infoText = itemView.getContext().getString(R.string.agenda_subtitle,
                 DateUtils.relativeDateTimeString(newsItem.getDate(), itemView.getContext()),
-                newsItem.getAssociation().getName());
+                newsItem.getAssociation().name());
         info.setText(infoText);
         if (newsItem.isHighlighted()) {
             Drawable d = ViewUtils.getTintedVectorDrawable(itemView.getContext(), R.drawable.ic_star, R.color.ugent_yellow_dark);

@@ -33,7 +33,7 @@ import be.ugent.zeus.hydra.minerva.course.sync.Adapter;
 import be.ugent.zeus.hydra.minerva.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.minerva.sync.SyncUtils;
-import be.ugent.zeus.hydra.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.plugins.ProgressBarPlugin;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;

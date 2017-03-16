@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.minerva.AnnouncementActivity;
-import be.ugent.zeus.hydra.models.minerva.Announcement;
+import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
 

@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.resto.Sandwich;
+import be.ugent.zeus.hydra.data.models.resto.Sandwich;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.Adapter;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 import com.kyo.expandablelayout.ExpandableLayout;

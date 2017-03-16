@@ -35,7 +35,7 @@ import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
 import be.ugent.zeus.hydra.plugins.OfflinePlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
-import be.ugent.zeus.hydra.requests.common.OfflineBroadcaster;
+import be.ugent.zeus.hydra.data.network.OfflineBroadcaster;
 import be.ugent.zeus.hydra.utils.IterableSparseArray;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;

@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.recyclerview.adapters.minerva;
 
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.models.minerva.AgendaItem;
+import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.EmptyItemAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DateHeaderViewHolder;
 import be.ugent.zeus.hydra.recyclerview.viewholder.minerva.AgendaViewHolder;
