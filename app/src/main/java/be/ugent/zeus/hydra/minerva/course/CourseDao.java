@@ -15,9 +15,7 @@ import be.ugent.zeus.hydra.models.minerva.Course;
 
 import java.util.*;
 
-import static be.ugent.zeus.hydra.minerva.database.Utils.args;
-import static be.ugent.zeus.hydra.minerva.database.Utils.in;
-import static be.ugent.zeus.hydra.minerva.database.Utils.where;
+import static be.ugent.zeus.hydra.minerva.database.Utils.*;
 
 /**
  * This class provides easy access to the {@link Course}s in the database.

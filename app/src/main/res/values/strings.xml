@@ -264,5 +264,9 @@
     <string name="minerva_calendar_not_found">Agenda-item werd niet gevonden.</string>
     <string name="minerva_calendar_duration">%1$s – %2$s</string>
     <string name="minerva_calendar_friendly_date">%1$s (%2$s)</string>
+    <string name="action_sort">Sorteren</string>
+    <string name="action_minerva_courses_sort_title">Naam</string>
+    <string name="action_minerva_courses_sort_year">Jaar</string>
+    <string name="action_search">Zoeken</string>
 
 </resources>

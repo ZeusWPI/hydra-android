@@ -2,12 +2,11 @@ package be.ugent.zeus.hydra.homefeed;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v7.util.DiffUtil;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.homefeed.content.HomeCard;
@@ -20,15 +19,13 @@ import be.ugent.zeus.hydra.homefeed.content.resto.RestoCardViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.schamper.SchamperViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.specialevent.SpecialEventCardViewHolder;
 import be.ugent.zeus.hydra.homefeed.content.urgent.UrgentViewHolder;
-import be.ugent.zeus.hydra.homefeed.loader.HomeDiffCallback;
 import be.ugent.zeus.hydra.models.association.Association;
+import be.ugent.zeus.hydra.recyclerview.adapters.common.DiffAdapter;
 import be.ugent.zeus.hydra.recyclerview.viewholder.DataViewHolder;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
 import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
 
 import java.lang.ref.WeakReference;
-import java.util.Collections;
-import java.util.List;
 
 import static be.ugent.zeus.hydra.homefeed.content.HomeCard.CardType.*;
 
@@ -43,13 +40,13 @@ import static be.ugent.zeus.hydra.homefeed.content.HomeCard.CardType.*;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class HomeFeedAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCard>> {
+public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCard>> {
 
-    private List<HomeCard> cardItems = Collections.emptyList();
     private final WeakReference<HomeFeedFragment> fragment;
     private final Context context;
 
     HomeFeedAdapter(HomeFeedFragment fragment) {
+        super();
         this.fragment = new WeakReference<>(fragment);
         this.context = fragment.getContext().getApplicationContext();
         setHasStableIds(true);
@@ -67,13 +64,7 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
 
     @Override
     public long getItemId(int position) {
-        return cardItems.get(position).hashCode();
-    }
-
-    public void setData(List<HomeCard> data) {
-        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new HomeDiffCallback(this.cardItems, data));
-        this.cardItems = data;
-        result.dispatchUpdatesTo(this);
+        return items.get(position).hashCode();
     }
 
     @Override
@@ -122,18 +113,18 @@ public class HomeFeedAdapter extends RecyclerView.Adapter<DataViewHolder<HomeCar
 
     @Override
     public void onBindViewHolder(DataViewHolder<HomeCard> holder, int position) {
-        holder.populate(cardItems.get(position));
+        holder.populate(items.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return cardItems.size();
+        return items.size();
     }
 
     @Override
     @HomeCard.CardType
     public int getItemViewType(int position) {
-        return cardItems.get(position).getCardType();
+        return items.get(position).getCardType();
     }
 
     /**

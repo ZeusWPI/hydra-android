@@ -1,10 +1,13 @@
-package be.ugent.zeus.hydra.loaders;
+package be.ugent.zeus.hydra.loaders.plugin;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.util.Log;
+
+import be.ugent.zeus.hydra.loaders.AbstractLoader;
+import be.ugent.zeus.hydra.loaders.LoaderResult;
 import be.ugent.zeus.hydra.plugins.common.FragmentPlugin;
 import be.ugent.zeus.hydra.utils.FunctionalUtils;
 import java8.util.function.Consumer;
@@ -113,7 +116,7 @@ public class LoaderPlugin<D> extends FragmentPlugin implements LoaderManager.Loa
 
     @Override
     public Loader<LoaderResult<D>> onCreateLoader(int id, Bundle args) {
-        return provider.getLoader(getHost().getContext());
+        return provider.getLoader(id, args);
     }
 
     @Override
@@ -153,10 +156,28 @@ public class LoaderPlugin<D> extends FragmentPlugin implements LoaderManager.Loa
     }
 
     /**
+     * Initialize the loader. Calls {@link LoaderManager#initLoader(int, Bundle, LoaderManager.LoaderCallbacks)}.
+     *
+     * @param args The arguments to construct the loader.
+     */
+    public void startLoader(Bundle args) {
+        getHost().getLoaderManager().initLoader(LOADER_ID, args, this);
+    }
+
+    /**
      * Restarts the loader. Calls {@link LoaderManager#restartLoader(int, Bundle, LoaderManager.LoaderCallbacks)}.
      */
     public void restartLoader() {
         getHost().getLoaderManager().restartLoader(LOADER_ID, null, this);
+    }
+
+    /**
+     * Restarts the loader. Calls {@link LoaderManager#restartLoader(int, Bundle, LoaderManager.LoaderCallbacks)}.
+     *
+     * @param args The arguments to reconstruct the loader.
+     */
+    public void restartLoader(Bundle args) {
+        getHost().getLoaderManager().restartLoader(LOADER_ID, args, this);
     }
 
     /**

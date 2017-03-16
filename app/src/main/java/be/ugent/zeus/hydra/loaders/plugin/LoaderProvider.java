@@ -1,7 +1,9 @@
-package be.ugent.zeus.hydra.loaders;
+package be.ugent.zeus.hydra.loaders.plugin;
 
-import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.content.Loader;
+
+import be.ugent.zeus.hydra.loaders.LoaderResult;
 
 /**
  * Simple interface to provide a {@link Loader}.
@@ -18,5 +20,5 @@ public interface LoaderProvider<D> {
      *
      * @return The loader.
      */
-    Loader<LoaderResult<D>> getLoader(Context context);
+    Loader<LoaderResult<D>> getLoader(int id, Bundle args);
 }

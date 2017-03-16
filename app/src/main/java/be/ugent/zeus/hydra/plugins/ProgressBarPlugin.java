@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.loaders.LoaderResult;
+import be.ugent.zeus.hydra.loaders.plugin.LoaderPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import java8.util.function.Consumer;
 
@@ -14,7 +15,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * Encapsulate the mechanics for a progress bar in a plugin.
  *
- * This plugin can be attached to a {@link be.ugent.zeus.hydra.loaders.LoaderPlugin} to hide the progress bar
+ * This plugin can be attached to a {@link LoaderPlugin} to hide the progress bar
  * automatically.
  *
  * @author Niko Strijbol

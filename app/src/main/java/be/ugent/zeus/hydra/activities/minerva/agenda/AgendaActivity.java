@@ -18,8 +18,8 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.MainActivity;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.activities.minerva.CourseActivity;
-import be.ugent.zeus.hydra.loaders.LoaderPlugin;
-import be.ugent.zeus.hydra.loaders.LoaderProvider;
+import be.ugent.zeus.hydra.loaders.plugin.LoaderPlugin;
+import be.ugent.zeus.hydra.loaders.plugin.LoaderProvider;
 import be.ugent.zeus.hydra.loaders.LoaderResult;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
@@ -194,7 +194,7 @@ public class AgendaActivity extends HydraActivity implements LoaderProvider<Agen
     }
 
     @Override
-    public Loader<LoaderResult<AgendaItem>> getLoader(Context context) {
-        return new AgendaItemLoader(context, new AgendaDao(context), agendaItemId);
+    public Loader<LoaderResult<AgendaItem>> getLoader(int id, Bundle args) {
+        return new AgendaItemLoader(this, new AgendaDao(this), agendaItemId);
     }
 }

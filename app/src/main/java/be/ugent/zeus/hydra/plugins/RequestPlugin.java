@@ -4,10 +4,11 @@ import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.Toast;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.caching.CacheableRequest;
-import be.ugent.zeus.hydra.loaders.LoaderPlugin;
-import be.ugent.zeus.hydra.loaders.LoaderProvider;
+import be.ugent.zeus.hydra.loaders.plugin.LoaderPlugin;
+import be.ugent.zeus.hydra.loaders.plugin.LoaderProvider;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.requests.RequestAsyncTaskLoader;
 import be.ugent.zeus.hydra.requests.common.Request;
@@ -35,7 +36,10 @@ public class RequestPlugin<D> extends LoaderPlugin<D> {
 
     public RequestPlugin(BiFunction<Context, Boolean, Request<D>> provider) {
         super();
-        setLoaderProvider(c -> new RequestAsyncTaskLoader<>(c, provider.apply(c, refreshRequested)));
+        setLoaderProvider((id, args) -> {
+            Context context = getHost().getContext();
+            return new RequestAsyncTaskLoader<D>(context, provider.apply(context, refreshRequested));
+        });
     }
 
     public RequestPlugin(Function<Boolean, LoaderProvider<D>> loaderSupplier) {
@@ -55,7 +59,9 @@ public class RequestPlugin<D> extends LoaderPlugin<D> {
      * @return An instance of RequestPlugin.
      */
     public static <D extends Serializable> RequestPlugin<D> cached(CacheableRequest<D> request) {
-        return new RequestPlugin<>((c, b) -> new SimpleCacheRequest<>(c, request, b));
+        return new RequestPlugin<>(
+                (BiFunction<Context, Boolean, Request<D>>) (c, b) -> new SimpleCacheRequest<>(c, request, b)
+        );
     }
 
     public RequestPlugin<D> hasProgress() {

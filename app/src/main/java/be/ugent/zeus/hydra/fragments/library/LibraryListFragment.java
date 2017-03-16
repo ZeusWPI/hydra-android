@@ -9,7 +9,7 @@ import android.view.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
 import be.ugent.zeus.hydra.models.library.Library;
-import be.ugent.zeus.hydra.loaders.LoaderProvider;
+import be.ugent.zeus.hydra.loaders.plugin.LoaderProvider;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
 import be.ugent.zeus.hydra.plugins.common.PluginFragment;
@@ -40,7 +40,7 @@ public class LibraryListFragment extends PluginFragment {
     private final LibraryListAdapter favourites = new LibraryListAdapter();
     private final LibraryListAdapter all = new LibraryListAdapter();
     private final RequestPlugin<Pair<List<Library>, List<Library>>> plugin =
-            new RequestPlugin<>((Function<Boolean, LoaderProvider<Pair<List<Library>, List<Library>>>>) b -> c -> LibraryLoader.sortedLibrary(b, c));
+            new RequestPlugin<>((Function<Boolean, LoaderProvider<Pair<List<Library>, List<Library>>>>) b -> (i, a) -> LibraryLoader.sortedLibrary(b, getContext()));
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

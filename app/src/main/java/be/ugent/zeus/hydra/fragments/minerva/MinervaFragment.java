@@ -4,18 +4,25 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.Toast;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.loaders.LoaderProvider;
+import be.ugent.zeus.hydra.loaders.LoaderResult;
+import be.ugent.zeus.hydra.loaders.plugin.LoaderProvider;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.auth.AccountUtils;
@@ -44,9 +51,11 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
  * @author silox
  * @author Niko Strijbol
  */
-public class MinervaFragment extends PluginFragment {
+public class MinervaFragment extends PluginFragment implements LoaderProvider<List<Course>> {
 
     private static final String TAG = "MinervaFragment";
+
+    private static final String LOADER_ARG_SORT = "loaderSortMode";
 
     private View authWrapper;
     private Snackbar syncBar;
@@ -56,7 +65,7 @@ public class MinervaFragment extends PluginFragment {
     private CourseDao courseDao;
 
     private RecyclerViewPlugin<Course, List<Course>> plugin =
-            new RecyclerViewPlugin<>((LoaderProvider<List<Course>>) c -> new CourseDaoLoader(c, courseDao), adapter);
+            new RecyclerViewPlugin<>(this, adapter);
     //This will only be called if manually set to send broadcasts.
     private BroadcastReceiver syncReceiver = new BroadcastReceiver() {
         @Override
@@ -189,6 +198,8 @@ public class MinervaFragment extends PluginFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         if (isLoggedIn()) {
             inflater.inflate(R.menu.menu_minerva, menu);
+            SearchView view = (SearchView) menu.findItem(R.id.action_search).getActionView();
+            view.setOnQueryTextListener(adapter);
         }
     }
 
@@ -294,5 +305,10 @@ public class MinervaFragment extends PluginFragment {
         } else {
             syncBar.setText(text);
         }
+    }
+
+    @Override
+    public Loader<LoaderResult<List<Course>>> getLoader(int id, Bundle args) {
+        return new CourseDaoLoader(getContext(), courseDao);
     }
 }

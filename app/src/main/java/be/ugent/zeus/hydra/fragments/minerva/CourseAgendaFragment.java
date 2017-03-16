@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.fragments.minerva;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
@@ -8,9 +7,10 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.loaders.LoaderProvider;
 import be.ugent.zeus.hydra.loaders.LoaderResult;
+import be.ugent.zeus.hydra.loaders.plugin.LoaderProvider;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.minerva.agenda.AgendaDaoLoader;
 import be.ugent.zeus.hydra.models.minerva.AgendaItem;
@@ -72,7 +72,7 @@ public class CourseAgendaFragment extends PluginFragment implements LoaderProvid
     }
 
     @Override
-    public Loader<LoaderResult<List<AgendaItem>>> getLoader(Context context) {
-        return new AgendaDaoLoader(context, dao, course);
+    public Loader<LoaderResult<List<AgendaItem>>> getLoader(int id, Bundle args) {
+        return new AgendaDaoLoader(getContext(), dao, course);
     }
 }

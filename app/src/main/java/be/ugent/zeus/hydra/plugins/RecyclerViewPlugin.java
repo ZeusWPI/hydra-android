@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.caching.CacheableRequest;
-import be.ugent.zeus.hydra.loaders.LoaderPlugin;
-import be.ugent.zeus.hydra.loaders.LoaderProvider;
+import be.ugent.zeus.hydra.loaders.plugin.LoaderPlugin;
+import be.ugent.zeus.hydra.loaders.plugin.LoaderProvider;
 import be.ugent.zeus.hydra.recyclerview.adapters.common.Adapter;
 import be.ugent.zeus.hydra.requests.common.Request;
 import be.ugent.zeus.hydra.requests.common.SimpleCacheRequest;
@@ -66,7 +67,10 @@ public class RecyclerViewPlugin<D, E extends List<D>> extends RequestPlugin<E> {
      * @return An instance of RequestPlugin.
      */
     public static <D, E extends List<D> & Serializable> RecyclerViewPlugin<D, E> cached(CacheableRequest<E> request,  @Nullable Adapter<D, ?> adapter) {
-        return new RecyclerViewPlugin<>((c, b) -> new SimpleCacheRequest<>(c, request, b), adapter);
+        return new RecyclerViewPlugin<>(
+                (BiFunction<Context, Boolean, Request<E>>) (c, b) -> new SimpleCacheRequest<>(c, request, b),
+                adapter
+        );
     }
 
     @Override

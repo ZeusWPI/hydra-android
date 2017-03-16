@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.preferences.SettingsActivity;
-import be.ugent.zeus.hydra.loaders.LoaderProvider;
+import be.ugent.zeus.hydra.loaders.plugin.LoaderProvider;
 import be.ugent.zeus.hydra.models.association.Event;
 import be.ugent.zeus.hydra.models.association.Events;
 import be.ugent.zeus.hydra.plugins.RecyclerViewPlugin;
@@ -34,7 +34,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 public class EventFragment extends PluginFragment {
 
     private final EventAdapter adapter = new EventAdapter();
-    private final Function<Boolean, LoaderProvider<Events>> supplier = b -> c -> EventLoader.filteredEvents(b, c);
+    private final Function<Boolean, LoaderProvider<Events>> supplier = b -> (i, a) -> EventLoader.filteredEvents(b, getContext());
     private final RecyclerViewPlugin<Event, Events> plugin = new RecyclerViewPlugin<>(supplier, adapter);
     private LinearLayout noData;
 

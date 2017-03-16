@@ -200,7 +200,7 @@ public class HomeFeedFragment extends PluginFragment implements HomeFeedLoaderCa
     @Override
     public void onPartialUpdate(List<HomeCard> data, @HomeCard.CardType int cardType) {
         Log.i(TAG, "Added card type: " + cardType);
-        adapter.setData(data);
+        adapter.setItems(data);
         wasCached = false;
     }
 
@@ -277,7 +277,7 @@ public class HomeFeedFragment extends PluginFragment implements HomeFeedLoaderCa
                 onPartialError(error);
             }
 
-            adapter.setData(new ArrayList<>(data.second));
+            adapter.setItems(new ArrayList<>(data.second));
             Log.d(TAG, "onLoadFinished: cached");
         }
 

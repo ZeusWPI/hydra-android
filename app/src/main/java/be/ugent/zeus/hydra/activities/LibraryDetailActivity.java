@@ -19,14 +19,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.activities.common.HydraActivity;
-import be.ugent.zeus.hydra.models.library.Library;
 import be.ugent.zeus.hydra.fragments.library.LibraryListFragment;
+import be.ugent.zeus.hydra.models.library.Library;
 import be.ugent.zeus.hydra.models.library.OpeningHourList;
 import be.ugent.zeus.hydra.models.library.OpeningHours;
 import be.ugent.zeus.hydra.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.plugins.common.Plugin;
+import be.ugent.zeus.hydra.requests.common.Request;
 import be.ugent.zeus.hydra.requests.library.OpeningHoursRequest;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -34,6 +36,7 @@ import be.ugent.zeus.hydra.utils.PreferencesUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.utils.html.Utils;
 import com.squareup.picasso.Picasso;
+import java8.util.function.BiFunction;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -60,7 +63,14 @@ public class LibraryDetailActivity extends HydraActivity {
     private FrameLayout layout;
 
     // Due to the lambda, library should be not null when this is called.
-    private RequestPlugin<OpeningHourList> plugin = new RequestPlugin<>((c, b) -> new OpeningHoursRequest(library));
+    private RequestPlugin<OpeningHourList> plugin = new RequestPlugin<>(
+            new BiFunction<Context, Boolean, Request<OpeningHourList>>() {
+                @Override
+                public Request<OpeningHourList> apply(Context c, Boolean b) {
+                    return new OpeningHoursRequest(library);
+                }
+            }
+    );
 
     public static void launchActivity(Context context, Library library) {
         Intent intent = new Intent(context, LibraryDetailActivity.class);
