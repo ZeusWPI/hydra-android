@@ -47,9 +47,6 @@ public class SpanItemSpacingDecoration extends RecyclerView.ItemDecoration {
         if (parent.getLayoutManager() instanceof StaggeredGridLayoutManager) {
             itemSpan = ((StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams()).getSpanIndex();
             spanCount = ((StaggeredGridLayoutManager) parent.getLayoutManager()).getSpanCount();
-
-            StaggeredGridLayoutManager manager = (StaggeredGridLayoutManager) parent.getLayoutManager();
-            manager.invalidateSpanAssignments();
         } else {
             itemSpan = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getSpanIndex();
             spanCount = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
@@ -58,6 +55,8 @@ public class SpanItemSpacingDecoration extends RecyclerView.ItemDecoration {
         //If this is the last span, do nothing.
         if (itemSpan < spanCount - 1) {
             outRect.right = spacing;
+        } else {
+            outRect.right = 0;
         }
     }
 }
