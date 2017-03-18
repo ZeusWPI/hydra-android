@@ -188,8 +188,8 @@ public class AgendaActivity extends BaseActivity implements LoaderCallback<Agend
                     Intent mainIntent = new Intent(this, MainActivity.class);
                     mainIntent.putExtra(MainActivity.ARG_TAB, R.id.drawer_minerva);
                     TaskStackBuilder.create(this)
-                            .addNextIntent(courseIntent)
                             .addNextIntent(mainIntent)
+                            .addNextIntent(courseIntent)
                             .startActivities();
                 } else {
                     NavUtils.navigateUpTo(this, upIntent);
