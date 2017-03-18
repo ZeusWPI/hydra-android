@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activities.sko.ArtistActivity">
+    tools:context=".ui.sko.ArtistActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"

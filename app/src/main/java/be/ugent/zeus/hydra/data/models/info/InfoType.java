@@ -10,8 +10,8 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.InfoSubItemActivity;
-import be.ugent.zeus.hydra.activities.WebViewActivity;
+import be.ugent.zeus.hydra.ui.InfoSubItemActivity;
+import be.ugent.zeus.hydra.ui.common.WebViewActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.ViewUtils;
 

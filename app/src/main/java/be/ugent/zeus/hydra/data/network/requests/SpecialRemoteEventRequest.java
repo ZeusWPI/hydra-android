@@ -7,16 +7,16 @@ import android.util.Log;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.activities.sko.OverviewActivity;
 import be.ugent.zeus.hydra.data.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.data.models.specialevent.SpecialEventWrapper;
-import be.ugent.zeus.hydra.data.models.specialevent.SpecialEvents;
-import be.ugent.zeus.hydra.data.network.ProcessableCacheRequest;
+import be.ugent.zeus.hydra.data.network.Request;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.ui.sko.overview.OverviewActivity;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -24,16 +24,18 @@ import java.util.concurrent.ExecutionException;
  *
  * @author Niko Strijbol
  */
-public class SpecialRemoteEventRequest extends ProcessableCacheRequest<SpecialEventWrapper, SpecialEventWrapper> {
+public class SpecialRemoteEventRequest implements Request<SpecialEventWrapper> {
 
     private static final String TAG = "RemoteEventRequest";
-    public static final String REMOTE_SKO_KEY = "is_sko_card_enabled";
+    private static final String REMOTE_SKO_KEY = "is_sko_card_enabled";
 
-    private FirebaseRemoteConfig config;
-    private RequestFailureException potentialException;
+    private final Request<SpecialEventWrapper> wrapping;
+    private final FirebaseRemoteConfig config;
+    private final Context context;
 
-    public SpecialRemoteEventRequest(Context context, boolean shouldRefresh) {
-        super(context, new SpecialEventRequest(), shouldRefresh);
+    public SpecialRemoteEventRequest(Context context, Request<SpecialEventWrapper> request) {
+        this.wrapping = request;
+        this.context = context.getApplicationContext();
         config = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
                 .setDeveloperModeEnabled(BuildConfig.DEBUG)
@@ -44,26 +46,36 @@ public class SpecialRemoteEventRequest extends ProcessableCacheRequest<SpecialEv
 
     @NonNull
     @Override
-    public SpecialEventWrapper performRequest() {
+    public SpecialEventWrapper performRequest() throws RequestFailureException {
+
+        SpecialEventWrapper data;
+        RequestFailureException potentialException = null;
+
         try {
-            return super.performRequest();
+            data = wrapping.performRequest();
         } catch (RequestFailureException e) {
             Log.w(TAG, "Error while getting special events, returning empty collection.", e);
             potentialException = e;
             //Empty wrapper.
-            SpecialEventWrapper wrapper = new SpecialEventWrapper();
-            wrapper.setSpecialEvents(new SpecialEvents());
-            return wrapper;
+            data = new SpecialEventWrapper();
+            data.setSpecialEvents(new ArrayList<>());
+        }
+
+        maybeAddSko(data);
+
+        // If the error is set, and the wrapper is empty, we propagate the error.
+        // If it is not empty, we return it, since the special event is present.
+        if (potentialException != null && data.getSpecialEvents().isEmpty()) {
+            throw potentialException;
+        } else {
+            return data;
         }
     }
 
-    @NonNull
-    @Override
-    protected SpecialEventWrapper transform(@NonNull SpecialEventWrapper wrapper) throws RequestFailureException {
-
+    private void maybeAddSko(@NonNull SpecialEventWrapper wrapper) {
         //Add the SKO card if necessary.
         try {
-            Tasks.await(config.fetch(86400)); //Blocking fetching
+            Tasks.await(config.fetch()); //Blocking fetching
             config.activateFetched();
 
         } catch (ExecutionException | InterruptedException e) {
@@ -79,17 +91,9 @@ public class SpecialRemoteEventRequest extends ProcessableCacheRequest<SpecialEv
             event.setPriority(1010);
             event.setViewIntent(new Intent(context, OverviewActivity.class));
             //Add to the front.
-            wrapper.getSpecialEvents().add(0, event);
+            wrapper.getSpecialEvents().add(event);
         } else {
             Log.d(TAG, "Not adding SKO card.");
-        }
-
-        //If the error is set, and the wrapper is empty, we propagate the error.
-        //If it is not empty, we return it, since the special event is present.
-        if(potentialException != null && wrapper.getSpecialEvents().isEmpty()) {
-            throw potentialException;
-        } else {
-            return wrapper;
         }
     }
 }

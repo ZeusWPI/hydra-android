@@ -47,7 +47,7 @@
                         android:textSize="@dimen/card_title_size_large"
                         tools:text="Menutitel"/>
 
-                    <be.ugent.zeus.hydra.views.MenuTable
+                    <be.ugent.zeus.hydra.ui.widgets.MenuTable
                         android:id="@+id/menu_table"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
             </FrameLayout>
         </android.support.v7.widget.CardView>
 
-        <be.ugent.zeus.hydra.views.ButtonBarLayout
+        <be.ugent.zeus.hydra.ui.widgets.ButtonBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal">
@@ -96,7 +96,7 @@
                 android:drawableTint="?android:colorControlNormal"
                 android:maxLines="1" />
 
-        </be.ugent.zeus.hydra.views.ButtonBarLayout>
+        </be.ugent.zeus.hydra.ui.widgets.ButtonBarLayout>
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -2,26 +2,29 @@ package be.ugent.zeus.hydra.data.network.requests.sko;
 
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.data.models.sko.Artist;
+import be.ugent.zeus.hydra.data.network.Endpoints;
+import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.data.network.caching.Cache;
-import be.ugent.zeus.hydra.data.models.sko.Artists;
+import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
 
 /**
  * Request SKO lineup data.
  *
  * @author Niko Strijbol
  */
-public class LineupRequest extends be.ugent.zeus.hydra.data.network.JsonSpringRequest<Artists> implements be.ugent.zeus.hydra.data.network.caching.CacheableRequest<Artists> {
+public class LineupRequest extends JsonSpringRequest<Artist[]> implements CacheableRequest<Artist[]> {
 
-    private static final String URL = "http://studentkickoff.be/";
+    private static final String FILE_NAME = "artists.json";
 
     public LineupRequest() {
-        super(Artists.class);
+        super(Artist[].class);
     }
 
     @NonNull
     @Override
     public String getCacheKey() {
-        return "artists.json";
+        return FILE_NAME;
     }
 
     @Override
@@ -32,6 +35,6 @@ public class LineupRequest extends be.ugent.zeus.hydra.data.network.JsonSpringRe
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return URL + getCacheKey();
+        return Endpoints.SKO_URL + FILE_NAME;
     }
 }

@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.data.network.requests;
 
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.data.network.Endpoints;
 import be.ugent.zeus.hydra.data.network.Request;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
@@ -17,14 +18,12 @@ import java.net.URL;
  */
 public class UrgentUrlRequest implements Request<String> {
 
-    private static final String CONFIG_URL = "http://urgent.fm/listen_live.config";
-
     @NonNull
     @Override
     public String performRequest() throws RequestFailureException {
         try {
-            URL url = new URL(CONFIG_URL);
-            return StringUtils.convertStreamToString(url.openStream());
+            URL url = new URL(Endpoints.URGENT_CONFIG_URL);
+            return StringUtils.convertStreamToString(url.openStream()).trim();
         } catch (IOException e) {
             throw new IOFailureException(e);
         }

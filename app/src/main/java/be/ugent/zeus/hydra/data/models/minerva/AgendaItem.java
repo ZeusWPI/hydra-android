@@ -20,6 +20,8 @@ public final class AgendaItem implements Serializable, Parcelable {
 
     public static final long NO_CALENDAR_ID = -1;
 
+    public static final String AGENDA_URI = "hydra://minerva/calendar/";
+
     @SerializedName("item_id")
     private int itemId;
     private String title;
@@ -153,6 +155,10 @@ public final class AgendaItem implements Serializable, Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public String getUri() {
+        return AGENDA_URI + getItemId();
     }
 
     @Override

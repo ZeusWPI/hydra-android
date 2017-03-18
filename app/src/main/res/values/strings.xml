@@ -268,5 +268,6 @@
     <string name="action_minerva_courses_sort_title">Naam</string>
     <string name="action_minerva_courses_sort_year">Jaar</string>
     <string name="action_search">Zoeken</string>
+    <string name="minerva_course_unknown_year">Onbekend</string>
 
 </resources>

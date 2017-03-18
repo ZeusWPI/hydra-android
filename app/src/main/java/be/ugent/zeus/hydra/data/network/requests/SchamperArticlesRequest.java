@@ -2,18 +2,21 @@ package be.ugent.zeus.hydra.data.network.requests;
 
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.data.models.schamper.Article;
+import be.ugent.zeus.hydra.data.network.Endpoints;
+import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.data.network.caching.Cache;
-import be.ugent.zeus.hydra.data.models.schamper.Articles;
+import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
 
 /**
  * Request to get Schamper articles.
  *
  * @author feliciaan
  */
-public class SchamperArticlesRequest extends be.ugent.zeus.hydra.data.network.JsonSpringRequest<Articles> implements be.ugent.zeus.hydra.data.network.caching.CacheableRequest<Articles> {
+public class SchamperArticlesRequest extends JsonSpringRequest<Article[]> implements CacheableRequest<Article[]> {
 
     public SchamperArticlesRequest() {
-        super(Articles.class);
+        super(Article[].class);
     }
 
     @NonNull
@@ -25,7 +28,7 @@ public class SchamperArticlesRequest extends be.ugent.zeus.hydra.data.network.Js
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return ZEUS_API_URL + "1.0/schamper/daily.json";
+        return Endpoints.ZEUS_API_URL_1 + "schamper/daily.json";
     }
 
     @Override

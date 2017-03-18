@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import android.support.annotation.Nullable;
+
+import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.gson.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
@@ -47,7 +49,7 @@ public final class Announcement implements Serializable, Parcelable {
     }
 
     /**
-     * Set the moment the announcement was read. To persist, use {@link be.ugent.zeus.hydra.minerva.announcement.AnnouncementDao}.
+     * Set the moment the announcement was read. To persist, use {@link AnnouncementDao}.
      *
      * @param read The date or null to set to unread.
      */

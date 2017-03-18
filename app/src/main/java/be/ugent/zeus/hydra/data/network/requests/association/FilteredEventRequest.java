@@ -5,11 +5,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.activities.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.data.models.association.Event;
-import be.ugent.zeus.hydra.data.models.association.Events;
 import be.ugent.zeus.hydra.data.network.Request;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
 import java8.util.Comparators;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
@@ -40,9 +39,9 @@ public class FilteredEventRequest implements Request<List<Event>> {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
 
-        return new Events(StreamSupport.stream(request.performRequest())
+        return StreamSupport.stream(request.performRequest())
                 .filter(e -> !disabled.contains(e.getAssociation().internalName()))
                 .sorted(Comparators.comparing(Event::getStart))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
     }
 }

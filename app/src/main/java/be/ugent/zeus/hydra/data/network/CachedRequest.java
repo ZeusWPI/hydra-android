@@ -68,6 +68,7 @@ public class CachedRequest<R extends Serializable> implements Request<R> {
                 data = cache.get(cacheableRequest);
             }
         } catch (IOFailureException e) {
+            // TODO: check if we are actually connected to a network or not.
             Log.i(TAG, "Network error, trying again...", e);
             OfflineBroadcaster.broadcastNetworkError(context);
             data = cache.get(cacheableRequest, Cache.ALWAYS);

@@ -2,34 +2,39 @@ package be.ugent.zeus.hydra.data.network.requests.sko;
 
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.data.models.sko.TimelinePost;
+import be.ugent.zeus.hydra.data.network.Endpoints;
+import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.data.network.caching.Cache;
-import be.ugent.zeus.hydra.data.models.sko.Timeline;
+import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
 
 /**
+ * Request for posts.
+ *
  * @author Niko Strijbol
  */
-public class TimelineRequest extends be.ugent.zeus.hydra.data.network.JsonSpringRequest<Timeline> implements be.ugent.zeus.hydra.data.network.caching.CacheableRequest<Timeline> {
+public class TimelineRequest extends JsonSpringRequest<TimelinePost[]> implements CacheableRequest<TimelinePost[]> {
 
-    private static final String BASE_URL = "http://live.studentkickoff.be/";
+    private static final String FILE_NAME = "timeline.json";
 
     public TimelineRequest() {
-        super(Timeline.class);
+        super(TimelinePost[].class);
     }
 
     @NonNull
     @Override
     public String getCacheKey() {
-        return "timeline.json";
+        return FILE_NAME;
     }
 
     @Override
     public long getCacheDuration() {
-        return Cache.ONE_HOUR;
+        return Cache.ONE_MINUTE * 15;
     }
 
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return BASE_URL + getCacheKey();
+        return Endpoints.LIVE_SKO_URL + FILE_NAME;
     }
 }

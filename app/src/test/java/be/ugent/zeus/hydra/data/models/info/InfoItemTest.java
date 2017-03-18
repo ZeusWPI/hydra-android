@@ -34,7 +34,7 @@ public class InfoItemTest extends ModelTest<InfoItem> {
         // Set the sub contents to nothing.
         oneDeep = generate(InfoItem.class);
         InfoItem sub = generate(InfoItem.class);
-        sub.setSubContent(new InfoList());
+        sub.setSubContent(new ArrayList<>());
         oneDeep.setSubContent(new ArrayList<>(Collections.singleton(sub)));
     }
 
@@ -53,7 +53,7 @@ public class InfoItemTest extends ModelTest<InfoItem> {
     @Test
     public void equalAndHash() {
         InfoItem one = generate(InfoItem.class);
-        one.setSubContent(new InfoList());
+        one.setSubContent(new ArrayList<>());
         EqualsVerifier.forClass(InfoItem.class)
                 .withPrefabValues(InfoItem.class, one, oneDeep)
                 .suppress(Warning.NONFINAL_FIELDS)
