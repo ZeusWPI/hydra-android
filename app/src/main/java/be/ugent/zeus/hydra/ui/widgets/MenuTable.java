@@ -210,13 +210,13 @@ public class MenuTable extends TableLayout {
     @SuppressLint("SetTextI18n")
     private void populate() {
 
+        setColumnStretchable(1, true);
+        setColumnShrinkable(1, true);
+
         if (!menu.isOpen()) {
             createTitle(getContext().getString(R.string.resto_closed), false);
             return;
         }
-
-        setColumnStretchable(1, true);
-        setColumnShrinkable(1, true);
 
         if (mode == ALL) {
             //Add actual menu data
