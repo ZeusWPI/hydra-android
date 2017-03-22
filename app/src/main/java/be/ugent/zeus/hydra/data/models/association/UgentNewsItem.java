@@ -7,6 +7,7 @@ import be.ugent.zeus.hydra.data.gson.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
+import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZonedDateTime;
 
@@ -154,4 +155,17 @@ public class UgentNewsItem implements Serializable, Parcelable {
             return new UgentNewsItem[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UgentNewsItem that = (UgentNewsItem) o;
+        return Objects.equals(identifier, that.identifier);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(identifier);
+    }
 }

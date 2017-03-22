@@ -37,9 +37,7 @@ public class NewsArticleActivity extends BaseActivity {
         TextView text = $(R.id.text);
         TextView author = $(R.id.author);
 
-        if (!article.getContributors().isEmpty()) {
-            author.setText(TextUtils.join(", ", article.getContributors()));
-        }
+        author.setText(TextUtils.join(", ", article.getCreators()));
 
         if (article.getCreated() != null) {
             date.setText(DateUtils.relativeDateTimeString(article.getCreated(), date.getContext()));
