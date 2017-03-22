@@ -1,17 +1,15 @@
 package be.ugent.zeus.hydra.ui.main;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.association.NewsItem;
+import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
 import be.ugent.zeus.hydra.ui.NewsArticleActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.ViewUtils;
 
 import static be.ugent.zeus.hydra.ui.NewsArticleActivity.PARCEL_NAME;
 import static be.ugent.zeus.hydra.utils.ViewUtils.$;
@@ -19,7 +17,7 @@ import static be.ugent.zeus.hydra.utils.ViewUtils.$;
 /**
  * Created by feliciaan on 18/06/16.
  */
-public class NewsItemViewHolder extends DataViewHolder<NewsItem> {
+public class NewsItemViewHolder extends DataViewHolder<UgentNewsItem> {
 
     private TextView info;
     private TextView title;
@@ -31,20 +29,17 @@ public class NewsItemViewHolder extends DataViewHolder<NewsItem> {
     }
 
     @Override
-    public void populate(final NewsItem newsItem) {
+    public void populate(final UgentNewsItem newsItem) {
 
         title.setText(newsItem.getTitle());
 
+        String author = newsItem.getCreators().isEmpty() ? "" : newsItem.getCreators().iterator().next();
+
         String infoText = itemView.getContext().getString(R.string.agenda_subtitle,
-                DateUtils.relativeDateTimeString(newsItem.getDate(), itemView.getContext()),
-                newsItem.getAssociation().name());
+                DateUtils.relativeDateTimeString(newsItem.getCreated(), itemView.getContext()),
+                author);
         info.setText(infoText);
-        if (newsItem.isHighlighted()) {
-            Drawable d = ViewUtils.getTintedVectorDrawable(itemView.getContext(), R.drawable.ic_star, R.color.ugent_yellow_dark);
-            title.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
-        } else {
-            title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-        }
+        title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
         itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), NewsArticleActivity.class);

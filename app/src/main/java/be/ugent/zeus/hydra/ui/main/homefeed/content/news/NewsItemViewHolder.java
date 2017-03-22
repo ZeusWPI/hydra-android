@@ -1,10 +1,11 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.news;
 
 import android.view.View;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HideableViewHolder;
-import be.ugent.zeus.hydra.data.models.association.NewsItem;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
+
+import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.HideableViewHolder;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 
 /**
  * Wrapper around another view holder.
@@ -25,7 +26,7 @@ public class NewsItemViewHolder extends HideableViewHolder {
     public void populate(HomeCard card) {
         super.populate(card);
 
-        NewsItem newsItem = card.<NewsItemCard>checkCard(HomeCard.CardType.NEWS_ITEM).getNewsItem();
+        UgentNewsItem newsItem = card.<NewsItemCard>checkCard(HomeCard.CardType.NEWS_ITEM).getNewsItem();
         holder.populate(newsItem);
     }
 }

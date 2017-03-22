@@ -1,16 +1,15 @@
 package be.ugent.zeus.hydra.ui;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.association.NewsItem;
+import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.ViewUtils;
 import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.utils.html.Utils;
 
@@ -31,34 +30,29 @@ public class NewsArticleActivity extends BaseActivity {
         setContentView(R.layout.activity_news_article);
 
         Intent intent = getIntent();
-        NewsItem article = intent.getParcelableExtra(PARCEL_NAME);
+        UgentNewsItem article = intent.getParcelableExtra(PARCEL_NAME);
 
         TextView title = $(R.id.title);
         TextView date = $(R.id.date);
         TextView text = $(R.id.text);
         TextView author = $(R.id.author);
 
-        if (article.getAssociation() != null) {
-            author.setText(article.getAssociation().displayName());
+        if (!article.getContributors().isEmpty()) {
+            author.setText(TextUtils.join(", ", article.getContributors()));
         }
 
-        if (article.getDate() != null) {
-            date.setText(DateUtils.relativeDateTimeString(article.getDate(), date.getContext()));
+        if (article.getCreated() != null) {
+            date.setText(DateUtils.relativeDateTimeString(article.getCreated(), date.getContext()));
         }
 
-        if (article.getContent() != null) {
-            text.setText(Utils.fromHtml(article.getContent(), new PicassoImageGetter(text, getResources(), this)));
+        if (article.getText() != null) {
+            text.setText(Utils.fromHtml(article.getText(), new PicassoImageGetter(text, getResources(), this)));
             text.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
         if (article.getTitle() != null) {
             title.setText(article.getTitle());
             this.title = article.getTitle();
-        }
-
-        if (article.isHighlighted()) {
-            Drawable d = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star, R.color.ugent_yellow_dark);
-            title.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
         }
     }
 

@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.association.NewsItem;
-import be.ugent.zeus.hydra.data.network.requests.NewsRequest;
+import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
 import be.ugent.zeus.hydra.data.network.requests.Requests;
+import be.ugent.zeus.hydra.data.network.requests.association.UgentNewsRequest;
 import be.ugent.zeus.hydra.ui.plugins.RecyclerViewPlugin;
 import be.ugent.zeus.hydra.ui.plugins.common.Plugin;
 import be.ugent.zeus.hydra.ui.plugins.common.PluginFragment;
@@ -26,7 +26,7 @@ import java.util.List;
 public class NewsFragment extends PluginFragment {
 
     private final NewsAdapter adapter = new NewsAdapter();
-    private final RecyclerViewPlugin<NewsItem> plugin = new RecyclerViewPlugin<>(Requests.cachedArray(new NewsRequest()), adapter);
+    private final RecyclerViewPlugin<UgentNewsItem> plugin = new RecyclerViewPlugin<>(Requests.cachedArray(new UgentNewsRequest()), adapter);
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {

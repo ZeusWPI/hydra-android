@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.news;
 
+import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.data.models.association.NewsItem;
@@ -15,18 +16,20 @@ import org.threeten.bp.ZonedDateTime;
  */
 class NewsItemCard extends HomeCard {
 
-    private NewsItem newsItem;
+    private static final int TWO_WEEKS_HOURS = 14 * 24;
 
-    NewsItemCard(NewsItem newsItem) {
+    private UgentNewsItem newsItem;
+
+    NewsItemCard(UgentNewsItem newsItem) {
         this.newsItem = newsItem;
     }
 
     @Override
     public int getPriority() {
         //TODO: multiplier for highlight
-        ZonedDateTime date = getNewsItem().getDate();
-        Duration duration = Duration.between(ZonedDateTime.now(), date);
-        return FeedUtils.lerp((int) duration.toDays(), 0, 62);
+        ZonedDateTime date = getNewsItem().getCreated();
+        Duration duration = Duration.between(date, ZonedDateTime.now());
+        return FeedUtils.lerp((int) duration.toHours(), 0, TWO_WEEKS_HOURS);
     }
 
     @Override
@@ -34,7 +37,7 @@ class NewsItemCard extends HomeCard {
         return CardType.NEWS_ITEM;
     }
 
-    public NewsItem getNewsItem() {
+    public UgentNewsItem getNewsItem() {
         return newsItem;
     }
 

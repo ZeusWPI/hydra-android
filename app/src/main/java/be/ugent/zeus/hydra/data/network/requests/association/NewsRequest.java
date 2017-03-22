@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.data.network.requests;
+package be.ugent.zeus.hydra.data.network.requests.association;
 
 import android.support.annotation.NonNull;
 
@@ -39,7 +39,7 @@ public class NewsRequest extends JsonSpringRequest<NewsItem[]> implements Cachea
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.DSA_API_URL + "all_news.json";
+        return Endpoints.DSA_API_URL_3 + "old_news.json";
     }
 
     @Override

@@ -30,7 +30,7 @@ public class EventRequest extends JsonSpringRequest<Event[]> implements Cacheabl
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.DSA_API_URL + FILENAME;
+        return Endpoints.DSA_API_URL_3 + FILENAME;
     }
 
     @Override

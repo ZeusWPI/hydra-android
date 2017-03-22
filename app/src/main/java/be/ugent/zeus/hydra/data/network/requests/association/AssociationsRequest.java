@@ -31,7 +31,7 @@ public class AssociationsRequest extends JsonSpringRequest<Association[]> implem
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.DSA_API_URL + FILENAME;
+        return Endpoints.DSA_API_URL_3 + FILENAME;
     }
 
     @Override
