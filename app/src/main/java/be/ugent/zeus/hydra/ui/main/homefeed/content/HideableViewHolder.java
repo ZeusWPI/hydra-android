@@ -42,7 +42,7 @@ public abstract class HideableViewHolder extends DataViewHolder<HomeCard> {
     }
 
     protected void debugPriority(HomeCard card) {
-        if(BuildConfig.DEBUG) {
+        if(BuildConfig.DEBUG && false) {
             priority.setText("Prioriteit: " + card.getPriority());
         }
     }
