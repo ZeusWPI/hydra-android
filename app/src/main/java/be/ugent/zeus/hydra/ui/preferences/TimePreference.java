@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.preference;
+package be.ugent.zeus.hydra.ui.preferences;
 
 import android.content.Context;
 import android.content.res.TypedArray;

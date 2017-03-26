@@ -6,7 +6,6 @@ import android.preference.PreferenceFragment;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.service.notifications.NotificationScheduler;
-import be.ugent.zeus.hydra.preference.TimePreference;
 
 /**
  * Preferences for the resto notification.
