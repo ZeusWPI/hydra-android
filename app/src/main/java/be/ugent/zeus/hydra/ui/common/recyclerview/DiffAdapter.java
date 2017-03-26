@@ -102,11 +102,20 @@ public abstract class DiffAdapter<D, VH extends RecyclerView.ViewHolder> extends
     @MainThread
     public void setItems(List<D> items) {
         synchronized (updateLock) {
+
+            // If we have no items, we don't do the threaded stuff, because it doesn't work!
+            if (this.items.isEmpty()) {
+                this.items = items;
+                notifyItemRangeInserted(0, this.getItemCount());
+                return;
+            }
+
             if (scheduledUpdate != null) {
                 scheduledUpdate = items;
                 return;
             }
         }
+
         setInternal(items);
     }
 }

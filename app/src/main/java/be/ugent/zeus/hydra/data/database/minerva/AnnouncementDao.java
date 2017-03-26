@@ -257,9 +257,6 @@ public class AnnouncementDao extends Dao implements DiffDao<Announcement, Intege
                 String id = c.getString(cExtractor.getColumnId());
 
                 if (currentCourse == null || !currentCourse.getId().equals(id)) {
-                    if (currentCourse != null) {
-                        Log.d(TAG, "Added " + counter + " announcements for " + currentCourse.getTitle());
-                    }
                     //Add the course
                     currentCourse = cExtractor.getCourse();
                     map.put(currentCourse, new ArrayList<>());
