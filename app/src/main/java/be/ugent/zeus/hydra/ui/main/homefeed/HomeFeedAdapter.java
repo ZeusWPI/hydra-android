@@ -23,7 +23,7 @@ import be.ugent.zeus.hydra.data.models.association.Association;
 import be.ugent.zeus.hydra.ui.common.recyclerview.DiffAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
-import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 
 import java.lang.ref.WeakReference;
 
@@ -143,7 +143,7 @@ public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCa
 
     /**
      * Helper method that returns a listener that hides a given card type in this adapter. This will only work with the
-     * default menu in {@link be.ugent.zeus.hydra.ui.widgets.NowToolbar}.
+     * default menu in {@link be.ugent.zeus.hydra.ui.common.widgets.NowToolbar}.
      *
      * @param type The type of card to hide.
      * @return A listener that will hide the given card type in this adapter.

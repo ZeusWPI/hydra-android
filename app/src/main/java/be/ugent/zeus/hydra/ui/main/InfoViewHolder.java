@@ -9,9 +9,9 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.info.InfoItem;
 import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
-import be.ugent.zeus.hydra.utils.ViewUtils;
+import be.ugent.zeus.hydra.ui.common.ViewUtils;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * View holder for info items.

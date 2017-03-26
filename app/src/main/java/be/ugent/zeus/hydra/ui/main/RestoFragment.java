@@ -19,20 +19,20 @@ import be.ugent.zeus.hydra.data.network.CachedRequest;
 import be.ugent.zeus.hydra.data.network.ListRequest;
 import be.ugent.zeus.hydra.data.network.requests.resto.FilteredMenuRequest;
 import be.ugent.zeus.hydra.data.network.requests.resto.MenuRequest;
-import be.ugent.zeus.hydra.ui.plugins.RequestPlugin;
-import be.ugent.zeus.hydra.ui.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.ui.common.plugins.RequestPlugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.ui.resto.RestoLocationActivity;
 import be.ugent.zeus.hydra.ui.resto.SandwichActivity;
 import be.ugent.zeus.hydra.ui.resto.menu.MenuActivity;
-import be.ugent.zeus.hydra.ui.widgets.MenuTable;
+import be.ugent.zeus.hydra.ui.common.widgets.MenuTable;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.ViewUtils;
+import be.ugent.zeus.hydra.ui.common.ViewUtils;
 
 import java.util.List;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * @author Niko Strijbol

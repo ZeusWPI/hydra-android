@@ -11,11 +11,11 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.sko.TimelinePost;
 import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
-import be.ugent.zeus.hydra.ui.widgets.NowToolbar;
+import be.ugent.zeus.hydra.ui.common.widgets.NowToolbar;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import com.squareup.picasso.Picasso;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * @author Niko Strijbol

@@ -4,7 +4,7 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyItemAdapter;
-import be.ugent.zeus.hydra.utils.ViewUtils;
+import be.ugent.zeus.hydra.ui.common.ViewUtils;
 
 /**
  * Adapteer for announcements.

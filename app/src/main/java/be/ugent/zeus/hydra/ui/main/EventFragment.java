@@ -12,17 +12,17 @@ import android.widget.LinearLayout;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.association.Event;
-import be.ugent.zeus.hydra.ui.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.ui.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.plugins.common.PluginFragment;
-import be.ugent.zeus.hydra.ui.plugins.loader.LoaderCallback;
+import be.ugent.zeus.hydra.ui.common.plugins.RecyclerViewPlugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.ui.common.plugins.loader.LoaderCallback;
 import be.ugent.zeus.hydra.ui.preferences.SettingsActivity;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 import java8.util.function.Function;
 
 import java.util.List;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * Displays a list of activities, filtered by the settings.

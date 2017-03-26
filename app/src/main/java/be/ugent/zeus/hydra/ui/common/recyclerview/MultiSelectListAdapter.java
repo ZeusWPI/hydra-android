@@ -7,13 +7,13 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.utils.ViewUtils;
+import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import java8.util.function.Function;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * Adapter with items that are checkable.

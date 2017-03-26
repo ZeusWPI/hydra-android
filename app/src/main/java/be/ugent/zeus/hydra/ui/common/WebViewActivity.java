@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.plugins.ProgressBarPlugin;
-import be.ugent.zeus.hydra.ui.plugins.common.Plugin;
+import be.ugent.zeus.hydra.ui.common.plugins.ProgressBarPlugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
 
 import java.util.List;
 

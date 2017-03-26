@@ -10,21 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.plugins.loader.LoaderCallback;
+import be.ugent.zeus.hydra.ui.common.plugins.loader.LoaderCallback;
 import be.ugent.zeus.hydra.ui.common.loaders.LoaderResult;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.ui.minerva.AnnouncementsLoader;
 import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementNotificationBuilder;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.ui.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.ui.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.ui.common.plugins.RecyclerViewPlugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
 import java.util.List;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * Show Minerva announcements.

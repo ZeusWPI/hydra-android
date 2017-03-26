@@ -10,14 +10,14 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.sko.Exhibitor;
 import be.ugent.zeus.hydra.data.network.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.sko.StuVilExhibitorRequest;
-import be.ugent.zeus.hydra.ui.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.ui.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.ui.common.plugins.RecyclerViewPlugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 
 import java.util.List;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * @author Niko Strijbol

@@ -12,12 +12,12 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import be.ugent.zeus.hydra.utils.html.Utils;
+import be.ugent.zeus.hydra.ui.common.html.Utils;
 import org.threeten.bp.LocalDate;
 
 import java.util.Locale;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * Show information about a course, including the description.

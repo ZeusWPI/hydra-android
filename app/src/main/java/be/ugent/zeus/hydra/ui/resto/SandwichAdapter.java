@@ -10,10 +10,10 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.resto.Sandwich;
 import be.ugent.zeus.hydra.ui.common.recyclerview.Adapter;
-import be.ugent.zeus.hydra.utils.ViewUtils;
+import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import com.kyo.expandablelayout.ExpandableLayout;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * Adapter for sandwiches.

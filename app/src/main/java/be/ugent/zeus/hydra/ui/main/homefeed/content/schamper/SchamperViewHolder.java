@@ -13,9 +13,9 @@ import be.ugent.zeus.hydra.ui.main.homefeed.content.HideableViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.data.models.schamper.Article;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * Home feed view holder for Schamper articles.

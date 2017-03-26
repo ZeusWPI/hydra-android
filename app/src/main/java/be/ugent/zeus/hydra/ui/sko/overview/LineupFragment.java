@@ -11,9 +11,9 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.sko.Artist;
 import be.ugent.zeus.hydra.data.network.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.sko.LineupRequest;
-import be.ugent.zeus.hydra.ui.plugins.RequestPlugin;
-import be.ugent.zeus.hydra.ui.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.ui.common.plugins.RequestPlugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.ui.common.recyclerview.TextCallback;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import su.j2e.rvjoiner.JoinableAdapter;
@@ -22,7 +22,7 @@ import su.j2e.rvjoiner.RvJoiner;
 
 import java.util.*;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * Show the lineup.

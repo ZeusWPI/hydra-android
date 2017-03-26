@@ -8,10 +8,10 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.schamper.Article;
 import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import com.squareup.picasso.Picasso;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * View holder for the schamper fragment.

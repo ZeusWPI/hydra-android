@@ -21,7 +21,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 import java.util.Locale;
 
 import static be.ugent.zeus.hydra.ui.sko.ArtistActivity.PARCEL_ARTIST;
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * @author Niko Strijbol

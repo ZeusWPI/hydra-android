@@ -11,7 +11,7 @@ import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
 import org.threeten.bp.format.DateTimeFormatter;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * View holder for an event in the event tab.

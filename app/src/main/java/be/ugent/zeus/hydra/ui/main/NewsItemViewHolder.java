@@ -12,7 +12,7 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 import static be.ugent.zeus.hydra.ui.NewsArticleActivity.PARCEL_NAME;
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * Created by feliciaan on 18/06/16.

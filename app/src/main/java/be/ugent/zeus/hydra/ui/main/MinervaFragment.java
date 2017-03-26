@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.common.loaders.LoaderResult;
-import be.ugent.zeus.hydra.ui.plugins.loader.LoaderCallback;
+import be.ugent.zeus.hydra.ui.common.plugins.loader.LoaderCallback;
 import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
@@ -34,15 +34,15 @@ import be.ugent.zeus.hydra.data.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.ui.plugins.ProgressBarPlugin;
-import be.ugent.zeus.hydra.ui.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.ui.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.ui.common.plugins.ProgressBarPlugin;
+import be.ugent.zeus.hydra.ui.common.plugins.RecyclerViewPlugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
 
 import java.io.IOException;
 import java.util.List;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * Displays Minerva items.

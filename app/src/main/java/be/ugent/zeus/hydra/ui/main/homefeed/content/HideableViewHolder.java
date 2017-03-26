@@ -7,9 +7,9 @@ import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
-import be.ugent.zeus.hydra.ui.widgets.NowToolbar;
+import be.ugent.zeus.hydra.ui.common.widgets.NowToolbar;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * View holder for cards that are hideable, using the {@link NowToolbar}.

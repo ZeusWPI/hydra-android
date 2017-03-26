@@ -22,8 +22,8 @@ import be.ugent.zeus.hydra.data.models.minerva.auth.BearerToken;
 import be.ugent.zeus.hydra.data.models.minerva.auth.GrantInformation;
 import be.ugent.zeus.hydra.data.network.requests.minerva.UserInfoRequest;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
-import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.utils.customtabs.CustomTabsHelper;
+import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
 import org.threeten.bp.LocalDateTime;
 
 /**

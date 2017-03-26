@@ -11,12 +11,12 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.schamper.Article;
 import be.ugent.zeus.hydra.data.network.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.SchamperArticlesRequest;
-import be.ugent.zeus.hydra.ui.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.ui.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.plugins.common.PluginFragment;
-import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.utils.customtabs.CustomTabsHelper;
-import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
+import be.ugent.zeus.hydra.ui.common.plugins.RecyclerViewPlugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
+import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
 
 import java.util.List;
 

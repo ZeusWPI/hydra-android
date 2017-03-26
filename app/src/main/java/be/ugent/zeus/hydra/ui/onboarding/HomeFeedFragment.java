@@ -17,7 +17,7 @@ import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 
 import java.util.*;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * This is not fun, because this class needs a manual multi checkbox list.

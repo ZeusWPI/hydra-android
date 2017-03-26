@@ -6,7 +6,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import su.j2e.rvjoiner.JoinableLayout;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * @author Niko Strijbol

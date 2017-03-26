@@ -8,7 +8,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import org.threeten.bp.ZonedDateTime;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * For date headers.

@@ -13,7 +13,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.InfoSubItemActivity;
 import be.ugent.zeus.hydra.ui.common.WebViewActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import be.ugent.zeus.hydra.utils.ViewUtils;
+import be.ugent.zeus.hydra.ui.common.ViewUtils;
 
 /**
  * The type of information (external url/app, internal url, ...).

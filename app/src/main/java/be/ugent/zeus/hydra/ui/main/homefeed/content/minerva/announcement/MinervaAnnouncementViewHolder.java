@@ -13,8 +13,8 @@ import be.ugent.zeus.hydra.ui.main.homefeed.content.HideableViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.minerva.overview.AnnouncementViewHolder;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
-import static be.ugent.zeus.hydra.utils.ViewUtils.convertDpToPixelInt;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.convertDpToPixelInt;
 
 /**
  * Minerva home view holder. We limit it to 5 announcements.

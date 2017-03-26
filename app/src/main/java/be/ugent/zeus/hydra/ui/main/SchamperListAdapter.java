@@ -4,8 +4,8 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.schamper.Article;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ItemAdapter;
-import be.ugent.zeus.hydra.utils.ViewUtils;
-import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.ui.common.ViewUtils;
+import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 
 /**
  * @author Niko Strijbol

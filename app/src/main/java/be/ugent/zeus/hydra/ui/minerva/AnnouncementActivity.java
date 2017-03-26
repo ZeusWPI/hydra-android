@@ -16,8 +16,8 @@ import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
-import be.ugent.zeus.hydra.utils.html.Utils;
+import be.ugent.zeus.hydra.ui.common.html.PicassoImageGetter;
+import be.ugent.zeus.hydra.ui.common.html.Utils;
 import org.threeten.bp.ZonedDateTime;
 
 /**

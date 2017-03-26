@@ -32,15 +32,15 @@ import be.ugent.zeus.hydra.ui.main.homefeed.loader.FeedCollection;
 import be.ugent.zeus.hydra.ui.main.homefeed.loader.HomeFeedLoader;
 import be.ugent.zeus.hydra.ui.main.homefeed.loader.HomeFeedLoaderCallback;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
-import be.ugent.zeus.hydra.ui.plugins.OfflinePlugin;
-import be.ugent.zeus.hydra.ui.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.ui.common.plugins.OfflinePlugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.data.network.OfflineBroadcaster;
 import be.ugent.zeus.hydra.utils.IterableSparseArray;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.utils.customtabs.CustomTabsHelper;
-import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
+import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
+import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
 import java8.util.function.IntPredicate;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
@@ -52,7 +52,7 @@ import java.util.Set;
 
 import static be.ugent.zeus.hydra.ui.main.homefeed.feed.OperationFactory.add;
 import static be.ugent.zeus.hydra.ui.main.homefeed.feed.OperationFactory.get;
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * The fragment showing the home feed.

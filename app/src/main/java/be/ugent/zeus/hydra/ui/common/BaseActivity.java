@@ -11,8 +11,7 @@ import android.view.Menu;
 import android.view.View;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.plugins.common.PluginActivity;
-import be.ugent.zeus.hydra.utils.ViewUtils;
+import be.ugent.zeus.hydra.ui.common.plugins.common.PluginActivity;
 import java8.util.function.Supplier;
 
 /**

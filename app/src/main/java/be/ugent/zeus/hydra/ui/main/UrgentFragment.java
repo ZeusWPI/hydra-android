@@ -20,14 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.urgent.MediaControlFragment;
-import be.ugent.zeus.hydra.ui.urgent.UrgentTrack;
+import be.ugent.zeus.hydra.data.models.UrgentTrack;
 import be.ugent.zeus.hydra.service.urgent.BoundServiceCallback;
 import be.ugent.zeus.hydra.service.urgent.MusicBinder;
 import be.ugent.zeus.hydra.service.urgent.MusicCallback;
 import be.ugent.zeus.hydra.service.urgent.MusicService;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * @author Niko Strijbol
@@ -178,7 +177,7 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
     private void initMediaControls() {
         FragmentManager manager = getChildFragmentManager();
         Fragment fragment = manager.findFragmentByTag(FRAGMENT_TAG);
-        Fragment newFragment = MediaControlFragment.newInstance(musicService.getMediaToken());
+        Fragment newFragment = UrgentControlFragment.newInstance(musicService.getMediaToken());
         FragmentTransaction t = getChildFragmentManager().beginTransaction();
         if(fragment == null) {
             t.add(R.id.urgent_fragment_wrapper, newFragment, FRAGMENT_TAG);

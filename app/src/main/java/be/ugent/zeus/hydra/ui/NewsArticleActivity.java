@@ -10,8 +10,8 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.html.PicassoImageGetter;
-import be.ugent.zeus.hydra.utils.html.Utils;
+import be.ugent.zeus.hydra.ui.common.html.PicassoImageGetter;
+import be.ugent.zeus.hydra.ui.common.html.Utils;
 
 /**
  * Display a news article from DSA.

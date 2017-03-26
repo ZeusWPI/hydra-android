@@ -12,10 +12,10 @@ import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyItemAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.TextCallback;
-import be.ugent.zeus.hydra.ui.plugins.RequestPlugin;
-import be.ugent.zeus.hydra.ui.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.plugins.common.PluginFragment;
-import be.ugent.zeus.hydra.ui.plugins.loader.LoaderCallback;
+import be.ugent.zeus.hydra.ui.common.plugins.RequestPlugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.ui.common.plugins.loader.LoaderCallback;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 import java8.util.function.Function;
@@ -25,7 +25,7 @@ import su.j2e.rvjoiner.RvJoiner;
 
 import java.util.List;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * @author Niko Strijbol

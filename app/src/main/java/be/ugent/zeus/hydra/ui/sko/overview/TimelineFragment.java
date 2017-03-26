@@ -9,17 +9,17 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.sko.TimelinePost;
 import be.ugent.zeus.hydra.data.network.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.sko.TimelineRequest;
-import be.ugent.zeus.hydra.ui.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.ui.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.ui.common.plugins.RecyclerViewPlugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
-import be.ugent.zeus.hydra.utils.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.utils.customtabs.CustomTabsHelper;
-import be.ugent.zeus.hydra.utils.recycler.SpanItemSpacingDecoration;
+import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
+import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
 
 import java.util.List;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * Show a list of timeline posts for SKO.

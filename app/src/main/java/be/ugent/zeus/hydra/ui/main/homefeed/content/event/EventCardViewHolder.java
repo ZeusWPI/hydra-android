@@ -13,7 +13,7 @@ import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * View holder for cards containing events.

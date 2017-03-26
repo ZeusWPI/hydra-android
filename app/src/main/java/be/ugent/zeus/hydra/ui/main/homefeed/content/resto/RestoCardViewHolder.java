@@ -12,9 +12,9 @@ import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HideableViewHolder;
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.ui.widgets.MenuTable;
+import be.ugent.zeus.hydra.ui.common.widgets.MenuTable;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * Home feed view holder for the resto menu.

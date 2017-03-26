@@ -11,10 +11,10 @@ import be.ugent.zeus.hydra.data.models.info.InfoItem;
 import be.ugent.zeus.hydra.data.network.requests.InfoRequest;
 import be.ugent.zeus.hydra.data.network.requests.Requests;
 import be.ugent.zeus.hydra.ui.InfoSubItemActivity;
-import be.ugent.zeus.hydra.ui.plugins.ProgressBarPlugin;
-import be.ugent.zeus.hydra.ui.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.ui.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.ui.common.plugins.ProgressBarPlugin;
+import be.ugent.zeus.hydra.ui.common.plugins.RecyclerViewPlugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
 
 import java.util.List;
 

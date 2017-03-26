@@ -6,7 +6,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.ui.common.recyclerview.DateHeaderViewHolder;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ItemAdapter;
-import be.ugent.zeus.hydra.utils.ViewUtils;
+import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 /**

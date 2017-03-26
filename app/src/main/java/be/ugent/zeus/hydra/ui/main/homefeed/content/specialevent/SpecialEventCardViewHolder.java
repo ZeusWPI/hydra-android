@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * Home feed view holder for special events.

@@ -7,7 +7,7 @@ import be.ugent.zeus.hydra.ui.LibraryDetailActivity;
 import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
 
-import static be.ugent.zeus.hydra.utils.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * @author Niko Strijbol

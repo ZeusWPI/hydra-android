@@ -18,8 +18,8 @@ import be.ugent.zeus.hydra.data.network.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.association.AssociationsRequest;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.MultiSelectListAdapter;
-import be.ugent.zeus.hydra.ui.plugins.RequestPlugin;
-import be.ugent.zeus.hydra.ui.plugins.common.Plugin;
+import be.ugent.zeus.hydra.ui.common.plugins.RequestPlugin;
+import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
