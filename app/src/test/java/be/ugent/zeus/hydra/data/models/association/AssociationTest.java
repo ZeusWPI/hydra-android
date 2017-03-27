@@ -1,7 +1,11 @@
 package be.ugent.zeus.hydra.data.models.association;
 
+import be.ugent.zeus.hydra.data.models.ModelTest;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 
+import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -9,28 +13,25 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Niko Strijbol
  */
-public class AssociationTest {
+public class AssociationTest extends ModelTest<Association> {
 
-    @Test
-    public void name() {
-        Association full = Association.create("TEST", "Test", "Tester", null);
-        assertEquals(full.fullName(), full.name());
-        Association partial = Association.create("TEST", null, "Tester", null);
-        assertEquals(partial.displayName(), partial.name());
+    public AssociationTest() {
+        super(Association.class);
     }
 
     @Test
-    public void create() {
-        Association full = Association.create("TEST", "Test", "Tester", "another");
-        assertEquals("TEST", full.internalName());
-        assertEquals("Test", full.fullName());
-        assertEquals("Tester", full.displayName());
-        assertEquals("another", full.parentAssociation());
+    public void getName() {
+        Association full = generate(Association.class);
+        assertEquals(full.getFullName(), full.getName());
+        Association partial = generate(Association.class, "fullName");
+        assertEquals(partial.getDisplayName(), partial.getName());
     }
 
     @Test
-    public void imageLink() {
-        Association full = Association.create("TEST", "Test", "Tester", "another");
-        assertEquals(String.format(Association.IMAGE_URL, "test"), full.imageLink());
+    public void equalsAndHash() {
+        EqualsVerifier.forClass(Association.class)
+                .withOnlyTheseFields("internalName")
+                .suppress(Warning.NONFINAL_FIELDS)
+                .verify();
     }
 }

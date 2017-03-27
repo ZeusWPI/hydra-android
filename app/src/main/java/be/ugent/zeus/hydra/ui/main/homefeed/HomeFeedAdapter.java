@@ -107,7 +107,7 @@ public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCa
         PreferencesUtils.addToStringSet(
                 context,
                 AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
-                association.internalName()
+                association.getInternalName()
         );
     }
 

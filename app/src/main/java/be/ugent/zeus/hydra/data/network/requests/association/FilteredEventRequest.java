@@ -40,7 +40,7 @@ public class FilteredEventRequest implements Request<List<Event>> {
         Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
 
         return StreamSupport.stream(request.performRequest())
-                .filter(e -> !disabled.contains(e.getAssociation().internalName()))
+                .filter(e -> !disabled.contains(e.getAssociation().getInternalName()))
                 .sorted(Comparators.comparing(Event::getStart))
                 .collect(Collectors.toList());
     }

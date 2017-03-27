@@ -93,24 +93,13 @@
   copyrightHolder: Jon Finerty
   license: The Apache Software License, Version 2.0
   url: https://github.com/jonfinerty/Once
+
 - artifact: com.karumi:dexter:+
   name: Dexter
   copyrightHolder: Karumi
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://github.com/karumi/Dexter
-
-- artifact: com.ryanharter.auto.value:auto-value-parcel-adapter:+
-  name: "AutoValue: Parcel Extension"
-  copyrightHolder: Ryan Harter
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/rharter/auto-value-parcel
-
-#- artifact: com.ryanharter.auto.value:auto-value-gson:+
-#  name: "AutoValue: Gson Extension"
-#  copyrightHolder: Ryan Harter
-#  license: The Apache Software License, Version 2.0
-#  url: https://github.com/rharter/auto-value-gson
 
 - artifact: net.sourceforge.streamsupport:streamsupport:+
   skip: true

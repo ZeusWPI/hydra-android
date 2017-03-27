@@ -59,7 +59,7 @@ public class AssociationSelectPrefActivity extends BaseActivity {
         recyclerView.requestFocus();
 
         adapter = new SearchableAdapter();
-        adapter.setDisplayNameProvider(Association::name);
+        adapter.setDisplayNameProvider(Association::getName);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -98,7 +98,7 @@ public class AssociationSelectPrefActivity extends BaseActivity {
         List<Pair<Association, Boolean>> values = new ArrayList<>();
 
         for (Association association : data) {
-            values.add(new Pair<>(association, !disabled.contains(association.internalName())));
+            values.add(new Pair<>(association, !disabled.contains(association.getInternalName())));
         }
 
         adapter.setItems(values);
@@ -112,7 +112,7 @@ public class AssociationSelectPrefActivity extends BaseActivity {
         Set<String> disabled = new HashSet<>();
         for (Map.Entry<Association, Boolean> pair : adapter.allData.entrySet()) {
             if (!pair.getValue()) {
-                disabled.add(pair.getKey().internalName());
+                disabled.add(pair.getKey().getInternalName());
             }
         }
 
@@ -173,9 +173,9 @@ public class AssociationSelectPrefActivity extends BaseActivity {
             for (Map.Entry<Association, Boolean> pair : allData.entrySet()) {
                 String text = newText.toLowerCase();
                 Association a = pair.getKey();
-                if (a.displayName().toLowerCase().contains(text) ||
-                        (a.fullName() != null && a.fullName().toLowerCase().contains(text)) ||
-                        a.internalName().toLowerCase().contains(text)) {
+                if (a.getDisplayName().toLowerCase().contains(text) ||
+                        (a.getFullName() != null && a.getFullName().toLowerCase().contains(text)) ||
+                        a.getInternalName().toLowerCase().contains(text)) {
                     newList.add(new Pair<>(a, pair.getValue()));
                 }
             }
@@ -189,7 +189,7 @@ public class AssociationSelectPrefActivity extends BaseActivity {
 
         @Override
         public String getSectionTitle(int position) {
-            return items.get(position).first.parentAssociation();
+            return items.get(position).first.getParentAssociation();
         }
     }
 }

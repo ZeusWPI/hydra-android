@@ -45,9 +45,9 @@ public class EventCardViewHolder extends HideableViewHolder {
         association.setText(event.getLocation());
         start.setText(DateUtils.relativeDateTimeString(event.getStart(), itemView.getContext(), false));
         String description = itemView.getResources().getString(R.string.home_card_description);
-        toolbar.setTitle(String.format(description, event.getAssociation().internalName()));
+        toolbar.setTitle(String.format(description, event.getAssociation().getInternalName()));
 
-        FeedUtils.loadThumbnail(itemView.getContext(), event.getAssociation().imageLink(), imageView);
+        FeedUtils.loadThumbnail(itemView.getContext(), event.getAssociation().getImageLink(), imageView);
 
         itemView.setOnClickListener(v -> EventDetailActivity.launchWithAnimation(((Activity) itemView.getContext()), imageView, "logo", event));
 

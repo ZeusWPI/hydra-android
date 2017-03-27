@@ -2,12 +2,9 @@ package be.ugent.zeus.hydra.data.network;
 
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.data.gson.ModelFactory;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import com.google.firebase.crash.FirebaseCrash;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.ResourceAccessException;
@@ -68,11 +65,7 @@ public abstract class JsonSpringRequest<R> implements Request<R> {
      */
     protected RestTemplate createRestTemplate() throws RequestFailureException {
         RestTemplate restTemplate = new RestTemplate();
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(ModelFactory.create())
-                .create();
-        GsonHttpMessageConverter converter = new GsonHttpMessageConverter(gson);
-        restTemplate.getMessageConverters().add(new GsonHttpMessageConverter(gson));
+        restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
         return restTemplate;
     }
 }
