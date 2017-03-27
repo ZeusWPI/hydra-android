@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.testing;
 
+import be.ugent.zeus.hydra.data.models.association.Association;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import io.github.benas.randombeans.api.Randomizer;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -18,6 +19,7 @@ public class Utils {
                 .scanClasspathForConcreteTypes(true)
                 .randomize(ZonedDateTime.class, (Randomizer<ZonedDateTime>) ZonedDateTime::now)
                 .randomize(LocalDate.class, (Randomizer<LocalDate>) LocalDate::now)
+                .randomize(Association.class, (Randomizer<Association>) () -> Association.create("Test", null, null, null))
                 .build()
                 .nextObject(clazz, exclude);
     }
