@@ -27,9 +27,9 @@ public class MinervaCoursePagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return CourseInfoFragment.newInstance(course);
             case 1:
-                return CourseAnnouncementFragment.newInstance(course);
+                return AnnouncementFragment.newInstance(course);
             case 2:
-                return CourseAgendaFragment.newInstance(course);
+                return AgendaFragment.newInstance(course);
         }
 
         throw new IllegalTabException(position, getCount());

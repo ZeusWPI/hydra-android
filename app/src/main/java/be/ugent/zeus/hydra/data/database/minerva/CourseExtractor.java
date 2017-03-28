@@ -14,7 +14,7 @@ import be.ugent.zeus.hydra.data.models.minerva.Course;
  *
  * @author Niko Strijbol
  */
-public class CourseExtractor {
+class CourseExtractor {
 
     //Column ints
     private int columnId;

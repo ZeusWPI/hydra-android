@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.minerva;
+package be.ugent.zeus.hydra.ui.minerva.overview;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,9 +20,11 @@ import java8.util.function.BiPredicates;
 import java.util.List;
 
 /**
+ * Load a list of {@link Announcement}s for a {@link Course}.
+ *
  * @author Niko Strijbol
  */
-public class AnnouncementsLoader extends BroadcastLoader<List<Announcement>> {
+class AnnouncementsLoader extends BroadcastLoader<List<Announcement>> {
 
     private final AnnouncementDao dao;
     private final Course course;
@@ -32,7 +34,7 @@ public class AnnouncementsLoader extends BroadcastLoader<List<Announcement>> {
      *
      * @param context The context.
      */
-    public AnnouncementsLoader(Context context, AnnouncementDao dao, Course course) {
+    AnnouncementsLoader(Context context, AnnouncementDao dao, Course course) {
         super(context, getFilter());
         this.dao = dao;
         this.course = course;

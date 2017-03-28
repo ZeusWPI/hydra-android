@@ -28,7 +28,6 @@ import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
-import be.ugent.zeus.hydra.ui.minerva.overview.CoursesLoader;
 import be.ugent.zeus.hydra.data.sync.course.Adapter;
 import be.ugent.zeus.hydra.data.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
@@ -308,6 +307,6 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
 
     @Override
     public Loader<LoaderResult<List<Course>>> getLoader(Bundle args) {
-        return new CoursesLoader(getContext(), courseDao);
+        return new MinervaCoursesLoader(getContext(), courseDao);
     }
 }

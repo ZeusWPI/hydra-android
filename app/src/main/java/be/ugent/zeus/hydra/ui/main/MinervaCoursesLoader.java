@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.minerva.overview;
+package be.ugent.zeus.hydra.ui.main;
 
 import android.content.Context;
 import android.content.IntentFilter;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class CoursesLoader extends BroadcastLoader<List<Course>> {
+class MinervaCoursesLoader extends BroadcastLoader<List<Course>> {
 
     private CourseDao dao;
 
@@ -24,7 +24,7 @@ public class CoursesLoader extends BroadcastLoader<List<Course>> {
      *
      * @param context The context.
      */
-    public CoursesLoader(Context context, CourseDao dao) {
+    MinervaCoursesLoader(Context context, CourseDao dao) {
         super(context, new IntentFilter(SyncBroadcast.SYNC_COURSES));
         this.dao = dao;
     }

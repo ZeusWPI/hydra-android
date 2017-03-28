@@ -11,9 +11,11 @@ import be.ugent.zeus.hydra.ui.common.loaders.LoaderException;
 import be.ugent.zeus.hydra.ui.common.loaders.BroadcastLoader;
 
 /**
+ * Load one {@link AgendaItem}.
+ *
  * @author Niko Strijbol
  */
-public class AgendaItemLoader extends BroadcastLoader<AgendaItem> {
+class AgendaItemLoader extends BroadcastLoader<AgendaItem> {
 
     private final AgendaDao dao;
     private final int id;
@@ -23,7 +25,7 @@ public class AgendaItemLoader extends BroadcastLoader<AgendaItem> {
      *
      * @param context The context.
      */
-    public AgendaItemLoader(Context context, AgendaDao dao, int id) {
+    AgendaItemLoader(Context context, AgendaDao dao, int id) {
         super(context, new IntentFilter(SyncBroadcast.SYNC_AGENDA));
         this.dao = dao;
         this.id = id;

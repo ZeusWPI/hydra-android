@@ -12,11 +12,11 @@ import org.threeten.bp.format.DateTimeFormatter;
 /**
  * @author Niko Strijbol
  */
-public class AgendaAdapter extends EmptyItemAdapter<AgendaItem, AgendaViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
+class AgendaAdapter extends EmptyItemAdapter<AgendaItem, AgendaViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
 
     private static final DateTimeFormatter INT_FORMATTER = DateTimeFormatter.ofPattern("ddMMyyyy");
 
-    public AgendaAdapter() {
+    AgendaAdapter() {
         super(R.layout.item_no_data);
     }
 

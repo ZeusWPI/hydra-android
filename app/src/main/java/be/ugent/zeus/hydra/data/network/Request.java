@@ -18,8 +18,8 @@ public interface Request<T> {
      *
      * @return The data.
      *
-     * @throws RequestFailureException This exception is thrown whenever an exception occurs while getting the data.
-     *  For example, a netwerk failure while accessing an API.
+     * @throws RequestFailureException This exception is thrown whenever an exception occurs while getting the data. For
+     *                                 example, a netwerk failure while accessing an API.
      */
     @NonNull
     T performRequest() throws RequestFailureException;

@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class AgendaLoader extends BroadcastLoader<List<AgendaItem>> {
+class AgendaLoader extends BroadcastLoader<List<AgendaItem>> {
 
     private AgendaDao dao;
     private Course course;
@@ -26,7 +26,7 @@ public class AgendaLoader extends BroadcastLoader<List<AgendaItem>> {
      *
      * @param context The context.
      */
-    public AgendaLoader(Context context, AgendaDao dao, Course course) {
+    AgendaLoader(Context context, AgendaDao dao, Course course) {
         super(context, new IntentFilter(SyncBroadcast.SYNC_AGENDA));
         this.dao = dao;
         this.course = course;

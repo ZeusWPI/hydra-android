@@ -13,13 +13,13 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 /**
  * @author Niko Strijbol
  */
-public class AgendaViewHolder extends DataViewHolder<AgendaItem> {
+class AgendaViewHolder extends DataViewHolder<AgendaItem> {
 
     private TextView title;
     private TextView subtitle;
     private View parent;
 
-    public AgendaViewHolder(View itemView) {
+    AgendaViewHolder(View itemView) {
         super(itemView);
         title = $(itemView, R.id.title);
         parent = $(itemView, R.id.parent_layout);
