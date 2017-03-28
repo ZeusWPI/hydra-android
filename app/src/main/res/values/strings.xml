@@ -190,7 +190,7 @@
     <string name="error_no_activity">Niets gevonden om dit te openen!</string>
     <string name="events_no_location">Zonder locatie</string>
     <string name="title_license">Licenties</string>
-    <string name="agenda_subtitle">%1$s door %2$s</string>
+    <string name="agenda_subtitle">%1$s • %2$s</string>
     <string name="home_feed_announcement_title">%d aankondigingen</string>
     <string name="home_feed_announcement_more">nog %d aankondigingen…</string>
     <string name="announcement_notification_content">Nieuwe aankondiging</string>

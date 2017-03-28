@@ -72,5 +72,6 @@
     <dimen name="mini_fab_margin">4dp</dimen>
 
     <dimen name="hero_image_height">256dp</dimen>
+    <dimen name="card_title_padding_bottom_subtitle">12dp</dimen>
 
 </resources>
