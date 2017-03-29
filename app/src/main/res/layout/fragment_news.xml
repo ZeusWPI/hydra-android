@@ -1,6 +1,7 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/swipeRefreshLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -20,4 +21,4 @@
 
     <include layout="@layout/x_progress_bar" />
 
-</FrameLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

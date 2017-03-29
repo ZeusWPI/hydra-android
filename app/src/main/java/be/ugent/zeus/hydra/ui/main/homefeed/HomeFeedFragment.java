@@ -1,21 +1,16 @@
 package be.ugent.zeus.hydra.ui.main.homefeed;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.network.OfflineBroadcaster;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
@@ -58,10 +53,7 @@ public class HomeFeedFragment extends PluginFragment implements LoaderManager.Lo
 
     private static final int LOADER = 0;
 
-    private volatile boolean shouldRefresh;
-
     private boolean firstRun;
-    private LoaderResult optionalExistingData;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private HomeFeedAdapter adapter;
@@ -69,7 +61,7 @@ public class HomeFeedFragment extends PluginFragment implements LoaderManager.Lo
 
     private ActivityHelper helper;
 
-    private OfflinePlugin plugin = new OfflinePlugin();
+    private OfflinePlugin plugin = new OfflinePlugin(this);
 
     @Override
     protected void onAddPlugins(List<Plugin> plugins) {
@@ -107,7 +99,6 @@ public class HomeFeedFragment extends PluginFragment implements LoaderManager.Lo
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
         swipeRefreshLayout.setOnRefreshListener(this);
-        plugin.setView(view);
 
         swipeRefreshLayout.setRefreshing(true);
         getLoaderManager().initLoader(LOADER, null, this);
@@ -115,27 +106,9 @@ public class HomeFeedFragment extends PluginFragment implements LoaderManager.Lo
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
-        manager.registerReceiver(receiver, OfflineBroadcaster.getBroadcastFilter());
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
         helper.bindCustomTabsService(getActivity());
-    }
-
-    /**
-     * If the fragment goes to pause, we don't need to restart the loaders.
-     */
-    @Override
-    public void onPause() {
-        super.onPause();
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
-        manager.unregisterReceiver(receiver);
-        plugin.dismiss();
     }
 
     @Override
@@ -154,7 +127,7 @@ public class HomeFeedFragment extends PluginFragment implements LoaderManager.Lo
 
     private void showErrorMessage(String message) {
         //noinspection WrongConstant
-       plugin.showSnackbar(message, Snackbar.LENGTH_LONG, null);
+       plugin.showSnackbar(message, Snackbar.LENGTH_LONG);
     }
 
     public HomeFeedLoader getLoader() {
@@ -180,7 +153,6 @@ public class HomeFeedFragment extends PluginFragment implements LoaderManager.Lo
 
         //Scroll to top if not refreshed
         if (data.isCompleted()) {
-            shouldRefresh = false;
             firstRun = false;
             swipeRefreshLayout.setRefreshing(false);
         } else {
@@ -217,20 +189,9 @@ public class HomeFeedFragment extends PluginFragment implements LoaderManager.Lo
 
     @Override
     public void onRefresh() {
-        shouldRefresh = true;
         plugin.dismiss();
         swipeRefreshLayout.setRefreshing(true);
         getLoader().flagForRefresh();
         getLoader().onContentChanged();
     }
-
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(OfflineBroadcaster.OFFLINE)) {
-                //noinspection WrongConstant -> library bug
-                plugin.showSnackbar(R.string.offline_data_use, Snackbar.LENGTH_INDEFINITE, HomeFeedFragment.this);
-            }
-        }
-    };
 }

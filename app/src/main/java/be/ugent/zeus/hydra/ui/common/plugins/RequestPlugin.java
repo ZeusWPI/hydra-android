@@ -24,7 +24,7 @@ public class RequestPlugin<D> extends LoaderPlugin<D> {
 
     private static final String TAG = "RequestPlugin";
 
-    private boolean refreshRequested = false;
+    private boolean refreshOnce;
     private ProgressBarPlugin progressBarPlugin;
 
     public RequestPlugin(LoaderCallback<D> provider) {
@@ -35,13 +35,13 @@ public class RequestPlugin<D> extends LoaderPlugin<D> {
         super();
         setLoaderProvider((args) -> {
             Context context = getHost().getContext();
-            return new RequestAsyncTaskLoader<D>(context, provider.apply(context, refreshRequested));
+            return new RequestAsyncTaskLoader<D>(context, provider.apply(context, refreshOnce));
         });
     }
 
     public RequestPlugin(Function<Boolean, LoaderCallback<D>> loaderSupplier) {
         super();
-        setLoaderProvider(loaderSupplier.apply(refreshRequested));
+        setLoaderProvider(loaderSupplier.apply(refreshOnce));
     }
 
     public RequestPlugin(Request<D> request) {
@@ -81,10 +81,16 @@ public class RequestPlugin<D> extends LoaderPlugin<D> {
      * Refresh the data.
      */
     public void refresh() {
-        Toast.makeText(getHost().getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
-        refreshRequested = true;
+        refresh(true);
+    }
+
+    public void refresh(boolean message) {
+        if (message) {
+            Toast.makeText(getHost().getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
+        }
+        refreshOnce = true;
         restartLoader();
-        refreshRequested = false;
+        refreshOnce = false;
     }
 
     @Override
