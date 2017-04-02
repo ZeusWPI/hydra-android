@@ -70,7 +70,6 @@ public class Adapter extends MinervaAdapter {
 
         final CourseDao courseDao = new CourseDao(getContext());
         final CoursesMinervaRequest minervaRequest = new CoursesMinervaRequest(getContext(), account);
-        request = minervaRequest;
 
         if (isFirstSync) {
             courseDao.deleteAll();

@@ -78,7 +78,6 @@ public class Adapter extends MinervaAdapter {
         }
 
         AgendaRequest agendaRequest = new AgendaRequest(getContext(), account);
-        request = agendaRequest; // Enable errors.
         ZonedDateTime now = LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault());
         // Start time.
         agendaRequest.setStart(now.minusMonths(2));

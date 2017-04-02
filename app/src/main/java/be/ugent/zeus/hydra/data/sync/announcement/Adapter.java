@@ -145,7 +145,6 @@ public class Adapter extends MinervaAdapter {
 
         // Then we see what requests are actually new.
         WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, getContext(), account);
-        request = whatsNewRequest;
         WhatsNew whatsNew = whatsNewRequest.performRequest();
 
         Set<Announcement> unReadOnes = new HashSet<>(whatsNew.getAnnouncements());

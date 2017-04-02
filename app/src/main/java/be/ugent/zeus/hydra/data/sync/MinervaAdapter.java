@@ -1,13 +1,15 @@
 package be.ugent.zeus.hydra.data.sync;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.content.*;
+import android.content.AbstractThreadedSyncAdapter;
+import android.content.ContentProviderClient;
+import android.content.Context;
+import android.content.SyncResult;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.util.Log;
+
 import be.ugent.zeus.hydra.data.auth.AuthenticatorActionException;
-import be.ugent.zeus.hydra.data.network.requests.minerva.MinervaRequest;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -43,12 +45,6 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
 
     protected final SyncBroadcast broadcast;
 
-    /**
-     * Implementing classes can use this to store the executed request. This enables automatic error handling. If this
-     * is not used, authentication errors will not be handled.
-     */
-    protected MinervaRequest<?> request;
-
     public MinervaAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         broadcast = new SyncBroadcast(context);
@@ -80,16 +76,9 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
             Log.i(TAG, "IO error while syncing.", e);
             syncResult.stats.numIoExceptions++;
         } catch (AuthenticatorActionException e) {
-            Log.i(TAG, "Auth exception while syncing.", e);
+            Log.w(TAG, "Auth exception while syncing.", e);
             syncResult.stats.numAuthExceptions++;
-            // This should not be null, but check it anyway.
-            if (request != null && request.getAccountBundle() != null) {
-                Intent intent = request.getAccountBundle().getParcelable(AccountManager.KEY_INTENT);
-                SyncErrorNotification.Builder.init(getContext()).authError(intent).build().show();
-                broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
-            } else {
-                Log.w(TAG, "Auth exception during sync, but no error intent was found. Ignoring error.");
-            }
+            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
         } catch (RequestFailureException e) {
             Log.w(TAG, "Exception during sync:", e);
             // TODO: this needs attention.
