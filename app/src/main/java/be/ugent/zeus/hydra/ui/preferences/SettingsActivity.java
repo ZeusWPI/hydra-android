@@ -6,12 +6,10 @@ import android.preference.PreferenceFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
-import android.view.View;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.common.AppCompatPreferenceActivity;
-import be.ugent.zeus.hydra.service.notifications.NotificationScheduler;
 
 import java.util.List;
 
@@ -71,10 +69,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @Override
     public boolean onIsMultiPane() {
         return this.getResources().getConfiguration().isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE);
-    }
-
-    public void testNotification(View view){
-        new NotificationScheduler(this).testNotification();
     }
 
     @Override
