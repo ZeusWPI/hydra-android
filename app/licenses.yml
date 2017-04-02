@@ -101,6 +101,12 @@
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://github.com/karumi/Dexter
 
+- artifact: com.android.support.constraint:+:+
+  skip: true
+
+- artifact: com.android.databinding:+:+
+  skip: true
+
 - artifact: net.sourceforge.streamsupport:streamsupport:+
   skip: true
 
