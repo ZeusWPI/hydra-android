@@ -10,8 +10,8 @@ android {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 230
-        versionName "2.3"
+        versionCode 240
+        versionName "2.4"
         vectorDrawables.useSupportLibrary = true
 
         //Load the API keys from the file "secrets.progperties".
