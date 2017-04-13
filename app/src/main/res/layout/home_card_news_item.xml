@@ -14,20 +14,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <be.ugent.zeus.hydra.views.NowToolbar
+        <be.ugent.zeus.hydra.ui.common.widgets.NowToolbar
             android:id="@+id/card_now_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:icon="@drawable/tabs_news"
-            app:title="@string/title_activity_news"
-            />
+            app:title="@string/title_activity_news" />
 
         <TextView
             android:paddingLeft="@dimen/card_title_padding_vertical"
             android:paddingRight="@dimen/card_title_padding_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/card_title_padding_top"
             style="@style/Base.TextAppearance.AppCompat.Title"
             tools:text="Titel van het nieuwsitem"
             android:id="@+id/name" />

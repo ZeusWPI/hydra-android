@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.testing;
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.models.MockParcel;
+import be.ugent.zeus.hydra.data.models.MockParcel;
 import be.ugent.zeus.hydra.testing.matcher.ShallowButFullEqual;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -15,7 +15,11 @@ import org.junit.ComparisonFailure;
 import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Custom assert rules for unit tests.
@@ -88,5 +92,11 @@ public class Assert {
             matcher.describeTo(expectedDescription);
             throw new ComparisonFailure("", expectedDescription.toString(), actual.toString());
         }
+    }
+
+    public static void assertCollectionEquals(Collection<?> expected, Collection<?> actual) {
+        HashSet<Object> actualSet = new HashSet<>(actual);
+        HashSet<Object> notEqual = new HashSet<>(expected);
+        assertEquals(notEqual, actualSet);
     }
 }
