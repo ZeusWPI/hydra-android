@@ -32,7 +32,6 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard.CardType.*;
 /**
  * Adapter for {@link HomeFeedFragment}.
  *
- * TODO: currently DiffResult is calculated on the main thread, investigate this.
  * Note: this used to be calculated by the loader, but this resulted in crashes due to stale data.
  * Another alternative is not using this, but calling notifyDataChanged directly. However, the docs/internet seem to
  * say it is not a problem calculating diffResult on the main thread.

@@ -40,4 +40,9 @@ class RemoveOperation implements FeedOperation {
     public int getCardType() {
         return cardType;
     }
+
+    @Override
+    public String toString() {
+        return "REMOVE -> Card Type " + cardType;
+    }
 }

@@ -10,7 +10,6 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.os.OperationCanceledException;
 import android.util.Log;
-
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.database.minerva.DatabaseBroadcaster;
@@ -122,6 +121,7 @@ public class HomeFeedLoader extends AsyncTaskLoader<LoaderResult> {
 
             List<HomeCard> finalResults = new ArrayList<>(results);
             // Deliver intermediary results.
+            Log.d(TAG, "loadInBackground: Operation " + operation + " completed.");
             handler.post(() -> deliverResult(new LoaderResult(finalResults, errors, false)));
         }
 
