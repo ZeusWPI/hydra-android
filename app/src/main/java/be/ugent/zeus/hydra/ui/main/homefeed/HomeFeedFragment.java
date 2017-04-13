@@ -7,9 +7,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.*;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
@@ -145,7 +143,6 @@ public class HomeFeedFragment extends PluginFragment implements LoaderManager.Lo
 
     @Override
     public void onLoadFinished(Loader<LoaderResult> l, LoaderResult data) {
-        Log.i(TAG, "Finished loading data");
 
         adapter.setItems(data.getData());
 
