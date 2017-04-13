@@ -43,12 +43,11 @@ public abstract class DiffSearchableItemAdapter<D, V extends DataViewHolder<D>> 
     }
 
     public void setUpdate(List<D> items) {
-        synchronized (updateLock) {
-            if (scheduledUpdate != null) {
-                scheduledUpdate = items;
-                return;
-            }
+        if (isDiffing) {
+            scheduledUpdate = items;
+        } else {
+            updateItemInternal(items);
+            isDiffing = true;
         }
-        setInternal(items);
     }
 }
