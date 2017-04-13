@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginBottom="@dimen/card_spacing"
-    android:clickable="true"
-    app:contentPaddingLeft="@dimen/card_title_padding_vertical"
-    app:contentPaddingRight="@dimen/card_title_padding_vertical">
+    android:clickable="true">
 
     <LinearLayout
+        android:paddingLeft="@dimen/card_title_padding_vertical"
+        android:paddingRight="@dimen/card_title_padding_vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

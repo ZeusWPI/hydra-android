@@ -35,7 +35,8 @@ public class NewsItemViewHolder extends HideableViewHolder {
 
     @Override
     public void populate(final HomeCard card) {
-
+        super.populate(card);
+        
         UgentNewsItem newsItem = card.<NewsItemCard>checkCard(HomeCard.CardType.NEWS_ITEM).getNewsItem();
 
         title.setText(newsItem.getTitle());
