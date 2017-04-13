@@ -51,7 +51,8 @@ class CacheObject<T extends Serializable> implements Serializable {
      * @return True if the data is expired.
      */
     public boolean isExpired(Duration duration) {
-        return getLastUpdated().plus(duration).isBefore(Instant.now());
+        // Sometimes null is cached, so null is always expired.
+        return data == null || getLastUpdated().plus(duration).isBefore(Instant.now());
     }
 
     /**
