@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.debug;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
@@ -16,6 +17,8 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard.CardType.DEB
  */
 public class WaitRequest implements HomeFeedRequest {
 
+    private static final String TAG = "WaitRequest";
+
     @Override
     public int getCardType() {
         return DEBUG;
@@ -25,7 +28,8 @@ public class WaitRequest implements HomeFeedRequest {
     @Override
     public Stream<HomeCard> performRequest() throws RequestFailureException {
         try {
-            Thread.sleep(10000); //Sleep 10 seconds
+            Log.d(TAG, "performRequest: sleep 5 seconds.");
+            Thread.sleep(5000); //Sleep 5 seconds
             return StreamSupport.stream(Collections.emptyList());
         } catch (InterruptedException e) {
             throw new RequestFailureException(e);
