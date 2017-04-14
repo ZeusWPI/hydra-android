@@ -1,7 +1,8 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview;
+package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
 
 import android.support.v7.widget.SearchView;
 
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import java8.util.function.Function;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;

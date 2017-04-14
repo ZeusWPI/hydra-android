@@ -1,7 +1,9 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview;
+package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
 
 import android.support.v7.util.DiffUtil;
 
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import java8.util.function.BiFunction;
 
 import java.util.List;

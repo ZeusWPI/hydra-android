@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.SearchView;
 
 import be.ugent.zeus.hydra.R;
@@ -18,9 +17,7 @@ import be.ugent.zeus.hydra.data.models.association.Association;
 import be.ugent.zeus.hydra.data.network.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.association.AssociationsRequest;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
-import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
-import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolderFactory;
-import be.ugent.zeus.hydra.ui.common.recyclerview.MultiSelectListAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectListAdapter;
 import be.ugent.zeus.hydra.ui.common.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DefaultMultiSelectListViewHolder;

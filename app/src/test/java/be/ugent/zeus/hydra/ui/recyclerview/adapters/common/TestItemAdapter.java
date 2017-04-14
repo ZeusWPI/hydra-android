@@ -4,8 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import be.ugent.zeus.hydra.ui.common.recyclerview.Adapter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.SimpleViewHolder;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.Adapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.SimpleViewHolder;
 
 /**
  * @author Niko Strijbol

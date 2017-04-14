@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.resto.Sandwich;
-import be.ugent.zeus.hydra.ui.common.recyclerview.Adapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.Adapter;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import com.kyo.expandablelayout.ExpandableLayout;
 

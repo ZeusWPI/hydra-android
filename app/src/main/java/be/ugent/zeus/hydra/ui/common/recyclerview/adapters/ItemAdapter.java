@@ -1,4 +1,7 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview;
+package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
+
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.Adapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 
 /**
  * Adapter designed to work with a {@link DataViewHolder}.

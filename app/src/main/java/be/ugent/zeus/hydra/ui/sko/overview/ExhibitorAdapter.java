@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.ui.sko.overview;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.sko.Exhibitor;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ItemAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemAdapter;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import java8.lang.Iterables;
 

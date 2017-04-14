@@ -4,7 +4,7 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.info.InfoItem;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ItemAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemAdapter;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 
 /**

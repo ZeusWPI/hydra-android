@@ -8,10 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
-import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolderFactory;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ItemAdapter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.MultiSelectListAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectListAdapter;
 import java8.util.function.Function;
 
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;

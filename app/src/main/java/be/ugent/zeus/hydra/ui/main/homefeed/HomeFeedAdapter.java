@@ -20,8 +20,8 @@ import be.ugent.zeus.hydra.ui.main.homefeed.content.schamper.SchamperViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.specialevent.SpecialEventCardViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.urgent.UrgentViewHolder;
 import be.ugent.zeus.hydra.data.models.association.Association;
-import be.ugent.zeus.hydra.ui.common.recyclerview.DiffAdapter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 

@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 
 /**
  * Created by feliciaan on 29/06/16.

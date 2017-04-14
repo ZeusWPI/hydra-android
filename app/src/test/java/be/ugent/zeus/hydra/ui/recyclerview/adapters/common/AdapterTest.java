@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.recyclerview.adapters.common;
 
-import be.ugent.zeus.hydra.ui.common.recyclerview.Adapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.Adapter;
 import java8.util.stream.Collectors;
 import java8.util.stream.IntStreams;
 import org.junit.Before;

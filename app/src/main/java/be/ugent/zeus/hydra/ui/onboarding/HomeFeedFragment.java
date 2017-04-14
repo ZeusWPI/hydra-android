@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.recyclerview.MultiSelectListAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectListAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DefaultMultiSelectListViewHolder;
 
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;

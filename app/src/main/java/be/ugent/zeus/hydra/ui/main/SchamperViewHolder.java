@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.schamper.Article;
-import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import com.squareup.picasso.Picasso;

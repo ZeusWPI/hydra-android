@@ -1,12 +1,12 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview;
+package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
 
 import android.support.annotation.LayoutRes;
 import android.util.Pair;
-import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import java8.util.function.Function;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolderFactory;
 
 import java.util.ArrayList;
 import java.util.List;

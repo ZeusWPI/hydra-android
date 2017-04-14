@@ -1,10 +1,13 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview;
+package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
 
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.SimpleViewHolder;
 
 /**
  * Extension of {@link ItemAdapter} that shows a specified view when there are no items.

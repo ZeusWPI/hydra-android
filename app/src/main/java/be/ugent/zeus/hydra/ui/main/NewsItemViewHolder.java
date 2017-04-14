@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
 import be.ugent.zeus.hydra.ui.NewsArticleActivity;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
-import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 import static be.ugent.zeus.hydra.ui.NewsArticleActivity.PARCEL_NAME;
