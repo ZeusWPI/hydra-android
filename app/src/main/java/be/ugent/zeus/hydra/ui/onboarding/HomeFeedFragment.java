@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectListAdapter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DefaultMultiSelectListViewHolder;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DescriptionMultiSelectListViewHolder;
 
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 
@@ -27,7 +27,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  */
 public class HomeFeedFragment extends SlideFragment {
 
-    private MultiSelectListAdapter<String> adapter;
+    private MultiSelectListAdapter<Tuple> adapter;
     private Map<String, String> valueMapper = new HashMap<>();
 
     @Nullable
@@ -42,21 +42,30 @@ public class HomeFeedFragment extends SlideFragment {
 
         RecyclerView recyclerView = $(view, R.id.recycler_view);
 
-        adapter = new MultiSelectListAdapter<>(R.layout.item_checkbox_string);
-        adapter.setDataViewHolderFactory(itemView -> new DefaultMultiSelectListViewHolder(itemView, adapter));
+        adapter = new MultiSelectListAdapter<>(R.layout.item_checkbox_string_description);
+        adapter.setDataViewHolderFactory(
+                itemView -> new DescriptionMultiSelectListViewHolder<>(
+                        itemView,
+                        adapter,
+                        Tuple::getTitle,
+                        Tuple::getDescription
+                ));
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //TODO improve how this is saved.
         String[] values = getResources().getStringArray(R.array.card_types_names);
+        String[] descriptions = getResources().getStringArray(R.array.card_types_descriptions);
         String[] ints = getResources().getStringArray(R.array.card_types_nr);
 
+        List<Tuple> itemTuples = new ArrayList<>();
         valueMapper.clear();
         for(int i = 0; i < values.length; i++) {
             valueMapper.put(values[i], ints[i]);
+            itemTuples.add(new Tuple(values[i], descriptions[i]));
         }
 
-        adapter.setValues(Arrays.asList(values), true);
+        adapter.setValues(itemTuples, true);
     }
 
     @Override
@@ -65,16 +74,34 @@ public class HomeFeedFragment extends SlideFragment {
 
         //Save the settings.
         //We save which cards we DON'T want, so we need to inverse it.
-        Collection<Pair<String, Boolean>> values = adapter.getItems();
+        Collection<Pair<Tuple, Boolean>> values = adapter.getItems();
         Set<String> disabled = new HashSet<>();
 
-        for(Pair<String, Boolean> value: values) {
+        for(Pair<Tuple, Boolean> value: values) {
             if(!value.second) {
-                disabled.add(valueMapper.get(value.first));
+                disabled.add(valueMapper.get(value.first.getTitle()));
             }
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         preferences.edit().putStringSet(be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment.PREF_DISABLED_CARDS, disabled).apply();
+    }
+
+    private static class Tuple{
+        private final String title;
+        private final String description;
+
+        private Tuple(String title, String description) {
+            this.title = title;
+            this.description = description;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getDescription() {
+            return description;
+        }
     }
 }

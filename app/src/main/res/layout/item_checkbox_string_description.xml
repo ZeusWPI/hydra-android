@@ -13,35 +13,55 @@
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true">
 
-    <FrameLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/list_two_line_padding_vertical"
+        android:paddingRight="@dimen/list_two_line_padding_vertical"
+        android:paddingTop="@dimen/list_two_line_padding_horizontal"
+        android:paddingBottom="@dimen/list_two_line_padding_horizontal"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:baselineAligned="false">
 
-        <TextView
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="@dimen/list_two_line_primary_text_size"
-            android:id="@+id/title_checkbox"
-            tools:text="Name" />
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
 
-    </FrameLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textSize="@dimen/list_two_line_primary_text_size"
+                android:id="@+id/title_checkbox"
+                tools:text="Name" />
 
-    <FrameLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content">
+        </FrameLayout>
 
-        <TextView
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textSize="@dimen/list_two_line_primary_text_size"
-            android:id="@+id/description_checkbox"
-            tools:text="Description" />
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textSize="@dimen/list_two_line_primary_text_size"
+                android:id="@+id/description_checkbox"
+                tools:text="Description" />
+        </FrameLayout>
 
-    </FrameLayout>
+    </LinearLayout>
+
+    <Space
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"/>
+
 
     <CheckBox
         android:id="@+id/checkbox"

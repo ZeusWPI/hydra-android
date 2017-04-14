@@ -50,6 +50,16 @@
         <item>Urgent.fm</item>
     </string-array>
 
+    <string-array name="card_types_descriptions">
+        <item>Restest</item>
+        <item>Activitest</item>
+        <item>Schamperartikeltest</item>
+        <item>Nieuwsitemtest</item>
+        <item>Minerva-aankondigingentest</item>
+        <item>Minerva-agendatest</item>
+        <item>Urgent.fmtest</item>
+    </string-array>
+
     <string-array name="minerva_frequencies_text">
         <item>6 uur</item>
         <item>12 uur</item>
