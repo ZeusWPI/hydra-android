@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.common.recyclerview.MultiSelectListAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DefaultMultiSelectListViewHolder;
+
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 
 import java.util.*;
@@ -40,7 +42,8 @@ public class HomeFeedFragment extends SlideFragment {
 
         RecyclerView recyclerView = $(view, R.id.recycler_view);
 
-        adapter = new MultiSelectListAdapter<>();
+        adapter = new MultiSelectListAdapter<>(R.layout.item_checkbox_string);
+        adapter.setDataViewHolderFactory(itemView -> new DefaultMultiSelectListViewHolder(itemView, adapter));
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

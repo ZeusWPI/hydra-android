@@ -1,28 +1,35 @@
 package be.ugent.zeus.hydra.ui.common.recyclerview;
 
+import android.support.annotation.LayoutRes;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import be.ugent.zeus.hydra.R;
+
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import java8.util.function.Function;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Adapter with items that are checkable.
  *
  * @author Niko Strijbol
  */
-public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, MultiSelectListAdapter.ViewHolder<H>> {
+public class MultiSelectListAdapter<H>
+        extends ItemAdapter<Pair<H, Boolean>, DataViewHolder<Pair<H, Boolean>>> {
 
-    protected Function<H, String> displayNameProvider = Object::toString;
+    private DataViewHolderFactory<Pair<H, Boolean>> dataViewHolderFactory;
+
+    protected final @LayoutRes int resource;
+
+    public MultiSelectListAdapter(int resource) {
+        this.resource = resource;
+    }
+
+    public void setDataViewHolderFactory(DataViewHolderFactory<Pair<H, Boolean>> dataViewHolderFactory){
+        this.dataViewHolderFactory = dataViewHolderFactory;
+    }
 
     /**
      * Set the values to use.
@@ -39,16 +46,6 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
         }
 
         this.setItems(list);
-    }
-
-    /**
-     * Set the provider that converts the element to a display value.
-     *
-     * @param provider The provider.
-     */
-    public void setDisplayNameProvider(Function<H, String> provider) {
-        displayNameProvider = provider;
-        notifyDataSetChanged();
     }
 
     /**
@@ -87,44 +84,7 @@ public class MultiSelectListAdapter<H> extends ItemAdapter<Pair<H, Boolean>, Mul
     }
 
     @Override
-    public ViewHolder<H> onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder<>(ViewUtils.inflate(parent, R.layout.item_checkbox_string), this);
-    }
-
-    /**
-     * Simple view holder.
-     *
-     * Needs to be static because generics are stupid.
-     */
-    protected static class ViewHolder<E> extends DataViewHolder<Pair<E, Boolean>> {
-
-        private CheckBox checkBox;
-        private LinearLayout parent;
-        private MultiSelectListAdapter<E> adapter;
-        private TextView title;
-
-        /**
-         * The constructor is the place to bind views and other non-data related stuff.
-         *
-         * @param itemView The parent view.
-         */
-        public ViewHolder(View itemView, MultiSelectListAdapter<E> adapter) {
-            super(itemView);
-            this.adapter = adapter;
-            checkBox = $(itemView, R.id.checkbox);
-            parent = $(itemView, R.id.parent_layout);
-            title = $(itemView, R.id.title_checkbox);
-        }
-
-        @Override
-        public void populate(Pair<E, Boolean> data) {
-            title.setText(adapter.displayNameProvider.apply(data.first));
-            checkBox.setChecked(data.second);
-            parent.setOnClickListener(v -> {
-                adapter.setChecked(getAdapterPosition());
-                checkBox.toggle();
-            });
-            checkBox.setOnClickListener(v -> adapter.setChecked(getAdapterPosition()));
-        }
+    public DataViewHolder<Pair<H, Boolean>> onCreateViewHolder(ViewGroup parent, int viewType) {
+        return dataViewHolderFactory.newInstance(ViewUtils.inflate(parent, resource));
     }
 }

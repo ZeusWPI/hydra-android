@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
 
 import be.ugent.zeus.hydra.R;
@@ -17,9 +18,13 @@ import be.ugent.zeus.hydra.data.models.association.Association;
 import be.ugent.zeus.hydra.data.network.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.association.AssociationsRequest;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
+import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolderFactory;
 import be.ugent.zeus.hydra.ui.common.recyclerview.MultiSelectListAdapter;
 import be.ugent.zeus.hydra.ui.common.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DefaultMultiSelectListViewHolder;
+
 import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 
@@ -59,7 +64,6 @@ public class AssociationSelectPrefActivity extends BaseActivity {
         recyclerView.requestFocus();
 
         adapter = new SearchableAdapter();
-        adapter.setDisplayNameProvider(Association::getName);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -121,6 +125,17 @@ public class AssociationSelectPrefActivity extends BaseActivity {
     }
 
     private static class SearchableAdapter extends MultiSelectListAdapter<Association> implements SearchView.OnQueryTextListener, SectionTitleProvider {
+
+        private SearchableAdapter(){
+            super(R.layout.item_checkbox_string);
+            this.setDataViewHolderFactory(
+                    itemView -> new DefaultMultiSelectListViewHolder<>(
+                            itemView,
+                            SearchableAdapter.this,
+                            Association::getName
+                    )
+            );
+        }
 
         private Map<Association, Boolean> allData = new HashMap<>();
 
