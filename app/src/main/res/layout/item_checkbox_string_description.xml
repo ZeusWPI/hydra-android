@@ -23,8 +23,7 @@
         android:paddingBottom="@dimen/list_two_line_padding_horizontal"
         android:orientation="vertical"
         android:gravity="center_vertical"
-        android:background="?android:attr/selectableItemBackground"
-        android:clickable="true"
+        android:clickable="false"
         android:baselineAligned="false">
 
         <FrameLayout
