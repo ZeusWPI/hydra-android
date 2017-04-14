@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.ui.common.recyclerview.viewholders;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
@@ -8,9 +7,14 @@ import android.view.View;
  *
  * @author Niko Strijbol
  */
-public class SimpleViewHolder extends RecyclerView.ViewHolder {
+public class SimpleViewHolder extends DataViewHolder<Object> {
 
     public SimpleViewHolder(View itemView) {
         super(itemView);
+    }
+
+    @Override
+    public void populate(Object data) {
+
     }
 }

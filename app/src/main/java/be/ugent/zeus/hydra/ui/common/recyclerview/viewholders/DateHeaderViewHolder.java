@@ -16,7 +16,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  * @author Niko Strijbol
  * @author unknown
  */
-public class DateHeaderViewHolder extends RecyclerView.ViewHolder {
+public class DateHeaderViewHolder extends DataViewHolder<ZonedDateTime> {
 
     private TextView headerText;
 
