@@ -19,10 +19,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/list_two_line_padding_vertical"
         android:paddingRight="@dimen/list_two_line_padding_vertical"
-        android:paddingTop="@dimen/list_two_line_padding_horizontal"
-        android:paddingBottom="@dimen/list_two_line_padding_horizontal"
         android:orientation="vertical"
-        android:gravity="center_vertical"
         android:clickable="false"
         android:baselineAligned="false">
 
