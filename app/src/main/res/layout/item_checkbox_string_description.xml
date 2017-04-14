@@ -21,11 +21,11 @@
         android:paddingRight="@dimen/list_two_line_padding_vertical"
         android:orientation="vertical"
         android:clickable="false"
+        android:layout_weight="1"
         android:baselineAligned="false">
 
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_weight="1"
             android:layout_height="wrap_content">
 
             <TextView
@@ -40,7 +40,6 @@
 
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_weight="1"
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
@@ -48,20 +47,15 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textSize="@dimen/list_two_line_secondary_text_size"
                 android:id="@+id/description_checkbox"
-                tools:text="Description" />
+                tools:text="Description"/>
         </FrameLayout>
 
     </LinearLayout>
-
-    <Space
-        android:layout_height="0dp"
-        android:layout_width="0dp"
-        android:layout_weight="1"/>
 
 
     <CheckBox
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
