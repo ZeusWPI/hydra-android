@@ -14,7 +14,7 @@
         android:paddingRight="@dimen/vertical_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Homefeed"
+        android:text="@string/onboarding_homefeed_title"
         android:gravity="center"
         android:fontFamily="sans-serif-medium"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:text="Kies wat je wilt zien in de homefeed."/>
+        android:text="@string/onboarding_homefeed_description"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
