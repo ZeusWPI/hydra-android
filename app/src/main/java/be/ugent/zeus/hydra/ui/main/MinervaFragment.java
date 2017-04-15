@@ -15,6 +15,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
@@ -37,6 +38,7 @@ import be.ugent.zeus.hydra.ui.common.plugins.ProgressBarPlugin;
 import be.ugent.zeus.hydra.ui.common.plugins.RecyclerViewPlugin;
 import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
 import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.DragCallback;
 
 import java.io.IOException;
 import java.util.List;
@@ -130,6 +132,11 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
         authWrapper = $(view, R.id.auth_wrapper);
 
         plugin.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
+        adapter.setCourseDao(courseDao);
+        ItemTouchHelper.Callback callback = new DragCallback(adapter);
+        ItemTouchHelper helper = new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(plugin.getRecyclerView());
     }
 
     private boolean isLoggedIn() {

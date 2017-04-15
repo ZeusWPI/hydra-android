@@ -160,25 +160,6 @@ public class CourseDao extends Dao implements DiffDao<Course, String> {
     }
 
     /**
-     * Update a course. This should not be called on the UI thread.
-     *
-     * @param course The course.
-     */
-    public void update(final Course course) {
-
-        SQLiteDatabase db = helper.getWritableDatabase();
-        ContentValues values = getValues(course);
-        db.update(
-                CourseTable.TABLE_NAME,
-                values,
-                CourseTable.Columns.ID + " = ?",
-                new String[]{String.valueOf(course.getId())}
-        );
-
-        Log.i(TAG, "Updated course " + course.getId());
-    }
-
-    /**
      * Get values for a course.
      *
      * @param course The course.
