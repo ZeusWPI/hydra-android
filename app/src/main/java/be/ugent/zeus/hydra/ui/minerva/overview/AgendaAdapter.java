@@ -17,7 +17,7 @@ class AgendaAdapter extends EmptyItemAdapter<AgendaItem, AgendaViewHolder> imple
     private static final DateTimeFormatter INT_FORMATTER = DateTimeFormatter.ofPattern("ddMMyyyy");
 
     AgendaAdapter() {
-        super(R.layout.item_no_data);
+        super(R.layout.item_no_data, null);
     }
 
     @Override
