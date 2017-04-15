@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.ui.main;
 
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
@@ -45,7 +44,6 @@ class MinervaCourseAdapter extends DiffSearchableItemAdapter<Course, MinervaCour
     public boolean onItemMove(int fromPosition, int toPosition) {
         Collections.swap(items, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
-        Log.d("OK", "onItemMove: moved from " + fromPosition + " to " + toPosition);
         return true;
     }
 
@@ -64,7 +62,6 @@ class MinervaCourseAdapter extends DiffSearchableItemAdapter<Course, MinervaCour
                     .collect(Collectors.toList());
             courseDao.update(courses);
         });
-        Log.d("OK", "onMoveCompleted: move complete to " + viewHolder.getAdapterPosition());
     }
 
     @Override

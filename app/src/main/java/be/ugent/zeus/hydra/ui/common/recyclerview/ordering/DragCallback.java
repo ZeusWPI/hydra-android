@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.ui.common.recyclerview.ordering;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 
 /**
  * @author Niko Strijbol
@@ -38,7 +37,6 @@ public class DragCallback extends ItemTouchHelper.SimpleCallback {
     @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         super.clearView(recyclerView, viewHolder);
-        Log.d("CLEAR", "cleared!");
         adapter.onMoveCompleted(viewHolder);
     }
 }
