@@ -17,38 +17,27 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/list_two_line_padding_vertical"
-        android:paddingRight="@dimen/list_two_line_padding_vertical"
         android:orientation="vertical"
         android:clickable="false"
         android:layout_weight="1"
         android:baselineAligned="false">
 
-        <FrameLayout
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="@dimen/list_two_line_primary_text_size"
+            android:id="@+id/title_checkbox"
+            tools:text="Name" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textSize="@dimen/list_two_line_primary_text_size"
-                android:id="@+id/title_checkbox"
-                tools:text="Name" />
-
-        </FrameLayout>
-
-        <FrameLayout
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textSize="@dimen/list_two_line_secondary_text_size"
-                android:id="@+id/description_checkbox"
-                tools:text="Description"/>
-        </FrameLayout>
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textSize="@dimen/list_two_line_secondary_text_size"
+            android:id="@+id/description_checkbox"
+            tools:text="Description"/>
+
 
     </LinearLayout>
 
