@@ -22,6 +22,8 @@ public final class Course implements Serializable, Parcelable {
     @SerializedName("academic_year")
     private int academicYear;
 
+    private int order;
+
     public String getId() {
         return id;
     }
@@ -92,6 +94,7 @@ public final class Course implements Serializable, Parcelable {
         dest.writeString(this.tutorName);
         dest.writeString(this.student);
         dest.writeInt(this.academicYear);
+        dest.writeInt(this.order);
     }
 
     public Course() {
@@ -105,6 +108,7 @@ public final class Course implements Serializable, Parcelable {
         this.tutorName = in.readString();
         this.student = in.readString();
         this.academicYear = in.readInt();
+        this.order = in.readInt();
     }
 
     public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>() {
@@ -130,5 +134,13 @@ public final class Course implements Serializable, Parcelable {
     @Override
     public int hashCode() {
         return java8.util.Objects.hash(id);
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 }

@@ -219,6 +219,7 @@ public class AnnouncementDao extends Dao implements DiffDao<Announcement, Intege
                 CourseTable.TABLE_NAME + "." + CourseTable.Columns.TUTOR + " AS " + courseTable + CourseTable.Columns.TUTOR,
                 CourseTable.TABLE_NAME + "." + CourseTable.Columns.STUDENT + " AS " + courseTable + CourseTable.Columns.STUDENT,
                 CourseTable.TABLE_NAME + "." + CourseTable.Columns.ACADEMIC_YEAR + " AS " + courseTable + CourseTable.Columns.ACADEMIC_YEAR,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.ORDER + " AS " + courseTable + CourseTable.Columns.ORDER,
         };
 
         Cursor c = builder.query(
@@ -245,6 +246,7 @@ public class AnnouncementDao extends Dao implements DiffDao<Announcement, Intege
                 .columnTutor(courseTable + CourseTable.Columns.TUTOR)
                 .columnStudent(courseTable + CourseTable.Columns.STUDENT)
                 .columnYear(courseTable + CourseTable.Columns.ACADEMIC_YEAR)
+                .columnOrder(courseTable + CourseTable.Columns.ORDER)
                 .build();
         AnnouncementExtractor aExtractor = new AnnouncementExtractor.Builder(c).defaults().build();
 

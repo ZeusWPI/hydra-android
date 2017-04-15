@@ -7,7 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
-
 import be.ugent.zeus.hydra.data.database.Dao;
 import be.ugent.zeus.hydra.data.database.DiffDao;
 import be.ugent.zeus.hydra.data.database.Utils;
@@ -161,6 +160,25 @@ public class CourseDao extends Dao implements DiffDao<Course, String> {
     }
 
     /**
+     * Update a course. This should not be called on the UI thread.
+     *
+     * @param course The course.
+     */
+    public void update(final Course course) {
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = getValues(course);
+        db.update(
+                CourseTable.TABLE_NAME,
+                values,
+                CourseTable.Columns.ID + " = ?",
+                new String[]{String.valueOf(course.getId())}
+        );
+
+        Log.i(TAG, "Updated course " + course.getId());
+    }
+
+    /**
      * Get values for a course.
      *
      * @param course The course.
@@ -177,6 +195,7 @@ public class CourseDao extends Dao implements DiffDao<Course, String> {
         values.put(CourseTable.Columns.TUTOR, course.getTutorName());
         values.put(CourseTable.Columns.STUDENT, course.getStudent());
         values.put(CourseTable.Columns.ACADEMIC_YEAR, course.getAcademicYear());
+        values.put(CourseTable.Columns.ORDER, course.getOrder());
 
         return values;
     }
@@ -262,7 +281,7 @@ public class CourseDao extends Dao implements DiffDao<Course, String> {
                 null,
                 null,
                 null,
-                CourseTable.Columns.TITLE);
+                CourseTable.Columns.ORDER + " ASC, " + CourseTable.Columns.TITLE + " ASC");
 
         //If the cursor is null, abort
         if (c == null) {

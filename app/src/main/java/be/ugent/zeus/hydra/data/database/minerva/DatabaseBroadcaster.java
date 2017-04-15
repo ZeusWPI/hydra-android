@@ -20,7 +20,7 @@ public class DatabaseBroadcaster {
     /**
      * Broadcast when an announcement is updated in any way.
      */
-    public final static String MINERVA_ANNOUNCEMENT_UPDATED = "be.ugent.zeus.hydra.minerva.db.course.update";
+    public final static String MINERVA_ANNOUNCEMENT_UPDATED = "be.ugent.zeus.hydra.minerva.db.announcement.update";
 
     /**
      * The ID of the updated announcement. Used by {@link #MINERVA_ANNOUNCEMENT_UPDATED}. This is an integer.
