@@ -14,10 +14,12 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public abstract class DiffSearchableItemAdapter<D, V extends DataViewHolder<D>> extends ItemDiffAdapter<D, V> implements SearchView.OnQueryTextListener {
+public abstract class DiffSearchableItemAdapter<D, V extends DataViewHolder<D>> extends ItemDiffAdapter<D, V> implements SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
     private List<D> allData;
     private final Function<D, String> stringifier;
+
+    private boolean isSearching;
 
     protected DiffSearchableItemAdapter(Function<D, String> stringifier) {
         this.stringifier = stringifier;
@@ -36,6 +38,7 @@ public abstract class DiffSearchableItemAdapter<D, V extends DataViewHolder<D>> 
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        this.isSearching = true;
         List<D> filtered = StreamSupport.stream(allData)
                 .filter(s -> stringifier.apply(s).contains(newText.toLowerCase()))
                 .collect(Collectors.toList());
@@ -50,5 +53,18 @@ public abstract class DiffSearchableItemAdapter<D, V extends DataViewHolder<D>> 
             updateItemInternal(items);
             isDiffing = true;
         }
+    }
+
+    @Override
+    public boolean onClose() {
+        this.isSearching = false;
+        return false;
+    }
+
+    /**
+     * @return True if search is active, i.e. the results are filtered by the search.
+     */
+    protected boolean isSearching() {
+        return isSearching;
     }
 }

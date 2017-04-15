@@ -51,4 +51,13 @@ public interface ItemDragHelperAdapter {
      * @see ItemTouchHelper.Callback#clearView(RecyclerView, RecyclerView.ViewHolder)
      */
     void onMoveCompleted(RecyclerView.ViewHolder viewHolder);
+
+    /**
+     * Enables the adapter to temporarily disable dragging by long pressing.
+     *
+     * @return True if long pressing is enabled.
+     *
+     * @see ItemTouchHelper.Callback#isLongPressDragEnabled()
+     */
+    boolean isLongPressDragEnabled();
 }

@@ -66,4 +66,9 @@ class MinervaCourseAdapter extends DiffSearchableItemAdapter<Course, MinervaCour
         });
         Log.d("OK", "onMoveCompleted: move complete to " + viewHolder.getAdapterPosition());
     }
+
+    @Override
+    public boolean isLongPressDragEnabled() {
+        return !isSearching();
+    }
 }

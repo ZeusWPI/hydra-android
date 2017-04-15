@@ -31,6 +31,11 @@ public class DragCallback extends ItemTouchHelper.SimpleCallback {
     }
 
     @Override
+    public boolean isLongPressDragEnabled() {
+        return adapter.isLongPressDragEnabled();
+    }
+
+    @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         super.clearView(recyclerView, viewHolder);
         Log.d("CLEAR", "cleared!");

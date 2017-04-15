@@ -205,6 +205,7 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
             inflater.inflate(R.menu.menu_minerva, menu);
             SearchView view = (SearchView) menu.findItem(R.id.action_search).getActionView();
             view.setOnQueryTextListener(adapter);
+            view.setOnCloseListener(adapter);
         }
     }
 
