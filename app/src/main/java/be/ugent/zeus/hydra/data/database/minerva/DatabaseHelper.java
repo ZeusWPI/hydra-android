@@ -125,7 +125,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void upgradeFrom7to8(SQLiteDatabase db) {
         // Add the column
         db.execSQL("ALTER TABLE " + CourseTable.TABLE_NAME + " ADD COLUMN " + CourseTable.Columns.ORDER + " INTEGER NOT NULL DEFAULT 0");
-        // Add data
-        db.execSQL("");
     }
 }
