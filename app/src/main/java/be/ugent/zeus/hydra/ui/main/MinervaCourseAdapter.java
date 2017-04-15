@@ -4,7 +4,7 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.ui.common.recyclerview.DiffSearchableItemAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffSearchableItemAdapter;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 
 /**

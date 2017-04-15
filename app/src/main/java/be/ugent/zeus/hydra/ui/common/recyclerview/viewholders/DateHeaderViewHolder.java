@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview;
+package be.ugent.zeus.hydra.ui.common.recyclerview.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -16,7 +16,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  * @author Niko Strijbol
  * @author unknown
  */
-public class DateHeaderViewHolder extends RecyclerView.ViewHolder {
+public class DateHeaderViewHolder extends DataViewHolder<ZonedDateTime> {
 
     private TextView headerText;
 

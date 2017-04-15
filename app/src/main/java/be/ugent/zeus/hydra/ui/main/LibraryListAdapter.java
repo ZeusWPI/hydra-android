@@ -4,7 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.library.Library;
-import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyItemAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.EmptyItemAdapter;
 
 /**
  * Adapter for a list of libraries, with support for showing a message when there are no libraries.

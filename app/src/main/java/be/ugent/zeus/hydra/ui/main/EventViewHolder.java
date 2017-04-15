@@ -8,7 +8,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.EventDetailActivity;
 import be.ugent.zeus.hydra.data.models.association.Event;
-import be.ugent.zeus.hydra.ui.common.recyclerview.DataViewHolder;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;

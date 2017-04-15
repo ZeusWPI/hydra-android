@@ -43,11 +43,21 @@
     <string-array name="card_types_names">
         <item>Restomenu</item>
         <item>Activiteiten</item>
-        <item>Schamperartikel</item>
-        <item>Nieuwsitem</item>
-        <item>Minerva-aankondigingen</item>
-        <item>Minerva-agenda</item>
+        <item>Schamper</item>
+        <item>Nieuws</item>
+        <item>Minerva: Aankondigingen</item>
+        <item>Minerva: Agenda</item>
         <item>Urgent.fm</item>
+    </string-array>
+
+    <string-array name="card_types_descriptions">
+        <item>De dagelijkse menu voor alle UGent-resto\'s.</item>
+        <item>De activiteiten van je favoriete verenigingen.</item>
+        <item>Schamper dailies.</item>
+        <item>Het nieuws rechtstreeks van de UGent.</item>
+        <item>Je aankondigingen net zoals op Minerva.</item>
+        <item>Je agenda net zoals op Minerva.</item>
+        <item>De jongerenradio van (U)Gent en omstreken.</item>
     </string-array>
 
     <string-array name="minerva_frequencies_text">

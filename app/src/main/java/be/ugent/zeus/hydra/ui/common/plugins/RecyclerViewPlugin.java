@@ -9,7 +9,7 @@ import android.view.View;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.network.Request;
 import be.ugent.zeus.hydra.ui.common.plugins.loader.LoaderCallback;
-import be.ugent.zeus.hydra.ui.common.recyclerview.Adapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.Adapter;
 import java8.util.function.BiFunction;
 import java8.util.function.Consumer;
 import java8.util.function.Consumers;

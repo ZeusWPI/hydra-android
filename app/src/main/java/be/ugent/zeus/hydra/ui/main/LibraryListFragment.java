@@ -10,7 +10,7 @@ import android.view.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
-import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyItemAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.EmptyItemAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.TextCallback;
 import be.ugent.zeus.hydra.ui.common.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;

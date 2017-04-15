@@ -23,6 +23,10 @@
 
     <string name="title_activity_association_activity_detail">Evenement</string>
 
+    <!-- Onboarding -->
+    <string name="onboarding_homefeed_title">Homefeed</string>
+    <string name="onboarding_homefeed_description">Kies wat je wilt zien in jouw homefeed.</string>
+
     <!-- Settings -->
     <string name="pref_daily_notifications_title">Notificaties (experimenteel)</string>
     <string name="pref_daily_notifications_checkbox_summary">Geef dagelijks een notificatie over wat er op het menu staat in de resto.</string>

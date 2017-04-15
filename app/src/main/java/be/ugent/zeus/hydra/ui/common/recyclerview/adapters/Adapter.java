@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview;
+package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
