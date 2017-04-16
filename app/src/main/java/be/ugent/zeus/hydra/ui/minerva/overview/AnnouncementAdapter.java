@@ -14,7 +14,7 @@ import be.ugent.zeus.hydra.ui.common.ViewUtils;
 class AnnouncementAdapter extends EmptyItemAdapter<Announcement, AnnouncementViewHolder> {
 
     AnnouncementAdapter() {
-        super(R.layout.item_no_data);
+        super(R.layout.item_no_data, null);
     }
 
     @Override

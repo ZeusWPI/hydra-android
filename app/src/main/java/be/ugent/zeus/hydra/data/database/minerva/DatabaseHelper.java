@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
@@ -24,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
 
     private static final String NAME = "minervaDatabase.db";
-    private static final int VERSION = 7;
+    private static final int VERSION = 8;
 
     //Singleton - can we avoid this? Should we? I don't know.
     private static DatabaseHelper instance;
@@ -55,15 +56,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        if (oldVersion != newVersion) {
+            Log.i(TAG, "Upgrading database from " + oldVersion + " to " + newVersion);
+        }
+
         if (oldVersion < 7) {
             upgradeFrom6to7(db);
+        }
+        if (oldVersion < 8) {
+            upgradeFrom7to8(db);
         }
     }
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Manually use table name, since the code might not be available.
+        if (oldVersion >= 8) {
+            db.execSQL("ALTER TABLE " + CourseTable.TABLE_NAME + " DROP COLUMN ordering");
+        }
         if (oldVersion >= 7) {
-            // Manually use table name, since the code might not be available.
             db.execSQL("ALTER TABLE " + AgendaTable.TABLE_NAME + " DROP COLUMN calendar_id");
         }
     }
@@ -108,5 +120,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             bundle.putBoolean(Adapter.EXTRA_SCHEDULE_AGENDA, true);
             SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
         }
+    }
+
+    private void upgradeFrom7to8(SQLiteDatabase db) {
+        // Add the column
+        db.execSQL("ALTER TABLE " + CourseTable.TABLE_NAME + " ADD COLUMN " + CourseTable.Columns.ORDER + " INTEGER NOT NULL DEFAULT 0");
     }
 }

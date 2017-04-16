@@ -37,8 +37,8 @@ public class LibraryListFragment extends PluginFragment {
     public static final String PREF_LIBRARY_FAVOURITES = "pref_library_favourites";
 
     private final RvJoiner joiner = new RvJoiner();
-    private final LibraryListAdapter favourites = new LibraryListAdapter();
-    private final LibraryListAdapter all = new LibraryListAdapter();
+    private final LibraryListAdapter favourites = new LibraryListAdapter(joiner);
+    private final LibraryListAdapter all = new LibraryListAdapter(joiner);
     private final RequestPlugin<Pair<List<Library>, List<Library>>> plugin =
             new RequestPlugin<>((Function<Boolean, LoaderCallback<Pair<List<Library>, List<Library>>>>) b -> args -> new LibraryLoader(getContext(), b));
 

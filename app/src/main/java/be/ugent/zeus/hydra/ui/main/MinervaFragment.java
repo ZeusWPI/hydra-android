@@ -14,7 +14,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
@@ -37,6 +39,8 @@ import be.ugent.zeus.hydra.ui.common.plugins.ProgressBarPlugin;
 import be.ugent.zeus.hydra.ui.common.plugins.RecyclerViewPlugin;
 import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
 import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.DragCallback;
+import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.OnStartDragListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -49,7 +53,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  * @author silox
  * @author Niko Strijbol
  */
-public class MinervaFragment extends PluginFragment implements LoaderCallback<List<Course>> {
+public class MinervaFragment extends PluginFragment implements LoaderCallback<List<Course>>, OnStartDragListener {
 
     private static final String TAG = "MinervaFragment";
 
@@ -58,9 +62,10 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
     private View authWrapper;
     private Snackbar syncBar;
 
-    private MinervaCourseAdapter adapter = new MinervaCourseAdapter();
+    private MinervaCourseAdapter adapter = new MinervaCourseAdapter(this);
     private AccountManager manager;
     private CourseDao courseDao;
+    private ItemTouchHelper helper;
 
     private RecyclerViewPlugin<Course> plugin =
             new RecyclerViewPlugin<>(this, adapter);
@@ -130,6 +135,11 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
         authWrapper = $(view, R.id.auth_wrapper);
 
         plugin.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
+        adapter.setCourseDao(courseDao);
+        ItemTouchHelper.Callback callback = new DragCallback(adapter);
+        helper = new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(plugin.getRecyclerView());
     }
 
     private boolean isLoggedIn() {
@@ -198,6 +208,7 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
             inflater.inflate(R.menu.menu_minerva, menu);
             SearchView view = (SearchView) menu.findItem(R.id.action_search).getActionView();
             view.setOnQueryTextListener(adapter);
+            view.setOnCloseListener(adapter);
         }
     }
 
@@ -308,5 +319,10 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
     @Override
     public Loader<LoaderResult<List<Course>>> getLoader(Bundle args) {
         return new MinervaCoursesLoader(getContext(), courseDao);
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        helper.startDrag(viewHolder);
     }
 }

@@ -24,6 +24,7 @@ class CourseExtractor {
     private int columnTutor;
     private int columnStudent;
     private int columnYear;
+    private int columnOrder;
 
     private final Cursor cursor;
 
@@ -45,6 +46,7 @@ class CourseExtractor {
         course.setTutorName(cursor.getString(columnTutor));
         course.setStudent(cursor.getString(columnStudent));
         course.setAcademicYear(cursor.getInt(columnYear));
+        course.setOrder(cursor.getInt(columnOrder));
 
         return course;
     }
@@ -77,6 +79,10 @@ class CourseExtractor {
         return columnYear;
     }
 
+    public int getColumnOrder() {
+        return columnOrder;
+    }
+
     /**
      * Builder class.
      */
@@ -104,6 +110,7 @@ class CourseExtractor {
             extractor.columnTutor = extractor.cursor.getColumnIndexOrThrow(CourseTable.Columns.TUTOR);
             extractor.columnStudent = extractor.cursor.getColumnIndexOrThrow(CourseTable.Columns.STUDENT);
             extractor.columnYear = extractor.cursor.getColumnIndexOrThrow(CourseTable.Columns.ACADEMIC_YEAR);
+            extractor.columnOrder = extractor.cursor.getColumnIndexOrThrow(CourseTable.Columns.ORDER);
 
             return this;
         }
@@ -144,6 +151,11 @@ class CourseExtractor {
 
         public Builder columnYear(String columnYear) {
             extractor.columnYear = extract(columnYear);
+            return this;
+        }
+
+        public Builder columnOrder(String columnOrder) {
+            extractor.columnOrder = extract(columnOrder);
             return this;
         }
 

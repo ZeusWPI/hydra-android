@@ -1,13 +1,14 @@
 package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
 
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.SimpleViewHolder;
+import su.j2e.rvjoiner.RvJoiner;
 
 /**
  * Extension of {@link ItemAdapter} that shows a specified view when there are no items.
@@ -20,11 +21,14 @@ public abstract class EmptyItemAdapter<E, V extends DataViewHolder<E>> extends A
 
     public static final int EMPTY_TYPE = 1;
 
+    private RvJoiner rvJoiner;
+
     @LayoutRes
     private int emptyViewId;
 
-    public EmptyItemAdapter(@LayoutRes int emptyViewId) {
+    public EmptyItemAdapter(@LayoutRes int emptyViewId, @Nullable RvJoiner rvJoiner) {
         this.emptyViewId = emptyViewId;
+        this.rvJoiner = rvJoiner;
     }
 
     /**
@@ -61,9 +65,18 @@ public abstract class EmptyItemAdapter<E, V extends DataViewHolder<E>> extends A
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        // We use instance of here instead of getItemType(), because this makes it easy to work with RvJoiner.
-        if (holder instanceof DataViewHolder) {
-            @SuppressWarnings("unchecked")
+
+        int type;
+        if (rvJoiner != null) {
+            // If we are using RvJoiner, we must get the real type, not the joined one.
+            // See the repository for more information.
+            type = rvJoiner.getPositionInfo(holder.getAdapterPosition()).realType;
+        } else {
+            type = holder.getItemViewType();
+        }
+
+        if (type != EMPTY_TYPE && holder instanceof DataViewHolder) {
+            @SuppressWarnings("unchecked") // For the generics
             DataViewHolder<E> viewHolder = (DataViewHolder<E>) holder;
             viewHolder.populate(items.get(position));
         }

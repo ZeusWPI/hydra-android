@@ -2,15 +2,17 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="?android:colorBackground"
+    android:foreground="?android:attr/selectableItemBackground"
     android:paddingLeft="@dimen/list_two_line_padding_vertical"
     android:paddingRight="@dimen/list_two_line_padding_vertical"
     android:paddingTop="@dimen/list_two_line_padding_horizontal"
     android:paddingBottom="@dimen/list_two_line_padding_horizontal"
-    android:orientation="horizontal"
-    android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:baselineAligned="false">
 
@@ -37,34 +39,43 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/drag_handle"
+        android:layout_gravity="end"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:scaleType="center"
+        android:tint="@color/ugent_blue_lighter"
+        app:srcCompat="@drawable/ic_drag_handle" />
+
     <!--<FrameLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent">-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent">-->
 
-        <!--<ImageView-->
-            <!--android:id="@+id/arrow_icon"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:srcCompat="@drawable/ic_keyboard_arrow_down"-->
-            <!--android:tint="@color/ugent_blue_dark"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:visibility="gone"-->
-            <!--tools:ignore="MissingPrefix" />-->
+    <!--<ImageView-->
+    <!--android:id="@+id/arrow_icon"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:srcCompat="@drawable/ic_keyboard_arrow_down"-->
+    <!--android:tint="@color/ugent_blue_dark"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:visibility="gone"-->
+    <!--tools:ignore="MissingPrefix" />-->
 
-        <!--<ImageView-->
-            <!--android:id="@+id/error_icon"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--app:srcCompat="@drawable/ic_error"-->
-            <!--android:tint="@color/ugent_blue_dark"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:visibility="gone"-->
-            <!--tools:ignore="MissingPrefix" />-->
+    <!--<ImageView-->
+    <!--android:id="@+id/error_icon"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:srcCompat="@drawable/ic_error"-->
+    <!--android:tint="@color/ugent_blue_dark"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:visibility="gone"-->
+    <!--tools:ignore="MissingPrefix" />-->
 
-        <!--<ProgressBar-->
-            <!--android:id="@+id/progress_bar"-->
-            <!--android:layout_width="32dp"-->
-            <!--android:layout_height="32dp" />-->
+    <!--<ProgressBar-->
+    <!--android:id="@+id/progress_bar"-->
+    <!--android:layout_width="32dp"-->
+    <!--android:layout_height="32dp" />-->
 
     <!--</FrameLayout>-->
 

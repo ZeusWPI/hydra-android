@@ -24,6 +24,7 @@ public final class CourseTable {
         String TUTOR = "tutor";
         String STUDENT = "student";
         String ACADEMIC_YEAR = "academic_year";
+        String ORDER = "ordering";
     }
 
     /**
@@ -37,6 +38,7 @@ public final class CourseTable {
         Column tutor = new Column(Columns.TUTOR, ColumnType.TEXT);
         Column student = new Column(Columns.STUDENT, ColumnType.TEXT);
         Column year = new Column(Columns.ACADEMIC_YEAR, ColumnType.INTEGER);
+        Column order = new Column(Columns.ORDER, ColumnType.INTEGER, ColumnConstraint.NOT_NULL, "0");
 
         return SQLiteQueryBuilder.create().table(TABLE_NAME)
                 .column(id)
@@ -46,6 +48,7 @@ public final class CourseTable {
                 .column(tutor)
                 .column(student)
                 .column(year)
+                .column(order)
                 .build();
     }
 

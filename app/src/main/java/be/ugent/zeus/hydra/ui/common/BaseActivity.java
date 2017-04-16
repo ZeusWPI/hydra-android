@@ -100,7 +100,7 @@ public abstract class BaseActivity extends PluginActivity {
      * @param ids  The ids of the icon.
      */
     public static void tintToolbarIcons(ActionBar toolbar, Menu menu, int... ids) {
-        int color = ViewUtils.getColor(toolbar.getThemedContext(), android.R.attr.textColorPrimary);
+        int color = ViewUtils.getColor(toolbar.getThemedContext(), R.attr.colorControlNormal);
         for (int id : ids) {
             Drawable drawable = DrawableCompat.wrap(menu.findItem(id).getIcon());
             DrawableCompat.setTint(drawable, color);

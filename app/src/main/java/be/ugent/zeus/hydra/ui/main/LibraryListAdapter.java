@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.EmptyItemAdapter;
+import su.j2e.rvjoiner.RvJoiner;
 
 /**
  * Adapter for a list of libraries, with support for showing a message when there are no libraries.
@@ -13,8 +14,8 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.EmptyItemAdapter;
  */
 class LibraryListAdapter extends EmptyItemAdapter<Library, LibraryViewHolder> {
 
-    LibraryListAdapter() {
-        super(R.layout.item_no_data);
+    LibraryListAdapter(RvJoiner rvJoiner) {
+        super(R.layout.item_no_data, rvJoiner);
     }
 
     @Override

@@ -7,7 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
-
 import be.ugent.zeus.hydra.data.database.Dao;
 import be.ugent.zeus.hydra.data.database.DiffDao;
 import be.ugent.zeus.hydra.data.database.Utils;
@@ -177,6 +176,7 @@ public class CourseDao extends Dao implements DiffDao<Course, String> {
         values.put(CourseTable.Columns.TUTOR, course.getTutorName());
         values.put(CourseTable.Columns.STUDENT, course.getStudent());
         values.put(CourseTable.Columns.ACADEMIC_YEAR, course.getAcademicYear());
+        values.put(CourseTable.Columns.ORDER, course.getOrder());
 
         return values;
     }
@@ -262,7 +262,7 @@ public class CourseDao extends Dao implements DiffDao<Course, String> {
                 null,
                 null,
                 null,
-                CourseTable.Columns.TITLE);
+                CourseTable.Columns.ORDER + " ASC, " + CourseTable.Columns.TITLE + " ASC");
 
         //If the cursor is null, abort
         if (c == null) {
