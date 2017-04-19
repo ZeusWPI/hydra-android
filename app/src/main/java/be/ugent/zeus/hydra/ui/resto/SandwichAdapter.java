@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.resto;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.SparseBooleanArray;
@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.resto.Sandwich;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.Adapter;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import com.kyo.expandablelayout.ExpandableLayout;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.Adapter;
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
@@ -53,22 +53,20 @@ public class SandwichAdapter extends Adapter<Sandwich, SandwichAdapter.SandwichH
         //Get sandwich from data.
         Sandwich sandwich = items.get(position);
 
-        Resources r = holder.itemView.getResources();
+        Context c = holder.itemView.getContext();
 
         //Set the data.
         holder.name.setText(sandwich.name);
-        holder.mediumPrice.setText(String.format(r.getString(R.string.sandwich_price_medium), sandwich.getPriceMedium()));
-        holder.smallPrice.setText(String.format(r.getString(R.string.sandwich_price_small), sandwich.getPriceSmall()));
+        holder.mediumPrice.setText(String.format(c.getString(R.string.sandwich_price_medium), sandwich.getPriceMedium()));
+        holder.smallPrice.setText(String.format(c.getString(R.string.sandwich_price_small), sandwich.getPriceSmall()));
         String ingredients = TextUtils.join(", ", sandwich.getIngredients());
-        holder.ingredients.setText(String.format(r.getString(R.string.sandwich_ingredients), ingredients));
-        holder.expandableLayout.setExpanded(expanded.get(position));
-        holder.expandableLayout.setOnClickListener(v -> {
-            if(holder.expandableLayout.isExpanded()) {
-                expanded.delete(holder.getAdapterPosition());
-            } else {
-                expanded.put(holder.getAdapterPosition(), true);
-            }
-            holder.expandableLayout.toggleExpansion();
+        holder.ingredients.setText(String.format(c.getString(R.string.sandwich_ingredients), ingredients));
+
+        holder.expandableLayout.setExpanded(expanded.get(position), false);
+
+        holder.itemView.setOnClickListener(v -> {
+            expanded.put(holder.getAdapterPosition(), !holder.expandableLayout.isExpanded());
+            holder.expandableLayout.toggle();
         });
     }
 }
