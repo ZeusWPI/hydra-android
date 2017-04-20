@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -12,62 +11,62 @@
     android:gravity="top"
     android:background="?android:attr/selectableItemBackground">
 
-    <com.kyo.expandablelayout.ExpandableLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sandwich_name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textSize="@dimen/list_two_line_primary_text_size"
+                tools:text="Naam van het broodje" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="top"
+            android:gravity="end">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sandwich_price_medium"
+                android:textSize="@dimen/list_two_line_primary_text_size"
+                android:textIsSelectable="true"
+                tools:text="Prijs groot" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sandwich_price_small"
+                android:textIsSelectable="true"
+                tools:text="Prijs klein" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <net.cachapa.expandablelayout.ExpandableLayout
         android:id="@+id/expandable_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sandwich_name"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textSize="@dimen/list_two_line_primary_text_size"
-                    tools:text="Naam van het broodje" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="top"
-                android:gravity="end">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sandwich_price_medium"
-                    android:textSize="@dimen/list_two_line_primary_text_size"
-                    android:textIsSelectable="true"
-                    tools:text="Prijs groot" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sandwich_price_small"
-                    android:textIsSelectable="true"
-                    tools:text="Prijs klein" />
-            </LinearLayout>
-        </LinearLayout>
 
         <TextView
             android:id="@+id/sandwich_ingredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:canExpand="true"
             android:textIsSelectable="true" />
 
-    </com.kyo.expandablelayout.ExpandableLayout>
+    </net.cachapa.expandablelayout.ExpandableLayout>
+
 </LinearLayout>

@@ -58,23 +58,11 @@
   license: The Apache Software License, Version 2.0
   url: https://github.com/JakeWharton/ThreeTenABP
 
-- artifact: com.futuremind.recyclerfastscroll:fastscroll:+
-  name: Recycler Bubble
-  copyrightHolder: Future Mind
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/FutureMind/recycler-fast-scroll
-
 - artifact: com.heinrichreimersoftware:material-intro:+
   name: Material Intro
   copyrightHolder: Heinrich Reimer
   license: The Apache Software License, Version 2.0
   url: https://github.com/HeinrichReimer/material-intro
-
-- artifact: com.github.KyoSherlock:expandablelayout:+
-  name: ExpandableLayout
-  copyrightHolder: KyoSherlock
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/KyoSherlock/ExpandableLayout
 
 - artifact: com.squareup.leakcanary:leakcanary-android-no-op:+
   name: No op LeakCanary for Android
