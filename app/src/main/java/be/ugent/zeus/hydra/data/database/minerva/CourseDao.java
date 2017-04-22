@@ -3,13 +3,11 @@ package be.ugent.zeus.hydra.data.database.minerva;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import be.ugent.zeus.hydra.data.database.Dao;
 import be.ugent.zeus.hydra.data.database.DiffDao;
-import be.ugent.zeus.hydra.data.database.Utils;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 
 import java.util.*;
@@ -60,56 +58,6 @@ public class CourseDao extends Dao implements DiffDao<Course, String> {
     }
 
     /**
-     * Synchronise a collection of courses with the database. The end result is that the database will only contain
-     * the provided courses. Data that is not present in the courses will be retained.
-     *
-     * @deprecated This method does not belong in a dao.
-     *
-     * @param courses The courses to insert.
-     */
-    @Deprecated
-    public void synchronise(Collection<Course> courses) throws SQLException {
-
-        //Get existing courses.
-        Set<String> present = getIds();
-
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        try {
-            db.beginTransaction();
-
-            //Delete old courses
-            Collection<String> idCollection = getRemovable(present, courses);
-            String[] ids = new String[idCollection.size()];
-            ids = idCollection.toArray(ids);
-            String questions = Utils.commaSeparatedQuestionMarks(idCollection.size());
-
-            int rows = db.delete(CourseTable.TABLE_NAME, CourseTable.Columns.ID + " IN (" + questions + ")", ids);
-            Log.d(TAG, "Removed " + rows + " stale courses.");
-
-            for (Course course: courses ) {
-
-                //Get the values
-                ContentValues value = getValues(course);
-
-                //If the course is present, we update it's rows, otherwise we insert it to the database.
-                if(present.contains(course.getId())) {
-                    value.remove(CourseTable.Columns.ID); //We don't need to set this
-                    db.update(CourseTable.TABLE_NAME, value, CourseTable.Columns.ID + " = ?", new String[]{course.getId()});
-                }
-                //Add new course
-                else {
-                    db.insertOrThrow(CourseTable.TABLE_NAME, null, value);
-                }
-            }
-
-            db.setTransactionSuccessful();
-        } finally {
-            db.endTransaction();
-        }
-    }
-
-    /**
      * Delete all calendar items that match the given ID's. If the collection is null, everything will be deleted.
      *
      * @param ids The ID's to delete, or null for everything.
@@ -140,6 +88,15 @@ public class CourseDao extends Dao implements DiffDao<Course, String> {
      * @param items The items to update.
      */
     public void update(Collection<Course> items) {
+        update(items, false);
+    }
+
+    /**
+     * Update existing items. Every column will be replaced with the value from the corresponding object.
+     *
+     * @param items The items to update.
+     */
+    public void update(Collection<Course> items, boolean keepOrder) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -149,6 +106,9 @@ public class CourseDao extends Dao implements DiffDao<Course, String> {
             for (Course item: items) {
                 ContentValues values = getValues(item);
                 values.remove(CourseTable.Columns.ID);
+                if (!keepOrder) {
+                    values.remove(CourseTable.Columns.ORDER);
+                }
                 db.update(CourseTable.TABLE_NAME, values, where(CourseTable.Columns.ID), args(item.getId()));
             }
 
@@ -208,38 +168,6 @@ public class CourseDao extends Dao implements DiffDao<Course, String> {
         }
 
         return result;
-    }
-
-    /**
-     * Get the list of ids that are not in the given {@code courses}. The default usage for this is the find stale
-     * courses that are no longer on Minerva, but still in our database.
-     *
-     * This method runs in linear time: O(n), with n = size(courses).
-     *
-     * @param ids Ids of courses in the database.
-     * @param courses Courses from the Minerva servers.
-     *
-     * @return Local courses that can be deleted.
-     */
-    private static Set<String> getRemovable(final Set<String> ids, final Collection<Course> courses) {
-       /*
-        * We copy the set of ids because we modify it. Logically we would iterate the ids and check
-        * if each id is present in the courses. Because of how the Java collections work, we can't do that without
-        * iterating the whole collection for every id. If size(ids) = n and size(courses) = m, this would result
-        * in a complexity of O(n^m).
-        *
-        * Instead we iterate the courses, which is O(m). We check if the set of ids contains it, O(1), and if it
-        * does, we remove it from the set O(1). The result is thus O(m).
-        */
-        Set<String> removable = new HashSet<>(ids);
-
-        for (Course course: courses) {
-            if(removable.contains(course.getId())) {
-                removable.remove(course.getId());
-            }
-        }
-
-        return removable;
     }
 
     /**
