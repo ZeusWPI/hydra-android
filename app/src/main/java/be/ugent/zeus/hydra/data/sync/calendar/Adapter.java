@@ -189,8 +189,11 @@ public class Adapter extends MinervaAdapter {
         Collection<Long> toRemove = dao.getCalendarIdsForIds(diff.getStaleIds());
 
         for (long id: toRemove) {
-            Uri itemUri = ContentUris.withAppendedId(uri, id);
-            resolver.delete(itemUri, null, null);
+            // We cannot delete non-existing values.
+            if (id != -1) {
+                Uri itemUri = ContentUris.withAppendedId(uri, id);
+                resolver.delete(itemUri, null, null);
+            }
         }
 
         List<AgendaItem> items = new ArrayList<>(diff.getUpdated());
