@@ -63,7 +63,7 @@ class MinervaCourseAdapter extends DiffSearchableItemAdapter<Course, MinervaCour
                         return course1;
                     })
                     .collect(Collectors.toList());
-            courseDao.update(courses);
+            courseDao.update(courses, true);
         });
     }
 
