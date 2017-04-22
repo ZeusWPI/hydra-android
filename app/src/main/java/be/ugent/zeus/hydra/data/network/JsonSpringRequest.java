@@ -42,7 +42,11 @@ public abstract class JsonSpringRequest<R> implements Request<R> {
     @Override
     public R performRequest() throws RequestFailureException {
         try {
-            return createRestTemplate().getForEntity(getAPIUrl(), clazz).getBody();
+            R result = createRestTemplate().getForEntity(getAPIUrl(), clazz).getBody();
+            if (result == null) {
+                throw new RequestFailureException("The result of the request was null.");
+            }
+            return result;
         } catch (ResourceAccessException e) {
             throw new IOFailureException(e);
         } catch (RestClientException e) {
