@@ -4,11 +4,14 @@ import android.os.Build;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.util.Log;
 
 /**
  * @author Niko Strijbol
  */
 public class Utils {
+
+    private static final String TAG = "HtmlUtils";
 
     /**
      * Helper with older version support. If the html is null, an empty Spannable will be returned.
@@ -25,8 +28,13 @@ public class Utils {
         }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            //noinspection deprecation
-            return Html.fromHtml(html, getter, new HtmlTagHandler());
+            try {
+                return Html.fromHtml(html, getter, new HtmlTagHandler());
+            } catch (RuntimeException e) {
+                // Older versions crash sometimes, so try again without custom tags.
+                Log.e(TAG, "Error while reading html.", e);
+                return Html.fromHtml(html, getter, null);
+            }
         } else {
             return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY, getter, new HtmlTagHandler());
         }
