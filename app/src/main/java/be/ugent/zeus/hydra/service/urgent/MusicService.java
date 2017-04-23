@@ -118,7 +118,7 @@ public class MusicService extends Service implements
 
         //Set the wake locks.
         mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-        wifiLock = ((WifiManager) getSystemService(Context.WIFI_SERVICE)).createWifiLock(WifiManager.WIFI_MODE_FULL, WIFI_LOCK_TAG);
+        wifiLock = ((WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE)).createWifiLock(WifiManager.WIFI_MODE_FULL, WIFI_LOCK_TAG);
 
         ComponentName receiver = new ComponentName(getPackageName(), MediaButtonEventReceiver.class.getName());
         mediaSession = new MediaSessionCompat(this, TAG, receiver, null);
