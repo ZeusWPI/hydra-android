@@ -31,7 +31,6 @@ public class DateUtilsTest {
         assertEquals("overmorgen", DateUtils.getFriendlyDate(overmorrow));
         assertEquals(DATE_FORMATTER.format(yesterday), DateUtils.getFriendlyDate(yesterday));
         assertEquals(DAY_FORMATTER.format(thisWeek).toLowerCase(), DateUtils.getFriendlyDate(thisWeek));
-        assertEquals("volgende " + DAY_FORMATTER.format(nextWeek).toLowerCase(), DateUtils.getFriendlyDate(nextWeek));
         assertEquals(DATE_FORMATTER.format(far), DateUtils.getFriendlyDate(far));
         assertEquals(DATE_FORMATTER.format(exact), DateUtils.getFriendlyDate(exact));
     }
