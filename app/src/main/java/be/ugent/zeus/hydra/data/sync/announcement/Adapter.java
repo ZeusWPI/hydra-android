@@ -155,35 +155,36 @@ public class Adapter extends MinervaAdapter {
         final boolean showEmail = pref.getBoolean(MinervaFragment.PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL, MinervaFragment.PREF_DEFAULT_ANNOUNCEMENT_NOTIFICATION_EMAIL);
 
         ZonedDateTime now = ZonedDateTime.now();
-        // Modify updated
+
+        // Synchronise the read status for existing announcements.
         for (Announcement announcement: diff.getUpdated()) {
             announcement.setCourse(course);
-            // If the announcement is already read, recover the existing read date
-            if (!unReadOnes.contains(announcement)) {
-                if (existing.containsKey(announcement.getItemId())) {
-                    announcement.setRead(existing.get(announcement.getItemId()));
-                } else {
-                    announcement.setRead(now);
-                }
+            if (unReadOnes.contains(announcement)) {
+                // Recover the read date from the existing announcement. Otherwise the data will be lost.
+                announcement.setRead(existing.get(announcement.getItemId()));
             } else {
-                if (showEmail) {
-                    unread.add(announcement);
-                }
+                // Apply the read changes from Minerva, as the announcement might still be marked
+                // unread in our local database.
+                announcement.setRead(now);
             }
         }
 
+        // Synchronise the read statement for new announcements, and filter potential notifications.
         for (Announcement announcement: diff.getNew()) {
             announcement.setCourse(course);
-            if (!unReadOnes.contains(announcement)) {
-                announcement.setRead(now);
-            } else {
-                if (showEmail) {
+            if (unReadOnes.contains(announcement)) {
+                // The announcement is new and not read, so this a potential notification.
+                if (showEmail || !announcement.isEmailSent()) {
+                    // The announcement did not have an e-mail, or we must notify for e-mails also.
                     unread.add(announcement);
                 }
+            } else {
+                // The announcement was new, but already read.
+                announcement.setRead(now);
             }
         }
 
-        // Do the actual synchronisation
+        // Do the actual synchronisation with our database.
         diff.apply(dao);
 
         return unread;
