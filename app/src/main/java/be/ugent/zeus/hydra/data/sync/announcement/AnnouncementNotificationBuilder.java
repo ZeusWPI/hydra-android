@@ -188,4 +188,15 @@ public class AnnouncementNotificationBuilder {
         intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_minerva);
         return intent;
     }
+
+    /**
+     * Remove all notifications. This will remove all notifications, but this is necessary: we can't remove
+     * notifications with an ID alone, so otherwise we would have to track all active notifications.
+     *
+     * @param context The context.
+     */
+    public static void cancelAll(Context context) {
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.cancelAll();
+    }
 }
