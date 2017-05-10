@@ -107,7 +107,7 @@ public class Adapter extends MinervaAdapter {
             SyncUtils.requestSync(account, MinervaConfig.CALENDAR_AUTHORITY, bundle);
         }
         if (extras.getBoolean(EXTRA_SCHEDULE_ANNOUNCEMENTS, false)) {
-            Log.d(TAG, "Requesting calendar sync...");
+            Log.d(TAG, "Requesting announcement sync...");
             Bundle bundle = new Bundle();
             bundle.putBoolean(EXTRA_FIRST_SYNC, isFirstSync);
             SyncUtils.requestSync(account, MinervaConfig.ANNOUNCEMENT_AUTHORITY, bundle);

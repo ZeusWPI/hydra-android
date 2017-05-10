@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementNotificationBuilder;
 import be.ugent.zeus.hydra.ui.common.loaders.LoaderResult;
 import be.ugent.zeus.hydra.ui.common.plugins.loader.LoaderCallback;
 import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
@@ -257,6 +258,8 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
         ContentResolver.cancelSync(a, MinervaConfig.CALENDAR_AUTHORITY);
         Toast.makeText(getContext(), "Logging out...", Toast.LENGTH_SHORT).show();
         manager.removeAccount(a, accountManagerFuture -> {
+            // Delete any notifications that could be present.
+            AnnouncementNotificationBuilder.cancelAll(getContext());
             //Delete items
             adapter.clear();
             //Hide list
