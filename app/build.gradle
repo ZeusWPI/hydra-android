@@ -10,7 +10,7 @@ android {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 243
+        versionCode 244
         versionName "2.4"
         vectorDrawables.useSupportLibrary = true
 
