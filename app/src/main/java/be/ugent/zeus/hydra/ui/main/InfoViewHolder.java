@@ -33,7 +33,11 @@ class InfoViewHolder extends DataViewHolder<InfoItem> {
         title.setText(infoItem.getTitle());
 
         if(infoItem.getTitle().equals("Bibliotheek")) {
-            itemView.setOnClickListener(v -> v.getContext().startActivity(new Intent(v.getContext(), LibraryListFragment.class)));
+            itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_library);
+                v.getContext().startActivity(intent);
+            });
         } else {
             itemView.setOnClickListener(v -> infoItem.getType().doOnClick(v.getContext(), infoItem));
         }
