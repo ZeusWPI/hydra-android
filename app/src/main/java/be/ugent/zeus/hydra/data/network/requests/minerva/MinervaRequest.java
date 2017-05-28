@@ -59,13 +59,14 @@ public abstract class MinervaRequest<T> extends JsonSpringRequest<T> {
      *
      * If the request still fails after the first time or new OAuth keys could not be obtained, the method will throw
      * the exception (same behavior as the parent method).
+     * @param args
      */
     @NonNull
     @Override
-    public T performRequest() throws RequestFailureException {
+    public T performRequest(Bundle args) throws RequestFailureException {
         //Try the request one time.
         try {
-            return super.performRequest();
+            return super.performRequest(args);
         } catch (AuthenticatorActionException e) {
             Log.i(TAG, "User action is required.");
             //In this case we need user interaction, so we must not try again.
@@ -87,7 +88,7 @@ public abstract class MinervaRequest<T> extends JsonSpringRequest<T> {
                         //Invalidate auth token and try again.
                         AccountManager m = AccountManager.get(context);
                         m.invalidateAuthToken(MinervaConfig.ACCOUNT_TYPE, getToken());
-                        return performRequest();
+                        return performRequest(null);
                     } finally {
                         first = false;
                     }

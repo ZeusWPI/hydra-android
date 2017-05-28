@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.data.network.requests.minerva.auth;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.data.auth.OAuthConfiguration;
@@ -31,7 +32,7 @@ public abstract class AccessTokenRequest implements Request<BearerToken> {
 
     @NonNull
     @Override
-    public BearerToken performRequest() throws RequestFailureException {
+    public BearerToken performRequest(Bundle args) throws RequestFailureException {
         try {
             OAuthJSONAccessTokenResponse accessTokenResponse = getToken();
             return gson.fromJson(accessTokenResponse.getBody(), BearerToken.class);

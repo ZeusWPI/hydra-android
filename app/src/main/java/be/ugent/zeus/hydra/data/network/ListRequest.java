@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.data.network;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 
 import java.util.Arrays;
@@ -22,7 +22,7 @@ public class ListRequest<R> implements Request<List<R>> {
 
     @NonNull
     @Override
-    public List<R> performRequest() throws RequestFailureException {
-        return Arrays.asList(wrapping.performRequest());
+    public List<R> performRequest(Bundle args) throws RequestFailureException {
+        return Arrays.asList(wrapping.performRequest(args));
     }
 }

@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.resto;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
@@ -41,8 +42,8 @@ public class RestoRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest() throws RequestFailureException {
-        return StreamSupport.stream(request.performRequest())
+    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException {
+        return StreamSupport.stream(request.performRequest(null))
                 .map(RestoMenuCard::new);
     }
 }

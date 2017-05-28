@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.data.network.caching;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -53,14 +54,14 @@ class GenericCache implements Cache {
 
     @NonNull
     @Override
-    public <D extends Serializable> D get(CacheableRequest<D> request, long duration) throws RequestFailureException {
+    public <D extends Serializable> D get(CacheableRequest<D> request, @Nullable Bundle args, long duration) throws RequestFailureException {
         //Else we do the caching.
         CacheObject<D> object = readOrNull(request.getCacheKey());
         D data;
 
         if (shouldRefresh(object, duration)) {
             Log.i(TAG, "New response for request " + request.getCacheKey());
-            data = request.performRequest();
+            data = request.performRequest(args);
             object = new CacheObject<>(data);
             try {
                 executor.save(request.getCacheKey(), object);
@@ -68,7 +69,7 @@ class GenericCache implements Cache {
                 Log.w(TAG, "Could not cache request " + request.getCacheKey(), e);
             }
         } else {
-            Log.i(TAG, "Cached response for request" + request);
+            Log.i(TAG, "Cached response for request " + request);
             assert object != null;
             data = object.getData();
         }
@@ -78,25 +79,8 @@ class GenericCache implements Cache {
 
     @NonNull
     @Override
-    public <R extends Serializable> R get(CacheableRequest<R> request) throws RequestFailureException {
-        return get(request, request.getCacheDuration());
-    }
-
-    @Nullable
-    @Override
-    public <R extends Serializable> R getOrNull(CacheableRequest<R> request, long duration) {
-        try {
-            return get(request, duration);
-        } catch (RequestFailureException e) {
-            Log.w(TAG, "Could not get cache for " + request.getCacheKey(), e);
-            return null;
-        }
-    }
-
-    @Nullable
-    @Override
-    public <R extends Serializable> R getOrNull(CacheableRequest<R> request) {
-        return getOrNull(request, request.getCacheDuration());
+    public <R extends Serializable> R get(CacheableRequest<R> request, @Nullable Bundle args) throws RequestFailureException {
+        return get(request, args, request.getCacheDuration());
     }
 
     @Nullable

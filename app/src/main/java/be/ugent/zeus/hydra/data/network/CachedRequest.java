@@ -1,7 +1,9 @@
 package be.ugent.zeus.hydra.data.network;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.data.network.caching.Cache;
@@ -9,6 +11,7 @@ import be.ugent.zeus.hydra.data.network.caching.CacheManager;
 import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 
 import java.io.Serializable;
 
@@ -29,7 +32,7 @@ public class CachedRequest<R extends Serializable> implements Request<R> {
 
     protected final Context context;
     private final CacheableRequest<R> cacheableRequest;
-    private boolean shouldRefresh;
+    private Bundle shouldRefresh = new Bundle();
 
     /**
      * Create a request.
@@ -41,37 +44,31 @@ public class CachedRequest<R extends Serializable> implements Request<R> {
     public CachedRequest(Context context, CacheableRequest<R> request, boolean shouldRefresh) {
         this.context = context.getApplicationContext();
         this.cacheableRequest = request;
-        this.shouldRefresh = shouldRefresh;
-    }
-
-    /**
-     * If this is set to true, the next call for data will force the cache request to use new data. After this call for
-     * data, the refresh flag is set to false automatically.
-     *
-     * @param shouldRefresh Should the next request for data be fresh.
-     */
-    public void setShouldRefresh(boolean shouldRefresh) {
-        this.shouldRefresh = shouldRefresh;
+        this.shouldRefresh.putBoolean(RefreshBroadcast.REFRESH_COLD, shouldRefresh);
     }
 
     @NonNull
     @Override
-    public R performRequest() throws RequestFailureException {
+    public R performRequest(@Nullable Bundle args) throws RequestFailureException {
         Cache cache = CacheManager.defaultCache(context);
         R data;
 
+        if (args != null) {
+            shouldRefresh.putAll(args);
+        }
+
         try {
-            if (shouldRefresh) {
-                data = cache.get(cacheableRequest, Cache.NEVER);
-                shouldRefresh = false;
+            if (shouldRefresh.getBoolean(RefreshBroadcast.REFRESH_COLD, false)) {
+                data = cache.get(cacheableRequest, null, Cache.NEVER);
+                shouldRefresh.clear();
             } else {
-                data = cache.get(cacheableRequest);
+                data = cache.get(cacheableRequest, null);
             }
         } catch (IOFailureException e) {
             // TODO: check if we are actually connected to a network or not.
             Log.i(TAG, "Network error, trying again...", e);
             OfflineBroadcaster.broadcastNetworkError(context);
-            data = cache.get(cacheableRequest, Cache.ALWAYS);
+            data = cache.get(cacheableRequest, null, Cache.ALWAYS);
         }
 
         return data;

@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.data.network.requests.association;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
@@ -35,11 +36,11 @@ public class FilteredEventRequest implements Request<List<Event>> {
 
     @NonNull
     @Override
-    public List<Event> performRequest() throws RequestFailureException {
+    public List<Event> performRequest(Bundle args) throws RequestFailureException {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
 
-        return StreamSupport.stream(request.performRequest())
+        return StreamSupport.stream(request.performRequest(null))
                 .filter(e -> !disabled.contains(e.getAssociation().getInternalName()))
                 .sorted(Comparators.comparing(Event::getStart))
                 .collect(Collectors.toList());

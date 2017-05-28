@@ -84,7 +84,7 @@ public class Adapter extends MinervaAdapter {
         // End time. We take 4 month (+1 day for the start time).
         agendaRequest.setEnd(now.plusMonths(4).plusDays(1));
 
-        Agenda agenda = agendaRequest.performRequest();
+        Agenda agenda = agendaRequest.performRequest(null);
 
         Collection<Integer> existingIds = dao.getAllIds();
 

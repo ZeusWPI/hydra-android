@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.urgent;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
@@ -19,7 +20,7 @@ public class UrgentRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest() throws RequestFailureException {
+    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException {
         return RefStreams.of(new UrgentCard());
     }
 }

@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.data.network.requests.resto;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
@@ -34,7 +35,7 @@ public class FilteredMenuRequest implements Request<List<RestoMenu>> {
 
     @NonNull
     @Override
-    public List<RestoMenu> performRequest() throws RequestFailureException {
+    public List<RestoMenu> performRequest(Bundle args) throws RequestFailureException {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         LocalTime closingHour = LocalTime.parse(
                 preferences.getString(
@@ -45,7 +46,7 @@ public class FilteredMenuRequest implements Request<List<RestoMenu>> {
         LocalDate today = LocalDate.now();
         boolean isEarlyEnough = LocalDateTime.now().isBefore(LocalDateTime.of(LocalDate.now(), closingHour));
 
-        return StreamSupport.stream(request.performRequest())
+        return StreamSupport.stream(request.performRequest(null))
                 .filter(m -> m.getDate().isAfter(today) || (m.getDate().isEqual(today) && isEarlyEnough))
                 .collect(Collectors.toList());
     }

@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.data.network.requests.library;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
@@ -35,12 +36,12 @@ public class SortedLibraryRequest implements Request<Pair<List<Library>, List<Li
 
     @NonNull
     @Override
-    public Pair<List<Library>, List<Library>> performRequest() throws RequestFailureException {
+    public Pair<List<Library>, List<Library>> performRequest(Bundle args) throws RequestFailureException {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         Set<String> favourites = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
 
-        Map<Boolean, List<Library>> split = StreamSupport.stream(request.performRequest().getLibraries())
+        Map<Boolean, List<Library>> split = StreamSupport.stream(request.performRequest(null).getLibraries())
                 .sorted(Comparators.comparing(Library::getName))
                 .collect(Collectors.partitioningBy(library -> favourites.contains(library.getCode())));
 

@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.data.network.requests.association;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
@@ -25,8 +26,8 @@ public class UgentNewsRequest extends JsonSpringRequest<UgentNewsItem[]> impleme
 
     @NonNull
     @Override
-    public UgentNewsItem[] performRequest() throws RequestFailureException {
-        UgentNewsItem[] data = super.performRequest();
+    public UgentNewsItem[] performRequest(Bundle args) throws RequestFailureException {
+        UgentNewsItem[] data = super.performRequest(args);
         Arrays.sort(data, Comparators.reversed(Comparators.comparing(UgentNewsItem::getModified)));
         return data;
     }

@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.minerva.announcement;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
@@ -22,7 +23,7 @@ public class MinervaAnnouncementRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest() throws RequestFailureException {
+    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException {
         return StreamSupport.stream(dao.getUnread().entrySet())
                 .map(s -> new MinervaAnnouncementsCard(s.getValue(), s.getKey()));
     }

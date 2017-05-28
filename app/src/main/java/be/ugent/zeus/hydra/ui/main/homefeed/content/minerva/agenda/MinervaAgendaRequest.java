@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.minerva.agenda;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
@@ -31,7 +32,7 @@ public class MinervaAgendaRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest() throws RequestFailureException {
+    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException {
 
         ZonedDateTime now = ZonedDateTime.now();
         // Only display things up to 3 weeks from now.

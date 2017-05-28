@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.data.network.caching;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 /**
@@ -19,7 +20,7 @@ public class TestRequest implements CacheableRequest<TestObject> {
 
     @NonNull
     @Override
-    public TestObject performRequest() {
+    public TestObject performRequest(Bundle args) {
         read = true;
         return new TestObject();
     }

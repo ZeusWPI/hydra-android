@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.news;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
@@ -34,11 +35,11 @@ public class NewsRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest() throws RequestFailureException {
+    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime sixMonthsAgo = now.minusWeeks(2);
 
-        return StreamSupport.stream(Arrays.asList(request.performRequest()))
+        return StreamSupport.stream(Arrays.asList(request.performRequest(null)))
                 .filter(n -> sixMonthsAgo.isBefore(n.getLocalCreated()))
                 .map(NewsItemCard::new);
     }

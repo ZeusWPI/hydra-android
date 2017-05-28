@@ -220,11 +220,11 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
             //First we get an auth code.
             try {
                 Request<BearerToken> request = AccountUtils.buildAuthTokenRequest(token);
-                BearerToken result = request.performRequest();
+                BearerToken result = request.performRequest(null);
 
                 //Get the information
                 UserInfoRequest infoRequest = new UserInfoRequest(result.getAccessToken());
-                GrantInformation information = infoRequest.performRequest();
+                GrantInformation information = infoRequest.performRequest(null);
 
                 //Account name
                 String name;

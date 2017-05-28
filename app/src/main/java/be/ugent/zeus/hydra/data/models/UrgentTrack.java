@@ -71,7 +71,7 @@ public class UrgentTrack implements Track {
         @Override
         protected String doInBackground(Void... voids) {
             try {
-                return new UrgentUrlRequest().performRequest() + ".mp3";
+                return new UrgentUrlRequest().performRequest(null) + ".mp3";
             } catch (RequestFailureException e) {
                 Log.w(TAG, "Error while getting url: ", e);
                 return null;

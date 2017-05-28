@@ -30,7 +30,7 @@ public class RequestAsyncTaskLoader<D> extends AbstractLoader<D> {
     @Override
     protected D loadData() throws LoaderException {
         try {
-            return request.performRequest();
+            return request.performRequest(null);
         } catch (RequestFailureException e) {
             throw new LoaderException(e);
         }

@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.data.network.requests.resto;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.data.models.resto.Sandwich;
@@ -26,8 +27,8 @@ public class SandwichRequest extends JsonSpringRequest<Sandwich[]> implements Ca
 
     @NonNull
     @Override
-    public Sandwich[] performRequest() throws RequestFailureException {
-        Sandwich[] data = super.performRequest();
+    public Sandwich[] performRequest(Bundle args) throws RequestFailureException {
+        Sandwich[] data = super.performRequest(args);
         Arrays.sort(data, (o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
         return data;
     }

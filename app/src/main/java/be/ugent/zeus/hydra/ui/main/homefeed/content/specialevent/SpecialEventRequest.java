@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.specialevent;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.BuildConfig;
@@ -34,10 +35,10 @@ public class SpecialEventRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest() throws RequestFailureException {
+    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException {
         List<HomeCard> list = new ArrayList<>();
         ZonedDateTime now = ZonedDateTime.now();
-        for (SpecialEvent event : remoteEventRequest.performRequest().getSpecialEvents()) {
+        for (SpecialEvent event : remoteEventRequest.performRequest(null).getSpecialEvents()) {
 
             //Events without date are always shown.
             if (event.getStart() == null && event.getEnd() == null) {

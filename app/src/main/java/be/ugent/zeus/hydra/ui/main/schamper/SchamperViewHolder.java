@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main;
+package be.ugent.zeus.hydra.ui.main.schamper;
 
 import android.net.Uri;
 import android.view.View;

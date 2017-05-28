@@ -76,7 +76,7 @@ public class Adapter extends MinervaAdapter {
         }
 
         // Calculate diff
-        Courses courses = minervaRequest.performRequest();
+        Courses courses = minervaRequest.performRequest(null);
         Collection<String> existingIds = courseDao.getIds();
         Synchronisation<Course, String> synchronisation = new Synchronisation<>(
                 existingIds,

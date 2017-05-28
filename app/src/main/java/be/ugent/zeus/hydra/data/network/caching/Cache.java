@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.data.network.caching;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 
 import java.io.Serializable;
@@ -10,24 +10,23 @@ import java.io.Serializable;
 /**
  * A cache. This is a map like data structure that holds keys and objects. While the keys must be strings,
  * no restriction is applied on the objects. The objects are thus heterogeneous.
- *
+ * <p>
  * This is a file cache for {@link CacheableRequest}s. This is not a cache for a non-determined amount of keys. Use
  * something like DiskLruCache for that.
- *
+ * <p>
  * The cache is not thread safe. You should make sure to not write using the same key from different threads at the
  * same time. Behavior in that scenario is undefined.
- *
+ * <p>
  * The cache duration of an object is specified at retrieval. This simplifies forcing evicting the cache.
- *
+ * <p>
  * If the cache duration is set to {@link #NEVER}, the request will not be cached at all. The duration of the cache has
  * a millisecond precision.
- *
+ * <p>
  * Note: using 0 as duration is undefined behavior. You should in general only use multiples of the available
  * constants.
  *
  * @author Niko Strijbol
  */
-@SuppressWarnings("unused")
 public interface Cache {
 
     /**
@@ -44,10 +43,10 @@ public interface Cache {
     /**
      * This method returns {@code true} if the cached value for the given key was saved longer than the given duration
      * ago. When using {@link #NEVER} as duration, this methods always returns true.
-     *
+     * <p>
      * Keys for which there is no cache will also return true.
      *
-     * @param key The key used to save the cache.
+     * @param key      The key used to save the cache.
      * @param duration Expiration to check against (in ms).
      *
      * @return True if it is expired, false otherwise.
@@ -73,6 +72,7 @@ public interface Cache {
      * while accessing the cache will fail silently and cause the existing cache to be invalidated.
      *
      * @param request  The request to get data from.
+     * @param args     The arguments for the request.
      * @param duration Expiration of the cache.
      *
      * @return The data, as if provided by the request.
@@ -80,29 +80,13 @@ public interface Cache {
      * @throws RequestFailureException If the retrieval of new data fails.
      */
     @NonNull
-    <R extends Serializable> R get(CacheableRequest<R> request, long duration) throws RequestFailureException;
+    <R extends Serializable> R get(CacheableRequest<R> request, @Nullable Bundle args, long duration) throws RequestFailureException;
 
     /**
      * Same as the other method, but uses the built-in cache duration of the request.
      *
-     * @see #get(CacheableRequest, long)
+     * @see #get(CacheableRequest, Bundle, long)
      */
     @NonNull
-    <R extends Serializable> R get(CacheableRequest<R> request) throws RequestFailureException;
-
-    /**
-     * Same as the other get methods, but instead of throwing an exception, these methods return null.
-     *
-     * @see #get(CacheableRequest, long)
-     */
-    @Nullable
-    <R extends Serializable> R getOrNull(CacheableRequest<R> request, long duration);
-
-    /**
-     * Same as the other method, but uses the built-in cache duration of the request.
-     *
-     * @see #get(CacheableRequest)
-     */
-    @Nullable
-    <R extends Serializable> R getOrNull(CacheableRequest<R> request);
+    <R extends Serializable> R get(CacheableRequest<R> request, @Nullable Bundle args) throws RequestFailureException;
 }

@@ -130,7 +130,7 @@ public class Adapter extends MinervaAdapter {
 
         // First we get all announcements for the course.
         AnnouncementsRequest announcementsRequest = new AnnouncementsRequest(getContext(), account, course);
-        Announcements announcements = announcementsRequest.performRequest();
+        Announcements announcements = announcementsRequest.performRequest(null);
 
         // Get all existing announcements
         Map<Integer, ZonedDateTime> existing = dao.getIdsAndReadDateForCourse(course);
@@ -145,7 +145,7 @@ public class Adapter extends MinervaAdapter {
 
         // Then we see what requests are actually new.
         WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, getContext(), account);
-        WhatsNew whatsNew = whatsNewRequest.performRequest();
+        WhatsNew whatsNew = whatsNewRequest.performRequest(null);
 
         Set<Announcement> unReadOnes = new HashSet<>(whatsNew.getAnnouncements());
         List<Announcement> unread = new ArrayList<>();

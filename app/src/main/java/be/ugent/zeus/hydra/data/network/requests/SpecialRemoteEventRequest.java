@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.data.network.requests;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -46,13 +47,13 @@ public class SpecialRemoteEventRequest implements Request<SpecialEventWrapper> {
 
     @NonNull
     @Override
-    public SpecialEventWrapper performRequest() throws RequestFailureException {
+    public SpecialEventWrapper performRequest(Bundle args) throws RequestFailureException {
 
         SpecialEventWrapper data;
         RequestFailureException potentialException = null;
 
         try {
-            data = wrapping.performRequest();
+            data = wrapping.performRequest(null);
         } catch (RequestFailureException e) {
             Log.w(TAG, "Error while getting special events, returning empty collection.", e);
             potentialException = e;

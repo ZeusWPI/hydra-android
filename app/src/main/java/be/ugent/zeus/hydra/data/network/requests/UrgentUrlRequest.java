@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.data.network.requests;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.data.network.Endpoints;
@@ -20,7 +21,7 @@ public class UrgentUrlRequest implements Request<String> {
 
     @NonNull
     @Override
-    public String performRequest() throws RequestFailureException {
+    public String performRequest(Bundle args) throws RequestFailureException {
         try {
             URL url = new URL(Endpoints.URGENT_CONFIG_URL);
             return StringUtils.convertStreamToString(url.openStream()).trim();

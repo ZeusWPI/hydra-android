@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.data.network.requests.association;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.data.models.association.NewsItem;
@@ -25,8 +26,8 @@ public class NewsRequest extends JsonSpringRequest<NewsItem[]> implements Cachea
 
     @NonNull
     @Override
-    public NewsItem[] performRequest() throws RequestFailureException {
-        NewsItem[] data = super.performRequest();
+    public NewsItem[] performRequest(Bundle args) throws RequestFailureException {
+        NewsItem[] data = super.performRequest(args);
         Arrays.sort(data, Comparators.reversed(Comparators.comparing(NewsItem::getDate)));
         return data;
     }

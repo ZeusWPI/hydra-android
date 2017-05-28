@@ -1,10 +1,10 @@
 package be.ugent.zeus.hydra.ui.common.plugins.common;
 
+import android.arch.lifecycle.LifecycleFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class PluginFragment extends Fragment {
+public class PluginFragment extends LifecycleFragment {
 
     private List<FragmentPlugin> fragmentPlugins = new ArrayList<>();
     private List<Plugin> otherPlugins = new ArrayList<>();
