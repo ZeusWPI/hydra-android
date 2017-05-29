@@ -21,4 +21,10 @@ public class EventViewModel extends RefreshViewModel<List<Event>> {
     public LiveData<Result<List<Event>>> provideData() {
         return new EventLiveData(getApplication());
     }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+
+    }
 }

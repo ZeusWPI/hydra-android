@@ -38,8 +38,12 @@ public class EventLiveData extends RefreshingLiveData<List<Event>> implements Sh
     @Override
     protected void onInactive() {
         super.onInactive();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        preferences.unregisterOnSharedPreferenceChangeListener(this);
+        // We want to receive updates even if nothing is active, since the preferences are updated
+        // in another activity.
+        if (!hasObservers()) {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            preferences.unregisterOnSharedPreferenceChangeListener(this);
+        }
     }
 
     @Override
