@@ -22,6 +22,7 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
+import be.ugent.zeus.hydra.ui.main.news.NewsFragment;
 import be.ugent.zeus.hydra.ui.main.schamper.SchamperFragment;
 import be.ugent.zeus.hydra.ui.onboarding.OnboardingActivity;
 import be.ugent.zeus.hydra.ui.preferences.SettingsActivity;

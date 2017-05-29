@@ -32,7 +32,6 @@ public class SchamperFragment extends LifecycleFragment implements SwipeRefreshL
     private static final String TAG = "SchamperFragment";
 
     private ActivityHelper helper;
-    private SwipeRefreshLayout swipeRefreshLayout;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_schamper, container, false);
@@ -56,7 +55,7 @@ public class SchamperFragment extends LifecycleFragment implements SwipeRefreshL
         SchamperListAdapter adapter = new SchamperListAdapter(helper);
         recyclerView.setAdapter(adapter);
 
-        swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
+        SwipeRefreshLayout swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
         swipeRefreshLayout.setOnRefreshListener(this);
 
@@ -64,7 +63,7 @@ public class SchamperFragment extends LifecycleFragment implements SwipeRefreshL
         ErrorUtils.filterErrors(viewModel.getData()).observe(this, this::onError);
         viewModel.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
         viewModel.getData().observe(this, new AdapterObserver<>(adapter));
-        viewModel.getRefreshing().observe(this, aBoolean -> swipeRefreshLayout.setRefreshing(aBoolean));
+        viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
     }
 
     @Override

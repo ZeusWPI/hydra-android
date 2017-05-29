@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main;
+package be.ugent.zeus.hydra.ui.main.news;
 
 import android.view.ViewGroup;
 
