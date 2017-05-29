@@ -12,6 +12,7 @@ import be.ugent.zeus.hydra.repository.data.RefreshLiveData;
 public abstract class RefreshViewModel<D> extends AndroidViewModel {
 
     private LiveData<Boolean> refreshing;
+    private LiveData<Result<D>> data;
 
     public RefreshViewModel(Application application) {
         super(application);
@@ -31,5 +32,12 @@ public abstract class RefreshViewModel<D> extends AndroidViewModel {
     /**
      * @return The actual data.
      */
-    public abstract LiveData<Result<D>> getData();
+    public LiveData<Result<D>> getData() {
+        if (data == null) {
+            data = provideData();
+        }
+        return data;
+    }
+
+    protected abstract LiveData<Result<D>> provideData();
 }

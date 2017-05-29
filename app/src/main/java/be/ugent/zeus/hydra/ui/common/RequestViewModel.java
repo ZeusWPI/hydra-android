@@ -18,7 +18,6 @@ import be.ugent.zeus.hydra.repository.Result;
 public abstract class RequestViewModel<D> extends RefreshViewModel<D> {
 
     private final RequestRepository<D> requestRepository;
-    private LiveData<Result<D>> articleData;
 
     public RequestViewModel(Application application) {
         super(application);
@@ -29,12 +28,8 @@ public abstract class RequestViewModel<D> extends RefreshViewModel<D> {
      * @return The actual data.
      */
     @Override
-    public LiveData<Result<D>> getData() {
-        if (articleData == null) {
-            articleData = requestRepository.load(getRequest());
-        }
-
-        return articleData;
+    public LiveData<Result<D>> provideData() {
+        return requestRepository.load(getRequest());
     }
 
     /**
