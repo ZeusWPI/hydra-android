@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main;
+package be.ugent.zeus.hydra.ui.main.events;
 
 import android.content.Intent;
 import android.os.Parcelable;

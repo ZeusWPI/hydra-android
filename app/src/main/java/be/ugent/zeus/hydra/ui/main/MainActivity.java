@@ -21,6 +21,7 @@ import android.view.View;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import be.ugent.zeus.hydra.ui.main.events.EventFragment;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
 import be.ugent.zeus.hydra.ui.main.news.NewsFragment;
 import be.ugent.zeus.hydra.ui.main.schamper.SchamperFragment;

@@ -12,6 +12,7 @@ import android.view.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
+import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
@@ -55,6 +56,7 @@ public class NewsFragment extends LifecycleFragment implements SwipeRefreshLayou
 
         NewsViewModel viewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
         ErrorUtils.filterErrors(viewModel.getData()).observe(this, this::onError);
+        viewModel.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
         viewModel.getData().observe(this, new AdapterObserver<>(adapter));
         viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
     }

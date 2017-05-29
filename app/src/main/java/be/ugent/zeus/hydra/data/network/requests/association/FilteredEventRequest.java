@@ -5,13 +5,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-
 import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.data.network.Request;
 import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
 import java8.util.Comparators;
+import java8.util.function.Function;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 
@@ -42,6 +42,16 @@ public class FilteredEventRequest implements Request<List<Event>> {
         Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
 
         return StreamSupport.stream(request.performRequest(null))
+                .filter(e -> !disabled.contains(e.getAssociation().getInternalName()))
+                .sorted(Comparators.comparing(Event::getStart))
+                .collect(Collectors.toList());
+    }
+
+    public static Function<List<Event>, List<Event>> transformer(Context context) {
+        Context c = context.getApplicationContext();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
+        return events -> StreamSupport.stream(events)
                 .filter(e -> !disabled.contains(e.getAssociation().getInternalName()))
                 .sorted(Comparators.comparing(Event::getStart))
                 .collect(Collectors.toList());
