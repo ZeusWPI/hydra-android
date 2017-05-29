@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
  * @author Niko Strijbol
  */
 @SuppressWarnings("unused")
+@Deprecated
 public final class LoaderResult<D> {
 
     private final D data;

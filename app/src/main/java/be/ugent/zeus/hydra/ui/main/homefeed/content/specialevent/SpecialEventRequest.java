@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.data.network.CachedRequest;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.data.network.requests.SpecialRemoteEventRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
@@ -35,7 +36,7 @@ public class SpecialEventRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException {
+    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException, PartialDataException {
         List<HomeCard> list = new ArrayList<>();
         ZonedDateTime now = ZonedDateTime.now();
         for (SpecialEvent event : remoteEventRequest.performRequest(null).getSpecialEvents()) {

@@ -9,6 +9,7 @@ import java8.util.function.Predicate;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class PreferenceListener implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private final Loader<?> loader;

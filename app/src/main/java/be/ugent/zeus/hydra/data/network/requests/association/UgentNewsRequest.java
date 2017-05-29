@@ -8,6 +8,7 @@ import be.ugent.zeus.hydra.data.network.Endpoints;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.data.network.caching.Cache;
 import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import java8.util.Comparators;
 
@@ -26,7 +27,7 @@ public class UgentNewsRequest extends JsonSpringRequest<UgentNewsItem[]> impleme
 
     @NonNull
     @Override
-    public UgentNewsItem[] performRequest(Bundle args) throws RequestFailureException {
+    public UgentNewsItem[] performRequest(Bundle args) throws RequestFailureException, PartialDataException {
         UgentNewsItem[] data = super.performRequest(args);
         Arrays.sort(data, Comparators.reversed(Comparators.comparing(UgentNewsItem::getModified)));
         return data;

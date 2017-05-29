@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
 import be.ugent.zeus.hydra.data.network.CachedRequest;
 import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.data.network.requests.association.UgentNewsRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
@@ -35,7 +36,7 @@ public class NewsRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException {
+    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException, PartialDataException {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime sixMonthsAgo = now.minusWeeks(2);
 

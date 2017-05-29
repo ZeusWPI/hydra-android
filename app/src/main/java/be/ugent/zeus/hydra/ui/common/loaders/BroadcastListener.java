@@ -14,6 +14,7 @@ import java8.util.function.BiPredicate;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class BroadcastListener extends BroadcastReceiver {
 
     private static final String TAG = "ContentChangedReceiver";

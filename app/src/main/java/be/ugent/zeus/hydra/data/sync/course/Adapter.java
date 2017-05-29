@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.data.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
@@ -76,7 +77,12 @@ public class Adapter extends MinervaAdapter {
         }
 
         // Calculate diff
-        Courses courses = minervaRequest.performRequest(null);
+        Courses courses = null;
+        try {
+            courses = minervaRequest.performRequest(null);
+        } catch (PartialDataException e) {
+            e.printStackTrace();
+        }
         Collection<String> existingIds = courseDao.getIds();
         Synchronisation<Course, String> synchronisation = new Synchronisation<>(
                 existingIds,

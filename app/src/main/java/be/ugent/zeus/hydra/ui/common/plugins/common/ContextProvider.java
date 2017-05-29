@@ -44,7 +44,7 @@ final class ContextProvider {
     /**
      * The actual interface with the provide contexts.
      */
-    public interface Provider {
+    public interface Provider extends ContextHolder {
 
         /**
          * Get the loader manager.
@@ -59,16 +59,6 @@ final class ContextProvider {
          * @return The fragment manager.
          */
         FragmentManager getFragmentManager();
-
-        /**
-         * @return The context.
-         */
-        Context getContext();
-
-        /**
-         * @return The root view.
-         */
-        View getRoot();
     }
 
     static class FragmentProvider implements Provider {

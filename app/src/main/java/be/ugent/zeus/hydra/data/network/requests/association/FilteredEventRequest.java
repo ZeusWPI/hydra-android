@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
 import java8.util.Comparators;
@@ -36,7 +37,7 @@ public class FilteredEventRequest implements Request<List<Event>> {
 
     @NonNull
     @Override
-    public List<Event> performRequest(Bundle args) throws RequestFailureException {
+    public List<Event> performRequest(Bundle args) throws RequestFailureException, PartialDataException {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
 

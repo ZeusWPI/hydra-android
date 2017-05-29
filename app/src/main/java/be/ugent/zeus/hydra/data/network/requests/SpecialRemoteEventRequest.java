@@ -11,6 +11,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.data.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.ui.sko.overview.OverviewActivity;
 import com.google.android.gms.tasks.Tasks;
@@ -47,7 +48,7 @@ public class SpecialRemoteEventRequest implements Request<SpecialEventWrapper> {
 
     @NonNull
     @Override
-    public SpecialEventWrapper performRequest(Bundle args) throws RequestFailureException {
+    public SpecialEventWrapper performRequest(Bundle args) throws RequestFailureException, PartialDataException {
 
         SpecialEventWrapper data;
         RequestFailureException potentialException = null;

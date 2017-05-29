@@ -20,6 +20,7 @@ import android.support.v4.os.OperationCanceledException;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public abstract class AbstractLoader<D> extends AsyncTaskLoader<LoaderResult<D>> {
 
     private LoaderResult<D> data = null;

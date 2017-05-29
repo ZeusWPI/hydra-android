@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.data.network.Endpoints;
 import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.utils.StringUtils;
@@ -21,7 +22,7 @@ public class UrgentUrlRequest implements Request<String> {
 
     @NonNull
     @Override
-    public String performRequest(Bundle args) throws RequestFailureException {
+    public String performRequest(Bundle args) throws RequestFailureException, PartialDataException {
         try {
             URL url = new URL(Endpoints.URGENT_CONFIG_URL);
             return StringUtils.convertStreamToString(url.openStream()).trim();

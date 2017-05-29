@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.feed;
 
 import android.support.annotation.NonNull;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
@@ -43,7 +44,14 @@ class RequestOperation implements FeedOperation {
         Stream<HomeCard> temp = StreamSupport.stream(current)
                 .filter(c -> c.getCardType() != request.getCardType());
 
-        return RefStreams.concat(temp, request.performRequest(null)).sorted().collect(Collectors.toList());
+        Stream<HomeCard> requestStream;
+        try {
+            requestStream = request.performRequest(null);
+        } catch (PartialDataException e) {
+            requestStream = e.getData();
+        }
+
+        return RefStreams.concat(temp, requestStream).sorted().collect(Collectors.toList());
     }
 
     @Override

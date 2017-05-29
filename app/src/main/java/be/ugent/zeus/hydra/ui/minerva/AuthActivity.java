@@ -11,15 +11,14 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.network.Request;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.auth.MinervaAuthenticator;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
 import be.ugent.zeus.hydra.data.models.minerva.auth.BearerToken;
 import be.ugent.zeus.hydra.data.models.minerva.auth.GrantInformation;
+import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import be.ugent.zeus.hydra.data.network.requests.minerva.UserInfoRequest;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
@@ -253,7 +252,7 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
                 res.putExtra(AccountManager.KEY_AUTHTOKEN, result.getAccessToken());
 
                 return res;
-            } catch (RequestFailureException e) {
+            } catch (RequestException e) {
                 Log.w(TAG, "First request for account failed.", e);
                 return null;
             }

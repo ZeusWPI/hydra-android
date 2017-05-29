@@ -19,7 +19,9 @@ import java.util.List;
 
 /**
  * @author Niko Strijbol
+ * @deprecated Use {@link be.ugent.zeus.hydra.repository.RequestRepository}.
  */
+@Deprecated
 public class RequestPlugin<D> extends LoaderPlugin<D> {
 
     private static final String TAG = "RequestPlugin";

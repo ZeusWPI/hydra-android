@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import org.threeten.bp.Duration;
 
@@ -54,7 +55,7 @@ class GenericCache implements Cache {
 
     @NonNull
     @Override
-    public <D extends Serializable> D get(CacheableRequest<D> request, @Nullable Bundle args, long duration) throws RequestFailureException {
+    public <D extends Serializable> D get(CacheableRequest<D> request, @Nullable Bundle args, long duration) throws RequestFailureException, PartialDataException {
         //Else we do the caching.
         CacheObject<D> object = readOrNull(request.getCacheKey());
         D data;
@@ -79,7 +80,7 @@ class GenericCache implements Cache {
 
     @NonNull
     @Override
-    public <R extends Serializable> R get(CacheableRequest<R> request, @Nullable Bundle args) throws RequestFailureException {
+    public <R extends Serializable> R get(CacheableRequest<R> request, @Nullable Bundle args) throws RequestFailureException, PartialDataException {
         return get(request, args, request.getCacheDuration());
     }
 

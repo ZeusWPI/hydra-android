@@ -7,7 +7,10 @@ import android.support.v4.content.LocalBroadcastManager;
 
 /**
  * @author Niko Strijbol
+ *
+ * @deprecated Use the {@link be.ugent.zeus.hydra.data.network.exceptions.PartialDataException} instead.
  */
+@Deprecated
 public class OfflineBroadcaster {
 
     public static final String OFFLINE = "be.ugent.zeus.hydra.network.offline";

@@ -8,6 +8,7 @@ import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.data.network.CachedRequest;
 import be.ugent.zeus.hydra.data.network.ListRequest;
 import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.data.network.requests.association.FilteredEventRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
@@ -44,7 +45,7 @@ public class EventRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException {
+    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException, PartialDataException {
         ZonedDateTime now = ZonedDateTime.now();
         ZonedDateTime plusOne = now.plusMonths(1);
 

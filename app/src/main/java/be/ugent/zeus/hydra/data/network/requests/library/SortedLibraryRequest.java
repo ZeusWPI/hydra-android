@@ -10,6 +10,7 @@ import android.support.v4.util.Pair;
 import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.data.models.library.LibraryList;
 import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.ui.main.LibraryListFragment;
 import java8.util.Comparators;
@@ -36,7 +37,7 @@ public class SortedLibraryRequest implements Request<Pair<List<Library>, List<Li
 
     @NonNull
     @Override
-    public Pair<List<Library>, List<Library>> performRequest(Bundle args) throws RequestFailureException {
+    public Pair<List<Library>, List<Library>> performRequest(Bundle args) throws RequestFailureException, PartialDataException {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         Set<String> favourites = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());

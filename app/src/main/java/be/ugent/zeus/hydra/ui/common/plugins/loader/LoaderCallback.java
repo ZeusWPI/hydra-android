@@ -10,6 +10,7 @@ import be.ugent.zeus.hydra.ui.common.loaders.LoaderResult;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 @FunctionalInterface
 public interface LoaderCallback<D> {
 

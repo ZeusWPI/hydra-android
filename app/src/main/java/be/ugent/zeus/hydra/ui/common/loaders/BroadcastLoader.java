@@ -10,6 +10,7 @@ import android.support.v4.content.LocalBroadcastManager;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public abstract class BroadcastLoader<D> extends AbstractLoader<D> {
 
     private final IntentFilter filter;

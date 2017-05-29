@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.repository;
 
 import android.support.annotation.NonNull;
+import java8.util.function.Function;
 
 /**
  * @author Niko Strijbol
@@ -22,13 +23,6 @@ public class Result<D> {
      */
     public boolean hasData() {
         return data != null;
-    }
-
-    /**
-     * @return True if there is an error.
-     */
-    public boolean hasError() {
-        return throwable != null;
     }
 
     /**
@@ -145,5 +139,24 @@ public class Result<D> {
 
             return new Result<>(error, data, status);
         }
+    }
+
+    /**
+     * Applies a function to the data of the result, if there is data. The optional exception and status are kept the same.
+     *
+     * @param function The function to apply.
+     *
+     * @param <R> The result type.
+     *
+     * @return The result.
+     */
+    public <R> Result<R> apply(Function<D, R> function) {
+
+        R data = null;
+        if (hasData()) {
+            data = function.apply(this.data);
+        }
+
+        return new Result<>(this.throwable, data, this.getStatus());
     }
 }

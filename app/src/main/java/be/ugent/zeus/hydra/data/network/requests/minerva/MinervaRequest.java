@@ -10,6 +10,7 @@ import android.util.Log;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.auth.AuthenticatorActionException;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.requests.minerva.auth.TokenRequestInterceptor;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
@@ -63,7 +64,7 @@ public abstract class MinervaRequest<T> extends JsonSpringRequest<T> {
      */
     @NonNull
     @Override
-    public T performRequest(Bundle args) throws RequestFailureException {
+    public T performRequest(Bundle args) throws RequestFailureException, PartialDataException {
         //Try the request one time.
         try {
             return super.performRequest(args);

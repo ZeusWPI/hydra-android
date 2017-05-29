@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.data.network;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import com.google.firebase.crash.FirebaseCrash;
@@ -41,7 +42,7 @@ public abstract class JsonSpringRequest<R> implements Request<R> {
      */
     @NonNull
     @Override
-    public R performRequest(Bundle args) throws RequestFailureException {
+    public R performRequest(Bundle args) throws RequestFailureException, PartialDataException {
         try {
             R result = createRestTemplate().getForEntity(getAPIUrl(), clazz).getBody();
             if (result == null) {

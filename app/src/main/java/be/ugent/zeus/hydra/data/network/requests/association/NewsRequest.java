@@ -8,6 +8,7 @@ import be.ugent.zeus.hydra.data.network.Endpoints;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.data.network.caching.Cache;
 import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import java8.util.Comparators;
 
@@ -26,7 +27,7 @@ public class NewsRequest extends JsonSpringRequest<NewsItem[]> implements Cachea
 
     @NonNull
     @Override
-    public NewsItem[] performRequest(Bundle args) throws RequestFailureException {
+    public NewsItem[] performRequest(Bundle args) throws RequestFailureException, PartialDataException {
         NewsItem[] data = super.performRequest(args);
         Arrays.sort(data, Comparators.reversed(Comparators.comparing(NewsItem::getDate)));
         return data;

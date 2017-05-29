@@ -3,6 +3,8 @@ package be.ugent.zeus.hydra.repository;
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.repository.data.ModelLiveData;
+import be.ugent.zeus.hydra.repository.data.RefreshingLiveData;
 
 /**
  * @author Niko Strijbol

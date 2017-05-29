@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 import java8.util.stream.Collectors;
@@ -35,7 +36,7 @@ public class FilteredMenuRequest implements Request<List<RestoMenu>> {
 
     @NonNull
     @Override
-    public List<RestoMenu> performRequest(Bundle args) throws RequestFailureException {
+    public List<RestoMenu> performRequest(Bundle args) throws RequestFailureException, PartialDataException {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         LocalTime closingHour = LocalTime.parse(
                 preferences.getString(

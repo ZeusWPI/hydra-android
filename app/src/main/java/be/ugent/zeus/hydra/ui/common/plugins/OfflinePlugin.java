@@ -18,6 +18,7 @@ import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
 /**
  * @author Niko Strijbol
  */
+@Deprecated
 public class OfflinePlugin extends Plugin {
 
     private View view;

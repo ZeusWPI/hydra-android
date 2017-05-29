@@ -5,6 +5,7 @@ package be.ugent.zeus.hydra.ui.common.loaders;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class LoaderException extends Exception {
 
     public LoaderException(String message) {

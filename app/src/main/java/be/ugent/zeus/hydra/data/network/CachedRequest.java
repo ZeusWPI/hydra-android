@@ -4,11 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
-
 import be.ugent.zeus.hydra.data.network.caching.Cache;
 import be.ugent.zeus.hydra.data.network.caching.CacheManager;
 import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
@@ -25,10 +24,11 @@ import java.io.Serializable;
  * @param <R> The final result, after processing the data from the cache.
  *
  * @author Niko Strijbol
+ *
+ * @deprecated Use {@link be.ugent.zeus.hydra.data.network.requests.Requests#cache(Context, CacheableRequest)} instead.
  */
+@Deprecated
 public class CachedRequest<R extends Serializable> implements Request<R> {
-
-    private static final String TAG = "ProcCacheRequest";
 
     protected final Context context;
     private final CacheableRequest<R> cacheableRequest;
@@ -49,7 +49,7 @@ public class CachedRequest<R extends Serializable> implements Request<R> {
 
     @NonNull
     @Override
-    public R performRequest(@Nullable Bundle args) throws RequestFailureException {
+    public R performRequest(@Nullable Bundle args) throws RequestFailureException, PartialDataException {
         Cache cache = CacheManager.defaultCache(context);
         R data;
 
@@ -66,9 +66,8 @@ public class CachedRequest<R extends Serializable> implements Request<R> {
             }
         } catch (IOFailureException e) {
             // TODO: check if we are actually connected to a network or not.
-            Log.i(TAG, "Network error, trying again...", e);
-            OfflineBroadcaster.broadcastNetworkError(context);
             data = cache.get(cacheableRequest, null, Cache.ALWAYS);
+            throw new PartialDataException(e, data);
         }
 
         return data;

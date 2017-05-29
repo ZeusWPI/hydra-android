@@ -22,6 +22,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.Agenda;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
@@ -84,7 +85,12 @@ public class Adapter extends MinervaAdapter {
         // End time. We take 4 month (+1 day for the start time).
         agendaRequest.setEnd(now.plusMonths(4).plusDays(1));
 
-        Agenda agenda = agendaRequest.performRequest(null);
+        Agenda agenda = null;
+        try {
+            agenda = agendaRequest.performRequest(null);
+        } catch (PartialDataException e) {
+            e.printStackTrace();
+        }
 
         Collection<Integer> existingIds = dao.getAllIds();
 

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.repository;
+package be.ugent.zeus.hydra.repository.data;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
@@ -6,7 +6,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.data.network.Request;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
+import be.ugent.zeus.hydra.repository.Result;
 
 /**
  * Live data for a {@link Request}.
@@ -42,13 +44,13 @@ public class ModelLiveData<M> extends LiveData<Result<M>> {
     protected void loadData(@Nullable Bundle bundle) {
         new AsyncTask<Void, Void, M>() {
 
-            private RequestFailureException exception;
+            private RequestException exception;
 
             @Override
             protected M doInBackground(Void... voids) {
                 try {
                     return request.performRequest(bundle);
-                } catch (RequestFailureException e) {
+                } catch (RequestException e) {
                     this.exception = e;
                     return null;
                 }
@@ -62,6 +64,10 @@ public class ModelLiveData<M> extends LiveData<Result<M>> {
                 if (m == null) {
                     builder.withError(exception)
                             .withStatus(Result.Status.ERROR);
+                    // Add offline data if available (this is a special case for the cache).
+                    if (exception instanceof PartialDataException) {
+                        builder.withData(((PartialDataException) exception).getData());
+                    }
                 } else {
                     builder.withData(m)
                             .withStatus(Result.Status.DONE);

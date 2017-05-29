@@ -2,6 +2,8 @@ package be.ugent.zeus.hydra.data.network.caching;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 
 /**
  * @author Niko Strijbol
@@ -20,7 +22,7 @@ public class TestRequest implements CacheableRequest<TestObject> {
 
     @NonNull
     @Override
-    public TestObject performRequest(Bundle args) {
+    public TestObject performRequest(Bundle args) throws RequestFailureException, PartialDataException {
         read = true;
         return new TestObject();
     }

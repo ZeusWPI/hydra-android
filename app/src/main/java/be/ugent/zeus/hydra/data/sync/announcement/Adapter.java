@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
@@ -130,7 +131,12 @@ public class Adapter extends MinervaAdapter {
 
         // First we get all announcements for the course.
         AnnouncementsRequest announcementsRequest = new AnnouncementsRequest(getContext(), account, course);
-        Announcements announcements = announcementsRequest.performRequest(null);
+        Announcements announcements = null;
+        try {
+            announcements = announcementsRequest.performRequest(null);
+        } catch (PartialDataException e) {
+            e.printStackTrace();
+        }
 
         // Get all existing announcements
         Map<Integer, ZonedDateTime> existing = dao.getIdsAndReadDateForCourse(course);
@@ -145,7 +151,12 @@ public class Adapter extends MinervaAdapter {
 
         // Then we see what requests are actually new.
         WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, getContext(), account);
-        WhatsNew whatsNew = whatsNewRequest.performRequest(null);
+        WhatsNew whatsNew = null;
+        try {
+            whatsNew = whatsNewRequest.performRequest(null);
+        } catch (PartialDataException e) {
+            e.printStackTrace();
+        }
 
         Set<Announcement> unReadOnes = new HashSet<>(whatsNew.getAnnouncements());
         List<Announcement> unread = new ArrayList<>();

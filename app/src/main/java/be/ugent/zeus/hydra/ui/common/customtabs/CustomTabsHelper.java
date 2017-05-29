@@ -28,10 +28,10 @@ public class CustomTabsHelper {
     private static final String TAG = "CustomTabsHelper";
 
     //Chrome packages.
-    static final String PACKAGE_STABLE = "com.android.chrome";
-    static final String PACKAGE_BETA = "com.chrome.beta";
-    static final String PACKAGE_DEV = "com.chrome.dev";
-    static final String PACKAGE_LOCAL = "com.google.android.apps.chrome";
+    private static final String PACKAGE_STABLE = "com.android.chrome";
+    private static final String PACKAGE_BETA = "com.chrome.beta";
+    private static final String PACKAGE_DEV = "com.chrome.dev";
+    private static final String PACKAGE_LOCAL = "com.google.android.apps.chrome";
 
     private static String packageNameToUse;
 

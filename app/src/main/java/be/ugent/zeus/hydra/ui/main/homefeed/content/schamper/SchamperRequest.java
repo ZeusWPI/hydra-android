@@ -8,6 +8,7 @@ import be.ugent.zeus.hydra.data.models.schamper.Article;
 import be.ugent.zeus.hydra.data.network.CachedRequest;
 import be.ugent.zeus.hydra.data.network.ListRequest;
 import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.data.network.requests.SchamperArticlesRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
@@ -36,7 +37,7 @@ public class SchamperRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException {
+    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException, PartialDataException {
         LocalDateTime twoMonthsAgo = LocalDateTime.now().minusMonths(1);
 
         return StreamSupport.stream(request.performRequest(null))

@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.ui.main.homefeed.content.debug;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
@@ -27,7 +28,7 @@ public class WaitRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException {
+    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException, PartialDataException {
         try {
             Log.d(TAG, "performRequest: sleep 5 seconds.");
             Thread.sleep(5000); //Sleep 5 seconds

@@ -6,11 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-
 import be.ugent.zeus.hydra.data.models.minerva.auth.BearerToken;
 import be.ugent.zeus.hydra.data.network.Request;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import be.ugent.zeus.hydra.ui.minerva.AuthActivity;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -172,7 +171,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
         } catch (IOFailureException e) {
             Log.w(TAG, "Could not get access token due to network failure.");
             throw new NetworkErrorException(e);
-        } catch (RequestFailureException e) {
+        } catch (RequestException e) {
             Log.i(TAG, "Getting refresh access token failed.", e);
             return null;
         }

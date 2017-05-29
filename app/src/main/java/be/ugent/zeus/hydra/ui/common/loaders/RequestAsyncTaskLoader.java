@@ -2,9 +2,9 @@ package be.ugent.zeus.hydra.ui.common.loaders;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-
 import be.ugent.zeus.hydra.data.network.Request;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
+import be.ugent.zeus.hydra.repository.data.ModelLiveData;
 import java8.util.function.Function;
 
 
@@ -12,7 +12,10 @@ import java8.util.function.Function;
  * Loader to load data from a {@link Request}.
  *
  * @author Niko Strijbol
+ *
+ * @deprecated Use the new architecture components approach, see {@link ModelLiveData}.
  */
+@Deprecated
 public class RequestAsyncTaskLoader<D> extends AbstractLoader<D> {
 
     private final Request<D> request;
@@ -31,7 +34,7 @@ public class RequestAsyncTaskLoader<D> extends AbstractLoader<D> {
     protected D loadData() throws LoaderException {
         try {
             return request.performRequest(null);
-        } catch (RequestFailureException e) {
+        } catch (RequestException e) {
             throw new LoaderException(e);
         }
     }

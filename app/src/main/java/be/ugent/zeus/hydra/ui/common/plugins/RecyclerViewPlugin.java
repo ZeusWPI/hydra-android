@@ -25,6 +25,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class RecyclerViewPlugin<D> extends RequestPlugin<List<D>> {
 
     private Adapter<D, ?> adapter;

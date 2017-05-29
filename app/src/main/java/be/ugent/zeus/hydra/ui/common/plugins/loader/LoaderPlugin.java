@@ -34,6 +34,7 @@ import java8.util.function.Consumer;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class LoaderPlugin<D> extends FragmentPlugin implements LoaderManager.LoaderCallbacks<LoaderResult<D>> {
 
     private static final String TAG = "LoaderPlugin";

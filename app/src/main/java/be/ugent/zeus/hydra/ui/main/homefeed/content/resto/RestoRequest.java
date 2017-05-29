@@ -8,6 +8,7 @@ import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.data.network.CachedRequest;
 import be.ugent.zeus.hydra.data.network.ListRequest;
 import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.data.network.requests.resto.FilteredMenuRequest;
 import be.ugent.zeus.hydra.data.network.requests.resto.MenuRequest;
@@ -42,7 +43,7 @@ public class RestoRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException {
+    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException, PartialDataException {
         return StreamSupport.stream(request.performRequest(null))
                 .map(RestoMenuCard::new);
     }

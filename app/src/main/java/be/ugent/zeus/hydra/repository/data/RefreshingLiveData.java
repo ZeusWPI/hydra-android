@@ -1,10 +1,11 @@
-package be.ugent.zeus.hydra.repository;
+package be.ugent.zeus.hydra.repository.data;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 
 /**
  * A live data that will listen to refresh requests. It will reload the data if the refresh broadcast was received.
