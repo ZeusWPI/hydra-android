@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.data.network.caching;
 
 import android.content.Context;
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import org.junit.Before;
 import org.junit.Test;
@@ -68,7 +69,7 @@ public class GenericCacheTest {
     }
 
     @Test(expected = RequestFailureException.class)
-    public void getException() throws RequestFailureException {
+    public void getException() throws RequestFailureException, PartialDataException {
         ErrorRequest errorRequest = new ErrorRequest();
 
         executor.setUpdated(Instant.now().minus(31, ChronoUnit.DAYS).toEpochMilli());
@@ -76,7 +77,7 @@ public class GenericCacheTest {
     }
 
     @Test
-    public void getNonExistingNull() throws RequestFailureException {
+    public void getNonExistingNull() throws RequestFailureException, PartialDataException {
         TestRequest request = new TestRequest(Cache.ONE_SECOND, "TestKeyNonExisting");
 
         executor.setUpdated(Instant.now().minus(31, ChronoUnit.DAYS).toEpochMilli());
