@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.info;
 
+import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +16,6 @@ import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.InfoSubItemActivity;
-import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
 
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
@@ -24,7 +24,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public class InfoFragment extends PluginFragment {
+public class InfoFragment extends LifecycleFragment {
 
     private static final String TAG = "InfoFragment";
 

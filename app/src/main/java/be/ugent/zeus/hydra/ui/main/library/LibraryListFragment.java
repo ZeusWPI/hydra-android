@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.library;
 
+import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +18,6 @@ import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
 import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
-import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
 import be.ugent.zeus.hydra.ui.common.recyclerview.TextCallback;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.EmptyItemAdapter;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -33,7 +33,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 /**
  * @author Niko Strijbol
  */
-public class LibraryListFragment extends PluginFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class LibraryListFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "LibraryListFragment";
     private static final String LIB_URL = "http://lib.ugent.be/";
