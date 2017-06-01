@@ -1,16 +1,13 @@
 package be.ugent.zeus.hydra.ui.main.info;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.info.InfoItem;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import be.ugent.zeus.hydra.ui.main.MainActivity;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
@@ -32,16 +29,7 @@ class InfoViewHolder extends DataViewHolder<InfoItem> {
     public void populate(final InfoItem infoItem) {
 
         title.setText(infoItem.getTitle());
-
-        if(infoItem.getTitle().equals("Bibliotheek")) {
-            itemView.setOnClickListener(v -> {
-                Intent intent = new Intent(v.getContext(), MainActivity.class);
-                intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_library);
-                v.getContext().startActivity(intent);
-            });
-        } else {
-            itemView.setOnClickListener(v -> infoItem.getType().doOnClick(v.getContext(), infoItem));
-        }
+        itemView.setOnClickListener(v -> infoItem.getType().doOnClick(v.getContext(), infoItem));
 
         int color = R.color.ugent_blue_dark;
         Context c = itemView.getContext();
