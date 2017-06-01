@@ -1,24 +1,27 @@
-package be.ugent.zeus.hydra.ui.main;
+package be.ugent.zeus.hydra.ui.main.library;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.util.Pair;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.*;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.library.Library;
+import be.ugent.zeus.hydra.repository.RefreshBroadcast;
+import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
+import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
+import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.EmptyItemAdapter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.TextCallback;
-import be.ugent.zeus.hydra.ui.common.plugins.RequestPlugin;
-import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
 import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
-import be.ugent.zeus.hydra.ui.common.plugins.loader.LoaderCallback;
+import be.ugent.zeus.hydra.ui.common.recyclerview.TextCallback;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.EmptyItemAdapter;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
-import java8.util.function.Function;
 import su.j2e.rvjoiner.JoinableAdapter;
 import su.j2e.rvjoiner.JoinableLayout;
 import su.j2e.rvjoiner.RvJoiner;
@@ -30,17 +33,15 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 /**
  * @author Niko Strijbol
  */
-public class LibraryListFragment extends PluginFragment {
+public class LibraryListFragment extends PluginFragment implements SwipeRefreshLayout.OnRefreshListener {
 
+    private static final String TAG = "LibraryListFragment";
     private static final String LIB_URL = "http://lib.ugent.be/";
-
     public static final String PREF_LIBRARY_FAVOURITES = "pref_library_favourites";
 
     private final RvJoiner joiner = new RvJoiner();
     private final LibraryListAdapter favourites = new LibraryListAdapter(joiner);
     private final LibraryListAdapter all = new LibraryListAdapter(joiner);
-    private final RequestPlugin<Pair<List<Library>, List<Library>>> plugin =
-            new RequestPlugin<>((Function<Boolean, LoaderCallback<Pair<List<Library>, List<Library>>>>) b -> args -> new LibraryLoader(getContext(), b));
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,18 +56,10 @@ public class LibraryListFragment extends PluginFragment {
     }
 
     @Override
-    protected void onAddPlugins(List<Plugin> plugins) {
-        super.onAddPlugins(plugins);
-        plugin.defaultError()
-                .enableProgress()
-                .setSuccessCallback(this::receiveData);
-        plugins.add(plugin);
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = $(view, R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         RecyclerFastScroller s = $(view, R.id.fast_scroller);
         s.attachRecyclerView(recyclerView);
@@ -77,11 +70,27 @@ public class LibraryListFragment extends PluginFragment {
         joiner.add(new JoinableAdapter(all, EmptyItemAdapter.ITEM_TYPE, EmptyItemAdapter.EMPTY_TYPE));
 
         recyclerView.setAdapter(joiner.getAdapter());
-    }
 
-    private void receiveData(Pair<List<Library>, List<Library>> libraries) {
-        favourites.setItems(libraries.second);
-        all.setItems(libraries.first);
+        SwipeRefreshLayout swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        LibraryViewModel model = ViewModelProviders.of(this).get(LibraryViewModel.class);
+        ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+        model.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
+        model.getData().observe(this, new SuccessObserver<Pair<List<Library>, List<Library>>>() {
+            @Override
+            protected void onSuccess(Pair<List<Library>, List<Library>> data) {
+                favourites.setItems(data.second);
+                all.setItems(data.first);
+            }
+            @Override
+            protected void onEmpty() {
+                favourites.clear();
+                all.clear();
+            }
+        });
+        model.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
     }
 
     @Override
@@ -98,8 +107,23 @@ public class LibraryListFragment extends PluginFragment {
             case R.id.library_visit_catalogue:
                 NetworkUtils.maybeLaunchBrowser(getContext(), LIB_URL);
                 return true;
+            case R.id.action_refresh:
+                onRefresh();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        RefreshBroadcast.broadcastRefresh(getContext(), true);
+    }
+
+    private void onError(Throwable throwable) {
+        Log.e(TAG, "Error while getting data.", throwable);
+        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.again), v -> onRefresh())
+                .show();
     }
 }

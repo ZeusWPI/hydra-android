@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main;
+package be.ugent.zeus.hydra.ui.main.library;
 
 import android.view.View;
 import android.widget.TextView;

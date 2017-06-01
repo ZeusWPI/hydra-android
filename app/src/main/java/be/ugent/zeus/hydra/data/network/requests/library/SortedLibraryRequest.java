@@ -12,7 +12,7 @@ import be.ugent.zeus.hydra.data.models.library.LibraryList;
 import be.ugent.zeus.hydra.data.network.Request;
 import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.ui.main.LibraryListFragment;
+import be.ugent.zeus.hydra.ui.main.library.LibraryListFragment;
 import java8.util.Comparators;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
@@ -24,6 +24,7 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class SortedLibraryRequest implements Request<Pair<List<Library>, List<Library>>> {
 
     private final Context context;

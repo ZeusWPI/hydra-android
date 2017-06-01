@@ -27,7 +27,7 @@ import be.ugent.zeus.hydra.data.network.Request;
 import be.ugent.zeus.hydra.data.network.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.library.OpeningHoursRequest;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
-import be.ugent.zeus.hydra.ui.main.LibraryListFragment;
+import be.ugent.zeus.hydra.ui.main.library.LibraryListFragment;
 import be.ugent.zeus.hydra.ui.common.plugins.RequestPlugin;
 import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
 import be.ugent.zeus.hydra.utils.DateUtils;

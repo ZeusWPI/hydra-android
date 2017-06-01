@@ -1,9 +1,6 @@
 package be.ugent.zeus.hydra.repository.observers;
 
 import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
-import android.util.Log;
-import be.ugent.zeus.hydra.repository.Result;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.Adapter;
 
 import java.util.List;
@@ -14,9 +11,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class AdapterObserver<D> implements Observer<Result<List<D>>> {
-
-    private static final String TAG = "AdapterObserver";
+public class AdapterObserver<D> extends SuccessObserver<List<D>> {
 
     private final Adapter<D, ?> adapter;
 
@@ -28,26 +23,12 @@ public class AdapterObserver<D> implements Observer<Result<List<D>>> {
     }
 
     @Override
-    public void onChanged(@Nullable Result<List<D>> listResult) {
+    protected void onSuccess(List<D> data) {
+        adapter.setItems(data);
+    }
 
-        Log.d(TAG, "onChanged: receiving data");
-
-        if (listResult == null) {
-            adapter.clear();
-            return;
-        }
-
-        if (listResult.getStatus() == Result.Status.DONE || listResult.getStatus() == Result.Status.CONTINUING) {
-            adapter.setItems(listResult.getData());
-            return;
-        }
-
-        if (listResult.getStatus() == Result.Status.ERROR) {
-            if (listResult.hasData()) {
-                adapter.setItems(listResult.getData());
-            } else {
-                adapter.clear();
-            }
-        }
+    @Override
+    protected void onEmpty() {
+        adapter.clear();
     }
 }
