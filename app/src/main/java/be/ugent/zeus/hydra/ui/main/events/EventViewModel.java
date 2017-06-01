@@ -18,7 +18,7 @@ public class EventViewModel extends RefreshViewModel<List<Event>> {
     }
 
     @Override
-    public LiveData<Result<List<Event>>> provideData() {
+    protected LiveData<Result<List<Event>>> provideData() {
         return new EventLiveData(getApplication());
     }
 

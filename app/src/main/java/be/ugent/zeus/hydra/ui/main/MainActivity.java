@@ -23,6 +23,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.main.events.EventFragment;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
+import be.ugent.zeus.hydra.ui.main.info.InfoFragment;
 import be.ugent.zeus.hydra.ui.main.news.NewsFragment;
 import be.ugent.zeus.hydra.ui.main.schamper.SchamperFragment;
 import be.ugent.zeus.hydra.ui.onboarding.OnboardingActivity;
@@ -67,7 +68,7 @@ public class MainActivity extends BaseActivity {
         initialize(savedInstanceState);
     }
 
-    private void initialize(Bundle savedInstanceState) {
+    private void initialize(@Nullable Bundle savedInstanceState) {
         drawer = $(R.id.drawer_layout);
         navigationView = $(R.id.navigation_view);
         appBarLayout = $(R.id.app_bar_layout);

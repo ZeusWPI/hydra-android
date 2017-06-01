@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main;
+package be.ugent.zeus.hydra.ui.main.info;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.info.InfoItem;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
+import be.ugent.zeus.hydra.ui.main.MainActivity;
 
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 

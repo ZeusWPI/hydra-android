@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main;
+package be.ugent.zeus.hydra.ui.main.info;
 
 import android.view.ViewGroup;
 
