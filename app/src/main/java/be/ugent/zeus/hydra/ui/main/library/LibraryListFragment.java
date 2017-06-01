@@ -97,7 +97,7 @@ public class LibraryListFragment extends LifecycleFragment implements SwipeRefre
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_library_list, menu);
         BaseActivity activity = (BaseActivity) getActivity();
-        activity.tintToolbarIcons(menu, R.id.library_visit_catalogue);
+        activity.tintToolbarIcons(menu, R.id.library_visit_catalogue, R.id.action_refresh);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
