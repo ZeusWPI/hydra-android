@@ -30,6 +30,7 @@ public class FilteredEventRequest implements Request<List<Event>> {
     private final Request<List<Event>> request;
     private final Context context;
 
+    @Deprecated
     public FilteredEventRequest(Context context, Request<List<Event>> request) {
         this.request = request;
         this.context = context.getApplicationContext();
@@ -48,12 +49,13 @@ public class FilteredEventRequest implements Request<List<Event>> {
     }
 
     public static Function<List<Event>, List<Event>> transformer(Context context) {
-        Context c = context.getApplicationContext();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
-        return events -> StreamSupport.stream(events)
-                .filter(e -> !disabled.contains(e.getAssociation().getInternalName()))
-                .sorted(Comparators.comparing(Event::getStart))
-                .collect(Collectors.toList());
+        return events -> {
+            Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
+            return StreamSupport.stream(events)
+                    .filter(e -> !disabled.contains(e.getAssociation().getInternalName()))
+                    .sorted(Comparators.comparing(Event::getStart))
+                    .collect(Collectors.toList());
+        };
     }
 }

@@ -25,6 +25,8 @@ import java.util.Set;
  */
 public class LibraryLiveData extends RefreshingLiveData<Pair<List<Library>, List<Library>>> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private Set<String> favouriteLibraries;
+
     public LibraryLiveData(Context context) {
         super(context, makeRequest(context));
     }
@@ -34,17 +36,18 @@ public class LibraryLiveData extends RefreshingLiveData<Pair<List<Library>, List
         super.onActive();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         preferences.registerOnSharedPreferenceChangeListener(this);
+        Set<String> current = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
+        if (!current.equals(favouriteLibraries)) {
+            favouriteLibraries = current;
+            loadData(Bundle.EMPTY);
+        }
     }
 
     @Override
     protected void onInactive() {
         super.onInactive();
-        // We want to receive updates even if nothing is active, since the preferences are updated
-        // in another activity.
-        if (!hasObservers()) {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-            preferences.unregisterOnSharedPreferenceChangeListener(this);
-        }
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        preferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -64,8 +67,9 @@ public class LibraryLiveData extends RefreshingLiveData<Pair<List<Library>, List
     private static Request<Pair<List<Library>, List<Library>>> makeRequest(Context context) {
 
         Request<LibraryList> cached = Requests.cache(context, new LibraryListRequest());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
         return Requests.map(cached, libraryList -> {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
             Set<String> favourites = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
 
             Map<Boolean, List<Library>> split = StreamSupport.stream(libraryList.getLibraries())

@@ -12,7 +12,9 @@ import be.ugent.zeus.hydra.repository.data.RefreshingLiveData;
 import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Live data for events that will listen to changes in the preferences for the filtering.
@@ -21,9 +23,11 @@ import java.util.List;
  */
 public class EventLiveData extends RefreshingLiveData<List<Event>> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private Set<String> disabledAssociations;
+
     public EventLiveData(Context context) {
-        super(context, Requests.map(Requests.map(
-                Requests.cache(context, new EventRequest()), Arrays::asList),
+        super(context, Requests.map(
+                Requests.map(Requests.cache(context, new EventRequest()), Arrays::asList),
                 FilteredEventRequest.transformer(context))
         );
     }
@@ -32,18 +36,21 @@ public class EventLiveData extends RefreshingLiveData<List<Event>> implements Sh
     protected void onActive() {
         super.onActive();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        Set<String> current = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
+        // Register the listener for when the settings change while it's active
         preferences.registerOnSharedPreferenceChangeListener(this);
+        // Check if the value is equal to the saved value. If not, we need to reload.
+        if (!current.equals(disabledAssociations)) {
+            disabledAssociations = current;
+            loadData(Bundle.EMPTY);
+        }
     }
 
     @Override
     protected void onInactive() {
         super.onInactive();
-        // We want to receive updates even if nothing is active, since the preferences are updated
-        // in another activity.
-        if (!hasObservers()) {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-            preferences.unregisterOnSharedPreferenceChangeListener(this);
-        }
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        preferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
