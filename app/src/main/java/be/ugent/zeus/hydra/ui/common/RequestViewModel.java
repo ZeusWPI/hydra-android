@@ -28,7 +28,7 @@ public abstract class RequestViewModel<D> extends RefreshViewModel<D> {
      * @return The actual data.
      */
     @Override
-    public LiveData<Result<D>> provideData() {
+    public LiveData<Result<D>> constructDataInstance() {
         return requestRepository.load(getRequest());
     }
 

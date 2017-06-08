@@ -19,7 +19,7 @@ public class LibraryViewModel extends RefreshViewModel<Pair<List<Library>, List<
     }
 
     @Override
-    protected LiveData<Result<Pair<List<Library>, List<Library>>>> provideData() {
+    protected LiveData<Result<Pair<List<Library>, List<Library>>>> constructDataInstance() {
         return new LibraryLiveData(getApplication());
     }
 }

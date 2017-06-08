@@ -40,10 +40,10 @@ public class EventLiveData extends RefreshingLiveData<List<Event>> implements Sh
         // Register the listener for when the settings change while it's active
         preferences.registerOnSharedPreferenceChangeListener(this);
         // Check if the value is equal to the saved value. If not, we need to reload.
-        if (!current.equals(disabledAssociations)) {
-            disabledAssociations = current;
+        if (disabledAssociations != null && !current.equals(disabledAssociations)) {
             loadData(Bundle.EMPTY);
         }
+        disabledAssociations = current;
     }
 
     @Override

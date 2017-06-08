@@ -2,17 +2,15 @@ package be.ugent.zeus.hydra.data.network.requests;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.data.network.CachedRequest;
 import be.ugent.zeus.hydra.data.network.ListRequest;
 import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.data.network.RequestFunction;
 import be.ugent.zeus.hydra.data.network.caching.Cache;
 import be.ugent.zeus.hydra.data.network.caching.CacheManager;
 import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import java8.util.function.BiFunction;
 import java8.util.function.Function;
@@ -34,6 +32,8 @@ public class Requests {
     /**
      * Apply a function to a request.
      *
+     * TODO: look how we can support both Function and our custom function at the same time, without additional methods.
+     *
      * @param request The request to apply the function on.
      * @param function The function to apply.
      *
@@ -43,15 +43,26 @@ public class Requests {
      * @return The new request.
      */
     public static <R, O> Request<R> map(Request<O> request, Function<O, R> function) {
-        return new Request<R>() {
-            @NonNull
-            @Override
-            public R performRequest(@Nullable Bundle args) throws RequestFailureException, PartialDataException {
-                try {
-                    return function.apply(request.performRequest(args));
-                } catch (PartialDataException e) {
-                    throw new PartialDataException(e.getCause(), (Serializable) function.apply(e.getData()));
-                }
+        return mapE(request, function::apply);
+    }
+
+    /**
+     * Apply a function to a request.
+     *
+     * @param request The request to apply the function on.
+     * @param function The function to apply.
+     *
+     * @param <R> The type of the result.
+     * @param <O> The type of the original request.
+     *
+     * @return The new request.
+     */
+    public static <R, O> Request<R> mapE(Request<O> request, RequestFunction<O, R> function) {
+        return args -> {
+            try {
+                return function.apply(request.performRequest(args));
+            } catch (PartialDataException e) {
+                throw new PartialDataException(e.getCause(), (Serializable) function.apply(e.getData()));
             }
         };
     }

@@ -18,13 +18,7 @@ public class EventViewModel extends RefreshViewModel<List<Event>> {
     }
 
     @Override
-    protected LiveData<Result<List<Event>>> provideData() {
+    protected LiveData<Result<List<Event>>> constructDataInstance() {
         return new EventLiveData(getApplication());
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-
     }
 }

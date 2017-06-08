@@ -37,12 +37,18 @@ public abstract class RefreshViewModel<D> extends AndroidViewModel {
      */
     public LiveData<Result<D>> getData() {
         if (data == null) {
-            data = provideData();
+            data = constructDataInstance();
         }
         return data;
     }
 
-    protected abstract LiveData<Result<D>> provideData();
+    /**
+     * Provide (and construct) a fresh instance of the data. The parent class manages access. Other classes should
+     * obtain the data by calling {@link #getData()}.
+     *
+     * @return The data.
+     */
+    protected abstract LiveData<Result<D>> constructDataInstance();
 
     @Override
     protected void onCleared() {

@@ -37,10 +37,10 @@ public class LibraryLiveData extends RefreshingLiveData<Pair<List<Library>, List
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         preferences.registerOnSharedPreferenceChangeListener(this);
         Set<String> current = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
-        if (!current.equals(favouriteLibraries)) {
-            favouriteLibraries = current;
+        if (favouriteLibraries != null && !current.equals(favouriteLibraries)) {
             loadData(Bundle.EMPTY);
         }
+        favouriteLibraries = current;
     }
 
     @Override
