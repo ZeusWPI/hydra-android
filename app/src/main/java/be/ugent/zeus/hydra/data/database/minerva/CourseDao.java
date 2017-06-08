@@ -95,6 +95,7 @@ public class CourseDao extends Dao implements DiffDao<Course, String> {
      * Update existing items. Every column will be replaced with the value from the corresponding object.
      *
      * @param items The items to update.
+     * @param keepOrder If the existing order should be kept or not.
      */
     public void update(Collection<Course> items, boolean keepOrder) {
 

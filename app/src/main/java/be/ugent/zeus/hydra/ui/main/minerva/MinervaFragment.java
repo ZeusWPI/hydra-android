@@ -1,9 +1,11 @@
-package be.ugent.zeus.hydra.ui.main;
+package be.ugent.zeus.hydra.ui.main.minerva;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
+import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -11,7 +13,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
@@ -20,26 +21,25 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementNotificationBuilder;
-import be.ugent.zeus.hydra.ui.common.loaders.LoaderResult;
-import be.ugent.zeus.hydra.ui.common.plugins.loader.LoaderCallback;
-import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
-import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
+import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
+import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
-import be.ugent.zeus.hydra.data.sync.course.Adapter;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.data.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
-import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.ui.common.plugins.ProgressBarPlugin;
-import be.ugent.zeus.hydra.ui.common.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementNotificationBuilder;
+import be.ugent.zeus.hydra.data.sync.course.Adapter;
+import be.ugent.zeus.hydra.repository.RefreshBroadcast;
+import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
+import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
+import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
+import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.DragCallback;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.OnStartDragListener;
 
@@ -54,7 +54,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  * @author silox
  * @author Niko Strijbol
  */
-public class MinervaFragment extends PluginFragment implements LoaderCallback<List<Course>>, OnStartDragListener {
+public class MinervaFragment extends LifecycleFragment implements OnStartDragListener {
 
     private static final String TAG = "MinervaFragment";
 
@@ -67,9 +67,10 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
     private AccountManager manager;
     private CourseDao courseDao;
     private ItemTouchHelper helper;
+    private ProgressBar progressBar;
+    private RecyclerView recyclerView;
+    private CourseViewModel model;
 
-    private RecyclerViewPlugin<Course> plugin =
-            new RecyclerViewPlugin<>(this, adapter);
     //This will only be called if manually set to send broadcasts.
     private BroadcastReceiver syncReceiver = new BroadcastReceiver() {
         @Override
@@ -85,8 +86,8 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
                     ensureSyncStatus(getString(R.string.minerva_sync_done));
                     syncBar.dismiss();
                     syncBar = null;
-                    plugin.showRecyclerView();
-                    plugin.restartLoader();
+                    recyclerView.setVisibility(View.VISIBLE);
+                    onRefresh();
                     return;
                 case SyncBroadcast.SYNC_ERROR:
                     Log.d(TAG, "Error");
@@ -103,15 +104,6 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
     };
 
     @Override
-    protected void onAddPlugins(List<Plugin> plugins) {
-        super.onAddPlugins(plugins);
-        plugin.enableProgress()
-                .setAutoStart(false)
-                .setSuccessCallback(this::receiveData);
-        plugins.add(plugin);
-    }
-
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -122,25 +114,33 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
         return inflater.inflate(R.layout.fragment_minerva, container, false);
     }
 
+    public void onRefresh() {
+        RefreshBroadcast.broadcastRefresh(getContext(), true);
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        plugin.getProgressBarPlugin().ifPresent(ProgressBarPlugin::hideProgressBar);
 
         this.manager = AccountManager.get(getContext());
         this.courseDao = new CourseDao(getContext());
+        adapter.setCourseDao(courseDao);
 
         Button authorize = $(view, R.id.authorize);
         authorize.setOnClickListener(v -> maybeLaunchAuthorization());
 
         authWrapper = $(view, R.id.auth_wrapper);
 
-        plugin.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-
-        adapter.setCourseDao(courseDao);
+        recyclerView = $(view, R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         ItemTouchHelper.Callback callback = new DragCallback(adapter);
         helper = new ItemTouchHelper(callback);
-        helper.attachToRecyclerView(plugin.getRecyclerView());
+        helper.attachToRecyclerView(recyclerView);
+        recyclerView.setAdapter(adapter);
+
+        progressBar = $(view, R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
     }
 
     private boolean isLoggedIn() {
@@ -176,6 +176,12 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
         SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
     }
 
+    private void onError(Throwable throwable) {
+        Log.e(TAG, "Error while getting data.", throwable);
+        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .show();
+    }
+
     /**
      * Thanks to the constructor the loaders are not started in the parent function. We start them here
      * manually.
@@ -183,6 +189,7 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        model = ViewModelProviders.of(this).get(CourseViewModel.class);
         maybeLoadData();
     }
 
@@ -193,14 +200,18 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
         //If we are logged in, we can start loading the data.
         if (isLoggedIn()) {
             authWrapper.setVisibility(View.GONE);
-            plugin.getProgressBarPlugin().ifPresent(ProgressBarPlugin::showProgressBar);
-            plugin.startLoader();
+            progressBar.setVisibility(View.VISIBLE);
+            ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+            model.getData().observe(this, new ProgressObserver<>(progressBar));
+            model.getData().observe(this, new AdapterObserver<>(adapter));
+            model.getData().observe(this, new SuccessObserver<List<Course>>() {
+                @Override
+                protected void onSuccess(List<Course> data) {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    getActivity().invalidateOptionsMenu();
+                }
+            });
         }
-    }
-
-    private void receiveData(List<Course> data) {
-        plugin.showRecyclerView();
-        getActivity().invalidateOptionsMenu();
     }
 
     @Override
@@ -263,13 +274,13 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
             //Delete items
             adapter.clear();
             //Hide list
-            plugin.hideRecyclerView();
+            recyclerView.setVisibility(View.GONE);
             //Hide progress
-            plugin.getProgressBarPlugin().ifPresent(ProgressBarPlugin::hideProgressBar);
+            progressBar.setVisibility(View.GONE);
             //Show login prompt
             authWrapper.setVisibility(View.VISIBLE);
             //Destroy loaders
-            plugin.destroyLoader();
+            model.destroyInstance();
             //Delete database
             clearDatabase();
             //Reload options
@@ -317,11 +328,6 @@ public class MinervaFragment extends PluginFragment implements LoaderCallback<Li
         } else {
             syncBar.setText(text);
         }
-    }
-
-    @Override
-    public Loader<LoaderResult<List<Course>>> getLoader(Bundle args) {
-        return new MinervaCoursesLoader(getContext(), courseDao);
     }
 
     @Override
