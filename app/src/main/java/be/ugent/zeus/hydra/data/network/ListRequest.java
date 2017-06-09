@@ -2,8 +2,7 @@ package be.ugent.zeus.hydra.data.network;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.repository.Result;
 import java8.util.function.Function;
 
 import java.util.Arrays;
@@ -27,7 +26,7 @@ public class ListRequest<R> implements Request<List<R>> {
 
     @NonNull
     @Override
-    public List<R> performRequest(Bundle args) throws RequestFailureException, PartialDataException {
-        return Arrays.asList(wrapping.performRequest(args));
+    public Result<List<R>> performRequest(Bundle args) {
+        return wrapping.performRequest(args).apply(Arrays::asList);
     }
 }

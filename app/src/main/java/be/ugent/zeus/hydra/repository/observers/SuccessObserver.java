@@ -24,18 +24,7 @@ public abstract class SuccessObserver<D> implements Observer<Result<D>> {
             return;
         }
 
-        if (result.getStatus() == Result.Status.DONE || result.getStatus() == Result.Status.CONTINUING) {
-            onSuccess(result.getData());
-            return;
-        }
-
-        if (result.getStatus() == Result.Status.ERROR) {
-            if (result.hasData()) {
-                onSuccess(result.getData());
-            } else {
-                onEmpty();
-            }
-        }
+        result.ifPresentOrElse(this::onSuccess, this::onEmpty);
     }
 
     /**

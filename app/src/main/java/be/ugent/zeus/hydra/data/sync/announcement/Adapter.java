@@ -10,22 +10,21 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
-import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
-import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
+import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
+import be.ugent.zeus.hydra.data.models.minerva.Announcement;
+import be.ugent.zeus.hydra.data.models.minerva.Announcements;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.WhatsNew;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AnnouncementsRequest;
 import be.ugent.zeus.hydra.data.network.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.data.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.data.sync.Synchronisation;
-import be.ugent.zeus.hydra.data.models.minerva.Announcement;
-import be.ugent.zeus.hydra.data.models.minerva.Announcements;
-import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.data.models.minerva.WhatsNew;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.*;
@@ -53,7 +52,7 @@ public class Adapter extends MinervaAdapter {
                                         String authority,
                                         ContentProviderClient provider,
                                         SyncResult results,
-                                        boolean isFirstSync) throws RequestFailureException {
+                                        boolean isFirstSync) throws RequestException {
 
         //Get access to the data
         dao = new AnnouncementDao(getContext());
@@ -127,16 +126,12 @@ public class Adapter extends MinervaAdapter {
     /**
      * Synchronize the announcements.
      */
-    private Collection<Announcement> synchronizeAnnouncements(Account account, boolean first, Course course) throws RequestFailureException {
+    private Collection<Announcement> synchronizeAnnouncements(Account account, boolean first, Course course) throws RequestException {
 
         // First we get all announcements for the course.
         AnnouncementsRequest announcementsRequest = new AnnouncementsRequest(getContext(), account, course);
-        Announcements announcements = null;
-        try {
-            announcements = announcementsRequest.performRequest(null);
-        } catch (PartialDataException e) {
-            e.printStackTrace();
-        }
+        Announcements announcements = announcementsRequest.performRequest(null).getOrThrow();
+
 
         // Get all existing announcements
         Map<Integer, ZonedDateTime> existing = dao.getIdsAndReadDateForCourse(course);
@@ -151,12 +146,8 @@ public class Adapter extends MinervaAdapter {
 
         // Then we see what requests are actually new.
         WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, getContext(), account);
-        WhatsNew whatsNew = null;
-        try {
-            whatsNew = whatsNewRequest.performRequest(null);
-        } catch (PartialDataException e) {
-            e.printStackTrace();
-        }
+        WhatsNew whatsNew = whatsNewRequest.performRequest(null).getOrThrow();
+
 
         Set<Announcement> unReadOnes = new HashSet<>(whatsNew.getAnnouncements());
         List<Announcement> unread = new ArrayList<>();

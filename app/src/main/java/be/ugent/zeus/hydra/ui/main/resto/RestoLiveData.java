@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.data.network.requests.Requests;
-import be.ugent.zeus.hydra.data.network.requests.resto.FilteredMenuRequest;
+import be.ugent.zeus.hydra.data.network.requests.resto.CurrentMenuFilter;
+import be.ugent.zeus.hydra.data.network.requests.resto.MenuFilter;
 import be.ugent.zeus.hydra.data.network.requests.resto.MenuRequest;
 import be.ugent.zeus.hydra.repository.data.RefreshingLiveData;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
@@ -23,8 +24,8 @@ public class RestoLiveData extends RefreshingLiveData<RestoMenu> implements Shar
     public RestoLiveData(Context context) {
         super(context, Requests.mapE(Requests.map(
                 Requests.map(Requests.cache(context, new MenuRequest(context)), Arrays::asList),
-                FilteredMenuRequest.transformer(context)
-        ), FilteredMenuRequest.transformerCurrent()));
+                new MenuFilter(context)
+        ), new CurrentMenuFilter()));
     }
 
     @Override

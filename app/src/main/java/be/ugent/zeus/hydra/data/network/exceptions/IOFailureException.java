@@ -6,7 +6,7 @@ package be.ugent.zeus.hydra.data.network.exceptions;
  *
  * @author Niko Strijbol
  */
-public class IOFailureException extends RequestFailureException {
+public class IOFailureException extends RequestException {
 
     public IOFailureException(Throwable cause) {
         super(cause);

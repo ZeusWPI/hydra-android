@@ -3,20 +3,18 @@ package be.ugent.zeus.hydra.ui.main.homefeed.content.event;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import be.ugent.zeus.hydra.data.models.association.Event;
-import be.ugent.zeus.hydra.data.network.CachedRequest;
-import be.ugent.zeus.hydra.data.network.ListRequest;
 import be.ugent.zeus.hydra.data.network.Request;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.data.network.requests.association.FilteredEventRequest;
+import be.ugent.zeus.hydra.data.network.requests.Requests;
+import be.ugent.zeus.hydra.data.network.requests.association.EventFilter;
+import be.ugent.zeus.hydra.repository.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
 import org.threeten.bp.ZonedDateTime;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,14 +26,11 @@ public class EventRequest implements HomeFeedRequest {
 
     private final Request<List<Event>> request;
 
-    public EventRequest(Context context, boolean shouldRefresh) {
-        this.request = new FilteredEventRequest(context, new ListRequest<>(
-                new CachedRequest<>(
-                        context,
-                        new be.ugent.zeus.hydra.data.network.requests.association.EventRequest(),
-                        shouldRefresh
-                )
-        ));
+    public EventRequest(Context context) {
+        this.request = Requests.map(
+                Requests.map(Requests.cache(context, new be.ugent.zeus.hydra.data.network.requests.association.EventRequest()), Arrays::asList),
+                new EventFilter(context)
+        );
     }
 
     @Override
@@ -45,12 +40,12 @@ public class EventRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException, PartialDataException {
+    public Result<Stream<HomeCard>> performRequest(Bundle args) {
         ZonedDateTime now = ZonedDateTime.now();
         ZonedDateTime plusOne = now.plusMonths(1);
 
-        return StreamSupport.stream(request.performRequest(null))
+        return request.performRequest(args).apply(events -> StreamSupport.stream(events)
                 .filter(c -> c.getStart().isAfter(now) && c.getStart().isBefore(plusOne))
-                .map(EventCard::new);
+                .map(EventCard::new));
     }
 }

@@ -5,7 +5,7 @@ package be.ugent.zeus.hydra.data.network.exceptions;
  *
  * @author Niko Strijbol
  */
-public class RestTemplateException extends RequestFailureException {
+public class RestTemplateException extends RequestException {
 
     public RestTemplateException(Throwable cause) {
         super(cause);

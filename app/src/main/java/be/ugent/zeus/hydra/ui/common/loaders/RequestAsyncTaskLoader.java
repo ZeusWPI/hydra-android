@@ -33,12 +33,13 @@ public class RequestAsyncTaskLoader<D> extends AbstractLoader<D> {
     @Override
     protected D loadData() throws LoaderException {
         try {
-            return request.performRequest(null);
+            return request.performRequest(null).getOrThrow();
         } catch (RequestException e) {
             throw new LoaderException(e);
         }
     }
 
+    @Deprecated
     public static <D> Function<Context, AbstractLoader<D>> fromRequest(Request<D> request) {
         return c -> new RequestAsyncTaskLoader<>(c, request);
     }

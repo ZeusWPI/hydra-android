@@ -16,17 +16,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.util.SparseArray;
-
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.data.auth.MinervaConfig;
+import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
+import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.models.minerva.Agenda;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
-import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
-import be.ugent.zeus.hydra.data.auth.MinervaConfig;
-import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AgendaRequest;
 import be.ugent.zeus.hydra.data.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
@@ -67,7 +65,7 @@ public class Adapter extends MinervaAdapter {
                                         String authority,
                                         ContentProviderClient provider,
                                         SyncResult results,
-                                        boolean isFirstSync) throws RequestFailureException {
+                                        boolean isFirstSync) throws RequestException {
 
         dao = new AgendaDao(getContext());
         final CourseDao courseDao = new CourseDao(getContext());
@@ -85,13 +83,7 @@ public class Adapter extends MinervaAdapter {
         // End time. We take 4 month (+1 day for the start time).
         agendaRequest.setEnd(now.plusMonths(4).plusDays(1));
 
-        Agenda agenda = null;
-        try {
-            agenda = agendaRequest.performRequest(null);
-        } catch (PartialDataException e) {
-            e.printStackTrace();
-        }
-
+        Agenda agenda = agendaRequest.performRequest(null).getOrThrow();
         Collection<Integer> existingIds = dao.getAllIds();
 
         Synchronisation<AgendaItem, Integer> sync = new Synchronisation<>(

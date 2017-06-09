@@ -30,13 +30,7 @@ public class RefreshLiveData extends LiveData<Boolean> {
     public static <D> LiveData<Boolean> build(Context context, LiveData<Result<D>> source) {
         MediatorLiveData<Boolean> result = new MediatorLiveData<>();
         RefreshLiveData refreshLiveData = new RefreshLiveData(context);
-        result.addSource(source, data -> {
-            if (data != null && data.getStatus() == Result.Status.CONTINUING) {
-                result.setValue(true);
-            } else {
-                result.setValue(false);
-            }
-        });
+        result.addSource(source, data -> result.setValue(data != null && !data.isDone()));
         result.addSource(refreshLiveData, result::setValue);
         return result;
     }

@@ -8,15 +8,14 @@ import android.os.Bundle;
 import android.util.Log;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
+import be.ugent.zeus.hydra.data.models.minerva.Courses;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import be.ugent.zeus.hydra.data.network.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.data.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.data.sync.Synchronisation;
-import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.data.models.minerva.Courses;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 
 import java.util.Collection;
 
@@ -67,7 +66,7 @@ public class Adapter extends MinervaAdapter {
                                         String authority,
                                         ContentProviderClient provider,
                                         SyncResult results,
-                                        boolean isFirstSync) throws RequestFailureException {
+                                        boolean isFirstSync) throws RequestException {
 
         final CourseDao courseDao = new CourseDao(getContext());
         final CoursesMinervaRequest minervaRequest = new CoursesMinervaRequest(getContext(), account);
@@ -77,12 +76,7 @@ public class Adapter extends MinervaAdapter {
         }
 
         // Calculate diff
-        Courses courses = null;
-        try {
-            courses = minervaRequest.performRequest(null);
-        } catch (PartialDataException e) {
-            e.printStackTrace();
-        }
+        Courses courses = minervaRequest.performRequest(null).getOrThrow();
         Collection<String> existingIds = courseDao.getIds();
         Synchronisation<Course, String> synchronisation = new Synchronisation<>(
                 existingIds,

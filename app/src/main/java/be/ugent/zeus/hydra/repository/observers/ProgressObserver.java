@@ -19,7 +19,7 @@ public class ProgressObserver<D> implements Observer<Result<D>> {
 
     @Override
     public void onChanged(@Nullable Result<D> result) {
-        if (result == null || result.getStatus() == Result.Status.ERROR || result.getStatus() == Result.Status.DONE) {
+        if (result == null || result.isDone()) {
             progressBar.setVisibility(View.GONE);
         }
     }

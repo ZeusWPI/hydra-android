@@ -1,9 +1,10 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.feed;
 
+import android.os.Bundle;
 import android.support.annotation.AnyThread;
 import android.support.annotation.NonNull;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface FeedOperation {
      */
     @NonNull
     @AnyThread
-    List<HomeCard> transform(List<HomeCard> current) throws RequestFailureException;
+    List<HomeCard> transform(Bundle args,  List<HomeCard> current) throws RequestException;
 
     /**
      * The type of card that will be added/removed by this operation.

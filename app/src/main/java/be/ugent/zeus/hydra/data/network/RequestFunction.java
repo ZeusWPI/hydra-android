@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.data.network;
 
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 
 /**
  * Equivalent to {@link java8.util.function.Function}, but allows for an exception.
@@ -11,5 +10,5 @@ import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 @FunctionalInterface
 public interface RequestFunction<T, R> {
 
-    R apply(T t) throws RequestFailureException, PartialDataException;
+    R apply(T t) throws RequestException;
 }

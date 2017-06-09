@@ -10,6 +10,7 @@ import java.util.Set;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class LoaderResult {
 
     private final List<HomeCard> data;

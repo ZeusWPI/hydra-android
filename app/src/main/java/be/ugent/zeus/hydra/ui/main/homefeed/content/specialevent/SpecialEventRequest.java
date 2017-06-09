@@ -3,13 +3,11 @@ package be.ugent.zeus.hydra.ui.main.homefeed.content.specialevent;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.models.specialevent.SpecialEvent;
-import be.ugent.zeus.hydra.data.network.CachedRequest;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.data.network.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.SpecialRemoteEventRequest;
+import be.ugent.zeus.hydra.repository.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.stream.Stream;
@@ -28,29 +26,32 @@ public class SpecialEventRequest implements HomeFeedRequest {
 
     private final SpecialRemoteEventRequest remoteEventRequest;
 
-    public SpecialEventRequest(Context context, boolean shouldRefresh) {
+    public SpecialEventRequest(Context context) {
         remoteEventRequest = new SpecialRemoteEventRequest(context,
-                new CachedRequest<>(context, new be.ugent.zeus.hydra.data.network.requests.SpecialEventRequest(), shouldRefresh)
+                Requests.cache(context, new be.ugent.zeus.hydra.data.network.requests.SpecialEventRequest())
         );
     }
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException, PartialDataException {
-        List<HomeCard> list = new ArrayList<>();
-        ZonedDateTime now = ZonedDateTime.now();
-        for (SpecialEvent event : remoteEventRequest.performRequest(null).getSpecialEvents()) {
+    public Result<Stream<HomeCard>> performRequest(Bundle args) {
 
-            //Events without date are always shown.
-            if (event.getStart() == null && event.getEnd() == null) {
-                list.add(new SpecialEventCard(event));
-            } else {
-                if ((event.getStart().isBefore(now) && event.getEnd().isAfter(now)) || (BuildConfig.DEBUG && event.isDevelopment())) {
+        ZonedDateTime now = ZonedDateTime.now();
+        return remoteEventRequest.performRequest(args).apply(specialEventWrapper -> {
+            List<HomeCard> list = new ArrayList<>();
+            for (SpecialEvent event : specialEventWrapper.getSpecialEvents()) {
+
+                //Events without date are always shown.
+                if (event.getStart() == null && event.getEnd() == null) {
                     list.add(new SpecialEventCard(event));
+                } else {
+                    if ((event.getStart().isBefore(now) && event.getEnd().isAfter(now)) || (BuildConfig.DEBUG && event.isDevelopment())) {
+                        list.add(new SpecialEventCard(event));
+                    }
                 }
             }
-        }
-        return StreamSupport.stream(list);
+            return StreamSupport.stream(list);
+        });
     }
 
     @Override

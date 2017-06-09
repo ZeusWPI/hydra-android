@@ -2,10 +2,9 @@ package be.ugent.zeus.hydra.ui.main.homefeed.content.urgent;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
+import be.ugent.zeus.hydra.repository.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import java8.util.stream.RefStreams;
 import java8.util.stream.Stream;
 
@@ -21,7 +20,7 @@ public class UrgentRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest(Bundle args) throws RequestFailureException, PartialDataException {
-        return RefStreams.of(new UrgentCard());
+    public Result<Stream<HomeCard>> performRequest(Bundle args) {
+        return Result.Builder.fromData(RefStreams.of(new UrgentCard()));
     }
 }

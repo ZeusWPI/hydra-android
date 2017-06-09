@@ -11,9 +11,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.data.network.Request;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
+import be.ugent.zeus.hydra.repository.Result;
 import be.ugent.zeus.hydra.repository.data.RefreshingLiveData;
 
 import java.util.List;
@@ -62,8 +61,8 @@ public class CourseLiveData extends RefreshingLiveData<List<Course>> {
 
         @NonNull
         @Override
-        public List<Course> performRequest(@Nullable Bundle args) throws RequestFailureException, PartialDataException {
-            return courseDao.getAll();
+        public Result<List<Course>> performRequest(@Nullable Bundle args) {
+            return Result.Builder.fromData(courseDao.getAll());
         }
     }
 }

@@ -2,14 +2,12 @@ package be.ugent.zeus.hydra.data.network.requests.association;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
 import be.ugent.zeus.hydra.data.network.Endpoints;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.data.network.caching.Cache;
 import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.repository.Result;
 import java8.util.Comparators;
 
 import java.util.Arrays;
@@ -27,10 +25,11 @@ public class UgentNewsRequest extends JsonSpringRequest<UgentNewsItem[]> impleme
 
     @NonNull
     @Override
-    public UgentNewsItem[] performRequest(Bundle args) throws RequestFailureException, PartialDataException {
-        UgentNewsItem[] data = super.performRequest(args);
-        Arrays.sort(data, Comparators.reversed(Comparators.comparing(UgentNewsItem::getModified)));
-        return data;
+    public Result<UgentNewsItem[]> performRequest(Bundle args) {
+        return super.performRequest(args).apply(ugentNewsItems -> {
+            Arrays.sort(ugentNewsItems, Comparators.reversed(Comparators.comparing(UgentNewsItem::getModified)));
+            return ugentNewsItems;
+        });
     }
 
     @NonNull

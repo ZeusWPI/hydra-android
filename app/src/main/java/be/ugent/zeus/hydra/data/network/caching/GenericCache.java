@@ -7,8 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.repository.Result;
 import org.threeten.bp.Duration;
 
 import java.io.File;
@@ -55,32 +54,35 @@ class GenericCache implements Cache {
 
     @NonNull
     @Override
-    public <D extends Serializable> D get(CacheableRequest<D> request, @Nullable Bundle args, long duration) throws RequestFailureException, PartialDataException {
+    public <D extends Serializable> Result<D> get(CacheableRequest<D> request, @Nullable Bundle args, long duration) {
         //Else we do the caching.
         CacheObject<D> object = readOrNull(request.getCacheKey());
-        D data;
 
         if (shouldRefresh(object, duration)) {
             Log.i(TAG, "New response for request " + request.getCacheKey());
-            data = request.performRequest(args);
-            object = new CacheObject<>(data);
-            try {
-                executor.save(request.getCacheKey(), object);
-            } catch (CacheException e) {
-                Log.w(TAG, "Could not cache request " + request.getCacheKey(), e);
+            Result<D> data = request.performRequest(args);
+            // If the request was executed without error, save it to cache.
+            if (data.isWithoutError()) {
+                CacheObject<D> newObject = new CacheObject<>(data.getData());
+                try {
+                    executor.save(request.getCacheKey(), newObject);
+                } catch (CacheException e) {
+                    Log.w(TAG, "Could not cache request " + request.getCacheKey(), e);
+                }
             }
+            return data;
         } else {
             Log.i(TAG, "Cached response for request " + request);
             assert object != null;
-            data = object.getData();
+            return Result.Builder.<D>create()
+                    .withData(object.getData())
+                    .build();
         }
-
-        return data;
     }
 
     @NonNull
     @Override
-    public <R extends Serializable> R get(CacheableRequest<R> request, @Nullable Bundle args) throws RequestFailureException, PartialDataException {
+    public <R extends Serializable> Result<R> get(CacheableRequest<R> request, @Nullable Bundle args) {
         return get(request, args, request.getCacheDuration());
     }
 

@@ -6,9 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import be.ugent.zeus.hydra.data.network.requests.UrgentUrlRequest;
 import be.ugent.zeus.hydra.service.urgent.track.Track;
 import java8.util.function.Consumer;
@@ -70,12 +68,7 @@ public class UrgentTrack implements Track {
 
         @Override
         protected String doInBackground(Void... voids) {
-            try {
-                return new UrgentUrlRequest().performRequest(null) + ".mp3";
-            } catch (RequestException e) {
-                Log.w(TAG, "Error while getting url: ", e);
-                return null;
-            }
+            return new UrgentUrlRequest().performRequest(null) + ".mp3";
         }
 
         @Override

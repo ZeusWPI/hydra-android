@@ -2,10 +2,10 @@ package be.ugent.zeus.hydra.data.network;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
+import be.ugent.zeus.hydra.data.network.exceptions.RestTemplateException;
+import be.ugent.zeus.hydra.repository.Result;
 import com.google.firebase.crash.FirebaseCrash;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
@@ -36,28 +36,34 @@ public abstract class JsonSpringRequest<R> implements Request<R> {
      * This implementation retrieves the data from the remote location using Spring and parses the result using GSON.
      *
      * @return The data.
-     *
-     * @throws IOFailureException If the data could not be obtained due to IO errors (i.e. network).
-     * @throws RequestFailureException If something else went wrong.
      */
     @NonNull
     @Override
-    public R performRequest(Bundle args) throws RequestFailureException, PartialDataException {
+    public Result<R> performRequest(Bundle args) {
         try {
             R result = createRestTemplate().getForEntity(getAPIUrl(), clazz).getBody();
-            if (result == null) {
-                throw new RequestFailureException("The result of the request was null.");
-            }
-            return result;
+            return Result.Builder.<R>create()
+                    .withData(result)
+                    .build();
         } catch (ResourceAccessException e) {
-            throw new IOFailureException(e);
+            return Result.Builder.<R>create()
+                    .withError(new IOFailureException(e))
+                    .build();
         } catch (RestClientException e) {
-            throw new RequestFailureException(e);
+            return Result.Builder.<R>create()
+                    .withError(new RequestException(e))
+                    .build();
         } catch (HttpMessageConversionException e) {
             // We log the wrapping exception in Firebase to be able to view the URL of the failing request.
-            RequestFailureException wrapping = new RequestFailureException("Could not read JSON for " + getAPIUrl(), e);
+            RequestException wrapping = new RequestException("Could not read JSON for " + getAPIUrl(), e);
             FirebaseCrash.report(wrapping);
-            throw wrapping;
+            return Result.Builder.<R>create()
+                    .withError(wrapping)
+                    .build();
+        } catch (RestTemplateException e) {
+            return Result.Builder.<R>create()
+                    .withError(e)
+                    .build();
         }
     }
 
@@ -66,10 +72,8 @@ public abstract class JsonSpringRequest<R> implements Request<R> {
 
     /**
      * @return The rest template used by Spring to perform the request.
-     *
-     * @throws be.ugent.zeus.hydra.data.network.exceptions.RestTemplateException If something went wrong while creating the rest template.
      */
-    protected RestTemplate createRestTemplate() throws RequestFailureException {
+    protected RestTemplate createRestTemplate() throws RestTemplateException {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
         return restTemplate;

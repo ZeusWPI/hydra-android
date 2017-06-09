@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.data.network.requests.Requests;
+import be.ugent.zeus.hydra.data.network.requests.association.EventFilter;
 import be.ugent.zeus.hydra.data.network.requests.association.EventRequest;
-import be.ugent.zeus.hydra.data.network.requests.association.FilteredEventRequest;
 import be.ugent.zeus.hydra.repository.data.RefreshingLiveData;
 import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
 
@@ -28,7 +28,8 @@ public class EventLiveData extends RefreshingLiveData<List<Event>> implements Sh
     public EventLiveData(Context context) {
         super(context, Requests.map(
                 Requests.map(Requests.cache(context, new EventRequest()), Arrays::asList),
-                FilteredEventRequest.transformer(context))
+                new EventFilter(context)
+                )
         );
     }
 

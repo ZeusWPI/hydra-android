@@ -1,8 +1,10 @@
 package be.ugent.zeus.hydra.data.models.specialevent;
 
+import android.support.annotation.NonNull;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +15,11 @@ public class SpecialEventWrapper implements Serializable {
     @SerializedName("special-events")
     private List<SpecialEvent> specialEvents;
 
+    @NonNull
     public List<SpecialEvent> getSpecialEvents() {
+        if (specialEvents == null) {
+            specialEvents = new ArrayList<>();
+        }
         return specialEvents;
     }
 

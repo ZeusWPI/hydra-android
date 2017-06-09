@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.ui.main.homefeed.loader;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
@@ -13,7 +14,7 @@ import android.util.Log;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.database.minerva.DatabaseBroadcaster;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.ui.common.loaders.BroadcastListener;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
@@ -59,6 +60,7 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.feed.OperationFactory.get;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class HomeFeedLoader extends AsyncTaskLoader<LoaderResult> {
 
     private static final String TAG = "HomeFeedLoader";
@@ -117,7 +119,7 @@ public class HomeFeedLoader extends AsyncTaskLoader<LoaderResult> {
                 throw new OperationCanceledException();
             }
 
-            results = executeOperation(operation, errors, results);
+            results = executeOperation(Bundle.EMPTY, operation, errors, results);
 
             List<HomeCard> finalResults = new ArrayList<>(results);
             // Deliver intermediary results.
@@ -128,10 +130,10 @@ public class HomeFeedLoader extends AsyncTaskLoader<LoaderResult> {
         return new LoaderResult(results, errors, true);
     }
 
-    private List<HomeCard> executeOperation(FeedOperation operation, Set<Integer> errors, List<HomeCard> results) {
+    private List<HomeCard> executeOperation(Bundle args, FeedOperation operation, Set<Integer> errors, List<HomeCard> results) {
         try {
-            return operation.transform(results);
-        } catch (RequestFailureException e) {
+            return operation.transform(args, results);
+        } catch (RequestException e) {
             errors.add(operation.getCardType());
             return results;
         }
@@ -264,13 +266,13 @@ public class HomeFeedLoader extends AsyncTaskLoader<LoaderResult> {
         IntPredicate d = s::contains;
 
         //Always insert the special events.
-        operations.add(add(new SpecialEventRequest(c, refreshOnce)));
+        operations.add(add(new SpecialEventRequest(c)));
 
         //Add other stuff if needed
-        operations.add(get(d, () -> new RestoRequest(c, refreshOnce), HomeCard.CardType.RESTO));
-        operations.add(get(d, () -> new EventRequest(c, refreshOnce), HomeCard.CardType.ACTIVITY));
-        operations.add(get(d, () -> new SchamperRequest(c, refreshOnce), HomeCard.CardType.SCHAMPER));
-        operations.add(get(d, () -> new NewsRequest(c, refreshOnce), HomeCard.CardType.NEWS_ITEM));
+        operations.add(get(d, () -> new RestoRequest(c), HomeCard.CardType.RESTO));
+        operations.add(get(d, () -> new EventRequest(c), HomeCard.CardType.ACTIVITY));
+        operations.add(get(d, () -> new SchamperRequest(c), HomeCard.CardType.SCHAMPER));
+        operations.add(get(d, () -> new NewsRequest(c), HomeCard.CardType.NEWS_ITEM));
         operations.add(get(d, () -> new MinervaAnnouncementRequest(c), HomeCard.CardType.MINERVA_ANNOUNCEMENT));
         operations.add(get(d, () -> new MinervaAgendaRequest(c), HomeCard.CardType.MINERVA_AGENDA));
         operations.add(get(d, UrgentRequest::new, HomeCard.CardType.URGENT_FM));

@@ -22,7 +22,7 @@ public class ErrorUtils {
      */
     public static <D> LiveData<Throwable> filterErrors(LiveData<Result<D>> source) {
         return Transformations.map(
-                UtilTransformations.filter(source, dResult -> dResult.getStatus() == Result.Status.ERROR),
+                UtilTransformations.filter(source, Result::hasException),
                 Result::getError
         );
     }

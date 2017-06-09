@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.data.network.requests;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import be.ugent.zeus.hydra.data.network.CachedRequest;
 import be.ugent.zeus.hydra.data.network.ListRequest;
 import be.ugent.zeus.hydra.data.network.Request;
@@ -10,8 +11,8 @@ import be.ugent.zeus.hydra.data.network.caching.Cache;
 import be.ugent.zeus.hydra.data.network.caching.CacheManager;
 import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
+import be.ugent.zeus.hydra.repository.Result;
 import java8.util.function.BiFunction;
 import java8.util.function.Function;
 
@@ -25,6 +26,7 @@ import java.util.List;
  */
 public class Requests {
 
+    @Deprecated
     public static <R> BiFunction<Context, Boolean, Request<List<R>>> cachedArray(CacheableRequest<R[]> request) {
         return (c, b) -> new ListRequest<>(new CachedRequest<>(c, request, b));
     }
@@ -42,8 +44,8 @@ public class Requests {
      *
      * @return The new request.
      */
-    public static <R, O> Request<R> map(Request<O> request, Function<O, R> function) {
-        return mapE(request, function::apply);
+    public static <O, R> Request<R> map(Request<O> request, Function<O, R> function) {
+        return args -> request.performRequest(args).apply(function);
     }
 
     /**
@@ -57,14 +59,8 @@ public class Requests {
      *
      * @return The new request.
      */
-    public static <R, O> Request<R> mapE(Request<O> request, RequestFunction<O, R> function) {
-        return args -> {
-            try {
-                return function.apply(request.performRequest(args));
-            } catch (PartialDataException e) {
-                throw new PartialDataException(e.getCause(), (Serializable) function.apply(e.getData()));
-            }
-        };
+    public static <O, R> Request<R> mapE(Request<O> request, RequestFunction<O, R> function) {
+        return args -> request.performRequest(args).applyError(function);
     }
 
     /**
@@ -79,22 +75,22 @@ public class Requests {
         return args -> {
             Bundle shouldRefresh = new Bundle();
             Cache cache = CacheManager.defaultCache(context);
-            R data;
+            Result<R> data;
 
             if (args != null) {
                 shouldRefresh.putAll(args);
             }
 
-            try {
-                if (shouldRefresh.getBoolean(RefreshBroadcast.REFRESH_COLD, false)) {
-                    data = cache.get(request, args, Cache.NEVER);
-                } else {
-                    data = cache.get(request, args);
-                }
-            } catch (IOFailureException e) {
-                // TODO: check if we are actually connected to a network or not.
+            if (shouldRefresh.getBoolean(RefreshBroadcast.REFRESH_COLD, false)) {
+                data = cache.get(request, args, Cache.NEVER);
+            } else {
+                data = cache.get(request, args);
+            }
+
+            // If getting data failed because of the network, get the cached data anyway.
+            if (data.hasException() && data.getError() instanceof IOFailureException) {
+                Log.i("CachedRequest", "Could not get data from network, getting cached data.");
                 data = cache.get(request, args, Cache.ALWAYS);
-                throw new PartialDataException(e, data);
             }
 
             return data;

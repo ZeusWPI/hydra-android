@@ -2,12 +2,10 @@ package be.ugent.zeus.hydra.data.network.requests;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import be.ugent.zeus.hydra.data.network.Endpoints;
 import be.ugent.zeus.hydra.data.network.Request;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.repository.Result;
 import be.ugent.zeus.hydra.utils.StringUtils;
 
 import java.io.IOException;
@@ -22,12 +20,16 @@ public class UrgentUrlRequest implements Request<String> {
 
     @NonNull
     @Override
-    public String performRequest(Bundle args) throws RequestFailureException, PartialDataException {
+    public Result<String> performRequest(Bundle args) {
         try {
             URL url = new URL(Endpoints.URGENT_CONFIG_URL);
-            return StringUtils.convertStreamToString(url.openStream()).trim();
+            return Result.Builder.<String>create()
+                    .withData(StringUtils.convertStreamToString(url.openStream()).trim())
+                    .build();
         } catch (IOException e) {
-            throw new IOFailureException(e);
+            return Result.Builder.<String>create()
+                    .withError(new IOFailureException(e))
+                    .build();
         }
     }
 }

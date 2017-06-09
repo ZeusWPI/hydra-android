@@ -3,8 +3,7 @@ package be.ugent.zeus.hydra.data.network.caching;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.repository.Result;
 
 import java.io.Serializable;
 
@@ -77,11 +76,9 @@ public interface Cache {
      * @param duration Expiration of the cache.
      *
      * @return The data, as if provided by the request.
-     *
-     * @throws RequestFailureException If the retrieval of new data fails.
      */
     @NonNull
-    <R extends Serializable> R get(CacheableRequest<R> request, @Nullable Bundle args, long duration) throws RequestFailureException, PartialDataException;
+    <R extends Serializable> Result<R> get(CacheableRequest<R> request, @Nullable Bundle args, long duration);
 
     /**
      * Same as the other method, but uses the built-in cache duration of the request.
@@ -89,5 +86,5 @@ public interface Cache {
      * @see #get(CacheableRequest, Bundle, long)
      */
     @NonNull
-    <R extends Serializable> R get(CacheableRequest<R> request, @Nullable Bundle args) throws RequestFailureException, PartialDataException;
+    <R extends Serializable> Result<R> get(CacheableRequest<R> request, @Nullable Bundle args);
 }

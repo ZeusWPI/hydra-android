@@ -9,6 +9,7 @@ import java.io.Serializable;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class PartialDataException extends RequestException {
 
     private final Serializable data;

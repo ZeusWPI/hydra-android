@@ -2,13 +2,12 @@ package be.ugent.zeus.hydra.data.network.requests.minerva.auth;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import be.ugent.zeus.hydra.data.auth.OAuthConfiguration;
 import be.ugent.zeus.hydra.data.models.minerva.auth.BearerToken;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
-import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
+import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
+import be.ugent.zeus.hydra.repository.Result;
 import com.google.gson.Gson;
 import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
@@ -33,14 +32,20 @@ public abstract class AccessTokenRequest implements Request<BearerToken> {
 
     @NonNull
     @Override
-    public BearerToken performRequest(Bundle args) throws RequestFailureException, PartialDataException {
+    public Result<BearerToken> performRequest(Bundle args) {
         try {
             OAuthJSONAccessTokenResponse accessTokenResponse = getToken();
-            return gson.fromJson(accessTokenResponse.getBody(), BearerToken.class);
+            return Result.Builder.<BearerToken>create()
+                    .withData(gson.fromJson(accessTokenResponse.getBody(), BearerToken.class))
+                    .build();
         } catch (OAuthSystemException e) {
-            throw new IOFailureException(e);
+            return Result.Builder.<BearerToken>create()
+                    .withError(new IOFailureException(e))
+                    .build();
         } catch (OAuthProblemException e) {
-            throw new RequestFailureException(e);
+            return Result.Builder.<BearerToken>create()
+                    .withError(new RequestException(e))
+                    .build();
         }
     }
 
