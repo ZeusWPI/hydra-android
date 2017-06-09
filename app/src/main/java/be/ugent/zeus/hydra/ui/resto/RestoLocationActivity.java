@@ -1,23 +1,26 @@
 package be.ugent.zeus.hydra.ui.resto;
 
 import android.Manifest;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v13.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.view.View;
+import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.resto.Resto;
 import be.ugent.zeus.hydra.data.models.resto.RestoMeta;
-import be.ugent.zeus.hydra.data.network.CachedRequest;
-import be.ugent.zeus.hydra.data.network.requests.resto.MetaRequest;
+import be.ugent.zeus.hydra.repository.RefreshBroadcast;
+import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
+import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
+import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
-import be.ugent.zeus.hydra.ui.common.plugins.ProgressBarPlugin;
-import be.ugent.zeus.hydra.ui.common.plugins.RequestPlugin;
-import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -25,38 +28,32 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.List;
-
 public class RestoLocationActivity extends BaseActivity implements OnMapReadyCallback {
+
+    private static final String TAG = "RestoLocationActivity";
 
     private static final LatLng DEFAULT_LOCATION = new LatLng(51.05, 3.72); //Gent
     private static final float DEFAULT_ZOOM = 12; //Between city & street zoom
 
     private static final int MY_LOCATION_REQUEST_CODE = 1;
 
-    private final RequestPlugin<RestoMeta> plugin = new RequestPlugin<>((context, aBoolean) -> new CachedRequest<>(context, new MetaRequest(), aBoolean));
     private GoogleMap map;
     private RestoMeta meta;
-
-    @Override
-    protected void onAddPlugins(List<Plugin> plugins) {
-        super.onAddPlugins(plugins);
-        plugin.enableProgress()
-                .defaultError()
-                .setSuccessCallback(this::receiveData);
-        plugins.add(plugin);
-    }
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resto_location);
+        progressBar = $(R.id.progress_bar);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        plugin.startLoader();
+        MetaViewModel model = ViewModelProviders.of(this).get(MetaViewModel.class);
+        ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+        model.getData().observe(this, new ProgressObserver<>(progressBar));
+        model.getData().observe(this, SuccessObserver.with(this::receiveData));
     }
-
 
     /**
      * Manipulates the map once available.
@@ -94,7 +91,7 @@ public class RestoLocationActivity extends BaseActivity implements OnMapReadyCal
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.resto_refresh:
-                plugin.refresh();
+                onRefresh();
                 return true;
             case R.id.resto_center:
                 centerDefault();
@@ -124,7 +121,7 @@ public class RestoLocationActivity extends BaseActivity implements OnMapReadyCal
             );
         }
         centerDefault();
-        plugin.getProgressBarPlugin().ifPresent(ProgressBarPlugin::hideProgressBar);
+        progressBar.setVisibility(View.GONE);
     }
 
     private void centerDefault() {
@@ -147,5 +144,16 @@ public class RestoLocationActivity extends BaseActivity implements OnMapReadyCal
                 map.getUiSettings().setMyLocationButtonEnabled(true);
             }
         }
+    }
+
+    private void onError(Throwable throwable) {
+        Log.e(TAG, "Error while getting data.", throwable);
+        Snackbar.make($(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.again), v -> onRefresh())
+                .show();
+    }
+
+    public void onRefresh() {
+        RefreshBroadcast.broadcastRefresh(this, true);
     }
 }

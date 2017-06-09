@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import be.ugent.zeus.hydra.repository.Result;
+import java8.util.function.Consumer;
 
 /**
  * Observes successful loading of data.
@@ -38,4 +39,13 @@ public abstract class SuccessObserver<D> implements Observer<Result<D>> {
      * @param data The data.
      */
     protected abstract void onSuccess(D data);
+
+    public static <D> SuccessObserver<D> with(Consumer<D> consumer) {
+        return new SuccessObserver<D>() {
+            @Override
+            protected void onSuccess(D data) {
+                consumer.accept(data);
+            }
+        };
+    }
 }
