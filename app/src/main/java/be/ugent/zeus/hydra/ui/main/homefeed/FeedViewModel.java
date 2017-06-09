@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main.homefeed.loader;
+package be.ugent.zeus.hydra.ui.main.homefeed;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;

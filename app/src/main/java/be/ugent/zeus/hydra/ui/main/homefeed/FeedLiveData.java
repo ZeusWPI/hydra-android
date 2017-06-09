@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main.homefeed.loader;
+package be.ugent.zeus.hydra.ui.main.homefeed;
 
 import android.arch.lifecycle.LiveData;
 import android.content.*;
@@ -17,7 +17,6 @@ import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.Result;
-import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.debug.WaitRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.event.EventRequest;

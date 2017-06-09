@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main.homefeed.loader;
+package be.ugent.zeus.hydra.ui.main.homefeed;
 
 import be.ugent.zeus.hydra.ui.main.homefeed.feed.FeedOperation;
 import be.ugent.zeus.hydra.utils.IterableSparseArray;

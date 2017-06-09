@@ -17,7 +17,6 @@ import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
-import be.ugent.zeus.hydra.ui.main.homefeed.loader.FeedViewModel;
 
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
