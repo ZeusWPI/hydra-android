@@ -24,6 +24,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 class AnnouncementsLoader extends BroadcastLoader<List<Announcement>> {
 
     private final AnnouncementDao dao;

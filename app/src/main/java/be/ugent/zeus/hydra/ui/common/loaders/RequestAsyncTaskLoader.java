@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.data.network.Request;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import be.ugent.zeus.hydra.repository.data.ModelLiveData;
-import java8.util.function.Function;
 
 
 /**
@@ -37,10 +36,5 @@ public class RequestAsyncTaskLoader<D> extends AbstractLoader<D> {
         } catch (RequestException e) {
             throw new LoaderException(e);
         }
-    }
-
-    @Deprecated
-    public static <D> Function<Context, AbstractLoader<D>> fromRequest(Request<D> request) {
-        return c -> new RequestAsyncTaskLoader<>(c, request);
     }
 }

@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
+@Deprecated
 class AgendaLoader extends BroadcastLoader<List<AgendaItem>> {
 
     private AgendaDao dao;

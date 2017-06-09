@@ -46,11 +46,6 @@ public class RequestPlugin<D> extends LoaderPlugin<D> {
         setLoaderProvider(loaderSupplier.apply(refreshOnce));
     }
 
-    public RequestPlugin(Request<D> request) {
-        super();
-        setLoaderProvider(a -> RequestAsyncTaskLoader.fromRequest(request).apply(getHost().getContext()));
-    }
-
     public RequestPlugin<D> enableProgress() {
         progressBarPlugin = new ProgressBarPlugin();
         progressBarPlugin.register(this);

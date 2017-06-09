@@ -15,6 +15,7 @@ import be.ugent.zeus.hydra.ui.common.loaders.BroadcastLoader;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 class AgendaItemLoader extends BroadcastLoader<AgendaItem> {
 
     private final AgendaDao dao;
