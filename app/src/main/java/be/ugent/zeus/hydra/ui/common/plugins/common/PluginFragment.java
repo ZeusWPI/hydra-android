@@ -17,6 +17,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class PluginFragment extends LifecycleFragment {
 
     private List<FragmentPlugin> fragmentPlugins = new ArrayList<>();

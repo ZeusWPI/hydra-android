@@ -6,6 +6,7 @@ import android.view.View;
 /**
  * @author Niko Strijbol
  */
+@Deprecated
 public interface ContextHolder {
 
     /**

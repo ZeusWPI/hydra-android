@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.ui.main.library;
 import android.view.View;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.LibraryDetailActivity;
+import be.ugent.zeus.hydra.ui.library.LibraryDetailActivity;
 import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 

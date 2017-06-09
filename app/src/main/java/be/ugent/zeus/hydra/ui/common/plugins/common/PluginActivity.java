@@ -16,6 +16,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public abstract class PluginActivity extends AppCompatActivity {
 
     private List<Plugin> plugins = new ArrayList<>();

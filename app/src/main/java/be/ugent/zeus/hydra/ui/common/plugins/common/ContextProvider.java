@@ -15,6 +15,7 @@ import android.view.View;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 final class ContextProvider {
 
     private ContextProvider() {}

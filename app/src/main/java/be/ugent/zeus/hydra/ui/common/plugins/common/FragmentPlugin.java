@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
  * @author Niko Strijbol
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
+@Deprecated
 public abstract class FragmentPlugin extends Plugin {
 
     protected void onAttach(Context context) {}

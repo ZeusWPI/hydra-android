@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.ui.common;
 
+import android.arch.lifecycle.LifecycleRegistry;
+import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
@@ -25,7 +27,9 @@ import java8.util.function.Supplier;
  *
  * @author Niko Strijbol
  */
-public abstract class BaseActivity extends PluginActivity {
+public abstract class BaseActivity extends PluginActivity implements LifecycleRegistryOwner {
+
+    private LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
     /**
      * Finds a view that was identified by the id attribute from the XML that was processed in {@link #onCreate}. This
@@ -117,5 +121,10 @@ public abstract class BaseActivity extends PluginActivity {
      */
     protected boolean hasParent() {
         return true;
+    }
+
+    @Override
+    public LifecycleRegistry getLifecycle() {
+        return lifecycleRegistry;
     }
 }

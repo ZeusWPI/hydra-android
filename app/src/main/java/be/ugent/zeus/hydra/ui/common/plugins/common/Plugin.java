@@ -17,6 +17,7 @@ import java.util.List;
  * @author Niko Strijbol
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
+@Deprecated
 public abstract class Plugin {
 
     private ContextProvider.Provider provider;

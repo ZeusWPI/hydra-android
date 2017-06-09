@@ -1,5 +1,6 @@
-package be.ugent.zeus.hydra.ui;
+package be.ugent.zeus.hydra.ui.library;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,33 +11,31 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.text.util.LinkifyCompat;
 import android.text.TextUtils;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.data.models.library.OpeningHours;
-import be.ugent.zeus.hydra.data.network.Request;
-import be.ugent.zeus.hydra.data.network.requests.Requests;
-import be.ugent.zeus.hydra.data.network.requests.library.OpeningHoursRequest;
+import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
+import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
+import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import be.ugent.zeus.hydra.ui.common.ViewUtils;
+import be.ugent.zeus.hydra.ui.common.html.Utils;
 import be.ugent.zeus.hydra.ui.main.library.LibraryListFragment;
-import be.ugent.zeus.hydra.ui.common.plugins.RequestPlugin;
-import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
-import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import be.ugent.zeus.hydra.ui.common.html.Utils;
 import com.squareup.picasso.Picasso;
-import java8.util.function.BiFunction;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -57,32 +56,17 @@ public class LibraryDetailActivity extends BaseActivity {
 
     private static final String ARG_LIBRARY = "argLibrary";
 
+    private static final String TAG = "LibraryDetailActivity";
+
     private Library library;
     private Button button;
     private Button expandButton;
     private FrameLayout layout;
 
-    // Due to the lambda, library should be not null when this is called.
-    private RequestPlugin<List<OpeningHours>> plugin = new RequestPlugin<>(new BiFunction<Context, Boolean, Request<List<OpeningHours>>>() {
-        @Override
-        public Request<List<OpeningHours>> apply(Context context, Boolean aBoolean) {
-            return Requests.cachedArray(new OpeningHoursRequest(library)).apply(context, aBoolean);
-        }
-    });
-
     public static void launchActivity(Context context, Library library) {
         Intent intent = new Intent(context, LibraryDetailActivity.class);
         intent.putExtra(ARG_LIBRARY, (Parcelable) library);
         context.startActivity(intent);
-    }
-
-    @Override
-    protected void onAddPlugins(List<Plugin> plugins) {
-        super.onAddPlugins(plugins);
-        plugin.enableProgress()
-                .defaultError()
-                .setSuccessCallback(this::receiveData);
-        plugins.add(plugin);
     }
 
     @Override
@@ -180,7 +164,16 @@ public class LibraryDetailActivity extends BaseActivity {
         TextView contact = $(R.id.library_contact_row_text);
         contact.setText(library.getContact());
 
-        plugin.startLoader();
+        HoursViewModel model = ViewModelProviders.of(this).get(HoursViewModel.class);
+        model.setLibrary(library);
+        ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+        model.getData().observe(this, new ProgressObserver<>($(R.id.progress_bar)));
+        model.getData().observe(this, new SuccessObserver<List<OpeningHours>>() {
+            @Override
+            protected void onSuccess(List<OpeningHours> data) {
+                receiveData(data);
+            }
+        });
     }
 
     @Override
@@ -309,5 +302,11 @@ public class LibraryDetailActivity extends BaseActivity {
         }
         parts.addAll(library.getAddress());
         return StreamSupport.stream(parts).collect(Collectors.joining("\n"));
+    }
+
+    private void onError(Throwable throwable) {
+        Log.e(TAG, "Error while getting data.", throwable);
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .show();
     }
 }
