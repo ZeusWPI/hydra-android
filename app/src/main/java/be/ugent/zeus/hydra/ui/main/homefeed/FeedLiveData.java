@@ -67,6 +67,8 @@ public class FeedLiveData extends LiveData<Result<List<HomeCard>>> {
             RestoPreferenceFragment.PREF_RESTO
     };
 
+    private Map<String, Object> oldPreferences = new HashMap<>();
+
     public FeedLiveData(Context context) {
         this.applicationContext = context.getApplicationContext();
         loadData(Bundle.EMPTY);
@@ -83,6 +85,20 @@ public class FeedLiveData extends LiveData<Result<List<HomeCard>>> {
         intentFilter.addAction(DatabaseBroadcaster.MINERVA_ANNOUNCEMENT_UPDATED);
         intentFilter.addAction(RefreshBroadcast.BROADCAST);
         manager.registerReceiver(broadcastReceiver, intentFilter);
+        Map<String, ?> prefs = preferences.getAll();
+        boolean shouldRefresh = false;
+        for (String preference : watchedPreferences) {
+            Object newPreference = prefs.get(preference);
+            if (newPreference != null) {
+                if (oldPreferences.containsKey(preference) && !oldPreferences.get(preference).equals(newPreference)) {
+                    shouldRefresh = true;
+                }
+                oldPreferences.put(preference, newPreference);
+            }
+        }
+        if (shouldRefresh) {
+            loadData(Bundle.EMPTY);
+        }
     }
 
     @Override
