@@ -57,6 +57,7 @@ public class LineupFragment extends LifecycleFragment implements SwipeRefreshLay
         RecyclerView recyclerView = $(view, R.id.recycler_view);
 
         SwipeRefreshLayout refreshLayout = $(view, R.id.refresh_layout);
+        refreshLayout.setColorSchemeResources(R.color.sko_red);
         refreshLayout.setOnRefreshListener(this);
 
         if (joiner == null) {

@@ -61,6 +61,7 @@ public class TimelineFragment extends PluginFragment implements SwipeRefreshLayo
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         refreshLayout = $(view, R.id.refresh_layout);
+        refreshLayout.setColorSchemeResources(R.color.sko_red);
         refreshLayout.setOnRefreshListener(this);
         plugin.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
     }

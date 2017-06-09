@@ -1,42 +1,32 @@
 package be.ugent.zeus.hydra.ui.sko.overview;
 
+import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.*;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.sko.Exhibitor;
-import be.ugent.zeus.hydra.data.network.requests.Requests;
-import be.ugent.zeus.hydra.data.network.requests.sko.StuVilExhibitorRequest;
-import be.ugent.zeus.hydra.ui.common.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.repository.RefreshBroadcast;
+import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
+import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
+import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
-
-import java.util.List;
 
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * @author Niko Strijbol
  */
-public class VillageFragment extends PluginFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class VillageFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "VillageFragment";
 
-    private SwipeRefreshLayout refreshLayout;
     private SearchView searchView;
-    private ExhibitorAdapter adapter = new ExhibitorAdapter();
-    private RecyclerViewPlugin<Exhibitor> plugin = new RecyclerViewPlugin<>(Requests.cachedArray(new StuVilExhibitorRequest()), adapter);
-
-    @Override
-    protected void onAddPlugins(List<Plugin> plugins) {
-        super.onAddPlugins(plugins);
-        plugin.enableProgress().defaultError().addSuccessCallback(i -> refreshLayout.setRefreshing(false));
-        plugins.add(plugin);
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,14 +44,27 @@ public class VillageFragment extends PluginFragment implements SwipeRefreshLayou
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ExhibitorAdapter adapter = new ExhibitorAdapter();
+
         searchView = $(view, R.id.search_view);
         searchView.setSuggestionsAdapter(null);
         searchView.setOnQueryTextListener(adapter);
-        plugin.getRecyclerView().requestFocus();
 
-        refreshLayout = $(view, R.id.refresh_layout);
+        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        recyclerView.requestFocus();
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapter);
+
+        SwipeRefreshLayout refreshLayout = $(view, R.id.refresh_layout);
+        refreshLayout.setColorSchemeResources(R.color.sko_red);
         refreshLayout.setOnRefreshListener(this);
-        plugin.getRecyclerView().requestFocus();
+
+        ExhibitorViewModel model = ViewModelProviders.of(this).get(ExhibitorViewModel.class);
+        ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+        model.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
+        model.getData().observe(this, new AdapterObserver<>(adapter));
+        model.getRefreshing().observe(this, refreshLayout::setRefreshing);
+        recyclerView.requestFocus();
     }
 
     @Override
@@ -74,7 +77,7 @@ public class VillageFragment extends PluginFragment implements SwipeRefreshLayou
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId() == R.id.action_refresh) {
+        if (item.getItemId() == R.id.action_refresh) {
             onRefresh();
             return true;
         }
@@ -85,6 +88,13 @@ public class VillageFragment extends PluginFragment implements SwipeRefreshLayou
     @Override
     public void onRefresh() {
         searchView.setQuery("", false);
-        plugin.refresh();
+        RefreshBroadcast.broadcastRefresh(getContext(), true);
+    }
+
+    private void onError(Throwable throwable) {
+        Log.e(TAG, "Error while getting data.", throwable);
+        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.again), v -> onRefresh())
+                .show();
     }
 }

@@ -66,7 +66,7 @@ project.afterEvaluate {
 }
 
 //The support library version
-final SUPPORT_LIBRARY_VERSION = '25.3.1'
+final SUPPORT_LIBRARY_VERSION = '25.4.0'
 final GMS_VERSION = '10.2.1'
 
 dependencies {
