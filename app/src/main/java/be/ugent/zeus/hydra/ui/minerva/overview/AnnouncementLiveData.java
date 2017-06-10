@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.database.minerva.DatabaseBroadcaster;
@@ -32,12 +31,12 @@ public class AnnouncementLiveData extends LiveData<Result<List<Announcement>>> {
             String action = intent.getAction();
             if (SyncBroadcast.SYNC_PROGRESS_WHATS_NEW.equals(action)
                     && course.getId().equals(intent.getStringExtra(SyncBroadcast.ARG_SYNC_PROGRESS_COURSE))) {
-                loadData(Bundle.EMPTY);
+                loadData();
                 return;
             }
             if (DatabaseBroadcaster.MINERVA_ANNOUNCEMENT_UPDATED.equals(action)
                     && course.getId().equals(intent.getStringExtra(DatabaseBroadcaster.ARG_MINERVA_ANNOUNCEMENT_COURSE))) {
-                loadData(Bundle.EMPTY);
+                loadData();
             }
         }
     };
@@ -46,10 +45,10 @@ public class AnnouncementLiveData extends LiveData<Result<List<Announcement>>> {
         this.applicationContext = context.getApplicationContext();
         this.dao = new AnnouncementDao(applicationContext);
         this.course = course;
-        loadData(Bundle.EMPTY);
+        //loadData();
     }
 
-    private void loadData(Bundle args) {
+    private void loadData() {
         new AsyncTask<Void, Void, Result<List<Announcement>>>() {
 
             @Override
@@ -69,6 +68,8 @@ public class AnnouncementLiveData extends LiveData<Result<List<Announcement>>> {
         super.onActive();
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(applicationContext);
         manager.registerReceiver(receiver, getFilter());
+        // TODO: find a way to check if something changed.
+        loadData();
     }
 
     @Override
