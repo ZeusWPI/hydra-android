@@ -1,25 +1,25 @@
 package be.ugent.zeus.hydra.ui.preferences;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.association.Association;
-import be.ugent.zeus.hydra.data.network.requests.Requests;
-import be.ugent.zeus.hydra.data.network.requests.association.AssociationsRequest;
+import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
+import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
+import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
-import be.ugent.zeus.hydra.ui.common.plugins.RequestPlugin;
-import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectListAdapter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DefaultMultiSelectListViewHolder;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
 import java.util.*;
@@ -31,40 +31,36 @@ import java.util.*;
  */
 public class AssociationSelectPrefActivity extends BaseActivity {
 
+    private static final String TAG = "AssociationSelectPrefAc";
     public static final String PREF_ASSOCIATIONS_SHOWING = "pref_associations_showing";
 
-    private SearchableAdapter adapter = new SearchableAdapter();
-    private RequestPlugin<List<Association>> plugin = new RequestPlugin<>(Requests.cachedArray(new AssociationsRequest()));
-
-    @Override
-    protected void onAddPlugins(List<Plugin> plugins) {
-        super.onAddPlugins(plugins);
-        plugin.enableProgress()
-                .defaultError()
-                .setSuccessCallback(this::receiveData);
-        plugins.add(plugin);
-    }
+    private SearchableAssociationsAdapter adapter = new SearchableAssociationsAdapter();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences_associations);
 
-        final RecyclerView recyclerView = $(R.id.recycler_view);
+        RecyclerView recyclerView = $(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         RecyclerFastScroller s = $(R.id.fast_scroller);
         SearchView searchView = $(R.id.search_view);
 
         recyclerView.requestFocus();
 
-        adapter = new SearchableAdapter();
+        adapter = new SearchableAssociationsAdapter();
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         s.attachRecyclerView(recyclerView);
 
         searchView.setOnQueryTextListener(adapter);
-        plugin.startLoader();
+
+
+        AssociationsViewModel model = ViewModelProviders.of(this).get(AssociationsViewModel.class);
+        model.getData().observe(this, ErrorObserver.with(this::onError));
+        model.getData().observe(this, SuccessObserver.with(this::receiveData));
+        model.getData().observe(this, new ProgressObserver<>($(R.id.progress_bar)));
     }
 
     @Override
@@ -107,7 +103,7 @@ public class AssociationSelectPrefActivity extends BaseActivity {
 
         //Save the values.
         Set<String> disabled = new HashSet<>();
-        for (Map.Entry<Association, Boolean> pair : adapter.allData.entrySet()) {
+        for (Map.Entry<Association, Boolean> pair : adapter.getAllData().entrySet()) {
             if (!pair.getValue()) {
                 disabled.add(pair.getKey().getInternalName());
             }
@@ -117,82 +113,8 @@ public class AssociationSelectPrefActivity extends BaseActivity {
         preferences.edit().putStringSet(PREF_ASSOCIATIONS_SHOWING, disabled).apply();
     }
 
-    private static class SearchableAdapter extends MultiSelectListAdapter<Association> implements SearchView.OnQueryTextListener {
-
-        private SearchableAdapter(){
-            super(R.layout.item_checkbox_string);
-            this.setDataViewHolderFactory(
-                    itemView -> new DefaultMultiSelectListViewHolder<>(
-                            itemView,
-                            SearchableAdapter.this,
-                            Association::getName
-                    )
-            );
-        }
-
-        private Map<Association, Boolean> allData = new HashMap<>();
-
-        @Override
-        public void setItems(List<Pair<Association, Boolean>> items) {
-            super.setItems(items);
-            for (Pair<Association, Boolean> pair : items) {
-                allData.put(pair.first, pair.second);
-            }
-        }
-
-        @Override
-        public void setChecked(int position) {
-            super.setChecked(position);
-            Pair<Association, Boolean> newData = items.get(position);
-            allData.put(newData.first, newData.second);
-        }
-
-        @Override
-        public void setAllChecked(boolean checked) {
-            super.setAllChecked(checked);
-            for (Association key : allData.keySet()) {
-                allData.put(key, checked);
-            }
-        }
-
-        @Override
-        public boolean onQueryTextSubmit(String query) {
-            return false;
-        }
-
-        @Override
-        public boolean onQueryTextChange(String newText) {
-
-            if (allData == null) {
-                return true;
-            }
-
-            if (newText.isEmpty()) {
-                List<Pair<Association, Boolean>> newList = new ArrayList<>();
-                for (Map.Entry<Association, Boolean> pair : allData.entrySet()) {
-                    newList.add(new Pair<>(pair.getKey(), pair.getValue()));
-                }
-                this.items = newList;
-                notifyDataSetChanged();
-            }
-
-            List<Pair<Association, Boolean>> newList = new ArrayList<>();
-
-            for (Map.Entry<Association, Boolean> pair : allData.entrySet()) {
-                String text = newText.toLowerCase();
-                Association a = pair.getKey();
-                if (a.getDisplayName().toLowerCase().contains(text) ||
-                        (a.getFullName() != null && a.getFullName().toLowerCase().contains(text)) ||
-                        a.getInternalName().toLowerCase().contains(text)) {
-                    newList.add(new Pair<>(a, pair.getValue()));
-                }
-            }
-
-            //Manually update.
-            this.items = newList;
-            notifyDataSetChanged();
-
-            return true;
-        }
+    private void onError(Throwable throwable) {
+        Log.e(TAG, "Error while getting data.", throwable);
+        Snackbar.make($(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG).show();
     }
 }
