@@ -26,7 +26,7 @@ public class NewsRequest extends JsonSpringRequest<NewsItem[]> implements Cachea
     @NonNull
     @Override
     public Result<NewsItem[]> performRequest(Bundle args) {
-        return super.performRequest(args).apply(newsItems -> {
+        return super.performRequest(args).map(newsItems -> {
             Arrays.sort(newsItems, Comparators.reversed(Comparators.comparing(NewsItem::getDate)));
             return newsItems;
         });

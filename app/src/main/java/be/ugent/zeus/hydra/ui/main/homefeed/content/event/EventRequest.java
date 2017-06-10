@@ -44,7 +44,7 @@ public class EventRequest implements HomeFeedRequest {
         ZonedDateTime now = ZonedDateTime.now();
         ZonedDateTime plusOne = now.plusMonths(1);
 
-        return request.performRequest(args).apply(events -> StreamSupport.stream(events)
+        return request.performRequest(args).map(events -> StreamSupport.stream(events)
                 .filter(c -> c.getStart().isAfter(now) && c.getStart().isBefore(plusOne))
                 .map(EventCard::new));
     }

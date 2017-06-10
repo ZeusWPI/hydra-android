@@ -38,7 +38,7 @@ public class SchamperRequest implements HomeFeedRequest {
     public Result<Stream<HomeCard>> performRequest(Bundle args) {
         LocalDateTime twoMonthsAgo = LocalDateTime.now().minusMonths(1);
 
-        return request.performRequest(args).apply(articles -> StreamSupport.stream(articles)
+        return request.performRequest(args).map(articles -> StreamSupport.stream(articles)
                 .filter(a -> a.getLocalPubDate().isAfter(twoMonthsAgo))
                 .map(SchamperCard::new));
     }

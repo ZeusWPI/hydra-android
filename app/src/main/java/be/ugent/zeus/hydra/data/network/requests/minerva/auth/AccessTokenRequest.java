@@ -35,15 +35,15 @@ public abstract class AccessTokenRequest implements Request<BearerToken> {
     public Result<BearerToken> performRequest(Bundle args) {
         try {
             OAuthJSONAccessTokenResponse accessTokenResponse = getToken();
-            return Result.Builder.<BearerToken>create()
+            return new Result.Builder<BearerToken>()
                     .withData(gson.fromJson(accessTokenResponse.getBody(), BearerToken.class))
                     .build();
         } catch (OAuthSystemException e) {
-            return Result.Builder.<BearerToken>create()
+            return new Result.Builder<BearerToken>()
                     .withError(new IOFailureException(e))
                     .build();
         } catch (OAuthProblemException e) {
-            return Result.Builder.<BearerToken>create()
+            return new Result.Builder<BearerToken>()
                     .withError(new RequestException(e))
                     .build();
         }

@@ -37,7 +37,7 @@ public class SpecialEventRequest implements HomeFeedRequest {
     public Result<Stream<HomeCard>> performRequest(Bundle args) {
 
         ZonedDateTime now = ZonedDateTime.now();
-        return remoteEventRequest.performRequest(args).apply(specialEventWrapper -> {
+        return remoteEventRequest.performRequest(args).map(specialEventWrapper -> {
             List<HomeCard> list = new ArrayList<>();
             for (SpecialEvent event : specialEventWrapper.getSpecialEvents()) {
 

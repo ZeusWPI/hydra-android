@@ -26,7 +26,7 @@ public class UgentNewsRequest extends JsonSpringRequest<UgentNewsItem[]> impleme
     @NonNull
     @Override
     public Result<UgentNewsItem[]> performRequest(Bundle args) {
-        return super.performRequest(args).apply(ugentNewsItems -> {
+        return super.performRequest(args).map(ugentNewsItems -> {
             Arrays.sort(ugentNewsItems, Comparators.reversed(Comparators.comparing(UgentNewsItem::getModified)));
             return ugentNewsItems;
         });

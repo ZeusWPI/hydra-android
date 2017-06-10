@@ -39,7 +39,7 @@ public class NewsRequest implements HomeFeedRequest {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime sixMonthsAgo = now.minusWeeks(2);
 
-        return request.performRequest(args).apply(ugentNewsItems -> StreamSupport.stream(ugentNewsItems)
+        return request.performRequest(args).map(ugentNewsItems -> StreamSupport.stream(ugentNewsItems)
                 .filter(n -> sixMonthsAgo.isBefore(n.getLocalCreated()))
                 .map(NewsItemCard::new));
     }

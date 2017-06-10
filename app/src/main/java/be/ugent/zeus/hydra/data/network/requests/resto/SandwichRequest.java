@@ -27,7 +27,7 @@ public class SandwichRequest extends JsonSpringRequest<Sandwich[]> implements Ca
     @NonNull
     @Override
     public Result<Sandwich[]> performRequest(Bundle args) {
-        return super.performRequest(args).apply(sandwiches -> {
+        return super.performRequest(args).map(sandwiches -> {
             Arrays.sort(sandwiches, (o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
             return sandwiches;
         });

@@ -39,7 +39,7 @@ public class RestoRequest implements HomeFeedRequest {
     @NonNull
     @Override
     public Result<Stream<HomeCard>> performRequest(Bundle args) {
-        return request.performRequest(args).apply(restoMenus -> StreamSupport.stream(restoMenus)
+        return request.performRequest(args).map(restoMenus -> StreamSupport.stream(restoMenus)
                 .map(RestoMenuCard::new));
     }
 }

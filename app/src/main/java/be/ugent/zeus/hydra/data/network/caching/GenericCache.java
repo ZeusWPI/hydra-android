@@ -74,7 +74,7 @@ class GenericCache implements Cache {
         } else {
             Log.i(TAG, "Cached response for request " + request);
             assert object != null;
-            return Result.Builder.<D>create()
+            return new Result.Builder<D>()
                     .withData(object.getData())
                     .build();
         }

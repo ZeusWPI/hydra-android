@@ -23,11 +23,11 @@ public class UrgentUrlRequest implements Request<String> {
     public Result<String> performRequest(Bundle args) {
         try {
             URL url = new URL(Endpoints.URGENT_CONFIG_URL);
-            return Result.Builder.<String>create()
+            return new Result.Builder<String>()
                     .withData(StringUtils.convertStreamToString(url.openStream()).trim())
                     .build();
         } catch (IOException e) {
-            return Result.Builder.<String>create()
+            return new Result.Builder<String>()
                     .withError(new IOFailureException(e))
                     .build();
         }

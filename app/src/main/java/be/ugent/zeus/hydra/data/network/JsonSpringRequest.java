@@ -42,26 +42,26 @@ public abstract class JsonSpringRequest<R> implements Request<R> {
     public Result<R> performRequest(Bundle args) {
         try {
             R result = createRestTemplate().getForEntity(getAPIUrl(), clazz).getBody();
-            return Result.Builder.<R>create()
+            return new Result.Builder<R>()
                     .withData(result)
                     .build();
         } catch (ResourceAccessException e) {
-            return Result.Builder.<R>create()
+            return new Result.Builder<R>()
                     .withError(new IOFailureException(e))
                     .build();
         } catch (RestClientException e) {
-            return Result.Builder.<R>create()
+            return new Result.Builder<R>()
                     .withError(new RequestException(e))
                     .build();
         } catch (HttpMessageConversionException e) {
             // We log the wrapping exception in Firebase to be able to view the URL of the failing request.
             RequestException wrapping = new RequestException("Could not read JSON for " + getAPIUrl(), e);
             FirebaseCrash.report(wrapping);
-            return Result.Builder.<R>create()
+            return new Result.Builder<R>()
                     .withError(wrapping)
                     .build();
         } catch (RestTemplateException e) {
-            return Result.Builder.<R>create()
+            return new Result.Builder<R>()
                     .withError(e)
                     .build();
         }

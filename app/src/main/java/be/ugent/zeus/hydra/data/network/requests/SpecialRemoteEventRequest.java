@@ -52,7 +52,7 @@ public class SpecialRemoteEventRequest implements Request<SpecialEventWrapper> {
         Optional<SpecialEvent> skoEvent = maybeAddSko();
 
         // If the SKO event is present, we add it to the other events.
-        return result.apply(specialEventWrapper -> {
+        return result.map(specialEventWrapper -> {
             skoEvent.ifPresent(specialEvent -> specialEventWrapper.getSpecialEvents().add(specialEvent));
             return specialEventWrapper;
         });

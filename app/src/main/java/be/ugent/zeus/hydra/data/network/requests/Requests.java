@@ -22,7 +22,8 @@ import java.io.Serializable;
 public class Requests {
 
     /**
-     * Apply a function to a request.
+     * Transform a {@code request} to result in another value. This is similar to {@link Result#map(Function)}, but
+     * this method allows transforming the request's result without executing the request now.
      *
      * TODO: look how we can support both Function and our custom function at the same time, without additional methods.
      *
@@ -35,11 +36,12 @@ public class Requests {
      * @return The new request.
      */
     public static <O, R> Request<R> map(Request<O> request, Function<O, R> function) {
-        return args -> request.performRequest(args).apply(function);
+        return args -> request.performRequest(args).map(function);
     }
 
     /**
-     * Apply a function to a request.
+     * Similar to {@link #map(Request, Function)}, but allows for exceptions to happen.
+     * See also {@link Result#mapError(RequestFunction)}.
      *
      * @param request The request to apply the function on.
      * @param function The function to apply.
@@ -50,7 +52,7 @@ public class Requests {
      * @return The new request.
      */
     public static <O, R> Request<R> mapE(Request<O> request, RequestFunction<O, R> function) {
-        return args -> request.performRequest(args).applyError(function);
+        return args -> request.performRequest(args).mapError(function);
     }
 
     /**
