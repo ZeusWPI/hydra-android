@@ -7,7 +7,7 @@ import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.data.network.Request;
 import be.ugent.zeus.hydra.data.network.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.association.EventFilter;
-import be.ugent.zeus.hydra.repository.Result;
+import be.ugent.zeus.hydra.data.network.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.stream.Stream;

@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import be.ugent.zeus.hydra.data.network.exceptions.RestTemplateException;
-import be.ugent.zeus.hydra.repository.Result;
+import be.ugent.zeus.hydra.data.network.requests.Result;
 import com.google.firebase.crash.FirebaseCrash;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;

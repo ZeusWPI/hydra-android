@@ -7,7 +7,7 @@ import be.ugent.zeus.hydra.data.network.Endpoints;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.data.network.caching.Cache;
 import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
-import be.ugent.zeus.hydra.repository.Result;
+import be.ugent.zeus.hydra.data.network.requests.Result;
 
 import java.util.Arrays;
 

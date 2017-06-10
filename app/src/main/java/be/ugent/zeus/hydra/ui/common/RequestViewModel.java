@@ -4,7 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import be.ugent.zeus.hydra.data.network.Request;
 import be.ugent.zeus.hydra.repository.RequestRepository;
-import be.ugent.zeus.hydra.repository.Result;
+import be.ugent.zeus.hydra.data.network.requests.Result;
 
 /**
  * Generic view model with boiler plate for using a {@link Request} as data.

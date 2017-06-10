@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
-import be.ugent.zeus.hydra.repository.Result;
+import be.ugent.zeus.hydra.data.network.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.stream.Stream;

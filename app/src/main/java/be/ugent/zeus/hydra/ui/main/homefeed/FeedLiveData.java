@@ -15,7 +15,7 @@ import be.ugent.zeus.hydra.data.database.minerva.DatabaseBroadcaster;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
-import be.ugent.zeus.hydra.repository.Result;
+import be.ugent.zeus.hydra.data.network.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.debug.WaitRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.event.EventRequest;

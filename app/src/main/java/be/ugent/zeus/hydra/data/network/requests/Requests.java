@@ -9,7 +9,6 @@ import be.ugent.zeus.hydra.data.network.caching.CacheManager;
 import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
-import be.ugent.zeus.hydra.repository.Result;
 import java8.util.function.Function;
 
 import java.io.Serializable;

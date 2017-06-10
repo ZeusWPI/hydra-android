@@ -10,7 +10,6 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.data.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.data.network.Request;
-import be.ugent.zeus.hydra.repository.Result;
 import be.ugent.zeus.hydra.ui.sko.overview.OverviewActivity;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.repository;
+package be.ugent.zeus.hydra.data.network.requests;
 
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.data.network.RequestFunction;

@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.data.network.caching;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.repository.Result;
+import be.ugent.zeus.hydra.data.network.requests.Result;
 
 /**
  * @author Niko Strijbol

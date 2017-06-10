@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.repository.observers;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
-import be.ugent.zeus.hydra.repository.Result;
+import be.ugent.zeus.hydra.data.network.requests.Result;
 
 import java.util.function.Consumer;
 

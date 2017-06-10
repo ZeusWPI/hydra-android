@@ -12,7 +12,7 @@ import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.data.network.Request;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
-import be.ugent.zeus.hydra.repository.Result;
+import be.ugent.zeus.hydra.data.network.requests.Result;
 import be.ugent.zeus.hydra.repository.data.RefreshingLiveData;
 
 import java.util.List;

@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.ui.main.minerva;
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.repository.Result;
+import be.ugent.zeus.hydra.data.network.requests.Result;
 import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
 
 import java.util.List;
