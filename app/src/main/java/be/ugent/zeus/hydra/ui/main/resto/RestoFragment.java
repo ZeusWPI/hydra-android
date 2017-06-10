@@ -18,9 +18,9 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
+import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
-import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.widgets.MenuTable;
 import be.ugent.zeus.hydra.ui.resto.RestoLocationActivity;
@@ -66,14 +66,9 @@ public class RestoFragment extends LifecycleFragment implements SwipeRefreshLayo
         view.findViewById(R.id.menu_today_card).setOnClickListener(v -> startActivity(new Intent(getContext(), MenuActivity.class)));
 
         RestoViewModel model = ViewModelProviders.of(this).get(RestoViewModel.class);
-        ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+        model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
-        model.getData().observe(this, new SuccessObserver<RestoMenu>() {
-            @Override
-            protected void onSuccess(RestoMenu data) {
-                RestoFragment.this.onSuccess(data);
-            }
-        });
+        model.getData().observe(this, SuccessObserver.with(this::onSuccess));
     }
 
     /**

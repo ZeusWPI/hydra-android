@@ -16,8 +16,8 @@ import android.widget.LinearLayout;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
+import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
-import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.preferences.SettingsActivity;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
@@ -65,7 +65,7 @@ public class EventFragment extends LifecycleFragment implements SwipeRefreshLayo
         swipeRefreshLayout.setOnRefreshListener(this);
 
         EventViewModel model = ViewModelProviders.of(this).get(EventViewModel.class);
-        ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+        model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
         model.getData().observe(this, new AdapterObserver<>(adapter));
         model.getData().observe(this, listResult -> {

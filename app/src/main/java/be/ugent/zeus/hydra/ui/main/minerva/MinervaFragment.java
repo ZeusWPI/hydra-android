@@ -37,9 +37,9 @@ import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementNotificationBuilde
 import be.ugent.zeus.hydra.data.sync.course.Adapter;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
+import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
-import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.DragCallback;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.OnStartDragListener;
 
@@ -201,7 +201,7 @@ public class MinervaFragment extends LifecycleFragment implements OnStartDragLis
         if (isLoggedIn()) {
             authWrapper.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
-            ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+            model.getData().observe(this, ErrorObserver.with(this::onError));
             model.getData().observe(this, new ProgressObserver<>(progressBar));
             model.getData().observe(this, new AdapterObserver<>(adapter));
             model.getData().observe(this, new SuccessObserver<List<Course>>() {

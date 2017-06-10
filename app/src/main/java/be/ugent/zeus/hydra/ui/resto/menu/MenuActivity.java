@@ -21,9 +21,9 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
+import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
-import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -97,7 +97,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
         }
 
         MenuViewModel model = ViewModelProviders.of(this).get(MenuViewModel.class);
-        ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+        model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>($(R.id.progress_bar)));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
     }

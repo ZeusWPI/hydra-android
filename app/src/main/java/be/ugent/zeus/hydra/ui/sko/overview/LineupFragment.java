@@ -13,9 +13,9 @@ import android.view.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.sko.Artist;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
+import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
-import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.TextCallback;
 import su.j2e.rvjoiner.JoinableAdapter;
@@ -66,7 +66,7 @@ public class LineupFragment extends LifecycleFragment implements SwipeRefreshLay
         recyclerView.setAdapter(joiner.getAdapter());
 
         LineupViewModel model = ViewModelProviders.of(this).get(LineupViewModel.class);
-        ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+        model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
         model.getRefreshing().observe(this, refreshLayout::setRefreshing);

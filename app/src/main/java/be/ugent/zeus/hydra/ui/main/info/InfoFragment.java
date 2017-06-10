@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
+import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
-import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.InfoSubItemActivity;
 
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
@@ -51,7 +51,7 @@ public class InfoFragment extends LifecycleFragment {
             progressBar.setVisibility(View.GONE);
         } else {
             InfoViewModel model = ViewModelProviders.of(this).get(InfoViewModel.class);
-            ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+            model.getData().observe(this, ErrorObserver.with(this::onError));
             model.getData().observe(this, new ProgressObserver<>(progressBar));
             model.getData().observe(this, new AdapterObserver<>(adapter));
         }

@@ -12,8 +12,8 @@ import android.view.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
+import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
-import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
@@ -60,7 +60,7 @@ public class SchamperFragment extends LifecycleFragment implements SwipeRefreshL
         swipeRefreshLayout.setOnRefreshListener(this);
 
         SchamperViewModel viewModel = ViewModelProviders.of(this).get(SchamperViewModel.class);
-        ErrorUtils.filterErrors(viewModel.getData()).observe(this, this::onError);
+        viewModel.getData().observe(this, ErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
         viewModel.getData().observe(this, new AdapterObserver<>(adapter));
         viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);

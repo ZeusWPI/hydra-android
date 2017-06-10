@@ -17,9 +17,9 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.resto.Resto;
 import be.ugent.zeus.hydra.data.models.resto.RestoMeta;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
+import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
-import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,7 +50,7 @@ public class RestoLocationActivity extends BaseActivity implements OnMapReadyCal
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         MetaViewModel model = ViewModelProviders.of(this).get(MetaViewModel.class);
-        ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+        model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>(progressBar));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
     }

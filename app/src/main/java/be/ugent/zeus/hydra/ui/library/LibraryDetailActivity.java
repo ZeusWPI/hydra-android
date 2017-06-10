@@ -25,9 +25,9 @@ import android.widget.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.data.models.library.OpeningHours;
+import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
-import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
@@ -166,14 +166,9 @@ public class LibraryDetailActivity extends BaseActivity {
 
         HoursViewModel model = ViewModelProviders.of(this).get(HoursViewModel.class);
         model.setLibrary(library);
-        ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+        model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>($(R.id.progress_bar)));
-        model.getData().observe(this, new SuccessObserver<List<OpeningHours>>() {
-            @Override
-            protected void onSuccess(List<OpeningHours> data) {
-                receiveData(data);
-            }
-        });
+        model.getData().observe(this, SuccessObserver.with(this::receiveData));
     }
 
     @Override

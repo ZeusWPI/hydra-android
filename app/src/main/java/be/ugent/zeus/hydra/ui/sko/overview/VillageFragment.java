@@ -13,8 +13,8 @@ import android.view.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
+import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
-import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
@@ -60,7 +60,7 @@ public class VillageFragment extends LifecycleFragment implements SwipeRefreshLa
         refreshLayout.setOnRefreshListener(this);
 
         ExhibitorViewModel model = ViewModelProviders.of(this).get(ExhibitorViewModel.class);
-        ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+        model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
         model.getData().observe(this, new AdapterObserver<>(adapter));
         model.getRefreshing().observe(this, refreshLayout::setRefreshing);

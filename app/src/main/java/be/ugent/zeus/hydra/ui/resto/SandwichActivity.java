@@ -12,8 +12,8 @@ import android.view.MenuItem;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
+import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
-import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
@@ -47,7 +47,7 @@ public class SandwichActivity extends BaseActivity implements SwipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener(this);
 
         SandwichViewModel model = ViewModelProviders.of(this).get(SandwichViewModel.class);
-        ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+        model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>($(R.id.progress_bar)));
         model.getData().observe(this, new AdapterObserver<>(adapter));
         model.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
