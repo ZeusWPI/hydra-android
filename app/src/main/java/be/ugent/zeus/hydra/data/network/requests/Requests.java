@@ -2,8 +2,6 @@ package be.ugent.zeus.hydra.data.network.requests;
 
 import android.content.Context;
 import android.util.Log;
-import be.ugent.zeus.hydra.data.network.CachedRequest;
-import be.ugent.zeus.hydra.data.network.ListRequest;
 import be.ugent.zeus.hydra.data.network.Request;
 import be.ugent.zeus.hydra.data.network.RequestFunction;
 import be.ugent.zeus.hydra.data.network.caching.Cache;
@@ -12,11 +10,9 @@ import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.Result;
-import java8.util.function.BiFunction;
 import java8.util.function.Function;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Utility methods for use with {@link Request}s.
@@ -24,11 +20,6 @@ import java.util.List;
  * @author Niko Strijbol
  */
 public class Requests {
-
-    @Deprecated
-    public static <R> BiFunction<Context, Boolean, Request<List<R>>> cachedArray(CacheableRequest<R[]> request) {
-        return (c, b) -> new ListRequest<>(new CachedRequest<>(c, request, b));
-    }
 
     /**
      * Apply a function to a request.

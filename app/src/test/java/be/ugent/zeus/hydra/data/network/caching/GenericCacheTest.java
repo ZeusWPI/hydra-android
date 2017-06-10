@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.data.network.caching;
 
 import android.content.Context;
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +43,7 @@ public class GenericCacheTest {
         TestRequest request = new TestRequest(Cache.ONE_HOUR, TestObject.TEST_FILE_KEY);
 
         //Test cacheable request
-        TestObject result = cache.get(request, null);
+        TestObject result = cache.get(request, null).getOrThrow();
         assertFalse(request.isRead());
         assertEquals(result, request.performRequest(null));
         request.reset();
@@ -69,7 +68,7 @@ public class GenericCacheTest {
     }
 
     @Test(expected = RequestException.class)
-    public void getException() throws RequestException, PartialDataException {
+    public void getException() throws RequestException {
         ErrorRequest errorRequest = new ErrorRequest();
 
         executor.setUpdated(Instant.now().minus(31, ChronoUnit.DAYS).toEpochMilli());
@@ -77,7 +76,7 @@ public class GenericCacheTest {
     }
 
     @Test
-    public void getNonExistingNull() throws RequestException, PartialDataException {
+    public void getNonExistingNull() throws RequestException {
         TestRequest request = new TestRequest(Cache.ONE_SECOND, "TestKeyNonExisting");
 
         executor.setUpdated(Instant.now().minus(31, ChronoUnit.DAYS).toEpochMilli());
@@ -92,7 +91,7 @@ public class GenericCacheTest {
         executor.setUpdated(Instant.now().minus(31, ChronoUnit.DAYS).toEpochMilli());
 
         //Test cacheable request
-        TestObject result = cache.get(request, null);
+        TestObject result = cache.get(request, null).getOrThrow();
         assertTrue(request.isRead());
         assertEquals(result, request.performRequest(null));
         request.reset();

@@ -3,8 +3,7 @@ package be.ugent.zeus.hydra.data.network.exceptions;
 import be.ugent.zeus.hydra.data.network.Request;
 
 /**
- * Exception thrown by a {@link Request} when something goes wrong while producing the data, and no data could
- * be produced. If some data is available despite the exception, use {@link PartialDataException}.
+ * Exception thrown by a {@link Request} when something goes wrong while producing the data.
  *
  * @author Niko Strijbol
  */

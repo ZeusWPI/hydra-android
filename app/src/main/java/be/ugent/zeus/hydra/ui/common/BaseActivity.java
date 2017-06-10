@@ -8,12 +8,12 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.plugins.common.PluginActivity;
 import java8.util.function.Supplier;
 
 /**
@@ -27,7 +27,7 @@ import java8.util.function.Supplier;
  *
  * @author Niko Strijbol
  */
-public abstract class BaseActivity extends PluginActivity implements LifecycleRegistryOwner {
+public abstract class BaseActivity extends AppCompatActivity implements LifecycleRegistryOwner {
 
     private LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
