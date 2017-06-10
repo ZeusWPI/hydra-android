@@ -20,6 +20,7 @@ public class ErrorUtils {
      *
      * @return The new live data.
      */
+    @Deprecated
     public static <D> LiveData<Throwable> filterErrors(LiveData<Result<D>> source) {
         return Transformations.map(
                 UtilTransformations.filter(source, Result::hasException),

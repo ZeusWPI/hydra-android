@@ -12,7 +12,7 @@ import android.view.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
-import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
+import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
@@ -45,6 +45,7 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
     private boolean firstRun;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ActivityHelper helper;
+    private Snackbar errorBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,10 +81,10 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
         swipeRefreshLayout.setRefreshing(true);
 
         FeedViewModel model = ViewModelProviders.of(this).get(FeedViewModel.class);
-        ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+        model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new AdapterObserver<>(adapter));
         model.getData().observe(this, data -> {
-            if (data.hasData()) {
+            if (data != null && data.hasData()) {
                 if (data.isDone()) {
                     firstRun = false;
                     swipeRefreshLayout.setRefreshing(false);
@@ -147,8 +148,11 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> onRefresh())
-                .show();
+        if (errorBar == null) {
+            errorBar = Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                    .setAction(getString(R.string.again), v -> onRefresh());
+        }
+
+        errorBar.show();
     }
 }

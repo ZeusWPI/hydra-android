@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.data.network.requests;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.util.Log;
 import be.ugent.zeus.hydra.data.network.CachedRequest;
 import be.ugent.zeus.hydra.data.network.ListRequest;
@@ -73,15 +72,12 @@ public class Requests {
      */
     public static <R extends Serializable> Request<R> cache(Context context, CacheableRequest<R> request) {
         return args -> {
-            Bundle shouldRefresh = new Bundle();
             Cache cache = CacheManager.defaultCache(context);
             Result<R> data;
 
-            if (args != null) {
-                shouldRefresh.putAll(args);
-            }
+            boolean shouldRefresh = args != null && args.getBoolean(RefreshBroadcast.REFRESH_COLD, false);
 
-            if (shouldRefresh.getBoolean(RefreshBroadcast.REFRESH_COLD, false)) {
+            if (shouldRefresh) {
                 data = cache.get(request, args, Cache.NEVER);
             } else {
                 data = cache.get(request, args);
@@ -90,7 +86,7 @@ public class Requests {
             // If getting data failed because of the network, get the cached data anyway.
             if (data.hasException() && data.getError() instanceof IOFailureException) {
                 Log.i("CachedRequest", "Could not get data from network, getting cached data.");
-                data = cache.get(request, args, Cache.ALWAYS);
+                data = data.updateWith(cache.get(request, args, Cache.ALWAYS));
             }
 
             return data;

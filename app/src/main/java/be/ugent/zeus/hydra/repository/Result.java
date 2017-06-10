@@ -151,7 +151,6 @@ public class Result<D> {
      * @return The result.
      */
     public <R> Result<R> apply(Function<D, R> function) {
-
         R result = null;
         if (data != null) {
             result = Objects.requireNonNull(function.apply(this.data));
@@ -233,5 +232,41 @@ public class Result<D> {
      */
     public D orElse(D other) {
         return data != null ? data : other;
+    }
+
+    /**
+     * This will merge this and another Result into one. The function tries to produce a sensible result:
+     *
+     * - The status of the {@code update} request is kept.
+     * - If one of the results do not have data, the other one's data is used.
+     * - If neither has data, no data will be used.
+     * - If both have data, the data from the {@code update} result is used.
+     * - Same for exceptions.
+     *
+     * @param update The Result to merge with.
+     *
+     * @return Updated result.
+     */
+    public Result<D> updateWith(Result<D> update) {
+
+        RequestException chosenThrowable;
+        if (update.throwable != null) {
+            chosenThrowable = update.throwable;
+        } else if (this.throwable != null) {
+            chosenThrowable = this.throwable;
+        } else {
+            chosenThrowable = null;
+        }
+
+        D chosenData;
+        if (update.data != null) {
+            chosenData = update.data;
+        } else if (this.data != null) {
+            chosenData = this.data;
+        } else {
+            chosenData = null;
+        }
+
+        return new Result<D>(chosenThrowable, chosenData, update.done);
     }
 }

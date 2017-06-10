@@ -1,23 +1,23 @@
 package be.ugent.zeus.hydra.ui.sko.overview;
 
+import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.*;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.sko.TimelinePost;
-import be.ugent.zeus.hydra.data.network.requests.Requests;
-import be.ugent.zeus.hydra.data.network.requests.sko.TimelineRequest;
-import be.ugent.zeus.hydra.ui.common.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.repository.RefreshBroadcast;
+import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
+import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
+import be.ugent.zeus.hydra.repository.utils.ErrorUtils;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
-
-import java.util.List;
 
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
@@ -26,21 +26,11 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public class TimelineFragment extends PluginFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class TimelineFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private SwipeRefreshLayout refreshLayout;
+    private static final String TAG = "TimelineFragment";
+
     private ActivityHelper helper;
-    private RecyclerViewPlugin<TimelinePost> plugin = new RecyclerViewPlugin<>(
-            Requests.cachedArray(new TimelineRequest()),
-            null
-    );
-
-    @Override
-    protected void onAddPlugins(List<Plugin> plugins) {
-        super.onAddPlugins(plugins);
-        plugin.enableProgress().defaultError().addSuccessCallback(i -> refreshLayout.setRefreshing(false));
-        plugins.add(plugin);
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,7 +38,6 @@ public class TimelineFragment extends PluginFragment implements SwipeRefreshLayo
         setHasOptionsMenu(true);
         helper = CustomTabsHelper.initHelper(getActivity(), null);
         helper.setShareMenu();
-        plugin.setAdapter(new TimelineAdapter(helper));
     }
 
     @Nullable
@@ -60,10 +49,23 @@ public class TimelineFragment extends PluginFragment implements SwipeRefreshLayo
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        refreshLayout = $(view, R.id.refresh_layout);
+
+        SwipeRefreshLayout refreshLayout = $(view, R.id.refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.sko_red);
         refreshLayout.setOnRefreshListener(this);
-        plugin.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
+
+        TimelineAdapter adapter = new TimelineAdapter(helper);
+
+        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
+        recyclerView.setAdapter(adapter);
+
+        TimelineViewModel model = ViewModelProviders.of(this).get(TimelineViewModel.class);
+        ErrorUtils.filterErrors(model.getData()).observe(this, this::onError);
+        model.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
+        model.getData().observe(this, new AdapterObserver<>(adapter));
+        model.getRefreshing().observe(this, refreshLayout::setRefreshing);
     }
 
     @Override
@@ -80,7 +82,14 @@ public class TimelineFragment extends PluginFragment implements SwipeRefreshLayo
 
     @Override
     public void onRefresh() {
-        plugin.refresh();
+        RefreshBroadcast.broadcastRefresh(getContext(), true);
+    }
+
+    private void onError(Throwable throwable) {
+        Log.e(TAG, "Error while getting data.", throwable);
+        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.again), v -> onRefresh())
+                .show();
     }
 
     @Override

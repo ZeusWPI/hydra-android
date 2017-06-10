@@ -12,7 +12,6 @@ import android.util.Log;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.database.minerva.DatabaseBroadcaster;
-import be.ugent.zeus.hydra.data.network.exceptions.PartialDataException;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
@@ -121,14 +120,8 @@ public class FeedLiveData extends LiveData<Result<List<HomeCard>>> {
     }
 
     private List<HomeCard> executeOperation(@Nullable Bundle args, FeedOperation operation, Set<Integer> errors, List<HomeCard> results) {
-
         try {
             return operation.transform(args, results);
-        } catch (PartialDataException e) {
-            List<HomeCard> tempResult = new ArrayList<>(results);
-            tempResult.addAll(e.getData());
-            errors.add(operation.getCardType());
-            return tempResult;
         } catch (RequestException e) {
             errors.add(operation.getCardType());
             return results;
@@ -173,9 +166,14 @@ public class FeedLiveData extends LiveData<Result<List<HomeCard>>> {
                     List<HomeCard> finalResults = new ArrayList<>(results);
                     // Deliver intermediary results.
                     Log.d(TAG, "loadInBackground: Operation " + operation + " completed.");
-                    result = Result.Builder.<List<HomeCard>>create()
-                            .withData(finalResults)
-                            .buildPartial();
+                    Result.Builder<List<HomeCard>> builder = new Result.Builder<List<HomeCard>>()
+                            .withData(finalResults);
+
+                    if (!errors.isEmpty()) {
+                        builder.withError(new FeedException(errors));
+                    }
+
+                    result = builder.buildPartial();
                     //noinspection unchecked
                     publishProgress(result);
                 }

@@ -221,7 +221,7 @@
     <string name="onboarding_minerva_title">Minerva</string>
     <string name="onboarding_minerva_description">Meld je aan bij Minerva om je vakken te kunnen bekijken</string>
     <string name="onboarding_minerva_button">Aanmelden</string>
-    <string name="sko_notification_off">Meldingen uitgeschakeld</string>
+    <string name="sko_notification_on">Meldingen ingeschakeld</string>
     <string name="turn_off">Uitschakelen</string>
     <string name="minerva_notification_again">Minerva: opnieuw aanmelden</string>
     <string name="minerva_notification_text">Druk om opnieuw aan te melden</string>
