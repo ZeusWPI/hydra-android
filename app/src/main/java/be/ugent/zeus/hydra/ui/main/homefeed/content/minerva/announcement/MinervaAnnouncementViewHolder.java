@@ -7,11 +7,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HideableViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.minerva.overview.AnnouncementViewHolder;
+import be.ugent.zeus.hydra.utils.DateUtils;
 
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.convertDpToPixelInt;
@@ -45,9 +47,15 @@ public class MinervaAnnouncementViewHolder extends HideableViewHolder {
 
         for (int i = 0; i < 5 && i < mCard.getAnnouncements().size(); i++) {
             View view = LayoutInflater.from(layout.getContext()).inflate(R.layout.item_minerva_home_announcement, layout, false);
+            TextView title = $(view, R.id.title);
+            TextView subtitle = $(view, R.id.subtitle);
+            Announcement announcement = mCard.getAnnouncements().get(i);
 
-            AnnouncementViewHolder viewHolder = new AnnouncementViewHolder(view);
-            viewHolder.populate(mCard.getAnnouncements().get(i));
+            title.setText(announcement.getTitle());
+            String infoText = itemView.getContext().getString(R.string.agenda_subtitle,
+                    DateUtils.relativeDateTimeString(announcement.getDate(), itemView.getContext(), false),
+                    announcement.getLecturer());
+            subtitle.setText(infoText);
 
             layout.addView(view);
         }
