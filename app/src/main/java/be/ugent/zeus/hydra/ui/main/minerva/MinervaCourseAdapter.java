@@ -21,7 +21,7 @@ import java.util.Collections;
  *
  * @author Niko Strijbol
  */
-class MinervaCourseAdapter extends DiffSearchableItemAdapter<Course, MinervaCourseViewHolder> implements ItemDragHelperAdapter {
+class MinervaCourseAdapter extends DiffSearchableItemAdapter<Course, MinervaCourseViewHolder> implements ItemDragHelperAdapter, DragHelper {
 
     private CourseDao courseDao;
     private final OnStartDragListener startDragListener;
@@ -40,7 +40,7 @@ class MinervaCourseAdapter extends DiffSearchableItemAdapter<Course, MinervaCour
 
     @Override
     public MinervaCourseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MinervaCourseViewHolder(ViewUtils.inflate(parent, R.layout.item_minerva_course), startDragListener);
+        return new MinervaCourseViewHolder(ViewUtils.inflate(parent, R.layout.item_minerva_course), startDragListener, this);
     }
 
     @Override
@@ -69,6 +69,11 @@ class MinervaCourseAdapter extends DiffSearchableItemAdapter<Course, MinervaCour
 
     @Override
     public boolean isLongPressDragEnabled() {
+        return isDragEnabled();
+    }
+
+    @Override
+    public boolean isDragEnabled() {
         return !isSearching();
     }
 }

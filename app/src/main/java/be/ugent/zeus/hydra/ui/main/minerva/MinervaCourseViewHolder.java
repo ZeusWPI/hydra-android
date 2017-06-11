@@ -23,15 +23,16 @@ class MinervaCourseViewHolder extends DataViewHolder<Course> {
 
     private final TextView name;
     private final TextView subtitle;
+    private final DragHelper helper;
 
-    MinervaCourseViewHolder(View itemView, OnStartDragListener listener) {
+    MinervaCourseViewHolder(View itemView, OnStartDragListener listener, DragHelper dragHelper) {
         super(itemView);
-
+        this.helper = dragHelper;
         name = $(itemView, R.id.name);
         subtitle = $(itemView, R.id.subtitle);
         ImageView dragHandle = $(itemView, R.id.drag_handle);
         dragHandle.setOnTouchListener((v, event) -> {
-            if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+            if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN && dragHelper.isDragEnabled()) {
                 listener.onStartDrag(MinervaCourseViewHolder.this);
                 return true;
             }
