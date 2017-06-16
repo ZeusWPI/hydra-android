@@ -179,9 +179,8 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
                 Result<List<HomeCard>> result = null;
 
                 for (final FeedOperation operation: operations) {
-                    //TODO: see if this is needed or not.
-                    if (false) {
-                        throw new OperationCanceledException();
+                    if (isCancelled()) {
+                        return null;
                     }
 
                     results = executeOperation(bundle, operation, errors, results);
