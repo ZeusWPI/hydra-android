@@ -53,7 +53,7 @@ public class SchamperViewHolder extends FeedViewHolder {
         FeedUtils.loadThumbnail(itemView.getContext(), article.getImage(), image);
 
         this.itemView.setOnClickListener(v -> {
-            ActivityHelper helper = adapter.getHelper();
+            ActivityHelper helper = adapter.getCompanion().getHelper();
             if (helper != null) {
                 helper.openCustomTab(Uri.parse(article.getLink()));
             } else {

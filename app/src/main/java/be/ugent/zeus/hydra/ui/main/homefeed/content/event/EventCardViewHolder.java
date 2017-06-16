@@ -56,10 +56,10 @@ public class EventCardViewHolder extends FeedViewHolder {
         toolbar.setOnClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_hide:
-                    adapter.getFragment().disableCardType(card.getCardType());
+                    adapter.getCompanion().disableCardType(card.getCardType());
                     return true;
                 case R.id.menu_hide_association:
-                    adapter.getFragment().disableAssociation(event.getAssociation());
+                    adapter.getCompanion().disableAssociation(event.getAssociation());
                     return true;
                 default:
                     return false;

@@ -9,6 +9,7 @@ import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 
 /**
  * A live data that will listen to refresh requests. It will reload the data if the refresh broadcast was received.
+ *
  * @author Niko Strijbol
  */
 public class RefreshingLiveData<M> extends ModelLiveData<M> {

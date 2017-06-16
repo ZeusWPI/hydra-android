@@ -45,7 +45,7 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.FeedLiveData.REFRESH_HOMECARD
  * @author Niko Strijbol
  * @author silox
  */
-public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener, ResultStarter {
+public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener, HomeFeedAdapter.AdapterCompanion {
 
     private static final String TAG = "HomeFeedFragment";
 
@@ -85,7 +85,7 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
         swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
 
-        HomeFeedAdapter adapter = new HomeFeedAdapter(this, this);
+        HomeFeedAdapter adapter = new HomeFeedAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -188,11 +188,7 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
         return REQUEST_HOMECARD_ID;
     }
 
-    /**
-     * Disable an association.
-     *
-     * @param association The association of the card to disable.
-     */
+    @Override
     public void disableAssociation(Association association) {
         PreferencesUtils.addToStringSet(
                 getContext(),
@@ -205,11 +201,7 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
         model.requestRefresh(getContext(), extras);
     }
 
-    /**
-     * Disable a type of card.
-     *
-     * @param type The type of card to disable.
-     */
+    @Override
     public void disableCardType(@HomeCard.CardType int type) {
         //Save preferences first
         PreferencesUtils.addToStringSet(

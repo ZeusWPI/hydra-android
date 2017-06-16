@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.homefeed;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 
 import java.lang.ref.WeakReference;
 
+import static be.ugent.zeus.hydra.ui.main.homefeed.FeedLiveData.REFRESH_HOMECARD_TYPE;
 import static be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard.CardType.*;
 
 /**
@@ -42,21 +44,16 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard.CardType.*;
  */
 public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCard>> {
 
-    private final HomeFeedFragment fragment;
-    private final Context context;
-    private final ResultStarter resultStarter;
+    private final AdapterCompanion companion;
 
-    HomeFeedAdapter(HomeFeedFragment fragment, ResultStarter starter) {
+    HomeFeedAdapter(AdapterCompanion companion) {
         super();
-        this.fragment = fragment;
-        this.context = fragment.getContext().getApplicationContext();
-        this.resultStarter = starter;
+        this.companion = companion;
         setHasStableIds(true);
     }
 
-    @Nullable
-    public ActivityHelper getHelper() {
-        return fragment.getHelper();
+    public AdapterCompanion getCompanion() {
+        return companion;
     }
 
     @Override
@@ -121,18 +118,29 @@ public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCa
     public PopupMenu.OnMenuItemClickListener listener(@HomeCard.CardType final int type) {
         return item -> {
             if (item.getItemId() == R.id.menu_hide) {
-                fragment.disableCardType(type);
+                companion.disableCardType(type);
                 return true;
             }
             return false;
         };
     }
 
-    public ResultStarter getResultStarter() {
-        return resultStarter;
-    }
+    public interface AdapterCompanion extends ResultStarter {
 
-    public HomeFeedFragment getFragment() {
-        return fragment;
+        /**
+         * Disable a type of card.
+         *
+         * @param type The type of card to disable.
+         */
+        void disableCardType(@HomeCard.CardType int type);
+
+        /**
+         * Disable an association.
+         *
+         * @param association The association of the card to disable.
+         */
+        void disableAssociation(Association association);
+
+        ActivityHelper getHelper();
     }
 }

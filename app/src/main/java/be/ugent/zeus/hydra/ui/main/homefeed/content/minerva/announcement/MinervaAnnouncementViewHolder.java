@@ -49,7 +49,7 @@ public class MinervaAnnouncementViewHolder extends FeedViewHolder {
 
         layout.removeAllViewsInLayout();
 
-        ResultStarter starter = adapter.getResultStarter();
+        ResultStarter starter = adapter.getCompanion();
 
         for (int i = 0; i < 5 && i < mCard.getAnnouncements().size(); i++) {
             View view = LayoutInflater.from(layout.getContext()).inflate(R.layout.item_minerva_home_announcement, layout, false);
@@ -80,6 +80,6 @@ public class MinervaAnnouncementViewHolder extends FeedViewHolder {
             layout.addView(textView);
         }
 
-        cardView.setOnClickListener(v -> CourseActivity.startForResult(adapter.getResultStarter(), mCard.getCourse(), CourseActivity.Tab.ANNOUNCEMENTS));
+        cardView.setOnClickListener(v -> CourseActivity.startForResult(adapter.getCompanion(), mCard.getCourse(), CourseActivity.Tab.ANNOUNCEMENTS));
     }
 }
