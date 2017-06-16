@@ -77,7 +77,7 @@ public class Requests {
 
             // If getting data failed because of the network, get the cached data anyway.
             if (data.hasException() && data.getError() instanceof IOFailureException) {
-                Log.i("CachedRequest", "Could not get data from network, getting cached data.");
+                Log.w("CachedRequest", "Could not get data from network, getting cached data.");
                 data = data.updateWith(cache.get(request, args, Cache.ALWAYS));
             }
 

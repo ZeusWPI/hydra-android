@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.ui.minerva;
 
-import android.arch.lifecycle.LiveData;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +12,12 @@ import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.data.network.requests.NotFoundException;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 
 /**
  * @author Niko Strijbol
  */
-public class AgendaLiveData extends LiveData<Result<AgendaItem>> {
+public class AgendaLiveData extends BaseLiveData<Result<AgendaItem>> {
 
     private final Context applicationContext;
     private final AgendaDao dao;
@@ -36,7 +36,8 @@ public class AgendaLiveData extends LiveData<Result<AgendaItem>> {
         loadData(Bundle.EMPTY);
     }
 
-    private void loadData(Bundle args) {
+    @Override
+    protected void loadData(Bundle args) {
         new AsyncTask<Void, Void, Result<AgendaItem>>() {
 
             @Override

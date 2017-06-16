@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
+import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -18,15 +19,17 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  */
 public class AnnouncementViewHolder extends DataViewHolder<Announcement> {
 
-    private TextView title;
-    private TextView subtitle;
-    private View clickingView;
+    private final TextView title;
+    private final TextView subtitle;
+    private final View clickingView;
+    private final ResultStarter resultStarter;
 
-    public AnnouncementViewHolder(View itemView) {
+    public AnnouncementViewHolder(View itemView, ResultStarter starter) {
         super(itemView);
         title = $(itemView, R.id.title);
         subtitle = $(itemView, R.id.subtitle);
         clickingView = $(itemView, R.id.clickable_view);
+        resultStarter = starter;
     }
 
     @Override
@@ -44,9 +47,9 @@ public class AnnouncementViewHolder extends DataViewHolder<Announcement> {
         }
 
         clickingView.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), AnnouncementActivity.class);
+            Intent intent = new Intent(resultStarter.getContext(), AnnouncementActivity.class);
             intent.putExtra(AnnouncementActivity.ARG_ANNOUNCEMENT, (Parcelable) data);
-            v.getContext().startActivity(intent);
+            resultStarter.startActivityForResult(intent, resultStarter.getRequestCode());
         });
     }
 }

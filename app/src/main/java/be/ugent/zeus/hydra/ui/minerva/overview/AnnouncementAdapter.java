@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.ui.minerva.overview;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
+import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.EmptyItemAdapter;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 
@@ -13,12 +14,15 @@ import be.ugent.zeus.hydra.ui.common.ViewUtils;
  */
 class AnnouncementAdapter extends EmptyItemAdapter<Announcement, AnnouncementViewHolder> {
 
-    AnnouncementAdapter() {
+    private final ResultStarter starter;
+
+    AnnouncementAdapter(ResultStarter starter) {
         super(R.layout.item_no_data, null);
+        this.starter = starter;
     }
 
     @Override
     protected AnnouncementViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
-        return new AnnouncementViewHolder(ViewUtils.inflate(parent, R.layout.item_minerva_announcement));
+        return new AnnouncementViewHolder(ViewUtils.inflate(parent, R.layout.item_minerva_announcement), starter);
     }
 }

@@ -5,12 +5,12 @@ import android.view.View;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.main.MainActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HideableViewHolder;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 
 /**
  * @author Niko Strijbol
  */
-public class UrgentViewHolder extends HideableViewHolder {
+public class UrgentViewHolder extends FeedViewHolder {
 
     public UrgentViewHolder(View itemView, HomeFeedAdapter adapter) {
         super(itemView, adapter);

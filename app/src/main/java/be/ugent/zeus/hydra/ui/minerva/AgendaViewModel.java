@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.ui.minerva;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
 
 /**
@@ -22,7 +22,7 @@ public class AgendaViewModel extends RefreshViewModel<AgendaItem> {
     }
 
     @Override
-    protected LiveData<Result<AgendaItem>> constructDataInstance() {
+    protected BaseLiveData<Result<AgendaItem>> constructDataInstance() {
         return new AgendaLiveData(getApplication(), id);
     }
 }

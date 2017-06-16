@@ -7,7 +7,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.minerva.AgendaActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HideableViewHolder;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -19,7 +19,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public class MinervaAgendaViewHolder extends HideableViewHolder {
+public class MinervaAgendaViewHolder extends FeedViewHolder {
 
     private final LinearLayout layout;
 

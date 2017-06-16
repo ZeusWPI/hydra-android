@@ -9,7 +9,7 @@ import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HideableViewHolder;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.data.models.schamper.Article;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -23,7 +23,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  * @author Niko Strijbol
  * @author feliciaan
  */
-public class SchamperViewHolder extends HideableViewHolder {
+public class SchamperViewHolder extends FeedViewHolder {
 
     private static final String TAG = "SchamperViewHolder";
 

@@ -2,9 +2,11 @@ package be.ugent.zeus.hydra.ui.main.homefeed;
 
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,8 +18,13 @@ import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
+import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
+import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
+import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 
+import static android.app.Activity.RESULT_OK;
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
@@ -36,16 +43,22 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  * @author Niko Strijbol
  * @author silox
  */
-public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener, ResultStarter {
 
     private static final String TAG = "HomeFeedFragment";
 
     public static final String PREF_DISABLED_CARDS = "pref_disabled_cards";
 
+    public static final int REQUEST_HOMECARD_ID = 5050;
+    public static final String RESULT_HOMECARD_ACTION = "be.ugent.zeus.hydra.result.homecard";
+    public static final String RESULT_HOMECARD_TYPE = "be.ugent.zeus.hydra.result.homecard.type";
+    public static final String RESULT_HOMECARD_UPDATED = "be.ugent.zeus.hydra.result.homecard.updated";
+
     private boolean firstRun;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ActivityHelper helper;
     private Snackbar errorBar;
+    private FeedViewModel model;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,14 +86,14 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
         swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
 
-        HomeFeedAdapter adapter = new HomeFeedAdapter(this);
+        HomeFeedAdapter adapter = new HomeFeedAdapter(this, this);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
         swipeRefreshLayout.setOnRefreshListener(this);
 
         swipeRefreshLayout.setRefreshing(true);
 
-        FeedViewModel model = ViewModelProviders.of(this).get(FeedViewModel.class);
+        model = ViewModelProviders.of(this).get(FeedViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new AdapterObserver<>(adapter));
         model.getData().observe(this, data -> {
@@ -143,7 +156,7 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
 
     @Override
     public void onRefresh() {
-        RefreshBroadcast.broadcastRefresh(getContext(), true);
+        model.requestRefresh(getContext());
     }
 
     private void onError(Throwable throwable) {
@@ -154,5 +167,25 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
         }
 
         errorBar.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_HOMECARD_ID && resultCode == RESULT_OK) {
+            // Something was launched and we received a result back.
+            if (data.getBooleanExtra(CourseActivity.RESULT_ANNOUNCEMENT_UPDATED, false)
+                    || data.getBooleanExtra(AnnouncementActivity.RESULT_ANNOUNCEMENT_READ, false)) {
+                Bundle extras = new Bundle();
+                extras.putInt(RESULT_HOMECARD_TYPE, HomeCard.CardType.MINERVA_ANNOUNCEMENT);
+                model.requestRefresh(getContext(), extras);
+            }
+        }
+    }
+
+    @Override
+    public int getRequestCode() {
+        return REQUEST_HOMECARD_ID;
     }
 }

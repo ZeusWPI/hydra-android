@@ -16,19 +16,19 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public abstract class HideableViewHolder extends DataViewHolder<HomeCard> {
+public abstract class FeedViewHolder extends DataViewHolder<HomeCard> {
 
     protected final HomeFeedAdapter adapter;
     protected final NowToolbar toolbar;
 
     private TextView priority;
 
-    public HideableViewHolder(View itemView, HomeFeedAdapter adapter) {
+    public FeedViewHolder(View itemView, HomeFeedAdapter adapter) {
         super(itemView);
         this.adapter = adapter;
         toolbar = $(itemView, R.id.card_now_toolbar);
 
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             priority = new TextView(itemView.getContext());
             CardView cardView = (CardView) itemView;
             cardView.addView(priority);

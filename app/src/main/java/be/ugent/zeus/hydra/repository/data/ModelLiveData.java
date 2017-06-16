@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.repository.data;
 
-import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,7 +12,7 @@ import be.ugent.zeus.hydra.data.network.requests.Result;
  *
  * @author Niko Strijbol
  */
-public class ModelLiveData<M> extends LiveData<Result<M>> {
+public class ModelLiveData<M> extends BaseLiveData<Result<M>> {
 
     private final Request<M> request;
     private final Context applicationContext;
@@ -39,6 +38,7 @@ public class ModelLiveData<M> extends LiveData<Result<M>> {
      *
      * @param bundle The arguments for the request.
      */
+    @Override
     protected void loadData(@Nullable Bundle bundle) {
         new AsyncTask<Void, Void, Result<M>>() {
 

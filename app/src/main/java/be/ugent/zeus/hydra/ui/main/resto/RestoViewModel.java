@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.ui.main.resto;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
 
 /**
@@ -16,7 +16,7 @@ public class RestoViewModel extends RefreshViewModel<RestoMenu> {
     }
 
     @Override
-    protected LiveData<Result<RestoMenu>> constructDataInstance() {
+    protected BaseLiveData<Result<RestoMenu>> constructDataInstance() {
         return new RestoLiveData(getApplication());
     }
 }

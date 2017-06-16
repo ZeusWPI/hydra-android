@@ -1,25 +1,26 @@
 package be.ugent.zeus.hydra.ui.minerva.overview;
 
-import android.arch.lifecycle.LiveData;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
-import be.ugent.zeus.hydra.data.database.minerva.DatabaseBroadcaster;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 
 import java.util.List;
 
 /**
  * @author Niko Strijbol
  */
-public class AnnouncementLiveData extends LiveData<Result<List<Announcement>>> {
+public class AnnouncementLiveData extends BaseLiveData<Result<List<Announcement>>> {
 
     private final Context applicationContext;
     private final AnnouncementDao dao;
@@ -31,12 +32,7 @@ public class AnnouncementLiveData extends LiveData<Result<List<Announcement>>> {
             String action = intent.getAction();
             if (SyncBroadcast.SYNC_PROGRESS_WHATS_NEW.equals(action)
                     && course.getId().equals(intent.getStringExtra(SyncBroadcast.ARG_SYNC_PROGRESS_COURSE))) {
-                loadData();
-                return;
-            }
-            if (DatabaseBroadcaster.MINERVA_ANNOUNCEMENT_UPDATED.equals(action)
-                    && course.getId().equals(intent.getStringExtra(DatabaseBroadcaster.ARG_MINERVA_ANNOUNCEMENT_COURSE))) {
-                loadData();
+                loadData(Bundle.EMPTY);
             }
         }
     };
@@ -45,10 +41,11 @@ public class AnnouncementLiveData extends LiveData<Result<List<Announcement>>> {
         this.applicationContext = context.getApplicationContext();
         this.dao = new AnnouncementDao(applicationContext);
         this.course = course;
-        //loadData();
+        loadData(Bundle.EMPTY);
     }
 
-    private void loadData() {
+    @Override
+    protected void loadData(@Nullable Bundle args) {
         new AsyncTask<Void, Void, Result<List<Announcement>>>() {
 
             @Override
@@ -68,8 +65,6 @@ public class AnnouncementLiveData extends LiveData<Result<List<Announcement>>> {
         super.onActive();
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(applicationContext);
         manager.registerReceiver(receiver, getFilter());
-        // TODO: find a way to check if something changed.
-        loadData();
     }
 
     @Override
@@ -82,7 +77,6 @@ public class AnnouncementLiveData extends LiveData<Result<List<Announcement>>> {
     private static IntentFilter getFilter() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(SyncBroadcast.SYNC_PROGRESS_WHATS_NEW);
-        filter.addAction(DatabaseBroadcaster.MINERVA_ANNOUNCEMENT_UPDATED);
         return filter;
     }
 }

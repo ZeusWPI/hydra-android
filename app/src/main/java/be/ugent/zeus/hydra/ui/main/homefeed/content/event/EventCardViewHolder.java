@@ -8,7 +8,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.EventDetailActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HideableViewHolder;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -21,7 +21,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  * @author Niko Strijbol
  * @author feliciaan
  */
-public class EventCardViewHolder extends HideableViewHolder {
+public class EventCardViewHolder extends FeedViewHolder {
 
     private final TextView start;
     private final TextView title;

@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.repository;
 
-import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import be.ugent.zeus.hydra.data.network.Request;
 import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.repository.data.ModelLiveData;
 import be.ugent.zeus.hydra.repository.data.RefreshingLiveData;
 
@@ -25,7 +25,7 @@ public class RequestRepository<M> implements Repository<M> {
     }
 
     @Override
-    public LiveData<Result<M>> load(Request<M> request) {
+    public BaseLiveData<Result<M>> load(Request<M> request) {
         if (supportsRefresh) {
             return new RefreshingLiveData<>(context, request);
         } else {

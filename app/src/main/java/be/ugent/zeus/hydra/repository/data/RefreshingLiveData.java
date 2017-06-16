@@ -20,7 +20,10 @@ public class RefreshingLiveData<M> extends ModelLiveData<M> {
         this.receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                loadData(intent.getExtras());
+                // Don't refresh if we already did a refresh.
+                if (!intent.getBooleanExtra(BaseLiveData.REFRESH_MANUAL, false)) {
+                    loadData(intent.getExtras());
+                }
             }
         };
     }

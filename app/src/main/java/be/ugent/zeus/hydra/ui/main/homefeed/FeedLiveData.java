@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.ui.main.homefeed;
 
-import android.arch.lifecycle.LiveData;
 import android.content.*;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +15,7 @@ import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.debug.WaitRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.event.EventRequest;
@@ -44,16 +44,20 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.feed.OperationFactory.get;
 /**
  * @author Niko Strijbol
  */
-public class FeedLiveData extends LiveData<Result<List<HomeCard>>> {
+public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
 
     private static final String TAG = "HomeFeedLoader";
     private static final boolean ADD_STALL_REQUEST = false;
     private PreferenceListener preferenceListener = new PreferenceListener();
 
+    public static final int REFRESH_TYPE_ALL = -1;
+
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            loadData(intent.getExtras());
+            if (!intent.getBooleanExtra(BaseLiveData.REFRESH_MANUAL, false)) {
+                loadData(intent.getExtras());
+            }
         }
     };
 
@@ -81,8 +85,7 @@ public class FeedLiveData extends LiveData<Result<List<HomeCard>>> {
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(applicationContext);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(SyncBroadcast.SYNC_DONE);
-        intentFilter.addAction(DatabaseBroadcaster.MINERVA_ANNOUNCEMENT_UPDATED);
-        intentFilter.addAction(RefreshBroadcast.BROADCAST);
+        intentFilter.addAction(RefreshBroadcast.REFRESH_ACTION);
         manager.registerReceiver(broadcastReceiver, intentFilter);
         Map<String, ?> prefs = preferences.getAll();
         boolean shouldRefresh = false;

@@ -9,7 +9,7 @@ import be.ugent.zeus.hydra.ui.resto.menu.MenuActivity;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HideableViewHolder;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.ui.common.widgets.MenuTable;
@@ -22,7 +22,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  * @author Niko Strijbol
  * @author feliciaan
  */
-public class RestoCardViewHolder extends HideableViewHolder {
+public class RestoCardViewHolder extends FeedViewHolder {
 
     private final MenuTable table;
     private final SharedPreferences preferences;

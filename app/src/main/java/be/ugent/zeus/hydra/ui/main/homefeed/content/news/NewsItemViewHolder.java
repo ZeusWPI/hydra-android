@@ -9,7 +9,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
 import be.ugent.zeus.hydra.ui.NewsArticleActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HideableViewHolder;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
@@ -22,7 +22,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class NewsItemViewHolder extends HideableViewHolder {
+public class NewsItemViewHolder extends FeedViewHolder {
 
     private TextView info;
     private TextView title;

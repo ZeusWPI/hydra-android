@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.ui.main.homefeed;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
 import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 
@@ -18,7 +18,7 @@ public class FeedViewModel extends RefreshViewModel<List<HomeCard>> {
     }
 
     @Override
-    protected LiveData<Result<List<HomeCard>>> constructDataInstance() {
+    protected BaseLiveData<Result<List<HomeCard>>> constructDataInstance() {
         return new FeedLiveData(getApplication());
     }
 }

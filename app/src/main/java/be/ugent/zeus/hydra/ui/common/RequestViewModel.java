@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.ui.common;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
 import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.repository.RequestRepository;
 import be.ugent.zeus.hydra.data.network.requests.Result;
 
@@ -28,7 +28,7 @@ public abstract class RequestViewModel<D> extends RefreshViewModel<D> {
      * @return The actual data.
      */
     @Override
-    public LiveData<Result<D>> constructDataInstance() {
+    public BaseLiveData<Result<D>> constructDataInstance() {
         return requestRepository.load(getRequest());
     }
 

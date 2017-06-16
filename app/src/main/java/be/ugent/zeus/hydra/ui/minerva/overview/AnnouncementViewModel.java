@@ -26,7 +26,7 @@ public class AnnouncementViewModel extends RefreshViewModel<List<Announcement>> 
     }
 
     @Override
-    protected LiveData<Result<List<Announcement>>> constructDataInstance() {
+    protected AnnouncementLiveData constructDataInstance() {
         Objects.requireNonNull(course, "You must set the course before using the view model.");
         return new AnnouncementLiveData(getApplication(), course);
     }

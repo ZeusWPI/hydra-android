@@ -3,8 +3,11 @@ package be.ugent.zeus.hydra.ui.common;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.repository.data.RefreshLiveData;
 
 /**
@@ -15,7 +18,7 @@ public abstract class RefreshViewModel<D> extends AndroidViewModel {
     private static final String TAG = "RefreshViewModel";
 
     private LiveData<Boolean> refreshing;
-    private LiveData<Result<D>> data;
+    private BaseLiveData<Result<D>> data;
 
     public RefreshViewModel(Application application) {
         super(application);
@@ -48,7 +51,7 @@ public abstract class RefreshViewModel<D> extends AndroidViewModel {
      *
      * @return The data.
      */
-    protected abstract LiveData<Result<D>> constructDataInstance();
+    protected abstract BaseLiveData<Result<D>> constructDataInstance();
 
     @Override
     protected void onCleared() {
@@ -56,5 +59,17 @@ public abstract class RefreshViewModel<D> extends AndroidViewModel {
         Log.d(TAG, "Destroyed the view model.");
         refreshing = null;
         data = null;
+    }
+
+    public void requestRefresh(Context context) {
+        if (data != null) {
+            data.flagForRefresh(context);
+        }
+    }
+
+    public void requestRefresh(Context context, Bundle args) {
+        if (data != null) {
+            data.flagForRefresh(context, args);
+        }
     }
 }

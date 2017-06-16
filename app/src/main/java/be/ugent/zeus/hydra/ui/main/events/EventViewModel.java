@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.ui.main.events;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
 import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class EventViewModel extends RefreshViewModel<List<Event>> {
     }
 
     @Override
-    protected LiveData<Result<List<Event>>> constructDataInstance() {
+    protected BaseLiveData<Result<List<Event>>> constructDataInstance() {
         return new EventLiveData(getApplication());
     }
 }

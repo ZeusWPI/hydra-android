@@ -1,10 +1,10 @@
 package be.ugent.zeus.hydra.ui.minerva.overview;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
 import java8.util.Objects;
 
@@ -26,7 +26,7 @@ public class AgendaViewModel extends RefreshViewModel<List<AgendaItem>> {
     }
 
     @Override
-    protected LiveData<Result<List<AgendaItem>>> constructDataInstance() {
+    protected BaseLiveData<Result<List<AgendaItem>>> constructDataInstance() {
         Objects.requireNonNull(course, "You must set the course before using the view model.");
         return new AgendaLiveData(getApplication() , course);
     }

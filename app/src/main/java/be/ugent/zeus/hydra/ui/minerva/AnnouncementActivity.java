@@ -10,18 +10,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.BaseActivity;
-import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
-import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
+import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
+import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 import org.threeten.bp.ZonedDateTime;
 
 /**
  * Show a Minerva announcement.
+ *
+ * If the announcement was marked as read, the activity will return a result. The resulting intent will a boolean named
+ * {@link #RESULT_ANNOUNCEMENT_READ}. True indicates the announcement was marked as read, false indicates the
+ * announcemnent has not been changed. In this second case the activity currently does not return a result, but this
+ * might change in the future, so relying on the presence of a result alone is not sufficient.
  *
  * @author Niko Strijbol
  */
@@ -29,11 +34,16 @@ public class AnnouncementActivity extends BaseActivity {
 
     public static final String ARG_ANNOUNCEMENT = "announcement_view";
 
+    public static final String RESULT_ANNOUNCEMENT_READ = "be.ugent.zeus.hydra.result.minerva.announcement.read";
+
+    private static final String STATE_MARKED = "state_marked";
+
     private static final String ONLINE_URL_MOBILE = "https://minerva.ugent.be/mobile/courses/%s/announcement";
     private static final String ONLINE_URL_DESKTOP = "http://minerva.ugent.be/main/announcements/announcements.php?cidReq=%s";
 
     private Announcement announcement;
     private AnnouncementDao dao;
+    private boolean marked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,12 +109,35 @@ public class AnnouncementActivity extends BaseActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onResume() {
+        super.onResume();
         //Set the read date if needed
         if (!announcement.isRead()) {
             announcement.setRead(ZonedDateTime.now());
+            setResult();
             AsyncTask.execute(() -> dao.update(announcement));
+        }
+    }
+
+    private void setResult() {
+        Intent intent = new Intent();
+        intent.putExtra(RESULT_ANNOUNCEMENT_READ, true);
+        setResult(RESULT_OK, intent);
+        marked = true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_MARKED, marked);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState.getBoolean(STATE_MARKED, false)) {
+            setResult();
         }
     }
 }

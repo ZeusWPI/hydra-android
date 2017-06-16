@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.PopupMenu;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.event.EventCardViewHolder;
@@ -43,11 +44,13 @@ public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCa
 
     private final WeakReference<HomeFeedFragment> fragment;
     private final Context context;
+    private final ResultStarter resultStarter;
 
-    HomeFeedAdapter(HomeFeedFragment fragment) {
+    HomeFeedAdapter(HomeFeedFragment fragment, ResultStarter starter) {
         super();
         this.fragment = new WeakReference<>(fragment);
         this.context = fragment.getContext().getApplicationContext();
+        this.resultStarter = starter;
         setHasStableIds(true);
     }
 
@@ -155,5 +158,9 @@ public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCa
             }
             return false;
         };
+    }
+
+    public ResultStarter getResultStarter() {
+        return resultStarter;
     }
 }
