@@ -6,13 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
+import be.ugent.zeus.hydra.data.models.association.Association;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
@@ -23,9 +22,12 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
+import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
+import be.ugent.zeus.hydra.utils.PreferencesUtils;
 
 import static android.app.Activity.RESULT_OK;
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
+import static be.ugent.zeus.hydra.ui.main.homefeed.FeedLiveData.REFRESH_HOMECARD_TYPE;
 
 /**
  * The fragment showing the home feed.
@@ -50,9 +52,6 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
     public static final String PREF_DISABLED_CARDS = "pref_disabled_cards";
 
     public static final int REQUEST_HOMECARD_ID = 5050;
-    public static final String RESULT_HOMECARD_ACTION = "be.ugent.zeus.hydra.result.homecard";
-    public static final String RESULT_HOMECARD_TYPE = "be.ugent.zeus.hydra.result.homecard.type";
-    public static final String RESULT_HOMECARD_UPDATED = "be.ugent.zeus.hydra.result.homecard.updated";
 
     private boolean firstRun;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -178,7 +177,7 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
             if (data.getBooleanExtra(CourseActivity.RESULT_ANNOUNCEMENT_UPDATED, false)
                     || data.getBooleanExtra(AnnouncementActivity.RESULT_ANNOUNCEMENT_READ, false)) {
                 Bundle extras = new Bundle();
-                extras.putInt(RESULT_HOMECARD_TYPE, HomeCard.CardType.MINERVA_ANNOUNCEMENT);
+                extras.putInt(REFRESH_HOMECARD_TYPE, HomeCard.CardType.MINERVA_ANNOUNCEMENT);
                 model.requestRefresh(getContext(), extras);
             }
         }
@@ -187,5 +186,40 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
     @Override
     public int getRequestCode() {
         return REQUEST_HOMECARD_ID;
+    }
+
+    /**
+     * Disable an association.
+     *
+     * @param association The association of the card to disable.
+     */
+    public void disableAssociation(Association association) {
+        PreferencesUtils.addToStringSet(
+                getContext(),
+                AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
+                association.getInternalName()
+        );
+        // Refresh the list
+        Bundle extras = new Bundle();
+        extras.putInt(REFRESH_HOMECARD_TYPE, HomeCard.CardType.ACTIVITY);
+        model.requestRefresh(getContext(), extras);
+    }
+
+    /**
+     * Disable a type of card.
+     *
+     * @param type The type of card to disable.
+     */
+    public void disableCardType(@HomeCard.CardType int type) {
+        //Save preferences first
+        PreferencesUtils.addToStringSet(
+                getContext(),
+                HomeFeedFragment.PREF_DISABLED_CARDS,
+                String.valueOf(type)
+        );
+        // Refresh the list
+        Bundle extras = new Bundle();
+        extras.putInt(REFRESH_HOMECARD_TYPE, type);
+        model.requestRefresh(getContext(), extras);
     }
 }

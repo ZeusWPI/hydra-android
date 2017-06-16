@@ -42,13 +42,13 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard.CardType.*;
  */
 public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCard>> {
 
-    private final WeakReference<HomeFeedFragment> fragment;
+    private final HomeFeedFragment fragment;
     private final Context context;
     private final ResultStarter resultStarter;
 
     HomeFeedAdapter(HomeFeedFragment fragment, ResultStarter starter) {
         super();
-        this.fragment = new WeakReference<>(fragment);
+        this.fragment = fragment;
         this.context = fragment.getContext().getApplicationContext();
         this.resultStarter = starter;
         setHasStableIds(true);
@@ -56,12 +56,7 @@ public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCa
 
     @Nullable
     public ActivityHelper getHelper() {
-        HomeFeedFragment fragment = this.fragment.get();
-        if (fragment != null) {
-            return fragment.getHelper();
-        } else {
-            return null;
-        }
+        return fragment.getHelper();
     }
 
     @Override
@@ -100,19 +95,6 @@ public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCa
         return LayoutInflater.from(parent.getContext()).inflate(rLayout, parent, false);
     }
 
-    /**
-     * Disable an association.
-     *
-     * @param association The association of the card to disable.
-     */
-    public void disableAssociation(Association association) {
-        PreferencesUtils.addToStringSet(
-                context,
-                AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
-                association.getInternalName()
-        );
-    }
-
     @Override
     public void onBindViewHolder(DataViewHolder<HomeCard> holder, int position) {
         holder.populate(items.get(position));
@@ -130,20 +112,6 @@ public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCa
     }
 
     /**
-     * Disable a type of card.
-     *
-     * @param type The type of card to disable.
-     */
-    public void disableCardType(@HomeCard.CardType int type) {
-        //Save preferences first
-        PreferencesUtils.addToStringSet(
-                context,
-                HomeFeedFragment.PREF_DISABLED_CARDS,
-                String.valueOf(type)
-        );
-    }
-
-    /**
      * Helper method that returns a listener that hides a given card type in this adapter. This will only work with the
      * default menu in {@link be.ugent.zeus.hydra.ui.common.widgets.NowToolbar}.
      *
@@ -153,7 +121,7 @@ public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCa
     public PopupMenu.OnMenuItemClickListener listener(@HomeCard.CardType final int type) {
         return item -> {
             if (item.getItemId() == R.id.menu_hide) {
-                disableCardType(type);
+                fragment.disableCardType(type);
                 return true;
             }
             return false;
@@ -162,5 +130,9 @@ public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCa
 
     public ResultStarter getResultStarter() {
         return resultStarter;
+    }
+
+    public HomeFeedFragment getFragment() {
+        return fragment;
     }
 }

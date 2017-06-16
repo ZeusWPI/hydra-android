@@ -10,7 +10,6 @@ import android.support.v4.os.OperationCanceledException;
 import android.util.Log;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
-import be.ugent.zeus.hydra.data.database.minerva.DatabaseBroadcaster;
 import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
@@ -42,15 +41,30 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.feed.OperationFactory.add;
 import static be.ugent.zeus.hydra.ui.main.homefeed.feed.OperationFactory.get;
 
 /**
+ * The data source for the home feed. The home feed is a feed that mixes data from different sources. Additions or
+ * deletions from the feed are represented by {@link FeedOperation}s.
+ *
+ * This class supports two refresh modes: full and partial. The full method is the default and will refresh all
+ * feed sources. This is the default method.
+ *
+ * By passing the correct parameter, you can specify to only update the source for a specific card type. For this,
+ * the feed data supports the constant {@link #REFRESH_HOMECARD_TYPE}.
+ *
+ * You must pass this in a bundle to {@link #flagForRefresh(Context, Bundle)}.
+ *
  * @author Niko Strijbol
  */
 public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
 
+    /**
+     * Sets which card type should be updated. The default value is {@link #REFRESH_ALL_CARDS}.
+     */
+    public static final String REFRESH_HOMECARD_TYPE = "be.ugent.zeus.hydra.data.refresh.homecard.type";
+    public static final int REFRESH_ALL_CARDS = -20;
+
     private static final String TAG = "HomeFeedLoader";
     private static final boolean ADD_STALL_REQUEST = false;
-    private PreferenceListener preferenceListener = new PreferenceListener();
-
-    public static final int REFRESH_TYPE_ALL = -1;
+    private RestoListener restoListener = new RestoListener();
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -81,7 +95,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
     protected void onActive() {
         super.onActive();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-        preferences.registerOnSharedPreferenceChangeListener(preferenceListener);
+        preferences.registerOnSharedPreferenceChangeListener(restoListener);
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(applicationContext);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(SyncBroadcast.SYNC_DONE);
@@ -99,7 +113,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
             }
         }
         if (shouldRefresh) {
-            loadData(Bundle.EMPTY);
+            flagForRefresh(applicationContext);
         }
     }
 
@@ -107,17 +121,23 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
     protected void onInactive() {
         super.onInactive();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-        preferences.unregisterOnSharedPreferenceChangeListener(preferenceListener);
+        preferences.unregisterOnSharedPreferenceChangeListener(restoListener);
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(applicationContext);
         manager.unregisterReceiver(broadcastReceiver);
     }
 
-    private class PreferenceListener implements SharedPreferences.OnSharedPreferenceChangeListener {
+    private class RestoListener implements SharedPreferences.OnSharedPreferenceChangeListener {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            // If it is a value we are looking for, save the value.
+            // We don't need to update for these values anymore, since we already do this manually.
             if (J8Arrays.stream(watchedPreferences).anyMatch(key::contains)) {
-                Log.d(TAG, "onSharedPreferenceChanged: Content was changed due to SharedPreferences.");
-                loadData(Bundle.EMPTY);
+                oldPreferences.put(key, sharedPreferences.getAll().get(key));
+            }
+            if (RestoPreferenceFragment.PREF_RESTO.equals(key)) {
+                Bundle ex = new Bundle();
+                ex.putInt(REFRESH_HOMECARD_TYPE, HomeCard.CardType.RESTO);
+                flagForRefresh(applicationContext, ex);
             }
         }
     }
@@ -142,7 +162,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
             @Override
             protected Void doInBackground(Void... voids) {
                 // Get the operations.
-                IterableSparseArray<FeedOperation> operations = scheduleOperations();
+                Iterable<FeedOperation> operations = findOperations(scheduleOperations(), bundle);
 
                 // Get existing value if needed.
                 Result<List<HomeCard>> loaderResult = getValue();
@@ -246,5 +266,31 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
         }
 
         return operations;
+    }
+
+    /**
+     * Filter the requests to only include the requests that should be executed.
+     *
+     * @param allOperations A list of all possible operations.
+     * @param args The arguments to determine which requests will be executed.
+     * @return The requests to be executed.
+     */
+    private Iterable<FeedOperation> findOperations(IterableSparseArray<FeedOperation> allOperations, @Nullable Bundle args) {
+
+        // If there are no arguments, or we must do all operations, do nothing.
+        if (args == null || args.getInt(REFRESH_HOMECARD_TYPE, REFRESH_ALL_CARDS) == REFRESH_ALL_CARDS) {
+            Log.i(TAG, "Returning all card types.");
+            return allOperations;
+        }
+
+        int cardType = args.getInt(REFRESH_HOMECARD_TYPE, -50);
+        FeedOperation operation = allOperations.get(cardType);
+        if (operation == null) {
+            // Something went wrong.
+            Log.w(TAG, "Invalid card type " + cardType + " was passed. Defaulting to all types.");
+            return allOperations;
+        }
+        Log.i(TAG, "Returning card type " + cardType);
+        return Collections.singleton(operation);
     }
 }
