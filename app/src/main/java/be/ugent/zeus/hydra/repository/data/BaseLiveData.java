@@ -47,6 +47,7 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
             loadData(args);
         } else {
             this.queuedRefresh = args;
+            this.refreshContext = context.getApplicationContext();
         }
     }
 
@@ -57,6 +58,7 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
             sendBroadcast(refreshContext, queuedRefresh);
             loadData(queuedRefresh);
             queuedRefresh = null;
+            refreshContext = null;
         }
     }
 
