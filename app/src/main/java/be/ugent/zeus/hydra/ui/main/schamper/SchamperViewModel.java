@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.ui.main.schamper;
 
 import android.app.Application;
 import be.ugent.zeus.hydra.data.models.schamper.Article;
-import be.ugent.zeus.hydra.data.network.Request;
-import be.ugent.zeus.hydra.data.network.requests.Requests;
+import be.ugent.zeus.hydra.repository.requests.Request;
+import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.SchamperArticlesRequest;
 import be.ugent.zeus.hydra.ui.common.RequestViewModel;
 

@@ -1,12 +1,9 @@
-package be.ugent.zeus.hydra.data.network.requests;
+package be.ugent.zeus.hydra.repository.requests;
 
 import android.content.Context;
 import android.util.Log;
-import be.ugent.zeus.hydra.data.network.Request;
-import be.ugent.zeus.hydra.data.network.RequestFunction;
-import be.ugent.zeus.hydra.data.network.caching.Cache;
+import be.ugent.zeus.hydra.repository.Cache;
 import be.ugent.zeus.hydra.data.network.caching.CacheManager;
-import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import java8.util.function.Function;

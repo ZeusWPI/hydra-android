@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.data.auth;
 
-import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
+import be.ugent.zeus.hydra.repository.requests.RequestException;
 
 /**
  * Thrown when user action is required, e.g. the refresh token has expired.

@@ -220,7 +220,7 @@
 
         <!-- Announcement sync service -->
         <service
-            android:name=".data.sync.announcement.Service"
+            android:name=".data.sync.announcement.AnnouncementService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -232,7 +232,7 @@
 
         <!-- Stub announcement provider -->
         <provider
-            android:name=".data.sync.announcement.Provider"
+            android:name=".data.sync.announcement.AnnouncementProvider"
             android:authorities="be.ugent.zeus.hydra.minerva.provider"
             android:exported="false"
             android:label="@string/minerva_sync_announcement_provider"
@@ -240,7 +240,7 @@
 
         <!-- Calendar sync service -->
         <service
-            android:name=".data.sync.calendar.Service"
+            android:name=".data.sync.calendar.CalendarService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -252,7 +252,7 @@
 
         <!-- Stub calendar provider -->
         <provider
-            android:name=".data.sync.calendar.Provider"
+            android:name=".data.sync.calendar.CalendarProvider"
             android:authorities="be.ugent.zeus.hydra.minerva.calendar.provider"
             android:exported="false"
             android:label="@string/minerva_sync_calendar_provider"
@@ -260,7 +260,7 @@
 
         <!-- Course sync service -->
         <service
-            android:name=".data.sync.course.Service"
+            android:name=".data.sync.course.CourseService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -272,7 +272,7 @@
 
         <!-- Stub course provider -->
         <provider
-            android:name=".data.sync.course.Provider"
+            android:name=".data.sync.course.CourseProvider"
             android:authorities="be.ugent.zeus.hydra.minerva.course.provider"
             android:exported="false"
             android:label="@string/minerva_sync_course"

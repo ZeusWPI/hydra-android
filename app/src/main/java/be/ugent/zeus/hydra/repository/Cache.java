@@ -1,9 +1,10 @@
-package be.ugent.zeus.hydra.data.network.caching;
+package be.ugent.zeus.hydra.repository;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.repository.requests.CacheableRequest;
 
 import java.io.Serializable;
 

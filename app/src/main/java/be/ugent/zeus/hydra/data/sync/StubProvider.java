@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.data.sync.announcement;
+package be.ugent.zeus.hydra.data.sync;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
  *
  * @author Niko Strijbol
  */
-public class Provider extends ContentProvider {
+public class StubProvider extends ContentProvider {
 
     /**
      * @return always true, indicating that the provider loaded correctly.

@@ -3,8 +3,9 @@ package be.ugent.zeus.hydra.data.network.requests;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.data.network.Endpoints;
-import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
+import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.utils.StringUtils;
 
 import java.io.IOException;

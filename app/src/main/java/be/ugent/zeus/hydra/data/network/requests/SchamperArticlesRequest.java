@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.data.models.schamper.Article;
 import be.ugent.zeus.hydra.data.network.Endpoints;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.data.network.caching.Cache;
-import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
+import be.ugent.zeus.hydra.repository.Cache;
+import be.ugent.zeus.hydra.repository.requests.CacheableRequest;
 
 /**
  * Request to get Schamper articles.

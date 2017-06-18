@@ -1,10 +1,9 @@
-package be.ugent.zeus.hydra.data.network;
+package be.ugent.zeus.hydra.repository.requests;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import be.ugent.zeus.hydra.data.network.requests.Result;
 
 /**
  * The basis interface for a request. A request is something that returns data, not unlike a AsyncTask, but without

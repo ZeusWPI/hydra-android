@@ -24,12 +24,13 @@ import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.models.minerva.Agenda;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
+import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AgendaRequest;
 import be.ugent.zeus.hydra.data.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.data.sync.Synchronisation;
+import be.ugent.zeus.hydra.data.sync.course.CourseAdapter;
 import be.ugent.zeus.hydra.ui.minerva.CalendarPermissionActivity;
 import java8.util.function.Functions;
 import java8.util.stream.Collectors;
@@ -47,7 +48,7 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
-public class Adapter extends MinervaAdapter {
+public class CalendarAdapter extends MinervaAdapter {
 
     private static final String TAG = "MinervaCalendarAdapter";
 
@@ -55,7 +56,7 @@ public class Adapter extends MinervaAdapter {
 
     private AgendaDao dao;
 
-    public Adapter(Context context, boolean autoInitialize) {
+    public CalendarAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
     }
 
@@ -120,7 +121,7 @@ public class Adapter extends MinervaAdapter {
             // This means we have an agenda item for a course that doesn't exist!
             // We abort the synchronisation, and launch the course synchronisation.
             Bundle bundle = new Bundle();
-            bundle.putBoolean(be.ugent.zeus.hydra.data.sync.course.Adapter.EXTRA_SCHEDULE_AGENDA, true);
+            bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_AGENDA, true);
             SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
 
             broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);

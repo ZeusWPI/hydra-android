@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import be.ugent.zeus.hydra.data.models.association.Event;
-import be.ugent.zeus.hydra.data.network.requests.Requests;
+import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.association.EventFilter;
 import be.ugent.zeus.hydra.data.network.requests.association.EventRequest;
 import be.ugent.zeus.hydra.repository.data.RefreshingLiveData;

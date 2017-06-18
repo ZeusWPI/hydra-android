@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.ui.minerva;
 
 import android.app.Application;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
-import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
 

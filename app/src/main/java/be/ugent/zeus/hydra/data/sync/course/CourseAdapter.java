@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.data.auth.MinervaConfig;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.data.models.minerva.Courses;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
+import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.data.network.requests.minerva.CoursesMinervaRequest;
 import be.ugent.zeus.hydra.data.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
@@ -38,7 +38,7 @@ import java.util.Collection;
  *
  * @author Niko Strijbol
  */
-public class Adapter extends MinervaAdapter {
+public class CourseAdapter extends MinervaAdapter {
 
     private static final String TAG = "MinervaCalendarAdapter";
 
@@ -56,7 +56,7 @@ public class Adapter extends MinervaAdapter {
      */
     public static final String EXTRA_SCHEDULE_AGENDA = "scheduleAgenda";
 
-    public Adapter(Context context, boolean autoInitialize) {
+    public CourseAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
     }
 
@@ -70,10 +70,6 @@ public class Adapter extends MinervaAdapter {
 
         final CourseDao courseDao = new CourseDao(getContext());
         final CoursesMinervaRequest minervaRequest = new CoursesMinervaRequest(getContext(), account);
-
-        if (isFirstSync) {
-            courseDao.deleteAll();
-        }
 
         // Calculate diff
         Courses courses = minervaRequest.performRequest(null).getOrThrow();

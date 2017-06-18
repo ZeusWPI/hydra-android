@@ -2,9 +2,9 @@ package be.ugent.zeus.hydra.ui.main.info;
 
 import android.app.Application;
 import be.ugent.zeus.hydra.data.models.info.InfoItem;
-import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.data.network.requests.InfoRequest;
-import be.ugent.zeus.hydra.data.network.requests.Requests;
+import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.ui.common.RequestViewModel;
 
 import java.util.Arrays;

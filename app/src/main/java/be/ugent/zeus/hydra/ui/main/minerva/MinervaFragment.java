@@ -34,7 +34,7 @@ import be.ugent.zeus.hydra.data.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementNotificationBuilder;
-import be.ugent.zeus.hydra.data.sync.course.Adapter;
+import be.ugent.zeus.hydra.data.sync.course.CourseAdapter;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
@@ -171,8 +171,8 @@ public class MinervaFragment extends LifecycleFragment implements OnStartDragLis
         Log.d(TAG, "Requesting first sync...");
         Bundle bundle = new Bundle();
         bundle.putBoolean(MinervaAdapter.EXTRA_FIRST_SYNC, true);
-        bundle.putBoolean(Adapter.EXTRA_SCHEDULE_AGENDA, true);
-        bundle.putBoolean(Adapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
+        bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_AGENDA, true);
+        bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
         SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
     }
 
@@ -248,10 +248,10 @@ public class MinervaFragment extends LifecycleFragment implements OnStartDragLis
         Account account = AccountUtils.getAccount(getContext());
         Bundle bundle = new Bundle();
         if (announcements) {
-            bundle.putBoolean(Adapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
+            bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
         }
         if (calendar) {
-            bundle.putBoolean(Adapter.EXTRA_SCHEDULE_AGENDA, true);
+            bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_AGENDA, true);
         }
         Toast.makeText(getContext(), R.string.minerva_syncing, Toast.LENGTH_LONG)
                 .show();

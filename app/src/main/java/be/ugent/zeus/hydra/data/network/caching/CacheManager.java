@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.data.network.caching;
 
 import android.content.Context;
+import be.ugent.zeus.hydra.repository.Cache;
 
 /**
  * Provide access to the cache instance.

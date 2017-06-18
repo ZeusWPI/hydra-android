@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import be.ugent.zeus.hydra.data.network.Request;
-import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.requests.Request;
+import be.ugent.zeus.hydra.repository.requests.Result;
 
 /**
  * Live data for a {@link Request}.

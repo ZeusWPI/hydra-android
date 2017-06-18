@@ -6,7 +6,7 @@ import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.repository.data.RefreshLiveData;
 

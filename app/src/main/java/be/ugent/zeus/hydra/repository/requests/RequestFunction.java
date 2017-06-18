@@ -1,6 +1,4 @@
-package be.ugent.zeus.hydra.data.network;
-
-import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
+package be.ugent.zeus.hydra.repository.requests;
 
 /**
  * Equivalent to {@link java8.util.function.Function}, but allows for an exception.

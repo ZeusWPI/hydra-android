@@ -1,8 +1,6 @@
-package be.ugent.zeus.hydra.data.network.requests;
+package be.ugent.zeus.hydra.repository.requests;
 
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.data.network.RequestFunction;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
 import java8.util.Objects;
 import java8.util.function.Consumer;
 import java8.util.function.Function;
@@ -10,7 +8,7 @@ import java8.util.function.Function;
 import java.util.NoSuchElementException;
 
 /**
- * The result of a {@link be.ugent.zeus.hydra.data.network.Request}.
+ * The result of a {@link Request}.
  *
  * <h2>Either-or-both</h2>
  * This class represents an "inclusive or" type, sometimes referred to as an "outer join" type.

@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.data.network.exceptions;
 
+import be.ugent.zeus.hydra.repository.requests.RequestException;
+
 /**
  * This exception should be thrown when the request could not be completed due to IO failure. The most common use will
  * be network failure.

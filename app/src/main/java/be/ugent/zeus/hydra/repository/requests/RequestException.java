@@ -1,6 +1,6 @@
-package be.ugent.zeus.hydra.data.network.exceptions;
+package be.ugent.zeus.hydra.repository.requests;
 
-import be.ugent.zeus.hydra.data.network.Request;
+import be.ugent.zeus.hydra.repository.requests.Request;
 
 /**
  * Exception thrown by a {@link Request} when something goes wrong while producing the data.

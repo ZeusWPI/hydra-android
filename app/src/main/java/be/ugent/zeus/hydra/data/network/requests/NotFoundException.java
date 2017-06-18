@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.data.network.requests;
 
-import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
+import be.ugent.zeus.hydra.repository.requests.RequestException;
 
 /**
  * @author Niko Strijbol

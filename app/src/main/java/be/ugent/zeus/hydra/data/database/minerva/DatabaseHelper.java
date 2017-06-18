@@ -9,10 +9,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import be.ugent.zeus.hydra.data.sync.course.CourseAdapter;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
-import be.ugent.zeus.hydra.data.sync.course.Adapter;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
 
 /**
@@ -116,8 +116,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             // Request a full synchronisation
             Bundle bundle = new Bundle();
-            bundle.putBoolean(Adapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
-            bundle.putBoolean(Adapter.EXTRA_SCHEDULE_AGENDA, true);
+            bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
+            bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_AGENDA, true);
             SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
         }
     }

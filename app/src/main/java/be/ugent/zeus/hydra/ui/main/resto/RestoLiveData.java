@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
-import be.ugent.zeus.hydra.data.network.requests.Requests;
+import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.resto.CurrentMenuFilter;
 import be.ugent.zeus.hydra.data.network.requests.resto.MenuFilter;
 import be.ugent.zeus.hydra.data.network.requests.resto.MenuRequest;

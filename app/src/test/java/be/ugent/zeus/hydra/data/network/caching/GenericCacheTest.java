@@ -2,7 +2,8 @@ package be.ugent.zeus.hydra.data.network.caching;
 
 import android.content.Context;
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
+import be.ugent.zeus.hydra.repository.requests.RequestException;
+import be.ugent.zeus.hydra.repository.Cache;
 import org.junit.Before;
 import org.junit.Test;
 import org.threeten.bp.Instant;

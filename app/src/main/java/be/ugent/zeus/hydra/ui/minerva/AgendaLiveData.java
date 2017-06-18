@@ -11,7 +11,7 @@ import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.data.network.requests.NotFoundException;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
-import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 
 /**

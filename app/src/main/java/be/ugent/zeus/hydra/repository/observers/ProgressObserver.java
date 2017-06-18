@@ -4,7 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ProgressBar;
-import be.ugent.zeus.hydra.data.network.requests.Result;
+import be.ugent.zeus.hydra.repository.requests.Result;
 
 /**
  * @author Niko Strijbol

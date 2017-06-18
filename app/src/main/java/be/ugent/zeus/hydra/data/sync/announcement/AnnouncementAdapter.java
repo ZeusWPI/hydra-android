@@ -17,13 +17,14 @@ import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.data.models.minerva.Announcements;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.data.models.minerva.WhatsNew;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
+import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AnnouncementsRequest;
 import be.ugent.zeus.hydra.data.network.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.data.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.data.sync.Synchronisation;
+import be.ugent.zeus.hydra.data.sync.course.CourseAdapter;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import org.threeten.bp.ZonedDateTime;
 
@@ -36,13 +37,13 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
-public class Adapter extends MinervaAdapter {
+public class AnnouncementAdapter extends MinervaAdapter {
 
     private static final String TAG = "AnnouncementSyncAdapter";
 
     private AnnouncementDao dao;
 
-    Adapter(Context context, boolean autoInitialize) {
+    AnnouncementAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
     }
 
@@ -93,7 +94,7 @@ public class Adapter extends MinervaAdapter {
             // This means we have an agenda item for a course that doesn't exist!
             // We abort the synchronisation, and launch the course synchronisation.
             Bundle bundle = new Bundle();
-            bundle.putBoolean(be.ugent.zeus.hydra.data.sync.course.Adapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
+            bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
             SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
 
             broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);

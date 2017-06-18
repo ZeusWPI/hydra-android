@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import be.ugent.zeus.hydra.data.auth.AuthenticatorActionException;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestException;
+import be.ugent.zeus.hydra.repository.requests.RequestException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 
 /**
@@ -112,6 +112,13 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
                                                  SyncResult results,
                                                  boolean isFirstSync) throws RequestException;
 
+    /**
+     * Called after the synchronisation has been performed. This means after {@link #onPerformCheckedSync(Account, Bundle, String, ContentProviderClient, SyncResult, boolean)}.
+     *
+     * @param account
+     * @param extras
+     * @param isFirstSync
+     */
     protected void afterSync(Account account, Bundle extras, boolean isFirstSync) {
         // Nothing.
     }
