@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.util.Pair;
 import be.ugent.zeus.hydra.data.database.Dao;
 import be.ugent.zeus.hydra.data.database.DiffDao;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
@@ -205,6 +206,48 @@ public class CourseDao extends Dao implements DiffDao<Course, String> {
         try {
             while (c.moveToNext()) {
                 result.add(extractor.getCourse());
+            }
+        } finally {
+            c.close();
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a list of all courses, ordered by the order column, then by name. The second item in the pair indicates how
+     * many unread announcements there are for the course in the first item of the pair.
+     *
+     * @return The list of pairs.
+     */
+    public List<Pair<Course, Integer>> getAllAndUnreadCount() {
+
+        // TODO: can this raw SQL be avoided?
+        String subquery = "SELECT count(*) FROM " + AnnouncementTable.TABLE_NAME + " WHERE " +
+                AnnouncementTable.Columns.COURSE + " = " + CourseTable.TABLE_NAME + "." + CourseTable.Columns.ID + " AND " +
+                AnnouncementTable.Columns.READ_DATE + " = -1";
+        String sql = "SELECT " + CourseTable.TABLE_NAME + ".*, (" + subquery + ") AS unread_count FROM " + CourseTable.TABLE_NAME +
+                " ORDER BY " + CourseTable.TABLE_NAME + "." + CourseTable.Columns.ORDER + " ASC, " + CourseTable.TABLE_NAME + "." + CourseTable.Columns.TITLE + " ASC";
+
+        SQLiteDatabase db = helper.getReadableDatabase();
+        List<Pair<Course, Integer>> result = new ArrayList<>();
+
+        Cursor c = db.rawQuery(sql, new String[]{});
+
+        //If the cursor is null, abort
+        if (c == null) {
+            return result;
+        }
+
+        //Get a helper.
+        CourseExtractor extractor = new CourseExtractor.Builder(c).defaults().build();
+
+        //Get the actual result
+        try {
+            while (c.moveToNext()) {
+                Course course = extractor.getCourse();
+                Integer unread = c.getInt(c.getColumnIndexOrThrow("unread_count"));
+                result.add(new Pair<>(course, unread));
             }
         } finally {
             c.close();

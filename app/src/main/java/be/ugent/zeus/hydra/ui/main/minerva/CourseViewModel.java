@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.minerva;
 
 import android.app.Application;
+import android.util.Pair;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
@@ -11,14 +12,14 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class CourseViewModel extends RefreshViewModel<List<Course>> {
+public class CourseViewModel extends RefreshViewModel<List<Pair<Course, Integer>>> {
 
     public CourseViewModel(Application application) {
         super(application);
     }
 
     @Override
-    protected BaseLiveData<Result<List<Course>>> constructDataInstance() {
+    protected BaseLiveData<Result<List<Pair<Course, Integer>>>> constructDataInstance() {
         return new CourseLiveData(getApplication());
     }
 

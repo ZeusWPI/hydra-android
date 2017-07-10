@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.ui.minerva.overview;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.view.MenuItem;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -53,17 +51,13 @@ public class CourseActivity extends BaseActivity {
 
     private Course course;
 
-    public static void start(Context context, Course course) {
-        start(context, course, Tab.ANNOUNCEMENTS);
-    }
-
-    public static void start(Context context, Course course, @Tab int tab) {
-        Intent intent = new Intent(context, CourseActivity.class);
-        intent.putExtra(ARG_COURSE, (Parcelable) course);
-        intent.putExtra(ARG_TAB, tab);
-        context.startActivity(intent);
-    }
-
+    /**
+     * Start the activity for a result.
+     *
+     * @param starter The object starting the activity.
+     * @param course The course.
+     * @param tab Which tab to show.
+     */
     public static void startForResult(ResultStarter starter, Course course, @Tab int tab) {
         Intent intent = new Intent(starter.getContext(), CourseActivity.class);
         intent.putExtra(ARG_COURSE, (Parcelable) course);

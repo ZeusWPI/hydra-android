@@ -13,9 +13,6 @@ import android.support.annotation.Nullable;
  */
 public interface ResultStarter {
 
-    public static final int RESULT_ID = 252525;
-    public static final String RESULT_ACTION = "be.ugent.zeus.hydra.result";
-
     Context getContext();
 
     void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options);

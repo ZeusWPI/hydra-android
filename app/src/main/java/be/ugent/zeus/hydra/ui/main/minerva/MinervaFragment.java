@@ -19,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.util.Pair;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -40,12 +41,14 @@ import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
+import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.DragCallback;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.OnStartDragListener;
 
 import java.io.IOException;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
@@ -54,16 +57,18 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  * @author silox
  * @author Niko Strijbol
  */
-public class MinervaFragment extends LifecycleFragment implements OnStartDragListener {
+public class MinervaFragment extends LifecycleFragment implements OnStartDragListener, ResultStarter {
 
     private static final String TAG = "MinervaFragment";
 
     private static final String LOADER_ARG_SORT = "loaderSortMode";
 
+    private static final int REQUEST_ANNOUNCEMENT_CHANGED_CODE = 56532;
+
     private View authWrapper;
     private Snackbar syncBar;
 
-    private MinervaCourseAdapter adapter = new MinervaCourseAdapter(this);
+    private MinervaCourseAdapter adapter = new MinervaCourseAdapter(this, this);
     private AccountManager manager;
     private CourseDao courseDao;
     private ItemTouchHelper helper;
@@ -204,9 +209,9 @@ public class MinervaFragment extends LifecycleFragment implements OnStartDragLis
             model.getData().observe(this, ErrorObserver.with(this::onError));
             model.getData().observe(this, new ProgressObserver<>(progressBar));
             model.getData().observe(this, new AdapterObserver<>(adapter));
-            model.getData().observe(this, new SuccessObserver<List<Course>>() {
+            model.getData().observe(this, new SuccessObserver<List<Pair<Course, Integer>>>() {
                 @Override
-                protected void onSuccess(List<Course> data) {
+                protected void onSuccess(List<Pair<Course, Integer>> data) {
                     recyclerView.setVisibility(View.VISIBLE);
                     getActivity().invalidateOptionsMenu();
                 }
@@ -333,5 +338,20 @@ public class MinervaFragment extends LifecycleFragment implements OnStartDragLis
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         helper.startDrag(viewHolder);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_ANNOUNCEMENT_CHANGED_CODE && resultCode == RESULT_OK) {
+            RefreshBroadcast.broadcastRefresh(getContext(), true);
+            model.requestRefresh(getContext());
+        }
+    }
+
+    @Override
+    public int getRequestCode() {
+        return REQUEST_ANNOUNCEMENT_CHANGED_CODE;
     }
 }

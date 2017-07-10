@@ -2,11 +2,13 @@ package be.ugent.zeus.hydra.ui.main.minerva;
 
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
+import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffSearchableItemAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.ItemDragHelperAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.OnStartDragListener;
@@ -21,14 +23,16 @@ import java.util.Collections;
  *
  * @author Niko Strijbol
  */
-class MinervaCourseAdapter extends DiffSearchableItemAdapter<Course, MinervaCourseViewHolder> implements ItemDragHelperAdapter, DragHelper {
+class MinervaCourseAdapter extends DiffSearchableItemAdapter<Pair<Course, Integer>, MinervaCourseViewHolder> implements ItemDragHelperAdapter, DragHelper {
 
     private CourseDao courseDao;
     private final OnStartDragListener startDragListener;
+    private final ResultStarter resultStarter;
 
-    MinervaCourseAdapter(OnStartDragListener startDragListener) {
-        super(c -> c.getTitle().toLowerCase());
+    MinervaCourseAdapter(OnStartDragListener startDragListener, ResultStarter resultStarter) {
+        super(c -> c.first.getTitle().toLowerCase());
         this.startDragListener = startDragListener;
+        this.resultStarter = resultStarter;
     }
 
     /**
@@ -40,7 +44,7 @@ class MinervaCourseAdapter extends DiffSearchableItemAdapter<Course, MinervaCour
 
     @Override
     public MinervaCourseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MinervaCourseViewHolder(ViewUtils.inflate(parent, R.layout.item_minerva_course), startDragListener, this);
+        return new MinervaCourseViewHolder(ViewUtils.inflate(parent, R.layout.item_minerva_course), startDragListener, this, resultStarter);
     }
 
     @Override
@@ -58,7 +62,7 @@ class MinervaCourseAdapter extends DiffSearchableItemAdapter<Course, MinervaCour
         AsyncTask.execute(() -> {
             Collection<Course> courses = IntStreams.range(0, getItemCount())
                     .mapToObj(value -> {
-                        Course course1 = items.get(value);
+                        Course course1 = items.get(value).first;
                         course1.setOrder(value);
                         return course1;
                     })
