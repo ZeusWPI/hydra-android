@@ -6,16 +6,24 @@ import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
+import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
+import java8.util.Objects;
 
 import java.util.List;
 
 /**
  * @author Niko Strijbol
  */
-public class CourseViewModel extends RefreshViewModel<List<Pair<Course, Integer>>> {
+public class MinervaViewModel extends RefreshViewModel<List<Pair<Course, Integer>>> {
 
-    public CourseViewModel(Application application) {
+    private ResultStarter resultStarter;
+
+    public MinervaViewModel(Application application) {
         super(application);
+    }
+
+    public void setResultStarter(ResultStarter resultStarter) {
+        this.resultStarter = resultStarter;
     }
 
     @Override
@@ -25,5 +33,9 @@ public class CourseViewModel extends RefreshViewModel<List<Pair<Course, Integer>
 
     public void destroyInstance() {
         onCleared();
+    }
+
+    public ResultStarter getResultStarter() {
+        return Objects.requireNonNull(resultStarter);
     }
 }
