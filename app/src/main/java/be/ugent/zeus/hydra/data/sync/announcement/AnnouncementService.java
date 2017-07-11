@@ -1,20 +1,36 @@
 package be.ugent.zeus.hydra.data.sync.announcement;
 
+import android.app.Service;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import be.ugent.zeus.hydra.data.sync.SyncAdapterService;
 
 /**
  * Minerva synchronisation service.
  *
  * @author Niko Strijbol
  */
-public class AnnouncementService extends SyncAdapterService {
+public class AnnouncementService extends Service {
+
+    // Storage for an instance of the sync adapter
+    private static AbstractThreadedSyncAdapter adapter;
+    // Object to use as a thread-safe lock
+    private static final Object lock = new Object();
 
     @Override
-    protected AbstractThreadedSyncAdapter getAdapter() {
-        return new AnnouncementAdapter(getApplicationContext(), true);
+    public void onCreate() {
+        /*
+         * Create the sync adapter as a singleton.
+         */
+        synchronized (lock) {
+            if (adapter == null) {
+                adapter = new AnnouncementAdapter(getApplicationContext(), true);
+            }
+        }
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return adapter.getSyncAdapterBinder();
     }
 }
