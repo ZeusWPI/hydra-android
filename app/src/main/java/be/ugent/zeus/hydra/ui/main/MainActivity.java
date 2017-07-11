@@ -25,7 +25,6 @@ import be.ugent.zeus.hydra.ui.main.events.EventFragment;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
 import be.ugent.zeus.hydra.ui.main.info.InfoFragment;
 import be.ugent.zeus.hydra.ui.main.library.LibraryListFragment;
-import be.ugent.zeus.hydra.ui.main.minerva.MinervaFragment;
 import be.ugent.zeus.hydra.ui.main.minerva.OverviewFragment;
 import be.ugent.zeus.hydra.ui.main.news.NewsFragment;
 import be.ugent.zeus.hydra.ui.main.resto.RestoFragment;

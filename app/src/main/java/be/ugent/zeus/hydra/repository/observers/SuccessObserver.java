@@ -18,8 +18,6 @@ public abstract class SuccessObserver<D> implements Observer<Result<D>> {
     @Override
     public void onChanged(@Nullable Result<D> result) {
 
-        Log.d(TAG, "onChanged: receiving data");
-
         if (result == null) {
             onEmpty();
             return;

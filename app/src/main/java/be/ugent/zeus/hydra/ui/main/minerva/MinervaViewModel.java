@@ -16,14 +16,8 @@ import java.util.List;
  */
 public class MinervaViewModel extends RefreshViewModel<List<Pair<Course, Integer>>> {
 
-    private ResultStarter resultStarter;
-
     public MinervaViewModel(Application application) {
         super(application);
-    }
-
-    public void setResultStarter(ResultStarter resultStarter) {
-        this.resultStarter = resultStarter;
     }
 
     @Override
@@ -33,9 +27,5 @@ public class MinervaViewModel extends RefreshViewModel<List<Pair<Course, Integer
 
     public void destroyInstance() {
         onCleared();
-    }
-
-    public ResultStarter getResultStarter() {
-        return Objects.requireNonNull(resultStarter);
     }
 }

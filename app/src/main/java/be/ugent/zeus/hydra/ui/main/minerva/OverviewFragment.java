@@ -37,7 +37,6 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 
 import java.io.IOException;
 
-import static android.app.Activity.RESULT_OK;
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
@@ -61,7 +60,7 @@ public class OverviewFragment extends LifecycleFragment implements ResultStarter
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_minerva_overview, container, false);
+        return inflater.inflate(R.layout.fragment_main_minerva_overview, container, false);
     }
 
     @Override
@@ -84,7 +83,7 @@ public class OverviewFragment extends LifecycleFragment implements ResultStarter
 
         // Set this fragment as the one who starts activities. This fragment will pass the result of the activities
         // to the nested fragments.
-        ViewModelProviders.of(getActivity()).get(MinervaViewModel.class).setResultStarter(this);
+        ViewModelProviders.of(getActivity()).get(ResultViewModel.class).setResultStarter(this);
     }
 
     private void onLoggedIn() {

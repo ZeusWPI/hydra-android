@@ -5,9 +5,9 @@ package be.ugent.zeus.hydra.ui.common;
  *
  * @author Niko Strijbol
  */
-public class IllegalTabException extends IllegalStateException {
+public class AdapterOutOfBoundsException extends IndexOutOfBoundsException {
 
-    public IllegalTabException(int position, int count) {
+    public AdapterOutOfBoundsException(int position, int count) {
         super("Request tab at position " + position + ", but only " + count + " tabs are available.");
     }
 }

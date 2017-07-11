@@ -2,10 +2,8 @@ package be.ugent.zeus.hydra.ui.main.minerva;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.ui.common.IllegalTabException;
+import be.ugent.zeus.hydra.ui.common.AdapterOutOfBoundsException;
 
 /**
  * @author Niko Strijbol
@@ -25,7 +23,14 @@ public class MinervaPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new MinervaFragment();
+        switch (position) {
+            case 0:
+                return new CourseFragment();
+            case 1:
+                return new AnnouncementsFragment();
+            default:
+                throw new AdapterOutOfBoundsException(position, getCount());
+        }
     }
 
     @Override
@@ -34,9 +39,9 @@ public class MinervaPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return "Vakken";
             case 1:
-                return "Aankondigingen";
+                return "Ongelezen aankondigingen";
             default:
-                throw new IllegalTabException(position, getCount());
+                throw new AdapterOutOfBoundsException(position, getCount());
         }
     }
 
