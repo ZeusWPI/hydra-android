@@ -16,7 +16,8 @@
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@id/app_bar_layout">
+            android:id="@id/app_bar_layout"
+            android:animateLayoutChanges="true">
 
             <include layout="@layout/x_toolbar" />
 
