@@ -158,18 +158,16 @@ public class AgendaActivity extends BaseActivity {
             case android.R.id.home:
                 // Provide up navigation if opened from outside Hydra.
                 Intent upIntent = NavUtils.getParentActivityIntent(this);
-                if (NavUtils.shouldUpRecreateTask(this, upIntent) && this.item != null) {
+                if (NavUtils.shouldUpRecreateTask(this, upIntent) || isTaskRoot()) {
                     // Intent for the course activity
-                    Intent courseIntent = new Intent(this, CourseActivity.class);
-                    courseIntent.putExtra(CourseActivity.ARG_TAB, CourseActivity.Tab.AGENDA);
-                    courseIntent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) this.item.getCourse());
-                    // Intent for the main activity
-                    Intent mainIntent = new Intent(this, MainActivity.class);
-                    mainIntent.putExtra(MainActivity.ARG_TAB, R.id.drawer_minerva);
-                    TaskStackBuilder.create(this)
-                            .addNextIntent(mainIntent)
-                            .addNextIntent(courseIntent)
-                            .startActivities();
+                    upIntent.putExtra(CourseActivity.ARG_TAB, CourseActivity.Tab.AGENDA);
+                    upIntent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) this.item.getCourse());
+                    TaskStackBuilder builder = TaskStackBuilder.create(this)
+                            .addNextIntentWithParentStack(upIntent);
+                    // The first intent is the home intent, so edit that one.
+                    builder.editIntentAt(0)
+                            .putExtra(MainActivity.ARG_TAB, R.id.drawer_minerva);
+                    builder.startActivities();
                 } else {
                     NavUtils.navigateUpTo(this, upIntent);
                 }
