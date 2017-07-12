@@ -68,7 +68,7 @@ public class UrgentTrack implements Track {
 
         @Override
         protected String doInBackground(Void... voids) {
-            return new UrgentUrlRequest().performRequest(null) + ".mp3";
+            return new UrgentUrlRequest().performRequest(null).getData() + ".mp3";
         }
 
         @Override
