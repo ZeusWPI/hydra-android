@@ -1,10 +1,12 @@
 package be.ugent.zeus.hydra.ui.main;
 
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
@@ -13,6 +15,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -108,7 +112,8 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
 
         //If it doesn't run, start it.
         if(!MusicService.isRunning(getContext())) {
-            getActivity().startService(intent);
+            // Use the compat version, since Android O and up require some changes.
+            ContextCompat.startForegroundService(getContext(), intent);
         }
 
         //Bind the service

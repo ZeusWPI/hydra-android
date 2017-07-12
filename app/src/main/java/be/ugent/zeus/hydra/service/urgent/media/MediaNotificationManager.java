@@ -10,6 +10,7 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.data.ChannelCreator;
 import be.ugent.zeus.hydra.service.urgent.MusicService;
 import be.ugent.zeus.hydra.service.urgent.track.Track;
 import be.ugent.zeus.hydra.service.urgent.track.TrackManager;
@@ -114,6 +115,7 @@ public class MediaNotificationManager {
                 .setContentText(track.getArtist())
                 .setDeleteIntent(cancelIntent)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setChannelId(ChannelCreator.URGENT_CHANNEL)
                 .setStyle(style);
 
         //Add album artwork if available
