@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import be.ugent.zeus.hydra.data.ChannelCreator;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
@@ -54,6 +55,10 @@ public class AnnouncementAdapter extends MinervaAdapter {
                                         ContentProviderClient provider,
                                         SyncResult results,
                                         boolean isFirstSync) throws RequestException {
+
+        // Make sure the notification channel is present
+        ChannelCreator channelCreator = ChannelCreator.getInstance(getContext());
+        channelCreator.createMinervaAnnouncementChannel();
 
         //Get access to the data
         dao = new AnnouncementDao(getContext());

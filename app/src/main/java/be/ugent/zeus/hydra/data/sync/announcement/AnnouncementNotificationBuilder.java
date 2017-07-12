@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.data.ChannelCreator;
 import be.ugent.zeus.hydra.ui.main.MainActivity;
 import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
@@ -81,10 +82,11 @@ public class AnnouncementNotificationBuilder {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setSmallIcon(smallIcon)
                 .setCategory(CATEGORY_EMAIL)
+                .setChannelId(ChannelCreator.MINERVA_ANNOUNCEMENT_CHANNEL)
                 .setAutoCancel(true);
 
-        //For one message
-        if(announcements.size() == 1) {
+        // For one message
+        if (announcements.size() == 1) {
             publishOne(builder);
         } else {
             publishMultiple(builder);

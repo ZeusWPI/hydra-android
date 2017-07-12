@@ -273,5 +273,11 @@
     <string name="action_minerva_courses_sort_year">Jaar</string>
     <string name="action_search">Zoeken</string>
     <string name="minerva_course_unknown_year">Onbekend</string>
+    <string name="channel_minerva_announcements">Minerva-aankondigingen</string>
+    <string name="channel_minerva_announcements_desc">Bevat alle aankondigingen van Minerva.</string>
+    <string name="channel_minerva_account">Minerva-account</string>
+    <string name="channel_minerva_account_desc">Meldingen over uw account van Minerva.</string>
+    <string name="channel_sko">Student Kick-Off</string>
+    <string name="channel_sko_desc">Meldingen over de Student Kick-Off</string>
 
 </resources>

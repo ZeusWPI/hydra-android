@@ -18,6 +18,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.data.ChannelCreator;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
 import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
@@ -67,6 +68,10 @@ public class CalendarAdapter extends MinervaAdapter {
                                         ContentProviderClient provider,
                                         SyncResult results,
                                         boolean isFirstSync) throws RequestException {
+
+        // Make sure the notification channel is present
+        ChannelCreator channelCreator = ChannelCreator.getInstance(getContext());
+        channelCreator.createMinervaAccountChannel();
 
         dao = new AgendaDao(getContext());
         final CourseDao courseDao = new CourseDao(getContext());
@@ -155,6 +160,7 @@ public class CalendarAdapter extends MinervaAdapter {
                 )
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
+                .setChannelId(ChannelCreator.MINERVA_ACCOUNT_CHANNEL)
                 .build();
 
         NotificationManager manager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
+import be.ugent.zeus.hydra.data.ChannelCreator;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
@@ -67,6 +68,10 @@ public class CourseAdapter extends MinervaAdapter {
                                         ContentProviderClient provider,
                                         SyncResult results,
                                         boolean isFirstSync) throws RequestException {
+
+        // Make sure the notification channel is present
+        ChannelCreator channelCreator = ChannelCreator.getInstance(getContext());
+        channelCreator.createMinervaAccountChannel();
 
         final CourseDao courseDao = new CourseDao(getContext());
         final CoursesMinervaRequest minervaRequest = new CoursesMinervaRequest(getContext(), account);
