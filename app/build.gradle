@@ -3,13 +3,13 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.cookpad.android.licensetools'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
 
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 245
         versionName "2.4"
         vectorDrawables.useSupportLibrary = true
@@ -66,7 +66,7 @@ project.afterEvaluate {
 }
 
 //The support library version
-final SUPPORT_LIBRARY_VERSION = '25.4.0'
+final SUPPORT_LIBRARY_VERSION = '26.0.0-beta2'
 final GMS_VERSION = '10.2.1'
 
 dependencies {
