@@ -113,27 +113,18 @@
 - artifact: org.threeten:threetenbp:+
   skip: true
 
-- artifact: android.arch.core:core:+
-  name: core
+- artifact: android.arch.core:common:+
+  name: Android Architecture Components
   copyrightHolder: Google
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/topic/libraries/architecture/index.html
+- artifact: android.arch.core:runtime:+
+  skip: true
+
 - artifact: android.arch.lifecycle:common:+
-  name: common
-  copyrightHolder: Google
-  license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: https://developer.android.com/topic/libraries/architecture/index.html
+  skip: true
 - artifact: android.arch.lifecycle:extensions:+
-  name: extensions
-  copyrightHolder: Google
-  license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: https://developer.android.com/topic/libraries/architecture/index.html
+  skip: true
 - artifact: android.arch.lifecycle:runtime:+
-  name: runtime
-  copyrightHolder: Google
-  license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: https://developer.android.com/topic/libraries/architecture/index.html
+  skip: true
