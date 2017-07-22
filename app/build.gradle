@@ -67,7 +67,7 @@ project.afterEvaluate {
 
 //The support library version
 final SUPPORT_LIBRARY_VERSION = '26.0.0-beta2'
-final GMS_VERSION = '10.2.1'
+final GMS_VERSION = '11.0.2'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')

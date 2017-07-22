@@ -6,15 +6,15 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        versionName "10.2.1"
-        versionCode 1021
+        versionName "11.0.2"
+        versionCode 1102
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile ('com.google.firebase:firebase-core:10.2.1') {
+    compile ('com.google.firebase:firebase-core:11.0.2') {
         exclude module:'support-v4'
     }
 }
