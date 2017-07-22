@@ -1,5 +1,6 @@
 package com.google.firebase.crash;
 
+import android.util.Log;
 import com.google.firebase.FirebaseApp;
 
 /**
@@ -15,8 +16,11 @@ import com.google.firebase.FirebaseApp;
 @SuppressWarnings("unused")
 public class FirebaseCrash {
 
+    private static final String TAG = "FirebaseCrash";
+
     @Deprecated
     public static FirebaseCrash getInstance(FirebaseApp firebaseApp) {
+        Log.w(TAG, "Getting dummy instance of FirebaseCrash.");
         return new FirebaseCrash();
     }
 

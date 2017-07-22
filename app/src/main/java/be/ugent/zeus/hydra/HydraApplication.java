@@ -79,6 +79,10 @@ public class HydraApplication extends Application {
         return (HydraApplication) activity.getApplication();
     }
 
+    /**
+     * Create notifications channels when needed.
+     * TODO: should this move to the SKO activity?
+     */
     private void createChannels() {
         ChannelCreator channelCreator = ChannelCreator.getInstance(this);
         channelCreator.createSkoChannel();
