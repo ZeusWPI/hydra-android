@@ -31,9 +31,8 @@ import java.util.*;
  */
 public class AssociationSelectPrefActivity extends BaseActivity {
 
-    private static final String TAG = "AssociationSelectPrefAc";
     public static final String PREF_ASSOCIATIONS_SHOWING = "pref_associations_showing";
-
+    private static final String TAG = "AssociationSelectPrefAc";
     private SearchableAssociationsAdapter adapter = new SearchableAssociationsAdapter();
 
     @Override
@@ -94,7 +93,7 @@ public class AssociationSelectPrefActivity extends BaseActivity {
             values.add(new Pair<>(association, !disabled.contains(association.getInternalName())));
         }
 
-        adapter.setItems(values);
+        adapter.setItemsAndState(values);
     }
 
     @Override
@@ -103,9 +102,9 @@ public class AssociationSelectPrefActivity extends BaseActivity {
 
         //Save the values.
         Set<String> disabled = new HashSet<>();
-        for (Map.Entry<Association, Boolean> pair : adapter.getAllData().entrySet()) {
-            if (!pair.getValue()) {
-                disabled.add(pair.getKey().getInternalName());
+        for (Pair<Association, Boolean> pair : adapter.getItemsAndState()) {
+            if (!pair.second) {
+                disabled.add(pair.first.getInternalName());
             }
         }
 

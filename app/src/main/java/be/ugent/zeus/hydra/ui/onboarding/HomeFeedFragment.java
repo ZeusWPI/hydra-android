@@ -10,11 +10,11 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectListAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DescriptionMultiSelectListViewHolder;
-
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 
 import java.util.*;
@@ -22,12 +22,11 @@ import java.util.*;
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
- * This is not fun, because this class needs a manual multi checkbox list.
  * @author Niko Strijbol
  */
 public class HomeFeedFragment extends SlideFragment {
 
-    private MultiSelectListAdapter<Tuple> adapter;
+    private FeedOptionsAdapter adapter;
     private Map<String, String> valueMapper = new HashMap<>();
 
     @Nullable
@@ -42,14 +41,7 @@ public class HomeFeedFragment extends SlideFragment {
 
         RecyclerView recyclerView = $(view, R.id.recycler_view);
 
-        adapter = new MultiSelectListAdapter<>(R.layout.item_checkbox_string_description);
-        adapter.setDataViewHolderFactory(
-                itemView -> new DescriptionMultiSelectListViewHolder<>(
-                        itemView,
-                        adapter,
-                        Tuple::getTitle,
-                        Tuple::getDescription
-                ));
+        adapter = new FeedOptionsAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -60,12 +52,12 @@ public class HomeFeedFragment extends SlideFragment {
 
         List<Tuple> itemTuples = new ArrayList<>();
         valueMapper.clear();
-        for(int i = 0; i < values.length; i++) {
+        for (int i = 0; i < values.length; i++) {
             valueMapper.put(values[i], ints[i]);
             itemTuples.add(new Tuple(values[i], descriptions[i]));
         }
 
-        adapter.setValues(itemTuples, true);
+        adapter.setItems(itemTuples, true);
     }
 
     @Override
@@ -74,11 +66,11 @@ public class HomeFeedFragment extends SlideFragment {
 
         //Save the settings.
         //We save which cards we DON'T want, so we need to inverse it.
-        Collection<Pair<Tuple, Boolean>> values = adapter.getItems();
+        Iterable<Pair<Tuple, Boolean>> values = adapter.getItemsAndState();
         Set<String> disabled = new HashSet<>();
 
-        for(Pair<Tuple, Boolean> value: values) {
-            if(!value.second) {
+        for (Pair<Tuple, Boolean> value : values) {
+            if (!value.second) {
                 disabled.add(valueMapper.get(value.first.getTitle()));
             }
         }
@@ -87,7 +79,8 @@ public class HomeFeedFragment extends SlideFragment {
         preferences.edit().putStringSet(be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment.PREF_DISABLED_CARDS, disabled).apply();
     }
 
-    private static class Tuple{
+    private static class Tuple {
+
         private final String title;
         private final String description;
 
@@ -102,6 +95,19 @@ public class HomeFeedFragment extends SlideFragment {
 
         public String getDescription() {
             return description;
+        }
+    }
+
+    private static class FeedOptionsAdapter extends MultiSelectListAdapter<Tuple> {
+
+        @Override
+        public DataViewHolder<Pair<Tuple, Boolean>> onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new DescriptionMultiSelectListViewHolder<>(
+                    ViewUtils.inflate(parent, R.layout.item_checkbox_string_description),
+                    this,
+                    Tuple::getTitle,
+                    Tuple::getDescription
+            );
         }
     }
 }

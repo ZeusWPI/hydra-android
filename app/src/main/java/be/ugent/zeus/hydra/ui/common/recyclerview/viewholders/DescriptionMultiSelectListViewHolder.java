@@ -35,7 +35,6 @@ public class DescriptionMultiSelectListViewHolder<E> extends DataViewHolder<Pair
             Function<E, String> titleProvider,
             Function<E, String> descriptionProvider
     ) {
-
         super(itemView);
         this.adapter = adapter;
         this.titleProvider = titleProvider;
