@@ -31,9 +31,14 @@ import java.util.*;
  */
 public class AssociationSelectPrefActivity extends BaseActivity {
 
+    /**
+     * Key for the preference that contains which associations should be shown.
+     */
     public static final String PREF_ASSOCIATIONS_SHOWING = "pref_associations_showing";
+
     private static final String TAG = "AssociationSelectPrefAc";
-    private SearchableAssociationsAdapter adapter = new SearchableAssociationsAdapter();
+
+    private final SearchableAssociationsAdapter adapter = new SearchableAssociationsAdapter();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,9 +51,6 @@ public class AssociationSelectPrefActivity extends BaseActivity {
         SearchView searchView = $(R.id.search_view);
 
         recyclerView.requestFocus();
-
-        adapter = new SearchableAssociationsAdapter();
-
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         s.attachRecyclerView(recyclerView);
