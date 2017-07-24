@@ -282,4 +282,13 @@
     <string name="channel_urgent">Urgent.fm</string>
     <string name="channel_urgent_desc">Meldingen over Urgent.fm, inclusief de mediamelding voor de radiospeler.</string>
 
+    <string name="selected_n">%d geselecteerd</string>
+    <string name="select_all">Alles selecteren</string>
+    <string name="select_none">Niets selecteren</string>
+
+    <plurals name="minerva_marked_announcements">
+        <item quantity="one">%d aankondiging als gelezen gemarkeerd</item>
+        <item quantity="other">%d aankondigingen als gelezen gemarkeerd</item>
+    </plurals>
+
 </resources>

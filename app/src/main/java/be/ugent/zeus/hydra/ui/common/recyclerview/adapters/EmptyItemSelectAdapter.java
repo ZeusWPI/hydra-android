@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import su.j2e.rvjoiner.RvJoiner;
  *
  * @author Niko Strijbol
  */
-public abstract class EmptyItemAdapter<E, V extends DataViewHolder<E>> extends Adapter<E, RecyclerView.ViewHolder> {
+public abstract class EmptyItemSelectAdapter<E> extends MultiSelectListAdapter<E> {
 
     public static final int EMPTY_TYPE = 1;
 
@@ -26,7 +27,7 @@ public abstract class EmptyItemAdapter<E, V extends DataViewHolder<E>> extends A
     @LayoutRes
     private int emptyViewId;
 
-    public EmptyItemAdapter(@LayoutRes int emptyViewId, @Nullable RvJoiner rvJoiner) {
+    public EmptyItemSelectAdapter(@LayoutRes int emptyViewId, @Nullable RvJoiner rvJoiner) {
         this.emptyViewId = emptyViewId;
         this.rvJoiner = rvJoiner;
     }
@@ -47,7 +48,7 @@ public abstract class EmptyItemAdapter<E, V extends DataViewHolder<E>> extends A
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DataViewHolder<Pair<E, Boolean>> onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == EMPTY_TYPE) {
             View v = LayoutInflater.from(parent.getContext()).inflate(emptyViewId, parent, false);
             return new SimpleViewHolder<>(v);
@@ -56,16 +57,8 @@ public abstract class EmptyItemAdapter<E, V extends DataViewHolder<E>> extends A
         }
     }
 
-    protected abstract V onCreateItemViewHolder(ViewGroup parent, int viewType);
-
-    /**
-     * {@inheritDoc}
-     *
-     * This method checks the type of view holder. This is necessary, because the empty view holder cannot be bound.
-     */
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(DataViewHolder<Pair<E, Boolean>> holder, int position) {
         int type;
         if (rvJoiner != null) {
             // If we are using RvJoiner, we must get the real type, not the joined one.
@@ -75,10 +68,10 @@ public abstract class EmptyItemAdapter<E, V extends DataViewHolder<E>> extends A
             type = holder.getItemViewType();
         }
 
-        if (type != EMPTY_TYPE && holder instanceof DataViewHolder) {
-            @SuppressWarnings("unchecked") // For the generics
-            DataViewHolder<E> viewHolder = (DataViewHolder<E>) holder;
-            viewHolder.populate(items.get(position));
+        if (type != EMPTY_TYPE) {
+            super.onBindViewHolder(holder, position);
         }
     }
+
+    protected abstract DataViewHolder<Pair<E, Boolean>> onCreateItemViewHolder(ViewGroup parent, int viewType);
 }

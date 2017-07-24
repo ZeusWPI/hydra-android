@@ -14,6 +14,11 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DefaultMultiSelect
 import java.util.*;
 
 /**
+ * Searchable adapter with support for multi select. The visible items can be filtered, but all other methods work with
+ * all data; e.g. {@link #hasSelected()} operates on all data, not just the displayed data.
+ *
+ * TODO: is this smart? Perhaps we should filter in the data source instead of in the adapter.
+ *
  * @author Niko Strijbol
  */
 class SearchableAssociationsAdapter extends MultiSelectListAdapter<Association> implements SearchView.OnQueryTextListener {
@@ -112,10 +117,34 @@ class SearchableAssociationsAdapter extends MultiSelectListAdapter<Association> 
     }
 
     @Override
+    public Collection<Association> getSelectedItems() {
+        if (getDefaultValue()) {
+            return Collections.unmodifiableCollection(allAssociations);
+        } else {
+            return Collections.unmodifiableCollection(allStates.keySet());
+        }
+    }
+
+    @Override
     public void setItemsAndState(List<Pair<Association, Boolean>> values) {
         super.setItemsAndState(values);
         for (Pair<Association, Boolean> pair : values) {
             allStates.put(pair.first, pair.second);
+        }
+    }
+
+    @Override
+    public boolean hasSelected() {
+        // Use all data, not just the current data.
+        return getDefaultValue() || !allStates.isEmpty();
+    }
+
+    @Override
+    public int selectedSize() {
+        if (getDefaultValue()) {
+            return allAssociations.size();
+        } else {
+            return allStates.size();
         }
     }
 }

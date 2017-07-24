@@ -24,13 +24,11 @@ class MinervaCourseViewHolder extends DataViewHolder<Pair<Course, Integer>> {
 
     private final TextView name;
     private final TextView subtitle;
-    private final DragHelper helper;
     private final ImageView unreadCount;
     private final ResultStarter resultStarter;
 
     MinervaCourseViewHolder(View itemView, OnStartDragListener listener, DragHelper dragHelper, ResultStarter starter) {
         super(itemView);
-        this.helper = dragHelper;
         this.resultStarter = starter;
         name = $(itemView, R.id.name);
         subtitle = $(itemView, R.id.subtitle);
@@ -49,7 +47,7 @@ class MinervaCourseViewHolder extends DataViewHolder<Pair<Course, Integer>> {
      * Populate with the data. This method must be called in {@link RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder,
      * int)}
      *
-     * @param course The data.
+     * @param data The data.
      */
     @Override
     public void populate(final Pair<Course, Integer> data) {

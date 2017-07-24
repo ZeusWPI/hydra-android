@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/minerva_announcements_mark_done"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_check"
+        android:title="Markeren als gelezen"
+        android:titleCondensed="Gelezen" />
+
+    <item
+        android:id="@+id/action_select_all"
+        android:orderInCategory="150"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_select_all"
+        android:title="@string/select_all" />
+</menu>

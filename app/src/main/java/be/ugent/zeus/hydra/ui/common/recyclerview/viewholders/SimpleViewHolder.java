@@ -7,14 +7,14 @@ import android.view.View;
  *
  * @author Niko Strijbol
  */
-public class SimpleViewHolder extends DataViewHolder<Object> {
+public class SimpleViewHolder<E> extends DataViewHolder<E> {
 
     public SimpleViewHolder(View itemView) {
         super(itemView);
     }
 
     @Override
-    public void populate(Object data) {
+    public void populate(E data) {
 
     }
 }

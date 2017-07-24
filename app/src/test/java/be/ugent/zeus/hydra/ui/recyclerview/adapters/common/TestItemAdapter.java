@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.SimpleViewHolder;
 /**
  * @author Niko Strijbol
  */
-public class TestItemAdapter extends Adapter<Integer, SimpleViewHolder> {
+public class TestItemAdapter extends Adapter<Integer, SimpleViewHolder<?>> {
 
     private boolean isChanged;
 
@@ -25,12 +25,12 @@ public class TestItemAdapter extends Adapter<Integer, SimpleViewHolder> {
     }
 
     @Override
-    public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SimpleViewHolder(new View(null));
+    public SimpleViewHolder<?> onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new SimpleViewHolder<>(new View(null));
     }
 
     @Override
-    public void onBindViewHolder(SimpleViewHolder holder, int position) {
+    public void onBindViewHolder(SimpleViewHolder<?> holder, int position) {
         // DO NOTHING.
     }
 

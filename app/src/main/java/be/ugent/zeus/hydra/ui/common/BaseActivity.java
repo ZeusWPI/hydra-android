@@ -3,9 +3,7 @@ package be.ugent.zeus.hydra.ui.common;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
+import android.support.annotation.*;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -100,14 +98,25 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
     /**
      * Replace an icon with given ID by the same icon but in the correct colour.
      *
+     * @param toolbar The toolbar to extract the colour from.
      * @param menu The menu.
      * @param ids  The ids of the icon.
      */
     public static void tintToolbarIcons(ActionBar toolbar, Menu menu, int... ids) {
-        int color = ViewUtils.getColor(toolbar.getThemedContext(), R.attr.colorControlNormal);
+        tintToolbarIcons(ViewUtils.getColor(toolbar.getThemedContext(), R.attr.colorControlNormal), menu, ids);
+    }
+
+    /**
+     * Replace an icon with given ID by the same icon but in the given colour.
+     *
+     * @param colour The colour int.
+     * @param menu The menu.
+     * @param ids  The ids of the icon.
+     */
+    public static void tintToolbarIcons(@ColorInt int colour, Menu menu, int... ids) {
         for (int id : ids) {
             Drawable drawable = DrawableCompat.wrap(menu.findItem(id).getIcon());
-            DrawableCompat.setTint(drawable, color);
+            DrawableCompat.setTint(drawable, colour);
             menu.findItem(id).setIcon(drawable);
         }
     }

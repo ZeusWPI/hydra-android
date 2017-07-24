@@ -5,26 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="?selectableItemBackground"
     android:clickable="true"
-    android:paddingLeft="@dimen/list_two_line_padding_vertical"
-    android:paddingRight="@dimen/list_two_line_padding_vertical"
-    android:paddingTop="@dimen/list_two_line_padding_horizontal"
-    android:paddingBottom="@dimen/list_two_line_padding_horizontal">
+    android:background="?selectableItemBackground"
+    android:longClickable="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textSize="@dimen/list_two_line_primary_text_size"
-        android:id="@+id/title"
-        tools:text="Titel" />
+    <LinearLayout
+        android:paddingLeft="@dimen/list_two_line_padding_vertical"
+        android:paddingRight="@dimen/list_two_line_padding_vertical"
+        android:paddingTop="@dimen/list_two_line_padding_horizontal"
+        android:paddingBottom="@dimen/list_two_line_padding_horizontal"
+        android:id="@+id/background_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/list_two_line_secondary_text_size"
-        android:id="@+id/subtitle"
-        tools:text="Lesgever + code" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="@dimen/list_two_line_primary_text_size"
+            android:id="@+id/title"
+            tools:text="Titel" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_two_line_secondary_text_size"
+            android:id="@+id/subtitle"
+            tools:text="Vak en datum" />
+
+    </LinearLayout>
 </LinearLayout>
