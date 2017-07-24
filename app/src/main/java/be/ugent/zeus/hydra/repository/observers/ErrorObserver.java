@@ -4,8 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.repository.requests.Result;
-
-import java.util.function.Consumer;
+import java8.util.function.Consumer;
 
 /**
  * @author Niko Strijbol

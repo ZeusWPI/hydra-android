@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.data;
 
+import android.annotation.TargetApi;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -22,8 +23,13 @@ public class ChannelCreator {
     private final NotificationManager notificationManager;
 
     private ChannelCreator(Context context) {
-        this.context = context.getApplicationContext();
-        this.notificationManager = context.getSystemService(NotificationManager.class);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            this.context = null;
+            this.notificationManager = null;
+        } else {
+            this.context = context.getApplicationContext();
+            this.notificationManager = context.getSystemService(NotificationManager.class);
+        }
     }
 
     private static ChannelCreator instance;
@@ -38,10 +44,11 @@ public class ChannelCreator {
     /**
      * Create a channel for the Minerva notifications.
      */
+    @TargetApi(Build.VERSION_CODES.O)
     public void createMinervaAnnouncementChannel() {
 
         // Don't do anything on older versions.
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return;
         }
 
@@ -57,6 +64,7 @@ public class ChannelCreator {
     /**
      * Create a channel for maintenance and other app-specific notifications about Minerva.
      */
+    @TargetApi(Build.VERSION_CODES.O)
     public void createMinervaAccountChannel() {
 
         // Don't do anything on older versions.
@@ -76,6 +84,7 @@ public class ChannelCreator {
     /**
      * Create a channel for SKO stuff.
      */
+    @TargetApi(Build.VERSION_CODES.O)
     public void createSkoChannel() {
 
         // Don't do anything on older versions.
@@ -97,6 +106,7 @@ public class ChannelCreator {
     /**
      * Create a channel for the Urgent.fm player.
      */
+    @TargetApi(Build.VERSION_CODES.O)
     public void createUrgentChannel() {
         // Don't do anything on older versions.
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
