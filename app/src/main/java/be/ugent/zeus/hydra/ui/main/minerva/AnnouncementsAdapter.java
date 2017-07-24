@@ -1,14 +1,11 @@
 package be.ugent.zeus.hydra.ui.main.minerva;
 
-import android.util.Pair;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.EmptyItemAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.EmptyItemSelectAdapter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 
 /**
  * Adapteer for announcements.
