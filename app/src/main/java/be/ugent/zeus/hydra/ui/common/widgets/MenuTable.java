@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.ui.common.widgets;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
@@ -67,7 +68,12 @@ public class MenuTable extends TableLayout {
         TableRow.LayoutParams textParam = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
         textParam.span = 3;
         if (span) {
-            v.setTextAppearance(getContext(), R.style.Material_Typography_Subhead);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                //noinspection deprecation
+                v.setTextAppearance(getContext(), R.style.Material_Typography_Subhead);
+            } else {
+                v.setTextAppearance(R.style.Material_Typography_Subhead);
+            }
         }
         v.setLayoutParams(textParam);
         v.setText(title);

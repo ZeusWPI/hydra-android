@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.ui.main.minerva;
 
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.MotionEvent;
@@ -34,7 +33,7 @@ class MinervaCourseViewHolder extends DataViewHolder<Pair<Course, Integer>> {
         subtitle = $(itemView, R.id.subtitle);
         ImageView dragHandle = $(itemView, R.id.drag_handle);
         dragHandle.setOnTouchListener((v, event) -> {
-            if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN && dragHelper.isDragEnabled()) {
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN && dragHelper.isDragEnabled()) {
                 listener.onStartDrag(MinervaCourseViewHolder.this);
                 return true;
             }
