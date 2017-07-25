@@ -96,25 +96,6 @@ public class AccountUtils {
      *
      * This method does not take an activity, and always returns the bundle instead.
      *
-     * @see #syncAuthCode(Context, Account)
-     *
-     * @param context The application context.
-     *
-     * @return The bundle containing the access code, or an intent to re-authorise the account.
-     */
-    public static Bundle syncAuthCode(Context context) throws IOException {
-        AccountManager manager = AccountManager.get(context);
-        Account account = manager.getAccountsByType(MinervaConfig.ACCOUNT_TYPE)[0];
-
-        return syncAuthCode(context, account);
-    }
-
-    /**
-     * Get an access token. This is executed in a blocking manner. This method assumes an account is present. Use
-     * the method {@link #hasAccount(Context)} to find out if there actually is an account.
-     *
-     * This method does not take an activity, and always returns the bundle instead.
-     *
      * @param context The application context.
      * @param account The account.
      *

@@ -11,7 +11,6 @@ import be.ugent.zeus.hydra.repository.data.RefreshingLiveData;
 public class RequestRepository<M> {
 
     private final Context context;
-    private boolean supportsRefresh = true;
 
     public RequestRepository(Context context) {
         this.context = context.getApplicationContext();

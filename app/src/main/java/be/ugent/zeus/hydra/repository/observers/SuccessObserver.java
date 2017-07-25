@@ -13,8 +13,6 @@ import java8.util.function.Consumer;
  */
 public abstract class SuccessObserver<D> implements Observer<Result<D>> {
 
-    private static final String TAG = "SuccessObserver";
-
     @Override
     public void onChanged(@Nullable Result<D> result) {
 

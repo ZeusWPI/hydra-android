@@ -3,16 +3,19 @@ package be.ugent.zeus.hydra.ui.common;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.*;
+import android.support.annotation.ColorInt;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import java8.util.function.Supplier;
 
 /**
  * The base activity. Contains code related to common things for almost all activities.
@@ -51,10 +54,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
     public ActionBar getToolbar() {
         assert getSupportActionBar() != null;
         return getSupportActionBar();
-    }
-
-    protected Supplier<View> content() {
-        return () -> findViewById(android.R.id.content);
     }
 
     /**

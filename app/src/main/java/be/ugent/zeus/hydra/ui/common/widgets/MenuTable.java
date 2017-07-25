@@ -204,13 +204,6 @@ public class MenuTable extends TableLayout {
     }
 
     /**
-     * @return The menu being displayed.
-     */
-    public RestoMenu getMenu() {
-        return menu;
-    }
-
-    /**
      * Add content.
      */
     @SuppressLint("SetTextI18n")
