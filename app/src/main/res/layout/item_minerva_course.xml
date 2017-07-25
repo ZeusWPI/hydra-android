@@ -50,6 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingEnd="@dimen/card_spacing"
+            android:paddingRight="@dimen/card_spacing"
             android:scaleType="center"
             android:tint="@color/ugent_blue_lighter"
             app:srcCompat="@drawable/ic_megaphone" />
@@ -59,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingStart="@dimen/card_spacing"
+            android:paddingLeft="@dimen/card_spacing"
             android:adjustViewBounds="true"
             android:scaleType="center"
             android:tint="@color/ugent_blue_lighter"
