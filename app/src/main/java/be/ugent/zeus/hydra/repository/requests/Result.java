@@ -233,7 +233,7 @@ public class Result<D> {
             chosenData = null;
         }
 
-        return new Result<D>(chosenThrowable, chosenData, update.done);
+        return new Result<>(chosenThrowable, chosenData, update.done);
     }
 
     /**
