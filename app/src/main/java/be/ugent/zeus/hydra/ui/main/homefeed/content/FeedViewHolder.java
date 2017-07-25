@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content;
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ public abstract class FeedViewHolder extends DataViewHolder<HomeCard> {
         this.adapter = adapter;
         toolbar = $(itemView, R.id.card_now_toolbar);
 
-        if (BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG && BuildConfig.DEBUG_HOME_STREAM_PRIORITY) {
             priority = new TextView(itemView.getContext());
             CardView cardView = (CardView) itemView;
             cardView.addView(priority);
@@ -41,8 +42,9 @@ public abstract class FeedViewHolder extends DataViewHolder<HomeCard> {
         debugPriority(card);
     }
 
+    @SuppressLint("SetTextI18n")
     protected void debugPriority(HomeCard card) {
-        if(BuildConfig.DEBUG && false) {
+        if(BuildConfig.DEBUG && BuildConfig.DEBUG_HOME_STREAM_PRIORITY) {
             priority.setText("Prioriteit: " + card.getPriority());
         }
     }

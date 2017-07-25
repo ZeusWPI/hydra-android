@@ -23,6 +23,10 @@ android {
                 google_maps_key: props['MAPS_API_KEY'],
                 disableAnalytics: false
         ]
+        // Displays the priorities on the cards of the home feed.
+        buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", "false"
+        // Adds an additional invisible card that takes ~10 seconds to complete.
+        buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", "false"
     }
 
     compileOptions {
@@ -40,6 +44,9 @@ android {
             // Set this to false on release versions!
             debuggable true
             manifestPlaceholders = [disableAnalytics: true]
+            // Set these to true when debugging the home feed.
+            buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", "false"
+            buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", "false"
         }
     }
 

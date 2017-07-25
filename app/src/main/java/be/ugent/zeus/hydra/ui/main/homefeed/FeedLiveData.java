@@ -62,7 +62,6 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
     public static final int REFRESH_ALL_CARDS = -20;
 
     private static final String TAG = "HomeFeedLoader";
-    private static final boolean ADD_STALL_REQUEST = false;
     private RestoListener restoListener = new RestoListener();
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -259,7 +258,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
         operations.add(get(d, UrgentRequest::new, HomeCard.CardType.URGENT_FM));
 
         // Add debug request.
-        if (BuildConfig.DEBUG && ADD_STALL_REQUEST) {
+        if (BuildConfig.DEBUG && BuildConfig.DEBUG_HOME_STREAM_STALL) {
             operations.add(add(new WaitRequest()));
         }
 
