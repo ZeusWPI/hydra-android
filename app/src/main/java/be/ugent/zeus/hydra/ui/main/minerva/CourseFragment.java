@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.minerva;
 
 import android.arch.lifecycle.LifecycleFragment;
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.util.Pair;
 import android.view.*;
 import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
@@ -44,7 +42,6 @@ public class CourseFragment extends LifecycleFragment implements OnStartDragList
     private static final String TAG = "CourseFragment";
 
     private MinervaCourseAdapter adapter;
-    private CourseDao courseDao;
     private ItemTouchHelper helper;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
@@ -69,7 +66,7 @@ public class CourseFragment extends LifecycleFragment implements OnStartDragList
         ResultViewModel resultViewModel = ViewModelProviders.of(getActivity()).get(ResultViewModel.class);
         resultStarter = resultViewModel.getResultStarter();
 
-        this.courseDao = new CourseDao(getContext());
+        CourseDao courseDao = new CourseDao(getContext());
         adapter = new MinervaCourseAdapter(this, resultStarter);
         adapter.setCourseDao(courseDao);
 
