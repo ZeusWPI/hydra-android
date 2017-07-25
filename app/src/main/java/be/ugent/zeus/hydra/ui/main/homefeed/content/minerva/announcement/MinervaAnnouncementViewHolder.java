@@ -75,7 +75,7 @@ public class MinervaAnnouncementViewHolder extends FeedViewHolder {
             textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
             int remainingAnnouncements = mCard.getAnnouncements().size() - 5;
-            textView.setText(itemView.getResources().getQuantityString(R.string.home_feed_card_announcement_more, remainingAnnouncements, remainingAnnouncements));
+            textView.setText(itemView.getResources().getQuantityString(R.plurals.home_feed_card_announcement_more, remainingAnnouncements, remainingAnnouncements));
             textView.setPadding(0, convertDpToPixelInt(16, itemView.getContext()), 0, 0);
             layout.addView(textView);
         }

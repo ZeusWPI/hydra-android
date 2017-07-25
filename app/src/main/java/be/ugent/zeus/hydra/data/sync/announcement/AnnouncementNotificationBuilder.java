@@ -126,7 +126,7 @@ public class AnnouncementNotificationBuilder {
         setTitle(builder);
 
         builder.setContentText(context.getResources()
-                .getQuantityString(R.string.home_feed_announcement_title, announcements.size(), announcements.size())
+                .getQuantityString(R.plurals.home_feed_announcement_title, announcements.size(), announcements.size())
         );
 
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
@@ -140,7 +140,7 @@ public class AnnouncementNotificationBuilder {
         if (announcements.size() > 4) {
             int remaining = announcements.size() - 4;
             inboxStyle.setSummaryText(
-                    context.getResources().getQuantityString(R.string.home_feed_announcement_more, remaining, remaining)
+                    context.getResources().getQuantityString(R.plurals.home_feed_announcement_more, remaining, remaining)
             );
         }
 
