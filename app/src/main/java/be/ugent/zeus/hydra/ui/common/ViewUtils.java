@@ -29,8 +29,7 @@ public class ViewUtils {
      */
     @NonNull
     public static <T extends View> T $(View view, @IdRes int id) {
-        @SuppressWarnings("unchecked")
-        T v = (T) view.findViewById(id);
+        T v = view.findViewById(id);
         assert v != null;
         return v;
     }

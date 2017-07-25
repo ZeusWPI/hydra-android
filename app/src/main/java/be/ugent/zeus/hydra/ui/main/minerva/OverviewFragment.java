@@ -79,7 +79,7 @@ public class OverviewFragment extends LifecycleFragment implements ResultStarter
         manager = AccountManager.get(getContext());
         authWrapper = $(view, R.id.auth_wrapper);
         viewPager = $(view, R.id.pager);
-        tabLayout = (TabLayout) getActivity().findViewById(R.id.tab_layout);
+        tabLayout = getActivity().findViewById(R.id.tab_layout);
 
         // Set this fragment as the one who starts activities. This fragment will pass the result of the activities
         // to the nested fragments.

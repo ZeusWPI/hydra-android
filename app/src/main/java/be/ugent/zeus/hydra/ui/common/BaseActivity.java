@@ -37,8 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
      */
     @NonNull
     public <T extends View> T $(@IdRes int id) {
-        @SuppressWarnings("unchecked")
-        T v = (T) findViewById(id);
+        T v = findViewById(id);
         assert v != null;
         return v;
     }
