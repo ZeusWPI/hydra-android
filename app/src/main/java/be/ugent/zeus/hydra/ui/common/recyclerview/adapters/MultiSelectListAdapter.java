@@ -5,7 +5,6 @@ import android.util.Pair;
 import android.util.SparseBooleanArray;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import java8.lang.Iterables;
-import java8.util.function.Consumer;
 
 import java.util.*;
 
@@ -190,6 +189,7 @@ public abstract class MultiSelectListAdapter<H> extends Adapter<H, DataViewHolde
         return Collections.unmodifiableCollection(list);
     }
 
+    @FunctionalInterface
     public interface Callback<H> {
 
         /**
