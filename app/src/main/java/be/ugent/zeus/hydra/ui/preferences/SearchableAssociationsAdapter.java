@@ -97,22 +97,20 @@ class SearchableAssociationsAdapter extends MultiSelectListAdapter<Association> 
 
     @Override
     public Iterable<Pair<Association, Boolean>> getItemsAndState() {
-        return () -> {
-            return new Iterator<Pair<Association, Boolean>>() {
+        return () -> new Iterator<Pair<Association, Boolean>>() {
 
-                private int current = 0;
+            private int current = 0;
 
-                @Override
-                public boolean hasNext() {
-                    return current < allAssociations.size();
-                }
+            @Override
+            public boolean hasNext() {
+                return current < allAssociations.size();
+            }
 
-                @Override
-                public Pair<Association, Boolean> next() {
-                    Association association = allAssociations.get(current++);
-                    return new Pair<>(association, allStates.getOrDefault(association, getDefaultValue()));
-                }
-            };
+            @Override
+            public Pair<Association, Boolean> next() {
+                Association association = allAssociations.get(current++);
+                return new Pair<>(association, allStates.getOrDefault(association, getDefaultValue()));
+            }
         };
     }
 

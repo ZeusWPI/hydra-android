@@ -128,9 +128,7 @@ public class LibraryDetailActivity extends BaseActivity {
 
         ExpandableLayout layout = $(R.id.expandable_layout);
         expandButton = $(R.id.expand_button);
-        expandButton.setOnClickListener(v -> {
-            layout.toggle();
-        });
+        expandButton.setOnClickListener(v -> layout.toggle());
 
         layout.setOnExpansionUpdateListener(f -> {
             if (f == 0) {

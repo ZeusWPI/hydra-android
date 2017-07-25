@@ -112,23 +112,21 @@ public abstract class MultiSelectListAdapter<H> extends Adapter<H, DataViewHolde
     }
 
     public Iterable<Pair<H, Boolean>> getItemsAndState() {
-        return () -> {
-            return new Iterator<Pair<H, Boolean>>() {
+        return () -> new Iterator<Pair<H, Boolean>>() {
 
-                private int current = 0;
+            private int current = 0;
 
-                @Override
-                public boolean hasNext() {
-                    return current < items.size();
-                }
+            @Override
+            public boolean hasNext() {
+                return current < items.size();
+            }
 
-                @Override
-                public Pair<H, Boolean> next() {
-                    Pair<H, Boolean> value = new Pair<>(items.get(current), isChecked(current));
-                    current++;
-                    return value;
-                }
-            };
+            @Override
+            public Pair<H, Boolean> next() {
+                Pair<H, Boolean> value = new Pair<>(items.get(current), isChecked(current));
+                current++;
+                return value;
+            }
         };
     }
 
