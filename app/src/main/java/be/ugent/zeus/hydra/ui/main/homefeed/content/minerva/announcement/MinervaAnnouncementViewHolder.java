@@ -11,12 +11,11 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
-import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
-import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
+import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
+import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
@@ -71,11 +70,12 @@ public class MinervaAnnouncementViewHolder extends FeedViewHolder {
             layout.addView(view);
         }
 
-        if (mCard.getAnnouncements().size() >= 5) {
+        if (mCard.getAnnouncements().size() > 5) {
             TextView textView = new TextView(itemView.getContext());
             textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-            textView.setText(itemView.getContext().getString(R.string.home_feed_card_announcement_more, mCard.getAnnouncements().size() - 5));
+            int remainingAnnouncements = mCard.getAnnouncements().size() - 5;
+            textView.setText(itemView.getResources().getQuantityString(R.string.home_feed_card_announcement_more, remainingAnnouncements, remainingAnnouncements));
             textView.setPadding(0, convertDpToPixelInt(16, itemView.getContext()), 0, 0);
             layout.addView(textView);
         }

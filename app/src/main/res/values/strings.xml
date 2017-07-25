@@ -195,8 +195,14 @@
     <string name="events_no_location">Zonder locatie</string>
     <string name="title_license">Licenties</string>
     <string name="agenda_subtitle">%1$s • %2$s</string>
-    <string name="home_feed_announcement_title">%d aankondigingen</string>
-    <string name="home_feed_announcement_more">nog %d aankondigingen…</string>
+    <plurals name="home_feed_announcement_title">
+        <item quantity="one">%d aankondiging</item>
+        <item quantity="other">%d aankondigingen</item>
+    </plurals>
+    <plurals name="home_feed_announcement_more">
+        <item quantity="one">nog %d aankondiging…</item>
+        <item quantity="other">nog %d aankondigingen…</item>
+    </plurals>
     <string name="announcement_notification_content">Nieuwe aankondiging</string>
     <string name="announcement_notification_title">Aankondiging in %s</string>
     <string name="without">Zonder</string>
@@ -210,11 +216,14 @@
     <string name="vegetables">Groenten</string>
     <string name="home_feed_agenda_title">Agenda voor %s</string>
     <string name="home_feed_card_announcement_title">Aankondigingen %s</string>
-    <string name="home_feed_card_announcement_more">Bekijk nog %d aankondigingen…</string>
+    <plurals name="home_feed_card_announcement_more">
+        <item quantity="one">Bekijk nog %d aankondiging…</item>
+        <item quantity="other">Bekijk nog %d aankondigingen…</item>
+    </plurals>
     <string name="minerva_no_permission">Je gaf geen toestemming om je account te gebruiken.</string>
     <string name="minerva_sync_getting_courses">Vakken ophalen…</string>
     <string name="minerva_sync_done">Klaar.</string>
-    <string name="minerva_sync_progress">Vak %1$d van %2$d ophalen…</string>
+    <string name="minerva_sync_progress" tools:ignore="PluralsCandidate">Vak %1$d van %2$d ophalen…</string>
     <string name="not_done_yet">Nog niet klaar</string>
     <string name="onboarding_welcome">Welkom bij Hydra</string>
     <string name="onboarding_welcome_description">Kies wat je wilt zien en doen in de app</string>
@@ -282,7 +291,7 @@
     <string name="channel_urgent">Urgent.fm</string>
     <string name="channel_urgent_desc">Meldingen over Urgent.fm, inclusief de mediamelding voor de radiospeler.</string>
 
-    <string name="selected_n">%d geselecteerd</string>
+    <string name="selected_n" tools:ignore="PluralsCandidate">%d geselecteerd</string>
     <string name="select_all">Alles selecteren</string>
     <string name="select_none">Niets selecteren</string>
 

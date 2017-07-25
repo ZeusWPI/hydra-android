@@ -13,12 +13,12 @@ import android.util.Log;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.ChannelCreator;
-import be.ugent.zeus.hydra.ui.main.MainActivity;
-import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
-import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
+import be.ugent.zeus.hydra.ui.main.MainActivity;
+import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
+import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -125,7 +125,9 @@ public class AnnouncementNotificationBuilder {
 
         setTitle(builder);
 
-        builder.setContentText(context.getString(R.string.home_feed_announcement_title, announcements.size()));
+        builder.setContentText(context.getResources()
+                .getQuantityString(R.string.home_feed_announcement_title, announcements.size(), announcements.size())
+        );
 
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 
@@ -136,7 +138,10 @@ public class AnnouncementNotificationBuilder {
         }
 
         if (announcements.size() > 4) {
-            inboxStyle.setSummaryText(context.getString(R.string.home_feed_announcement_more, announcements.size() - 4));
+            int remaining = announcements.size() - 4;
+            inboxStyle.setSummaryText(
+                    context.getResources().getQuantityString(R.string.home_feed_announcement_more, remaining, remaining)
+            );
         }
 
         //Click intent
