@@ -115,9 +115,9 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
     /**
      * Called after the synchronisation has been performed. This means after {@link #onPerformCheckedSync(Account, Bundle, String, ContentProviderClient, SyncResult, boolean)}.
      *
-     * @param account
-     * @param extras
-     * @param isFirstSync
+     * @param account The account for which the sync is happening.
+     * @param extras The extras.
+     * @param isFirstSync True if this is the first sync, otherwise false.
      */
     protected void afterSync(Account account, Bundle extras, boolean isFirstSync) {
         // Nothing.

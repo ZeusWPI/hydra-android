@@ -22,7 +22,7 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
     public static final String REFRESH_MANUAL = "be.ugent.zeus.hydra.data.refresh.manual";
 
     /**
-     * Same as {@link #flagForRefresh(Bundle)}, using {@link Bundle#EMPTY} as argument.
+     * Same as {@link #flagForRefresh(Context, Bundle)}, using {@link Bundle#EMPTY} as argument.
      */
     public void flagForRefresh(Context context) {
         flagForRefresh(context, Bundle.EMPTY);

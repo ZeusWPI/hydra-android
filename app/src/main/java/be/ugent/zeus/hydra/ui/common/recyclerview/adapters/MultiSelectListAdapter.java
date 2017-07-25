@@ -136,7 +136,7 @@ public abstract class MultiSelectListAdapter<H> extends Adapter<H, DataViewHolde
      * <p>
      * If the state of every item is the same, it is more efficient to use {@link #setItems(List, boolean)}.
      *
-     * @param values
+     * @param values The values to set.
      */
     public void setItemsAndState(List<Pair<H, Boolean>> values) {
         List<H> items = new ArrayList<>();
