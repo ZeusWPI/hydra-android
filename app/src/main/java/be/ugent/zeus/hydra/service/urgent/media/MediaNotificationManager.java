@@ -6,9 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.annotation.DrawableRes;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v7.app.NotificationCompat;
 import android.util.Log;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.ChannelCreator;
 import be.ugent.zeus.hydra.service.urgent.MusicService;
@@ -84,8 +85,9 @@ public class MediaNotificationManager {
         intent.setAction(MediaAction.FINISH);
         PendingIntent cancelIntent = PendingIntent.getService(context, NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        NotificationCompat.MediaStyle style = new NotificationCompat.MediaStyle(builder);
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, ChannelCreator.URGENT_CHANNEL);
+        android.support.v4.media.app.NotificationCompat.MediaStyle style =
+                new android.support.v4.media.app.NotificationCompat.MediaStyle(builder);
         style.setMediaSession(provider.getMediaToken());
         style.setShowCancelButton(true);
         style.setCancelButtonIntent(cancelIntent);

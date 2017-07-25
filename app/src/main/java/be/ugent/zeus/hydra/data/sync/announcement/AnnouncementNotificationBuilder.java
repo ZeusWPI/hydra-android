@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -79,10 +79,9 @@ public class AnnouncementNotificationBuilder {
 
         Log.d(TAG, "Publishing notification");
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, ChannelCreator.MINERVA_ANNOUNCEMENT_CHANNEL);
         builder.setSmallIcon(smallIcon)
                 .setCategory(CATEGORY_EMAIL)
-                .setChannelId(ChannelCreator.MINERVA_ANNOUNCEMENT_CHANNEL)
                 .setAutoCancel(true);
 
         // For one message

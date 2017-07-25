@@ -12,10 +12,11 @@ import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.util.SparseArray;
+
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.ChannelCreator;
@@ -25,13 +26,13 @@ import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.models.minerva.Agenda;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AgendaRequest;
 import be.ugent.zeus.hydra.data.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.data.sync.Synchronisation;
 import be.ugent.zeus.hydra.data.sync.course.CourseAdapter;
+import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.ui.minerva.CalendarPermissionActivity;
 import java8.util.function.Functions;
 import java8.util.stream.Collectors;
@@ -150,7 +151,7 @@ public class CalendarAdapter extends MinervaAdapter {
         Intent intent = new Intent(getContext(), CalendarPermissionActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Notification notification = new NotificationCompat.Builder(getContext())
+        Notification notification = new NotificationCompat.Builder(getContext(), ChannelCreator.MINERVA_ACCOUNT_CHANNEL)
                 .setSmallIcon(R.drawable.ic_notification_warning)
                 .setCategory(NotificationCompat.CATEGORY_ERROR)
                 .setContentTitle("Machtigingen voor Hydra")
@@ -160,7 +161,6 @@ public class CalendarAdapter extends MinervaAdapter {
                 )
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
-                .setChannelId(ChannelCreator.MINERVA_ACCOUNT_CHANNEL)
                 .build();
 
         NotificationManager manager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -272,7 +272,7 @@ public class CalendarAdapter extends MinervaAdapter {
 
         // Add the calendar.
         Uri uri = adapterUri(CalendarContract.Calendars.CONTENT_URI, account);
-        Uri result = resolver.insert(uri, values);
+        resolver.insert(uri, values);
     }
 
     /**
@@ -290,6 +290,7 @@ public class CalendarAdapter extends MinervaAdapter {
         contentValues.put(CalendarContract.Events.DTSTART, item.getStartDate().toInstant().toEpochMilli());
         contentValues.put(CalendarContract.Events.DTEND, item.getEndDate().toInstant().toEpochMilli());
         // Convert Java 8 TimeZone to old TimeZone
+        @SuppressWarnings("UseOfObsoleteDateTimeApi")
         TimeZone zone = DateTimeUtils.toTimeZone(item.getStartDate().getZone());
         contentValues.put(CalendarContract.Events.EVENT_TIMEZONE, zone.getID());
         contentValues.put(CalendarContract.Events.EVENT_LOCATION, item.getLocation());
