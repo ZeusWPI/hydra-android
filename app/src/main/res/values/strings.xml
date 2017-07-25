@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- General -->
     <string name="app_name">Hydra</string>
@@ -252,7 +252,7 @@
     <string name="library_details_phone">Telefoon</string>
     <string name="library_details_contact">Verantwoordelijke</string>
     <string name="library_opening_hours_title">Openingsuren</string>
-    <string name="library_address_title">Adres</string>
+    <string name="library_address_title" tools:ignore="Typos">Adres</string>
     <string name="library_more">Meer</string>
     <string name="library_less">Minder</string>
     <string name="minerva_calender_name">Minerva-agenda</string>
