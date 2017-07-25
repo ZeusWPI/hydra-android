@@ -48,7 +48,7 @@ public class ChannelCreator {
     public void createMinervaAnnouncementChannel() {
 
         // Don't do anything on older versions.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             return;
         }
 
