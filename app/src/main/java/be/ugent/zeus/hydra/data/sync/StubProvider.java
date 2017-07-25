@@ -7,14 +7,15 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 /**
- * Define an implementation of ContentProvider that stubs out all methods.
+ * Define an implementation of ContentProvider that stubs out all methods. You cannot use this class directly; you
+ * must inherit from it. You can then register that class in the manifest.
  *
  * @author Niko Strijbol
  */
-public class StubProvider extends ContentProvider {
+public abstract class StubProvider extends ContentProvider {
 
     /**
-     * @return always true, indicating that the provider loaded correctly.
+     * @return Always true, indicating that the provider loaded correctly.
      */
     @Override
     public boolean onCreate() {
