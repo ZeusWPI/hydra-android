@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsService;
 import android.text.TextUtils;
@@ -123,15 +122,8 @@ public class CustomTabsHelper {
         return false;
     }
 
-    /**
-     * @return True if the current API is high enough, otherwise false.
-     */
-    private static boolean supportsCustomTabsApi() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1;
-    }
-
     protected static boolean hasSupport(Activity activity) {
-        return supportsCustomTabsApi() && CustomTabsHelper.getPackageNameToUse(activity) != null;
+        return CustomTabsHelper.getPackageNameToUse(activity) != null;
     }
 
     /**
