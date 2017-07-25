@@ -160,11 +160,6 @@ public class OverviewFragment extends LifecycleFragment implements ResultStarter
     }
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         tabLayout.setVisibility(View.GONE);

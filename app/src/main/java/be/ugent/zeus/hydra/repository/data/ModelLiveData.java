@@ -27,12 +27,6 @@ public class ModelLiveData<M> extends BaseLiveData<Result<M>> {
         loadData(Bundle.EMPTY);
     }
 
-    @Nullable
-    @Override
-    public Result<M> getValue() {
-        return super.getValue();
-    }
-
     /**
      * Load the actual data.
      *
