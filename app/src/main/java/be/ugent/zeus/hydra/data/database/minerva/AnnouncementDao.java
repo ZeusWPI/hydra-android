@@ -343,9 +343,8 @@ public class AnnouncementDao extends Dao implements DiffDao<Announcement, Intege
                 .build();
         AnnouncementExtractor aExtractor = new AnnouncementExtractor.Builder(c).defaults().build();
 
-        Map<String, Course> courses = new HashMap<>();
-
         try {
+            Map<String, Course> courses = new HashMap<>();
             while (c.moveToNext()) {
 
                 //Get the course id
