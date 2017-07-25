@@ -7,6 +7,6 @@
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_event_add"
-        android:title="Toevoegen aan agenda" />
+        android:title="@string/add_to_calendar" />
 
 </menu>

@@ -6,6 +6,6 @@
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_open_in_browser"
-        android:title="Bekijken in browser" />
+        android:title="@string/open_browser" />
 
 </menu>

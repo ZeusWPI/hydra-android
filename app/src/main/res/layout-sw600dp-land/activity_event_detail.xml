@@ -145,7 +145,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingRight="@dimen/content_spacing"
-                            android:text="Van" />
+                            android:text="@string/from" />
 
                         <TextView
                             android:layout_gravity="center_vertical"
@@ -159,7 +159,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingRight="@dimen/content_spacing"
-                            android:text="Tot" />
+                            android:text="@string/to" />
 
                         <TextView
                             android:paddingTop="4dp"

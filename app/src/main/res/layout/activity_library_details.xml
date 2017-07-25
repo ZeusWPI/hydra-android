@@ -156,7 +156,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 style="@style/Base.TextAppearance.AppCompat.Subhead"
-                                android:text="Opmerkingen"
+                                android:text="@string/library_info_remarks"
                                 android:textColor="?attr/colorAccent"
                                 android:gravity="center_vertical" />
 
@@ -176,7 +176,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 style="@style/Base.TextAppearance.AppCompat.Subhead"
-                                android:text="Details"
+                                android:text="@string/library_info_details"
                                 android:textColor="?attr/colorAccent"
                                 android:gravity="center_vertical" />
 

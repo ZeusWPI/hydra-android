@@ -6,7 +6,7 @@
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_check"
-        android:title="Markeren als gelezen"
+        android:title="@string/mark_as_read"
         android:titleCondensed="Gelezen" />
 
     <item

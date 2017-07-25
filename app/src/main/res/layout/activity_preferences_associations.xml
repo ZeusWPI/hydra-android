@@ -38,7 +38,7 @@
                     android:paddingRight="@dimen/activity_vertical_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Kies voor welke verenigingen activiteiten getoond moeten worden."/>
+                    android:text="@string/choose_associations"/>
 
                 <SearchView
                     android:id="@+id/search_view"

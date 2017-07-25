@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_hide"
-        android:title="Dit soort kaarten verbergen" />
+        android:title="@string/card_title_hide" />
     <item android:id="@+id/menu_hide_association"
-        android:title="Deze vereniging verbergen"/>
+        android:title="@string/card_title_show"/>
 </menu>

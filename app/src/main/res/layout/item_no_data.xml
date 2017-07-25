@@ -9,4 +9,4 @@
     android:paddingBottom="@dimen/list_two_line_padding_horizontal"
     android:textSize="@dimen/list_two_line_primary_text_size"
     android:id="@+id/title"
-    android:text="Geen items" />
+    android:text="@string/no_items" />
