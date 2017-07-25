@@ -2,12 +2,12 @@ package be.ugent.zeus.hydra.data.network;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
-import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.data.network.exceptions.RestTemplateException;
-import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.repository.requests.Request;
-import com.google.firebase.crash.FirebaseCrash;
+import be.ugent.zeus.hydra.repository.requests.RequestException;
+import be.ugent.zeus.hydra.repository.requests.Result;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.ResourceAccessException;

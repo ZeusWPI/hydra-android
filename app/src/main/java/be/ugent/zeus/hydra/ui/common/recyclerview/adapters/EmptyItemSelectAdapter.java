@@ -2,11 +2,11 @@ package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.SimpleViewHolder;
 import su.j2e.rvjoiner.RvJoiner;

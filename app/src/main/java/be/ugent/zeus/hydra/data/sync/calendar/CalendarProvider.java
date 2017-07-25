@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.data.sync.calendar;
 
 import be.ugent.zeus.hydra.data.sync.StubProvider;
-import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementProvider;
 
 /**
  * Stub provider for {@link CalendarAdapter}. This needs to be a separate class.

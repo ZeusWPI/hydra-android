@@ -2,12 +2,11 @@ package be.ugent.zeus.hydra.ui.main.minerva;
 
 import android.app.Application;
 import android.util.Pair;
+
 import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
+import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import java8.util.Objects;
 
 import java.util.List;
 

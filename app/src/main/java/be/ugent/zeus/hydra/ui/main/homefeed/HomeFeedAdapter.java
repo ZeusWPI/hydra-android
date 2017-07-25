@@ -1,16 +1,16 @@
 package be.ugent.zeus.hydra.ui.main.homefeed;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.data.models.association.Association;
+import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.event.EventCardViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.minerva.agenda.MinervaAgendaViewHolder;
@@ -21,15 +21,7 @@ import be.ugent.zeus.hydra.ui.main.homefeed.content.resto.RestoCardViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.schamper.SchamperViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.specialevent.SpecialEventCardViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.urgent.UrgentViewHolder;
-import be.ugent.zeus.hydra.data.models.association.Association;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffAdapter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
-import be.ugent.zeus.hydra.utils.PreferencesUtils;
-import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 
-import java.lang.ref.WeakReference;
-
-import static be.ugent.zeus.hydra.ui.main.homefeed.FeedLiveData.REFRESH_HOMECARD_TYPE;
 import static be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard.CardType.*;
 
 /**
