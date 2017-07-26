@@ -11,10 +11,7 @@ import java8.util.function.Function;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.*;
 
 /**
  * Searchable adapter.
@@ -24,7 +21,7 @@ import java.util.WeakHashMap;
 public abstract class SearchableDiffAdapter<D, V extends DataViewHolder<D>> extends ItemDiffAdapter<D, V> implements
         SearchView.OnQueryTextListener, SearchView.OnCloseListener, SearchHelper, android.widget.SearchView.OnQueryTextListener {
 
-    protected List<D> allData;
+    protected List<D> allData = new ArrayList<>();
     private final Function<D, String> stringifier;
 
     private boolean isSearching;
