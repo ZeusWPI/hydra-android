@@ -21,7 +21,8 @@ import java.util.WeakHashMap;
  *
  * @author Niko Strijbol
  */
-public abstract class DiffSearchableItemAdapter<D, V extends DataViewHolder<D>> extends ItemDiffAdapter<D, V> implements SearchView.OnQueryTextListener, SearchView.OnCloseListener, SearchHelper {
+public abstract class DiffSearchableItemAdapter<D, V extends DataViewHolder<D>> extends ItemDiffAdapter<D, V> implements
+        SearchView.OnQueryTextListener, SearchView.OnCloseListener, SearchHelper {
 
     private List<D> allData;
     private final Function<D, String> stringifier;
@@ -58,12 +59,14 @@ public abstract class DiffSearchableItemAdapter<D, V extends DataViewHolder<D>> 
         return true;
     }
 
-    public void setUpdate(List<D> items) {
-        if (isDiffing) {
-            scheduledUpdate = items;
-        } else {
-            updateItemInternal(items);
-            isDiffing = true;
+    private void setUpdate(List<D> items) {
+        synchronized (updateLock) {
+            if (isDiffing) {
+                scheduledUpdate = items;
+            } else {
+                updateItemInternal(items);
+                isDiffing = true;
+            }
         }
     }
 

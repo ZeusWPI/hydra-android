@@ -1,10 +1,11 @@
 package be.ugent.zeus.hydra.ui.sko.overview;
 
 import android.view.ViewGroup;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.sko.Exhibitor;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemAdapter;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 import java8.lang.Iterables;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class ExhibitorAdapter extends ItemAdapter<Exhibitor, ExhibitorViewHolder> implements
+public class ExhibitorAdapter extends ItemDiffAdapter<Exhibitor, ExhibitorViewHolder> implements
         android.widget.SearchView.OnQueryTextListener,
         android.support.v7.widget.SearchView.OnQueryTextListener {
 

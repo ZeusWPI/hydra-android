@@ -9,7 +9,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.association.Association;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.event.EventCardViewHolder;
@@ -27,14 +27,10 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard.CardType.*;
 /**
  * Adapter for {@link HomeFeedFragment}.
  *
- * Note: this used to be calculated by the loader, but this resulted in crashes due to stale data.
- * Another alternative is not using this, but calling notifyDataChanged directly. However, the docs/internet seem to
- * say it is not a problem calculating diffResult on the main thread.
- *
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCard>> {
+public class HomeFeedAdapter extends ItemDiffAdapter<HomeCard, DataViewHolder<HomeCard>> {
 
     private final AdapterCompanion companion;
 
@@ -82,16 +78,6 @@ public class HomeFeedAdapter extends DiffAdapter<HomeCard, DataViewHolder<HomeCa
 
     private View view(int rLayout, ViewGroup parent) {
         return LayoutInflater.from(parent.getContext()).inflate(rLayout, parent, false);
-    }
-
-    @Override
-    public void onBindViewHolder(DataViewHolder<HomeCard> holder, int position) {
-        holder.populate(items.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return items.size();
     }
 
     @Override
