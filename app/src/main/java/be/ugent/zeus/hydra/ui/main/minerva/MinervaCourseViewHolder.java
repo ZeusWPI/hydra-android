@@ -19,26 +19,29 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 /**
  * @author Niko Strijbol
  */
-class MinervaCourseViewHolder extends DataViewHolder<Pair<Course, Integer>> {
+class MinervaCourseViewHolder extends DataViewHolder<Pair<Course, Integer>> implements SearchStateListener {
 
     private final TextView name;
     private final TextView subtitle;
     private final ImageView unreadCount;
     private final ResultStarter resultStarter;
+    private final ImageView dragHandle;
 
-    MinervaCourseViewHolder(View itemView, OnStartDragListener listener, DragHelper dragHelper, ResultStarter starter) {
+    MinervaCourseViewHolder(View itemView, OnStartDragListener listener, SearchHelper searchHelper, ResultStarter starter) {
         super(itemView);
         this.resultStarter = starter;
         name = $(itemView, R.id.name);
         subtitle = $(itemView, R.id.subtitle);
-        ImageView dragHandle = $(itemView, R.id.drag_handle);
+        dragHandle = $(itemView, R.id.drag_handle);
+        searchHelper.registerSearchListener(this);
         dragHandle.setOnTouchListener((v, event) -> {
-            if (event.getActionMasked() == MotionEvent.ACTION_DOWN && dragHelper.isDragEnabled()) {
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN && !searchHelper.isSearching()) {
                 listener.onStartDrag(MinervaCourseViewHolder.this);
                 return true;
             }
             return false;
         });
+        toggleDragHandle(!searchHelper.isSearching());
         unreadCount = $(itemView, R.id.unread_icon);
     }
 
@@ -63,5 +66,14 @@ class MinervaCourseViewHolder extends DataViewHolder<Pair<Course, Integer>> {
         } else {
             unreadCount.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onSearchStateChange(boolean isSearching) {
+        toggleDragHandle(!isSearching);
+    }
+
+    private void toggleDragHandle(boolean enabled) {
+        dragHandle.setVisibility(enabled ? View.VISIBLE : View.GONE);
     }
 }

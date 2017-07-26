@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.ViewGroup;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
@@ -23,7 +24,7 @@ import java.util.Collections;
  *
  * @author Niko Strijbol
  */
-class MinervaCourseAdapter extends DiffSearchableItemAdapter<Pair<Course, Integer>, MinervaCourseViewHolder> implements ItemDragHelperAdapter, DragHelper {
+class MinervaCourseAdapter extends DiffSearchableItemAdapter<Pair<Course, Integer>, MinervaCourseViewHolder> implements ItemDragHelperAdapter {
 
     private CourseDao courseDao;
     private final OnStartDragListener startDragListener;
@@ -73,11 +74,6 @@ class MinervaCourseAdapter extends DiffSearchableItemAdapter<Pair<Course, Intege
 
     @Override
     public boolean isLongPressDragEnabled() {
-        return isDragEnabled();
-    }
-
-    @Override
-    public boolean isDragEnabled() {
-        return !isSearching();
+        return !this.isSearching();
     }
 }

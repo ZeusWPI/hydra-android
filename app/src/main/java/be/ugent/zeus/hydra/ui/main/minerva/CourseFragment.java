@@ -112,6 +112,7 @@ public class CourseFragment extends LifecycleFragment implements OnStartDragList
         SearchView view = (SearchView) menu.findItem(R.id.action_search).getActionView();
         view.setOnQueryTextListener(adapter);
         view.setOnCloseListener(adapter);
+        view.setOnSearchClickListener(v -> adapter.onOpen());
     }
 
     @Override
