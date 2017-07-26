@@ -6,16 +6,16 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.sko.TimelinePost;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 
 /**
  * @author Niko Strijbol
  */
-public class TimelineAdapter extends ItemDiffAdapter<TimelinePost, TimelineViewHolder> {
+public class TimelineAdapter extends be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffAdapter<TimelinePost, TimelineViewHolder> {
 
     private final ActivityHelper helper;
 
     public TimelineAdapter(ActivityHelper helper) {
+        super();
         this.helper = helper;
     }
 

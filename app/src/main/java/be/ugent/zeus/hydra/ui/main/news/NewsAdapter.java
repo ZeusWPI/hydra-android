@@ -5,13 +5,16 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 
 /**
  * @author Niko Strijbol
  * @author ellen
  */
-class NewsAdapter extends ItemDiffAdapter<UgentNewsItem, NewsItemViewHolder> {
+class NewsAdapter extends be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffAdapter<UgentNewsItem, NewsItemViewHolder> {
+
+    protected NewsAdapter() {
+        super();
+    }
 
     @Override
     public NewsItemViewHolder onCreateViewHolder(ViewGroup p, int viewType) {

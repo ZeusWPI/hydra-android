@@ -5,7 +5,6 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.sko.Exhibitor;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 import java8.lang.Iterables;
 
 import java.util.ArrayList;
@@ -16,11 +15,15 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class ExhibitorAdapter extends ItemDiffAdapter<Exhibitor, ExhibitorViewHolder> implements
+public class ExhibitorAdapter extends be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffAdapter<Exhibitor, ExhibitorViewHolder> implements
         android.widget.SearchView.OnQueryTextListener,
         android.support.v7.widget.SearchView.OnQueryTextListener {
 
     private List<Exhibitor> allData;
+
+    protected ExhibitorAdapter() {
+        super();
+    }
 
     /**
      * Set the original data set. This will save them to allow for search.

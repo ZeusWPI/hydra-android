@@ -5,7 +5,6 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DateHeaderViewHolder;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
@@ -15,7 +14,11 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
  * @author ellen
  * @author Niko Strijbol
  */
-class EventAdapter extends ItemDiffAdapter<Event, EventViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
+class EventAdapter extends be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffAdapter<Event, EventViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
+
+    protected EventAdapter() {
+        super();
+    }
 
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -11,9 +11,7 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.SimpleViewHolder;
 import su.j2e.rvjoiner.RvJoiner;
 
 /**
- * Extension of {@link ItemAdapter} that shows a specified view when there are no items.
- *
- * Note: due Java restrictions, this is not a child of {@link ItemAdapter}.
+ * Extension of {@link Adapter} that shows a specified view when there are no items.
  *
  * @author Niko Strijbol
  */

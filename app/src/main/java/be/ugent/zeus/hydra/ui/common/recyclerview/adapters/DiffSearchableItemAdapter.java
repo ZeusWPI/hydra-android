@@ -21,7 +21,7 @@ import java.util.WeakHashMap;
  *
  * @author Niko Strijbol
  */
-public abstract class DiffSearchableItemAdapter<D, V extends DataViewHolder<D>> extends ItemDiffAdapter<D, V> implements
+public abstract class DiffSearchableItemAdapter<D, V extends DataViewHolder<D>> extends DiffAdapter<D, V> implements
         SearchView.OnQueryTextListener, SearchView.OnCloseListener, SearchHelper {
 
     private List<D> allData;
@@ -32,6 +32,7 @@ public abstract class DiffSearchableItemAdapter<D, V extends DataViewHolder<D>> 
     private final Set<SearchStateListener> listeners = Collections.newSetFromMap(new WeakHashMap<>());
 
     protected DiffSearchableItemAdapter(Function<D, String> stringifier) {
+        super();
         this.stringifier = stringifier;
     }
 
