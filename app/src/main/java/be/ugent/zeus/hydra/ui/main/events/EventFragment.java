@@ -19,6 +19,7 @@ import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.ui.preferences.SettingsActivity;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
@@ -59,6 +60,7 @@ public class EventFragment extends LifecycleFragment implements SwipeRefreshLayo
         recyclerView.addItemDecoration(new StickyRecyclerHeadersDecoration(adapter));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
+        adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, noData));
 
         SwipeRefreshLayout swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
@@ -68,13 +70,6 @@ public class EventFragment extends LifecycleFragment implements SwipeRefreshLayo
         model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
         model.getData().observe(this, new AdapterObserver<>(adapter));
-        model.getData().observe(this, listResult -> {
-            if (listResult == null || (listResult.hasData() && listResult.getData().isEmpty())) {
-                noData.setVisibility(View.VISIBLE);
-            } else {
-                noData.setVisibility(View.GONE);
-            }
-        });
         model.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
 
         Button refresh = $(view, R.id.events_no_data_button_refresh);
