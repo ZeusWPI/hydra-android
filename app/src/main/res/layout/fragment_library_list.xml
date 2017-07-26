@@ -30,12 +30,7 @@
 
         <include layout="@layout/x_progress_bar" />
 
-        <TextView
-            android:id="@+id/no_data_view"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/no_data" />
+        <include layout="@layout/item_no_data" android:visibility="gone" />
 
     </FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

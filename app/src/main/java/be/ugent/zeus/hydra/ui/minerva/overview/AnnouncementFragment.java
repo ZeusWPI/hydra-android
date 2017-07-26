@@ -21,6 +21,7 @@ import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
+import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
@@ -81,6 +82,8 @@ public class AnnouncementFragment extends LifecycleFragment implements ResultSta
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
+
+        adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, $(view, R.id.no_data_view)));
 
         RecyclerFastScroller scroller = $(view, R.id.fast_scroller);
         scroller.attachRecyclerView(recyclerView);

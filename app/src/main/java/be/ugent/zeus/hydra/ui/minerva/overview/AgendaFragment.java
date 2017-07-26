@@ -16,6 +16,7 @@ import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
+import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyViewObserver;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
@@ -41,7 +42,7 @@ public class AgendaFragment extends LifecycleFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_minerva_course_announcements, container, false);
+        return inflater.inflate(R.layout.fragment_minerva_course_calendar, container, false);
     }
 
     @Override
@@ -54,6 +55,8 @@ public class AgendaFragment extends LifecycleFragment {
         recyclerView.addItemDecoration(new StickyRecyclerHeadersDecoration(adapter));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
+
+        adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, $(view, R.id.no_data_view)));
 
         Course course = getArguments().getParcelable(ARG_COURSE);
         AgendaViewModel model = ViewModelProviders.of(this).get(AgendaViewModel.class);
