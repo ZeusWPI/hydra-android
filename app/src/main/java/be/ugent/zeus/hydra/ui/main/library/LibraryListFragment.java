@@ -11,6 +11,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
@@ -18,8 +19,9 @@ import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.ui.common.recyclerview.TextCallback;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.EmptyItemAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.Adapter;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 import su.j2e.rvjoiner.JoinableAdapter;
@@ -40,8 +42,8 @@ public class LibraryListFragment extends LifecycleFragment implements SwipeRefre
     public static final String PREF_LIBRARY_FAVOURITES = "pref_library_favourites";
 
     private final RvJoiner joiner = new RvJoiner();
-    private final LibraryListAdapter favourites = new LibraryListAdapter(joiner);
-    private final LibraryListAdapter all = new LibraryListAdapter(joiner);
+    private final LibraryListAdapter favourites = new LibraryListAdapter();
+    private final LibraryListAdapter all = new LibraryListAdapter();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,11 +67,17 @@ public class LibraryListFragment extends LifecycleFragment implements SwipeRefre
         s.attachRecyclerView(recyclerView);
 
         joiner.add(new JoinableLayout(R.layout.item_title, new TextCallback("Favorieten")));
-        joiner.add(new JoinableAdapter(favourites, EmptyItemAdapter.ITEM_TYPE, EmptyItemAdapter.EMPTY_TYPE));
+        joiner.add(new JoinableAdapter(favourites, Adapter.ITEM_TYPE));
         joiner.add(new JoinableLayout(R.layout.item_title, new TextCallback("Alle")));
-        joiner.add(new JoinableAdapter(all, EmptyItemAdapter.ITEM_TYPE, EmptyItemAdapter.EMPTY_TYPE));
+        joiner.add(new JoinableAdapter(all, Adapter.ITEM_TYPE));
 
         recyclerView.setAdapter(joiner.getAdapter());
+
+        recyclerView.getAdapter().registerAdapterDataObserver(
+                new EmptyViewObserver(recyclerView, $(view, R.id.no_data_view),
+                        new EmptyViewObserver.AdapterConsolidator(favourites).add(all)
+                )
+        );
 
         SwipeRefreshLayout swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);

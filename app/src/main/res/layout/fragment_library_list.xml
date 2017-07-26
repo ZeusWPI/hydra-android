@@ -15,6 +15,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:scrollbars="none"
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/item_library"
@@ -28,6 +29,13 @@
             app:rfs_hideDelay="1000"/>
 
         <include layout="@layout/x_progress_bar" />
+
+        <TextView
+            android:id="@+id/no_data_view"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_data" />
 
     </FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>
