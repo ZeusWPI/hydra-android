@@ -6,12 +6,13 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.schamper.Article;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 
 /**
  * @author Niko Strijbol
  * @author feliciaan
  */
-class SchamperListAdapter extends be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffAdapter<Article, SchamperViewHolder> {
+class SchamperListAdapter extends ItemDiffAdapter<Article, SchamperViewHolder> {
 
     private final ActivityHelper helper;
 

@@ -9,6 +9,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.association.Association;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.event.EventCardViewHolder;
@@ -29,7 +30,7 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard.CardType.*;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class HomeFeedAdapter extends be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffAdapter<HomeCard, DataViewHolder<HomeCard>> {
+public class HomeFeedAdapter extends ItemDiffAdapter<HomeCard, DataViewHolder<HomeCard>> {
 
     private final AdapterCompanion companion;
 

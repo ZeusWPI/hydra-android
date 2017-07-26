@@ -3,9 +3,9 @@ package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.util.DiffUtil;
+import android.support.v7.widget.RecyclerView;
 
 import be.ugent.zeus.hydra.ui.common.recyclerview.EqualsCallback;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import java8.util.function.BiFunction;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public abstract class DiffAdapter<D, VH extends DataViewHolder<D>> extends Adapter<D, VH> {
+public abstract class DiffAdapter<D, VH extends RecyclerView.ViewHolder> extends Adapter<D, VH> {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     protected final Object updateLock = new Object();
@@ -138,10 +138,5 @@ public abstract class DiffAdapter<D, VH extends DataViewHolder<D>> extends Adapt
                 updateItemInternal(items);
             }
         }
-    }
-
-    @Override
-    public void onBindViewHolder(VH holder, int position) {
-        holder.populate(items.get(position));
     }
 }

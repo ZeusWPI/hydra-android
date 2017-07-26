@@ -24,7 +24,7 @@ import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectListAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapter;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.Collection;
@@ -38,7 +38,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  *
  * @author Niko Strijbol
  */
-public class AnnouncementsFragment extends LifecycleFragment implements MultiSelectListAdapter.Callback<Announcement> {
+public class AnnouncementsFragment extends LifecycleFragment implements MultiSelectDiffAdapter.Callback<Announcement> {
 
     private static final String TAG = "AnnouncementsFragment";
 
@@ -161,7 +161,7 @@ public class AnnouncementsFragment extends LifecycleFragment implements MultiSel
     };
 
     @Override
-    public void onStateChanged(MultiSelectListAdapter<Announcement> adapter) {
+    public void onStateChanged(MultiSelectDiffAdapter<Announcement> adapter) {
         if (adapter.hasSelected()) {
             if (actionMode == null) {
                 actionMode = getActivity().startActionMode(actionModeCallback);

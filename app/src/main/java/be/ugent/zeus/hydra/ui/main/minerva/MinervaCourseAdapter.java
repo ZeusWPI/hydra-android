@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffSearchableItemAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.SearchableDiffAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.ItemDragHelperAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.OnStartDragListener;
 import java8.util.stream.Collectors;
@@ -24,7 +24,7 @@ import java.util.Collections;
  *
  * @author Niko Strijbol
  */
-class MinervaCourseAdapter extends DiffSearchableItemAdapter<Pair<Course, Integer>, MinervaCourseViewHolder> implements ItemDragHelperAdapter {
+class MinervaCourseAdapter extends SearchableDiffAdapter<Pair<Course, Integer>, MinervaCourseViewHolder> implements ItemDragHelperAdapter {
 
     private CourseDao courseDao;
     private final OnStartDragListener startDragListener;

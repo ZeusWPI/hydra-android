@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectListAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DescriptionMultiSelectListViewHolder;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
@@ -98,7 +98,7 @@ public class HomeFeedFragment extends SlideFragment {
         }
     }
 
-    private static class FeedOptionsAdapter extends MultiSelectListAdapter<Tuple> {
+    private static class FeedOptionsAdapter extends MultiSelectDiffAdapter<Tuple> {
 
         @Override
         public DataViewHolder<Pair<Tuple, Boolean>> onCreateViewHolder(ViewGroup parent, int viewType) {

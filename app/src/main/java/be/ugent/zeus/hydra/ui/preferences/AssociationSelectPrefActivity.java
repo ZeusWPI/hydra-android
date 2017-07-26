@@ -9,11 +9,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.SearchView;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.association.Association;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
@@ -57,7 +58,6 @@ public class AssociationSelectPrefActivity extends BaseActivity {
 
         searchView.setOnQueryTextListener(adapter);
 
-
         AssociationsViewModel model = ViewModelProviders.of(this).get(AssociationsViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
@@ -95,7 +95,7 @@ public class AssociationSelectPrefActivity extends BaseActivity {
             values.add(new Pair<>(association, !disabled.contains(association.getInternalName())));
         }
 
-        adapter.setItemsAndState(values);
+        adapter.setItems(values);
     }
 
     @Override

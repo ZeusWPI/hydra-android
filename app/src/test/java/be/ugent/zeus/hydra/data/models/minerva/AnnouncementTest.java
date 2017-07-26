@@ -18,7 +18,7 @@ public class AnnouncementTest extends ModelTest<Announcement> {
     public void equalsAndHash() {
         Utils.defaultVerifier(Announcement.class)
                 .suppress(Warning.NONFINAL_FIELDS)
-                .withOnlyTheseFields("itemId")
+                .withOnlyTheseFields("itemId", "read")
                 .verify();
     }
 }

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.resto.Sandwich;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectListAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
@@ -24,9 +24,9 @@ class SandwichHolder extends DataViewHolder<Pair<Sandwich, Boolean>> {
     private TextView mediumPrice;
     private ExpandableLayout expandableLayout;
     private TextView ingredients;
-    private MultiSelectListAdapter<Sandwich> adapter;
+    private MultiSelectDiffAdapter<Sandwich> adapter;
 
-    SandwichHolder(View itemView, MultiSelectListAdapter<Sandwich> adapter) {
+    SandwichHolder(View itemView, MultiSelectDiffAdapter<Sandwich> adapter) {
         super(itemView);
 
         name = $(itemView, R.id.sandwich_name);

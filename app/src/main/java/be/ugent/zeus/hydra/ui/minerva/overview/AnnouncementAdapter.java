@@ -6,14 +6,14 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 
 /**
  * Adapter for announcements.
  *
  * @author Niko Strijbol
  */
-class AnnouncementAdapter extends DiffAdapter<Announcement, AnnouncementViewHolder> {
+class AnnouncementAdapter extends ItemDiffAdapter<Announcement, AnnouncementViewHolder> {
 
     private final ResultStarter starter;
 

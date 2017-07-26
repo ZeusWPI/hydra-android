@@ -6,14 +6,14 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectListAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapter;
 
 /**
  * Adapteer for announcements.
  *
  * @author Niko Strijbol
  */
-class AnnouncementsAdapter extends MultiSelectListAdapter<Announcement> {
+class AnnouncementsAdapter extends MultiSelectDiffAdapter<Announcement> {
 
     private final ResultStarter starter;
 

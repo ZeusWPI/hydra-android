@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Fairly simple and generic adapter, holding items in a list.
  *
- * Generally, you should use one of it's two children: {@link DiffAdapter} or {@link MultiSelectListAdapter}.
+ * Generally, you should use one of it's two children: {@link DiffAdapter} or {@link MultiSelectDiffAdapter}.
  *
  * @param <D> The type of items used in the adapter.
  * @param <VH> The type of the view holder used by the adapter.

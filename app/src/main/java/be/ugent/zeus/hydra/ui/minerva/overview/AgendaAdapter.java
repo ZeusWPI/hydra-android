@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.DiffAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DateHeaderViewHolder;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -13,7 +13,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 /**
  * @author Niko Strijbol
  */
-class AgendaAdapter extends DiffAdapter<AgendaItem, AgendaViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
+class AgendaAdapter extends ItemDiffAdapter<AgendaItem, AgendaViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
 
     private static final DateTimeFormatter INT_FORMATTER = DateTimeFormatter.ofPattern("ddMMyyyy");
 

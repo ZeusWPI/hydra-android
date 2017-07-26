@@ -9,7 +9,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectListAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -25,9 +25,9 @@ public class AnnouncementsViewHolder extends DataViewHolder<Pair<Announcement, B
     private final TextView subtitle;
     private final View backgroundHolder;
     private final ResultStarter resultStarter;
-    private final MultiSelectListAdapter<Announcement> adapter;
+    private final MultiSelectDiffAdapter<Announcement> adapter;
 
-    public AnnouncementsViewHolder(View itemView, ResultStarter starter, MultiSelectListAdapter<Announcement> adapter) {
+    public AnnouncementsViewHolder(View itemView, ResultStarter starter, MultiSelectDiffAdapter<Announcement> adapter) {
         super(itemView);
         this.resultStarter = starter;
         this.adapter = adapter;

@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
 import android.support.annotation.NonNull;
 import android.util.Pair;
 import android.util.SparseBooleanArray;
+
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import java8.lang.Iterables;
 
@@ -13,7 +14,7 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
-public abstract class MultiSelectListAdapter<H> extends Adapter<H, DataViewHolder<Pair<H, Boolean>>> {
+public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewHolder<Pair<H, Boolean>>> {
 
     /**
      * This keeps track of which elements are selected and which are not.
@@ -37,7 +38,7 @@ public abstract class MultiSelectListAdapter<H> extends Adapter<H, DataViewHolde
     public void clear() {
         booleanArray.clear();
         super.clear();
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectListAdapter.this));
+        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectDiffAdapter.this));
     }
 
     /**
@@ -49,7 +50,7 @@ public abstract class MultiSelectListAdapter<H> extends Adapter<H, DataViewHolde
     public void setItems(List<H> values, boolean initial) {
         this.defaultValue = initial;
         this.setItems(values);
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectListAdapter.this));
+        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectDiffAdapter.this));
     }
 
     /**
@@ -76,7 +77,7 @@ public abstract class MultiSelectListAdapter<H> extends Adapter<H, DataViewHolde
         } else {
             booleanArray.put(position, !getDefaultValue());
         }
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectListAdapter.this));
+        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectDiffAdapter.this));
     }
 
     /**
@@ -91,7 +92,7 @@ public abstract class MultiSelectListAdapter<H> extends Adapter<H, DataViewHolde
          */
         this.defaultValue = checked;
         this.booleanArray.clear();
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectListAdapter.this));
+        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectDiffAdapter.this));
         notifyDataSetChanged();
     }
 
@@ -149,7 +150,7 @@ public abstract class MultiSelectListAdapter<H> extends Adapter<H, DataViewHolde
                 booleanArray.append(i, value.second);
             }
         }
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectListAdapter.this));
+        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectDiffAdapter.this));
     }
 
     /**
@@ -196,7 +197,7 @@ public abstract class MultiSelectListAdapter<H> extends Adapter<H, DataViewHolde
          *
          * @param adapter Can be used by the client to query things.
          */
-        void onStateChanged(MultiSelectListAdapter<H> adapter);
+        void onStateChanged(MultiSelectDiffAdapter<H> adapter);
     }
 
     /**
