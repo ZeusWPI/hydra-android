@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class UgentNewsItem implements Serializable, Parcelable {
+public final class UgentNewsItem implements Serializable, Parcelable {
 
     private String description;
 

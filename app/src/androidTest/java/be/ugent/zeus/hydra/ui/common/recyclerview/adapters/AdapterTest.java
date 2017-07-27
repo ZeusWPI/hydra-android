@@ -1,10 +1,8 @@
-package be.ugent.zeus.hydra.ui.recyclerview.adapters.common;
+package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
 
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.Adapter;
 import java8.util.stream.Collectors;
 import java8.util.stream.IntStreams;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -13,10 +11,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Test of subset of {@link Adapter} behaviour.
- *
- * TODO: find solution to mock notifyDataSetChanged.
- *
  * @author Niko Strijbol
  */
 public class AdapterTest {
@@ -44,7 +38,7 @@ public class AdapterTest {
         assertTrue(adapter.getItems().isEmpty());
     }
 
-    @Ignore @Test
+    @Test
     public void testSetItemsAndFull() {
         fillAdapter();
         assertTrue(adapter.takeChanged());
@@ -52,10 +46,11 @@ public class AdapterTest {
         assertEquals(Adapter.ITEM_TYPE, adapter.getItemViewType(0));
     }
 
-    @Ignore @Test
+    @Test
     public void testClear() {
         fillAdapter();
         adapter.clear();
         testEmpty();
     }
+
 }

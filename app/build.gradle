@@ -13,6 +13,7 @@ android {
         versionCode 245
         versionName "2.4"
         vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         //Load the API keys from the file "secrets.progperties".
         Properties props = new Properties()
@@ -142,6 +143,7 @@ dependencies {
         exclude group:'com.jakewharton.threetenabp', module:'threetenabp'
     }
 
+    testCompile 'be.tomcools:GetterSetterVerifier:0.0.2'
     testCompile 'nl.jqno.equalsverifier:equalsverifier:2.2.1'
     testCompile ('com.shazam:shazamcrest:0.11') {
         exclude group: 'com.google.code.gson', module: 'gson'
@@ -150,6 +152,14 @@ dependencies {
     testCompile 'org.apache.commons:commons-lang3:3.5'
     testCompile 'org.hamcrest:hamcrest-core:1.3'
     testCompile 'com.googlecode:openbeans:1.0'
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestCompile ('com.android.support.test:runner:1.0.0') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile ('com.android.support.test:rules:1.0.0') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'

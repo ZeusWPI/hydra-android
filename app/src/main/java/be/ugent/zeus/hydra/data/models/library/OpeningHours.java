@@ -7,10 +7,12 @@ import com.google.gson.annotations.SerializedName;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZonedDateTime;
 
+import java.io.Serializable;
+
 /**
  * @author Niko Strijbol
  */
-public class OpeningHours {
+public class OpeningHours implements Serializable {
 
     @SerializedName("wday")
     private int weekday;

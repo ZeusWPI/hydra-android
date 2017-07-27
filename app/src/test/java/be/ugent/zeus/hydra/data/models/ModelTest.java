@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.data.models;
 
 import android.os.Parcelable;
+
 import org.junit.Test;
 
 import java.io.Serializable;
@@ -34,4 +35,11 @@ public abstract class ModelTest<T extends Parcelable & Serializable> {
     public void serialize() {
         assertSerialization(clazz);
     }
+
+//    @Test
+//    public void gettersAndSetters() {
+//        GetterSetterVerifier.forClass(clazz)
+//                .verify();
+//
+//    }
 }

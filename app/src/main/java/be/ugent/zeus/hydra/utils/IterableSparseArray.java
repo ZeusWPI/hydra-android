@@ -11,6 +11,14 @@ import java.util.Iterator;
  */
 public class IterableSparseArray<E> extends SparseArray<E> implements Iterable<E> {
 
+    /**
+     * An iterator over the values of this array.
+     *
+     * The iterator is backed by this array; as such changes to the array while iterating may result in undefined
+     * behaviour. The iterator is read-only: {@link Iterator#remove()} is not supported.
+     *
+     * @return The iterator.
+     */
     @Override
     public Iterator<E> iterator() {
 

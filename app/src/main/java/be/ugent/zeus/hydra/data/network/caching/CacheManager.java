@@ -13,7 +13,8 @@ public class CacheManager {
     private static Cache cache;
 
     /**
-     * Get an instance of the default cache.
+     * Get an instance of the default cache. When called multiple times, the same instance will be returned. This
+     * method is thread-safe.
      *
      * @param context A context.
      *
