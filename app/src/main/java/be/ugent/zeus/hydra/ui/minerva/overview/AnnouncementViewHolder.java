@@ -1,10 +1,11 @@
 package be.ugent.zeus.hydra.ui.minerva.overview;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Parcelable;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
@@ -41,9 +42,9 @@ public class AnnouncementViewHolder extends DataViewHolder<Announcement> {
         subtitle.setText(infoText);
 
         if (data.isRead()) {
-            itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), android.R.color.transparent));
+            itemView.setBackgroundColor(Color.TRANSPARENT);
         } else {
-            itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.white));
+            itemView.setBackgroundColor(Color.WHITE);
         }
 
         clickingView.setOnClickListener(v -> {

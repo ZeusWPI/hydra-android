@@ -73,7 +73,7 @@ public class AnnouncementsViewHolder extends DataViewHolder<Pair<Announcement, B
 
     private void toggleBackground() {
         if (adapter.isChecked(getAdapterPosition())) {
-            backgroundHolder.setBackgroundColor(R.color.black_overlay);
+            backgroundHolder.setBackgroundColor(Color.WHITE);
         } else {
             backgroundHolder.setBackgroundColor(Color.TRANSPARENT);
         }
