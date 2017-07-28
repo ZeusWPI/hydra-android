@@ -47,6 +47,7 @@ public class MusicService2 extends Service implements MediaStateListener, AudioM
     private WifiManager.WifiLock wifiLock;
     private MediaManager mediaManager;
     private boolean initialized = false;
+    private boolean isForeground = false;
     private Consumer<MediaSessionCompat.Token> tokenConsumer;
     private boolean isMediaSessionPrepared = false;
     private boolean isPrepared = false;
@@ -114,7 +115,7 @@ public class MusicService2 extends Service implements MediaStateListener, AudioM
 
         track.getUrl(s -> {
             try {
-                mediaManager.prepare(s);
+                mediaManager.prepare(s, null);
             } catch (IOException e) {
                 Log.e(TAG, "Could not get Urgent URL, stopping the service.", e);
                 stopSelf();
@@ -324,11 +325,14 @@ public class MusicService2 extends Service implements MediaStateListener, AudioM
 
         if (mediaManager != null && mediaManager.isPlaying()) {
             startForeground(MUSIC_SERVICE_ID, mediaNotification);
+            isForeground = true;
         } else {
-            stopForeground(false);
-            // Update the notification anyway
-            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            manager.notify(MUSIC_SERVICE_ID, mediaNotification);
+            if (isForeground) {
+                stopForeground(false);
+                // Update the notification anyway
+                NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                manager.notify(MUSIC_SERVICE_ID, mediaNotification);
+            }
         }
     }
 

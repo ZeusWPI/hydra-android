@@ -16,15 +16,29 @@
  */
 package be.ugent.zeus.hydra.service.urgent.media;
 
+import android.media.MediaPlayer;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.service.urgent.MediaManager;
+import be.ugent.zeus.hydra.service.urgent.MediaState;
+
+import java.io.IOException;
 
 /**
- * A simple implementation of a session callback that maps the methods to the service.
+ * A simple implementation of a session callback that maps the methods to the {@link MediaManager}.
+ *
+ * This is the main controller for the state of the playback: all user-generated events are directed to this class.
+ *
+ * We handle streaming, not playing songs; this influences how the commands are translated:
+ * <ul>
+ *     <li>A pause command will result in a 'stop' call. This means the buffering also stops.</li>
+ *     <li>A stop command will result in the media player being destroyed.</li>
+ * </ul>
+ *
+ * @author Niko Strijbol.
  */
-public class SimpleSessionCallback2 extends MediaSessionCompat.Callback {
+public class SimpleSessionCallback2 extends MediaSessionCompat.Callback implements MediaPlayer.OnPreparedListener {
 
     public static final String TAG = "SimpleSessionCallback";
 
@@ -37,19 +51,51 @@ public class SimpleSessionCallback2 extends MediaSessionCompat.Callback {
     @Override
     public void onPause() {
         Log.d(TAG, "pause");
-        mediaManager.pause();
+
+        if (mediaManager.isStateOneOf(
+                MediaState.PREPARED,
+                MediaState.STARTED,
+                MediaState.STOPPED,
+                MediaState.PAUSED,
+                MediaState.PLAYBACK_COMPLETED)) {
+            mediaManager.stop();
+        }
     }
 
     @Override
     public void onPlay() {
         Log.d(TAG, "play");
-        mediaManager.play();
+        try {
+            // If not in a playable state, prepare the media manager.
+            if (!mediaManager.isStateOneOf(
+                    MediaState.PREPARED,
+                    MediaState.STARTED,
+                    MediaState.PAUSED,
+                    MediaState.PLAYBACK_COMPLETED)
+                    ) {
+                mediaManager.prepare(null, this);
+            } else {
+                mediaManager.play();
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Error while trying to play.", e);
+        }
     }
 
     @Override
     public void onStop() {
         Log.d(TAG, "stop");
-//        mediaManager.stop();
         mediaManager.destroy();
+    }
+
+    /**
+     * Called when a play command is received, but the player wasn't ready. At that point the prepare() method is
+     * called. When preparing finishes, this method is called.
+     *
+     * @param mediaPlayer The media player. Not intended for use.
+     */
+    @Override
+    public void onPrepared(MediaPlayer mediaPlayer) {
+        mediaManager.play();
     }
 }

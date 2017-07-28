@@ -36,13 +36,12 @@
                 android:paddingTop="@dimen/content_spacing"
                 android:paddingBottom="@dimen/content_spacing" />
 
-            <Button
+            <ProgressBar
                 android:layout_gravity="center"
-                android:id="@+id/urgent_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                android:text="@string/play"/>
+                android:layout_marginBottom="@dimen/activity_horizontal_margin" />
+
         </LinearLayout>
 
         <FrameLayout

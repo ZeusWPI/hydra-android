@@ -32,8 +32,6 @@ public class UrgentFragment extends Fragment {
 
     private static final String FRAGMENT_TAG = "MediaFragment";
 
-    private static final String CLICKED_STATE = "clicked_state";
-
     private boolean isBound = false;
     private ServiceConnection serviceConnection = new MusicConnection();
     private MusicService2 musicService;
@@ -72,7 +70,6 @@ public class UrgentFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-
         if (isBound) {
             getActivity().unbindService(serviceConnection);
             musicService = null;
