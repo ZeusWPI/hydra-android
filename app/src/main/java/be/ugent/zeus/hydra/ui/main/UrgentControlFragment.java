@@ -154,6 +154,8 @@ public class UrgentControlFragment extends Fragment {
                 Log.e(TAG, "error playbackstate: " + state.getErrorMessage());
                 Toast.makeText(getActivity(), state.getErrorMessage(), Toast.LENGTH_LONG).show();
                 break;
+            default:
+                enablePlay = true;
         }
 
         if (enablePlay) {

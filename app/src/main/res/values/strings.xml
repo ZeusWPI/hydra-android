@@ -323,6 +323,8 @@
     <string name="no_items">Geen items</string>
     <string name="homefeed">Homefeed</string>
     <string name="homefeed_choice">Kies wat je wilt zien in de homefeed.</string>
+    <string name="urgent_pause">Pauze</string>
+    <string name="urgent_play">Spelen</string>
 
     <plurals name="minerva_marked_announcements">
         <item quantity="one">%d aankondiging als gelezen gemarkeerd</item>

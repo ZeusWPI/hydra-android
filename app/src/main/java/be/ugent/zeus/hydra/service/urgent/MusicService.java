@@ -217,7 +217,7 @@ public class MusicService extends Service implements
     @Override
     public void onCompletion(MediaPlayer mp) {
         if (!mp.isLooping()) {
-            state = MediaState.COMPLETED;
+            state = MediaState.PLAYBACK_COMPLETED;
             if (trackManager.hasNext()) {
                 next();
             } else {
@@ -358,7 +358,7 @@ public class MusicService extends Service implements
                 callbacks.onPlaybackStarted();
             }
         }
-        if (getCurrentState() == MediaState.STOPPED || getCurrentState() == MediaState.COMPLETED) {
+        if (getCurrentState() == MediaState.STOPPED || getCurrentState() == MediaState.PLAYBACK_COMPLETED) {
             Log.d(TAG, "queueing");
             queueTrack(trackManager.currentTrack());
         }
@@ -535,7 +535,7 @@ public class MusicService extends Service implements
      * - {@link MediaState#STARTED}
      * - {@link MediaState#PAUSED}
      * - {@link MediaState#PREPARED}
-     * - {@link MediaState#COMPLETED}
+     * - {@link MediaState#PLAYBACK_COMPLETED}
      *
      * When this is true, there is a loaded track in the {@link MediaPlayer}.
      *
@@ -545,7 +545,7 @@ public class MusicService extends Service implements
         return getCurrentState() == MediaState.STARTED ||
                 getCurrentState() == MediaState.PAUSED ||
                 getCurrentState() == MediaState.PREPARED ||
-                getCurrentState() == MediaState.COMPLETED;
+                getCurrentState() == MediaState.PLAYBACK_COMPLETED;
     }
 
 
