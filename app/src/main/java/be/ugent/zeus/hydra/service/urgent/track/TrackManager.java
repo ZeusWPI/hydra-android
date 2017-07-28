@@ -12,6 +12,7 @@ import java.util.Collection;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class TrackManager {
 
     private static final String TAG = "TrackManager";

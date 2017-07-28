@@ -35,13 +35,13 @@ public class UrgentTrack implements Track {
     @Override
     @Nullable
     public String getArtist() {
-        return null;
+        return context.getString(R.string.urgent_unknown_programme);
     }
 
     @Override
     @NonNull
     public String getTitle() {
-        return "Urgent.fm";
+        return context.getString(R.string.urgent_fm);
     }
 
     @Override

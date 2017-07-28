@@ -53,12 +53,10 @@ public class SimpleSessionCallback2 extends MediaSessionCompat.Callback implemen
         Log.d(TAG, "pause");
 
         if (mediaManager.isStateOneOf(
-                MediaState.PREPARED,
                 MediaState.STARTED,
-                MediaState.STOPPED,
                 MediaState.PAUSED,
                 MediaState.PLAYBACK_COMPLETED)) {
-            mediaManager.stop();
+            mediaManager.pause();
         }
     }
 
@@ -85,6 +83,16 @@ public class SimpleSessionCallback2 extends MediaSessionCompat.Callback implemen
     @Override
     public void onStop() {
         Log.d(TAG, "stop");
+        // Stop if necessary/possible
+        if (mediaManager.isStateOneOf(
+                MediaState.PREPARED,
+                MediaState.STARTED,
+                MediaState.STOPPED,
+                MediaState.PAUSED,
+                MediaState.PLAYBACK_COMPLETED)) {
+            mediaManager.stop();
+        }
+
         mediaManager.destroy();
     }
 

@@ -24,6 +24,7 @@ import be.ugent.zeus.hydra.service.urgent.MusicService;
 /**
  * A simple implementation of a session callback that maps the methods to the service.
  */
+@Deprecated
 public class SimpleSessionCallback extends MediaSessionCompat.Callback {
 
     public static final String TAG = "SimpleSessionCallback";

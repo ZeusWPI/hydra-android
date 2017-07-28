@@ -9,7 +9,7 @@ import be.ugent.zeus.hydra.service.urgent.MusicService;
  *
  * @author Niko Strijbol
  */
-@SuppressWarnings("WeakerAccess")
+@Deprecated
 public final class MediaAction {
 
     private static final String TAG = "MediaAction";

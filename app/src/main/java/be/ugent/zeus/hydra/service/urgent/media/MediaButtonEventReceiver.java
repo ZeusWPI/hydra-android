@@ -25,6 +25,7 @@ import android.view.KeyEvent;
 import be.ugent.zeus.hydra.service.urgent.MusicBinder;
 import be.ugent.zeus.hydra.service.urgent.MusicService;
 
+@Deprecated
 public class MediaButtonEventReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

@@ -21,8 +21,6 @@ import be.ugent.zeus.hydra.service.urgent.track.Track;
 import java8.util.Objects;
 import java8.util.function.Consumer;
 
-import java.io.IOException;
-
 /**
  * TODO: handle noisy audio
  * TODO: look at mediabuttoneventreceiver
@@ -50,7 +48,6 @@ public class MusicService2 extends Service implements MediaStateListener, AudioM
     private boolean isForeground = false;
     private Consumer<MediaSessionCompat.Token> tokenConsumer;
     private boolean isMediaSessionPrepared = false;
-    private boolean isPrepared = false;
     private PlaybackStateCompat.Builder stateCompatBuilder;
 
     @Override
@@ -82,12 +79,6 @@ public class MusicService2 extends Service implements MediaStateListener, AudioM
         return START_STICKY;
     }
 
-    public void initPlay() {
-        if (mediaSession != null) {
-            mediaSession.getController().getTransportControls().play();
-        }
-    }
-
     private void setUp() {
 
         // Set up the media player.
@@ -114,11 +105,9 @@ public class MusicService2 extends Service implements MediaStateListener, AudioM
         // Start getting the URL.
 
         track.getUrl(s -> {
-            try {
-                mediaManager.prepare(s, null);
-            } catch (IOException e) {
-                Log.e(TAG, "Could not get Urgent URL, stopping the service.", e);
-                stopSelf();
+            mediaManager.setUrl(s);
+            if (tokenConsumer != null) {
+                tokenConsumer.accept(mediaSession.getSessionToken());
             }
         });
     }
@@ -160,17 +149,9 @@ public class MusicService2 extends Service implements MediaStateListener, AudioM
         // The playback is already preparing.
         updateSessionState(PlaybackStateCompat.STATE_CONNECTING);
         isMediaSessionPrepared = true;
-        if (tokenConsumer != null && isPrepared) {
+        if (tokenConsumer != null && mediaManager.hasUrl()) {
             tokenConsumer.accept(mediaSession.getSessionToken());
         }
-    }
-
-    private void startPlaceholderForeground() {
-
-        Log.d(TAG, "startPlaceholderForeground: Showing placeholder.");
-
-        Notification notification = notificationBuilder.buildPreparingNotification();
-        startForeground(MUSIC_SERVICE_ID, notification);
     }
 
     @Override
@@ -198,15 +179,17 @@ public class MusicService2 extends Service implements MediaStateListener, AudioM
             case MediaState.STOPPED:
                 onStopped();
                 break;
+            case MediaState.END:
+                stopSelf(); // Stop the service.
             default:
                 // Nothing.
         }
 
-        // Update notification
-        updateNotification();
-
-        if (newState == MediaState.STOPPED) {
-            stopSelf();
+        // Do not update the notification when we stop the service.
+        // Normally isForeground should always be false, but we never know.
+        if (isForeground || newState != MediaState.END) {
+            // Update notification
+            updateNotification();
         }
     }
 
@@ -226,12 +209,6 @@ public class MusicService2 extends Service implements MediaStateListener, AudioM
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         if (result != AudioManager.AUDIOFOCUS_GAIN) {
             stopSelf();
-            return; //Failed to gain audio focus
-        }
-
-        isPrepared = true;
-        if (tokenConsumer != null && isMediaSessionPrepared) {
-            tokenConsumer.accept(mediaSession.getSessionToken());
         }
     }
 
@@ -280,6 +257,8 @@ public class MusicService2 extends Service implements MediaStateListener, AudioM
     public void onDestroy() {
         super.onDestroy();
 
+        Log.d(TAG, "onDestroy");
+
         // Ensure we absolutely release everything.
         if (wifiLock != null && wifiLock.isHeld()) {
             wifiLock.release();
@@ -293,11 +272,12 @@ public class MusicService2 extends Service implements MediaStateListener, AudioM
         }
 
         stopForeground(true);
+        isForeground = false;
     }
 
     public void setTokenConsumer(Consumer<MediaSessionCompat.Token> tokenConsumer) {
         this.tokenConsumer = tokenConsumer;
-        if (isMediaSessionPrepared && isPrepared) {
+        if (isMediaSessionPrepared && mediaManager.hasUrl()) {
             tokenConsumer.accept(mediaSession.getSessionToken());
         }
     }
@@ -317,6 +297,12 @@ public class MusicService2 extends Service implements MediaStateListener, AudioM
         public Track getTrack() {
             return track;
         }
+
+        @Override
+        public PlaybackStateCompat getState() {
+            return mediaSession.getController().getPlaybackState();
+        }
+
     };
 
     private void updateNotification() {
@@ -329,14 +315,14 @@ public class MusicService2 extends Service implements MediaStateListener, AudioM
         } else {
             if (isForeground) {
                 stopForeground(false);
-                // Update the notification anyway
-                NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                manager.notify(MUSIC_SERVICE_ID, mediaNotification);
+                isForeground = false;
             }
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            manager.notify(MUSIC_SERVICE_ID, mediaNotification);
         }
     }
 
-    public MediaManager getMediaManager() {
+    MediaManager getMediaManager() {
         return mediaManager;
     }
 }

@@ -325,6 +325,9 @@
     <string name="homefeed_choice">Kies wat je wilt zien in de homefeed.</string>
     <string name="urgent_pause">Pauze</string>
     <string name="urgent_play">Spelen</string>
+    <string name="urgent_stop">Stoppen</string>
+    <string name="urgent_warning">Let op! Als Urgent.fm op pauze staat wordt er nog steeds internet en batterij gebruikt. Als je klaar bent met luisteren druk je best op stop.</string>
+    <string name="urgent_unknown_programme">Onbekend programma</string>
 
     <plurals name="minerva_marked_announcements">
         <item quantity="one">%d aankondiging als gelezen gemarkeerd</item>

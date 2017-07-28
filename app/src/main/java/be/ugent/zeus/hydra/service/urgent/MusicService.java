@@ -52,6 +52,7 @@ import java.io.IOException;
  * @author Niko Strijbol
  * @author allanpichardo
  */
+@Deprecated
 public class MusicService extends Service implements
         MediaPlayer.OnCompletionListener,
         MediaPlayer.OnErrorListener,

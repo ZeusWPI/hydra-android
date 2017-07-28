@@ -21,6 +21,7 @@ import be.ugent.zeus.hydra.service.urgent.track.TrackManager;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class MediaNotificationManager {
 
     private static final String TAG = "NotificationManager";

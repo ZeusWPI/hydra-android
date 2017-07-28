@@ -7,6 +7,7 @@ import android.os.Binder;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class MusicBinder extends Binder {
 
     private final MusicService service;

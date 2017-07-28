@@ -133,6 +133,14 @@ public class MediaManager implements
         setState(END);
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public boolean hasUrl() {
+        return url != null;
+    }
+
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         setState(PLAYBACK_COMPLETED);

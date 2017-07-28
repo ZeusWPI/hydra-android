@@ -7,6 +7,7 @@ package be.ugent.zeus.hydra.service.urgent;
  * @author Niko Strijbol
  */
 @FunctionalInterface
+@Deprecated
 public interface BoundServiceCallback {
 
     /**

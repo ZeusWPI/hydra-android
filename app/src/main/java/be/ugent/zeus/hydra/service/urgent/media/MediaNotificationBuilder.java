@@ -25,9 +25,7 @@ import be.ugent.zeus.hydra.ui.main.MainActivity;
  */
 public class MediaNotificationBuilder {
 
-    private static final String TAG = "NotificationManager";
     private static final int NOTIFICATION_ID = 1;
-    private static final int NOTIFICATION_ID_PREPARING = 2;
 
     private final Context context;
 
@@ -68,6 +66,14 @@ public class MediaNotificationBuilder {
             );
         }
 
+        if (provider.getState().getState() == PlaybackStateCompat.STATE_PAUSED || provider.getState().getState() ==  PlaybackStateCompat.STATE_PLAYING) {
+            builder.addAction(new NotificationCompat.Action(
+                    R.drawable.noti_ic_stop,
+                    context.getString(R.string.urgent_stop),
+                    MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP))
+            );
+        }
+
         builder.setSmallIcon(R.drawable.ic_notification_urgent)
                 .setShowWhen(false)
                 .setContentTitle(track.getTitle())
@@ -103,6 +109,8 @@ public class MediaNotificationBuilder {
         MediaSessionCompat.Token getMediaToken();
 
         Track getTrack();
+
+        PlaybackStateCompat getState();
     }
 
     private PendingIntent buildClickIntent() {
