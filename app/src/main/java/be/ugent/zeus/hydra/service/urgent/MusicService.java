@@ -15,28 +15,20 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.data.models.UrgentTrack;
-import be.ugent.zeus.hydra.service.urgent.media.MediaNotificationBuilder;
-import be.ugent.zeus.hydra.service.urgent.media.SimpleSessionCallback2;
-import be.ugent.zeus.hydra.service.urgent.track.Track;
 import java8.util.Objects;
 import java8.util.function.Consumer;
 
 /**
  * TODO: handle noisy audio
- * TODO: look at mediabuttoneventreceiver
  * @author Niko Strijbol
  */
-public class MusicService2 extends Service implements MediaStateListener, AudioManager.OnAudioFocusChangeListener {
+public class MusicService extends Service implements MediaStateListener, AudioManager.OnAudioFocusChangeListener {
 
-    private static final String TAG = "MusicService2";
+    private static final String TAG = "MusicService";
     private static final int MUSIC_SERVICE_ID = 1;
     private static final String WIFI_LOCK_TAG = "UrgentMusic";
 
-    public static final String ARG_START_PLAYING = "arg_start_playing";
-
-    public static final int REQUEST_PERMISSION_WAKE_LOCK = 1;
-
-    private final IBinder binder = new MusicBinder2(this);
+    private final IBinder binder = new MusicBinder(this);
 
     private MediaNotificationBuilder notificationBuilder;
     private Track track;
@@ -125,7 +117,7 @@ public class MusicService2 extends Service implements MediaStateListener, AudioM
         // TODO: sort out the media buttons handlers
         mediaSession = new MediaSessionCompat(getApplicationContext(), TAG);
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-        mediaSession.setCallback(new SimpleSessionCallback2(mediaManager));
+        mediaSession.setCallback(new SimpleSessionCallback(mediaManager));
         mediaSession.setActive(true);
         stateCompatBuilder = new PlaybackStateCompat.Builder()
                 .setActions(PlaybackStateCompat.ACTION_PAUSE

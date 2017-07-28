@@ -27,8 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.service.urgent.MusicBinder2;
-import be.ugent.zeus.hydra.service.urgent.MusicService2;
+import be.ugent.zeus.hydra.service.urgent.MusicBinder;
+import be.ugent.zeus.hydra.service.urgent.MusicService;
 
 /**
  * @author Niko Strijbol
@@ -46,7 +46,7 @@ public class UrgentFragment2 extends Fragment {
 
     private boolean isBound = false;
     private ServiceConnection serviceConnection = new MusicConnection();
-    private MusicService2 musicService;
+    private MusicService musicService;
 
     private ImageButton playPauseButton;
     private ImageButton stopButton;
@@ -140,7 +140,7 @@ public class UrgentFragment2 extends Fragment {
 
     private void bind() {
         // Start the service, doesn't matter if it is already started.
-        Intent intent = new Intent(getActivity(), MusicService2.class);
+        Intent intent = new Intent(getActivity(), MusicService.class);
         Log.d(TAG, "onStart: Starting service");
         ContextCompat.startForegroundService(getContext(), intent);
 
@@ -284,17 +284,17 @@ public class UrgentFragment2 extends Fragment {
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            MusicBinder2 binder = (MusicBinder2) service;
+            MusicBinder binder = (MusicBinder) service;
             musicService = binder.getService();
             musicService.setTokenConsumer(UrgentFragment2.this::initMediaControls);
             isBound = true;
-            Log.d(TAG, "onServiceConnected: MusicService2 is bound.");
+            Log.d(TAG, "onServiceConnected: MusicService is bound.");
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             isBound = false;
-            Log.d(TAG, "onServiceConnected: MusicService2 is unbound.");
+            Log.d(TAG, "onServiceConnected: MusicService is unbound.");
         }
     }
 }

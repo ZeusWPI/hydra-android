@@ -279,7 +279,7 @@
             android:syncable="true" />
 
         <!-- Urgent stuff -->
-        <service android:name=".service.urgent.MusicService2">
+        <service android:name=".service.urgent.MusicService">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>

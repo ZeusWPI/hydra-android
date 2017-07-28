@@ -7,18 +7,18 @@ import android.os.Binder;
  *
  * @author Niko Strijbol
  */
-public class MusicBinder2 extends Binder {
+public class MusicBinder extends Binder {
 
-    private final MusicService2 service;
+    private final MusicService service;
 
-    public MusicBinder2(MusicService2 service) {
+    public MusicBinder(MusicService service) {
         this.service = service;
     }
 
     /**
      * @return Get the music service.
      */
-    public MusicService2 getService() {
+    public MusicService getService() {
         return service;
     }
 

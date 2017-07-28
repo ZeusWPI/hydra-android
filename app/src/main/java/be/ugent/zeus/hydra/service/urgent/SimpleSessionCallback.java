@@ -14,14 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package be.ugent.zeus.hydra.service.urgent.media;
+package be.ugent.zeus.hydra.service.urgent;
 
 import android.media.MediaPlayer;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
-
-import be.ugent.zeus.hydra.service.urgent.MediaManager;
-import be.ugent.zeus.hydra.service.urgent.MediaState;
 
 import java.io.IOException;
 
@@ -38,13 +35,13 @@ import java.io.IOException;
  *
  * @author Niko Strijbol.
  */
-public class SimpleSessionCallback2 extends MediaSessionCompat.Callback implements MediaPlayer.OnPreparedListener {
+public class SimpleSessionCallback extends MediaSessionCompat.Callback implements MediaPlayer.OnPreparedListener {
 
     public static final String TAG = "SimpleSessionCallback";
 
     private MediaManager mediaManager;
 
-    public SimpleSessionCallback2(MediaManager mediaManager) {
+    public SimpleSessionCallback(MediaManager mediaManager) {
         this.mediaManager = mediaManager;
     }
 

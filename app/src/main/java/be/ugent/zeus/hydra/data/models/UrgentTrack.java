@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.network.requests.UrgentUrlRequest;
-import be.ugent.zeus.hydra.service.urgent.track.Track;
+import be.ugent.zeus.hydra.service.urgent.Track;
 import java8.util.function.Consumer;
 
 /**
