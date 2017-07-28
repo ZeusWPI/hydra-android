@@ -35,7 +35,8 @@ public class UrgentTrack implements Track {
     @Override
     @Nullable
     public String getArtist() {
-        return context.getString(R.string.urgent_unknown_programme);
+        return null;
+        //return context.getString(R.string.urgent_unknown_programme);
     }
 
     @Override
