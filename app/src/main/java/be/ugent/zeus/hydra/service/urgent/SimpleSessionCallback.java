@@ -16,6 +16,11 @@
  */
 package be.ugent.zeus.hydra.service.urgent;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
@@ -33,16 +38,24 @@ import java.io.IOException;
  *     <li>A stop command will result in the media player being destroyed.</li>
  * </ul>
  *
+ * This class will also handle the {@link AudioManager#ACTION_AUDIO_BECOMING_NOISY} case, by stopping the playback.
+ *
  * @author Niko Strijbol.
  */
 public class SimpleSessionCallback extends MediaSessionCompat.Callback implements MediaPlayer.OnPreparedListener {
 
     public static final String TAG = "SimpleSessionCallback";
 
-    private MediaManager mediaManager;
+    private final IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+    private final BecomingNoisyReceiver myNoisyAudioStreamReceiver = new BecomingNoisyReceiver();
 
-    public SimpleSessionCallback(MediaManager mediaManager) {
+    private final MediaManager mediaManager;
+    private final Context context;
+    private boolean registered = false;
+
+    public SimpleSessionCallback(Context context, MediaManager mediaManager) {
         this.mediaManager = mediaManager;
+        this.context = context.getApplicationContext();
     }
 
     @Override
@@ -71,6 +84,10 @@ public class SimpleSessionCallback extends MediaSessionCompat.Callback implement
                 mediaManager.prepare(null, this);
             } else {
                 mediaManager.play();
+                if (!registered) {
+                    context.registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
+                    registered = true;
+                }
             }
         } catch (IOException e) {
             Log.e(TAG, "Error while trying to play.", e);
@@ -80,7 +97,14 @@ public class SimpleSessionCallback extends MediaSessionCompat.Callback implement
     @Override
     public void onStop() {
         Log.d(TAG, "stop");
-        // Stop if necessary/possible
+        ensureStop();
+        if (registered) {
+            context.unregisterReceiver(myNoisyAudioStreamReceiver);
+            registered = false;
+        }
+    }
+
+    private void ensureStop() {
         if (mediaManager.isStateOneOf(
                 MediaState.PREPARED,
                 MediaState.STARTED,
@@ -102,5 +126,19 @@ public class SimpleSessionCallback extends MediaSessionCompat.Callback implement
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         mediaManager.play();
+        if (!registered) {
+            context.registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
+            registered = true;
+        }
+    }
+
+    private class BecomingNoisyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
+                // Stop the playback
+                ensureStop();
+            }
+        }
     }
 }

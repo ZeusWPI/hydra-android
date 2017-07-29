@@ -100,6 +100,7 @@ public class MusicService extends Service implements MediaStateListener, AudioMa
             mediaManager.setUrl(s);
             if (tokenConsumer != null) {
                 tokenConsumer.accept(mediaSession.getSessionToken());
+                tokenConsumer = null;
             }
         });
     }
@@ -117,7 +118,7 @@ public class MusicService extends Service implements MediaStateListener, AudioMa
         // TODO: sort out the media buttons handlers
         mediaSession = new MediaSessionCompat(getApplicationContext(), TAG);
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-        mediaSession.setCallback(new SimpleSessionCallback(mediaManager));
+        mediaSession.setCallback(new SimpleSessionCallback(getApplicationContext(), mediaManager));
         mediaSession.setActive(true);
         stateCompatBuilder = new PlaybackStateCompat.Builder()
                 .setActions(PlaybackStateCompat.ACTION_PAUSE
@@ -143,6 +144,7 @@ public class MusicService extends Service implements MediaStateListener, AudioMa
         isMediaSessionPrepared = true;
         if (tokenConsumer != null && mediaManager.hasUrl()) {
             tokenConsumer.accept(mediaSession.getSessionToken());
+            tokenConsumer = null;
         }
     }
 
@@ -199,7 +201,7 @@ public class MusicService extends Service implements MediaStateListener, AudioMa
 
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-        if (result != AudioManager.AUDIOFOCUS_GAIN) {
+        if (result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             stopSelf();
         }
     }
@@ -218,21 +220,21 @@ public class MusicService extends Service implements MediaStateListener, AudioMa
     public void onAudioFocusChange(int focusChange) {
         switch (focusChange) {
             case AudioManager.AUDIOFOCUS_LOSS:
-                mediaManager.stop();
-                // TODO: stop only after x seconds?
+                mediaSession.getController().getTransportControls().stop();
                 break;
             case AudioManager.AUDIOFOCUS_REQUEST_FAILED:
-                mediaManager.destroy();
-                stopSelf();
+                mediaSession.getController().getTransportControls().stop();
+                stopSelf(); // Stop the service
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                mediaManager.pause();
+                mediaSession.getController().getTransportControls().pause();
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                 mediaManager.setVolume(0.5f, 0.5f);
                 break;
             case AudioManager.AUDIOFOCUS_GAIN:
                 mediaManager.setVolume(1f, 1f);
+                mediaSession.getController().getTransportControls().play();
                 break;
         }
     }
@@ -268,9 +270,10 @@ public class MusicService extends Service implements MediaStateListener, AudioMa
     }
 
     public void setTokenConsumer(Consumer<MediaSessionCompat.Token> tokenConsumer) {
-        this.tokenConsumer = tokenConsumer;
         if (isMediaSessionPrepared && mediaManager.hasUrl()) {
             tokenConsumer.accept(mediaSession.getSessionToken());
+        } else {
+            this.tokenConsumer = tokenConsumer;
         }
     }
 
