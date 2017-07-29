@@ -60,8 +60,6 @@ public class SimpleSessionCallback extends MediaSessionCompat.Callback implement
 
     @Override
     public void onPause() {
-        Log.d(TAG, "pause");
-
         if (mediaManager.isStateOneOf(
                 MediaState.STARTED,
                 MediaState.PAUSED,
@@ -72,7 +70,12 @@ public class SimpleSessionCallback extends MediaSessionCompat.Callback implement
 
     @Override
     public void onPlay() {
-        Log.d(TAG, "play");
+
+        // Do nothing if we are already preparing.
+        if (mediaManager.getState() == MediaState.PREPARING) {
+            return;
+        }
+
         try {
             // If not in a playable state, prepare the media manager.
             if (!mediaManager.isStateOneOf(
@@ -96,7 +99,6 @@ public class SimpleSessionCallback extends MediaSessionCompat.Callback implement
 
     @Override
     public void onStop() {
-        Log.d(TAG, "stop");
         ensureStop();
         if (registered) {
             context.unregisterReceiver(myNoisyAudioStreamReceiver);

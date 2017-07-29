@@ -32,9 +32,9 @@ import be.ugent.zeus.hydra.service.urgent.MusicService;
 /**
  * @author Niko Strijbol
  */
-public class UrgentFragment2 extends Fragment {
+public class UrgentFragment extends Fragment {
 
-    private static final String TAG = "UrgentFragment2";
+    private static final String TAG = "UrgentFragment";
 
     private static final String STATE_TOKEN = "state_token";
 
@@ -63,7 +63,7 @@ public class UrgentFragment2 extends Fragment {
     private final MediaControllerCompat.Callback mediaControllerCallback = new MediaControllerCompat.Callback() {
         @Override
         public void onPlaybackStateChanged(@NonNull PlaybackStateCompat state) {
-            UrgentFragment2.this.onPlaybackStateChanged(state);
+            UrgentFragment.this.onPlaybackStateChanged(state);
         }
 
         @Override
@@ -74,13 +74,13 @@ public class UrgentFragment2 extends Fragment {
             Log.d(TAG, "Received metadata state change to mediaId=" +
                     metadata.getDescription().getMediaId() +
                     " song=" + metadata.getDescription().getTitle());
-            UrgentFragment2.this.onMetadataChanged(metadata);
+            UrgentFragment.this.onMetadataChanged(metadata);
         }
     };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_urgent_2, container, false);
+        return inflater.inflate(R.layout.fragment_urgent, container, false);
     }
 
     @Override
@@ -234,6 +234,7 @@ public class UrgentFragment2 extends Fragment {
         }
         boolean enablePlay = false;
         boolean disableStop = false;
+        Log.d(TAG, "configureButtons: STATE PEOPLE!");
         switch (state.getState()) {
             case PlaybackStateCompat.STATE_PLAYING:
                 warning.setVisibility(View.GONE);
@@ -247,6 +248,8 @@ public class UrgentFragment2 extends Fragment {
                 Log.e(TAG, "error playbackstate: " + state.getErrorMessage());
                 Toast.makeText(getActivity(), state.getErrorMessage(), Toast.LENGTH_LONG).show();
                 break;
+            case PlaybackStateCompat.STATE_BUFFERING:
+                Log.d(TAG, "configureButtons: BUFFERING PEOPLE!");
             default:
                 warning.setVisibility(View.GONE);
                 enablePlay = true;
@@ -285,7 +288,7 @@ public class UrgentFragment2 extends Fragment {
         public void onServiceConnected(ComponentName name, IBinder service) {
             MusicBinder binder = (MusicBinder) service;
             musicService = binder.getService();
-            musicService.setTokenConsumer(UrgentFragment2.this::initMediaControls);
+            musicService.setTokenConsumer(UrgentFragment.this::initMediaControls);
             isBound = true;
             Log.d(TAG, "onServiceConnected: MusicService is bound.");
         }

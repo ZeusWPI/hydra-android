@@ -186,7 +186,7 @@ public class MainActivity extends BaseActivity {
                 fragment = new OverviewFragment();
                 break;
             case R.id.drawer_urgent:
-                fragment = new UrgentFragment2();
+                fragment = new UrgentFragment();
                 break;
             case R.id.drawer_library:
                 fragment = new LibraryListFragment();
