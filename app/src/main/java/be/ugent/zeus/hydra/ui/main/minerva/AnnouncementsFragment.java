@@ -36,6 +36,9 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 /**
  * Displays all unread announcements, with the newest first.
  *
+ * The parent fragment or activity of this fragment must implement {@link ResultStarter}. First the parent
+ * fragment is tested. If it is an instance of {@link ResultStarter}, it will be used.
+ *
  * @author Niko Strijbol
  */
 public class AnnouncementsFragment extends LifecycleFragment implements MultiSelectDiffAdapter.Callback<Announcement> {
@@ -58,8 +61,12 @@ public class AnnouncementsFragment extends LifecycleFragment implements MultiSel
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ResultViewModel model = ViewModelProviders.of(getActivity()).get(ResultViewModel.class);
-        resultStarter = model.getResultStarter();
+
+        if (getParentFragment() instanceof ResultStarter) {
+            resultStarter = (ResultStarter) getParentFragment();
+        } else {
+            resultStarter = (ResultStarter) getActivity();
+        }
 
         adapter = new AnnouncementsAdapter(resultStarter);
         adapter.addCallback(this);

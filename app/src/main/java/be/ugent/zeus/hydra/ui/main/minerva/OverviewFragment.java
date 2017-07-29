@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.arch.lifecycle.LifecycleFragment;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -21,6 +20,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.Toast;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
@@ -80,10 +80,6 @@ public class OverviewFragment extends LifecycleFragment implements ResultStarter
         authWrapper = $(view, R.id.auth_wrapper);
         viewPager = $(view, R.id.pager);
         tabLayout = getActivity().findViewById(R.id.tab_layout);
-
-        // Set this fragment as the one who starts activities. This fragment will pass the result of the activities
-        // to the nested fragments.
-        ViewModelProviders.of(getActivity()).get(ResultViewModel.class).setResultStarter(this);
     }
 
     private void onLoggedIn() {

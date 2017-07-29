@@ -34,6 +34,9 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 /**
  * Display a list of courses.
  *
+ * The parent fragment or activity of this fragment must implement {@link ResultStarter}. First the parent
+ * fragment is tested. If it is an instance of {@link ResultStarter}, it will be used.
+ *
  * @author silox
  * @author Niko Strijbol
  */
@@ -63,8 +66,11 @@ public class CourseFragment extends LifecycleFragment implements OnStartDragList
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ResultViewModel resultViewModel = ViewModelProviders.of(getActivity()).get(ResultViewModel.class);
-        resultStarter = resultViewModel.getResultStarter();
+        if (getParentFragment() instanceof ResultStarter) {
+            resultStarter = (ResultStarter) getParentFragment();
+        } else {
+            resultStarter = (ResultStarter) getActivity();
+        }
 
         CourseDao courseDao = new CourseDao(getContext());
         adapter = new MinervaCourseAdapter(this, resultStarter);
