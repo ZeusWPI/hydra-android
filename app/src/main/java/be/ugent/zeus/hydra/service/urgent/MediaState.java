@@ -13,7 +13,7 @@ import static be.ugent.zeus.hydra.service.urgent.MediaState.*;
  * @author Niko Strijbol
  */
 @Retention(RetentionPolicy.SOURCE)
-@IntDef({IDLE, INITIALIZED, PREPARING, PREPARED, STARTED, STOPPED, PAUSED, COMPLETED, END, ERROR})
+@IntDef({IDLE, INITIALIZED, PREPARING, PREPARED, STARTED, STOPPED, PAUSED, PLAYBACK_COMPLETED, END, ERROR})
 public @interface MediaState {
     int IDLE = 0;
     int INITIALIZED = 1;
@@ -22,7 +22,7 @@ public @interface MediaState {
     int STARTED = 4;
     int STOPPED = 5;
     int PAUSED = 6;
-    int COMPLETED = 7;
+    int PLAYBACK_COMPLETED = 7;
     int END = 8;
     int ERROR = 9;
 }

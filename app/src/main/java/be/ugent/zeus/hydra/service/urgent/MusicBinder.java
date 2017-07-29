@@ -21,4 +21,8 @@ public class MusicBinder extends Binder {
     public MusicService getService() {
         return service;
     }
+
+    public MediaManager getManager() {
+        return service.getMediaManager();
+    }
 }

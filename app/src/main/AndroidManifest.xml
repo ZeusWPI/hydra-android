@@ -279,16 +279,22 @@
             android:syncable="true" />
 
         <!-- Urgent stuff -->
-        <service android:name=".service.urgent.MusicService" />
-
-        <receiver android:name=".service.urgent.media.MediaButtonEventReceiver">
+        <service android:name=".service.urgent.MusicService">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
+        </service>
+
+        <receiver android:name="android.support.v4.media.session.MediaButtonReceiver">
             <intent-filter>
-                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
+
+        <!-- TODO -->
+        <!--<intent-filter>-->
+            <!--<action android:name="android.media.AUDIO_BECOMING_NOISY" />-->
+        <!--</intent-filter>-->
 
     </application>
 
