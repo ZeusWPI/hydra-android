@@ -42,7 +42,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
 
     public static final String ARG_DATE = "start_date";
 
-    private static final String URL = "http://www.ugent.be/student/nl/meer-dan-studeren/resto";
+    private static final String URL = "https://www.ugent.be/student/nl/meer-dan-studeren/resto";
     private MenuPagerAdapter pageAdapter;
     private ViewPager viewPager;
     private LocalDate startDate;
