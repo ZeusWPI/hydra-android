@@ -328,6 +328,9 @@
     <string name="urgent_stop">Stoppen</string>
     <string name="urgent_warning">Let op! Als Urgent.fm op pauze staat wordt er nog steeds internet en batterij gebruikt. Als je klaar bent met luisteren druk je best op stop.</string>
     <string name="urgent_unknown_programme">Onbekend programma</string>
+    <string name="resto_no_menu">Er is geen menu of we konden hem niet ophalen. Misschien heb je meer geluk op de
+        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">website van de resto\'s</a>.
+    </string>
 
     <plurals name="minerva_marked_announcements">
         <item quantity="one">%d aankondiging als gelezen gemarkeerd</item>
