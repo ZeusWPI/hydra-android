@@ -8,8 +8,6 @@ import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * @author Niko Strijbol
  */
@@ -21,9 +19,9 @@ class AgendaViewHolder extends DataViewHolder<AgendaItem> {
 
     AgendaViewHolder(View itemView) {
         super(itemView);
-        title = $(itemView, R.id.title);
-        parent = $(itemView, R.id.parent_layout);
-        subtitle = $(itemView, R.id.subtitle);
+        title = itemView.findViewById(R.id.title);
+        parent = itemView.findViewById(R.id.parent_layout);
+        subtitle = itemView.findViewById(R.id.subtitle);
     }
 
     @Override

@@ -73,8 +73,8 @@ public class CourseActivity extends BaseActivity {
         Intent intent = getIntent();
         course = intent.getParcelableExtra(ARG_COURSE);
 
-        TabLayout tabLayout = $(R.id.tab_layout);
-        ViewPager viewPager = $(R.id.pager);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        ViewPager viewPager = findViewById(R.id.pager);
 
         viewPager.setAdapter(new MinervaCoursePagerAdapter(getSupportFragmentManager(), course));
 

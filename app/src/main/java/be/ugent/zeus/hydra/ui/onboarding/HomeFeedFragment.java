@@ -19,8 +19,6 @@ import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 
 import java.util.*;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * @author Niko Strijbol
  */
@@ -39,7 +37,7 @@ public class HomeFeedFragment extends SlideFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
 
         adapter = new FeedOptionsAdapter();
         recyclerView.setAdapter(adapter);

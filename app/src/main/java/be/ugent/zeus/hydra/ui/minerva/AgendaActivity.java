@@ -68,14 +68,14 @@ public class AgendaActivity extends BaseActivity {
         Uri uri = Uri.parse(intent.getStringExtra(CalendarContract.EXTRA_CUSTOM_APP_URI));
         int agendaItemId = Integer.valueOf(uri.getLastPathSegment());
 
-        errorView = $(R.id.error_view);
-        normalView = $(R.id.normal_view);
+        errorView = findViewById(R.id.error_view);
+        normalView = findViewById(R.id.normal_view);
 
         AgendaViewModel model = ViewModelProviders.of(this).get(AgendaViewModel.class);
         model.setId(agendaItemId);
         model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, SuccessObserver.with(this::onResult));
-        model.getData().observe(this, new ProgressObserver<>($(R.id.progress_bar)));
+        model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
     }
 
     private void onResult(AgendaItem result) {
@@ -85,27 +85,27 @@ public class AgendaActivity extends BaseActivity {
         invalidateOptionsMenu();
         item = result;
 
-        TextView title = $(R.id.title);
+        TextView title = findViewById(R.id.title);
         title.setText(item.getTitle());
         getToolbar().setTitle(item.getTitle());
 
         //Description
         if (!TextUtils.isEmpty(item.getContent())) {
-            TextView description = $(R.id.agenda_description);
+            TextView description = findViewById(R.id.agenda_description);
             description.setText(Utils.fromHtml(item.getContent()));
         }
 
         if (TextUtils.isEmpty(item.getLocation())) {
-            $(R.id.agenda_location_row).setVisibility(GONE);
-            $(R.id.divider_below_location).setVisibility(GONE);
+            findViewById(R.id.agenda_location_row).setVisibility(GONE);
+            findViewById(R.id.divider_below_location).setVisibility(GONE);
         } else {
             //TODO: onclick?
-            TextView location = $(R.id.agenda_location);
+            TextView location = findViewById(R.id.agenda_location);
             location.setText(item.getLocation());
         }
 
-        TextView dayTime = $(R.id.agenda_time_day);
-        TextView hourTime = $(R.id.agenda_time_hour);
+        TextView dayTime = findViewById(R.id.agenda_time_day);
+        TextView hourTime = findViewById(R.id.agenda_time_hour);
 
         LocalDateTime localStart = DateUtils.toLocalDateTime(item.getStartDate());
         LocalDateTime localEnd = DateUtils.toLocalDateTime(item.getEndDate());
@@ -135,14 +135,14 @@ public class AgendaActivity extends BaseActivity {
                 localEnd.format(HOUR_FORMATTER)
         ));
 
-        TextView course = $(R.id.agenda_course);
+        TextView course = findViewById(R.id.agenda_course);
         if (TextUtils.isEmpty(item.getCourse().getTitle())) {
             course.setText(item.getCourse().getCode());
         } else {
             course.setText(item.getCourse().getTitle());
         }
 
-        TextView edit = $(R.id.agenda_organiser);
+        TextView edit = findViewById(R.id.agenda_organiser);
         edit.setText(item.getLastEditUser());
     }
 

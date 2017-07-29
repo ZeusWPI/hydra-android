@@ -31,8 +31,6 @@ import be.ugent.zeus.hydra.ui.resto.SandwichActivity;
 import be.ugent.zeus.hydra.ui.resto.menu.MenuActivity;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * @author Niko Strijbol
  * @author mivdnber
@@ -58,11 +56,11 @@ public class RestoFragment extends LifecycleFragment implements SwipeRefreshLayo
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        table = $(view, R.id.menu_table);
-        viewMenu = $(view, R.id.home_resto_view);
-        viewSandwich = $(view, R.id.home_resto_view_sandwich);
-        viewResto = $(view, R.id.home_resto_view_resto);
-        title = $(view, R.id.menu_today_card_title);
+        table = view.findViewById(R.id.menu_table);
+        viewMenu = view.findViewById(R.id.home_resto_view);
+        viewSandwich = view.findViewById(R.id.home_resto_view_sandwich);
+        viewResto = view.findViewById(R.id.home_resto_view_resto);
+        title = view.findViewById(R.id.menu_today_card_title);
         errorView = view.findViewById(R.id.error_view);
         errorView.setMovementMethod(LinkMovementMethod.getInstance());
         todayCard = view.findViewById(R.id.menu_today_card);
@@ -75,7 +73,7 @@ public class RestoFragment extends LifecycleFragment implements SwipeRefreshLayo
 
         RestoViewModel model = ViewModelProviders.of(this).get(RestoViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
+        model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         model.getData().observe(this, SuccessObserver.with(this::onSuccess));
     }
 

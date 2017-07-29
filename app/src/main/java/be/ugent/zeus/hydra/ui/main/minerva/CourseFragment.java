@@ -29,7 +29,6 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.OnStartDragListener;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * Display a list of courses.
@@ -76,7 +75,7 @@ public class CourseFragment extends LifecycleFragment implements OnStartDragList
         adapter = new MinervaCourseAdapter(this, resultStarter);
         adapter.setCourseDao(courseDao);
 
-        recyclerView = $(view, R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         ItemTouchHelper.Callback callback = new DragCallback(adapter);
@@ -84,7 +83,7 @@ public class CourseFragment extends LifecycleFragment implements OnStartDragList
         helper.attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);
 
-        progressBar = $(view, R.id.progress_bar);
+        progressBar = view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
     }
 

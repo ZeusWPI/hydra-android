@@ -11,8 +11,6 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.association.Association;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Simple view holder.
  *
@@ -31,9 +29,9 @@ public class AssociationViewHolder extends DataViewHolder<Pair<Association, Bool
         super(itemView);
         this.adapter = adapter;
 
-        this.checkBox = $(itemView, R.id.checkbox);
-        this.parent = $(itemView, R.id.parent_layout);
-        this.title = $(itemView, R.id.title_checkbox);
+        this.checkBox = itemView.findViewById(R.id.checkbox);
+        this.parent = itemView.findViewById(R.id.parent_layout);
+        this.title = itemView.findViewById(R.id.title_checkbox);
     }
 
     @Override

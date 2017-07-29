@@ -46,10 +46,10 @@ public class AssociationSelectPrefActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences_associations);
 
-        RecyclerView recyclerView = $(R.id.recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        RecyclerFastScroller s = $(R.id.fast_scroller);
-        SearchView searchView = $(R.id.search_view);
+        RecyclerFastScroller s = findViewById(R.id.fast_scroller);
+        SearchView searchView = findViewById(R.id.search_view);
 
         recyclerView.requestFocus();
         recyclerView.setAdapter(adapter);
@@ -61,7 +61,7 @@ public class AssociationSelectPrefActivity extends BaseActivity {
         AssociationsViewModel model = ViewModelProviders.of(this).get(AssociationsViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
-        model.getData().observe(this, new ProgressObserver<>($(R.id.progress_bar)));
+        model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
     }
 
     @Override
@@ -116,6 +116,6 @@ public class AssociationSelectPrefActivity extends BaseActivity {
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make($(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG).show();
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG).show();
     }
 }

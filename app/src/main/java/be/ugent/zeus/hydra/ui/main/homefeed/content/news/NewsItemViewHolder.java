@@ -14,7 +14,6 @@ import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 import static be.ugent.zeus.hydra.ui.NewsArticleActivity.PARCEL_NAME;
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * View holder for the news card in the home feed.
@@ -29,8 +28,8 @@ public class NewsItemViewHolder extends FeedViewHolder {
 
     public NewsItemViewHolder(View v, HomeFeedAdapter adapter) {
         super(v, adapter);
-        title = $(v, R.id.name);
-        info = $(v, R.id.info);
+        title = v.findViewById(R.id.name);
+        info = v.findViewById(R.id.info);
     }
 
     @Override

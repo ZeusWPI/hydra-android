@@ -12,8 +12,6 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapte
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * @author Niko Strijbol
  */
@@ -29,11 +27,11 @@ class SandwichHolder extends DataViewHolder<Pair<Sandwich, Boolean>> {
     SandwichHolder(View itemView, MultiSelectDiffAdapter<Sandwich> adapter) {
         super(itemView);
 
-        name = $(itemView, R.id.sandwich_name);
-        mediumPrice = $(itemView, R.id.sandwich_price_medium);
-        smallPrice = $(itemView, R.id.sandwich_price_small);
-        expandableLayout = $(itemView, R.id.expandable_layout);
-        ingredients = $(itemView, R.id.sandwich_ingredients);
+        name = itemView.findViewById(R.id.sandwich_name);
+        mediumPrice = itemView.findViewById(R.id.sandwich_price_medium);
+        smallPrice = itemView.findViewById(R.id.sandwich_price_small);
+        expandableLayout = itemView.findViewById(R.id.expandable_layout);
+        ingredients = itemView.findViewById(R.id.sandwich_ingredients);
         this.adapter = adapter;
     }
 

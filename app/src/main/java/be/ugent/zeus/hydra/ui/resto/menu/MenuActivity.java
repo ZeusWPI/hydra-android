@@ -59,10 +59,10 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
         pageAdapter = new MenuPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        viewPager = $(R.id.resto_tabs_content);
+        viewPager = findViewById(R.id.resto_tabs_content);
         viewPager.setAdapter(pageAdapter);
 
-        final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
+        final AppBarLayout appBarLayout = findViewById(R.id.app_bar_layout);
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -72,10 +72,10 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
             }
         });
 
-        TabLayout tabLayout = $(R.id.resto_tabs_slider);
+        TabLayout tabLayout = findViewById(R.id.resto_tabs_slider);
         tabLayout.setupWithViewPager(viewPager);
 
-        Spinner spinner = $(R.id.resto_spinner);
+        Spinner spinner = findViewById(R.id.resto_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 getToolbar().getThemedContext(),
                 R.array.resto_location,
@@ -98,7 +98,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
 
         MenuViewModel model = ViewModelProviders.of(this).get(MenuViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>($(R.id.progress_bar)));
+        model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
     }
 
@@ -155,7 +155,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make($(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> onRefresh())
                 .show();
     }

@@ -7,8 +7,6 @@ import be.ugent.zeus.hydra.ui.library.LibraryDetailActivity;
 import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * @author Niko Strijbol
  */
@@ -19,8 +17,8 @@ class LibraryViewHolder extends DataViewHolder<Library> {
 
     LibraryViewHolder(View itemView) {
         super(itemView);
-        title = $(itemView, R.id.title);
-        subtitle = $(itemView, R.id.subtitle);
+        title = itemView.findViewById(R.id.title);
+        subtitle = itemView.findViewById(R.id.subtitle);
     }
 
     @Override

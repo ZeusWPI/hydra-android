@@ -26,7 +26,6 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
 import static android.app.Activity.RESULT_OK;
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * Show Minerva announcements.
@@ -78,14 +77,14 @@ public class AnnouncementFragment extends LifecycleFragment implements ResultSta
         super.onViewCreated(view, savedInstanceState);
 
         AnnouncementAdapter adapter = new AnnouncementAdapter(this);
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
 
-        adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, $(view, R.id.no_data_view)));
+        adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
 
-        RecyclerFastScroller scroller = $(view, R.id.fast_scroller);
+        RecyclerFastScroller scroller = view.findViewById(R.id.fast_scroller);
         scroller.attachRecyclerView(recyclerView);
 
         Course course = getArguments().getParcelable(ARG_COURSE);
@@ -93,7 +92,7 @@ public class AnnouncementFragment extends LifecycleFragment implements ResultSta
         viewModel.setCourse(course);
         viewModel.getData().observe(this, ErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new AdapterObserver<>(adapter));
-        viewModel.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
+        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
     }
 
     private void onError(Throwable throwable) {

@@ -14,7 +14,6 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 import static be.ugent.zeus.hydra.ui.NewsArticleActivity.PARCEL_NAME;
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * View holder for the news items in the news tab or section.
@@ -30,9 +29,9 @@ class NewsItemViewHolder extends DataViewHolder<UgentNewsItem> {
 
     NewsItemViewHolder(View v) {
         super(v);
-        title = $(v, R.id.name);
-        info = $(v, R.id.info);
-        excerpt = $(v, R.id.article_excerpt);
+        title = v.findViewById(R.id.name);
+        info = v.findViewById(R.id.info);
+        excerpt = v.findViewById(R.id.article_excerpt);
     }
 
     @Override

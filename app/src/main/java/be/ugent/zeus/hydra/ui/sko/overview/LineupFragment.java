@@ -24,8 +24,6 @@ import su.j2e.rvjoiner.RvJoiner;
 
 import java.util.*;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Show the lineup.
  *
@@ -54,9 +52,9 @@ public class LineupFragment extends LifecycleFragment implements SwipeRefreshLay
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
 
-        SwipeRefreshLayout refreshLayout = $(view, R.id.refresh_layout);
+        SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.sko_red);
         refreshLayout.setOnRefreshListener(this);
 
@@ -67,7 +65,7 @@ public class LineupFragment extends LifecycleFragment implements SwipeRefreshLay
 
         LineupViewModel model = ViewModelProviders.of(this).get(LineupViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
+        model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
         model.getRefreshing().observe(this, refreshLayout::setRefreshing);
     }

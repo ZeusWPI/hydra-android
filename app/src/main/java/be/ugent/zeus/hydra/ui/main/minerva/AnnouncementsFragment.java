@@ -31,7 +31,6 @@ import java.util.Collection;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * Displays all unread announcements, with the newest first.
@@ -71,14 +70,14 @@ public class AnnouncementsFragment extends LifecycleFragment implements MultiSel
         adapter = new AnnouncementsAdapter(resultStarter);
         adapter.addCallback(this);
 
-        recyclerView = $(view, R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
 
-        adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, $(view, R.id.no_data_view)));
+        adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
 
-        progressBar = $(view, R.id.progress_bar);
+        progressBar = view.findViewById(R.id.progress_bar);
     }
 
     @Override

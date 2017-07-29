@@ -17,8 +17,6 @@ import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * @author Niko Strijbol
  */
@@ -46,22 +44,22 @@ public class VillageFragment extends LifecycleFragment implements SwipeRefreshLa
 
         ExhibitorAdapter adapter = new ExhibitorAdapter();
 
-        searchView = $(view, R.id.search_view);
+        searchView = view.findViewById(R.id.search_view);
         searchView.setSuggestionsAdapter(null);
         searchView.setOnQueryTextListener(adapter);
 
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.requestFocus();
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
-        SwipeRefreshLayout refreshLayout = $(view, R.id.refresh_layout);
+        SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.sko_red);
         refreshLayout.setOnRefreshListener(this);
 
         ExhibitorViewModel model = ViewModelProviders.of(this).get(ExhibitorViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
+        model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         model.getData().observe(this, new AdapterObserver<>(adapter));
         model.getRefreshing().observe(this, refreshLayout::setRefreshing);
         recyclerView.requestFocus();

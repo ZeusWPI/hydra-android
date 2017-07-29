@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import be.ugent.zeus.hydra.R;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  *
  * @author Rien Maertens
@@ -33,7 +31,7 @@ public class ComingSoonFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ImageButton button = $(view, R.id.fbButton);
+        ImageButton button = view.findViewById(R.id.fbButton);
 
         button.setOnClickListener(v -> {
             try {

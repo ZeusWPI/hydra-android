@@ -43,11 +43,11 @@ public class NewsArticleActivity extends BaseActivity {
 
         this.url = article.getIdentifier();
 
-        TextView title = $(R.id.title);
-        TextView date = $(R.id.date);
-        TextView text = $(R.id.text);
-        TextView author = $(R.id.author);
-        TextView lead = $(R.id.article_lead);
+        TextView title = findViewById(R.id.title);
+        TextView date = findViewById(R.id.date);
+        TextView text = findViewById(R.id.text);
+        TextView author = findViewById(R.id.author);
+        TextView lead = findViewById(R.id.article_lead);
 
         author.setText(TextUtils.join(", ", article.getCreators()));
 

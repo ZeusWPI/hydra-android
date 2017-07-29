@@ -14,8 +14,6 @@ import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.ui.common.widgets.MenuTable;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Home feed view holder for the resto menu.
  *
@@ -32,7 +30,7 @@ public class RestoCardViewHolder extends FeedViewHolder {
         super(v, adapter);
         this.preferences = PreferenceManager.getDefaultSharedPreferences(v.getContext());
         this.restos = v.getContext().getResources().getStringArray(R.array.resto_location);
-        table = $(v, R.id.menu_table);
+        table = v.findViewById(R.id.menu_table);
     }
 
     @Override

@@ -19,8 +19,6 @@ import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Show a list of timeline posts for SKO.
  *
@@ -50,20 +48,20 @@ public class TimelineFragment extends LifecycleFragment implements SwipeRefreshL
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SwipeRefreshLayout refreshLayout = $(view, R.id.refresh_layout);
+        SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.sko_red);
         refreshLayout.setOnRefreshListener(this);
 
         TimelineAdapter adapter = new TimelineAdapter(helper);
 
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
         recyclerView.setAdapter(adapter);
 
         TimelineViewModel model = ViewModelProviders.of(this).get(TimelineViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
+        model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         model.getData().observe(this, new AdapterObserver<>(adapter));
         model.getRefreshing().observe(this, refreshLayout::setRefreshing);
     }

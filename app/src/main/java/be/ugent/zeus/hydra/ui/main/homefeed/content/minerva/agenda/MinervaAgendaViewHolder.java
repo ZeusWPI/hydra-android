@@ -12,8 +12,6 @@ import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Minerva agenda item.
  *
@@ -25,7 +23,7 @@ public class MinervaAgendaViewHolder extends FeedViewHolder {
 
     public MinervaAgendaViewHolder(View v, HomeFeedAdapter adapter) {
         super(v, adapter);
-        layout = $(v, R.id.linear_layout);
+        layout = v.findViewById(R.id.linear_layout);
     }
 
     @Override
@@ -42,8 +40,8 @@ public class MinervaAgendaViewHolder extends FeedViewHolder {
         for (final AgendaItem item : mCard.getAgendaItems()) {
 
             View view = LayoutInflater.from(layout.getContext()).inflate(R.layout.item_minerva_home_announcement, layout, false);
-            TextView title = $(view, R.id.title);
-            TextView subtitle = $(view, R.id.subtitle);
+            TextView title = view.findViewById(R.id.title);
+            TextView subtitle = view.findViewById(R.id.subtitle);
 
             title.setText(item.getTitle());
             subtitle.setText(DateUtils.relativeTimeSpan(view.getContext(), item.getStartDate(), item.getEndDate()));

@@ -13,8 +13,6 @@ import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * View holder for cards containing events.
  *
@@ -30,10 +28,10 @@ public class EventCardViewHolder extends FeedViewHolder {
 
     public EventCardViewHolder(View v, HomeFeedAdapter adapter) {
         super(v, adapter);
-        title = $(v, R.id.name);
-        association = $(v, R.id.association);
-        start = $(v, R.id.starttime);
-        imageView = $(v, R.id.imageView);
+        title = v.findViewById(R.id.name);
+        association = v.findViewById(R.id.association);
+        start = v.findViewById(R.id.starttime);
+        imageView = v.findViewById(R.id.imageView);
     }
 
     @Override

@@ -25,8 +25,8 @@ public class WebViewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
 
-        WebView webView = $(R.id.web_view);
-        ProgressBar progressBar = $(R.id.progress_bar);
+        WebView webView = findViewById(R.id.web_view);
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {

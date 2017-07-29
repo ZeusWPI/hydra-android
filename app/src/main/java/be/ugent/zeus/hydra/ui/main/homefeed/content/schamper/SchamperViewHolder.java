@@ -15,8 +15,6 @@ import be.ugent.zeus.hydra.data.models.schamper.Article;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Home feed view holder for Schamper articles.
  *
@@ -34,10 +32,10 @@ public class SchamperViewHolder extends FeedViewHolder {
 
     public SchamperViewHolder(View v, HomeFeedAdapter adapter) {
         super(v, adapter);
-        title = $(v, R.id.title);
-        date = $(v, R.id.date);
-        author = $(v, R.id.author);
-        image = $(v, R.id.image);
+        title = v.findViewById(R.id.title);
+        date = v.findViewById(R.id.date);
+        author = v.findViewById(R.id.author);
+        image = v.findViewById(R.id.image);
     }
 
     @Override

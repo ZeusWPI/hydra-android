@@ -82,7 +82,7 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
 
         setContentView(R.layout.activity_authentication);
 
-        progressMessage = $(R.id.progress_message);
+        progressMessage = findViewById(R.id.progress_message);
 
         Bundle bundle = getIntent().getExtras();
 

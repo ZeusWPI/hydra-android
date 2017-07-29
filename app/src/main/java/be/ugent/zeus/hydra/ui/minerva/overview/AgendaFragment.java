@@ -19,8 +19,6 @@ import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyViewObserver;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Displays the agenda for a certain course.
  *
@@ -50,20 +48,20 @@ public class AgendaFragment extends LifecycleFragment {
         super.onViewCreated(view, savedInstanceState);
 
         AgendaAdapter adapter = new AgendaAdapter();
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new StickyRecyclerHeadersDecoration(adapter));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
 
-        adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, $(view, R.id.no_data_view)));
+        adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
 
         Course course = getArguments().getParcelable(ARG_COURSE);
         AgendaViewModel model = ViewModelProviders.of(this).get(AgendaViewModel.class);
         model.setCourse(course);
         model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new AdapterObserver<>(adapter));
-        model.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
+        model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
     }
 
     private void onError(Throwable throwable) {

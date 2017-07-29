@@ -30,8 +30,6 @@ import su.j2e.rvjoiner.RvJoiner;
 
 import java.util.List;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * @author Niko Strijbol
  */
@@ -60,10 +58,10 @@ public class LibraryListFragment extends LifecycleFragment implements SwipeRefre
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        RecyclerFastScroller s = $(view, R.id.fast_scroller);
+        RecyclerFastScroller s = view.findViewById(R.id.fast_scroller);
         s.attachRecyclerView(recyclerView);
 
         joiner.add(new JoinableLayout(R.layout.item_title, new TextCallback("Favorieten")));
@@ -74,18 +72,18 @@ public class LibraryListFragment extends LifecycleFragment implements SwipeRefre
         recyclerView.setAdapter(joiner.getAdapter());
 
         recyclerView.getAdapter().registerAdapterDataObserver(
-                new EmptyViewObserver(recyclerView, $(view, R.id.no_data_view),
+                new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view),
                         new EmptyViewObserver.AdapterConsolidator(favourites).add(all)
                 )
         );
 
-        SwipeRefreshLayout swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
         swipeRefreshLayout.setOnRefreshListener(this);
 
         LibraryViewModel model = ViewModelProviders.of(this).get(LibraryViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
+        model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         model.getData().observe(this, new SuccessObserver<Pair<List<Library>, List<Library>>>() {
             @Override
             protected void onSuccess(Pair<List<Library>, List<Library>> data) {

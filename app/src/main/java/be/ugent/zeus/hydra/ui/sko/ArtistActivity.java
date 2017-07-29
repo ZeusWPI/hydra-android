@@ -31,10 +31,10 @@ public class ArtistActivity extends BaseActivity {
         Intent intent = getIntent();
         artist = intent.getParcelableExtra(PARCEL_ARTIST);
 
-        TextView title = $(R.id.title);
-        TextView date = $(R.id.date);
-        TextView content = $(R.id.content);
-        ImageView headerImage = $(R.id.header_image);
+        TextView title = findViewById(R.id.title);
+        TextView date = findViewById(R.id.date);
+        TextView content = findViewById(R.id.content);
+        ImageView headerImage = findViewById(R.id.header_image);
 
         title.setText(artist.getName());
 

@@ -15,8 +15,6 @@ import be.ugent.zeus.hydra.ui.common.widgets.NowToolbar;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import com.squareup.picasso.Picasso;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * @author Niko Strijbol
  */
@@ -33,11 +31,11 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
     public TimelineViewHolder(View itemView, TimelineAdapter adapter) {
         super(itemView);
         this.adapter = adapter;
-        poster = $(itemView, R.id.post_poster);
-        title = $(itemView, R.id.post_title);
-        body = $(itemView, R.id.post_body);
-        subtitle = $(itemView, R.id.post_subtitle);
-        toolbar = $(itemView, R.id.sko_now_toolbar);
+        poster = itemView.findViewById(R.id.post_poster);
+        title = itemView.findViewById(R.id.post_title);
+        body = itemView.findViewById(R.id.post_body);
+        subtitle = itemView.findViewById(R.id.post_subtitle);
+        toolbar = itemView.findViewById(R.id.sko_now_toolbar);
     }
 
     @DrawableRes

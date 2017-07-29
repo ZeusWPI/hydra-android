@@ -76,13 +76,13 @@ public class LibraryDetailActivity extends BaseActivity {
 
         library = getIntent().getParcelableExtra(ARG_LIBRARY);
 
-        layout = $(R.id.frame_layout);
+        layout = findViewById(R.id.frame_layout);
 
         if (!TextUtils.isEmpty(library.getEnsuredImage())) {
-            ImageView header = $(R.id.header_image);
+            ImageView header = findViewById(R.id.header_image);
             Picasso.with(this).load(library.getEnsuredImage()).into(header);
         } else {
-            View header = $(R.id.header_container);
+            View header = findViewById(R.id.header_container);
             header.setVisibility(View.GONE);
         }
 
@@ -90,9 +90,9 @@ public class LibraryDetailActivity extends BaseActivity {
 
         String address = makeFullAddressText();
         if (TextUtils.isEmpty(address)) {
-            $(R.id.library_address_card).setVisibility(View.GONE);
+            findViewById(R.id.library_address_card).setVisibility(View.GONE);
         } else {
-            TextView textView = $(R.id.library_address);
+            TextView textView = findViewById(R.id.library_address);
             textView.setText(makeFullAddressText());
             textView.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(LibraryDetailActivity.this, mapsIntent()));
         }
@@ -100,7 +100,7 @@ public class LibraryDetailActivity extends BaseActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> favourites = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
 
-        button = $(R.id.library_favourite);
+        button = findViewById(R.id.library_favourite);
         // Set compound drawable in code, for backwards comparability.
         Drawable drawable;
         if (favourites.contains(library.getCode())) {
@@ -126,8 +126,8 @@ public class LibraryDetailActivity extends BaseActivity {
             }
         });
 
-        ExpandableLayout layout = $(R.id.expandable_layout);
-        expandButton = $(R.id.expand_button);
+        ExpandableLayout layout = findViewById(R.id.expandable_layout);
+        expandButton = findViewById(R.id.expand_button);
         expandButton.setOnClickListener(v -> layout.toggle());
 
         layout.setOnExpansionUpdateListener(f -> {
@@ -138,20 +138,20 @@ public class LibraryDetailActivity extends BaseActivity {
             }
         });
 
-        TextView remarks = $(R.id.library_remarks);
+        TextView remarks = findViewById(R.id.library_remarks);
         String comments = library.getCommentsAsString();
         if (TextUtils.isEmpty(comments)) {
             remarks.setVisibility(View.GONE);
-            $(R.id.library_remarks_divider).setVisibility(View.GONE);
-            $(R.id.library_remarks_title).setVisibility(View.GONE);
+            findViewById(R.id.library_remarks_divider).setVisibility(View.GONE);
+            findViewById(R.id.library_remarks_title).setVisibility(View.GONE);
         } else {
             remarks.setText(Utils.fromHtml(comments));
         }
 
-        TextView email = $(R.id.library_mail_row_text);
+        TextView email = findViewById(R.id.library_mail_row_text);
         email.setText(library.getEmail());
         LinkifyCompat.addLinks(email, Linkify.EMAIL_ADDRESSES);
-        TextView phone = $(R.id.library_phone_row_text);
+        TextView phone = findViewById(R.id.library_phone_row_text);
         String phoneString = library.getPhones();
         if (TextUtils.isEmpty(phoneString)) {
             phone.setText(R.string.library_no_phone);
@@ -159,13 +159,13 @@ public class LibraryDetailActivity extends BaseActivity {
             phone.setText(phoneString);
             LinkifyCompat.addLinks(phone, Linkify.PHONE_NUMBERS);
         }
-        TextView contact = $(R.id.library_contact_row_text);
+        TextView contact = findViewById(R.id.library_contact_row_text);
         contact.setText(library.getContact());
 
         HoursViewModel model = ViewModelProviders.of(this).get(HoursViewModel.class);
         model.setLibrary(library);
         model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>($(R.id.progress_bar)));
+        model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
     }
 

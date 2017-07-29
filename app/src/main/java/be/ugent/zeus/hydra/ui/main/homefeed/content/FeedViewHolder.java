@@ -10,8 +10,6 @@ import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.common.widgets.NowToolbar;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * View holder for cards that are hideable, using the {@link NowToolbar}.
  *
@@ -27,7 +25,7 @@ public abstract class FeedViewHolder extends DataViewHolder<HomeCard> {
     public FeedViewHolder(View itemView, HomeFeedAdapter adapter) {
         super(itemView);
         this.adapter = adapter;
-        toolbar = $(itemView, R.id.card_now_toolbar);
+        toolbar = itemView.findViewById(R.id.card_now_toolbar);
 
         if (BuildConfig.DEBUG && BuildConfig.DEBUG_HOME_STREAM_PRIORITY) {
             priority = new TextView(itemView.getContext());

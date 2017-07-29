@@ -59,11 +59,11 @@ public class AnnouncementActivity extends BaseActivity {
 
         dao = new AnnouncementDao(getApplicationContext());
 
-        TextView title = $(R.id.title);
-        TextView date = $(R.id.date);
-        TextView text = $(R.id.text);
-        TextView author = $(R.id.author);
-        TextView course = $(R.id.course);
+        TextView title = findViewById(R.id.title);
+        TextView date = findViewById(R.id.date);
+        TextView text = findViewById(R.id.text);
+        TextView author = findViewById(R.id.author);
+        TextView course = findViewById(R.id.course);
 
         course.setText(announcement.getCourse().getTitle());
 

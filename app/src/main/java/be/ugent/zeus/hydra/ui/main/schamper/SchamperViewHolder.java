@@ -11,8 +11,6 @@ import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import com.squareup.picasso.Picasso;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * View holder for the schamper fragment.
  *
@@ -31,11 +29,11 @@ class SchamperViewHolder extends DataViewHolder<Article> {
     SchamperViewHolder(View itemView, ActivityHelper helper) {
         super(itemView);
 
-        title = $(itemView, R.id.title);
-        date = $(itemView, R.id.date);
-        author = $(itemView, R.id.author);
-        image = $(itemView, R.id.card_image);
-        category = $(itemView, R.id.schamper_category);
+        title = itemView.findViewById(R.id.title);
+        date = itemView.findViewById(R.id.date);
+        author = itemView.findViewById(R.id.author);
+        image = itemView.findViewById(R.id.card_image);
+        category = itemView.findViewById(R.id.schamper_category);
         this.helper = helper;
     }
 

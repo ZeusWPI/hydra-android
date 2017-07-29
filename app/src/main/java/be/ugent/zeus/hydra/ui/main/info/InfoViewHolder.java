@@ -9,8 +9,6 @@ import be.ugent.zeus.hydra.data.models.info.InfoItem;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * View holder for info items.
  *
@@ -22,7 +20,7 @@ class InfoViewHolder extends DataViewHolder<InfoItem> {
 
     InfoViewHolder(View v) {
         super(v);
-        title = $(v, R.id.info_name);
+        title = v.findViewById(R.id.info_name);
     }
 
     @Override

@@ -23,8 +23,6 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.ui.preferences.SettingsActivity;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Displays a list of activities, filtered by the settings.
  *
@@ -53,27 +51,27 @@ public class EventFragment extends LifecycleFragment implements SwipeRefreshLayo
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        LinearLayout noData = $(view, R.id.events_no_data);
+        LinearLayout noData = view.findViewById(R.id.events_no_data);
 
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new StickyRecyclerHeadersDecoration(adapter));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
         adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, noData));
 
-        SwipeRefreshLayout swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
         swipeRefreshLayout.setOnRefreshListener(this);
 
         EventViewModel model = ViewModelProviders.of(this).get(EventViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
+        model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         model.getData().observe(this, new AdapterObserver<>(adapter));
         model.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
 
-        Button refresh = $(view, R.id.events_no_data_button_refresh);
-        Button filters = $(view, R.id.events_no_data_button_filters);
+        Button refresh = view.findViewById(R.id.events_no_data_button_refresh);
+        Button filters = view.findViewById(R.id.events_no_data_button_filters);
 
         refresh.setOnClickListener(v -> onRefresh());
         filters.setOnClickListener(v -> startActivity(new Intent(getContext(), SettingsActivity.class)));

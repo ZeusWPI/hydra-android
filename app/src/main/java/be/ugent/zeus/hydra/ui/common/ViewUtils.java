@@ -20,20 +20,6 @@ import be.ugent.zeus.hydra.R;
 @SuppressWarnings("WeakerAccess")
 public class ViewUtils {
 
-    /**
-     * Finds a view that was identified by the id attribute from the XML that was processed in. This
-     * version automatically casts the return value. This functions also assumes the element exists (and is
-     * not null). This cannot be used for elements that may or may not be present.
-     *
-     * @return The view.
-     */
-    @NonNull
-    public static <T extends View> T $(View view, @IdRes int id) {
-        T v = view.findViewById(id);
-        assert v != null;
-        return v;
-    }
-
     @ColorInt
     public static int getPrimaryColor(Context context) {
         return getColor(context, R.attr.colorPrimary);

@@ -72,9 +72,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initialize(@Nullable Bundle savedInstanceState) {
-        drawer = $(R.id.drawer_layout);
-        navigationView = $(R.id.navigation_view);
-        appBarLayout = $(R.id.app_bar_layout);
+        drawer = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navigation_view);
+        appBarLayout = findViewById(R.id.app_bar_layout);
 
         navigationView.setNavigationItemSelectedListener(
                 menuItem -> {
@@ -82,7 +82,7 @@ public class MainActivity extends BaseActivity {
                     return true;
                 });
 
-        toggle = new ActionBarDrawerToggle(this, drawer, $(R.id.toolbar), R.string.drawer_open, R.string.drawer_close) {
+        toggle = new ActionBarDrawerToggle(this, drawer, findViewById(R.id.toolbar), R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, 0); // this disables the animation

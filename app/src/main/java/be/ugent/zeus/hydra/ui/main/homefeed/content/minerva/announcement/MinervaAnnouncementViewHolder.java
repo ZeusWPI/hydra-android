@@ -18,7 +18,6 @@ import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.convertDpToPixelInt;
 
 /**
@@ -33,8 +32,8 @@ public class MinervaAnnouncementViewHolder extends FeedViewHolder {
 
     public MinervaAnnouncementViewHolder(View v, HomeFeedAdapter adapter) {
         super(v, adapter);
-        layout = $(v, R.id.linear_layout);
-        cardView = $(v, R.id.card_view);
+        layout = v.findViewById(R.id.linear_layout);
+        cardView = v.findViewById(R.id.card_view);
     }
 
     @Override
@@ -52,8 +51,8 @@ public class MinervaAnnouncementViewHolder extends FeedViewHolder {
 
         for (int i = 0; i < 5 && i < mCard.getAnnouncements().size(); i++) {
             View view = LayoutInflater.from(layout.getContext()).inflate(R.layout.item_minerva_home_announcement, layout, false);
-            TextView title = $(view, R.id.title);
-            TextView subtitle = $(view, R.id.subtitle);
+            TextView title = view.findViewById(R.id.title);
+            TextView subtitle = view.findViewById(R.id.subtitle);
             Announcement announcement = mCard.getAnnouncements().get(i);
 
             title.setText(announcement.getTitle());

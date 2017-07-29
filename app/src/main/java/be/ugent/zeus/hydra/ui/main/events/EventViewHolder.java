@@ -11,8 +11,6 @@ import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import org.threeten.bp.format.DateTimeFormatter;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * View holder for an event in the event tab.
  *
@@ -28,9 +26,9 @@ class EventViewHolder extends DataViewHolder<Event> {
 
     EventViewHolder(View v) {
         super(v);
-        title = $(v, R.id.name);
-        association = $(v, R.id.association);
-        start = $(v, R.id.starttime);
+        title = v.findViewById(R.id.name);
+        association = v.findViewById(R.id.association);
+        start = v.findViewById(R.id.starttime);
     }
 
     public void populate(final Event event) {

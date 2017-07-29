@@ -65,12 +65,12 @@ public class EventDetailActivity extends BaseActivity {
         //Get data from saved instance, or from intent
         event = getIntent().getParcelableExtra(PARCEL_EVENT);
 
-        TextView title = $(R.id.title);
-        TextView location = $(R.id.location);
-        TextView description = $(R.id.description);
-        final ImageView organisatorImage = $(R.id.event_organisator_image);
-        TextView mainName = $(R.id.event_organisator_main);
-        TextView smallName = $(R.id.event_organisator_small);
+        TextView title = findViewById(R.id.title);
+        TextView location = findViewById(R.id.location);
+        TextView description = findViewById(R.id.description);
+        final ImageView organisatorImage = findViewById(R.id.event_organisator_image);
+        TextView mainName = findViewById(R.id.event_organisator_main);
+        TextView smallName = findViewById(R.id.event_organisator_small);
 
         if (event.getTitle() != null) {
             title.setText(event.getTitle());
@@ -93,8 +93,8 @@ public class EventDetailActivity extends BaseActivity {
             location.setText(R.string.events_no_location);
         }
 
-        TextView startTime = $(R.id.time_start);
-        TextView endTime = $(R.id.time_end);
+        TextView startTime = findViewById(R.id.time_start);
+        TextView endTime = findViewById(R.id.time_end);
 
         startTime.setText(event.getLocalStart().format(format));
         endTime.setText(event.getLocalEnd().format(format));

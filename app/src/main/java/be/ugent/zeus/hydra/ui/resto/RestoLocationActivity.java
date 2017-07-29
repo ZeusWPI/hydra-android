@@ -45,7 +45,7 @@ public class RestoLocationActivity extends BaseActivity implements OnMapReadyCal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resto_location);
-        progressBar = $(R.id.progress_bar);
+        progressBar = findViewById(R.id.progress_bar);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -148,7 +148,7 @@ public class RestoLocationActivity extends BaseActivity implements OnMapReadyCal
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make($(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> onRefresh())
                 .show();
     }

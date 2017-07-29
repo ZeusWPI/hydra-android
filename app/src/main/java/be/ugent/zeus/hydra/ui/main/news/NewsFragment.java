@@ -17,8 +17,6 @@ import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Display DSA news.
  *
@@ -44,19 +42,19 @@ public class NewsFragment extends LifecycleFragment implements SwipeRefreshLayou
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
         NewsAdapter adapter = new NewsAdapter();
         recyclerView.setAdapter(adapter);
 
-        SwipeRefreshLayout swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
         swipeRefreshLayout.setOnRefreshListener(this);
 
         NewsViewModel viewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
         viewModel.getData().observe(this, ErrorObserver.with(this::onError));
-        viewModel.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
+        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         viewModel.getData().observe(this, new AdapterObserver<>(adapter));
         viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
     }

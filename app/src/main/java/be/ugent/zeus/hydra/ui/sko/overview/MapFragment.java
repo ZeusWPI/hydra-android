@@ -13,8 +13,6 @@ import android.widget.ProgressBar;
 
 import be.ugent.zeus.hydra.R;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Display a map.
  *
@@ -34,8 +32,8 @@ public class MapFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        WebView webView = $(view, R.id.web_view);
-        final ProgressBar progressBar = $(view, R.id.progress_bar);
+        WebView webView = view.findViewById(R.id.web_view);
+        final ProgressBar progressBar = view.findViewById(R.id.progress_bar);
 
         webView.setScrollContainer(true);
         webView.getSettings().setUseWideViewPort(true);

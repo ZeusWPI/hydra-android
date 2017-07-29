@@ -37,8 +37,6 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 
 import java.io.IOException;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Overview fragment for Minerva in the main activity. Manages logging in, and manages showing the tabs.
  * Which tabs are displayed is managed by {@link MinervaPagerAdapter}.
@@ -73,12 +71,12 @@ public class OverviewFragment extends LifecycleFragment implements ResultStarter
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button authorize = $(view, R.id.authorize);
+        Button authorize = view.findViewById(R.id.authorize);
         authorize.setOnClickListener(v -> maybeLaunchAuthorization());
 
         manager = AccountManager.get(getContext());
-        authWrapper = $(view, R.id.auth_wrapper);
-        viewPager = $(view, R.id.pager);
+        authWrapper = view.findViewById(R.id.auth_wrapper);
+        viewPager = view.findViewById(R.id.pager);
         tabLayout = getActivity().findViewById(R.id.tab_layout);
     }
 

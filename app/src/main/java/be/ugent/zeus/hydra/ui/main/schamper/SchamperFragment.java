@@ -19,8 +19,6 @@ import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Display Schamper articles in the main activity.
  *
@@ -49,19 +47,19 @@ public class SchamperFragment extends LifecycleFragment implements SwipeRefreshL
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
         SchamperListAdapter adapter = new SchamperListAdapter(helper);
         recyclerView.setAdapter(adapter);
 
-        SwipeRefreshLayout swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
         swipeRefreshLayout.setOnRefreshListener(this);
 
         SchamperViewModel viewModel = ViewModelProviders.of(this).get(SchamperViewModel.class);
         viewModel.getData().observe(this, ErrorObserver.with(this::onError));
-        viewModel.getData().observe(this, new ProgressObserver<>($(view, R.id.progress_bar)));
+        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         viewModel.getData().observe(this, new AdapterObserver<>(adapter));
         viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
     }

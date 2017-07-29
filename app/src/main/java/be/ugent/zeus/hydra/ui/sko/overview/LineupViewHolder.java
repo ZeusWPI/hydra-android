@@ -21,7 +21,6 @@ import org.threeten.bp.format.DateTimeFormatter;
 import java.util.Locale;
 
 import static be.ugent.zeus.hydra.ui.sko.ArtistActivity.PARCEL_ARTIST;
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * @author Niko Strijbol
@@ -42,9 +41,9 @@ public class LineupViewHolder extends DataViewHolder<Artist> implements View.OnC
     public LineupViewHolder(View itemView) {
         super(itemView);
 
-        title = $(itemView, R.id.title);
-        date = $(itemView, R.id.date);
-        image = $(itemView, R.id.card_image);
+        title = itemView.findViewById(R.id.title);
+        date = itemView.findViewById(R.id.date);
+        image = itemView.findViewById(R.id.card_image);
 
         itemView.setOnCreateContextMenuListener(this);
     }

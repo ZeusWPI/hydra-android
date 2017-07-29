@@ -26,7 +26,6 @@ import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
 
 import static android.app.Activity.RESULT_OK;
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 import static be.ugent.zeus.hydra.ui.main.homefeed.FeedLiveData.REFRESH_HOMECARD_TYPE;
 
 /**
@@ -80,9 +79,9 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = $(view, R.id.home_cards_view);
+        RecyclerView recyclerView = view.findViewById(R.id.home_cards_view);
         recyclerView.setHasFixedSize(true);
-        swipeRefreshLayout = $(view, R.id.swipeRefreshLayout);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
 
         HomeFeedAdapter adapter = new HomeFeedAdapter(this);

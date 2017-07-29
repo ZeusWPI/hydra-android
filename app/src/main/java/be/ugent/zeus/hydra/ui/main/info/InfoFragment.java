@@ -17,8 +17,6 @@ import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.ui.InfoSubItemActivity;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Display info items.
  *
@@ -38,11 +36,11 @@ public class InfoFragment extends LifecycleFragment {
         super.onViewCreated(view, savedInstanceState);
 
         InfoListAdapter adapter = new InfoListAdapter();
-        RecyclerView recyclerView = $(view, R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
-        ProgressBar progressBar = $(view, R.id.progress_bar);
+        ProgressBar progressBar = view.findViewById(R.id.progress_bar);
 
         Bundle bundle = getArguments();
         // If we receive a list as argument, just show that list. No need to load anything.

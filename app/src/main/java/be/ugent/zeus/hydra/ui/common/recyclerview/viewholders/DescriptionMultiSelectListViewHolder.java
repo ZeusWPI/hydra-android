@@ -11,8 +11,6 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapter;
 import java8.util.function.Function;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /*
  * ViewHolder for MultiSelectLists with both a title and description for each item.
  * (And of course a checkbox)
@@ -40,10 +38,10 @@ public class DescriptionMultiSelectListViewHolder<E> extends DataViewHolder<Pair
         this.titleProvider = titleProvider;
         this.descriptionProvider = descriptionProvider;
 
-        this.checkBox = $(itemView, R.id.checkbox);
-        this.parent = $(itemView, R.id.parent_layout);
-        this.title = $(itemView, R.id.title_checkbox);
-        this.description = $(itemView, R.id.description_checkbox);
+        this.checkBox = itemView.findViewById(R.id.checkbox);
+        this.parent = itemView.findViewById(R.id.parent_layout);
+        this.title = itemView.findViewById(R.id.title_checkbox);
+        this.description = itemView.findViewById(R.id.description_checkbox);
     }
 
 

@@ -14,8 +14,6 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.OnStartDragListener;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * @author Niko Strijbol
  */
@@ -30,9 +28,9 @@ class MinervaCourseViewHolder extends DataViewHolder<Pair<Course, Integer>> impl
     MinervaCourseViewHolder(View itemView, OnStartDragListener listener, SearchHelper searchHelper, ResultStarter starter) {
         super(itemView);
         this.resultStarter = starter;
-        name = $(itemView, R.id.name);
-        subtitle = $(itemView, R.id.subtitle);
-        dragHandle = $(itemView, R.id.drag_handle);
+        name = itemView.findViewById(R.id.name);
+        subtitle = itemView.findViewById(R.id.subtitle);
+        dragHandle = itemView.findViewById(R.id.drag_handle);
         searchHelper.registerSearchListener(this);
         dragHandle.setOnTouchListener((v, event) -> {
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN && !searchHelper.isSearching()) {
@@ -42,7 +40,7 @@ class MinervaCourseViewHolder extends DataViewHolder<Pair<Course, Integer>> impl
             return false;
         });
         toggleDragHandle(!searchHelper.isSearching());
-        unreadCount = $(itemView, R.id.unread_icon);
+        unreadCount = itemView.findViewById(R.id.unread_icon);
     }
 
     /**

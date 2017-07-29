@@ -12,8 +12,6 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
 import com.squareup.picasso.Picasso;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * @author Niko Strijbol
  */
@@ -25,9 +23,9 @@ public class ExhibitorViewHolder extends DataViewHolder<Exhibitor> {
 
     public ExhibitorViewHolder(View itemView) {
         super(itemView);
-        name = $(itemView, R.id.name);
-        imageView = $(itemView, R.id.logo);
-        content = $(itemView, R.id.content);
+        name = itemView.findViewById(R.id.name);
+        imageView = itemView.findViewById(R.id.logo);
+        content = itemView.findViewById(R.id.content);
     }
 
     @Override

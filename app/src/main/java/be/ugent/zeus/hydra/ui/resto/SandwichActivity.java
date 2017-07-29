@@ -35,20 +35,20 @@ public class SandwichActivity extends BaseActivity implements SwipeRefreshLayout
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resto_sandwich);
 
-        RecyclerView recyclerView = $(R.id.recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        RecyclerFastScroller s = $(R.id.fast_scroller);
+        RecyclerFastScroller s = findViewById(R.id.fast_scroller);
         s.attachRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);
 
-        SwipeRefreshLayout swipeRefreshLayout = $(R.id.swipeRefreshLayout);
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
         swipeRefreshLayout.setOnRefreshListener(this);
 
         SandwichViewModel model = ViewModelProviders.of(this).get(SandwichViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>($(R.id.progress_bar)));
+        model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
         model.getData().observe(this, new AdapterObserver<>(adapter));
         model.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
     }
@@ -76,7 +76,7 @@ public class SandwichActivity extends BaseActivity implements SwipeRefreshLayout
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make($(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> onRefresh())
                 .show();
     }

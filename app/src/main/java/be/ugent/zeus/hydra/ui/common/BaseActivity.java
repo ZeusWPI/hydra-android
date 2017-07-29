@@ -4,7 +4,6 @@ import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
-import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -12,7 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.View;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
@@ -33,19 +31,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
     private LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
     /**
-     * Finds a view that was identified by the id attribute from the XML that was processed in {@link #onCreate}. This
-     * version automatically casts the return value. It cannot be used for null values.
-     *
-     * @return The view if found or null otherwise.
-     */
-    @NonNull
-    public <T extends View> T $(@IdRes int id) {
-        T v = findViewById(id);
-        assert v != null;
-        return v;
-    }
-
-    /**
      * Get the toolbar. Don't call it when there is no toolbar, as it may crash.
      *
      * @return The toolbar.
@@ -60,7 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
      * Set the toolbar as action bar, and set it up to have an up button.
      */
     private void setUpActionBar() {
-        Toolbar toolbar = $(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
 

@@ -13,8 +13,6 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * @author Niko Strijbol
  */
@@ -27,9 +25,9 @@ public class AnnouncementViewHolder extends DataViewHolder<Announcement> {
 
     public AnnouncementViewHolder(View itemView, ResultStarter starter) {
         super(itemView);
-        title = $(itemView, R.id.title);
-        subtitle = $(itemView, R.id.subtitle);
-        clickingView = $(itemView, R.id.clickable_view);
+        title = itemView.findViewById(R.id.title);
+        subtitle = itemView.findViewById(R.id.subtitle);
+        clickingView = itemView.findViewById(R.id.clickable_view);
         resultStarter = starter;
     }
 
