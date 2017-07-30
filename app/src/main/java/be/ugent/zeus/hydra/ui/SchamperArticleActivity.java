@@ -66,7 +66,7 @@ public class SchamperArticleActivity extends BaseActivity {
         ImageView headerImage = findViewById(R.id.header_image);
 
         if (article.getImage() != null) {
-            Picasso.with(this).load(article.getImage().replace("/regulier/", "/preview/")).into(headerImage);
+            Picasso.with(this).load(article.getImage()).into(headerImage);
         }
 
         if (article.getAuthor() != null) {
