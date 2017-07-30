@@ -337,15 +337,15 @@
         <item quantity="other">%d aankondigingen als gelezen gemarkeerd</item>
     </plurals>
 
-    <string name="pref_news_use_custom_tabs_desc">
-        Open het nieuws in Chrome Custom Tabs. Als er geen internetverbinding is, zal het artikel toch in de app geopend worden.
+    <string name="pref_article_use_custom_tabs_desc">
+        Open artikels in Chrome Custom Tabs. Als er geen internetverbinding is, zullen de artikels toch in de app geopend worden.
     </string>
 
-    <string name="pref_news_use_custom_tabs_title">
+    <string name="pref_article_use_custom_tabs_title">
         Gebruik Custom Tabs
     </string>
     <string name="pref_header_article_title">Artikels</string>
-    <string name="pref_header_articles_desc">Opties voor de Schamper- en nieuwsartikels</string>
+    <string name="pref_header_article_desc">Opties voor de Schamper- en nieuwsartikels</string>
     <string name="share">Delen</string>
 
 </resources>

@@ -32,7 +32,7 @@
     <header
         android:fragment="be.ugent.zeus.hydra.ui.preferences.ArticlePreferenceFragment"
         android:title="@string/pref_header_article_title"
-        android:summary="@string/pref_header_articles_desc">
+        android:summary="@string/pref_header_article_desc">
     </header>
 
     <!-- SKO -->
