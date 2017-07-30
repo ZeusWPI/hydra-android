@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.ImageView;
+
 import be.ugent.zeus.hydra.ui.preferences.HomeFragment;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.NetworkPolicy;

@@ -25,5 +25,6 @@ allprojects {
         maven { url "https://jitpack.io" }
         maven { url "http://dl.bintray.com/melix/thirdparty-apache" }
         maven { url 'https://maven.google.com' }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
 }
