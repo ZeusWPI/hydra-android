@@ -28,6 +28,13 @@
         android:summary="Opties voor de Minerva-integratie">
     </header>
 
+    <!-- News -->
+    <header
+        android:fragment="be.ugent.zeus.hydra.ui.preferences.NewsPreferenceFragment"
+        android:title="@string/pref_header_news_title"
+        android:summary="@string/pref_header_news_desc">
+    </header>
+
     <!-- SKO -->
     <header
         android:fragment="be.ugent.zeus.hydra.ui.preferences.SkoFragment"

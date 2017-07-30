@@ -1,7 +1,10 @@
 package be.ugent.zeus.hydra.ui.main.news;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -9,9 +12,12 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
 import be.ugent.zeus.hydra.ui.NewsArticleActivity;
+import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
+import be.ugent.zeus.hydra.ui.preferences.NewsPreferenceFragment;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 import static be.ugent.zeus.hydra.ui.NewsArticleActivity.PARCEL_NAME;
 
@@ -23,15 +29,19 @@ import static be.ugent.zeus.hydra.ui.NewsArticleActivity.PARCEL_NAME;
  */
 class NewsItemViewHolder extends DataViewHolder<UgentNewsItem> {
 
-    private TextView info;
-    private TextView title;
-    private TextView excerpt;
+    private final TextView info;
+    private final TextView title;
+    private final TextView excerpt;
+    private final SharedPreferences preferences;
+    private final ActivityHelper helper;
 
-    NewsItemViewHolder(View v) {
+    NewsItemViewHolder(View v, ActivityHelper activityHelper) {
         super(v);
         title = v.findViewById(R.id.name);
         info = v.findViewById(R.id.info);
         excerpt = v.findViewById(R.id.article_excerpt);
+        preferences = PreferenceManager.getDefaultSharedPreferences(v.getContext());
+        this.helper = activityHelper;
     }
 
     @Override
@@ -53,9 +63,18 @@ class NewsItemViewHolder extends DataViewHolder<UgentNewsItem> {
         }
 
         itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), NewsArticleActivity.class);
-            intent.putExtra(PARCEL_NAME, (Parcelable) newsItem);
-            v.getContext().startActivity(intent);
+
+            // The user has the choice to open the article in app or not. If offline, always open in app.
+            boolean useCustomTabs = preferences.getBoolean(NewsPreferenceFragment.PREF_USE_CUSTOM_TABS, NewsPreferenceFragment.PREF_USE_CUSTOM_TABS_DEFAULT);
+            boolean isOnline = NetworkUtils.isConnected(v.getContext());
+            if (useCustomTabs && isOnline) {
+                // Open in Custom tabs.
+                helper.openCustomTab(Uri.parse(newsItem.getIdentifier()));
+            } else {
+                Intent intent = new Intent(v.getContext(), NewsArticleActivity.class);
+                intent.putExtra(PARCEL_NAME, (Parcelable) newsItem);
+                v.getContext().startActivity(intent);
+            }
         });
     }
 }

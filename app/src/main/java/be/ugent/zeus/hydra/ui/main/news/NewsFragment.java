@@ -15,6 +15,8 @@ import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
 
 /**
@@ -26,10 +28,13 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
 public class NewsFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "NewsFragment";
+    private ActivityHelper helper;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        helper = CustomTabsHelper.initHelper(getActivity(), null);
+        helper.setShareMenu();
         setHasOptionsMenu(true);
     }
 
@@ -45,7 +50,7 @@ public class NewsFragment extends LifecycleFragment implements SwipeRefreshLayou
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
-        NewsAdapter adapter = new NewsAdapter();
+        NewsAdapter adapter = new NewsAdapter(helper);
         recyclerView.setAdapter(adapter);
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
@@ -89,5 +94,17 @@ public class NewsFragment extends LifecycleFragment implements SwipeRefreshLayou
         Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> onRefresh())
                 .show();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        helper.bindCustomTabsService(getActivity());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        helper.unbindCustomTabsService(getActivity());
     }
 }

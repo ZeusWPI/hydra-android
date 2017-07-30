@@ -337,4 +337,14 @@
         <item quantity="other">%d aankondigingen als gelezen gemarkeerd</item>
     </plurals>
 
+    <string name="pref_news_use_custom_tabs_desc">
+        Open het nieuws in Chrome Custom Tabs. Als er geen internetverbinding is, zal het artikel toch in de app geopend worden.
+    </string>
+
+    <string name="pref_news_use_custom_tabs_title">
+        Gebruik Custom Tabs
+    </string>
+    <string name="pref_header_news_title">Nieuwsartikels</string>
+    <string name="pref_header_news_desc">Opties voor de nieuwsartikels</string>
+
 </resources>
