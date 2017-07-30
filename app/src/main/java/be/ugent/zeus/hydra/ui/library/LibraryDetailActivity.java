@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.data.models.library.OpeningHours;
@@ -75,16 +76,10 @@ public class LibraryDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_library_details);
 
         library = getIntent().getParcelableExtra(ARG_LIBRARY);
-
         layout = findViewById(R.id.frame_layout);
 
-        if (!TextUtils.isEmpty(library.getEnsuredImage())) {
-            ImageView header = findViewById(R.id.header_image);
-            Picasso.with(this).load(library.getEnsuredImage()).into(header);
-        } else {
-            View header = findViewById(R.id.header_container);
-            header.setVisibility(View.GONE);
-        }
+        ImageView header = findViewById(R.id.header_image);
+        Picasso.with(this).load(library.getEnsuredImage()).into(header);
 
         getToolbar().setTitle(library.getName());
 
