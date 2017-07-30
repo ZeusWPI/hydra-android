@@ -28,7 +28,7 @@ public class SchamperArticlesRequest extends JsonSpringRequest<Article[]> implem
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.ZEUS_API_URL_1 + "schamper/daily.json";
+        return Endpoints.ZEUS_API_URL_1 + "schamper/daily_android.json";
     }
 
     @Override
