@@ -346,5 +346,6 @@
     </string>
     <string name="pref_header_news_title">Nieuwsartikels</string>
     <string name="pref_header_news_desc">Opties voor de nieuwsartikels</string>
+    <string name="share">Delen</string>
 
 </resources>

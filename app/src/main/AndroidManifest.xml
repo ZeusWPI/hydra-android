@@ -106,6 +106,20 @@
             android:label="@string/title_activity_info_sub_item"
             android:parentActivityName=".ui.main.MainActivity" />
 
+        <!-- Display a Schamper article -->
+        <activity
+            android:name=".ui.schamper.SchamperArticleActivity"
+            android:label="@string/title_activity_schamper"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
+
+        <!-- Display Schamper images -->
+        <activity
+            android:name=".ui.schamper.ImageGalleryActivity"
+            android:label="Afbeelding"
+            android:parentActivityName=".ui.schamper.SchamperArticleActivity" />
+
         <!-- Show news article -->
         <activity
             android:name=".ui.NewsArticleActivity"
