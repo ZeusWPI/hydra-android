@@ -11,15 +11,15 @@ import be.ugent.zeus.hydra.R;
  *
  * @author Niko Strijbol
  */
-public class NewsPreferenceFragment extends PreferenceFragment {
+public class ArticlePreferenceFragment extends PreferenceFragment {
 
-    public static final String PREF_USE_CUSTOM_TABS = "pref_news_use_custom_tabs";
+    public static final String PREF_USE_CUSTOM_TABS = "pref_article_use_custom_tabs";
     public static final boolean PREF_USE_CUSTOM_TABS_DEFAULT = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.pref_news);
+        addPreferencesFromResource(R.xml.pref_article);
     }
 
     @Override

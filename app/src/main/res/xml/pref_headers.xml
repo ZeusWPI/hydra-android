@@ -30,9 +30,9 @@
 
     <!-- News -->
     <header
-        android:fragment="be.ugent.zeus.hydra.ui.preferences.NewsPreferenceFragment"
-        android:title="@string/pref_header_news_title"
-        android:summary="@string/pref_header_news_desc">
+        android:fragment="be.ugent.zeus.hydra.ui.preferences.ArticlePreferenceFragment"
+        android:title="@string/pref_header_article_title"
+        android:summary="@string/pref_header_articles_desc">
     </header>
 
     <!-- SKO -->

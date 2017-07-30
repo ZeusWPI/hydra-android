@@ -14,7 +14,7 @@ import be.ugent.zeus.hydra.ui.NewsArticleActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.ui.preferences.NewsPreferenceFragment;
+import be.ugent.zeus.hydra.ui.preferences.ArticlePreferenceFragment;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
@@ -58,7 +58,7 @@ public class NewsItemViewHolder extends FeedViewHolder {
         itemView.setOnClickListener(v -> {
 
             // The user has the choice to open the article in app or not. If offline, always open in app.
-            boolean useCustomTabs = preferences.getBoolean(NewsPreferenceFragment.PREF_USE_CUSTOM_TABS, NewsPreferenceFragment.PREF_USE_CUSTOM_TABS_DEFAULT);
+            boolean useCustomTabs = preferences.getBoolean(ArticlePreferenceFragment.PREF_USE_CUSTOM_TABS, ArticlePreferenceFragment.PREF_USE_CUSTOM_TABS_DEFAULT);
             boolean isOnline = NetworkUtils.isConnected(v.getContext());
             if (useCustomTabs && isOnline) {
                 // Open in Custom tabs.
