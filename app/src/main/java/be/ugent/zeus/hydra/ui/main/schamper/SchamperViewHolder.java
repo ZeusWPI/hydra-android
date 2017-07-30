@@ -1,9 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.schamper;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,7 +12,7 @@ import be.ugent.zeus.hydra.data.models.schamper.Article;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.preferences.ArticlePreferenceFragment;
-import be.ugent.zeus.hydra.ui.schamper.SchamperArticleActivity;
+import be.ugent.zeus.hydra.ui.SchamperArticleActivity;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
@@ -68,9 +66,7 @@ class SchamperViewHolder extends DataViewHolder<Article> {
                 // Open in Custom tabs.
                 helper.openCustomTab(Uri.parse(article.getLink()));
             } else {
-                Intent intent = new Intent(v.getContext(), SchamperArticleActivity.class);
-                intent.putExtra(SchamperArticleActivity.PARCEL_ARTICLE, (Parcelable) article);
-                v.getContext().startActivity(intent);
+                SchamperArticleActivity.launchWithAnimation(helper.getActivity(), image, "hero", article);
             }
         });
     }

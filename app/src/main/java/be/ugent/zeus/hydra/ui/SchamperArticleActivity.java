@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.schamper;
+package be.ugent.zeus.hydra.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.method.LinkMovementMethod;
 import android.transition.Fade;
 import android.transition.Transition;
@@ -20,20 +18,34 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.schamper.Article;
+import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ItemSpacingDecoration;
-import be.ugent.zeus.hydra.ui.main.MainActivity;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.StringUtils;
 import com.squareup.picasso.Picasso;
 
-public class SchamperArticleActivity extends MainActivity {
+public class SchamperArticleActivity extends BaseActivity {
 
-    public static final String PARCEL_ARTICLE = "article";
+    private static final String PARCEL_ARTICLE = "article";
 
     private Article article;
+
+    /**
+     * Launch this activity with a transition.
+     *
+     * @param activity The activity that launches the intent.
+     * @param view     The view to transition.
+     * @param name     The name of the transition.
+     * @param article  The article.
+     */
+    public static void launchWithAnimation(Activity activity, View view, String name, Parcelable article) {
+        Intent intent = new Intent(activity, SchamperArticleActivity.class);
+        intent.putExtra(PARCEL_ARTICLE, article);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, view, name);
+        ActivityCompat.startActivity(activity, intent, options.toBundle());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,46 +63,35 @@ public class SchamperArticleActivity extends MainActivity {
         TextView intro = findViewById(R.id.intro);
         TextView author = findViewById(R.id.author);
 
-        RecyclerView imageGrid = findViewById(R.id.image_grid);
-        SchamperImageAdapter adapter = new SchamperImageAdapter();
-        imageGrid.setAdapter(adapter);
-        imageGrid.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        int spacing = (int) getResources().getDimension(R.dimen.content_spacing);
-        imageGrid.addItemDecoration(new ItemSpacingDecoration(spacing));
-
         ImageView headerImage = findViewById(R.id.header_image);
 
-        if(article.getImage() != null) {
+        if (article.getImage() != null) {
             Picasso.with(this).load(article.getImage().replace("/regulier/", "/preview/")).into(headerImage);
         }
 
-        if(article.getAuthor() != null ) {
+        if (article.getAuthor() != null) {
             author.setText(article.getAuthor());
         }
 
         String category = StringUtils.capitaliseFirst(article.getCategory());
-        if(article.getPubDate() != null) {
+        if (article.getPubDate() != null) {
             date.setText(DateUtils.relativeDateTimeString(article.getPubDate(), date.getContext()) + " - " + category);
         } else {
             date.setText(category);
         }
 
-        if(article.getBody() != null) {
+        if (article.getBody() != null) {
 
             //The intro
-            intro.setText(Utils.fromHtml(article.getIntro(), new PicassoImageGetter(intro, getResources(), this)));
+            intro.setText(Utils.fromHtml(article.getIntro()));
             intro.setMovementMethod(LinkMovementMethod.getInstance());
-
-            //Make a list of images
-            //Add the images.
-            adapter.setItems(article.getImages());
 
             //The body
             text.setText(Utils.fromHtml(article.getBody(), new PicassoImageGetter(text, getResources(), this)));
             text.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
-        if(article.getTitle() != null) {
+        if (article.getTitle() != null) {
             title.setText(article.getTitle());
             getSupportActionBar().setTitle(article.getTitle());
         }
@@ -99,21 +100,6 @@ public class SchamperArticleActivity extends MainActivity {
     @Override
     protected String getScreenName() {
         return "Schamper article > " + article.getTitle();
-    }
-
-    /**
-     * Launch this activity with a transition.
-     *
-     * @param activity The activity that launches the intent.
-     * @param view The view to transition.
-     * @param name The name of the transition.
-     * @param article The article.
-     */
-    public static void launchWithAnimation(Activity activity, View view, String name, Parcelable article) {
-        Intent intent = new Intent(activity, SchamperArticleActivity.class);
-        intent.putExtra(PARCEL_ARTICLE, article);
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, view, name);
-        ActivityCompat.startActivity(activity, intent, options.toBundle());
     }
 
     @Override

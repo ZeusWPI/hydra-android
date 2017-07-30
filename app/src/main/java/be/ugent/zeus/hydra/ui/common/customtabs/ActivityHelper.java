@@ -72,4 +72,6 @@ public interface ActivityHelper {
         void onCustomTabsConnected(ActivityHelper helper);
         void onCustomTabsDisconnected(ActivityHelper helper);
     }
+
+    Activity getActivity();
 }
