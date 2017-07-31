@@ -16,12 +16,6 @@
   license: The Apache Software License, Version 2.0
   url: https://oltu.apache.org/
 
-- artifact: com.github.chrisbanes:PhotoView:+
-  name: PhotoView
-  copyrightHolder: Chris Banes
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/chrisbanes/PhotoView
-
 - artifact: com.google.code.gson:gson:+
   name: Gson
   copyrightHolder: Google Inc.

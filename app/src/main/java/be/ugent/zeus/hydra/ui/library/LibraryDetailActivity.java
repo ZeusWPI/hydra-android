@@ -125,10 +125,10 @@ public class LibraryDetailActivity extends BaseActivity {
         expandButton = findViewById(R.id.expand_button);
         expandButton.setOnClickListener(v -> layout.toggle());
 
-        layout.setOnExpansionUpdateListener(f -> {
-            if (f == 0) {
+        layout.setOnExpansionUpdateListener((value, state) -> {
+            if (state == ExpandableLayout.State.COLLAPSED) {
                 expandButton.setText(R.string.library_more);
-            } else if (f == 1) {
+            } else if (state == ExpandableLayout.State.EXPANDED) {
                 expandButton.setText(R.string.library_less);
             }
         });
