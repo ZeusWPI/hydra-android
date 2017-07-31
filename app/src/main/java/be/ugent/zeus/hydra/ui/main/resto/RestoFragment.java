@@ -46,6 +46,7 @@ public class RestoFragment extends LifecycleFragment implements SwipeRefreshLayo
     private Button viewResto;
     private TextView errorView;
     private CardView todayCard;
+    private View menuLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class RestoFragment extends LifecycleFragment implements SwipeRefreshLayo
         errorView = view.findViewById(R.id.error_view);
         errorView.setMovementMethod(LinkMovementMethod.getInstance());
         todayCard = view.findViewById(R.id.menu_today_card);
+        menuLayout = view.findViewById(R.id.menu_today_card_layout);
 
         setIcons();
 
@@ -102,6 +104,7 @@ public class RestoFragment extends LifecycleFragment implements SwipeRefreshLayo
         viewMenu.setEnabled(false);
         errorView.setVisibility(View.VISIBLE);
         todayCard.setClickable(false);
+        menuLayout.setVisibility(View.GONE);
         Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> onRefresh())
                 .show();
@@ -111,6 +114,7 @@ public class RestoFragment extends LifecycleFragment implements SwipeRefreshLayo
         table.setMenu(menu);
         title.setText(String.format(getString(R.string.resto_menu_title_short), DateUtils.getFriendlyDate(menu.getDate())));
         viewMenu.setEnabled(true);
+        menuLayout.setVisibility(View.VISIBLE);
         errorView.setVisibility(View.GONE);
         todayCard.setClickable(true);
         viewMenu.setOnClickListener(v -> {
