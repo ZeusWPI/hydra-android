@@ -8,12 +8,10 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.EventDetailActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HideableViewHolder;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.utils.DateUtils;
-
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * View holder for cards containing events.
@@ -21,7 +19,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
  * @author Niko Strijbol
  * @author feliciaan
  */
-public class EventCardViewHolder extends HideableViewHolder {
+public class EventCardViewHolder extends FeedViewHolder {
 
     private final TextView start;
     private final TextView title;
@@ -30,10 +28,10 @@ public class EventCardViewHolder extends HideableViewHolder {
 
     public EventCardViewHolder(View v, HomeFeedAdapter adapter) {
         super(v, adapter);
-        title = $(v, R.id.name);
-        association = $(v, R.id.association);
-        start = $(v, R.id.starttime);
-        imageView = $(v, R.id.imageView);
+        title = v.findViewById(R.id.name);
+        association = v.findViewById(R.id.association);
+        start = v.findViewById(R.id.starttime);
+        imageView = v.findViewById(R.id.imageView);
     }
 
     @Override
@@ -56,10 +54,10 @@ public class EventCardViewHolder extends HideableViewHolder {
         toolbar.setOnClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_hide:
-                    adapter.disableCardType(card.getCardType());
+                    adapter.getCompanion().disableCardType(card.getCardType());
                     return true;
                 case R.id.menu_hide_association:
-                    adapter.disableAssociation(event.getAssociation());
+                    adapter.getCompanion().disableAssociation(event.getAssociation());
                     return true;
                 default:
                     return false;

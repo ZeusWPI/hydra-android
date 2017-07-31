@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra;
 import android.app.Activity;
 import android.app.Application;
 import android.support.annotation.NonNull;
+import be.ugent.zeus.hydra.data.ChannelCreator;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -32,6 +33,9 @@ public class HydraApplication extends Application {
         AndroidThreeTen.init(this);
         LeakCanary.install(this);
         Once.initialise(this);
+
+        // Initialize the channels that are needed in the whole app. The channels for Minerva are created when needed.
+        createChannels();
     }
 
     /**
@@ -73,5 +77,15 @@ public class HydraApplication extends Application {
      */
     public static HydraApplication getApplication(@NonNull Activity activity) {
         return (HydraApplication) activity.getApplication();
+    }
+
+    /**
+     * Create notifications channels when needed.
+     * TODO: should this move to the SKO activity?
+     */
+    private void createChannels() {
+        ChannelCreator channelCreator = ChannelCreator.getInstance(this);
+        channelCreator.createSkoChannel();
+        channelCreator.createUrgentChannel();
     }
 }

@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @author feliciaan
  */
 @SuppressWarnings("unused")
-public class SpecialEvent implements Serializable {
+public final class SpecialEvent implements Serializable {
 
     private String name;
     private String link;

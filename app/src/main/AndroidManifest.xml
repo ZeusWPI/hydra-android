@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:tools="http://schemas.android.com/tools"
-    package="be.ugent.zeus.hydra"
+<manifest package="be.ugent.zeus.hydra"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Network permissions -->
@@ -37,9 +36,10 @@
         android:label="@string/app_name"
         android:logo="@drawable/logo"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Hydra.Main.NoActionBar"
-        tools:ignore="ManifestResource"
-        tools:targetApi="25">
+        android:theme="@style/Hydra.Main.NoActionBar">
+
+        <!-- Disable all Firebase analytics in debug mode. -->
+        <meta-data android:name="firebase_analytics_collection_deactivated" android:value="${disableAnalytics}" />
 
         <!-- Main activity -->
         <activity
@@ -105,6 +105,14 @@
             android:name=".ui.InfoSubItemActivity"
             android:label="@string/title_activity_info_sub_item"
             android:parentActivityName=".ui.main.MainActivity" />
+
+        <!-- Display a Schamper article -->
+        <activity
+            android:name=".ui.SchamperArticleActivity"
+            android:label="@string/title_activity_schamper"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
 
         <!-- Show news article -->
         <activity
@@ -196,7 +204,7 @@
 
         <!-- Library details -->
         <activity
-            android:name=".ui.LibraryDetailActivity"
+            android:name=".ui.library.LibraryDetailActivity"
             android:label="Bibliotheek"
             android:parentActivityName=".ui.main.MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
@@ -220,7 +228,7 @@
 
         <!-- Announcement sync service -->
         <service
-            android:name=".data.sync.announcement.Service"
+            android:name=".data.sync.announcement.AnnouncementService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -232,7 +240,7 @@
 
         <!-- Stub announcement provider -->
         <provider
-            android:name=".data.sync.announcement.Provider"
+            android:name=".data.sync.announcement.AnnouncementProvider"
             android:authorities="be.ugent.zeus.hydra.minerva.provider"
             android:exported="false"
             android:label="@string/minerva_sync_announcement_provider"
@@ -240,7 +248,7 @@
 
         <!-- Calendar sync service -->
         <service
-            android:name=".data.sync.calendar.Service"
+            android:name=".data.sync.calendar.CalendarService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -252,7 +260,7 @@
 
         <!-- Stub calendar provider -->
         <provider
-            android:name=".data.sync.calendar.Provider"
+            android:name=".data.sync.calendar.CalendarProvider"
             android:authorities="be.ugent.zeus.hydra.minerva.calendar.provider"
             android:exported="false"
             android:label="@string/minerva_sync_calendar_provider"
@@ -260,7 +268,7 @@
 
         <!-- Course sync service -->
         <service
-            android:name=".data.sync.course.Service"
+            android:name=".data.sync.course.CourseService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -272,21 +280,22 @@
 
         <!-- Stub course provider -->
         <provider
-            android:name=".data.sync.course.Provider"
+            android:name=".data.sync.course.CourseProvider"
             android:authorities="be.ugent.zeus.hydra.minerva.course.provider"
             android:exported="false"
             android:label="@string/minerva_sync_course"
             android:syncable="true" />
 
         <!-- Urgent stuff -->
-        <service android:name=".service.urgent.MusicService" />
-
-        <receiver android:name=".service.urgent.media.MediaButtonEventReceiver">
+        <service android:name=".service.urgent.MusicService">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
+        </service>
+
+        <receiver android:name="android.support.v4.media.session.MediaButtonReceiver">
             <intent-filter>
-                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
 

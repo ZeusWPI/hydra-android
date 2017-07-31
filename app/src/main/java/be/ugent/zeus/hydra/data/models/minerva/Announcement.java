@@ -10,6 +10,7 @@ import be.ugent.zeus.hydra.data.gson.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import java8.util.Objects;
 import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
@@ -170,11 +171,12 @@ public final class Announcement implements Serializable, Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Announcement that = (Announcement) o;
-        return itemId == that.itemId;
+        return itemId == that.itemId &&
+                Objects.equals(read, that.read);
     }
 
     @Override
     public int hashCode() {
-        return java8.util.Objects.hash(itemId);
+        return Objects.hash(itemId, read);
     }
 }

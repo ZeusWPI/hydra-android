@@ -39,44 +39,34 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/drag_handle"
+    <LinearLayout
+        android:animateLayoutChanges="true"
         android:layout_gravity="end"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:scaleType="center"
-        android:tint="@color/ugent_blue_lighter"
-        app:srcCompat="@drawable/ic_drag_handle" />
+        android:orientation="horizontal">
 
-    <!--<FrameLayout-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent">-->
+        <ImageView
+            android:id="@+id/unread_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingEnd="@dimen/card_spacing"
+            android:paddingRight="@dimen/card_spacing"
+            android:scaleType="center"
+            android:tint="@color/ugent_blue_lighter"
+            app:srcCompat="@drawable/ic_megaphone" />
 
-    <!--<ImageView-->
-    <!--android:id="@+id/arrow_icon"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--app:srcCompat="@drawable/ic_keyboard_arrow_down"-->
-    <!--android:tint="@color/ugent_blue_dark"-->
-    <!--android:layout_gravity="center_vertical"-->
-    <!--android:visibility="gone"-->
-    <!--tools:ignore="MissingPrefix" />-->
+        <ImageView
+            android:id="@+id/drag_handle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/card_spacing"
+            android:paddingLeft="@dimen/card_spacing"
+            android:adjustViewBounds="true"
+            android:scaleType="center"
+            android:tint="@color/ugent_blue_lighter"
+            app:srcCompat="@drawable/ic_drag_handle" />
 
-    <!--<ImageView-->
-    <!--android:id="@+id/error_icon"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--app:srcCompat="@drawable/ic_error"-->
-    <!--android:tint="@color/ugent_blue_dark"-->
-    <!--android:layout_gravity="center_vertical"-->
-    <!--android:visibility="gone"-->
-    <!--tools:ignore="MissingPrefix" />-->
-
-    <!--<ProgressBar-->
-    <!--android:id="@+id/progress_bar"-->
-    <!--android:layout_width="32dp"-->
-    <!--android:layout_height="32dp" />-->
-
-    <!--</FrameLayout>-->
+    </LinearLayout>
 
 </LinearLayout>

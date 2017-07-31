@@ -10,7 +10,8 @@ import android.os.AsyncTask;
 import android.support.v7.graphics.drawable.DrawableWrapper;
 import android.text.Html;
 import android.util.Log;
-import android.view.View;
+import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
 
 /**
@@ -19,11 +20,13 @@ import com.squareup.picasso.Picasso;
  */
 public class PicassoImageGetter implements Html.ImageGetter {
 
+    private static final String TAG = "PicassoImageGetter";
+
     private final Resources resources;
-    private final View view;
+    private final TextView view;
     private final Context context;
 
-    public PicassoImageGetter(View textView, Resources resources, Context context) {
+    public PicassoImageGetter(TextView textView, Resources resources, Context context) {
         this.view = textView;
         this.resources = resources;
         //Prevent memory leaks.
@@ -38,7 +41,6 @@ public class PicassoImageGetter implements Html.ImageGetter {
             @Override
             protected Bitmap doInBackground(final Void... meh) {
                 try {
-                    Log.d("PicassoImageGetter", "Getting image from " + source);
                     return Picasso.with(context).load(source).get();
                 } catch (Exception e) {
                     return null;
@@ -52,11 +54,11 @@ public class PicassoImageGetter implements Html.ImageGetter {
                     drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
                     result.setWrappedDrawable(drawable);
                     result.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+                    result.invalidateSelf();
 
-                    view.invalidate();
-                    view.requestLayout();
+                    view.setText(view.getText());
                 } catch (Exception e) {
-                /* nom nom nom*/
+                    Log.w(TAG, "Error while setting image", e);
                 }
             }
 

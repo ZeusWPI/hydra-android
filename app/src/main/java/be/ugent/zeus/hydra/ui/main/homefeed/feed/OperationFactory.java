@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.ui.main.homefeed.feed;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.function.IntPredicate;
-import java8.util.function.Predicate;
 import java8.util.function.Supplier;
 
 /**
@@ -33,17 +32,6 @@ public final class OperationFactory {
      */
     public static FeedOperation del(@HomeCard.CardType int cardType) {
         return new RemoveOperation(cardType);
-    }
-
-    /**
-     * Create an operation that will remove something from the home feed.
-     *
-     * @param cardType The type of card to remove.
-     *
-     * @return The operation.
-     */
-    public static FeedOperation del(@HomeCard.CardType int cardType, Predicate<HomeCard> predicate) {
-        return new RemoveOperation(cardType, predicate);
     }
 
     /**

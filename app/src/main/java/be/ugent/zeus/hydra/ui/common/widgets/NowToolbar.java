@@ -3,15 +3,13 @@ package be.ugent.zeus.hydra.ui.common.widgets;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
 import android.support.annotation.MenuRes;
-import android.support.annotation.NonNull;
-import android.widget.PopupMenu;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
 
 /**
@@ -51,9 +49,9 @@ public class NowToolbar extends LinearLayout {
         //Inflate from XML
         inflate(getContext(), R.layout.x_now_toolbar, this);
 
-        iconView = $(R.id.now_toolbar_icon);
-        titleView = $(R.id.now_toolbar_title);
-        menuButton = $(R.id.now_toolbar_menu);
+        iconView = findViewById(R.id.now_toolbar_icon);
+        titleView = findViewById(R.id.now_toolbar_title);
+        menuButton = findViewById(R.id.now_toolbar_menu);
 
         //If no attributes, stop here.
         if(set == null) {
@@ -119,13 +117,5 @@ public class NowToolbar extends LinearLayout {
 
     public void setMenu(@MenuRes int menu) {
         this.menu = menu;
-    }
-
-    @NonNull
-    public <T extends View> T $(@IdRes int id) {
-        @SuppressWarnings("unchecked")
-        T v = (T) findViewById(id);
-        assert v != null;
-        return v;
     }
 }

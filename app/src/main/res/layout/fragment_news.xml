@@ -5,20 +5,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="outsideOverlay"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingLeft="@dimen/card_margin"
-        android:paddingRight="@dimen/card_margin"
-        android:paddingTop="@dimen/card_spacing"
-        tools:listitem="@layout/item_news"
-        app:layoutManager="@string/app_layout_manager_normal"
-        app:spanCount="@integer/span_count_normal" />
+        android:layout_height="match_parent">
 
-    <include layout="@layout/x_progress_bar" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingLeft="@dimen/card_margin"
+            android:paddingRight="@dimen/card_margin"
+            android:paddingTop="@dimen/card_spacing"
+            tools:listitem="@layout/item_news"
+            app:layoutManager="@string/app_layout_manager_normal"
+            app:spanCount="@integer/span_count_normal" />
+
+        <include layout="@layout/x_progress_bar" />
+
+    </FrameLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>

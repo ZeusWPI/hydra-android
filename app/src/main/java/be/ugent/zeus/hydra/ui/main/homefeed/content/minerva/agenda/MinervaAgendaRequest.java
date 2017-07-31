@@ -1,12 +1,13 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.minerva.agenda;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.stream.Collectors;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
@@ -31,7 +32,7 @@ public class MinervaAgendaRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Stream<HomeCard> performRequest() throws RequestFailureException {
+    public Result<Stream<HomeCard>> performRequest(Bundle args) {
 
         ZonedDateTime now = ZonedDateTime.now();
         // Only display things up to 3 weeks from now.
@@ -42,8 +43,8 @@ public class MinervaAgendaRequest implements HomeFeedRequest {
                         .collect(Collectors.groupingBy(AgendaItem::getLocalStartDate));
 
         //Convert it to a view
-        return StreamSupport.stream(perDay.entrySet())
-                .map(e -> new MinervaAgendaCard(e.getKey(), e.getValue()));
+        return Result.Builder.fromData(StreamSupport.stream(perDay.entrySet())
+                .map(e -> new MinervaAgendaCard(e.getKey(), e.getValue())));
     }
 
     @Override

@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.ui.common.IllegalTabException;
+import be.ugent.zeus.hydra.ui.common.AdapterOutOfBoundsException;
 
 /**
  * This provides the tabs in a minerva course.
@@ -32,7 +32,7 @@ public class MinervaCoursePagerAdapter extends FragmentPagerAdapter {
                 return AgendaFragment.newInstance(course);
         }
 
-        throw new IllegalTabException(position, getCount());
+        throw new AdapterOutOfBoundsException(position, getCount());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class MinervaCoursePagerAdapter extends FragmentPagerAdapter {
                 return "Agenda";
         }
 
-        throw new IllegalTabException(position, getCount());
+        throw new AdapterOutOfBoundsException(position, getCount());
     }
 
     /**

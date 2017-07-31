@@ -11,11 +11,11 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Model for a Schamper article.
- *
- * @author feliciaan
+ * Created by feliciaan on 16/06/16.
  */
 public final class Article implements Serializable, Parcelable {
 
@@ -25,9 +25,11 @@ public final class Article implements Serializable, Parcelable {
     @SerializedName("pub_date")
     private ZonedDateTime pubDate;
     private String author;
-    private String text;
+    private String body;
     private String image;
     private String category;
+    private String intro;
+    private ArrayList<ArticleImage> images;
 
     public String getTitle() {
         return title;
@@ -49,16 +51,36 @@ public final class Article implements Serializable, Parcelable {
         return author;
     }
 
-    public String getText() {
-        return text;
+    public String getBody() {
+        return body;
     }
 
     public String getCategory() {
         return category;
     }
 
+    public String getIntro() {
+        return intro;
+    }
+
+    public List<ArticleImage> getImages() {
+        return images;
+    }
+
     public String getImage() {
         return image;
+    }
+
+    public String getLargeImage() {
+        if(getImage() != null) {
+            return getLargeImage(getImage());
+        } else {
+            return null;
+        }
+    }
+
+    public static String getLargeImage(String url) {
+        return url.replace("/regulier/", "/preview/");
     }
 
     @Override
@@ -72,9 +94,11 @@ public final class Article implements Serializable, Parcelable {
         dest.writeString(this.link);
         dest.writeLong(TtbUtils.serialize(this.pubDate));
         dest.writeString(this.author);
-        dest.writeString(this.text);
+        dest.writeString(this.body);
         dest.writeString(this.image);
         dest.writeString(this.category);
+        dest.writeString(this.intro);
+        dest.writeTypedList(this.images);
     }
 
     public Article() {
@@ -85,9 +109,11 @@ public final class Article implements Serializable, Parcelable {
         this.link = in.readString();
         this.pubDate = TtbUtils.unserialize(in.readLong());
         this.author = in.readString();
-        this.text = in.readString();
+        this.body = in.readString();
         this.image = in.readString();
         this.category = in.readString();
+        this.intro = in.readString();
+        this.images = in.createTypedArrayList(ArticleImage.CREATOR);
     }
 
     public static final Creator<Article> CREATOR = new Creator<Article>() {

@@ -17,8 +17,6 @@ import org.threeten.bp.LocalDate;
 
 import java.util.Locale;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Show information about a course, including the description.
  *
@@ -55,12 +53,12 @@ public class CourseInfoFragment extends Fragment {
     @Override
     public void onViewCreated(View v, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(v, savedInstanceState);
-        TextView courseTitle = $(v, R.id.course_title);
-        TextView courseCode = $(v, R.id.course_code);
-        TextView courseTutor = $(v, R.id.course_tutor);
-        TextView courseYear = $(v, R.id.course_year);
-        TextView courseDescription = $(v, R.id.course_description);
-        TextView courseFiche = $(v, R.id.course_fiche);
+        TextView courseTitle = v.findViewById(R.id.course_title);
+        TextView courseCode = v.findViewById(R.id.course_code);
+        TextView courseTutor = v.findViewById(R.id.course_tutor);
+        TextView courseYear = v.findViewById(R.id.course_year);
+        TextView courseDescription = v.findViewById(R.id.course_description);
+        TextView courseFiche = v.findViewById(R.id.course_fiche);
 
         courseTitle.setText(course.getTitle());
         courseCode.setText(course.getCode());
@@ -68,14 +66,14 @@ public class CourseInfoFragment extends Fragment {
         courseYear.setText(getAcademicYear());
 
         if (TextUtils.isEmpty(course.getDescription())) {
-            $(v, R.id.course_description_header).setVisibility(View.GONE);
+            v.findViewById(R.id.course_description_header).setVisibility(View.GONE);
         } else {
             courseDescription.setText(Utils.fromHtml(course.getDescription()));
         }
 
         final String url = getUrl();
         if (url == null) {
-            $(v, R.id.course_fiche_header).setVisibility(View.GONE);
+            v.findViewById(R.id.course_fiche_header).setVisibility(View.GONE);
             courseFiche.setVisibility(View.GONE);
         } else {
             courseFiche.setOnClickListener(view -> NetworkUtils.maybeLaunchBrowser(view.getContext(), url));

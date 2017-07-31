@@ -1,27 +1,24 @@
 package be.ugent.zeus.hydra.ui.minerva.overview;
 
 import android.view.ViewGroup;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.EmptyItemAdapter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DateHeaderViewHolder;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DateHeaderViewHolder;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * @author Niko Strijbol
  */
-class AgendaAdapter extends EmptyItemAdapter<AgendaItem, AgendaViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
+class AgendaAdapter extends ItemDiffAdapter<AgendaItem, AgendaViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
 
     private static final DateTimeFormatter INT_FORMATTER = DateTimeFormatter.ofPattern("ddMMyyyy");
 
-    AgendaAdapter() {
-        super(R.layout.item_no_data, null);
-    }
-
     @Override
-    protected AgendaViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType) {
+    public AgendaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new AgendaViewHolder(ViewUtils.inflate(parent, R.layout.item_minerva_agenda));
     }
 
@@ -30,11 +27,7 @@ class AgendaAdapter extends EmptyItemAdapter<AgendaItem, AgendaViewHolder> imple
      */
     @Override
     public long getHeaderId(int position) {
-        if (getItemViewType(position) == EMPTY_TYPE) {
-            return -1; //No header
-        } else {
-            return Integer.parseInt(items.get(position).getStartDate().format(INT_FORMATTER));
-        }
+        return Integer.parseInt(items.get(position).getStartDate().format(INT_FORMATTER));
     }
 
     @Override
@@ -44,8 +37,6 @@ class AgendaAdapter extends EmptyItemAdapter<AgendaItem, AgendaViewHolder> imple
 
     @Override
     public void onBindHeaderViewHolder(DateHeaderViewHolder holder, int position) {
-        if (getItemViewType(position) != EMPTY_TYPE) {
-            holder.populate(items.get(position).getStartDate());
-        }
+        holder.populate(items.get(position).getStartDate());
     }
 }

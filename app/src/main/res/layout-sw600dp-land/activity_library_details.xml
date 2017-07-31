@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:targetApi="lollipop"
-    tools:context=".ui.LibraryDetailActivity">
+    tools:context=".ui.library.LibraryDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -26,28 +26,24 @@
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp">
 
-            <FrameLayout
-                android:id="@+id/header_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <ImageView
                 app:layout_collapseMode="parallax"
-                android:fitsSystemWindows="true">
+                android:fitsSystemWindows="true"
+                android:id="@+id/header_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:maxHeight="@dimen/hero_image_height"
+                android:minHeight="?attr/actionBarSize"
+                android:adjustViewBounds="true"
+                tools:src="@drawable/tabs_library"/>
 
-                <ImageView
-                    android:id="@+id/header_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:maxHeight="@dimen/hero_image_height"
-                    android:adjustViewBounds="true"
-                    tools:src="@drawable/tabs_library"/>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/gradient_black_bottom"/>
-
-            </FrameLayout>
+            <ImageView
+                app:layout_collapseMode="parallax"
+                android:fitsSystemWindows="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/gradient_black_bottom"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -160,7 +156,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 style="@style/Base.TextAppearance.AppCompat.Subhead"
-                                android:text="Opmerkingen"
+                                android:text="@string/library_info_remarks"
                                 android:textColor="?attr/colorAccent"
                                 android:gravity="center_vertical" />
 
@@ -180,7 +176,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 style="@style/Base.TextAppearance.AppCompat.Subhead"
-                                android:text="Details"
+                                android:text="@string/library_info_details"
                                 android:textColor="?attr/colorAccent"
                                 android:gravity="center_vertical" />
 

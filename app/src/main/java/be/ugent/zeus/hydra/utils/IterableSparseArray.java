@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.utils;
 
-import android.util.Pair;
 import android.util.SparseArray;
 
 import java.util.Iterator;
@@ -12,6 +11,14 @@ import java.util.Iterator;
  */
 public class IterableSparseArray<E> extends SparseArray<E> implements Iterable<E> {
 
+    /**
+     * An iterator over the values of this array.
+     *
+     * The iterator is backed by this array; as such changes to the array while iterating may result in undefined
+     * behaviour. The iterator is read-only: {@link Iterator#remove()} is not supported.
+     *
+     * @return The iterator.
+     */
     @Override
     public Iterator<E> iterator() {
 
@@ -26,28 +33,6 @@ public class IterableSparseArray<E> extends SparseArray<E> implements Iterable<E
             @Override
             public E next() {
                 return valueAt(current++);
-            }
-        };
-    }
-
-    /**
-     * @return An iterator over the key/values of this array.
-     */
-    public Iterable<Pair<Integer, E>> pairIterable() {
-        return () -> new Iterator<Pair<Integer, E>>() {
-
-            private int current;
-
-            @Override
-            public boolean hasNext() {
-                return size() > current;
-            }
-
-            @Override
-            public Pair<Integer, E> next() {
-                Pair<Integer, E> pair = new Pair<>(keyAt(current), valueAt(current));
-                current++;
-                return pair;
             }
         };
     }

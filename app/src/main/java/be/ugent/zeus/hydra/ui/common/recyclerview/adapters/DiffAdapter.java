@@ -6,7 +6,6 @@ import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 
 import be.ugent.zeus.hydra.ui.common.recyclerview.EqualsCallback;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.Adapter;
 import java8.util.function.BiFunction;
 
 import java.util.ArrayList;

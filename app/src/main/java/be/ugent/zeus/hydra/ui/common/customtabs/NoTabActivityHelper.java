@@ -71,4 +71,9 @@ class NoTabActivityHelper implements ActivityHelper {
     public boolean mayLaunchUrl(Uri uri, Bundle extras, List<Bundle> otherLikelyBundles) {
         return true;
     }
+
+    @Override
+    public Activity getActivity() {
+        return activity.get();
+    }
 }

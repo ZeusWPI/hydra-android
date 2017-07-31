@@ -2,21 +2,21 @@ package be.ugent.zeus.hydra.data.network.requests;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.data.models.specialevent.SpecialEventWrapper;
-import be.ugent.zeus.hydra.data.network.Request;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.repository.requests.Request;
+import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.sko.overview.OverviewActivity;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import java8.util.Optional;
 
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -46,33 +46,19 @@ public class SpecialRemoteEventRequest implements Request<SpecialEventWrapper> {
 
     @NonNull
     @Override
-    public SpecialEventWrapper performRequest() throws RequestFailureException {
+    public Result<SpecialEventWrapper> performRequest(Bundle args) {
 
-        SpecialEventWrapper data;
-        RequestFailureException potentialException = null;
+        Result<SpecialEventWrapper> result = wrapping.performRequest(args);
+        Optional<SpecialEvent> skoEvent = maybeAddSko();
 
-        try {
-            data = wrapping.performRequest();
-        } catch (RequestFailureException e) {
-            Log.w(TAG, "Error while getting special events, returning empty collection.", e);
-            potentialException = e;
-            //Empty wrapper.
-            data = new SpecialEventWrapper();
-            data.setSpecialEvents(new ArrayList<>());
-        }
-
-        maybeAddSko(data);
-
-        // If the error is set, and the wrapper is empty, we propagate the error.
-        // If it is not empty, we return it, since the special event is present.
-        if (potentialException != null && data.getSpecialEvents().isEmpty()) {
-            throw potentialException;
-        } else {
-            return data;
-        }
+        // If the SKO event is present, we add it to the other events.
+        return result.map(specialEventWrapper -> {
+            skoEvent.ifPresent(specialEvent -> specialEventWrapper.getSpecialEvents().add(specialEvent));
+            return specialEventWrapper;
+        });
     }
 
-    private void maybeAddSko(@NonNull SpecialEventWrapper wrapper) {
+    private Optional<SpecialEvent> maybeAddSko() {
         //Add the SKO card if necessary.
         try {
             Tasks.await(config.fetch()); //Blocking fetching
@@ -91,9 +77,10 @@ public class SpecialRemoteEventRequest implements Request<SpecialEventWrapper> {
             event.setPriority(1010);
             event.setViewIntent(new Intent(context, OverviewActivity.class));
             //Add to the front.
-            wrapper.getSpecialEvents().add(event);
+            return Optional.of(event);
         } else {
             Log.d(TAG, "Not adding SKO card.");
+            return Optional.empty();
         }
     }
 }

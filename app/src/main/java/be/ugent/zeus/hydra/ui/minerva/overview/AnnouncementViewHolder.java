@@ -1,31 +1,34 @@
 package be.ugent.zeus.hydra.ui.minerva.overview;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Parcelable;
-import android.support.v4.content.ContextCompat;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
-import be.ugent.zeus.hydra.data.models.minerva.Announcement;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
-import be.ugent.zeus.hydra.utils.DateUtils;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.data.models.minerva.Announcement;
+import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
+import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
+import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
  * @author Niko Strijbol
  */
 public class AnnouncementViewHolder extends DataViewHolder<Announcement> {
 
-    private TextView title;
-    private TextView subtitle;
+    private final TextView title;
+    private final TextView subtitle;
+    private final View clickingView;
+    private final ResultStarter resultStarter;
 
-    public AnnouncementViewHolder(View itemView) {
+    public AnnouncementViewHolder(View itemView, ResultStarter starter) {
         super(itemView);
-        title = $(itemView, R.id.title);
-        subtitle = $(itemView, R.id.subtitle);
+        title = itemView.findViewById(R.id.title);
+        subtitle = itemView.findViewById(R.id.subtitle);
+        clickingView = itemView.findViewById(R.id.clickable_view);
+        resultStarter = starter;
     }
 
     @Override
@@ -36,29 +39,16 @@ public class AnnouncementViewHolder extends DataViewHolder<Announcement> {
                 data.getLecturer());
         subtitle.setText(infoText);
 
-        if(data.isRead()) {
-            markAsRead();
+        if (data.isRead()) {
+            itemView.setBackgroundColor(Color.TRANSPARENT);
         } else {
-            itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.white));
+            itemView.setBackgroundColor(Color.WHITE);
         }
 
-        itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), AnnouncementActivity.class);
+        clickingView.setOnClickListener(v -> {
+            Intent intent = new Intent(resultStarter.getContext(), AnnouncementActivity.class);
             intent.putExtra(AnnouncementActivity.ARG_ANNOUNCEMENT, (Parcelable) data);
-            markAsRead();
-            v.getContext().startActivity(intent);
+            resultStarter.startActivityForResult(intent, resultStarter.getRequestCode());
         });
-    }
-
-    private void markAsRead() {
-        //Due to a bug on older android versions, we need to set the padding again.
-        int top = itemView.getPaddingTop();
-        int right = itemView.getPaddingRight();
-        int bottom = itemView.getPaddingBottom();
-        int left = itemView.getPaddingLeft();
-        TypedValue outValue = new TypedValue();
-        itemView.getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
-        itemView.setBackgroundResource(outValue.resourceId);
-        itemView.setPadding(left, top, right, bottom);
     }
 }

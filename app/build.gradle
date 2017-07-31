@@ -3,23 +3,31 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.cookpad.android.licensetools'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
 
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 245
         versionName "2.4"
         vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         //Load the API keys from the file "secrets.progperties".
         Properties props = new Properties()
         props.load(new FileInputStream(file('secrets.properties')))
         buildConfigField "String", "OAUTH_ID", "\"" + props['OAUTH_ID'] + "\""
         buildConfigField "String", "OAUTH_SECRET", "\"" + props['OAUTH_SECRET'] + "\""
-        manifestPlaceholders = [ google_maps_key: props['MAPS_API_KEY'] ]
+        manifestPlaceholders = [
+                google_maps_key: props['MAPS_API_KEY'],
+                disableAnalytics: false
+        ]
+        // Displays the priorities on the cards of the home feed.
+        buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", "false"
+        // Adds an additional invisible card that takes ~10 seconds to complete.
+        buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", "false"
     }
 
     compileOptions {
@@ -36,6 +44,10 @@ android {
         debug {
             // Set this to false on release versions!
             debuggable true
+            manifestPlaceholders = [disableAnalytics: true]
+            // Set these to true when debugging the home feed.
+            buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", "false"
+            buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", "false"
         }
     }
 
@@ -66,8 +78,8 @@ project.afterEvaluate {
 }
 
 //The support library version
-final SUPPORT_LIBRARY_VERSION = '25.3.1'
-final GMS_VERSION = '10.2.1'
+final SUPPORT_LIBRARY_VERSION = '26.0.0'
+final GMS_VERSION = '11.0.4'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -81,20 +93,25 @@ dependencies {
     compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
 
+    // Lifecycle components
+    compile "android.arch.lifecycle:runtime:1.0.0-alpha7"
+    compile "android.arch.lifecycle:extensions:1.0.0-alpha7"
+    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-alpha7"
+
     compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
-    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.5'
-    compile 'net.sourceforge.streamsupport:streamsupport:1.5.4'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'net.cachapa.expandablelayout:expandablelayout:2.8'
+    compile 'net.sourceforge.streamsupport:streamsupport:1.5.5'
+    compile 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
+    compile 'net.cachapa.expandablelayout:expandablelayout:2.9.1'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
-    compile 'com.heinrichreimersoftware:material-intro:1.6'
+    compile 'com.heinrichreimersoftware:material-intro:1.6' // DO NOT UPDATE unless you want databinding
     compile 'su.j2e:rv-joiner:1.0.9'
     compile 'com.github.alexfu:SQLiteQueryBuilder:0.3.0'
-    compile 'com.jonathanfinerty.once:once:1.2.1'
-    compile 'com.karumi:dexter:3.1.0'
+    compile 'com.jonathanfinerty.once:once:1.2.2'
+    compile 'com.karumi:dexter:4.1.1'
 
     // Used for the OAuth stuff
     compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
@@ -126,6 +143,7 @@ dependencies {
         exclude group:'com.jakewharton.threetenabp', module:'threetenabp'
     }
 
+    testCompile 'be.tomcools:GetterSetterVerifier:0.0.2'
     testCompile 'nl.jqno.equalsverifier:equalsverifier:2.2.1'
     testCompile ('com.shazam:shazamcrest:0.11') {
         exclude group: 'com.google.code.gson', module: 'gson'
@@ -134,6 +152,14 @@ dependencies {
     testCompile 'org.apache.commons:commons-lang3:3.5'
     testCompile 'org.hamcrest:hamcrest-core:1.3'
     testCompile 'com.googlecode:openbeans:1.0'
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestCompile ('com.android.support.test:runner:1.0.0') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile ('com.android.support.test:rules:1.0.0') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'

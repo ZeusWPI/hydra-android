@@ -1,13 +1,13 @@
 package be.ugent.zeus.hydra.data.network.requests.resto;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import be.ugent.zeus.hydra.data.models.resto.Sandwich;
 import be.ugent.zeus.hydra.data.network.Endpoints;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.data.network.caching.Cache;
-import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.repository.Cache;
+import be.ugent.zeus.hydra.repository.requests.CacheableRequest;
+import be.ugent.zeus.hydra.repository.requests.Result;
 
 import java.util.Arrays;
 
@@ -26,10 +26,11 @@ public class SandwichRequest extends JsonSpringRequest<Sandwich[]> implements Ca
 
     @NonNull
     @Override
-    public Sandwich[] performRequest() throws RequestFailureException {
-        Sandwich[] data = super.performRequest();
-        Arrays.sort(data, (o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
-        return data;
+    public Result<Sandwich[]> performRequest(Bundle args) {
+        return super.performRequest(args).map(sandwiches -> {
+            Arrays.sort(sandwiches, (o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
+            return sandwiches;
+        });
     }
 
     @NonNull

@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.ui.minerva.overview;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -25,12 +25,18 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 /**
  * Activity that displays a certain course.
  *
+ * The activity will return a result if one or more announcements have been updated (marked as read). The result's
+ * intent will contain a boolean called {@link #RESULT_ANNOUNCEMENT_UPDATED}.
+ * True indicates at least one announcement has been updated, otherwise it is false.
+ *
  * @author Niko Strijbol
  */
 public class CourseActivity extends BaseActivity {
 
     public static final String ARG_COURSE = "argCourse";
     public static final String ARG_TAB = "argTab";
+
+    public static final String RESULT_ANNOUNCEMENT_UPDATED = "be.ugent.zeus.hydra.result.minerva.course.announcement.read";
 
     @Retention(SOURCE)
     @IntDef({Tab.INFO, Tab.ANNOUNCEMENTS, Tab.AGENDA})
@@ -45,15 +51,18 @@ public class CourseActivity extends BaseActivity {
 
     private Course course;
 
-    public static void start(Context context, Course course) {
-        start(context, course, Tab.ANNOUNCEMENTS);
-    }
-
-    public static void start(Context context, Course course, @Tab int tab) {
-        Intent intent = new Intent(context, CourseActivity.class);
+    /**
+     * Start the activity for a result.
+     *
+     * @param starter The object starting the activity.
+     * @param course The course.
+     * @param tab Which tab to show.
+     */
+    public static void startForResult(ResultStarter starter, Course course, @Tab int tab) {
+        Intent intent = new Intent(starter.getContext(), CourseActivity.class);
         intent.putExtra(ARG_COURSE, (Parcelable) course);
         intent.putExtra(ARG_TAB, tab);
-        context.startActivity(intent);
+        starter.startActivityForResult(intent, starter.getRequestCode());
     }
 
     @Override
@@ -64,8 +73,8 @@ public class CourseActivity extends BaseActivity {
         Intent intent = getIntent();
         course = intent.getParcelableExtra(ARG_COURSE);
 
-        TabLayout tabLayout = $(R.id.tab_layout);
-        ViewPager viewPager = $(R.id.pager);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        ViewPager viewPager = findViewById(R.id.pager);
 
         viewPager.setAdapter(new MinervaCoursePagerAdapter(getSupportFragmentManager(), course));
 

@@ -1,28 +1,30 @@
 package be.ugent.zeus.hydra.ui.resto.menu;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
-import be.ugent.zeus.hydra.data.network.requests.Requests;
-import be.ugent.zeus.hydra.data.network.requests.resto.MenuRequest;
+import be.ugent.zeus.hydra.repository.RefreshBroadcast;
+import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
+import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
+import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
-import be.ugent.zeus.hydra.ui.common.plugins.RequestPlugin;
-import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import org.threeten.bp.LocalDate;
@@ -36,23 +38,14 @@ import java.util.List;
  */
 public class MenuActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
 
+    private static final String TAG = "MenuActivity";
+
     public static final String ARG_DATE = "start_date";
 
-    private static final String URL = "http://www.ugent.be/student/nl/meer-dan-studeren/resto";
-    private RequestPlugin<List<RestoMenu>> plugin;
+    private static final String URL = "https://www.ugent.be/student/nl/meer-dan-studeren/resto";
     private MenuPagerAdapter pageAdapter;
     private ViewPager viewPager;
     private LocalDate startDate;
-
-    @Override
-    protected void onAddPlugins(List<Plugin> plugins) {
-        super.onAddPlugins(plugins);
-        plugin = new RequestPlugin<>(Requests.cachedArray(new MenuRequest(this)));
-        plugin.enableProgress()
-                .defaultError()
-                .setSuccessCallback(this::receiveData);
-        plugins.add(plugin);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +59,10 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
         pageAdapter = new MenuPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        viewPager = $(R.id.resto_tabs_content);
+        viewPager = findViewById(R.id.resto_tabs_content);
         viewPager.setAdapter(pageAdapter);
 
-        final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
+        final AppBarLayout appBarLayout = findViewById(R.id.app_bar_layout);
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -79,10 +72,10 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
             }
         });
 
-        TabLayout tabLayout = $(R.id.resto_tabs_slider);
+        TabLayout tabLayout = findViewById(R.id.resto_tabs_slider);
         tabLayout.setupWithViewPager(viewPager);
 
-        Spinner spinner = $(R.id.resto_spinner);
+        Spinner spinner = findViewById(R.id.resto_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 getToolbar().getThemedContext(),
                 R.array.resto_location,
@@ -103,7 +96,10 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
             startDate = LocalDate.now();
         }
 
-        plugin.startLoader();
+        MenuViewModel model = ViewModelProviders.of(this).get(MenuViewModel.class);
+        model.getData().observe(this, ErrorObserver.with(this::onError));
+        model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
+        model.getData().observe(this, SuccessObserver.with(this::receiveData));
     }
 
     private void receiveData(@NonNull List<RestoMenu> data) {
@@ -129,8 +125,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                plugin.refresh();
-                //Toast.makeText(getApplicationContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
+                onRefresh();
                 return true;
             case R.id.resto_show_website:
                 NetworkUtils.maybeLaunchBrowser(this, URL);
@@ -150,11 +145,22 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
         if (pageAdapter.getCount() > viewPager.getCurrentItem()) {
             startDate = pageAdapter.getTabDate(viewPager.getCurrentItem());
         }
-        plugin.refresh();
+        onRefresh();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         //Do nothing
+    }
+
+    private void onError(Throwable throwable) {
+        Log.e(TAG, "Error while getting data.", throwable);
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.again), v -> onRefresh())
+                .show();
+    }
+
+    public void onRefresh() {
+        RefreshBroadcast.broadcastRefresh(this, true);
     }
 }

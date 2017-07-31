@@ -3,13 +3,10 @@ package be.ugent.zeus.hydra.ui.common;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,10 +37,6 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
 
     public ActionBar getSupportActionBar() {
         return getDelegate().getSupportActionBar();
-    }
-
-    public void setSupportActionBar(@Nullable Toolbar toolbar) {
-        getDelegate().setSupportActionBar(toolbar);
     }
 
     @Override
@@ -111,17 +104,5 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
             mDelegate = AppCompatDelegate.create(this, null);
         }
         return mDelegate;
-    }
-
-    /**
-     * Finds a view that was identified by the id attribute from the XML that was processed in {@link #onCreate}. This
-     * version automatically casts the return value.
-     *
-     * @return The view if found or null otherwise.
-     */
-    @Nullable
-    @SuppressWarnings("unchecked")
-    public <T extends View> T $(@IdRes int id) {
-        return (T) findViewById(id);
     }
 }

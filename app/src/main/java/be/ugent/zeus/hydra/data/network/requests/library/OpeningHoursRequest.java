@@ -6,8 +6,8 @@ import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.data.models.library.OpeningHours;
 import be.ugent.zeus.hydra.data.network.Endpoints;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.data.network.caching.Cache;
-import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
+import be.ugent.zeus.hydra.repository.Cache;
+import be.ugent.zeus.hydra.repository.requests.CacheableRequest;
 
 /**
  * Get the opening hours for one library.

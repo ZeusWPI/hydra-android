@@ -1,48 +1,82 @@
 package be.ugent.zeus.hydra.ui.main;
 
-import android.app.PendingIntent;
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.RemoteException;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.UrgentTrack;
-import be.ugent.zeus.hydra.service.urgent.BoundServiceCallback;
-import be.ugent.zeus.hydra.service.urgent.MusicBinder;
-import be.ugent.zeus.hydra.service.urgent.MusicCallback;
-import be.ugent.zeus.hydra.service.urgent.MusicService;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.service.urgent.MusicBinder;
+import be.ugent.zeus.hydra.service.urgent.MusicService;
 
 /**
  * @author Niko Strijbol
  */
-public class UrgentFragment extends Fragment implements MusicCallback, BoundServiceCallback {
+public class UrgentFragment extends Fragment {
 
     private static final String TAG = "UrgentFragment";
 
-    private static final String FRAGMENT_TAG = "MediaFragment";
+    private static final String STATE_TOKEN = "state_token";
+
+    @DrawableRes
+    private static final int PLAY_DRAWABLE = R.drawable.ic_play_arrow_24dp;
+    @DrawableRes
+    private static final int PAUSE_DRAWABLE = R.drawable.ic_pause_24dp;
 
     private boolean isBound = false;
     private ServiceConnection serviceConnection = new MusicConnection();
     private MusicService musicService;
-    private View urgentPlayWrapper;
 
-    private boolean freshStart = false;
+    private ImageButton playPauseButton;
+    private ImageButton stopButton;
+    private View buttonWrapper;
+    private TextView artistText;
+    private TextView titleText;
+    private ImageView albumImage;
+    private MediaControllerCompat mediaController;
+    private MediaSessionCompat.Token token;
+    private View progressBar;
+    private TextView warning;
+
+    // Receive callbacks from the MediaController. Here we update our state such as which queue
+    // is being shown, the current title and description and the PlaybackState.
+    private final MediaControllerCompat.Callback mediaControllerCallback = new MediaControllerCompat.Callback() {
+        @Override
+        public void onPlaybackStateChanged(@NonNull PlaybackStateCompat state) {
+            UrgentFragment.this.onPlaybackStateChanged(state);
+        }
+
+        @Override
+        public void onMetadataChanged(MediaMetadataCompat metadata) {
+            if (metadata == null) {
+                return;
+            }
+            Log.d(TAG, "Received metadata state change to mediaId=" +
+                    metadata.getDescription().getMediaId() +
+                    " song=" + metadata.getDescription().getTitle());
+            UrgentFragment.this.onMetadataChanged(metadata);
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,197 +86,197 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        urgentPlayWrapper = $(view, R.id.urgent_play_wrapper);
-        $(view, R.id.urgent_play).setOnClickListener(v -> {
-            //We are already bound.
-            if (isBound) {
-                beginPlaying();
-            } else {
-                //The callback will start playing.
-                freshStart = true;
-                bind();
-            }
-        });
-        //If the service is running, request a bind.
-        if (MusicService.isRunning(getContext())) {
+
+        if (savedInstanceState != null) {
+            token = savedInstanceState.getParcelable(STATE_TOKEN);
+        }
+
+        albumImage = view.findViewById(R.id.albumImage);
+        artistText = view.findViewById(R.id.artistText);
+        titleText = view.findViewById(R.id.titleText);
+        progressBar = view.findViewById(R.id.progress_bar);
+        playPauseButton = view.findViewById(R.id.playPauseButton);
+        stopButton = view.findViewById(R.id.stopButton);
+        buttonWrapper = view.findViewById(R.id.button_wrap);
+        warning = view.findViewById(R.id.urgent_warning);
+
+        if (token != null) {
+            initialiseController();
+        }
+    }
+
+    private void initialiseController() {
+        try {
+            mediaController = new MediaControllerCompat(getContext(), token);
+            mediaController.registerCallback(mediaControllerCallback);
+        } catch (RemoteException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        playPauseButton.setImageResource(PLAY_DRAWABLE);
+        readMetadata(mediaController.getMetadata());
+        configureButtons(mediaController.getPlaybackState());
+    }
+
+    @Override
+    public void onDetach() {
+        if (mediaController != null) {
+            mediaController.unregisterCallback(mediaControllerCallback);
+        }
+        super.onDetach();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // Don't do anything if the service is bound.
+        if (!isBound) {
+            hideMediaControls();
             bind();
         }
+    }
+
+    private void bind() {
+        // Start the service, doesn't matter if it is already started.
+        Intent intent = new Intent(getActivity(), MusicService.class);
+        Log.d(TAG, "onStart: Starting service");
+        getContext().startService(intent);
+
+        // Request a bind with the service.
+        Log.d(TAG, "onStart: Requesting bind");
+        getActivity().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
     public void onStop() {
-        Log.d(TAG, "Stopped urgent.");
-        unbind();
         super.onStop();
+        if (isBound) {
+            getActivity().unbindService(serviceConnection);
+            musicService = null;
+            isBound = false;
+        }
+    }
+
+    /**
+     * Init the media control fragment.
+     */
+    private void initMediaControls(MediaSessionCompat.Token token) {
+        this.token = token;
+        initialiseController();
+        buttonWrapper.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void hideMediaControls() {
+        buttonWrapper.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void requestUnbind() {
-        unbind();
-        hideMediaControls();
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(STATE_TOKEN, token);
+        super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        //If the service is running, request a bind.
-        if(MusicService.isRunning(getContext())) {
-            bind();
-        } else {
-            hideMediaControls();
-        }
-    }
+    private void readMetadata(MediaMetadataCompat metadata) {
+        if (metadata != null) {
+            //These must be set at least.
+            artistText.setText(metadata.getText(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST));
+            titleText.setText(metadata.getText(MediaMetadataCompat.METADATA_KEY_TITLE));
 
-    /**
-     * Bind the {@link MusicService}. If it is not running, we will start it as well. If there already is a bound
-     * service, this method will do nothing.
-     */
-    private void bind() {
-
-        //If it is already bound, do nothing.
-        if(isBound) {
-            return;
-        }
-
-        Intent intent = new Intent(getActivity(), MusicService.class);
-
-        //If it doesn't run, start it.
-        if(!MusicService.isRunning(getContext())) {
-            getActivity().startService(intent);
-        }
-
-        //Bind the service
-        getActivity().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-    }
-
-    /**
-     * Unbind the service. This will only do something if there is a bound service.
-     */
-    private void unbind() {
-
-        //If there is no service, do nothing.
-        if(!isBound) {
-            return;
-        }
-
-        getActivity().unbindService(serviceConnection);
-        //There is no callback for unbound services, so we manually call one.
-        onUnbind();
-    }
-
-    /**
-     * Called when the service is disconnected.
-     */
-    private void onUnbind() {
-        musicService.setCallback(null);
-        musicService.setBoundCallback(null);
-        musicService = null;
-        isBound = false;
-    }
-
-    /**
-     * Start playing Urgent.fm if it is not already. This method requires a bound service.
-     */
-    private void beginPlaying() {
-
-        //Add the track if needed.
-        if(!hasUrgent()) {
-            musicService.getTrackManager().clear();
-            musicService.getTrackManager().addTrack(new UrgentTrack(getContext()));
-        }
-
-        //If we are not playing, attempt to start playing.
-        if(musicService.isPlaying()) {
-            Log.d(TAG, "Urgent is already playing!");
-        } else {
-            try {
-                musicService.startPlaying();
-            } catch (Exception e) {
-                Log.e("UrgentFragment", "Error while playing.", e);
+            //Try setting the album art.
+            if (metadata.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART) != null) {
+                albumImage.setImageBitmap(metadata.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART));
+            } else {
+                albumImage.setImageResource(R.drawable.ic_album);
             }
         }
     }
 
-    private void hideMediaControls() {
-        urgentPlayWrapper.setVisibility(View.VISIBLE);
-        FragmentManager manager = getChildFragmentManager();
-        Fragment fragment = manager.findFragmentByTag(FRAGMENT_TAG);
-        if(fragment != null) {
-            getChildFragmentManager().beginTransaction().remove(fragment).commit();
+    private void onMetadataChanged(MediaMetadataCompat metadata) {
+        Log.d(TAG, "onMetadataChanged ");
+
+        if (getActivity() == null) {
+            Log.w(TAG, "onMetadataChanged called when getActivity null, this should not happen if the callback was properly unregistered. Ignoring.");
+            return;
         }
+
+        if (metadata == null) {
+            return;
+        }
+
+        readMetadata(metadata);
     }
-    /**
-     * Init the media control fragment.
-     */
-    private void initMediaControls() {
-        FragmentManager manager = getChildFragmentManager();
-        Fragment fragment = manager.findFragmentByTag(FRAGMENT_TAG);
-        Fragment newFragment = UrgentControlFragment.newInstance(musicService.getMediaToken());
-        FragmentTransaction t = getChildFragmentManager().beginTransaction();
-        if(fragment == null) {
-            t.add(R.id.urgent_fragment_wrapper, newFragment, FRAGMENT_TAG);
+
+    private void onPlaybackStateChanged(PlaybackStateCompat state) {
+        if (getActivity() == null) {
+            Log.w(TAG, "onPlaybackStateChanged called when getActivity null, this should not happen if the callback was properly unregistered. Ignoring.");
+            return;
+        }
+
+        // If we have restarted the service, attempt to bind again.
+        if (state.getState() == PlaybackStateCompat.STATE_PLAYING && !isBound) {
+            bind();
+        }
+
+        configureButtons(state);
+    }
+
+    private int getPlaybackState() {
+        return mediaController.getPlaybackState().getState();
+    }
+
+    @SuppressLint("SwitchIntDef")
+    private void configureButtons(PlaybackStateCompat state) {
+        if (state == null) {
+            return;
+        }
+        boolean enablePlay = false;
+        boolean disableStop = false;
+        Log.d(TAG, "configureButtons: STATE PEOPLE!");
+        switch (state.getState()) {
+            case PlaybackStateCompat.STATE_PLAYING:
+                warning.setVisibility(View.GONE);
+                break;
+            case PlaybackStateCompat.STATE_PAUSED:
+                warning.setVisibility(View.VISIBLE);
+                enablePlay = true;
+                disableStop = false;
+                break;
+            case PlaybackStateCompat.STATE_ERROR:
+                Log.e(TAG, "error playbackstate: " + state.getErrorMessage());
+                Toast.makeText(getActivity(), state.getErrorMessage(), Toast.LENGTH_LONG).show();
+                break;
+            case PlaybackStateCompat.STATE_BUFFERING:
+                Log.d(TAG, "configureButtons: BUFFERING PEOPLE!");
+            default:
+                warning.setVisibility(View.GONE);
+                enablePlay = true;
+                disableStop = true;
+        }
+
+        if (enablePlay) {
+            playPauseButton.setImageResource(PLAY_DRAWABLE);
         } else {
-            t.replace(R.id.urgent_fragment_wrapper, newFragment, FRAGMENT_TAG);
+            playPauseButton.setImageResource(PAUSE_DRAWABLE);
         }
-        t.commit();
-        urgentPlayWrapper.setVisibility(View.GONE);
-    }
 
-    @Override
-    public void onPermissionRequired(final int requestCode, final String permission, String rationale) {
-        // Should we show an explanation?
-        if (shouldShowRequestPermissionRationale(permission)) {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage(rationale);
-            builder.setNeutralButton("Got it", (dialog, which) -> askForPermission(requestCode, permission));
-            builder.create().show();
+        if (disableStop) {
+            stopButton.setVisibility(View.GONE);
         } else {
-            // No explanation needed, we can request the permission.
-            askForPermission(requestCode, permission);
+            stopButton.setVisibility(View.VISIBLE);
         }
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(isBound){
-            musicService.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        }
-    }
+        playPauseButton.setOnClickListener(v -> {
+            if (getPlaybackState() == PlaybackStateCompat.STATE_PLAYING) {
+                mediaController.getTransportControls().pause();
+            } else {
+                mediaController.getTransportControls().play();
+            }
+        });
 
-    private void askForPermission(int requestCode, String permission){
-        requestPermissions(new String[]{permission}, requestCode);
-    }
-
-    @Override
-    public void onLoading() {
-        assert getView() != null;
-        Snackbar.make(getView(), R.string.urgent_loading, Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onPlaybackStarted() {
-
-    }
-
-    @Override
-    public void onPlaybackStopped() {
-
-    }
-
-    @Override
-    public void onError() {
-        Toast.makeText(getContext().getApplicationContext(), R.string.oops, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Check if urgent was added. This needs a bound service!
-     *
-     * @return If the service has Urgent as track.
-     */
-    private boolean hasUrgent() {
-        return musicService.getTrackManager().hasTracks();
+        stopButton.setOnClickListener(v -> mediaController.getTransportControls().stop());
     }
 
     /**
@@ -252,27 +286,17 @@ public class UrgentFragment extends Fragment implements MusicCallback, BoundServ
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-
             MusicBinder binder = (MusicBinder) service;
             musicService = binder.getService();
-            musicService.setBoundCallback(UrgentFragment.this);
-            musicService.setCallback(UrgentFragment.this);
-            Intent startThis = new Intent(getActivity(), MainActivity.class);
-            startThis.putExtra(MainActivity.ARG_TAB, R.id.drawer_urgent);
-            PendingIntent i = PendingIntent.getActivity(getContext(), 0, startThis, PendingIntent.FLAG_UPDATE_CURRENT);
-            musicService.getNotificationManager().setContentIntent(i);
-            musicService.getNotificationManager().setIcon(R.drawable.ic_notification_urgent);
-            initMediaControls();
+            musicService.setTokenConsumer(UrgentFragment.this::initMediaControls);
             isBound = true;
-            if (freshStart) {
-                freshStart = false;
-                beginPlaying();
-            }
+            Log.d(TAG, "onServiceConnected: MusicService is bound.");
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            onUnbind();
+            isBound = false;
+            Log.d(TAG, "onServiceConnected: MusicService is unbound.");
         }
     }
 }

@@ -10,8 +10,6 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
-
 /**
  * Home feed view holder for special events.
  *
@@ -26,9 +24,9 @@ public class SpecialEventCardViewHolder extends DataViewHolder<HomeCard> {
 
     public SpecialEventCardViewHolder(View itemView) {
         super(itemView);
-        title = $(itemView, R.id.title);
-        text = $(itemView, R.id.text);
-        image = $(itemView, R.id.image);
+        title = itemView.findViewById(R.id.title);
+        text = itemView.findViewById(R.id.text);
+        image = itemView.findViewById(R.id.image);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.data.auth;
 
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.repository.requests.RequestException;
 
 /**
  * Thrown when user action is required, e.g. the refresh token has expired.
@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
  *
  * @author Niko Strijbol
  */
-public class AuthenticatorActionException extends RequestFailureException {
+public class AuthenticatorActionException extends RequestException {
 
     public AuthenticatorActionException() {
         super();

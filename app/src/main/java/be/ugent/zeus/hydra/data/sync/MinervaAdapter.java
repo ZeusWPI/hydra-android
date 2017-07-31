@@ -8,10 +8,9 @@ import android.content.SyncResult;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.util.Log;
-
 import be.ugent.zeus.hydra.data.auth.AuthenticatorActionException;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.repository.requests.RequestException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 
 /**
@@ -79,7 +78,7 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
             Log.w(TAG, "Auth exception while syncing.", e);
             syncResult.stats.numAuthExceptions++;
             broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
-        } catch (RequestFailureException e) {
+        } catch (RequestException e) {
             Log.w(TAG, "Exception during sync:", e);
             // TODO: this needs attention.
             syncResult.stats.numParseExceptions++;
@@ -111,8 +110,15 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
                                                  String authority,
                                                  ContentProviderClient provider,
                                                  SyncResult results,
-                                                 boolean isFirstSync) throws RequestFailureException;
+                                                 boolean isFirstSync) throws RequestException;
 
+    /**
+     * Called after the synchronisation has been performed. This means after {@link #onPerformCheckedSync(Account, Bundle, String, ContentProviderClient, SyncResult, boolean)}.
+     *
+     * @param account The account for which the sync is happening.
+     * @param extras The extras.
+     * @param isFirstSync True if this is the first sync, otherwise false.
+     */
     protected void afterSync(Account account, Bundle extras, boolean isFirstSync) {
         // Nothing.
     }

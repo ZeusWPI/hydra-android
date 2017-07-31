@@ -276,6 +276,97 @@ public class AnnouncementDao extends Dao implements DiffDao<Announcement, Intege
         return map;
     }
 
+    /**
+     * Get all unread announcements as a list, sorted by date (newest first).
+     *
+     * @return The announcements.
+     */
+    public List<Announcement> getUnreadList() {
+
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+
+        final String courseTable = "course_";
+
+        String announcementJoin = AnnouncementTable.Columns.COURSE;
+        String courseJoin = courseTable + CourseTable.Columns.ID;
+
+        builder.setTables(AnnouncementTable.TABLE_NAME + " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + announcementJoin + "=" + courseJoin);
+
+        String[] columns = new String[]{
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.Columns.ID,
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.Columns.TITLE,
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.Columns.CONTENT,
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.Columns.EMAIL_SENT,
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.Columns.STICKY_UNTIL,
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.Columns.LECTURER,
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.Columns.DATE,
+                AnnouncementTable.TABLE_NAME + "." + AnnouncementTable.Columns.READ_DATE,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.ID + " AS " + courseTable + CourseTable.Columns.ID,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.CODE + " AS " + courseTable + CourseTable.Columns.CODE,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.TITLE + " AS " + courseTable + CourseTable.Columns.TITLE,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.DESCRIPTION + " AS " + courseTable + CourseTable.Columns.DESCRIPTION,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.TUTOR + " AS " + courseTable + CourseTable.Columns.TUTOR,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.STUDENT + " AS " + courseTable + CourseTable.Columns.STUDENT,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.ACADEMIC_YEAR + " AS " + courseTable + CourseTable.Columns.ACADEMIC_YEAR,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.ORDER + " AS " + courseTable + CourseTable.Columns.ORDER,
+        };
+
+        Cursor c = builder.query(
+                db,
+                columns,
+                AnnouncementTable.Columns.READ_DATE + " = ?",
+                new String[]{"-1"},
+                null,
+                null,
+                AnnouncementTable.Columns.DATE + " DESC"
+        );
+
+        if (c == null) {
+            return new ArrayList<>();
+        }
+
+        List<Announcement> unread = new ArrayList<>();
+
+        //Save the course ID separately
+        //Get helpers
+        CourseExtractor cExtractor = new CourseExtractor.Builder(c)
+                .columnId(courseTable + CourseTable.Columns.ID)
+                .columnCode(courseTable + CourseTable.Columns.CODE)
+                .columnTitle(courseTable + CourseTable.Columns.TITLE)
+                .columnDesc(courseTable + CourseTable.Columns.DESCRIPTION)
+                .columnTutor(courseTable + CourseTable.Columns.TUTOR)
+                .columnStudent(courseTable + CourseTable.Columns.STUDENT)
+                .columnYear(courseTable + CourseTable.Columns.ACADEMIC_YEAR)
+                .columnOrder(courseTable + CourseTable.Columns.ORDER)
+                .build();
+        AnnouncementExtractor aExtractor = new AnnouncementExtractor.Builder(c).defaults().build();
+
+        try {
+            Map<String, Course> courses = new HashMap<>();
+            while (c.moveToNext()) {
+
+                //Get the course id
+                String id = c.getString(cExtractor.getColumnId());
+                Course course;
+                if (!courses.containsKey(id)) {
+                    course = cExtractor.getCourse();
+                    courses.put(id, course);
+                } else {
+                    course = courses.get(id);
+                }
+
+                unread.add(aExtractor.getAnnouncement(course));
+            }
+
+        } finally {
+            c.close();
+        }
+
+        return unread;
+    }
+
     @Override
     public void delete(Collection<Integer> ids) {
         SQLiteDatabase db = helper.getWritableDatabase();

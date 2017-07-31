@@ -1,18 +1,19 @@
 package be.ugent.zeus.hydra.ui.common;
 
+import android.arch.lifecycle.LifecycleRegistry;
+import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IdRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.View;
+
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.plugins.common.PluginActivity;
-import java8.util.function.Supplier;
 
 /**
  * The base activity. Contains code related to common things for almost all activities.
@@ -25,21 +26,9 @@ import java8.util.function.Supplier;
  *
  * @author Niko Strijbol
  */
-public abstract class BaseActivity extends PluginActivity {
+public abstract class BaseActivity extends AppCompatActivity implements LifecycleRegistryOwner {
 
-    /**
-     * Finds a view that was identified by the id attribute from the XML that was processed in {@link #onCreate}. This
-     * version automatically casts the return value. It cannot be used for null values.
-     *
-     * @return The view if found or null otherwise.
-     */
-    @NonNull
-    public <T extends View> T $(@IdRes int id) {
-        @SuppressWarnings("unchecked")
-        T v = (T) findViewById(id);
-        assert v != null;
-        return v;
-    }
+    private LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
     /**
      * Get the toolbar. Don't call it when there is no toolbar, as it may crash.
@@ -52,15 +41,11 @@ public abstract class BaseActivity extends PluginActivity {
         return getSupportActionBar();
     }
 
-    protected Supplier<View> content() {
-        return () -> findViewById(android.R.id.content);
-    }
-
     /**
      * Set the toolbar as action bar, and set it up to have an up button.
      */
     private void setUpActionBar() {
-        Toolbar toolbar = $(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
 
@@ -96,14 +81,25 @@ public abstract class BaseActivity extends PluginActivity {
     /**
      * Replace an icon with given ID by the same icon but in the correct colour.
      *
+     * @param toolbar The toolbar to extract the colour from.
      * @param menu The menu.
      * @param ids  The ids of the icon.
      */
     public static void tintToolbarIcons(ActionBar toolbar, Menu menu, int... ids) {
-        int color = ViewUtils.getColor(toolbar.getThemedContext(), R.attr.colorControlNormal);
+        tintToolbarIcons(ViewUtils.getColor(toolbar.getThemedContext(), R.attr.colorControlNormal), menu, ids);
+    }
+
+    /**
+     * Replace an icon with given ID by the same icon but in the given colour.
+     *
+     * @param colour The colour int.
+     * @param menu The menu.
+     * @param ids  The ids of the icon.
+     */
+    public static void tintToolbarIcons(@ColorInt int colour, Menu menu, int... ids) {
         for (int id : ids) {
             Drawable drawable = DrawableCompat.wrap(menu.findItem(id).getIcon());
-            DrawableCompat.setTint(drawable, color);
+            DrawableCompat.setTint(drawable, colour);
             menu.findItem(id).setIcon(drawable);
         }
     }
@@ -117,5 +113,10 @@ public abstract class BaseActivity extends PluginActivity {
      */
     protected boolean hasParent() {
         return true;
+    }
+
+    @Override
+    public LifecycleRegistry getLifecycle() {
+        return lifecycleRegistry;
     }
 }

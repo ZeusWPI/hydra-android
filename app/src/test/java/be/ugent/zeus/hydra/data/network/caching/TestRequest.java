@@ -1,6 +1,9 @@
 package be.ugent.zeus.hydra.data.network.caching;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.repository.requests.CacheableRequest;
 
 /**
  * @author Niko Strijbol
@@ -19,9 +22,9 @@ public class TestRequest implements CacheableRequest<TestObject> {
 
     @NonNull
     @Override
-    public TestObject performRequest() {
+    public Result<TestObject> performRequest(Bundle args) {
         read = true;
-        return new TestObject();
+        return Result.Builder.fromData(new TestObject());
     }
 
     @NonNull

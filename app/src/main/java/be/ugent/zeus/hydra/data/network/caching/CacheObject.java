@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.data.network.caching;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.repository.Cache;
 import org.threeten.bp.Duration;
 import org.threeten.bp.Instant;
 

@@ -11,15 +11,14 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.network.Request;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.auth.MinervaAuthenticator;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
 import be.ugent.zeus.hydra.data.models.minerva.auth.BearerToken;
 import be.ugent.zeus.hydra.data.models.minerva.auth.GrantInformation;
+import be.ugent.zeus.hydra.repository.requests.Request;
+import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.data.network.requests.minerva.UserInfoRequest;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
@@ -83,7 +82,7 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
 
         setContentView(R.layout.activity_authentication);
 
-        progressMessage = $(R.id.progress_message);
+        progressMessage = findViewById(R.id.progress_message);
 
         Bundle bundle = getIntent().getExtras();
 
@@ -220,11 +219,11 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
             //First we get an auth code.
             try {
                 Request<BearerToken> request = AccountUtils.buildAuthTokenRequest(token);
-                BearerToken result = request.performRequest();
+                BearerToken result = request.performRequest(null).getOrThrow();
 
                 //Get the information
                 UserInfoRequest infoRequest = new UserInfoRequest(result.getAccessToken());
-                GrantInformation information = infoRequest.performRequest();
+                GrantInformation information = infoRequest.performRequest(null).getOrThrow();
 
                 //Account name
                 String name;
@@ -253,7 +252,7 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
                 res.putExtra(AccountManager.KEY_AUTHTOKEN, result.getAccessToken());
 
                 return res;
-            } catch (RequestFailureException e) {
+            } catch (RequestException e) {
                 Log.w(TAG, "First request for account failed.", e);
                 return null;
             }

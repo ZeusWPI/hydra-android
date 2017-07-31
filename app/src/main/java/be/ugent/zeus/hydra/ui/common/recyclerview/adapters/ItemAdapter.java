@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
 
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.Adapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 
 /**
@@ -8,6 +7,7 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public abstract class ItemAdapter<D, V extends DataViewHolder<D>> extends Adapter<D, V> {
 
     @Override

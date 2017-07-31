@@ -29,10 +29,12 @@ public class Utils {
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             try {
+                //noinspection deprecation
                 return Html.fromHtml(html, getter, new HtmlTagHandler());
             } catch (RuntimeException e) {
                 // Older versions crash sometimes, so try again without custom tags.
                 Log.e(TAG, "Error while reading html.", e);
+                //noinspection deprecation
                 return Html.fromHtml(html, getter, null);
             }
         } else {

@@ -37,10 +37,10 @@ public class OverviewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sko_main);
 
-        ViewPager viewpager = $(R.id.pager);
+        ViewPager viewpager = findViewById(R.id.pager);
         viewpager.setAdapter(new SkoPagerAdapter(getSupportFragmentManager(), this));
 
-        final AppBarLayout appBarLayout = $(R.id.app_bar_layout);
+        final AppBarLayout appBarLayout = findViewById(R.id.app_bar_layout);
         viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -52,7 +52,7 @@ public class OverviewActivity extends BaseActivity {
             }
         });
 
-        TabLayout tabLayout = $(R.id.tab_layout);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewpager);
 
         //Get start position
@@ -91,7 +91,7 @@ public class OverviewActivity extends BaseActivity {
     }
 
     private void showNotificationSnackbar() {
-        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), R.string.sko_notification_off, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), R.string.sko_notification_on, Snackbar.LENGTH_LONG);
         snackbar.setAction(R.string.turn_off, v -> {
             FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseMessageService.SKO_TOPIC);
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(OverviewActivity.this);

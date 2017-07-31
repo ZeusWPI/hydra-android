@@ -21,6 +21,7 @@ import android.support.v7.widget.RecyclerView;
 /**
  * Listener for manual initiation of a drag.
  */
+@FunctionalInterface
 public interface OnStartDragListener {
 
     /**
@@ -29,5 +30,4 @@ public interface OnStartDragListener {
      * @param viewHolder The holder of the view to drag.
      */
     void onStartDrag(RecyclerView.ViewHolder viewHolder);
-
 }

@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.IllegalTabException;
+import be.ugent.zeus.hydra.ui.common.AdapterOutOfBoundsException;
 
 /**
  * Adapter for the tabs in the SKO portion of the app.
@@ -34,7 +34,7 @@ public class SkoPagerAdapter extends FragmentPagerAdapter {
             case 3:
                 return new MapFragment();
             default:
-                throw new IllegalTabException(position, getCount());
+                throw new AdapterOutOfBoundsException(position, getCount());
         }
     }
 

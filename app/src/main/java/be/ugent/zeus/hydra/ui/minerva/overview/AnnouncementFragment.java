@@ -1,44 +1,49 @@
 package be.ugent.zeus.hydra.ui.minerva.overview;
 
 import android.app.NotificationManager;
+import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.Loader;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.plugins.loader.LoaderCallback;
-import be.ugent.zeus.hydra.ui.common.loaders.LoaderResult;
-import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
-import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementNotificationBuilder;
-import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.ui.common.plugins.RecyclerViewPlugin;
-import be.ugent.zeus.hydra.ui.common.plugins.common.Plugin;
-import be.ugent.zeus.hydra.ui.common.plugins.common.PluginFragment;
+import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementNotificationBuilder;
+import be.ugent.zeus.hydra.repository.RefreshBroadcast;
+import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
+import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
+import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
+import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyViewObserver;
+import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
-import java.util.List;
-
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Show Minerva announcements.
  *
+ * This fragment will call {@link android.app.Activity#setResult(int)} when appropriate. See the documentation
+ * of {@link CourseActivity} for more information.
+ *
  * @author Niko Strijbol
  */
-public class AnnouncementFragment extends PluginFragment implements LoaderCallback<List<Announcement>> {
+public class AnnouncementFragment extends LifecycleFragment implements ResultStarter {
 
+    private static final String TAG = "AnnouncementFragment";
     private static final String ARG_COURSE = "argCourse";
 
-    private Course course;
-    private AnnouncementDao dao;
-    private AnnouncementAdapter adapter = new AnnouncementAdapter();
+    private static final int ANNOUNCEMENT_RESULT_CODE = 5555;
 
-    private RecyclerViewPlugin<Announcement> plugin = new RecyclerViewPlugin<>(this, adapter);
+    private AnnouncementViewModel viewModel;
+    private Course course;
 
     public static AnnouncementFragment newInstance(Course course) {
         AnnouncementFragment fragment = new AnnouncementFragment();
@@ -46,13 +51,6 @@ public class AnnouncementFragment extends PluginFragment implements LoaderCallba
         data.putParcelable(ARG_COURSE, course);
         fragment.setArguments(data);
         return fragment;
-    }
-
-    @Override
-    protected void onAddPlugins(List<Plugin> plugins) {
-        super.onAddPlugins(plugins);
-        plugin.enableProgress();
-        plugins.add(plugin);
     }
 
     @Override
@@ -78,15 +76,48 @@ public class AnnouncementFragment extends PluginFragment implements LoaderCallba
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        dao = new AnnouncementDao(getContext());
-        plugin.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        AnnouncementAdapter adapter = new AnnouncementAdapter(this);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.setAdapter(adapter);
 
-        RecyclerFastScroller scroller = $(view, R.id.fast_scroller);
-        scroller.attachRecyclerView(plugin.getRecyclerView());
+        adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
+
+        RecyclerFastScroller scroller = view.findViewById(R.id.fast_scroller);
+        scroller.attachRecyclerView(recyclerView);
+
+        Course course = getArguments().getParcelable(ARG_COURSE);
+        viewModel = ViewModelProviders.of(this).get(AnnouncementViewModel.class);
+        viewModel.setCourse(course);
+        viewModel.getData().observe(this, ErrorObserver.with(this::onError));
+        viewModel.getData().observe(this, new AdapterObserver<>(adapter));
+        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+    }
+
+    private void onError(Throwable throwable) {
+        Log.e(TAG, "Error while getting data.", throwable);
+        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+                .show();
     }
 
     @Override
-    public Loader<LoaderResult<List<Announcement>>> getLoader(Bundle args) {
-        return new AnnouncementsLoader(getContext(), dao, course);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ANNOUNCEMENT_RESULT_CODE && resultCode == RESULT_OK) {
+            // One of the announcements was marked as read, so update the UI.
+            RefreshBroadcast.broadcastRefresh(getContext(), true);
+            viewModel.requestRefresh(getContext());
+            Intent intent = new Intent();
+            // TODO: prevent the fragment from depending on the activity.
+            intent.putExtra(CourseActivity.RESULT_ANNOUNCEMENT_UPDATED, true);
+            getActivity().setResult(RESULT_OK, intent);
+        }
+    }
+
+    @Override
+    public int getRequestCode() {
+        return ANNOUNCEMENT_RESULT_CODE;
     }
 }

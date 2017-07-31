@@ -64,6 +64,7 @@
                 android:id="@+id/image"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
+                android:transitionName="hero"
                 tools:src="@drawable/tabs_schamper" />
 
         </LinearLayout>

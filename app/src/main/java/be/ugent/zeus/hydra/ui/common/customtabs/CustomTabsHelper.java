@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsService;
 import android.text.TextUtils;
@@ -28,10 +27,10 @@ public class CustomTabsHelper {
     private static final String TAG = "CustomTabsHelper";
 
     //Chrome packages.
-    static final String PACKAGE_STABLE = "com.android.chrome";
-    static final String PACKAGE_BETA = "com.chrome.beta";
-    static final String PACKAGE_DEV = "com.chrome.dev";
-    static final String PACKAGE_LOCAL = "com.google.android.apps.chrome";
+    private static final String PACKAGE_STABLE = "com.android.chrome";
+    private static final String PACKAGE_BETA = "com.chrome.beta";
+    private static final String PACKAGE_DEV = "com.chrome.dev";
+    private static final String PACKAGE_LOCAL = "com.google.android.apps.chrome";
 
     private static String packageNameToUse;
 
@@ -123,15 +122,8 @@ public class CustomTabsHelper {
         return false;
     }
 
-    /**
-     * @return True if the current API is high enough, otherwise false.
-     */
-    private static boolean supportsCustomTabsApi() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1;
-    }
-
     protected static boolean hasSupport(Activity activity) {
-        return supportsCustomTabsApi() && CustomTabsHelper.getPackageNameToUse(activity) != null;
+        return CustomTabsHelper.getPackageNameToUse(activity) != null;
     }
 
     /**

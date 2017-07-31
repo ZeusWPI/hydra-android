@@ -7,17 +7,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.main.MainActivity;
-import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
-import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
+import be.ugent.zeus.hydra.data.ChannelCreator;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
+import be.ugent.zeus.hydra.ui.main.MainActivity;
+import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
+import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -78,13 +79,13 @@ public class AnnouncementNotificationBuilder {
 
         Log.d(TAG, "Publishing notification");
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, ChannelCreator.MINERVA_ANNOUNCEMENT_CHANNEL);
         builder.setSmallIcon(smallIcon)
                 .setCategory(CATEGORY_EMAIL)
                 .setAutoCancel(true);
 
-        //For one message
-        if(announcements.size() == 1) {
+        // For one message
+        if (announcements.size() == 1) {
             publishOne(builder);
         } else {
             publishMultiple(builder);
@@ -123,7 +124,9 @@ public class AnnouncementNotificationBuilder {
 
         setTitle(builder);
 
-        builder.setContentText(context.getString(R.string.home_feed_announcement_title, announcements.size()));
+        builder.setContentText(context.getResources()
+                .getQuantityString(R.plurals.home_feed_announcement_title, announcements.size(), announcements.size())
+        );
 
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 
@@ -134,7 +137,10 @@ public class AnnouncementNotificationBuilder {
         }
 
         if (announcements.size() > 4) {
-            inboxStyle.setSummaryText(context.getString(R.string.home_feed_announcement_more, announcements.size() - 4));
+            int remaining = announcements.size() - 4;
+            inboxStyle.setSummaryText(
+                    context.getResources().getQuantityString(R.plurals.home_feed_announcement_more, remaining, remaining)
+            );
         }
 
         //Click intent

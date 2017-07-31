@@ -1,7 +1,11 @@
 package be.ugent.zeus.hydra.data.network.caching;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.data.network.exceptions.RequestFailureException;
+import be.ugent.zeus.hydra.repository.requests.RequestException;
+import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.repository.Cache;
+import be.ugent.zeus.hydra.repository.requests.CacheableRequest;
 
 import java.io.Serializable;
 
@@ -10,12 +14,12 @@ import java.io.Serializable;
  */
 public class ErrorRequest implements CacheableRequest<ErrorRequest.Voider> {
 
-    class Voider implements Serializable {}
+    static class Voider implements Serializable {}
 
     @NonNull
     @Override
-    public Voider performRequest() throws RequestFailureException {
-        throw new RequestFailureException("Test: intentional exception.");
+    public Result<Voider> performRequest(Bundle args) {
+        return Result.Builder.fromException(new RequestException("Test: intentional exception."));
     }
 
     @NonNull

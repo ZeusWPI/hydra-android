@@ -8,8 +8,8 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.data.network.Endpoints;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.data.network.caching.Cache;
-import be.ugent.zeus.hydra.data.network.caching.CacheableRequest;
+import be.ugent.zeus.hydra.repository.Cache;
+import be.ugent.zeus.hydra.repository.requests.CacheableRequest;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 
 /**
@@ -29,7 +29,9 @@ public class MenuRequest extends JsonSpringRequest<RestoMenu[]> implements Cache
     @NonNull
     @Override
     public String getCacheKey() {
-        return "menuOverview.json";
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String resto = preferences.getString(RestoPreferenceFragment.PREF_RESTO, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
+        return "menuOverview_" + resto + ".json";
     }
 
     @NonNull

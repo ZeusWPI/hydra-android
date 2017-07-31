@@ -3,10 +3,9 @@ package be.ugent.zeus.hydra.ui.common.recyclerview;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
 import su.j2e.rvjoiner.JoinableLayout;
-
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.$;
 
 /**
  * @author Niko Strijbol
@@ -21,7 +20,7 @@ public class TextCallback implements JoinableLayout.Callback {
 
     @Override
     public void onInflateComplete(View view, ViewGroup parent) {
-        TextView v = $(view, R.id.text_header);
+        TextView v = view.findViewById(R.id.text_header);
         v.setText(text);
     }
 }
