@@ -29,7 +29,7 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
  * @author ellen
  * @author Niko Strijbol
  */
-public class EventFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class EventFragment extends LifecycleFragment {
 
     private static final String TAG = "EventFragment";
 
@@ -63,25 +63,25 @@ public class EventFragment extends LifecycleFragment implements SwipeRefreshLayo
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
-        swipeRefreshLayout.setOnRefreshListener(this);
 
         viewModel = ViewModelProviders.of(this).get(EventViewModel.class);
         viewModel.getData().observe(this, ErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         viewModel.getData().observe(this, new AdapterObserver<>(adapter));
         viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
+        swipeRefreshLayout.setOnRefreshListener(viewModel);
 
         Button refresh = view.findViewById(R.id.events_no_data_button_refresh);
         Button filters = view.findViewById(R.id.events_no_data_button_filters);
 
-        refresh.setOnClickListener(v -> onRefresh());
+        refresh.setOnClickListener(v -> viewModel.onRefresh());
         filters.setOnClickListener(v -> startActivity(new Intent(getContext(), SettingsActivity.class)));
     }
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
         Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> onRefresh())
+                .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
     }
 
@@ -98,15 +98,10 @@ public class EventFragment extends LifecycleFragment implements SwipeRefreshLayo
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.action_refresh) {
-            onRefresh();
+            viewModel.onRefresh();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onRefresh() {
-        viewModel.requestRefresh();
     }
 }
