@@ -13,8 +13,8 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
@@ -34,6 +34,7 @@ public class EventFragment extends LifecycleFragment implements SwipeRefreshLayo
     private static final String TAG = "EventFragment";
 
     private final EventAdapter adapter = new EventAdapter();
+    private EventViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,11 +65,11 @@ public class EventFragment extends LifecycleFragment implements SwipeRefreshLayo
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        EventViewModel model = ViewModelProviders.of(this).get(EventViewModel.class);
-        model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        model.getData().observe(this, new AdapterObserver<>(adapter));
-        model.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
+        viewModel = ViewModelProviders.of(this).get(EventViewModel.class);
+        viewModel.getData().observe(this, ErrorObserver.with(this::onError));
+        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.getData().observe(this, new AdapterObserver<>(adapter));
+        viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
 
         Button refresh = view.findViewById(R.id.events_no_data_button_refresh);
         Button filters = view.findViewById(R.id.events_no_data_button_filters);
@@ -106,6 +107,6 @@ public class EventFragment extends LifecycleFragment implements SwipeRefreshLayo
 
     @Override
     public void onRefresh() {
-        RefreshBroadcast.broadcastRefresh(getContext(), true);
+        viewModel.requestRefresh();
     }
 }

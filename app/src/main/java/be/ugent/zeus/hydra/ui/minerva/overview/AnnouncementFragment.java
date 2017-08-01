@@ -108,7 +108,7 @@ public class AnnouncementFragment extends LifecycleFragment implements ResultSta
         if (requestCode == ANNOUNCEMENT_RESULT_CODE && resultCode == RESULT_OK) {
             // One of the announcements was marked as read, so update the UI.
             RefreshBroadcast.broadcastRefresh(getContext(), true);
-            viewModel.requestRefresh(getContext());
+            viewModel.requestRefresh();
             Intent intent = new Intent();
             // TODO: prevent the fragment from depending on the activity.
             intent.putExtra(CourseActivity.RESULT_ANNOUNCEMENT_UPDATED, true);

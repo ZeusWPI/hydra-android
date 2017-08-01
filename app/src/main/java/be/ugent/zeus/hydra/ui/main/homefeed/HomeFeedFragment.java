@@ -154,7 +154,7 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
 
     @Override
     public void onRefresh() {
-        model.requestRefresh(getContext());
+        model.requestRefresh();
     }
 
     private void onError(Throwable throwable) {
@@ -177,7 +177,7 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
                     || data.getBooleanExtra(AnnouncementActivity.RESULT_ANNOUNCEMENT_READ, false)) {
                 Bundle extras = new Bundle();
                 extras.putInt(REFRESH_HOMECARD_TYPE, HomeCard.CardType.MINERVA_ANNOUNCEMENT);
-                model.requestRefresh(getContext(), extras);
+                model.requestRefresh(extras);
             }
         }
     }
@@ -197,7 +197,7 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
         // Refresh the list
         Bundle extras = new Bundle();
         extras.putInt(REFRESH_HOMECARD_TYPE, HomeCard.CardType.ACTIVITY);
-        model.requestRefresh(getContext(), extras);
+        model.requestRefresh(extras);
     }
 
     @Override
@@ -211,6 +211,6 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
         // Refresh the list
         Bundle extras = new Bundle();
         extras.putInt(REFRESH_HOMECARD_TYPE, type);
-        model.requestRefresh(getContext(), extras);
+        model.requestRefresh(extras);
     }
 }

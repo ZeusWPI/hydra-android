@@ -114,7 +114,7 @@ public class AnnouncementsFragment extends LifecycleFragment implements MultiSel
 
         if (requestCode == resultStarter.getRequestCode() && resultCode == RESULT_OK) {
             RefreshBroadcast.broadcastRefresh(getContext(), true);
-            model.requestRefresh(getContext());
+            model.requestRefresh();
         }
     }
 
@@ -188,7 +188,7 @@ public class AnnouncementsFragment extends LifecycleFragment implements MultiSel
         }
         dao.update(announcements);
         // Request a refresh of the data to update the list of announcements.
-        model.requestRefresh(getContext());
+        model.requestRefresh();
         RefreshBroadcast.broadcastRefresh(getContext(), true);
         Toast.makeText(getContext().getApplicationContext(),
                 getResources().getQuantityString(R.plurals.minerva_marked_announcements, announcements.size(), announcements.size()),

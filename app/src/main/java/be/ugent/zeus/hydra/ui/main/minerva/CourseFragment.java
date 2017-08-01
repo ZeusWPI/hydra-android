@@ -131,7 +131,7 @@ public class CourseFragment extends LifecycleFragment implements OnStartDragList
 
         if (requestCode == resultStarter.getRequestCode() && resultCode == RESULT_OK) {
             RefreshBroadcast.broadcastRefresh(getContext(), true);
-            model.requestRefresh(getContext());
+            model.requestRefresh();
         }
     }
 }

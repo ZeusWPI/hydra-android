@@ -7,13 +7,13 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
-import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
-import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
+import be.ugent.zeus.hydra.repository.requests.RequestException;
+import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.debug.WaitRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.event.EventRequest;
@@ -49,7 +49,7 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.feed.OperationFactory.get;
  * By passing the correct parameter, you can specify to only update the source for a specific card type. For this,
  * the feed data supports the constant {@link #REFRESH_HOMECARD_TYPE}.
  *
- * You must pass this in a bundle to {@link #flagForRefresh(Context, Bundle)}.
+ * You must pass this in a bundle to {@link #flagForRefresh(Bundle)}.
  *
  * @author Niko Strijbol
  */
@@ -67,8 +67,8 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (!intent.getBooleanExtra(BaseLiveData.REFRESH_MANUAL, false)) {
-                loadData(intent.getExtras());
+            if (SyncBroadcast.SYNC_DONE.equals(intent.getAction())) {
+                flagForRefresh(intent.getExtras());
             }
         }
     };
@@ -95,10 +95,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
         preferences.registerOnSharedPreferenceChangeListener(restoListener);
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(applicationContext);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(SyncBroadcast.SYNC_DONE);
-        intentFilter.addAction(RefreshBroadcast.REFRESH_ACTION);
-        manager.registerReceiver(broadcastReceiver, intentFilter);
+        manager.registerReceiver(broadcastReceiver, new IntentFilter(SyncBroadcast.SYNC_DONE));
         Map<String, ?> prefs = preferences.getAll();
         boolean shouldRefresh = false;
         for (String preference : watchedPreferences) {
@@ -111,7 +108,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
             }
         }
         if (shouldRefresh) {
-            flagForRefresh(applicationContext);
+            flagForRefresh();
         }
     }
 
@@ -135,7 +132,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
             if (RestoPreferenceFragment.PREF_RESTO.equals(key)) {
                 Bundle ex = new Bundle();
                 ex.putInt(REFRESH_HOMECARD_TYPE, HomeCard.CardType.RESTO);
-                flagForRefresh(applicationContext, ex);
+                flagForRefresh(ex);
             }
         }
     }

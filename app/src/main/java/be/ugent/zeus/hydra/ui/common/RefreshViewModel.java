@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.ui.common;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import be.ugent.zeus.hydra.repository.requests.Result;
@@ -61,15 +60,15 @@ public abstract class RefreshViewModel<D> extends AndroidViewModel {
         data = null;
     }
 
-    public void requestRefresh(Context context) {
+    public void requestRefresh() {
         if (data != null) {
-            data.flagForRefresh(context);
+            data.flagForRefresh();
         }
     }
 
-    public void requestRefresh(Context context, Bundle args) {
+    public void requestRefresh(Bundle args) {
         if (data != null) {
-            data.flagForRefresh(context, args);
+            data.flagForRefresh(args);
         }
     }
 }
