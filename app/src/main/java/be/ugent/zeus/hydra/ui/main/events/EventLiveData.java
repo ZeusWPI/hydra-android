@@ -4,11 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
 import be.ugent.zeus.hydra.data.models.association.Event;
-import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.association.EventFilter;
 import be.ugent.zeus.hydra.data.network.requests.association.EventRequest;
-import be.ugent.zeus.hydra.repository.data.RefreshingLiveData;
+import be.ugent.zeus.hydra.repository.data.RequestLiveData;
+import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
 
 import java.util.Arrays;
@@ -21,7 +22,7 @@ import java.util.Set;
  *
  * @author Niko Strijbol
  */
-public class EventLiveData extends RefreshingLiveData<List<Event>> implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class EventLiveData extends RequestLiveData<List<Event>> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private Set<String> disabledAssociations;
 
@@ -29,8 +30,7 @@ public class EventLiveData extends RefreshingLiveData<List<Event>> implements Sh
         super(context, Requests.map(
                 Requests.map(Requests.cache(context, new EventRequest()), Arrays::asList),
                 new EventFilter(context)
-                )
-        );
+                ));
     }
 
     @Override

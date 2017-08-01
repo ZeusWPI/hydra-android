@@ -14,10 +14,10 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.*;
 import android.widget.ProgressBar;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
@@ -130,7 +130,6 @@ public class CourseFragment extends LifecycleFragment implements OnStartDragList
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == resultStarter.getRequestCode() && resultCode == RESULT_OK) {
-            RefreshBroadcast.broadcastRefresh(getContext(), true);
             model.requestRefresh();
         }
     }

@@ -14,10 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementNotificationBuilder;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
@@ -107,7 +107,6 @@ public class AnnouncementFragment extends LifecycleFragment implements ResultSta
 
         if (requestCode == ANNOUNCEMENT_RESULT_CODE && resultCode == RESULT_OK) {
             // One of the announcements was marked as read, so update the UI.
-            RefreshBroadcast.broadcastRefresh(getContext(), true);
             viewModel.requestRefresh();
             Intent intent = new Intent();
             // TODO: prevent the fragment from depending on the activity.

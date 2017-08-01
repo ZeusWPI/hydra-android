@@ -19,5 +19,7 @@ public interface ResultStarter {
 
     void startActivityForResult(Intent intent, int requestCode);
 
+    void onActivityResult(int requestCode, int resultCode, @Nullable Intent data);
+
     int getRequestCode();
 }

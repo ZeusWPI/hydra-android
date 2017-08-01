@@ -32,7 +32,6 @@ import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementNotificationBuilder;
 import be.ugent.zeus.hydra.data.sync.course.CourseAdapter;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 
 import java.io.IOException;
@@ -78,6 +77,8 @@ public class OverviewFragment extends LifecycleFragment implements ResultStarter
         authWrapper = view.findViewById(R.id.auth_wrapper);
         viewPager = view.findViewById(R.id.pager);
         tabLayout = getActivity().findViewById(R.id.tab_layout);
+
+        // Get the viewModels of the tabs.
     }
 
     private void onLoggedIn() {
@@ -273,7 +274,6 @@ public class OverviewFragment extends LifecycleFragment implements ResultStarter
                     ensureSyncStatus(getString(R.string.minerva_sync_done));
                     syncBar.dismiss();
                     syncBar = null;
-                    onRefresh();
                     return;
                 case SyncBroadcast.SYNC_ERROR:
                     Log.d(TAG, "Error");
@@ -305,12 +305,8 @@ public class OverviewFragment extends LifecycleFragment implements ResultStarter
         }
     }
 
-    public void onRefresh() {
-        RefreshBroadcast.broadcastRefresh(getContext(), true);
-    }
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode,  @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Pass the result to the nested fragments.

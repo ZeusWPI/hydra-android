@@ -9,8 +9,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
@@ -24,11 +24,12 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
  *
  * @author Niko Strijbol
  */
-public class TimelineFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class TimelineFragment extends LifecycleFragment {
 
     private static final String TAG = "TimelineFragment";
 
     private ActivityHelper helper;
+    private TimelineViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +51,6 @@ public class TimelineFragment extends LifecycleFragment implements SwipeRefreshL
 
         SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.sko_red);
-        refreshLayout.setOnRefreshListener(this);
 
         TimelineAdapter adapter = new TimelineAdapter(helper);
 
@@ -59,11 +59,12 @@ public class TimelineFragment extends LifecycleFragment implements SwipeRefreshL
         recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
         recyclerView.setAdapter(adapter);
 
-        TimelineViewModel model = ViewModelProviders.of(this).get(TimelineViewModel.class);
-        model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        model.getData().observe(this, new AdapterObserver<>(adapter));
-        model.getRefreshing().observe(this, refreshLayout::setRefreshing);
+        viewModel = ViewModelProviders.of(this).get(TimelineViewModel.class);
+        viewModel.getData().observe(this, ErrorObserver.with(this::onError));
+        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.getData().observe(this, new AdapterObserver<>(adapter));
+        viewModel.getRefreshing().observe(this, refreshLayout::setRefreshing);
+        refreshLayout.setOnRefreshListener(viewModel);
     }
 
     @Override
@@ -78,15 +79,10 @@ public class TimelineFragment extends LifecycleFragment implements SwipeRefreshL
         helper.unbindCustomTabsService(getActivity());
     }
 
-    @Override
-    public void onRefresh() {
-        RefreshBroadcast.broadcastRefresh(getContext(), true);
-    }
-
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
         Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> onRefresh())
+                .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
     }
 
@@ -101,7 +97,7 @@ public class TimelineFragment extends LifecycleFragment implements SwipeRefreshL
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if(item.getItemId() == R.id.action_refresh) {
-            onRefresh();
+            viewModel.onRefresh();
             return true;
         }
 

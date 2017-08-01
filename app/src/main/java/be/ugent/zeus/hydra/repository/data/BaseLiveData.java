@@ -13,6 +13,8 @@ import android.support.annotation.Nullable;
 public abstract class BaseLiveData<R> extends LiveData<R> {
 
     private Bundle queuedRefresh;
+    @Nullable
+    private OnRefreshStartListener onRefreshStartListener;
 
     @Deprecated
     public static final String REFRESH_MANUAL = "be.ugent.zeus.hydra.data.refresh.manual";
@@ -43,6 +45,9 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
         newArgs.putBoolean(REFRESH_COLD, true);
         if (hasActiveObservers()) {
             loadData(newArgs);
+            if (onRefreshStartListener != null) {
+                onRefreshStartListener.onRefreshStart();
+            }
         } else {
             this.queuedRefresh = newArgs;
         }
@@ -53,6 +58,9 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
         super.onActive();
         if (queuedRefresh != null) {
             loadData(queuedRefresh);
+            if (onRefreshStartListener != null) {
+                onRefreshStartListener.onRefreshStart();
+            }
             queuedRefresh = null;
         }
     }
@@ -63,4 +71,17 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
      * @param bundle The arguments for the request.
      */
     protected abstract void loadData(@Nullable Bundle bundle);
+
+    @FunctionalInterface
+    public interface OnRefreshStartListener {
+
+        /**
+         * Starts when the refresh begins.
+         */
+        void onRefreshStart();
+    }
+
+    public void registerRefreshListener(OnRefreshStartListener listener) {
+        onRefreshStartListener = listener;
+    }
 }
