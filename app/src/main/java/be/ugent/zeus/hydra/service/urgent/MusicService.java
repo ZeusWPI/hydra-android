@@ -261,7 +261,7 @@ public class MusicService extends Service implements MediaStateListener, AudioMa
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         audioManager.abandonAudioFocus(this);
 
-        if (mediaManager != null) {
+        if (mediaManager != null && mediaManager.hasMediaPlayer()) {
             mediaManager.destroy();
         }
 
