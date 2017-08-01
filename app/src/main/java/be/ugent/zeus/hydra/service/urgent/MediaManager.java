@@ -206,4 +206,8 @@ public class MediaManager implements
     public boolean isPlaying() {
         return state != ERROR && state != END && mediaPlayer.isPlaying();
     }
+
+    public boolean hasMediaPlayer() {
+        return mediaPlayer != null;
+    }
 }

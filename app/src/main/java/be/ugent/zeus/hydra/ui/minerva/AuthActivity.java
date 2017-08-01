@@ -209,6 +209,12 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        customTabActivityHelper = null;
+    }
+
     private class InfoTask extends AsyncTask<String, Void, Intent> {
 
         @Override
