@@ -2,11 +2,10 @@ package be.ugent.zeus.hydra.repository.data;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
+
 import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 
 /**
@@ -33,20 +32,18 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
      * are no active observers, the data will be reloaded when the next active observer registers.
      *
      * If there are no active observers, the {@code args} are saved and will be used when reloading the data at a later
-     * point. This method will disgard any args from previous calls to this method.
-     *
-     * When the data is reload, a broadcast {@link be.ugent.zeus.hydra.repository.RefreshBroadcast} will be sent. This
-     * is for compatability with the broadcast refresh system and might be removed.
+     * point. This method will discard any args from previous calls to this method.
      *
      * @param context The context, used to send the broadcast.
      * @param args The arguments to pass to the {@link #loadData(Bundle)} function.
      */
     public void flagForRefresh(Context context, @NonNull Bundle args) {
+        Bundle newArgs = new Bundle(args);
+        newArgs.putBoolean(RefreshBroadcast.REFRESH_COLD, true);
         if (hasActiveObservers()) {
-            sendBroadcast(context, args);
-            loadData(args);
+            loadData(newArgs);
         } else {
-            this.queuedRefresh = args;
+            this.queuedRefresh = newArgs;
             this.refreshContext = context.getApplicationContext();
         }
     }
@@ -55,7 +52,6 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
     protected void onActive() {
         super.onActive();
         if (queuedRefresh != null) {
-            sendBroadcast(refreshContext, queuedRefresh);
             loadData(queuedRefresh);
             queuedRefresh = null;
             refreshContext = null;
@@ -68,11 +64,4 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
      * @param bundle The arguments for the request.
      */
     protected abstract void loadData(@Nullable Bundle bundle);
-
-    private void sendBroadcast(Context context, Bundle args) {
-        Intent intent = RefreshBroadcast.buildRefreshIntent(true);
-        intent.putExtra(REFRESH_MANUAL, true);
-        intent.putExtras(args);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-    }
 }
