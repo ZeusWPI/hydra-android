@@ -10,9 +10,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.sko.Artist;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
@@ -29,12 +29,13 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
-public class LineupFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class LineupFragment extends LifecycleFragment {
 
     private static final String TAG = "LineupFragment";
 
     private RvJoiner joiner;
     private Map<String, LineupAdapter> adapters = new HashMap<>();
+    private LineupViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,18 +57,18 @@ public class LineupFragment extends LifecycleFragment implements SwipeRefreshLay
 
         SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.sko_red);
-        refreshLayout.setOnRefreshListener(this);
 
         if (joiner == null) {
             joiner = new RvJoiner();
         }
         recyclerView.setAdapter(joiner.getAdapter());
 
-        LineupViewModel model = ViewModelProviders.of(this).get(LineupViewModel.class);
-        model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        model.getData().observe(this, SuccessObserver.with(this::receiveData));
-        model.getRefreshing().observe(this, refreshLayout::setRefreshing);
+        viewModel = ViewModelProviders.of(this).get(LineupViewModel.class);
+        viewModel.getData().observe(this, ErrorObserver.with(this::onError));
+        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.getData().observe(this, SuccessObserver.with(this::receiveData));
+        viewModel.getRefreshing().observe(this, refreshLayout::setRefreshing);
+        refreshLayout.setOnRefreshListener(viewModel);
     }
 
     private void receiveData(@NonNull Collection<Artist> data) {
@@ -93,11 +94,6 @@ public class LineupFragment extends LifecycleFragment implements SwipeRefreshLay
     }
 
     @Override
-    public void onRefresh() {
-        RefreshBroadcast.broadcastRefresh(getContext(), true);
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
         BaseActivity activity = (BaseActivity) getActivity();
@@ -107,7 +103,7 @@ public class LineupFragment extends LifecycleFragment implements SwipeRefreshLay
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_refresh) {
-            onRefresh();
+            viewModel.onRefresh();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -116,7 +112,7 @@ public class LineupFragment extends LifecycleFragment implements SwipeRefreshLay
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
         Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> onRefresh())
+                .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
     }
 }

@@ -10,8 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.*;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
@@ -25,6 +25,7 @@ public class VillageFragment extends LifecycleFragment implements SwipeRefreshLa
     private static final String TAG = "VillageFragment";
 
     private SearchView searchView;
+    private ExhibitorViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,7 +87,7 @@ public class VillageFragment extends LifecycleFragment implements SwipeRefreshLa
     @Override
     public void onRefresh() {
         searchView.setQuery("", false);
-        RefreshBroadcast.broadcastRefresh(getContext(), true);
+        viewModel.onRefresh();
     }
 
     private void onError(Throwable throwable) {

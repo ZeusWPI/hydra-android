@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
@@ -35,7 +33,7 @@ import be.ugent.zeus.hydra.utils.DateUtils;
  * @author Niko Strijbol
  * @author mivdnber
  */
-public class RestoFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class RestoFragment extends LifecycleFragment {
 
     private static final String TAG = "RestoFragment";
 
@@ -47,6 +45,8 @@ public class RestoFragment extends LifecycleFragment implements SwipeRefreshLayo
     private TextView errorView;
     private CardView todayCard;
     private View menuLayout;
+
+    private RestoViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,10 +73,10 @@ public class RestoFragment extends LifecycleFragment implements SwipeRefreshLayo
         viewResto.setOnClickListener(v -> startActivity(new Intent(getContext(), RestoLocationActivity.class)));
         todayCard.setOnClickListener(v -> startActivity(new Intent(getContext(), MenuActivity.class)));
 
-        RestoViewModel model = ViewModelProviders.of(this).get(RestoViewModel.class);
-        model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        model.getData().observe(this, SuccessObserver.with(this::onSuccess));
+        viewModel = ViewModelProviders.of(this).get(RestoViewModel.class);
+        viewModel.getData().observe(this, ErrorObserver.with(this::onError));
+        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.getData().observe(this, SuccessObserver.with(this::onSuccess));
     }
 
     /**
@@ -106,7 +106,7 @@ public class RestoFragment extends LifecycleFragment implements SwipeRefreshLayo
         todayCard.setClickable(false);
         menuLayout.setVisibility(View.GONE);
         Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> onRefresh())
+                .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
     }
 
@@ -122,10 +122,5 @@ public class RestoFragment extends LifecycleFragment implements SwipeRefreshLayo
             intent.putExtra(MenuActivity.ARG_DATE, menu.getDate());
             startActivity(intent);
         });
-    }
-
-    @Override
-    public void onRefresh() {
-        RefreshBroadcast.broadcastRefresh(getContext(), true);
     }
 }

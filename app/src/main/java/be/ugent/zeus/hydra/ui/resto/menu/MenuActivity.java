@@ -17,10 +17,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
@@ -46,6 +46,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
     private MenuPagerAdapter pageAdapter;
     private ViewPager viewPager;
     private LocalDate startDate;
+    private MenuViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,10 +97,10 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
             startDate = LocalDate.now();
         }
 
-        MenuViewModel model = ViewModelProviders.of(this).get(MenuViewModel.class);
-        model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
-        model.getData().observe(this, SuccessObserver.with(this::receiveData));
+        viewModel = ViewModelProviders.of(this).get(MenuViewModel.class);
+        viewModel.getData().observe(this, ErrorObserver.with(this::onError));
+        viewModel.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
+        viewModel.getData().observe(this, SuccessObserver.with(this::receiveData));
     }
 
     private void receiveData(@NonNull List<RestoMenu> data) {
@@ -125,7 +126,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                onRefresh();
+                viewModel.onRefresh();
                 return true;
             case R.id.resto_show_website:
                 NetworkUtils.maybeLaunchBrowser(this, URL);
@@ -145,7 +146,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
         if (pageAdapter.getCount() > viewPager.getCurrentItem()) {
             startDate = pageAdapter.getTabDate(viewPager.getCurrentItem());
         }
-        onRefresh();
+        viewModel.onRefresh();
     }
 
     @Override
@@ -156,11 +157,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
         Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> onRefresh())
+                .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
-    }
-
-    public void onRefresh() {
-        RefreshBroadcast.broadcastRefresh(this, true);
     }
 }

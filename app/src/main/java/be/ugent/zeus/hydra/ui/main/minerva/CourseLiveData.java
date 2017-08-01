@@ -9,19 +9,20 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Pair;
+
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
+import be.ugent.zeus.hydra.repository.data.RequestLiveData;
+import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Result;
-import be.ugent.zeus.hydra.repository.data.RefreshingLiveData;
 
 import java.util.List;
 
 /**
  * @author Niko Strijbol
  */
-public class CourseLiveData extends RefreshingLiveData<List<Pair<Course, Integer>>> {
+public class CourseLiveData extends RequestLiveData<List<Pair<Course, Integer>>> {
 
     private final IntentFilter intentFilter = new IntentFilter(SyncBroadcast.SYNC_COURSES);
     public final BroadcastReceiver receiver = new BroadcastReceiver() {

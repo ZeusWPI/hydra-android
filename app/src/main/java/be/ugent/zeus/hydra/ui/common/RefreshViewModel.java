@@ -3,17 +3,19 @@ package be.ugent.zeus.hydra.ui.common;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.content.Context;
+import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import be.ugent.zeus.hydra.repository.requests.Result;
+
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
-import be.ugent.zeus.hydra.repository.data.RefreshLiveData;
+import be.ugent.zeus.hydra.repository.requests.Result;
 
 /**
  * @author Niko Strijbol
  */
-public abstract class RefreshViewModel<D> extends AndroidViewModel {
+public abstract class RefreshViewModel<D> extends AndroidViewModel implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "RefreshViewModel";
 
@@ -29,20 +31,29 @@ public abstract class RefreshViewModel<D> extends AndroidViewModel {
      */
     public LiveData<Boolean> getRefreshing() {
         if (refreshing == null) {
-            refreshing = RefreshLiveData.build(getApplication(), getData());
+            refreshing = buildRefreshLiveData();
         }
 
         return refreshing;
     }
 
     /**
-     * @return The actual data.
+     * Internal get that exposes more implementation details than {@link #getData()}.
+     *
+     * @return The live data.
      */
-    public LiveData<Result<D>> getData() {
+    private BaseLiveData<Result<D>> internalGet() {
         if (data == null) {
             data = constructDataInstance();
         }
         return data;
+    }
+
+    /**
+     * @return The actual data.
+     */
+    public LiveData<Result<D>> getData() {
+        return internalGet();
     }
 
     /**
@@ -61,15 +72,37 @@ public abstract class RefreshViewModel<D> extends AndroidViewModel {
         data = null;
     }
 
-    public void requestRefresh(Context context) {
+    public void requestRefresh() {
         if (data != null) {
-            data.flagForRefresh(context);
+            data.flagForRefresh();
         }
     }
 
-    public void requestRefresh(Context context, Bundle args) {
+    public void requestRefresh(Bundle args) {
         if (data != null) {
-            data.flagForRefresh(context, args);
+            data.flagForRefresh(args);
         }
+    }
+
+    /**
+     * Forwards the call to {@link #requestRefresh()}.
+     */
+    @Override
+    public void onRefresh() {
+        requestRefresh();
+    }
+
+    /**
+     * Construct the refresh live data.
+     *
+     * @return The refresh live data.
+     */
+    private LiveData<Boolean> buildRefreshLiveData() {
+        MediatorLiveData<Boolean> result = new MediatorLiveData<>();
+        MutableLiveData<Boolean> refreshLiveData = new MutableLiveData<>();
+        result.addSource(internalGet(), data -> result.setValue(data != null && !data.isDone()));
+        result.addSource(refreshLiveData, result::setValue);
+        internalGet().registerRefreshListener(() -> result.setValue(true));
+        return result;
     }
 }

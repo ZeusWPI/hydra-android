@@ -4,10 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
-import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.resto.MenuRequest;
-import be.ugent.zeus.hydra.repository.data.RefreshingLiveData;
+import be.ugent.zeus.hydra.repository.data.RequestLiveData;
+import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 
 import java.util.Arrays;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class MenuLiveData extends RefreshingLiveData<List<RestoMenu>> implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class MenuLiveData extends RequestLiveData<List<RestoMenu>> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private String previousResto;
 

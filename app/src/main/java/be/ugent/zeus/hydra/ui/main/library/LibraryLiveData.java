@@ -5,12 +5,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.util.Pair;
+
 import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.data.models.library.LibraryList;
+import be.ugent.zeus.hydra.data.network.requests.library.LibraryListRequest;
+import be.ugent.zeus.hydra.repository.data.RequestLiveData;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
-import be.ugent.zeus.hydra.data.network.requests.library.LibraryListRequest;
-import be.ugent.zeus.hydra.repository.data.RefreshingLiveData;
 import java8.util.Comparators;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
@@ -23,7 +24,7 @@ import java.util.Set;
 /**
  * @author Niko Strijbol
  */
-public class LibraryLiveData extends RefreshingLiveData<Pair<List<Library>, List<Library>>> implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class LibraryLiveData extends RequestLiveData<Pair<List<Library>, List<Library>>> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private Set<String> favouriteLibraries;
 

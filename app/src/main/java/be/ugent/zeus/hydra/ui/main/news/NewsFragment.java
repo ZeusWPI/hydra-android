@@ -9,8 +9,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
@@ -25,10 +25,11 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
  * @author Ellen
  * @author Niko Strijbol
  */
-public class NewsFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class NewsFragment extends LifecycleFragment {
 
     private static final String TAG = "NewsFragment";
     private ActivityHelper helper;
+    private NewsViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,18 +56,13 @@ public class NewsFragment extends LifecycleFragment implements SwipeRefreshLayou
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
-        swipeRefreshLayout.setOnRefreshListener(this);
 
-        NewsViewModel viewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
         viewModel.getData().observe(this, ErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         viewModel.getData().observe(this, new AdapterObserver<>(adapter));
         viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
-    }
-
-    @Override
-    public void onRefresh() {
-        RefreshBroadcast.broadcastRefresh(getContext(), true);
+        swipeRefreshLayout.setOnRefreshListener(viewModel);
     }
 
     @Override
@@ -82,7 +78,7 @@ public class NewsFragment extends LifecycleFragment implements SwipeRefreshLayou
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.action_refresh) {
-            onRefresh();
+            viewModel.onRefresh();
             return true;
         }
 
@@ -92,7 +88,7 @@ public class NewsFragment extends LifecycleFragment implements SwipeRefreshLayou
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
         Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> onRefresh())
+                .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
     }
 

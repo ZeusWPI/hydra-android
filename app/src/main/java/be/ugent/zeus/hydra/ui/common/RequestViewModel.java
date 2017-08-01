@@ -29,7 +29,7 @@ public abstract class RequestViewModel<D> extends RefreshViewModel<D> {
      */
     @Override
     public BaseLiveData<Result<D>> constructDataInstance() {
-        return requestRepository.loadRefreshable(getRequest());
+        return requestRepository.load(getRequest());
     }
 
     /**

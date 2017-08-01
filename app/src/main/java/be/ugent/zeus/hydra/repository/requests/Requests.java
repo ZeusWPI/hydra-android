@@ -2,10 +2,11 @@ package be.ugent.zeus.hydra.repository.requests;
 
 import android.content.Context;
 import android.util.Log;
-import be.ugent.zeus.hydra.repository.Cache;
+
 import be.ugent.zeus.hydra.data.network.caching.CacheManager;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
+import be.ugent.zeus.hydra.repository.Cache;
+import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import java8.util.function.Function;
 
 import java.io.Serializable;
@@ -64,7 +65,7 @@ public class Requests {
             Cache cache = CacheManager.defaultCache(context);
             Result<R> data;
 
-            boolean shouldRefresh = args != null && args.getBoolean(RefreshBroadcast.REFRESH_COLD, false);
+            boolean shouldRefresh = args != null && args.getBoolean(BaseLiveData.REFRESH_COLD, false);
 
             if (shouldRefresh) {
                 data = cache.get(request, args, Cache.NEVER);

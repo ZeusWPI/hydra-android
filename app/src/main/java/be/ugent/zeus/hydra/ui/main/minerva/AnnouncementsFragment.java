@@ -13,10 +13,10 @@ import android.util.Log;
 import android.view.*;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
@@ -25,6 +25,8 @@ import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapter;
+import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
+import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.Collection;
@@ -113,8 +115,7 @@ public class AnnouncementsFragment extends LifecycleFragment implements MultiSel
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == resultStarter.getRequestCode() && resultCode == RESULT_OK) {
-            RefreshBroadcast.broadcastRefresh(getContext(), true);
-            model.requestRefresh(getContext());
+            model.requestRefresh();
         }
     }
 
@@ -188,11 +189,16 @@ public class AnnouncementsFragment extends LifecycleFragment implements MultiSel
         }
         dao.update(announcements);
         // Request a refresh of the data to update the list of announcements.
-        model.requestRefresh(getContext());
-        RefreshBroadcast.broadcastRefresh(getContext(), true);
         Toast.makeText(getContext().getApplicationContext(),
                 getResources().getQuantityString(R.plurals.minerva_marked_announcements, announcements.size(), announcements.size()),
                 Toast.LENGTH_SHORT)
                 .show();
+
+        // Manually call set result. This should trigger an update.
+        // TODO: find if there is a better way.
+        Intent data = new Intent();
+        data.putExtra(CourseActivity.RESULT_ANNOUNCEMENT_UPDATED, true);
+        data.putExtra(AnnouncementActivity.RESULT_ANNOUNCEMENT_READ, true);
+        resultStarter.onActivityResult(resultStarter.getRequestCode(), RESULT_OK, data);
     }
 }

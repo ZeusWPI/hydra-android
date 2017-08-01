@@ -14,7 +14,6 @@ import android.view.*;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.library.Library;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
@@ -33,7 +32,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class LibraryListFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class LibraryListFragment extends LifecycleFragment {
 
     private static final String TAG = "LibraryListFragment";
     private static final String LIB_URL = "http://lib.ugent.be/";
@@ -42,6 +41,8 @@ public class LibraryListFragment extends LifecycleFragment implements SwipeRefre
     private final RvJoiner joiner = new RvJoiner();
     private final LibraryListAdapter favourites = new LibraryListAdapter();
     private final LibraryListAdapter all = new LibraryListAdapter();
+
+    private LibraryViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,12 +80,11 @@ public class LibraryListFragment extends LifecycleFragment implements SwipeRefre
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
-        swipeRefreshLayout.setOnRefreshListener(this);
 
-        LibraryViewModel model = ViewModelProviders.of(this).get(LibraryViewModel.class);
-        model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        model.getData().observe(this, new SuccessObserver<Pair<List<Library>, List<Library>>>() {
+        viewModel = ViewModelProviders.of(this).get(LibraryViewModel.class);
+        viewModel.getData().observe(this, ErrorObserver.with(this::onError));
+        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.getData().observe(this, new SuccessObserver<Pair<List<Library>, List<Library>>>() {
             @Override
             protected void onSuccess(Pair<List<Library>, List<Library>> data) {
                 favourites.setItems(data.second);
@@ -96,7 +96,8 @@ public class LibraryListFragment extends LifecycleFragment implements SwipeRefre
                 all.clear();
             }
         });
-        model.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
+        viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
+        swipeRefreshLayout.setOnRefreshListener(viewModel);
     }
 
     @Override
@@ -114,22 +115,17 @@ public class LibraryListFragment extends LifecycleFragment implements SwipeRefre
                 NetworkUtils.maybeLaunchBrowser(getContext(), LIB_URL);
                 return true;
             case R.id.action_refresh:
-                onRefresh();
+                viewModel.onRefresh();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    @Override
-    public void onRefresh() {
-        RefreshBroadcast.broadcastRefresh(getContext(), true);
-    }
-
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
         Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> onRefresh())
+                .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
     }
 }

@@ -12,18 +12,14 @@ import be.ugent.zeus.hydra.repository.requests.Result;
  *
  * @author Niko Strijbol
  */
-public class ModelLiveData<M> extends BaseLiveData<Result<M>> {
+public class RequestLiveData<M> extends BaseLiveData<Result<M>> {
 
     private final Request<M> request;
     private final Context applicationContext;
 
-    public ModelLiveData(Context context, Request<M> model) {
+    public RequestLiveData(Context context, Request<M> request) {
         this.applicationContext = context.getApplicationContext();
-        this.request = model;
-        init();
-    }
-
-    protected void init() {
+        this.request = request;
         loadData(Bundle.EMPTY);
     }
 

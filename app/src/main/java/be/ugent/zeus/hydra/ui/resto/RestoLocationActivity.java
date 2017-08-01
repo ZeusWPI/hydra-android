@@ -13,10 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.resto.Resto;
 import be.ugent.zeus.hydra.data.models.resto.RestoMeta;
-import be.ugent.zeus.hydra.repository.RefreshBroadcast;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
@@ -40,6 +40,7 @@ public class RestoLocationActivity extends BaseActivity implements OnMapReadyCal
     private GoogleMap map;
     private RestoMeta meta;
     private ProgressBar progressBar;
+    private MetaViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +50,10 @@ public class RestoLocationActivity extends BaseActivity implements OnMapReadyCal
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        MetaViewModel model = ViewModelProviders.of(this).get(MetaViewModel.class);
-        model.getData().observe(this, ErrorObserver.with(this::onError));
-        model.getData().observe(this, new ProgressObserver<>(progressBar));
-        model.getData().observe(this, SuccessObserver.with(this::receiveData));
+        viewModel = ViewModelProviders.of(this).get(MetaViewModel.class);
+        viewModel.getData().observe(this, ErrorObserver.with(this::onError));
+        viewModel.getData().observe(this, new ProgressObserver<>(progressBar));
+        viewModel.getData().observe(this, SuccessObserver.with(this::receiveData));
     }
 
     /**
@@ -91,7 +92,7 @@ public class RestoLocationActivity extends BaseActivity implements OnMapReadyCal
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.resto_refresh:
-                onRefresh();
+                viewModel.onRefresh();
                 return true;
             case R.id.resto_center:
                 centerDefault();
@@ -149,11 +150,7 @@ public class RestoLocationActivity extends BaseActivity implements OnMapReadyCal
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
         Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> onRefresh())
+                .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
-    }
-
-    public void onRefresh() {
-        RefreshBroadcast.broadcastRefresh(this, true);
     }
 }
