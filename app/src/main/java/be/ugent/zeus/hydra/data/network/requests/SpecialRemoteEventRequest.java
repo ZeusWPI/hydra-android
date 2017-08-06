@@ -28,6 +28,7 @@ public class SpecialRemoteEventRequest implements Request<SpecialEventWrapper> {
 
     private static final String TAG = "RemoteEventRequest";
     private static final String REMOTE_SKO_KEY = "is_sko_card_enabled";
+    private static final int SKO_ID = -5;
 
     private final Request<SpecialEventWrapper> wrapping;
     private final FirebaseRemoteConfig config;
@@ -71,6 +72,7 @@ public class SpecialRemoteEventRequest implements Request<SpecialEventWrapper> {
         if(config.getBoolean(REMOTE_SKO_KEY) || BuildConfig.DEBUG) {
             Log.d(TAG, "Adding SKO card.");
             SpecialEvent event = new SpecialEvent();
+            event.setId(SKO_ID);
             event.setName("Student Kick-Off");
             event.setSimpleText("Ga naar de info voor de Student Kick-Off");
             event.setImage("http://blog.studentkickoff.be/wp-content/uploads/2016/07/logo.png");
