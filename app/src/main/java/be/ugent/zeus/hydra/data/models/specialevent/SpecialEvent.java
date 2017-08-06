@@ -127,13 +127,14 @@ public final class SpecialEvent implements Serializable {
                 Objects.equals(simpleText, that.simpleText) &&
                 Objects.equals(image, that.image) &&
                 Objects.equals(html, that.html) &&
-                java8.util.Objects.equals(start, that.start) &&
-                java8.util.Objects.equals(end, that.end);
+                Objects.equals(start, that.start) &&
+                Objects.equals(inApp, that.inApp) &&
+                Objects.equals(end, that.end);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, link, simpleText, image, html, priority, start, end);
+        return Objects.hash(id, name, link, simpleText, image, html, priority, start, end, inApp);
     }
 
     public long getId() {
