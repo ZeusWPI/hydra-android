@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main.homefeed.feed;
+package be.ugent.zeus.hydra.ui.main.homefeed.operations;
 
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;

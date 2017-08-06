@@ -6,11 +6,12 @@ import android.view.ViewGroup;
 import android.widget.PopupMenu;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.association.Association;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
+import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableTypeCommand;
+import be.ugent.zeus.hydra.ui.main.homefeed.commands.FeedCommand;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.event.EventCardViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.minerva.agenda.MinervaAgendaViewHolder;
@@ -96,7 +97,7 @@ public class HomeFeedAdapter extends ItemDiffAdapter<HomeCard, DataViewHolder<Ho
     public PopupMenu.OnMenuItemClickListener listener(@HomeCard.CardType final int type) {
         return item -> {
             if (item.getItemId() == R.id.menu_hide) {
-                companion.disableCardType(type);
+                companion.executeCommand(new DisableTypeCommand(type));
                 return true;
             }
             return false;
@@ -105,20 +106,8 @@ public class HomeFeedAdapter extends ItemDiffAdapter<HomeCard, DataViewHolder<Ho
 
     public interface AdapterCompanion extends ResultStarter {
 
-        /**
-         * Disable a type of card.
-         *
-         * @param type The type of card to disable.
-         */
-        void disableCardType(@HomeCard.CardType int type);
-
-        /**
-         * Disable an association.
-         *
-         * @param association The association of the card to disable.
-         */
-        void disableAssociation(Association association);
-
         ActivityHelper getHelper();
+
+        void executeCommand(FeedCommand command);
     }
 }

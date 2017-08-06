@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main.homefeed.feed;
+package be.ugent.zeus.hydra.ui.main.homefeed.operations;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
