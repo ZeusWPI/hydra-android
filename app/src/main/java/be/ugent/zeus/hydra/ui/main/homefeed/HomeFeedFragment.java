@@ -9,6 +9,7 @@ import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.*;
 
@@ -48,6 +49,7 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
     private static final String TAG = "HomeFeedFragment";
 
     public static final String PREF_DISABLED_CARDS = "pref_disabled_cards";
+    public static final String PREF_DISABLED_SPECIALS = "pref_disabled_specials";
 
     public static final int REQUEST_HOMECARD_ID = 5050;
 
@@ -87,8 +89,10 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
         swipeRefreshLayout.setOnRefreshListener(this);
-
         swipeRefreshLayout.setRefreshing(true);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new DismissCallback());
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         model = ViewModelProviders.of(this).get(FeedViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));

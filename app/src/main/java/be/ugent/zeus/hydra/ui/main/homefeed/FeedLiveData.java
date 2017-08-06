@@ -79,7 +79,8 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
     private static String[] watchedPreferences = {
             HomeFeedFragment.PREF_DISABLED_CARDS,
             AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
-            RestoPreferenceFragment.PREF_RESTO
+            RestoPreferenceFragment.PREF_RESTO,
+            HomeFeedFragment.PREF_DISABLED_SPECIALS
     };
 
     private Map<String, Object> oldPreferences = new HashMap<>();

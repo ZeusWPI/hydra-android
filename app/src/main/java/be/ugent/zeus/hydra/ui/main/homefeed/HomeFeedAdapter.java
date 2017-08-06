@@ -58,7 +58,7 @@ public class HomeFeedAdapter extends ItemDiffAdapter<HomeCard, DataViewHolder<Ho
             case ACTIVITY:
                 return new EventCardViewHolder(view(R.layout.home_card_event, parent), this);
             case SPECIAL_EVENT:
-                return new SpecialEventCardViewHolder(view(R.layout.home_card_special, parent));
+                return new SpecialEventCardViewHolder(view(R.layout.home_card_special, parent), this.getCompanion());
             case SCHAMPER:
                 return new SchamperViewHolder(view(R.layout.home_card_schamper, parent), this);
             case NEWS_ITEM:

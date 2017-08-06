@@ -13,4 +13,12 @@
 		android:summary="Bespaar data door miniaturen niet te laden bij mobiele verbindingen."
 		android:title="Databesparing"
 		android:defaultValue="false" />
+
+	<Preference
+		android:persistent="false"
+		android:key="pref_home_feed_clickable"
+		android:title="Verborgen kaarten wissen"
+		android:summary="Wis individueel verborgen kaarten.">
+
+	</Preference>
 </PreferenceScreen>
