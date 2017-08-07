@@ -48,7 +48,7 @@ public class SpecialEventCardViewHolder extends DataViewHolder<HomeCard> impleme
         text.setText(event.getSimpleText());
         Picasso.with(itemView.getContext()).load(event.getImage()).into(image);
 
-        itemView.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(v.getContext(), event.getViewIntent()));
+        itemView.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(v.getContext(), event.getViewIntent(v.getContext())));
     }
 
     @Override

@@ -6,7 +6,8 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.models.specialevent.SpecialEvent;
-import be.ugent.zeus.hydra.data.network.requests.SpecialRemoteEventRequest;
+import be.ugent.zeus.hydra.data.models.specialevent.SpecialEventWrapper;
+import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
@@ -28,13 +29,11 @@ import java.util.Set;
  */
 public class SpecialEventRequest implements HomeFeedRequest {
 
-    private final SpecialRemoteEventRequest remoteEventRequest;
+    private final Request<SpecialEventWrapper> remoteEventRequest;
     private final Context context;
 
     public SpecialEventRequest(Context context) {
-        this.remoteEventRequest = new SpecialRemoteEventRequest(context,
-                Requests.cache(context, new be.ugent.zeus.hydra.data.network.requests.SpecialEventRequest())
-        );
+        this.remoteEventRequest = Requests.cache(context, new be.ugent.zeus.hydra.data.network.requests.SpecialEventRequest());
         this.context = context;
     }
 
@@ -47,8 +46,15 @@ public class SpecialEventRequest implements HomeFeedRequest {
             List<HomeCard> list = new ArrayList<>();
             Set<String> hidden = PreferencesUtils.getStringSet(context, HomeFeedFragment.PREF_DISABLED_SPECIALS);
 
-            for (SpecialEvent event : specialEventWrapper.getSpecialEvents()) {
-                if ((event.getStart() == null && event.getEnd() == null) // TODO: remove this condition
+            List<SpecialEvent> specialEvents = new ArrayList<>(specialEventWrapper.getSpecialEvents());
+
+            // This is for local debug purposes
+            if (BuildConfig.DEBUG_HOME_STREAM_ADD_SKO_CARD) {
+                specialEvents.add(buildDebugSko());
+            }
+
+            for (SpecialEvent event : specialEvents) {
+                if ((event.getStart() == null && event.getEnd() == null)
                         || (event.getStart().isBefore(now) && event.getEnd().isAfter(now))
                         || (BuildConfig.DEBUG && event.isDevelopment())) {
 
@@ -69,5 +75,17 @@ public class SpecialEventRequest implements HomeFeedRequest {
     @Override
     public int getCardType() {
         return HomeCard.CardType.SPECIAL_EVENT;
+    }
+
+    private SpecialEvent buildDebugSko() {
+        SpecialEvent event = new SpecialEvent();
+        event.setId(-5);
+        event.setName("Student Kick-Off");
+        event.setSimpleText("Ga naar de info voor de Student Kick-Off");
+        event.setImage("http://blog.studentkickoff.be/wp-content/uploads/2016/07/logo.png");
+        event.setPriority(1010);
+        event.setInApp(SpecialEvent.SKO_IN_APP);
+        event.setDevelopment(true);
+        return event;
     }
 }

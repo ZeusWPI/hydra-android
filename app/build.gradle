@@ -28,6 +28,8 @@ android {
         buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", "false"
         // Adds an additional invisible card that takes ~10 seconds to complete.
         buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", "false"
+        // Add a hard-coded special event card to access the SKO part of the app
+        buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", "false"
     }
 
     compileOptions {
@@ -48,6 +50,7 @@ android {
             // Set these to true when debugging the home feed.
             buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", "false"
             buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", "false"
+            buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", "true"
         }
     }
 
@@ -128,7 +131,6 @@ dependencies {
     releaseCompile "com.google.firebase:firebase-crash:$GMS_VERSION"
 
     compile "com.google.firebase:firebase-messaging:$GMS_VERSION"
-    compile "com.google.firebase:firebase-config:$GMS_VERSION"
 
     //Test code
     testCompile 'junit:junit:4.12'
