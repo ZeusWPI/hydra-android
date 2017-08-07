@@ -347,5 +347,11 @@
     <string name="pref_header_article_title">Artikels</string>
     <string name="pref_header_article_desc">Opties voor de Schamper- en nieuwsartikels</string>
     <string name="share">Delen</string>
+    <string name="home_feed_card_type_hidden">Kaartsoort verborgen</string>
+    <string name="home_feed_undone">Ongedaan gemaakt</string>
+    <string name="home_feed_association_hidden">Vereniging verborgen</string>
+    <string name="home_feed_undo">Ongedaan maken</string>
+    <string name="home_feed_card_done">Klaar met kaart</string>
+    <string name="pref_home_feed_cleared">Gewist</string>
 
 </resources>

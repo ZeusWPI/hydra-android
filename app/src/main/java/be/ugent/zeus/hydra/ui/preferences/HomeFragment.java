@@ -1,9 +1,16 @@
 package be.ugent.zeus.hydra.ui.preferences;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
+import android.widget.Toast;
+
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
+
+import java.util.Collections;
 
 /**
  * Settings about the home feed.
@@ -21,6 +28,14 @@ public class HomeFragment extends PreferenceFragment {
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.pref_home_feed);
+
+        findPreference("pref_home_feed_clickable")
+                .setOnPreferenceClickListener(preference -> {
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    preferences.edit().putStringSet(HomeFeedFragment.PREF_DISABLED_SPECIALS, Collections.emptySet()).apply();
+                    Toast.makeText(getActivity(), R.string.pref_home_feed_cleared, Toast.LENGTH_SHORT).show();
+                    return true;
+                });
     }
 
     @Override

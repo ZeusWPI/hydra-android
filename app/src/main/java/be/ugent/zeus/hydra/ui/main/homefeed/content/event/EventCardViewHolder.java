@@ -7,6 +7,8 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.EventDetailActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
+import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableAssociationCommand;
+import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableTypeCommand;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
@@ -54,10 +56,10 @@ public class EventCardViewHolder extends FeedViewHolder {
         toolbar.setOnClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_hide:
-                    adapter.getCompanion().disableCardType(card.getCardType());
+                    adapter.getCompanion().executeCommand(new DisableTypeCommand(card.getCardType()));
                     return true;
                 case R.id.menu_hide_association:
-                    adapter.getCompanion().disableAssociation(event.getAssociation());
+                    adapter.getCompanion().executeCommand(new DisableAssociationCommand(event.getAssociation()));
                     return true;
                 default:
                     return false;

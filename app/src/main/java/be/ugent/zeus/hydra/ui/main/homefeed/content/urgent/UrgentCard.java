@@ -10,7 +10,7 @@ public class UrgentCard extends HomeCard {
 
     @Override
     public int getPriority() {
-        return -5;
+        return 0;
     }
 
     @Override

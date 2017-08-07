@@ -5,25 +5,25 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.*;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.association.Association;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
+import be.ugent.zeus.hydra.ui.main.homefeed.commands.FeedCommand;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
-import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
-import be.ugent.zeus.hydra.utils.PreferencesUtils;
 
 import static android.app.Activity.RESULT_OK;
 import static be.ugent.zeus.hydra.ui.main.homefeed.FeedLiveData.REFRESH_HOMECARD_TYPE;
@@ -49,6 +49,7 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
     private static final String TAG = "HomeFeedFragment";
 
     public static final String PREF_DISABLED_CARDS = "pref_disabled_cards";
+    public static final String PREF_DISABLED_SPECIALS = "pref_disabled_specials";
 
     public static final int REQUEST_HOMECARD_ID = 5050;
 
@@ -88,8 +89,10 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
         swipeRefreshLayout.setOnRefreshListener(this);
-
         swipeRefreshLayout.setRefreshing(true);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new DismissCallback());
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         model = ViewModelProviders.of(this).get(FeedViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
@@ -188,29 +191,26 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
     }
 
     @Override
-    public void disableAssociation(Association association) {
-        PreferencesUtils.addToStringSet(
-                getContext(),
-                AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
-                association.getInternalName()
-        );
-        // Refresh the list
+    public void executeCommand(FeedCommand command) {
+
+        // TODO: should this be done on a separate thread?
+
+        int cardType = command.execute(getContext());
         Bundle extras = new Bundle();
-        extras.putInt(REFRESH_HOMECARD_TYPE, HomeCard.CardType.ACTIVITY);
+        extras.putInt(REFRESH_HOMECARD_TYPE, cardType);
+        model.requestRefresh(extras);
+
+        Snackbar.make(getView(), command.getCompleteMessage(), BaseTransientBottomBar.LENGTH_LONG)
+                .setAction(R.string.home_feed_undo, view -> undoCommand(command))
+                .show();
+    }
+
+    private void undoCommand(FeedCommand command) {
+        int cardType = command.undo(getContext());
+        Bundle extras = new Bundle();
+        extras.putInt(REFRESH_HOMECARD_TYPE, cardType);
         model.requestRefresh(extras);
     }
 
-    @Override
-    public void disableCardType(@HomeCard.CardType int type) {
-        //Save preferences first
-        PreferencesUtils.addToStringSet(
-                getContext(),
-                HomeFeedFragment.PREF_DISABLED_CARDS,
-                String.valueOf(type)
-        );
-        // Refresh the list
-        Bundle extras = new Bundle();
-        extras.putInt(REFRESH_HOMECARD_TYPE, type);
-        model.requestRefresh(extras);
-    }
+
 }

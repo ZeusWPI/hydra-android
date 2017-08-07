@@ -24,7 +24,7 @@ import be.ugent.zeus.hydra.ui.main.homefeed.content.resto.RestoRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.schamper.SchamperRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.specialevent.SpecialEventRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.urgent.UrgentRequest;
-import be.ugent.zeus.hydra.ui.main.homefeed.feed.FeedOperation;
+import be.ugent.zeus.hydra.ui.main.homefeed.operations.FeedOperation;
 import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.utils.IterableSparseArray;
@@ -36,8 +36,8 @@ import java8.util.stream.StreamSupport;
 
 import java.util.*;
 
-import static be.ugent.zeus.hydra.ui.main.homefeed.feed.OperationFactory.add;
-import static be.ugent.zeus.hydra.ui.main.homefeed.feed.OperationFactory.get;
+import static be.ugent.zeus.hydra.ui.main.homefeed.operations.OperationFactory.add;
+import static be.ugent.zeus.hydra.ui.main.homefeed.operations.OperationFactory.get;
 
 /**
  * The data source for the home feed. The home feed is a feed that mixes data from different sources. Additions or
@@ -79,7 +79,8 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
     private static String[] watchedPreferences = {
             HomeFeedFragment.PREF_DISABLED_CARDS,
             AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
-            RestoPreferenceFragment.PREF_RESTO
+            RestoPreferenceFragment.PREF_RESTO,
+            HomeFeedFragment.PREF_DISABLED_SPECIALS
     };
 
     private Map<String, Object> oldPreferences = new HashMap<>();

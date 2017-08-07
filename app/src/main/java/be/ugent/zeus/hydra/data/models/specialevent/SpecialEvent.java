@@ -33,6 +33,10 @@ public final class SpecialEvent implements Serializable {
     @JsonAdapter(ZonedThreeTenAdapter.class)
     private ZonedDateTime end;
     private boolean development;
+    @SerializedName("in-app")
+    private String inApp;
+
+    private long id;
 
     private transient Intent viewIntent;
 
@@ -117,17 +121,27 @@ public final class SpecialEvent implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         SpecialEvent that = (SpecialEvent) o;
         return priority == that.priority &&
+                id == that.id &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(link, that.link) &&
                 Objects.equals(simpleText, that.simpleText) &&
                 Objects.equals(image, that.image) &&
                 Objects.equals(html, that.html) &&
-                java8.util.Objects.equals(start, that.start) &&
-                java8.util.Objects.equals(end, that.end);
+                Objects.equals(start, that.start) &&
+                Objects.equals(inApp, that.inApp) &&
+                Objects.equals(end, that.end);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, link, simpleText, image, html, priority, start, end);
+        return Objects.hash(id, name, link, simpleText, image, html, priority, start, end, inApp);
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
