@@ -1,15 +1,20 @@
 package be.ugent.zeus.hydra.ui.sko;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.data.models.sko.Artist;
+import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.sko.overview.LineupViewHolder;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -44,9 +49,25 @@ public class ArtistActivity extends BaseActivity {
 
         date.setText(LineupViewHolder.getDisplayDate(artist));
 
-        if (artist.getContent() != null) {
+        if (!TextUtils.isEmpty(artist.getContent())) {
             content.setText(artist.getContent());
+        } else {
+            content.setText(R.string.sko_artist_no_content);
         }
+
+        findViewById(R.id.sko_artist_search_web).setOnClickListener(view -> {
+            Intent searchIntent = new Intent(Intent.ACTION_WEB_SEARCH);
+            searchIntent.putExtra(SearchManager.QUERY, artist.getName());
+            NetworkUtils.maybeLaunchIntent(ArtistActivity.this, searchIntent);
+        });
+
+        findViewById(R.id.sko_artist_search_music).setOnClickListener(view -> {
+            Intent musicIntent = new Intent(MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH);
+            musicIntent.putExtra(MediaStore.EXTRA_MEDIA_FOCUS, MediaStore.Audio.Artists.ENTRY_CONTENT_TYPE);
+            musicIntent.putExtra(MediaStore.EXTRA_MEDIA_ARTIST, artist.getName());
+            musicIntent.putExtra(SearchManager.QUERY, artist.getName());
+            NetworkUtils.maybeLaunchIntent(ArtistActivity.this, musicIntent);
+        });
     }
 
     @Override
