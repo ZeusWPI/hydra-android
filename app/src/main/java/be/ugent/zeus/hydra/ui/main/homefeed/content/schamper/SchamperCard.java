@@ -30,10 +30,8 @@ class SchamperCard extends HomeCard {
     public int getPriority() {
         ZonedDateTime date = article.getPubDate();
         Duration duration = Duration.between(date, ZonedDateTime.now());
-        //We rescale the two month period of articles to [0,1000].
-        //We then invert the result, since 1000 is the highest priority.
-        //This is in fact reverse lineair interpolation
-        return FeedUtils.lerp((int) duration.toDays(), 0, 60);
+        // We only show the last month of schamper articles.
+        return FeedUtils.lerp((int) duration.toDays(), 0, 30);
     }
 
     @Override
