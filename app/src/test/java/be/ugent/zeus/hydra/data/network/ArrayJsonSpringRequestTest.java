@@ -5,7 +5,7 @@ import org.junit.Assert;
 /**
  * @author Niko Strijbol
  */
-public abstract class ArrayJsonSpringRequestTest<R> extends JsonSpringRequestTest<R[]> {
+public abstract class ArrayJsonSpringRequestTest<R> extends AbstractJsonSpringRequestTest<R[]> {
 
     public ArrayJsonSpringRequestTest(Class<R[]> clazz) {
         super(clazz);

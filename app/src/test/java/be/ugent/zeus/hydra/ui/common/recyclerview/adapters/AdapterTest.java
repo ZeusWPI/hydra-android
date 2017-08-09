@@ -1,9 +1,13 @@
 package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
 
+import be.ugent.zeus.hydra.BuildConfig;
 import java8.util.stream.Collectors;
 import java8.util.stream.IntStreams;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.List;
 
@@ -13,6 +17,8 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Niko Strijbol
  */
+@RunWith(RobolectricTestRunner.class)
+@Config(constants = BuildConfig.class)
 public class AdapterTest {
 
     private static final int NR_OF_OBJECTS = 100;
@@ -52,5 +58,4 @@ public class AdapterTest {
         adapter.clear();
         testEmpty();
     }
-
 }

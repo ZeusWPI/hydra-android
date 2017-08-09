@@ -4,6 +4,7 @@ import be.ugent.zeus.hydra.data.gson.DateThreeTenAdapter;
 import be.ugent.zeus.hydra.data.gson.ZonedThreeTenAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import java8.util.Objects;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZonedDateTime;
 
@@ -12,7 +13,7 @@ import java.io.Serializable;
 /**
  * @author Niko Strijbol
  */
-public class OpeningHours implements Serializable {
+public final class OpeningHours implements Serializable {
 
     @SerializedName("wday")
     private int weekday;
@@ -83,5 +84,27 @@ public class OpeningHours implements Serializable {
 
     public ZonedDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OpeningHours that = (OpeningHours) o;
+        return weekday == that.weekday &&
+                month == that.month &&
+                Objects.equals(weekdayName, that.weekdayName) &&
+                Objects.equals(hours, that.hours) &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(comments, that.comments) &&
+                Objects.equals(monthDay, that.monthDay) &&
+                Objects.equals(year, that.year) &&
+                Objects.equals(createdAt, that.createdAt) &&
+                Objects.equals(updatedAt, that.updatedAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(weekday, weekdayName, hours, month, date, comments, monthDay, year, createdAt, updatedAt);
     }
 }
