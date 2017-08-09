@@ -33,9 +33,11 @@ import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
 import be.ugent.zeus.hydra.ui.main.library.LibraryListFragment;
+import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
@@ -162,6 +164,13 @@ public class LibraryDetailActivity extends BaseActivity {
         model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
+
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
+        Bundle parameters = new Bundle();
+        parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.LIBRARY);
+        parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, library.getName());
+        parameters.putString(FirebaseAnalytics.Param.ITEM_ID, library.getCode());
+        analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
     }
 
     @Override

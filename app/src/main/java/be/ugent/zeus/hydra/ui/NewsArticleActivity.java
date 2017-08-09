@@ -1,8 +1,12 @@
 package be.ugent.zeus.hydra.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
@@ -17,7 +21,11 @@ import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.ui.common.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
+import be.ugent.zeus.hydra.ui.preferences.ArticlePreferenceFragment;
+import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 /**
  * Display a news article from DSA.
@@ -26,7 +34,7 @@ import be.ugent.zeus.hydra.utils.DateUtils;
  */
 public class NewsArticleActivity extends BaseActivity {
 
-    public static final String PARCEL_NAME = "newsItem";
+    private static final String PARCEL_NAME = "newsItem";
 
     private ActivityHelper helper;
 
@@ -109,5 +117,36 @@ public class NewsArticleActivity extends BaseActivity {
     @Override
     protected String getScreenName() {
         return "News article > " + title;
+    }
+
+    /**
+     * Open the article for viewing, depending on the network status and the user's preference.
+     *
+     * @param context A context.
+     * @param article The article to open.
+     * @param helper Helper for opening custom tabs.
+     */
+    public static void viewArticle(Context context, UgentNewsItem article, ActivityHelper helper) {
+
+        // Log viewing the article
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(context);
+        Bundle parameters = new Bundle();
+        parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.NEWS_ARTICLE);
+        parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, article.getTitle());
+        parameters.putString(FirebaseAnalytics.Param.ITEM_ID, article.getIdentifier());
+        analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
+
+        // Open in-app or in a custom tab
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean useCustomTabs = preferences.getBoolean(ArticlePreferenceFragment.PREF_USE_CUSTOM_TABS, ArticlePreferenceFragment.PREF_USE_CUSTOM_TABS_DEFAULT);
+        boolean isOnline = NetworkUtils.isConnected(context);
+        if (useCustomTabs && isOnline) {
+            // Open in Custom tabs.
+            helper.openCustomTab(Uri.parse(article.getIdentifier()));
+        } else {
+            Intent intent = new Intent(context, NewsArticleActivity.class);
+            intent.putExtra(PARCEL_NAME, (Parcelable) article);
+            context.startActivity(intent);
+        }
     }
 }

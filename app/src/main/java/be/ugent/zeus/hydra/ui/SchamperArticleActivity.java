@@ -1,10 +1,14 @@
 package be.ugent.zeus.hydra.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.text.method.LinkMovementMethod;
@@ -19,11 +23,15 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.schamper.Article;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
+import be.ugent.zeus.hydra.ui.preferences.ArticlePreferenceFragment;
+import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.StringUtils;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
 
 public class SchamperArticleActivity extends BaseActivity {
@@ -146,6 +154,29 @@ public class SchamperArticleActivity extends BaseActivity {
             fade.excludeTarget(android.R.id.navigationBarBackground, true);
             getWindow().setExitTransition(fade);
             getWindow().setEnterTransition(fade);
+        }
+    }
+
+    public static void viewArticle(Context context, Article article, ActivityHelper helper, View image) {
+
+        // Log viewing the article
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(context);
+        Bundle parameters = new Bundle();
+        parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.SCHAMPER_ARTICLE);
+        parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, article.getTitle());
+        parameters.putString(FirebaseAnalytics.Param.ITEM_ID, article.getLink());
+        analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
+
+        // Open in-app or in a custom tab
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean useCustomTabs = preferences.getBoolean(ArticlePreferenceFragment.PREF_USE_CUSTOM_TABS, ArticlePreferenceFragment.PREF_USE_CUSTOM_TABS_DEFAULT);
+        boolean isOnline = NetworkUtils.isConnected(context);
+
+        if (useCustomTabs && isOnline) {
+            // Open in Custom tabs.
+            helper.openCustomTab(Uri.parse(article.getLink()));
+        } else {
+            SchamperArticleActivity.launchWithAnimation(helper.getActivity(), image, "hero", article);
         }
     }
 }

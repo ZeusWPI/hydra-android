@@ -15,6 +15,7 @@ import be.ugent.zeus.hydra.data.auth.MinervaConfig;
 import be.ugent.zeus.hydra.data.sync.course.CourseAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.ui.minerva.AuthActivity;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
@@ -30,9 +31,15 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
 
     private static final String TAG = "OnboardingActivity";
 
+    private FirebaseAnalytics analytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        analytics = FirebaseAnalytics.getInstance(this);
+        // Log start of onboarding
+        analytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_BEGIN, null);
 
         //First tab
         addSlide(new SimpleSlide.Builder()
@@ -94,5 +101,8 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
         bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
         bundle.putBoolean(CourseAdapter.EXTRA_FIRST_SYNC, true);
         SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
+
+        // Log sign in
+        analytics.logEvent(FirebaseAnalytics.Event.LOGIN, null);
     }
 }

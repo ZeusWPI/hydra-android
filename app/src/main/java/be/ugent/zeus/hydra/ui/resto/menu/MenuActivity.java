@@ -26,7 +26,9 @@ import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
+import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import org.threeten.bp.LocalDate;
 
 import java.util.List;
@@ -63,6 +65,8 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
         viewPager = findViewById(R.id.resto_tabs_content);
         viewPager.setAdapter(pageAdapter);
 
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
+
         final AppBarLayout appBarLayout = findViewById(R.id.app_bar_layout);
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -70,6 +74,11 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
                 appBarLayout.setExpanded(true);
                 HydraApplication app = (HydraApplication) MenuActivity.this.getApplication();
                 app.sendScreenName("Menu tab: " + pageAdapter.getTabDate(position).toString());
+                Bundle parameters = new Bundle();
+                parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.RESTO_MENU);
+                parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, pageAdapter.getPageTitle(position).toString());
+                parameters.putString(FirebaseAnalytics.Param.ITEM_ID, String.valueOf(pageAdapter.getTabDate(position).toEpochDay()));
+                analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
             }
         });
 

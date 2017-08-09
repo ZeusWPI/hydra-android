@@ -14,7 +14,9 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.sko.Artist;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.sko.overview.LineupViewHolder;
+import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -68,6 +70,13 @@ public class ArtistActivity extends BaseActivity {
             musicIntent.putExtra(SearchManager.QUERY, artist.getName());
             NetworkUtils.maybeLaunchIntent(ArtistActivity.this, musicIntent);
         });
+
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
+        Bundle parameters = new Bundle();
+        parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.SKO_ARTIST);
+        parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, artist.getName());
+        parameters.putString(FirebaseAnalytics.Param.ITEM_ID, String.valueOf(artist.hashCode()));
+        analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
     }
 
     @Override

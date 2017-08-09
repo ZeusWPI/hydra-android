@@ -31,6 +31,7 @@ import be.ugent.zeus.hydra.ui.main.resto.RestoFragment;
 import be.ugent.zeus.hydra.ui.main.schamper.SchamperFragment;
 import be.ugent.zeus.hydra.ui.onboarding.OnboardingActivity;
 import be.ugent.zeus.hydra.ui.preferences.SettingsActivity;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import jonathanfinerty.once.Once;
 
 /**
@@ -301,6 +302,8 @@ public class MainActivity extends BaseActivity {
             if(resultCode == RESULT_OK) {
                 Log.i(TAG, "Onboarding complete");
                 Once.markDone(ONCE_ONBOARDING);
+                FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
+                analytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_COMPLETE, null);
                 initialize(null);
             } else {
                 Log.i(TAG, "Onboarding failed, stop app.");
