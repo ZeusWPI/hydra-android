@@ -1,10 +1,12 @@
 package be.ugent.zeus.hydra.data.models.specialevent;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
 import be.ugent.zeus.hydra.data.gson.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.ui.sko.overview.OverviewActivity;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import java8.util.Objects;
@@ -20,6 +22,8 @@ import java.io.Serializable;
  */
 @SuppressWarnings("unused")
 public final class SpecialEvent implements Serializable {
+
+    public static final String SKO_IN_APP = "be.ugent.zeus.hydra.special.sko";
 
     private String name;
     private String link;
@@ -38,16 +42,6 @@ public final class SpecialEvent implements Serializable {
 
     private long id;
 
-    private transient Intent viewIntent;
-
-    /**
-     * Set the viewing intent. Passing null will cause the default intent to be used.
-     * @param intent The intent or null for the default.
-     */
-    public void setViewIntent(@Nullable Intent intent) {
-        this.viewIntent = intent;
-    }
-
     /**
      * Get the intent to view this event. This places the responsibility on the event. By default, the browser is
      * opened, but a custom intent can be set.
@@ -55,11 +49,12 @@ public final class SpecialEvent implements Serializable {
      * @return The intent.
      */
     @NonNull
-    public Intent getViewIntent() {
-        if (viewIntent == null) {
-            return new Intent(Intent.ACTION_VIEW, Uri.parse(getLink()));
-        } else {
-            return viewIntent;
+    public Intent getViewIntent(Context context) {
+        switch (inApp) {
+            case SKO_IN_APP:
+                return new Intent(context, OverviewActivity.class);
+            default:
+                return new Intent(Intent.ACTION_VIEW, Uri.parse(getLink()));
         }
     }
 
@@ -143,5 +138,13 @@ public final class SpecialEvent implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public void setInApp(String inApp) {
+        this.inApp = inApp;
+    }
+
+    public void setDevelopment(boolean development) {
+        this.development = development;
     }
 }
