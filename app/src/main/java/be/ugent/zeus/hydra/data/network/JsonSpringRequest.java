@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.data.network;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.data.network.exceptions.RestTemplateException;
@@ -26,6 +27,7 @@ import org.springframework.web.client.RestTemplate;
 public abstract class JsonSpringRequest<R> implements Request<R> {
 
     private Class<R> clazz;
+    private RestTemplate restTemplate;
 
     /**
      * @param clazz The class type of the result data.
@@ -43,7 +45,7 @@ public abstract class JsonSpringRequest<R> implements Request<R> {
     @Override
     public Result<R> performRequest(Bundle args) {
         try {
-            R result = createRestTemplate().getForEntity(getAPIUrl(), clazz).getBody();
+            R result = getRestTemplate().getForEntity(getAPIUrl(), clazz).getBody();
             if (result == null) {
                 // Create, log and throw exception, since this is not normal.
                 ResourceAccessException exception = new ResourceAccessException("The server did not respond with the expected format for URL: " + getAPIUrl());
@@ -84,6 +86,14 @@ public abstract class JsonSpringRequest<R> implements Request<R> {
     protected RestTemplate createRestTemplate() throws RestTemplateException {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
+        return restTemplate;
+    }
+
+    @VisibleForTesting
+    public RestTemplate getRestTemplate() throws RestTemplateException {
+        if (restTemplate == null) {
+            restTemplate = createRestTemplate();
+        }
         return restTemplate;
     }
 }
