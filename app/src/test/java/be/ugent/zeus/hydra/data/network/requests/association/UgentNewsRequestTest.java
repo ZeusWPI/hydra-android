@@ -31,7 +31,7 @@ public class UgentNewsRequestTest extends ArrayJsonSpringRequestTest<UgentNewsIt
 
     @Override
     protected Resource getSuccessResponse() {
-        return new ClassPathResource("ugent-news.json");
+        return new ClassPathResource("ugent_news.json");
     }
 
     @Override

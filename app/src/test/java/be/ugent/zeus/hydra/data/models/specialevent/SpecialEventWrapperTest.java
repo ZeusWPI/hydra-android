@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.data.models.specialevent;
 
+import be.ugent.zeus.hydra.testing.Utils;
+import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 
 import static be.ugent.zeus.hydra.testing.Assert.assertSerialization;
@@ -14,4 +16,10 @@ public class SpecialEventWrapperTest {
         assertSerialization(SpecialEventWrapper.class);
     }
 
+    @Test
+    public void equalsAndHash() {
+        Utils.defaultVerifier(SpecialEventWrapper.class)
+                .suppress(Warning.NONFINAL_FIELDS)
+                .verify();
+    }
 }
