@@ -1,0 +1,97 @@
+{
+    "locations": [
+        {
+            "name": "Resto S5",
+            "address": "Krijgslaan 281",
+            "latitude": 51.026024,
+            "longitude": 3.712939,
+            "type": "resto",
+            "endpoint": "nl"
+        }, {
+            "name": "Resto Boudewijn",
+            "address": "Harelbekestraat 70",
+            "latitude": 51.026508,
+            "longitude": 3.730189,
+            "type": "resto",
+            "endpoint": "nl"
+        }, {
+            "name": "Resto De Brug",
+            "address": "Sint-Pietersnieuwstraat 45",
+            "latitude": 51.045613,
+            "longitude":  3.727147,
+            "type": "resto",
+            "endpoint": "nl"
+        }, {
+            "name": "Resto Diergeneeskunde",
+            "address": "Salisburylaan 133, Merelbeke",
+            "latitude": 50.998369,
+            "longitude": 3.766454,
+            "type": "resto",
+            "endpoint": "nl"
+        }, {
+            "name": "Resto FPPW",
+            "address": "Henri Dunantlaan 2",
+            "latitude": 51.049023,
+            "longitude": 3.704017,
+            "type": "resto",
+            "endpoint": "nl"
+        }, {
+            "name": "Resto Campus Coupure",
+            "address": "Coupure Links 653",
+            "latitude": 51.053252,
+            "longitude": 3.707671,
+            "type": "resto",
+            "endpoint": "nl"
+        }, {
+            "name": "Resto Sint-Jansvest",
+            "address": "Sint-Jansvest 24",
+            "latitude": 51.049773,
+            "longitude": 3.727377,
+            "type": "resto",
+            "endpoint": "nl-sintjansvest"
+        }, {
+            "name": "Resto Kantienberg",
+            "address": "Stalhof 45",
+            "latitude": 51.039852,
+            "longitude": 3.728759,
+            "type": "resto",
+            "endpoint": "nl"
+        }, {
+            "name": "Cafetaria Ardoyen",
+            "address": "Technologie Zwijnaarde 904",
+            "latitude": 51.010207,
+            "longitude": 3.707660,
+            "type": "cafetaria"
+        }, {
+            "name": "Cafetaria Blandijn",
+            "address": "Blandijnberg 2",
+            "latitude": 51.043960,
+            "longitude": 3.725230,
+            "type": "cafetaria"
+        }, {
+            "name": "Cafetaria Campus UZ",
+            "address": "De Pintelaan 185",
+            "latitude": 51.024360,
+            "longitude": 3.723540,
+            "type": "cafetaria"
+        }, {
+            "name": "Cafetaria Ledeganck",
+            "address": "Ledeganckstraat 35",
+            "latitude": 51.036520,
+            "longitude": 3.723990,
+            "type": "cafetaria"
+        }, {
+            "name": "Cafetaria Rechten",
+            "address": "Universiteitsstraat 4",
+            "latitude": 51.051029,
+            "longitude": 3.723928,
+            "type": "cafetaria"
+        }, {
+            "name": "Club Het Pand",
+            "address": "Onderbergen 1",
+            "latitude": 51.052945,
+            "longitude": 3.719700,
+            "type": "club"
+        }
+    ]
+}

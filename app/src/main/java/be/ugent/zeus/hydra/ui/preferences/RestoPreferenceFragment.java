@@ -13,8 +13,11 @@ import be.ugent.zeus.hydra.R;
  */
 public class RestoPreferenceFragment extends PreferenceFragment {
 
+    public static final String PREF_RESTO_NORMAL = "0";
+    public static final String PREF_RESTO_SINT_JAN = "1";
+
     public static final String PREF_RESTO = "pref_resto_choice";
-    public static final String PREF_DEFAULT_RESTO = "0";
+    public static final String PREF_DEFAULT_RESTO = PREF_RESTO_NORMAL;
 
     public static final String DEFAULT_CLOSING_TIME = "21:00";
     public static final String PREF_RESTO_CLOSING_HOUR = "pref_resto_closing_hour";

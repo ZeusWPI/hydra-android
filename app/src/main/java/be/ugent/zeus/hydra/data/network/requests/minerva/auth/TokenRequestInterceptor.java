@@ -20,6 +20,7 @@
  */
 package be.ugent.zeus.hydra.data.network.requests.minerva.auth;
 
+import org.springframework.http.HttpAuthentication;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -46,7 +47,7 @@ public class TokenRequestInterceptor implements ClientHttpRequestInterceptor {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
 
-        request.getHeaders().set("Authorization", String.format("Bearer %s", token));
+        request.getHeaders().setAuthorization(new BearerAuthentication(token));
         request.getHeaders().set("X-Bearer-Token", token);
 
         // Log API Request
@@ -54,5 +55,19 @@ public class TokenRequestInterceptor implements ClientHttpRequestInterceptor {
 
         // Perform CacheRequest
         return execution.execute(request, body);
+    }
+
+    private static class BearerAuthentication extends HttpAuthentication {
+
+        private final String token;
+
+        private BearerAuthentication(String token) {
+            this.token = token;
+        }
+
+        @Override
+        public String getHeaderValue() {
+            return String.format("Bearer %s", token);
+        }
     }
 }
