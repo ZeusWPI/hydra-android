@@ -38,6 +38,12 @@ public class MenuFilter implements Function<List<RestoMenu>, List<RestoMenu>> {
         this.clock = clock;
     }
 
+    @VisibleForTesting
+    MenuFilter(SharedPreferences preferences, Clock clock) {
+        this.preferences = preferences;
+        this.clock = clock;
+    }
+
     /**
      * Filter the menus. Note that the current time can be set using {@link #clock} (useful for testing).
      * The filter will act as follows:

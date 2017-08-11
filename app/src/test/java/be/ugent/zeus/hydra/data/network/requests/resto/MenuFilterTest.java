@@ -101,7 +101,9 @@ public class MenuFilterTest {
                 .putString(RestoPreferenceFragment.PREF_RESTO_CLOSING_HOUR, "10:15")
                 .apply();
 
-        MenuFilter filter = new MenuFilter(RuntimeEnvironment.application, clock);
+        // TODO: for some weird reason, if we do not pass the same preference, it doesn't work, even if the debugger
+        // says they are the same instance and all that. Perhaps this is a bug in Robolectric?
+        MenuFilter filter = new MenuFilter(preferences, clock);
         List<RestoMenu> result = filter.apply(Collections.singletonList(restoMenu));
 
         assertThat(result, empty());
