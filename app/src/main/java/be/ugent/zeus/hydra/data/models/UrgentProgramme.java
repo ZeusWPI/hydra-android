@@ -1,20 +1,18 @@
 package be.ugent.zeus.hydra.data.models;
 
-import org.threeten.bp.Instant;
-
 /**
  * @author Niko Strijbol
  */
 public class UrgentProgramme {
 
     private String name;
-    private Instant validUntil;
+    private String validUntil; //TODO: this should be Instant
 
-    public Instant getValidUntil() {
+    public String getValidUntil() {
         return validUntil;
     }
 
-    public void setValidUntil(Instant validUntil) {
+    public void setValidUntil(String validUntil) {
         this.validUntil = validUntil;
     }
 

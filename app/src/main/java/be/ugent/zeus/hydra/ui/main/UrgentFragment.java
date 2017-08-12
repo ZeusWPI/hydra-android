@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -168,13 +169,14 @@ public class UrgentFragment extends Fragment {
 
     private void readMetadata(MediaMetadataCompat metadata) {
         if (metadata != null) {
+            MediaDescriptionCompat descriptionCompat = metadata.getDescription();
             //These must be set at least.
-            artistText.setText(metadata.getText(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST));
-            titleText.setText(metadata.getText(MediaMetadataCompat.METADATA_KEY_TITLE));
+            artistText.setText(descriptionCompat.getSubtitle());
+            titleText.setText(descriptionCompat.getTitle());
 
             //Try setting the album art.
             if (metadata.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART) != null) {
-                albumImage.setImageBitmap(metadata.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART));
+                albumImage.setImageBitmap(descriptionCompat.getIconBitmap());
             } else {
                 albumImage.setImageResource(R.drawable.ic_album);
             }
