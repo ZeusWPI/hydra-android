@@ -21,14 +21,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 
-import java.io.IOException;
+import org.threeten.bp.Instant;
+import org.threeten.bp.temporal.ChronoUnit;
 
 /**
- * A simple implementation of a session callback that maps the methods to the {@link MediaManager}.
+ * A simple implementation of a session callback that maps the methods to the {@link Playback}.
  *
  * This is the main controller for the state of the playback: all user-generated events are directed to this class.
  *
@@ -42,95 +44,93 @@ import java.io.IOException;
  *
  * @author Niko Strijbol.
  */
-public class SimpleSessionCallback extends MediaSessionCompat.Callback implements MediaPlayer.OnPreparedListener {
+public class SimpleSessionCallback extends MediaSessionCompat.Callback implements AudioManager.OnAudioFocusChangeListener {
 
     public static final String TAG = "SimpleSessionCallback";
 
     private final IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
     private final BecomingNoisyReceiver myNoisyAudioStreamReceiver = new BecomingNoisyReceiver();
 
-    private final MediaManager mediaManager;
+    private final Playback mediaManager;
     private final Context context;
+    private final UrgentTrackProvider provider;
     private boolean registered = false;
+    private final AudioManager audioManager;
+    private final Runnable metadataUpdater;
+    private Runnable nextUpdate;
 
-    public SimpleSessionCallback(Context context, MediaManager mediaManager) {
+    private final Handler handler = new Handler();
+
+    public SimpleSessionCallback(Context context, Playback mediaManager, UrgentTrackProvider provider, Runnable metadataUpdater) {
         this.mediaManager = mediaManager;
         this.context = context.getApplicationContext();
+        this.provider = provider;
+        this.audioManager = (AudioManager) this.context.getSystemService(Context.AUDIO_SERVICE);
+        this.metadataUpdater = metadataUpdater;
     }
 
     @Override
     public void onPause() {
-        if (mediaManager.isStateOneOf(
-                MediaState.STARTED,
-                MediaState.PAUSED,
-                MediaState.PLAYBACK_COMPLETED)) {
+        if (mediaManager.isPlaying()) {
             mediaManager.pause();
         }
     }
 
     @Override
-    public void onPlay() {
-
-        // Do nothing if we are already preparing.
-        if (mediaManager.getState() == MediaState.PREPARING) {
-            return;
+    public void onPlayFromMediaId(String mediaId, Bundle extras) {
+        if (provider.isUrgentId(mediaId)) {
+            onPlay();
         }
+    }
 
-        try {
-            // If not in a playable state, prepare the media manager.
-            if (!mediaManager.isStateOneOf(
-                    MediaState.PREPARED,
-                    MediaState.STARTED,
-                    MediaState.PAUSED,
-                    MediaState.PLAYBACK_COMPLETED)
-                    ) {
-                mediaManager.prepare(null, this);
-            } else {
-                mediaManager.play();
+    @Override
+    public void onPlay() {
+        // Do nothing if we are already preparing or there is nothing to play.
+        if (provider.hasTrackInformation()) {
+            // Try and get audio focus
+            int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+
+            if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                mediaManager.play(provider.getTrack());
+                scheduleMetadataUpdate();
                 if (!registered) {
                     context.registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
                     registered = true;
                 }
             }
-        } catch (IOException e) {
-            Log.e(TAG, "Error while trying to play.", e);
         }
     }
 
     @Override
     public void onStop() {
-        ensureStop();
+        cancelMetadataUpdate();
+        mediaManager.stop();
+        audioManager.abandonAudioFocus(this);
         if (registered) {
             context.unregisterReceiver(myNoisyAudioStreamReceiver);
             registered = false;
         }
     }
 
-    private void ensureStop() {
-        if (mediaManager.isStateOneOf(
-                MediaState.PREPARED,
-                MediaState.STARTED,
-                MediaState.STOPPED,
-                MediaState.PAUSED,
-                MediaState.PLAYBACK_COMPLETED)) {
-            mediaManager.stop();
-        }
-
-        mediaManager.destroy();
-    }
-
-    /**
-     * Called when a play command is received, but the player wasn't ready. At that point the prepare() method is
-     * called. When preparing finishes, this method is called.
-     *
-     * @param mediaPlayer The media player. Not intended for use.
-     */
     @Override
-    public void onPrepared(MediaPlayer mediaPlayer) {
-        mediaManager.play();
-        if (!registered) {
-            context.registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
-            registered = true;
+    public void onAudioFocusChange(int focusChange) {
+        switch (focusChange) {
+            case AudioManager.AUDIOFOCUS_LOSS:
+                onStop();
+                break;
+            case AudioManager.AUDIOFOCUS_REQUEST_FAILED:
+                onStop();
+                break;
+            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                onPause();
+                break;
+            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                mediaManager.setVolume(0.5f, 0.5f);
+                break;
+            case AudioManager.AUDIOFOCUS_GAIN:
+                mediaManager.setVolume(1f, 1f);
+                onPlay();
+                break;
         }
     }
 
@@ -139,8 +139,41 @@ public class SimpleSessionCallback extends MediaSessionCompat.Callback implement
         public void onReceive(Context context, Intent intent) {
             if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
                 // Stop the playback
-                ensureStop();
+                onStop();
             }
         }
+    }
+
+    private void scheduleMetadataUpdate() {
+        Log.d(TAG, "scheduleMetadataUpdate");
+        cancelMetadataUpdate();
+        nextUpdate = getMetadataUpdate();
+
+        Instant time = Instant.now().plus(1, ChronoUnit.HOURS)
+                .truncatedTo(ChronoUnit.HOURS)
+                .plus(2, ChronoUnit.MINUTES);
+
+        long millis = Instant.now().until(time, ChronoUnit.MILLIS);
+        Log.d(TAG, "scheduleMetadataUpdate: scheduling update in " + millis + " millis.");
+        handler.postDelayed(nextUpdate, millis);
+    }
+
+    private void cancelMetadataUpdate() {
+        if (nextUpdate != null) {
+            Log.d(TAG, "cancelMetadataUpdate");
+            handler.removeCallbacks(nextUpdate);
+            nextUpdate = null;
+        }
+    }
+
+    private Runnable getMetadataUpdate() {
+        return () -> provider.prepareMedia(aBoolean -> {
+            if (aBoolean && metadataUpdater != null) {
+                metadataUpdater.run();
+                if (mediaManager.isPlaying()) {
+                    scheduleMetadataUpdate();
+                }
+            }
+        });
     }
 }

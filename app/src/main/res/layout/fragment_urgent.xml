@@ -71,24 +71,7 @@
                 android:id="@+id/playPauseButton"
                 app:srcCompat="@drawable/ic_play_arrow_24dp" />
 
-            <ImageButton
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="?android:attr/borderlessButtonStyle"
-                android:id="@+id/stopButton"
-                app:srcCompat="@drawable/ic_stop" />
-
         </LinearLayout>
-
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/urgent_warning"
-            android:paddingLeft="@dimen/activity_vertical_margin"
-            android:paddingRight="@dimen/activity_vertical_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/urgent_warning"/>
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

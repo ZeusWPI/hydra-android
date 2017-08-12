@@ -3,8 +3,10 @@ package be.ugent.zeus.hydra.service.urgent;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.wifi.WifiManager;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
+import android.support.v4.media.MediaMetadataCompat;
 
 import java8.util.stream.IntStreams;
 
@@ -14,18 +16,19 @@ import java.util.Arrays;
 import static be.ugent.zeus.hydra.service.urgent.MediaState.*;
 
 /**
- * Manages the {@link android.media.MediaPlayer}. The MediaManager supports playing a single stream, and does not
- * have support for multiple tracks.
+ * Manages actually playing the stream.
  *
  * This class will manage the CPU wakelock, but not the wifi wakelock.
  *
  * @author Niko Strijbol
  */
-public class MediaManager implements
+public class Playback implements
         MediaPlayer.OnCompletionListener,
         MediaPlayer.OnErrorListener,
         MediaPlayer.OnPreparedListener
 {
+    private static final String WIFI_LOCK_TAG = "UrgentMusic";
+
     @MediaState
     private int state = MediaState.IDLE;
 
@@ -33,32 +36,18 @@ public class MediaManager implements
 
     private final Context context;
     private final MediaStateListener listener;
+    private final WifiManager.WifiLock wifiLock;
 
-    private String url;
-    private MediaPlayer.OnPreparedListener onPrepared;
-
-    public MediaManager(Context context, @Nullable MediaStateListener listener1) {
-        this.context = context;
+    public Playback(Context context, @Nullable MediaStateListener listener1) {
+        Context applicationContext = context.getApplicationContext();
+        this.context = applicationContext;
         this.listener = listener1;
+        wifiLock = ((WifiManager) applicationContext.getSystemService(Context.WIFI_SERVICE))
+                .createWifiLock(WifiManager.WIFI_MODE_FULL, WIFI_LOCK_TAG);
     }
 
-    /**
-     * Prepare the media player for streaming. This is executed in a blocking manner.
-     *
-     * @param url The URL to play. If null, the existing URL will be used.
-     * @param onPrepared Custom callback to be run when the media player is done preparing. Calling this method will
-     *                   clear any existing listener.
-     */
-    public void prepare(@Nullable String url, @Nullable MediaPlayer.OnPreparedListener onPrepared) throws IOException {
 
-        if (url != null) {
-            this.url = url;
-        }
-        this.onPrepared = onPrepared;
-
-        if (this.url == null) {
-            throw new NullPointerException("The URL cannot be null!");
-        }
+    public void play(MediaMetadataCompat metadataCompat) {
 
         // If the state is error or end, we must construct a new media player.
         if (mediaPlayer == null || state == ERROR || state == END) {
@@ -78,13 +67,23 @@ public class MediaManager implements
 
         if (state == IDLE) {
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setDataSource(this.url);
+            try {
+                mediaPlayer.setDataSource(metadataCompat.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI));
+            } catch (IOException e) {
+                setState(ERROR);
+                return;
+            }
             setState(INITIALIZED);
+        }
+
+        if (isPlaying()) {
+            return;
         }
 
         checkStates(INITIALIZED, STOPPED);
 
         mediaPlayer.prepareAsync();
+        wifiLock.acquire();
         setState(PREPARING);
     }
 
@@ -98,7 +97,7 @@ public class MediaManager implements
     }
 
     /**
-     * Start playback. You MUST have called {@link #prepare(String, android.media.MediaPlayer.OnPreparedListener)} before calling this method.
+     * Start playback.
      */
     public void play() {
         checkStates(PREPARED, STARTED, PAUSED, PLAYBACK_COMPLETED);
@@ -119,26 +118,22 @@ public class MediaManager implements
      * Stop playback.
      */
     public void stop() {
-        checkStates(PREPARED, STARTED, STOPPED, PAUSED, PLAYBACK_COMPLETED);
-        mediaPlayer.stop();
-        setState(STOPPED);
-    }
+        if (isStateOneOf(PREPARED, STARTED, STOPPED, PAUSED, PLAYBACK_COMPLETED)) {
+            mediaPlayer.stop();
+            setState(STOPPED);
+        }
 
-    /**
-     * Destroy playback.
-     */
-    public void destroy() {
+        if (mediaPlayer != null) {
+            mediaPlayer.reset();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
         // This may be called from any state.
-        mediaPlayer.release();
         setState(END);
-    }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public boolean hasUrl() {
-        return url != null;
+        if (wifiLock.isHeld()) {
+            wifiLock.release();
+        }
     }
 
     @Override
@@ -165,10 +160,7 @@ public class MediaManager implements
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         setState(PREPARED);
-        if (onPrepared != null) {
-            onPrepared.onPrepared(mediaPlayer);
-            onPrepared = null;
-        }
+        play();
     }
 
     /**
@@ -205,9 +197,5 @@ public class MediaManager implements
      */
     public boolean isPlaying() {
         return state != ERROR && state != END && mediaPlayer.isPlaying();
-    }
-
-    public boolean hasMediaPlayer() {
-        return mediaPlayer != null;
     }
 }
