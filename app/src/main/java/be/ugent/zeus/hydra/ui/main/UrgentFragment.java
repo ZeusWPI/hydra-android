@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.ui.main;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.DrawableRes;
@@ -49,6 +50,7 @@ public class UrgentFragment extends Fragment {
     private View progressBar;
 
     private MediaBrowserCompat mediaBrowser;
+    private boolean shouldUpdateButton = false;
 
     // Receive callbacks from the MediaController. Here we update our state such as which queue
     // is being shown, the current title and description and the PlaybackState.
@@ -183,8 +185,22 @@ public class UrgentFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (shouldUpdateButton) {
+            configureButtons();
+            shouldUpdateButton = false;
+        }
+    }
+
     @SuppressLint("SwitchIntDef")
     private void configureButtons() {
+
+        if (isDetached() || getActivity() == null) {
+            shouldUpdateButton = true;
+            return;
+        }
 
         MediaControllerCompat mediaController = MediaControllerCompat.getMediaController(getActivity());
         PlaybackStateCompat state = mediaController.getPlaybackState();

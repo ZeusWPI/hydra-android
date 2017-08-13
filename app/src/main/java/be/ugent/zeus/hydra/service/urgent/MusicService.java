@@ -102,9 +102,9 @@ public class MusicService extends MediaBrowserServiceCompat implements MediaStat
             case MediaState.STOPPED:
                 updateSessionState(PlaybackStateCompat.STATE_STOPPED);
                 stopSelf();
+                isStarted = false;
                 break;
             case MediaState.END:
-                stopSelf(); // Stop the service.
                 updateSessionState(PlaybackStateCompat.STATE_NONE);
                 break;
             case MediaState.IDLE:
@@ -146,18 +146,23 @@ public class MusicService extends MediaBrowserServiceCompat implements MediaStat
     }
 
     private void updateNotification() {
+
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (mediaSession.getController().getMetadata() == null || mediaSession.getController().getPlaybackState() == null) {
+            return;
+        }
+
         Notification mediaNotification = notificationBuilder.buildNotification(mediaSession);
 
         if (playback.isPlaying()) {
             startForeground(MUSIC_SERVICE_ID, mediaNotification);
         } else {
-            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-            //if (playback.getState() == MediaState.STOPPED || playback.getState() == MediaState.END) {
+            if (playback.isStateOneOf(MediaState.STOPPED, MediaState.PREPARING, MediaState.PREPARED, MediaState.INITIALIZED)) {
                 manager.notify(MUSIC_SERVICE_ID, mediaNotification);
-            //} else {
-                //manager.cancel(MUSIC_SERVICE_ID);
-            //}
+            } else {
+                manager.cancel(MUSIC_SERVICE_ID);
+            }
+
             stopForeground(false);
         }
     }
