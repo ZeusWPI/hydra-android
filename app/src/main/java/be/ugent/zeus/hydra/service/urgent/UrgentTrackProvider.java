@@ -62,13 +62,13 @@ public class UrgentTrackProvider {
     }
 
     private synchronized void loadData() {
-        new UrgentUrlRequest().performRequest(null).ifPresent(s -> {
+        new UrgentUrlRequest().performRequest(null).ifPresent(url -> {
             UrgentInfoRequest infoRequest = new UrgentInfoRequest();
             Result<UrgentProgramme> programme = infoRequest.performRequest(null);
             Bitmap albumArt = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_urgent);
             MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder()
                     .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, URGENT_ID)
-                    .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, s)
+                    .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, url)
                     .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt);
 
             if (programme.hasData()) {

@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaControllerCompat;
@@ -61,9 +60,10 @@ public class MediaNotificationBuilder {
 
         builder.setSmallIcon(R.drawable.ic_notification_urgent)
                 .setShowWhen(false)
+               // .setColor(ContextCompat.getColor(context, R.color.ugent_blue_dark))
                 .setContentTitle(descriptionCompat.getTitle())
-                .setColor(ContextCompat.getColor(context, R.color.ugent_blue_dark))
                 .setContentText(descriptionCompat.getSubtitle())
+                .setSubText(context.getString(R.string.urgent_fm))
                 .setDeleteIntent(MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP))
                 .setContentIntent(controller.getSessionActivity())
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)

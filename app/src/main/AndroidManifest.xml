@@ -288,6 +288,7 @@
 
         <!-- Urgent stuff -->
         <service
+            android:process=":urgent"
             android:name=".service.urgent.MusicService"
             android:exported="true">
             <intent-filter>

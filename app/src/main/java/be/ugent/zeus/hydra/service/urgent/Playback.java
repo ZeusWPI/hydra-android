@@ -49,6 +49,16 @@ public class Playback implements
 
     public void play(MediaMetadataCompat metadataCompat) {
 
+        // If we are already playing or preparing, do nothing.
+        if (isStateOneOf(PREPARING)) {
+            return;
+        }
+
+        if (isStateOneOf(PREPARED, STARTED, PAUSED, PLAYBACK_COMPLETED)) {
+            play();
+            return;
+        }
+
         // If the state is error or end, we must construct a new media player.
         if (mediaPlayer == null || state == ERROR || state == END) {
 
@@ -74,10 +84,6 @@ public class Playback implements
                 return;
             }
             setState(INITIALIZED);
-        }
-
-        if (isPlaying()) {
-            return;
         }
 
         checkStates(INITIALIZED, STOPPED);
