@@ -44,14 +44,14 @@ import org.threeten.bp.temporal.ChronoUnit;
  *
  * @author Niko Strijbol.
  */
-public class SimpleSessionCallback extends MediaSessionCompat.Callback implements AudioManager.OnAudioFocusChangeListener {
+public class SimpleSessionCallback extends MediaSessionCompat.Callback implements AudioManager.OnAudioFocusChangeListener, MediaStateListener {
 
     public static final String TAG = "SimpleSessionCallback";
 
     private final IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
     private final BecomingNoisyReceiver myNoisyAudioStreamReceiver = new BecomingNoisyReceiver();
 
-    private final Playback mediaManager;
+    private Playback mediaManager;
     private final Context context;
     private final UrgentTrackProvider provider;
     private boolean registered = false;
@@ -61,19 +61,25 @@ public class SimpleSessionCallback extends MediaSessionCompat.Callback implement
 
     private final Handler handler = new Handler();
 
-    public SimpleSessionCallback(Context context, Playback mediaManager, UrgentTrackProvider provider, Runnable metadataUpdater) {
-        this.mediaManager = mediaManager;
+    public SimpleSessionCallback(Context context, UrgentTrackProvider provider, Runnable metadataUpdater) {
         this.context = context.getApplicationContext();
         this.provider = provider;
         this.audioManager = (AudioManager) this.context.getSystemService(Context.AUDIO_SERVICE);
         this.metadataUpdater = metadataUpdater;
     }
 
+    public void setMediaManager(Playback mediaManager) {
+        if (this.mediaManager != null) {
+            this.mediaManager.removeMediaStateListener(this);
+        }
+        this.mediaManager = mediaManager;
+        this.mediaManager.addMediaStateListener(this);
+    }
+
     @Override
     public void onPause() {
-        if (mediaManager.isPlaying()) {
-            mediaManager.pause();
-        }
+        // Stop the media manager, but do not release everything.
+        mediaManager.stop(false);
     }
 
     @Override
@@ -99,36 +105,20 @@ public class SimpleSessionCallback extends MediaSessionCompat.Callback implement
     }
 
     private void handlePlay() {
-        int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-
-        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            mediaManager.play(provider.getTrack());
-            scheduleMetadataUpdate();
-            if (!registered) {
-                context.registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
-                registered = true;
-            }
-        }
+        mediaManager.play(provider.getTrack());
+        scheduleMetadataUpdate();
     }
 
     @Override
     public void onStop() {
         cancelMetadataUpdate();
-        mediaManager.stop();
-        audioManager.abandonAudioFocus(this);
-        if (registered) {
-            context.unregisterReceiver(myNoisyAudioStreamReceiver);
-            registered = false;
-        }
+        mediaManager.stop(true);
     }
 
     @Override
     public void onAudioFocusChange(int focusChange) {
         switch (focusChange) {
             case AudioManager.AUDIOFOCUS_LOSS:
-                onStop();
-                break;
-            case AudioManager.AUDIOFOCUS_REQUEST_FAILED:
                 onStop();
                 break;
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
@@ -141,6 +131,22 @@ public class SimpleSessionCallback extends MediaSessionCompat.Callback implement
                 mediaManager.setVolume(1f, 1f);
                 onPlay();
                 break;
+        }
+    }
+
+    @Override
+    public void onStateChanged(int oldState, int newState) {
+        // If we are playing, register the receiver, otherwise not.
+        if (newState == MediaState.STARTED) {
+            if (!registered) {
+                context.registerReceiver(myNoisyAudioStreamReceiver, intentFilter);
+                registered = true;
+            }
+        } else {
+            if (registered) {
+                context.unregisterReceiver(myNoisyAudioStreamReceiver);
+                registered = false;
+            }
         }
     }
 
@@ -180,7 +186,7 @@ public class SimpleSessionCallback extends MediaSessionCompat.Callback implement
         return () -> provider.prepareMedia(aBoolean -> {
             if (aBoolean && metadataUpdater != null) {
                 metadataUpdater.run();
-                if (mediaManager.isPlaying()) {
+                if (mediaManager.getState() == MediaState.STARTED || mediaManager.getState() == MediaState.PAUSED) {
                     scheduleMetadataUpdate();
                 }
             }

@@ -47,21 +47,23 @@ public class MusicService extends MediaBrowserServiceCompat implements MediaStat
         trackProvider = new UrgentTrackProvider(this);
         notificationBuilder = new MediaNotificationBuilder(this);
 
-        playback = new Playback(this, this);
+        SimpleSessionCallback sessionCallback = new SimpleSessionCallback(getApplicationContext(), trackProvider, this::updateMetadata);
+
+        playback = new Playback(this, sessionCallback);
+        playback.addMediaStateListener(this);
+        sessionCallback.setMediaManager(playback);
 
         // Start a MediaSession
-
         mediaSession = new MediaSessionCompat(this, TAG);
         setSessionToken(mediaSession.getSessionToken());
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
 
-        mediaSession.setCallback(new SimpleSessionCallback(getApplicationContext(), playback, trackProvider, this::updateMetadata));
+        mediaSession.setCallback(sessionCallback);
 
         stateCompatBuilder = new PlaybackStateCompat.Builder()
                 .setActions(PlaybackStateCompat.ACTION_PAUSE
                         | PlaybackStateCompat.ACTION_PLAY
-                        | PlaybackStateCompat.ACTION_STOP
-                        | PlaybackStateCompat.ACTION_PREPARE);
+                        | PlaybackStateCompat.ACTION_STOP);
         mediaSession.setPlaybackState(stateCompatBuilder.build());
 
         Intent startThis = new Intent(this, MainActivity.class);
@@ -101,11 +103,11 @@ public class MusicService extends MediaBrowserServiceCompat implements MediaStat
                 break;
             case MediaState.STOPPED:
                 updateSessionState(PlaybackStateCompat.STATE_STOPPED);
-                stopSelf();
-                isStarted = false;
                 break;
             case MediaState.END:
                 updateSessionState(PlaybackStateCompat.STATE_NONE);
+                stopSelf();
+                isStarted = false;
                 break;
             case MediaState.IDLE:
             case MediaState.INITIALIZED:
@@ -154,9 +156,10 @@ public class MusicService extends MediaBrowserServiceCompat implements MediaStat
 
         Notification mediaNotification = notificationBuilder.buildNotification(mediaSession);
 
-        if (playback.isPlaying()) {
+        if (playback.getState() ==  MediaState.STARTED) {
             startForeground(MUSIC_SERVICE_ID, mediaNotification);
         } else {
+
             if (playback.isStateOneOf(MediaState.STOPPED, MediaState.PREPARING, MediaState.PREPARED, MediaState.INITIALIZED)) {
                 manager.notify(MUSIC_SERVICE_ID, mediaNotification);
             } else {

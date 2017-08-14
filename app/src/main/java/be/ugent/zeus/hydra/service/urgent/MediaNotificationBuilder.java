@@ -46,7 +46,7 @@ public class MediaNotificationBuilder {
             builder.addAction(new NotificationCompat.Action(
                     R.drawable.noti_ic_stop,
                     context.getString(R.string.urgent_stop),
-                    MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP))
+                    MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_PAUSE))
             );
         } else {
             builder.addAction(

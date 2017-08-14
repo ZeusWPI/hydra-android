@@ -5,20 +5,33 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
 import android.os.PowerManager;
-import android.support.annotation.Nullable;
 import android.support.v4.media.MediaMetadataCompat;
+import android.util.Log;
 
+import java8.lang.Iterables;
 import java8.util.stream.IntStreams;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static be.ugent.zeus.hydra.service.urgent.MediaState.*;
 
 /**
- * Manages actually playing the stream.
+ * Manages playing the audio. This class encapsulates the logic for working with the {@link MediaPlayer}, although
+ * that is not part of the public API: the class might choose another playback method.
  *
- * This class will manage the CPU wakelock, but not the wifi wakelock.
+ * The class handles all things needed for playback, including locks (WiFi and CPU) and audio focus requests.
+ *
+ * The traditional android terminology is used for the actions that can be taken: you can call play, pause and stop.
+ *
+ * Because we are working with a live stream, pausing does not make sense: instead, they are redefined to things
+ * that make sense for streaming: play will start and prepare the stream, pause will stop the stream, and stop will
+ * destroy the stream completely, after which you can no longer call play.
+ *
+ * Implementation notes: this class has a fair amount of calls to {@link #checkStates(int...)}. This method will
+ * check that the state of the media player is actually what you expect it to be. This is a development tool.
  *
  * @author Niko Strijbol
  */
@@ -27,6 +40,8 @@ public class Playback implements
         MediaPlayer.OnErrorListener,
         MediaPlayer.OnPreparedListener
 {
+    private static final String TAG = Playback.class.getSimpleName();
+
     private static final String WIFI_LOCK_TAG = "UrgentMusic";
 
     @MediaState
@@ -35,61 +50,82 @@ public class Playback implements
     private MediaPlayer mediaPlayer;
 
     private final Context context;
-    private final MediaStateListener listener;
+    private final List<MediaStateListener> listeners = new ArrayList<>();
     private final WifiManager.WifiLock wifiLock;
+    private final AudioManager.OnAudioFocusChangeListener audioFocusChangeListener;
+    private final AudioManager audioManager;
 
-    public Playback(Context context, @Nullable MediaStateListener listener1) {
+    public Playback(Context context, AudioManager.OnAudioFocusChangeListener audioFocusChangeListener) {
         Context applicationContext = context.getApplicationContext();
         this.context = applicationContext;
-        this.listener = listener1;
-        wifiLock = ((WifiManager) applicationContext.getSystemService(Context.WIFI_SERVICE))
+        this.audioFocusChangeListener = audioFocusChangeListener;
+        this.wifiLock = ((WifiManager) applicationContext.getSystemService(Context.WIFI_SERVICE))
                 .createWifiLock(WifiManager.WIFI_MODE_FULL, WIFI_LOCK_TAG);
+        this.audioManager = (AudioManager) applicationContext.getSystemService(Context.AUDIO_SERVICE);
     }
 
+    public void addMediaStateListener(MediaStateListener listener) {
+        this.listeners.add(listener);
+    }
 
+    public void removeMediaStateListener(MediaStateListener listener) {
+        this.listeners.remove(listener);
+    }
+
+    /**
+     * Request that the player begins playing. Whatever is currently playing will be stopped.
+     *
+     * This will also request audio focus. If that fails, nothing will happen.
+     *
+     * @param metadataCompat The metadata. The player will extract the URL to play from it.
+     */
     public void play(MediaMetadataCompat metadataCompat) {
 
-        // If we are already playing or preparing, do nothing.
-        if (isStateOneOf(PREPARING)) {
+        // Try to get audio focus. If that fails, we stop now.
+        int result = audioManager.requestAudioFocus(audioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+
+        if (result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             return;
         }
 
-        if (isStateOneOf(PREPARED, STARTED, PAUSED, PLAYBACK_COMPLETED)) {
-            play();
-            return;
-        }
+        // Ensures the media player is in IDLE state.
+        Log.d(TAG, "createMediaPlayerIfNeeded. needed? " + (mediaPlayer == null));
+        if (mediaPlayer == null || state == END) {
+            mediaPlayer = new MediaPlayer();
 
-        // If the state is error or end, we must construct a new media player.
-        if (mediaPlayer == null || state == ERROR || state == END) {
-
-            if (mediaPlayer == null || state == END) {
-                mediaPlayer = new MediaPlayer();
-            } else {
-                mediaPlayer.reset();
-            }
-            setState(IDLE);
-
+            // Make sure the media player will acquire a wake-lock while
+            // playing. If we don't do that, the CPU might go to sleep while the
+            // song is playing, causing playback to stop.
             mediaPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK);
+
+            // we want the media player to notify us when it's ready preparing,
+            // and when it's done playing:
             mediaPlayer.setOnPreparedListener(this);
             mediaPlayer.setOnCompletionListener(this);
             mediaPlayer.setOnErrorListener(this);
+        } else {
+            mediaPlayer.reset();
         }
 
-        if (state == IDLE) {
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            try {
-                mediaPlayer.setDataSource(metadataCompat.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI));
-            } catch (IOException e) {
-                setState(ERROR);
-                return;
-            }
-            setState(INITIALIZED);
+        // We don't notify listeners in this state, because this makes the notification disappear. Ideally we would
+        // do something about it in the service, but it is way easier to do it here.
+        setState(IDLE, false);
+
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        try {
+            mediaPlayer.setDataSource(metadataCompat.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI));
+        } catch (IOException e) {
+            setState(ERROR);
+            return;
         }
 
-        checkStates(INITIALIZED, STOPPED);
+        setState(INITIALIZED);
 
+        // Start preparing (buffering and such).
         mediaPlayer.prepareAsync();
+        // Get the WiFi-lock.
         wifiLock.acquire();
+
         setState(PREPARING);
     }
 
@@ -98,47 +134,42 @@ public class Playback implements
         return state;
     }
 
-    public boolean isStateOneOf(@MediaState int... states) {
+    /**
+     * Check if the internal state is one of the given states.
+     *
+     * @param states One of these.
+     *
+     * @return True or false.
+     */
+    boolean isStateOneOf(@MediaState int... states) {
         return IntStreams.of(states).anyMatch(i -> i ==  getState());
-    }
-
-    /**
-     * Start playback.
-     */
-    public void play() {
-        checkStates(PREPARED, STARTED, PAUSED, PLAYBACK_COMPLETED);
-        mediaPlayer.start();
-        setState(STARTED);
-    }
-
-    /**
-     * Pause playback.
-     */
-    public void pause() {
-        checkStates(STARTED, PAUSED, PLAYBACK_COMPLETED);
-        mediaPlayer.pause();
-        setState(PAUSED);
     }
 
     /**
      * Stop playback.
      */
-    public void stop() {
+    public void stop(boolean destroy) {
+
+        // Stop playback if it is playing.
         if (isStateOneOf(PREPARED, STARTED, STOPPED, PAUSED, PLAYBACK_COMPLETED)) {
             mediaPlayer.stop();
             setState(STOPPED);
         }
 
-        if (mediaPlayer != null) {
+        // Stop the WiFi lock
+        if (wifiLock.isHeld()) {
+            wifiLock.release();
+        }
+
+        // Stop the audio focus
+        audioManager.abandonAudioFocus(audioFocusChangeListener);
+
+        if (destroy && mediaPlayer != null) {
             mediaPlayer.reset();
             mediaPlayer.release();
             mediaPlayer = null;
-        }
-        // This may be called from any state.
-        setState(END);
 
-        if (wifiLock.isHeld()) {
-            wifiLock.release();
+            setState(END);
         }
     }
 
@@ -166,19 +197,29 @@ public class Playback implements
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         setState(PREPARED);
-        play();
+        mediaPlayer.start();
+        setState(STARTED);
     }
 
     /**
-     * Update the internal state. The {@link #listener} will be called if present.
+     * Update the internal state. The {@link #listeners} will be called if present.
      *
      * @param newState The new state.
      */
     private void setState(@MediaState int newState) {
+        setState(newState, true);
+    }
+
+    /**
+     * Update the internal state. The {@link #listeners} will be called if present.
+     *
+     * @param newState The new state.
+     */
+    private void setState(@MediaState int newState, boolean notify) {
         int old = state;
         this.state = newState;
-        if (listener != null) {
-            listener.onStateChanged(old, state);
+        if (notify) {
+            Iterables.forEach(listeners, l -> l.onStateChanged(old, state));
         }
     }
 
@@ -194,14 +235,5 @@ public class Playback implements
         if (state != ERROR && state != END) {
             mediaPlayer.setVolume(left, right);
         }
-    }
-
-    /**
-     * Check if playing is active. If in the correct state, the call is delegated to the media player, otherwise false.
-     *
-     * @return Is music playing or not.
-     */
-    public boolean isPlaying() {
-        return state != ERROR && state != END && mediaPlayer.isPlaying();
     }
 }
