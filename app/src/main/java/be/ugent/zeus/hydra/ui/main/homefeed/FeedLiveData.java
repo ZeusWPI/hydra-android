@@ -68,7 +68,8 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (SyncBroadcast.SYNC_DONE.equals(intent.getAction())) {
-                flagForRefresh(intent.getExtras());
+                Bundle extras = intent.getExtras() == null ? Bundle.EMPTY : intent.getExtras();
+                flagForRefresh(extras);
             }
         }
     };
