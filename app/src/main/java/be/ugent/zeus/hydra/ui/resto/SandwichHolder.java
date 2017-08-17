@@ -39,7 +39,7 @@ class SandwichHolder extends DataViewHolder<Pair<Sandwich, Boolean>> {
     public void populate(Pair<Sandwich, Boolean> data) {
         Context c = itemView.getContext();
         Sandwich sandwich = data.first;
-        name.setText(sandwich.name);
+        name.setText(sandwich.getName());
         mediumPrice.setText(String.format(c.getString(R.string.sandwich_price_medium), sandwich.getPriceMedium()));
         smallPrice.setText(String.format(c.getString(R.string.sandwich_price_small), sandwich.getPriceSmall()));
         String ingredientsString = TextUtils.join(", ", sandwich.getIngredients());

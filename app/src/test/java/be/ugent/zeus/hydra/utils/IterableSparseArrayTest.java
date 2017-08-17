@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.utils;
 
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
-
+import be.ugent.zeus.hydra.BuildConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.Iterator;
 
@@ -16,8 +16,8 @@ import static org.junit.Assert.*;
  *
  * @author Niko Strijbol
  */
-@SmallTest
-@RunWith(AndroidJUnit4.class)
+@RunWith(RobolectricTestRunner.class)
+@Config(constants = BuildConfig.class)
 public class IterableSparseArrayTest {
 
     private IterableSparseArray<Integer> smallArray;

@@ -37,6 +37,6 @@ public class OpeningHoursRequest extends JsonSpringRequest<OpeningHours[]> imple
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.LIBRARY_URL + "/libraries/" + libraryCode + "/calendar.json";
+        return Endpoints.LIBRARY_URL + "libraries/" + libraryCode + "/calendar.json";
     }
 }

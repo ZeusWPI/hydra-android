@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public final class Sandwich implements Parcelable, Serializable {
 
-    public String name;
+    private String name;
     private ArrayList<String> ingredients;
     @SerializedName("price_small")
     private String priceSmall;

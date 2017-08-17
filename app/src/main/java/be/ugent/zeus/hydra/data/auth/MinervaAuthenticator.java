@@ -4,6 +4,7 @@ import android.accounts.*;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.Log;
 import be.ugent.zeus.hydra.data.models.minerva.auth.BearerToken;
@@ -72,7 +73,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
         intent.putExtra(AuthActivity.ARG_AUTH_TYPE, authTokenType);
         intent.putExtra(AuthActivity.ARG_ADDING_NEW_ACCOUNT, true);
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
-        if(options != null) {
+        if (options != null) {
             intent.putExtra(AuthActivity.ARG_EXTRA_BUNDLE, options);
         }
 
@@ -152,7 +153,8 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
      *
      * @throws NetworkErrorException If the access token could not be retrieved due to network issues.
      */
-    private String getRefreshAccessToken(Account account, String refreshToken) throws NetworkErrorException {
+    @VisibleForTesting
+    String getRefreshAccessToken(Account account, String refreshToken) throws NetworkErrorException {
 
         //Make a request.
         Request<BearerToken> request = AccountUtils.buildRefreshTokenRequest(refreshToken);
@@ -178,8 +180,9 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
     }
 
     @Override
-    public String getAuthTokenLabel(String s) {
-        throw new UnsupportedOperationException();
+    public String getAuthTokenLabel(String authTokenType) {
+        // We don't have multiple types in Hydra.
+        return null;
     }
 
     @Override
@@ -189,6 +192,9 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
 
     @Override
     public Bundle hasFeatures(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String[] strings) throws NetworkErrorException {
-        throw new UnsupportedOperationException();
+        // We don't support features in Hydra.
+        Bundle result = new Bundle();
+        result.putBoolean(AccountManager.KEY_BOOLEAN_RESULT, false);
+        return result;
     }
 }

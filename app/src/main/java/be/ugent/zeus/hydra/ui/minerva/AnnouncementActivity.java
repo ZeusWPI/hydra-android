@@ -29,7 +29,7 @@ import org.threeten.bp.ZonedDateTime;
  *
  * If the announcement was marked as read, the activity will return a result. The resulting intent will a boolean named
  * {@link #RESULT_ANNOUNCEMENT_READ}. True indicates the announcement was marked as read, false indicates the
- * announcemnent has not been changed. In this second case the activity currently does not return a result, but this
+ * announcement has not been changed. In this second case the activity currently does not return a result, but this
  * might change in the future, so relying on the presence of a result alone is not sufficient.
  *
  * @author Niko Strijbol

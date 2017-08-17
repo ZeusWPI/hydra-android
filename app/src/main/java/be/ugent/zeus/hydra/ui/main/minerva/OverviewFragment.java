@@ -33,6 +33,7 @@ import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementNotificationBuilder;
 import be.ugent.zeus.hydra.data.sync.course.CourseAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.IOException;
 
@@ -136,6 +137,9 @@ public class OverviewFragment extends LifecycleFragment implements ResultStarter
     private void onAccountAdded() {
         //Get an account
         Account account = AccountUtils.getAccount(getContext());
+
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+        analytics.logEvent(FirebaseAnalytics.Event.LOGIN,  null);
 
         //Request first sync
         Log.d(TAG, "Requesting first sync...");

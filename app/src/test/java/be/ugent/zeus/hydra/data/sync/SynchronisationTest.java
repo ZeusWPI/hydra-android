@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.data.sync;
 
+import be.ugent.zeus.hydra.data.sync.Synchronisation;
 import java8.util.function.Functions;
 import org.junit.Test;
 

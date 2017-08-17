@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.data.network.requests;
+package be.ugent.zeus.hydra.ui.minerva;
 
 import be.ugent.zeus.hydra.repository.requests.RequestException;
 

@@ -31,6 +31,7 @@ import be.ugent.zeus.hydra.ui.main.resto.RestoFragment;
 import be.ugent.zeus.hydra.ui.main.schamper.SchamperFragment;
 import be.ugent.zeus.hydra.ui.onboarding.OnboardingActivity;
 import be.ugent.zeus.hydra.ui.preferences.SettingsActivity;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import jonathanfinerty.once.Once;
 
 /**
@@ -56,11 +57,14 @@ public class MainActivity extends BaseActivity {
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private AppBarLayout appBarLayout;
+    private FirebaseAnalytics analytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        analytics = FirebaseAnalytics.getInstance(this);
 
         // Show onboarding if the user has not completed it yet.
         if (!Once.beenDone(ONCE_ONBOARDING)) {
@@ -233,6 +237,7 @@ public class MainActivity extends BaseActivity {
         // Log it for Analytics
         HydraApplication application = (HydraApplication) getApplication();
         application.sendScreenName("Main > " + item.getTitle());
+        analytics.setCurrentScreen(this, item.getTitle().toString(), null);
         // Close the navigation drawer
         drawer.closeDrawers();
     }
@@ -301,6 +306,7 @@ public class MainActivity extends BaseActivity {
             if(resultCode == RESULT_OK) {
                 Log.i(TAG, "Onboarding complete");
                 Once.markDone(ONCE_ONBOARDING);
+                analytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_COMPLETE, null);
                 initialize(null);
             } else {
                 Log.i(TAG, "Onboarding failed, stop app.");
