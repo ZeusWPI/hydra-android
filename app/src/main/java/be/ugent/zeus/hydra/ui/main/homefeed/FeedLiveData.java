@@ -12,7 +12,6 @@ import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
-import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.debug.WaitRequest;
@@ -140,12 +139,14 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
     }
 
     private List<HomeCard> executeOperation(@Nullable Bundle args, FeedOperation operation, Set<Integer> errors, List<HomeCard> results) {
-        try {
-            return operation.transform(args, results);
-        } catch (RequestException e) {
+
+        Result<List<HomeCard>> result = operation.transform(args, results);
+
+        if (result.hasException()) {
             errors.add(operation.getCardType());
-            return results;
         }
+
+        return result.orElse(results);
     }
 
     /**

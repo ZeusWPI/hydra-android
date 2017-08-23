@@ -2,8 +2,9 @@ package be.ugent.zeus.hydra.ui.main.homefeed.operations;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+
+import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.repository.requests.RequestException;
 import java8.util.function.Predicate;
 import java8.util.function.Predicates;
 import java8.util.stream.Collectors;
@@ -33,8 +34,8 @@ class RemoveOperation implements FeedOperation {
 
     @NonNull
     @Override
-    public List<HomeCard> transform(Bundle args, List<HomeCard> current) throws RequestException {
-        return StreamSupport.stream(current).filter(Predicates.negate(predicate)).collect(Collectors.toList());
+    public Result<List<HomeCard>> transform(Bundle args, List<HomeCard> current) {
+        return Result.Builder.fromData(StreamSupport.stream(current).filter(Predicates.negate(predicate)).collect(Collectors.toList()));
     }
 
     @Override
