@@ -44,7 +44,7 @@ class RequestOperation implements FeedOperation {
         Stream<HomeCard> temp = StreamSupport.stream(current)
                 .filter(c -> c.getCardType() != request.getCardType());
 
-        Stream<HomeCard> requestStream = request.performRequest(args).getOrThrow();
+        Stream<HomeCard> requestStream = request.performRequest(args).getDataOrThrow();
         return RefStreams.concat(temp, requestStream).sorted().collect(Collectors.toList());
     }
 

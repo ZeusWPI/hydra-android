@@ -158,7 +158,7 @@ public class Result<D> {
 
     /**
      * Returns the data if there is no exception. If there is an exception, the exception is thrown, regardless if there
-     * is data present or not.
+     * is data present or not. See {@link #getDataOrThrow()} to get the data if present.
      *
      * @return The data.
      *
@@ -169,6 +169,22 @@ public class Result<D> {
             throw throwable;
         } else {
             return data;
+        }
+    }
+
+    /**
+     * Returns the data if it is present. If there is no data, the exception is thrown. You might also want to use
+     * {@link #getOrThrow()}, which will throw an exception if there is one, regardless if there is data or not.
+     *
+     * @return The data.
+     *
+     * @throws RequestException If there is no data.
+     */
+    public D getDataOrThrow() throws RequestException {
+        if (hasData()) {
+            return data;
+        } else {
+            throw throwable;
         }
     }
 
