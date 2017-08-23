@@ -2,7 +2,8 @@ package be.ugent.zeus.hydra.ui.main.homefeed.operations;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.repository.requests.RequestException;
+
+import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.stream.Collectors;
@@ -34,18 +35,18 @@ class RequestOperation implements FeedOperation {
      * @param current The current cards.
      *
      * @return The updates cards.
-     * @throws RequestException If the request fails.
      */
     @NonNull
     @Override
-    public List<HomeCard> transform(Bundle args, final List<HomeCard> current) throws RequestException {
+    public Result<List<HomeCard>> transform(Bundle args, final List<HomeCard> current) {
 
         // Filter existing cards away.
         Stream<HomeCard> temp = StreamSupport.stream(current)
                 .filter(c -> c.getCardType() != request.getCardType());
 
-        Stream<HomeCard> requestStream = request.performRequest(args).getOrThrow();
-        return RefStreams.concat(temp, requestStream).sorted().collect(Collectors.toList());
+        return request.performRequest(args).map(homeCardStream ->
+                RefStreams.concat(temp, homeCardStream).sorted().collect(Collectors.toList())
+        );
     }
 
     @Override
