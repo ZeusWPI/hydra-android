@@ -163,7 +163,7 @@ public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshL
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
         if (errorBar == null) {
-            errorBar = Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+            errorBar = Snackbar.make(getView(), getString(R.string.home_feed_failure), Snackbar.LENGTH_LONG)
                     .setAction(getString(R.string.again), v -> onRefresh());
         }
 

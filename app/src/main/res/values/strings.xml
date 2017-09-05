@@ -109,6 +109,7 @@
     <string name="sandwich_ingredients">Ingrediënten: %s.</string>
     <string name="again">Opnieuw</string>
     <string name="failure">Ophalen niet gelukt.</string>
+    <string name="home_feed_failure">Ophalen sommige kaarten mislukt.</string>
     <string name="home_resto_view_resto">Resto\'s</string>
     <string name="resto_resto">Resto\'s</string>
     <string name="description">Beschrijving</string>
