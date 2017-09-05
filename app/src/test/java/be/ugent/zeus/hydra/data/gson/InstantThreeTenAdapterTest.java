@@ -4,36 +4,36 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.Before;
 import org.junit.Test;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.Instant;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * @author Niko Strijbol
  */
-public class ZonedThreeTenAdapterTest {
+public class InstantThreeTenAdapterTest {
 
     private Gson gson;
 
     @Before
     public void setUp() {
         gson = new GsonBuilder()
-                .registerTypeAdapter(ZonedDateTime.class, new ZonedThreeTenAdapter())
+                .registerTypeAdapter(Instant.class, new InstantThreeTenAdapter())
                 .create();
     }
 
     @Test
     public void generalTest() throws Exception {
-        ZonedDateTime expected = ZonedDateTime.now();
+        Instant expected = Instant.now();
         String json = gson.toJson(expected);
-        ZonedDateTime actual = gson.fromJson(json, ZonedDateTime.class);
+        Instant actual = gson.fromJson(json, Instant.class);
         assertEquals(expected, actual);
     }
 
     @Test
     public void nullTest() throws Exception {
         String json = gson.toJson(null);
-        ZonedDateTime actual = gson.fromJson(json, ZonedDateTime.class);
+        Instant actual = gson.fromJson(json, Instant.class);
         assertEquals(null, actual);
     }
 

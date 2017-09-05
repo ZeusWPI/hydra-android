@@ -6,11 +6,11 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.media.MediaMetadataCompat;
+import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.UrgentProgramme;
+import be.ugent.zeus.hydra.data.models.UrgentInfo;
 import be.ugent.zeus.hydra.data.network.requests.UrgentInfoRequest;
-import be.ugent.zeus.hydra.data.network.requests.UrgentUrlRequest;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import java8.util.function.Consumer;
 
@@ -62,24 +62,29 @@ public class UrgentTrackProvider {
     }
 
     private synchronized void loadData() {
-        new UrgentUrlRequest().performRequest(null).ifPresent(url -> {
-            UrgentInfoRequest infoRequest = new UrgentInfoRequest();
-            Result<UrgentProgramme> programme = infoRequest.performRequest(null);
-            Bitmap albumArt = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_urgent);
-            MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder()
-                    .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, URGENT_ID)
-                    .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, url)
-                    .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt);
+        UrgentInfoRequest infoRequest = new UrgentInfoRequest();
+        Result<UrgentInfo> programme = infoRequest.performRequest(null);
 
-            if (programme.hasData()) {
-                builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, programme.getData().getName())
-                        .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, context.getString(R.string.urgent_fm));
-            } else {
-                builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, context.getString(R.string.urgent_fm));
-            }
+        if (!programme.hasData()) {
+            // It failed.
+            return;
+        }
+        UrgentInfo info = programme.getData();
 
-            track = builder.build();
-        });
+        Bitmap albumArt = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_urgent);
+        MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder()
+                .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, URGENT_ID)
+                .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, info.getUrl())
+                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt);
+
+        if (!TextUtils.isEmpty(info.getName())) {
+            builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, info.getName())
+                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, context.getString(R.string.urgent_fm));
+        } else {
+            builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, context.getString(R.string.urgent_fm));
+        }
+
+        track = builder.build();
     }
 
     public synchronized boolean hasTrackInformation() {
