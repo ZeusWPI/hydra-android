@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,23 +9,39 @@
     android:paddingRight="@dimen/list_two_line_padding_vertical"
     android:paddingTop="@dimen/list_two_line_padding_horizontal"
     android:paddingBottom="@dimen/list_two_line_padding_horizontal"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textSize="@dimen/list_two_line_primary_text_size"
-        android:id="@+id/title"
-        tools:text="Bibliotheek" />
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="@dimen/list_two_line_primary_text_size"
+            android:id="@+id/title"
+            tools:text="Bibliotheek" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_two_line_secondary_text_size"
+            android:id="@+id/subtitle"
+            tools:text="Meer informatie" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/library_favourite_image"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/list_two_line_secondary_text_size"
-        android:id="@+id/subtitle"
-        tools:text="Meer informatie" />
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/ic_star"
+        android:tint="@color/ugent_yellow_dark" />
 
 </LinearLayout>

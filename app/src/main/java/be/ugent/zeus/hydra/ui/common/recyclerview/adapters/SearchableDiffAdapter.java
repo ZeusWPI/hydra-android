@@ -7,6 +7,7 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.main.minerva.SearchHelper;
 import be.ugent.zeus.hydra.ui.main.minerva.SearchStateListener;
 import java8.lang.Iterables;
+import java8.util.function.BiPredicate;
 import java8.util.function.Function;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
@@ -22,15 +23,19 @@ public abstract class SearchableDiffAdapter<D, V extends DataViewHolder<D>> exte
         SearchView.OnQueryTextListener, SearchView.OnCloseListener, SearchHelper, android.widget.SearchView.OnQueryTextListener {
 
     protected List<D> allData = new ArrayList<>();
-    private final Function<D, String> stringifier;
+    private final BiPredicate<D, String> searchPredicate;
 
     private boolean isSearching;
 
     private final Set<SearchStateListener> listeners = Collections.newSetFromMap(new WeakHashMap<>());
 
     protected SearchableDiffAdapter(Function<D, String> stringifier) {
+        this((d, s) -> stringifier.apply(d).contains(s));
+    }
+
+    protected SearchableDiffAdapter(BiPredicate<D, String> searchPredicate) {
         super();
-        this.stringifier = stringifier;
+        this.searchPredicate = searchPredicate;
     }
 
     @Override
@@ -51,7 +56,7 @@ public abstract class SearchableDiffAdapter<D, V extends DataViewHolder<D>> exte
         }
         this.isSearching = true;
         List<D> filtered = StreamSupport.stream(allData)
-                .filter(s -> stringifier.apply(s).contains(newText.toLowerCase()))
+                .filter(s -> searchPredicate.test(s, newText.toLowerCase()))
                 .collect(Collectors.toList());
         setUpdate(filtered);
         return true;

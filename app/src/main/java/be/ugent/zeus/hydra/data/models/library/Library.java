@@ -55,6 +55,8 @@ public final class Library implements Serializable, Parcelable {
     @JsonAdapter(ZonedThreeTenAdapter.class)
     private ZonedDateTime updatedAt;
 
+    private transient boolean favourite;
+
     public Library() {
         // No-args constructor
     }
@@ -125,6 +127,14 @@ public final class Library implements Serializable, Parcelable {
 
     public ZonedDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
+    }
+
+    public boolean isFavourite() {
+        return favourite;
     }
 
     /**
