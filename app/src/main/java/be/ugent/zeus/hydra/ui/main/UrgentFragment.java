@@ -35,15 +35,12 @@ public class UrgentFragment extends Fragment {
 
     private static final String TAG = "UrgentFragment";
 
-    private static final String STATE_TOKEN = "state_token";
-
     @DrawableRes
     private static final int PLAY_DRAWABLE = R.drawable.ic_play_arrow_24dp;
     @DrawableRes
     private static final int PAUSE_DRAWABLE = R.drawable.ic_stop;
 
     private ImageButton playPauseButton;
-    private View buttonWrapper;
     private TextView artistText;
     private TextView titleText;
     private ImageView albumImage;
@@ -137,7 +134,6 @@ public class UrgentFragment extends Fragment {
         titleText = view.findViewById(R.id.titleText);
         progressBar = view.findViewById(R.id.progress_bar);
         playPauseButton = view.findViewById(R.id.playPauseButton);
-        buttonWrapper = view.findViewById(R.id.button_wrap);
 
         mediaBrowser = new MediaBrowserCompat(getActivity(),
                 new ComponentName(getActivity(), MusicService.class), connectionCallback, null);
@@ -160,12 +156,12 @@ public class UrgentFragment extends Fragment {
      * Init the media control fragment.
      */
     private void initMediaControls() {
-        buttonWrapper.setVisibility(View.VISIBLE);
+        playPauseButton.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
     }
 
     private void hideMediaControls() {
-        buttonWrapper.setVisibility(View.GONE);
+        playPauseButton.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -218,6 +214,13 @@ public class UrgentFragment extends Fragment {
                 break;
             default:
                 enablePlay = true;
+        }
+
+        // Show the progress bar to show the user we are actually doing something.
+        if (state.getState() == PlaybackStateCompat.STATE_BUFFERING || state.getState() == PlaybackStateCompat.STATE_CONNECTING) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
         }
 
         if (enablePlay) {

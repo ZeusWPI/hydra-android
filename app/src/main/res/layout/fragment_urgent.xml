@@ -46,32 +46,26 @@
             android:gravity="center_horizontal"
             android:paddingBottom="@dimen/content_spacing" />
 
-        <ProgressBar
-            android:id="@id/progress_bar"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin" />
-
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:gravity="center"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:id="@+id/button_wrap"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin">
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:animateLayoutChanges="true">
+
+            <ProgressBar
+                android:id="@id/progress_bar"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <ImageButton
-
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/playPauseButton"
                 app:srcCompat="@drawable/ic_play_arrow_24dp" />
 
-        </LinearLayout>
-
+        </FrameLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
