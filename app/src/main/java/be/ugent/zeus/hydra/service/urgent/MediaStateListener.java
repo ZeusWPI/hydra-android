@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.service.urgent;
 
 /**
- * Listen to changes of the state of the {@link MediaManager}.
+ * Listen to changes of the state of the {@link Playback}.
  *
  * @author Niko Strijbol
  */

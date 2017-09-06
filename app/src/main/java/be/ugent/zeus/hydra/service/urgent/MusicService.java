@@ -2,150 +2,80 @@ package be.ugent.zeus.hydra.service.urgent;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.Service;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.net.wifi.WifiManager;
-import android.os.IBinder;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.MediaBrowserServiceCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.data.models.UrgentTrack;
-import java8.util.Objects;
-import java8.util.function.Consumer;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.ui.main.MainActivity;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * TODO: handle noisy audio
+ *
  * @author Niko Strijbol
  */
-public class MusicService extends Service implements MediaStateListener, AudioManager.OnAudioFocusChangeListener {
+public class MusicService extends MediaBrowserServiceCompat implements MediaStateListener {
 
     private static final String TAG = "MusicService";
     private static final int MUSIC_SERVICE_ID = 1;
-    private static final String WIFI_LOCK_TAG = "UrgentMusic";
-
-    private final IBinder binder = new MusicBinder(this);
-
+    private static final int REQUEST_CODE = 121;
     private MediaNotificationBuilder notificationBuilder;
-    private Track track;
 
     private MediaSessionCompat mediaSession;
-    private WifiManager.WifiLock wifiLock;
-    private MediaManager mediaManager;
-    private boolean initialized = false;
-    private boolean isForeground = false;
-    private Consumer<MediaSessionCompat.Token> tokenConsumer;
-    private boolean isMediaSessionPrepared = false;
+    private Playback playback;
+    private boolean isStarted = false;
     private PlaybackStateCompat.Builder stateCompatBuilder;
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return binder;
-    }
+    private UrgentTrackProvider trackProvider;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        notificationBuilder = new MediaNotificationBuilder(getApplicationContext());
-        track = new UrgentTrack(getApplicationContext());
         Log.d(TAG, "onCreate: starting new service...");
+        trackProvider = new UrgentTrackProvider(this);
+        notificationBuilder = new MediaNotificationBuilder(this);
+
+        SimpleSessionCallback sessionCallback = new SimpleSessionCallback(getApplicationContext(), trackProvider, this::updateMetadata);
+
+        playback = new Playback(this, sessionCallback);
+        playback.addMediaStateListener(this);
+        sessionCallback.setMediaManager(playback);
+
+        // Start a MediaSession
+        mediaSession = new MediaSessionCompat(this, TAG);
+        setSessionToken(mediaSession.getSessionToken());
+        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+
+        mediaSession.setCallback(sessionCallback);
+
+        stateCompatBuilder = new PlaybackStateCompat.Builder()
+                .setActions(PlaybackStateCompat.ACTION_PAUSE
+                        | PlaybackStateCompat.ACTION_PLAY
+                        | PlaybackStateCompat.ACTION_STOP);
+        mediaSession.setPlaybackState(stateCompatBuilder.build());
+
+        Intent startThis = new Intent(this, MainActivity.class);
+        startThis.putExtra(MainActivity.ARG_TAB, R.id.drawer_urgent);
+        PendingIntent pi = PendingIntent.getActivity(this, REQUEST_CODE, startThis, PendingIntent.FLAG_UPDATE_CURRENT);
+        mediaSession.setSessionActivity(pi);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        Log.d(TAG, "onStartCommand: Received intent");
-
-        if (!initialized) {
-            Log.d(TAG, "onStartCommand: Doing set up");
-            setUp();
-            initialized = true;
-        }
-
         MediaButtonReceiver.handleIntent(mediaSession, intent);
-
-        return START_STICKY;
-    }
-
-    private void setUp() {
-
-        // Set up the media player.
-        initMediaPlayer();
-
-        // Get the wake lock instance.
-        wifiLock = ((WifiManager) getApplicationContext()
-                .getSystemService(Context.WIFI_SERVICE))
-                .createWifiLock(WifiManager.WIFI_MODE_FULL, WIFI_LOCK_TAG);
-
-        // Set up the media session.
-        initMediaSession();
-    }
-
-    /**
-     * Initialises the media player and starts retrieving the URL to play.
-     */
-    private void initMediaPlayer() {
-
-        Log.d(TAG, "initMediaPlayer: initing media player");
-
-        mediaManager = new MediaManager(getApplicationContext(), this);
-
-        // Start getting the URL.
-
-        track.getUrl(s -> {
-            mediaManager.setUrl(s);
-            if (tokenConsumer != null) {
-                tokenConsumer.accept(mediaSession.getSessionToken());
-                tokenConsumer = null;
-            }
-        });
-    }
-
-    /**
-     * Initialises the media session. MUST be called after the media player was set up.
-     */
-    private void initMediaSession() {
-
-        Log.d(TAG, "initMediaSession: initing media session");
-
-        //TODO
-        Objects.requireNonNull(mediaManager);
-
-        // TODO: sort out the media buttons handlers
-        mediaSession = new MediaSessionCompat(getApplicationContext(), TAG);
-        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-        mediaSession.setCallback(new SimpleSessionCallback(getApplicationContext(), mediaManager));
-        mediaSession.setActive(true);
-        stateCompatBuilder = new PlaybackStateCompat.Builder()
-                .setActions(PlaybackStateCompat.ACTION_PAUSE
-                        | PlaybackStateCompat.ACTION_PLAY
-                        | PlaybackStateCompat.ACTION_STOP
-                        | PlaybackStateCompat.ACTION_PREPARE);
-        mediaSession.setPlaybackState(stateCompatBuilder.build());
-
-        // Set metadata
-        final MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder();
-        builder.putText(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, track.getArtist());
-        builder.putText(MediaMetadataCompat.METADATA_KEY_TITLE, track.getTitle());
-
-        //Add the album artwork if it is available.
-        if (track.getAlbumArtwork() != null) {
-            builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, track.getAlbumArtwork());
-        }
-
-        mediaSession.setMetadata(builder.build());
-
-        // The playback is already preparing.
-        updateSessionState(PlaybackStateCompat.STATE_CONNECTING);
-        isMediaSessionPrepared = true;
-        if (tokenConsumer != null && mediaManager.hasUrl()) {
-            tokenConsumer.accept(mediaSession.getSessionToken());
-            tokenConsumer = null;
-        }
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
@@ -153,7 +83,7 @@ public class MusicService extends Service implements MediaStateListener, AudioMa
         // TODO: should we move this somewhere else?
         switch (newState) {
             case MediaState.PREPARED:
-                onPrepared();
+                updateSessionState(PlaybackStateCompat.STATE_BUFFERING);
                 break;
             case MediaState.ERROR:
                 updateSessionState(PlaybackStateCompat.STATE_ERROR);
@@ -169,74 +99,36 @@ public class MusicService extends Service implements MediaStateListener, AudioMa
                 break;
             case MediaState.STARTED:
                 updateSessionState(PlaybackStateCompat.STATE_PLAYING);
+                handlePlayRequest();
                 break;
             case MediaState.STOPPED:
-                onStopped();
+                updateSessionState(PlaybackStateCompat.STATE_STOPPED);
                 break;
             case MediaState.END:
-                stopSelf(); // Stop the service.
+                updateSessionState(PlaybackStateCompat.STATE_NONE);
+                stopSelf();
+                isStarted = false;
+                break;
+            case MediaState.IDLE:
+            case MediaState.INITIALIZED:
             default:
                 // Nothing.
         }
 
-        // Do not update the notification when we stop the service.
-        // Normally isForeground should always be false, but we never know.
-        if (isForeground || newState != MediaState.END) {
-            // Update notification
-            updateNotification();
-        }
+        updateNotification();
     }
 
-    /**
-     * The media player is read. Show the actual notification and start playback.
-     */
-    public void onPrepared() {
-
-        updateSessionState(PlaybackStateCompat.STATE_BUFFERING);
-
-        // Get the wakelock.
-        if (!wifiLock.isHeld()) {
-            wifiLock.acquire();
+    private void handlePlayRequest() {
+        if (!isStarted) {
+            startService(new Intent(getApplicationContext(), MusicService.class));
+            isStarted = true;
+        }
+        if (!mediaSession.isActive()) {
+            mediaSession.setActive(true);
         }
 
-        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-        if (result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            stopSelf();
-        }
-    }
-
-    public void onStopped() {
-        updateSessionState(PlaybackStateCompat.STATE_STOPPED);
-        if (wifiLock.isHeld()) {
-            wifiLock.release();
-        }
-
-        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        audioManager.abandonAudioFocus(this);
-    }
-
-    @Override
-    public void onAudioFocusChange(int focusChange) {
-        switch (focusChange) {
-            case AudioManager.AUDIOFOCUS_LOSS:
-                mediaSession.getController().getTransportControls().stop();
-                break;
-            case AudioManager.AUDIOFOCUS_REQUEST_FAILED:
-                mediaSession.getController().getTransportControls().stop();
-                stopSelf(); // Stop the service
-                break;
-            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                mediaSession.getController().getTransportControls().pause();
-                break;
-            case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                mediaManager.setVolume(0.5f, 0.5f);
-                break;
-            case AudioManager.AUDIOFOCUS_GAIN:
-                mediaManager.setVolume(1f, 1f);
-                mediaSession.getController().getTransportControls().play();
-                break;
-        }
+        MediaMetadataCompat data = trackProvider.getTrack();
+        mediaSession.setMetadata(data);
     }
 
     private void updateSessionState(@PlaybackStateCompat.State int state) {
@@ -250,74 +142,69 @@ public class MusicService extends Service implements MediaStateListener, AudioMa
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         Log.d(TAG, "onDestroy");
-
-        // Ensure we absolutely release everything.
-        if (wifiLock != null && wifiLock.isHeld()) {
-            wifiLock.release();
-        }
-
-        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        audioManager.abandonAudioFocus(this);
-
-        if (mediaManager != null && mediaManager.hasMediaPlayer()) {
-            mediaManager.destroy();
-        }
-
-        stopForeground(true);
-        isForeground = false;
+        mediaSession.getController().getTransportControls().stop();
+        mediaSession.release();
     }
-
-    public void setTokenConsumer(Consumer<MediaSessionCompat.Token> tokenConsumer) {
-        if (isMediaSessionPrepared && mediaManager.hasUrl()) {
-            tokenConsumer.accept(mediaSession.getSessionToken());
-        } else {
-            this.tokenConsumer = tokenConsumer;
-        }
-    }
-
-    private MediaNotificationBuilder.MediaInfoProvider provider = new MediaNotificationBuilder.MediaInfoProvider() {
-        @Override
-        public boolean isPlaying() {
-            return mediaManager.isPlaying();
-        }
-
-        @Override
-        public MediaSessionCompat.Token getMediaToken() {
-            return mediaSession.getSessionToken();
-        }
-
-        @Override
-        public Track getTrack() {
-            return track;
-        }
-
-        @Override
-        public PlaybackStateCompat getState() {
-            return mediaSession.getController().getPlaybackState();
-        }
-
-    };
 
     private void updateNotification() {
-        // Show the actual notification.
-        Notification mediaNotification = notificationBuilder.buildNotification(provider);
 
-        if (mediaManager != null && mediaManager.isPlaying()) {
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (mediaSession.getController().getMetadata() == null || mediaSession.getController().getPlaybackState() == null) {
+            return;
+        }
+
+        Notification mediaNotification = notificationBuilder.buildNotification(mediaSession);
+
+        if (playback.getState() ==  MediaState.STARTED) {
             startForeground(MUSIC_SERVICE_ID, mediaNotification);
-            isForeground = true;
         } else {
-            if (isForeground) {
-                stopForeground(false);
-                isForeground = false;
+
+            if (playback.isStateOneOf(MediaState.STOPPED, MediaState.PREPARING, MediaState.PREPARED, MediaState.INITIALIZED)) {
+                manager.notify(MUSIC_SERVICE_ID, mediaNotification);
+            } else {
+                manager.cancel(MUSIC_SERVICE_ID);
             }
-            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            manager.notify(MUSIC_SERVICE_ID, mediaNotification);
+
+            stopForeground(false);
         }
     }
 
-    MediaManager getMediaManager() {
-        return mediaManager;
+    @Nullable
+    @Override
+    public BrowserRoot onGetRoot(@NonNull String clientPackageName, int clientUid, @Nullable Bundle rootHints) {
+        // If the client is us, allow browsing. Otherwise, don't allow any browsing.
+        if (clientPackageName.equals(getPackageName())) {
+            return new BrowserRoot(UrgentTrackProvider.MEDIA_ID_ROOT, null);
+        } else {
+            return new BrowserRoot(UrgentTrackProvider.MEDIA_ID_EMPTY_ROOT, null);
+        }
+    }
+
+    @Override
+    public void onLoadChildren(@NonNull String parentId, @NonNull Result<List<MediaBrowserCompat.MediaItem>> result) {
+
+        if (!trackProvider.hasTrackInformation()) {
+            result.detach();
+        }
+
+        trackProvider.prepareMedia(success -> {
+            if (success && parentId.equals(UrgentTrackProvider.MEDIA_ID_ROOT)) {
+
+                // Set metadata
+                mediaSession.setMetadata(trackProvider.getTrack());
+
+                result.sendResult(Collections.singletonList(new MediaBrowserCompat.MediaItem(
+                        trackProvider.getTrack().getDescription(),
+                        MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
+                )));
+            } else {
+                result.sendResult(Collections.emptyList());
+            }
+        });
+    }
+
+    public void updateMetadata() {
+        mediaSession.setMetadata(trackProvider.getTrack());
     }
 }

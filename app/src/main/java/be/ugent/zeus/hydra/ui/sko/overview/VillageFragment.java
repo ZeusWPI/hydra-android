@@ -25,7 +25,7 @@ public class VillageFragment extends LifecycleFragment implements SwipeRefreshLa
     private static final String TAG = "VillageFragment";
 
     private SearchView searchView;
-    private ExhibitorViewModel viewModel;
+    private ExhibitorViewModel model;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class VillageFragment extends LifecycleFragment implements SwipeRefreshLa
         refreshLayout.setColorSchemeResources(R.color.sko_red);
         refreshLayout.setOnRefreshListener(this);
 
-        ExhibitorViewModel model = ViewModelProviders.of(this).get(ExhibitorViewModel.class);
+        model = ViewModelProviders.of(this).get(ExhibitorViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         model.getData().observe(this, new AdapterObserver<>(adapter));
@@ -87,7 +87,7 @@ public class VillageFragment extends LifecycleFragment implements SwipeRefreshLa
     @Override
     public void onRefresh() {
         searchView.setQuery("", false);
-        viewModel.onRefresh();
+        model.onRefresh();
     }
 
     private void onError(Throwable throwable) {

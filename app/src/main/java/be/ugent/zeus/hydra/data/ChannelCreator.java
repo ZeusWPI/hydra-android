@@ -116,7 +116,7 @@ public class ChannelCreator {
         String channelName = context.getString(R.string.channel_urgent);
         String channelDescription = context.getString(R.string.channel_urgent_desc);
 
-        NotificationChannel channel = new NotificationChannel(URGENT_CHANNEL, channelName, NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel channel = new NotificationChannel(URGENT_CHANNEL, channelName, NotificationManager.IMPORTANCE_LOW);
         channel.setDescription(channelDescription);
         channel.enableLights(false);
         channel.enableVibration(false);
