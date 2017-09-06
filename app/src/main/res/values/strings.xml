@@ -79,6 +79,16 @@
     <string name="facebookButtonDescription">Link naar onze Facebook-pagina.</string>
     <string name="comingsoontitle">Coming soon!</string>
 
+    <string name="pref_home_feed_card_types_title">Soorten kaarten</string>
+    <string name="pref_home_feed_card_types_summary">Kies welke soort kaarten je wilt zien in de homefeed</string>
+    <string name="pref_home_feed_card_types_description">Kies welke soort kaarten je wilt zien in jouw homefeed. Je kan ook altijd kaarten verbergen vanuit de homefeed zelf.</string>
+
+    <string name="pref_home_feed_data_saving_title">Databesparing</string>
+    <string name="pref_home_feed_data_saving_summary">Bespaar data door geen nieuwe miniaturen te laden bij mobiele verbindingen</string>
+
+    <string name="pref_home_feed_clear_cards_title">Verborgen kaarten wissen</string>
+    <string name="pref_home_feed_clear_cards_summary">Wis de lijst van verborgen kaarten. Hierdoor zullen alle kaarten opnieuw getoond worden.</string>
+
     <string name="title_activity_hydra_web_view">Web View</string>
     <string name="title_activity_info_sub_item">Meer info</string>
     <string name="cancel">annuleren</string>
@@ -359,5 +369,6 @@
     <string name="sko_artist_search_web">Artiest zoeken op internet</string>
     <string name="sko_artist_search_music">Artiest zoeken in muziek</string>
     <string name="sko_artist_no_content">Geen beschrijving gevonden voor deze artiest.</string>
+    <string name="activity_title_homefeed_card_types">Kaartsoorten</string>
 
 </resources>

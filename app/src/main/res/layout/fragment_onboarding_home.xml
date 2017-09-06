@@ -29,13 +29,12 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:text="@string/onboarding_homefeed_description"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <FrameLayout
+        android:id="@+id/recycler_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:paddingTop="@dimen/large_horizontal_padding"
         android:paddingLeft="@dimen/vertical_padding"
-        android:paddingRight="@dimen/vertical_padding"
-        tools:listitem="@layout/item_checkbox_string"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:paddingRight="@dimen/vertical_padding" />
 
 </LinearLayout>

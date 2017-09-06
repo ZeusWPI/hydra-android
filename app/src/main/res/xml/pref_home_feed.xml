@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<MultiSelectListPreference
-		android:key="pref_disabled_cards"
-		android:summary="Kies welke soort kaarten je niet wilt zien op de startscherm."
-		android:title="Kaartsoorten"
-        android:entries="@array/card_types_names"
-        android:entryValues="@array/card_types_nr"
-        android:defaultValue="@array/empty_array"/>
+
+	<Preference
+		android:summary="@string/pref_home_feed_card_types_summary"
+		android:title="@string/pref_home_feed_card_types_title"
+		android:persistent="false">
+
+		<intent
+			android:action="android.intent.action.VIEW"
+			android:targetPackage="be.ugent.zeus.hydra"
+			android:targetClass="be.ugent.zeus.hydra.ui.preferences.HomeFeedPrefActivity"/>
+
+	</Preference>
 
 	<CheckBoxPreference
 		android:key="pref_home_feed_save_data"
-		android:summary="Bespaar data door miniaturen niet te laden bij mobiele verbindingen."
-		android:title="Databesparing"
+		android:summary="@string/pref_home_feed_data_saving_summary"
+		android:title="@string/pref_home_feed_data_saving_title"
 		android:defaultValue="false" />
 
 	<Preference
 		android:persistent="false"
 		android:key="pref_home_feed_clickable"
-		android:title="Verborgen kaarten wissen"
-		android:summary="Wis individueel verborgen kaarten.">
+		android:title="@string/pref_home_feed_clear_cards_title"
+		android:summary="@string/pref_home_feed_clear_cards_summary">
 
 	</Preference>
 </PreferenceScreen>
