@@ -2,18 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/library_visit_catalogue"
+    <item android:id="@+id/action_search"
+        android:title="@string/action_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always"
         android:orderInCategory="10"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_open_in_browser"
-        android:title="@string/menu_library_catalogue" />
+        android:iconifiedByDefault="true" />
 
     <item
         android:id="@+id/action_refresh"
         android:icon="@drawable/ic_refresh"
-        android:orderInCategory="50"
+        android:orderInCategory="10"
         app:showAsAction="ifRoom"
         android:title="@string/action_refresh" />
+
+    <item
+        android:id="@+id/library_visit_catalogue"
+        android:orderInCategory="110"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_open_in_browser"
+        android:title="@string/menu_library_catalogue" />
 
 </menu>

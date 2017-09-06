@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.util.Pair;
 
 import be.ugent.zeus.hydra.data.models.library.Library;
 import be.ugent.zeus.hydra.data.models.library.LibraryList;
@@ -13,18 +12,16 @@ import be.ugent.zeus.hydra.repository.data.RequestLiveData;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
 import java8.util.Comparators;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java8.util.Lists;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
  * @author Niko Strijbol
  */
-public class LibraryLiveData extends RequestLiveData<Pair<List<Library>, List<Library>>> implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class LibraryLiveData extends RequestLiveData<List<Library>> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private Set<String> favouriteLibraries;
 
@@ -65,7 +62,7 @@ public class LibraryLiveData extends RequestLiveData<Pair<List<Library>, List<Li
      *
      * @return The request.
      */
-    private static Request<Pair<List<Library>, List<Library>>> makeRequest(Context context) {
+    private static Request<List<Library>> makeRequest(Context context) {
 
         Request<LibraryList> cached = Requests.cache(context, new LibraryListRequest());
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -73,11 +70,14 @@ public class LibraryLiveData extends RequestLiveData<Pair<List<Library>, List<Li
         return Requests.map(cached, libraryList -> {
             Set<String> favourites = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
 
-            Map<Boolean, List<Library>> split = StreamSupport.stream(libraryList.getLibraries())
-                    .sorted(Comparators.comparing(Library::getName))
-                    .collect(Collectors.partitioningBy(library -> favourites.contains(library.getCode())));
+            List<Library> libraries = libraryList.getLibraries();
+            libraries.forEach(library -> library.setFavourite(favourites.contains(library.getCode())));
+            Lists.sort(libraries, Comparators.thenComparing(
+                    Comparators.reversed(Comparators.comparing(Library::isFavourite)),
+                    Comparators.comparing(Library::getName)
+            ));
 
-            return new Pair<>(split.get(false), split.get(true));
+            return libraries;
         });
     }
 }

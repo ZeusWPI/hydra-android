@@ -4,9 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
 import be.ugent.zeus.hydra.data.gson.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.data.gson.ZonedThreeTenAdapter;
-import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import java8.util.Objects;
@@ -54,6 +54,8 @@ public final class Library implements Serializable, Parcelable {
     @SerializedName("updated_at")
     @JsonAdapter(ZonedThreeTenAdapter.class)
     private ZonedDateTime updatedAt;
+
+    private boolean favourite;
 
     public Library() {
         // No-args constructor
@@ -127,6 +129,14 @@ public final class Library implements Serializable, Parcelable {
         return updatedAt;
     }
 
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
+    }
+
+    public boolean isFavourite() {
+        return favourite;
+    }
+
     /**
      * @return Concatenated comments (no delimiter) or null if there are no comments.
      */
@@ -181,6 +191,19 @@ public final class Library implements Serializable, Parcelable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Library library = (Library) o;
+        return Objects.equals(code, library.code) && Objects.equals(favourite, library.favourite);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, favourite);
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -193,7 +216,7 @@ public final class Library implements Serializable, Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.code);
         dest.writeStringList(this.telephone);
-        dest.writeByte((byte) (this.active ? 1 : 0));
+        dest.writeByte(this.active ? (byte) 1 : (byte) 0);
         dest.writeString(this.thumbnail);
         dest.writeString(this.image);
         dest.writeString(this.latitude);
@@ -203,13 +226,11 @@ public final class Library implements Serializable, Parcelable {
         dest.writeString(this.campus);
         dest.writeString(this.faculty);
         dest.writeString(this.link);
-        dest.writeLong(TtbUtils.serialize(this.createdAt));
-        dest.writeLong(TtbUtils.serialize(this.updatedAt));
+        dest.writeSerializable(this.createdAt);
+        dest.writeSerializable(this.updatedAt);
+        dest.writeByte(this.favourite ? (byte) 1 : (byte) 0);
     }
 
-    /**
-     * Parcelable constructor.
-     */
     protected Library(Parcel in) {
         this.department = in.readString();
         this.email = in.readString();
@@ -227,8 +248,9 @@ public final class Library implements Serializable, Parcelable {
         this.campus = in.readString();
         this.faculty = in.readString();
         this.link = in.readString();
-        this.createdAt = TtbUtils.unserialize(in.readLong());
-        this.updatedAt = TtbUtils.unserialize(in.readLong());
+        this.createdAt = (ZonedDateTime) in.readSerializable();
+        this.updatedAt = (ZonedDateTime) in.readSerializable();
+        this.favourite = in.readByte() != 0;
     }
 
     public static final Creator<Library> CREATOR = new Creator<Library>() {
@@ -242,17 +264,4 @@ public final class Library implements Serializable, Parcelable {
             return new Library[size];
         }
     };
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Library library = (Library) o;
-        return Objects.equals(code, library.code);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(code);
-    }
 }
