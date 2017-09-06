@@ -11,7 +11,7 @@
             android:title="@string/title_home_feed" />
         <item
             android:id="@+id/drawer_resto"
-            android:icon="@drawable/tabs_menu"
+            android:icon="@drawable/tabs_resto"
             android:title="@string/title_home_resto" />
         <item
             android:id="@+id/drawer_minerva"
