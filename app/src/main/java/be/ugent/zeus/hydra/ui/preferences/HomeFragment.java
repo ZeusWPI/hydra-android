@@ -36,6 +36,7 @@ public class HomeFragment extends PreferenceFragment {
                     Toast.makeText(getActivity(), R.string.pref_home_feed_cleared, Toast.LENGTH_SHORT).show();
                     return true;
                 });
+
     }
 
     @Override

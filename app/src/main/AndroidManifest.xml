@@ -62,12 +62,23 @@
             android:name=".ui.preferences.SettingsActivity"
             android:label="@string/action_settings"
             android:theme="@style/Hydra.Main.TextColorSelector"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".ui.main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <!-- Association select preference activity -->
         <activity
             android:name=".ui.preferences.AssociationSelectPrefActivity"
             android:label="Verenigingen"
+            android:parentActivityName=".ui.preferences.SettingsActivity" />
+
+        <!-- Association select preference activity -->
+        <activity
+            android:name=".ui.preferences.HomeFeedPrefActivity"
+            android:label="@string/activity_title_homefeed_card_types"
             android:parentActivityName=".ui.preferences.SettingsActivity" />
 
         <!-- Resto overview -->

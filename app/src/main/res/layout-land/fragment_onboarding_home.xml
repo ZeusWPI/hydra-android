@@ -35,8 +35,8 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <FrameLayout
+        android:id="@+id/recycler_fragment"
         android:paddingTop="@dimen/large_horizontal_padding"
         android:paddingLeft="@dimen/vertical_padding"
         android:paddingRight="@dimen/vertical_padding"
