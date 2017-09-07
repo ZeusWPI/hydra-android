@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <background android:drawable="@color/launcher_shortcut_background" />
+
+    <foreground>
+        <!-- 10dp padding on each side of 108dp asset -->
+        <!-- see https://medium.com/google-developers/implementing-adaptive-icons-1e4d1795470e -->
+        <inset
+            android:drawable="@drawable/shortcut_minerva_foreground"
+            android:inset="9.26%" />
+    </foreground>
+
+</adaptive-icon>
