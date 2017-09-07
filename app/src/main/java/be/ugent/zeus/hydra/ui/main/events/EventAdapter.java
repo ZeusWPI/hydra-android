@@ -1,11 +1,13 @@
 package be.ugent.zeus.hydra.ui.main.events;
 
+import android.text.TextUtils;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.data.models.association.Association;
 import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.SearchableDiffAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DateHeaderViewHolder;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
@@ -15,10 +17,27 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
  * @author ellen
  * @author Niko Strijbol
  */
-class EventAdapter extends ItemDiffAdapter<Event, EventViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
+class EventAdapter extends SearchableDiffAdapter<Event, EventViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
 
     protected EventAdapter() {
-        super();
+        super((event, s) -> {
+            if (!TextUtils.isEmpty(event.getTitle()) && event.getTitle().toLowerCase().contains(s)) {
+                return true;
+            }
+            if (event.getAssociation() != null) {
+                Association association = event.getAssociation();
+                if (!TextUtils.isEmpty(association.getDisplayName()) && association.getDisplayName().toLowerCase().contains(s)) {
+                    return true;
+                }
+                if (!TextUtils.isEmpty(association.getFullName()) && association.getFullName().toLowerCase().contains(s)) {
+                    return true;
+                }
+                if (association.getInternalName().contains(s)) {
+                    return true;
+                }
+            }
+            return false;
+        });
     }
 
     @Override
