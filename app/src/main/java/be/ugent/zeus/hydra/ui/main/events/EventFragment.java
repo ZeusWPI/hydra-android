@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
@@ -88,10 +89,14 @@ public class EventFragment extends LifecycleFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_refresh, menu);
+        inflater.inflate(R.menu.menu_main_events, menu);
         //TODO there must a better of doing this
         BaseActivity activity = (BaseActivity) getActivity();
-        BaseActivity.tintToolbarIcons(activity.getToolbar(), menu, R.id.action_refresh);
+        activity.tintToolbarIcons(menu, R.id.action_refresh);
+        SearchView view = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        view.setOnQueryTextListener(adapter);
+        view.setOnCloseListener(adapter);
+        view.setOnSearchClickListener(v -> adapter.onOpen());
     }
 
     @Override
