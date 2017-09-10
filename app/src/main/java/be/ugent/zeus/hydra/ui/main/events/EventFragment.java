@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -22,7 +21,6 @@ import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.ui.preferences.SettingsActivity;
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 /**
  * Displays a list of activities, filtered by the settings.
@@ -57,8 +55,7 @@ public class EventFragment extends LifecycleFragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new StickyRecyclerHeadersDecoration(adapter));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        //recyclerView.addItemDecoration(new StickyRecyclerHeadersDecoration(adapter));
         recyclerView.setAdapter(adapter);
         adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, noData));
 

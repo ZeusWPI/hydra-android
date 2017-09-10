@@ -3,13 +3,12 @@ package be.ugent.zeus.hydra.utils;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
-import org.threeten.bp.chrono.Chronology;
 import org.threeten.bp.format.DateTimeFormatter;
-import org.threeten.bp.format.DateTimeFormatterBuilder;
 import org.threeten.bp.format.FormatStyle;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.threeten.bp.temporal.IsoFields;
@@ -33,18 +32,26 @@ public class DateUtils {
     @VisibleForTesting
     static DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale);
 
+    @VisibleForTesting
+    static DateTimeFormatter LONG_DATE_FORMATTER = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(locale);
+
     /**
      * Get the date in friendly format.
      */
     public static String getFriendlyDate(@NonNull LocalDate date) {
+        return getFriendlyDate(date, DATE_FORMATTER);
+    }
+
+    public static String getLongFriendlyDate(@NonNull LocalDate date) {
+        return getFriendlyDate(date, LONG_DATE_FORMATTER);
+    }
+
+    public static String getFriendlyDate(@NonNull LocalDate date, DateTimeFormatter dateFormatter) {
         LocalDate today = LocalDate.now();
 
         int thisWeek = Integer.parseInt(today.format(WEEK_FORMATTER));
         int week = date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
         long daysBetween = ChronoUnit.DAYS.between(today, date);
-
-        DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale);
-        DateTimeFormatterBuilder.getLocalizedDateTimePattern(FormatStyle.MEDIUM, FormatStyle.MEDIUM, Chronology.ofLocale(locale), locale);
 
         if (daysBetween == 0) {
             return "vandaag";
@@ -53,13 +60,13 @@ public class DateUtils {
         } else if (daysBetween == 2) {
             return "overmorgen";
         } else if (daysBetween < 0) {
-            return DATE_FORMATTER.format(date);
+            return dateFormatter.format(date);
         } else if (daysBetween < 7) {
             return DAY_FORMATTER.format(date).toLowerCase();
         } else if (week == thisWeek + 1) {
             return "volgende " + DAY_FORMATTER.format(date).toLowerCase();
         } else {
-            return DATE_FORMATTER.format(date);
+            return dateFormatter.format(date);
         }
     }
 

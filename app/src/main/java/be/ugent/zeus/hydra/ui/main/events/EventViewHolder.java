@@ -16,7 +16,7 @@ import org.threeten.bp.format.DateTimeFormatter;
  *
  * @author Niko Strijbol
  */
-class EventViewHolder extends DataViewHolder<Event> {
+class EventViewHolder extends DataViewHolder<EventItem> {
 
     private static final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -31,7 +31,8 @@ class EventViewHolder extends DataViewHolder<Event> {
         start = v.findViewById(R.id.starttime);
     }
 
-    public void populate(final Event event) {
+    public void populate(final EventItem eventItem) {
+        Event event = eventItem.getItem();
         title.setText(event.getTitle());
         association.setText(event.getAssociation().getDisplayName());
         start.setText(event.getLocalStart().format(HOUR_FORMATTER));
