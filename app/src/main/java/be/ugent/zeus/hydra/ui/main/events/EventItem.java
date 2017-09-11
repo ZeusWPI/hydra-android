@@ -124,7 +124,7 @@ public class EventItem {
                 } else {
                     // This is a new date.
                     // We first modify the last element.
-                    items.get(items.size() - 2).setLastOfSection(true);
+                    items.get(items.size() - 1).setLastOfSection(true);
                     // Add the new header.
                     items.add(new EventItem(date));
                     // Add the actual item

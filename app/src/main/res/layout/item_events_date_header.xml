@@ -17,8 +17,6 @@
         app:contentPaddingRight="@dimen/card_text_padding_vertical"
         app:cardCornerRadius="0dp">
 
-        <!-- android:layout_marginRight="?android:scrollbarSize"-->
-
         <TextView
             android:id="@+id/date_header"
             android:layout_width="match_parent"
