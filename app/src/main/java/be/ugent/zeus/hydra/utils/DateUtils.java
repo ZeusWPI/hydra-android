@@ -23,35 +23,42 @@ import java.util.Locale;
 public class DateUtils {
 
     private static Locale locale = new Locale("nl");
-    private static DateTimeFormatter WEEK_FORMATTER = DateTimeFormatter.ofPattern("w", locale);
-    private static DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern("HH:mm", new Locale("nl"));
-
-    //Package private formatters for test.
     @VisibleForTesting
     static DateTimeFormatter DAY_FORMATTER = DateTimeFormatter.ofPattern("cccc", locale);
-    @VisibleForTesting
-    static DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(locale);
-
-    @VisibleForTesting
-    static DateTimeFormatter LONG_DATE_FORMATTER = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(locale);
+    private static DateTimeFormatter WEEK_FORMATTER = DateTimeFormatter.ofPattern("w", locale);
+    private static DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern("HH:mm", new Locale("nl"));
 
     /**
      * Get the date in friendly format.
      */
     public static String getFriendlyDate(@NonNull LocalDate date) {
-        return getFriendlyDate(date, DATE_FORMATTER);
+        return getFriendlyDate(date, FormatStyle.MEDIUM);
     }
 
-    public static String getLongFriendlyDate(@NonNull LocalDate date) {
-        return getFriendlyDate(date, LONG_DATE_FORMATTER);
-    }
+    /**
+     * Transform a given date to a more 'friendly' date, with the given formatStyle as a suggestion. This method is very
+     * similar to {@link android.text.format.DateUtils#getRelativeTimeSpanString(long)}.
+     *
+     * The relative date applies to {@code date}s in the future, for the coming week. If the date is today, tomorrow or
+     * overmorrow, the formatted date will be those terms. Is the date in the next week, it will be the name of the day,
+     * e.g. 'Saturday'.
+     *
+     * Other dates are formatted using {@link #getDateFormatterForStyle(FormatStyle)}.
+     *
+     * @param date        The date you wish to format.
+     * @param formatStyle The style of non-special dates.
+     *
+     * @return A friendly representation of the date.
+     */
+    public static String getFriendlyDate(@NonNull LocalDate date, FormatStyle formatStyle) {
 
-    public static String getFriendlyDate(@NonNull LocalDate date, DateTimeFormatter dateFormatter) {
         LocalDate today = LocalDate.now();
 
         int thisWeek = Integer.parseInt(today.format(WEEK_FORMATTER));
         int week = date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
         long daysBetween = ChronoUnit.DAYS.between(today, date);
+
+        final DateTimeFormatter dateFormatter = getDateFormatterForStyle(formatStyle);
 
         if (daysBetween == 0) {
             return "vandaag";
@@ -70,6 +77,11 @@ public class DateUtils {
         }
     }
 
+    @VisibleForTesting
+    static DateTimeFormatter getDateFormatterForStyle(FormatStyle style) {
+        return DateTimeFormatter.ofLocalizedDate(style).withLocale(locale);
+    }
+
     /**
      * Check if for a given date, the {@link #getFriendlyDate(LocalDate)} would return a friendly date or not.
      *
@@ -86,20 +98,19 @@ public class DateUtils {
     }
 
     /**
-     * Convert a date time to a relative string. The precision is one minute, and the resulting string is
-     * abbreviated.
+     * Convert a date time to a relative string. The precision is one minute, and the resulting string is abbreviated.
      *
-     * @see android.text.format.DateUtils#getRelativeDateTimeString(Context, long, long, long, int)
-     *
-     * @param dateTime The date time.
-     * @param context A context.
+     * @param dateTime   The date time.
+     * @param context    A context.
      * @param abbreviate If the {@link android.text.format.DateUtils#FORMAT_ABBREV_RELATIVE} flag should be set.
      *
      * @return Relative string
+     *
+     * @see android.text.format.DateUtils#getRelativeDateTimeString(Context, long, long, long, int)
      */
     public static CharSequence relativeDateTimeString(ZonedDateTime dateTime, Context context, boolean abbreviate) {
         int flags = 0;
-        if(abbreviate) {
+        if (abbreviate) {
             flags = android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE;
         }
         return android.text.format.DateUtils.getRelativeDateTimeString(
@@ -116,8 +127,8 @@ public class DateUtils {
     }
 
     /**
-     * Get the date, converted to the local time zone. The resulting DateTime is the time as it is used
-     * in the current time zone.
+     * Get the date, converted to the local time zone. The resulting DateTime is the time as it is used in the current
+     * time zone.
      *
      * This value is calculated every time, so if you need it a lot, cache it in a local variable.
      *
@@ -130,11 +141,12 @@ public class DateUtils {
     }
 
     /**
-     * Get a relative date string for a start and stop date. The string accounts for events that are on the same day,
-     * by not showing the day twice for example.
+     * Get a relative date string for a start and stop date. The string accounts for events that are on the same day, by
+     * not showing the day twice for example.
      *
      * @param start The start date. Should be before the end date.
-     * @param end The end date.
+     * @param end   The end date.
+     *
      * @return The string.
      */
     public static String relativeTimeSpan(Context context, ZonedDateTime start, ZonedDateTime end) {

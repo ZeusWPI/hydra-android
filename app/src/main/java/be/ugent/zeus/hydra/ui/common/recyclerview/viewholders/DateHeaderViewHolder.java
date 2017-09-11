@@ -6,6 +6,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.format.FormatStyle;
 
 /**
  * For date headers.
@@ -23,6 +24,6 @@ public class DateHeaderViewHolder extends DataViewHolder<ZonedDateTime> {
     }
 
     public void populate(ZonedDateTime date) {
-        headerText.setText(DateUtils.getLongFriendlyDate(date.toLocalDate()));
+        headerText.setText(DateUtils.getFriendlyDate(date.toLocalDate(), FormatStyle.LONG));
     }
 }

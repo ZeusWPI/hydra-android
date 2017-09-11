@@ -6,6 +6,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import org.threeten.bp.format.FormatStyle;
 
 /**
  * For date headers.
@@ -23,6 +24,6 @@ public class DateHeaderViewHolder extends DataViewHolder<EventItem> {
     }
 
     public void populate(EventItem eventItem) {
-        headerText.setText(DateUtils.getLongFriendlyDate(eventItem.getHeader()));
+        headerText.setText(DateUtils.getFriendlyDate(eventItem.getHeader(), FormatStyle.LONG));
     }
 }
