@@ -2,14 +2,15 @@ package be.ugent.zeus.hydra.ui.main.events;
 
 import android.content.Intent;
 import android.os.Parcelable;
-import android.support.v7.widget.CardView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.ui.EventDetailActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
+import com.github.captain_miao.optroundcardview.OptRoundCardView;
 import org.threeten.bp.format.DateTimeFormatter;
 
 /**
@@ -24,7 +25,7 @@ class EventViewHolder extends DataViewHolder<EventItem> {
     private TextView start;
     private TextView title;
     private TextView association;
-    private CardView cardView;
+    private OptRoundCardView cardView;
     private View divider;
 
     EventViewHolder(View v) {
@@ -47,7 +48,21 @@ class EventViewHolder extends DataViewHolder<EventItem> {
             v.getContext().startActivity(intent);
         });
 
-        // Set the corners and bottom edge.
+        // If this is the last event in it's section, we enable shadows and rounded corners.
+        boolean isLast = eventItem.isLastOfSection();
+        // Show the bottom left and right corner.
+        cardView.showCorner(false, false, isLast, isLast);
+        // Show the bottom show.
+        cardView.showEdgeShadow(true, false, true, isLast);
+        // Add some margin if there is a shadow. Otherwise the shadow is hidden. The margin is 4 DP, which together with
+        // the 4 DP margin of the header of the next section results in the correct spacing of 8 DP between cards.
+        // The RecyclerView also has a top and bottom padding of 4 DP (combined with clipToPadding=false) for the very first
+        // and last element.
+        int bottomMarginInPx = isLast ? itemView.getContext().getResources().getDimensionPixelSize(R.dimen.card_margin_half) : 0;
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) cardView.getLayoutParams();
+        params.bottomMargin = bottomMarginInPx;
+        cardView.setLayoutParams(params);
+
         // Hide the divider in the last case.
         divider.setVisibility(eventItem.isLastOfSection() ? View.GONE : View.VISIBLE);
     }
