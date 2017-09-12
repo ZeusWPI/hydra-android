@@ -1,11 +1,11 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview.viewholders;
+package be.ugent.zeus.hydra.ui.main.events;
 
 import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.format.FormatStyle;
 
 /**
@@ -14,7 +14,7 @@ import org.threeten.bp.format.FormatStyle;
  * @author Niko Strijbol
  * @author unknown
  */
-public class DateHeaderViewHolder extends DataViewHolder<ZonedDateTime> {
+public class DateHeaderViewHolder extends DataViewHolder<EventItem> {
 
     private TextView headerText;
 
@@ -23,7 +23,7 @@ public class DateHeaderViewHolder extends DataViewHolder<ZonedDateTime> {
         headerText = v.findViewById(R.id.date_header);
     }
 
-    public void populate(ZonedDateTime date) {
-        headerText.setText(DateUtils.getFriendlyDate(date.toLocalDate(), FormatStyle.LONG));
+    public void populate(EventItem eventItem) {
+        headerText.setText(DateUtils.getFriendlyDate(eventItem.getHeader(), FormatStyle.LONG));
     }
 }

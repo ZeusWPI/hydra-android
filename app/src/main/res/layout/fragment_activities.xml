@@ -15,6 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/item_activity"
+            android:paddingTop="@dimen/card_margin_half"
+            android:paddingBottom="@dimen/card_margin_half"
+            android:clipToPadding="false"
             app:layoutManager="@string/app_layout_manager_linear" />
 
         <include layout="@layout/x_progress_bar" />

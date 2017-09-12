@@ -89,6 +89,13 @@
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://github.com/karumi/Dexter
 
+- artifact: com.github.captain-miao:optroundcardview:+
+  name: OptionRoundCardView
+  copyrightHolder: YanLu, Matthew Lee, The Android Open Source Project
+  license: MIT
+  licenseUrl: http://opensource.org/licenses/MIT
+  url: https://github.com/captain-miao/OptionRoundCardview
+
 - artifact: com.android.support.constraint:+:+
   skip: true
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <!-- The margin must be set on the card, not the parent layout. -->
+    <!-- See https://github.com/captain-miao/OptionRoundCardview/issues/4 -->
+
+    <com.github.captain_miao.optroundcardview.OptRoundCardView
+        app:optRoundCardBottomEdges="false"
+        app:optRoundCardLeftBottomCorner="false"
+        app:optRoundCardRightBottomCorner="false"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="@dimen/card_margin_half"
+        android:layout_marginLeft="@dimen/card_margin"
+        android:layout_marginRight="@dimen/card_margin"
+        app:optRoundContentPaddingLeft="@dimen/card_text_padding_vertical"
+        app:optRoundContentPaddingRight="@dimen/card_text_padding_vertical">
+
+        <TextView
+            android:id="@+id/date_header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:textColor="?attr/colorAccent"
+            android:gravity="center_vertical"
+            tools:text="Een datum komt hier" />
+
+    </com.github.captain_miao.optroundcardview.OptRoundCardView>
+
+    <View style="@style/Divider" android:background="@color/ugent_white" />
+
+</LinearLayout>
+

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import be.ugent.zeus.hydra.data.models.association.Event;
 import be.ugent.zeus.hydra.data.network.requests.association.EventFilter;
 import be.ugent.zeus.hydra.data.network.requests.association.EventRequest;
 import be.ugent.zeus.hydra.repository.data.RequestLiveData;
@@ -22,15 +21,18 @@ import java.util.Set;
  *
  * @author Niko Strijbol
  */
-public class EventLiveData extends RequestLiveData<List<Event>> implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class EventLiveData extends RequestLiveData<List<EventItem>> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private Set<String> disabledAssociations;
 
     public EventLiveData(Context context) {
         super(context, Requests.map(
-                Requests.map(Requests.cache(context, new EventRequest()), Arrays::asList),
-                new EventFilter(context)
-                ));
+                Requests.map(
+                        Requests.map(Requests.cache(context, new EventRequest()), Arrays::asList),
+                        new EventFilter(context)
+                ),
+                new EventItem.Converter()
+        ));
     }
 
     @Override

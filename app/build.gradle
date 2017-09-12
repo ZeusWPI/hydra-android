@@ -120,6 +120,7 @@ dependencies {
     compile 'com.github.alexfu:SQLiteQueryBuilder:0.3.0'
     compile 'com.jonathanfinerty.once:once:1.2.2'
     compile 'com.karumi:dexter:4.1.1'
+    compile 'com.github.captain-miao:optroundcardview:1.0.0'
 
     // Used for the OAuth stuff
     compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {

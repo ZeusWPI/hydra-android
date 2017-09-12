@@ -1,48 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_view"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/list_two_line_padding_vertical"
-    android:paddingRight="@dimen/list_two_line_padding_vertical"
-    android:paddingTop="@dimen/list_two_line_padding_horizontal"
-    android:paddingBottom="@dimen/list_two_line_padding_horizontal"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:background="?android:attr/selectableItemBackground">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+    <!-- The margin must be set on the card, not the parent layout. -->
+    <!-- See https://github.com/captain-miao/OptionRoundCardview/issues/4 -->
+
+    <com.github.captain_miao.optroundcardview.OptRoundCardView
+        android:id="@+id/card_view"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_marginLeft="@dimen/card_margin"
+        android:layout_marginRight="@dimen/card_margin"
+        app:optRoundContentPaddingLeft="@dimen/card_text_padding_vertical"
+        app:optRoundContentPaddingRight="@dimen/card_text_padding_vertical"
+        app:optRoundContentPaddingTop="@dimen/card_text_padding_top"
+        app:optRoundContentPaddingBottom="@dimen/card_text_padding_bottom"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="@dimen/list_two_line_primary_text_size"
-            tools:text="Titel en naam"
-            android:id="@+id/name" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/association"
-            tools:text="Vereniging"/>
-    </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
 
-    <TextView
-        android:paddingLeft="@dimen/list_two_line_padding_vertical"
-        android:paddingStart="@dimen/list_two_line_padding_vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:textSize="@dimen/list_two_line_primary_text_size"
-        android:id="@+id/starttime"
-        android:layout_gravity="end"
-        tools:text="Start"
-        tools:ignore="RtlSymmetry" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="@dimen/list_two_line_primary_text_size"
+                    tools:text="Titel en naam"
+                    android:id="@+id/name" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/association"
+                    tools:text="Vereniging" />
+            </LinearLayout>
+
+            <TextView
+                android:paddingLeft="@dimen/list_two_line_padding_vertical"
+                android:paddingStart="@dimen/list_two_line_padding_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/list_two_line_primary_text_size"
+                android:id="@+id/starttime"
+                android:layout_gravity="end"
+                tools:text="Start"
+                tools:ignore="RtlSymmetry" />
+
+        </LinearLayout>
+
+    </com.github.captain_miao.optroundcardview.OptRoundCardView>
+
+    <View
+        android:id="@+id/item_event_divider"
+        style="@style/Divider"
+        android:background="@color/ugent_white" />
 
 </LinearLayout>
