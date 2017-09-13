@@ -24,7 +24,6 @@ import java.util.List;
  */
 public class CourseLiveData extends RequestLiveData<List<Pair<Course, Integer>>> {
 
-    private final IntentFilter intentFilter = new IntentFilter(SyncBroadcast.SYNC_COURSES);
     public final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -40,7 +39,7 @@ public class CourseLiveData extends RequestLiveData<List<Pair<Course, Integer>>>
     protected void onActive() {
         super.onActive();
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
-        manager.registerReceiver(receiver, intentFilter);
+        manager.registerReceiver(receiver, getFilter());
     }
 
     @Override
@@ -66,5 +65,12 @@ public class CourseLiveData extends RequestLiveData<List<Pair<Course, Integer>>>
         public Result<List<Pair<Course, Integer>>> performRequest(@Nullable Bundle args) {
             return Result.Builder.fromData(courseDao.getAllAndUnreadCount());
         }
+    }
+
+    private static IntentFilter getFilter() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(SyncBroadcast.SYNC_PROGRESS_WHATS_NEW);
+        filter.addAction(SyncBroadcast.SYNC_COURSES);
+        return filter;
     }
 }
