@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.ui.common;
 
 import android.arch.lifecycle.LifecycleRegistry;
-import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
@@ -26,7 +25,7 @@ import be.ugent.zeus.hydra.R;
  *
  * @author Niko Strijbol
  */
-public abstract class BaseActivity extends AppCompatActivity implements LifecycleRegistryOwner {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 

@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.events;
 
-import android.arch.lifecycle.LifecycleFragment;
+import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +28,7 @@ import be.ugent.zeus.hydra.ui.preferences.SettingsActivity;
  * @author ellen
  * @author Niko Strijbol
  */
-public class EventFragment extends LifecycleFragment {
+public class EventFragment extends Fragment {
 
     private static final String TAG = "EventFragment";
 

@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.sko.overview;
 
-import android.arch.lifecycle.LifecycleFragment;
+import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,7 +24,7 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
  *
  * @author Niko Strijbol
  */
-public class TimelineFragment extends LifecycleFragment {
+public class TimelineFragment extends Fragment {
 
     private static final String TAG = "TimelineFragment";
 

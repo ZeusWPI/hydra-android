@@ -4,7 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
-import android.arch.lifecycle.LifecycleFragment;
+import android.support.v4.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -43,7 +42,7 @@ import java.io.IOException;
  *
  * @author Niko Strijbol
  */
-public class OverviewFragment extends LifecycleFragment implements ResultStarter {
+public class OverviewFragment extends Fragment implements ResultStarter {
 
     private static final String TAG = "OverviewFragment";
     private static final int REQUEST_ANNOUNCEMENT_CHANGED_CODE = 56532;

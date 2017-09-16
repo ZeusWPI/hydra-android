@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.resto;
 
-import android.arch.lifecycle.LifecycleFragment;
+import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +33,7 @@ import be.ugent.zeus.hydra.utils.DateUtils;
  * @author Niko Strijbol
  * @author mivdnber
  */
-public class RestoFragment extends LifecycleFragment {
+public class RestoFragment extends Fragment {
 
     private static final String TAG = "RestoFragment";
 
