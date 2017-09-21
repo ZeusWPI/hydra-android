@@ -80,6 +80,12 @@ public class AgendaActivity extends BaseActivity {
 
     private void onResult(AgendaItem result) {
         setResult(RESULT_OK);
+
+        // If this is null, do nothing.
+        if (result == null) {
+            return;
+        }
+
         errorView.setVisibility(GONE);
         normalView.setVisibility(VISIBLE);
         invalidateOptionsMenu();
@@ -156,22 +162,27 @@ public class AgendaActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // Provide up navigation if opened from outside Hydra.
-                Intent upIntent = NavUtils.getParentActivityIntent(this);
-                if (NavUtils.shouldUpRecreateTask(this, upIntent) || isTaskRoot()) {
-                    // Intent for the course activity
-                    upIntent.putExtra(CourseActivity.ARG_TAB, CourseActivity.Tab.AGENDA);
-                    upIntent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) this.item.getCourse());
-                    TaskStackBuilder builder = TaskStackBuilder.create(this)
-                            .addNextIntentWithParentStack(upIntent);
-                    // The first intent is the home intent, so edit that one.
-                    builder.editIntentAt(0)
-                            .putExtra(MainActivity.ARG_TAB, R.id.drawer_minerva);
-                    builder.startActivities();
+                // If the item is null, use default up-action.
+                if (this.item == null) {
+                    return super.onOptionsItemSelected(item);
                 } else {
-                    NavUtils.navigateUpTo(this, upIntent);
+                    // Provide up navigation if opened from outside Hydra.
+                    Intent upIntent = NavUtils.getParentActivityIntent(this);
+                    if (NavUtils.shouldUpRecreateTask(this, upIntent) || isTaskRoot()) {
+                        // Intent for the course activity
+                        upIntent.putExtra(CourseActivity.ARG_TAB, CourseActivity.Tab.AGENDA);
+                        upIntent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) this.item.getCourse());
+                        TaskStackBuilder builder = TaskStackBuilder.create(this)
+                                .addNextIntentWithParentStack(upIntent);
+                        // The first intent is the home intent, so edit that one.
+                        builder.editIntentAt(0)
+                                .putExtra(MainActivity.ARG_TAB, R.id.drawer_minerva);
+                        builder.startActivities();
+                    } else {
+                        NavUtils.navigateUpTo(this, upIntent);
+                    }
+                    return true;
                 }
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
