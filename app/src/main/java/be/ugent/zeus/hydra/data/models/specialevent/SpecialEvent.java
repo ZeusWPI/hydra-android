@@ -50,6 +50,10 @@ public final class SpecialEvent implements Serializable {
      */
     @NonNull
     public Intent getViewIntent(Context context) {
+        // Prevent nullpointer in switch.
+        if (inApp == null) {
+            inApp = "";
+        }
         switch (inApp) {
             case SKO_IN_APP:
                 return new Intent(context, OverviewActivity.class);
