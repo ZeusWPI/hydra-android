@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.homefeed;
 
-import android.arch.lifecycle.LifecycleFragment;
+import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,7 +44,7 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.FeedLiveData.REFRESH_HOMECARD
  * @author Niko Strijbol
  * @author silox
  */
-public class HomeFeedFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener, HomeFeedAdapter.AdapterCompanion {
+public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, HomeFeedAdapter.AdapterCompanion {
 
     private static final String TAG = "HomeFeedFragment";
 

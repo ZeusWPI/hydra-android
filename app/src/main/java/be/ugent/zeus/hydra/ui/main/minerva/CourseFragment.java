@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.minerva;
 
-import android.arch.lifecycle.LifecycleFragment;
+import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,7 +39,7 @@ import static android.app.Activity.RESULT_OK;
  * @author silox
  * @author Niko Strijbol
  */
-public class CourseFragment extends LifecycleFragment implements OnStartDragListener {
+public class CourseFragment extends Fragment implements OnStartDragListener {
 
     private static final String TAG = "CourseFragment";
 

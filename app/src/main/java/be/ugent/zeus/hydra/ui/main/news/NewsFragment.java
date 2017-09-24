@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.news;
 
-import android.arch.lifecycle.LifecycleFragment;
+import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,7 +25,7 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
  * @author Ellen
  * @author Niko Strijbol
  */
-public class NewsFragment extends LifecycleFragment {
+public class NewsFragment extends Fragment {
 
     private static final String TAG = "NewsFragment";
     private ActivityHelper helper;

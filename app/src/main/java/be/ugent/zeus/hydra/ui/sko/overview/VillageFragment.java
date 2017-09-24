@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.sko.overview;
 
-import android.arch.lifecycle.LifecycleFragment;
+import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +20,7 @@ import be.ugent.zeus.hydra.ui.common.BaseActivity;
 /**
  * @author Niko Strijbol
  */
-public class VillageFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class VillageFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "VillageFragment";
 

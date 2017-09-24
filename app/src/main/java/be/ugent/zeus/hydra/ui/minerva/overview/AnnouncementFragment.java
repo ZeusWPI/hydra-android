@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.ui.minerva.overview;
 
 import android.app.NotificationManager;
-import android.arch.lifecycle.LifecycleFragment;
+import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
@@ -35,7 +35,7 @@ import static android.app.Activity.RESULT_OK;
  *
  * @author Niko Strijbol
  */
-public class AnnouncementFragment extends LifecycleFragment implements ResultStarter {
+public class AnnouncementFragment extends Fragment implements ResultStarter {
 
     private static final String TAG = "AnnouncementFragment";
     private static final String ARG_COURSE = "argCourse";

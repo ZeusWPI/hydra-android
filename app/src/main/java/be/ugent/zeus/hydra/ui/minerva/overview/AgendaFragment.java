@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.minerva.overview;
 
-import android.arch.lifecycle.LifecycleFragment;
+import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,7 +24,7 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
  *
  * @author Niko Strijbol
  */
-public class AgendaFragment extends LifecycleFragment {
+public class AgendaFragment extends Fragment {
 
     private static final String TAG = "AgendaFragment";
 
