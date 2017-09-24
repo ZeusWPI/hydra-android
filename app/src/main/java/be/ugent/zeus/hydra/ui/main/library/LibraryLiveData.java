@@ -11,6 +11,7 @@ import be.ugent.zeus.hydra.data.network.requests.library.LibraryListRequest;
 import be.ugent.zeus.hydra.repository.data.RequestLiveData;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
+import java8.lang.Iterables;
 import java8.util.Comparators;
 import java8.util.Lists;
 
@@ -71,7 +72,7 @@ public class LibraryLiveData extends RequestLiveData<List<Library>> implements S
             Set<String> favourites = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
 
             List<Library> libraries = libraryList.getLibraries();
-            libraries.forEach(library -> library.setFavourite(favourites.contains(library.getCode())));
+            Iterables.forEach(libraries, library -> library.setFavourite(favourites.contains(library.getCode())));
             Lists.sort(libraries, Comparators.thenComparing(
                     Comparators.reversed(Comparators.comparing(Library::isFavourite)),
                     Comparators.comparing(Library::getName)
