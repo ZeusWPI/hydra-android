@@ -9,7 +9,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'com.google.gms:google-services:3.0.0'
-        classpath 'com.cookpad.android.licensetools:license-tools-plugin:0.19.1'
+        classpath 'com.cookpad.android.licensetools:license-tools-plugin:0.23.0'
 
         //When disabling jack, uncomment this
         classpath 'me.tatarka:gradle-retrolambda:3.7.0'
