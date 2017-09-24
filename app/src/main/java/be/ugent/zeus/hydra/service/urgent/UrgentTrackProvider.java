@@ -10,7 +10,7 @@ import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.UrgentInfo;
-import be.ugent.zeus.hydra.data.network.requests.UrgentInfoRequest;
+import be.ugent.zeus.hydra.data.network.requests.urgent.UrgentInfoRequest;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import java8.util.function.Consumer;
 

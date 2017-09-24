@@ -135,3 +135,10 @@
   skip: true
 - artifact: android.arch.lifecycle:runtime:+
   skip: true
+
+- artifact: org.jsoup:jsoup:+
+  name: jsoup Java HTML Parser
+  copyrightHolder: Jonathan Hedley
+  license: The MIT License
+  licenseUrl: https://jsoup.org/license
+  url: https://jsoup.org/

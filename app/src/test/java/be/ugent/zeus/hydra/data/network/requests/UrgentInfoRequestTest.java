@@ -4,6 +4,7 @@ import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.models.UrgentInfo;
 import be.ugent.zeus.hydra.data.network.AbstractJsonSpringRequestTest;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
+import be.ugent.zeus.hydra.data.network.requests.urgent.UrgentInfoRequest;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
