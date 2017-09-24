@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.specialevent;
 
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.data.models.specialevent.SpecialEvent;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.Objects;
 
 /**
@@ -27,7 +27,7 @@ class SpecialEventCard extends HomeCard {
     public int getPriority() {
         //We get the complement, as the server assumes 1000 = highest priority. This is for
         //historical reasons.
-        return FeedUtils.FEED_MAX_VALUE - specialEvent.getPriority() - FeedUtils.FEED_SPECIAL_SHIFT;
+        return FeedUtils.FEED_MAX_VALUE - specialEvent.getPriority() - 2 * FeedUtils.FEED_SPECIAL_SHIFT;
     }
 
     @Override
