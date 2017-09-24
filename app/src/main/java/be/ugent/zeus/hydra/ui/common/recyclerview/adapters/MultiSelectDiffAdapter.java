@@ -54,6 +54,24 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
     }
 
     /**
+     * Set the values to use.
+     *
+     * @param values  The values.
+     * @param nonInitials The indices of the items of {@code values} that should not receive the default value.
+     * @param initial The initial value.
+     */
+    public void setItems(List<H> values, Set<Integer> nonInitials, boolean initial) {
+        this.defaultValue = initial;
+        this.setItems(values);
+        for (int index : nonInitials) {
+            setChecked(index);
+            notifyItemChanged(index);
+        }
+
+        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectDiffAdapter.this));
+    }
+
+    /**
      * {@inheritDoc}
      * <p>
      * This method will NOT erase or reset the state of the items; use {@link #setItems(List, boolean)} for that.

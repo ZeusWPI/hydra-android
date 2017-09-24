@@ -17,8 +17,13 @@ import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DescriptionMultiSelectListViewHolder;
+import be.ugent.zeus.hydra.utils.PreferencesUtils;
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 
 import java.util.*;
+
+import static be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment.PREF_DISABLED_CARDS;
 
 /**
  * Enables choosing the home feed card types.
@@ -58,7 +63,14 @@ public class HomeFeedSelectFragment extends Fragment {
             itemTuples.add(new Tuple(values[i], descriptions[i]));
         }
 
-        adapter.setItems(itemTuples, true);
+        List<String> cardTypesList = Arrays.asList(ints);
+
+        Set<Integer> unwanted = StreamSupport.stream(PreferencesUtils.getStringSet(getContext(), PREF_DISABLED_CARDS))
+                .map(cardTypesList::indexOf)
+                .filter(integer -> integer != -1) // Non-existing ones are gone
+                .collect(Collectors.toSet());
+
+        adapter.setItems(itemTuples, unwanted, true);
     }
 
     @Override
@@ -77,7 +89,7 @@ public class HomeFeedSelectFragment extends Fragment {
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        preferences.edit().putStringSet(be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment.PREF_DISABLED_CARDS, disabled).apply();
+        preferences.edit().putStringSet(PREF_DISABLED_CARDS, disabled).apply();
     }
 
     private static class Tuple {

@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.urgent;
 
+import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.Objects;
 
@@ -10,7 +11,7 @@ public class UrgentCard extends HomeCard {
 
     @Override
     public int getPriority() {
-        return 0;
+        return FeedUtils.FEED_SPECIAL_SHIFT + 1;
     }
 
     @Override

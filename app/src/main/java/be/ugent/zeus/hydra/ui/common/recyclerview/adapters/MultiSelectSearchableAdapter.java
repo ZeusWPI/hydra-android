@@ -37,7 +37,7 @@ public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<
 
     @Override
     public void setItems(List<Pair<D, Boolean>> items) {
-        allData = items;
+        allData = new ArrayList<>(items);
         super.setItems(items);
     }
 
