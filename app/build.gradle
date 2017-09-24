@@ -10,7 +10,7 @@ android {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 247
+        versionCode 250
         versionName "2.5"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -50,7 +50,7 @@ android {
             // Set these to true when debugging the home feed.
             buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", "false"
             buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", "false"
-            buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", "true"
+            buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", "false"
         }
     }
 
