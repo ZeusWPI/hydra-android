@@ -5,18 +5,14 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.sko.Exhibitor;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.SearchableDiffAdapter;
+import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 
 /**
  * Exhibitors. Can be filtered on the name of the exhibitor.
  *
  * @author Niko Strijbol
  */
-public class ExhibitorAdapter extends SearchableDiffAdapter<Exhibitor, ExhibitorViewHolder> {
-
-    ExhibitorAdapter() {
-        super(e -> e.getName().toLowerCase());
-    }
+public class ExhibitorAdapter extends ItemDiffAdapter<Exhibitor, ExhibitorViewHolder> {
 
     @Override
     public ExhibitorViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

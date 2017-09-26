@@ -1,13 +1,12 @@
 package be.ugent.zeus.hydra.ui.sko.overview;
 
-import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.*;
 
@@ -16,6 +15,7 @@ import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
 /**
  * @author Niko Strijbol
@@ -24,7 +24,7 @@ public class VillageFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     private static final String TAG = "VillageFragment";
 
-    private SearchView searchView;
+    //private SearchView searchView;
     private ExhibitorViewModel model;
 
     @Override
@@ -45,9 +45,9 @@ public class VillageFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
         ExhibitorAdapter adapter = new ExhibitorAdapter();
 
-        searchView = view.findViewById(R.id.search_view);
-        searchView.setSuggestionsAdapter(null);
-        searchView.setOnQueryTextListener(adapter);
+//        searchView = view.findViewById(R.id.search_view);
+//        searchView.setSuggestionsAdapter(null);
+//        searchView.setOnQueryTextListener(adapter);
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.requestFocus();
@@ -57,6 +57,9 @@ public class VillageFragment extends Fragment implements SwipeRefreshLayout.OnRe
         SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.sko_red);
         refreshLayout.setOnRefreshListener(this);
+
+        RecyclerFastScroller scroller = view.findViewById(R.id.fast_scroller);
+        scroller.attachRecyclerView(recyclerView);
 
         model = ViewModelProviders.of(this).get(ExhibitorViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
@@ -86,7 +89,7 @@ public class VillageFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     @Override
     public void onRefresh() {
-        searchView.setQuery("", false);
+        //searchView.setQuery("", false);
         model.onRefresh();
     }
 
