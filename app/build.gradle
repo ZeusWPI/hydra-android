@@ -79,6 +79,11 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/notice.txt'
     }
+
+    // TODO: fork the material-intro library and remove databinding.
+    dataBinding {
+        enabled = true
+    }
 }
 
 project.afterEvaluate {
@@ -114,7 +119,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
     compile 'net.cachapa.expandablelayout:expandablelayout:2.9.1'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
-    compile 'com.heinrichreimersoftware:material-intro:1.6' // DO NOT UPDATE unless you want databinding
+    compile 'com.heinrichreimersoftware:material-intro:1.6.2'
     compile 'su.j2e:rv-joiner:1.0.9'
     compile 'com.github.alexfu:SQLiteQueryBuilder:0.3.0'
     compile 'com.jonathanfinerty.once:once:1.2.2'

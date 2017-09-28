@@ -97,13 +97,14 @@ public class MinervaFragment extends PreferenceFragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (oldCourseSync != newCourseSync) {
+        boolean hasAccount = AccountUtils.hasAccount(getAppContext());
+        if (hasAccount && oldCourseSync != newCourseSync) {
             SyncUtils.changeSyncFrequency(getAppContext(), MinervaConfig.COURSE_AUTHORITY, newCourseSync);
         }
-        if (oldAnnouncementSync != newAnnouncementSync) {
+        if (hasAccount && oldAnnouncementSync != newAnnouncementSync) {
             SyncUtils.changeSyncFrequency(getAppContext(), MinervaConfig.ANNOUNCEMENT_AUTHORITY, newAnnouncementSync);
         }
-        if (oldCalendarSync != newCalendarSync) {
+        if (hasAccount && oldCalendarSync != newCalendarSync) {
             SyncUtils.changeSyncFrequency(getAppContext(), MinervaConfig.CALENDAR_AUTHORITY, newCalendarSync);
         }
     }

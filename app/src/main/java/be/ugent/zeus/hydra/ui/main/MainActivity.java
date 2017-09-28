@@ -219,7 +219,7 @@ public class MainActivity extends BaseActivity {
         fragmentManager
                 .beginTransaction()
                 .replace(R.id.content, fragment)
-                .commit();
+                .commitAllowingStateLoss();
 
         appBarLayout.setExpanded(true);
     }
