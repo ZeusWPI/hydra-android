@@ -10,6 +10,7 @@ import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ import java.util.List;
 public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<Pair<D, Boolean>>> extends ItemAdapter<Pair<D, Boolean>, VH> implements
         SearchView.OnQueryTextListener, android.widget.SearchView.OnQueryTextListener {
 
-    protected List<Pair<D, Boolean>> allData;
+    protected List<Pair<D, Boolean>> allData = Collections.emptyList();
 
     private final Function<String, Predicate<D>> searchPredicate;
 
