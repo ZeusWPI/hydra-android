@@ -31,6 +31,7 @@ public final class AgendaTable implements BaseColumns {
         String LAST_EDIT = "last_edit";
         String LAST_EDIT_TYPE = "last_edit_type";
         String CALENDAR_ID = "calendar_id";
+        String IS_MERGED = "is_merged";
     }
 
     /**
@@ -50,6 +51,7 @@ public final class AgendaTable implements BaseColumns {
         Column lastEdit = new Column(Columns.LAST_EDIT, ColumnType.INTEGER);
         Column lastEditType = new Column(Columns.LAST_EDIT_TYPE, ColumnType.TEXT);
         Column calenderId = new Column(Columns.CALENDAR_ID, ColumnType.INTEGER);
+        Column isMerged = new Column(Columns.IS_MERGED, ColumnType.INTEGER, ColumnConstraint.NOT_NULL);
 
         Column restraint = new ForeignKeyColumn(Columns.COURSE, CourseTable.TABLE_NAME, CourseTable.Columns.ID)
                 .cascade(true);
@@ -67,6 +69,7 @@ public final class AgendaTable implements BaseColumns {
                 .column(lastEdit)
                 .column(lastEditType)
                 .column(calenderId)
+                .column(isMerged)
                 .column(restraint)
                 .build();
     }

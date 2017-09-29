@@ -25,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
 
     private static final String NAME = "minervaDatabase.db";
-    private static final int VERSION = 8;
+    private static final int VERSION = 9;
 
     //Singleton - can we avoid this? Should we? I don't know.
     private static DatabaseHelper instance;
@@ -66,6 +66,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         if (oldVersion < 8) {
             upgradeFrom7to8(db);
+        }
+        if (oldVersion < 9) {
+            upgradeFrom8to9(db);
         }
     }
 
@@ -125,5 +128,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void upgradeFrom7to8(SQLiteDatabase db) {
         // Add the column
         db.execSQL("ALTER TABLE " + CourseTable.TABLE_NAME + " ADD COLUMN " + CourseTable.Columns.ORDER + " INTEGER NOT NULL DEFAULT 0");
+    }
+
+    private void upgradeFrom8to9(SQLiteDatabase db) {
+        // Add the column
+        db.execSQL("ALTER TABLE minerva_courses ADD COLUMN is_merged INTEGER NOT NULL DEFAULT 0");
     }
 }

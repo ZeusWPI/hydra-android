@@ -7,6 +7,8 @@ import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 
+import static be.ugent.zeus.hydra.data.database.Utils.intToBool;
+
 /**
  * Class to extract a {@link AgendaItem} from a {@link Cursor}.
  *
@@ -29,6 +31,7 @@ class AgendaExtractor {
     private int columnLastEdit;
     private int columnLastEditType;
     private int columnCalendarId;
+    private int columnIsMerged;
 
     private final Cursor cursor;
 
@@ -55,6 +58,7 @@ class AgendaExtractor {
         a.setLastEdited(TtbUtils.unserialize(cursor.getLong(columnLastEdit)));
         a.setLastEditType(cursor.getString(columnLastEditType));
         a.setCalendarId(cursor.getLong(columnCalendarId));
+        a.setMerged(intToBool(cursor.getInt(columnIsMerged)));
 
         return a;
     }
@@ -99,6 +103,10 @@ class AgendaExtractor {
         return columnLastEditType;
     }
 
+    public int getColumnIsMerged() {
+        return columnIsMerged;
+    }
+
     /**
      * Builder class.
      */
@@ -126,6 +134,7 @@ class AgendaExtractor {
             extractor.columnLastEdit = extract(AgendaTable.Columns.LAST_EDIT);
             extractor.columnLastEditType = extract(AgendaTable.Columns.LAST_EDIT_TYPE);
             extractor.columnCalendarId = extract(AgendaTable.Columns.CALENDAR_ID);
+            extractor.columnIsMerged = extract(AgendaTable.Columns.IS_MERGED);
             return this;
         }
 
@@ -185,6 +194,11 @@ class AgendaExtractor {
 
         public Builder columnCalendarId(String columnName) {
             extractor.columnCalendarId = extract(columnName);
+            return this;
+        }
+
+        public Builder columnIsMerged(String columnName) {
+            extractor.columnIsMerged = extract(columnName);
             return this;
         }
 
