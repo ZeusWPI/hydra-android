@@ -132,6 +132,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private void upgradeFrom8to9(SQLiteDatabase db) {
         // Add the column
-        db.execSQL("ALTER TABLE minerva_courses ADD COLUMN is_merged INTEGER NOT NULL DEFAULT 0");
+        db.execSQL("ALTER TABLE minerva_agenda ADD COLUMN is_merged INTEGER NOT NULL DEFAULT 0");
     }
 }
