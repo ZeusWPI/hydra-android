@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -26,6 +27,7 @@ import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.models.minerva.Agenda;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
+import be.ugent.zeus.hydra.data.network.requests.minerva.AgendaDuplicateDetector;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AgendaRequest;
 import be.ugent.zeus.hydra.data.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
@@ -34,6 +36,7 @@ import be.ugent.zeus.hydra.data.sync.Synchronisation;
 import be.ugent.zeus.hydra.data.sync.course.CourseAdapter;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.ui.minerva.CalendarPermissionActivity;
+import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import java8.util.function.Functions;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
@@ -90,7 +93,13 @@ public class CalendarAdapter extends MinervaAdapter {
         // End time. We take 4 month (+1 day for the start time).
         agendaRequest.setEnd(now.plusMonths(4).plusDays(1));
 
-        Agenda agenda = agendaRequest.performRequest(null).getOrThrow();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        Agenda agenda;
+        if (preferences.getBoolean(MinervaFragment.PREF_DETECT_DUPLICATES, false)) {
+            agenda = agendaRequest.performRequest(null).getOrThrow();
+        } else {
+            agenda = agendaRequest.performRequest(null).map(new AgendaDuplicateDetector()).getOrThrow();
+        }
         Collection<Integer> existingIds = dao.getAllIds();
 
         Synchronisation<AgendaItem, Integer> sync = new Synchronisation<>(
