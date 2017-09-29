@@ -76,7 +76,7 @@
         <Preference
             android:persistent="false"
             android:title="Waarom?"
-            android:summary="Hydra toont zowel de agenda van Oasis als die van Minerva zelf. Als een lesgever op Minerva dingen toevoegd, wordt Oasis niet aangepast; waardoor er voor sommige lessen twee keer in de agenda staan." />
+            android:summary="Hydra toont zowel de agenda van Oasis als die van Minerva zelf. Als een lesgever op Minerva dingen toevoegt, wordt Oasis niet aangepast. Hierdoor staan sommige lessen twee keer in de agenda." />
 
     </PreferenceCategory>
 

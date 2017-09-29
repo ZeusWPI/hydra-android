@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Attempts to filter duplicates from a list of calendar items.
+ *
  * @author Niko Strijbol
  */
 public class AgendaDuplicateDetector implements Function<Agenda, Agenda> {
@@ -127,7 +129,7 @@ public class AgendaDuplicateDetector implements Function<Agenda, Agenda> {
                     .distinct()
                     .toArray(String[]::new);
             last.setMerged(true);
-            last.setLocation(TextUtils.join(", ", locations));
+            last.setLocation(TextUtils.join("\n", locations));
             return Collections.singletonList(last);
         } else {
             // Else we just add them all, since they differ in ways we don't support yet.

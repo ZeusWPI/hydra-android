@@ -119,6 +119,7 @@ public class AgendaDao extends Dao implements DiffDao<AgendaItem, Integer> {
         values.put(AgendaTable.Columns.LAST_EDIT, TtbUtils.serialize(a.getLastEdited()));
         values.put(AgendaTable.Columns.LAST_EDIT_TYPE, a.getLastEditType());
         values.put(AgendaTable.Columns.CALENDAR_ID, a.getCalendarId());
+        values.put(AgendaTable.Columns.IS_MERGED, a.isMerged());
 
         return values;
     }

@@ -137,7 +137,7 @@ public class AgendaActivity extends BaseActivity {
 
         if (!result.isMerged()) {
             findViewById(R.id.divider_below_organize).setVisibility(GONE);
-            findViewById(R.id.agenda_warning).setVisibility(GONE);
+            findViewById(R.id.agenda_warning_row).setVisibility(GONE);
         }
 
         hourTime.setText(getString(

@@ -35,6 +35,7 @@ import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.data.sync.Synchronisation;
 import be.ugent.zeus.hydra.data.sync.course.CourseAdapter;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
+import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.minerva.CalendarPermissionActivity;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import java8.util.function.Functions;
@@ -94,12 +95,27 @@ public class CalendarAdapter extends MinervaAdapter {
         agendaRequest.setEnd(now.plusMonths(4).plusDays(1));
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        Result<Agenda> agendaResult = agendaRequest.performRequest(null);
+
+        // Map courses to the items.
+        Map<String, Course> courseMap = StreamSupport.stream(courses)
+                .collect(Collectors.toMap(Course::getId, Functions.identity()));
+
+        agendaResult.ifPresent(a -> {
+            for (AgendaItem item: a.getItems()) {
+                item.setCourse(courseMap.get(item.getCourseId()));
+            }
+        });
+
+        // Get actual agenda.
         Agenda agenda;
         if (preferences.getBoolean(MinervaFragment.PREF_DETECT_DUPLICATES, false)) {
-            agenda = agendaRequest.performRequest(null).getOrThrow();
+            agenda = agendaResult.map(new AgendaDuplicateDetector()).getOrThrow();
         } else {
-            agenda = agendaRequest.performRequest(null).map(new AgendaDuplicateDetector()).getOrThrow();
+            agenda = agendaResult.getOrThrow();
         }
+
+        // Do sync.
         Collection<Integer> existingIds = dao.getAllIds();
 
         Synchronisation<AgendaItem, Integer> sync = new Synchronisation<>(
@@ -184,8 +200,7 @@ public class CalendarAdapter extends MinervaAdapter {
         ContentResolver resolver = getContext().getContentResolver();
         Uri uri = adapterUri(CalendarContract.Events.CONTENT_URI, account);
 
-        Map<String, Course> courseMap = StreamSupport.stream(courses)
-                .collect(Collectors.toMap(Course::getId, Functions.identity()));
+
 
         // Add calendar if needed
         long calendarId = getCalendarId(account);
@@ -226,7 +241,6 @@ public class CalendarAdapter extends MinervaAdapter {
 
         // Update Calendar items, as they might have changed.
         for (AgendaItem updatedItem: diff.getUpdated()) {
-            updatedItem.setCourse(courseMap.get(updatedItem.getCourseId()));
             long itemCalendarId = map.get(updatedItem.getItemId(), AgendaItem.NO_CALENDAR_ID);
             ContentValues values = toCalendarValues(calendarId, updatedItem);
             // The item was not found.
@@ -242,7 +256,6 @@ public class CalendarAdapter extends MinervaAdapter {
 
         // Add new items
         for (AgendaItem newItem: diff.getNew()) {
-            newItem.setCourse(courseMap.get(newItem.getCourseId()));
             ContentValues values = toCalendarValues(calendarId, newItem);
             long id = insert(resolver, values, account);
             newItem.setCalendarId(id);
