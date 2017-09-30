@@ -86,6 +86,8 @@ public class AgendaDuplicateDetector implements Function<Agenda, Agenda> {
 
                 // If there is one more left, we assume it is the one from Minerva and add it, and we are done.
                 if (noMoreOasis.size() == 1) {
+                    // We also mark it as merged for clarity.
+                    noMoreOasis.get(0).setMerged(true);
                     finalItems.add(noMoreOasis.get(0));
                     continue;
                 }
