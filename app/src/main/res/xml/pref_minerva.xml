@@ -60,4 +60,24 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Duplicatendetectie (experimenteel)">
+
+        <CheckBoxPreference
+            android:key="pref_minerva_detect_duplicates"
+            android:title="Duplicaten agenda samenvoegen"
+            android:summary="Let op! Dit is experimenteel! Zie hieronder voor uitleg."
+            android:defaultValue="false" />
+
+        <Preference
+            android:title="Wat?"
+            android:summary="De duplicatendetectie probeert om voor elke les slechts één item in de agenda te tonen."
+            android:persistent="false" />
+
+        <Preference
+            android:persistent="false"
+            android:title="Waarom?"
+            android:summary="Hydra toont zowel de agenda van Oasis als die van Minerva zelf. Als een lesgever op Minerva dingen toevoegt, wordt Oasis niet aangepast. Hierdoor staan sommige lessen twee keer in de agenda." />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

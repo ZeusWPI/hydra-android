@@ -29,6 +29,9 @@ public class MinervaFragment extends PreferenceFragment {
     public static final String PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL = "pref_minerva_announcement_notification_email";
     public static final String PREF_USE_MOBILE_URL = "pref_minerva_use_mobile_url";
 
+
+    public static final String PREF_DETECT_DUPLICATES = "pref_minerva_detect_duplicates";
+
     //In seconds
     public static final String PREF_DEFAULT_SYNC_FREQUENCY = "86400";
     public static final String PREF_DEFAULT_SYNC_LONG_FREQUENCY = "2592000";
@@ -40,6 +43,9 @@ public class MinervaFragment extends PreferenceFragment {
     private int newAnnouncementSync;
     private int oldCalendarSync;
     private int newCalendarSync;
+
+    private boolean oldDetectDuplicates;
+    private boolean newDetectDuplicates;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,9 +74,14 @@ public class MinervaFragment extends PreferenceFragment {
         newAnnouncementSync = oldAnnouncementSync;
         newCalendarSync = oldCalendarSync;
 
+        oldDetectDuplicates = preferences.getBoolean(PREF_DETECT_DUPLICATES, false);
+        newDetectDuplicates = oldDetectDuplicates;
+
+
         Preference coursePreference = findPreference(PREF_SYNC_FREQUENCY_COURSE);
         Preference announcementPreference = findPreference(PREF_SYNC_FREQUENCY_ANNOUNCEMENT);
         Preference calendarPreference = findPreference(PREF_SYNC_FREQUENCY_CALENDAR);
+        Preference detectPreference = findPreference(PREF_DETECT_DUPLICATES);
 
         coursePreference.setOnPreferenceChangeListener((preference, newValue) -> {
             newCourseSync = Integer.parseInt((String) newValue);
@@ -85,6 +96,14 @@ public class MinervaFragment extends PreferenceFragment {
         calendarPreference.setOnPreferenceChangeListener((preference, newValue) -> {
             newCalendarSync = Integer.parseInt((String) newValue);
             return true;
+        });
+
+        detectPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                newDetectDuplicates = (boolean) newValue;
+                return true;
+            }
         });
 
         if(!AccountUtils.hasAccount(getAppContext())) {
@@ -106,6 +125,9 @@ public class MinervaFragment extends PreferenceFragment {
         }
         if (hasAccount && oldCalendarSync != newCalendarSync) {
             SyncUtils.changeSyncFrequency(getAppContext(), MinervaConfig.CALENDAR_AUTHORITY, newCalendarSync);
+        }
+        if (hasAccount && oldDetectDuplicates != newDetectDuplicates) {
+            SyncUtils.requestSync(AccountUtils.getAccount(getAppContext()), MinervaConfig.CALENDAR_AUTHORITY, new Bundle());
         }
     }
 

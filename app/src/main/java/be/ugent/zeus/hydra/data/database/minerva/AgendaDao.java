@@ -119,6 +119,7 @@ public class AgendaDao extends Dao implements DiffDao<AgendaItem, Integer> {
         values.put(AgendaTable.Columns.LAST_EDIT, TtbUtils.serialize(a.getLastEdited()));
         values.put(AgendaTable.Columns.LAST_EDIT_TYPE, a.getLastEditType());
         values.put(AgendaTable.Columns.CALENDAR_ID, a.getCalendarId());
+        values.put(AgendaTable.Columns.IS_MERGED, a.isMerged());
 
         return values;
     }
@@ -208,6 +209,7 @@ public class AgendaDao extends Dao implements DiffDao<AgendaItem, Integer> {
                 AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LAST_EDIT,
                 AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LAST_EDIT_TYPE,
                 AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.CALENDAR_ID,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.IS_MERGED,
                 CourseTable.TABLE_NAME + "." + CourseTable.Columns.ID + " AS " + courseTable + CourseTable.Columns.ID,
                 CourseTable.TABLE_NAME + "." + CourseTable.Columns.CODE + " AS " + courseTable + CourseTable.Columns.CODE,
                 CourseTable.TABLE_NAME + "." + CourseTable.Columns.TITLE + " AS " + courseTable + CourseTable.Columns.TITLE,
@@ -366,6 +368,7 @@ public class AgendaDao extends Dao implements DiffDao<AgendaItem, Integer> {
                 AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LAST_EDIT,
                 AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LAST_EDIT_TYPE,
                 AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.CALENDAR_ID,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.IS_MERGED,
                 CourseTable.TABLE_NAME + "." + CourseTable.Columns.ID + " AS " + courseTable + CourseTable.Columns.ID,
                 CourseTable.TABLE_NAME + "." + CourseTable.Columns.CODE + " AS " + courseTable + CourseTable.Columns.CODE,
                 CourseTable.TABLE_NAME + "." + CourseTable.Columns.TITLE + " AS " + courseTable + CourseTable.Columns.TITLE,
