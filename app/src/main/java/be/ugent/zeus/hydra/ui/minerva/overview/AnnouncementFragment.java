@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementNotificationBuilder;
+import be.ugent.zeus.hydra.data.sync.announcement.NotificationHelper;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
@@ -64,7 +64,7 @@ public class AnnouncementFragment extends Fragment implements ResultStarter {
         super.onStart();
         // Check for notification we want to remove.
         NotificationManager manager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.cancel(course.getId(), AnnouncementNotificationBuilder.NOTIFICATION_ID);
+        manager.cancel(course.getId(), NotificationHelper.NOTIFICATION_ID);
     }
 
     @Override

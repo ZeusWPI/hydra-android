@@ -123,7 +123,7 @@ public class AnnouncementAdapter extends MinervaAdapter {
             return;
         }
 
-        AnnouncementNotificationBuilder builder = new AnnouncementNotificationBuilder(getContext());
+        NotificationHelper builder = new NotificationHelper(getContext());
         builder.setAnnouncements(newAnnouncements);
         builder.setCourse(newAnnouncements.iterator().next().getCourse());
         builder.publish();

@@ -29,7 +29,7 @@ import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
-import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementNotificationBuilder;
+import be.ugent.zeus.hydra.data.sync.announcement.NotificationHelper;
 import be.ugent.zeus.hydra.data.sync.course.CourseAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -216,7 +216,7 @@ public class OverviewFragment extends Fragment implements ResultStarter {
         Toast.makeText(getContext(), "Logging out...", Toast.LENGTH_SHORT).show();
         manager.removeAccount(a, accountManagerFuture -> {
             // Delete any notifications that could be present.
-            AnnouncementNotificationBuilder.cancelAll(getContext());
+            NotificationHelper.cancelAll(getContext());
             //Delete items
             if (minervaPagerAdapter != null) {
                 minervaPagerAdapter.setLoggedIn(false);

@@ -417,4 +417,81 @@ public class AgendaDao extends Dao implements DiffDao<AgendaItem, Integer> {
 
         return result;
     }
+
+    public Map<AgendaItem, Long> getAll() {
+
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+
+        final String courseTable = "course_";
+
+        String agendaJoin =  AgendaTable.Columns.COURSE;
+        String courseJoin = courseTable + CourseTable.Columns.ID;
+
+        builder.setTables(AgendaTable.TABLE_NAME + " INNER JOIN " + CourseTable.TABLE_NAME + " ON " + agendaJoin + "=" + courseJoin);
+
+        String[] columns = new String[]{
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.ID,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.TITLE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.CONTENT,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.START_DATE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.END_DATE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LOCATION,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.TYPE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LAST_EDIT_USER,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LAST_EDIT,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.LAST_EDIT_TYPE,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.CALENDAR_ID,
+                AgendaTable.TABLE_NAME + "." + AgendaTable.Columns.IS_MERGED,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.ID + " AS " + courseTable + CourseTable.Columns.ID,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.CODE + " AS " + courseTable + CourseTable.Columns.CODE,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.TITLE + " AS " + courseTable + CourseTable.Columns.TITLE,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.DESCRIPTION + " AS " + courseTable + CourseTable.Columns.DESCRIPTION,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.TUTOR + " AS " + courseTable + CourseTable.Columns.TUTOR,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.STUDENT + " AS " + courseTable + CourseTable.Columns.STUDENT,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.ACADEMIC_YEAR + " AS " + courseTable + CourseTable.Columns.ACADEMIC_YEAR,
+                CourseTable.TABLE_NAME + "." + CourseTable.Columns.ORDER + " AS " + courseTable + CourseTable.Columns.ORDER,
+        };
+
+        Cursor c = builder.query(
+                db,
+                columns,
+                null,
+                null,
+                null,
+                null,
+                AgendaTable.Columns.START_DATE + " ASC"
+        );
+
+        if (c == null) {
+            return Collections.emptyMap();
+        }
+
+        CourseExtractor cExtractor = new CourseExtractor.Builder(c)
+                .columnId(courseTable + CourseTable.Columns.ID)
+                .columnCode(courseTable + CourseTable.Columns.CODE)
+                .columnTitle(courseTable + CourseTable.Columns.TITLE)
+                .columnDesc(courseTable + CourseTable.Columns.DESCRIPTION)
+                .columnTutor(courseTable + CourseTable.Columns.TUTOR)
+                .columnStudent(courseTable + CourseTable.Columns.STUDENT)
+                .columnYear(courseTable + CourseTable.Columns.ACADEMIC_YEAR)
+                .columnOrder(courseTable + CourseTable.Columns.ORDER)
+                .build();
+
+        AgendaExtractor aExtractor = new AgendaExtractor.Builder(c).defaults().build();
+        Map<AgendaItem, Long> result = new HashMap<>();
+
+        try {
+            while (c.moveToNext()) {
+                AgendaItem item = aExtractor.getAgendaItem(cExtractor.getCourse());
+                result.put(item, item.getCalendarId());
+            }
+
+        } finally {
+            c.close();
+        }
+
+        return result;
+    }
 }
