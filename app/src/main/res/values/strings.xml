@@ -157,8 +157,7 @@
     <string name="auth_progress_failure">Niet ingelogd.</string>
     <string name="auth_progress_done">Klaar.</string>
 
-    <string name="minerva_sync_announcement_provider">Aankondigingen</string>
-    <string name="minerva_sync_calendar_provider">Agenda</string>
+    <string name="minerva_sync_provider">Minerva</string>
 
     <string name="fragment_home_error">Kon %s niet laden.</string>
     <string name="fragment_home_error_minerva">minerva</string>
@@ -233,7 +232,9 @@
     </plurals>
     <string name="minerva_no_permission">Je gaf geen toestemming om je account te gebruiken.</string>
     <string name="minerva_sync_getting_courses">Vakken ophalen…</string>
+    <string name="minerva_sync_getting_calendar">Agenda ophalen…</string>
     <string name="minerva_sync_done">Klaar.</string>
+    <string name="minerva_sync_cancelled">Geannuleerd.</string>
     <string name="minerva_sync_progress" tools:ignore="PluralsCandidate">Vak %1$d van %2$d ophalen…</string>
     <string name="not_done_yet">Nog niet klaar</string>
     <string name="onboarding_welcome">Welkom bij Hydra</string>
@@ -279,11 +280,7 @@
     <string name="minerva_calendar_permission_title">Machtiging nodig</string>
     <string name="minerva_calendar_permission_text">Hydra moet met de agenda kunnen werken om de Minerva-agenda te tonen. Zonder machtiging wordt de agenda niet gesynchroniseerd. We zullen het de volgende keer nogmaals vragen.</string>
     <string name="minerva_calendar_permission_rationale">Hydra moet met de agenda kunnen werken om de Minerva-agenda te tonen. Zonder machtiging wordt de agenda niet gesynchroniseerd.</string>
-    <string name="minerva_action_sync_parent">Synchroniseren</string>
-    <string name="minerva_action_sync_all">Alles</string>
-    <string name="minerva_action_sync_calendar">Agenda</string>
-    <string name="minerva_action_sync_announcements">Aankondigingen</string>
-    <string name="minerva_sync_course">Vakken</string>
+    <string name="minerva_action_sync_all">Synchroniseren</string>
     <string name="minerva_syncing">Synchroniseren…</string>
     <string name="minerva_calendar_not_found">Agenda-item werd niet gevonden.</string>
     <string name="minerva_calendar_duration">%1$s – %2$s</string>

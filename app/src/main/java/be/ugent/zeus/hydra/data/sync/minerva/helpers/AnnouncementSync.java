@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.data.sync.announcement;
+package be.ugent.zeus.hydra.data.sync.minerva.helpers;
 
 import android.accounts.Account;
 import android.content.Context;
@@ -16,6 +16,7 @@ import be.ugent.zeus.hydra.data.models.minerva.WhatsNew;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AnnouncementsRequest;
 import be.ugent.zeus.hydra.data.network.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.data.sync.Synchronisation;
+import be.ugent.zeus.hydra.data.sync.minerva.NotificationHelper;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import java8.util.Maps;
@@ -85,7 +86,7 @@ public class AnnouncementSync {
             if (companion.isCancelled()) {
                 break;
             }
-            companion.onProgress(i, courses.size());
+            companion.onProgress(i + 1, courses.size());
             synchroniseCourse(account, courses.get(i), isInitialSync);
         }
     }

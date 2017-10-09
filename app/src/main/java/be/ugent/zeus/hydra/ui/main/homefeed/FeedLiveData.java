@@ -10,7 +10,7 @@ import android.util.Log;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
-import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
+import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;

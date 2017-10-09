@@ -2,26 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_sync_parent"
-        android:title="@string/minerva_action_sync_parent"
-        app:showAsAction="never">
-        <menu>
-            <item
-                android:id="@+id/action_sync_all"
-                android:title="@string/minerva_action_sync_all"
-                app:showAsAction="never" />
-
-            <item
-                android:id="@+id/action_sync_calendar"
-                android:title="@string/minerva_action_sync_calendar"
-                app:showAsAction="never" />
-
-            <item
-                android:id="@+id/action_sync_announcements"
-                android:title="@string/minerva_action_sync_announcements"
-                app:showAsAction="never" />
-        </menu>
-    </item>
+        android:id="@+id/action_sync_all"
+        android:title="@string/minerva_action_sync_all"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_logout"

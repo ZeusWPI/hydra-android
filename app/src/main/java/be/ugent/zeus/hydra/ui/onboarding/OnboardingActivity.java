@@ -12,7 +12,7 @@ import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
-import be.ugent.zeus.hydra.data.sync.course.CourseAdapter;
+import be.ugent.zeus.hydra.data.sync.AbstractAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.ui.minerva.AuthActivity;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -97,10 +97,8 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
         //Get an account
         Account account = AccountUtils.getAccount(this);
         Bundle bundle = new Bundle();
-        bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_AGENDA, true);
-        bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
-        bundle.putBoolean(CourseAdapter.EXTRA_FIRST_SYNC, true);
-        SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
+        bundle.putBoolean(AbstractAdapter.EXTRA_FIRST_SYNC, true);
+        SyncUtils.requestSync(account, MinervaConfig.SYNC_AUTHORITY, bundle);
 
         // Log sign in
         analytics.logEvent(FirebaseAnalytics.Event.LOGIN, null);

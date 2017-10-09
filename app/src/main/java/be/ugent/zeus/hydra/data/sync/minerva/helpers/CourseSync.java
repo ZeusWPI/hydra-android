@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.data.sync.course;
+package be.ugent.zeus.hydra.data.sync.minerva.helpers;
 
 import android.accounts.Account;
 import android.content.Context;

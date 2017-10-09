@@ -8,9 +8,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
+import be.ugent.zeus.hydra.data.sync.minerva.MinervaAdapter;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -66,7 +68,9 @@ public class CalendarPermissionActivity extends AppCompatActivity implements Mul
             Log.d(TAG, "Requesting calendar sync...");
             bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
             bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-            ContentResolver.requestSync(account, MinervaConfig.CALENDAR_AUTHORITY, bundle);
+            // Don't do the announcements.
+            bundle.putBoolean(MinervaAdapter.SYNC_ANNOUNCEMENTS, false);
+            ContentResolver.requestSync(account, MinervaConfig.SYNC_AUTHORITY, bundle);
             finish();
         }
     }

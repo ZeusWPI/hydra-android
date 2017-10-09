@@ -1,11 +1,10 @@
-package be.ugent.zeus.hydra.data.sync;
+package be.ugent.zeus.hydra.data.sync.minerva;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import be.ugent.zeus.hydra.data.models.minerva.Course;
 
 /**
  * Class to manage sending broadcasts from the sync adapter. These are local broadcasts.
@@ -83,11 +82,10 @@ public class SyncBroadcast {
         broadcastManager.sendBroadcast(i);
     }
 
-    public void publishAnnouncementDone(int now, int total, Course course) {
+    public void publishAnnouncementDone(int now, int total) {
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SYNC_PROGRESS_TOTAL, total);
         bundle.putInt(ARG_SYNC_PROGRESS_CURRENT, now);
-        bundle.putString(ARG_SYNC_PROGRESS_COURSE, course.getId());
         publishIntentWith(SYNC_PROGRESS_WHATS_NEW, bundle);
     }
 

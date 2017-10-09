@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.data.sync.announcement;
+package be.ugent.zeus.hydra.data.sync.minerva;
 
 import android.app.Notification;
 import android.app.NotificationManager;

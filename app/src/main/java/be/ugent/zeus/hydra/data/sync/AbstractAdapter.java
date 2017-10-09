@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import be.ugent.zeus.hydra.data.auth.AuthenticatorActionException;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
+import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 
@@ -21,9 +22,9 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
  *
  * @author Niko Strijbol
  */
-public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
+public abstract class AbstractAdapter extends AbstractThreadedSyncAdapter {
 
-    private static final String TAG = "MinervaAdapter";
+    private static final String TAG = "AbstractAdapter";
 
     /**
      * This is a boolean flag; and is false by default.
@@ -44,7 +45,7 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
 
     protected final SyncBroadcast broadcast;
 
-    public MinervaAdapter(Context context, boolean autoInitialize) {
+    public AbstractAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         broadcast = new SyncBroadcast(context);
     }
@@ -52,6 +53,8 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 
+        // The sync is no longer cancelled.
+        isCancelled = false;
         Log.i(TAG, "Starting Minerva synchronisation...");
 
         if (isCancelled) {
@@ -62,6 +65,8 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
         final boolean isFirstSync = extras.getBoolean(EXTRA_FIRST_SYNC, false);
 
         try {
+            broadcast.publishIntent(SyncBroadcast.SYNC_START);
+
             onPerformCheckedSync(account, extras, authority, provider, syncResult, isFirstSync);
 
             if (isCancelled) {
@@ -89,8 +94,6 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
             Log.e(TAG, "Exception during sync:", e);
             syncResult.stats.numParseExceptions++;
         }
-
-        afterSync(account, extras, isFirstSync);
     }
 
     @Override
@@ -111,15 +114,4 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
                                                  ContentProviderClient provider,
                                                  SyncResult results,
                                                  boolean isFirstSync) throws RequestException;
-
-    /**
-     * Called after the synchronisation has been performed. This means after {@link #onPerformCheckedSync(Account, Bundle, String, ContentProviderClient, SyncResult, boolean)}.
-     *
-     * @param account The account for which the sync is happening.
-     * @param extras The extras.
-     * @param isFirstSync True if this is the first sync, otherwise false.
-     */
-    protected void afterSync(Account account, Bundle extras, boolean isFirstSync) {
-        // Nothing.
-    }
 }

@@ -11,25 +11,9 @@
             android:persistent="false" />
 
         <ListPreference
-            android:key="pref_minerva_sync_course_frequency"
-            android:summary="Om de hoeveel tijd de vakken gesynchroniseerd worden (nu %s)"
-            android:title="Sync-interval vakken"
-            android:entries="@array/minerva_frequencies_long_text"
-            android:entryValues="@array/minerva_frequencies_long_seconds"
-            android:defaultValue="2592000"/>
-
-        <ListPreference
-            android:key="pref_minerva_sync_calendar_frequency"
-            android:summary="Om de hoeveel tijd de agenda gesynchroniseerd worden (nu %s)"
-            android:title="Sync-interval agenda"
-            android:entries="@array/minerva_frequencies_text"
-            android:entryValues="@array/minerva_frequencies_seconds"
-            android:defaultValue="86400"/>
-
-        <ListPreference
             android:key="pref_minerva_sync_announcement_frequency"
-            android:summary="Om de hoeveel tijd de aankondigingen gesynchroniseerd worden (nu %s)"
-            android:title="Syn-interval aankondigingen"
+            android:summary="Om de hoeveel tijd Minerva gesynchroniseerd wordt (nu %s)"
+            android:title="Syn-interval Minerva"
             android:entries="@array/minerva_frequencies_text"
             android:entryValues="@array/minerva_frequencies_seconds"
             android:defaultValue="86400"/>
