@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
 
+import be.ugent.zeus.hydra.data.auth.MinervaConfig;
 import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.sync.AbstractAdapter;
+import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.data.sync.minerva.helpers.CalendarSync;
 import be.ugent.zeus.hydra.data.sync.minerva.helpers.CourseSync;
 import be.ugent.zeus.hydra.data.sync.minerva.helpers.AnnouncementSync;
@@ -75,8 +77,12 @@ public class MinervaAdapter extends AbstractAdapter {
         // Then we sync the agenda.
         if (extras.getBoolean(SYNC_CALENDAR, true) && !isCancelled) {
             broadcast.publishIntent(SyncBroadcast.SYNC_AGENDA);
-            CalendarSync calendarSync = new CalendarSync(agendaDao, getContext());
-            calendarSync.synchronise(account, isInitialSync);
+            CalendarSync calendarSync = new CalendarSync(agendaDao, courseDao, getContext());
+            if (calendarSync.synchronise(account, isInitialSync)) {
+                // Request a new sync and stop this one.
+                SyncUtils.requestSync(account, MinervaConfig.SYNC_AUTHORITY, new Bundle());
+                return;
+            }
         }
 
         if (extras.getBoolean(SYNC_ANNOUNCEMENTS, true) && !isCancelled) {

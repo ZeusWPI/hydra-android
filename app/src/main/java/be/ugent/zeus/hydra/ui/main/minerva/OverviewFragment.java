@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -28,9 +27,9 @@ import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.sync.AbstractAdapter;
-import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.data.sync.minerva.NotificationHelper;
+import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -262,18 +261,15 @@ public class OverviewFragment extends Fragment implements ResultStarter {
                     return;
                 case SyncBroadcast.SYNC_CANCELLED:
                     Log.d(TAG, "Cancelled!");
-                    ensureSyncStatus(getString(R.string.minerva_sync_cancelled));
-                    syncBar.setDuration(BaseTransientBottomBar.LENGTH_LONG);
+                    ensureSyncStatus(getString(R.string.minerva_sync_cancelled), Snackbar.LENGTH_LONG);
                     return;
                 case SyncBroadcast.SYNC_DONE:
                     Log.d(TAG, "Done!");
-                    ensureSyncStatus(getString(R.string.minerva_sync_done));
-                    syncBar.setDuration(BaseTransientBottomBar.LENGTH_LONG);
+                    ensureSyncStatus(getString(R.string.minerva_sync_done), Snackbar.LENGTH_LONG);
                     return;
                 case SyncBroadcast.SYNC_ERROR:
                     Log.d(TAG, "Error");
-                    ensureSyncStatus(getString(R.string.failure));
-                    syncBar.setDuration(Snackbar.LENGTH_LONG);
+                    ensureSyncStatus(getString(R.string.failure), Snackbar.LENGTH_LONG);
                     return;
                 case SyncBroadcast.SYNC_PROGRESS_WHATS_NEW:
                     Log.d(TAG, "Progress");
@@ -289,15 +285,25 @@ public class OverviewFragment extends Fragment implements ResultStarter {
      *
      * @param text To display on the snackbar.
      */
-    private void ensureSyncStatus(String text) {
+    private void ensureSyncStatus(String text, int duration) {
         assert getView() != null;
         if (syncBar == null) {
             authWrapper.setVisibility(View.GONE);
             syncBar = Snackbar.make(getView(), text, Snackbar.LENGTH_INDEFINITE);
+            syncBar.setDuration(duration);
             syncBar.show();
         } else {
             syncBar.setText(text);
         }
+    }
+
+    /**
+     * Ensure the sync status is enabled, and set the the given text on the snackbar.
+     *
+     * @param text To display on the snackbar.
+     */
+    private void ensureSyncStatus(String text) {
+        ensureSyncStatus(text, Snackbar.LENGTH_INDEFINITE);
     }
 
     @Override

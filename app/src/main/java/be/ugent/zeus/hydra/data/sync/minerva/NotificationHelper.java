@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.R;
@@ -109,7 +110,11 @@ public class NotificationHelper {
         ChannelCreator channelCreator = ChannelCreator.getInstance(context);
         channelCreator.createMinervaAnnouncementChannel();
 
-        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManagerCompat manager = NotificationManagerCompat.from(context);
+
+        // Get the summary for the group notification.
+        Notification summary = createGroupSummary(course, announcements);
+        manager.notify(course.getId(), course.getId().hashCode(), summary);
 
         // Create and publish a notification for each announcement.
         for (Announcement announcement : announcements) {
@@ -136,10 +141,6 @@ public class NotificationHelper {
 
             manager.notify(course.getId(), announcement.getItemId(), builder.build());
         }
-
-        // Get the summary for the group notification.
-        Notification summary = createGroupSummary(course, announcements);
-        manager.notify(course.getId(), course.getId().hashCode(), summary);
     }
 
     private String getNotificationCourseTitle(Course course) {
@@ -173,7 +174,7 @@ public class NotificationHelper {
         inboxStyle.setBigContentTitle(getNotificationCourseTitle(course));
 
         // Add lines for the first 5 announcements.
-        for (Announcement announcement : announcements.subList(0, Math.max(MAX_NUMBER_OF_LINES, announcements.size()))) {
+        for (Announcement announcement : announcements.subList(0, Math.min(MAX_NUMBER_OF_LINES, announcements.size()))) {
             inboxStyle.addLine(announcement.getTitle());
         }
 
@@ -204,7 +205,7 @@ public class NotificationHelper {
      * @param announcementIds The ID's of the announcements.
      */
     public void cancel(Course course, Collection<Integer> announcementIds) {
-        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManagerCompat manager = NotificationManagerCompat.from(context);
         for (Integer announcementId : announcementIds) {
             manager.cancel(course.getId(), announcementId);
         }

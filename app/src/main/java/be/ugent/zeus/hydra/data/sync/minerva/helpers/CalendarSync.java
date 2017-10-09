@@ -20,8 +20,10 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.ChannelCreator;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
 import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
+import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.models.minerva.Agenda;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
+import be.ugent.zeus.hydra.data.models.minerva.Course;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AgendaDuplicateDetector;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AgendaRequest;
 import be.ugent.zeus.hydra.data.sync.Synchronisation;
@@ -30,6 +32,7 @@ import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.minerva.CalendarPermissionActivity;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import java8.util.Maps;
+import java8.util.function.Functions;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 import jonathanfinerty.once.Once;
@@ -38,9 +41,7 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * Synchronises the calendar with Minerva and, if permissions allow, with the built-in calendar.
@@ -49,19 +50,40 @@ import java.util.TimeZone;
  */
 public class CalendarSync {
 
-    private static long NO_CALENDAR = -1;
-
     private static final String TAG = "CalendarSync";
-
+    private static long NO_CALENDAR = -1;
     private final AgendaDao calendarDao;
+    private final CourseDao courseDao;
     private final Context context;
 
-    public CalendarSync(AgendaDao calendarDao, Context context) {
+    public CalendarSync(AgendaDao calendarDao, CourseDao courseDao, Context context) {
         this.calendarDao = calendarDao;
+        this.courseDao = courseDao;
         this.context = context;
     }
 
-    public void synchronise(Account account, boolean isInitialSync) throws RequestException {
+    /**
+     * Add Adapter parameters to Calendar URI.
+     */
+    private static Uri adapterUri(Uri uri, Account account) {
+        return uri.buildUpon()
+                .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, account.name)
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL)
+                .build();
+    }
+
+    /**
+     * Sync the calendar.
+     *
+     * @param account       The account.
+     * @param isInitialSync If this is the first sync.
+     *
+     * @return True if a resync is required, otherwise false.
+     *
+     * @throws RequestException When something else goes wrong.
+     */
+    public boolean synchronise(Account account, boolean isInitialSync) throws RequestException {
 
         // Get the calendar from the server in one go. This does mean it is possible to receive a calendar item
         // for which there is no course in the local database. If that is the case, we just let the sql propagate.
@@ -73,8 +95,24 @@ public class CalendarSync {
         // End time. We take 4 month (+1 day for the start time).
         request.setEnd(now.plusMonths(4).plusDays(1));
 
+        // Get the courses
+        Map<String, Course> courses = StreamSupport.stream(courseDao.getAll())
+                .collect(Collectors.toMap(Course::getId, Functions.identity()));
+
         // The result.
         Result<Agenda> agendaResult = request.performRequest(null);
+
+        // Add the course to the agenda items.
+        List<AgendaItem> tempResult = agendaResult.getOrThrow().getItems();
+        List<AgendaItem> toRemove = new ArrayList<>();
+        for (AgendaItem item : tempResult) {
+            if (courses.containsKey(item.getCourseId())) {
+                item.setCourse(courses.get(item.getCourseId()));
+            } else {
+                // We received an item without course. We stop the sync.
+                return true;
+            }
+        }
 
         // Do we want to use the duplication detection or not?
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -101,7 +139,7 @@ public class CalendarSync {
         Synchronisation.Diff<AgendaItem, Integer> diff = sync.diff();
 
         // Save the id's of the built-in items.
-        for (AgendaItem item: diff.getUpdated()) {
+        for (AgendaItem item : diff.getUpdated()) {
             item.setCalendarId(Maps.getOrDefault(allItems, item, AgendaItem.NO_CALENDAR_ID));
         }
 
@@ -123,11 +161,13 @@ public class CalendarSync {
         // Apply synchronisation. We can only do this after the built-in calendar has been synchronised, since
         // we need the id's of deleted items, and the calendar will adjust the calendar ID's.
         diff.apply(calendarDao);
+
+        return false;
     }
 
     /**
-     * Invoked when the app doesn't have permission to access the calendars. This will issue a notification, if the
-     * user hasn't permanently disabled our access. In that case, this does nothing;
+     * Invoked when the app doesn't have permission to access the calendars. This will issue a notification, if the user
+     * hasn't permanently disabled our access. In that case, this does nothing;
      */
     private void handleNoPermission() {
         // Check if we may notify the user.
@@ -193,7 +233,7 @@ public class CalendarSync {
         // Remove Calendar items we don't need anymore.
         Collection<Long> toRemove = calendarDao.getCalendarIdsForIds(diff.getStaleIds());
 
-        for (long id: toRemove) {
+        for (long id : toRemove) {
             // We cannot delete non-existing values.
             if (id != AgendaItem.NO_CALENDAR_ID) {
                 Uri itemUri = ContentUris.withAppendedId(uri, id);
@@ -202,7 +242,7 @@ public class CalendarSync {
         }
 
         // Update Calendar items, as they might have changed.
-        for (AgendaItem updatedItem: diff.getUpdated()) {
+        for (AgendaItem updatedItem : diff.getUpdated()) {
             long itemCalendarId = updatedItem.getCalendarId();
             ContentValues values = toCalendarValues(calendarId, updatedItem);
             // The item was not found.
@@ -216,7 +256,7 @@ public class CalendarSync {
         }
 
         // Add new items to the calendar.
-        for (AgendaItem newItem: diff.getNew()) {
+        for (AgendaItem newItem : diff.getNew()) {
             ContentValues values = toCalendarValues(calendarId, newItem);
             long id = insert(resolver, values, account);
             newItem.setCalendarId(id);
@@ -227,7 +267,8 @@ public class CalendarSync {
      * Insert an item into the calendar.
      *
      * @param resolver The content resolver.
-     * @param values The values of the item to insert.
+     * @param values   The values of the item to insert.
+     *
      * @return The ID of the item.
      */
     private long insert(ContentResolver resolver, ContentValues values, Account account) {
@@ -237,17 +278,6 @@ public class CalendarSync {
             return AgendaItem.NO_CALENDAR_ID;
         }
         return Long.parseLong(result.getLastPathSegment());
-    }
-
-    /**
-     * Add Adapter parameters to Calendar URI.
-     */
-    private static Uri adapterUri(Uri uri, Account account) {
-        return uri.buildUpon()
-                .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
-                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, account.name)
-                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL)
-                .build();
     }
 
     /**
@@ -265,12 +295,12 @@ public class CalendarSync {
                         CalendarContract.Calendars.ACCOUNT_TYPE +
                         " = ? ";
 
-        String[] selArgs = new String[] {account.name, MinervaConfig.ACCOUNT_TYPE};
+        String[] selArgs = new String[]{account.name, MinervaConfig.ACCOUNT_TYPE};
 
         Cursor cursor = resolver
                 .query(
                         CalendarContract.Calendars.CONTENT_URI,
-                        new String[] {CalendarContract.Calendars._ID},
+                        new String[]{CalendarContract.Calendars._ID},
                         selection,
                         selArgs,
                         null
@@ -289,7 +319,7 @@ public class CalendarSync {
     /**
      * Add our calendar.
      *
-     * @param account The account for which the calendar must be added.
+     * @param account  The account for which the calendar must be added.
      * @param resolver The content resolver.
      */
     private Uri insertCalendar(Account account, ContentResolver resolver) {
@@ -328,7 +358,8 @@ public class CalendarSync {
      * Convert an AgendaItem to ContentValues for the android Calendar.
      *
      * @param calendarId The ID of the calendar.
-     * @param item The item to convert.
+     * @param item       The item to convert.
+     *
      * @return The converted item.
      */
     private ContentValues toCalendarValues(long calendarId, AgendaItem item) {
