@@ -293,6 +293,7 @@ public class OverviewFragment extends Fragment implements ResultStarter {
             syncBar.setDuration(duration);
             syncBar.show();
         } else {
+            syncBar.setDuration(duration);
             syncBar.setText(text);
         }
     }

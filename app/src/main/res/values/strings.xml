@@ -136,7 +136,7 @@
     <string name="by_author">Door %s</string>
     <string name="pref_home_title">Startscherm</string>
     <string name="title_activity_authentication">Autorisatie</string>
-    <string name="account_label">Minerva</string>
+    <string name="account_label">Hydra</string>
     <string name="auth_maybe_not_ugent">Je bent waarschijnlijk niet verbonden met het netwerk van de UGent. Minerva zal dan (voorlopig) niet werken.</string>
     <string name="minerva_authorize">Autoriseren</string>
     <string name="need_auth">Om Minerva te gebruiken dien je toestemming te geven.</string>

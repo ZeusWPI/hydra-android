@@ -79,6 +79,7 @@ public abstract class AbstractAdapter extends AbstractThreadedSyncAdapter {
         } catch (IOFailureException e) {
             Log.i(TAG, "IO error while syncing.", e);
             syncResult.stats.numIoExceptions++;
+            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
         } catch (AuthenticatorActionException e) {
             Log.w(TAG, "Auth exception while syncing.", e);
             syncResult.stats.numAuthExceptions++;
@@ -87,12 +88,15 @@ public abstract class AbstractAdapter extends AbstractThreadedSyncAdapter {
             Log.w(TAG, "Exception during sync:", e);
             // TODO: this needs attention.
             syncResult.stats.numParseExceptions++;
+            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
         } catch (SQLException e) {
             Log.e(TAG, "Exception during sync:", e);
             syncResult.databaseError = true;
+            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
         } catch (HttpMessageNotReadableException e) {
             Log.e(TAG, "Exception during sync:", e);
             syncResult.stats.numParseExceptions++;
+            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
         }
     }
 
