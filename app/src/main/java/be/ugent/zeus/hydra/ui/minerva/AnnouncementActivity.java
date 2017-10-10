@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
+import android.support.v4.app.NotificationManagerCompat;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
+import be.ugent.zeus.hydra.data.sync.minerva.helpers.NotificationHelper;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
@@ -136,6 +138,9 @@ public class AnnouncementActivity extends BaseActivity {
             announcement.setRead(ZonedDateTime.now());
             setResult();
             AsyncTask.execute(() -> dao.update(announcement));
+            // Check for notification we want to remove.
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            NotificationHelper.cancel(announcement, notificationManager);
         }
     }
 

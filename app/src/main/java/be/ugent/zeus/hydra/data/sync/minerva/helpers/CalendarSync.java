@@ -56,6 +56,8 @@ public class CalendarSync {
     private final CourseDao courseDao;
     private final Context context;
 
+    private static final String FIRST_SYNC_BUILT_IN_CALENDAR = "once_first_calendar";
+
     public CalendarSync(AgendaDao calendarDao, CourseDao courseDao, Context context) {
         this.calendarDao = calendarDao;
         this.courseDao = courseDao;
@@ -218,10 +220,12 @@ public class CalendarSync {
                 return;
             }
             calendarId = getCalendarId(account, resolver);
-        } else if (isInitialSync) {
+        } else if (isInitialSync || !Once.beenDone(FIRST_SYNC_BUILT_IN_CALENDAR)) {
+            Log.i(TAG, "Removing existing calendar.");
             // Remove existing things.
-            Uri calendarUri = adapterUri(CalendarContract.Calendars.CONTENT_URI, account);
-            resolver.delete(ContentUris.withAppendedId(calendarUri, calendarId), null, null);
+            //Uri calendarUri = adapterUri(CalendarContract.Calendars.CONTENT_URI, account);
+            deleteCalendarFor(account, resolver);
+            //resolver.delete(ContentUris.withAppendedId(calendarUri, calendarId), null, null);
             Uri result = insertCalendar(account, resolver);
             if (result == null) {
                 Log.e(TAG, "Inserting the calendar failed for some reason, abort sync.");
@@ -261,6 +265,8 @@ public class CalendarSync {
             long id = insert(resolver, values, account);
             newItem.setCalendarId(id);
         }
+
+        Once.markDone(FIRST_SYNC_BUILT_IN_CALENDAR);
     }
 
     /**
@@ -317,6 +323,32 @@ public class CalendarSync {
     }
 
     /**
+     * Get the ID of the calendar for our account.
+     *
+     * @param account The account.
+     *
+     * @return The ID or {@link #NO_CALENDAR} if there is no calendar.
+     */
+    private int deleteCalendarFor(Account account, ContentResolver resolver) {
+
+        String selection =
+                CalendarContract.Calendars.ACCOUNT_NAME +
+                        " = ? AND " +
+                        CalendarContract.Calendars.ACCOUNT_TYPE +
+                        " = ? ";
+
+        String[] selArgs = new String[]{account.name, MinervaConfig.ACCOUNT_TYPE};
+
+        int rows = resolver.delete(
+                CalendarContract.Calendars.CONTENT_URI,
+                selection,
+                selArgs
+        );
+
+        return rows;
+    }
+
+    /**
      * Add our calendar.
      *
      * @param account  The account for which the calendar must be added.
@@ -334,6 +366,7 @@ public class CalendarSync {
         //values.put(CalendarContract.Calendars.CALENDAR_TIME_ZONE, getCalendarTimeZone());
         values.put(CalendarContract.Calendars.CAN_MODIFY_TIME_ZONE, 1);
         values.put(CalendarContract.Calendars.SYNC_EVENTS, 1);
+        values.put(CalendarContract.Calendars.ALLOWED_REMINDERS, "METHOD_DEFAULT");
 
         // Add the calendar.
         Uri uri = adapterUri(CalendarContract.Calendars.CONTENT_URI, account);

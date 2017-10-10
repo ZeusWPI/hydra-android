@@ -16,7 +16,6 @@ import be.ugent.zeus.hydra.data.models.minerva.WhatsNew;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AnnouncementsRequest;
 import be.ugent.zeus.hydra.data.network.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.data.sync.Synchronisation;
-import be.ugent.zeus.hydra.data.sync.minerva.NotificationHelper;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import java8.util.Maps;

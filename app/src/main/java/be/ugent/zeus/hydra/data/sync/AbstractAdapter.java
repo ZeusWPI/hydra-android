@@ -20,6 +20,8 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
  * To prevent implementation from having to handle errors every time, this class defines a new synchronisation method.
  * This class will call that method and catch and process errors.
  *
+ * //TODO: consider merging this class with the MinervaAdapter, or should we keep it if we want to sync other things?
+ *
  * @author Niko Strijbol
  */
 public abstract class AbstractAdapter extends AbstractThreadedSyncAdapter {
@@ -27,22 +29,14 @@ public abstract class AbstractAdapter extends AbstractThreadedSyncAdapter {
     private static final String TAG = "AbstractAdapter";
 
     /**
-     * This is a boolean flag; and is false by default.
-     *
-     * Indicate that this is the first synchronisation for an account. This will prompt a removal of any present data,
-     * since Android sometimes deletes accounts without removing data.
-     *
-     * It will also suppress notifications about newly synchronised items, regardless of the user settings. When syncing
-     * for the first time, the user does not want to be bombarded with notifications about new announcements.
-     */
-    public static final String EXTRA_FIRST_SYNC = "firstSync";
-
-    /**
      * Indicates that the sync has been cancelled. This value should be checked regularly during synchronisation, and
      * implementations must stop syncing if the value is true.
      */
     protected boolean isCancelled;
 
+    /**
+     * Used to communicate the progress of the adapter.
+     */
     protected final SyncBroadcast broadcast;
 
     public AbstractAdapter(Context context, boolean autoInitialize) {
@@ -55,19 +49,17 @@ public abstract class AbstractAdapter extends AbstractThreadedSyncAdapter {
 
         // The sync is no longer cancelled.
         isCancelled = false;
-        Log.i(TAG, "Starting Minerva synchronisation...");
+        Log.i(TAG, "Starting synchronisation...");
 
         if (isCancelled) {
             broadcast.publishIntent(SyncBroadcast.SYNC_CANCELLED);
             return;
         }
 
-        final boolean isFirstSync = extras.getBoolean(EXTRA_FIRST_SYNC, false);
-
         try {
             broadcast.publishIntent(SyncBroadcast.SYNC_START);
 
-            onPerformCheckedSync(account, extras, authority, provider, syncResult, isFirstSync);
+            onPerformCheckedSync(account, extras, authority, provider, syncResult);
 
             if (isCancelled) {
                 broadcast.publishIntent(SyncBroadcast.SYNC_CANCELLED);
@@ -116,6 +108,5 @@ public abstract class AbstractAdapter extends AbstractThreadedSyncAdapter {
                                                  Bundle extras,
                                                  String authority,
                                                  ContentProviderClient provider,
-                                                 SyncResult results,
-                                                 boolean isFirstSync) throws RequestException;
+                                                 SyncResult results) throws RequestException;
 }

@@ -26,9 +26,9 @@ import be.ugent.zeus.hydra.data.auth.MinervaConfig;
 import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
-import be.ugent.zeus.hydra.data.sync.AbstractAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
-import be.ugent.zeus.hydra.data.sync.minerva.NotificationHelper;
+import be.ugent.zeus.hydra.data.sync.minerva.MinervaAdapter;
+import be.ugent.zeus.hydra.data.sync.minerva.helpers.NotificationHelper;
 import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -142,7 +142,7 @@ public class OverviewFragment extends Fragment implements ResultStarter {
         //Request first sync
         Log.d(TAG, "Requesting first sync...");
         Bundle bundle = new Bundle();
-        bundle.putBoolean(AbstractAdapter.EXTRA_FIRST_SYNC, true);
+        bundle.putBoolean(MinervaAdapter.EXTRA_FIRST_SYNC, true);
         SyncUtils.requestSync(account, MinervaConfig.SYNC_AUTHORITY, bundle);
         onLoggedIn();
     }
@@ -265,7 +265,7 @@ public class OverviewFragment extends Fragment implements ResultStarter {
                     return;
                 case SyncBroadcast.SYNC_DONE:
                     Log.d(TAG, "Done!");
-                    ensureSyncStatus(getString(R.string.minerva_sync_done), Snackbar.LENGTH_LONG);
+                    ensureSyncStatus(getString(R.string.minerva_sync_done), Snackbar.LENGTH_SHORT);
                     return;
                 case SyncBroadcast.SYNC_ERROR:
                     Log.d(TAG, "Error");
@@ -290,12 +290,12 @@ public class OverviewFragment extends Fragment implements ResultStarter {
         if (syncBar == null) {
             authWrapper.setVisibility(View.GONE);
             syncBar = Snackbar.make(getView(), text, Snackbar.LENGTH_INDEFINITE);
-            syncBar.setDuration(duration);
             syncBar.show();
         } else {
-            syncBar.setDuration(duration);
             syncBar.setText(text);
         }
+        syncBar.setDuration(duration);
+        syncBar.show();
     }
 
     /**

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.data.sync.minerva;
+package be.ugent.zeus.hydra.data.sync.minerva.helpers;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -34,7 +34,6 @@ import static android.support.v4.app.NotificationCompat.CATEGORY_EMAIL;
 public class NotificationHelper {
 
     public static final int NOTIFICATION_ID = 5646;
-    private static final String TAG = "AnnounceNotiBuilder";
 
     private static final int MAX_NUMBER_OF_LINES = 5;
 
@@ -43,21 +42,10 @@ public class NotificationHelper {
     @DrawableRes
     private int smallIcon;
 
-    public NotificationHelper(Context context) {
+    NotificationHelper(Context context) {
         this.context = context.getApplicationContext();
         //Set default values
         smallIcon = R.drawable.ic_notification_announcement;
-    }
-
-    /**
-     * Remove all notifications. This will remove all notifications, but this is necessary: we can't remove
-     * notifications with an ID alone, so otherwise we would have to track all active notifications.
-     *
-     * @param context The context.
-     */
-    public static void cancelAll(Context context) {
-        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.cancelAll();
     }
 
     private String stripHtml(String containingHtml) {
@@ -201,13 +189,45 @@ public class NotificationHelper {
     /**
      * Cancel specified announcements for a course.
      *
-     * @param course The course.
+     * @param course          The course.
      * @param announcementIds The ID's of the announcements.
      */
     public void cancel(Course course, Collection<Integer> announcementIds) {
         NotificationManagerCompat manager = NotificationManagerCompat.from(context);
         for (Integer announcementId : announcementIds) {
-            manager.cancel(course.getId(), announcementId);
+            cancel(course, announcementId, manager);
         }
+    }
+
+    /**
+     * Remove all notifications. This will remove all notifications, but this is necessary: we can't remove
+     * notifications with an ID alone, so otherwise we would have to track all active notifications.
+     *
+     * @param context The context.
+     */
+    public static void cancelAll(Context context) {
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.cancelAll();
+    }
+
+    /**
+     * Cancel the notification for an announcement.
+     *
+     * @param announcement        The announcement for which the notification should be cancelled.
+     * @param notificationManager The notification manager.
+     */
+    public static void cancel(Announcement announcement, NotificationManagerCompat notificationManager) {
+        cancel(announcement.getCourse(), announcement.getItemId(), notificationManager);
+    }
+
+    /**
+     * Cancel the notification for an announcement.
+     *
+     * @param course              The course of the announcement.
+     * @param announcementId      The ID of the announcement, see {@link Announcement#getItemId()}.
+     * @param notificationManager The notification manager.
+     */
+    private static void cancel(Course course, int announcementId, NotificationManagerCompat notificationManager) {
+        notificationManager.cancel(course.getId(), announcementId);
     }
 }

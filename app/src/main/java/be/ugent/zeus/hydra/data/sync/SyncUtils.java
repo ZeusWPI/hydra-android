@@ -56,9 +56,10 @@ public class SyncUtils {
      *
      * @param account   The account to sync for.
      * @param authority The authority of the requested sync adapter.
-     * @param extras    The extras.
+     * @param arguments The extras. Can be {@link Bundle#EMPTY}, but not null.
      */
-    public static void requestSync(Account account, String authority, Bundle extras) {
+    public static void requestSync(Account account, String authority, Bundle arguments) {
+        Bundle extras = new Bundle(arguments);
         extras.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         extras.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         ContentResolver.requestSync(account, authority, extras);
