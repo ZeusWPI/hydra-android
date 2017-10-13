@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinator"
+    tools:context=".ui.preferences.AssociationSelectPrefActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/app_bar_layout">
+
+        <include layout="@layout/x_toolbar_no_scroll" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:paddingTop="@dimen/content_spacing"
+            android:paddingLeft="@dimen/vertical_padding"
+            android:paddingRight="@dimen/vertical_padding"
+            android:paddingBottom="@dimen/content_spacing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_home_feed_card_types_description"/>
+
+        <View style="@style/Divider" />
+
+        <fragment
+            android:name="be.ugent.zeus.hydra.ui.preferences.HomeFeedSelectFragment"
+            android:paddingTop="@dimen/content_spacing"
+            android:id="@+id/recycler_view_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

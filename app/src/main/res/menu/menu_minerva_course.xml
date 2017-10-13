@@ -5,6 +5,6 @@
 		android:id="@+id/minerva_course_link"
 		android:orderInCategory="100"
 		app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_open_in_browser_24dp"
-		android:title="Open link" />
+        android:icon="@drawable/ic_open_in_browser"
+		android:title="@string/open_link" />
 </menu>

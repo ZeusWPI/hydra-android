@@ -30,4 +30,13 @@
     <color name="sko_blue_light">#009ADE</color>
     <color name="sko_blue_dark">#005C86</color>
     <color name="sko_red">#E43026</color>
+    
+    <!--
+        ~ The grey colour for the launcher shortcuts background.
+        ~ As seen here: https://material.io/guidelines/style/icons.html#icons-app-shortcut-icons,
+        ~ the colour must be Solid fill of Material Grey 100 (#F5F5F5)
+        -->
+    <color name="launcher_shortcut_background">#F5F5F5</color>
+    <!-- Main icon colour -->
+    <color name="launcher_icon_main">@color/ugent_blue_medium</color>
 </resources>

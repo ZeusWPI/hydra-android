@@ -15,6 +15,7 @@
         android:paddingTop="@dimen/card_spacing">
 
         <android.support.v7.widget.CardView
+            android:animateLayoutChanges="true"
             android:id="@+id/menu_today_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,42 +26,47 @@
             app:contentPaddingRight="@dimen/card_title_padding_vertical">
 
             <!-- Display the menu of today -->
-            <FrameLayout
+            <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/menu_today_card_layout"
+                android:animateLayoutChanges="true"
+                android:paddingBottom="@dimen/card_text_padding_bottom_no_content">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/menu_today_card_title"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:id="@+id/menu_today_card_layout"
-                    android:animateLayoutChanges="true"
-                    android:paddingBottom="@dimen/card_text_padding_bottom_no_content">
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/card_title_padding_top_large_title"
+                    android:paddingBottom="@dimen/card_title_padding_bottom"
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:textSize="@dimen/card_title_size_large"
+                    tools:text="Menutitel" />
 
-                    <TextView
-                        android:id="@+id/menu_today_card_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/card_title_padding_top_large_title"
-                        android:paddingBottom="@dimen/card_title_padding_bottom"
-                        style="@style/Base.TextAppearance.AppCompat.Title"
-                        android:textSize="@dimen/card_title_size_large"
-                        tools:text="Menutitel"/>
+                <be.ugent.zeus.hydra.ui.common.widgets.MenuTable
+                    android:id="@+id/menu_table"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:show="all" />
 
-                    <be.ugent.zeus.hydra.views.MenuTable
-                        android:id="@+id/menu_table"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:show="all" />
+            </LinearLayout>
 
-                </LinearLayout>
+            <include layout="@layout/x_progress_bar" />
 
-                <include layout="@layout/x_progress_bar" />
+            <TextView
+                android:visibility="gone"
+                android:paddingTop="@dimen/card_text_padding_top"
+                android:paddingBottom="@dimen/card_text_padding_bottom_no_content"
+                android:id="@+id/error_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/resto_no_menu" />
 
-            </FrameLayout>
         </android.support.v7.widget.CardView>
 
-        <be.ugent.zeus.hydra.views.ButtonBarLayout
+        <be.ugent.zeus.hydra.ui.common.widgets.ButtonBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal">
@@ -73,30 +79,30 @@
                 android:id="@+id/home_resto_view"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:singleLine="true"
                 android:text="@string/home_resto_view_menu"
-                tools:drawableTop="@drawable/ic_restaurant_menu_40dp"
-                android:drawableTint="?android:colorControlNormal" />
+                tools:drawableTop="@drawable/btn_restaurant_menu"
+                android:drawableTint="?android:colorControlNormal"
+                android:maxLines="1" />
 
             <Button
                 android:id="@+id/home_resto_view_sandwich"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:singleLine="true"
                 android:text="@string/home_resto_view_sandwiches"
-                tools:drawableTop="@drawable/ic_sandwich_40dp"
-                android:drawableTint="?android:colorControlNormal" />
+                tools:drawableTop="@drawable/btn_sandwich"
+                android:drawableTint="?android:colorControlNormal"
+                android:maxLines="1" />
 
             <Button
                 android:id="@+id/home_resto_view_resto"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:singleLine="true"
                 android:text="@string/home_resto_view_resto"
-                tools:drawableTop="@drawable/ic_explore_40dp"
-                android:drawableTint="?android:colorControlNormal" />
+                tools:drawableTop="@drawable/btn_explore"
+                android:drawableTint="?android:colorControlNormal"
+                android:maxLines="1" />
 
-        </be.ugent.zeus.hydra.views.ButtonBarLayout>
+        </be.ugent.zeus.hydra.ui.common.widgets.ButtonBarLayout>
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

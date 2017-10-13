@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinator"
-    tools:context=".activities.preferences.AssociationSelectPrefActivity">
+    tools:context=".ui.preferences.AssociationSelectPrefActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -38,13 +38,13 @@
                     android:paddingRight="@dimen/activity_vertical_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Kies voor welke verenigingen activiteiten getoond moeten worden."/>
+                    android:text="@string/choose_associations"/>
 
-                <SearchView
+                <android.support.v7.widget.SearchView
+                    app:iconifiedByDefault="false"
                     android:id="@+id/search_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:iconifiedByDefault="false"/>
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -61,14 +61,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <com.futuremind.recyclerviewfastscroll.FastScroller
+            <com.pluscubed.recyclerfastscroll.RecyclerFastScroller
                 android:id="@+id/fast_scroller"
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="right"
-                app:fastscroll__handleColor="@color/ugent_blue_dark"
-                app:fastscroll__bubbleColor="@color/ugent_blue_light" />
+                android:layout_gravity="end"
+                app:rfs_hideDelay="1000"/>
 
             <include layout="@layout/x_progress_bar" />
 

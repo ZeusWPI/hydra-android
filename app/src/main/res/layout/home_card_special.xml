@@ -37,6 +37,7 @@
                 android:paddingBottom="@dimen/card_title_padding_bottom_no_content"
                 tools:text="Volg live de tussenstanden van de 12urenloop!"
                 android:id="@+id/text" />
+
         </LinearLayout>
 
         <ImageView
@@ -44,9 +45,9 @@
             android:layout_marginLeft="@dimen/card_actions_padding"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:scaleType="fitCenter"
+            android:scaleType="fitEnd"
             android:paddingTop="16dp"
-            android:id="@+id/imageView" />
+            android:id="@+id/image" />
 
     </LinearLayout>
 

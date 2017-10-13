@@ -6,19 +6,20 @@
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginBottom="@dimen/card_spacing"
-    android:clickable="true">
+    android:clickable="true"
+    android:id="@+id/card_view">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <be.ugent.zeus.hydra.views.NowToolbar
+        <be.ugent.zeus.hydra.ui.common.widgets.NowToolbar
             android:id="@+id/card_now_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_tabs_minerva"
-            app:title="Nieuwe aankodiging minerva"
+            app:icon="@drawable/tabs_minerva"
+            app:title="Nieuwe aankondiging minerva"
             />
 
         <LinearLayout

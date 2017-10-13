@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <!-- A CardView that contains a TextView -->
@@ -30,7 +31,7 @@
                 android:paddingRight="0dp"
                 android:paddingBottom="10dp"
                 android:id="@+id/imageView"
-                android:src="@drawable/ic_tabs_minerva" />
+                app:srcCompat="@drawable/tabs_minerva" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -43,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Login op Minerva"
+                    android:text="@string/card_title_login_minerva"
                     android:id="@+id/name"
                     android:layout_gravity="center_vertical"
                     android:padding="1dp"
@@ -55,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Na het inloggen worden uw komende lessen en recente aankondigingen geladen"
+                    android:text="@string/card_minerva_login_description"
                     android:layout_gravity="left"
                     android:padding="1dp"
                     android:ellipsize="end"

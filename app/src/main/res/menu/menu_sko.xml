@@ -2,11 +2,12 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- The android:showAsAction attribute is red, but works -->
     <item
         android:id="@+id/sko_visit_website"
-        android:orderInCategory="10"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_open_in_browser_24dp"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/ic_open_in_browser"
         android:title="@string/menu_sko_view_website" />
     <item
         android:id="@+id/action_settings"

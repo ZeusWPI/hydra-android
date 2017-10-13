@@ -8,7 +8,8 @@
     android:gravity="center"
     android:padding="16dp"
     android:id="@+id/no_data_error"
-    android:visibility="gone">
+    android:visibility="gone"
+    tools:visibility="visible">
 
     <ImageView
         android:layout_width="48dp"
@@ -23,7 +24,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Oh nee!"
+        android:text="@string/error_oh_no"
         android:textAppearance="?android:textAppearanceLarge"
         android:textSize="38sp"/>
 
@@ -31,5 +32,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Er was een probleem bij het ophalen van de data. Controleer uw verbinding en probeer opnieuw."/>
+        android:text="@string/error_description"/>
 </LinearLayout>

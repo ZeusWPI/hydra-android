@@ -6,7 +6,7 @@
         android:id="@+id/sko_add_to_calendar"
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_event_add_24dp"
-        android:title="Toevoegen aan agenda" />
+        android:icon="@drawable/ic_event_add"
+        android:title="@string/add_to_calendar" />
 
 </menu>

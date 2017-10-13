@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_marginBottom="@dimen/card_spacing"
+    android:clickable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <be.ugent.zeus.hydra.ui.common.widgets.NowToolbar
+            android:id="@+id/card_now_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/tabs_urgent"
+            app:title="@string/title_home_urgent" />
+
+        <LinearLayout
+            android:paddingLeft="@dimen/card_title_padding_vertical"
+            android:paddingRight="@dimen/card_title_padding_vertical"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/card_title_padding_bottom">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title"
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:text="@string/urgent_fm" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/urgent_card_go_to_player"/>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_marginBottom="@dimen/card_title_padding_bottom"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/image"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:src="@drawable/logo_urgent" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

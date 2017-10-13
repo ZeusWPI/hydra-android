@@ -36,14 +36,28 @@
         <item>4</item>
         <item>5</item>
         <item>7</item>
+        <item>8</item>
+        <item>9</item>
     </string-array>
 
     <string-array name="card_types_names">
         <item>Restomenu</item>
         <item>Activiteiten</item>
-        <item>Schamperartikel</item>
-        <item>Nieuwsitem</item>
-        <item>Minerva-aankondigingen</item>
+        <item>Schamper</item>
+        <item>Nieuws</item>
+        <item>Minerva: Aankondigingen</item>
+        <item>Minerva: Agenda</item>
+        <item>Urgent.fm</item>
+    </string-array>
+
+    <string-array name="card_types_descriptions">
+        <item>De dagelijkse menu voor alle UGent-resto\'s.</item>
+        <item>De activiteiten van je favoriete verenigingen.</item>
+        <item>Schamper dailies.</item>
+        <item>Het nieuws rechtstreeks van de UGent.</item>
+        <item>Je aankondigingen net zoals op Minerva.</item>
+        <item>Je agenda net zoals op Minerva.</item>
+        <item>De jongerenradio van (U)Gent en omstreken.</item>
     </string-array>
 
     <string-array name="minerva_frequencies_text">
@@ -60,10 +74,33 @@
         <item>604800</item>
     </string-array>
 
+    <string-array name="minerva_frequencies_long_text">
+        <item>1 dag</item>
+        <item>1 week</item>
+        <item>1 maand</item>
+    </string-array>
+
+    <string-array name="minerva_frequencies_long_seconds">
+        <item>86400</item>
+        <item>604800</item>
+        <item>2592000</item>
+    </string-array>
+
     <string-array name="sko_tab_names">
         <item>Timeline</item>
         <item>Line-up</item>
         <item>Student Village</item>
         <item>Kaart</item>
     </string-array>
+
+    <string-array name="resto_location">
+        <item>Algemeen</item>
+        <item>Sint-Jansvest</item>
+    </string-array>
+
+    <string-array name="nr_resto_location">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
 </resources>

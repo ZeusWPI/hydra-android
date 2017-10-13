@@ -1,0 +1,549 @@
+{
+  "name": "Lijst van UGent bibliotheken",
+  "libraries": [
+    {
+      "department": "LA03",
+      "lat": "51.053",
+      "reading_room": null,
+      "contact": "Lemeire, Nadia",
+      "email": "a16@mail.lib.ugent.be",
+      "created_at": "2014-03-03T13:35:43Z",
+      "long": "3.7093",
+      "address": [
+        "Coupure Links 653",
+        "9000 Gent"
+      ],
+      "name_en": "Phytopathology",
+      "code": "A16",
+      "link": null,
+      "telephone": [
+        "09/264.60.22"
+      ],
+      "active": 1,
+      "name": "Fytopathologie",
+      "faculty": "LA",
+      "door_number": "",
+      "campus": "Campus Coupure",
+      "updated_at": "2017-06-20T03:51:11Z",
+      "image_url": null,
+      "name_nl": "Fytopathologie"
+    },
+    {
+      "department": "LA03",
+      "lat": "51.053",
+      "reading_room": null,
+      "contact": "Vandekerkhove, Bjorn",
+      "comments": [
+        "<p>Let op ! Ontlenen en aanvragen gebeuren via de faculteitsbibliotheek ALLW</p>\n"
+      ],
+      "email": "a29@mail.lib.ugent.be",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.7093",
+      "address": [
+        "Coupure Links 653",
+        "9000 Gent"
+      ],
+      "name_en": "Agrozoology",
+      "code": "A29",
+      "link": null,
+      "telephone": [
+        "09/264.61.45"
+      ],
+      "active": 1,
+      "name": "Agrozoologie",
+      "faculty": "LA",
+      "door_number": null,
+      "campus": "Campus Coupure",
+      "updated_at": "2017-06-20T04:51:01Z",
+      "image_url": null,
+      "name_nl": "Agrozoologie"
+    },
+    {
+      "department": "LA04",
+      "lat": "50.99658",
+      "reading_room": null,
+      "contact": "Sabbe, Christel",
+      "email": "a42@mail.lib.ugent.be",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.80325",
+      "address": [
+        "Geraardsbergse Steenweg 267",
+        "9090 Melle"
+      ],
+      "name_en": "Forestry and forest policy",
+      "code": "A42",
+      "link": null,
+      "telephone": [
+        "09/264.90.26"
+      ],
+      "active": 1,
+      "name": "Bosbouw en bospolitiek",
+      "faculty": "LA",
+      "door_number": null,
+      "campus": "Campus Coupure",
+      "updated_at": "2017-06-20T03:51:11Z",
+      "image_url": null,
+      "name_nl": "Bosbouw en bospolitiek"
+    },
+    {
+      "department": "LA55",
+      "email": "bib.fbw@ugent.be",
+      "address": [
+        "Coupure Links 653 - Gebouw A",
+        "9000 Gent"
+      ],
+      "name_en": "Faculty library bioscience engineering",
+      "code": "ALLW",
+      "telephone": [
+        "09/264.58.95"
+      ],
+      "active": 1,
+      "name": "Faculteitsbibliotheek bio-ingenieurswetenschappen",
+      "thumbnail_url": "http://lib.ugent.be/files/libadmin/libraries/images/ALLW/thumbnail.jpeg",
+      "door_number": "",
+      "updated_at": "2017-06-22T09:47:11Z",
+      "name_nl": "Faculteitsbibliotheek bio-ingenieurswetenschappen",
+      "lat": "51.053",
+      "reading_room": "",
+      "contact": "Hollebosch, Goedele (faculteitsbibliothecaris)",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.7093",
+      "link": "http://www.ugent.be/bw/nl/diensten/bibliotheek",
+      "faculty": "LA",
+      "campus": "Campus Coupure",
+      "image_url": "http://lib.ugent.be/files/libadmin/libraries/images/ALLW/original.jpeg"
+    },
+    {
+      "department": "CA20",
+      "email": "libservice@ugent.be",
+      "address": [
+        "Sint-Hubertusstraat 8",
+        "9000 Gent"
+      ],
+      "name_en": "Book Tower",
+      "code": "BIB",
+      "telephone": [
+        "09/264.94.55"
+      ],
+      "active": 1,
+      "name": "Boekentoren",
+      "thumbnail_url": "http://lib.ugent.be/files/libadmin/libraries/images/BIB/thumbnail.jpeg",
+      "door_number": "",
+      "updated_at": "2017-07-14T10:32:48Z",
+      "name_nl": "Boekentoren",
+      "lat": "51.044627552124",
+      "reading_room": "",
+      "contact": "Van Peteghem, Sylvia (hoofdbibliothecaris)",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.72435495254649",
+      "link": "http://lib.ugent.be",
+      "faculty": "CA",
+      "campus": "Campus Boekentoren",
+      "image_url": "http://lib.ugent.be/files/libadmin/libraries/images/BIB/original.jpeg"
+    },
+    {
+      "department": "CA20",
+      "lat": "51.0472691606894",
+      "reading_room": "",
+      "contact": "Rotthier, Isabel",
+      "email": "c05@mail.lib.ugent.be",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.72796243420453",
+      "address": [
+        "Sint-Pietersnieuwstraat 25",
+        "9000 Gent"
+      ],
+      "name_en": "Ghent University Archive",
+      "code": "C05",
+      "link": "http://www.ugent.be/nl/voorzieningen/bronnen/archief",
+      "telephone": [
+        "09/264.30.80"
+      ],
+      "active": 1,
+      "name": "Archief Universiteit Gent",
+      "faculty": "CA",
+      "door_number": "",
+      "campus": "Campus Ufo",
+      "updated_at": "2017-06-20T03:51:10Z",
+      "image_url": null,
+      "name_nl": "Archief Universiteit Gent"
+    },
+    {
+      "department": "XXXX",
+      "lat": "51.0452",
+      "reading_room": null,
+      "contact": "Demoor, Marysa",
+      "email": "c99@mail.lib.ugent.be",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.72599",
+      "address": [
+        "Rozier 44 (lok. b.01.32 kelder)",
+        "9000 Gent"
+      ],
+      "name_en": "Center for gender studies",
+      "code": "C99",
+      "link": null,
+      "telephone": [
+        "09/264.39.78"
+      ],
+      "active": 1,
+      "name": "Centrum voor genderstudies",
+      "faculty": "XX",
+      "door_number": null,
+      "campus": "Campus Boekentoren",
+      "updated_at": "2017-06-20T04:50:32Z",
+      "image_url": null,
+      "name_nl": "Centrum voor genderstudies"
+    },
+    {
+      "department": "CA20",
+      "email": "libservice@ugent.be",
+      "address": [
+        "Sint-Hubertusstraat 8",
+        "9000 Gent"
+      ],
+      "name_en": "Book Tower - external depot",
+      "code": "DEPA",
+      "active": 1,
+      "name": "Boekentoren - extern depot",
+      "door_number": "",
+      "updated_at": "2017-07-14T10:32:48Z",
+      "name_nl": "Boekentoren - extern depot",
+      "lat": "51.0452",
+      "reading_room": null,
+      "contact": null,
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.72599",
+      "link": "http://lib.ugent.be",
+      "faculty": "CA",
+      "campus": "Campus Boekentoren",
+      "image_url": null
+    },
+    {
+      "department": "CA20",
+      "email": "libservice@ugent.be",
+      "address": [
+        "Sint-Hubertusstraat 8",
+        "9000 Gent"
+      ],
+      "name_en": "Book Tower - external depot",
+      "code": "DEPB",
+      "active": 1,
+      "name": "Boekentoren - extern depot",
+      "door_number": "",
+      "updated_at": "2017-07-14T10:32:48Z",
+      "name_nl": "Boekentoren - extern depot",
+      "lat": "51.0452",
+      "reading_room": null,
+      "contact": null,
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.72599",
+      "link": "http://lib.ugent.be",
+      "faculty": "CA",
+      "campus": "Campus Boekentoren",
+      "image_url": null
+    },
+    {
+      "department": "CA20",
+      "email": "libservice@ugent.be",
+      "address": [
+        "Sint-Hubertusstraat 8",
+        "9000 Gent"
+      ],
+      "name_en": "Book Tower - external depot",
+      "code": "DEPC",
+      "active": 1,
+      "name": "Boekentoren - extern depot",
+      "door_number": "",
+      "updated_at": "2017-07-14T10:32:48Z",
+      "name_nl": "Boekentoren - extern depot",
+      "lat": "51.0452",
+      "reading_room": null,
+      "contact": null,
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.72522",
+      "link": "http://lib.ugent.be",
+      "faculty": "CA",
+      "campus": "Campus Boekentoren",
+      "image_url": null
+    },
+    {
+      "department": "DI01",
+      "lat": "50.99788",
+      "reading_room": null,
+      "contact": null,
+      "email": "di01@mail.lib.ugent.be",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.76702",
+      "address": [
+        "Salisburylaan 133",
+        "9820 Merelbeke"
+      ],
+      "name_en": "Physiology",
+      "code": "DI01",
+      "link": null,
+      "telephone": [
+        "09/264.73.20"
+      ],
+      "active": 1,
+      "name": "Fysiologie",
+      "faculty": "DI",
+      "door_number": null,
+      "campus": "Campus Merelbeke",
+      "updated_at": "2017-06-20T04:51:40Z",
+      "image_url": null,
+      "name_nl": "Fysiologie"
+    },
+    {
+      "department": "DI02",
+      "lat": "50.99788",
+      "reading_room": null,
+      "contact": null,
+      "email": "di02@mail.lib.ugent.be",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.76702",
+      "address": [
+        "Salisburylaan 133",
+        "9820 Merelbeke"
+      ],
+      "name_en": "Pharmacology and toxicology of pet animals",
+      "code": "DI02",
+      "link": null,
+      "telephone": [
+        "09/264.73.46"
+      ],
+      "active": 1,
+      "name": "Farmacologie en toxicologie van huisdieren",
+      "faculty": "DI",
+      "door_number": null,
+      "campus": "Campus Merelbeke",
+      "updated_at": "2017-06-20T03:51:18Z",
+      "image_url": null,
+      "name_nl": "Farmacologie en toxicologie van huisdieren"
+    },
+    {
+      "department": "DI03",
+      "lat": "50.99788",
+      "reading_room": null,
+      "contact": "Dhaenens, Evelyne",
+      "email": "di03@mail.lib.ugent.be",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.76702",
+      "address": [
+        "Salisburylaan 133",
+        "9820 Merelbeke"
+      ],
+      "name_en": "Morphology",
+      "code": "DI03",
+      "link": null,
+      "telephone": [
+        "09/264.77.11"
+      ],
+      "active": 1,
+      "name": "Morfologie",
+      "faculty": "DI",
+      "door_number": null,
+      "campus": "Campus Merelbeke",
+      "updated_at": "2017-06-20T04:51:34Z",
+      "image_url": null,
+      "name_nl": "Morfologie"
+    },
+    {
+      "department": "DI04",
+      "lat": "50.99788",
+      "reading_room": null,
+      "contact": null,
+      "email": "di04a@mail.lib.ugent.be",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.76702",
+      "address": [
+        "Salisburylaan 133",
+        "9820 Merelbeke"
+      ],
+      "name_en": "Parasitology",
+      "code": "DI04A",
+      "link": null,
+      "telephone": [
+        "09/264.74.00"
+      ],
+      "active": 1,
+      "name": "Parasitologie",
+      "faculty": "DI",
+      "door_number": null,
+      "campus": "Campus Merelbeke",
+      "updated_at": "2017-06-20T04:50:32Z",
+      "image_url": null,
+      "name_nl": "Parasitologie"
+    },
+    {
+      "department": "DI04",
+      "lat": null,
+      "reading_room": null,
+      "contact": "Van Lancker, Liliane",
+      "email": "di04b@mail.lib.ugent.be",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": null,
+      "address": [
+        "Salisburylaan 133",
+        "9820 Merelbeke"
+      ],
+      "name_en": "Virology",
+      "code": "DI04B",
+      "link": null,
+      "telephone": [
+        "09/264.73.66"
+      ],
+      "active": 1,
+      "name": "Virologie",
+      "faculty": "DI",
+      "door_number": null,
+      "campus": "Campus Merelbeke",
+      "updated_at": "2017-06-20T04:50:30Z",
+      "image_url": null,
+      "name_nl": "Virologie"
+    },
+    {
+      "department": "DI04",
+      "lat": null,
+      "reading_room": null,
+      "contact": "Wambacq, Sarah",
+      "email": "di04c@mail.lib.ugent.be",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": null,
+      "address": [
+        "Salisburylaan 133",
+        "9820 Merelbeke"
+      ],
+      "name_en": "Immunology",
+      "code": "DI04C",
+      "link": null,
+      "telephone": [
+        "09/264.73.96"
+      ],
+      "active": 1,
+      "name": "Immunologie",
+      "faculty": "DI",
+      "door_number": null,
+      "campus": "Campus Merelbeke",
+      "updated_at": "2017-06-20T04:51:19Z",
+      "image_url": null,
+      "name_nl": "Immunologie"
+    },
+    {
+      "department": "DI05",
+      "lat": "50.99788",
+      "reading_room": null,
+      "contact": "Dhanijns, Astra",
+      "email": "di05a@mail.lib.ugent.be",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.76702",
+      "address": [
+        "Salisburylaan 133",
+        "9820 Merelbeke"
+      ],
+      "name_en": "Pathology and autopsy",
+      "code": "DI05A",
+      "link": null,
+      "telephone": [
+        "09/264.77.41"
+      ],
+      "active": 1,
+      "name": "Pathologie en lijkschouwing",
+      "faculty": "DI",
+      "door_number": null,
+      "campus": "Campus Merelbeke",
+      "updated_at": "2017-06-20T04:50:25Z",
+      "image_url": null,
+      "name_nl": "Pathologie en lijkschouwing"
+    },
+    {
+      "department": "DI05",
+      "lat": "50.99788",
+      "reading_room": null,
+      "contact": "Dhanijns, Astra",
+      "email": "di05b@mail.lib.ugent.be",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.76702",
+      "address": [
+        "Salisburylaan 133",
+        "9820 Merelbeke"
+      ],
+      "name_en": "Poultry diseases",
+      "code": "DI05B",
+      "link": null,
+      "telephone": [
+        "09/264.74.21"
+      ],
+      "active": 1,
+      "name": "Pluimveeziekten",
+      "faculty": "DI",
+      "door_number": null,
+      "campus": "Campus Merelbeke",
+      "updated_at": "2017-06-20T04:50:25Z",
+      "image_url": null,
+      "name_nl": "Pluimveeziekten"
+    },
+    {
+      "department": "DI05",
+      "lat": "50.99788",
+      "reading_room": null,
+      "contact": "Pattyn, Koen ; Dhanijns, Astra",
+      "email": "di05c@mail.lib.ugent.be",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.76702",
+      "address": [
+        "Salisburylaan 133",
+        "9820 Merelbeke"
+      ],
+      "name_en": "Bacteriology",
+      "code": "DI05C",
+      "link": null,
+      "telephone": [
+        "09/264.74.31"
+      ],
+      "active": 1,
+      "name": "Bacteriologie",
+      "faculty": "DI",
+      "door_number": null,
+      "campus": "Campus Merelbeke",
+      "updated_at": "2017-06-20T04:51:44Z",
+      "image_url": null,
+      "name_nl": "Bacteriologie"
+    },
+    {
+      "department": "DI06",
+      "lat": "50.99788",
+      "reading_room": null,
+      "contact": "De Wannemacker, Soetkin",
+      "email": "di06@mail.lib.ugent.be",
+      "created_at": "2014-03-03T13:35:44Z",
+      "long": "3.76702",
+      "address": [
+        "Salisburylaan 133",
+        "9820 Merelbeke"
+      ],
+      "name_en": "Hygiene and technology of animal foods",
+      "code": "DI06",
+      "link": null,
+      "telephone": [
+        "09/264.74.51"
+      ],
+      "active": 1,
+      "name": "Hygiene en technologie van dierlijke eetwaren",
+      "faculty": "DI",
+      "door_number": null,
+      "campus": "Campus Merelbeke",
+      "updated_at": "2017-06-20T03:51:21Z",
+      "image_url": null,
+      "name_nl": "Hygiene en technologie van dierlijke eetwaren"
+    }
+  ],
+  "created_at": "2014-03-10T10:03:13Z",
+  "updated_at": "2017-08-09T21:51:28Z",
+  "libraries_start": 0,
+  "name_nl": "Lijst van UGent bibliotheken",
+  "name_en": "List of UGent libraries",
+  "libraries_limit": 500,
+  "code": "all",
+  "libraries_total": 201
+}

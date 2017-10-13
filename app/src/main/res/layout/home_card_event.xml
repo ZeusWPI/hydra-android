@@ -15,11 +15,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <be.ugent.zeus.hydra.views.NowToolbar
+        <be.ugent.zeus.hydra.ui.common.widgets.NowToolbar
             android:id="@+id/card_now_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_tabs_events"
+            app:icon="@drawable/tabs_events"
             />
 
         <LinearLayout
@@ -55,20 +55,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/starttime"
-                    android:singleLine="true"
                     android:textColor="?android:attr/textColorSecondary"
-                    tools:text="Starttijd" />
+                    tools:text="Starttijd"
+                    android:maxLines="1" />
 
             </LinearLayout>
 
             <ImageView
+                android:transitionName="logo"
                 android:layout_marginBottom="@dimen/card_title_padding_bottom"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:id="@+id/imageView"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
-                tools:src="@drawable/ic_event_24dp" />
+                tools:src="@drawable/ic_event" />
         </LinearLayout>
     </LinearLayout>
 

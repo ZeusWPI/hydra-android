@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/home_cards_view"
+        android:scrollbars="vertical"
+        android:clipToPadding="false"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:scrollbarStyle="outsideOverlay"
+        android:paddingLeft="@dimen/card_margin"
+        android:paddingRight="@dimen/card_margin"
+        android:paddingTop="@dimen/card_spacing"
+        tools:listitem="@layout/home_card_schamper"
+        app:layoutManager="@string/app_layout_manager_normal"
+        app:spanCount="@integer/span_count_normal"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/home_cards_view"
-            android:scrollbars="vertical"
-            android:clipToPadding="false"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:scrollbarStyle="outsideOverlay"
-            android:paddingLeft="@dimen/card_margin"
-            android:paddingRight="@dimen/card_margin"
-            android:paddingTop="@dimen/card_spacing" />
-
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-    <include layout="@layout/x_progress_bar" />
-
-</FrameLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

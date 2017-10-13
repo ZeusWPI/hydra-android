@@ -1,16 +1,42 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.cookpad.android.licensetools'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
+
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
-        targetSdkVersion 24
-        versionCode 207
-        versionName "2.0"
+        targetSdkVersion 26
+        versionCode 254
+        versionName "2.5"
         vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //Load the API keys from the file "secrets.progperties".
+        Properties props = new Properties()
+        props.load(new FileInputStream(file('secrets.properties')))
+        buildConfigField "String", "OAUTH_ID", "\"" + props['OAUTH_ID'] + "\""
+        buildConfigField "String", "OAUTH_SECRET", "\"" + props['OAUTH_SECRET'] + "\""
+        manifestPlaceholders = [
+                google_maps_key: props['MAPS_API_KEY'],
+                disableAnalytics: false
+        ]
+        // Displays the priorities on the cards of the home feed.
+        buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", "false"
+        // Adds an additional invisible card that takes ~10 seconds to complete.
+        buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", "false"
+        // Add a hard-coded special event card to access the SKO part of the app
+        buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", "false"
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -20,14 +46,25 @@ android {
         debug {
             // Set this to false on release versions!
             debuggable true
-        }
-        applicationVariants.all { variant ->
-            def Properties props = new Properties()
-            props.load(new FileInputStream(file('secrets.properties')))
-            variant.buildConfigField "String", "OAUTH_ID", "\""+props['OAUTH_ID']+"\""
-            variant.buildConfigField "String", "OAUTH_SECRET", "\""+props['OAUTH_SECRET']+"\""
+            manifestPlaceholders = [disableAnalytics: true]
+            // Set these to true when debugging the home feed.
+            buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", "false"
+            buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", "false"
+            buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", "false"
         }
     }
+
+    testOptions {
+        unitTests {
+        //    includeAndroidResources = true
+            returnDefaultValues = true
+
+        }
+        unitTests.all {
+            systemProperty 'robolectric.logging.enabled', 'true'
+        }
+    }
+
     packagingOptions {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/LICENSE'
@@ -44,8 +81,13 @@ android {
     }
 }
 
+project.afterEvaluate {
+    preBuild.dependsOn checkLicenses, generateLicensePage
+}
+
 //The support library version
-final SUPPORT_LIBRARY_VERSION = '24.2.1'
+final SUPPORT_LIBRARY_VERSION = '26.1.0'
+final GMS_VERSION = '11.4.0'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -59,36 +101,80 @@ dependencies {
     compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
 
+    // Lifecycle components
+    compile "android.arch.lifecycle:extensions:1.0.0-beta1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-beta1"
+
     compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
-    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
-    compile 'net.danlew:android.joda:2.9.3.1'
-    compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
-    compile 'com.google.android.gms:play-services-analytics:9.4.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.KyoSherlock:expandablelayout:master-SNAPSHOT'
-    compile 'com.github.pluscubed:recycler-fast-scroll:0.3.1@aar'
-    compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.4'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.github.chrisbanes:PhotoView:1.3.0'
-    compile 'com.heinrichreimersoftware:material-intro:1.5.8'
+    compile 'com.jakewharton.threetenabp:threetenabp:1.0.5'
+    compile 'net.sourceforge.streamsupport:streamsupport:1.5.6'
+    compile 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
+    compile 'net.cachapa.expandablelayout:expandablelayout:2.9.1'
+    compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
+    compile 'com.heinrichreimersoftware:material-intro:1.6' // DO NOT UPDATE unless you want databinding
     compile 'su.j2e:rv-joiner:1.0.9'
     compile 'com.github.alexfu:SQLiteQueryBuilder:0.3.0'
+    compile 'com.jonathanfinerty.once:once:1.2.2'
+    compile 'com.karumi:dexter:4.1.1'
+    compile 'com.github.captain-miao:optroundcardview:1.0.0'
+
+    // Temporary HTML parser for Urgent.fm
+    compile 'org.jsoup:jsoup:1.10.3'
 
     // Used for the OAuth stuff
-    compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1') {
+    compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
         exclude group: 'org.apache.oltu.oauth2'
     }
 
-    //compile 'com.google.firebase:firebase-core:9.4.0'
-    //compile 'com.google.firebase:firebase-crash:9.4.0'
-    compile 'com.google.firebase:firebase-messaging:9.4.0'
-    compile 'com.google.firebase:firebase-config:9.4.0'
+    compile "com.google.android.gms:play-services-analytics:$GMS_VERSION"
+    compile "com.google.android.gms:play-services-maps:$GMS_VERSION"
 
-    compile 'su.j2e:rv-joiner:1.0.9'
+    compile "com.google.firebase:firebase-core:$GMS_VERSION"
 
-    compile 'com.github.alexfu:SQLiteQueryBuilder:0.3.0'
+    testCompile project(':firebasenoop')
+    debugCompile project(':firebasenoop')
+    releaseCompile "com.google.firebase:firebase-crash:$GMS_VERSION"
+
+    compile "com.google.firebase:firebase-messaging:$GMS_VERSION"
+
+    //Test code
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.7.20'
+
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+
+    //Enable the normal library for unit tests
+    testCompile ('org.threeten:threetenbp:1.3.2'){
+        exclude group:'com.jakewharton.threetenabp', module:'threetenabp'
+    }
+
+    testCompile 'be.tomcools:GetterSetterVerifier:0.0.2'
+    testCompile 'nl.jqno.equalsverifier:equalsverifier:2.2.1'
+    testCompile ('com.shazam:shazamcrest:0.11') {
+        exclude group: 'com.google.code.gson', module: 'gson'
+    }
+    testCompile 'io.github.benas:random-beans:3.6.0'
+    testCompile 'org.apache.commons:commons-lang3:3.5'
+    testCompile 'org.hamcrest:hamcrest-core:1.3'
+    testCompile 'com.googlecode:openbeans:1.0'
+    testCompile 'org.robolectric:robolectric:3.4.2'
+    testCompile('org.springframework:spring-test:3.2.18.RELEASE') {
+        exclude module: 'spring-core'
+    }
+    testCompile 'commons-validator:commons-validator:1.6'
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestCompile ('com.android.support.test:runner:1.0.0') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile ('com.android.support.test:rules:1.0.0') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'

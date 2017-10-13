@@ -6,8 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/card_spacing"
-    android:layout_marginLeft="@dimen/card_margin"
-    android:layout_marginRight="@dimen/card_margin"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground">
 
@@ -16,7 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <be.ugent.zeus.hydra.views.NowToolbar
+        <be.ugent.zeus.hydra.ui.common.widgets.NowToolbar
             android:id="@+id/sko_now_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,6 +22,8 @@
 
         <ImageView
             android:id="@+id/post_poster"
+            tools:src="@drawable/logo_sko"
+            tools:maxHeight="80dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"

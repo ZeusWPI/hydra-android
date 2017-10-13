@@ -7,6 +7,7 @@
     <!-- Material design normal keylines -->
     <dimen name="vertical_padding">24dp</dimen>
     <dimen name="keyline">80dp</dimen>
+    <dimen name="keyline_tab">68dp</dimen><!-- keyline (71) - 12 (tab padding) -->
     <dimen name="large_horizontal_padding">16dp</dimen>
 
     <dimen name="card_small_horizontal_margin">16dp</dimen>

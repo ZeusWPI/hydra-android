@@ -14,13 +14,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <be.ugent.zeus.hydra.views.NowToolbar
+        <be.ugent.zeus.hydra.ui.common.widgets.NowToolbar
             android:id="@+id/card_now_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:icon="@drawable/ic_tabs_schamper"
-            app:title="@string/title_activity_schamper"
-            />
+            app:icon="@drawable/tabs_schamper"
+            app:title="@string/title_activity_schamper" />
 
         <LinearLayout
             android:paddingLeft="@dimen/card_title_padding_vertical"
@@ -60,13 +59,13 @@
 
             <ImageView
                 android:layout_marginBottom="@dimen/card_title_padding_bottom"
-                android:transitionName="hero"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:id="@+id/image"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
-                tools:src="@drawable/ic_tabs_schamper" />
+                android:transitionName="hero"
+                tools:src="@drawable/tabs_schamper" />
 
         </LinearLayout>
 

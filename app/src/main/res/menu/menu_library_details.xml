@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/library_url"
+        android:orderInCategory="50"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_open_in_browser"
+        android:title="@string/library_open_website" />
+
+    <item
+        android:id="@+id/library_location"
+        android:orderInCategory="60"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_map"
+        android:title="@string/library_open_map" />
+
+    <item
+        android:id="@+id/library_email"
+        android:orderInCategory="70"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_email"
+        android:title="@string/library_send_mail" />
+
+    <item
+        android:id="@+id/library_phone"
+        android:orderInCategory="80"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_call"
+        android:title="@string/library_call" />
+</menu>

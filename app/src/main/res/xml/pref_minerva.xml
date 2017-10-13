@@ -8,14 +8,28 @@
             android:key="account_settings"
             android:title="Accountbeheer"
             android:summary="Zet de synchronisatie aan of uit"
-            android:persistent="false">
-            <intent android:action="android.settings.SYNC_SETTINGS" />
-        </PreferenceScreen>
+            android:persistent="false" />
 
         <ListPreference
-            android:key="pref_minerva_sync_frequency"
-            android:summary="Kies om de hoeveel tijd er gesynchroniseerd worden met Minerva"
-            android:title="Synchronisatie-interval"
+            android:key="pref_minerva_sync_course_frequency"
+            android:summary="Om de hoeveel tijd de vakken gesynchroniseerd worden (nu %s)"
+            android:title="Sync-interval vakken"
+            android:entries="@array/minerva_frequencies_long_text"
+            android:entryValues="@array/minerva_frequencies_long_seconds"
+            android:defaultValue="2592000"/>
+
+        <ListPreference
+            android:key="pref_minerva_sync_calendar_frequency"
+            android:summary="Om de hoeveel tijd de agenda gesynchroniseerd worden (nu %s)"
+            android:title="Sync-interval agenda"
+            android:entries="@array/minerva_frequencies_text"
+            android:entryValues="@array/minerva_frequencies_seconds"
+            android:defaultValue="86400"/>
+
+        <ListPreference
+            android:key="pref_minerva_sync_announcement_frequency"
+            android:summary="Om de hoeveel tijd de aankondigingen gesynchroniseerd worden (nu %s)"
+            android:title="Syn-interval aankondigingen"
             android:entries="@array/minerva_frequencies_text"
             android:entryValues="@array/minerva_frequencies_seconds"
             android:defaultValue="86400"/>
@@ -34,6 +48,16 @@
             android:summary="Toon een melding bij een nieuwe aankondiging waarvoor al een e-mail verstuurd is."
             android:title="Meldingen voor e-mail"
             android:defaultValue="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Overige">
+
+        <CheckBoxPreference
+            android:key="pref_minerva_use_mobile_url"
+            android:summary="Ga naar de mobiele site i.p.v. de desktopsite bij het klikken op een link naar de Minerva-site"
+            android:title="Mobiele site gebruiken"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

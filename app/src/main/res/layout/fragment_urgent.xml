@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:animateLayoutChanges="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/activity_horizontal_margin">
+
+        <ImageView
+            android:id="@+id/albumImage"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="@dimen/media_control_image"
+            android:layout_height="@dimen/media_control_image"
+            android:contentDescription="@string/urgent_album_art"
+            app:srcCompat="@drawable/logo_urgent" />
+
+        <TextView
+            android:paddingTop="@dimen/content_spacing"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            android:id="@+id/artistText"
+            style="?android:attr/textAppearanceMedium"
+            android:ellipsize="marquee"
+            tools:text="The End is the Beginning is the End (Soundtrack Version)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            android:id="@+id/titleText"
+            style="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"
+            android:ellipsize="marquee"
+            android:text="@string/urgent_fm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingBottom="@dimen/content_spacing" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:animateLayoutChanges="true">
+
+            <ProgressBar
+                android:id="@id/progress_bar"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageButton
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/playPauseButton"
+                app:srcCompat="@drawable/ic_play_arrow_24dp" />
+
+        </FrameLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

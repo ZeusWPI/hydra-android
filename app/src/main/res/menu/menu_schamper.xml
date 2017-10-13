@@ -6,14 +6,14 @@
         android:id="@+id/schamper_browser"
         android:orderInCategory="50"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_open_in_browser_24dp"
-        android:title="Openen in browser" />
+        android:icon="@drawable/ic_open_in_browser"
+        android:title="@string/open_browser" />
 
     <item
         android:id="@+id/schamper_share"
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_share_24dp"
-        android:title="Delen" />
+        android:icon="@drawable/ic_share"
+        android:title="@string/share" />
 
 </menu>

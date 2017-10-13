@@ -1,0 +1,20 @@
+[
+  {
+    "title": "KVHV op de Ijzerwake",
+    "start": "2017-08-27T11:00:00+02:00",
+    "end": "2017-08-27T18:00:00+02:00",
+    "location": "Monument gebroeders van Raemdonck",
+    "latitude": 50.9130344,
+    "longitude": 2.8295441,
+    "description": "16de IJzerwake aan het monument van de Gebroeders van Raemdonck.",
+    "url": "https://www.facebook.com/events/247882788977099/",
+    "facebook_id": "",
+    "categories": null,
+    "highlighted": 0,
+    "association": {
+      "internal_name": "KVHV",
+      "full_name": "Katholiek Vlaams Hoogstudenten Verbond",
+      "display_name": "KVHV"
+    }
+  }
+]

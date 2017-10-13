@@ -1,0 +1,85 @@
+[
+  {
+    "image": "info_library",
+    "title": "Bibliotheek",
+    "url": "https://lib.ugent.be"
+  },
+  {
+    "image": "info_minerva",
+    "title": "Minerva Mobile",
+    "url": "https://minerva.ugent.be/mobile/"
+  },
+  {
+    "image": "info_guide",
+    "title": "GUIDe",
+    "url": "http://www.ugent.be/nl/vragen"
+  },
+  {
+    "image": "info_sports",
+    "subcontent": [
+      {
+        "html": "info-sport-openingsuren.html",
+        "title": "Openingsuren GUSB"
+      },
+      {
+        "html": "info-sport-aanbod.html",
+        "title": "Sportaanbod"
+      },
+      {
+        "title": "UGent.be \u00bb Sportvoorzieningen",
+        "url": "http://www.ugent.be/nl/voorzieningen/sport"
+      }
+    ],
+    "title": "Sportvoorzieningen"
+  },
+  {
+    "html": "info-fietsen.html",
+    "image": "info_bicycle",
+    "title": "Fietsen"
+  },
+  {
+    "html": "info-studentenartsen.html",
+    "image": "info_doctors",
+    "title": "Studentenartsen"
+  },
+  {
+    "html": "info-kalender.html",
+    "image": "info_academiccalendar",
+    "title": "Academische kalender"
+  },
+  {
+    "html": "info-bloklocaties.html",
+    "image": "info_mapmarker",
+    "title": "Bloklocaties"
+  },
+  {
+    "image": "info_more",
+    "subcontent": [
+      {
+        "title": "UGent.be \u00bb Studenten",
+        "url": "http://www.ugent.be/nl/studenten/"
+      },
+      {
+        "title": "Dienst StudentenActiviteiten",
+        "url": "http://www.student.ugent.be/"
+      },
+      {
+        "title": "Gentse StudentenRaad",
+        "url": "http://gsr.ugent.be/"
+      },
+      {
+        "title": "Durf Doen",
+        "url": "http://www.durfdoen.be/"
+      },
+      {
+        "title": "Schamper",
+        "url": "http://www.schamper.ugent.be/"
+      },
+      {
+        "title": "Urgent.fm",
+        "url": "http://urgent.fm/"
+      }
+    ],
+    "title": "Meer informatie"
+  }
+]

@@ -2,5 +2,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_hide"
-        android:title="Dit soort kaarten verbergen" />
+        android:title="@string/card_title_hide" />
 </menu>
