@@ -19,10 +19,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.data.models.association.Event;
-import be.ugent.zeus.hydra.ui.onboarding.OnboardingActivity;
+import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -87,10 +87,14 @@ public class EventDetailActivity extends BaseActivity {
             LinkifyCompat.addLinks(description, Linkify.ALL);
         }
 
-        if (event.hasLocation()) {
-            location.setText(event.getLocation());
+        if (event.hasPreciseLocation() || event.hasLocation()) {
+            if (event.hasLocation()) {
+                location.setText(event.getLocation());
+            } else {
+                location.setText(getString(R.string.events_unnamed_precise_location, event.getLatitude(), event.getLongitude()));
+            }
             // Make location clickable
-            location.setOnClickListener(view -> {
+            findViewById(R.id.location_row).setOnClickListener(view -> {
                 NetworkUtils.maybeLaunchIntent(this, getLocationIntent());
             });
         } else {

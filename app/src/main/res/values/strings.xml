@@ -370,5 +370,6 @@
     <string name="sko_artist_search_music">Artiest zoeken in muziek</string>
     <string name="sko_artist_no_content">Geen beschrijving gevonden voor deze artiest.</string>
     <string name="activity_title_homefeed_card_types">Kaartsoorten</string>
+    <string name="events_unnamed_precise_location">Precieze locatie: (%1$f, %2$f)</string>
 
 </resources>
