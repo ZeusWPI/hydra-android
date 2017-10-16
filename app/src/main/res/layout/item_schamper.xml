@@ -20,7 +20,8 @@
             android:maxHeight="400dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:transitionName="hero" />
+            android:transitionName="hero"
+            android:contentDescription="@string/schamper_artikel"/>
 
         <TextView
             android:paddingLeft="@dimen/card_title_padding_vertical"

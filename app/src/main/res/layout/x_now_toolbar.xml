@@ -19,7 +19,7 @@
         tools:src="@drawable/tabs_resto"
         tools:ignore="MissingPrefix"
         android:tint="@color/ugent_blue_lighter"
-        android:contentDescription="@string/restro"/>
+        android:contentDescription="@string/resto"/>
 
     <TextView
         android:id="@+id/now_toolbar_title"

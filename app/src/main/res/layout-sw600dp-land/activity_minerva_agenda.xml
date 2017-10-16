@@ -39,7 +39,8 @@
                     android:tint="@color/white"
                     app:srcCompat="@drawable/ic_event_note"
                     tools:src="@drawable/ic_event_note"
-                    tools:ignore="MissingPrefix" />
+                    tools:ignore="MissingPrefix"
+                    android:contentDescription="@string/kalendar_icon"/>
 
                 <TextView
                     android:id="@+id/title"
@@ -106,7 +107,8 @@
                             android:tint="@color/ugent_blue_dark"
                             app:srcCompat="@drawable/ic_place"
                             tools:src="@drawable/ic_place"
-                            tools:ignore="MissingPrefix" />
+                            tools:ignore="MissingPrefix"
+                            android:contentDescription="@string/locatie"/>
 
                         <TextView
                             android:layout_gravity="center_vertical"
@@ -139,7 +141,8 @@
                             android:tint="@color/ugent_blue_dark"
                             app:srcCompat="@drawable/ic_schedule"
                             tools:src="@drawable/ic_schedule"
-                            tools:ignore="MissingPrefix" />
+                            tools:ignore="MissingPrefix"
+                            android:contentDescription="@string/tijd"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -187,7 +190,8 @@
                             android:tint="@color/ugent_blue_dark"
                             app:srcCompat="@drawable/ic_book_open_page_variant"
                             tools:src="@drawable/ic_book_open_page_variant"
-                            tools:ignore="MissingPrefix" />
+                            tools:ignore="MissingPrefix"
+                            android:contentDescription="@string/les"/>
 
                         <TextView
                             android:layout_gravity="center_vertical"
@@ -220,7 +224,8 @@
                             android:tint="@color/ugent_blue_dark"
                             app:srcCompat="@drawable/ic_person"
                             tools:src="@drawable/ic_person"
-                            tools:ignore="MissingPrefix" />
+                            tools:ignore="MissingPrefix"
+                            android:contentDescription="@string/hulpgever"/>
 
                         <TextView
                             android:layout_gravity="center_vertical"
@@ -252,7 +257,8 @@
                             android:layout_marginRight="32dp"
                             android:tint="@color/ugent_blue_dark"
                             app:srcCompat="@drawable/ic_warning"
-                            tools:ignore="MissingPrefix" />
+                            tools:ignore="MissingPrefix"
+                            android:contentDescription="@string/waarschuwing"/>
 
                         <TextView
                             android:id="@+id/agenda_warning"
