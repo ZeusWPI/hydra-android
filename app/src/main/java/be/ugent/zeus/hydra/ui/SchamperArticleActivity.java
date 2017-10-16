@@ -17,6 +17,7 @@ import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -71,6 +72,7 @@ public class SchamperArticleActivity extends BaseActivity {
         TextView intro = findViewById(R.id.intro);
         TextView author = findViewById(R.id.author);
 
+
         ImageView headerImage = findViewById(R.id.header_image);
 
         if (article.getImage() != null) {
@@ -93,6 +95,10 @@ public class SchamperArticleActivity extends BaseActivity {
             //The intro
             intro.setText(Utils.fromHtml(article.getIntro()));
             intro.setMovementMethod(LinkMovementMethod.getInstance());
+
+            if(article.getIntro().equals("")){
+                ((ViewGroup)intro.getParent().getParent()).removeView(((View)intro.getParent()));
+            }
 
             //The body
             text.setText(Utils.fromHtml(article.getBody(), new PicassoImageGetter(text, getResources(), this)));
