@@ -69,7 +69,8 @@
                 android:id="@+id/imageView"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
-                tools:src="@drawable/ic_event" />
+                tools:src="@drawable/ic_event"
+                android:contentDescription="@string/kalendar_icon"/>
         </LinearLayout>
     </LinearLayout>
 

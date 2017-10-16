@@ -370,5 +370,25 @@
     <string name="sko_artist_search_music">Artiest zoeken in muziek</string>
     <string name="sko_artist_no_content">Geen beschrijving gevonden voor deze artiest.</string>
     <string name="activity_title_homefeed_card_types">Kaartsoorten</string>
+    <string name="unread_icon">Ongelezen aankondigingen</string>
+    <string name="rangschik">Rangschik</string>
+    <string name="restro">Restro</string>
+    <string name="meer">meer</string>
+    <string name="artiest">Artiest</string>
+    <string name="schamper_image">Schamper</string>
+    <string name="kalendar_icon">kalendar icon</string>
+    <string name="locatie">locatie</string>
+    <string name="tijd">tijd</string>
+    <string name="hydra_logo">Hydra logo</string>
+    <string name="bib">bib</string>
+    <string name="event_afbeelding">event afbeelding</string>
+    <string name="les">les</string>
+    <string name="hulpgever">hulpgever</string>
+    <string name="aankondiging">aankondiging</string>
+    <string name="zoek">zoek</string>
+    <string name="zoeken_op_artist">zoeken op artist</string>
+    <string name="minerva_logo">minerva logo</string>
+    <string name="_12_uren_loop">12 uren loop</string>
+    <string name="urgent_logo">urgent logo</string>
 
 </resources>

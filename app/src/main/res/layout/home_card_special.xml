@@ -47,7 +47,8 @@
             android:layout_height="80dp"
             android:scaleType="fitEnd"
             android:paddingTop="16dp"
-            android:id="@+id/image" />
+            android:id="@+id/image"
+            android:contentDescription="@string/_12_uren_loop"/>
 
     </LinearLayout>
 

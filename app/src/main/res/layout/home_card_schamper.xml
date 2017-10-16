@@ -65,7 +65,8 @@
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
                 android:transitionName="hero"
-                tools:src="@drawable/tabs_schamper" />
+                tools:src="@drawable/tabs_schamper"
+                android:contentDescription="@string/schamper_image"/>
 
         </LinearLayout>
 
