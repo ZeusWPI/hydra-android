@@ -31,7 +31,8 @@
                 android:paddingRight="0dp"
                 android:paddingBottom="10dp"
                 android:id="@+id/imageView"
-                app:srcCompat="@drawable/tabs_minerva" />
+                app:srcCompat="@drawable/tabs_minerva"
+                android:contentDescription="@string/content_desc_minerva_icon"/>
 
             <LinearLayout
                 android:orientation="vertical"

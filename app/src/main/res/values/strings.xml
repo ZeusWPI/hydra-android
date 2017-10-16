@@ -370,6 +370,32 @@
     <string name="sko_artist_search_music">Artiest zoeken in muziek</string>
     <string name="sko_artist_no_content">Geen beschrijving gevonden voor deze artiest.</string>
     <string name="activity_title_homefeed_card_types">Kaartsoorten</string>
-    <string name="events_unnamed_precise_location">Precieze locatie: (%1$f, %2$f)</string>
+    <string name="events_unnamed_precise_location">Precieze locatie: (%1$f, %2$f)</string>µ
 
+    <!-- Accessibility strings -->
+    <string name="content_desc_unread_icon">Heeft ongelezen aankondigingen</string>
+    <string name="content_desc_reorder">Rangschikken</string>
+    <string name="content_desc_more">meer</string>
+    <string name="content_desc_artist_image">Artiestfoto</string>
+    <string name="content_desc_schamper_image">Schamperfoto</string>
+    <string name="content_desc_calendar_icon">Agenda-icon</string>
+    <string name="content_desc_location">Locatie</string>
+    <string name="content_desc_time">Tijd</string>
+    <string name="content_desc_hydra_logo">Hydra-logo</string>
+    <string name="content_desc_library">Bibliotheek</string>
+    <string name="content_desc_event_image">Afbeelding van evenement</string>
+    <string name="content_desc_lesson">Les</string>
+    <string name="content_desc_organiser">Lesgever</string>
+    <string name="content_desc_announcement">Aankondiging</string>
+    <string name="content_desc_warning">Waarschuwing</string>
+    <string name="content_desc_resto">Resto</string>
+    <string name="content_desc_user_offline">Gebruiker offline</string>
+    <string name="content_desc_kickoff_logo">Logo Student Kick-Off</string>
+    <string name="content_desc_schamper_article">Schamperartikel</string>
+    <string name="content_desc_search">Zoeken</string>
+    <string name="content_desc_search_artist">Zoeken op artist</string>
+    <string name="content_desc_minerva_icon">Logo van Minerva</string>
+    <string name="content_desc_special_event_icon">Icoon speciaal evenement</string>
+    <string name="content_desc_urgent_icon">Logo Urgent.fm</string>
+    <string name="content_desc_association_icon">Icon vereniging</string>
 </resources>

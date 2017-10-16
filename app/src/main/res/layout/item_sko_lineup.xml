@@ -21,7 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/content_desc_artist_image"/>
 
         <TextView
             android:paddingLeft="@dimen/card_title_padding_vertical"
