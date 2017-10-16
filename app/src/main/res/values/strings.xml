@@ -389,8 +389,9 @@
     <string name="resto">resto</string>
     <string name="user_offline">user offline</string>
     <string name="kickoff_logo">kickoff logo</string>
-    <string name="megafoon">megafoon</string>
     <string name="schamper_artikel">schamper_artikel</string>
+    <string name="megafoon">megafoon</string>
+
 
 
 </resources>
