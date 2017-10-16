@@ -65,6 +65,7 @@ public class MenuTable extends TableLayout {
         tr.setLayoutParams(lp);
 
         TextView v = new TextView(getContext());
+        v.setTextIsSelectable(true);
         TableRow.LayoutParams textParam = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
         textParam.span = 3;
         if (span) {
@@ -126,9 +127,9 @@ public class MenuTable extends TableLayout {
 
             ImageView imageView = makeImageView(id);
             TextView tvCenter = makeCenterTextView(meal.getName(), lp);
-
             TextView tvRight = new TextView(getContext());
             tvRight.setLayoutParams(lp);
+            tvRight.setTextIsSelectable(true);
             tvRight.setText(meal.getPrice());
             tvRight.setGravity(Gravity.END);
 
@@ -185,6 +186,7 @@ public class MenuTable extends TableLayout {
      */
     private TextView makeCenterTextView(String text, TableRow.LayoutParams lp) {
         TextView tvCenter = new TextView(getContext());
+        tvCenter.setTextIsSelectable(true);
         tvCenter.setPadding(ViewUtils.convertDpToPixelInt(16, getContext()),0,0,0);
         tvCenter.setLayoutParams(lp);
         tvCenter.setText(text);
