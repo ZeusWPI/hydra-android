@@ -11,13 +11,13 @@ import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -93,11 +93,11 @@ public class SchamperArticleActivity extends BaseActivity {
         if (article.getBody() != null) {
 
             //The intro
-            intro.setText(Utils.fromHtml(article.getIntro()));
-            intro.setMovementMethod(LinkMovementMethod.getInstance());
-
-            if(article.getIntro().equals("")){
-                ((ViewGroup)intro.getParent().getParent()).removeView(((View)intro.getParent()));
+            if (TextUtils.isEmpty(article.getIntro())) {
+                findViewById(R.id.intro_wrapper).setVisibility(View.GONE);
+            } else {
+                intro.setText(Utils.fromHtml(article.getIntro()));
+                intro.setMovementMethod(LinkMovementMethod.getInstance());
             }
 
             //The body
