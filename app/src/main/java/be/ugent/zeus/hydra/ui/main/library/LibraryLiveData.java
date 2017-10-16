@@ -75,8 +75,10 @@ public class LibraryLiveData extends RequestLiveData<List<Library>> implements S
             Iterables.forEach(libraries, library -> library.setFavourite(favourites.contains(library.getCode())));
             Lists.sort(libraries, Comparators.thenComparing(
                     Comparators.reversed(Comparators.comparing(Library::isFavourite)),
-                    Comparators.comparing(Library::getName)
-            ));
+                    Comparators.thenComparing(
+                            Comparators.reversed(Comparators.comparing(Library::isFacultyBib)),
+                            Comparators.comparing(Library::getName)
+            )));
 
             return libraries;
         });
