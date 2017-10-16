@@ -370,5 +370,26 @@
     <string name="sko_artist_search_music">Artiest zoeken in muziek</string>
     <string name="sko_artist_no_content">Geen beschrijving gevonden voor deze artiest.</string>
     <string name="activity_title_homefeed_card_types">Kaartsoorten</string>
+    <string name="unread_icon">Ongelezen aankondigingen</string>
+    <string name="rangschik">Rangschik</string>
+    <string name="restro">Restro</string>
+    <string name="meer">meer</string>
+    <string name="artiest">Artiest</string>
+    <string name="schamper_image">Schamper</string>
+    <string name="kalendar_icon">kalendar icon</string>
+    <string name="locatie">locatie</string>
+    <string name="tijd">tijd</string>
+    <string name="hydra_logo">Hydra logo</string>
+    <string name="bib">bib</string>
+    <string name="event_afbeelding">event afbeelding</string>
+    <string name="les">les</string>
+    <string name="hulpgever">hulpgever</string>
+    <string name="aankondiging">aankondiging</string>
+    <string name="waarschuwing">waarschuwing</string>
+    <string name="resto">resto</string>
+    <string name="user_offline">user offline</string>
+    <string name="kickoff_logo">kickoff logo</string>
+    <string name="schamper_artikel">schamper_artikel</string>
+    <string name="megafoon">megafoon</string>
 
 </resources>
