@@ -19,9 +19,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.data.models.association.Event;
+import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -71,7 +72,6 @@ public class EventDetailActivity extends BaseActivity {
         final ImageView organisatorImage = findViewById(R.id.event_organisator_image);
         TextView mainName = findViewById(R.id.event_organisator_main);
         TextView smallName = findViewById(R.id.event_organisator_small);
-
         if (event.getTitle() != null) {
             title.setText(event.getTitle());
             getToolbar().setTitle(event.getTitle());
@@ -87,8 +87,16 @@ public class EventDetailActivity extends BaseActivity {
             LinkifyCompat.addLinks(description, Linkify.ALL);
         }
 
-        if (event.hasLocation()) {
-            location.setText(event.getLocation());
+        if (event.hasPreciseLocation() || event.hasLocation()) {
+            if (event.hasLocation()) {
+                location.setText(event.getLocation());
+            } else {
+                location.setText(getString(R.string.events_unnamed_precise_location, event.getLatitude(), event.getLongitude()));
+            }
+            // Make location clickable
+            findViewById(R.id.location_row).setOnClickListener(view -> {
+                NetworkUtils.maybeLaunchIntent(this, getLocationIntent());
+            });
         } else {
             location.setText(R.string.events_no_location);
         }
