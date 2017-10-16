@@ -35,7 +35,7 @@
                 app:layout_collapseMode="parallax"
                 android:fitsSystemWindows="true"
                 tools:src="@drawable/tabs_schamper"
-                android:contentDescription="@string/schamper_image"/>
+                android:contentDescription="@string/content_desc_schamper_image"/>
 
             <ImageView
                 app:layout_collapseMode="parallax"
@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/gradient_black_bottom"
-                android:contentDescription="@string/schamper_image"/>
+                android:contentDescription="@string/content_desc_schamper_image"/>
 
             <LinearLayout
                 app:layout_collapseMode="parallax"
@@ -159,7 +159,7 @@
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_search"
                     android:tint="?android:attr/textColorPrimary"
-                    android:contentDescription="@string/zoek"/>
+                    android:contentDescription="@string/content_desc_search"/>
 
                 <TextView
                     android:paddingLeft="32dp"
@@ -187,7 +187,7 @@
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_library_music"
                     android:tint="?android:attr/textColorPrimary"
-                    android:contentDescription="@string/zoeken_op_artist"/>
+                    android:contentDescription="@string/content_desc_search_artist"/>
 
 
                 <TextView

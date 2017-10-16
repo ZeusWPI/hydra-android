@@ -40,7 +40,7 @@
                     app:srcCompat="@drawable/ic_megaphone"
                     tools:src="@drawable/ic_megaphone"
                     tools:ignore="MissingPrefix"
-                    android:contentDescription="@string/aankondiging"/>
+                    android:contentDescription="@string/content_desc_announcement"/>
 
                 <TextView
                     android:id="@+id/title"
@@ -101,7 +101,7 @@
                         app:srcCompat="@drawable/ic_schedule"
                         tools:src="@drawable/ic_schedule"
                         tools:ignore="MissingPrefix"
-                        android:contentDescription="@string/tijd"/>
+                        android:contentDescription="@string/content_desc_time"/>
 
                     <TextView
                         android:id="@+id/date"
@@ -134,7 +134,7 @@
                         android:tint="@color/ugent_blue_dark"
                         app:srcCompat="@drawable/ic_book_open_page_variant"
                         tools:src="@drawable/ic_book_open_page_variant"
-                        android:contentDescription="@string/les"/>
+                        android:contentDescription="@string/content_desc_lesson"/>
 
                     <TextView
                         android:layout_gravity="center_vertical"
@@ -167,7 +167,7 @@
                         android:tint="@color/ugent_blue_dark"
                         app:srcCompat="@drawable/ic_person"
                         tools:src="@drawable/ic_person"
-                        android:contentDescription="@string/hulpgever"/>
+                        android:contentDescription="@string/content_desc_organiser"/>
 
                     <TextView
                         android:layout_gravity="center_vertical"

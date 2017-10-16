@@ -55,7 +55,7 @@
             android:scaleType="center"
             android:tint="@color/ugent_blue_lighter"
             app:srcCompat="@drawable/ic_megaphone"
-            android:contentDescription="@string/unread_icon" />
+            android:contentDescription="@string/content_desc_unread_icon" />
 
         <ImageView
             android:id="@+id/drag_handle"
@@ -67,7 +67,7 @@
             android:scaleType="center"
             android:tint="@color/ugent_blue_lighter"
             app:srcCompat="@drawable/ic_drag_handle"
-            android:contentDescription="@string/rangschik"/>
+            android:contentDescription="@string/content_desc_reorder"/>
 
     </LinearLayout>
 

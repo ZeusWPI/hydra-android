@@ -41,7 +41,7 @@
                     app:srcCompat="@drawable/ic_event_note"
                     tools:src="@drawable/ic_event_note"
                     tools:ignore="MissingPrefix"
-                    android:contentDescription="@string/kalendar_icon"/>
+                    android:contentDescription="@string/content_desc_calendar_icon"/>
 
                 <TextView
                     android:id="@+id/title"
@@ -116,7 +116,7 @@
                                 app:srcCompat="@drawable/ic_place"
                                 tools:ignore="MissingPrefix"
                                 tools:src="@drawable/ic_place"
-                                android:contentDescription="@string/locatie"/>
+                                android:contentDescription="@string/content_desc_location"/>
 
                             <TextView
                                 android:id="@+id/agenda_location"
@@ -150,7 +150,7 @@
                                 app:srcCompat="@drawable/ic_schedule"
                                 tools:ignore="MissingPrefix"
                                 tools:src="@drawable/ic_schedule"
-                                android:contentDescription="@string/tijd"/>
+                                android:contentDescription="@string/content_desc_time"/>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -199,7 +199,7 @@
                                 app:srcCompat="@drawable/ic_book_open_page_variant"
                                 tools:ignore="MissingPrefix"
                                 tools:src="@drawable/ic_book_open_page_variant"
-                                android:contentDescription="@string/les"
+                                android:contentDescription="@string/content_desc_lesson"
                                 />
 
                             <TextView
@@ -234,7 +234,7 @@
                                 app:srcCompat="@drawable/ic_person"
                                 tools:ignore="MissingPrefix"
                                 tools:src="@drawable/ic_person"
-                                android:contentDescription="@string/hulpgever"/>
+                                android:contentDescription="@string/content_desc_organiser"/>
 
                             <TextView
                                 android:id="@+id/agenda_organiser"

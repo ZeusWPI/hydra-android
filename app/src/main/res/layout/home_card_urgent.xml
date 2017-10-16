@@ -55,7 +55,7 @@
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
                 android:src="@drawable/logo_urgent"
-                android:contentDescription="@string/urgent_logo"/>
+                android:contentDescription="@string/content_desc_urgent_icon"/>
 
         </LinearLayout>
 

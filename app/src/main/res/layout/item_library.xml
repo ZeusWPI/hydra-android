@@ -43,6 +43,6 @@
         android:layout_height="match_parent"
         app:srcCompat="@drawable/ic_star"
         android:tint="@color/ugent_yellow_dark"
-        android:contentDescription="@string/bib"/>
+        android:contentDescription="@string/content_desc_library"/>
 
 </LinearLayout>

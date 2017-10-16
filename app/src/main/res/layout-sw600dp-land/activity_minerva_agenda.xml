@@ -40,7 +40,7 @@
                     app:srcCompat="@drawable/ic_event_note"
                     tools:src="@drawable/ic_event_note"
                     tools:ignore="MissingPrefix"
-                    android:contentDescription="@string/kalendar_icon"/>
+                    android:contentDescription="@string/content_desc_calendar_icon"/>
 
                 <TextView
                     android:id="@+id/title"
@@ -108,7 +108,7 @@
                             app:srcCompat="@drawable/ic_place"
                             tools:src="@drawable/ic_place"
                             tools:ignore="MissingPrefix"
-                            android:contentDescription="@string/locatie"/>
+                            android:contentDescription="@string/content_desc_location"/>
 
                         <TextView
                             android:layout_gravity="center_vertical"
@@ -142,7 +142,7 @@
                             app:srcCompat="@drawable/ic_schedule"
                             tools:src="@drawable/ic_schedule"
                             tools:ignore="MissingPrefix"
-                            android:contentDescription="@string/tijd"/>
+                            android:contentDescription="@string/content_desc_time"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -191,7 +191,7 @@
                             app:srcCompat="@drawable/ic_book_open_page_variant"
                             tools:src="@drawable/ic_book_open_page_variant"
                             tools:ignore="MissingPrefix"
-                            android:contentDescription="@string/les"/>
+                            android:contentDescription="@string/content_desc_lesson"/>
 
                         <TextView
                             android:layout_gravity="center_vertical"
@@ -225,7 +225,7 @@
                             app:srcCompat="@drawable/ic_person"
                             tools:src="@drawable/ic_person"
                             tools:ignore="MissingPrefix"
-                            android:contentDescription="@string/hulpgever"/>
+                            android:contentDescription="@string/content_desc_organiser"/>
 
                         <TextView
                             android:layout_gravity="center_vertical"
@@ -258,7 +258,7 @@
                             android:tint="@color/ugent_blue_dark"
                             app:srcCompat="@drawable/ic_warning"
                             tools:ignore="MissingPrefix"
-                            android:contentDescription="@string/waarschuwing"/>
+                            android:contentDescription="@string/content_desc_warning"/>
 
                         <TextView
                             android:id="@+id/agenda_warning"

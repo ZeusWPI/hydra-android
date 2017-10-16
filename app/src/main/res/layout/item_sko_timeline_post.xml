@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:contentDescription="@string/kickoff_logo"/>
+            android:contentDescription="@string/content_desc_kickoff_logo"/>
 
         <TextView
             android:paddingLeft="@dimen/card_title_padding_vertical"
