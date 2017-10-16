@@ -19,7 +19,8 @@
             android:layout_width="@dimen/media_control_image"
             android:layout_height="@dimen/media_control_image"
             android:contentDescription="@string/urgent_album_art"
-            app:srcCompat="@drawable/logo_urgent" />
+            app:srcCompat="@drawable/logo_urgent"
+            />
 
         <TextView
             android:paddingTop="@dimen/content_spacing"

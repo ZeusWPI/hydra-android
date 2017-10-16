@@ -81,6 +81,8 @@ public final class Library implements Serializable, Parcelable {
         return code;
     }
 
+    public boolean isFacultyBib() { return this.name.contains("Faculteitsbibliotheek"); }
+
     public List<String> getTelephone() {
         return telephone;
     }

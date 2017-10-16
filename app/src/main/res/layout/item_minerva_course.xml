@@ -55,7 +55,7 @@
             android:scaleType="center"
             android:tint="@color/ugent_blue_lighter"
             app:srcCompat="@drawable/ic_megaphone"
-            android:contentDescription="@string/megafoon"/>
+            android:contentDescription="@string/unread_icon" />
 
         <ImageView
             android:id="@+id/drag_handle"

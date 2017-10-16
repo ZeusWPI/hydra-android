@@ -370,6 +370,9 @@
     <string name="sko_artist_search_music">Artiest zoeken in muziek</string>
     <string name="sko_artist_no_content">Geen beschrijving gevonden voor deze artiest.</string>
     <string name="activity_title_homefeed_card_types">Kaartsoorten</string>
+    <string name="events_unnamed_precise_location">Precieze locatie: (%1$f, %2$f)</string>µ
+
+    <!-- Accessibility strings -->
     <string name="unread_icon">Ongelezen aankondigingen</string>
     <string name="rangschik">Rangschik</string>
     <string name="restro">Restro</string>
@@ -391,7 +394,9 @@
     <string name="kickoff_logo">kickoff logo</string>
     <string name="schamper_artikel">schamper_artikel</string>
     <string name="megafoon">megafoon</string>
-
-
-
+    <string name="zoek">zoek</string>
+    <string name="zoeken_op_artist">zoeken op artist</string>
+    <string name="minerva_logo">minerva logo</string>
+    <string name="_12_uren_loop">12 uren loop</string>
+    <string name="urgent_logo">urgent logo</string>
 </resources>

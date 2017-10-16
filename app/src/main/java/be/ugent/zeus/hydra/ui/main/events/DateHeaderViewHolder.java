@@ -24,6 +24,8 @@ public class DateHeaderViewHolder extends DataViewHolder<EventItem> {
     }
 
     public void populate(EventItem eventItem) {
-        headerText.setText(DateUtils.getFriendlyDate(eventItem.getHeader(), FormatStyle.LONG));
+        String date = DateUtils.getFriendlyDate(eventItem.getHeader(), FormatStyle.LONG);
+        date = date.substring(0, 1).toUpperCase() + date.substring(1);
+        headerText.setText(date);
     }
 }
