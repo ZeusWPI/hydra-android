@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -82,7 +83,8 @@ public class AnnouncementNotificationBuilder {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, ChannelCreator.MINERVA_ANNOUNCEMENT_CHANNEL);
         builder.setSmallIcon(smallIcon)
                 .setCategory(CATEGORY_EMAIL)
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .setColor(ContextCompat.getColor(context, R.color.ugent_blue_medium));
 
         // For one message
         if (announcements.size() == 1) {
