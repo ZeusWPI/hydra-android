@@ -155,7 +155,7 @@ public class EventDetailActivity extends BaseActivity {
     /**
      * Add the event to an intent, for adding to the calendar.
      */
-    public void addToCalendar() {
+    private void addToCalendar() {
         Intent intent = new Intent(Intent.ACTION_INSERT)
                 .setData(CalendarContract.Events.CONTENT_URI)
                 .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getStart().toInstant().toEpochMilli())
