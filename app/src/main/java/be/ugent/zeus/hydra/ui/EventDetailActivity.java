@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.text.util.LinkifyCompat;
@@ -132,6 +133,8 @@ public class EventDetailActivity extends BaseActivity {
             case R.id.event_location:
                 NetworkUtils.maybeLaunchIntent(this, getLocationIntent());
                 return true;
+            case R.id.menu_event_add_to_calendar:
+                addToCalendar();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -144,9 +147,25 @@ public class EventDetailActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.menu_event, menu);
 
         // We need to manually set the color of this Drawable for some reason.
-        tintToolbarIcons(menu, R.id.event_location, R.id.event_link);
+        tintToolbarIcons(menu, R.id.event_location, R.id.event_link, R.id.menu_event_add_to_calendar);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * Add the event to an intent, for adding to the calendar.
+     */
+    public void addToCalendar() {
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getStart().toInstant().toEpochMilli())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.getEnd().toInstant().toEpochMilli())
+                .putExtra(CalendarContract.Events.TITLE, event.getTitle())
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, event.getLocation())
+                .putExtra(CalendarContract.Events.DESCRIPTION, event.getDescription())
+                .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_TENTATIVE);
+
+        NetworkUtils.maybeLaunchIntent(this, intent);
     }
 
     /**
