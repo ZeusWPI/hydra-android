@@ -21,39 +21,27 @@ import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 public class MenuRequest extends JsonSpringRequest<RestoMenu[]> implements CacheableRequest<RestoMenu[]> {
 
     @VisibleForTesting
-    static final String SINT_JAN_URL = Endpoints.ZEUS_RESTO_URL + "menu/nl-sintjansvest/overview.json";
-    @VisibleForTesting
-    static final String NORMAL_URL = Endpoints.ZEUS_RESTO_URL + "menu/nl/overview.json";
+    private static final String OVERVIEW_URL = Endpoints.ZEUS_RESTO_URL + "menu/%s/overview.json";
 
-    private final Context context;
+    private final SharedPreferences preferences;
 
     public MenuRequest(Context context) {
         super(RestoMenu[].class);
-        this.context = context.getApplicationContext(); //Prevent leak
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
     }
 
     @NonNull
     @Override
     public String getCacheKey() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String resto = preferences.getString(RestoPreferenceFragment.PREF_RESTO, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
+        String resto = preferences.getString(RestoPreferenceFragment.PREF_RESTO_KEY, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
         return "menuOverview_" + resto + ".json";
     }
 
     @NonNull
     @Override
     protected String getAPIUrl() {
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String resto = preferences.getString(RestoPreferenceFragment.PREF_RESTO, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
-
-        switch (resto) {
-            case RestoPreferenceFragment.PREF_RESTO_SINT_JAN:
-                return SINT_JAN_URL;
-            case RestoPreferenceFragment.PREF_RESTO_NORMAL:
-            default:
-                return NORMAL_URL;
-        }
+        String resto = preferences.getString(RestoPreferenceFragment.PREF_RESTO_KEY, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
+        return String.format(OVERVIEW_URL, resto);
     }
 
     @Override

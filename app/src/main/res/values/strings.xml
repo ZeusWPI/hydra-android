@@ -395,4 +395,6 @@
     <string name="content_desc_special_event_icon">Icoon speciaal evenement</string>
     <string name="content_desc_urgent_icon">Logo Urgent.fm</string>
     <string name="content_desc_association_icon">Icon vereniging</string>
+    <string name="resto_default_name">Resto De Brug</string>
+    <string name="resto_spinner_loading">Laden…</string>
 </resources>

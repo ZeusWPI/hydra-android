@@ -7,4 +7,5 @@
     android:id="@+id/menu_table"
     android:paddingLeft="@dimen/card_text_padding_vertical"
     android:paddingRight="@dimen/card_text_padding_vertical"
-    app:show="all" />
+    app:show="all"
+    app:selectable="true" />

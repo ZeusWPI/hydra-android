@@ -24,12 +24,10 @@ public class RestoCardViewHolder extends FeedViewHolder {
 
     private final MenuTable table;
     private final SharedPreferences preferences;
-    private final String[] restos;
 
     public RestoCardViewHolder(View v, HomeFeedAdapter adapter) {
         super(v, adapter);
         this.preferences = PreferenceManager.getDefaultSharedPreferences(v.getContext());
-        this.restos = v.getContext().getResources().getStringArray(R.array.resto_location);
         table = v.findViewById(R.id.menu_table);
     }
 
@@ -39,7 +37,8 @@ public class RestoCardViewHolder extends FeedViewHolder {
 
         RestoMenu menu = card.<RestoMenuCard>checkCard(HomeCard.CardType.RESTO).getRestoMenu();
         String text = itemView.getResources().getString(R.string.resto_menu_title);
-        String resto = restos[Integer.parseInt(preferences.getString(RestoPreferenceFragment.PREF_RESTO, RestoPreferenceFragment.PREF_DEFAULT_RESTO))];
+        String defaultRestoName = itemView.getContext().getString(R.string.resto_default_name);
+        String resto = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, defaultRestoName);
         toolbar.setTitle(String.format(text, DateUtils.getFriendlyDate(menu.getDate()), resto));
 
         table.setMenu(menu);

@@ -20,7 +20,9 @@ import android.widget.Spinner;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.data.models.resto.Resto;
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.data.network.requests.resto.SelectableMetaRequest;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
@@ -29,6 +31,9 @@ import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import java8.util.Objects;
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 import org.threeten.bp.LocalDate;
 
 import java.util.List;
@@ -49,6 +54,9 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
     private ViewPager viewPager;
     private LocalDate startDate;
     private MenuViewModel viewModel;
+    private ArrayAdapter<RestoWrapper> restoAdapter;
+    private List<Resto> metadata;
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,16 +93,12 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
         TabLayout tabLayout = findViewById(R.id.resto_tabs_slider);
         tabLayout.setupWithViewPager(viewPager);
 
-        Spinner spinner = findViewById(R.id.resto_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                getToolbar().getThemedContext(),
-                R.array.resto_location,
-                android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        spinner.setSelection(Integer.parseInt(preferences.getString(RestoPreferenceFragment.PREF_RESTO, RestoPreferenceFragment.PREF_DEFAULT_RESTO)), true);
+        spinner = findViewById(R.id.resto_spinner);
+        spinner.setEnabled(false);
+        restoAdapter = new ArrayAdapter<>(getToolbar().getThemedContext(), android.R.layout.simple_spinner_item);
+        restoAdapter.add(new RestoWrapper(getString(R.string.resto_spinner_loading)));
+        restoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(restoAdapter);
         spinner.setOnItemSelectedListener(this);
 
         Intent intent = getIntent();
@@ -110,6 +114,29 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
         viewModel.getData().observe(this, ErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
         viewModel.getData().observe(this, SuccessObserver.with(this::receiveData));
+        viewModel.getMetaLiveData().observe(this, SuccessObserver.with(this::receiveResto));
+    }
+
+    private void receiveResto(@NonNull List<SelectableMetaRequest.RestoChoice> restos) {
+        // Find index of the currently selected.
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String selectedKey = preferences.getString(RestoPreferenceFragment.PREF_RESTO_KEY, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
+        String defaultName = getString(R.string.resto_default_name);
+        String selectedName = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, defaultName);
+        SelectableMetaRequest.RestoChoice selectedChoice = new SelectableMetaRequest.RestoChoice(selectedName, selectedKey);
+        int index = restos.indexOf(selectedChoice);
+        if (index == -1) {
+            // The key does not exist.
+            SelectableMetaRequest.RestoChoice defaultChoice = new SelectableMetaRequest.RestoChoice(RestoPreferenceFragment.PREF_DEFAULT_RESTO, defaultName);
+            index = restos.indexOf(defaultChoice);
+        }
+        // Set the things.
+        List<RestoWrapper> wrappers = StreamSupport.stream(restos).map(RestoWrapper::new).collect(Collectors.toList());
+        restoAdapter.clear();
+        restoAdapter.addAll(wrappers);
+        spinner.setSelection(index);
+        spinner.setEnabled(true);
+        findViewById(R.id.resto_spinner_progress).setVisibility(View.GONE);
     }
 
     private void receiveData(@NonNull List<RestoMenu> data) {
@@ -147,9 +174,20 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        // Get the item we selected.
+        RestoWrapper wrapper = (RestoWrapper) parent.getItemAtPosition(position);
+        SelectableMetaRequest.RestoChoice resto = wrapper.resto;
+
+        if (resto == null || resto.getEndpoint() == null) {
+            // Do nothing, as this should not happen.
+            return;
+        }
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         preferences.edit()
-                .putString(RestoPreferenceFragment.PREF_RESTO, String.valueOf(position))
+                .putString(RestoPreferenceFragment.PREF_RESTO_KEY, resto.getEndpoint())
+                .putString(RestoPreferenceFragment.PREF_RESTO_NAME, resto.getName())
                 .apply();
         //The start should be the day we have currently selected.
         if (pageAdapter.getCount() > viewPager.getCurrentItem()) {
@@ -168,5 +206,40 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
         Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
+    }
+
+    private static class RestoWrapper {
+
+        private final SelectableMetaRequest.RestoChoice resto;
+        private final String string;
+
+        public RestoWrapper(SelectableMetaRequest.RestoChoice resto) {
+            this.resto = resto;
+            this.string = null;
+        }
+
+        public RestoWrapper(String string) {
+            this.resto = null;
+            this.string = string;
+        }
+
+        @Override
+        public String toString() {
+            return resto == null ? string : resto.getName();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            RestoWrapper that = (RestoWrapper) o;
+            return Objects.equals(resto, that.resto) &&
+                    Objects.equals(string, that.string);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(resto, string);
+        }
     }
 }

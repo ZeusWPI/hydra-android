@@ -13,11 +13,16 @@ import be.ugent.zeus.hydra.R;
  */
 public class RestoPreferenceFragment extends PreferenceFragment {
 
-    public static final String PREF_RESTO_NORMAL = "0";
-    public static final String PREF_RESTO_SINT_JAN = "1";
-
-    public static final String PREF_RESTO = "pref_resto_choice";
-    public static final String PREF_DEFAULT_RESTO = PREF_RESTO_NORMAL;
+    // We need the 2 suffix, because the original one is from an older system.
+    /**
+     * The key of the resto we want to show.
+     */
+    public static final String PREF_RESTO_KEY = "pref_resto_choice_2";
+    /**
+     * The name of the chosen resto. We keep this saved, as we then don't have to access to full file every time.
+     */
+    public static final String PREF_RESTO_NAME = "pref_resto_choice_name";
+    public static final String PREF_DEFAULT_RESTO = "nl-debrug";
 
     public static final String DEFAULT_CLOSING_TIME = "21:00";
     public static final String PREF_RESTO_CLOSING_HOUR = "pref_resto_closing_hour";
