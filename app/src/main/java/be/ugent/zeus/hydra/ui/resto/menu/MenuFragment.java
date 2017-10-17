@@ -36,9 +36,10 @@ public class MenuFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        MenuTable table = (MenuTable) inflater.inflate(R.layout.fragment_menu, container, false);
+        View view = inflater.inflate(R.layout.fragment_menu, container, false);
+        MenuTable table = view.findViewById(R.id.menu_table);
         table.setMenu(data);
-        return table;
+        return view;
     }
 
     public void setData(RestoMenu data) {
