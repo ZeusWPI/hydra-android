@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.data.sync.announcement;
+package be.ugent.zeus.hydra.data.sync.minerva;
 
 import be.ugent.zeus.hydra.data.sync.StubProvider;
 
@@ -7,6 +7,6 @@ import be.ugent.zeus.hydra.data.sync.StubProvider;
  *
  * @author Niko Strijbol
  */
-public class AnnouncementProvider extends StubProvider {
+public class MinervaProvider extends StubProvider {
 
 }

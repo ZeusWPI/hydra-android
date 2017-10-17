@@ -237,64 +237,24 @@
                 android:resource="@xml/minerva_authenticator" />
         </service>
 
-        <!-- Announcement sync service -->
+        <!-- Minerva sync service -->
         <service
-            android:name=".data.sync.announcement.AnnouncementService"
+            android:name=".data.sync.minerva.MinervaService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
             <meta-data
                 android:name="android.content.SyncAdapter"
-                android:resource="@xml/minerva_sync_announcement" />
+                android:resource="@xml/minerva_sync" />
         </service>
 
-        <!-- Stub announcement provider -->
+        <!-- Stub minerva provider -->
         <provider
-            android:name=".data.sync.announcement.AnnouncementProvider"
+            android:name=".data.sync.minerva.MinervaProvider"
             android:authorities="be.ugent.zeus.hydra.minerva.provider"
             android:exported="false"
-            android:label="@string/minerva_sync_announcement_provider"
-            android:syncable="true" />
-
-        <!-- Calendar sync service -->
-        <service
-            android:name=".data.sync.calendar.CalendarService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter" />
-            </intent-filter>
-            <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/minerva_sync_calendar" />
-        </service>
-
-        <!-- Stub calendar provider -->
-        <provider
-            android:name=".data.sync.calendar.CalendarProvider"
-            android:authorities="be.ugent.zeus.hydra.minerva.calendar.provider"
-            android:exported="false"
-            android:label="@string/minerva_sync_calendar_provider"
-            android:syncable="true" />
-
-        <!-- Course sync service -->
-        <service
-            android:name=".data.sync.course.CourseService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter" />
-            </intent-filter>
-            <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/minerva_sync_course" />
-        </service>
-
-        <!-- Stub course provider -->
-        <provider
-            android:name=".data.sync.course.CourseProvider"
-            android:authorities="be.ugent.zeus.hydra.minerva.course.provider"
-            android:exported="false"
-            android:label="@string/minerva_sync_course"
+            android:label="@string/minerva_sync_provider"
             android:syncable="true" />
 
         <!-- Urgent stuff -->

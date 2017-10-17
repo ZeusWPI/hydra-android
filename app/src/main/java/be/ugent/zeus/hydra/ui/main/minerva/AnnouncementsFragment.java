@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.models.minerva.Announcement;
+import be.ugent.zeus.hydra.data.sync.minerva.helpers.NotificationHelper;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
@@ -184,8 +186,10 @@ public class AnnouncementsFragment extends Fragment implements MultiSelectDiffAd
         AnnouncementDao dao = new AnnouncementDao(getContext());
         Collection<Announcement> announcements = adapter.getSelectedItems();
         ZonedDateTime read = ZonedDateTime.now();
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
         for (Announcement an : announcements) {
             an.setRead(read);
+            NotificationHelper.cancel(an, notificationManager);
         }
         dao.update(announcements);
         // Request a refresh of the data to update the list of announcements.

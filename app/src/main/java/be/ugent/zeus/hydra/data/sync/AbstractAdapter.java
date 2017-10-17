@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import be.ugent.zeus.hydra.data.auth.AuthenticatorActionException;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
+import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 
@@ -19,22 +20,13 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
  * To prevent implementation from having to handle errors every time, this class defines a new synchronisation method.
  * This class will call that method and catch and process errors.
  *
+ * //TODO: consider merging this class with the MinervaAdapter, or should we keep it if we want to sync other things?
+ *
  * @author Niko Strijbol
  */
-public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
+public abstract class AbstractAdapter extends AbstractThreadedSyncAdapter {
 
-    private static final String TAG = "MinervaAdapter";
-
-    /**
-     * This is a boolean flag; and is false by default.
-     *
-     * Indicate that this is the first synchronisation for an account. This will prompt a removal of any present data,
-     * since Android sometimes deletes accounts without removing data.
-     *
-     * It will also suppress notifications about newly synchronised items, regardless of the user settings. When syncing
-     * for the first time, the user does not want to be bombarded with notifications about new announcements.
-     */
-    public static final String EXTRA_FIRST_SYNC = "firstSync";
+    private static final String TAG = "AbstractAdapter";
 
     /**
      * Indicates that the sync has been cancelled. This value should be checked regularly during synchronisation, and
@@ -42,9 +34,12 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
      */
     protected boolean isCancelled;
 
+    /**
+     * Used to communicate the progress of the adapter.
+     */
     protected final SyncBroadcast broadcast;
 
-    public MinervaAdapter(Context context, boolean autoInitialize) {
+    public AbstractAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         broadcast = new SyncBroadcast(context);
     }
@@ -52,17 +47,19 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
 
-        Log.i(TAG, "Starting Minerva synchronisation...");
+        // The sync is no longer cancelled.
+        isCancelled = false;
+        Log.i(TAG, "Starting synchronisation...");
 
         if (isCancelled) {
             broadcast.publishIntent(SyncBroadcast.SYNC_CANCELLED);
             return;
         }
 
-        final boolean isFirstSync = extras.getBoolean(EXTRA_FIRST_SYNC, false);
-
         try {
-            onPerformCheckedSync(account, extras, authority, provider, syncResult, isFirstSync);
+            broadcast.publishIntent(SyncBroadcast.SYNC_START);
+
+            onPerformCheckedSync(account, extras, authority, provider, syncResult);
 
             if (isCancelled) {
                 broadcast.publishIntent(SyncBroadcast.SYNC_CANCELLED);
@@ -74,6 +71,7 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
         } catch (IOFailureException e) {
             Log.i(TAG, "IO error while syncing.", e);
             syncResult.stats.numIoExceptions++;
+            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
         } catch (AuthenticatorActionException e) {
             Log.w(TAG, "Auth exception while syncing.", e);
             syncResult.stats.numAuthExceptions++;
@@ -82,15 +80,16 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
             Log.w(TAG, "Exception during sync:", e);
             // TODO: this needs attention.
             syncResult.stats.numParseExceptions++;
+            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
         } catch (SQLException e) {
             Log.e(TAG, "Exception during sync:", e);
             syncResult.databaseError = true;
+            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
         } catch (HttpMessageNotReadableException e) {
             Log.e(TAG, "Exception during sync:", e);
             syncResult.stats.numParseExceptions++;
+            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
         }
-
-        afterSync(account, extras, isFirstSync);
     }
 
     @Override
@@ -109,17 +108,5 @@ public abstract class MinervaAdapter extends AbstractThreadedSyncAdapter {
                                                  Bundle extras,
                                                  String authority,
                                                  ContentProviderClient provider,
-                                                 SyncResult results,
-                                                 boolean isFirstSync) throws RequestException;
-
-    /**
-     * Called after the synchronisation has been performed. This means after {@link #onPerformCheckedSync(Account, Bundle, String, ContentProviderClient, SyncResult, boolean)}.
-     *
-     * @param account The account for which the sync is happening.
-     * @param extras The extras.
-     * @param isFirstSync True if this is the first sync, otherwise false.
-     */
-    protected void afterSync(Account account, Bundle extras, boolean isFirstSync) {
-        // Nothing.
-    }
+                                                 SyncResult results) throws RequestException;
 }

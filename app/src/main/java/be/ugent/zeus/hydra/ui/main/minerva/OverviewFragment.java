@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
-import android.support.v4.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -13,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -26,11 +26,10 @@ import be.ugent.zeus.hydra.data.auth.MinervaConfig;
 import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
-import be.ugent.zeus.hydra.data.sync.MinervaAdapter;
-import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
-import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementNotificationBuilder;
-import be.ugent.zeus.hydra.data.sync.course.CourseAdapter;
+import be.ugent.zeus.hydra.data.sync.minerva.MinervaAdapter;
+import be.ugent.zeus.hydra.data.sync.minerva.helpers.NotificationHelper;
+import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -144,9 +143,7 @@ public class OverviewFragment extends Fragment implements ResultStarter {
         Log.d(TAG, "Requesting first sync...");
         Bundle bundle = new Bundle();
         bundle.putBoolean(MinervaAdapter.EXTRA_FIRST_SYNC, true);
-        bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_AGENDA, true);
-        bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
-        SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
+        SyncUtils.requestSync(account, MinervaConfig.SYNC_AUTHORITY, bundle);
         onLoggedIn();
     }
 
@@ -177,31 +174,19 @@ public class OverviewFragment extends Fragment implements ResultStarter {
                 signOut();
                 return true;
             case R.id.action_sync_all:
-                manualSync(true, true);
-                return true;
-            case R.id.action_sync_announcements:
-                manualSync(true, false);
-                return true;
-            case R.id.action_sync_calendar:
-                manualSync(false, true);
+                manualSync();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void manualSync(boolean announcements, boolean calendar) {
+    private void manualSync() {
         Account account = AccountUtils.getAccount(getContext());
         Bundle bundle = new Bundle();
-        if (announcements) {
-            bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
-        }
-        if (calendar) {
-            bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_AGENDA, true);
-        }
         Toast.makeText(getContext(), R.string.minerva_syncing, Toast.LENGTH_LONG)
                 .show();
-        SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
+        SyncUtils.requestSync(account, MinervaConfig.SYNC_AUTHORITY, bundle);
     }
 
     /**
@@ -210,13 +195,11 @@ public class OverviewFragment extends Fragment implements ResultStarter {
     private void signOut() {
         //Sign out first, and then remove all data.
         Account a = AccountUtils.getAccount(getContext());
-        ContentResolver.cancelSync(a, MinervaConfig.COURSE_AUTHORITY);
-        ContentResolver.cancelSync(a, MinervaConfig.ANNOUNCEMENT_AUTHORITY);
-        ContentResolver.cancelSync(a, MinervaConfig.CALENDAR_AUTHORITY);
+        ContentResolver.cancelSync(a, MinervaConfig.SYNC_AUTHORITY);
         Toast.makeText(getContext(), "Logging out...", Toast.LENGTH_SHORT).show();
         manager.removeAccount(a, accountManagerFuture -> {
             // Delete any notifications that could be present.
-            AnnouncementNotificationBuilder.cancelAll(getContext());
+            NotificationHelper.cancelAll(getContext());
             //Delete items
             if (minervaPagerAdapter != null) {
                 minervaPagerAdapter.setLoggedIn(false);
@@ -268,20 +251,25 @@ public class OverviewFragment extends Fragment implements ResultStarter {
         public void onReceive(Context context, Intent intent) {
             assert getView() != null;
             switch (intent.getAction()) {
-                case SyncBroadcast.SYNC_START:
-                    Log.d(TAG, "Start!");
+                case SyncBroadcast.SYNC_COURSES:
+                    Log.d(TAG, "Courses!");
                     ensureSyncStatus(getString(R.string.minerva_sync_getting_courses));
+                    return;
+                case SyncBroadcast.SYNC_AGENDA:
+                    Log.d(TAG, "Calendar!");
+                    ensureSyncStatus(getString(R.string.minerva_sync_getting_calendar));
+                    return;
+                case SyncBroadcast.SYNC_CANCELLED:
+                    Log.d(TAG, "Cancelled!");
+                    ensureSyncStatus(getString(R.string.minerva_sync_cancelled), Snackbar.LENGTH_LONG);
                     return;
                 case SyncBroadcast.SYNC_DONE:
                     Log.d(TAG, "Done!");
-                    ensureSyncStatus(getString(R.string.minerva_sync_done));
-                    syncBar.dismiss();
-                    syncBar = null;
+                    ensureSyncStatus(getString(R.string.minerva_sync_done), Snackbar.LENGTH_SHORT);
                     return;
                 case SyncBroadcast.SYNC_ERROR:
                     Log.d(TAG, "Error");
-                    ensureSyncStatus(getString(R.string.failure));
-                    syncBar.setDuration(Snackbar.LENGTH_LONG);
+                    ensureSyncStatus(getString(R.string.failure), Snackbar.LENGTH_LONG);
                     return;
                 case SyncBroadcast.SYNC_PROGRESS_WHATS_NEW:
                     Log.d(TAG, "Progress");
@@ -297,7 +285,7 @@ public class OverviewFragment extends Fragment implements ResultStarter {
      *
      * @param text To display on the snackbar.
      */
-    private void ensureSyncStatus(String text) {
+    private void ensureSyncStatus(String text, int duration) {
         assert getView() != null;
         if (syncBar == null) {
             authWrapper.setVisibility(View.GONE);
@@ -306,6 +294,17 @@ public class OverviewFragment extends Fragment implements ResultStarter {
         } else {
             syncBar.setText(text);
         }
+        syncBar.setDuration(duration);
+        syncBar.show();
+    }
+
+    /**
+     * Ensure the sync status is enabled, and set the the given text on the snackbar.
+     *
+     * @param text To display on the snackbar.
+     */
+    private void ensureSyncStatus(String text) {
+        ensureSyncStatus(text, Snackbar.LENGTH_INDEFINITE);
     }
 
     @Override

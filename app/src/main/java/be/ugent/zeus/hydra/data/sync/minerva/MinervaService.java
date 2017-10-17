@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.data.sync.announcement;
+package be.ugent.zeus.hydra.data.sync.minerva;
 
 import android.app.Service;
 import android.content.AbstractThreadedSyncAdapter;
@@ -10,7 +10,7 @@ import android.os.IBinder;
  *
  * @author Niko Strijbol
  */
-public class AnnouncementService extends Service {
+public class MinervaService extends Service {
 
     // Storage for an instance of the sync adapter
     private static AbstractThreadedSyncAdapter adapter;
@@ -24,7 +24,7 @@ public class AnnouncementService extends Service {
          */
         synchronized (lock) {
             if (adapter == null) {
-                adapter = new AnnouncementAdapter(getApplicationContext(), true);
+                adapter = new MinervaAdapter(getApplicationContext(), true);
             }
         }
     }

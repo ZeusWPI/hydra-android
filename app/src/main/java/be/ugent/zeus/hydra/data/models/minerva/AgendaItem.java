@@ -226,12 +226,12 @@ public final class AgendaItem implements Serializable, Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AgendaItem that = (AgendaItem) o;
-        return itemId == that.itemId && isMerged == that.isMerged;
+        return itemId == that.itemId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(itemId, isMerged);
+        return Objects.hash(itemId);
     }
 
     public long getCalendarId() {
