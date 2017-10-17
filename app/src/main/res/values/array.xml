@@ -93,14 +93,4 @@
         <item>Kaart</item>
     </string-array>
 
-    <string-array name="resto_location">
-        <item>Algemeen</item>
-        <item>Sint-Jansvest</item>
-    </string-array>
-
-    <string-array name="nr_resto_location">
-        <item>0</item>
-        <item>1</item>
-    </string-array>
-
 </resources>

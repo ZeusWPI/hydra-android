@@ -1,9 +1,12 @@
 package be.ugent.zeus.hydra.ui.resto.menu;
 
 import android.app.Application;
+import android.arch.lifecycle.LiveData;
+
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.data.network.requests.resto.SelectableMetaRequest;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
+import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
 
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.List;
  */
 public class MenuViewModel extends RefreshViewModel<List<RestoMenu>> {
 
+    private LiveData<Result<List<SelectableMetaRequest.RestoChoice>>> metaLiveData;
 
     public MenuViewModel(Application application) {
         super(application);
