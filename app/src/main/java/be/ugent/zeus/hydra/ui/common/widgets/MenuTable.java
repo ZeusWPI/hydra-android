@@ -26,8 +26,13 @@ import java.util.List;
  */
 public class MenuTable extends TableLayout {
 
-    //Flags
+    /**
+     * Indicates only the main items will be shown. Cannot be used together with {@link #ALL}.
+     */
     public static final int MAIN = 0;
+    /**
+     * Indicates all items will be shown. Cannot be used together with {@link #MAIN}.
+     */
     public static final int ALL = 1;
 
     private RestoMenu menu;
