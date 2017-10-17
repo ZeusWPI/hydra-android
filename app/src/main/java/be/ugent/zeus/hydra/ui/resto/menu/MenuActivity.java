@@ -28,6 +28,7 @@ import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
+import be.ugent.zeus.hydra.ui.resto.SelectableMetaViewModel;
 import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -114,7 +115,9 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
         viewModel.getData().observe(this, ErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
         viewModel.getData().observe(this, SuccessObserver.with(this::receiveData));
-        viewModel.getMetaLiveData().observe(this, SuccessObserver.with(this::receiveResto));
+
+        SelectableMetaViewModel metaViewModel = ViewModelProviders.of(this).get(SelectableMetaViewModel.class);
+        metaViewModel.getData().observe(this, SuccessObserver.with(this::receiveResto));
     }
 
     private void receiveResto(@NonNull List<SelectableMetaRequest.RestoChoice> restos) {

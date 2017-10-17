@@ -46,8 +46,7 @@
     <string name="pref_resto_closing_description">Kies vanaf welk uur de menu voor de volgende dag getoond wordt.</string>
 
     <string name="pref_resto_choice">Keuze resto</string>
-    <string name="pref_resto_choice_title">Kies een resto</string>
-    <string name="pref_resto_choice_summary">%s</string>
+    <string name="pref_resto_choice_title">Kies een resto in het overzicht</string>
 
     <string name="pref_activities_title">Activiteiten</string>
 

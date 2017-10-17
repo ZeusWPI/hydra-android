@@ -1,8 +1,9 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.resto;
 
+import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.data.network.requests.resto.SelectableMetaRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
 import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
@@ -20,13 +21,19 @@ class RestoMenuCard extends HomeCard {
     private static final LocalDateTime interestEnd = LocalDateTime.now().withHour(15).withMinute(0);
 
     private final RestoMenu restoMenu;
+    private final SelectableMetaRequest.RestoChoice restoChoice;
 
-    RestoMenuCard(RestoMenu restoMenu) {
+    RestoMenuCard(RestoMenu restoMenu, SelectableMetaRequest.RestoChoice choice) {
         this.restoMenu = restoMenu;
+        this.restoChoice = choice;
     }
 
     RestoMenu getRestoMenu() {
         return restoMenu;
+    }
+
+    SelectableMetaRequest.RestoChoice getRestoChoice() {
+        return restoChoice;
     }
 
     @Override
@@ -51,11 +58,12 @@ class RestoMenuCard extends HomeCard {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RestoMenuCard that = (RestoMenuCard) o;
-        return Objects.equals(restoMenu, that.restoMenu);
+        return Objects.equals(restoMenu, that.restoMenu) &&
+                Objects.equals(restoChoice, that.restoChoice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(restoMenu);
+        return Objects.hash(restoMenu, restoChoice);
     }
 }
