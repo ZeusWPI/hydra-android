@@ -54,7 +54,8 @@
             android:paddingRight="@dimen/card_spacing"
             android:scaleType="center"
             android:tint="@color/ugent_blue_lighter"
-            app:srcCompat="@drawable/ic_megaphone" />
+            app:srcCompat="@drawable/ic_megaphone"
+            android:contentDescription="@string/content_desc_unread_icon" />
 
         <ImageView
             android:id="@+id/drag_handle"
@@ -65,7 +66,8 @@
             android:adjustViewBounds="true"
             android:scaleType="center"
             android:tint="@color/ugent_blue_lighter"
-            app:srcCompat="@drawable/ic_drag_handle" />
+            app:srcCompat="@drawable/ic_drag_handle"
+            android:contentDescription="@string/content_desc_reorder"/>
 
     </LinearLayout>
 

@@ -10,6 +10,7 @@ import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.R;
@@ -125,7 +126,8 @@ public class NotificationHelper {
                     .setContentTitle(getNotificationAnnouncementTitle(announcement))
                     .setStyle(bigTextStyle)
                     .setGroup(course.getId())
-                    .setContentIntent(upIntentOne(announcement));
+                    .setContentIntent(upIntentOne(announcement))
+                    .setColor(ContextCompat.getColor(context, R.color.ugent_blue_medium));
 
             manager.notify(course.getId(), announcement.getItemId(), builder.build());
         }

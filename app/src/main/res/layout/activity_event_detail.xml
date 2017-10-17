@@ -40,7 +40,8 @@
                     android:tint="@color/white"
                     app:srcCompat="@drawable/ic_event_note"
                     tools:src="@drawable/ic_event_note"
-                    tools:ignore="MissingPrefix" />
+                    tools:ignore="MissingPrefix"
+                    android:contentDescription="@string/content_desc_calendar_icon"/>
 
                 <TextView
                     android:id="@+id/title"
@@ -90,6 +91,8 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:clickable="true"
+                        android:background="?attr/selectableItemBackground"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -106,7 +109,8 @@
                             android:tint="@color/ugent_blue_dark"
                             app:srcCompat="@drawable/ic_place"
                             tools:src="@drawable/ic_place"
-                            tools:ignore="MissingPrefix" />
+                            tools:ignore="MissingPrefix"
+                            android:contentDescription="@string/content_desc_location"/>
 
                         <TextView
                             android:layout_gravity="center_vertical"
@@ -139,7 +143,8 @@
                             android:tint="@color/ugent_blue_dark"
                             app:srcCompat="@drawable/ic_schedule"
                             tools:src="@drawable/ic_schedule"
-                            tools:ignore="MissingPrefix" />
+                            tools:ignore="MissingPrefix"
+                            android:contentDescription="@string/content_desc_time"/>
 
                         <GridLayout
                             android:layout_width="wrap_content"
@@ -198,7 +203,8 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_marginRight="@dimen/vertical_padding"
-                            tools:src="@drawable/logo_hydra" />
+                            tools:src="@drawable/logo_hydra"
+                            android:contentDescription="@string/content_desc_hydra_logo"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"

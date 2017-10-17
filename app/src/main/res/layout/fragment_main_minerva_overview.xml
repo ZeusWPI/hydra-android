@@ -26,7 +26,8 @@
             android:layout_marginBottom="16dp"
             android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/tabs_minerva"
-            android:tint="@color/ugent_blue_dark" />
+            android:tint="@color/ugent_blue_dark"
+            android:contentDescription="@string/content_desc_minerva_icon"/>
 
         <TextView
             android:layout_width="wrap_content"

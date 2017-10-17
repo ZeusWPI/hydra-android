@@ -17,7 +17,8 @@
         android:layout_gravity="left"
         android:scaleType="fitStart"
         tools:ignore="MissingPrefix"
-        tools:src="@drawable/logo_hydra"/>
+        tools:src="@drawable/logo_hydra"
+        android:contentDescription="@string/content_desc_hydra_logo"/>
 
     <View xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_gravity="bottom"

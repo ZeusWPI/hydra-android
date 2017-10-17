@@ -11,6 +11,7 @@ import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.transition.Fade;
 import android.transition.Transition;
@@ -71,6 +72,7 @@ public class SchamperArticleActivity extends BaseActivity {
         TextView intro = findViewById(R.id.intro);
         TextView author = findViewById(R.id.author);
 
+
         ImageView headerImage = findViewById(R.id.header_image);
 
         if (article.getImage() != null) {
@@ -91,8 +93,12 @@ public class SchamperArticleActivity extends BaseActivity {
         if (article.getBody() != null) {
 
             //The intro
-            intro.setText(Utils.fromHtml(article.getIntro()));
-            intro.setMovementMethod(LinkMovementMethod.getInstance());
+            if (TextUtils.isEmpty(article.getIntro())) {
+                findViewById(R.id.intro_wrapper).setVisibility(View.GONE);
+            } else {
+                intro.setText(Utils.fromHtml(article.getIntro()));
+                intro.setMovementMethod(LinkMovementMethod.getInstance());
+            }
 
             //The body
             text.setText(Utils.fromHtml(article.getBody(), new PicassoImageGetter(text, getResources(), this)));
