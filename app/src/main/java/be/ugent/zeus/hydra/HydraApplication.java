@@ -104,6 +104,10 @@ public class HydraApplication extends Application {
      */
     private void enableStrictModeInDebug() {
 
+        if (!BuildConfig.DEBUG_ENABLE_STRICT_MODE) {
+            return;
+        }
+
         Log.d(TAG, "Enabling strict mode...");
 
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()

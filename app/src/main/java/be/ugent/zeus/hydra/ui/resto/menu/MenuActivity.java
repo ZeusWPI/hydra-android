@@ -20,7 +20,6 @@ import android.widget.Spinner;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.resto.Resto;
 import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.data.network.requests.resto.SelectableMetaRequest;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
@@ -56,7 +55,6 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
     private LocalDate startDate;
     private MenuViewModel viewModel;
     private ArrayAdapter<RestoWrapper> restoAdapter;
-    private List<Resto> metadata;
     private Spinner spinner;
 
     @Override
@@ -98,9 +96,8 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
         spinner.setEnabled(false);
         restoAdapter = new ArrayAdapter<>(getToolbar().getThemedContext(), android.R.layout.simple_spinner_item);
         restoAdapter.add(new RestoWrapper(getString(R.string.resto_spinner_loading)));
-        restoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        restoAdapter.setDropDownViewResource(R.layout.x_simple_spinner_dropdown_item);
         spinner.setAdapter(restoAdapter);
-        spinner.setOnItemSelectedListener(this);
 
         Intent intent = getIntent();
 
@@ -137,9 +134,11 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemSele
         List<RestoWrapper> wrappers = StreamSupport.stream(restos).map(RestoWrapper::new).collect(Collectors.toList());
         restoAdapter.clear();
         restoAdapter.addAll(wrappers);
-        spinner.setSelection(index);
+        spinner.setSelection(index, false);
         spinner.setEnabled(true);
         findViewById(R.id.resto_spinner_progress).setVisibility(View.GONE);
+        // Add the listener here to prevent multiple calls
+        spinner.setOnItemSelectedListener(this);
     }
 
     private void receiveData(@NonNull List<RestoMenu> data) {

@@ -30,6 +30,8 @@ android {
         buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", "false"
         // Add a hard-coded special event card to access the SKO part of the app
         buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", "false"
+        // Enable strict mode
+        buildConfigField "boolean", "DEBUG_ENABLE_STRICT_MODE", "false"
     }
 
     compileOptions {
@@ -51,6 +53,7 @@ android {
             buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", "false"
             buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", "false"
             buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", "false"
+            buildConfigField "boolean", "DEBUG_ENABLE_STRICT_MODE", "false"
         }
     }
 
