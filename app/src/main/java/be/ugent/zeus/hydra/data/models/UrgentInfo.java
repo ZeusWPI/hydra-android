@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.data.models;
 
-import be.ugent.zeus.hydra.data.gson.InstantThreeTenAdapter;
+import be.ugent.zeus.hydra.data.gson.ZonedThreeTenUTCAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import java8.util.Objects;
-import org.threeten.bp.Instant;
+import org.threeten.bp.ZonedDateTime;
 
 /**
  * @author Niko Strijbol
@@ -11,17 +11,17 @@ import org.threeten.bp.Instant;
 public final class UrgentInfo {
 
     private final String name;
-    @JsonAdapter(InstantThreeTenAdapter.class)
-    private final Instant validUntil;
+    @JsonAdapter(ZonedThreeTenUTCAdapter.class)
+    private final ZonedDateTime validUntil;
     private final String url;
 
-    public UrgentInfo(String name, Instant validUntil, String url) {
+    public UrgentInfo(String name, ZonedDateTime validUntil, String url) {
         this.name = name;
         this.validUntil = validUntil;
         this.url = url;
     }
 
-    public Instant getValidUntil() {
+    public ZonedDateTime getValidUntil() {
         return validUntil;
     }
 

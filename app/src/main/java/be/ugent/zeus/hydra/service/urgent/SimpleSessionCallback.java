@@ -55,7 +55,6 @@ public class SimpleSessionCallback extends MediaSessionCompat.Callback implement
     private final Context context;
     private final UrgentTrackProvider provider;
     private boolean registered = false;
-    private final AudioManager audioManager;
     private final Runnable metadataUpdater;
     private Runnable nextUpdate;
 
@@ -64,7 +63,6 @@ public class SimpleSessionCallback extends MediaSessionCompat.Callback implement
     public SimpleSessionCallback(Context context, UrgentTrackProvider provider, Runnable metadataUpdater) {
         this.context = context.getApplicationContext();
         this.provider = provider;
-        this.audioManager = (AudioManager) this.context.getSystemService(Context.AUDIO_SERVICE);
         this.metadataUpdater = metadataUpdater;
     }
 
@@ -167,7 +165,7 @@ public class SimpleSessionCallback extends MediaSessionCompat.Callback implement
 
         Instant time = Instant.now().plus(1, ChronoUnit.HOURS)
                 .truncatedTo(ChronoUnit.HOURS)
-                .plus(2, ChronoUnit.MINUTES);
+                .plus(1, ChronoUnit.MINUTES);
 
         long millis = Instant.now().until(time, ChronoUnit.MILLIS);
         Log.d(TAG, "scheduleMetadataUpdate: scheduling update in " + millis + " millis.");
