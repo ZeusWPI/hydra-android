@@ -7,6 +7,7 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -34,8 +35,6 @@ import static android.support.v4.app.NotificationCompat.CATEGORY_EMAIL;
  */
 public class NotificationHelper {
 
-    public static final int NOTIFICATION_ID = 5646;
-
     private static final int MAX_NUMBER_OF_LINES = 5;
 
     private final Context context;
@@ -43,12 +42,23 @@ public class NotificationHelper {
     @DrawableRes
     private int smallIcon;
 
+    @ColorInt
+    private int notificationColour;
+
     NotificationHelper(Context context) {
         this.context = context.getApplicationContext();
         //Set default values
         smallIcon = R.drawable.ic_notification_announcement;
+        notificationColour = ContextCompat.getColor(context, R.color.ugent_blue_medium);
     }
 
+    /**
+     * Strip the HTML tags from a string. This is useful for showing text inside a notification.
+     *
+     * @param containingHtml The text with the HTML tags.
+     *
+     * @return The same text with the HTML tags stripped.
+     */
     private String stripHtml(String containingHtml) {
         return Utils.fromHtml(containingHtml).toString();
     }
@@ -127,7 +137,7 @@ public class NotificationHelper {
                     .setStyle(bigTextStyle)
                     .setGroup(course.getId())
                     .setContentIntent(upIntentOne(announcement))
-                    .setColor(ContextCompat.getColor(context, R.color.ugent_blue_medium));
+                    .setColor(notificationColour);
 
             manager.notify(course.getId(), announcement.getItemId(), builder.build());
         }
@@ -180,6 +190,7 @@ public class NotificationHelper {
                 .setContentTitle(getNotificationCourseTitle(course))
                 .setContentText(context.getResources().getQuantityString(R.plurals.home_feed_announcement_title, announcements.size(), announcements.size()))
                 .setContentIntent(upIntentMore(course))
+                .setColor(notificationColour)
                 .setStyle(inboxStyle)
                 .setNumber(announcements.size())
                 .setGroupSummary(true)
