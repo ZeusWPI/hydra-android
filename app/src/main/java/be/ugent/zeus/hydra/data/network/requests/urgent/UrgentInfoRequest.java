@@ -1,25 +1,23 @@
 package be.ugent.zeus.hydra.data.network.requests.urgent;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.data.models.UrgentInfo;
-import be.ugent.zeus.hydra.repository.requests.Request;
-import be.ugent.zeus.hydra.repository.requests.RequestException;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.data.network.Endpoints;
+import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 
 /**
  * @author Niko Strijbol
  */
-public class UrgentInfoRequest implements Request<UrgentInfo> {
+public class UrgentInfoRequest extends JsonSpringRequest<UrgentInfo> {
+
+    public UrgentInfoRequest() {
+        super(UrgentInfo.class);
+    }
 
     @NonNull
     @Override
-    public Result<UrgentInfo> performRequest(@Nullable Bundle args) {
-        ProgrammeRepository repository = new ProgrammeRepository();
-        return repository.getCurrent()
-                .map(Result.Builder::fromData)
-                .orElseGet(() -> Result.Builder.fromException(new RequestException("Error while getting urgent.fm stuff.")));
+    protected String getAPIUrl() {
+        return Endpoints.URGENT_STATUS_URL;
     }
 }

@@ -14,6 +14,5 @@ public final class Endpoints {
     public static final String LIBRARY_URL = "http://widgets.lib.ugent.be/";
     public static final String SKO_URL = "https://studentkickoff.be/";
     public static final String LIVE_SKO_URL = "https://live.studentkickoff.be/";
-    public static final String URGENT_BASE_URL = "http://urgent.fm/";
-    public static final String URGENT_CONFIG_URL = URGENT_BASE_URL + "listen_live.config";
+    public static final String URGENT_STATUS_URL = ZEUS_API_URL_2 + "urgentfm/status.json";
 }
