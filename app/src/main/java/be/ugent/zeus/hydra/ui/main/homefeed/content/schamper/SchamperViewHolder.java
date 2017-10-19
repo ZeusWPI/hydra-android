@@ -1,5 +1,10 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.schamper;
 
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,7 +48,18 @@ public class SchamperViewHolder extends FeedViewHolder {
         Article article = card.<SchamperCard>checkCard(HomeCard.CardType.SCHAMPER).getArticle();
 
         title.setText(article.getTitle());
-        date.setText(DateUtils.relativeDateTimeString(article.getPubDate(), itemView.getContext()));
+
+        // Construct coloured text
+        Spannable category;
+        if (article.hasCategoryColour()) {
+            int colour = Color.parseColor(article.getCategoryColour());
+            category = new SpannableString(article.getCategory());
+            category.setSpan(new ForegroundColorSpan(colour), 0, category.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else {
+            category = new SpannableString(article.getCategory());
+        }
+
+        date.setText(TextUtils.concat(DateUtils.relativeDateTimeString(article.getPubDate(), itemView.getContext()), " • ", category));
         author.setText(article.getAuthor());
 
         FeedUtils.loadThumbnail(itemView.getContext(), article.getImage(), image);
