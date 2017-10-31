@@ -53,7 +53,7 @@
         <CheckBoxPreference
             android:key="pref_minerva_prefix_event_acronym"
             android:title="Vaknaam afkorten"
-            android:summary="Gebruik acroniemen als naam van het van in de titel van evenementen."
+            android:summary="Gebruik acroniemen als naam van het vak in de titel van evenementen."
             android:defaultValue="true" />
     </PreferenceCategory>
 
