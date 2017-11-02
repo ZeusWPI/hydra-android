@@ -44,6 +44,19 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Agenda">
+        <CheckBoxPreference
+            android:key="pref_minerva_prefix_event_titles"
+            android:title="Vak toevoegen aan agenda-items"
+            android:summary="Voeg de naam van het vak toe aan de titel van evenementen als die titel niet de naam van het vak is."
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="pref_minerva_prefix_event_acronym"
+            android:title="Vaknaam afkorten"
+            android:summary="Gebruik acroniemen als naam van het vak in de titel van evenementen."
+            android:defaultValue="true" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="Duplicatendetectie (experimenteel)">
 
         <CheckBoxPreference

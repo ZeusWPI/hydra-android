@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.provider.CalendarContract;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.BuildConfig;
@@ -31,6 +32,7 @@ import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.minerva.CalendarPermissionActivity;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
+import be.ugent.zeus.hydra.utils.StringUtils;
 import java8.util.Maps;
 import java8.util.function.Functions;
 import java8.util.stream.Collectors;
@@ -51,12 +53,11 @@ import java.util.*;
 public class CalendarSync {
 
     private static final String TAG = "CalendarSync";
+    private static final String FIRST_SYNC_BUILT_IN_CALENDAR = "once_first_calendar";
     private static long NO_CALENDAR = -1;
     private final AgendaDao calendarDao;
     private final CourseDao courseDao;
     private final Context context;
-
-    private static final String FIRST_SYNC_BUILT_IN_CALENDAR = "once_first_calendar";
 
     public CalendarSync(AgendaDao calendarDao, CourseDao courseDao, Context context) {
         this.calendarDao = calendarDao;
@@ -245,6 +246,11 @@ public class CalendarSync {
             }
         }
 
+        // Sometimes our database loses events, or the user selects another option causing
+        // the device calendar to contain things that are no longer in our calendar. We cannot know the id of those,
+        // so we get all ids, remove the items we still know about and remove the rest.
+        Set<Long> allDeviceIds = getAllIdsFromDeviceCalendar(account, resolver);
+
         // Update Calendar items, as they might have changed.
         for (AgendaItem updatedItem : diff.getUpdated()) {
             long itemCalendarId = updatedItem.getCalendarId();
@@ -256,7 +262,14 @@ public class CalendarSync {
             } else { // Update the item.
                 Uri itemUri = ContentUris.withAppendedId(uri, itemCalendarId);
                 resolver.update(itemUri, values, null, null);
+                allDeviceIds.remove(itemCalendarId);
             }
+        }
+
+        // Remove the events we lost from the calendar.
+        for (Long id : allDeviceIds) {
+            Uri itemUri = ContentUris.withAppendedId(uri, id);
+            resolver.delete(itemUri, null, null);
         }
 
         // Add new items to the calendar.
@@ -339,13 +352,39 @@ public class CalendarSync {
 
         String[] selArgs = new String[]{account.name, MinervaConfig.ACCOUNT_TYPE};
 
-        int rows = resolver.delete(
+        return resolver.delete(
                 CalendarContract.Calendars.CONTENT_URI,
                 selection,
                 selArgs
         );
+    }
 
-        return rows;
+    private Set<Long> getAllIdsFromDeviceCalendar(Account account, ContentResolver resolver) {
+
+        String[] projection = {CalendarContract.Events._ID};
+
+        String selection =
+                CalendarContract.Calendars.ACCOUNT_NAME +
+                        " = ? AND " +
+                        CalendarContract.Calendars.ACCOUNT_TYPE +
+                        " = ? ";
+
+        String[] selArgs = new String[]{account.name, MinervaConfig.ACCOUNT_TYPE};
+
+        Cursor result = resolver.query(CalendarContract.Calendars.CONTENT_URI, projection, selection, selArgs, null);
+        if (result == null) {
+            return new HashSet<>();
+        }
+
+        try {
+            Set<Long> resultSet = new HashSet<>();
+            while (result.moveToNext()) {
+                resultSet.add(result.getLong(result.getColumnIndexOrThrow(CalendarContract.Events._ID)));
+            }
+            return resultSet;
+        } finally {
+            result.close();
+        }
     }
 
     /**
@@ -398,8 +437,8 @@ public class CalendarSync {
     private ContentValues toCalendarValues(long calendarId, AgendaItem item) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(CalendarContract.Events.CALENDAR_ID, calendarId);
-        contentValues.put(CalendarContract.Events.TITLE, item.getTitle());
-        contentValues.put(CalendarContract.Events.DESCRIPTION, item.getContent());
+        contentValues.put(CalendarContract.Events.TITLE, getTitleFor(item));
+        contentValues.put(CalendarContract.Events.DESCRIPTION, getDescriptionFor(item));
         contentValues.put(CalendarContract.Events.DTSTART, item.getStartDate().toInstant().toEpochMilli());
         contentValues.put(CalendarContract.Events.DTEND, item.getEndDate().toInstant().toEpochMilli());
         // Convert Java 8 TimeZone to old TimeZone
@@ -411,5 +450,54 @@ public class CalendarSync {
         contentValues.put(CalendarContract.Events.CUSTOM_APP_PACKAGE, BuildConfig.APPLICATION_ID);
         contentValues.put(CalendarContract.Events.CUSTOM_APP_URI, item.getUri());
         return contentValues;
+    }
+
+    /**
+     * Get the title for an event in the calendar, intended for the device calendar. This method will consider the user
+     * preferences in regards to prefixing with the course's name and using acronyms or not.
+     *
+     * @param item The item to get the title for.
+     *
+     * @return The title.
+     */
+    private String getTitleFor(AgendaItem item) {
+        String title;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (preferences.getBoolean(MinervaFragment.PREF_PREFIX_EVENT_TITLES, false)
+                && !TextUtils.equals(item.getTitle(), item.getCourse().getTitle())) {
+            String courseTitle;
+            if (preferences.getBoolean(MinervaFragment.PREF_PREFIX_EVENT_ACRONYM, true)) {
+                courseTitle = StringUtils.generateAcronymFor(item.getCourse().getTitle());
+            } else {
+                courseTitle = item.getCourse().getTitle();
+            }
+            title = context.getString(R.string.minerva_calendar_device_event_title, courseTitle, item.getTitle());
+        } else {
+            title = item.getTitle();
+        }
+        return title;
+    }
+
+    /**
+     * Get the description for an event in the calendar, intended for the device calendar. This method will append the
+     * course's name to the description, if the user preference for prefixing event titles was turned on.
+     *
+     * @param item The item to get the description from.
+     *
+     * @return The description.
+     */
+    private String getDescriptionFor(AgendaItem item) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (preferences.getBoolean(MinervaFragment.PREF_PREFIX_EVENT_TITLES, false)) {
+            String original = item.getContent();
+            String description = context.getString(R.string.minerva_calendar_device_description, item.getCourse().getTitle());
+            if (TextUtils.isEmpty(original)) {
+                return description;
+            } else {
+                return original + "\n\n" + description;
+            }
+        } else {
+            return item.getContent();
+        }
     }
 }

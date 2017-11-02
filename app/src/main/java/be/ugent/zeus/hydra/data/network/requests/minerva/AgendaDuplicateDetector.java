@@ -5,16 +5,14 @@ import android.text.TextUtils;
 import be.ugent.zeus.hydra.data.models.minerva.Agenda;
 import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
+import java8.lang.Iterables;
 import java8.util.Objects;
 import java8.util.function.Function;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 import org.threeten.bp.ZonedDateTime;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Attempts to filter duplicates from a list of calendar items.
@@ -23,10 +21,17 @@ import java.util.Map;
  */
 public class AgendaDuplicateDetector implements Function<Agenda, Agenda> {
 
+    /**
+     * These are edit modes we do not want to show to the user.
+     */
+    private static final Set<String> HIDDEN_TYPES = new HashSet<>(Collections.singletonList("set_invisible"));
+
     @Override
     public Agenda apply(Agenda agenda) {
 
         List<AgendaItem> agendaItems = agenda.getItems();
+
+        Iterables.removeIf(agendaItems, item -> HIDDEN_TYPES.contains(item.getLastEditType()));
 
         // We first categorize the items per course.
         Map<Course, List<AgendaItem>> mapped = StreamSupport.stream(agendaItems)
@@ -100,7 +105,6 @@ public class AgendaDuplicateDetector implements Function<Agenda, Agenda> {
                 }
 
                 // If there are none left, we add them all, since we don't know which one you want.
-                assert noMoreOasis.isEmpty();
                 finalItems.addAll(mergeLocations(endList));
             }
         }
@@ -109,33 +113,31 @@ public class AgendaDuplicateDetector implements Function<Agenda, Agenda> {
     }
 
     private List<AgendaItem> mergeLocations(List<AgendaItem> items) {
-        // Check if they are all the same
-        boolean isSame = true;
-        AgendaItem last = items.get(0);
-        for (AgendaItem item : items.subList(1, items.size())) {
-            // We check the title and description. We already know other things, such as the
-            // dates are the same.
-            if (!TextUtils.equals(item.getTitle(), last.getTitle()) || !TextUtils.equals(item.getContent(), item.getContent())) {
-                isSame = false;
-                break;
+
+        List<AgendaItem> finalItems = new ArrayList<>();
+
+        // We currently consider two events the same if their titles are the same. Group the events by title.
+        Map<String, List<AgendaItem>> perTitle = StreamSupport.stream(items)
+                .collect(Collectors.groupingBy(AgendaItem::getTitle));
+
+        for (List<AgendaItem> item : perTitle.values()) {
+            if (item.size() == 1) {
+                finalItems.add(item.get(0));
+                continue;
             }
-        }
-
-        if (isSame) {
-            // Merge them into one, with an adjusted location. We merge into the first one.
-            // TODO: better joining
-
-            String[] locations = StreamSupport.stream(items)
+            // Get the first one.
+            AgendaItem first = items.get(0);
+            // Merge the locations.
+            String[] locations = StreamSupport.stream(item)
                     .map(AgendaItem::getLocation)
                     .filter(Objects::nonNull)
                     .distinct()
                     .toArray(String[]::new);
-            last.setMerged(true);
-            last.setLocation(TextUtils.join("\n", locations));
-            return Collections.singletonList(last);
-        } else {
-            // Else we just add them all, since they differ in ways we don't support yet.
-            return items;
+            first.setLocation(TextUtils.join("\n", locations));
+            first.setMerged(true);
+            finalItems.add(first);
         }
+
+        return finalItems;
     }
 }
