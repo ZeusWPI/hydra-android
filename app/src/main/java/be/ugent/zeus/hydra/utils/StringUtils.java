@@ -31,4 +31,34 @@ public class StringUtils {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }
+
+    /**
+     * Generate an acronym for a string. This will split the string on whitespace, take the first letter of every word,
+     * capitalize that first letter and concat the result. If a word does not contain any letters, it is fully added.
+     *
+     * For example, {@code Algoritmen en datastructuren III} will become {@code AEDIII}.
+     *
+     * TODO: can we make this less dumb, and ignore words as 'en', 'of', etc?
+     *
+     * @param name The string to acronymize.
+     *
+     * @return The acronym.
+     */
+    public static String generateAcronymFor(String name) {
+        StringBuilder result = new StringBuilder();
+        for (String word : name.split("\\s")) {
+            int i = 0;
+            char c;
+            do {
+                c = word.charAt(i++);
+            } while (!Character.isLetter(c) && i < word.length());
+            if (Character.isLetter(c)) {
+                result.append(Character.toUpperCase(c));
+            } else {
+                // There are no letters in this part, so just add it completely.
+                result.append(word);
+            }
+        }
+        return result.toString();
+    }
 }

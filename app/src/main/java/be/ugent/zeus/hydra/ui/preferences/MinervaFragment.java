@@ -28,8 +28,10 @@ public class MinervaFragment extends PreferenceFragment {
     public static final String PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL = "pref_minerva_announcement_notification_email";
     public static final String PREF_USE_MOBILE_URL = "pref_minerva_use_mobile_url";
 
-
     public static final String PREF_DETECT_DUPLICATES = "pref_minerva_detect_duplicates";
+
+    public static final String PREF_PREFIX_EVENT_TITLES = "pref_minerva_prefix_event_titles";
+    public static final String PREF_PREFIX_EVENT_ACRONYM = "pref_minerva_prefix_event_acronym";
 
     //In seconds
     public static final String PREF_DEFAULT_SYNC_FREQUENCY = "86400";
@@ -40,6 +42,12 @@ public class MinervaFragment extends PreferenceFragment {
 
     private boolean oldDetectDuplicates;
     private boolean newDetectDuplicates;
+
+    private boolean oldPrefixEventTitles;
+    private boolean newPrefixEventTitles;
+
+    private boolean oldPrefixAcronyms;
+    private boolean newPrefixAcronyms;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,9 +71,17 @@ public class MinervaFragment extends PreferenceFragment {
         oldDetectDuplicates = preferences.getBoolean(PREF_DETECT_DUPLICATES, false);
         newDetectDuplicates = oldDetectDuplicates;
 
+        oldPrefixEventTitles = preferences.getBoolean(PREF_PREFIX_EVENT_TITLES, false);
+        newPrefixEventTitles = oldPrefixEventTitles;
+
+        oldPrefixAcronyms = preferences.getBoolean(PREF_PREFIX_EVENT_ACRONYM, true);
+        newPrefixAcronyms = oldPrefixAcronyms;
 
         Preference intervalPreference = findPreference(PREF_SYNC_FREQUENCY);
         Preference detectPreference = findPreference(PREF_DETECT_DUPLICATES);
+        Preference prefixTitles = findPreference(PREF_PREFIX_EVENT_TITLES);
+        Preference prefixAbbreviations = findPreference(PREF_PREFIX_EVENT_ACRONYM);
+        prefixAbbreviations.setEnabled(oldPrefixEventTitles);
 
         intervalPreference.setOnPreferenceChangeListener((preference, newValue) -> {
             newInterval = Integer.parseInt((String) newValue);
@@ -74,6 +90,17 @@ public class MinervaFragment extends PreferenceFragment {
 
         detectPreference.setOnPreferenceChangeListener((preference, newValue) -> {
             newDetectDuplicates = (boolean) newValue;
+            return true;
+        });
+
+        prefixTitles.setOnPreferenceChangeListener((preference, newValue) -> {
+            newPrefixEventTitles = (boolean) newValue;
+            prefixAbbreviations.setEnabled(newPrefixEventTitles);
+            return true;
+        });
+
+        prefixAbbreviations.setOnPreferenceChangeListener((preference, newValue) -> {
+            newPrefixAcronyms = (boolean) newValue;
             return true;
         });
 
@@ -89,7 +116,7 @@ public class MinervaFragment extends PreferenceFragment {
         if (hasAccount && oldInterval != newInterval) {
             SyncUtils.changeSyncFrequency(getAppContext(), MinervaConfig.SYNC_AUTHORITY, newInterval);
         }
-        if (hasAccount && oldDetectDuplicates != newDetectDuplicates) {
+        if (hasAccount && (oldDetectDuplicates != newDetectDuplicates || oldPrefixEventTitles != newPrefixEventTitles || oldPrefixAcronyms != newPrefixAcronyms)) {
             Bundle bundle = new Bundle();
             bundle.putBoolean(MinervaAdapter.SYNC_ANNOUNCEMENTS, false);
             SyncUtils.requestSync(AccountUtils.getAccount(getAppContext()), MinervaConfig.SYNC_AUTHORITY, bundle);
