@@ -96,6 +96,7 @@ project.afterEvaluate {
 //The support library version
 final SUPPORT_LIBRARY_VERSION = '26.1.0'
 final GMS_VERSION = '11.4.0'
+final AAC_VERSION = '1.0.0'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -109,9 +110,15 @@ dependencies {
     compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
 
-    // Lifecycle components
-    compile "android.arch.lifecycle:extensions:1.0.0-beta2"
-    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-beta2"
+    // Android Architecture Components
+    compile "android.arch.lifecycle:extensions:$AAC_VERSION"
+    annotationProcessor "android.arch.lifecycle:compiler:$AAC_VERSION"
+    testCompile "android.arch.core:core-testing:$AAC_VERSION"
+    compile "android.arch.persistence.room:runtime:$AAC_VERSION"
+    annotationProcessor "android.arch.persistence.room:compiler:$AAC_VERSION"
+    androidTestCompile("android.arch.persistence.room:testing:$AAC_VERSION") {
+        exclude group: 'com.google.code.gson', module: 'gson'
+    }
 
     compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
