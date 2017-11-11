@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.data.network.requests.library;
 
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.data.models.library.LibraryList;
+import be.ugent.zeus.hydra.domain.models.library.LibraryList;
 import be.ugent.zeus.hydra.data.network.Endpoints;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.repository.Cache;

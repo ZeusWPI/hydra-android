@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.ui.preferences;
 
 import android.app.Application;
-import be.ugent.zeus.hydra.data.models.association.Association;
+import be.ugent.zeus.hydra.domain.models.association.Association;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.association.AssociationsRequest;

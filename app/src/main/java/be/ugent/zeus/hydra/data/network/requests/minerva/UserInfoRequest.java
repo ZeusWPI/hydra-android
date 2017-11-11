@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.data.network.requests.minerva;
 
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
-import be.ugent.zeus.hydra.data.models.minerva.auth.GrantInformation;
+import be.ugent.zeus.hydra.domain.models.minerva.auth.GrantInformation;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.data.network.exceptions.RestTemplateException;
 import be.ugent.zeus.hydra.data.network.requests.minerva.auth.TokenRequestInterceptor;

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.association.Event;
+import be.ugent.zeus.hydra.domain.models.association.Event;
 import be.ugent.zeus.hydra.ui.EventDetailActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import com.github.captain_miao.optroundcardview.OptRoundCardView;

@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.data.network.requests.resto.MenuFilter;
 import be.ugent.zeus.hydra.data.network.requests.resto.MenuRequest;
 import be.ugent.zeus.hydra.data.network.requests.resto.SelectableMetaRequest;

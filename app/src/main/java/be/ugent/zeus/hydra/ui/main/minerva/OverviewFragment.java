@@ -23,13 +23,14 @@ import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
-import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
-import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
-import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
+import be.ugent.zeus.hydra.data.database.minerva2.RepositoryFactory;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.data.sync.minerva.MinervaAdapter;
-import be.ugent.zeus.hydra.data.sync.minerva.helpers.NotificationHelper;
 import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
+import be.ugent.zeus.hydra.data.sync.minerva.helpers.NotificationHelper;
+import be.ugent.zeus.hydra.domain.repository.AgendaItemRepository;
+import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
+import be.ugent.zeus.hydra.domain.repository.CourseRepository;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -219,12 +220,12 @@ public class OverviewFragment extends Fragment implements ResultStarter {
     }
 
     private void clearDatabase() {
-        CourseDao courseDao = new CourseDao(getContext());
+        CourseRepository courseDao = RepositoryFactory.getCourseRepository(getContext());
         courseDao.deleteAll();
-        AnnouncementDao announcementDao = new AnnouncementDao(getContext());
+        AnnouncementRepository announcementDao = RepositoryFactory.getAnnouncementRepository(getContext());
         announcementDao.deleteAll();
-        AgendaDao dao = new AgendaDao(getContext());
-        dao.deleteAll();
+        AgendaItemRepository agendaItemRepository = RepositoryFactory.getAgendaItemRepository(getContext());
+        agendaItemRepository.deleteAll();
     }
 
     @Override

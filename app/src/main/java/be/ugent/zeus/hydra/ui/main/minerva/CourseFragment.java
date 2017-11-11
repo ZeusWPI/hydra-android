@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.ui.main.minerva;
 
-import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -16,8 +16,9 @@ import android.view.*;
 import android.widget.ProgressBar;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
-import be.ugent.zeus.hydra.data.models.minerva.Course;
+import be.ugent.zeus.hydra.data.database.minerva2.RepositoryFactory;
+import be.ugent.zeus.hydra.domain.models.minerva.Course;
+import be.ugent.zeus.hydra.domain.repository.CourseRepository;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
@@ -71,7 +72,7 @@ public class CourseFragment extends Fragment implements OnStartDragListener {
             resultStarter = (ResultStarter) getActivity();
         }
 
-        CourseDao courseDao = new CourseDao(getContext());
+        CourseRepository courseDao = RepositoryFactory.getCourseRepository(getContext());
         adapter = new MinervaCourseAdapter(this, resultStarter);
         adapter.setCourseDao(courseDao);
 

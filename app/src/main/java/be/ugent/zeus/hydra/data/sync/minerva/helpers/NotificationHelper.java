@@ -16,8 +16,8 @@ import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.ChannelCreator;
-import be.ugent.zeus.hydra.data.models.minerva.Announcement;
-import be.ugent.zeus.hydra.data.models.minerva.Course;
+import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
+import be.ugent.zeus.hydra.domain.models.minerva.Course;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
 import be.ugent.zeus.hydra.ui.main.MainActivity;
 import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
@@ -169,7 +169,7 @@ public class NotificationHelper {
      */
     private Notification createGroupSummary(Course course, List<Announcement> announcements) {
 
-        // First, we create the style for our notification.
+        // First, we get the style for our notification.
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
         inboxStyle.setBigContentTitle(getNotificationCourseTitle(course));
 
@@ -181,7 +181,7 @@ public class NotificationHelper {
         // Add a summary.
         inboxStyle.setSummaryText(context.getResources().getQuantityString(R.plurals.home_feed_announcement_title, announcements.size(), announcements.size()));
 
-        // Secondly, we create the notification itself.
+        // Secondly, we get the notification itself.
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, ChannelCreator.MINERVA_ANNOUNCEMENT_CHANNEL);
         builder.setSmallIcon(smallIcon)

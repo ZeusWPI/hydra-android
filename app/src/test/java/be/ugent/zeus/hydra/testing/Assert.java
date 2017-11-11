@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.testing;
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.data.models.MockParcel;
+import be.ugent.zeus.hydra.domain.models.MockParcel;
 import be.ugent.zeus.hydra.testing.matcher.ShallowButFullEqual;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;

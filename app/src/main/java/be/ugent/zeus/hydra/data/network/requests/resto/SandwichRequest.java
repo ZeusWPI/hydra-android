@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.data.network.requests.resto;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.data.models.resto.Sandwich;
+import be.ugent.zeus.hydra.domain.models.resto.Sandwich;
 import be.ugent.zeus.hydra.data.network.Endpoints;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.repository.Cache;

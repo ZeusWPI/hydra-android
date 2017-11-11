@@ -4,8 +4,8 @@ import android.text.TextUtils;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.association.Association;
-import be.ugent.zeus.hydra.data.models.association.Event;
+import be.ugent.zeus.hydra.domain.models.association.Association;
+import be.ugent.zeus.hydra.domain.models.association.Event;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.GenericSearchableAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;

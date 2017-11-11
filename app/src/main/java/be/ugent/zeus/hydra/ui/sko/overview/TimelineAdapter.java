@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.ui.sko.overview;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.sko.TimelinePost;
+import be.ugent.zeus.hydra.domain.models.sko.TimelinePost;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;

@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.view.View;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.data.network.requests.resto.SelectableMetaRequest;
 import be.ugent.zeus.hydra.ui.common.widgets.MenuTable;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;

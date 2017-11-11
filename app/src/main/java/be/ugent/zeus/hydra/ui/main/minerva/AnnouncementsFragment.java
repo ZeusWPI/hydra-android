@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.ui.main.minerva;
 
-import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
@@ -16,9 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
-import be.ugent.zeus.hydra.data.models.minerva.Announcement;
+import be.ugent.zeus.hydra.data.database.minerva2.RepositoryFactory;
 import be.ugent.zeus.hydra.data.sync.minerva.helpers.NotificationHelper;
+import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
+import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
@@ -183,7 +184,8 @@ public class AnnouncementsFragment extends Fragment implements MultiSelectDiffAd
     }
 
     private void markSelectedAsRead() {
-        AnnouncementDao dao = new AnnouncementDao(getContext());
+        // TODO: do this on a background thread
+        AnnouncementRepository dao = RepositoryFactory.getAnnouncementRepository(getContext());
         Collection<Announcement> announcements = adapter.getSelectedItems();
         ZonedDateTime read = ZonedDateTime.now();
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());

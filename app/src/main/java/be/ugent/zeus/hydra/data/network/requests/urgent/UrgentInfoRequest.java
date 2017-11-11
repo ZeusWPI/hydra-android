@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.data.network.requests.urgent;
 
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.data.models.UrgentInfo;
+import be.ugent.zeus.hydra.domain.models.UrgentInfo;
 import be.ugent.zeus.hydra.data.network.Endpoints;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 

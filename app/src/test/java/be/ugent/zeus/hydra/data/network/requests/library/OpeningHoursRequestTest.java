@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.data.network.requests.library;
 
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.data.models.library.LibraryList;
-import be.ugent.zeus.hydra.data.models.library.OpeningHours;
+import be.ugent.zeus.hydra.domain.models.library.LibraryList;
+import be.ugent.zeus.hydra.domain.models.library.OpeningHours;
 import be.ugent.zeus.hydra.data.network.ArrayJsonSpringRequestTest;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import com.google.gson.Gson;

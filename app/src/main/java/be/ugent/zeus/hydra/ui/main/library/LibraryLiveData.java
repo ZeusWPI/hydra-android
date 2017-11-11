@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import be.ugent.zeus.hydra.data.models.library.Library;
-import be.ugent.zeus.hydra.data.models.library.LibraryList;
+import be.ugent.zeus.hydra.domain.models.library.Library;
+import be.ugent.zeus.hydra.domain.models.library.LibraryList;
 import be.ugent.zeus.hydra.data.network.requests.library.LibraryListRequest;
 import be.ugent.zeus.hydra.repository.data.RequestLiveData;
 import be.ugent.zeus.hydra.repository.requests.Request;

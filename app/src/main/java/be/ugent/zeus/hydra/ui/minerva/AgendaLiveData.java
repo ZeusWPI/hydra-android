@@ -7,11 +7,13 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
-import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
+
+import be.ugent.zeus.hydra.data.database.minerva2.RepositoryFactory;
 import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.domain.models.minerva.AgendaItem;
+import be.ugent.zeus.hydra.domain.repository.AgendaItemRepository;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
+import be.ugent.zeus.hydra.repository.requests.Result;
 
 /**
  * @author Niko Strijbol
@@ -19,7 +21,7 @@ import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 public class AgendaLiveData extends BaseLiveData<Result<AgendaItem>> {
 
     private final Context applicationContext;
-    private final AgendaDao dao;
+    private final AgendaItemRepository dao;
     private final int id;
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -30,7 +32,7 @@ public class AgendaLiveData extends BaseLiveData<Result<AgendaItem>> {
 
     public AgendaLiveData(Context context, int id) {
         this.applicationContext = context;
-        this.dao = new AgendaDao(context);
+        this.dao = RepositoryFactory.getAgendaItemRepository(context);
         this.id = id;
         loadData(Bundle.EMPTY);
     }
@@ -42,7 +44,7 @@ public class AgendaLiveData extends BaseLiveData<Result<AgendaItem>> {
             @Override
             protected Result<AgendaItem> doInBackground(Void... voids) {
 
-                AgendaItem item = dao.getItem(id);
+                AgendaItem item = dao.getOne(id);
 
                 if (item == null) {
                     return Result.Builder.fromException(new NotFoundException("Agenda item with ID " + id + " was not found."));

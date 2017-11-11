@@ -4,8 +4,8 @@ import android.accounts.Account;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.data.models.minerva.WhatsNew;
+import be.ugent.zeus.hydra.domain.models.minerva.Course;
+import be.ugent.zeus.hydra.data.dto.minerva.WhatsNew;
 
 /**
  * Request to get information about a course.

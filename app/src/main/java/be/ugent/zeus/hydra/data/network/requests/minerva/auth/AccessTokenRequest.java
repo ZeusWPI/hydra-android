@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.data.network.requests.minerva.auth;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.data.auth.OAuthConfiguration;
-import be.ugent.zeus.hydra.data.models.minerva.auth.BearerToken;
+import be.ugent.zeus.hydra.domain.models.minerva.auth.BearerToken;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
 import be.ugent.zeus.hydra.repository.requests.RequestException;

@@ -7,12 +7,14 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
-import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
-import be.ugent.zeus.hydra.data.models.minerva.Course;
+
+import be.ugent.zeus.hydra.data.database.minerva2.RepositoryFactory;
 import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.domain.models.minerva.AgendaItem;
+import be.ugent.zeus.hydra.domain.models.minerva.Course;
+import be.ugent.zeus.hydra.domain.repository.AgendaItemRepository;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
+import be.ugent.zeus.hydra.repository.requests.Result;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ import java.util.List;
 public class AgendaLiveData extends BaseLiveData<Result<List<AgendaItem>>> {
 
     private final Context applicationContext;
-    private final AgendaDao dao;
+    private final AgendaItemRepository dao;
     private final Course course;
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -34,7 +36,7 @@ public class AgendaLiveData extends BaseLiveData<Result<List<AgendaItem>>> {
 
     public AgendaLiveData(Context context, Course course) {
         this.applicationContext = context.getApplicationContext();
-        this.dao = new AgendaDao(applicationContext);
+        this.dao = RepositoryFactory.getAgendaItemRepository(applicationContext);
         this.course = course;
         loadData(Bundle.EMPTY);
     }
@@ -44,7 +46,7 @@ public class AgendaLiveData extends BaseLiveData<Result<List<AgendaItem>>> {
 
             @Override
             protected Result<List<AgendaItem>> doInBackground(Void... voids) {
-                return Result.Builder.fromData(dao.getAgendaForCourse(course, false, true));
+                return Result.Builder.fromData(dao.getAllForCourse(course.getId(), false));
             }
 
             @Override

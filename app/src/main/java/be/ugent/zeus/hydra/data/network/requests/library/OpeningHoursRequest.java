@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.data.network.requests.library;
 
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.data.models.library.Library;
-import be.ugent.zeus.hydra.data.models.library.OpeningHours;
+import be.ugent.zeus.hydra.domain.models.library.Library;
+import be.ugent.zeus.hydra.domain.models.library.OpeningHours;
 import be.ugent.zeus.hydra.data.network.Endpoints;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.repository.Cache;

@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.data.network.requests.sko;
 
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.data.models.sko.Artist;
+import be.ugent.zeus.hydra.domain.models.sko.Artist;
 import be.ugent.zeus.hydra.data.network.ArrayJsonSpringRequestTest;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import org.junit.runner.RunWith;

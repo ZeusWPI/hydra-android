@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.data.models.minerva.auth.BearerToken;
+import be.ugent.zeus.hydra.domain.models.minerva.auth.BearerToken;
 import be.ugent.zeus.hydra.data.network.requests.minerva.auth.NewAccessTokenRequest;
 import be.ugent.zeus.hydra.data.network.requests.minerva.auth.RefreshAccessTokenRequest;
 import be.ugent.zeus.hydra.repository.requests.Request;

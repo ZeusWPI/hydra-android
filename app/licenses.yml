@@ -139,3 +139,9 @@
   skip: true
 - artifact: android.arch.persistence:+:+
   skip: true
+
+- artifact: org.mapstruct:mapstruct:+
+  name: MapStruct
+  copyrightHolder: Gunnar Morling
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt

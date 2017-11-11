@@ -6,7 +6,7 @@ import java8.util.function.IntPredicate;
 import java8.util.function.Supplier;
 
 /**
- * Factory to create operations on a feed.
+ * Factory to get operations on a feed.
  *
  * @author Niko Strijbol
  */

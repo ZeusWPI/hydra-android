@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.data.network.requests.resto;
 
-import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.repository.requests.RequestFunction;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
 
