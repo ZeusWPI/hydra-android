@@ -70,13 +70,22 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
                 Object expected = FieldUtils.readField(field, expectedBean, true);
                 Object actual = FieldUtils.readField(field, item, true);
 
-                Matcher<Object> matcher = matcherMap.getOrDefault(expected.getClass(), IsEqual::new).apply(expected);
+                if (expected == null || actual == null) {
+                    if (expected != null || actual != null) {
+                        mismatchDescription.appendText(ToStringBuilder.reflectionToString(item, ToStringStyle.MULTI_LINE_STYLE));
+                        //mismatchDescription.appendText(field.getName() + " ");
+                        //matcher.describeMismatch(actual, mismatchDescription);
+                        return false;
+                    }
+                } else {
+                    Matcher<Object> matcher = matcherMap.getOrDefault(expected.getClass(), IsEqual::new).apply(expected);
 
-                if (!matcher.matches(actual)) {
-                    mismatchDescription.appendText(ToStringBuilder.reflectionToString(item, ToStringStyle.MULTI_LINE_STYLE));
-                    //mismatchDescription.appendText(field.getName() + " ");
-                    //matcher.describeMismatch(actual, mismatchDescription);
-                    return false;
+                    if (!matcher.matches(actual)) {
+                        mismatchDescription.appendText(ToStringBuilder.reflectionToString(item, ToStringStyle.MULTI_LINE_STYLE));
+                        //mismatchDescription.appendText(field.getName() + " ");
+                        //matcher.describeMismatch(actual, mismatchDescription);
+                        return false;
+                    }
                 }
             }
 

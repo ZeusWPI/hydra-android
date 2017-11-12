@@ -197,6 +197,9 @@ dependencies {
     }
     testCompile 'commons-validator:commons-validator:1.6'
 
+    // Used to parse SQL
+    compile 'com.github.jsqlparser:jsqlparser:1.1'
+
     // AndroidJUnitRunner and JUnit Rules
     androidTestCompile ('com.android.support.test:runner:1.0.0') {
         exclude group: 'com.android.support', module: 'support-annotations'

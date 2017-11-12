@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.data.database.minerva2.course.CourseTable;
 import com.google.gson.annotations.SerializedName;
+import java8.util.Objects;
 
 /**
  * Represents a course as it is saved in the database.
@@ -90,5 +91,18 @@ public final class CourseDTO {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CourseDTO courseDTO = (CourseDTO) o;
+        return Objects.equals(id, courseDTO.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

@@ -10,6 +10,7 @@ import be.ugent.zeus.hydra.data.database.minerva2.course.CourseTable;
 import be.ugent.zeus.hydra.data.gson.ZonedThreeTenAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import java8.util.Objects;
 import org.threeten.bp.ZonedDateTime;
 
 import static be.ugent.zeus.hydra.domain.models.minerva.AgendaItem.NO_CALENDAR_ID;
@@ -64,8 +65,10 @@ public class AgendaItemDTO {
     @SerializedName("course_id")
     @ColumnInfo(name = AgendaTable.Columns.COURSE, index = true)
     private String courseId;
+    @SerializedName("calendar_id") // For testing
     @ColumnInfo(name = AgendaTable.Columns.CALENDAR_ID)
     private long calendarId = NO_CALENDAR_ID;
+    @SerializedName("is_merged") // For testing
     @ColumnInfo(name = AgendaTable.Columns.IS_MERGED)
     private boolean isMerged = false;
 
@@ -171,5 +174,18 @@ public class AgendaItemDTO {
 
     public void setMerged(boolean merged) {
         isMerged = merged;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AgendaItemDTO that = (AgendaItemDTO) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

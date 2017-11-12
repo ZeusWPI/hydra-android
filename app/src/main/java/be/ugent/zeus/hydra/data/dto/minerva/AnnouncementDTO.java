@@ -10,6 +10,7 @@ import be.ugent.zeus.hydra.data.database.minerva2.course.CourseTable;
 import be.ugent.zeus.hydra.data.gson.ZonedThreeTenAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import java8.util.Objects;
 import org.threeten.bp.ZonedDateTime;
 
 /**
@@ -47,6 +48,7 @@ public final class AnnouncementDTO {
     @JsonAdapter(ZonedThreeTenAdapter.class)
     @ColumnInfo(name = AnnouncementTable.Columns.DATE)
     private ZonedDateTime lastEditedAt;
+    @SerializedName("read_at") // For testing
     @ColumnInfo(name = AnnouncementTable.Columns.READ_DATE)
     private ZonedDateTime readAt;
     @SerializedName("course_id")
@@ -117,5 +119,19 @@ public final class AnnouncementDTO {
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AnnouncementDTO that = (AnnouncementDTO) o;
+        return id == that.id &&
+                Objects.equals(readAt, that.readAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, readAt);
     }
 }
