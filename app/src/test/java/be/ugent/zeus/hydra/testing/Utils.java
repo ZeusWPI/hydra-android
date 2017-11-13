@@ -11,6 +11,7 @@ import org.threeten.bp.ZonedDateTime;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -66,5 +67,21 @@ public class Utils {
         Gson gson = new Gson();
         Resource resource = new ClassPathResource(filename);
         return gson.fromJson(new InputStreamReader(resource.getInputStream()), clazz);
+    }
+
+    private static Random random = new Random();
+
+    public static <T> T getRandom(List<T> collection) {
+        return collection.get(random.nextInt(collection.size()));
+    }
+
+    public static <T> List<T> getRandom(final List<T> collection, int amount) {
+        if (amount > collection.size()) {
+            throw new IllegalArgumentException("The number of requested items cannot be larger than the number of total items.");
+        }
+
+        List<T> copy = new ArrayList<>(collection);
+        Collections.shuffle(copy);
+        return copy.subList(0, amount);
     }
 }

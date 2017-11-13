@@ -126,12 +126,11 @@ public final class AnnouncementDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AnnouncementDTO that = (AnnouncementDTO) o;
-        return id == that.id &&
-                Objects.equals(readAt, that.readAt);
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, readAt);
+        return Objects.hash(id);
     }
 }

@@ -63,7 +63,7 @@ public class DatabaseCourseRepository implements CourseRepository {
 
     @Override
     public void deleteById(String s) {
-        courseDao.deleteById(s);
+        courseDao.delete(s);
     }
 
     @Override
@@ -87,8 +87,8 @@ public class DatabaseCourseRepository implements CourseRepository {
     }
 
     @Override
-    public List<Pair<Course, Integer>> getAllAndUnreadInOrder() {
-        ArrayList<Pair<Course, Integer>> result = new ArrayList<>();
+    public List<Pair<Course, Long>> getAllAndUnreadInOrder() {
+        ArrayList<Pair<Course, Long>> result = new ArrayList<>();
         for (CourseUnread courseUnread : courseDao.getAllAndUnreadInOrder()) {
             result.add(new Pair<>(courseMapper.courseToCourse(courseUnread.getCourse()), courseUnread.getUnreadAnnouncements()));
         }

@@ -13,13 +13,13 @@ public final class CourseUnread {
     @Embedded
     private CourseDTO course;
     @ColumnInfo(name = "unread_count")
-    private int unreadAnnouncements;
+    private long unreadAnnouncements;
 
     public CourseDTO getCourse() {
         return course;
     }
 
-    public int getUnreadAnnouncements() {
+    public long getUnreadAnnouncements() {
         return unreadAnnouncements;
     }
 
@@ -27,7 +27,7 @@ public final class CourseUnread {
         this.course = course;
     }
 
-    public void setUnreadAnnouncements(int unreadAnnouncements) {
+    public void setUnreadAnnouncements(long unreadAnnouncements) {
         this.unreadAnnouncements = unreadAnnouncements;
     }
 }

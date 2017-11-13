@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class CourseLiveData extends RequestLiveData<List<Pair<Course, Integer>>> {
+public class CourseLiveData extends RequestLiveData<List<Pair<Course, Long>>> {
 
     public final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -53,7 +53,7 @@ public class CourseLiveData extends RequestLiveData<List<Pair<Course, Integer>>>
     /**
      * Get all courses, given the order.
      */
-    public static class CourseRequest implements Request<List<Pair<Course, Integer>>> {
+    public static class CourseRequest implements Request<List<Pair<Course, Long>>> {
 
         private final CourseRepository courseDao;
 
@@ -63,7 +63,7 @@ public class CourseLiveData extends RequestLiveData<List<Pair<Course, Integer>>>
 
         @NonNull
         @Override
-        public Result<List<Pair<Course, Integer>>> performRequest(@Nullable Bundle args) {
+        public Result<List<Pair<Course, Long>>> performRequest(@Nullable Bundle args) {
             return Result.Builder.fromData(courseDao.getAllAndUnreadInOrder());
         }
     }

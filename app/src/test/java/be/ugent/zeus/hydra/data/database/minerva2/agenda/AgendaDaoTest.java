@@ -1,116 +1,48 @@
 package be.ugent.zeus.hydra.data.database.minerva2.agenda;
 
-import android.arch.persistence.room.Room;
-import android.content.Context;
+import android.database.sqlite.SQLiteConstraintException;
 import android.support.annotation.RequiresApi;
 
-import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.data.database.minerva2.MinervaDatabase;
+import be.ugent.zeus.hydra.data.database.minerva2.AbstractDaoTest;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaItemDTO;
-import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
-import be.ugent.zeus.hydra.data.gson.ZonedThreeTenTimeStampAdapter;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.threeten.bp.ZonedDateTime;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import static be.ugent.zeus.hydra.testing.Assert.assertCollectionEquals;
-import static be.ugent.zeus.hydra.testing.Assert.assertThat;
-import static be.ugent.zeus.hydra.testing.Assert.samePropertyValuesAs;
+import static be.ugent.zeus.hydra.testing.Assert.*;
+import static be.ugent.zeus.hydra.testing.Utils.generate;
+import static be.ugent.zeus.hydra.testing.Utils.getRandom;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Niko Strijbol
  */
 @RequiresApi(api = 26)
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
-public class AgendaDaoTest {
+public class AgendaDaoTest extends AbstractDaoTest {
 
-    private MinervaDatabase database;
-    private AgendaDao agendaDao;
-
-    private List<CourseDTO> courses;
-    private Map<String, CourseDTO> courseMap;
-    private List<AnnouncementDTO> announcements;
-    private List<AgendaItemDTO> calendarItems;
+    private AgendaDao dao;
 
     @Before
-    public void setUp() throws IOException {
-        Context context = RuntimeEnvironment.application;
-        database = Room.inMemoryDatabaseBuilder(context, MinervaDatabase.class)
-                .allowMainThreadQueries()
-                .build();
-        agendaDao = database.getAgendaDao();
-        fillData();
-    }
-
-    public void fillData() throws IOException {
-        Resource courses = new ClassPathResource("minerva/minerva_courses.sql");
-        Resource announcements = new ClassPathResource("minerva/minerva_announcements.sql");
-        Resource calendar = new ClassPathResource("minerva/minerva_calendar.sql");
-
-        List<String> courseInserts = Files.readAllLines(courses.getFile().toPath());
-        List<String> announcementInserts = Files.readAllLines(announcements.getFile().toPath());
-        List<String> calendarInserts = Files.readAllLines(calendar.getFile().toPath());
-
-        Consumer<String> insert = s -> database.compileStatement(s).executeInsert();
-        courseInserts.forEach(insert);
-        announcementInserts.forEach(insert);
-        calendarInserts.forEach(insert);
-
-        Resource jsonCourses = new ClassPathResource("minerva/minerva_courses.json");
-        Type courseType = new TypeToken<List<CourseDTO>>() {}.getType();
-        Resource jsonAnnouncements = new ClassPathResource("minerva/minerva_announcements.json" );
-        Type announcementType = new TypeToken<List<AnnouncementDTO>>() {}.getType();
-        Resource jsonCalendar = new ClassPathResource("minerva/minerva_calendar.json" );
-        Type calendarType = new TypeToken<List<AgendaItemDTO>>() {}.getType();
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(ZonedDateTime.class, new ZonedThreeTenTimeStampAdapter())
-                .create();
-
-        this.courses = gson.fromJson(new JsonReader(new FileReader(jsonCourses.getFile())), courseType);
-        this.announcements = gson.fromJson(new JsonReader(new FileReader(jsonAnnouncements.getFile())), announcementType);
-        this.calendarItems = gson.fromJson(new JsonReader(new FileReader(jsonCalendar.getFile())), calendarType);
-
-        assertEquals("Error during data loading.", courseInserts.size(), this.courses.size());
-        assertEquals("Error during data loading.", announcementInserts.size(), this.announcements.size());
-        assertEquals("Error during data loading.", calendarInserts.size(), this.calendarItems.size());
-
-        // Do deep equals.
-        courseMap = new HashMap<>();
-        for (CourseDTO itemDTO : this.courses) {
-            courseMap.put(itemDTO.getId(), itemDTO);
-        }
+    public void getDao() {
+        this.dao = database.getAgendaDao();
     }
 
     @Test
     public void getOne() throws Exception {
         // Get 5 random items from the list.
-        List<AgendaItemDTO> shuffled = new ArrayList<>(this.calendarItems);
-        Collections.shuffle(shuffled);
-        List<AgendaItemDTO> expected = shuffled.subList(0, 5);
+        List<AgendaItemDTO> expected = getRandom(this.calendarItems, 5);
 
-        for (AgendaItemDTO item: expected) {
-            AgendaDao.Result result = agendaDao.getOne(item.getId());
+        for (AgendaItemDTO item : expected) {
+            AgendaDao.Result result = dao.getOne(item.getId());
             assertEquals(item, result.agendaItem);
             assertThat(result.agendaItem, samePropertyValuesAs(item));
             assertEquals(courseMap.get(item.getCourseId()), result.course);
@@ -119,8 +51,14 @@ public class AgendaDaoTest {
     }
 
     @Test
+    public void getNonExisting() {
+        AgendaDao.Result result = dao.getOne(-1);
+        assertNull(result);
+    }
+
+    @Test
     public void getAll() throws Exception {
-        List<AgendaDao.Result> results = agendaDao.getAll();
+        List<AgendaDao.Result> results = dao.getAll();
         List<AgendaItemDTO> items = results.stream()
                 .map(r -> r.agendaItem)
                 .collect(Collectors.toList());
@@ -132,7 +70,7 @@ public class AgendaDaoTest {
             expected.put(itemDTO.getId(), itemDTO);
         }
 
-        for (AgendaDao.Result actual: results) {
+        for (AgendaDao.Result actual : results) {
             assertThat(actual.agendaItem, samePropertyValuesAs(expected.get(actual.agendaItem.getId())));
             assertEquals(courseMap.get(actual.agendaItem.getCourseId()), actual.course);
             assertThat(actual.course, samePropertyValuesAs(courseMap.get(actual.agendaItem.getCourseId())));
@@ -140,39 +78,152 @@ public class AgendaDaoTest {
     }
 
     @Test
-    public void insert() throws Exception {
+    public void insertOne() throws Exception {
+        CourseDTO randomCourse = getRandom(this.courses);
+        AgendaItemDTO randomItem = generate(AgendaItemDTO.class, "courseId", "endDate");
+        randomItem.setCourseId(randomCourse.getId());
+        randomItem.setEndDate(randomItem.getStartDate().plusHours(2));
+
+        dao.insert(randomItem);
+
+        AgendaDao.Result result = dao.getOne(randomItem.getId());
+        assertEquals(randomItem, result.agendaItem);
+        assertEquals(randomCourse, result.course);
+
+        assertThat(result.agendaItem, samePropertyValuesAs(randomItem));
+        assertThat(result.course, samePropertyValuesAs(randomCourse));
     }
 
     @Test
-    public void insert1() throws Exception {
+    public void insertCollection() throws Exception {
+        final int NR_OF_ITEMS = 5;
+        List<CourseDTO> randomCourses = getRandom(this.courses, NR_OF_ITEMS);
+
+        List<AgendaItemDTO> randomItems = generate(AgendaItemDTO.class, NR_OF_ITEMS, "courseId", "endDate").collect(Collectors.toList());
+        for (int i = 0; i < randomItems.size(); i++) {
+            randomItems.get(i).setCourseId(randomCourses.get(i).getId());
+            randomItems.get(i).setEndDate(randomItems.get(i).getStartDate().plusHours(i + 1));
+        }
+
+        dao.insert(randomItems);
+
+        for (int i = 0; i < randomItems.size(); i++) {
+            AgendaItemDTO randomItem = randomItems.get(i);
+            CourseDTO randomCourse = randomCourses.get(i);
+            AgendaDao.Result result = dao.getOne(randomItem.getId());
+            assertEquals(randomItem, result.agendaItem);
+            assertEquals(randomCourse, result.course);
+
+            assertThat(result.agendaItem, samePropertyValuesAs(randomItem));
+            assertThat(result.course, samePropertyValuesAs(randomCourse));
+        }
+    }
+
+    @Test(expected = SQLiteConstraintException.class)
+    public void insertExisting() {
+        dao.insert(getRandom(this.calendarItems));
+    }
+
+    @Test(expected = SQLiteConstraintException.class)
+    public void insertNonExistingCourse() {
+        AgendaItemDTO item = generate(AgendaItemDTO.class, "courseId", "endDate", "id");
+        item.setCourseId("NON EXISTING COURSE ID");
+        item.setId(-1); // Can never be an existing id.
+        item.setEndDate(item.getStartDate().plusHours(1));
+        dao.insert(item);
     }
 
     @Test
-    public void update() throws Exception {
+    public void updateOne() throws Exception {
+        CourseDTO newCourse = getRandom(this.courses);
+        AgendaItemDTO originalItem = getRandom(this.calendarItems);
+        AgendaItemDTO updatedItem = generate(AgendaItemDTO.class, "courseId", "endDate", "id");
+        // Make sure the data is correct.
+        updatedItem.setId(originalItem.getId());
+        updatedItem.setCourseId(newCourse.getId());
+        updatedItem.setEndDate(updatedItem.getStartDate().plusHours(5));
+
+        dao.update(updatedItem);
+
+        AgendaDao.Result result = dao.getOne(updatedItem.getId());
+        assertEquals(updatedItem, result.agendaItem);
+        assertEquals(newCourse, result.course);
+
+        assertThat(result.agendaItem, samePropertyValuesAs(updatedItem));
+        assertThat(result.course, samePropertyValuesAs(newCourse));
     }
 
     @Test
-    public void update1() throws Exception {
+    public void updateCollection() throws Exception {
+        final int NR_OF_ITEMS = 5;
+        List<CourseDTO> newCourses = getRandom(this.courses, NR_OF_ITEMS);
+        List<AgendaItemDTO> originalItems = getRandom(this.calendarItems, NR_OF_ITEMS);
+        List<AgendaItemDTO> updatedItems = generate(AgendaItemDTO.class, NR_OF_ITEMS, "courseId", "endDate", "id").collect(Collectors.toList());
+        // Make sure the data is correct.
+        for (int i = 0; i < NR_OF_ITEMS; i++) {
+            updatedItems.get(i).setId(originalItems.get(i).getId());
+            updatedItems.get(i).setCourseId(newCourses.get(i).getId());
+            updatedItems.get(i).setEndDate(updatedItems.get(i).getStartDate().plusHours(5));
+        }
+
+        dao.update(updatedItems);
+
+        for (int i = 0; i < NR_OF_ITEMS; i++) {
+            AgendaDao.Result result = dao.getOne(updatedItems.get(i).getId());
+            assertEquals(updatedItems.get(i), result.agendaItem);
+            assertEquals(newCourses.get(i), result.course);
+
+            assertThat(result.agendaItem, samePropertyValuesAs(updatedItems.get(i)));
+            assertThat(result.course, samePropertyValuesAs(newCourses.get(i)));
+        }
     }
 
     @Test
-    public void delete() throws Exception {
+    public void deleteOne() throws Exception {
+        AgendaItemDTO original = getRandom(this.calendarItems);
+        dao.delete(original);
+        List<AgendaItemDTO> items = dao.getAll().stream().map(result -> result.agendaItem).collect(Collectors.toList());
+        assertEquals(this.calendarItems.size() - 1, items.size());
+        assertFalse(items.contains(original));
     }
 
     @Test
-    public void delete1() throws Exception {
+    public void deleteMultiple() throws Exception {
+        int NR_OF_ITEMS = 5;
+        List<AgendaItemDTO> originals = getRandom(this.calendarItems, NR_OF_ITEMS);
+        dao.delete(originals);
+        List<AgendaItemDTO> items = dao.getAll().stream().map(result -> result.agendaItem).collect(Collectors.toList());
+        assertEquals(this.calendarItems.size() - NR_OF_ITEMS, items.size());
+        for (AgendaItemDTO original : originals) {
+            assertFalse(items.contains(original));
+        }
     }
 
     @Test
     public void deleteAll() throws Exception {
+        dao.deleteAll();
+        assertTrue(dao.getAll().isEmpty());
     }
 
     @Test
     public void deleteById() throws Exception {
+        int NR_OF_ITEMS = 5;
+        List<AgendaItemDTO> originals = getRandom(this.calendarItems, NR_OF_ITEMS);
+        dao.deleteById(originals.stream().map(AgendaItemDTO::getId).collect(Collectors.toList()));
+        List<AgendaItemDTO> items = dao.getAll().stream().map(result -> result.agendaItem).collect(Collectors.toList());
+        assertEquals(this.calendarItems.size() - NR_OF_ITEMS, items.size());
+        for (AgendaItemDTO original : originals) {
+            assertFalse(items.contains(original));
+        }
     }
 
     @Test
-    public void delete2() throws Exception {
+    public void deleteOneById() throws Exception {
+        AgendaItemDTO original = getRandom(this.calendarItems);
+        dao.delete(original.getId());
+        List<AgendaItemDTO> items = dao.getAll().stream().map(result -> result.agendaItem).collect(Collectors.toList());
+        assertEquals(this.calendarItems.size() - 1, items.size());
+        assertFalse(items.contains(original));
     }
 
     @Test
@@ -181,14 +232,47 @@ public class AgendaDaoTest {
 
     @Test
     public void getAllForCourse() throws Exception {
+        CourseDTO courseDTO = getRandom(this.courses);
+        List<AgendaItemDTO> expected = this.calendarItems.stream()
+                .filter(i -> i.getCourseId().equals(courseDTO.getId()))
+                .collect(Collectors.toList());
+        List<AgendaItemDTO> actual = dao.getAllForCourse(courseDTO.getId()).stream()
+                .map(r -> r.agendaItem)
+                .collect(Collectors.toList());
+        assertCollectionEquals(expected, actual);
     }
 
     @Test
     public void getBetween() throws Exception {
+        ZonedDateTime lower = getRandom(this.calendarItems).getStartDate();
+        ZonedDateTime higher = lower.plusWeeks(2);
+        List<AgendaItemDTO> expected = this.calendarItems.stream()
+                .filter(i -> {
+                    boolean startDateAfterLower = i.getStartDate().isAfter(lower) || i.getStartDate().isEqual(lower);
+                    boolean endDateAfterLower = i.getEndDate().isAfter(lower) || i.getEndDate().isEqual(lower);
+                    boolean startDateBeforeHigher = i.getStartDate().isBefore(higher) || i.getStartDate().isEqual(higher);
+                    return (startDateAfterLower || endDateAfterLower) && startDateBeforeHigher;
+                })
+                .collect(Collectors.toList());
+        List<AgendaItemDTO> actual = dao.getBetween(lower, higher).stream()
+                .map(r -> r.agendaItem)
+                .collect(Collectors.toList());
+
+        assertCollectionEquals(expected, actual);
     }
 
     @Test
     public void getCalendarIdsForIds() throws Exception {
+        List<Integer> itemIds = this.calendarItems.stream()
+                .map(AgendaItemDTO::getId)
+                .collect(Collectors.toList());
+        List<Long> expectedCalendarIds = this.calendarItems.stream()
+                .map(AgendaItemDTO::getCalendarId)
+                .collect(Collectors.toList());
+
+        List<Long> actualCalendarIds = dao.getCalendarIdsForIds(itemIds);
+
+        assertCollectionEquals(expectedCalendarIds, actualCalendarIds);
     }
 
 }

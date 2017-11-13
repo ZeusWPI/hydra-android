@@ -43,7 +43,7 @@ public interface CourseDao {
     void deleteAll();
 
     @Query("DELETE FROM " + CourseTable.TABLE_NAME + " WHERE " + CourseTable.Columns.ID + " IS :id")
-    void deleteById(String id);
+    void delete(String id);
 
     @Query("DELETE FROM " + CourseTable.TABLE_NAME + " WHERE " + CourseTable.Columns.ID + " IN (:ids)")
     void deleteById(List<String> ids);

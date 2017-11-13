@@ -15,7 +15,7 @@ public interface CourseRepository extends FullRepository<String, Course> {
 
     List<Course> getIn(List<String> ids);
 
-    List<Pair<Course, Integer>> getAllAndUnreadInOrder();
+    List<Pair<Course, Long>> getAllAndUnreadInOrder();
 
     Map<String, Integer> getIdToOrderMap();
 

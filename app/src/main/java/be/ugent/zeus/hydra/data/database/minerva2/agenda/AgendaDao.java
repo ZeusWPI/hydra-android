@@ -104,7 +104,7 @@ public interface AgendaDao {
     )
     List<Result> getBetween(ZonedDateTime lower, ZonedDateTime upper);
 
-    @Query("SELECT " + AgendaTable.Columns.ID + " FROM " + AgendaTable.TABLE_NAME + " WHERE " + AgendaTable.Columns.ID + " IN (:ids)")
+    @Query("SELECT " + AgendaTable.Columns.CALENDAR_ID + " FROM " + AgendaTable.TABLE_NAME + " WHERE " + AgendaTable.Columns.ID + " IN (:ids)")
     List<Long> getCalendarIdsForIds(List<Integer> ids);
 
     class Result {

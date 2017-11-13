@@ -24,7 +24,7 @@ import java.util.Collections;
  *
  * @author Niko Strijbol
  */
-class MinervaCourseAdapter extends SearchableDiffAdapter<Pair<Course, Integer>, MinervaCourseViewHolder> implements ItemDragHelperAdapter {
+class MinervaCourseAdapter extends SearchableDiffAdapter<Pair<Course, Long>, MinervaCourseViewHolder> implements ItemDragHelperAdapter {
 
     private CourseRepository courseDao;
     private final OnStartDragListener startDragListener;

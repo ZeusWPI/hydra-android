@@ -13,14 +13,14 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class MinervaViewModel extends RefreshViewModel<List<Pair<Course, Integer>>> {
+public class MinervaViewModel extends RefreshViewModel<List<Pair<Course, Long>>> {
 
     public MinervaViewModel(Application application) {
         super(application);
     }
 
     @Override
-    protected BaseLiveData<Result<List<Pair<Course, Integer>>>> constructDataInstance() {
+    protected BaseLiveData<Result<List<Pair<Course, Long>>>> constructDataInstance() {
         return new CourseLiveData(getApplication());
     }
 
