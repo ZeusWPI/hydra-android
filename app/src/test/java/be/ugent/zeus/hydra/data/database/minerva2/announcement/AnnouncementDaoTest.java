@@ -38,7 +38,7 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void getOne() throws Exception {
+    public void getOne() {
         // Get 5 random items from the list.
         List<AnnouncementDTO> expected = getRandom(announcements, 5);
 
@@ -58,7 +58,7 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void getAll() throws Exception {
+    public void getAll() {
         List<AnnouncementDao.Result> results = announcementDao.getAll();
         List<AnnouncementDTO> items = results.stream()
                 .map(r -> r.announcement)
@@ -79,7 +79,7 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void insertOne() throws Exception {
+    public void insertOne() {
         CourseDTO randomCourse = getRandom(this.courses);
         AnnouncementDTO randomItem = generate(AnnouncementDTO.class, "courseId");
         randomItem.setCourseId(randomCourse.getId());
@@ -95,7 +95,7 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void insertCollection() throws Exception {
+    public void insertCollection() {
         final int NR_OF_ITEMS = 5;
         List<CourseDTO> randomCourses = getRandom(this.courses, NR_OF_ITEMS);
 
@@ -132,7 +132,7 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void updateOne() throws Exception {
+    public void updateOne() {
         CourseDTO newCourse = getRandom(this.courses);
         AnnouncementDTO originalItem = getRandom(this.announcements);
         AnnouncementDTO updatedItem = generate(AnnouncementDTO.class, "courseId", "id");
@@ -151,7 +151,7 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void updateCollection() throws Exception {
+    public void updateCollection() {
         final int NR_OF_ITEMS = 5;
         List<CourseDTO> newCourses = getRandom(this.courses, NR_OF_ITEMS);
         List<AnnouncementDTO> originalItems = getRandom(this.announcements, NR_OF_ITEMS);
@@ -175,7 +175,7 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void deleteOne() throws Exception {
+    public void deleteOne() {
         AnnouncementDTO original = getRandom(this.announcements);
         announcementDao.delete(original);
         List<AnnouncementDTO> items = announcementDao.getAll().stream()
@@ -186,7 +186,7 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void deleteMultiple() throws Exception {
+    public void deleteMultiple() {
         int NR_OF_ITEMS = 5;
         List<AnnouncementDTO> originals = getRandom(this.announcements, NR_OF_ITEMS);
         announcementDao.delete(originals);
@@ -198,13 +198,13 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void deleteAll() throws Exception {
+    public void deleteAll() {
         announcementDao.deleteAll();
         assertTrue(announcementDao.getAll().isEmpty());
     }
 
     @Test
-    public void deleteById() throws Exception {
+    public void deleteById() {
         int NR_OF_ITEMS = 5;
         List<AnnouncementDTO> originals = getRandom(this.announcements, NR_OF_ITEMS);
         announcementDao.deleteById(originals.stream().map(AnnouncementDTO::getId).collect(Collectors.toList()));
@@ -216,7 +216,7 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void deleteOneById() throws Exception {
+    public void deleteOneById() {
         AnnouncementDTO original = getRandom(this.announcements);
         announcementDao.delete(original.getId());
         List<AnnouncementDTO> items = announcementDao.getAll().stream().map(result -> result.announcement).collect(Collectors.toList());
@@ -225,7 +225,7 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void getUnreadMostRecentFirst() throws Exception {
+    public void getUnreadMostRecentFirst() {
         List<AnnouncementDTO> expected = this.announcements.stream()
                 .filter(announcementDTO -> announcementDTO.getReadAt() == null)
                 .sorted(Comparator.comparing(AnnouncementDTO::getLastEditedAt))
@@ -237,7 +237,7 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void getMostRecentFirst() throws Exception {
+    public void getMostRecentFirst() {
         CourseDTO randomCourse = getRandom(this.courses);
         List<AnnouncementDTO> expected = this.announcements.stream()
                 .filter(announcementDTO -> announcementDTO.getCourseId().equals(randomCourse.getId()))
@@ -250,7 +250,7 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void getIdAndReadDateFor() throws Exception {
+    public void getIdAndReadDateFor() {
         CourseDTO randomCourse = getRandom(this.courses);
         List<Pair<Integer, ZonedDateTime>> expected = this.announcements.stream()
                 .filter(a -> a.getCourseId().equals(randomCourse.getId()))

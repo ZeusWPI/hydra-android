@@ -228,7 +228,7 @@ public class AgendaDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void getAllFutureForCourse() throws Exception {
+    public void getAllFutureForCourse() {
         CourseDTO randomCourse = getRandom(courses);
         // We want a date that is possible in range.
         ZonedDateTime now = getRandom(calendarItems).getStartDate();

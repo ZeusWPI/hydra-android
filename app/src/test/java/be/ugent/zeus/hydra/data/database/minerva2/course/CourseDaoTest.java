@@ -33,7 +33,7 @@ public class CourseDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void getOne() throws Exception {
+    public void getOne() {
         List<CourseDTO> expectedCourses = getRandom(this.courses, 5);
 
         for (CourseDTO expected : expectedCourses) {
@@ -49,7 +49,7 @@ public class CourseDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void getAll() throws Exception {
+    public void getAll() {
         List<CourseDTO> items = dao.getAll();
         assertCollectionEquals(this.courses, items);
 
@@ -59,7 +59,7 @@ public class CourseDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void insertOne() throws Exception {
+    public void insertOne() {
         CourseDTO randomItem = generate(CourseDTO.class);
         dao.insert(randomItem);
 
@@ -70,7 +70,7 @@ public class CourseDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void insertCollection() throws Exception {
+    public void insertCollection() {
         final int NR_OF_ITEMS = 5;
         List<CourseDTO> randomItems = generate(CourseDTO.class, NR_OF_ITEMS).collect(Collectors.toList());
         dao.insert(randomItems);
@@ -197,7 +197,7 @@ public class CourseDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void deleteOneById() throws Exception {
+    public void deleteOneById() {
         // First, clear the all other data to prevent foreign key checks from failing.
         database.getAnnouncementDao().deleteAll();
         database.getAgendaDao().deleteAll();
@@ -209,7 +209,7 @@ public class CourseDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void getIn() throws Exception {
+    public void getIn() {
         final int NR_OF_ITEMS = 5;
         List<CourseDTO> expected = getRandom(courses, NR_OF_ITEMS);
         List<String> ids = expected.stream().map(CourseDTO::getId).collect(Collectors.toList());
@@ -230,14 +230,14 @@ public class CourseDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void getIds() throws Exception {
+    public void getIds() {
         List<String> expected = courses.stream().map(CourseDTO::getId).collect(Collectors.toList());
         List<String> actual = dao.getIds();
         assertCollectionEquals(expected, actual);
     }
 
     @Test
-    public void getIdsAndOrders() throws Exception {
+    public void getIdsAndOrders() {
         List<Pair<String, Integer>> expected = courses.stream()
                 .map(c -> new Pair<>(c.getId(), c.getOrder()))
                 .collect(Collectors.toList());
