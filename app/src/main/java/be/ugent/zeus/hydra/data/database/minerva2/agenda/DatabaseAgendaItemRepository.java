@@ -82,15 +82,10 @@ public class DatabaseAgendaItemRepository implements AgendaItemRepository {
     }
 
     @Override
-    public List<AgendaItem> getAllForCourse(String courseId, boolean onlyFuture) {
+    public List<AgendaItem> getAllForCourseFuture(String courseId) {
         // TODO: make this more performant by not get a separate Course instance per item.
-        if (onlyFuture) {
-            ZonedDateTime now = ZonedDateTime.now();
-            return transform(agendaDao.getAllFutureForCourse(courseId, now), result -> agendaMapper.convert(result.agendaItem, courseMapper.courseToCourse(result.course)));
-        } else {
-            return transform(agendaDao.getAllForCourse(courseId), result -> agendaMapper.convert(result.agendaItem, courseMapper.courseToCourse(result.course)));
-
-        }
+        ZonedDateTime now = ZonedDateTime.now();
+        return transform(agendaDao.getAllFutureForCourse(courseId, now), result -> agendaMapper.convert(result.agendaItem, courseMapper.courseToCourse(result.course)));
     }
 
     @Override

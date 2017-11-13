@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.data.database.minerva2.agenda;
 
+import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteConstraintException;
 import android.support.annotation.RequiresApi;
 
@@ -37,7 +38,7 @@ public class AgendaDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void getOne() throws Exception {
+    public void getOne() {
         // Get 5 random items from the list.
         List<AgendaItemDTO> expected = getRandom(this.calendarItems, 5);
 
@@ -57,14 +58,14 @@ public class AgendaDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void getAll() throws Exception {
+    public void getAll() {
         List<AgendaDao.Result> results = dao.getAll();
         List<AgendaItemDTO> items = results.stream()
                 .map(r -> r.agendaItem)
                 .collect(Collectors.toList());
         assertCollectionEquals(this.calendarItems, items);
 
-        // Do deep equals.
+        @SuppressLint("UseSparseArrays")
         Map<Integer, AgendaItemDTO> expected = new HashMap<>();
         for (AgendaItemDTO itemDTO : this.calendarItems) {
             expected.put(itemDTO.getId(), itemDTO);
@@ -78,7 +79,7 @@ public class AgendaDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void insertOne() throws Exception {
+    public void insertOne() {
         CourseDTO randomCourse = getRandom(this.courses);
         AgendaItemDTO randomItem = generate(AgendaItemDTO.class, "courseId", "endDate");
         randomItem.setCourseId(randomCourse.getId());
@@ -95,7 +96,7 @@ public class AgendaDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void insertCollection() throws Exception {
+    public void insertCollection() {
         final int NR_OF_ITEMS = 5;
         List<CourseDTO> randomCourses = getRandom(this.courses, NR_OF_ITEMS);
 
@@ -134,7 +135,7 @@ public class AgendaDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void updateOne() throws Exception {
+    public void updateOne() {
         CourseDTO newCourse = getRandom(this.courses);
         AgendaItemDTO originalItem = getRandom(this.calendarItems);
         AgendaItemDTO updatedItem = generate(AgendaItemDTO.class, "courseId", "endDate", "id");
@@ -154,7 +155,7 @@ public class AgendaDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void updateCollection() throws Exception {
+    public void updateCollection() {
         final int NR_OF_ITEMS = 5;
         List<CourseDTO> newCourses = getRandom(this.courses, NR_OF_ITEMS);
         List<AgendaItemDTO> originalItems = getRandom(this.calendarItems, NR_OF_ITEMS);
@@ -179,7 +180,7 @@ public class AgendaDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void deleteOne() throws Exception {
+    public void deleteOne() {
         AgendaItemDTO original = getRandom(this.calendarItems);
         dao.delete(original);
         List<AgendaItemDTO> items = dao.getAll().stream().map(result -> result.agendaItem).collect(Collectors.toList());
@@ -188,7 +189,7 @@ public class AgendaDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void deleteMultiple() throws Exception {
+    public void deleteMultiple() {
         int NR_OF_ITEMS = 5;
         List<AgendaItemDTO> originals = getRandom(this.calendarItems, NR_OF_ITEMS);
         dao.delete(originals);
@@ -200,13 +201,13 @@ public class AgendaDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void deleteAll() throws Exception {
+    public void deleteAll() {
         dao.deleteAll();
         assertTrue(dao.getAll().isEmpty());
     }
 
     @Test
-    public void deleteById() throws Exception {
+    public void deleteById() {
         int NR_OF_ITEMS = 5;
         List<AgendaItemDTO> originals = getRandom(this.calendarItems, NR_OF_ITEMS);
         dao.deleteById(originals.stream().map(AgendaItemDTO::getId).collect(Collectors.toList()));
@@ -218,7 +219,7 @@ public class AgendaDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void deleteOneById() throws Exception {
+    public void deleteOneById() {
         AgendaItemDTO original = getRandom(this.calendarItems);
         dao.delete(original.getId());
         List<AgendaItemDTO> items = dao.getAll().stream().map(result -> result.agendaItem).collect(Collectors.toList());
@@ -228,10 +229,21 @@ public class AgendaDaoTest extends AbstractDaoTest {
 
     @Test
     public void getAllFutureForCourse() throws Exception {
+        CourseDTO randomCourse = getRandom(courses);
+        // We want a date that is possible in range.
+        ZonedDateTime now = getRandom(calendarItems).getStartDate();
+        List<AgendaItemDTO> expected = this.calendarItems.stream()
+                .filter(i -> i.getCourseId().equals(randomCourse.getId()))
+                .filter(i -> i.getEndDate().isAfter(now) || i.getEndDate().isEqual(now))
+                .collect(Collectors.toList());
+        List<AgendaItemDTO> actual = dao.getAllFutureForCourse(randomCourse.getId(), now).stream()
+                .map(r -> r.agendaItem)
+                .collect(Collectors.toList());
+        assertCollectionEquals(expected, actual);
     }
 
     @Test
-    public void getAllForCourse() throws Exception {
+    public void getAllForCourse() {
         CourseDTO courseDTO = getRandom(this.courses);
         List<AgendaItemDTO> expected = this.calendarItems.stream()
                 .filter(i -> i.getCourseId().equals(courseDTO.getId()))
@@ -243,7 +255,7 @@ public class AgendaDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void getBetween() throws Exception {
+    public void getBetween() {
         ZonedDateTime lower = getRandom(this.calendarItems).getStartDate();
         ZonedDateTime higher = lower.plusWeeks(2);
         List<AgendaItemDTO> expected = this.calendarItems.stream()
@@ -262,7 +274,7 @@ public class AgendaDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    public void getCalendarIdsForIds() throws Exception {
+    public void getCalendarIdsForIds() {
         List<Integer> itemIds = this.calendarItems.stream()
                 .map(AgendaItemDTO::getId)
                 .collect(Collectors.toList());

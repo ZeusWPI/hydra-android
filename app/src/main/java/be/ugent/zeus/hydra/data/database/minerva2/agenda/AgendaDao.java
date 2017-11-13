@@ -72,7 +72,7 @@ public interface AgendaDao {
             ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
             " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseTable.Columns.ID +
             " WHERE a." + AgendaTable.Columns.COURSE + " = :courseId" +
-            " AND a." + AgendaTable.Columns.START_DATE + " >= :now" +
+            " AND a." + AgendaTable.Columns.END_DATE + " >= :now" +
             " ORDER BY " + AgendaTable.Columns.START_DATE + " ASC"
     )
     List<Result> getAllFutureForCourse(String courseId, ZonedDateTime now);

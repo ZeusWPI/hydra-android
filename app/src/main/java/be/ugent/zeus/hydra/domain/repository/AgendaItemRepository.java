@@ -16,14 +16,13 @@ import java.util.Map;
 public interface AgendaItemRepository extends FullRepository<Integer, AgendaItem> {
 
     /**
-     * Get all calendar items associated with a certain course.
+     * Get all future or ongoing calendar items associated with a certain course.
      *
      * @param courseId   The ID of the course.
-     * @param onlyFuture True if only calendar items in the future should be fetched.
      *
      * @return The items.
      */
-    List<AgendaItem> getAllForCourse(String courseId, boolean onlyFuture);
+    List<AgendaItem> getAllForCourseFuture(String courseId);
 
     /**
      * Get all items between two dates. The lower date is inclusive, the upper date is exclusive. More formal, we can

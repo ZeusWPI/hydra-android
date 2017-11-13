@@ -46,7 +46,7 @@ public class AgendaLiveData extends BaseLiveData<Result<List<AgendaItem>>> {
 
             @Override
             protected Result<List<AgendaItem>> doInBackground(Void... voids) {
-                return Result.Builder.fromData(dao.getAllForCourse(course.getId(), false));
+                return Result.Builder.fromData(dao.getAllForCourseFuture(course.getId()));
             }
 
             @Override
