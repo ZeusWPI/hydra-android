@@ -22,7 +22,7 @@ public interface AgendaItemRepository extends FullRepository<Integer, AgendaItem
      *
      * @return The items.
      */
-    List<AgendaItem> getAllForCourseFuture(String courseId);
+    List<AgendaItem> getAllForCourseFuture(String courseId, ZonedDateTime now);
 
     /**
      * Get all items between two dates. The lower date is inclusive, the upper date is exclusive. More formal, we can
@@ -35,7 +35,12 @@ public interface AgendaItemRepository extends FullRepository<Integer, AgendaItem
      */
     List<AgendaItem> getBetween(ZonedDateTime lower, ZonedDateTime higher);
 
-    Map<AgendaItem, Long> getAllWithCalendarId();
+    /**
+     * Get a map of all calendar items, mapping the item's id to the calendar id.
+     *
+     * @return The map of all items.
+     */
+    Map<Integer, Long> getIdsAndCalendarIds();
 
     List<Long> getCalendarIdsForIds(Collection<Integer> agendaIds);
 }

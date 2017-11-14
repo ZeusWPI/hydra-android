@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.data.database.minerva2.agenda;
 import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteConstraintException;
 import android.support.annotation.RequiresApi;
+import android.util.Pair;
 
 import be.ugent.zeus.hydra.data.database.minerva2.AbstractDaoTest;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaItemDTO;
@@ -28,7 +29,7 @@ import static org.junit.Assert.assertNull;
  * @author Niko Strijbol
  */
 @RequiresApi(api = 26)
-public class AgendaDaoTest extends AbstractDaoTest {
+public class CalendarDaoTest extends AbstractDaoTest {
 
     private AgendaDao dao;
 
@@ -287,4 +288,14 @@ public class AgendaDaoTest extends AbstractDaoTest {
         assertCollectionEquals(expectedCalendarIds, actualCalendarIds);
     }
 
+    @Test
+    public void getIdsAndCalendarIds() {
+        List<Pair<Integer, Long>> expected = calendarItems.stream()
+                .map(p -> new Pair<>(p.getId(), p.getCalendarId()))
+                .collect(Collectors.toList());
+        List<Pair<Integer, Long>> actual = dao.getIdsAndCalendarIds().stream()
+                .map(i -> new Pair<>(i.itemId, i.calendarId))
+                .collect(Collectors.toList());
+        assertCollectionEquals(expected, actual);
+    }
 }

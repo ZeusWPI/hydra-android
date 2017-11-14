@@ -107,10 +107,20 @@ public interface AgendaDao {
     @Query("SELECT " + AgendaTable.Columns.CALENDAR_ID + " FROM " + AgendaTable.TABLE_NAME + " WHERE " + AgendaTable.Columns.ID + " IN (:ids)")
     List<Long> getCalendarIdsForIds(List<Integer> ids);
 
+    @Query("SELECT " + AgendaTable.Columns.ID + ", " + AgendaTable.Columns.CALENDAR_ID + " FROM " + AgendaTable.TABLE_NAME)
+    List<IdAndCalendarId> getIdsAndCalendarIds();
+
     class Result {
         @Embedded
         public AgendaItemDTO agendaItem;
         @Embedded(prefix = "c_")
         public CourseDTO course;
+    }
+
+    class IdAndCalendarId {
+        @ColumnInfo(name = AgendaTable.Columns.ID)
+        public int itemId;
+        @ColumnInfo(name = AgendaTable.Columns.CALENDAR_ID)
+        public Long calendarId;
     }
 }

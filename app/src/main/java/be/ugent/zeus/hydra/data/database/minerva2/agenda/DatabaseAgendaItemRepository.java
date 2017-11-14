@@ -82,9 +82,8 @@ public class DatabaseAgendaItemRepository implements AgendaItemRepository {
     }
 
     @Override
-    public List<AgendaItem> getAllForCourseFuture(String courseId) {
+    public List<AgendaItem> getAllForCourseFuture(String courseId, ZonedDateTime now) {
         // TODO: make this more performant by not get a separate Course instance per item.
-        ZonedDateTime now = ZonedDateTime.now();
         return transform(agendaDao.getAllFutureForCourse(courseId, now), result -> agendaMapper.convert(result.agendaItem, courseMapper.courseToCourse(result.course)));
     }
 
@@ -94,16 +93,12 @@ public class DatabaseAgendaItemRepository implements AgendaItemRepository {
     }
 
     @Override
-    public Map<AgendaItem, Long> getAllWithCalendarId() {
-        List<AgendaDao.Result> items = agendaDao.getAll();
-        Map<AgendaItem, Long> map = new HashMap<>();
-        for (AgendaDao.Result result : items) {
-
-            map.put(agendaMapper.convert(result.agendaItem, courseMapper.courseToCourse(result.course)), result.agendaItem.getCalendarId());
-
+    public Map<Integer, Long> getIdsAndCalendarIds() {
+        Map<Integer, Long> result = new HashMap<>();
+        for (AgendaDao.IdAndCalendarId item: agendaDao.getIdsAndCalendarIds()) {
+            result.put(item.itemId, item.calendarId);
         }
-
-        return map;
+        return result;
     }
 
     @Override

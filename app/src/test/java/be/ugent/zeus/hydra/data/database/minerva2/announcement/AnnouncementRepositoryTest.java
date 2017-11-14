@@ -26,6 +26,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static be.ugent.zeus.hydra.testing.Assert.assertCollectionEquals;
 import static be.ugent.zeus.hydra.testing.Assert.assertThat;
 import static be.ugent.zeus.hydra.testing.Assert.samePropertyValuesAs;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
@@ -151,5 +152,19 @@ public class AnnouncementRepositoryTest extends FullRepositoryTest<Integer, Anno
         }
         Map<Integer, ZonedDateTime> actual = announcementRepository.getIdsAndReadDateFor(random);
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void getMostRecentFirstMap() {
+        Map<Course, List<Announcement>> expected = getData().stream()
+                .filter(a -> !a.isRead())
+                .collect(Collectors.groupingBy(Announcement::getCourse));
+        Map<Course, List<Announcement>> actual = announcementRepository.getMostRecentFirstMap();
+
+        for (Course course: transform(courses, courseDTO -> courseMapper.courseToCourse(courseDTO))) {
+            List<Announcement> ex = expected.get(course);
+            List<Announcement> ac = actual.get(course);
+            assertCollectionEquals(ex, ac);
+        }
     }
 }

@@ -132,14 +132,10 @@ public class CalendarSync {
         }
 
         // Get existing items and the calendar ids.
-        Map<AgendaItem, Long> allItems = calendarRepository.getAllWithCalendarId();
-
-        Collection<Integer> existingIds = StreamSupport.stream(allItems.keySet())
-                .map(AgendaItem::getItemId)
-                .collect(Collectors.toList());
+        Map<Integer, Long> allItems = calendarRepository.getIdsAndCalendarIds();
 
         Synchronisation<AgendaItem, Integer> sync = new Synchronisation<>(
-                existingIds,
+                allItems.keySet(),
                 agenda,
                 AgendaItem::getItemId);
         Synchronisation.Diff<AgendaItem, Integer> diff = sync.diff();

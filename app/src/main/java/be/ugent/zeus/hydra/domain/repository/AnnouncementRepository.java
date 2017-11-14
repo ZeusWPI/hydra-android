@@ -16,8 +16,8 @@ public interface AnnouncementRepository extends FullRepository<Integer, Announce
 
     List<Announcement> getUnreadMostRecentFirst();
 
-    // TODO: move this to the course dao, as that will be more efficient.
-    public Map<Course, List<Announcement>> getMostRecentFirstMap();
+    // TODO: rethink this approach.
+    Map<Course, List<Announcement>> getMostRecentFirstMap();
 
     Map<Integer, ZonedDateTime> getIdsAndReadDateFor(Course course);
 }

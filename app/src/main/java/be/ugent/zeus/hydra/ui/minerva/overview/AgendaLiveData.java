@@ -15,6 +15,7 @@ import be.ugent.zeus.hydra.domain.models.minerva.Course;
 import be.ugent.zeus.hydra.domain.repository.AgendaItemRepository;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.repository.requests.Result;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class AgendaLiveData extends BaseLiveData<Result<List<AgendaItem>>> {
 
             @Override
             protected Result<List<AgendaItem>> doInBackground(Void... voids) {
-                return Result.Builder.fromData(dao.getAllForCourseFuture(course.getId()));
+                return Result.Builder.fromData(dao.getAllForCourseFuture(course.getId(), ZonedDateTime.now()));
             }
 
             @Override

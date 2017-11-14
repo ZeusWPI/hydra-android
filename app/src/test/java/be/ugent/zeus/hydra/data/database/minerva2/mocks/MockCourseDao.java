@@ -12,6 +12,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * Mock for the course dao.
+ *
+ * Does currently not support transaction-like behaviour of SQL, e.g. when updating an entity for which a foreign key
+ * constraint fails, the item will be removed from the set and then the operation will fail.
+ *
  * @author Niko Strijbol
  */
 @RequiresApi(api = Build.VERSION_CODES.N)
