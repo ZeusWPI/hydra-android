@@ -115,7 +115,7 @@ public class MockAnnouncementDao implements AnnouncementDao {
     public List<Result> getUnreadMostRecentFirst() {
         return this.announcements.stream()
                 .filter(a -> a.getReadAt() == null)
-                .sorted(Comparator.comparing(AnnouncementDTO::getCourseId))
+                .sorted(Comparator.comparing(AnnouncementDTO::getLastEditedAt).reversed())
                 .map(announcementDTO -> {
                     Result result = new Result();
                     result.announcement = announcementDTO;
@@ -129,7 +129,7 @@ public class MockAnnouncementDao implements AnnouncementDao {
     public List<Result> getMostRecentFirst(String courseId) {
         return this.announcements.stream()
                 .filter(a -> a.getCourseId().equals(courseId))
-                .sorted(Comparator.comparing(AnnouncementDTO::getCourseId))
+                .sorted(Comparator.comparing(AnnouncementDTO::getLastEditedAt).reversed())
                 .map(announcementDTO -> {
                     Result result = new Result();
                     result.announcement = announcementDTO;
@@ -143,7 +143,7 @@ public class MockAnnouncementDao implements AnnouncementDao {
     public List<IdAndReadDate> getIdAndReadDateFor(String courseId) {
         return this.announcements.stream()
                 .filter(a -> a.getCourseId().equals(courseId))
-                .sorted(Comparator.comparing(AnnouncementDTO::getLastEditedAt))
+                .sorted(Comparator.comparing(AnnouncementDTO::getLastEditedAt).reversed())
                 .map(announcementDTO -> {
                     IdAndReadDate idAndReadDate = new IdAndReadDate();
                     idAndReadDate.id = announcementDTO.getId();
