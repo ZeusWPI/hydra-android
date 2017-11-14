@@ -20,6 +20,7 @@ import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.ChannelCreator;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
+import be.ugent.zeus.hydra.data.dto.minerva.Agenda;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaMapper;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AgendaDuplicateDetector;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AgendaRequest;
@@ -105,19 +106,19 @@ public class CalendarSync {
                 .collect(Collectors.toMap(Course::getId, Functions.identity()));
 
         // The result.
-        Result<List<AgendaItem>> agendaResult = request.performRequest(null)
-                .map(agenda -> transform(agenda.getItems(), agendaItemDTO -> AgendaMapper.INSTANCE.convert(agendaItemDTO, null)));
-
-        // Add the course to the agenda items.
-        List<AgendaItem> tempResult = agendaResult.getOrThrow();
-        List<AgendaItem> toRemove = new ArrayList<>();
-        for (AgendaItem item : tempResult) {
-            if (courses.containsKey(item.getCourseId())) {
-                item.setCourse(courses.get(item.getCourseId()));
-            } else {
-                // We received an item without course. We stop the sync.
-                return true;
-            }
+        Result<List<AgendaItem>> agendaResult;
+        try {
+            agendaResult = request.performRequest(null)
+                    .map(Agenda::getItems)
+                    .map(list -> transform(list, i -> {
+                        if (!courses.containsKey(i.getCourseId())) {
+                            throw new MissingCourseException();
+                        }
+                        return AgendaMapper.INSTANCE.convert(i, courses.get(i.getCourseId()));
+                    }));
+        } catch (MissingCourseException e) {
+            // There is a course we do not have, so stop it.
+            return true;
         }
 
         // Do we want to use the duplication detection or not?

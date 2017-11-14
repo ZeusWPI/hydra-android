@@ -31,6 +31,8 @@ import static be.ugent.zeus.hydra.data.database.minerva2.MinervaDatabase.VERSION
 @TypeConverters(TtbUtils.class)
 public abstract class MinervaDatabase extends RoomDatabase {
 
+    private static final String TAG = "MinervaDatabase";
+
     /**
      * The current name of the database. Should not change.
      */

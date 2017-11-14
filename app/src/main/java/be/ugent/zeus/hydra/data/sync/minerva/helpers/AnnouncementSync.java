@@ -82,13 +82,23 @@ public class AnnouncementSync {
         // Get all courses from the database.
         List<Course> courses = courseDao.getAll();
 
+        RequestException lastException = null;
+
         // Synchronise the announcements for each course.
         for (int i = 0; i < courses.size(); i++) {
             if (companion.isCancelled()) {
                 break;
             }
             companion.onProgress(i + 1, courses.size());
-            synchroniseCourse(account, courses.get(i), isInitialSync);
+            try {
+                synchroniseCourse(account, courses.get(i), isInitialSync);
+            } catch (RequestException e) {
+                lastException = e;
+            }
+        }
+
+        if (lastException != null) {
+            throw lastException;
         }
     }
 
