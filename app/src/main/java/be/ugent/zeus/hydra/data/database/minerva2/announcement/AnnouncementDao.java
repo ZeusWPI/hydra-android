@@ -95,8 +95,8 @@ public interface AnnouncementDao {
 
     class IdAndReadDate {
         @ColumnInfo(name = AnnouncementTable.Columns.ID)
-        int id;
+        public int id;
         @ColumnInfo(name = AnnouncementTable.Columns.READ_DATE)
-        ZonedDateTime readAt;
+        public ZonedDateTime readAt;
     }
 }

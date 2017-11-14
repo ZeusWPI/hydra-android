@@ -65,7 +65,6 @@ public class CourseDaoTest extends AbstractDaoTest {
 
         CourseDTO result = dao.getOne(randomItem.getId());
         assertEquals(randomItem, result);
-
         assertThat(result, samePropertyValuesAs(randomItem));
     }
 
@@ -147,7 +146,7 @@ public class CourseDaoTest extends AbstractDaoTest {
         // First, clear the all other data to prevent foreign key checks from failing.
         database.getAnnouncementDao().deleteAll();
         database.getAgendaDao().deleteAll();
-        int NR_OF_ITEMS = 5;
+        final int NR_OF_ITEMS = 5;
         List<CourseDTO> originals = getRandom(courses, NR_OF_ITEMS);
         dao.delete(originals);
         List<CourseDTO> items = dao.getAll();

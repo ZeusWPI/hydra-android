@@ -73,22 +73,9 @@ public abstract class AbstractDaoTest {
         announcementInserts.forEach(insert);
         calendarInserts.forEach(insert);
 
-        Resource jsonCourses = new ClassPathResource("minerva/minerva_courses.json");
-        Type courseType = new TypeToken<List<CourseDTO>>() {
-        }.getType();
-        Resource jsonAnnouncements = new ClassPathResource("minerva/minerva_announcements.json");
-        Type announcementType = new TypeToken<List<AnnouncementDTO>>() {
-        }.getType();
-        Resource jsonCalendar = new ClassPathResource("minerva/minerva_calendar.json");
-        Type calendarType = new TypeToken<List<AgendaItemDTO>>() {
-        }.getType();
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(ZonedDateTime.class, new ZonedThreeTenTimeStampAdapter())
-                .create();
-
-        this.courses = gson.fromJson(new JsonReader(new FileReader(jsonCourses.getFile())), courseType);
-        this.announcements = gson.fromJson(new JsonReader(new FileReader(jsonAnnouncements.getFile())), announcementType);
-        this.calendarItems = gson.fromJson(new JsonReader(new FileReader(jsonCalendar.getFile())), calendarType);
+        this.courses = loadTestCourses();
+        this.announcements = loadTestAnnouncements();
+        this.calendarItems = loadTestCalendarItems();
 
         assertEquals("Error during data loading.", courseInserts.size(), this.courses.size());
         assertEquals("Error during data loading.", announcementInserts.size(), this.announcements.size());
@@ -99,5 +86,29 @@ public abstract class AbstractDaoTest {
         for (CourseDTO itemDTO : this.courses) {
             courseMap.put(itemDTO.getId(), itemDTO);
         }
+    }
+
+    private static Gson getGson() {
+        return new GsonBuilder()
+                .registerTypeAdapter(ZonedDateTime.class, new ZonedThreeTenTimeStampAdapter())
+                .create();
+    }
+
+    public static List<CourseDTO> loadTestCourses() throws IOException {
+        Resource jsonCourses = new ClassPathResource("minerva/minerva_courses.json");
+        Type courseType = new TypeToken<List<CourseDTO>>() {}.getType();
+        return getGson().fromJson(new JsonReader(new FileReader(jsonCourses.getFile())), courseType);
+    }
+
+    public static List<AnnouncementDTO> loadTestAnnouncements() throws IOException {
+        Resource jsonAnnouncements = new ClassPathResource("minerva/minerva_announcements.json");
+        Type announcementType = new TypeToken<List<AnnouncementDTO>>() {}.getType();
+        return getGson().fromJson(new JsonReader(new FileReader(jsonAnnouncements.getFile())), announcementType);
+    }
+
+    public static List<AgendaItemDTO> loadTestCalendarItems() throws IOException {
+        Resource jsonCalendar = new ClassPathResource("minerva/minerva_calendar.json");
+        Type calendarType = new TypeToken<List<AgendaItemDTO>>() {}.getType();
+        return getGson().fromJson(new JsonReader(new FileReader(jsonCalendar.getFile())), calendarType);
     }
 }

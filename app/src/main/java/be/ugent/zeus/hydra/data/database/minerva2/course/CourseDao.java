@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.data.database.minerva2.course;
 
 import android.arch.persistence.room.*;
+import android.support.annotation.VisibleForTesting;
 
 import be.ugent.zeus.hydra.data.database.minerva2.announcement.AnnouncementTable;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
@@ -68,5 +69,10 @@ public interface CourseDao {
         String id;
         @ColumnInfo(name = CourseTable.Columns.ORDER)
         int order;
+        @VisibleForTesting
+        public IdAndOrder(String id, int order) {
+            this.id = id;
+            this.order = order;
+        }
     }
 }
