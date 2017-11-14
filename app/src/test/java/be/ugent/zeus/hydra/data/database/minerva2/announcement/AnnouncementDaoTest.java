@@ -228,12 +228,12 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
     public void getUnreadMostRecentFirst() {
         List<AnnouncementDTO> expected = this.announcements.stream()
                 .filter(announcementDTO -> announcementDTO.getReadAt() == null)
-                .sorted(Comparator.comparing(AnnouncementDTO::getLastEditedAt))
+                .sorted(Comparator.comparing(AnnouncementDTO::getLastEditedAt).reversed())
                 .collect(Collectors.toList());
         List<AnnouncementDTO> actual = announcementDao.getUnreadMostRecentFirst().stream()
                 .map(r -> r.announcement)
                 .collect(Collectors.toList());
-        assertCollectionEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -241,12 +241,12 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
         CourseDTO randomCourse = getRandom(this.courses);
         List<AnnouncementDTO> expected = this.announcements.stream()
                 .filter(announcementDTO -> announcementDTO.getCourseId().equals(randomCourse.getId()))
-                .sorted(Comparator.comparing(AnnouncementDTO::getLastEditedAt))
+                .sorted(Comparator.comparing(AnnouncementDTO::getLastEditedAt).reversed())
                 .collect(Collectors.toList());
         List<AnnouncementDTO> actual = this.announcementDao.getMostRecentFirst(randomCourse.getId()).stream()
                 .map(r -> r.announcement)
                 .collect(Collectors.toList());
-        assertCollectionEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test

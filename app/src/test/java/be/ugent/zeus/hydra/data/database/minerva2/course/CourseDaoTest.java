@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.util.Pair;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -219,13 +220,14 @@ public class CourseDaoTest extends AbstractDaoTest {
     @Test
     public void getAllAndUnreadInOrder() {
         List<Pair<CourseDTO, Long>> expected = courses.stream()
+                .sorted(Comparator.comparing(CourseDTO::getOrder).thenComparing(CourseDTO::getTitle))
                 .map(c -> new Pair<>(c, announcements.stream().filter(a -> a.getCourseId().equals(c.getId())).count()))
                 .collect(Collectors.toList());
 
         List<Pair<CourseDTO, Long>> actual = dao.getAllAndUnreadInOrder().stream()
                 .map(r -> new Pair<>(r.getCourse(), r.getUnreadAnnouncements()))
                 .collect(Collectors.toList());
-        assertCollectionEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
