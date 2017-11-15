@@ -144,7 +144,7 @@ dependencies {
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.5'
     compile 'net.sourceforge.streamsupport:streamsupport:1.5.6'
     compile 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
-    compile 'net.cachapa.expandablelayout:expandablelayout:2.9.1'
+    compile 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
     compile 'com.heinrichreimersoftware:material-intro:1.6.2'
     compile 'su.j2e:rv-joiner:1.0.9'

@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.util.Pair;
 import android.util.SparseBooleanArray;
 
@@ -14,7 +15,7 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
-public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewHolder<Pair<H, Boolean>>> {
+public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewHolder<H>> {
 
     /**
      * This keeps track of which elements are selected and which are not.
@@ -82,6 +83,8 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
         super.setItems(items);
     }
 
+    private static final String TAG = "MultiSelectDiffAdapter";
+
     /**
      * Change the boolean value at the given position to the reverse value. This operation DOES NOT trigger a change in
      * the recycler view data, so the methods for changed items is not called. The rationale behind this is that this
@@ -90,9 +93,12 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
      * @param position The position.
      */
     public void setChecked(int position) {
+        Log.d(TAG, "setChecked: " + position +  ", current is: " + isChecked(position));
         if (!isChecked(position) == getDefaultValue()) {
             booleanArray.delete(position);
+            Log.d(TAG, "setChecked: setting to " + getDefaultValue());
         } else {
+            Log.d(TAG, "setChecked: setting to " + !getDefaultValue());
             booleanArray.put(position, !getDefaultValue());
         }
         Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectDiffAdapter.this));
@@ -126,8 +132,8 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
     }
 
     @Override
-    public void onBindViewHolder(DataViewHolder<Pair<H, Boolean>> holder, int position) {
-        holder.populate(new Pair<>(items.get(position), isChecked(position)));
+    public void onBindViewHolder(DataViewHolder<H> holder, int position) {
+        holder.populate(items.get(position));
     }
 
     public Iterable<Pair<H, Boolean>> getItemsAndState() {
