@@ -244,6 +244,10 @@ public class MainActivity extends BaseActivity {
             return;
         }
 
+        // Show the toolbar, in case the new fragment is not scrollable. We must do this before the fragment
+        // begins animating, otherwise glitches can occur.
+        appBarLayout.setExpanded(true);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             // Hide the current fragment now, similar to how GMail handles things.
             if (current != null && current.getView() != null) {
@@ -286,7 +290,6 @@ public class MainActivity extends BaseActivity {
                 .replace(R.id.content, fragment, name)
                 .commitAllowingStateLoss();
         drawerLoader.setVisibility(View.GONE);
-        appBarLayout.setExpanded(true);
     }
 
     /**
