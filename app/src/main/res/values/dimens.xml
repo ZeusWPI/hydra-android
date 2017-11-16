@@ -26,6 +26,9 @@
     <dimen name="card_margin">8dp</dimen>
     <dimen name="card_spacing">8dp</dimen>
     <dimen name="card_margin_half">4dp</dimen>
+    <!-- Is always small, use together with big_component -->
+    <dimen name="card_margin_small">@dimen/card_margin</dimen>
+    <dimen name="card_margin_big_component">0dp</dimen>
 
     <dimen name="card_elevation">2dp</dimen>
     <dimen name="card_elevation_raised">8dp</dimen>
