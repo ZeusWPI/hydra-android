@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.data.network.requests.association;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
 import be.ugent.zeus.hydra.domain.models.association.Event;
 import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
 import java8.util.Comparators;

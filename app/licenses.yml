@@ -95,6 +95,8 @@
   license: MIT
   licenseUrl: http://opensource.org/licenses/MIT
   url: https://github.com/captain-miao/OptionRoundCardview
+- artifact: com.github.streamsupport.streamsupport:streamsupport-pro:+
+  skip: true
 
 - artifact: com.android.support.constraint:+:+
   skip: true

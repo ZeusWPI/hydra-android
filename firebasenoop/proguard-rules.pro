@@ -17,14 +17,4 @@
 #}
 
 # Keep all our classes
--keep class be.ugent.zeus.hydra.** {*;}
-
-# Rules for Spring
--dontwarn org.springframework.**
-
-# Rules for apache
--dontwarn org.apache.oltu.**
--dontwarn org.slf4j.**
-
-# Disable proguard for ThreeTenABP, since it causes a lot of issues.
--keep class org.threeten.bp.** { *; }
+-keep class com.google.firebase.crash.** {*;}

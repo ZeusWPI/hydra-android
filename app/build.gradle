@@ -53,7 +53,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
         }
@@ -143,6 +143,7 @@ dependencies {
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.5'
     compile 'net.sourceforge.streamsupport:streamsupport:1.5.6'
+    compile 'com.github.streamsupport.streamsupport:streamsupport-pro:-SNAPSHOT'
     compile 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
     compile 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
