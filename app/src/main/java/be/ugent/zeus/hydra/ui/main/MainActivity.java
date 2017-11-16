@@ -15,8 +15,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
@@ -36,11 +38,16 @@ import jonathanfinerty.once.Once;
 
 /**
  * Main activity.
+ *
+ * The logic for handling the navigation drawer is not immediately obvious to those who do not work with it regularly.
+ * Proceed with caution.
  */
 public class MainActivity extends BaseActivity {
 
     public static final String ARG_TAB = "argTab";
     public static final String ARG_TAB_SHORTCUT = "argTabShortcut";
+    private static final String ARG_INITIAL_FRAGMENT = "argTabInitialFragment";
+
     private static final String TAG = "BaseActivity";
 
     private static final String ONCE_ONBOARDING = "once_onboarding";
@@ -54,10 +61,21 @@ public class MainActivity extends BaseActivity {
     private static final String SHORTCUT_MINERVA = "minerva";
 
     private DrawerLayout drawer;
+    private ProgressBar drawerLoader;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private AppBarLayout appBarLayout;
     private FirebaseAnalytics analytics;
+
+    @IdRes
+    private int initialFragmentId;
+
+    /**
+     * Contains the next fragment. This fragment will be shown when the navigation drawer has been closed, to prevent
+     * lag. If null, nothing should happen on close.
+     */
+    @Nullable
+    private Pair<Fragment, MenuItem> scheduledContentUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +97,7 @@ public class MainActivity extends BaseActivity {
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_view);
         appBarLayout = findViewById(R.id.app_bar_layout);
+        drawerLoader = findViewById(R.id.drawer_loading);
 
         navigationView.setNavigationItemSelectedListener(
                 menuItem -> {
@@ -99,16 +118,29 @@ public class MainActivity extends BaseActivity {
             }
         };
         drawer.addDrawerListener(toggle);
+        drawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // This is used to prevent lag during closing of the navigation drawer.
+                if (scheduledContentUpdate != null) {
+                    setFragment(scheduledContentUpdate.first, scheduledContentUpdate.second);
+                    scheduledContentUpdate = null;
+                }
+            }
+        });
 
         //If the instance is null, we must initialise a fragment, otherwise android does it for us.
         if (savedInstanceState == null) {
             // If we get a position, use that (for the shortcuts)
             if (getIntent().hasExtra(ARG_TAB_SHORTCUT)) {
                 int position = getIntent().getIntExtra(ARG_TAB_SHORTCUT, 0);
-                selectDrawerItem(navigationView.getMenu().getItem(position));
+                MenuItem menuItem = navigationView.getMenu().getItem(position);
+                this.initialFragmentId = menuItem.getItemId();
+                selectDrawerItem(menuItem);
             } else {
                 // Get start position & select it
                 int start = getIntent().getIntExtra(ARG_TAB, R.id.drawer_feed);
+                this.initialFragmentId = start;
                 selectDrawerItem(navigationView.getMenu().findItem(start));
             }
         } else { //Update title, since this is not saved apparently.
@@ -116,6 +148,7 @@ public class MainActivity extends BaseActivity {
             FragmentManager manager = getSupportFragmentManager();
             Fragment current = manager.findFragmentById(R.id.content);
             setTitle(navigationView.getMenu().findItem(getFragmentMenuId(current)).getTitle());
+            this.initialFragmentId = savedInstanceState.getInt(ARG_INITIAL_FRAGMENT, R.id.drawer_feed);
         }
 
         // If this is the first time, open the drawer.
@@ -145,7 +178,8 @@ public class MainActivity extends BaseActivity {
      * Select a drawer item. This will update the fragment to the new one from the menu item, if it is a different one
      * than the current one.
      *
-     * Note: this function does not update the drawer.
+     * Note: this function does not update the drawer if the fragment should be adjusted, only if another activity
+     * should be opened.
      *
      * @param menuItem The item to display.
      */
@@ -159,11 +193,7 @@ public class MainActivity extends BaseActivity {
             return;
         }
 
-        updateDrawer(menuItem);
-
         // Create a new fragment and specify the fragment to show based on nav item clicked
-        Log.d(TAG, "selectDrawerItem: Selecting item");
-
         Fragment fragment;
         switch (menuItem.getItemId()) {
             case R.id.drawer_feed:
@@ -210,18 +240,23 @@ public class MainActivity extends BaseActivity {
         Fragment current = fragmentManager.findFragmentById(R.id.content);
 
         //If this is the same fragment, don't do anything.
-        if(current != null && current.getClass().equals(fragment.getClass())) {
+        if (current != null && current.getClass().equals(fragment.getClass())) {
             return;
         }
 
-        String name = String.valueOf(menuItem.getItemId());
-        fragmentManager.popBackStackImmediate(name, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        fragmentManager
-                .beginTransaction()
-                .replace(R.id.content, fragment)
-                .commitAllowingStateLoss();
-
-        appBarLayout.setExpanded(true);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            // Hide the current fragment now, similar to how GMail handles things.
+            if (current != null && current.getView() != null) {
+                current.getView().setVisibility(View.GONE);
+                drawerLoader.setVisibility(View.VISIBLE);
+            }
+            Log.d(TAG, "selectDrawerItem: drawer is open, so scheduling update instead.");
+            this.scheduledContentUpdate = new Pair<>(fragment, menuItem);
+        } else {
+            Log.d(TAG, "selectDrawerItem: drawer is closed, so doing update now.");
+            setFragment(fragment, menuItem);
+        }
+        updateDrawer(menuItem);
     }
 
     /**
@@ -239,35 +274,55 @@ public class MainActivity extends BaseActivity {
         application.sendScreenName("Main > " + item.getTitle());
         analytics.setCurrentScreen(this, item.getTitle().toString(), null);
         // Close the navigation drawer
-        drawer.closeDrawers();
+        drawer.closeDrawer(GravityCompat.START);
     }
 
+    private void setFragment(Fragment fragment, MenuItem menuItem) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        String name = String.valueOf(menuItem.getItemId());
+        fragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.content, fragment, name)
+                .commitAllowingStateLoss();
+        drawerLoader.setVisibility(View.GONE);
+        appBarLayout.setExpanded(true);
+    }
+
+    /**
+     * Implements the correct back-button behaviour for the drawer. If the drawer does not consume the back press,
+     * the parent method is called.
+     */
     @Override
     public void onBackPressed() {
+        // If the drawer is open, close it.
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
             return;
         }
 
-        //If it is empty, we attempt to go the the start one.
-        //Update the title
+        // If the drawer is closed, we attempt to go back to the initial fragment if possible.
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content);
+        // If the fragment is not null, we might want to go back.
         if (fragment != null) {
-            int id = getFragmentMenuId(fragment);
-            MenuItem item = navigationView.getMenu().findItem(id);
-            MenuItem original = navigationView.getMenu().findItem(getIntent().getIntExtra(ARG_TAB, R.id.drawer_feed));
-
-            //We are good
-            if (item == original) {
+            if (getFragmentMenuId(fragment) == initialFragmentId) {
+                // If the ID of the current fragment equals the original, call through to the super method.
                 super.onBackPressed();
             } else {
-                selectDrawerItem(original);
+                // Otherwise, select the original fragment.
+                selectDrawerItem( navigationView.getMenu().findItem(initialFragmentId));
             }
         } else {
             super.onBackPressed();
         }
     }
 
+    /**
+     * Set the menu ID as argument for a fragment.
+     *
+     * @param fragment The fragment.
+     * @param id The id.
+     */
     private void setArguments(Fragment fragment, @IdRes int id) {
         Bundle arguments = new Bundle();
         arguments.putInt(FRAGMENT_MENU_ID, id);
@@ -301,19 +356,17 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == ONBOARDING_REQUEST) {
-            if(resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 Log.i(TAG, "Onboarding complete");
                 Once.markDone(ONCE_ONBOARDING);
                 analytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_COMPLETE, null);
-                initialize(null);
             } else {
-                Log.i(TAG, "Onboarding failed, stop app.");
+                Log.w(TAG, "Onboarding failed, stop app.");
                 finish();
             }
         }
-
+        // We need to call this for the fragments to work properly.
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -323,6 +376,7 @@ public class MainActivity extends BaseActivity {
         // Change item while the activity is running.
         if (intent.hasExtra(ARG_TAB)) {
             int start = intent.getIntExtra(ARG_TAB, R.id.drawer_feed);
+            this.initialFragmentId = start;
             selectDrawerItem(navigationView.getMenu().findItem(start));
         }
     }
