@@ -207,4 +207,13 @@ public class AnnouncementsFragment extends Fragment implements MultiSelectDiffAd
         data.putExtra(AnnouncementActivity.RESULT_ANNOUNCEMENT_READ, true);
         resultStarter.onActivityResult(resultStarter.getRequestCode(), RESULT_OK, data);
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Close the action mode if the user navigates to another tab.
+        if (actionMode != null) {
+            actionMode.finish();
+        }
+    }
 }
