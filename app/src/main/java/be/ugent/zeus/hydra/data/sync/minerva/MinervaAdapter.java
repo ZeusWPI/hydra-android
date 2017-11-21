@@ -97,6 +97,8 @@ public class MinervaAdapter extends AbstractAdapter {
             agendaDao.deleteAll();
             announcementDao.deleteAll();
             courseDao.deleteAll();
+        } else {
+            Log.i(TAG, "Not the first sync, so not clearing anything.");
         }
 
         // First, we synchronise the courses.
@@ -104,6 +106,8 @@ public class MinervaAdapter extends AbstractAdapter {
             broadcast.publishIntent(SyncBroadcast.SYNC_COURSES);
             CourseSync courseSync = new CourseSync(courseDao, getContext());
             courseSync.synchronise(account);
+            // Send a global broadcast, this is used in the companion app. Note that this is not a public API.
+            broadcast.publishGlobalCourseBroadCast();
         }
 
         // Then we sync the agenda.

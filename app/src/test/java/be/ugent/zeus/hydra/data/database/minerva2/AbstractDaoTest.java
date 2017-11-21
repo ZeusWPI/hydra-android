@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.data.database.minerva2;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.support.annotation.CallSuper;
 import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.BuildConfig;
@@ -51,6 +52,7 @@ public abstract class AbstractDaoTest {
     protected List<AgendaItemDTO> calendarItems;
 
     @Before
+    @CallSuper
     public void setUp() throws IOException {
         Context context = RuntimeEnvironment.application;
         database = Room.inMemoryDatabaseBuilder(context, MinervaDatabase.class)

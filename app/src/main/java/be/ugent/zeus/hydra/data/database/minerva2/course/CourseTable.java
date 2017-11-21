@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.data.database.minerva2.course;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
@@ -20,5 +21,10 @@ public final class CourseTable {
         String TUTOR = "tutor";
         String ACADEMIC_YEAR = "academic_year";
         String ORDER = "ordering";
+    }
+
+    public interface Provider {
+        String AUTHORITY = "be.ugent.zeus.hydra.minerva.provider";
+        Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
     }
 }

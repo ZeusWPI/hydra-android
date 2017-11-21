@@ -48,6 +48,9 @@ public class UserAttributes implements Serializable {
     @SerializedName("surname")
     private ArrayList<String> surName;
 
+    @SerializedName("ugentStudentID")
+    private ArrayList<String> studentId;
+
     private ArrayList<String> uid;
 
     public String getFullName() {
@@ -72,5 +75,9 @@ public class UserAttributes implements Serializable {
 
     public ArrayList<String> getUid() {
         return uid;
+    }
+
+    public ArrayList<String> getStudentId() {
+        return studentId;
     }
 }

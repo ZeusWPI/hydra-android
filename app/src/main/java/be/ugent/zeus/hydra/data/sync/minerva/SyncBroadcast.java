@@ -6,6 +6,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
+import be.ugent.zeus.hydra.Manifest;
+
 /**
  * Class to manage sending broadcasts from the sync adapter. These are local broadcasts.
  *
@@ -55,12 +57,14 @@ public class SyncBroadcast {
     public static final String ARG_SYNC_PROGRESS_COURSE = "argCourse";
 
     private final LocalBroadcastManager broadcastManager;
+    private final Context context;
 
     /**
      * @param context A context that sends the broadcasts.
      */
     public SyncBroadcast(Context context) {
-        broadcastManager = LocalBroadcastManager.getInstance(context);
+        this.broadcastManager = LocalBroadcastManager.getInstance(context);
+        this.context = context.getApplicationContext();
     }
 
     /**
@@ -102,5 +106,12 @@ public class SyncBroadcast {
         filter.addAction(SYNC_ERROR);
         filter.addAction(SYNC_CANCELLED);
         return filter;
+    }
+
+    public void publishGlobalCourseBroadCast() {
+        Intent intent = new Intent(SYNC_COURSES);
+        // This needs to be an explicit broadcast since Android Oreo, otherwise, broadcast will not be delivered.
+        intent.setPackage("be.ugent.zeus.hydra.minerva.documents");
+        context.sendBroadcast(intent, Manifest.permission.LISTEN_TO_SYNC);
     }
 }

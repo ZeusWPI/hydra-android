@@ -6,6 +6,13 @@
     <string name="name_minerva">Minerva</string>
     <string name="name_schamper">Schamper</string>
 
+    <!-- Permissions -->
+    <string name="permissions_read_courses">Minerva-vakken lezen</string>
+    <string name="permissions_read_courses_desc">Staat apps toe om de lijst van Minerva-vakken te lezen en informatie over de vakken te lezen.</string>
+
+    <string name="permissions_listen_to_sync">luisteren naar Minerva-synchronisatie</string>
+    <string name="permissions_listen_to_sync_desc">Staat apps toe om te weten te komen wanneer Minerva-synchronisatie gebeurt.</string>
+
     <!-- Navigation tabs -->
     <string name="nieuws">hydra</string>
     <string name="activiteiten">activiteiten</string>
