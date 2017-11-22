@@ -254,6 +254,10 @@ public class MainActivity extends BaseActivity {
                 current.getView().setVisibility(View.GONE);
                 drawerLoader.setVisibility(View.VISIBLE);
             }
+            // Since there will be a delay, notify the fragment to prevent lingering snackbars or action modes.
+            if (current instanceof ScheduledRemovalListener) {
+                ((ScheduledRemovalListener) current).onRemovalScheduled();
+            }
             Log.d(TAG, "selectDrawerItem: drawer is open, so scheduling update instead.");
             this.scheduledContentUpdate = new Pair<>(fragment, menuItem);
         } else {

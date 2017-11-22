@@ -28,6 +28,7 @@ import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapter;
+import be.ugent.zeus.hydra.ui.main.ScheduledRemovalListener;
 import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 import org.threeten.bp.ZonedDateTime;
@@ -45,7 +46,7 @@ import static android.app.Activity.RESULT_OK;
  *
  * @author Niko Strijbol
  */
-public class AnnouncementsFragment extends Fragment implements MultiSelectDiffAdapter.Callback<Announcement> {
+public class AnnouncementsFragment extends Fragment implements MultiSelectDiffAdapter.Callback<Announcement>, ScheduledRemovalListener {
 
     private static final String TAG = "AnnouncementsFragment";
 
@@ -209,8 +210,7 @@ public class AnnouncementsFragment extends Fragment implements MultiSelectDiffAd
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onRemovalScheduled() {
         // Close the action mode if the user navigates to another tab.
         if (actionMode != null) {
             actionMode.finish();

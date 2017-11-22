@@ -32,6 +32,7 @@ import be.ugent.zeus.hydra.domain.repository.AgendaItemRepository;
 import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
 import be.ugent.zeus.hydra.domain.repository.CourseRepository;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
+import be.ugent.zeus.hydra.ui.main.ScheduledRemovalListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.IOException;
@@ -42,7 +43,7 @@ import java.io.IOException;
  *
  * @author Niko Strijbol
  */
-public class OverviewFragment extends Fragment implements ResultStarter {
+public class OverviewFragment extends Fragment implements ResultStarter, ScheduledRemovalListener {
 
     private static final String TAG = "OverviewFragment";
     private static final int REQUEST_ANNOUNCEMENT_CHANGED_CODE = 56532;
@@ -321,5 +322,15 @@ public class OverviewFragment extends Fragment implements ResultStarter {
     @Override
     public int getRequestCode() {
         return REQUEST_ANNOUNCEMENT_CHANGED_CODE;
+    }
+
+    @Override
+    public void onRemovalScheduled() {
+        // Propagate this to the children.
+        for (Fragment fragment : getChildFragmentManager().getFragments()) {
+            if (fragment instanceof ScheduledRemovalListener) {
+                ((ScheduledRemovalListener) fragment).onRemovalScheduled();
+            }
+        }
     }
 }
