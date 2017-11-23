@@ -33,9 +33,6 @@ public class Synchronisation<E, ID> {
      * If the equals method return false even though the elements are equal, the old element will be removed and the new
      * one added.
      *
-     * As noted at {@link #diff()}, the underlying collections influence the complexity of this class' operations.
-     * A good collection is a set.
-     *
      * @param originalIds The primary keys of the data already on the device.
      * @param newData The new, fresh data from the server.
      * @param container Function to extract primary key from elements. If the elements are primary keys, pass the

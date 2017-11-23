@@ -16,9 +16,6 @@ public class ColourUtils {
      * @return True if dark, false otherwise.
      */
     public static boolean isDark(@ColorInt int colorInt) {
-        float hsl[] = new float[3];
-        ColorUtils.colorToHSL(colorInt, hsl);
-        return hsl[2] < 0.6f;
+        return ColorUtils.calculateLuminance(colorInt) < 0.6f;
     }
-
 }

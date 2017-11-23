@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.data.gson.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import org.threeten.bp.LocalDateTime;
@@ -108,6 +109,7 @@ public final class Article implements Serializable, Parcelable {
     protected Article(Parcel in) {
         title = in.readString();
         link = in.readString();
+        pubDate = TtbUtils.unserialize(in.readLong());
         author = in.readString();
         body = in.readString();
         image = in.readString();
@@ -120,6 +122,7 @@ public final class Article implements Serializable, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
         dest.writeString(link);
+        dest.writeLong(TtbUtils.serialize(pubDate));
         dest.writeString(author);
         dest.writeString(body);
         dest.writeString(image);

@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.data.database.minerva2.migrations;
 
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.migration.Migration;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 /**
@@ -18,7 +19,7 @@ public class Migration_8_9 extends Migration {
     }
 
     @Override
-    public void migrate(SupportSQLiteDatabase supportSQLiteDatabase) {
+    public void migrate(@NonNull SupportSQLiteDatabase supportSQLiteDatabase) {
 
         Log.i("Migrations", "Migrating database from " + this.startVersion + " to " + this.endVersion);
 

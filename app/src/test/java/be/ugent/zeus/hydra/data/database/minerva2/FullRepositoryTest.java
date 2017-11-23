@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.data.database.minerva2;
 import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.domain.repository.FullRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +25,7 @@ import static org.junit.Assert.assertFalse;
  */
 @RequiresApi(api = 26)
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, application = TestApp.class)
 public abstract class FullRepositoryTest<ID, M> {
 
     /**

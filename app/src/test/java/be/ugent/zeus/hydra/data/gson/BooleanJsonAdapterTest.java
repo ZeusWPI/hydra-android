@@ -22,21 +22,20 @@ public class BooleanJsonAdapterTest {
     }
 
     @Test
-    public void generalTest() throws Exception {
-        Boolean expected = true;
-        String json = gson.toJson(expected);
+    public void generalTest() {
+        String json = gson.toJson(true);
         Boolean actual = gson.fromJson(json, Boolean.class);
-        assertEquals(expected, actual);
+        assertEquals(true, actual);
     }
 
     @Test
-    public void testWrite() throws Exception {
+    public void testWrite() {
         String json = gson.toJson(true);
         assertEquals("1", json);
     }
 
     @Test
-    public void testRead() throws Exception {
+    public void testRead() {
         Boolean value = gson.fromJson("1", Boolean.class);
         assertEquals(true, value);
     }

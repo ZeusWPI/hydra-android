@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.data.network.requests.library;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.domain.models.library.LibraryList;
 import be.ugent.zeus.hydra.domain.models.library.OpeningHours;
 import be.ugent.zeus.hydra.data.network.ArrayJsonSpringRequestTest;
@@ -19,7 +20,7 @@ import java.io.InputStreamReader;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, application = TestApp.class)
 public class OpeningHoursRequestTest extends ArrayJsonSpringRequestTest<OpeningHours> {
 
     public OpeningHoursRequestTest() {

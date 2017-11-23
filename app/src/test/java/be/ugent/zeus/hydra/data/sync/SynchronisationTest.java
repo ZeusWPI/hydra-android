@@ -1,12 +1,15 @@
 package be.ugent.zeus.hydra.data.sync;
 
-import be.ugent.zeus.hydra.data.sync.Synchronisation;
+import be.ugent.zeus.hydra.domain.repository.FullRepository;
 import java8.util.function.Functions;
 import org.junit.Test;
 
 import java.util.*;
 
 import static be.ugent.zeus.hydra.testing.Assert.assertCollectionEquals;
+import static org.mockito.ArgumentMatchers.anyCollection;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author Niko Strijbol
@@ -14,16 +17,16 @@ import static be.ugent.zeus.hydra.testing.Assert.assertCollectionEquals;
 public class SynchronisationTest {
 
     @Test
-    public void classify() throws Exception {
+    public void classify() {
 
-        Set<Integer> newData = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5));
-        Set<Integer> oldData = new HashSet<>(Arrays.asList(2, 63, 3, 4, 5, 65, 100, -56565, 0));
+        Collection<Integer> newData = Arrays.asList(1, 2, 3, 4, 5);
+        Collection<Integer> oldData = Arrays.asList(2, 63, 3, 4, 5, 65, 100, 500, 0);
 
         Synchronisation<Integer, Integer> synchronisation = new Synchronisation<>(oldData, newData, Functions.identity());
         Synchronisation.Diff<Integer, Integer> diff = synchronisation.diff();
 
         Collection<Integer> expectedNew = Collections.singleton(1);
-        Collection<Integer> expectedStale = Arrays.asList(63, 65, 100, -56565, 0);
+        Collection<Integer> expectedStale = Arrays.asList(63, 65, 100, 500, 0);
         Collection<Integer> expectedUpdated = Arrays.asList(2, 3, 4, 5);
 
         assertCollectionEquals(expectedNew, diff.getNew());
@@ -32,10 +35,10 @@ public class SynchronisationTest {
     }
 
     @Test
-    public void classifyEmpty() throws Exception {
+    public void classifyEmpty() {
 
-        Set<Integer> newData = Collections.emptySet();
-        Set<Integer> oldData = new HashSet<>(Arrays.asList(2, 63, 3, 4, 5, 65, 100, -56565, 0));
+        Collection<Integer> newData = Collections.emptySet();
+        Collection<Integer> oldData = new HashSet<>(Arrays.asList(2, 63, 3, 4, 5, 65, 100, 5000, 0));
 
         Synchronisation<Integer, Integer> synchronisation = new Synchronisation<>(oldData, newData, Functions.identity());
         Synchronisation.Diff<Integer, Integer> diff = synchronisation.diff();
@@ -104,5 +107,23 @@ public class SynchronisationTest {
             expectedStale.add("ID" + i);
         }
         assertCollectionEquals(expectedStale, diff.getStaleIds());
+    }
+
+    @Test
+    public void apply() {
+        Collection<Integer> newData = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5));
+        Collection<Integer> oldData = new HashSet<>(Arrays.asList(2, 63, 3, 4, 5, 65, 100, 5000, 0));
+
+        Synchronisation<Integer, Integer> synchronisation = new Synchronisation<>(oldData, newData, Functions.identity());
+        Synchronisation.Diff<Integer, Integer> diff = synchronisation.diff();
+
+        @SuppressWarnings("unchecked")
+        FullRepository<Integer, Integer> mock = (FullRepository<Integer, Integer>) mock(FullRepository.class);
+
+        diff.apply(mock);
+
+        verify(mock).deleteById(anyCollection());
+        verify(mock).insert(anyCollection());
+        verify(mock).update(anyCollection());
     }
 }
