@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.data.network.requests.resto;
 
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.data.models.resto.RestoMeta;
+import be.ugent.zeus.hydra.domain.models.resto.RestoMeta;
 import be.ugent.zeus.hydra.data.network.AbstractJsonSpringRequestTest;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import org.junit.runner.RunWith;

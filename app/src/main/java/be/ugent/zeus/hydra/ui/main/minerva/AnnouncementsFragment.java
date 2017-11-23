@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.ui.main.minerva;
 
-import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
@@ -16,9 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
-import be.ugent.zeus.hydra.data.models.minerva.Announcement;
+import be.ugent.zeus.hydra.data.database.minerva2.RepositoryFactory;
 import be.ugent.zeus.hydra.data.sync.minerva.helpers.NotificationHelper;
+import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
+import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
@@ -27,6 +28,7 @@ import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapter;
+import be.ugent.zeus.hydra.ui.main.ScheduledRemovalListener;
 import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 import org.threeten.bp.ZonedDateTime;
@@ -44,7 +46,7 @@ import static android.app.Activity.RESULT_OK;
  *
  * @author Niko Strijbol
  */
-public class AnnouncementsFragment extends Fragment implements MultiSelectDiffAdapter.Callback<Announcement> {
+public class AnnouncementsFragment extends Fragment implements MultiSelectDiffAdapter.Callback<Announcement>, ScheduledRemovalListener {
 
     private static final String TAG = "AnnouncementsFragment";
 
@@ -183,7 +185,8 @@ public class AnnouncementsFragment extends Fragment implements MultiSelectDiffAd
     }
 
     private void markSelectedAsRead() {
-        AnnouncementDao dao = new AnnouncementDao(getContext());
+        // TODO: do this on a background thread
+        AnnouncementRepository dao = RepositoryFactory.getAnnouncementRepository(getContext());
         Collection<Announcement> announcements = adapter.getSelectedItems();
         ZonedDateTime read = ZonedDateTime.now();
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
@@ -204,5 +207,13 @@ public class AnnouncementsFragment extends Fragment implements MultiSelectDiffAd
         data.putExtra(CourseActivity.RESULT_ANNOUNCEMENT_UPDATED, true);
         data.putExtra(AnnouncementActivity.RESULT_ANNOUNCEMENT_READ, true);
         resultStarter.onActivityResult(resultStarter.getRequestCode(), RESULT_OK, data);
+    }
+
+    @Override
+    public void onRemovalScheduled() {
+        // Close the action mode if the user navigates to another tab.
+        if (actionMode != null) {
+            actionMode.finish();
+        }
     }
 }

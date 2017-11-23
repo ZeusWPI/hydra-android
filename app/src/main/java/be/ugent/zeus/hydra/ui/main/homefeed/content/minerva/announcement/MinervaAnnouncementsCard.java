@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.ui.main.homefeed.content.minerva.announcement;
 
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
-import be.ugent.zeus.hydra.data.models.minerva.Announcement;
-import be.ugent.zeus.hydra.data.models.minerva.Course;
+import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
+import be.ugent.zeus.hydra.domain.models.minerva.Course;
 import java8.util.Objects;
 import org.threeten.bp.Duration;
 import org.threeten.bp.ZonedDateTime;

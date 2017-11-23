@@ -7,15 +7,15 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 
-import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
-import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
-import be.ugent.zeus.hydra.data.models.minerva.Announcement;
-import be.ugent.zeus.hydra.data.models.minerva.Announcements;
-import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.data.models.minerva.WhatsNew;
+import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementMapper;
+import be.ugent.zeus.hydra.data.dto.minerva.WhatsNew;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AnnouncementsRequest;
 import be.ugent.zeus.hydra.data.network.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.data.sync.Synchronisation;
+import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
+import be.ugent.zeus.hydra.domain.models.minerva.Course;
+import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
+import be.ugent.zeus.hydra.domain.repository.CourseRepository;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import java8.util.Maps;
@@ -24,6 +24,8 @@ import org.threeten.bp.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static be.ugent.zeus.hydra.utils.IterableUtils.transform;
 
 /**
  * Syncs the announcements for Minerva.
@@ -37,12 +39,12 @@ public class AnnouncementSync {
     /**
      * Provides access to the announcements in the database.
      */
-    private final AnnouncementDao announcementDao;
+    private final AnnouncementRepository announcementDao;
 
     /**
      * Provides access to the courses in the database.
      */
-    private final CourseDao courseDao;
+    private final CourseRepository courseDao;
 
     private final Context context;
     private final SharedPreferences preferences;
@@ -57,7 +59,7 @@ public class AnnouncementSync {
      */
     private final Companion companion;
 
-    public AnnouncementSync(Context context, AnnouncementDao announcementDao, CourseDao courseDao, Companion companion) {
+    public AnnouncementSync(Context context, AnnouncementRepository announcementDao, CourseRepository courseDao, Companion companion) {
         this.context = context;
         this.announcementDao = announcementDao;
         this.courseDao = courseDao;
@@ -80,13 +82,23 @@ public class AnnouncementSync {
         // Get all courses from the database.
         List<Course> courses = courseDao.getAll();
 
+        RequestException lastException = null;
+
         // Synchronise the announcements for each course.
         for (int i = 0; i < courses.size(); i++) {
             if (companion.isCancelled()) {
                 break;
             }
             companion.onProgress(i + 1, courses.size());
-            synchroniseCourse(account, courses.get(i), isInitialSync);
+            try {
+                synchroniseCourse(account, courses.get(i), isInitialSync);
+            } catch (RequestException e) {
+                lastException = e;
+            }
+        }
+
+        if (lastException != null) {
+            throw lastException;
         }
     }
 
@@ -104,16 +116,18 @@ public class AnnouncementSync {
 
         // Get all announcements from the server.
         AnnouncementsRequest request = new AnnouncementsRequest(context, account, course);
-        Announcements serverAnnouncements = request.performRequest(null).getOrThrow();
+        List<Announcement> serverAnnouncements = request.performRequest(null)
+                .map(announcements -> transform(announcements.getAnnouncements(), announcementDTO -> AnnouncementMapper.INSTANCE.convert(announcementDTO, course)))
+                .getOrThrow();
 
         // Get the announcements from the database. This returns the ID of the announcements and the read
         // date, since we want to preserve that.
-        Map<Integer, ZonedDateTime> existing = announcementDao.getIdsAndReadDateForCourse(course);
+        Map<Integer, ZonedDateTime> existing = announcementDao.getIdsAndReadDateFor(course);
 
         // We calculate the diff.
         Synchronisation<Announcement, Integer> synchronisation = new Synchronisation<>(
                 existing.keySet(),
-                serverAnnouncements.getAnnouncements(),
+                serverAnnouncements,
                 Announcement::getItemId
         );
         Synchronisation.Diff<Announcement, Integer> diff = synchronisation.diff();
@@ -121,7 +135,7 @@ public class AnnouncementSync {
         // Get which requests are unread on the server.
         WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, context, account);
         WhatsNew whatsNew = whatsNewRequest.performRequest(null).getOrThrow();
-        List<Announcement> unreadOnServer = new ArrayList<>(whatsNew.getAnnouncements());
+        List<Announcement> unreadOnServer = new ArrayList<>(transform(whatsNew.getAnnouncements(), announcementDTO -> AnnouncementMapper.INSTANCE.convert(announcementDTO, course)));
 
         // Check if we need to notify for announcements that have been sent as an e-mail.
         boolean notifyIfEmailWasSent = preferences.getBoolean(

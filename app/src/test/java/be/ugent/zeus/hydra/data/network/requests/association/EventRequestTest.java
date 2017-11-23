@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.data.network.requests.association;
 
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.data.models.association.Event;
+import be.ugent.zeus.hydra.domain.models.association.Event;
 import be.ugent.zeus.hydra.data.network.ArrayJsonSpringRequestTest;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import org.junit.runner.RunWith;

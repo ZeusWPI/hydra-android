@@ -24,8 +24,8 @@ import android.view.View;
 import android.widget.*;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.library.Library;
-import be.ugent.zeus.hydra.data.models.library.OpeningHours;
+import be.ugent.zeus.hydra.domain.models.library.Library;
+import be.ugent.zeus.hydra.domain.models.library.OpeningHours;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;

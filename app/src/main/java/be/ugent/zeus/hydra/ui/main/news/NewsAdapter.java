@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.ui.main.news;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
+import be.ugent.zeus.hydra.domain.models.association.UgentNewsItem;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;

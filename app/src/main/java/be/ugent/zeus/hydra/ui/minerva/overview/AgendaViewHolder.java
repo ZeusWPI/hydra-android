@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.minerva.AgendaActivity;
-import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
+import be.ugent.zeus.hydra.domain.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
 

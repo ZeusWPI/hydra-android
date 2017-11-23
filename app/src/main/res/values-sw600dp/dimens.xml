@@ -20,6 +20,9 @@
     <!-- Material design dimensions for Cards -->
     <dimen name="card_margin">24dp</dimen>
     <dimen name="card_spacing">16dp</dimen>
+    <!-- Together they must be 24dp -->
+    <dimen name="card_margin_small">16dp</dimen>
+    <dimen name="card_margin_big_component">8dp</dimen>
 
     <!-- Material design for two-line text-only lists -->
     <dimen name="list_two_line_padding_vertical">24dp</dimen>

@@ -13,8 +13,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.resto.RestoMeal;
-import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.domain.models.resto.RestoMeal;
+import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 
 import java.util.List;

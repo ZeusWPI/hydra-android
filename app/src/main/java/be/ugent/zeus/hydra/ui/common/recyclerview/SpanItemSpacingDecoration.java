@@ -9,8 +9,7 @@ import android.view.View;
 import be.ugent.zeus.hydra.R;
 
 /**
- * Add spacing to elements for a staggered grid. This will insert spacing on the right of every element, except for the
- * last span column.
+ * Add spacing to elements for a staggered grid. This will add {@link #spacing} to the left and right of every element.
  *
  * If the layout manager is not a {@link StaggeredGridLayoutManager} or {@link GridLayoutManager}, this will do nothing.
  *
@@ -29,7 +28,7 @@ public class SpanItemSpacingDecoration extends RecyclerView.ItemDecoration {
      * Initialize the decoration using the default spacing.
      */
     public SpanItemSpacingDecoration(Context context) {
-        this(context.getResources().getDimensionPixelSize(R.dimen.content_spacing));
+        this(context.getResources().getDimensionPixelSize(R.dimen.card_margin_big_component));
     }
 
     @Override
@@ -41,30 +40,7 @@ public class SpanItemSpacingDecoration extends RecyclerView.ItemDecoration {
             return;
         }
 
-        final int itemSpan;
-        final int spanCount;
-
-        if (parent.getLayoutManager() instanceof StaggeredGridLayoutManager) {
-            itemSpan = ((StaggeredGridLayoutManager.LayoutParams) view.getLayoutParams()).getSpanIndex();
-            spanCount = ((StaggeredGridLayoutManager) parent.getLayoutManager()).getSpanCount();
-        } else {
-            itemSpan = ((GridLayoutManager.LayoutParams) view.getLayoutParams()).getSpanIndex();
-            spanCount = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
-        }
-
-        // If this not the first or last column, we set the offset on both sides of the view. Otherwise, we only do
-        // one side.
-
-        outRect.bottom = 0;
-        outRect.top = 0;
-        outRect.right = spacing / 2;
-        outRect.left = spacing / 2;
-
-        if (itemSpan == 0) { // First column
-            outRect.left = 0;
-        }
-        if (itemSpan == spanCount - 1) { // Last column
-            outRect.right = 0;
-        }
+        outRect.right = spacing;
+        outRect.left = spacing;
     }
 }

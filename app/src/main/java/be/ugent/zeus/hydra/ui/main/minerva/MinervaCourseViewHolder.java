@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.minerva.Course;
+import be.ugent.zeus.hydra.domain.models.minerva.Course;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.OnStartDragListener;
@@ -17,7 +17,7 @@ import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 /**
  * @author Niko Strijbol
  */
-class MinervaCourseViewHolder extends DataViewHolder<Pair<Course, Integer>> implements SearchStateListener {
+class MinervaCourseViewHolder extends DataViewHolder<Pair<Course, Long>> implements SearchStateListener {
 
     private final TextView name;
     private final TextView subtitle;
@@ -50,7 +50,7 @@ class MinervaCourseViewHolder extends DataViewHolder<Pair<Course, Integer>> impl
      * @param data The data.
      */
     @Override
-    public void populate(final Pair<Course, Integer> data) {
+    public void populate(final Pair<Course, Long> data) {
         Course course = data.first;
         name.setText(course.getTitle());
         final CharSequence tutor = Utils.fromHtml(course.getTutorName());

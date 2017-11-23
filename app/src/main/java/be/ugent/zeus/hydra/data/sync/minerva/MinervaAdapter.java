@@ -8,14 +8,15 @@ import android.os.Bundle;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
-import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
-import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
-import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
+import be.ugent.zeus.hydra.data.database.minerva2.RepositoryFactory;
 import be.ugent.zeus.hydra.data.sync.AbstractAdapter;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.data.sync.minerva.helpers.AnnouncementSync;
 import be.ugent.zeus.hydra.data.sync.minerva.helpers.CalendarSync;
 import be.ugent.zeus.hydra.data.sync.minerva.helpers.CourseSync;
+import be.ugent.zeus.hydra.domain.repository.AgendaItemRepository;
+import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
+import be.ugent.zeus.hydra.domain.repository.CourseRepository;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
 import jonathanfinerty.once.Once;
 
@@ -84,9 +85,9 @@ public class MinervaAdapter extends AbstractAdapter {
                                         SyncResult results) throws RequestException {
 
         // Get the dao's we need.
-        CourseDao courseDao = new CourseDao(getContext());
-        AnnouncementDao announcementDao = new AnnouncementDao(getContext());
-        AgendaDao agendaDao = new AgendaDao(getContext());
+        CourseRepository courseDao = RepositoryFactory.getCourseRepository(getContext());
+        AnnouncementRepository announcementDao = RepositoryFactory.getAnnouncementRepository(getContext());
+        AgendaItemRepository agendaDao = RepositoryFactory.getAgendaItemRepository(getContext());
 
         boolean isInitialSync = extras.getBoolean(EXTRA_FIRST_SYNC, false) || !Once.beenDone(FIRST_SYNC);
 

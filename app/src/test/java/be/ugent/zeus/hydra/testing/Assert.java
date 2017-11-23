@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.testing;
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.data.models.MockParcel;
+import be.ugent.zeus.hydra.domain.models.MockParcel;
 import be.ugent.zeus.hydra.testing.matcher.ShallowButFullEqual;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -94,7 +94,14 @@ public class Assert {
         }
     }
 
+    /**
+     * Assert that two collections contain the same elements. This does not account for ordering in the collections.
+     *
+     * @param expected The expected collection.
+     * @param actual The actual collection.
+     */
     public static void assertCollectionEquals(Collection<?> expected, Collection<?> actual) {
+        assertEquals(expected.size(), actual.size());
         HashSet<Object> actualSet = new HashSet<>(actual);
         HashSet<Object> notEqual = new HashSet<>(expected);
         assertEquals(notEqual, actualSet);

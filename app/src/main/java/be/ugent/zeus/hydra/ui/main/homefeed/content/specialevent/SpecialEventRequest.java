@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.data.models.specialevent.SpecialEvent;
-import be.ugent.zeus.hydra.data.models.specialevent.SpecialEventWrapper;
+import be.ugent.zeus.hydra.domain.models.specialevent.SpecialEvent;
+import be.ugent.zeus.hydra.domain.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.repository.requests.Result;

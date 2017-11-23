@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.association.Association;
+import be.ugent.zeus.hydra.domain.models.association.Association;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 
 /**

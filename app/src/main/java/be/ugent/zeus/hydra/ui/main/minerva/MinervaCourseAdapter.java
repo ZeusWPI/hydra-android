@@ -6,8 +6,8 @@ import android.util.Pair;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
-import be.ugent.zeus.hydra.data.models.minerva.Course;
+import be.ugent.zeus.hydra.domain.models.minerva.Course;
+import be.ugent.zeus.hydra.domain.repository.CourseRepository;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.SearchableDiffAdapter;
@@ -24,9 +24,9 @@ import java.util.Collections;
  *
  * @author Niko Strijbol
  */
-class MinervaCourseAdapter extends SearchableDiffAdapter<Pair<Course, Integer>, MinervaCourseViewHolder> implements ItemDragHelperAdapter {
+class MinervaCourseAdapter extends SearchableDiffAdapter<Pair<Course, Long>, MinervaCourseViewHolder> implements ItemDragHelperAdapter {
 
-    private CourseDao courseDao;
+    private CourseRepository courseDao;
     private final OnStartDragListener startDragListener;
     private final ResultStarter resultStarter;
 
@@ -39,7 +39,7 @@ class MinervaCourseAdapter extends SearchableDiffAdapter<Pair<Course, Integer>, 
     /**
      * @param courseDao The course dao.
      */
-    public void setCourseDao(CourseDao courseDao) {
+    public void setCourseDao(CourseRepository courseDao) {
         this.courseDao = courseDao;
     }
 
@@ -68,7 +68,7 @@ class MinervaCourseAdapter extends SearchableDiffAdapter<Pair<Course, Integer>, 
                         return course1;
                     })
                     .collect(Collectors.toList());
-            courseDao.update(courses, true);
+            courseDao.update(courses);
         });
     }
 

@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.data.network.requests.resto;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
 import org.junit.Test;
 

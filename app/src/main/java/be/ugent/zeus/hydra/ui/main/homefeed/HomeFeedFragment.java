@@ -20,6 +20,7 @@ import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
+import be.ugent.zeus.hydra.ui.main.ScheduledRemovalListener;
 import be.ugent.zeus.hydra.ui.main.homefeed.commands.FeedCommand;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
@@ -44,7 +45,7 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.FeedLiveData.REFRESH_HOMECARD
  * @author Niko Strijbol
  * @author silox
  */
-public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, HomeFeedAdapter.AdapterCompanion {
+public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, HomeFeedAdapter.AdapterCompanion, ScheduledRemovalListener {
 
     private static final String TAG = "HomeFeedFragment";
 
@@ -56,7 +57,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     private boolean firstRun;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ActivityHelper helper;
-    private Snackbar errorBar;
+    private Snackbar snackbar;
     private FeedViewModel model;
 
     @Override
@@ -136,6 +137,14 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
+    public void onRemovalScheduled() {
+        // If we are removing the fragment, hide any snackbars
+        if (this.snackbar != null) {
+            this.snackbar.dismiss();
+        }
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
         //TODO there must a better of doing this
@@ -162,12 +171,12 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        if (errorBar == null) {
-            errorBar = Snackbar.make(getView(), getString(R.string.home_feed_failure), Snackbar.LENGTH_LONG)
-                    .setAction(getString(R.string.again), v -> onRefresh());
+        if (snackbar != null) {
+            snackbar.dismiss();
         }
-
-        errorBar.show();
+        snackbar = Snackbar.make(getView(), getString(R.string.home_feed_failure), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.again), v -> onRefresh());
+        snackbar.show();
     }
 
     @Override
@@ -200,9 +209,12 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         extras.putInt(REFRESH_HOMECARD_TYPE, cardType);
         model.requestRefresh(extras);
 
-        Snackbar.make(getView(), command.getCompleteMessage(), BaseTransientBottomBar.LENGTH_LONG)
-                .setAction(R.string.home_feed_undo, view -> undoCommand(command))
-                .show();
+        if (this.snackbar != null) {
+            this.snackbar.dismiss();
+        }
+        this.snackbar = Snackbar.make(getView(), command.getCompleteMessage(), BaseTransientBottomBar.LENGTH_LONG)
+                .setAction(R.string.home_feed_undo, view -> undoCommand(command));
+        this.snackbar.show();
     }
 
     private void undoCommand(FeedCommand command) {
@@ -211,6 +223,4 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         extras.putInt(REFRESH_HOMECARD_TYPE, cardType);
         model.requestRefresh(extras);
     }
-
-
 }

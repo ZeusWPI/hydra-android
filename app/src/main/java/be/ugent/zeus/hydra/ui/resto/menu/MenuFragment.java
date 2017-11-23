@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.ui.common.widgets.MenuTable;
 
 /**

@@ -20,14 +20,15 @@ import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.ChannelCreator;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
-import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
-import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
-import be.ugent.zeus.hydra.data.models.minerva.Agenda;
-import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
-import be.ugent.zeus.hydra.data.models.minerva.Course;
+import be.ugent.zeus.hydra.data.dto.minerva.Agenda;
+import be.ugent.zeus.hydra.data.dto.minerva.AgendaMapper;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AgendaDuplicateDetector;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AgendaRequest;
 import be.ugent.zeus.hydra.data.sync.Synchronisation;
+import be.ugent.zeus.hydra.domain.models.minerva.AgendaItem;
+import be.ugent.zeus.hydra.domain.models.minerva.Course;
+import be.ugent.zeus.hydra.domain.repository.AgendaItemRepository;
+import be.ugent.zeus.hydra.domain.repository.CourseRepository;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.minerva.CalendarPermissionActivity;
@@ -45,6 +46,8 @@ import org.threeten.bp.ZonedDateTime;
 
 import java.util.*;
 
+import static be.ugent.zeus.hydra.utils.IterableUtils.transform;
+
 /**
  * Synchronises the calendar with Minerva and, if permissions allow, with the built-in calendar.
  *
@@ -55,12 +58,12 @@ public class CalendarSync {
     private static final String TAG = "CalendarSync";
     private static final String FIRST_SYNC_BUILT_IN_CALENDAR = "once_first_calendar";
     private static long NO_CALENDAR = -1;
-    private final AgendaDao calendarDao;
-    private final CourseDao courseDao;
+    private final AgendaItemRepository calendarRepository;
+    private final CourseRepository courseDao;
     private final Context context;
 
-    public CalendarSync(AgendaDao calendarDao, CourseDao courseDao, Context context) {
-        this.calendarDao = calendarDao;
+    public CalendarSync(AgendaItemRepository calendarRepository, CourseRepository courseDao, Context context) {
+        this.calendarRepository = calendarRepository;
         this.courseDao = courseDao;
         this.context = context;
     }
@@ -103,24 +106,25 @@ public class CalendarSync {
                 .collect(Collectors.toMap(Course::getId, Functions.identity()));
 
         // The result.
-        Result<Agenda> agendaResult = request.performRequest(null);
-
-        // Add the course to the agenda items.
-        List<AgendaItem> tempResult = agendaResult.getOrThrow().getItems();
-        List<AgendaItem> toRemove = new ArrayList<>();
-        for (AgendaItem item : tempResult) {
-            if (courses.containsKey(item.getCourseId())) {
-                item.setCourse(courses.get(item.getCourseId()));
-            } else {
-                // We received an item without course. We stop the sync.
-                return true;
-            }
+        Result<List<AgendaItem>> agendaResult;
+        try {
+            agendaResult = request.performRequest(null)
+                    .map(Agenda::getItems)
+                    .map(list -> transform(list, i -> {
+                        if (!courses.containsKey(i.getCourseId())) {
+                            throw new MissingCourseException();
+                        }
+                        return AgendaMapper.INSTANCE.convert(i, courses.get(i.getCourseId()));
+                    }));
+        } catch (MissingCourseException e) {
+            // There is a course we do not have, so stop it.
+            return true;
         }
 
         // Do we want to use the duplication detection or not?
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        Agenda agenda;
+        List<AgendaItem> agenda;
 
         if (preferences.getBoolean(MinervaFragment.PREF_DETECT_DUPLICATES, false)) {
             agenda = agendaResult.map(new AgendaDuplicateDetector()).getOrThrow();
@@ -129,15 +133,11 @@ public class CalendarSync {
         }
 
         // Get existing items and the calendar ids.
-        Map<AgendaItem, Long> allItems = calendarDao.getAll();
-
-        Collection<Integer> existingIds = StreamSupport.stream(allItems.keySet())
-                .map(AgendaItem::getItemId)
-                .collect(Collectors.toList());
+        Map<Integer, Long> allItems = calendarRepository.getIdsAndCalendarIds();
 
         Synchronisation<AgendaItem, Integer> sync = new Synchronisation<>(
-                existingIds,
-                agenda.getItems(),
+                allItems.keySet(),
+                agenda,
                 AgendaItem::getItemId);
         Synchronisation.Diff<AgendaItem, Integer> diff = sync.diff();
 
@@ -163,7 +163,7 @@ public class CalendarSync {
 
         // Apply synchronisation. We can only do this after the built-in calendar has been synchronised, since
         // we need the id's of deleted items, and the calendar will adjust the calendar ID's.
-        diff.apply(calendarDao);
+        diff.apply(calendarRepository);
 
         return false;
     }
@@ -236,7 +236,7 @@ public class CalendarSync {
         }
 
         // Remove Calendar items we don't need anymore.
-        Collection<Long> toRemove = calendarDao.getCalendarIdsForIds(diff.getStaleIds());
+        Collection<Long> toRemove = calendarRepository.getCalendarIdsForIds(diff.getStaleIds());
 
         for (long id : toRemove) {
             // We cannot delete non-existing values.

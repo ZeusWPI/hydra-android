@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.data.sync;
 
-import be.ugent.zeus.hydra.data.database.DiffDao;
+import be.ugent.zeus.hydra.domain.repository.FullRepository;
 import java8.util.function.Function;
 
 import java.util.Collection;
@@ -132,8 +132,8 @@ public class Synchronisation<E, ID> {
          *
          * @param dao The
          */
-        public void apply(DiffDao<E, ID> dao) {
-            dao.delete(getStaleIds());
+        public void apply(FullRepository<ID, E> dao) {
+            dao.deleteById(getStaleIds());
             dao.update(getUpdated());
             dao.insert(getNew());
         }

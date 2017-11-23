@@ -13,10 +13,12 @@ import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
-import be.ugent.zeus.hydra.data.models.minerva.Announcement;
+import be.ugent.zeus.hydra.data.database.minerva2.RepositoryFactory;
 import be.ugent.zeus.hydra.data.sync.minerva.helpers.NotificationHelper;
+import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
+import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
@@ -48,7 +50,7 @@ public class AnnouncementActivity extends BaseActivity {
     private static final String ONLINE_URL_DESKTOP = "http://minerva.ugent.be/main/announcements/announcements.php?cidReq=%s";
 
     private Announcement announcement;
-    private AnnouncementDao dao;
+    private AnnouncementRepository dao;
     private boolean marked;
 
     @Override
@@ -59,7 +61,7 @@ public class AnnouncementActivity extends BaseActivity {
         Intent intent = getIntent();
         announcement = intent.getParcelableExtra(ARG_ANNOUNCEMENT);
 
-        dao = new AnnouncementDao(getApplicationContext());
+        dao = RepositoryFactory.getAnnouncementRepository(getApplicationContext());
 
         TextView title = findViewById(R.id.title);
         TextView date = findViewById(R.id.date);
@@ -97,7 +99,7 @@ public class AnnouncementActivity extends BaseActivity {
                 Intent upIntent = NavUtils.getParentActivityIntent(this);
                 upIntent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) announcement.getCourse());
                 if (NavUtils.shouldUpRecreateTask(this, upIntent) || isTaskRoot()) {
-                    // This activity is NOT part of this app's task, so create a new task
+                    // This activity is NOT part of this app's task, so get a new task
                     // when navigating up, with a synthesized back stack.
                     TaskStackBuilder.create(this)
                             // Add all of this activity's parents to the back stack

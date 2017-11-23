@@ -2,9 +2,8 @@ package be.ugent.zeus.hydra.data.network.requests.minerva;
 
 import android.text.TextUtils;
 
-import be.ugent.zeus.hydra.data.models.minerva.Agenda;
-import be.ugent.zeus.hydra.data.models.minerva.AgendaItem;
-import be.ugent.zeus.hydra.data.models.minerva.Course;
+import be.ugent.zeus.hydra.domain.models.minerva.AgendaItem;
+import be.ugent.zeus.hydra.domain.models.minerva.Course;
 import java8.lang.Iterables;
 import java8.util.Objects;
 import java8.util.function.Function;
@@ -19,7 +18,7 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
-public class AgendaDuplicateDetector implements Function<Agenda, Agenda> {
+public class AgendaDuplicateDetector implements Function<List<AgendaItem>, List<AgendaItem>> {
 
     /**
      * These are edit modes we do not want to show to the user.
@@ -27,9 +26,7 @@ public class AgendaDuplicateDetector implements Function<Agenda, Agenda> {
     private static final Set<String> HIDDEN_TYPES = new HashSet<>(Collections.singletonList("set_invisible"));
 
     @Override
-    public Agenda apply(Agenda agenda) {
-
-        List<AgendaItem> agendaItems = agenda.getItems();
+    public List<AgendaItem> apply(List<AgendaItem> agendaItems) {
 
         Iterables.removeIf(agendaItems, item -> HIDDEN_TYPES.contains(item.getLastEditType()));
 
@@ -42,10 +39,7 @@ public class AgendaDuplicateDetector implements Function<Agenda, Agenda> {
             items.addAll(filterDuplicates(entry.getKey(), entry.getValue()));
         }
 
-        Agenda newAgenda = new Agenda();
-        newAgenda.setItems(items);
-
-        return newAgenda;
+        return items;
     }
 
     /**

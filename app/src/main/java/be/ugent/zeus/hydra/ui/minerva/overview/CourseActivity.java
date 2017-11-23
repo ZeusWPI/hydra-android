@@ -15,7 +15,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
-import be.ugent.zeus.hydra.data.models.minerva.Course;
+import be.ugent.zeus.hydra.domain.models.minerva.Course;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 import java.lang.annotation.Retention;

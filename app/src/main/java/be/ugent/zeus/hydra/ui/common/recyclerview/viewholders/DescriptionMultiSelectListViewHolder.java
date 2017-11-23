@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.ui.common.recyclerview.viewholders;
 
 
-import android.util.Pair;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -15,7 +14,7 @@ import java8.util.function.Function;
  * ViewHolder for MultiSelectLists with both a title and description for each item.
  * (And of course a checkbox)
  */
-public class DescriptionMultiSelectListViewHolder<E> extends DataViewHolder<Pair<E, Boolean>> {
+public class DescriptionMultiSelectListViewHolder<E> extends DataViewHolder<E> {
 
     private final CheckBox checkBox;
     private final LinearLayout parent;
@@ -46,10 +45,10 @@ public class DescriptionMultiSelectListViewHolder<E> extends DataViewHolder<Pair
 
 
     @Override
-    public void populate(Pair<E, Boolean> data) {
-        title.setText(titleProvider.apply(data.first));
-        description.setText(descriptionProvider.apply(data.first));
-        checkBox.setChecked(data.second);
+    public void populate(E data) {
+        title.setText(titleProvider.apply(data));
+        description.setText(descriptionProvider.apply(data));
+        checkBox.setChecked(adapter.isChecked(getAdapterPosition()));
         parent.setOnClickListener(v -> {
             adapter.setChecked(getAdapterPosition());
             checkBox.toggle();

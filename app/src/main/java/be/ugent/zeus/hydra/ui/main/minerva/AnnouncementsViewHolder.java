@@ -3,11 +3,11 @@ package be.ugent.zeus.hydra.ui.main.minerva;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Parcelable;
-import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.minerva.Announcement;
+import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
@@ -17,7 +17,7 @@ import be.ugent.zeus.hydra.utils.DateUtils;
 /**
  * @author Niko Strijbol
  */
-public class AnnouncementsViewHolder extends DataViewHolder<Pair<Announcement, Boolean>> {
+public class AnnouncementsViewHolder extends DataViewHolder<Announcement> {
 
     private final TextView title;
     private final TextView subtitle;
@@ -35,9 +35,7 @@ public class AnnouncementsViewHolder extends DataViewHolder<Pair<Announcement, B
     }
 
     @Override
-    public void populate(final Pair<Announcement, Boolean> pair) {
-
-        Announcement announcement = pair.first;
+    public void populate(final Announcement announcement) {
 
         toggleBackground();
 

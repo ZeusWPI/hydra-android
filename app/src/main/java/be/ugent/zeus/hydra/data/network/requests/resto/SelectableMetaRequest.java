@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import be.ugent.zeus.hydra.data.models.resto.RestoMeta;
+import be.ugent.zeus.hydra.domain.models.resto.RestoMeta;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.repository.requests.Result;

@@ -2,12 +2,11 @@ package be.ugent.zeus.hydra.ui.resto;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.resto.Sandwich;
+import be.ugent.zeus.hydra.domain.models.resto.Sandwich;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -15,7 +14,7 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 /**
  * @author Niko Strijbol
  */
-class SandwichHolder extends DataViewHolder<Pair<Sandwich, Boolean>> {
+class SandwichHolder extends DataViewHolder<Sandwich> {
 
     private TextView name;
     private TextView smallPrice;
@@ -35,17 +34,17 @@ class SandwichHolder extends DataViewHolder<Pair<Sandwich, Boolean>> {
         this.adapter = adapter;
     }
 
+    private static final String TAG = "SandwichHolder";
+
     @Override
-    public void populate(Pair<Sandwich, Boolean> data) {
+    public void populate(Sandwich sandwich) {
         Context c = itemView.getContext();
-        Sandwich sandwich = data.first;
         name.setText(sandwich.getName());
         mediumPrice.setText(String.format(c.getString(R.string.sandwich_price_medium), sandwich.getPriceMedium()));
         smallPrice.setText(String.format(c.getString(R.string.sandwich_price_small), sandwich.getPriceSmall()));
         String ingredientsString = TextUtils.join(", ", sandwich.getIngredients());
         ingredients.setText(String.format(c.getString(R.string.sandwich_ingredients), ingredientsString));
-
-        expandableLayout.setExpanded(data.second, false);
+        expandableLayout.setExpanded(adapter.isChecked(getAdapterPosition()), false);
         itemView.setOnClickListener(v -> {
             adapter.setChecked(getAdapterPosition());
             expandableLayout.toggle();

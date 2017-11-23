@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.news;
 
-import be.ugent.zeus.hydra.data.models.association.UgentNewsItem;
+import be.ugent.zeus.hydra.domain.models.association.UgentNewsItem;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
-import be.ugent.zeus.hydra.data.models.association.NewsItem;
+import be.ugent.zeus.hydra.domain.models.association.NewsItem;
 import java8.util.Objects;
 import org.threeten.bp.Duration;
 import org.threeten.bp.ZonedDateTime;

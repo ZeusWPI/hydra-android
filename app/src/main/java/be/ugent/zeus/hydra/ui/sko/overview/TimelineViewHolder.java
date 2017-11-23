@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.models.sko.TimelinePost;
+import be.ugent.zeus.hydra.domain.models.sko.TimelinePost;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.common.widgets.NowToolbar;
 import be.ugent.zeus.hydra.utils.DateUtils;

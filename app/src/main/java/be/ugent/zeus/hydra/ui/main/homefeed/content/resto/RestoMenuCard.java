@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.resto;
 
-import be.ugent.zeus.hydra.data.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.data.network.requests.resto.SelectableMetaRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;

@@ -16,12 +16,15 @@
 #   public *;
 #}
 
--keep class com.kyo.expandablelayout.** {*;}
+# Keep all our classes
 -keep class be.ugent.zeus.hydra.** {*;}
 
--dontwarn java.lang.invoke.*
--dontwarn java8.**
+# Rules for Spring
 -dontwarn org.springframework.**
--dontwarn com.squareup.okhttp.**
+
+# Rules for apache
 -dontwarn org.apache.oltu.**
 -dontwarn org.slf4j.**
+
+# Disable proguard for ThreeTenABP, since it causes a lot of issues.
+-keep class org.threeten.bp.** { *; }

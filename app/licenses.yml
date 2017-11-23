@@ -95,6 +95,8 @@
   license: MIT
   licenseUrl: http://opensource.org/licenses/MIT
   url: https://github.com/captain-miao/OptionRoundCardview
+- artifact: com.github.streamsupport.streamsupport:streamsupport-pro:+
+  skip: true
 
 - artifact: com.android.support.constraint:+:+
   skip: true
@@ -126,12 +128,24 @@
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/topic/libraries/architecture/index.html
+
 - artifact: android.arch.core:runtime:+
   skip: true
-
 - artifact: android.arch.lifecycle:common:+
   skip: true
 - artifact: android.arch.lifecycle:extensions:+
   skip: true
 - artifact: android.arch.lifecycle:runtime:+
+  skip: true
+- artifact: android.arch.persistence.room:+:+
+  skip: true
+- artifact: android.arch.persistence:+:+
+  skip: true
+
+- artifact: org.mapstruct:mapstruct:+
+  name: MapStruct
+  copyrightHolder: Gunnar Morling
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+- artifact: com.github.jsqlparser:jsqlparser:+
   skip: true
