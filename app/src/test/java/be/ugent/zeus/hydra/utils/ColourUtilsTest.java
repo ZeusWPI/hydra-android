@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.TestApp;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -17,7 +18,7 @@ import static org.junit.Assert.assertTrue;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, application = TestApp.class)
 public class ColourUtilsTest {
 
     @Test

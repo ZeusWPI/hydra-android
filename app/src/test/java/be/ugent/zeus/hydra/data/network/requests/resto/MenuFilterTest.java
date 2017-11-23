@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.testing.Utils;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
@@ -21,16 +22,14 @@ import java.util.List;
 
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static junit.framework.Assert.assertTrue;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 /**
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, application = TestApp.class)
 public class MenuFilterTest {
 
     private final Instant cutOff = Instant.parse("2007-12-03T10:15:00.000Z");

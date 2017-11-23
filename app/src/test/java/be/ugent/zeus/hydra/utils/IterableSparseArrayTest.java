@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.utils;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.TestApp;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +18,7 @@ import static org.junit.Assert.*;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, application = TestApp.class)
 public class IterableSparseArrayTest {
 
     private IterableSparseArray<Integer> smallArray;

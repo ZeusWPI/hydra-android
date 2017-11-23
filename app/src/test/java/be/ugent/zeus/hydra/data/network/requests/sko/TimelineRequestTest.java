@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.data.network.requests.sko;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.domain.models.sko.TimelinePost;
 import be.ugent.zeus.hydra.data.network.ArrayJsonSpringRequestTest;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
@@ -14,7 +15,7 @@ import org.springframework.core.io.Resource;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, application = TestApp.class)
 public class TimelineRequestTest extends ArrayJsonSpringRequestTest<TimelinePost> {
 
     public TimelineRequestTest() {

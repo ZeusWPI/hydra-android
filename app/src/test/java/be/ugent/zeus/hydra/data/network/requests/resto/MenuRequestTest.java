@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.data.network.ArrayJsonSpringRequestTest;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
@@ -25,7 +26,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, application = TestApp.class)
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class MenuRequestTest extends ArrayJsonSpringRequestTest<RestoMenu> {
 
