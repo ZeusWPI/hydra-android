@@ -23,7 +23,7 @@ public class MetaRequestTest extends AbstractJsonSpringRequestTest<RestoMeta> {
 
     @Override
     protected Resource getSuccessResponse() {
-        return new ClassPathResource("resto_meta.json");
+        return new ClassPathResource("resto/meta.json");
     }
 
     @Override

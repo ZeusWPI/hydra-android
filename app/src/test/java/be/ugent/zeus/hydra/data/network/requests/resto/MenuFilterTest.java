@@ -38,7 +38,7 @@ public class MenuFilterTest {
 
     @Test
     public void testDefaults() throws IOException {
-        RestoMenu[] menus = Utils.readJsonResource(RestoMenu[].class, "resto_menu.json");
+        RestoMenu[] menus = Utils.readJsonResource(RestoMenu[].class, "resto/menu_default.json");
         // Set half of the restos to before, half after.
         for (int i = 0; i < menus.length; i++) {
             if (i < menus.length / 2) {

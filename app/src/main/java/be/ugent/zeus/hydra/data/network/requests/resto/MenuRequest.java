@@ -21,7 +21,7 @@ import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 public class MenuRequest extends JsonSpringRequest<RestoMenu[]> implements CacheableRequest<RestoMenu[]> {
 
     @VisibleForTesting
-    private static final String OVERVIEW_URL = Endpoints.ZEUS_RESTO_URL + "menu/%s/overview.json";
+    public static final String OVERVIEW_URL = Endpoints.ZEUS_RESTO_URL + "menu/%s/overview.json";
 
     private final SharedPreferences preferences;
 

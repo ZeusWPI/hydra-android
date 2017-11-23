@@ -31,7 +31,7 @@ public class DateThreeTenAdapterTest {
     }
 
     @Test
-    public void nullTest() throws Exception {
+    public void nullTestRead() throws Exception {
         String json = gson.toJson(null);
         LocalDate actual = gson.fromJson(json, LocalDate.class);
         assertEquals(null, actual);

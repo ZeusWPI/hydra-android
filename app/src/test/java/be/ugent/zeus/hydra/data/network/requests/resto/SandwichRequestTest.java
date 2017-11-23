@@ -31,7 +31,7 @@ public class SandwichRequestTest extends ArrayJsonSpringRequestTest<Sandwich> {
 
     @Override
     protected Resource getSuccessResponse() {
-        return new ClassPathResource("resto_sandwiches.json");
+        return new ClassPathResource("resto/sandwiches.json");
     }
 
     @Override

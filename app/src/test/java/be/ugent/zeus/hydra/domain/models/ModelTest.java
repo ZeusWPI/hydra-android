@@ -35,11 +35,4 @@ public abstract class ModelTest<T extends Parcelable & Serializable> {
     public void serialize() {
         assertSerialization(clazz);
     }
-
-//    @Test
-//    public void gettersAndSetters() {
-//        GetterSetterVerifier.forClass(clazz)
-//                .verify();
-//
-//    }
 }
