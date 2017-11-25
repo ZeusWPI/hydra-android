@@ -52,6 +52,8 @@ public class RestoFragment2 extends Fragment implements AdapterView.OnItemSelect
 
     public static final String ARG_DATE = "start_date";
 
+    private static final String ARG_POSITION = "arg_pos";
+
     private static final String URL = "https://www.ugent.be/student/nl/meer-dan-studeren/resto";
     private MenuPagerAdapter pageAdapter;
     private ViewPager viewPager;
@@ -60,6 +62,12 @@ public class RestoFragment2 extends Fragment implements AdapterView.OnItemSelect
     private Spinner spinner;
     private ProgressBar spinnerProgress;
     private TabLayout tabLayout;
+
+    /**
+     * The saved position of the viewpager. Used to manually restore the position, since it is possible that the state
+     * is restored before the data is restored. -1 indicates we don't have to restore.
+     */
+    private int mustBeRestored = -1;
 
     /**
      * The start date for which resto to show.
@@ -82,7 +90,16 @@ public class RestoFragment2 extends Fragment implements AdapterView.OnItemSelect
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        Log.d(TAG, "onViewStateRestored: restored, saved is null? " + (savedInstanceState == null));
+        // If the data has been set, we don't need to restore anything, since Android does it for us.
+        if (savedInstanceState != null && !pageAdapter.hasDataBeenSet()) {
+            mustBeRestored = savedInstanceState.getInt(ARG_POSITION, -1);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(ARG_POSITION, viewPager.getCurrentItem());
     }
 
     @Override
@@ -176,14 +193,22 @@ public class RestoFragment2 extends Fragment implements AdapterView.OnItemSelect
     private void receiveData(@NonNull List<RestoMenu> data) {
         Log.d(TAG, "receiveData: received adapter info, start date is " + startDate);
         pageAdapter.setData(data);
-        if (startDate != null) {
-            for (int i = 0; i < data.size(); i++) {
-                RestoMenu menu = data.get(i);
-                //Set the tab to this day!
-                if (menu.getDate().isEqual(startDate)) {
-                    Log.d(TAG, "receiveData: setting item to " + i);
-                    viewPager.setCurrentItem(i, true);
-                    break;
+        // We need to manually restore this, see mustBeRestored.
+        // If the data has changed and we can't select the old date, fall back to the default.
+        if (mustBeRestored != -1 && mustBeRestored < data.size()) {
+            viewPager.setCurrentItem(mustBeRestored);
+            mustBeRestored = -1;
+        } else {
+            // In the default case we select the initial date if present.
+            if (startDate != null) {
+                for (int i = 0; i < data.size(); i++) {
+                    RestoMenu menu = data.get(i);
+                    //Set the tab to this day!
+                    if (menu.getDate().isEqual(startDate)) {
+                        Log.d(TAG, "receiveData: setting item to " + i);
+                        viewPager.setCurrentItem(i, true);
+                        break;
+                    }
                 }
             }
         }
@@ -296,8 +321,8 @@ public class RestoFragment2 extends Fragment implements AdapterView.OnItemSelect
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         tabLayout.setVisibility(View.GONE);
         spinner.setVisibility(View.GONE);
         spinnerProgress.setVisibility(View.GONE);

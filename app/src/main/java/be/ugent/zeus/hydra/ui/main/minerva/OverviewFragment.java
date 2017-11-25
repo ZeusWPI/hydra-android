@@ -156,8 +156,8 @@ public class OverviewFragment extends Fragment implements ResultStarter, Schedul
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
         tabLayout.setVisibility(View.GONE);
     }
 

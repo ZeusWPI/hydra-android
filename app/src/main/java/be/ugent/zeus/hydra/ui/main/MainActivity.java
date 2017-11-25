@@ -11,6 +11,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -291,12 +292,29 @@ public class MainActivity extends BaseActivity {
 
     private void setFragment(Fragment fragment, MenuItem menuItem) {
         FragmentManager fragmentManager = getSupportFragmentManager();
+
+        // Get the ID of the current fragment.
+        int id = menuItem.getItemId();
+
+        // The name for the back stack and the fragment itself.
         String name = String.valueOf(menuItem.getItemId());
-        fragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        fragmentManager
+
+        // We remove all transactions.
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+        // When adding the new transaction, we only add it to the back stack if it is not the original one.
+        FragmentTransaction  transaction = fragmentManager
                 .beginTransaction()
-                .replace(R.id.content, fragment, name)
-                .commitAllowingStateLoss();
+                .replace(R.id.content, fragment, name);
+
+        if (id != initialFragmentId) {
+            Log.d(TAG, "setFragment: adding to back stack");
+            transaction.addToBackStack(name);
+        } else {
+            Log.d(TAG, "setFragment: not adding to back stack");
+        }
+
+        transaction.commitAllowingStateLoss();
         drawerLoader.setVisibility(View.GONE);
     }
 
@@ -312,20 +330,34 @@ public class MainActivity extends BaseActivity {
             return;
         }
 
-        // If the drawer is closed, we attempt to go back to the initial fragment if possible.
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content);
-        // If the fragment is not null, we might want to go back.
-        if (fragment != null) {
-            if (getFragmentMenuId(fragment) == initialFragmentId) {
-                // If the ID of the current fragment equals the original, call through to the super method.
-                super.onBackPressed();
-            } else {
-                // Otherwise, select the original fragment.
-                selectDrawerItem(navigationView.getMenu().findItem(initialFragmentId));
-            }
-        } else {
-            super.onBackPressed();
-        }
+        // Add a listener.
+        FragmentManager.OnBackStackChangedListener listener = () -> {
+            Fragment current = getSupportFragmentManager().findFragmentById(R.id.content);
+            int id = current == null ? initialFragmentId : getFragmentMenuId(current);
+            MenuItem item = navigationView.getMenu().findItem(id);
+            updateDrawer(item);
+        };
+        getSupportFragmentManager().addOnBackStackChangedListener(listener);
+
+        super.onBackPressed();
+
+        getSupportFragmentManager().removeOnBackStackChangedListener(listener);
+
+
+//        // If the drawer is closed, we attempt to go back to the initial fragment if possible.
+//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content);
+//        // If the fragment is not null, we might want to go back.
+//        if (fragment != null) {
+//            if (getFragmentMenuId(fragment) == initialFragmentId) {
+//                // If the ID of the current fragment equals the original, call through to the super method.
+//                super.onBackPressed();
+//            } else {
+//                // Otherwise, select the original fragment.
+//                selectDrawerItem(navigationView.getMenu().findItem(initialFragmentId));
+//            }
+//        } else {
+//            super.onBackPressed();
+//        }
     }
 
     /**
