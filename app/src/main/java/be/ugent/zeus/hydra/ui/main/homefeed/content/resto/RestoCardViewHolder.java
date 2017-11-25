@@ -11,7 +11,7 @@ import be.ugent.zeus.hydra.ui.main.MainActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.ui.main.resto.RestoFragment2;
+import be.ugent.zeus.hydra.ui.main.resto.RestoFragment;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
@@ -46,7 +46,7 @@ public class RestoCardViewHolder extends FeedViewHolder {
             Intent intent = new Intent(itemView.getContext(), MainActivity.class);
             intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_resto);
             intent.putExtra(MainActivity.ARG_NEW_DEFAULT, false);
-            intent.putExtra(RestoFragment2.ARG_DATE, menu.getDate());
+            intent.putExtra(RestoFragment.ARG_DATE, menu.getDate());
             itemView.getContext().startActivity(intent);
         });
     }

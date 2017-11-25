@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.resto.menu;
+package be.ugent.zeus.hydra.ui.main.resto;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -37,7 +37,6 @@ public class MenuPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
         return MenuFragment.newInstance(data.get(position));
     }
 

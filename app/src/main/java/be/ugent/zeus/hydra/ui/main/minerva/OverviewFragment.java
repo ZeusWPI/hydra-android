@@ -156,12 +156,6 @@ public class OverviewFragment extends Fragment implements ResultStarter, Schedul
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        tabLayout.setVisibility(View.GONE);
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         if (isLoggedIn()) {
             inflater.inflate(R.menu.menu_main_minerva_overview, menu);
@@ -331,5 +325,11 @@ public class OverviewFragment extends Fragment implements ResultStarter, Schedul
                 ((ScheduledRemovalListener) fragment).onRemovalScheduled();
             }
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        tabLayout.setVisibility(View.GONE);
     }
 }

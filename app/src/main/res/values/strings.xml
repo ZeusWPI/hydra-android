@@ -16,7 +16,6 @@
     <!-- Action bar -->
     <string name="action_example">Voorbeeldactie</string>
     <string name="action_settings">Instellingen</string>
-    <string name="resto_menu">Restomenu</string>
 
     <!-- Content descriptions -->
     <string name="hydra_icon_content_description">Hydra icoon</string>
@@ -402,4 +401,5 @@
     <string name="content_desc_association_icon">Icon vereniging</string>
     <string name="resto_default_name">Resto De Brug</string>
     <string name="resto_spinner_loading">Laden…</string>
+    <string name="resto_menu_other">Algemeen</string>
 </resources>

@@ -81,12 +81,6 @@
             android:label="@string/activity_title_homefeed_card_types"
             android:parentActivityName=".ui.preferences.SettingsActivity" />
 
-        <!-- Resto overview -->
-        <activity
-            android:name=".ui.resto.menu.MenuActivity"
-            android:label="@string/resto_menu"
-            android:parentActivityName=".ui.main.MainActivity" />
-
         <!-- Sandwich overview -->
         <activity
             android:name=".ui.resto.SandwichActivity"

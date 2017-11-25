@@ -1,126 +1,371 @@
 package be.ugent.zeus.hydra.ui.main.resto;
 
-import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.CardView;
-import android.text.method.LinkMovementMethod;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+import android.view.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 
+import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.data.network.requests.resto.SelectableMetaRequest;
 import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
-import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import be.ugent.zeus.hydra.ui.common.widgets.MenuTable;
+import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import be.ugent.zeus.hydra.ui.main.ArgumentsReceiver;
+import be.ugent.zeus.hydra.ui.main.OnReselectListener;
+import be.ugent.zeus.hydra.ui.main.ScheduledRemovalListener;
+import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.ui.resto.RestoLocationActivity;
 import be.ugent.zeus.hydra.ui.resto.SandwichActivity;
-import be.ugent.zeus.hydra.ui.resto.menu.MenuActivity;
-import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.ui.resto.SelectableMetaViewModel;
+import be.ugent.zeus.hydra.utils.Analytics;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import java8.util.Objects;
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
+import org.threeten.bp.LocalDate;
+
+import java.util.List;
 
 /**
  * @author Niko Strijbol
- * @author mivdnber
  */
-public class RestoFragment extends Fragment {
+public class RestoFragment extends Fragment implements AdapterView.OnItemSelectedListener, ArgumentsReceiver, OnReselectListener, BottomNavigationView.OnNavigationItemSelectedListener, ScheduledRemovalListener {
 
     private static final String TAG = "RestoFragment";
 
-    private TextView title;
-    private MenuTable table;
-    private Button viewMenu;
-    private Button viewSandwich;
-    private Button viewResto;
-    private TextView errorView;
-    private CardView todayCard;
-    private View menuLayout;
+    public static final String ARG_DATE = "start_date";
 
-    private RestoViewModel viewModel;
+    private static final String ARG_POSITION = "arg_pos";
+
+    private static final String URL = "https://www.ugent.be/student/nl/meer-dan-studeren/resto";
+    private MenuPagerAdapter pageAdapter;
+    private ViewPager viewPager;
+    private MenuViewModel viewModel;
+    private ArrayAdapter<RestoFragment.RestoWrapper> restoAdapter;
+    private Spinner spinner;
+    private ProgressBar spinnerProgress;
+    private TabLayout tabLayout;
+    private BottomNavigationView bottomNavigation;
+
+    /**
+     * The saved position of the viewpager. Used to manually restore the position, since it is possible that the state
+     * is restored before the data is restored. -1 indicates we don't have to restore.
+     */
+    private int mustBeRestored = -1;
+
+    /**
+     * The start date for which resto to show.
+     */
+    @Nullable
+    private LocalDate startDate = null;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_resto, container, false);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        // If the data has been set, we don't need to restore anything, since Android does it for us.
+        if (savedInstanceState != null && !pageAdapter.hasDataBeenSet()) {
+            mustBeRestored = savedInstanceState.getInt(ARG_POSITION, -1);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(ARG_POSITION, viewPager.getCurrentItem());
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "receiveResto: on view created");
 
-        table = view.findViewById(R.id.menu_table);
-        viewMenu = view.findViewById(R.id.home_resto_view);
-        viewSandwich = view.findViewById(R.id.home_resto_view_sandwich);
-        viewResto = view.findViewById(R.id.home_resto_view_resto);
-        title = view.findViewById(R.id.menu_today_card_title);
-        errorView = view.findViewById(R.id.error_view);
-        errorView.setMovementMethod(LinkMovementMethod.getInstance());
-        todayCard = view.findViewById(R.id.menu_today_card);
-        menuLayout = view.findViewById(R.id.menu_today_card_layout);
+        getBaseActivity().getToolbar().setDisplayShowTitleEnabled(false);
 
-        setIcons();
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        pageAdapter = new MenuPagerAdapter(getChildFragmentManager());
 
-        viewSandwich.setOnClickListener(v -> startActivity(new Intent(getContext(), SandwichActivity.class)));
-        viewResto.setOnClickListener(v -> startActivity(new Intent(getContext(), RestoLocationActivity.class)));
-        todayCard.setOnClickListener(v -> startActivity(new Intent(getContext(), MenuActivity.class)));
+        // Set up the ViewPager with the sections adapter.
+        viewPager = view.findViewById(R.id.resto_tabs_content);
+        viewPager.setAdapter(pageAdapter);
 
-        viewModel = ViewModelProviders.of(this).get(RestoViewModel.class);
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+
+        final AppBarLayout appBarLayout = getActivity().findViewById(R.id.app_bar_layout);
+        // Send analytics
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                appBarLayout.setExpanded(true);
+                HydraApplication app = (HydraApplication) getActivity().getApplication();
+                app.sendScreenName("Menu tab: " + pageAdapter.getPageTitle(position));
+                Bundle parameters = new Bundle();
+                parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.RESTO_MENU);
+                parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, pageAdapter.getPageTitle(position).toString());
+                LocalDate id = pageAdapter.getTabDate(position);
+                if (id == null) {
+                    parameters.putString(FirebaseAnalytics.Param.ITEM_ID, "COMMON");
+                } else {
+                    parameters.putString(FirebaseAnalytics.Param.ITEM_ID, String.valueOf(id.toEpochDay()));
+                }
+                analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
+            }
+        });
+
+        // Make the tab layout from the main activity visible.
+        tabLayout = getActivity().findViewById(R.id.tab_layout);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setVisibility(View.VISIBLE);
+
+        bottomNavigation = getActivity().findViewById(R.id.bottom_navigation);
+        bottomNavigation.setVisibility(View.VISIBLE);
+        bottomNavigation.setOnNavigationItemSelectedListener(this);
+
+        spinnerProgress = getActivity().findViewById(R.id.spinner_progress);
+        spinnerProgress.setVisibility(View.VISIBLE);
+        spinner = getActivity().findViewById(R.id.spinner);
+        spinner.setEnabled(false);
+        spinner.setVisibility(View.VISIBLE);
+        restoAdapter = new ArrayAdapter<>(getBaseActivity().getToolbar().getThemedContext(), android.R.layout.simple_spinner_item);
+        restoAdapter.add(new RestoWrapper(getString(R.string.resto_spinner_loading)));
+        restoAdapter.setDropDownViewResource(R.layout.x_simple_spinner_dropdown_item);
+        spinner.setAdapter(restoAdapter);
+
+        Bundle extras = getArguments();
+        //Get the default start date
+        if (extras.containsKey(ARG_DATE)) {
+            startDate = (LocalDate) extras.getSerializable(ARG_DATE);
+        }
+
+        viewModel = ViewModelProviders.of(this).get(MenuViewModel.class);
         viewModel.getData().observe(this, ErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(this, SuccessObserver.with(this::onSuccess));
+        viewModel.getData().observe(this, SuccessObserver.with(this::receiveData));
+
+        SelectableMetaViewModel metaViewModel = ViewModelProviders.of(this).get(SelectableMetaViewModel.class);
+        metaViewModel.getData().observe(this, SuccessObserver.with(this::receiveResto));
     }
 
-    /**
-     * Once the minimumSdk is over 21, we can use xml instead. Or the support library should re-enable the vector
-     * support everywhere.
-     *
-     * @see <a href="https://goo.gl/IfpPYW">issue 205236</a>
-     */
-    private void setIcons() {
+    private void receiveResto(@NonNull List<SelectableMetaRequest.RestoChoice> restos) {
+        // Find index of the currently selected.
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String selectedKey = preferences.getString(RestoPreferenceFragment.PREF_RESTO_KEY, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
+        String defaultName = getString(R.string.resto_default_name);
+        String selectedName = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, defaultName);
+        SelectableMetaRequest.RestoChoice selectedChoice = new SelectableMetaRequest.RestoChoice(selectedName, selectedKey);
+        int index = restos.indexOf(selectedChoice);
+        if (index == -1) {
+            // The key does not exist.
+            SelectableMetaRequest.RestoChoice defaultChoice = new SelectableMetaRequest.RestoChoice(RestoPreferenceFragment.PREF_DEFAULT_RESTO, defaultName);
+            index = restos.indexOf(defaultChoice);
+        }
+        // Set the things.
+        List<RestoWrapper> wrappers = StreamSupport.stream(restos).map(RestoWrapper::new).collect(Collectors.toList());
+        restoAdapter.clear();
+        restoAdapter.addAll(wrappers);
+        spinner.setSelection(index, false);
+        spinner.setEnabled(true);
 
-        Context c = getContext();
-        int color = R.color.ugent_blue_dark;
+        spinnerProgress.setVisibility(View.GONE);
+        // Add the listener here to prevent multiple calls
+        spinner.setOnItemSelectedListener(this);
+    }
 
-        Drawable menuIcon = ViewUtils.getTintedVectorDrawable(c, R.drawable.btn_restaurant_menu, color);
-        Drawable sandwichIcon = ViewUtils.getTintedVectorDrawable(c, R.drawable.btn_sandwich, color);
-        Drawable restoIcon = ViewUtils.getTintedVectorDrawable(c, R.drawable.btn_explore, color);
+    private void receiveData(@NonNull List<RestoMenu> data) {
+        Log.d(TAG, "receiveData: received adapter info, start date is " + startDate);
+        pageAdapter.setData(data);
+        // We need to manually restore this, see mustBeRestored.
+        // If the data has changed and we can't select the old date, fall back to the default.
+        if (mustBeRestored != -1 && mustBeRestored < data.size()) {
+            viewPager.setCurrentItem(mustBeRestored);
+            mustBeRestored = -1;
+        } else {
+            // In the default case we select the initial date if present.
+            if (startDate != null) {
+                for (int i = 0; i < data.size(); i++) {
+                    RestoMenu menu = data.get(i);
+                    //Set the tab to this day!
+                    if (menu.getDate().isEqual(startDate)) {
+                        Log.d(TAG, "receiveData: setting item to " + (i + 1));
+                        viewPager.setCurrentItem(i, true);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
-        viewMenu.setCompoundDrawablesWithIntrinsicBounds(null, menuIcon, null, null);
-        viewSandwich.setCompoundDrawablesWithIntrinsicBounds(null, sandwichIcon, null, null);
-        viewResto.setCompoundDrawablesWithIntrinsicBounds(null, restoIcon, null, null);
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_resto, menu);
+        ((BaseActivity) getActivity()).tintToolbarIcons(menu, R.id.action_refresh);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                viewModel.onRefresh();
+                return true;
+            case R.id.resto_show_website:
+                NetworkUtils.maybeLaunchBrowser(getContext(), URL);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        // Get the item we selected.
+        RestoWrapper wrapper = (RestoWrapper) parent.getItemAtPosition(position);
+        SelectableMetaRequest.RestoChoice resto = wrapper.resto;
+
+        if (resto == null || resto.getEndpoint() == null) {
+            // Do nothing, as this should not happen.
+            return;
+        }
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        preferences.edit()
+                .putString(RestoPreferenceFragment.PREF_RESTO_KEY, resto.getEndpoint())
+                .putString(RestoPreferenceFragment.PREF_RESTO_NAME, resto.getName())
+                .apply();
+        //The start should be the day we have currently selected.
+        if (pageAdapter.getCount() > viewPager.getCurrentItem()) {
+            startDate = pageAdapter.getTabDate(viewPager.getCurrentItem());
+        }
+        viewModel.onRefresh();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        //Do nothing
     }
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        viewMenu.setEnabled(false);
-        errorView.setVisibility(View.VISIBLE);
-        todayCard.setClickable(false);
-        menuLayout.setVisibility(View.GONE);
         Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
     }
 
-    private void onSuccess(RestoMenu menu) {
-        table.setMenu(menu);
-        title.setText(String.format(getString(R.string.resto_menu_title_short), DateUtils.getFriendlyDate(menu.getDate())));
-        viewMenu.setEnabled(true);
-        menuLayout.setVisibility(View.VISIBLE);
-        errorView.setVisibility(View.GONE);
-        todayCard.setClickable(true);
-        viewMenu.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), MenuActivity.class);
-            intent.putExtra(MenuActivity.ARG_DATE, menu.getDate());
-            startActivity(intent);
-        });
+    @Override
+    public void fillArguments(Intent activityIntent, Bundle bundle) {
+        if (activityIntent.hasExtra(ARG_DATE)) {
+            bundle.putSerializable(ARG_DATE, activityIntent.getSerializableExtra(ARG_DATE));
+        }
+    }
+
+    @Override
+    public void onReselect(Intent intent) {
+        if (intent.hasExtra(ARG_DATE)) {
+            getArguments().putSerializable(ARG_DATE, intent.getSerializableExtra(ARG_DATE));
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.resto_bottom_sandwich:
+                startActivity(new Intent(getContext(), SandwichActivity.class));
+                return false;
+            case R.id.resto_bottom_locations:
+                startActivity(new Intent(getContext(), RestoLocationActivity.class));
+                return false;
+            default:
+                return false;
+        }
+    }
+
+    @Override
+    public void onRemovalScheduled() {
+        hideExternalViews();
+    }
+
+    private static class RestoWrapper {
+
+        private final SelectableMetaRequest.RestoChoice resto;
+        private final String string;
+
+        public RestoWrapper(SelectableMetaRequest.RestoChoice resto) {
+            this.resto = resto;
+            this.string = null;
+        }
+
+        public RestoWrapper(String string) {
+            this.resto = null;
+            this.string = string;
+        }
+
+        @Override
+        public String toString() {
+            return resto == null ? string : resto.getName();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            RestoWrapper that = (RestoWrapper) o;
+            return Objects.equals(resto, that.resto) &&
+                    Objects.equals(string, that.string);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(resto, string);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        tabLayout.setVisibility(View.GONE);
+        spinner.setVisibility(View.GONE);
+        spinnerProgress.setVisibility(View.GONE);
+        getBaseActivity().getToolbar().setDisplayShowTitleEnabled(true);
+    }
+
+    private void hideExternalViews() {
+        bottomNavigation.setVisibility(View.GONE);
+        bottomNavigation.setOnNavigationItemSelectedListener(null);
+    }
+
+    private BaseActivity getBaseActivity() {
+        return (BaseActivity) getActivity();
     }
 }

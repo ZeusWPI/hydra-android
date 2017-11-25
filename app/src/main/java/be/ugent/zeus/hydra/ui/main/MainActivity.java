@@ -30,7 +30,7 @@ import be.ugent.zeus.hydra.ui.main.info.InfoFragment;
 import be.ugent.zeus.hydra.ui.main.library.LibraryListFragment;
 import be.ugent.zeus.hydra.ui.main.minerva.OverviewFragment;
 import be.ugent.zeus.hydra.ui.main.news.NewsFragment;
-import be.ugent.zeus.hydra.ui.main.resto.RestoFragment2;
+import be.ugent.zeus.hydra.ui.main.resto.RestoFragment;
 import be.ugent.zeus.hydra.ui.main.schamper.SchamperFragment;
 import be.ugent.zeus.hydra.ui.onboarding.OnboardingActivity;
 import be.ugent.zeus.hydra.ui.preferences.SettingsActivity;
@@ -206,7 +206,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.drawer_resto:
                 reportShortcutUsed(SHORTCUT_RESTO);
-                fragment = new RestoFragment2();
+                fragment = new RestoFragment();
                 break;
             case R.id.drawer_events:
                 fragment = new EventFragment();
