@@ -29,7 +29,7 @@ import be.ugent.zeus.hydra.ui.main.info.InfoFragment;
 import be.ugent.zeus.hydra.ui.main.library.LibraryListFragment;
 import be.ugent.zeus.hydra.ui.main.minerva.OverviewFragment;
 import be.ugent.zeus.hydra.ui.main.news.NewsFragment;
-import be.ugent.zeus.hydra.ui.main.resto.RestoFragment;
+import be.ugent.zeus.hydra.ui.main.resto.RestoFragment2;
 import be.ugent.zeus.hydra.ui.main.schamper.SchamperFragment;
 import be.ugent.zeus.hydra.ui.onboarding.OnboardingActivity;
 import be.ugent.zeus.hydra.ui.preferences.SettingsActivity;
@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity {
 
     public static final String ARG_TAB = "argTab";
     public static final String ARG_TAB_SHORTCUT = "argTabShortcut";
+    public static final String ARG_NEW_DEFAULT = "argTabNewDefault";
     private static final String ARG_INITIAL_FRAGMENT = "argTabInitialFragment";
 
     private static final String TAG = "BaseActivity";
@@ -204,7 +205,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.drawer_resto:
                 reportShortcutUsed(SHORTCUT_RESTO);
-                fragment = new RestoFragment();
+                fragment = new RestoFragment2();
                 break;
             case R.id.drawer_events:
                 fragment = new EventFragment();
@@ -241,6 +242,9 @@ public class MainActivity extends BaseActivity {
 
         //If this is the same fragment, don't do anything.
         if (current != null && current.getClass().equals(fragment.getClass())) {
+            if (current instanceof OnReselectListener) {
+                ((OnReselectListener) current).onReselect(getIntent());
+            }
             return;
         }
 
@@ -317,7 +321,7 @@ public class MainActivity extends BaseActivity {
                 super.onBackPressed();
             } else {
                 // Otherwise, select the original fragment.
-                selectDrawerItem( navigationView.getMenu().findItem(initialFragmentId));
+                selectDrawerItem(navigationView.getMenu().findItem(initialFragmentId));
             }
         } else {
             super.onBackPressed();
@@ -333,6 +337,9 @@ public class MainActivity extends BaseActivity {
     private void setArguments(Fragment fragment, @IdRes int id) {
         Bundle arguments = new Bundle();
         arguments.putInt(FRAGMENT_MENU_ID, id);
+        if (fragment instanceof ArgumentsReceiver) {
+            ((ArgumentsReceiver) fragment).fillArguments(getIntent(), arguments);
+        }
         fragment.setArguments(arguments);
     }
 
@@ -383,7 +390,9 @@ public class MainActivity extends BaseActivity {
         // Change item while the activity is running.
         if (intent.hasExtra(ARG_TAB)) {
             int start = intent.getIntExtra(ARG_TAB, R.id.drawer_feed);
-            this.initialFragmentId = start;
+            if (intent.getBooleanExtra(ARG_NEW_DEFAULT, true)) {
+                this.initialFragmentId = start;
+            }
             selectDrawerItem(navigationView.getMenu().findItem(start));
         }
     }

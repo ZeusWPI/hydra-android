@@ -78,8 +78,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, Schedul
         authWrapper = view.findViewById(R.id.auth_wrapper);
         viewPager = view.findViewById(R.id.pager);
         tabLayout = getActivity().findViewById(R.id.tab_layout);
-
-        // Get the viewModels of the tabs.
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
     }
 
     private void onLoggedIn() {

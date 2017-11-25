@@ -20,11 +20,11 @@
             android:ellipsize="marquee">
 
             <Spinner
-                android:id="@+id/resto_spinner"
+                android:id="@+id/spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ProgressBar
-                android:id="@+id/resto_spinner_progress"
+                android:id="@+id/spinner_progress"
                 android:layout_width="24dp"
                 android:layout_height="24dp" />
 
