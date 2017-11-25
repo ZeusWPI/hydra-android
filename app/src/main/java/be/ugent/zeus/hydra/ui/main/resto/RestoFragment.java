@@ -35,6 +35,7 @@ import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.ui.resto.RestoLocationActivity;
 import be.ugent.zeus.hydra.ui.resto.SandwichActivity;
 import be.ugent.zeus.hydra.ui.resto.SelectableMetaViewModel;
+import be.ugent.zeus.hydra.ui.resto.extra.ExtraFoodActivity;
 import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -305,6 +306,9 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
                 return false;
             case R.id.resto_bottom_locations:
                 startActivity(new Intent(getContext(), RestoLocationActivity.class));
+                return false;
+            case R.id.resto_bottom_extra:
+                startActivity(new Intent(getContext(), ExtraFoodActivity.class));
                 return false;
             default:
                 return false;

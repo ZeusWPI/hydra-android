@@ -1,10 +1,14 @@
 package be.ugent.zeus.hydra.data.network;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import org.junit.Assert;
 
 /**
  * @author Niko Strijbol
  */
+@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public abstract class ArrayJsonSpringRequestTest<R> extends AbstractJsonSpringRequestTest<R[]> {
 
     public ArrayJsonSpringRequestTest(Class<R[]> clazz) {
