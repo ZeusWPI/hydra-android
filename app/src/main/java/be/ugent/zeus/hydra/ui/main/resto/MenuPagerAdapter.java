@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.resto.menu;
+package be.ugent.zeus.hydra.ui.main.resto;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +19,7 @@ import java.util.List;
 public class MenuPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<RestoMenu> data = Collections.emptyList();
+    private boolean hasDataBeenSet = false;
 
     public MenuPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -26,12 +27,16 @@ public class MenuPagerAdapter extends FragmentStatePagerAdapter {
 
     public void setData(List<RestoMenu> data) {
         this.data = data;
+        this.hasDataBeenSet = true;
         notifyDataSetChanged();
+    }
+
+    public boolean hasDataBeenSet() {
+        return hasDataBeenSet;
     }
 
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
         return MenuFragment.newInstance(data.get(position));
     }
 

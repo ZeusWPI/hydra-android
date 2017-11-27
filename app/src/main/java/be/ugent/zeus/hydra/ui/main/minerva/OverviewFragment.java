@@ -78,8 +78,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, Schedul
         authWrapper = view.findViewById(R.id.auth_wrapper);
         viewPager = view.findViewById(R.id.pager);
         tabLayout = getActivity().findViewById(R.id.tab_layout);
-
-        // Get the viewModels of the tabs.
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
     }
 
     private void onLoggedIn() {
@@ -154,12 +153,6 @@ public class OverviewFragment extends Fragment implements ResultStarter, Schedul
      */
     private boolean isLoggedIn() {
         return AccountUtils.hasAccount(getContext());
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        tabLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -332,5 +325,11 @@ public class OverviewFragment extends Fragment implements ResultStarter, Schedul
                 ((ScheduledRemovalListener) fragment).onRemovalScheduled();
             }
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        tabLayout.setVisibility(View.GONE);
     }
 }

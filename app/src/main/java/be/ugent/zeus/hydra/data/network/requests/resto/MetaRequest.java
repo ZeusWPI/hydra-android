@@ -35,6 +35,6 @@ public class MetaRequest extends JsonSpringRequest<RestoMeta> implements Cacheab
 
     @Override
     public long getCacheDuration() {
-        return Cache.ONE_WEEK * 8;
+        return Cache.ONE_WEEK * 4;
     }
 }

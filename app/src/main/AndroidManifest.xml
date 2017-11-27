@@ -39,7 +39,9 @@
         android:theme="@style/Hydra.Main.NoActionBar">
 
         <!-- Disable all Firebase analytics in debug mode. -->
-        <meta-data android:name="firebase_analytics_collection_deactivated" android:value="${disableAnalytics}" />
+        <meta-data
+            android:name="firebase_analytics_collection_deactivated"
+            android:value="${disableAnalytics}" />
 
         <!-- Main activity -->
         <activity
@@ -61,10 +63,11 @@
         <activity
             android:name=".ui.preferences.SettingsActivity"
             android:label="@string/action_settings"
-            android:theme="@style/Hydra.Main.TextColorSelector"
-            android:parentActivityName=".ui.main.MainActivity">
+            android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/Hydra.Main.TextColorSelector">
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -81,12 +84,6 @@
             android:label="@string/activity_title_homefeed_card_types"
             android:parentActivityName=".ui.preferences.SettingsActivity" />
 
-        <!-- Resto overview -->
-        <activity
-            android:name=".ui.resto.menu.MenuActivity"
-            android:label="@string/resto_menu"
-            android:parentActivityName=".ui.main.MainActivity" />
-
         <!-- Sandwich overview -->
         <activity
             android:name=".ui.resto.SandwichActivity"
@@ -102,6 +99,11 @@
         <activity
             android:name=".ui.resto.RestoLocationActivity"
             android:label="@string/title_activity_resto_location"
+            android:parentActivityName=".ui.main.MainActivity" />
+
+        <!-- Show other food items -->
+        <activity android:name=".ui.resto.extra.ExtraFoodActivity"
+            android:label="@string/resto_extra_title"
             android:parentActivityName=".ui.main.MainActivity" />
 
         <!-- Details about association events. -->
@@ -157,7 +159,9 @@
             android:parentActivityName=".ui.minerva.overview.CourseActivity">
             <intent-filter>
                 <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="vnd.android.cursor.item/event" />
             </intent-filter>
         </activity>
@@ -232,6 +236,7 @@
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/minerva_authenticator" />
@@ -244,6 +249,7 @@
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
+
             <meta-data
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/minerva_sync" />
@@ -259,9 +265,9 @@
 
         <!-- Urgent stuff -->
         <service
-            android:process=":urgent"
             android:name=".service.urgent.MusicService"
-            android:exported="true">
+            android:exported="true"
+            android:process=":urgent">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>
@@ -272,7 +278,6 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>
