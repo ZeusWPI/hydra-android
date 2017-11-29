@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.resto.menu;
+package be.ugent.zeus.hydra.ui.main.resto;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
