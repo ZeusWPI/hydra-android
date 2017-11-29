@@ -113,6 +113,10 @@ fabric.properties
 *.iml
 .idea/
 
-### Secrets and API keys ###
+### Hydra-related stuff ###
+# The location for the secrets.
 secrets.properties
+# The licenses
 app/src/main/assets/licenses.html
+# Custom configuration files
+app/custom-config.properties

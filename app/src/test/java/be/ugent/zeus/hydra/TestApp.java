@@ -39,7 +39,7 @@ public class TestApp extends Application {
 
         // This below is disabled for tests.
         //AndroidThreeTen.init(this);
-        LeakCanary.install(this);
+        //LeakCanary.install(this);
         Once.initialise(this);
 
         // Initialize the channels that are needed in the whole app. The channels for Minerva are created when needed.
