@@ -11,25 +11,9 @@
             android:persistent="false" />
 
         <ListPreference
-            android:key="pref_minerva_sync_course_frequency"
-            android:summary="Om de hoeveel tijd de vakken gesynchroniseerd worden (nu %s)"
-            android:title="Sync-interval vakken"
-            android:entries="@array/minerva_frequencies_long_text"
-            android:entryValues="@array/minerva_frequencies_long_seconds"
-            android:defaultValue="2592000"/>
-
-        <ListPreference
-            android:key="pref_minerva_sync_calendar_frequency"
-            android:summary="Om de hoeveel tijd de agenda gesynchroniseerd worden (nu %s)"
-            android:title="Sync-interval agenda"
-            android:entries="@array/minerva_frequencies_text"
-            android:entryValues="@array/minerva_frequencies_seconds"
-            android:defaultValue="86400"/>
-
-        <ListPreference
             android:key="pref_minerva_sync_announcement_frequency"
-            android:summary="Om de hoeveel tijd de aankondigingen gesynchroniseerd worden (nu %s)"
-            android:title="Syn-interval aankondigingen"
+            android:summary="Om de hoeveel tijd Minerva gesynchroniseerd wordt (nu %s)"
+            android:title="Syn-interval Minerva"
             android:entries="@array/minerva_frequencies_text"
             android:entryValues="@array/minerva_frequencies_seconds"
             android:defaultValue="86400"/>
@@ -57,6 +41,39 @@
             android:summary="Ga naar de mobiele site i.p.v. de desktopsite bij het klikken op een link naar de Minerva-site"
             android:title="Mobiele site gebruiken"
             android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Agenda">
+        <CheckBoxPreference
+            android:key="pref_minerva_prefix_event_titles"
+            android:title="Vak toevoegen aan agenda-items"
+            android:summary="Voeg de naam van het vak toe aan de titel van evenementen als die titel niet de naam van het vak is."
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="pref_minerva_prefix_event_acronym"
+            android:title="Vaknaam afkorten"
+            android:summary="Gebruik acroniemen als naam van het vak in de titel van evenementen."
+            android:defaultValue="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Duplicatendetectie (experimenteel)">
+
+        <CheckBoxPreference
+            android:key="pref_minerva_detect_duplicates"
+            android:title="Duplicaten agenda samenvoegen"
+            android:summary="Let op! Dit is experimenteel! Zie hieronder voor uitleg."
+            android:defaultValue="false" />
+
+        <Preference
+            android:title="Wat?"
+            android:summary="De duplicatendetectie probeert om voor elke les slechts één item in de agenda te tonen."
+            android:persistent="false" />
+
+        <Preference
+            android:persistent="false"
+            android:title="Waarom?"
+            android:summary="Hydra toont zowel de agenda van Oasis als die van Minerva zelf. Als een lesgever op Minerva dingen toevoegt, wordt Oasis niet aangepast. Hierdoor staan sommige lessen twee keer in de agenda." />
 
     </PreferenceCategory>
 

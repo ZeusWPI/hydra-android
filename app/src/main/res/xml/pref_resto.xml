@@ -20,13 +20,11 @@
     <PreferenceCategory
         android:title="@string/pref_resto_choice">
 
-        <ListPreference
-            android:key="pref_resto_choice"
-            android:defaultValue="0"
-            android:title="@string/pref_resto_choice_title"
-            android:summary="@string/pref_resto_choice_summary"
-            android:entries="@array/resto_location"
-            android:entryValues="@array/nr_resto_location" />
+	    <Preference
+            android:key="pref_choice_resto_select"
+		    android:title="@string/pref_resto_choice"
+		    android:summary="@string/pref_resto_choice_title"
+		    android:persistent="false" />
 
     </PreferenceCategory>
 </PreferenceScreen>

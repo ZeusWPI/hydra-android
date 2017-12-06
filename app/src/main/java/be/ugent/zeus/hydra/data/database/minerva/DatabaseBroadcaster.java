@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
+import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
+
 /**
  * Helper class that broadcasts intents when things have changed in the database.
  *
- * Note that changes due to synchronisation are currently NOT broadcast; see {@link be.ugent.zeus.hydra.data.sync.SyncBroadcast}.
+ * Note that changes due to synchronisation are currently NOT broadcast; see {@link SyncBroadcast}.
  * This might change in the future.
  *
  * @author Niko Strijbol

@@ -70,6 +70,7 @@ public class MediaNotificationBuilder {
                 .setChannelId(ChannelCreator.URGENT_CHANNEL)
                 .setStyle(style);
 
+
         //Add album artwork if available
         if (descriptionCompat.getIconBitmap() != null) {
             builder.setLargeIcon(descriptionCompat.getIconBitmap());

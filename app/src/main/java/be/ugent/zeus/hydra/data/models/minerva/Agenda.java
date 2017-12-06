@@ -12,4 +12,8 @@ public class Agenda {
     public List<AgendaItem> getItems() {
         return items;
     }
+
+    public void setItems(List<AgendaItem> items) {
+        this.items = items;
+    }
 }

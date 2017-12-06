@@ -135,6 +135,11 @@ public class AgendaActivity extends BaseActivity {
             ));
         }
 
+        if (!result.isMerged()) {
+            findViewById(R.id.divider_below_organize).setVisibility(GONE);
+            findViewById(R.id.agenda_warning_row).setVisibility(GONE);
+        }
+
         hourTime.setText(getString(
                 R.string.minerva_calendar_duration,
                 localStart.format(HOUR_FORMATTER),

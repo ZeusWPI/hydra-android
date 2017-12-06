@@ -7,9 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
+
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
-import be.ugent.zeus.hydra.data.auth.MinervaConfig;
+import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 
 /**
  * @author Niko Strijbol
@@ -56,9 +56,10 @@ public class SyncUtils {
      *
      * @param account   The account to sync for.
      * @param authority The authority of the requested sync adapter.
-     * @param extras    The extras.
+     * @param arguments The extras. Can be {@link Bundle#EMPTY}, but not null.
      */
-    public static void requestSync(Account account, String authority, Bundle extras) {
+    public static void requestSync(Account account, String authority, Bundle arguments) {
+        Bundle extras = new Bundle(arguments);
         extras.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         extras.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         ContentResolver.requestSync(account, authority, extras);
@@ -72,32 +73,13 @@ public class SyncUtils {
      * programming error.
      *
      * @param context The context.
-     * @param authority The authority for the sync frequency.
-     *
      * @return The sync frequency.
      */
-    public static long frequencyFor(Context context, String authority) {
+    public static long frequencyFor(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        String prefKey;
-        String prefDefault;
-
-        switch (authority) {
-            case MinervaConfig.ANNOUNCEMENT_AUTHORITY:
-                prefKey = MinervaFragment.PREF_SYNC_FREQUENCY_ANNOUNCEMENT;
-                prefDefault = MinervaFragment.PREF_DEFAULT_SYNC_FREQUENCY;
-                break;
-            case MinervaConfig.CALENDAR_AUTHORITY:
-                prefKey = MinervaFragment.PREF_SYNC_FREQUENCY_CALENDAR;
-                prefDefault = MinervaFragment.PREF_DEFAULT_SYNC_FREQUENCY;
-                break;
-            case MinervaConfig.COURSE_AUTHORITY:
-                prefKey = MinervaFragment.PREF_SYNC_FREQUENCY_COURSE;
-                prefDefault = MinervaFragment.PREF_DEFAULT_SYNC_LONG_FREQUENCY;
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown authority: " + authority);
-        }
+        String prefKey = MinervaFragment.PREF_SYNC_FREQUENCY;
+        String prefDefault = MinervaFragment.PREF_DEFAULT_SYNC_FREQUENCY;
 
         String pref = preferences.getString(prefKey, prefDefault);
         return Long.parseLong(pref);

@@ -1,16 +1,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto">
-	<item
-		android:id="@+id/event_location"
-		android:orderInCategory="50"
-		app:showAsAction="ifRoom"
-		android:icon="@drawable/ic_map"
-		android:title="@string/open_map" />
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/event_location"
+        android:orderInCategory="50"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_map"
+        android:title="@string/open_map" />
 
-	<item
-		android:id="@+id/event_link"
-		android:orderInCategory="100"
-		app:showAsAction="ifRoom"
+    <item
+        android:id="@+id/menu_event_add_to_calendar"
+        android:orderInCategory="60"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_event_add"
+        android:title="@string/add_to_calendar" />
+
+    <item
+        android:id="@+id/event_link"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_open_in_browser"
-		android:title="@string/open_link" />
+        android:title="@string/open_link" />
 </menu>

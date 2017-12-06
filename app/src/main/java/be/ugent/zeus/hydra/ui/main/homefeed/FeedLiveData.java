@@ -10,7 +10,7 @@ import android.util.Log;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
-import be.ugent.zeus.hydra.data.sync.SyncBroadcast;
+import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
@@ -79,7 +79,8 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
     private static String[] watchedPreferences = {
             HomeFeedFragment.PREF_DISABLED_CARDS,
             AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
-            RestoPreferenceFragment.PREF_RESTO,
+            RestoPreferenceFragment.PREF_RESTO_KEY,
+            RestoPreferenceFragment.PREF_RESTO_NAME,
             HomeFeedFragment.PREF_DISABLED_SPECIALS
     };
 
@@ -130,7 +131,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
             if (J8Arrays.stream(watchedPreferences).anyMatch(key::contains)) {
                 oldPreferences.put(key, sharedPreferences.getAll().get(key));
             }
-            if (RestoPreferenceFragment.PREF_RESTO.equals(key)) {
+            if (RestoPreferenceFragment.PREF_RESTO_KEY.equals(key) || RestoPreferenceFragment.PREF_RESTO_NAME.equals(key)) {
                 Bundle ex = new Bundle();
                 ex.putInt(REFRESH_HOMECARD_TYPE, HomeCard.CardType.RESTO);
                 flagForRefresh(ex);

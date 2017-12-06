@@ -39,7 +39,8 @@
                     android:tint="@color/white"
                     app:srcCompat="@drawable/ic_event_note"
                     tools:src="@drawable/ic_event_note"
-                    tools:ignore="MissingPrefix" />
+                    tools:ignore="MissingPrefix"
+                    android:contentDescription="@string/content_desc_calendar_icon"/>
 
                 <TextView
                     android:id="@+id/title"
@@ -106,7 +107,8 @@
                             android:tint="@color/ugent_blue_dark"
                             app:srcCompat="@drawable/ic_place"
                             tools:src="@drawable/ic_place"
-                            tools:ignore="MissingPrefix" />
+                            tools:ignore="MissingPrefix"
+                            android:contentDescription="@string/content_desc_location"/>
 
                         <TextView
                             android:layout_gravity="center_vertical"
@@ -139,7 +141,8 @@
                             android:tint="@color/ugent_blue_dark"
                             app:srcCompat="@drawable/ic_schedule"
                             tools:src="@drawable/ic_schedule"
-                            tools:ignore="MissingPrefix" />
+                            tools:ignore="MissingPrefix"
+                            android:contentDescription="@string/content_desc_time"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -187,7 +190,8 @@
                             android:tint="@color/ugent_blue_dark"
                             app:srcCompat="@drawable/ic_book_open_page_variant"
                             tools:src="@drawable/ic_book_open_page_variant"
-                            tools:ignore="MissingPrefix" />
+                            tools:ignore="MissingPrefix"
+                            android:contentDescription="@string/content_desc_lesson"/>
 
                         <TextView
                             android:layout_gravity="center_vertical"
@@ -220,7 +224,8 @@
                             android:tint="@color/ugent_blue_dark"
                             app:srcCompat="@drawable/ic_person"
                             tools:src="@drawable/ic_person"
-                            tools:ignore="MissingPrefix" />
+                            tools:ignore="MissingPrefix"
+                            android:contentDescription="@string/content_desc_organiser"/>
 
                         <TextView
                             android:layout_gravity="center_vertical"
@@ -228,6 +233,40 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             tools:text="Organisator"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/divider_below_organize"
+                        style="@style/Divider"
+                        android:layout_marginLeft="@dimen/keyline_fixed" />
+
+                    <LinearLayout
+                        android:id="@+id/agenda_warning_row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/list_two_line_padding_horizontal"
+                        android:paddingLeft="@dimen/card_text_padding_vertical"
+                        android:paddingRight="@dimen/card_text_padding_vertical"
+                        android:paddingTop="@dimen/list_two_line_padding_horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="32dp"
+                            android:tint="@color/ugent_blue_dark"
+                            app:srcCompat="@drawable/ic_warning"
+                            tools:ignore="MissingPrefix"
+                            android:contentDescription="@string/content_desc_warning"/>
+
+                        <TextView
+                            android:id="@+id/agenda_warning"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            style="@style/TextAppearance.AppCompat.Caption"
+                            android:text="Dit evenement is samengevoegd door de duplicatendetectie van Hydra. Als het evenement vreemd lijkt, is het best om het nog eens na te kijken op de website of de optie uit te schakelen, aangezien deze functie nog experimenteel is."/>
 
                     </LinearLayout>
 

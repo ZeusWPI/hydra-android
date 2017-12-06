@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.text.util.LinkifyCompat;
@@ -19,9 +20,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.data.models.association.Event;
+import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -71,7 +73,6 @@ public class EventDetailActivity extends BaseActivity {
         final ImageView organisatorImage = findViewById(R.id.event_organisator_image);
         TextView mainName = findViewById(R.id.event_organisator_main);
         TextView smallName = findViewById(R.id.event_organisator_small);
-
         if (event.getTitle() != null) {
             title.setText(event.getTitle());
             getToolbar().setTitle(event.getTitle());
@@ -87,8 +88,16 @@ public class EventDetailActivity extends BaseActivity {
             LinkifyCompat.addLinks(description, Linkify.ALL);
         }
 
-        if (event.hasLocation()) {
-            location.setText(event.getLocation());
+        if (event.hasPreciseLocation() || event.hasLocation()) {
+            if (event.hasLocation()) {
+                location.setText(event.getLocation());
+            } else {
+                location.setText(getString(R.string.events_unnamed_precise_location, event.getLatitude(), event.getLongitude()));
+            }
+            // Make location clickable
+            findViewById(R.id.location_row).setOnClickListener(view -> {
+                NetworkUtils.maybeLaunchIntent(this, getLocationIntent());
+            });
         } else {
             location.setText(R.string.events_no_location);
         }
@@ -124,6 +133,8 @@ public class EventDetailActivity extends BaseActivity {
             case R.id.event_location:
                 NetworkUtils.maybeLaunchIntent(this, getLocationIntent());
                 return true;
+            case R.id.menu_event_add_to_calendar:
+                addToCalendar();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -136,9 +147,25 @@ public class EventDetailActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.menu_event, menu);
 
         // We need to manually set the color of this Drawable for some reason.
-        tintToolbarIcons(menu, R.id.event_location, R.id.event_link);
+        tintToolbarIcons(menu, R.id.event_location, R.id.event_link, R.id.menu_event_add_to_calendar);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * Add the event to an intent, for adding to the calendar.
+     */
+    private void addToCalendar() {
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getStart().toInstant().toEpochMilli())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.getEnd().toInstant().toEpochMilli())
+                .putExtra(CalendarContract.Events.TITLE, event.getTitle())
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, event.getLocation())
+                .putExtra(CalendarContract.Events.DESCRIPTION, event.getDescription())
+                .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_TENTATIVE);
+
+        NetworkUtils.maybeLaunchIntent(this, intent);
     }
 
     /**

@@ -4,19 +4,21 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import org.threeten.bp.Instant;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZoneOffset;
+import org.threeten.bp.ZonedDateTime;
 
 import java.io.IOException;
 
 /**
- * Parses a date to a {@link Instant}.
+ * Parses a date to a {@link ZonedDateTime}.
  *
  * @author Niko Strijbol
  */
-public class InstantThreeTenAdapter extends TypeAdapter<Instant> {
+public class ZonedThreeTenUTCAdapter extends TypeAdapter<ZonedDateTime> {
 
     @Override
-    public void write(JsonWriter out, Instant date) throws IOException {
+    public void write(JsonWriter out, ZonedDateTime date) throws IOException {
         if(date == null) {
             out.nullValue();
             return;
@@ -26,12 +28,12 @@ public class InstantThreeTenAdapter extends TypeAdapter<Instant> {
     }
 
     @Override
-    public Instant read(JsonReader in) throws IOException {
+    public ZonedDateTime read(JsonReader in) throws IOException {
         if (in.peek() == JsonToken.NULL) {
             in.nextNull();
             return null;
         }
 
-        return Instant.parse(in.nextString());
+        return LocalDateTime.parse(in.nextString()).atZone(ZoneOffset.UTC);
     }
 }

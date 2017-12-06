@@ -9,16 +9,16 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class EqualsCallback extends DiffUtil.Callback {
+public class EqualsCallback<E> extends DiffUtil.Callback {
 
-    private final List<?> oldItems;
-    private final List<?> newItems;
+    protected final List<E> oldItems;
+    protected final List<E> newItems;
 
     /**
      * @param oldItems The old items. May not contain null-elements.
      * @param newItems The new items. May not contain null-elements.
      */
-    public EqualsCallback(List<?> oldItems, List<?> newItems) {
+    public EqualsCallback(List<E> oldItems, List<E> newItems) {
         this.oldItems = oldItems;
         this.newItems = newItems;
     }

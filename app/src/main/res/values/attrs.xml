@@ -14,5 +14,6 @@
             <enum name="main" value="0" />
             <enum name="all" value="1" />
         </attr>
+        <attr name="selectable" format="boolean"/>
     </declare-styleable>
 </resources>

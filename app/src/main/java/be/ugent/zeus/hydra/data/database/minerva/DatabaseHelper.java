@@ -1,19 +1,9 @@
 package be.ugent.zeus.hydra.data.database.minerva;
 
-import android.accounts.Account;
-import android.content.ContentResolver;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import be.ugent.zeus.hydra.data.sync.course.CourseAdapter;
-import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
-import be.ugent.zeus.hydra.data.auth.AccountUtils;
-import be.ugent.zeus.hydra.data.auth.MinervaConfig;
-import be.ugent.zeus.hydra.data.sync.SyncUtils;
 
 /**
  * The database helper.
@@ -25,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
 
     private static final String NAME = "minervaDatabase.db";
-    private static final int VERSION = 8;
+    private static final int VERSION = 9;
 
     //Singleton - can we avoid this? Should we? I don't know.
     private static DatabaseHelper instance;
@@ -67,6 +57,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (oldVersion < 8) {
             upgradeFrom7to8(db);
         }
+        if (oldVersion < 9) {
+            upgradeFrom8to9(db);
+        }
     }
 
     @Override
@@ -93,37 +86,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE " + AgendaTable.TABLE_NAME + " ADD COLUMN " + AgendaTable.Columns.CALENDAR_ID + " INTEGER");
         // Add data
         db.execSQL("UPDATE " + AgendaTable.TABLE_NAME + " SET " + AgendaTable.Columns.CALENDAR_ID + "=-1");
-
-        /* ----------------------------------------------------------------------
-         * Schedule new sync adapters, if the current sync adapter is set.
-         * ---------------------------------------------------------------------- */
-        // Read current settings.
-
-        if (!AccountUtils.hasAccount(context)) {
-            return; // There is no account for some reason.
-        }
-
-        Account account = AccountUtils.getAccount(context);
-
-        // The current adapter is set, we set the new ones, otherwise not.
-        if (ContentResolver.getSyncAutomatically(account, MinervaConfig.ANNOUNCEMENT_AUTHORITY)) {
-            // Set the agenda with the same frequency as the announcements.
-            long announcementFrequency = SyncUtils.frequencyFor(context, MinervaConfig.ANNOUNCEMENT_AUTHORITY);
-            SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(context);
-            p.edit()
-                    .putString(MinervaFragment.PREF_SYNC_FREQUENCY_CALENDAR, String.valueOf(announcementFrequency))
-                    .apply();
-
-            // Request a full synchronisation
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_ANNOUNCEMENTS, true);
-            bundle.putBoolean(CourseAdapter.EXTRA_SCHEDULE_AGENDA, true);
-            SyncUtils.requestSync(account, MinervaConfig.COURSE_AUTHORITY, bundle);
-        }
     }
 
     private void upgradeFrom7to8(SQLiteDatabase db) {
         // Add the column
         db.execSQL("ALTER TABLE " + CourseTable.TABLE_NAME + " ADD COLUMN " + CourseTable.Columns.ORDER + " INTEGER NOT NULL DEFAULT 0");
+    }
+
+    private void upgradeFrom8to9(SQLiteDatabase db) {
+        // Add the column
+        db.execSQL("ALTER TABLE minerva_agenda ADD COLUMN is_merged INTEGER NOT NULL DEFAULT 0");
     }
 }

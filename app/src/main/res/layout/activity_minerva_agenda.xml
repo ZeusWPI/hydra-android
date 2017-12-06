@@ -40,7 +40,8 @@
                     android:tint="@color/white"
                     app:srcCompat="@drawable/ic_event_note"
                     tools:src="@drawable/ic_event_note"
-                    tools:ignore="MissingPrefix" />
+                    tools:ignore="MissingPrefix"
+                    android:contentDescription="@string/content_desc_calendar_icon"/>
 
                 <TextView
                     android:id="@+id/title"
@@ -98,76 +99,78 @@
                         android:orientation="vertical">
 
                         <LinearLayout
+                            android:id="@+id/agenda_location_row"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:id="@+id/agenda_location_row"
-                            android:paddingTop="@dimen/list_two_line_padding_horizontal"
                             android:paddingBottom="@dimen/list_two_line_padding_horizontal"
                             android:paddingLeft="@dimen/card_text_padding_vertical"
-                            android:paddingRight="@dimen/card_text_padding_vertical">
+                            android:paddingRight="@dimen/card_text_padding_vertical"
+                            android:paddingTop="@dimen/list_two_line_padding_horizontal">
 
                             <ImageView
-                                android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginRight="32dp"
                                 android:tint="@color/ugent_blue_dark"
                                 app:srcCompat="@drawable/ic_place"
+                                tools:ignore="MissingPrefix"
                                 tools:src="@drawable/ic_place"
-                                tools:ignore="MissingPrefix" />
+                                android:contentDescription="@string/content_desc_location"/>
 
                             <TextView
-                                android:layout_gravity="center_vertical"
                                 android:id="@+id/agenda_location"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                tools:text="Locatie van het evenement"/>
+                                android:layout_gravity="center_vertical"
+                                tools:text="Locatie van het evenement" />
 
                         </LinearLayout>
 
                         <View
                             android:id="@+id/divider_below_location"
-                            android:layout_marginLeft="@dimen/keyline_fixed"
-                            style="@style/Divider"/>
+                            style="@style/Divider"
+                            android:layout_marginLeft="@dimen/keyline_fixed" />
 
                         <LinearLayout
+                            android:id="@+id/agenda_time_row"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:id="@+id/agenda_time_row"
-                            android:paddingTop="@dimen/list_two_line_padding_horizontal"
                             android:paddingBottom="@dimen/list_two_line_padding_horizontal"
                             android:paddingLeft="@dimen/card_text_padding_vertical"
-                            android:paddingRight="@dimen/card_text_padding_vertical">
+                            android:paddingRight="@dimen/card_text_padding_vertical"
+                            android:paddingTop="@dimen/list_two_line_padding_horizontal">
 
                             <ImageView
-                                android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginRight="32dp"
                                 android:tint="@color/ugent_blue_dark"
                                 app:srcCompat="@drawable/ic_schedule"
+                                tools:ignore="MissingPrefix"
                                 tools:src="@drawable/ic_schedule"
-                                tools:ignore="MissingPrefix" />
+                                android:contentDescription="@string/content_desc_time"/>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical" >
+                                android:orientation="vertical">
 
                                 <TextView
-                                    android:layout_gravity="center_vertical"
                                     android:id="@+id/agenda_time_day"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    tools:text="Starttijd van het evenement"/>
+                                    android:layout_gravity="center_vertical"
+                                    tools:text="Starttijd van het evenement" />
 
                                 <TextView
-                                    android:paddingTop="4dp"
-                                    android:layout_gravity="center_vertical"
                                     android:id="@+id/agenda_time_hour"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    tools:text="Eindtijd van het evenement"/>
+                                    android:layout_gravity="center_vertical"
+                                    android:paddingTop="4dp"
+                                    tools:text="Eindtijd van het evenement" />
 
                             </LinearLayout>
 
@@ -175,67 +178,104 @@
 
                         <View
                             android:id="@+id/divider_below_time"
-                            android:layout_marginLeft="@dimen/keyline_fixed"
-                            style="@style/Divider"/>
+                            style="@style/Divider"
+                            android:layout_marginLeft="@dimen/keyline_fixed" />
 
                         <LinearLayout
+                            android:id="@+id/agenda_course_row"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:id="@+id/agenda_course_row"
-                            android:paddingTop="@dimen/list_two_line_padding_horizontal"
                             android:paddingBottom="@dimen/list_two_line_padding_horizontal"
                             android:paddingLeft="@dimen/card_text_padding_vertical"
-                            android:paddingRight="@dimen/card_text_padding_vertical">
+                            android:paddingRight="@dimen/card_text_padding_vertical"
+                            android:paddingTop="@dimen/list_two_line_padding_horizontal">
 
                             <ImageView
-                                android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginRight="32dp"
                                 android:tint="@color/ugent_blue_dark"
                                 app:srcCompat="@drawable/ic_book_open_page_variant"
+                                tools:ignore="MissingPrefix"
                                 tools:src="@drawable/ic_book_open_page_variant"
-                                tools:ignore="MissingPrefix" />
+                                android:contentDescription="@string/content_desc_lesson"
+                                />
 
                             <TextView
-                                android:layout_gravity="center_vertical"
                                 android:id="@+id/agenda_course"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                tools:text="Vak"/>
+                                android:layout_gravity="center_vertical"
+                                tools:text="Vak" />
 
                         </LinearLayout>
 
                         <View
                             android:id="@+id/divider_below_course"
-                            android:layout_marginLeft="@dimen/keyline_fixed"
-                            style="@style/Divider"/>
+                            style="@style/Divider"
+                            android:layout_marginLeft="@dimen/keyline_fixed" />
 
                         <LinearLayout
+                            android:id="@+id/agenda_organiser_row"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:id="@+id/agenda_organiser_row"
-                            android:paddingTop="@dimen/list_two_line_padding_horizontal"
                             android:paddingBottom="@dimen/list_two_line_padding_horizontal"
                             android:paddingLeft="@dimen/card_text_padding_vertical"
-                            android:paddingRight="@dimen/card_text_padding_vertical">
+                            android:paddingRight="@dimen/card_text_padding_vertical"
+                            android:paddingTop="@dimen/list_two_line_padding_horizontal">
 
                             <ImageView
-                                android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginRight="32dp"
                                 android:tint="@color/ugent_blue_dark"
                                 app:srcCompat="@drawable/ic_person"
+                                tools:ignore="MissingPrefix"
                                 tools:src="@drawable/ic_person"
-                                tools:ignore="MissingPrefix" />
+                                android:contentDescription="@string/content_desc_organiser"/>
 
                             <TextView
-                                android:layout_gravity="center_vertical"
                                 android:id="@+id/agenda_organiser"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                tools:text="Organisator"/>
+                                android:layout_gravity="center_vertical"
+                                tools:text="Organisator" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:id="@+id/divider_below_organize"
+                            style="@style/Divider"
+                            android:layout_marginLeft="@dimen/keyline_fixed" />
+
+                        <LinearLayout
+                            android:id="@+id/agenda_warning_row"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingBottom="@dimen/list_two_line_padding_horizontal"
+                            android:paddingLeft="@dimen/card_text_padding_vertical"
+                            android:paddingRight="@dimen/card_text_padding_vertical"
+                            android:paddingTop="@dimen/list_two_line_padding_horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="32dp"
+                                android:tint="@color/ugent_blue_dark"
+                                app:srcCompat="@drawable/ic_warning"
+                                tools:ignore="MissingPrefix"
+                                android:contentDescription="waarschuwing"/>
+
+                            <TextView
+                                android:id="@+id/agenda_warning"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                style="@style/TextAppearance.AppCompat.Caption"
+                                android:text="Dit evenement is samengevoegd door de duplicatendetectie van Hydra. Als het evenement vreemd lijkt, is het best om het nog eens na te kijken op de website of de optie uit te schakelen, aangezien deze functie nog experimenteel is."/>
 
                         </LinearLayout>
 
@@ -248,33 +288,33 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/card_spacing"
                     android:layout_marginTop="@dimen/card_spacing"
+                    app:contentPaddingBottom="@dimen/card_text_padding_bottom"
                     app:contentPaddingLeft="@dimen/card_text_padding_vertical"
                     app:contentPaddingRight="@dimen/card_text_padding_vertical"
-                    app:contentPaddingBottom="@dimen/card_text_padding_bottom"
                     app:contentPaddingTop="@dimen/card_spacing">
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:height="48dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
                             style="@style/Base.TextAppearance.AppCompat.Subhead"
-                            android:text="@string/description"
-                            android:textColor="?attr/colorAccent"
-                            android:gravity="center_vertical" />
-
-                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:height="48dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/description"
+                            android:textColor="?attr/colorAccent" />
+
+                        <TextView
                             android:id="@+id/agenda_description"
+                            style="@style/Hydra.LongText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:paddingBottom="@dimen/content_spacing"
                             android:text="@string/no_description"
-                            android:textIsSelectable="true"
-                            style="@style/Hydra.LongText"/>
+                            android:textIsSelectable="true" />
 
                     </LinearLayout>
 

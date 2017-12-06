@@ -55,7 +55,8 @@
             android:id="@+id/logo"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            tools:src="@drawable/ic_event" />
+            tools:src="@drawable/ic_event"
+            android:contentDescription="@string/content_desc_association_icon"/>
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

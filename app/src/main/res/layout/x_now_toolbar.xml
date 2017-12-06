@@ -18,7 +18,8 @@
         android:layout_gravity="center_vertical"
         tools:src="@drawable/tabs_resto"
         tools:ignore="MissingPrefix"
-        android:tint="@color/ugent_blue_lighter" />
+        android:tint="@color/ugent_blue_lighter"
+        android:contentDescription="@string/content_desc_resto"/>
 
     <TextView
         android:id="@+id/now_toolbar_title"
@@ -40,6 +41,7 @@
         android:tint="@color/ugent_blue_lighter"
         app:srcCompat="@drawable/ic_more_vert"
         tools:ignore="MissingPrefix"
-        android:id="@+id/now_toolbar_menu" />
+        android:id="@+id/now_toolbar_menu"
+        android:contentDescription="@string/content_desc_more"/>
 
 </merge>

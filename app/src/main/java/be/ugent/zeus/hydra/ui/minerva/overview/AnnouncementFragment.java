@@ -1,13 +1,11 @@
 package be.ugent.zeus.hydra.ui.minerva.overview;
 
-import android.app.NotificationManager;
-import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,7 +15,6 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.models.minerva.Course;
-import be.ugent.zeus.hydra.data.sync.announcement.AnnouncementNotificationBuilder;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
@@ -57,14 +54,6 @@ public class AnnouncementFragment extends Fragment implements ResultStarter {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         course = getArguments().getParcelable(ARG_COURSE);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check for notification we want to remove.
-        NotificationManager manager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.cancel(course.getId(), AnnouncementNotificationBuilder.NOTIFICATION_ID);
     }
 
     @Override

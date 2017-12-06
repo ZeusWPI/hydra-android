@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<be.ugent.zeus.hydra.ui.common.widgets.MenuTable xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/menu_table"
-    android:paddingLeft="@dimen/card_text_padding_vertical"
-    android:paddingRight="@dimen/card_text_padding_vertical"
-    app:show="all" />
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <be.ugent.zeus.hydra.ui.common.widgets.MenuTable
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/menu_table"
+        android:paddingLeft="@dimen/card_text_padding_vertical"
+        android:paddingRight="@dimen/card_text_padding_vertical"
+        app:show="all"
+        app:selectable="true" />
+
+</android.support.v4.widget.NestedScrollView>

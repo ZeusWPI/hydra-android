@@ -14,6 +14,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
+import be.ugent.zeus.hydra.data.sync.minerva.MinervaAdapter;
 
 /**
  * Preferences for Minerva things.
@@ -22,24 +23,31 @@ import be.ugent.zeus.hydra.data.sync.SyncUtils;
  */
 public class MinervaFragment extends PreferenceFragment {
 
-    public static final String PREF_SYNC_FREQUENCY_COURSE = "pref_minerva_sync_course_frequency";
-    public static final String PREF_SYNC_FREQUENCY_CALENDAR = "pref_minerva_sync_calendar_frequency";
-    public static final String PREF_SYNC_FREQUENCY_ANNOUNCEMENT = "pref_minerva_sync_announcement_frequency";
+    public static final String PREF_SYNC_FREQUENCY = "pref_minerva_sync_announcement_frequency";
     public static final String PREF_ANNOUNCEMENT_NOTIFICATION = "pref_minerva_announcement_notification";
     public static final String PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL = "pref_minerva_announcement_notification_email";
     public static final String PREF_USE_MOBILE_URL = "pref_minerva_use_mobile_url";
 
+    public static final String PREF_DETECT_DUPLICATES = "pref_minerva_detect_duplicates";
+
+    public static final String PREF_PREFIX_EVENT_TITLES = "pref_minerva_prefix_event_titles";
+    public static final String PREF_PREFIX_EVENT_ACRONYM = "pref_minerva_prefix_event_acronym";
+
     //In seconds
     public static final String PREF_DEFAULT_SYNC_FREQUENCY = "86400";
-    public static final String PREF_DEFAULT_SYNC_LONG_FREQUENCY = "2592000";
     public static final boolean PREF_DEFAULT_ANNOUNCEMENT_NOTIFICATION_EMAIL = false;
 
-    private int oldCourseSync;
-    private int newCourseSync;
-    private int oldAnnouncementSync;
-    private int newAnnouncementSync;
-    private int oldCalendarSync;
-    private int newCalendarSync;
+    private int oldInterval;
+    private int newInterval;
+
+    private boolean oldDetectDuplicates;
+    private boolean newDetectDuplicates;
+
+    private boolean oldPrefixEventTitles;
+    private boolean newPrefixEventTitles;
+
+    private boolean oldPrefixAcronyms;
+    private boolean newPrefixAcronyms;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,60 +59,67 @@ public class MinervaFragment extends PreferenceFragment {
         // Open the account settings for the correct account.
         findPreference("account_settings").setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(Settings.ACTION_SYNC_SETTINGS);
-            intent.putExtra(Settings.EXTRA_AUTHORITIES, new String[]{
-                    MinervaConfig.COURSE_AUTHORITY,
-                    MinervaConfig.ANNOUNCEMENT_AUTHORITY,
-                    MinervaConfig.CALENDAR_AUTHORITY
-            });
+            intent.putExtra(Settings.EXTRA_AUTHORITIES, new String[]{MinervaConfig.SYNC_AUTHORITY});
             getActivity().startActivity(intent);
             return true;
         });
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
-        oldCourseSync = Integer.parseInt(preferences.getString(PREF_SYNC_FREQUENCY_COURSE, PREF_DEFAULT_SYNC_LONG_FREQUENCY));
-        oldAnnouncementSync = Integer.parseInt(preferences.getString(PREF_SYNC_FREQUENCY_ANNOUNCEMENT, PREF_DEFAULT_SYNC_FREQUENCY));
-        oldCalendarSync = Integer.parseInt(preferences.getString(PREF_SYNC_FREQUENCY_CALENDAR, PREF_DEFAULT_SYNC_FREQUENCY));
-        newCourseSync = oldCourseSync;
-        newAnnouncementSync = oldAnnouncementSync;
-        newCalendarSync = oldCalendarSync;
+        oldInterval = Integer.parseInt(preferences.getString(PREF_SYNC_FREQUENCY, PREF_DEFAULT_SYNC_FREQUENCY));
+        newInterval = oldInterval;
 
-        Preference coursePreference = findPreference(PREF_SYNC_FREQUENCY_COURSE);
-        Preference announcementPreference = findPreference(PREF_SYNC_FREQUENCY_ANNOUNCEMENT);
-        Preference calendarPreference = findPreference(PREF_SYNC_FREQUENCY_CALENDAR);
+        oldDetectDuplicates = preferences.getBoolean(PREF_DETECT_DUPLICATES, false);
+        newDetectDuplicates = oldDetectDuplicates;
 
-        coursePreference.setOnPreferenceChangeListener((preference, newValue) -> {
-            newCourseSync = Integer.parseInt((String) newValue);
+        oldPrefixEventTitles = preferences.getBoolean(PREF_PREFIX_EVENT_TITLES, false);
+        newPrefixEventTitles = oldPrefixEventTitles;
+
+        oldPrefixAcronyms = preferences.getBoolean(PREF_PREFIX_EVENT_ACRONYM, true);
+        newPrefixAcronyms = oldPrefixAcronyms;
+
+        Preference intervalPreference = findPreference(PREF_SYNC_FREQUENCY);
+        Preference detectPreference = findPreference(PREF_DETECT_DUPLICATES);
+        Preference prefixTitles = findPreference(PREF_PREFIX_EVENT_TITLES);
+        Preference prefixAbbreviations = findPreference(PREF_PREFIX_EVENT_ACRONYM);
+        prefixAbbreviations.setEnabled(oldPrefixEventTitles);
+
+        intervalPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+            newInterval = Integer.parseInt((String) newValue);
             return true;
         });
 
-        announcementPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-            newAnnouncementSync = Integer.parseInt((String) newValue);
+        detectPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+            newDetectDuplicates = (boolean) newValue;
             return true;
         });
 
-        calendarPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-            newCalendarSync = Integer.parseInt((String) newValue);
+        prefixTitles.setOnPreferenceChangeListener((preference, newValue) -> {
+            newPrefixEventTitles = (boolean) newValue;
+            prefixAbbreviations.setEnabled(newPrefixEventTitles);
+            return true;
+        });
+
+        prefixAbbreviations.setOnPreferenceChangeListener((preference, newValue) -> {
+            newPrefixAcronyms = (boolean) newValue;
             return true;
         });
 
         if(!AccountUtils.hasAccount(getAppContext())) {
-            coursePreference.setEnabled(false);
-            announcementPreference.setEnabled(false);
-            calendarPreference.setEnabled(false);
+            intervalPreference.setEnabled(false);
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (oldCourseSync != newCourseSync) {
-            SyncUtils.changeSyncFrequency(getAppContext(), MinervaConfig.COURSE_AUTHORITY, newCourseSync);
+        boolean hasAccount = AccountUtils.hasAccount(getAppContext());
+        if (hasAccount && oldInterval != newInterval) {
+            SyncUtils.changeSyncFrequency(getAppContext(), MinervaConfig.SYNC_AUTHORITY, newInterval);
         }
-        if (oldAnnouncementSync != newAnnouncementSync) {
-            SyncUtils.changeSyncFrequency(getAppContext(), MinervaConfig.ANNOUNCEMENT_AUTHORITY, newAnnouncementSync);
-        }
-        if (oldCalendarSync != newCalendarSync) {
-            SyncUtils.changeSyncFrequency(getAppContext(), MinervaConfig.CALENDAR_AUTHORITY, newCalendarSync);
+        if (hasAccount && (oldDetectDuplicates != newDetectDuplicates || oldPrefixEventTitles != newPrefixEventTitles || oldPrefixAcronyms != newPrefixAcronyms)) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(MinervaAdapter.SYNC_ANNOUNCEMENTS, false);
+            SyncUtils.requestSync(AccountUtils.getAccount(getAppContext()), MinervaConfig.SYNC_AUTHORITY, bundle);
         }
     }
 

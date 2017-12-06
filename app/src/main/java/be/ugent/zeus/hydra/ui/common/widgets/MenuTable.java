@@ -26,12 +26,18 @@ import java.util.List;
  */
 public class MenuTable extends TableLayout {
 
-    //Flags
+    /**
+     * Indicates only the main items will be shown. Cannot be used together with {@link #ALL}.
+     */
     public static final int MAIN = 0;
+    /**
+     * Indicates all items will be shown. Cannot be used together with {@link #MAIN}.
+     */
     public static final int ALL = 1;
 
     private RestoMenu menu;
     private int mode = MAIN;
+    private boolean selectable;
 
     public MenuTable(Context context) {
         super(context);
@@ -45,6 +51,7 @@ public class MenuTable extends TableLayout {
         try {
             //The menu defaults to the one with the hide functionality.
             mode = a.getInt(R.styleable.MenuTable_show, 0);
+            selectable = a.getBoolean(R.styleable.MenuTable_selectable, false);
         } finally {
             a.recycle();
         }
@@ -65,6 +72,7 @@ public class MenuTable extends TableLayout {
         tr.setLayoutParams(lp);
 
         TextView v = new TextView(getContext());
+        v.setTextIsSelectable(selectable);
         TableRow.LayoutParams textParam = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
         textParam.span = 3;
         if (span) {
@@ -126,9 +134,9 @@ public class MenuTable extends TableLayout {
 
             ImageView imageView = makeImageView(id);
             TextView tvCenter = makeCenterTextView(meal.getName(), lp);
-
             TextView tvRight = new TextView(getContext());
             tvRight.setLayoutParams(lp);
+            tvRight.setTextIsSelectable(selectable);
             tvRight.setText(meal.getPrice());
             tvRight.setGravity(Gravity.END);
 
@@ -185,6 +193,7 @@ public class MenuTable extends TableLayout {
      */
     private TextView makeCenterTextView(String text, TableRow.LayoutParams lp) {
         TextView tvCenter = new TextView(getContext());
+        tvCenter.setTextIsSelectable(selectable);
         tvCenter.setPadding(ViewUtils.convertDpToPixelInt(16, getContext()),0,0,0);
         tvCenter.setLayoutParams(lp);
         tvCenter.setText(text);

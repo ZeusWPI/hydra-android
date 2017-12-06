@@ -48,6 +48,10 @@ public final class AgendaItem implements Serializable, Parcelable {
     @SerializedName("course_id")
     private String courseId;
 
+    // This indicates this is actually a merged event, consisting of multiple events from Minerva.
+    // If this is the case, the ID is from one of the events.
+    private boolean isMerged = false;
+
     public int getItemId() {
         return itemId;
     }
@@ -152,6 +156,14 @@ public final class AgendaItem implements Serializable, Parcelable {
         this.lastEditType = lastEditType;
     }
 
+    public boolean isMerged() {
+        return isMerged;
+    }
+
+    public void setMerged(boolean merged) {
+        isMerged = merged;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -175,6 +187,7 @@ public final class AgendaItem implements Serializable, Parcelable {
         dest.writeString(this.lastEditType);
         dest.writeParcelable(this.course, flags);
         dest.writeString(this.courseId);
+        dest.writeByte((byte) (isMerged ? 1 : 0));
     }
 
     public AgendaItem() {
@@ -193,6 +206,7 @@ public final class AgendaItem implements Serializable, Parcelable {
         this.lastEditType = in.readString();
         this.course = in.readParcelable(Course.class.getClassLoader());
         this.courseId = in.readString();
+        this.isMerged = in.readByte() == 1;
     }
 
     public static final Parcelable.Creator<AgendaItem> CREATOR = new Parcelable.Creator<AgendaItem>() {

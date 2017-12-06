@@ -19,8 +19,7 @@
             android:id="@+id/card_now_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:icon="@drawable/tabs_events"
-            />
+            app:icon="@drawable/tabs_events" />
 
         <LinearLayout
             android:paddingRight="@dimen/card_title_padding_vertical"
@@ -69,7 +68,8 @@
                 android:id="@+id/imageView"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
-                tools:src="@drawable/ic_event" />
+                tools:src="@drawable/ic_event"
+                android:contentDescription="@string/content_desc_association_icon"/>
         </LinearLayout>
     </LinearLayout>
 

@@ -43,9 +43,7 @@ public class MinervaConfig {
 
     //Account information
     public final static String ACCOUNT_TYPE = "be.ugent.zeus.hydra.minerva.account";
-    public static final String ANNOUNCEMENT_AUTHORITY = "be.ugent.zeus.hydra.minerva.provider";
-    public static final String CALENDAR_AUTHORITY = "be.ugent.zeus.hydra.minerva.calendar.provider";
-    public static final String COURSE_AUTHORITY = "be.ugent.zeus.hydra.minerva.course.provider";
+    public static final String SYNC_AUTHORITY = "be.ugent.zeus.hydra.minerva.provider";
 
     //Scopes
     //These are currently not used.

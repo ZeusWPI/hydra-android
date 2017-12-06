@@ -2,7 +2,10 @@ package be.ugent.zeus.hydra;
 
 import android.app.Activity;
 import android.app.Application;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.util.Log;
+
 import be.ugent.zeus.hydra.data.ChannelCreator;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -20,6 +23,8 @@ import jonathanfinerty.once.Once;
 @SuppressWarnings("WeakerAccess")
 public class HydraApplication extends Application {
 
+    private static final String TAG = "HydraApplication";
+
     private Tracker tracker;
 
     @Override
@@ -30,6 +35,11 @@ public class HydraApplication extends Application {
             // You should not init your app in this process.
             return;
         }
+
+        if (BuildConfig.DEBUG) {
+            enableStrictModeInDebug();
+        }
+
         AndroidThreeTen.init(this);
         LeakCanary.install(this);
         Once.initialise(this);
@@ -87,5 +97,26 @@ public class HydraApplication extends Application {
         ChannelCreator channelCreator = ChannelCreator.getInstance(this);
         channelCreator.createSkoChannel();
         channelCreator.createUrgentChannel();
+    }
+
+    /**
+     * Used to enable {@link StrictMode} for debug builds.
+     */
+    private void enableStrictModeInDebug() {
+
+        if (!BuildConfig.DEBUG_ENABLE_STRICT_MODE) {
+            return;
+        }
+
+        Log.d(TAG, "Enabling strict mode...");
+
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectAll()
+                .penaltyLog()
+                .build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectAll()
+                .penaltyLog()
+                .build());
     }
 }

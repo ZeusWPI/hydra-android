@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools">
 
     <!-- General -->
     <string name="app_name">Hydra</string>
@@ -46,8 +46,7 @@
     <string name="pref_resto_closing_description">Kies vanaf welk uur de menu voor de volgende dag getoond wordt.</string>
 
     <string name="pref_resto_choice">Keuze resto</string>
-    <string name="pref_resto_choice_title">Kies een resto</string>
-    <string name="pref_resto_choice_summary">%s</string>
+    <string name="pref_resto_choice_title">Kies een resto in het overzicht</string>
 
     <string name="pref_activities_title">Activiteiten</string>
 
@@ -136,7 +135,7 @@
     <string name="by_author">Door %s</string>
     <string name="pref_home_title">Startscherm</string>
     <string name="title_activity_authentication">Autorisatie</string>
-    <string name="account_label">Minerva</string>
+    <string name="account_label">Hydra</string>
     <string name="auth_maybe_not_ugent">Je bent waarschijnlijk niet verbonden met het netwerk van de UGent. Minerva zal dan (voorlopig) niet werken.</string>
     <string name="minerva_authorize">Autoriseren</string>
     <string name="need_auth">Om Minerva te gebruiken dien je toestemming te geven.</string>
@@ -157,8 +156,7 @@
     <string name="auth_progress_failure">Niet ingelogd.</string>
     <string name="auth_progress_done">Klaar.</string>
 
-    <string name="minerva_sync_announcement_provider">Aankondigingen</string>
-    <string name="minerva_sync_calendar_provider">Agenda</string>
+    <string name="minerva_sync_provider">Minerva</string>
 
     <string name="fragment_home_error">Kon %s niet laden.</string>
     <string name="fragment_home_error_minerva">minerva</string>
@@ -206,6 +204,12 @@
     <string name="events_no_location">Zonder locatie</string>
     <string name="title_license">Licenties</string>
     <string name="agenda_subtitle">%1$s • %2$s</string>
+    <string name="minerva_calendar_device_event_title">
+        <xliff:g id="course_name" example="Machinaal leren">%1$s</xliff:g>: <xliff:g id="event_title" example="Inleiding en afspraken">%2$s</xliff:g>
+    </string>
+    <string name="minerva_calendar_device_description">
+        Les van het vak <xliff:g id="course_name" example="Machinaal leren">%1$s</xliff:g>
+    </string>
     <plurals name="home_feed_announcement_title">
         <item quantity="one">%d aankondiging</item>
         <item quantity="other">%d aankondigingen</item>
@@ -233,7 +237,9 @@
     </plurals>
     <string name="minerva_no_permission">Je gaf geen toestemming om je account te gebruiken.</string>
     <string name="minerva_sync_getting_courses">Vakken ophalen…</string>
+    <string name="minerva_sync_getting_calendar">Agenda ophalen…</string>
     <string name="minerva_sync_done">Klaar.</string>
+    <string name="minerva_sync_cancelled">Geannuleerd.</string>
     <string name="minerva_sync_progress" tools:ignore="PluralsCandidate">Vak %1$d van %2$d ophalen…</string>
     <string name="not_done_yet">Nog niet klaar</string>
     <string name="onboarding_welcome">Welkom bij Hydra</string>
@@ -279,11 +285,7 @@
     <string name="minerva_calendar_permission_title">Machtiging nodig</string>
     <string name="minerva_calendar_permission_text">Hydra moet met de agenda kunnen werken om de Minerva-agenda te tonen. Zonder machtiging wordt de agenda niet gesynchroniseerd. We zullen het de volgende keer nogmaals vragen.</string>
     <string name="minerva_calendar_permission_rationale">Hydra moet met de agenda kunnen werken om de Minerva-agenda te tonen. Zonder machtiging wordt de agenda niet gesynchroniseerd.</string>
-    <string name="minerva_action_sync_parent">Synchroniseren</string>
-    <string name="minerva_action_sync_all">Alles</string>
-    <string name="minerva_action_sync_calendar">Agenda</string>
-    <string name="minerva_action_sync_announcements">Aankondigingen</string>
-    <string name="minerva_sync_course">Vakken</string>
+    <string name="minerva_action_sync_all">Synchroniseren</string>
     <string name="minerva_syncing">Synchroniseren…</string>
     <string name="minerva_calendar_not_found">Agenda-item werd niet gevonden.</string>
     <string name="minerva_calendar_duration">%1$s – %2$s</string>
@@ -370,5 +372,34 @@
     <string name="sko_artist_search_music">Artiest zoeken in muziek</string>
     <string name="sko_artist_no_content">Geen beschrijving gevonden voor deze artiest.</string>
     <string name="activity_title_homefeed_card_types">Kaartsoorten</string>
+    <string name="events_unnamed_precise_location">Precieze locatie: (%1$f, %2$f)</string>µ
 
+    <!-- Accessibility strings -->
+    <string name="content_desc_unread_icon">Heeft ongelezen aankondigingen</string>
+    <string name="content_desc_reorder">Rangschikken</string>
+    <string name="content_desc_more">meer</string>
+    <string name="content_desc_artist_image">Artiestfoto</string>
+    <string name="content_desc_schamper_image">Schamperfoto</string>
+    <string name="content_desc_calendar_icon">Agenda-icon</string>
+    <string name="content_desc_location">Locatie</string>
+    <string name="content_desc_time">Tijd</string>
+    <string name="content_desc_hydra_logo">Hydra-logo</string>
+    <string name="content_desc_library">Bibliotheek</string>
+    <string name="content_desc_event_image">Afbeelding van evenement</string>
+    <string name="content_desc_lesson">Les</string>
+    <string name="content_desc_organiser">Lesgever</string>
+    <string name="content_desc_announcement">Aankondiging</string>
+    <string name="content_desc_warning">Waarschuwing</string>
+    <string name="content_desc_resto">Resto</string>
+    <string name="content_desc_user_offline">Gebruiker offline</string>
+    <string name="content_desc_kickoff_logo">Logo Student Kick-Off</string>
+    <string name="content_desc_schamper_article">Schamperartikel</string>
+    <string name="content_desc_search">Zoeken</string>
+    <string name="content_desc_search_artist">Zoeken op artist</string>
+    <string name="content_desc_minerva_icon">Logo van Minerva</string>
+    <string name="content_desc_special_event_icon">Icoon speciaal evenement</string>
+    <string name="content_desc_urgent_icon">Logo Urgent.fm</string>
+    <string name="content_desc_association_icon">Icon vereniging</string>
+    <string name="resto_default_name">Resto De Brug</string>
+    <string name="resto_spinner_loading">Laden…</string>
 </resources>
