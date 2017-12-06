@@ -97,13 +97,12 @@ public abstract class MinervaRequest<T> extends JsonSpringRequest<T> {
                         //Invalidate auth token and try again.
                         AccountManager m = AccountManager.get(context);
                         m.invalidateAuthToken(MinervaConfig.ACCOUNT_TYPE, getToken());
+                        first = false;
                         return performRequest(null);
                     } catch (RequestException ex) {
                         return new Result.Builder<T>()
                                 .withError(ex)
                                 .build();
-                    } finally {
-                        first = false;
                     }
                 } else {
                     //It was something else, like servers that don't work.
