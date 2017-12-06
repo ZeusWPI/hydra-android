@@ -327,6 +327,13 @@ public class CalendarSync {
                         selArgs,
                         null
                 );
+
+        // If the cursor is NULL here, something went wrong. Just return that there is no calendar in that case,
+        // since there is nothing we can do. Normally this shouldn't be null, but apparently it is.
+        if (cursor == null) {
+            return NO_CALENDAR;
+        }
+
         try {
             if (cursor.moveToFirst()) {
                 return cursor.getLong(0);
