@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.cookpad.android.licensetools'
 
 android {
@@ -93,7 +92,7 @@ android {
 }
 
 project.afterEvaluate {
-    preBuild.dependsOn checkLicenses, generateLicensePage
+    //preBuild.dependsOn checkLicenses, generateLicensePage
 }
 
 //The support library version
