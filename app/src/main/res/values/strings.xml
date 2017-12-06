@@ -408,4 +408,5 @@
     <string name="resto_extra_drinks">Drank</string>
     <string name="resto_extra_title">Overige</string>
     <string name="resto_food_price">€ %s</string>
+    <string name="unrecoverable_error">Er is een fout opgetreden. Probeer het nogmaals.</string>
 </resources>

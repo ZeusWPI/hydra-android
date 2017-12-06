@@ -143,7 +143,7 @@ public class CalendarSync {
 
         // Save the id's of the built-in items.
         for (AgendaItem item : diff.getUpdated()) {
-            item.setCalendarId(Maps.getOrDefault(allItems, item, AgendaItem.NO_CALENDAR_ID));
+            item.setCalendarId(Maps.getOrDefault(allItems, item.getItemId(), AgendaItem.NO_CALENDAR_ID));
         }
 
         // Handle integration with the built-in calendar.
@@ -266,6 +266,9 @@ public class CalendarSync {
             }
         }
 
+        if (!allDeviceIds.isEmpty()) {
+            Log.w(TAG, "Manually removing " + allDeviceIds.size() + " device calendar events. This is not normal!");
+        }
         // Remove the events we lost from the calendar.
         for (Long id : allDeviceIds) {
             Uri itemUri = ContentUris.withAppendedId(uri, id);
@@ -324,6 +327,13 @@ public class CalendarSync {
                         selArgs,
                         null
                 );
+
+        // If the cursor is NULL here, something went wrong. Just return that there is no calendar in that case,
+        // since there is nothing we can do. Normally this shouldn't be null, but apparently it is.
+        if (cursor == null) {
+            return NO_CALENDAR;
+        }
+
         try {
             if (cursor.moveToFirst()) {
                 return cursor.getLong(0);
@@ -371,7 +381,7 @@ public class CalendarSync {
 
         String[] selArgs = new String[]{account.name, MinervaConfig.ACCOUNT_TYPE};
 
-        Cursor result = resolver.query(CalendarContract.Calendars.CONTENT_URI, projection, selection, selArgs, null);
+        Cursor result = resolver.query(CalendarContract.Events.CONTENT_URI, projection, selection, selArgs, null);
         if (result == null) {
             return new HashSet<>();
         }

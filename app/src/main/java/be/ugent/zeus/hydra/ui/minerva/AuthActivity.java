@@ -11,6 +11,8 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.auth.MinervaAuthenticator;
@@ -85,6 +87,12 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
         progressMessage = findViewById(R.id.progress_message);
 
         Bundle bundle = getIntent().getExtras();
+
+        if (bundle == null) {
+            Toast.makeText(this, R.string.unrecoverable_error, Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         accountType = bundle.getString(ARG_ACCOUNT_TYPE, MinervaConfig.ACCOUNT_TYPE);
         authType = bundle.getString(ARG_AUTH_TYPE, MinervaConfig.DEFAULT_SCOPE);
