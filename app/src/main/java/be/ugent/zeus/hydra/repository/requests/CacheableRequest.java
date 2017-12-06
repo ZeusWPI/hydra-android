@@ -1,7 +1,11 @@
 package be.ugent.zeus.hydra.repository.requests;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import be.ugent.zeus.hydra.repository.Cache;
+import java8.util.function.Function;
 
 /**
  * A request that provides additional metadata about the requested data to facilitate caching of said data.
@@ -34,4 +38,70 @@ public interface CacheableRequest<D> extends Request<D> {
      * @return The maximal duration the data should be cached.
      */
     long getCacheDuration();
+
+    /**
+     * Construct a new cacheable request where a given function has been applied to the output of this request.
+     * The cache key and duration are still the same.
+     *
+     * @param function The function to apply.
+     *
+     * @param <R> The resulting type.
+     *
+     * @return The new request.
+     */
+    @Override
+    default <R> CacheableRequest<R> map(Function<D, R> function) {
+        CacheableRequest<D> r = this;
+        return new CacheableRequest<R>() {
+            @NonNull
+            @Override
+            public String getCacheKey() {
+                return r.getCacheKey();
+            }
+
+            @Override
+            public long getCacheDuration() {
+                return r.getCacheDuration();
+            }
+
+            @NonNull
+            @Override
+            public Result<R> performRequest(@Nullable Bundle args) {
+                return r.performRequest(args).map(function);
+            }
+        };
+    }
+
+    /**
+     * Construct a new cacheable request where a given function has been applied to the output of this request.
+     * The cache key and duration are still the same.
+     *
+     * @param function The function to apply.
+     *
+     * @param <R> The resulting type.
+     *
+     * @return The new request.
+     */
+    @Override
+    default <R> CacheableRequest<R> mapError(RequestFunction<D, R> function) {
+        CacheableRequest<D> r = this;
+        return new CacheableRequest<R>() {
+            @NonNull
+            @Override
+            public String getCacheKey() {
+                return r.getCacheKey();
+            }
+
+            @Override
+            public long getCacheDuration() {
+                return r.getCacheDuration();
+            }
+
+            @NonNull
+            @Override
+            public Result<R> performRequest(@Nullable Bundle args) {
+                return r.performRequest(args).mapError(function);
+            }
+        };
+    }
 }

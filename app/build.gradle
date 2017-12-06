@@ -97,7 +97,7 @@ project.afterEvaluate {
 
 //The support library version
 final SUPPORT_LIBRARY_VERSION = '26.1.0'
-final GMS_VERSION = '11.4.0'
+final GMS_VERSION = '11.6.2'
 final AAC_VERSION = '1.0.0'
 
 dependencies {
@@ -164,9 +164,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.7.20'
 
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
     //Enable the normal library for unit tests
     testCompile ('org.threeten:threetenbp:1.3.2'){
