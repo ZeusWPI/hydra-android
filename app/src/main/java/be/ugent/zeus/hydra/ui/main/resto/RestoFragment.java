@@ -220,7 +220,12 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
                     //Set the tab to this day!
                     if (menu.getDate().isEqual(startDate)) {
                         Log.d(TAG, "receiveData: setting item to " + (i + 1));
-                        viewPager.setCurrentItem(i, true);
+                        TabLayout.Tab tab = tabLayout.getTabAt(i);
+                        if (tab != null) {
+                            tab.select();
+                        } else {
+                            viewPager.setCurrentItem(i);
+                        }
                         break;
                     }
                 }
@@ -317,6 +322,12 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
 
     @Override
     public void onRemovalScheduled() {
+        hideExternalViews();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         hideExternalViews();
     }
 

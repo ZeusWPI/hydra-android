@@ -421,6 +421,7 @@ public class MainActivity extends BaseActivity {
         super.onNewIntent(intent);
         // Change item while the activity is running.
         if (intent.hasExtra(ARG_TAB)) {
+            setIntent(intent);
             int start = intent.getIntExtra(ARG_TAB, R.id.drawer_feed);
             if (intent.getBooleanExtra(ARG_NEW_DEFAULT, true)) {
                 this.initialFragmentId = start;
