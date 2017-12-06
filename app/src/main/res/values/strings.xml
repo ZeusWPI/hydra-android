@@ -402,4 +402,5 @@
     <string name="content_desc_association_icon">Icon vereniging</string>
     <string name="resto_default_name">Resto De Brug</string>
     <string name="resto_spinner_loading">Laden…</string>
+    <string name="unrecoverable_error">Er is een fout opgetreden. Probeer het nogmaals.</string>
 </resources>
