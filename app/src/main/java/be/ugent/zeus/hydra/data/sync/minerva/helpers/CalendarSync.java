@@ -143,7 +143,7 @@ public class CalendarSync {
 
         // Save the id's of the built-in items.
         for (AgendaItem item : diff.getUpdated()) {
-            item.setCalendarId(Maps.getOrDefault(allItems, item, AgendaItem.NO_CALENDAR_ID));
+            item.setCalendarId(Maps.getOrDefault(allItems, item.getItemId(), AgendaItem.NO_CALENDAR_ID));
         }
 
         // Handle integration with the built-in calendar.
@@ -266,6 +266,9 @@ public class CalendarSync {
             }
         }
 
+        if (!allDeviceIds.isEmpty()) {
+            Log.w(TAG, "Manually removing " + allDeviceIds.size() + " device calendar events. This is not normal!");
+        }
         // Remove the events we lost from the calendar.
         for (Long id : allDeviceIds) {
             Uri itemUri = ContentUris.withAppendedId(uri, id);
@@ -371,7 +374,7 @@ public class CalendarSync {
 
         String[] selArgs = new String[]{account.name, MinervaConfig.ACCOUNT_TYPE};
 
-        Cursor result = resolver.query(CalendarContract.Calendars.CONTENT_URI, projection, selection, selArgs, null);
+        Cursor result = resolver.query(CalendarContract.Events.CONTENT_URI, projection, selection, selArgs, null);
         if (result == null) {
             return new HashSet<>();
         }
