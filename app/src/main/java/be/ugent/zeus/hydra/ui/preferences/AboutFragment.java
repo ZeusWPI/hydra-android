@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.support.v7.content.res.AppCompatResources;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.HydraApplication;
@@ -40,6 +41,8 @@ public class AboutFragment extends PreferenceFragment {
 
             return false;
         });
+
+        findPreference("pref_about_creator").setIcon(AppCompatResources.getDrawable(getActivity(), R.drawable.logo_zeus));
     }
 
     @Override
