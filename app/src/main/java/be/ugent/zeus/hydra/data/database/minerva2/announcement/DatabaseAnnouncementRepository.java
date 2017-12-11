@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.data.database.minerva2.announcement;
 
+import android.util.Log;
+
 import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementMapper;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
@@ -7,10 +9,12 @@ import be.ugent.zeus.hydra.data.dto.minerva.CourseMapper;
 import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
 import be.ugent.zeus.hydra.domain.models.minerva.Course;
 import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
+import com.google.firebase.crash.FirebaseCrash;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 import org.threeten.bp.ZonedDateTime;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 import static be.ugent.zeus.hydra.utils.IterableUtils.transform;
@@ -91,10 +95,30 @@ public class DatabaseAnnouncementRepository implements AnnouncementRepository {
         return transform(announcementDao.getMostRecentFirst(courseId), result -> announcementMapper.convert(result.announcement, courseMapper.courseToCourse(result.course)));
     }
 
+    private static String printFields(Object o) {
+        StringBuilder result = new StringBuilder(o.getClass().getSimpleName() + ": ");
+        for (Field field : o.getClass().getDeclaredFields()) {
+            field.setAccessible(true);     // you also get non-public fields
+            try {
+                result.append(field.getName()).append(" = ").append(field.get(o)).append(", ");
+            } catch (IllegalAccessException e) {
+                Log.e("TempPrinter", "Uh?", e);
+            }
+        }
+        return result.toString();
+    }
+
     @Override
     public Map<Course, List<Announcement>> getMostRecentFirstMap() {
         List<AnnouncementDao.Result> results = announcementDao.getUnreadMostRecentFirst();
         Map<CourseDTO, List<AnnouncementDTO>> map = StreamSupport.stream(results)
+                .filter(result -> {
+                    // Temporary log null values to error
+                    if (result.course == null) {
+                        FirebaseCrash.log("The database is inconsistent! Ignoring data for now. Affected row is " + printFields(result));
+                    }
+                    return result.course != null;
+                })
                 .collect(Collectors.groupingBy(r -> r.course, Collectors.mapping(r -> r.announcement, Collectors.toList())));
 
         Map<Course, List<Announcement>> result = new HashMap<>();
