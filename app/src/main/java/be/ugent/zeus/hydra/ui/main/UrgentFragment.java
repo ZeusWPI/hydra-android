@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.service.urgent.MusicService;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 import java.util.List;
 
@@ -34,6 +35,10 @@ import java.util.List;
 public class UrgentFragment extends Fragment {
 
     private static final String TAG = "UrgentFragment";
+    private static final String FACEBOOK_URL = "https://www.facebook.com/urgent.fm";
+    private static final String YOUTUBE_URL = "https://www.youtube.com/channel/UCZgOQzaJUeIlvS5R7pqFsqQ";
+    private static final String URGENT_URL = "http://www.urgent.fm/";
+    private static final String INSTAGRAM_URL = "https://www.instagram.com/urgent.fm/";
 
     @DrawableRes
     private static final int PLAY_DRAWABLE = R.drawable.ic_play_arrow_24dp;
@@ -48,6 +53,10 @@ public class UrgentFragment extends Fragment {
 
     private MediaBrowserCompat mediaBrowser;
     private boolean shouldUpdateButton = false;
+    private ImageButton facebook;
+    private ImageButton youtube;
+    private ImageButton instagram;
+    private ImageButton urgentfm;
 
     // Receive callbacks from the MediaController. Here we update our state such as which queue
     // is being shown, the current title and description and the PlaybackState.
@@ -134,6 +143,15 @@ public class UrgentFragment extends Fragment {
         titleText = view.findViewById(R.id.titleText);
         progressBar = view.findViewById(R.id.progress_bar);
         playPauseButton = view.findViewById(R.id.playPauseButton);
+        facebook = view.findViewById(R.id.social_facebook);
+        facebook.setOnClickListener(view1 -> NetworkUtils.maybeLaunchBrowser(getContext(),FACEBOOK_URL));
+        youtube = view.findViewById(R.id.social_youtube);
+        youtube.setOnClickListener(view1 -> NetworkUtils.maybeLaunchBrowser(getContext(),YOUTUBE_URL));
+        instagram = view.findViewById(R.id.social_instagram);
+        instagram.setOnClickListener(view1 -> NetworkUtils.maybeLaunchBrowser(getContext(),INSTAGRAM_URL));
+        urgentfm = view.findViewById(R.id.social_urgentfm);
+        urgentfm.setOnClickListener(view1 -> NetworkUtils.maybeLaunchBrowser(getContext(),URGENT_URL));
+
 
         mediaBrowser = new MediaBrowserCompat(getActivity(),
                 new ComponentName(getActivity(), MusicService.class), connectionCallback, null);
