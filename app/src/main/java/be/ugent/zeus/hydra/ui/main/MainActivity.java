@@ -110,6 +110,40 @@ import jonathanfinerty.once.Once;
  * +-----------------------+
  * }</pre>
  *
+ * <h1>Arguments for children</h1>
+ *
+ * If a child fragment needs arguments to initialise, it should implement {@link ArgumentsReceiver}. When implementing
+ * this interface, the activity will call this method on the fragment. This gives the fragment a chance to extract
+ * arguments from the intent of the activity, which will then be set as arguments to the fragment.
+ *
+ * After this method call, the fragment can behave as if the arguments were directly set on the fragment itself.
+ *
+ * This function will only be called when creating a fragment, not when popping from the back stack.
+ *
+ * <h1>Common views and removal</h1>
+ *
+ * The activity provides some common views:
+ * <ul>
+ *     <li>A {@link android.support.design.widget.TabLayout} with id {@link R.id#tab_layout}</li>
+ *     <li>A {@link android.support.design.widget.BottomNavigationView} with id {@link R.id#bottom_navigation}</li>
+ * </ul>
+ *
+ * These are hidden by default and should be shown and hidden by the fragments that use them.
+ *
+ * To this end, a fragment may implement {@link ScheduledRemovalListener}. This callback will called when the activity
+ * determines that a fragment is no longer in use and fragment-specific views should be hidden.
+ *
+ * The fragment itself should not be hidden; the activity takes care of this. The callback is specifically for views
+ * outside the normal fragment, such as the two above or a contextual action bar.
+ *
+ * The reason fragments cannot fully rely on the default lifecycle methods, such as {@link Fragment#onStop()}, is that
+ * the fragment is not always removed immediately by the activity when it is hidden (this as to do with performance).
+ *
+ * <h1>Arguments</h1>
+ *
+ * The activity has one public argument: which child fragment to load. The preferred way of using it is
+ * {@link #ARG_TAB}, with an int value. The int value is the ID of the menu item in the drawer.
+ *
  * @see [1] <a href="https://youtu.be/Sww4omntVjs?t=13m46s">Android Design in Action: Navigation Anti-Patterns, pattern 6</a>
  */
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -302,9 +336,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         //If this is the same fragment, don't do anything.
         if (current != null && current.getClass().equals(fragment.getClass())) {
-            if (current instanceof OnReselectListener) {
-                ((OnReselectListener) current).onReselect(getIntent());
-            }
             return;
         }
 
