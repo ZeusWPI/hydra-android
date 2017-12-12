@@ -38,7 +38,6 @@ public class RestoPreferenceFragment extends PreferenceFragment {
         findPreference("pref_choice_resto_select").setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), MainActivity.class);
             intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_resto);
-            intent.putExtra(MainActivity.ARG_NEW_DEFAULT, false);
             startActivity(intent);
             return true;
         });

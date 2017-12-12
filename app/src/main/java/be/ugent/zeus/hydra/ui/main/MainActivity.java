@@ -6,6 +6,8 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
@@ -16,7 +18,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
-import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -42,13 +43,79 @@ import jonathanfinerty.once.Once;
  *
  * The logic for handling the navigation drawer is not immediately obvious to those who do not work with it regularly.
  * Proceed with caution.
+ *
+ * <h1>Navigation</h1>
+ *
+ * One of the main responsibilities of this activity is managing navigation between the drawer, the fragments and the
+ * fragments between each other. The navigation is built in two main components: navigation forward and navigating
+ * backwards. Each component itself is not that difficult. Together the provide an intuitive navigation.
+ *
+ * <h2>Forward navigation</h2>
+ *
+ * When the user navigates to a new fragment in this activity, the back stack (of the {@link #getSupportFragmentManager()}
+ * must be updated. There are three scenario's to consider:
+ * <ol>
+ *     <li>
+ *         The navigation originates from the navigation drawer. Implementation note: these events will be received
+ *         by the {@link #onNavigationItemSelected(MenuItem)} method. Represented by {@link NavigationSource#DRAWER}.
+ *     </li>
+ *     <li>
+ *         The navigation originates from somewhere else, probably from inside a fragment. Implementation note: these
+ *         events will be received in the {@link #onNewIntent(Intent)} method. Represented by {@link NavigationSource#INNER}.
+ *     </li>
+ *     <li>
+ *         The last case is in fact the easiest: it is the base case, what happens when the activity is created for the
+ *         first time. Represented by {@link NavigationSource#INITIALISATION}.
+ *     </li>
+ * </ol>
+ *
+ * On the first scenario, the back stack should be cleared [1]. The new fragment should not be added to the back stack,
+ * as it should not be reversed. An implementation complexity is that this should not happen when restoring the
+ * activity (scenario three).
+ * TODO: investigate if it would be better to always return to the homefeed instead of clearing the back button?
+ *
+ * In the second scenario, the user probably expects to be able to go back. Therefore, these should be added to the
+ * back stack. Currently it is unlikely this will cause back stacks that are too large. In the future, we might need
+ * to restrict this, e.g. by checking for existing instances of a fragment in the stack and popping until that instance
+ * is reached. For example, assume the back stack is B -> A -> C. When the user then navigates to fragment A, the C
+ * fragment should be removed from the stack.
+ *
+ * The third and last scenario is the easiest: nothing should be done when the activity is first started or recreated.
+ * The fragments should not be added to the back stack.
+ *
+ * <h2>Backwards navigation</h2>
+ *
+ * The logic above makes the backwards navigation quite simple, and can be summarized as:
+ * <pre>{@code
+ * +-----------------------+
+ * |  Back button pressed  |
+ * +------+----------------+
+ *        |
+ *        |
+ *        |
+ * +------v----------------+  Yes   +-----------------------+
+ * |  Is drawer open?      +-------->  Close drawer         |
+ * +------+----------------+        +-----------------------+
+ *        |
+ *        | No
+ *        |
+ * +------v----------------+  Yes   +-----------------------+
+ * |  Is back stack empty? +-------->  Pop from back stack  |
+ * +------+----------------+        +-----------------------+
+ *        |
+ *        | No
+ *        |
+ * +------v----------------+
+ * |  Let activity finish  |
+ * +-----------------------+
+ * }</pre>
+ *
+ * @see [1] <a href="https://youtu.be/Sww4omntVjs?t=13m46s">Android Design in Action: Navigation Anti-Patterns, pattern 6</a>
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String ARG_TAB = "argTab";
     public static final String ARG_TAB_SHORTCUT = "argTabShortcut";
-    public static final String ARG_NEW_DEFAULT = "argTabNewDefault";
-    private static final String ARG_INITIAL_FRAGMENT = "argTabInitialFragment";
 
     private static final String TAG = "BaseActivity";
 
@@ -69,15 +136,12 @@ public class MainActivity extends BaseActivity {
     private AppBarLayout appBarLayout;
     private FirebaseAnalytics analytics;
 
-    @IdRes
-    private int initialFragmentId;
-
     /**
      * Contains the next fragment. This fragment will be shown when the navigation drawer has been closed, to prevent
      * lag. If null, nothing should happen on close.
      */
     @Nullable
-    private Pair<Fragment, MenuItem> scheduledContentUpdate;
+    private DrawerUpdate scheduledContentUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,11 +165,8 @@ public class MainActivity extends BaseActivity {
         appBarLayout = findViewById(R.id.app_bar_layout);
         drawerLoader = findViewById(R.id.drawer_loading);
 
-        navigationView.setNavigationItemSelectedListener(
-                menuItem -> {
-                    selectDrawerItem(menuItem);
-                    return true;
-                });
+        // Register the listener for navigation events from the drawer.
+        navigationView.setNavigationItemSelectedListener(this);
 
         toggle = new ActionBarDrawerToggle(this, drawer, findViewById(R.id.toolbar), R.string.drawer_open, R.string.drawer_close) {
             @Override
@@ -125,32 +186,29 @@ public class MainActivity extends BaseActivity {
             public void onDrawerClosed(View drawerView) {
                 // This is used to prevent lag during closing of the navigation drawer.
                 if (scheduledContentUpdate != null) {
-                    setFragment(scheduledContentUpdate.first, scheduledContentUpdate.second);
+                    setFragment(scheduledContentUpdate.fragment, scheduledContentUpdate.menuItem, scheduledContentUpdate.navigationSource);
                     scheduledContentUpdate = null;
                 }
             }
         });
 
-        //If the instance is null, we must initialise a fragment, otherwise android does it for us.
+        // If the instance is null, we must initialise a fragment, otherwise android does it for us.
         if (savedInstanceState == null) {
             // If we get a position, use that (for the shortcuts)
             if (getIntent().hasExtra(ARG_TAB_SHORTCUT)) {
                 int position = getIntent().getIntExtra(ARG_TAB_SHORTCUT, 0);
                 MenuItem menuItem = navigationView.getMenu().getItem(position);
-                this.initialFragmentId = menuItem.getItemId();
-                selectDrawerItem(menuItem);
+                selectDrawerItem(menuItem, NavigationSource.INITIALISATION);
             } else {
                 // Get start position & select it
                 int start = getIntent().getIntExtra(ARG_TAB, R.id.drawer_feed);
-                this.initialFragmentId = start;
-                selectDrawerItem(navigationView.getMenu().findItem(start));
+                selectDrawerItem(navigationView.getMenu().findItem(start), NavigationSource.INITIALISATION);
             }
         } else { //Update title, since this is not saved apparently.
             //Current fragment
             FragmentManager manager = getSupportFragmentManager();
             Fragment current = manager.findFragmentById(R.id.content);
             setTitle(navigationView.getMenu().findItem(getFragmentMenuId(current)).getTitle());
-            this.initialFragmentId = savedInstanceState.getInt(ARG_INITIAL_FRAGMENT, R.id.drawer_feed);
         }
 
         // If this is the first time, open the drawer.
@@ -184,8 +242,9 @@ public class MainActivity extends BaseActivity {
      * should be opened.
      *
      * @param menuItem The item to display.
+     * @param navigationSource Where the navigation originates from.
      */
-    private void selectDrawerItem(MenuItem menuItem) {
+    private void selectDrawerItem(MenuItem menuItem, @NavigationSource int navigationSource) {
 
         // First check if it are settings, then we don't update anything.
         if (menuItem.getItemId() == R.id.drawer_pref) {
@@ -231,14 +290,14 @@ public class MainActivity extends BaseActivity {
                 fragment = new ComingSoonFragment();
         }
 
-        //Set the ID
+        // Set the ID.
         setArguments(fragment, menuItem.getItemId());
 
-        //We use a back stack for the fragments. When a new fragment is shown, we insert it to the back stack.
-        //If the fragment is already in the back stack, we restore the back stack to that fragment.
+        // We use a back stack for the fragments. When a new fragment is shown, we insert it to the back stack.
+        // If the fragment is already in the back stack, we restore the back stack to that fragment.
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        //Current fragment
+        // Current fragment
         Fragment current = fragmentManager.findFragmentById(R.id.content);
 
         //If this is the same fragment, don't do anything.
@@ -264,10 +323,10 @@ public class MainActivity extends BaseActivity {
                 ((ScheduledRemovalListener) current).onRemovalScheduled();
             }
             Log.d(TAG, "selectDrawerItem: drawer is open, so scheduling update instead.");
-            this.scheduledContentUpdate = new Pair<>(fragment, menuItem);
+            this.scheduledContentUpdate = new DrawerUpdate(navigationSource, fragment, menuItem);
         } else {
             Log.d(TAG, "selectDrawerItem: drawer is closed, so doing update now.");
-            setFragment(fragment, menuItem);
+            setFragment(fragment, menuItem, navigationSource);
         }
         updateDrawer(menuItem);
     }
@@ -290,31 +349,45 @@ public class MainActivity extends BaseActivity {
         drawer.closeDrawer(GravityCompat.START);
     }
 
-    private void setFragment(Fragment fragment, MenuItem menuItem) {
+    /**
+     * Set the current displayed fragment. This method is executed immediately.
+     *
+     * @param fragment The new fragment.
+     * @param menuItem The menu item corresponding to the fragment.
+     * @param navigationSource Where this navigation originates. This determines the behaviour with the back stack.
+     */
+    private void setFragment(Fragment fragment, MenuItem menuItem, @NavigationSource int navigationSource) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-
-        // Get the ID of the current fragment.
-        int id = menuItem.getItemId();
 
         // The name for the back stack and the fragment itself.
         String name = String.valueOf(menuItem.getItemId());
 
-        // We remove all transactions.
-        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        // If this is a drawer navigation, clear the back stack.
+        if (navigationSource == NavigationSource.DRAWER) {
+            Log.d(TAG, "setFragment: Clearing back stack, due to drawer navigation.");
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
 
-        // When adding the new transaction, we only add it to the back stack if it is not the original one.
-        FragmentTransaction  transaction = fragmentManager
+        // Create the base transaction.
+        FragmentTransaction transaction = fragmentManager
                 .beginTransaction()
                 .replace(R.id.content, fragment, name);
 
-        if (id != initialFragmentId) {
-            Log.d(TAG, "setFragment: adding to back stack");
+        // If this is an inner navigation, add it to the back stack.
+        if (navigationSource == NavigationSource.INNER) {
+            Log.d(TAG, "setFragment: registering on back stack, due to inner navigation.");
             transaction.addToBackStack(name);
-        } else {
-            Log.d(TAG, "setFragment: not adding to back stack");
         }
 
+        // TODO: temp debug
+        if (navigationSource == NavigationSource.INITIALISATION) {
+            Log.d(TAG, "setFragment: setting fragment for initialisation");
+        }
+
+        // We allow state loss to prevent crashes in rare case.
         transaction.commitAllowingStateLoss();
+
+        // Hide the loader.
         drawerLoader.setVisibility(View.GONE);
     }
 
@@ -330,34 +403,23 @@ public class MainActivity extends BaseActivity {
             return;
         }
 
-        // Add a listener.
+        // The super method handles both the fragment back stack and finishing the activity. To know what was executed,
+        // we need to add a listener.
+
         FragmentManager.OnBackStackChangedListener listener = () -> {
             Fragment current = getSupportFragmentManager().findFragmentById(R.id.content);
-            int id = current == null ? initialFragmentId : getFragmentMenuId(current);
-            MenuItem item = navigationView.getMenu().findItem(id);
+            Log.w(TAG, "onBackPressed: current fragment is somehow null? Ignoring update for now.");
+            if (current == null) {
+                return;
+            }
+            MenuItem item = navigationView.getMenu().findItem(getFragmentMenuId(current));
             updateDrawer(item);
         };
+        // We need to listen to the back stack to update the drawer.
         getSupportFragmentManager().addOnBackStackChangedListener(listener);
-
         super.onBackPressed();
-
+        // The drawer has been updated, so we abandon the listener.
         getSupportFragmentManager().removeOnBackStackChangedListener(listener);
-
-
-//        // If the drawer is closed, we attempt to go back to the initial fragment if possible.
-//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content);
-//        // If the fragment is not null, we might want to go back.
-//        if (fragment != null) {
-//            if (getFragmentMenuId(fragment) == initialFragmentId) {
-//                // If the ID of the current fragment equals the original, call through to the super method.
-//                super.onBackPressed();
-//            } else {
-//                // Otherwise, select the original fragment.
-//                selectDrawerItem(navigationView.getMenu().findItem(initialFragmentId));
-//            }
-//        } else {
-//            super.onBackPressed();
-//        }
     }
 
     /**
@@ -423,10 +485,51 @@ public class MainActivity extends BaseActivity {
         if (intent.hasExtra(ARG_TAB)) {
             setIntent(intent);
             int start = intent.getIntExtra(ARG_TAB, R.id.drawer_feed);
-            if (intent.getBooleanExtra(ARG_NEW_DEFAULT, true)) {
-                this.initialFragmentId = start;
-            }
-            selectDrawerItem(navigationView.getMenu().findItem(start));
+            selectDrawerItem(navigationView.getMenu().findItem(start), NavigationSource.INNER);
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        selectDrawerItem(item, NavigationSource.DRAWER);
+        return true;
+    }
+
+    /**
+     * Represents the origins of a navigation event. These are ints instead of enums for performance reasons.
+     * See the class documentation for an overview.
+     *
+     * TODO: check if should these be enums, proguard would optimize this or not.
+     */
+    @IntDef({NavigationSource.DRAWER, NavigationSource.INNER, NavigationSource.INITIALISATION})
+    private @interface NavigationSource {
+        /**
+         * The navigation originates from the drawer. Represents scenario 1.
+         */
+        int DRAWER = 0;
+        /**
+         * The navigation originates from an user action inside the fragments. Represents scenario 2.
+         */
+        int INNER = 1;
+        /**
+         * The navigation originates from the activity being initialised. Represents scenario 3.
+         */
+        int INITIALISATION = 2;
+    }
+
+    /**
+     * Groups an update for the navigation drawer.
+     */
+    private static class DrawerUpdate {
+        @NavigationSource
+        final int navigationSource;
+        final Fragment fragment;
+        final MenuItem menuItem;
+
+        private DrawerUpdate(int navigationSource, Fragment fragment, MenuItem menuItem) {
+            this.navigationSource = navigationSource;
+            this.fragment = fragment;
+            this.menuItem = menuItem;
         }
     }
 }
