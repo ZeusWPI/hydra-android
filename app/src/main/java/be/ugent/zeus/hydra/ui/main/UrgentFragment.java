@@ -35,6 +35,7 @@ import java.util.List;
 public class UrgentFragment extends Fragment {
 
     private static final String TAG = "UrgentFragment";
+
     private static final String FACEBOOK_URL = "https://www.facebook.com/urgent.fm";
     private static final String YOUTUBE_URL = "https://www.youtube.com/channel/UCZgOQzaJUeIlvS5R7pqFsqQ";
     private static final String URGENT_URL = "http://www.urgent.fm/";
@@ -53,10 +54,6 @@ public class UrgentFragment extends Fragment {
 
     private MediaBrowserCompat mediaBrowser;
     private boolean shouldUpdateButton = false;
-    private ImageButton facebook;
-    private ImageButton youtube;
-    private ImageButton instagram;
-    private ImageButton urgentfm;
 
     // Receive callbacks from the MediaController. Here we update our state such as which queue
     // is being shown, the current title and description and the PlaybackState.
@@ -143,18 +140,18 @@ public class UrgentFragment extends Fragment {
         titleText = view.findViewById(R.id.titleText);
         progressBar = view.findViewById(R.id.progress_bar);
         playPauseButton = view.findViewById(R.id.playPauseButton);
-        facebook = view.findViewById(R.id.social_facebook);
-        facebook.setOnClickListener(view1 -> NetworkUtils.maybeLaunchBrowser(getContext(),FACEBOOK_URL));
-        youtube = view.findViewById(R.id.social_youtube);
-        youtube.setOnClickListener(view1 -> NetworkUtils.maybeLaunchBrowser(getContext(),YOUTUBE_URL));
-        instagram = view.findViewById(R.id.social_instagram);
-        instagram.setOnClickListener(view1 -> NetworkUtils.maybeLaunchBrowser(getContext(),INSTAGRAM_URL));
-        urgentfm = view.findViewById(R.id.social_urgentfm);
-        urgentfm.setOnClickListener(view1 -> NetworkUtils.maybeLaunchBrowser(getContext(),URGENT_URL));
 
+        // Attach links to social media buttons.
+        view.findViewById(R.id.social_facebook)
+                .setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(getContext(), FACEBOOK_URL));
+        view.findViewById(R.id.social_youtube)
+                .setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(getContext(), YOUTUBE_URL));
+        view.findViewById(R.id.social_instagram)
+                .setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(getContext(), INSTAGRAM_URL));
+        view.findViewById(R.id.social_urgentfm)
+                .setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(getContext(), URGENT_URL));
 
-        mediaBrowser = new MediaBrowserCompat(getActivity(),
-                new ComponentName(getActivity(), MusicService.class), connectionCallback, null);
+        mediaBrowser = new MediaBrowserCompat(getActivity(), new ComponentName(getActivity(), MusicService.class), connectionCallback, null);
         hideMediaControls();
     }
 
