@@ -25,26 +25,26 @@
             android:contentDescription="@string/content_desc_artist_image"/>
 
         <TextView
-            android:paddingLeft="@dimen/card_title_padding_vertical"
-            android:paddingRight="@dimen/card_title_padding_vertical"
+            android:paddingLeft="@dimen/material_card_title_block_padding_horizontal"
+            android:paddingRight="@dimen/material_card_title_block_padding_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/title"
             android:paddingTop="@dimen/card_title_padding_top"
-            android:textSize="@dimen/card_title_size_large"
-            style="@style/Base.TextAppearance.AppCompat.Title"
+            android:textSize="@dimen/material_card_title_block_large_title_text_size"
             tools:text="Dit is een Artiest!" />
 
         <TextView
-            android:paddingLeft="@dimen/card_title_padding_vertical"
-            android:paddingRight="@dimen/card_title_padding_vertical"
-            android:paddingBottom="@dimen/card_title_padding_bottom_no_content"
+            android:paddingTop="@dimen/material_card_title_block_large_subtitle_margin_top"
+            android:paddingLeft="@dimen/material_card_title_block_padding_horizontal"
+            android:paddingRight="@dimen/material_card_title_block_padding_horizontal"
+            android:paddingBottom="@dimen/material_card_title_block_large_padding_bottom_last_block"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/date"
             android:textColor="?android:attr/textColorSecondary"
             tools:text="Datum Gisteren"
-            android:textSize="@dimen/card_title_size_subtitle"/>
+            android:textSize="@dimen/material_card_title_block_subtitle_text_size"/>
 
     </LinearLayout>
 

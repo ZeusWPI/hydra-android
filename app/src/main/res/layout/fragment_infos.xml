@@ -10,11 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingLeft="@dimen/card_margin"
-        android:paddingRight="@dimen/card_margin"
-        android:paddingTop="@dimen/card_spacing"
         app:layoutManager="@string/app_layout_manager_linear" />
-
     <include layout="@layout/x_progress_bar" />
 
 </FrameLayout>

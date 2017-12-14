@@ -64,7 +64,7 @@
             android:name=".ui.preferences.SettingsActivity"
             android:label="@string/action_settings"
             android:parentActivityName=".ui.main.MainActivity"
-            android:theme="@style/Hydra.Main.TextColorSelector">
+            android:theme="@style/Hydra.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
 

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:gravity="center_vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -26,9 +27,11 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:paddingTop="@dimen/card_title_padding_top"
         android:paddingBottom="@dimen/card_title_padding_top"
-        android:textColor="@color/ugent_blue_lighter"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="@dimen/material_typography_regular_caption_text_size"
         android:paddingLeft="8dp"
         tools:text="Menu voor de toekomst!" />
 

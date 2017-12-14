@@ -128,6 +128,12 @@
   license: The Apache Software License, Version 2.0
   url: http://mapstruct.org/
 
+- artifact: blue.aodev:material-values:+
+  name: material-values
+  copyrightHolder: Ao (Matthieu Esnault)
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/AoDevBlue/MaterialValues
+
 - artifact: net.sourceforge.streamsupport:streamsupport:+
   skip: true
 - artifact: com.github.streamsupport.streamsupport:streamsupport-pro:+

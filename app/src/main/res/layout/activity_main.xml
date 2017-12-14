@@ -69,6 +69,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             app:menu="@menu/bottom_resto"
+            app:itemIconTint="?attr/colorPrimary"
+            app:itemTextColor="?attr/colorPrimary"
             app:itemBackground="?android:colorBackground" />
 
     </android.support.design.widget.CoordinatorLayout>

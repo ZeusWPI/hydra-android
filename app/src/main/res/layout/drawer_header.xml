@@ -10,11 +10,11 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:paddingLeft="@dimen/vertical_padding"
-        android:tint="?android:attr/textColorPrimary"
+        android:paddingRight="@dimen/vertical_padding"
+        android:tint="?attr/colorPrimary"
         app:srcCompat="@drawable/logo_hydra"
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="left"
         android:scaleType="fitStart"
         tools:ignore="MissingPrefix"
         tools:src="@drawable/logo_hydra"
@@ -24,6 +24,6 @@
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/ugent_blue_lighter" />
+        android:background="?attr/colorPrimary" />
 
 </FrameLayout>

@@ -5,44 +5,47 @@
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/list_two_line_padding_vertical"
-    android:paddingRight="@dimen/list_two_line_padding_vertical"
-    android:paddingTop="@dimen/list_two_line_padding_horizontal"
-    android:paddingBottom="@dimen/list_two_line_padding_horizontal"
+    android:paddingLeft="@dimen/material_list_text_only_margin_horizontal"
+    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true">
 
     <LinearLayout
+        android:paddingTop="@dimen/list_two_line_padding_horizontal"
+        android:paddingBottom="@dimen/list_two_line_padding_horizontal"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="@dimen/list_two_line_primary_text_size"
+            android:textSize="@dimen/material_list_normal_primary_text_size"
             android:id="@+id/title"
             tools:text="Bibliotheek" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/list_two_line_secondary_text_size"
+            android:textColor="@color/material_typography_secondary_text_color_dark"
+            android:textSize="@dimen/material_list_normal_secondary_text_size"
             android:id="@+id/subtitle"
             tools:text="Meer informatie" />
 
     </LinearLayout>
 
     <ImageView
+        android:layout_marginLeft="@dimen/material_list_icon_last_position_margin_horizontal"
+        android:layout_marginRight="@dimen/material_list_icon_last_position_margin_horizontal"
         android:visibility="gone"
+        tools:visibility="visible"
         android:id="@+id/library_favourite_image"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/material_list_icon_size"
+        android:layout_height="@dimen/material_list_icon_size"
         app:srcCompat="@drawable/ic_star"
         android:tint="@color/ugent_yellow_dark"
-        android:contentDescription="@string/content_desc_library"/>
+        android:contentDescription="@string/content_desc_library" />
 
 </LinearLayout>
