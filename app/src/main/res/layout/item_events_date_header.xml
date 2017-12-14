@@ -26,7 +26,7 @@
             android:id="@+id/date_header"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="16sp"
+            android:textSize="@dimen/material_subheader_text_size"
             android:textColor="?attr/colorAccent"
             android:gravity="center_vertical"
             tools:text="Een datum komt hier" />

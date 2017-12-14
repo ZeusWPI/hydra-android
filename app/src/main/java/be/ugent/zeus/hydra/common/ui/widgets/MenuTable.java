@@ -4,14 +4,18 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.resto.RestoMeal;
@@ -34,13 +38,17 @@ public class MenuTable extends TableLayout {
      * Indicates all items will be shown. Cannot be used together with {@link #MAIN}.
      */
     public static final int ALL = 1;
-
+    @ColorInt
+    private final int primaryColour;
     private RestoMenu menu;
     private int mode = MAIN;
     private boolean selectable;
 
     public MenuTable(Context context) {
         super(context);
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        primaryColour = ContextCompat.getColor(context, typedValue.resourceId);
     }
 
     public MenuTable(Context context, AttributeSet attrs) {
@@ -55,6 +63,9 @@ public class MenuTable extends TableLayout {
         } finally {
             a.recycle();
         }
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        primaryColour = ContextCompat.getColor(context, typedValue.resourceId);
     }
 
     /**
@@ -64,7 +75,7 @@ public class MenuTable extends TableLayout {
      */
     private void createTitle(String title, boolean span) {
 
-        final int rowPadding = ViewUtils.convertDpToPixelInt(4, getContext());
+        final int rowPadding = getContext().getResources().getDimensionPixelSize(R.dimen.material_baseline_grid_1x);
 
         TableRow tr = new TableRow(getContext());
         TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
@@ -78,10 +89,17 @@ public class MenuTable extends TableLayout {
         if (span) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 //noinspection deprecation
-                v.setTextAppearance(getContext(), R.style.Material_Typography_Subhead);
+                v.setTextAppearance(getContext(), R.style.MaterialTypography_Regular_Subheading);
             } else {
-                v.setTextAppearance(R.style.Material_Typography_Subhead);
+                v.setTextAppearance(R.style.MaterialTypography_Regular_Subheading);
             }
+            v.setTextColor(primaryColour);
+            v.setPadding(
+                    v.getPaddingLeft(),
+                    rowPadding,
+                    v.getPaddingRight(),
+                    v.getPaddingBottom()
+            );
         }
         v.setLayoutParams(textParam);
         v.setText(title);
@@ -115,8 +133,7 @@ public class MenuTable extends TableLayout {
             tr.setLayoutParams(lp);
 
             //Set the correct image.
-            @DrawableRes
-            final int id;
+            @DrawableRes final int id;
             switch (meal.getKind()) {
                 case "meat":
                     id = R.drawable.resto_meat;
@@ -152,7 +169,7 @@ public class MenuTable extends TableLayout {
 
         final int rowPadding = ViewUtils.convertDpToPixelInt(2, getContext());
 
-        for (String veg: vegetables) {
+        for (String veg : vegetables) {
 
             TableRow tr = new TableRow(getContext());
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
@@ -174,6 +191,7 @@ public class MenuTable extends TableLayout {
      * Make an image view.
      *
      * @param id The ID of the drawable. Can be a vector.
+     *
      * @return The imageview.
      */
     private ImageView makeImageView(@DrawableRes int id) {
@@ -187,14 +205,16 @@ public class MenuTable extends TableLayout {
 
     /**
      * Make center text.
+     *
      * @param text The text.
-     * @param lp The layout param.
+     * @param lp   The layout param.
+     *
      * @return The text view.
      */
     private TextView makeCenterTextView(String text, TableRow.LayoutParams lp) {
         TextView tvCenter = new TextView(getContext());
         tvCenter.setTextIsSelectable(selectable);
-        tvCenter.setPadding(ViewUtils.convertDpToPixelInt(16, getContext()),0,0,0);
+        tvCenter.setPadding(ViewUtils.convertDpToPixelInt(16, getContext()), 0, 0, 0);
         tvCenter.setLayoutParams(lp);
         tvCenter.setText(text);
         return tvCenter;

@@ -3,11 +3,11 @@
 
     <!-- Hydra colours -->
     <color name="ugent_blue_highlight">#19A3D2</color>
-    <color name="ugent_blue_light">#c9d8e7</color>
-    <color name="ugent_blue_lighter">#8aa6c2</color>
-    <color name="ugent_blue_medium">#245b8d</color>
-    <color name="ugent_blue_dark">#164474</color>
-    <color name="ugent_yellow_dark">#FFB300</color>
+    <color name="ugent_blue_light">#BCD1EF</color>
+    <color name="ugent_blue_lighter">#6293D9</color>
+    <color name="ugent_blue_medium">#1e64c8</color> <!-- The base UGent colour -->
+    <color name="ugent_blue_dark">#003b96</color>
+    <color name="ugent_yellow_dark">#FFC100</color> <!-- The secondary colour -->
     <color name="ugent_white">#EAEAEA</color>
     <color name="ugent_grey_light">#C0C0C0</color>
     <color name="ugent_grey_dark">#A3A3A3</color>

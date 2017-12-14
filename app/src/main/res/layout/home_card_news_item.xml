@@ -26,7 +26,7 @@
             android:paddingRight="@dimen/card_title_padding_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Base.TextAppearance.AppCompat.Title"
+            android:textSize="@dimen/material_typography_regular_title_text_size"
             tools:text="Titel van het nieuwsitem"
             android:id="@+id/name" />
 

@@ -7,6 +7,6 @@
     android:paddingRight="@dimen/list_two_line_padding_vertical"
     android:paddingTop="@dimen/list_two_line_padding_horizontal"
     android:paddingBottom="@dimen/list_two_line_padding_horizontal"
-    android:textSize="@dimen/list_two_line_primary_text_size"
+    android:textSize="@dimen/material_list_normal_primary_text_size"
     android:id="@+id/no_data_view"
     android:text="@string/no_items" />
