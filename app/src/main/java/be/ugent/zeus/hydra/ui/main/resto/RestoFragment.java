@@ -110,7 +110,7 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "receiveResto: on view created");
 
-        getBaseActivity().getToolbar().setDisplayShowTitleEnabled(false);
+        //getBaseActivity().getToolbar().setDisplayShowTitleEnabled(false);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

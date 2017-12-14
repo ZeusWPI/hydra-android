@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.common;
 
-import android.arch.lifecycle.LifecycleRegistry;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
@@ -13,6 +13,7 @@ import android.view.Menu;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
+import com.dvoiss.geocities.Geocities;
 
 /**
  * The base activity. Contains code related to common things for almost all activities.
@@ -26,8 +27,6 @@ import be.ugent.zeus.hydra.R;
  * @author Niko Strijbol
  */
 public abstract class BaseActivity extends AppCompatActivity {
-
-    private LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
     /**
      * Get the toolbar. Don't call it when there is no toolbar, as it may crash.
@@ -115,7 +114,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public LifecycleRegistry getLifecycle() {
-        return lifecycleRegistry;
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(Geocities.wrap(newBase));
     }
 }

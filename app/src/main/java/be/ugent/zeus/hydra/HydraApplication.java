@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.data.ChannelCreator;
+import com.dvoiss.geocities.Geocities;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -21,7 +23,7 @@ import jonathanfinerty.once.Once;
  * @author feliciaan
  */
 @SuppressWarnings("WeakerAccess")
-public class HydraApplication extends Application {
+public class HydraApplication extends MultiDexApplication {
 
     private static final String TAG = "HydraApplication";
 
@@ -35,6 +37,8 @@ public class HydraApplication extends Application {
             // You should not init your app in this process.
             return;
         }
+
+        Geocities.init(this);
 
         if (BuildConfig.DEBUG) {
             enableStrictModeInDebug();

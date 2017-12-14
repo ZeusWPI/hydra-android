@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.ui.common;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -10,6 +11,8 @@ import android.support.v7.app.AppCompatDelegate;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.dvoiss.geocities.Geocities;
 
 /**
  * A {@link PreferenceActivity} which implements and proxies the necessary calls to be used with AppCompat.
@@ -104,5 +107,10 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
             mDelegate = AppCompatDelegate.create(this, null);
         }
         return mDelegate;
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(Geocities.wrap(newBase));
     }
 }

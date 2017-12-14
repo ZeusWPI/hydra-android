@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:758079297428:android:f71cd3b6ae44645e",
         "android_client_info": {
-          "package_name": "be.ugent.zeus.hydra"
+          "package_name": "be.ugent.zeus.hydra.geo"
         }
       },
       "oauth_client": [

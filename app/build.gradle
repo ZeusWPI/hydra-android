@@ -7,11 +7,12 @@ android {
     buildToolsVersion "26.0.2"
 
     defaultConfig {
-        applicationId "be.ugent.zeus.hydra"
+        applicationId "be.ugent.zeus.hydra.geo"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 270
-        versionName "2.7.0"
+        versionName "2.7.0-geo"
+        multiDexEnabled  true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -93,7 +94,7 @@ android {
 }
 
 project.afterEvaluate {
-    preBuild.dependsOn checkLicenses, generateLicensePage
+    //preBuild.dependsOn checkLicenses, generateLicensePage
 }
 
 //The support library version
@@ -145,6 +146,15 @@ dependencies {
     compile 'com.karumi:dexter:4.1.1'
     compile 'com.github.captain-miao:optroundcardview:1.0.0'
     compile 'blue.aodev:material-values:1.1.1'
+
+    compile 'com.android.support:multidex:1.0.1'
+
+    compile ('com.github.dvoiss:android-geocities-theme:1.0.2') {
+        exclude group: 'com.android.support'
+    }
+    compile "org.jetbrains.kotlin:kotlin-stdlib:1.2.0"
+    testCompile "org.jetbrains.kotlin:kotlin-stdlib:1.2.0"
+    androidTestCompile "org.jetbrains.kotlin:kotlin-stdlib:1.2.0"
 
     // Used for the OAuth stuff
     compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
