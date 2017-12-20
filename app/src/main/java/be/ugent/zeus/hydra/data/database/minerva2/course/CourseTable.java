@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.data.database.minerva2.course;
 
-import android.net.Uri;
-import android.provider.BaseColumns;
+import be.ugent.zeus.hydra.provider.contract.CourseContract;
 
 /**
  * Contract for the table with the courses. This represents the current table and column names. This might change,
@@ -11,20 +10,10 @@ import android.provider.BaseColumns;
  */
 public final class CourseTable {
 
-    public static final String TABLE_NAME = "minerva_courses";
+    public static final String TABLE_NAME = CourseContract.TABLE_NAME;
 
-    public interface Columns extends BaseColumns {
-        String ID = _ID;
-        String CODE = "code";
-        String TITLE = "title";
-        String DESCRIPTION = "description";
-        String TUTOR = "tutor";
-        String ACADEMIC_YEAR = "academic_year";
-        String ORDER = "ordering";
-    }
-
-    public interface Provider {
-        String AUTHORITY = "be.ugent.zeus.hydra.minerva.provider";
-        Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
+    public interface Columns extends CourseContract.Columns {
+        // This interface is kept for compatibility reasons; we want to split the database from the provider.
+        // At the moment these are the same (thus the inheritance), but this might change.
     }
 }

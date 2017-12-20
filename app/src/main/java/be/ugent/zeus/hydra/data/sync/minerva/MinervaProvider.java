@@ -13,7 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.data.database.minerva2.MinervaDatabase;
-import be.ugent.zeus.hydra.data.database.minerva2.course.CourseTable;
+import be.ugent.zeus.hydra.provider.contract.CourseContract;
 
 /**
  * We only expose a read-only version of the list of courses for now.
@@ -32,8 +32,8 @@ public class MinervaProvider extends ContentProvider {
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        uriMatcher.addURI(CourseTable.Provider.AUTHORITY, CourseTable.TABLE_NAME, ALL_COURSES);
-        uriMatcher.addURI(CourseTable.Provider.AUTHORITY, CourseTable.TABLE_NAME + "/*", ONE_COURSE);
+        uriMatcher.addURI(CourseContract.Provider.AUTHORITY, CourseContract.TABLE_NAME, ALL_COURSES);
+        uriMatcher.addURI(CourseContract.Provider.AUTHORITY, CourseContract.TABLE_NAME + "/*", ONE_COURSE);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class MinervaProvider extends ContentProvider {
             where.append(')');
         }
 
-        SupportSQLiteQuery query = SupportSQLiteQueryBuilder.builder(CourseTable.TABLE_NAME)
+        SupportSQLiteQuery query = SupportSQLiteQueryBuilder.builder(CourseContract.TABLE_NAME)
                 .columns(projection)
                 .orderBy(sortOrder)
                 .selection(where.toString(), selectionArgs)
@@ -94,9 +94,9 @@ public class MinervaProvider extends ContentProvider {
     public String getType(Uri uri) {
         switch (uriMatcher.match(uri)) {
             case ALL_COURSES:
-                return "vnd.android.cursor.dir/vnd." + CourseTable.Provider.AUTHORITY + "." + CourseTable.TABLE_NAME;
+                return "vnd.android.cursor.dir/vnd." + CourseContract.Provider.AUTHORITY + "." + CourseContract.TABLE_NAME;
             case ONE_COURSE:
-                return "vnd.android.cursor.item/vnd." + CourseTable.Provider.AUTHORITY + "." + CourseTable.TABLE_NAME;
+                return "vnd.android.cursor.item/vnd." + CourseContract.Provider.AUTHORITY + "." + CourseContract.TABLE_NAME;
             default:
                 throw new IllegalArgumentException("Uri was not recognized.");
         }

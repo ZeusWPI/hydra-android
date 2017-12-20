@@ -103,6 +103,9 @@ final AAC_VERSION = '1.0.0'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    compile project(':provider-contract')
+
     compile "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:support-v13:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"

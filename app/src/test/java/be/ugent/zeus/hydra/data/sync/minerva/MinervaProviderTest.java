@@ -7,8 +7,8 @@ import android.support.annotation.RequiresApi;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.database.minerva2.AbstractDaoTest;
 import be.ugent.zeus.hydra.data.database.minerva2.MinervaDatabase;
-import be.ugent.zeus.hydra.data.database.minerva2.course.CourseTable;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
+import be.ugent.zeus.hydra.provider.contract.CourseContract;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,7 +43,7 @@ public class MinervaProviderTest extends AbstractDaoTest {
             }
         };
         provider.onCreate();
-        ShadowContentResolver.registerProviderInternal(CourseTable.Provider.AUTHORITY, provider);
+        ShadowContentResolver.registerProviderInternal(CourseContract.Provider.AUTHORITY, provider);
     }
 
     @Test
@@ -52,8 +52,8 @@ public class MinervaProviderTest extends AbstractDaoTest {
 
         // TODO: test more stuff.
         Cursor c = contentResolver.query(
-                CourseTable.Provider.CONTENT_URI,
-                new String[]{CourseTable.Columns.ID},
+                CourseContract.Provider.CONTENT_URI,
+                new String[]{CourseContract.Columns.ID},
                 null,
                 null,
                 null);
@@ -65,7 +65,7 @@ public class MinervaProviderTest extends AbstractDaoTest {
         Set<String> ids = this.courses.stream().map(CourseDTO::getId).collect(Collectors.toSet());
 
         while(c.moveToNext()) {
-            assertTrue(ids.contains(c.getString(c.getColumnIndexOrThrow(CourseTable.Columns.ID))));
+            assertTrue(ids.contains(c.getString(c.getColumnIndexOrThrow(CourseContract.Columns.ID))));
         }
     }
 }
