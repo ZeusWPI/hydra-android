@@ -4,6 +4,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.domain.models.association.UgentNewsItem;
 import be.ugent.zeus.hydra.data.network.ArrayJsonSpringRequestTest;
 import be.ugent.zeus.hydra.data.network.JsonSpringRequest;
@@ -21,7 +22,7 @@ import java.util.Comparator;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, application = TestApp.class)
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class UgentNewsRequestTest extends ArrayJsonSpringRequestTest<UgentNewsItem> {
 

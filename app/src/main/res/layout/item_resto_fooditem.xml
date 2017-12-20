@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/list_one_line_padding_vertical"
+    android:paddingRight="@dimen/list_one_line_padding_vertical"
+    android:paddingTop="@dimen/list_one_line_padding_horizontal"
+    android:paddingBottom="@dimen/list_one_line_padding_horizontal">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:id="@+id/food_item_name"
+        android:textSize="@dimen/material_list_normal_primary_text_size"
+        tools:text="Naam van het product." />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/food_item_price"
+        android:textSize="@dimen/material_list_normal_primary_text_size"
+        android:textIsSelectable="true"
+        tools:text="Prijs" />
+
+</LinearLayout>

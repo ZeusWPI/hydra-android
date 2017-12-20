@@ -1,0 +1,160 @@
+{
+  "breakfast": [
+    {
+      "name": "Chocoladekoek",
+      "price": "0.80"
+    },
+    {
+      "name": "Croissant",
+      "price": "0.80"
+    },
+    {
+      "name": "Notenkoek",
+      "price": "0.80"
+    },
+    {
+      "name": "Choco-cr\u00e8me twist",
+      "price": "1.00"
+    },
+    {
+      "name": "Boterkoek rozijnen",
+      "price": "1.00"
+    },
+    {
+      "name": "Rolkoek rozijnen",
+      "price": "1.00"
+    },
+    {
+      "name": "Acht met cr\u00e8me",
+      "price": "1.00"
+    },
+    {
+      "name": "Vruchtenyoghurt",
+      "price": "0.70"
+    },
+    {
+      "name": "Griekse vruchtenyoghurt",
+      "price": "1.30"
+    },
+    {
+      "name": "Appel, appelsien, banaan, peer, pruim",
+      "price": "0.40"
+    },
+    {
+      "name": "Kiwi, mandarijn, clementine, meloen, watermeloen",
+      "price": "0.60"
+    }
+  ],
+  "desserts": [
+    {
+      "name": "Vruchtenyoghurt",
+      "price": "0.70"
+    },
+    {
+      "name": "Griekse vruchtenyoghurt",
+      "price": "1.30"
+    },
+    {
+      "name": "Chocomousse",
+      "price": "1.30"
+    },
+    {
+      "name": "Speculaasmousse",
+      "price": "1.30"
+    },
+    {
+      "name": "Rijstpap",
+      "price": "0.70"
+    },
+    {
+      "name": "Soja dessert",
+      "price": "0.70"
+    },
+    {
+      "name": "Tiramisu",
+      "price": "1.30"
+    },
+    {
+      "name": "Muffin",
+      "price": "1.00"
+    },
+    {
+      "name": "Donut",
+      "price": "1.00"
+    },
+    {
+      "name": "Ijsvariatie",
+      "price": "1.50"
+    },
+    {
+      "name": "Appel, appelsien, banaan, peer, pruim",
+      "price": "0.40"
+    },
+    {
+      "name": "Clementine, kiwi, mandarijn, meloen, watermeloen",
+      "price": "0.60"
+    }
+  ],
+  "drinks": [
+    {
+      "name": "Warme dranken Fair Trade",
+      "price": "0.60"
+    },
+    {
+      "name": "Koude chocolademelk",
+      "price": "0.80"
+    },
+    {
+      "name": "Fruitsap 20 cl Fair Trade",
+      "price": "0.80"
+    },
+    {
+      "name": "Plat water 33 cl",
+      "price": "0.50"
+    },
+    {
+      "name": "Plat water 50 cl",
+      "price": "0.80"
+    },
+    {
+      "name": "Plat water 1l",
+      "price": "1.20"
+    },
+    {
+      "name": "Bruisend water 33 cl",
+      "price": "0.50"
+    },
+    {
+      "name": "Bruisend water 50 cl",
+      "price": "0.80"
+    },
+    {
+      "name": "Bionade",
+      "price": "1.50"
+    },
+    {
+      "name": "Finley",
+      "price": "1.00"
+    },
+    {
+      "name": "Frisdrank 33 cl",
+      "price": "1.00"
+    },
+    {
+      "name": "Frisdrank 50 cl",
+      "price": "1.50"
+    },
+    {
+      "name": "Pils 25 cl",
+      "price": "1.50"
+    },
+    {
+      "name": "Rode wijn Fair Trade",
+      "price": "3.00"
+    },
+    {
+      "name": "Witte wijn Fair Trade",
+      "price": "3.00"
+    }
+  ]
+}

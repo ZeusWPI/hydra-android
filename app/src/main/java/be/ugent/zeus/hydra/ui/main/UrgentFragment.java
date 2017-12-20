@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.service.urgent.MusicService;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 import java.util.List;
 
@@ -34,6 +35,11 @@ import java.util.List;
 public class UrgentFragment extends Fragment {
 
     private static final String TAG = "UrgentFragment";
+
+    private static final String FACEBOOK_URL = "https://www.facebook.com/urgent.fm";
+    private static final String YOUTUBE_URL = "https://www.youtube.com/channel/UCZgOQzaJUeIlvS5R7pqFsqQ";
+    private static final String URGENT_URL = "http://www.urgent.fm/";
+    private static final String INSTAGRAM_URL = "https://www.instagram.com/urgent.fm/";
 
     @DrawableRes
     private static final int PLAY_DRAWABLE = R.drawable.ic_play_arrow_24dp;
@@ -135,8 +141,17 @@ public class UrgentFragment extends Fragment {
         progressBar = view.findViewById(R.id.progress_bar);
         playPauseButton = view.findViewById(R.id.playPauseButton);
 
-        mediaBrowser = new MediaBrowserCompat(getActivity(),
-                new ComponentName(getActivity(), MusicService.class), connectionCallback, null);
+        // Attach links to social media buttons.
+        view.findViewById(R.id.social_facebook)
+                .setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(getContext(), FACEBOOK_URL));
+        view.findViewById(R.id.social_youtube)
+                .setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(getContext(), YOUTUBE_URL));
+        view.findViewById(R.id.social_instagram)
+                .setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(getContext(), INSTAGRAM_URL));
+        view.findViewById(R.id.social_urgentfm)
+                .setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(getContext(), URGENT_URL));
+
+        mediaBrowser = new MediaBrowserCompat(getActivity(), new ComponentName(getActivity(), MusicService.class), connectionCallback, null);
         hideMediaControls();
     }
 

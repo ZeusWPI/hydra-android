@@ -6,7 +6,7 @@ import android.preference.PreferenceFragment;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.resto.menu.MenuActivity;
+import be.ugent.zeus.hydra.ui.main.MainActivity;
 
 /**
  * Preferences for the resto notification.
@@ -36,12 +36,11 @@ public class RestoPreferenceFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.pref_resto);
 
         findPreference("pref_choice_resto_select").setOnPreferenceClickListener(preference -> {
-            startActivity(new Intent(getActivity(), MenuActivity.class));
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_resto);
+            startActivity(intent);
             return true;
         });
-
-        //SelectableMetaViewModel metaViewModel = ViewModelProviders.of(getActivity()).get(SelectableMetaViewModel.class);
-        //metaViewModel.getData().observe(this, SuccessObserver.with(this::receiveResto));
     }
 
     @Override

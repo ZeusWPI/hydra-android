@@ -23,7 +23,7 @@ public class ZonedThreeTenAdapterTest {
     }
 
     @Test
-    public void generalTest() throws Exception {
+    public void generalTest() {
         ZonedDateTime expected = ZonedDateTime.now();
         String json = gson.toJson(expected);
         ZonedDateTime actual = gson.fromJson(json, ZonedDateTime.class);
@@ -31,7 +31,7 @@ public class ZonedThreeTenAdapterTest {
     }
 
     @Test
-    public void nullTest() throws Exception {
+    public void nullTest() {
         String json = gson.toJson(null);
         ZonedDateTime actual = gson.fromJson(json, ZonedDateTime.class);
         assertEquals(null, actual);

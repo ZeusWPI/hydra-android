@@ -26,7 +26,7 @@
                 android:paddingTop="@dimen/card_title_padding_top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:textSize="@dimen/material_typography_regular_title_text_size"
                 tools:text="12urenloop"
                 android:id="@+id/title" />
 

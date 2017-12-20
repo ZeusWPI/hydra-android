@@ -10,28 +10,24 @@ android {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 263
-        versionName "2.6.0"
+        versionCode 270
+        versionName "2.7.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        //Load the API keys from the file "secrets.progperties".
-        Properties props = new Properties()
-        props.load(new FileInputStream(file('secrets.properties')))
-        buildConfigField "String", "OAUTH_ID", "\"" + props['OAUTH_ID'] + "\""
-        buildConfigField "String", "OAUTH_SECRET", "\"" + props['OAUTH_SECRET'] + "\""
+        def props = loadProperties()
         manifestPlaceholders = [
-                google_maps_key: props['MAPS_API_KEY'],
+                google_maps_key: props.getProperty('MAPS_API_KEY'),
                 disableAnalytics: false
         ]
-        // Displays the priorities on the cards of the home feed.
-        buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", "false"
-        // Adds an additional invisible card that takes ~10 seconds to complete.
-        buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", "false"
-        // Add a hard-coded special event card to access the SKO part of the app
-        buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", "false"
-        // Enable strict mode
-        buildConfigField "boolean", "DEBUG_ENABLE_STRICT_MODE", "false"
+        // Minerva authentication keys
+        buildConfigField "String", "OAUTH_ID", '"' + props.getProperty('OAUTH_ID') + '"'
+        buildConfigField "String", "OAUTH_SECRET", '"' + props.getProperty('OAUTH_SECRET') + '"'
+        // For a description of what these do, see the config.properties file.
+        buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", props.getProperty('hydra.debug.home.stream.priority')
+        buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", props.getProperty('hydra.debug.home.stream.stall')
+        buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", props.getProperty('hydra.debug.home.stream.sko')
+        buildConfigField "boolean", "DEBUG_ENABLE_STRICT_MODE", props.getProperty('hydra.debug.strict_mode')
 
         // used by Room, to test migrations
         javaCompileOptions {
@@ -60,12 +56,8 @@ android {
         debug {
             // Set this to false on release versions!
             debuggable true
+            // Disable analytics in debug builds
             manifestPlaceholders = [disableAnalytics: true]
-            // Set these to true when debugging the home feed.
-            buildConfigField "boolean", "DEBUG_HOME_STREAM_PRIORITY", "false"
-            buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", "false"
-            buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", "false"
-            buildConfigField "boolean", "DEBUG_ENABLE_STRICT_MODE", "false"
         }
     }
 
@@ -73,7 +65,6 @@ android {
         unitTests {
         //    includeAndroidResources = true
             returnDefaultValues = true
-
         }
         unitTests.all {
             systemProperty 'robolectric.logging.enabled', 'true'
@@ -107,8 +98,8 @@ project.afterEvaluate {
 
 //The support library version
 final SUPPORT_LIBRARY_VERSION = '26.1.0'
-final GMS_VERSION = '11.4.0'
-final AAC_VERSION = '1.0.0-rc1'
+final GMS_VERSION = '11.6.2'
+final AAC_VERSION = '1.0.0'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -153,6 +144,7 @@ dependencies {
     compile 'com.jonathanfinerty.once:once:1.2.2'
     compile 'com.karumi:dexter:4.1.1'
     compile 'com.github.captain-miao:optroundcardview:1.0.0'
+    compile 'blue.aodev:material-values:1.1.1'
 
     // Used for the OAuth stuff
     compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
@@ -174,16 +166,15 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.7.20'
 
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
     //Enable the normal library for unit tests
     testCompile ('org.threeten:threetenbp:1.3.2'){
         exclude group:'com.jakewharton.threetenabp', module:'threetenabp'
     }
 
-    testCompile 'be.tomcools:GetterSetterVerifier:0.0.2'
     testCompile 'nl.jqno.equalsverifier:equalsverifier:2.2.1'
     testCompile ('com.shazam:shazamcrest:0.11') {
         exclude group: 'com.google.code.gson', module: 'gson'
@@ -192,7 +183,7 @@ dependencies {
     testCompile 'org.apache.commons:commons-lang3:3.5'
     testCompile 'org.hamcrest:hamcrest-core:1.3'
     testCompile 'com.googlecode:openbeans:1.0'
-    testCompile 'org.robolectric:robolectric:3.4.2'
+    testCompile 'org.robolectric:robolectric:3.5.1'
     testCompile('org.springframework:spring-test:3.2.18.RELEASE') {
         exclude module: 'spring-core'
     }
@@ -208,3 +199,40 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+/**
+ * Loads the default properties, and the user properties. This will also load the
+ * secret keys.
+ *
+ * @return
+ */
+def loadProperties() {
+
+    // Load the default properties.
+    def defaultProps = new Properties()
+    defaultProps.load(file("config.properties").newReader())
+
+    // Load custom properties if available
+    def customProps = new Properties(defaultProps)
+    def customFile = file("custom-config.properties")
+    if (customFile.exists()) {
+        customProps.load(customFile.newReader())
+    } else {
+        logger.info('No custom-config.properties file was found.')
+    }
+
+    // Load the secret example secret keys.
+    def exampleKeys = new Properties(customProps)
+    exampleKeys.load(file('secrets.properties.example').newReader())
+
+    // Load the actual keys if present
+    def actualKeys = new Properties(exampleKeys)
+    def actualKeyFile = file('secrets.properties')
+    if (actualKeyFile.exists()) {
+        actualKeys.load(actualKeyFile.newReader())
+    } else {
+        logger.warn("A secrets.properties file was not found. Minerva and other API's will not work.")
+    }
+
+    return actualKeys
+}

@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:tabMode="scrollable"/>
+            app:tabMode="fixed" />
 
     </android.support.design.widget.AppBarLayout>
 

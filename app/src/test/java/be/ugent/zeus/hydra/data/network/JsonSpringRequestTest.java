@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.data.network;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.data.network.exceptions.RestTemplateException;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import org.junit.Test;
@@ -14,8 +15,6 @@ import org.springframework.test.web.client.match.MockRestRequestMatchers;
 import org.springframework.test.web.client.response.MockRestResponseCreators;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
@@ -23,11 +22,11 @@ import static org.junit.Assert.assertFalse;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, application = TestApp.class)
 public class JsonSpringRequestTest {
 
     @Test
-    public void testError() throws RestTemplateException, IOException {
+    public void testError() throws RestTemplateException {
 
         JsonSpringRequest<?> request = TestRequest.any();
         RestTemplate template = request.getRestTemplate();

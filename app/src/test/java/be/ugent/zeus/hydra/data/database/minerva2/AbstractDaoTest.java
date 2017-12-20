@@ -6,6 +6,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaItemDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
@@ -41,7 +42,7 @@ import static org.junit.Assert.assertEquals;
  */
 @RequiresApi(api = 26)
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, application = TestApp.class)
 public abstract class AbstractDaoTest {
 
     protected MinervaDatabase database;

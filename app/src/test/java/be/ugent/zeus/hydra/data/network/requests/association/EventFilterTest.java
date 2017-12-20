@@ -4,6 +4,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.domain.models.association.Association;
 import be.ugent.zeus.hydra.domain.models.association.Event;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
@@ -31,7 +32,7 @@ import static junit.framework.Assert.assertTrue;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, application = TestApp.class)
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class EventFilterTest {
 

@@ -24,7 +24,7 @@ public class ZonedThreeTenUTCAdapter extends TypeAdapter<ZonedDateTime> {
             return;
         }
 
-        out.value(date.toString());
+        out.value(date.toLocalDateTime().toString());
     }
 
     @Override

@@ -4,13 +4,14 @@ import android.content.Intent;
 import android.view.View;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.data.network.requests.resto.SelectableMetaRequest;
+import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.ui.common.widgets.MenuTable;
+import be.ugent.zeus.hydra.ui.main.MainActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.ui.resto.menu.MenuActivity;
+import be.ugent.zeus.hydra.ui.main.resto.RestoFragment;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
@@ -42,8 +43,9 @@ public class RestoCardViewHolder extends FeedViewHolder {
 
         // click listener
         itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(itemView.getContext(), MenuActivity.class);
-            intent.putExtra(MenuActivity.ARG_DATE, menu.getDate());
+            Intent intent = new Intent(itemView.getContext(), MainActivity.class);
+            intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_resto);
+            intent.putExtra(RestoFragment.ARG_DATE, menu.getDate());
             itemView.getContext().startActivity(intent);
         });
     }

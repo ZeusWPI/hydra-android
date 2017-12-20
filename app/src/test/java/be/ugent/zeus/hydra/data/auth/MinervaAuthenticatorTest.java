@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.ui.minerva.AuthActivity;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.junit.Before;
@@ -28,7 +29,7 @@ import static org.robolectric.Shadows.shadowOf;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, application = TestApp.class)
 public class MinervaAuthenticatorTest {
 
     private MinervaAuthenticator authenticator;

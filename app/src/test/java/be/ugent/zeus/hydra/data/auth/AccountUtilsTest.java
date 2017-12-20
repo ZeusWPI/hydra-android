@@ -2,8 +2,11 @@ package be.ugent.zeus.hydra.data.auth;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.TestApp;
 import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
 import org.junit.Test;
@@ -18,6 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.threeten.bp.LocalDateTime;
 
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 import static junit.framework.Assert.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -27,8 +31,9 @@ import static org.robolectric.Shadows.shadowOf;
 /**
  * @author Niko Strijbol
  */
+@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, application = TestApp.class)
 public class AccountUtilsTest {
 
     @Test
@@ -81,7 +86,7 @@ public class AccountUtilsTest {
         UriComponents components = UriComponentsBuilder.fromHttpUrl(url).build();
         MultiValueMap<String, String> query = components.getQueryParams();
 
-        assertEquals(BuildConfig.OAUTH_ID, query.getFirst(OAuth.OAUTH_CLIENT_ID));
+        assertEquals(BuildConfig.OAUTH_ID, URLDecoder.decode(query.getFirst(OAuth.OAUTH_CLIENT_ID), StandardCharsets.UTF_8.name()));
         assertEquals(MinervaConfig.CALLBACK_URI, URLDecoder.decode(query.getFirst(OAuth.OAUTH_REDIRECT_URI), "UTF-8"));
         assertEquals(ResponseType.CODE.toString(), query.getFirst(OAuth.OAUTH_RESPONSE_TYPE));;
     }

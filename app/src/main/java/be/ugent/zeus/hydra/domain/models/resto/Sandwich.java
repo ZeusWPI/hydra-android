@@ -83,4 +83,9 @@ public final class Sandwich implements Parcelable, Serializable {
     public int hashCode() {
         return java8.util.Objects.hash(name, ingredients, priceSmall, priceMedium);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

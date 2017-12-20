@@ -35,14 +35,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textSize="@dimen/list_two_line_primary_text_size"
+                    android:textSize="@dimen/material_list_normal_primary_text_size"
                     tools:text="Titel en naam"
                     android:id="@+id/name" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/material_typography_secondary_text_color_dark"
+                    android:textSize="@dimen/material_list_normal_secondary_text_size"
                     android:id="@+id/association"
                     tools:text="Vereniging" />
             </LinearLayout>
@@ -52,7 +53,7 @@
                 android:paddingStart="@dimen/list_two_line_padding_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textSize="@dimen/list_two_line_primary_text_size"
+                android:textSize="@dimen/material_list_normal_primary_text_size"
                 android:id="@+id/starttime"
                 android:layout_gravity="end"
                 tools:text="Start"

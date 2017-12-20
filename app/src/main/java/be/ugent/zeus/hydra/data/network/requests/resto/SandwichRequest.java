@@ -47,6 +47,6 @@ public class SandwichRequest extends JsonSpringRequest<Sandwich[]> implements Ca
 
     @Override
     public long getCacheDuration() {
-        return Cache.ONE_WEEK * 3;
+        return Cache.ONE_WEEK;
     }
 }

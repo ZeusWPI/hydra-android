@@ -103,11 +103,10 @@
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_marginRight="32dp"
-                            android:tint="@color/ugent_blue_dark"
+                            android:tint="?attr/colorPrimary"
                             app:srcCompat="@drawable/ic_schedule"
                             tools:src="@drawable/ic_schedule"
-                            tools:ignore="MissingPrefix"
-                            />
+                            tools:ignore="MissingPrefix" />
 
                         <TextView
                             android:id="@+id/date"
@@ -137,7 +136,7 @@
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_marginRight="32dp"
-                            android:tint="@color/ugent_blue_dark"
+                            android:tint="?attr/colorPrimary"
                             app:srcCompat="@drawable/ic_book_open_page_variant"
                             tools:src="@drawable/ic_book_open_page_variant"
                             android:contentDescription="@string/content_desc_lesson"/>
@@ -170,7 +169,7 @@
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_marginRight="32dp"
-                            android:tint="@color/ugent_blue_dark"
+                            android:tint="?attr/colorPrimary"
                             app:srcCompat="@drawable/ic_person"
                             tools:src="@drawable/ic_person"
                             android:contentDescription="@string/content_desc_organiser"/>
