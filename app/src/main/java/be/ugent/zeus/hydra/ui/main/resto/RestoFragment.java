@@ -29,7 +29,6 @@ import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
 import be.ugent.zeus.hydra.repository.observers.SuccessObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.main.ArgumentsReceiver;
-import be.ugent.zeus.hydra.ui.main.OnReselectListener;
 import be.ugent.zeus.hydra.ui.main.ScheduledRemovalListener;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.ui.resto.RestoLocationActivity;
@@ -49,7 +48,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class RestoFragment extends Fragment implements AdapterView.OnItemSelectedListener, ArgumentsReceiver, OnReselectListener, BottomNavigationView.OnNavigationItemSelectedListener, ScheduledRemovalListener {
+public class RestoFragment extends Fragment implements AdapterView.OnItemSelectedListener, ArgumentsReceiver, BottomNavigationView.OnNavigationItemSelectedListener, ScheduledRemovalListener {
 
     private static final String TAG = "RestoFragment";
 
@@ -293,13 +292,6 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
     public void fillArguments(Intent activityIntent, Bundle bundle) {
         if (activityIntent.hasExtra(ARG_DATE)) {
             bundle.putSerializable(ARG_DATE, activityIntent.getSerializableExtra(ARG_DATE));
-        }
-    }
-
-    @Override
-    public void onReselect(Intent intent) {
-        if (intent.hasExtra(ARG_DATE)) {
-            getArguments().putSerializable(ARG_DATE, intent.getSerializableExtra(ARG_DATE));
         }
     }
 

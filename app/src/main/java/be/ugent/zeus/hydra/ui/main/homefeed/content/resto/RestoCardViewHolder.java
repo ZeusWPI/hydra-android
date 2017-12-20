@@ -45,7 +45,6 @@ public class RestoCardViewHolder extends FeedViewHolder {
         itemView.setOnClickListener(v -> {
             Intent intent = new Intent(itemView.getContext(), MainActivity.class);
             intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_resto);
-            intent.putExtra(MainActivity.ARG_NEW_DEFAULT, false);
             intent.putExtra(RestoFragment.ARG_DATE, menu.getDate());
             itemView.getContext().startActivity(intent);
         });
