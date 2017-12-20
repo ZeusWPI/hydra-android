@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.ui.common;
 
-import android.arch.lifecycle.LifecycleRegistry;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
@@ -20,14 +19,11 @@ import be.ugent.zeus.hydra.R;
  * <ul>
  *     <li>Support for the toolbar</li>
  *     <li>Better Google Analytics support</li>
- *     <li>Finding views in a type-safe manner.</li>
  * </ul>
  *
  * @author Niko Strijbol
  */
 public abstract class BaseActivity extends AppCompatActivity {
-
-    private LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
     /**
      * Get the toolbar. Don't call it when there is no toolbar, as it may crash.
@@ -112,10 +108,5 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected boolean hasParent() {
         return true;
-    }
-
-    @Override
-    public LifecycleRegistry getLifecycle() {
-        return lifecycleRegistry;
     }
 }
