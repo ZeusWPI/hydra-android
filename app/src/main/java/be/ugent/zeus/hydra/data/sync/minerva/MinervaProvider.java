@@ -13,7 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.data.database.minerva2.MinervaDatabase;
-import be.ugent.zeus.hydra.provider.contract.CourseContract;
+import be.ugent.zeus.hydra.minerva.provider.contract.CourseContract;
 
 /**
  * We only expose a read-only version of the list of courses for now.

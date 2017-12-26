@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.provider.contract;
+package be.ugent.zeus.hydra.minerva.provider.contract;
 
 import android.net.Uri;
 import android.provider.BaseColumns;

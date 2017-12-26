@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.data.database.minerva2.course;
 
-import be.ugent.zeus.hydra.provider.contract.CourseContract;
+import be.ugent.zeus.hydra.minerva.provider.contract.CourseContract;
 
 /**
  * Contract for the table with the courses. This represents the current table and column names. This might change,

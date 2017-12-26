@@ -8,7 +8,7 @@ import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.database.minerva2.AbstractDaoTest;
 import be.ugent.zeus.hydra.data.database.minerva2.MinervaDatabase;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
-import be.ugent.zeus.hydra.provider.contract.CourseContract;
+import be.ugent.zeus.hydra.minerva.provider.contract.CourseContract;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
