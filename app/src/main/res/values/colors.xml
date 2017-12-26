@@ -30,13 +30,6 @@
     <color name="sko_blue_light">#009ADE</color>
     <color name="sko_blue_dark">#005C86</color>
     <color name="sko_red">#E43026</color>
-    
-    <!--
-        ~ The grey colour for the launcher shortcuts background.
-        ~ As seen here: https://material.io/guidelines/style/icons.html#icons-app-shortcut-icons,
-        ~ the colour must be Solid fill of Material Grey 100 (#F5F5F5)
-        -->
-    <color name="launcher_shortcut_background">@color/material_color_grey_100</color>
 
     <!--
       ~ These are functional colours. This means they don't specify a colour itself, but rather a colour for
@@ -60,4 +53,12 @@
 
     <!-- Custom views -->
     <color name="hydra_now_toolbar_icon_tint">@color/ugent_blue_lighter</color>
+
+    <!--
+        ~ The grey colour for the launcher shortcuts background.
+        ~ As seen here: https://material.io/guidelines/style/icons.html#icons-app-shortcut-icons,
+        ~ the colour must be Solid fill of Material Grey 100 (#F5F5F5)
+        -->
+    <color name="launcher_shortcut_background">@color/material_color_grey_100</color>
+    <color name="hydra_launcher_color">@color/hydra_primary_color</color>
 </resources>
