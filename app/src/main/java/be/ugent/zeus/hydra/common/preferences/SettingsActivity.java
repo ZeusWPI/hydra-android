@@ -48,7 +48,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 || MinervaPreferenceFragment.class.getName().equals(fragmentName)
                 || SkoPreferencesFragment.class.getName().equals(fragmentName)
                 || AboutFragment.class.getName().equals(fragmentName)
-                || ArticlePreferenceFragment.class.getName().equals(fragmentName);
+                || ArticlePreferenceFragment.class.getName().equals(fragmentName)
+                || ThemePreferenceFragment.class.getName().equals(fragmentName);
     }
 
     /**
