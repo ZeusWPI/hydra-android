@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
         android:scrollbars="vertical"
-        android:background="@color/white"
+        android:background="@color/hydra_background_long_text"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -45,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 tools:text="Auteur"
+                android:textColor="@color/hydra_text_accent"
                 android:textIsSelectable="true" />
 
             <TextView
@@ -53,6 +54,7 @@
                 android:layout_width="match_parent"
                 tools:text="Datum en tijd"
                 android:textIsSelectable="true"
+                android:textColor="@color/hydra_text_accent"
                 android:paddingBottom="@dimen/vertical_padding"/>
 
             <TextView

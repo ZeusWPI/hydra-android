@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.common.ChannelCreator;
@@ -26,6 +27,10 @@ public class HydraApplication extends Application {
     private static final String TAG = "HydraApplication";
 
     private Tracker tracker;
+
+    static {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    }
 
     @Override
     public void onCreate() {

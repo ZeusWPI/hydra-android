@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/info"
             android:textSize="@dimen/material_card_title_block_subtitle_text_size"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="@color/hydra_text_accent"
             tools:text="Informatie over het artikel"
             android:paddingBottom="@dimen/material_card_title_block_large_padding_bottom"/>
 
