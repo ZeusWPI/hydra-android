@@ -118,6 +118,8 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:$AAC_VERSION"
     testCompile("android.arch.core:core-testing:$AAC_VERSION") {
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-compat'
+        exclude group: 'com.android.support', module: 'support-core-utils'
     }
 
     compile "android.arch.persistence.room:runtime:1.0.0"
@@ -125,6 +127,7 @@ dependencies {
     testCompile("android.arch.persistence.room:testing:1.0.0") {
         exclude group: 'com.google.code.gson', module: 'gson'
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-core-utils'
     }
 
