@@ -11,6 +11,7 @@
     <!-- See https://github.com/captain-miao/OptionRoundCardview/issues/4 -->
 
     <com.github.captain_miao.optroundcardview.OptRoundCardView
+        app:optRoundCardBackgroundColor="@color/hydra_card_background"
         app:optRoundCardBottomEdges="false"
         app:optRoundCardLeftBottomCorner="false"
         app:optRoundCardRightBottomCorner="false"
@@ -33,7 +34,7 @@
 
     </com.github.captain_miao.optroundcardview.OptRoundCardView>
 
-    <View style="@style/Divider" android:background="@color/ugent_white" />
+    <View style="@style/Divider" android:background="?android:attr/colorBackground" />
 
 </LinearLayout>
 

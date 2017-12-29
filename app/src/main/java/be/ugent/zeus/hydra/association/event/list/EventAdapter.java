@@ -52,9 +52,9 @@ class EventAdapter extends GenericSearchableAdapter<EventItem, DataViewHolder<Ev
     @Override
     public DataViewHolder<EventItem> onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == HEADER_TYPE) {
-            return new DateHeaderViewHolder(ViewUtils.inflate(parent, R.layout.item_events_date_header));
+            return new DateHeaderViewHolder(ViewUtils.inflate(parent, R.layout.item_event_date_header));
         } else {
-            return new EventViewHolder(ViewUtils.inflate(parent, R.layout.item_activity));
+            return new EventViewHolder(ViewUtils.inflate(parent, R.layout.item_event_item));
         }
     }
 

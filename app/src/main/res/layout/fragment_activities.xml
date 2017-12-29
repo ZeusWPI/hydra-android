@@ -14,7 +14,7 @@
             android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_activity"
+            tools:listitem="@layout/item_event_item"
             android:paddingTop="@dimen/card_margin_half"
             android:paddingBottom="@dimen/card_margin_half"
             android:clipToPadding="false"
