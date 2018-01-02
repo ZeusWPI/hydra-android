@@ -8,7 +8,7 @@ import android.content.Context;
 import be.ugent.zeus.hydra.data.database.minerva.agenda.AgendaDao;
 import be.ugent.zeus.hydra.data.database.minerva.announcement.AnnouncementDao;
 import be.ugent.zeus.hydra.data.database.minerva.course.CourseDao;
-import be.ugent.zeus.hydra.data.database.minerva.migrations.*;
+import be.ugent.zeus.hydra.data.database.migrations.*;
 import be.ugent.zeus.hydra.data.dto.DateTypeConverters;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaItemDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementDTO;

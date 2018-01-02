@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.data.database.minerva.migrations;
+package be.ugent.zeus.hydra.data.database.migrations;
 
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.migration.Migration;
