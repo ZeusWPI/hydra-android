@@ -5,10 +5,10 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
-import be.ugent.zeus.hydra.data.database.minerva2.agenda.AgendaDao;
-import be.ugent.zeus.hydra.data.database.minerva2.announcement.AnnouncementDao;
-import be.ugent.zeus.hydra.data.database.minerva2.course.CourseDao;
-import be.ugent.zeus.hydra.data.database.minerva2.migrations.*;
+import be.ugent.zeus.hydra.data.database.minerva.agenda.AgendaDao;
+import be.ugent.zeus.hydra.data.database.minerva.announcement.AnnouncementDao;
+import be.ugent.zeus.hydra.data.database.minerva.course.CourseDao;
+import be.ugent.zeus.hydra.data.database.minerva.migrations.*;
 import be.ugent.zeus.hydra.data.dto.DateTypeConverters;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaItemDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementDTO;

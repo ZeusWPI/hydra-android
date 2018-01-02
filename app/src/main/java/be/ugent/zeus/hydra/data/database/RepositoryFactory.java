@@ -3,9 +3,9 @@ package be.ugent.zeus.hydra.data.database;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.data.database.minerva2.agenda.DatabaseAgendaItemRepository;
-import be.ugent.zeus.hydra.data.database.minerva2.announcement.DatabaseAnnouncementRepository;
-import be.ugent.zeus.hydra.data.database.minerva2.course.DatabaseCourseRepository;
+import be.ugent.zeus.hydra.data.database.minerva.agenda.DatabaseAgendaItemRepository;
+import be.ugent.zeus.hydra.data.database.minerva.announcement.DatabaseAnnouncementRepository;
+import be.ugent.zeus.hydra.data.database.minerva.course.DatabaseCourseRepository;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaMapper;
 import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementMapper;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseMapper;
