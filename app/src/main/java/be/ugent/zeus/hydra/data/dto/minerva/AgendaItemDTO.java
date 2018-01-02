@@ -7,16 +7,17 @@ import android.arch.persistence.room.PrimaryKey;
 
 import be.ugent.zeus.hydra.data.database.minerva2.agenda.AgendaTable;
 import be.ugent.zeus.hydra.data.database.minerva2.course.CourseTable;
-import be.ugent.zeus.hydra.data.gson.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.data.dto.DateTypeConverters;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import java8.util.Objects;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import static be.ugent.zeus.hydra.domain.models.minerva.AgendaItem.NO_CALENDAR_ID;
 
 /**
- * Represents an agenda item as DTO.
+ * Represents an agenda item as data transfer object. This class is used to persist the data to the database and read
+ * it from the json API.
  *
  * @author Niko Strijbol
  */
@@ -26,7 +27,8 @@ import static be.ugent.zeus.hydra.domain.models.minerva.AgendaItem.NO_CALENDAR_I
                 @ForeignKey(
                         entity = CourseDTO.class,
                         parentColumns = CourseTable.Columns.ID,
-                        childColumns = AgendaTable.Columns.COURSE
+                        childColumns = AgendaTable.Columns.COURSE,
+                        onDelete = ForeignKey.CASCADE
                 )
         }
 )
@@ -41,13 +43,13 @@ public class AgendaItemDTO {
     @ColumnInfo(name = AgendaTable.Columns.CONTENT)
     private String content;
     @SerializedName("start_date")
-    @JsonAdapter(ZonedThreeTenAdapter.class)
+    @JsonAdapter(DateTypeConverters.GsonOffset.class)
     @ColumnInfo(name = AgendaTable.Columns.START_DATE)
-    private ZonedDateTime startDate;
+    private OffsetDateTime startDate;
     @SerializedName("end_date")
-    @JsonAdapter(ZonedThreeTenAdapter.class)
+    @JsonAdapter(DateTypeConverters.GsonOffset.class)
     @ColumnInfo(name = AgendaTable.Columns.END_DATE)
-    private ZonedDateTime endDate;
+    private OffsetDateTime endDate;
     @ColumnInfo(name = AgendaTable.Columns.LOCATION)
     private String location;
     @ColumnInfo(name = AgendaTable.Columns.TYPE)
@@ -56,9 +58,9 @@ public class AgendaItemDTO {
     @ColumnInfo(name = AgendaTable.Columns.LAST_EDIT_USER)
     private String lastEditedUser;
     @SerializedName("last_edit_time")
-    @JsonAdapter(ZonedThreeTenAdapter.class)
+    @JsonAdapter(DateTypeConverters.GsonOffset.class)
     @ColumnInfo(name = AgendaTable.Columns.LAST_EDIT)
-    private ZonedDateTime lastEditDate;
+    private OffsetDateTime lastEditDate;
     @SerializedName("last_edit_type")
     @ColumnInfo(name = AgendaTable.Columns.LAST_EDIT_TYPE)
     private String lastEditType;
@@ -96,19 +98,19 @@ public class AgendaItemDTO {
         this.content = content;
     }
 
-    public ZonedDateTime getStartDate() {
+    public OffsetDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(ZonedDateTime startDate) {
+    public void setStartDate(OffsetDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public ZonedDateTime getEndDate() {
+    public OffsetDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(ZonedDateTime endDate) {
+    public void setEndDate(OffsetDateTime endDate) {
         this.endDate = endDate;
     }
 
@@ -136,11 +138,11 @@ public class AgendaItemDTO {
         this.lastEditedUser = lastEditedUser;
     }
 
-    public ZonedDateTime getLastEditDate() {
+    public OffsetDateTime getLastEditDate() {
         return lastEditDate;
     }
 
-    public void setLastEditDate(ZonedDateTime lastEditDate) {
+    public void setLastEditDate(OffsetDateTime lastEditDate) {
         this.lastEditDate = lastEditDate;
     }
 

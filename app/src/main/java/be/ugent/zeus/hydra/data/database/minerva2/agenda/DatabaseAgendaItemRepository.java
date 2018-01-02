@@ -4,7 +4,7 @@ import be.ugent.zeus.hydra.data.dto.minerva.AgendaMapper;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseMapper;
 import be.ugent.zeus.hydra.domain.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.domain.repository.AgendaItemRepository;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import java.util.*;
 
@@ -82,13 +82,13 @@ public class DatabaseAgendaItemRepository implements AgendaItemRepository {
     }
 
     @Override
-    public List<AgendaItem> getAllForCourseFuture(String courseId, ZonedDateTime now) {
+    public List<AgendaItem> getAllForCourseFuture(String courseId, OffsetDateTime now) {
         // TODO: make this more performant by not get a separate Course instance per item.
         return transform(agendaDao.getAllFutureForCourse(courseId, now), result -> agendaMapper.convert(result.agendaItem, courseMapper.courseToCourse(result.course)));
     }
 
     @Override
-    public List<AgendaItem> getBetween(ZonedDateTime lower, ZonedDateTime higher) {
+    public List<AgendaItem> getBetween(OffsetDateTime lower, OffsetDateTime higher) {
         return transform(agendaDao.getBetween(lower, higher), result -> agendaMapper.convert(result.agendaItem, courseMapper.courseToCourse(result.course)));
     }
 

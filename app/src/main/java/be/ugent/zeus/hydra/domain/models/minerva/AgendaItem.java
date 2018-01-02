@@ -3,11 +3,11 @@ package be.ugent.zeus.hydra.domain.models.minerva;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import be.ugent.zeus.hydra.data.dto.DateTypeConverters;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.TtbUtils;
 import java8.util.Objects;
 import org.threeten.bp.LocalDate;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import java.io.Serializable;
 
@@ -23,12 +23,12 @@ public final class AgendaItem implements Serializable, Parcelable {
     private int itemId;
     private String title;
     private String content;
-    private ZonedDateTime startDate;
-    private ZonedDateTime endDate;
+    private OffsetDateTime startDate;
+    private OffsetDateTime endDate;
     private String location;
     private String type;
     private String lastEditedUser;
-    private ZonedDateTime lastEdited;
+    private OffsetDateTime lastEdited;
     private String lastEditType;
     private Course course;
     private long calendarId = NO_CALENDAR_ID;
@@ -77,7 +77,7 @@ public final class AgendaItem implements Serializable, Parcelable {
         this.content = content;
     }
 
-    public ZonedDateTime getStartDate() {
+    public OffsetDateTime getStartDate() {
         return startDate;
     }
 
@@ -85,15 +85,15 @@ public final class AgendaItem implements Serializable, Parcelable {
         return DateUtils.toLocalDateTime(getStartDate()).toLocalDate();
     }
 
-    public void setStartDate(ZonedDateTime startDate) {
+    public void setStartDate(OffsetDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public ZonedDateTime getEndDate() {
+    public OffsetDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(ZonedDateTime endDate) {
+    public void setEndDate(OffsetDateTime endDate) {
         this.endDate = endDate;
     }
 
@@ -121,11 +121,11 @@ public final class AgendaItem implements Serializable, Parcelable {
         this.lastEditedUser = lastEditedUser;
     }
 
-    public ZonedDateTime getLastEdited() {
+    public OffsetDateTime getLastEdited() {
         return lastEdited;
     }
 
-    public void setLastEdited(ZonedDateTime lastEdited) {
+    public void setLastEdited(OffsetDateTime lastEdited) {
         this.lastEdited = lastEdited;
     }
 
@@ -159,12 +159,12 @@ public final class AgendaItem implements Serializable, Parcelable {
         dest.writeInt(this.itemId);
         dest.writeString(this.title);
         dest.writeString(this.content);
-        dest.writeSerializable(this.startDate);
-        dest.writeSerializable(this.endDate);
+        dest.writeString(DateTypeConverters.fromOffsetDateTime(this.startDate));
+        dest.writeString(DateTypeConverters.fromOffsetDateTime(this.endDate));
         dest.writeString(this.location);
         dest.writeString(this.type);
         dest.writeString(this.lastEditedUser);
-        dest.writeLong(TtbUtils.serialize(this.lastEdited));
+        dest.writeString(DateTypeConverters.fromOffsetDateTime(this.lastEdited));
         dest.writeString(this.lastEditType);
         dest.writeParcelable(this.course, flags);
         dest.writeByte((byte) (isMerged ? 1 : 0));
@@ -177,12 +177,12 @@ public final class AgendaItem implements Serializable, Parcelable {
         this.itemId = in.readInt();
         this.title = in.readString();
         this.content = in.readString();
-        this.startDate = (ZonedDateTime) in.readSerializable();
-        this.endDate = (ZonedDateTime) in.readSerializable();
+        this.startDate = DateTypeConverters.toOffsetDateTime(in.readString());
+        this.endDate = DateTypeConverters.toOffsetDateTime(in.readString());
         this.location = in.readString();
         this.type = in.readString();
         this.lastEditedUser = in.readString();
-        this.lastEdited = TtbUtils.unserialize(in.readLong());
+        this.lastEdited = DateTypeConverters.toOffsetDateTime(in.readString());
         this.lastEditType = in.readString();
         this.course = in.readParcelable(Course.class.getClassLoader());
         this.isMerged = in.readByte() == 1;

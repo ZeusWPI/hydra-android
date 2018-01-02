@@ -16,7 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.database.minerva2.RepositoryFactory;
+import be.ugent.zeus.hydra.data.database.RepositoryFactory;
 import be.ugent.zeus.hydra.data.sync.minerva.helpers.NotificationHelper;
 import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
 import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
@@ -31,7 +31,7 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapte
 import be.ugent.zeus.hydra.ui.main.ScheduledRemovalListener;
 import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.Instant;
 
 import java.util.Collection;
 import java.util.List;
@@ -188,7 +188,7 @@ public class AnnouncementsFragment extends Fragment implements MultiSelectDiffAd
         // TODO: do this on a background thread
         AnnouncementRepository dao = RepositoryFactory.getAnnouncementRepository(getContext());
         Collection<Announcement> announcements = adapter.getSelectedItems();
-        ZonedDateTime read = ZonedDateTime.now();
+        Instant read = Instant.now();
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
         for (Announcement an : announcements) {
             an.setRead(read);

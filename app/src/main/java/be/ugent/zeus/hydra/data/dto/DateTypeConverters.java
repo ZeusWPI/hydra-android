@@ -1,9 +1,16 @@
-package be.ugent.zeus.hydra.data.database;
+package be.ugent.zeus.hydra.data.dto;
 
 import android.arch.persistence.room.TypeConverter;
 
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
+import org.threeten.bp.Instant;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
+
+import java.io.IOException;
 
 /**
  * Converts for various date-related classes.
@@ -48,6 +55,44 @@ public class DateTypeConverters {
             return null;
         } else {
             return dateTime.format(OFFSET_FORMATTER);
+        }
+    }
+
+    @TypeConverter
+    public static String fromInstant(Instant instant) {
+        if (instant == null) {
+            return null;
+        } else {
+            return instant.toString();
+        }
+    }
+
+    @TypeConverter
+    public static Instant toInstant(String value) {
+        if (value == null) {
+            return null;
+        } else {
+            return Instant.parse(value);
+        }
+    }
+
+    /**
+     * Adapter for Gson.
+     */
+    public static class GsonOffset extends TypeAdapter<OffsetDateTime> {
+
+        @Override
+        public void write(JsonWriter out, OffsetDateTime value) throws IOException {
+            out.value(fromOffsetDateTime(value));
+        }
+
+        @Override
+        public OffsetDateTime read(JsonReader in) throws IOException {
+            if (in.peek() == JsonToken.NULL) {
+                in.nextNull();
+                return null;
+            }
+            return toOffsetDateTime(in.nextString());
         }
     }
 }

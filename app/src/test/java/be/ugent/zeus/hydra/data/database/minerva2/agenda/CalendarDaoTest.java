@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.data.dto.minerva.AgendaItemDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
 import org.junit.Before;
 import org.junit.Test;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import java.util.HashMap;
 import java.util.List;
@@ -232,7 +232,7 @@ public class CalendarDaoTest extends AbstractDaoTest {
     public void getAllFutureForCourse() {
         CourseDTO randomCourse = getRandom(courses);
         // We want a date that is possible in range.
-        ZonedDateTime now = getRandom(calendarItems).getStartDate();
+        OffsetDateTime now = getRandom(calendarItems).getStartDate();
         List<AgendaItemDTO> expected = this.calendarItems.stream()
                 .filter(i -> i.getCourseId().equals(randomCourse.getId()))
                 .filter(i -> i.getEndDate().isAfter(now) || i.getEndDate().isEqual(now))
@@ -257,8 +257,8 @@ public class CalendarDaoTest extends AbstractDaoTest {
 
     @Test
     public void getBetween() {
-        ZonedDateTime lower = getRandom(this.calendarItems).getStartDate();
-        ZonedDateTime higher = lower.plusWeeks(2);
+        OffsetDateTime lower = getRandom(this.calendarItems).getStartDate();
+        OffsetDateTime higher = lower.plusWeeks(2);
         List<AgendaItemDTO> expected = this.calendarItems.stream()
                 .filter(i -> {
                     boolean startDateAfterLower = i.getStartDate().isAfter(lower) || i.getStartDate().isEqual(lower);

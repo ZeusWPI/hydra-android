@@ -22,7 +22,6 @@ public class Migration_9_10 extends Migration {
     public void migrate(@NonNull SupportSQLiteDatabase supportSQLiteDatabase) {
 
         Log.i("Migrations", "Migrating database from " + this.startVersion + " to " + this.endVersion);
-        Log.w("Migrations", "Callstack is: ", new Exception());
 
         // ---------------------------
         // Adjust the courses table.
@@ -88,6 +87,5 @@ public class Migration_9_10 extends Migration {
         // ---------------------------
 
         Log.i("Migrations", "Migration is completed.");
-        Log.w("Migrations", "Callstack is: ", new Exception());
     }
 }

@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.database.minerva2.RepositoryFactory;
+import be.ugent.zeus.hydra.data.database.RepositoryFactory;
 import be.ugent.zeus.hydra.data.sync.minerva.helpers.NotificationHelper;
 import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
 import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
@@ -26,7 +26,7 @@ import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.Instant;
 
 /**
  * Show a Minerva announcement.
@@ -137,7 +137,7 @@ public class AnnouncementActivity extends BaseActivity {
         super.onResume();
         //Set the read date if needed
         if (!announcement.isRead()) {
-            announcement.setRead(ZonedDateTime.now());
+            announcement.setRead(Instant.now());
             setResult();
             AsyncTask.execute(() -> dao.update(announcement));
             // Check for notification we want to remove.

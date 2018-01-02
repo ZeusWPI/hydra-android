@@ -15,7 +15,7 @@ import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
 import be.ugent.zeus.hydra.domain.repository.FullRepository;
 import org.junit.Before;
 import org.junit.Test;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.Instant;
 
 import java.io.IOException;
 import java.util.Comparator;
@@ -26,9 +26,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static be.ugent.zeus.hydra.testing.Assert.assertCollectionEquals;
-import static be.ugent.zeus.hydra.testing.Assert.assertThat;
-import static be.ugent.zeus.hydra.testing.Assert.samePropertyValuesAs;
+import static be.ugent.zeus.hydra.testing.Assert.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static be.ugent.zeus.hydra.testing.Utils.getRandom;
 import static be.ugent.zeus.hydra.utils.IterableUtils.transform;
@@ -143,14 +141,14 @@ public class AnnouncementRepositoryTest extends FullRepositoryTest<Integer, Anno
     @Test
     public void getIdsAndReadDateFor() {
         Course random = courseMapper.courseToCourse(getRandom(courses));
-        Map<Integer, ZonedDateTime> expected = new HashMap<>();
+        Map<Integer, Instant> expected = new HashMap<>();
         List<Announcement> data = getData().stream()
                 .filter(a -> a.getCourse().equals(random))
                 .collect(Collectors.toList());
         for (Announcement a: data) {
             expected.put(a.getItemId(), a.getRead());
         }
-        Map<Integer, ZonedDateTime> actual = announcementRepository.getIdsAndReadDateFor(random);
+        Map<Integer, Instant> actual = announcementRepository.getIdsAndReadDateFor(random);
         assertEquals(expected, actual);
     }
 

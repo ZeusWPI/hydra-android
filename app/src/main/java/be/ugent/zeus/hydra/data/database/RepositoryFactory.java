@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.data.database.minerva2;
+package be.ugent.zeus.hydra.data.database;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -27,7 +27,7 @@ public class RepositoryFactory {
     @NonNull
     public static synchronized AgendaItemRepository getAgendaItemRepository(Context context) {
         if (agendaItemRepository == null) {
-            MinervaDatabase database = MinervaDatabase.get(context);
+            Database database = Database.get(context);
             agendaItemRepository = new DatabaseAgendaItemRepository(database.getAgendaDao(), CourseMapper.INSTANCE, AgendaMapper.INSTANCE);
         }
         return agendaItemRepository;
@@ -36,7 +36,7 @@ public class RepositoryFactory {
     @NonNull
     public static synchronized AnnouncementRepository getAnnouncementRepository(Context context) {
         if (announcementRepository == null) {
-            MinervaDatabase database = MinervaDatabase.get(context);
+            Database database = Database.get(context);
             announcementRepository = new DatabaseAnnouncementRepository(database.getAnnouncementDao(), CourseMapper.INSTANCE, AnnouncementMapper.INSTANCE);
         }
         return announcementRepository;
@@ -45,7 +45,7 @@ public class RepositoryFactory {
     @NonNull
     public static synchronized CourseRepository getCourseRepository(Context context) {
         if (courseRepository == null) {
-            MinervaDatabase database = MinervaDatabase.get(context);
+            Database database = Database.get(context);
             courseRepository = new DatabaseCourseRepository(database.getCourseDao(), CourseMapper.INSTANCE);
         }
         return courseRepository;

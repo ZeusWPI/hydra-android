@@ -8,7 +8,7 @@ import android.support.annotation.RequiresApi;
 import be.ugent.zeus.hydra.data.database.minerva2.agenda.AgendaDao;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaItemDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import java.util.*;
 import java.util.function.Function;
@@ -119,7 +119,7 @@ public class MockCalendarDao implements AgendaDao {
     }
 
     @Override
-    public List<Result> getAllFutureForCourse(String courseId, ZonedDateTime now) {
+    public List<Result> getAllFutureForCourse(String courseId, OffsetDateTime now) {
         return this.calendarItems.stream()
                 .filter(i -> i.getCourseId().equals(courseId))
                 .filter(i -> i.getEndDate().isAfter(now) || i.getEndDate().isEqual(now))
@@ -146,7 +146,7 @@ public class MockCalendarDao implements AgendaDao {
     }
 
     @Override
-    public List<Result> getBetween(ZonedDateTime lower, ZonedDateTime upper) {
+    public List<Result> getBetween(OffsetDateTime lower, OffsetDateTime upper) {
         return calendarItems.stream()
                 .filter(c -> {
                     boolean startAfter = c.getStartDate().isAfter(lower) || c.getStartDate().isEqual(lower);

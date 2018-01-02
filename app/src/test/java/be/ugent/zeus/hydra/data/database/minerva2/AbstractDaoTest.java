@@ -6,6 +6,7 @@ import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
+import be.ugent.zeus.hydra.data.database.Database;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaItemDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
@@ -44,7 +45,7 @@ import static org.junit.Assert.assertEquals;
 @Config(constants = BuildConfig.class, application = TestApp.class)
 public abstract class AbstractDaoTest {
 
-    protected MinervaDatabase database;
+    protected Database database;
 
     protected List<CourseDTO> courses;
     protected Map<String, CourseDTO> courseMap;
@@ -54,7 +55,7 @@ public abstract class AbstractDaoTest {
     @Before
     public void setUp() throws IOException {
         Context context = RuntimeEnvironment.application;
-        database = Room.inMemoryDatabaseBuilder(context, MinervaDatabase.class)
+        database = Room.inMemoryDatabaseBuilder(context, Database.class)
                 .allowMainThreadQueries()
                 .build();
         fillData();

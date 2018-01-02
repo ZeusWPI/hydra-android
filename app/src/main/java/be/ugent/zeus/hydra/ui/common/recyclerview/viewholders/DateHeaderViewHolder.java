@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.FormatStyle;
 
 /**
@@ -14,7 +14,7 @@ import org.threeten.bp.format.FormatStyle;
  * @author Niko Strijbol
  * @author unknown
  */
-public class DateHeaderViewHolder extends DataViewHolder<ZonedDateTime> {
+public class DateHeaderViewHolder extends DataViewHolder<OffsetDateTime> {
 
     private TextView headerText;
 
@@ -23,7 +23,7 @@ public class DateHeaderViewHolder extends DataViewHolder<ZonedDateTime> {
         headerText = v.findViewById(R.id.date_header);
     }
 
-    public void populate(ZonedDateTime date) {
+    public void populate(OffsetDateTime date) {
         headerText.setText(DateUtils.getFriendlyDate(date.toLocalDate(), FormatStyle.LONG));
     }
 }

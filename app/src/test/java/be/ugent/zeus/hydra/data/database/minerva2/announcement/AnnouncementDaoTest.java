@@ -9,7 +9,7 @@ import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.util.Pair;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.Instant;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -252,11 +252,11 @@ public class AnnouncementDaoTest extends AbstractDaoTest {
     @Test
     public void getIdAndReadDateFor() {
         CourseDTO randomCourse = getRandom(this.courses);
-        List<Pair<Integer, ZonedDateTime>> expected = this.announcements.stream()
+        List<Pair<Integer, Instant>> expected = this.announcements.stream()
                 .filter(a -> a.getCourseId().equals(randomCourse.getId()))
                 .map(announcementDTO -> new Pair<>(announcementDTO.getId(), announcementDTO.getReadAt()))
                 .collect(Collectors.toList());
-        List<Pair<Integer, ZonedDateTime>> actual = announcementDao.getIdAndReadDateFor(randomCourse.getId()).stream()
+        List<Pair<Integer, Instant>> actual = announcementDao.getIdAndReadDateFor(randomCourse.getId()).stream()
                 .map(idAndReadDate -> new Pair<>(idAndReadDate.id, idAndReadDate.readAt))
                 .collect(Collectors.toList());
         assertCollectionEquals(expected, actual);

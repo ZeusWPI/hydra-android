@@ -5,7 +5,7 @@ import android.arch.persistence.room.*;
 import be.ugent.zeus.hydra.data.database.minerva2.course.CourseTable;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaItemDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import java.util.Collection;
 import java.util.List;
@@ -75,7 +75,7 @@ public interface AgendaDao {
             " AND a." + AgendaTable.Columns.END_DATE + " >= :now" +
             " ORDER BY " + AgendaTable.Columns.START_DATE + " ASC"
     )
-    List<Result> getAllFutureForCourse(String courseId, ZonedDateTime now);
+    List<Result> getAllFutureForCourse(String courseId, OffsetDateTime now);
 
     @Query("SELECT a.*, c." + CourseTable.Columns.ID + " AS c_" + CourseTable.Columns.ID +
             ", c." + CourseTable.Columns.CODE + " AS c_" + CourseTable.Columns.CODE +
@@ -102,7 +102,7 @@ public interface AgendaDao {
             " AND a." + AgendaTable.Columns.START_DATE + " <= :upper " +
             " ORDER BY " + AgendaTable.Columns.START_DATE + " ASC"
     )
-    List<Result> getBetween(ZonedDateTime lower, ZonedDateTime upper);
+    List<Result> getBetween(OffsetDateTime lower, OffsetDateTime upper);
 
     @Query("SELECT " + AgendaTable.Columns.CALENDAR_ID + " FROM " + AgendaTable.TABLE_NAME + " WHERE " + AgendaTable.Columns.ID + " IN (:ids)")
     List<Long> getCalendarIdsForIds(List<Integer> ids);

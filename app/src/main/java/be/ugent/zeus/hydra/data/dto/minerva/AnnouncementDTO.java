@@ -7,11 +7,12 @@ import android.arch.persistence.room.PrimaryKey;
 
 import be.ugent.zeus.hydra.data.database.minerva2.announcement.AnnouncementTable;
 import be.ugent.zeus.hydra.data.database.minerva2.course.CourseTable;
-import be.ugent.zeus.hydra.data.gson.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.data.dto.DateTypeConverters;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import java8.util.Objects;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.Instant;
+import org.threeten.bp.OffsetDateTime;
 
 /**
  * Represents an announcement from Minerva.
@@ -24,7 +25,8 @@ import org.threeten.bp.ZonedDateTime;
                 @ForeignKey(
                         entity = CourseDTO.class,
                         parentColumns = CourseTable.Columns.ID,
-                        childColumns = AnnouncementTable.Columns.COURSE
+                        childColumns = AnnouncementTable.Columns.COURSE,
+                        onDelete = ForeignKey.CASCADE
                 )
         }
 )
@@ -45,12 +47,12 @@ public final class AnnouncementDTO {
     @ColumnInfo(name = AnnouncementTable.Columns.LECTURER)
     private String lecturer;
     @SerializedName("last_edit_time")
-    @JsonAdapter(ZonedThreeTenAdapter.class)
+    @JsonAdapter(DateTypeConverters.GsonOffset.class)
     @ColumnInfo(name = AnnouncementTable.Columns.DATE)
-    private ZonedDateTime lastEditedAt;
+    private OffsetDateTime lastEditedAt;
     @SerializedName("read_at") // For testing
     @ColumnInfo(name = AnnouncementTable.Columns.READ_DATE)
-    private ZonedDateTime readAt;
+    private Instant readAt;
     @SerializedName("course_id")
     @ColumnInfo(name = AnnouncementTable.Columns.COURSE, index = true)
     private String courseId;
@@ -87,21 +89,19 @@ public final class AnnouncementDTO {
         this.id = id;
     }
 
-
-
-    public ZonedDateTime getLastEditedAt() {
+    public OffsetDateTime getLastEditedAt() {
         return lastEditedAt;
     }
 
-    public void setLastEditedAt(ZonedDateTime lastEditedAt) {
+    public void setLastEditedAt(OffsetDateTime lastEditedAt) {
         this.lastEditedAt = lastEditedAt;
     }
 
-    public ZonedDateTime getReadAt() {
+    public Instant getReadAt() {
         return readAt;
     }
 
-    public void setReadAt(ZonedDateTime readAt) {
+    public void setReadAt(Instant readAt) {
         this.readAt = readAt;
     }
 

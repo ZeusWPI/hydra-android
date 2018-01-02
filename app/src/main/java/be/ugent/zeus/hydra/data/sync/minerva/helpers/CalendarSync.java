@@ -39,10 +39,7 @@ import java8.util.function.Functions;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 import jonathanfinerty.once.Once;
-import org.threeten.bp.DateTimeUtils;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.*;
 
 import java.util.*;
 
@@ -453,7 +450,7 @@ public class CalendarSync {
         contentValues.put(CalendarContract.Events.DTEND, item.getEndDate().toInstant().toEpochMilli());
         // Convert Java 8 TimeZone to old TimeZone
         @SuppressWarnings("UseOfObsoleteDateTimeApi")
-        TimeZone zone = DateTimeUtils.toTimeZone(item.getStartDate().getZone());
+        TimeZone zone = DateTimeUtils.toTimeZone(item.getStartDate().getOffset());
         contentValues.put(CalendarContract.Events.EVENT_TIMEZONE, zone.getID());
         contentValues.put(CalendarContract.Events.EVENT_LOCATION, item.getLocation());
         contentValues.put(CalendarContract.Events.SYNC_DATA1, item.getItemId());

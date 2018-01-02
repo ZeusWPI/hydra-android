@@ -15,7 +15,7 @@ import be.ugent.zeus.hydra.domain.repository.AgendaItemRepository;
 import be.ugent.zeus.hydra.domain.repository.FullRepository;
 import org.junit.Before;
 import org.junit.Test;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -123,7 +123,7 @@ public class CalendarRepositoryTest extends FullRepositoryTest<Integer, AgendaIt
     @Test
     public void getAllForCourseFuture() {
         // We want a date that is possible in range.
-        ZonedDateTime now = getRandom(calendarItems).getStartDate();
+        OffsetDateTime now = getRandom(calendarItems).getStartDate();
         Course course = courseMapper.courseToCourse(getRandom(courses));
         List<AgendaItem> expected = getData().stream()
                 .filter(i -> i.getCourse().equals(course))
@@ -135,8 +135,8 @@ public class CalendarRepositoryTest extends FullRepositoryTest<Integer, AgendaIt
 
     @Test
     public void getBetween() {
-        ZonedDateTime lower = getRandom(calendarItems).getStartDate();
-        ZonedDateTime upper = lower.plusWeeks(1);
+        OffsetDateTime lower = getRandom(calendarItems).getStartDate();
+        OffsetDateTime upper = lower.plusWeeks(1);
 
         List<AgendaItem> expected = getData().stream()
                 .filter(c -> {

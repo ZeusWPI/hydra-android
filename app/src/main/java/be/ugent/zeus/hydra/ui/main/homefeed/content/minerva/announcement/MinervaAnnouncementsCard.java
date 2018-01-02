@@ -6,6 +6,7 @@ import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
 import be.ugent.zeus.hydra.domain.models.minerva.Course;
 import java8.util.Objects;
 import org.threeten.bp.Duration;
+import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.List;
@@ -36,7 +37,7 @@ class MinervaAnnouncementsCard extends HomeCard {
 
     @Override
     public int getPriority() {
-        ZonedDateTime date = getAnnouncements().get(0).getDate();
+        OffsetDateTime date = getAnnouncements().get(0).getDate();
         Duration duration = Duration.between(date, ZonedDateTime.now());
         return FeedUtils.lerp((int) duration.toHours(), 0, 1488);
     }

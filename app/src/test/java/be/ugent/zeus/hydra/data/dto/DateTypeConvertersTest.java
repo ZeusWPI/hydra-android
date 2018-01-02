@@ -1,6 +1,7 @@
-package be.ugent.zeus.hydra.data.database;
+package be.ugent.zeus.hydra.data.dto;
 
 import org.junit.Test;
+import org.threeten.bp.Instant;
 import org.threeten.bp.OffsetDateTime;
 
 import static org.junit.Assert.assertEquals;
@@ -32,5 +33,27 @@ public class DateTypeConvertersTest {
     @Test
     public void fromOffsetDateTimeNull() {
         assertEquals(null, DateTypeConverters.toOffsetDateTime(null));
+    }
+
+    @Test
+    public void fromInstant() {
+        Instant now = Instant.now();
+        assertEquals(now.toString(), DateTypeConverters.fromInstant(now));
+    }
+
+    @Test
+    public void fromInstantNull() {
+        assertEquals(null, DateTypeConverters.fromInstant(null));
+    }
+
+    @Test
+    public void toInstant() {
+        Instant now = Instant.now();
+        assertEquals(now, DateTypeConverters.toInstant(now.toString()));
+    }
+
+    @Test
+    public void toInstantNull() {
+        assertEquals(null, DateTypeConverters.toInstant(null));
     }
 }

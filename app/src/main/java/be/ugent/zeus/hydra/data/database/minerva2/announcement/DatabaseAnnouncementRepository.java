@@ -12,7 +12,7 @@ import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
 import com.google.firebase.crash.FirebaseCrash;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.Instant;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -137,9 +137,9 @@ public class DatabaseAnnouncementRepository implements AnnouncementRepository {
     }
 
     @Override
-    public Map<Integer, ZonedDateTime> getIdsAndReadDateFor(Course course) {
+    public Map<Integer, Instant> getIdsAndReadDateFor(Course course) {
         List<AnnouncementDao.IdAndReadDate> data = announcementDao.getIdAndReadDateFor(course.getId());
-        Map<Integer, ZonedDateTime> result = new HashMap<>();
+        Map<Integer, Instant> result = new HashMap<>();
         for (AnnouncementDao.IdAndReadDate idAndReadDate : data) {
             result.put(idAndReadDate.id, idAndReadDate.readAt);
         }

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.data.database.minerva2.RepositoryFactory;
+import be.ugent.zeus.hydra.data.database.RepositoryFactory;
 import be.ugent.zeus.hydra.domain.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.domain.repository.AgendaItemRepository;
 import be.ugent.zeus.hydra.repository.requests.Result;
@@ -14,7 +14,7 @@ import java8.util.stream.Collectors;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
 import org.threeten.bp.LocalDate;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import java.util.List;
 import java.util.Map;
@@ -36,9 +36,9 @@ public class MinervaAgendaRequest implements HomeFeedRequest {
     @Override
     public Result<Stream<HomeCard>> performRequest(Bundle args) {
 
-        ZonedDateTime now = ZonedDateTime.now();
+        OffsetDateTime now = OffsetDateTime.now();
         // Only display things up to 3 weeks from now.
-        ZonedDateTime oneMonth = now.plusWeeks(3);
+        OffsetDateTime oneMonth = now.plusWeeks(3);
         //Note: in real Java 8 streams, we could concat the operations below.
         //Sort the items per day
         Map<LocalDate, List<AgendaItem>> perDay = StreamSupport.stream(dao.getBetween(now, oneMonth))

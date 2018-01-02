@@ -5,7 +5,7 @@ import android.arch.persistence.room.*;
 import be.ugent.zeus.hydra.data.database.minerva2.course.CourseTable;
 import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.Instant;
 
 import java.util.Collection;
 import java.util.List;
@@ -97,6 +97,6 @@ public interface AnnouncementDao {
         @ColumnInfo(name = AnnouncementTable.Columns.ID)
         public int id;
         @ColumnInfo(name = AnnouncementTable.Columns.READ_DATE)
-        public ZonedDateTime readAt;
+        public Instant readAt;
     }
 }
