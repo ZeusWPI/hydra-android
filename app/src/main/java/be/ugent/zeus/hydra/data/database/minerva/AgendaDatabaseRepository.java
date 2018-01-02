@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.data.database.minerva.agenda;
+package be.ugent.zeus.hydra.data.database.minerva;
 
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaMapper;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseMapper;
@@ -13,13 +13,13 @@ import static be.ugent.zeus.hydra.utils.IterableUtils.transform;
 /**
  * @author Niko Strijbol
  */
-public class DatabaseAgendaItemRepository implements AgendaItemRepository {
+public class AgendaDatabaseRepository implements AgendaItemRepository {
 
     private final AgendaDao agendaDao;
     private final CourseMapper courseMapper;
     private final AgendaMapper agendaMapper;
 
-    public DatabaseAgendaItemRepository(AgendaDao agendaDao, CourseMapper courseMapper, AgendaMapper agendaMapper) {
+    public AgendaDatabaseRepository(AgendaDao agendaDao, CourseMapper courseMapper, AgendaMapper agendaMapper) {
         this.agendaDao = agendaDao;
         this.courseMapper = courseMapper;
         this.agendaMapper = agendaMapper;

@@ -4,6 +4,7 @@ import android.support.annotation.RequiresApi;
 import android.util.Pair;
 
 import be.ugent.zeus.hydra.data.database.minerva.AbstractDaoTest;
+import be.ugent.zeus.hydra.data.database.minerva.CourseDatabaseRepository;
 import be.ugent.zeus.hydra.data.database.minerva.FullRepositoryTest;
 import be.ugent.zeus.hydra.data.database.minerva.mocks.MockCourseDao;
 import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementDTO;
@@ -47,7 +48,7 @@ public class CourseRepositoryTest extends FullRepositoryTest<String, Course> {
         courses = AbstractDaoTest.loadTestCourses();
         announcements = AbstractDaoTest.loadTestAnnouncements();
         courseMapper = CourseMapper.INSTANCE;
-        courseRepository = new DatabaseCourseRepository(new MockCourseDao(courses, announcements), courseMapper);
+        courseRepository = new CourseDatabaseRepository(new MockCourseDao(courses, announcements), courseMapper);
     }
 
     @Override

@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import be.ugent.zeus.hydra.data.database.minerva.agenda.AgendaDao;
+import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaItemDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
 import org.threeten.bp.OffsetDateTime;

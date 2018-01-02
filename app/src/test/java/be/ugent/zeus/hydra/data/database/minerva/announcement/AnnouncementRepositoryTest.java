@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.data.database.minerva.announcement;
 import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.data.database.minerva.AbstractDaoTest;
+import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDatabaseRepository;
 import be.ugent.zeus.hydra.data.database.minerva.FullRepositoryTest;
 import be.ugent.zeus.hydra.data.database.minerva.mocks.MockAnnouncementDao;
 import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementDTO;
@@ -51,7 +52,7 @@ public class AnnouncementRepositoryTest extends FullRepositoryTest<Integer, Anno
         announcements = AbstractDaoTest.loadTestAnnouncements();
         courseMapper = CourseMapper.INSTANCE;
         announcementMapper = AnnouncementMapper.INSTANCE;
-        announcementRepository = new DatabaseAnnouncementRepository(
+        announcementRepository = new AnnouncementDatabaseRepository(
                 new MockAnnouncementDao(announcements, courses),
                 courseMapper,
                 announcementMapper);

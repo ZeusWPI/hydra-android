@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.data.database.minerva.agenda;
 import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.data.database.minerva.AbstractDaoTest;
+import be.ugent.zeus.hydra.data.database.minerva.AgendaDatabaseRepository;
 import be.ugent.zeus.hydra.data.database.minerva.FullRepositoryTest;
 import be.ugent.zeus.hydra.data.database.minerva.mocks.MockCalendarDao;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaItemDTO;
@@ -50,7 +51,7 @@ public class CalendarRepositoryTest extends FullRepositoryTest<Integer, AgendaIt
         calendarItems = AbstractDaoTest.loadTestCalendarItems();
         courseMapper = CourseMapper.INSTANCE;
         calendarMapper = AgendaMapper.INSTANCE;
-        agendaItemRepository = new DatabaseAgendaItemRepository(
+        agendaItemRepository = new AgendaDatabaseRepository(
                 new MockCalendarDao(calendarItems, courses),
                 courseMapper,
                 calendarMapper);

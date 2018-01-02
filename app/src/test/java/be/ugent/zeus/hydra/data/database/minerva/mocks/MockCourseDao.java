@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.data.database.minerva.mocks;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import be.ugent.zeus.hydra.data.database.minerva.course.CourseDao;
+import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
 import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseUnread;

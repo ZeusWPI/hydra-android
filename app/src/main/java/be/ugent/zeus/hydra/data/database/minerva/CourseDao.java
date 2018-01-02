@@ -1,9 +1,8 @@
-package be.ugent.zeus.hydra.data.database.minerva.course;
+package be.ugent.zeus.hydra.data.database.minerva;
 
 import android.arch.persistence.room.*;
 import android.support.annotation.VisibleForTesting;
 
-import be.ugent.zeus.hydra.data.database.minerva.announcement.AnnouncementTable;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseUnread;
 

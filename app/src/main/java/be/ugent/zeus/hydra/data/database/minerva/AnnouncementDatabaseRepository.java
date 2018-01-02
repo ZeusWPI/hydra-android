@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.data.database.minerva.announcement;
+package be.ugent.zeus.hydra.data.database.minerva;
 
 import android.util.Log;
 
@@ -22,13 +22,13 @@ import static be.ugent.zeus.hydra.utils.IterableUtils.transform;
 /**
  * @author Niko Strijbol
  */
-public class DatabaseAnnouncementRepository implements AnnouncementRepository {
+public class AnnouncementDatabaseRepository implements AnnouncementRepository {
 
     private final AnnouncementDao announcementDao;
     private final CourseMapper courseMapper;
     private final AnnouncementMapper announcementMapper;
 
-    public DatabaseAnnouncementRepository(AnnouncementDao announcementDao, CourseMapper courseMapper, AnnouncementMapper announcementMapper) {
+    public AnnouncementDatabaseRepository(AnnouncementDao announcementDao, CourseMapper courseMapper, AnnouncementMapper announcementMapper) {
         this.announcementDao = announcementDao;
         this.courseMapper = courseMapper;
         this.announcementMapper = announcementMapper;

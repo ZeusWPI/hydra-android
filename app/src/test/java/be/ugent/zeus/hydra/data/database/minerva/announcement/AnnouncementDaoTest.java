@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.data.database.minerva.AbstractDaoTest;
+import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
 import org.junit.Before;

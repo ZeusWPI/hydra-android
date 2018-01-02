@@ -6,6 +6,7 @@ import android.support.annotation.RequiresApi;
 import android.util.Pair;
 
 import be.ugent.zeus.hydra.data.database.minerva.AbstractDaoTest;
+import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaItemDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
 import org.junit.Before;

@@ -5,8 +5,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
-import be.ugent.zeus.hydra.data.database.minerva.announcement.AnnouncementTable;
-import be.ugent.zeus.hydra.data.database.minerva.course.CourseTable;
+import be.ugent.zeus.hydra.data.database.minerva.AnnouncementTable;
+import be.ugent.zeus.hydra.data.database.minerva.CourseTable;
 import be.ugent.zeus.hydra.data.dto.DateTypeConverters;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;

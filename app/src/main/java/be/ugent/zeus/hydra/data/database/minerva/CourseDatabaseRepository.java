@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.data.database.minerva.course;
+package be.ugent.zeus.hydra.data.database.minerva;
 
 import android.util.Pair;
 
@@ -15,12 +15,12 @@ import static be.ugent.zeus.hydra.utils.IterableUtils.transform;
 /**
  * @author Niko Strijbol
  */
-public class DatabaseCourseRepository implements CourseRepository {
+public class CourseDatabaseRepository implements CourseRepository {
 
     private final CourseDao courseDao;
     private final CourseMapper courseMapper;
 
-    public DatabaseCourseRepository(CourseDao courseDao, CourseMapper courseMapper) {
+    public CourseDatabaseRepository(CourseDao courseDao, CourseMapper courseMapper) {
         this.courseDao = courseDao;
         this.courseMapper = courseMapper;
     }

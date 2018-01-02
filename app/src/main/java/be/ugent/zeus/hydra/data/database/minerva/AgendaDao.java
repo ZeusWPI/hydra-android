@@ -1,8 +1,7 @@
-package be.ugent.zeus.hydra.data.database.minerva.agenda;
+package be.ugent.zeus.hydra.data.database.minerva;
 
 import android.arch.persistence.room.*;
 
-import be.ugent.zeus.hydra.data.database.minerva.course.CourseTable;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaItemDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
 import org.threeten.bp.OffsetDateTime;
