@@ -2,14 +2,16 @@ package be.ugent.zeus.hydra.utils;
 
 import android.util.SparseArray;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * A {@link SparseArray} that is iterable.
  *
  * @author Niko Strijbol
  */
-public class IterableSparseArray<E> extends SparseArray<E> implements Iterable<E> {
+public class ExtendedSparseArray<E> extends SparseArray<E> implements Iterable<E> {
 
     /**
      * An iterator over the values of this array.
@@ -35,5 +37,18 @@ public class IterableSparseArray<E> extends SparseArray<E> implements Iterable<E
                 return valueAt(current++);
             }
         };
+    }
+
+    /**
+     * Get the keys used by this array. Because the actual array is private, we must iterate to produce it.
+     *
+     * @return The list of keys used by this array.
+     */
+    public List<Integer> getKeys() {
+        List<Integer> keys = new ArrayList<>(size());
+        for (int i = 0; i < size(); i++) {
+            keys.add(keyAt(i));
+        }
+        return keys;
     }
 }

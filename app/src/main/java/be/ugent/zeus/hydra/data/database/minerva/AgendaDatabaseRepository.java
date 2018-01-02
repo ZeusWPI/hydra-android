@@ -4,9 +4,12 @@ import be.ugent.zeus.hydra.data.dto.minerva.AgendaMapper;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseMapper;
 import be.ugent.zeus.hydra.domain.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.domain.repository.AgendaItemRepository;
+import be.ugent.zeus.hydra.utils.ExtendedSparseArray;
 import org.threeten.bp.OffsetDateTime;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.IterableUtils.transform;
 
@@ -93,12 +96,12 @@ public class AgendaDatabaseRepository implements AgendaItemRepository {
     }
 
     @Override
-    public Map<Integer, Long> getIdsAndCalendarIds() {
-        Map<Integer, Long> result = new HashMap<>();
+    public ExtendedSparseArray<Long> getIdsAndCalendarIds() {
+        ExtendedSparseArray<Long> sparseArray = new ExtendedSparseArray<>();
         for (AgendaDao.IdAndCalendarId item: agendaDao.getIdsAndCalendarIds()) {
-            result.put(item.itemId, item.calendarId);
+            sparseArray.put(item.itemId, item.calendarId);
         }
-        return result;
+        return sparseArray;
     }
 
     @Override

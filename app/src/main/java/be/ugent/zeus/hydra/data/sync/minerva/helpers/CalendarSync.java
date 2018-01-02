@@ -33,13 +33,16 @@ import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.minerva.CalendarPermissionActivity;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
+import be.ugent.zeus.hydra.utils.ExtendedSparseArray;
 import be.ugent.zeus.hydra.utils.StringUtils;
-import java8.util.Maps;
 import java8.util.function.Functions;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 import jonathanfinerty.once.Once;
-import org.threeten.bp.*;
+import org.threeten.bp.DateTimeUtils;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.*;
 
@@ -130,17 +133,17 @@ public class CalendarSync {
         }
 
         // Get existing items and the calendar ids.
-        Map<Integer, Long> allItems = calendarRepository.getIdsAndCalendarIds();
+        ExtendedSparseArray<Long> allItems = calendarRepository.getIdsAndCalendarIds();
 
         Synchronisation<AgendaItem, Integer> sync = new Synchronisation<>(
-                allItems.keySet(),
+                allItems.getKeys(),
                 agenda,
                 AgendaItem::getItemId);
         Synchronisation.Diff<AgendaItem, Integer> diff = sync.diff();
 
         // Save the id's of the built-in items.
         for (AgendaItem item : diff.getUpdated()) {
-            item.setCalendarId(Maps.getOrDefault(allItems, item.getItemId(), AgendaItem.NO_CALENDAR_ID));
+            item.setCalendarId(allItems.get(item.getItemId(), AgendaItem.NO_CALENDAR_ID));
         }
 
         // Handle integration with the built-in calendar.

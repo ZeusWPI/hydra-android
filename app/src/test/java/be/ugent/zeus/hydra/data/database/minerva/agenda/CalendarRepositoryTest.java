@@ -14,6 +14,7 @@ import be.ugent.zeus.hydra.domain.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.domain.models.minerva.Course;
 import be.ugent.zeus.hydra.domain.repository.AgendaItemRepository;
 import be.ugent.zeus.hydra.domain.repository.FullRepository;
+import be.ugent.zeus.hydra.utils.ExtendedSparseArray;
 import org.junit.Before;
 import org.junit.Test;
 import org.threeten.bp.OffsetDateTime;
@@ -153,11 +154,11 @@ public class CalendarRepositoryTest extends FullRepositoryTest<Integer, AgendaIt
 
     @Test
     public void getAllWithCalendarId() {
-        Map<Integer, Long> expected = new HashMap<>();
+        ExtendedSparseArray<Long> expected = new ExtendedSparseArray<>();
         for (AgendaItem course: getData()) {
             expected.put(course.getItemId(), course.getCalendarId());
         }
-        Map<Integer, Long> actual = agendaItemRepository.getIdsAndCalendarIds();
+        ExtendedSparseArray<Long> actual = agendaItemRepository.getIdsAndCalendarIds();
         assertEquals(expected, actual);
     }
 

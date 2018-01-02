@@ -26,7 +26,7 @@ import be.ugent.zeus.hydra.ui.main.homefeed.content.urgent.UrgentRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.operations.FeedOperation;
 import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
-import be.ugent.zeus.hydra.utils.IterableSparseArray;
+import be.ugent.zeus.hydra.utils.ExtendedSparseArray;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import java8.util.J8Arrays;
 import java8.util.function.IntPredicate;
@@ -222,7 +222,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
      *
      * @return The operations to execute.
      */
-    private IterableSparseArray<FeedOperation> scheduleOperations() {
+    private ExtendedSparseArray<FeedOperation> scheduleOperations() {
 
         FeedCollection operations = new FeedCollection();
         Context c = applicationContext;
@@ -273,7 +273,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
      * @param args The arguments to determine which requests will be executed.
      * @return The requests to be executed.
      */
-    private Iterable<FeedOperation> findOperations(IterableSparseArray<FeedOperation> allOperations, @Nullable Bundle args) {
+    private Iterable<FeedOperation> findOperations(ExtendedSparseArray<FeedOperation> allOperations, @Nullable Bundle args) {
 
         // If there are no arguments, or we must do all operations, do nothing.
         if (args == null || args.getInt(REFRESH_HOMECARD_TYPE, REFRESH_ALL_CARDS) == REFRESH_ALL_CARDS) {

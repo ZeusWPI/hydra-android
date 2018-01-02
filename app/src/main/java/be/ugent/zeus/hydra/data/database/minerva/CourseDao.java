@@ -64,10 +64,12 @@ public interface CourseDao {
     List<IdAndOrder> getIdsAndOrders();
 
     class IdAndOrder {
+        @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
         @ColumnInfo(name = CourseTable.Columns.ID)
-        String id;
+        public String id;
+        @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
         @ColumnInfo(name = CourseTable.Columns.ORDER)
-        int order;
+        public int order;
         @VisibleForTesting
         public IdAndOrder(String id, int order) {
             this.id = id;

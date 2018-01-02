@@ -8,7 +8,9 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -19,13 +21,13 @@ import static org.junit.Assert.*;
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, application = TestApp.class)
-public class IterableSparseArrayTest {
+public class ExtendedSparseArrayTest {
 
-    private IterableSparseArray<Integer> smallArray;
+    private ExtendedSparseArray<Integer> smallArray;
 
     @Before
     public void setUp() {
-        smallArray = new IterableSparseArray<>();
+        smallArray = new ExtendedSparseArray<>();
         smallArray.put(0, 2);
         smallArray.put(1, 3);
         smallArray.put(2, 4);
@@ -50,7 +52,20 @@ public class IterableSparseArrayTest {
 
     @Test
     public void testEmpty() {
-        Iterator<Object> iterator = new IterableSparseArray<>().iterator();
+        Iterator<Object> iterator = new ExtendedSparseArray<>().iterator();
         assertFalse(iterator.hasNext());
+    }
+
+    @Test
+    public void testKeysNormal() {
+        List<Integer> result = smallArray.getKeys();
+        List<Integer> expected = Arrays.asList(0, 1, 2);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testKeysEmpty() {
+        List<Integer> result = new ExtendedSparseArray<Integer>().getKeys();
+        assertTrue(result.isEmpty());
     }
 }
