@@ -71,8 +71,8 @@ public interface AgendaDao {
             ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
             " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseTable.Columns.ID +
             " WHERE a." + AgendaTable.Columns.COURSE + " = :courseId" +
-            " AND a." + AgendaTable.Columns.END_DATE + " >= :now" +
-            " ORDER BY " + AgendaTable.Columns.START_DATE + " ASC"
+            " AND datetime(a." + AgendaTable.Columns.END_DATE + ") >= datetime(:now)" +
+            " ORDER BY datetime(" + AgendaTable.Columns.START_DATE + ") ASC"
     )
     List<Result> getAllFutureForCourse(String courseId, OffsetDateTime now);
 
@@ -85,7 +85,7 @@ public interface AgendaDao {
             ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
             " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseTable.Columns.ID +
             " WHERE a." + AgendaTable.Columns.COURSE + " = :courseId" +
-            " ORDER BY " + AgendaTable.Columns.START_DATE + " ASC"
+            " ORDER BY datetime(" + AgendaTable.Columns.START_DATE + ") ASC"
     )
     List<Result> getAllForCourse(String courseId);
 
@@ -97,9 +97,9 @@ public interface AgendaDao {
             ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
             ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
             " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseTable.Columns.ID +
-            " WHERE (a." + AgendaTable.Columns.START_DATE + " >= :lower OR a." + AgendaTable.Columns.END_DATE + " >= :lower)" +
-            " AND a." + AgendaTable.Columns.START_DATE + " <= :upper " +
-            " ORDER BY " + AgendaTable.Columns.START_DATE + " ASC"
+            " WHERE (datetime(a." + AgendaTable.Columns.START_DATE + ") >= datetime(:lower) OR datetime(a." + AgendaTable.Columns.END_DATE + ") >= datetime(:lower))" +
+            " AND datetime(a." + AgendaTable.Columns.START_DATE + ") <= datetime(:upper) " +
+            " ORDER BY datetime(" + AgendaTable.Columns.START_DATE + ") ASC"
     )
     List<Result> getBetween(OffsetDateTime lower, OffsetDateTime upper);
 

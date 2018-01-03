@@ -69,7 +69,8 @@ public interface AnnouncementDao {
             ", c." + CourseTable.Columns.TUTOR + " AS c_" + CourseTable.Columns.TUTOR +
             ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
             ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
-            " FROM " + AnnouncementTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AnnouncementTable.Columns.COURSE + " = c." + CourseTable.Columns.ID + " WHERE a." + AnnouncementTable.Columns.READ_DATE + " = -1 ORDER BY a." + AnnouncementTable.Columns.DATE + " DESC")
+            " FROM " + AnnouncementTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AnnouncementTable.Columns.COURSE + " = c." + CourseTable.Columns.ID +
+            " WHERE a." + AnnouncementTable.Columns.READ_DATE + " ISNULL ORDER BY datetime(a." + AnnouncementTable.Columns.DATE + ") DESC")
     List<Result> getUnreadMostRecentFirst();
 
     @Query("SELECT a.*, c." + CourseTable.Columns.ID + " AS c_" + CourseTable.Columns.ID +
@@ -79,10 +80,11 @@ public interface AnnouncementDao {
             ", c." + CourseTable.Columns.TUTOR + " AS c_" + CourseTable.Columns.TUTOR +
             ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
             ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
-            " FROM " + AnnouncementTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AnnouncementTable.Columns.COURSE + " = c." + CourseTable.Columns.ID + " WHERE a." + AnnouncementTable.Columns.COURSE + " = :courseId ORDER BY a." + AnnouncementTable.Columns.DATE + " DESC")
+            " FROM " + AnnouncementTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AnnouncementTable.Columns.COURSE + " = c." + CourseTable.Columns.ID +
+            " WHERE a." + AnnouncementTable.Columns.COURSE + " = :courseId ORDER BY datetime(a." + AnnouncementTable.Columns.DATE + ") DESC")
     List<Result> getMostRecentFirst(String courseId);
 
-    @Query("SELECT " + AnnouncementTable.Columns.ID + ", " + AnnouncementTable.Columns.READ_DATE + " FROM " + AnnouncementTable.TABLE_NAME + " WHERE " + AnnouncementTable.Columns.COURSE + " = :courseId ORDER BY " + AnnouncementTable.Columns.DATE + " DESC")
+    @Query("SELECT " + AnnouncementTable.Columns.ID + ", " + AnnouncementTable.Columns.READ_DATE + " FROM " + AnnouncementTable.TABLE_NAME + " WHERE " + AnnouncementTable.Columns.COURSE + " = :courseId ORDER BY datetime(" + AnnouncementTable.Columns.DATE + ") DESC")
     List<IdAndReadDate> getIdAndReadDateFor(String courseId);
 
     class Result {

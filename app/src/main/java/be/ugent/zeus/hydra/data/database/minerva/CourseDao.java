@@ -53,7 +53,7 @@ public interface CourseDao {
 
     @Query("SELECT " + CourseTable.TABLE_NAME + ".*, (SELECT count(*) FROM " + AnnouncementTable.TABLE_NAME + " WHERE " +
             AnnouncementTable.Columns.COURSE + " = " + CourseTable.TABLE_NAME + "." + CourseTable.Columns.ID + " AND " +
-            AnnouncementTable.Columns.READ_DATE + " = -1) AS unread_count FROM " + CourseTable.TABLE_NAME +
+            AnnouncementTable.Columns.READ_DATE + " ISNULL) AS unread_count FROM " + CourseTable.TABLE_NAME +
             " ORDER BY " + CourseTable.TABLE_NAME + "." + CourseTable.Columns.ORDER + " ASC, " + CourseTable.TABLE_NAME + "." + CourseTable.Columns.TITLE + " ASC")
     List<CourseUnread> getAllAndUnreadInOrder();
 
