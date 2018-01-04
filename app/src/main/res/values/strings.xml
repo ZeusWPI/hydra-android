@@ -409,4 +409,7 @@
     <string name="resto_extra_title">Overige</string>
     <string name="resto_food_price">€ %s</string>
     <string name="unrecoverable_error">Er is een fout opgetreden. Probeer het nogmaals.</string>
+    <string name="pref_theme_night_mode_restart">De wijzigingen worden van kracht nadat u de app herstart</string>
+    <string name="minerva_exporting_account">Minerva-account exporteren</string>
+    <string name="minerva_exporting_account_desc">De details van uw Minerva-account worden geëxporteerd.</string>
 </resources>

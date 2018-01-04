@@ -152,6 +152,7 @@ dependencies {
 
     compile "com.google.android.gms:play-services-analytics:$GMS_VERSION"
     compile "com.google.android.gms:play-services-maps:$GMS_VERSION"
+    compile "com.google.android.gms:play-services-auth:$GMS_VERSION"
 
     compile "com.google.firebase:firebase-core:$GMS_VERSION"
 

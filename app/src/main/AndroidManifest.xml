@@ -102,7 +102,8 @@
             android:parentActivityName=".ui.main.MainActivity" />
 
         <!-- Show other food items -->
-        <activity android:name=".ui.resto.extra.ExtraFoodActivity"
+        <activity
+            android:name=".ui.resto.extra.ExtraFoodActivity"
             android:label="@string/resto_extra_title"
             android:parentActivityName=".ui.main.MainActivity" />
 
@@ -263,6 +264,24 @@
             android:label="@string/minerva_sync_provider"
             android:syncable="true" />
 
+        <!-- Handles transferring accounts to new devices -->
+        <receiver
+            android:name=".data.auth.AccountTransferReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.START_ACCOUNT_EXPORT" />
+            </intent-filter>
+            <!-- I don't think the ones below are used for non-system apps, but who knows -->
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.ACCOUNT_IMPORT_DATA_AVAILABLE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.ACCOUNT_EXPORT_DATA_AVAILABLE" />
+            </intent-filter>
+        </receiver>
+        <!-- The accompanying service -->
+        <service android:name=".data.auth.AccountTransferService" android:exported="false" />
+
         <!-- Urgent stuff -->
         <service
             android:name=".service.urgent.MusicService"
@@ -279,5 +298,4 @@
             </intent-filter>
         </receiver>
     </application>
-
 </manifest>
