@@ -95,4 +95,21 @@ public class DateTypeConverters {
             return toOffsetDateTime(in.nextString());
         }
     }
+
+    public static class GsonInstant extends TypeAdapter<Instant> {
+
+        @Override
+        public void write(JsonWriter out, Instant instant) throws IOException {
+            out.value(fromInstant(instant));
+        }
+
+        @Override
+        public Instant read(JsonReader in) throws IOException {
+            if (in.peek() == JsonToken.NULL) {
+                in.nextNull();
+                return null;
+            }
+            return toInstant(in.nextString());
+        }
+    }
 }

@@ -106,6 +106,16 @@ public class Migration_10_11 extends Migration {
                 } else {
                     contentValues.put("end_date", (String) null);
                 }
+                ZonedDateTime originalEditDate = legacyUnserialize(contentValues.getAsLong("last_edit"));
+                if (originalEditDate != null) {
+                    OffsetDateTime newEditDate = originalEditDate.toOffsetDateTime();
+                    contentValues.put("last_edit", fromOffsetDateTime(newEditDate));
+                } else {
+                    contentValues.put("last_edit", (String) null);
+                }
+
+                // Insert the row into the new table.
+                database.insert("new_minerva_calendar", SQLiteDatabase.CONFLICT_NONE, contentValues);
             }
         } else {
             Log.w(TAG, "Cursor for calendar is null, skipping data conversion.");
