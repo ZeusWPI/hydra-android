@@ -121,16 +121,9 @@ public class CourseDaoTest extends AbstractDaoTest {
         }
     }
 
-    @Test(expected = SQLiteConstraintException.class)
-    public void deleteOneConstraints() {
-        dao.delete(getRandom(courses));
-    }
-
     @Test
     public void deleteOne() {
         // First, clear the all other data to prevent foreign key checks from failing.
-        database.getAnnouncementDao().deleteAll();
-        database.getAgendaDao().deleteAll();
         CourseDTO original = getRandom(courses);
         dao.delete(original);
         List<CourseDTO> items = dao.getAll();
@@ -138,16 +131,8 @@ public class CourseDaoTest extends AbstractDaoTest {
         assertFalse(items.contains(original));
     }
 
-    @Test(expected = SQLiteConstraintException.class)
-    public void deleteCollectionConstraint() {
-        dao.delete(getRandom(courses, 5));
-    }
-
     @Test
     public void deleteCollection() {
-        // First, clear the all other data to prevent foreign key checks from failing.
-        database.getAnnouncementDao().deleteAll();
-        database.getAgendaDao().deleteAll();
         final int NR_OF_ITEMS = 5;
         List<CourseDTO> originals = getRandom(courses, NR_OF_ITEMS);
         dao.delete(originals);
@@ -158,30 +143,14 @@ public class CourseDaoTest extends AbstractDaoTest {
         }
     }
 
-    @Test(expected = SQLiteConstraintException.class)
-    public void deleteAllConstraint() {
-        dao.deleteAll();
-    }
-
     @Test
     public void deleteAll() {
-        // First, clear the all other data to prevent foreign key checks from failing.
-        database.getAnnouncementDao().deleteAll();
-        database.getAgendaDao().deleteAll();
         dao.deleteAll();
         assertTrue(dao.getAll().isEmpty());
     }
 
-    @Test(expected = SQLiteConstraintException.class)
-    public void deleteByIdConstraint() {
-        dao.deleteById(getRandom(courses, 5).stream().map(CourseDTO::getId).collect(Collectors.toList()));
-    }
-
     @Test
     public void deleteById() {
-        // First, clear the all other data to prevent foreign key checks from failing.
-        database.getAnnouncementDao().deleteAll();
-        database.getAgendaDao().deleteAll();
         final int NR_OF_ITEMS = 5;
         List<CourseDTO> originals = getRandom(courses, NR_OF_ITEMS);
         dao.deleteById(originals.stream().map(CourseDTO::getId).collect(Collectors.toList()));
@@ -192,16 +161,8 @@ public class CourseDaoTest extends AbstractDaoTest {
         }
     }
 
-    @Test(expected = SQLiteConstraintException.class)
-    public void deleteOneByIdConstraint() {
-        dao.delete(getRandom(courses).getId());
-    }
-
     @Test
     public void deleteOneById() {
-        // First, clear the all other data to prevent foreign key checks from failing.
-        database.getAnnouncementDao().deleteAll();
-        database.getAgendaDao().deleteAll();
         CourseDTO original = getRandom(courses);
         dao.delete(original.getId());
         List<CourseDTO> items = dao.getAll();

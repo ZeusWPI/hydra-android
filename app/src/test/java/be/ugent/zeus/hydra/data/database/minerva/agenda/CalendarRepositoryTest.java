@@ -159,7 +159,7 @@ public class CalendarRepositoryTest extends FullRepositoryTest<Integer, AgendaIt
             expected.put(course.getItemId(), course.getCalendarId());
         }
         ExtendedSparseArray<Long> actual = agendaItemRepository.getIdsAndCalendarIds();
-        assertEquals(expected, actual);
+        assertCollectionEquals(expected, actual);
     }
 
     @Test

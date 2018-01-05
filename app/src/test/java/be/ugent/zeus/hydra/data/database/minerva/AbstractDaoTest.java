@@ -7,10 +7,10 @@ import android.support.annotation.RequiresApi;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.data.database.Database;
+import be.ugent.zeus.hydra.data.dto.DateTypeConverters;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaItemDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
-import be.ugent.zeus.hydra.data.gson.ZonedThreeTenTimeStampAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -22,7 +22,8 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.Instant;
+import org.threeten.bp.OffsetDateTime;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -92,7 +93,8 @@ public abstract class AbstractDaoTest {
 
     private static Gson getGson() {
         return new GsonBuilder()
-                .registerTypeAdapter(ZonedDateTime.class, new ZonedThreeTenTimeStampAdapter())
+                .registerTypeAdapter(OffsetDateTime.class, new DateTypeConverters.GsonOffset())
+                .registerTypeAdapter(Instant.class, new DateTypeConverters.GsonInstant())
                 .create();
     }
 
