@@ -1,12 +1,12 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.schamper;
 
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.domain.models.schamper.Article;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import org.threeten.bp.Duration;
 import org.threeten.bp.ZonedDateTime;
 
-import static be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard.CardType.SCHAMPER;
+import static be.ugent.zeus.hydra.domain.models.feed.Card.Type.SCHAMPER;
 
 /**
  * Home card for {@link Article}.
@@ -14,7 +14,7 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard.CardType.SCH
  * @author Niko Strijbol
  * @author feliciaan
  */
-class SchamperCard extends HomeCard {
+class SchamperCard extends Card {
 
     private final Article article;
 
@@ -32,6 +32,11 @@ class SchamperCard extends HomeCard {
         Duration duration = Duration.between(date, ZonedDateTime.now());
         // We only show the last month of schamper articles.
         return FeedUtils.lerp((int) duration.toDays(), 0, 30);
+    }
+
+    @Override
+    public String getIdentifier() {
+        return article.getIdentifier();
     }
 
     @Override

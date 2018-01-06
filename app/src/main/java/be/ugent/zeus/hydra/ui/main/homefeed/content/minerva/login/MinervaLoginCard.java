@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.minerva.login;
 
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 
 /**
  * Home card to prompt the user to log in.
@@ -8,7 +8,9 @@ import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
  * @author Niko Strijbol
  * @author felicaan
  */
-public class MinervaLoginCard extends HomeCard {
+public class MinervaLoginCard extends Card {
+
+    private static final String TAG = "MinervaLoginCard";
 
     @Override
     public int getPriority() {
@@ -16,17 +18,22 @@ public class MinervaLoginCard extends HomeCard {
     }
 
     @Override
+    public String getIdentifier() {
+        return TAG;
+    }
+
+    @Override
     public int getCardType() {
-        return CardType.MINERVA_LOGIN;
+        return Card.Type.MINERVA_LOGIN;
     }
 
     @Override
     public int hashCode() {
-        return java8.util.Objects.hashCode(getClass().getCanonicalName());
+        return System.identityHashCode(this);
     }
 
     @Override
     public boolean equals(Object obj) {
-        return obj != null && obj.getClass() == getClass();
+        return obj instanceof MinervaLoginCard;
     }
 }

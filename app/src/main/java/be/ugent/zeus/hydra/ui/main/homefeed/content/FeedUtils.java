@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.ImageView;
 
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.ui.preferences.HomeFragment;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.NetworkPolicy;
@@ -14,7 +15,7 @@ import com.squareup.picasso.RequestCreator;
 /**
  * Util class, with e.g. help calculate the priority a card should have in the home feed.
  *
- * @see HomeCard
+ * @see Card
  *
  * @author Niko Strijbol
  */

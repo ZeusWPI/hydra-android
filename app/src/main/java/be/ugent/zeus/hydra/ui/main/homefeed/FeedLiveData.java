@@ -11,9 +11,9 @@ import android.util.Log;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.repository.requests.Result;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.debug.WaitRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.event.EventRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.minerva.agenda.MinervaAgendaRequest;
@@ -52,7 +52,7 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.operations.OperationFactory.g
  *
  * @author Niko Strijbol
  */
-public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
+public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
 
     /**
      * Sets which card type should be updated. The default value is {@link #REFRESH_ALL_CARDS}.
@@ -133,15 +133,15 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
             }
             if (RestoPreferenceFragment.PREF_RESTO_KEY.equals(key) || RestoPreferenceFragment.PREF_RESTO_NAME.equals(key)) {
                 Bundle ex = new Bundle();
-                ex.putInt(REFRESH_HOMECARD_TYPE, HomeCard.CardType.RESTO);
+                ex.putInt(REFRESH_HOMECARD_TYPE, Card.Type.RESTO);
                 flagForRefresh(ex);
             }
         }
     }
 
-    private List<HomeCard> executeOperation(@Nullable Bundle args, FeedOperation operation, Set<Integer> errors, List<HomeCard> results) {
+    private List<Card> executeOperation(@Nullable Bundle args, FeedOperation operation, Set<Integer> errors, List<Card> results) {
 
-        Result<List<HomeCard>> result = operation.transform(args, results);
+        Result<List<Card>> result = operation.transform(args, results);
 
         if (result.hasException()) {
             errors.add(operation.getCardType());
@@ -156,7 +156,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
      * @param bundle The arguments for the request.
      */
     protected void loadData(@Nullable Bundle bundle) {
-        new AsyncTask<Void, Result<List<HomeCard>>, Void>() {
+        new AsyncTask<Void, Result<List<Card>>, Void>() {
 
             @Override
             protected Void doInBackground(Void... voids) {
@@ -164,9 +164,9 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
                 Iterable<FeedOperation> operations = findOperations(scheduleOperations(), bundle);
 
                 // Get existing value if needed.
-                Result<List<HomeCard>> loaderResult = getValue();
+                Result<List<Card>> loaderResult = getValue();
                 //We initialize with a copy of the existing data; we do reset the errors.
-                List<HomeCard> results;
+                List<Card> results;
 
                 if (loaderResult == null) {
                     results = Collections.emptyList();
@@ -175,7 +175,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
                 }
 
                 Set<Integer> errors = new HashSet<>();
-                Result<List<HomeCard>> result = null;
+                Result<List<Card>> result = null;
 
                 for (final FeedOperation operation: operations) {
                     if (isCancelled()) {
@@ -184,10 +184,10 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
 
                     results = executeOperation(bundle, operation, errors, results);
 
-                    List<HomeCard> finalResults = new ArrayList<>(results);
+                    List<Card> finalResults = new ArrayList<>(results);
                     // Deliver intermediary results.
                     Log.d(TAG, "loadInBackground: Operation " + operation + " completed.");
-                    Result.Builder<List<HomeCard>> builder = new Result.Builder<List<HomeCard>>()
+                    Result.Builder<List<Card>> builder = new Result.Builder<List<Card>>()
                             .withData(finalResults);
 
                     if (!errors.isEmpty()) {
@@ -209,7 +209,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
 
             @SafeVarargs
             @Override
-            protected final void onProgressUpdate(Result<List<HomeCard>>... values) {
+            protected final void onProgressUpdate(Result<List<Card>>... values) {
                 super.onProgressUpdate(values);
                 setValue(values[0]);
             }
@@ -234,13 +234,13 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
 
         // Don't do Minerva if there is no account.
         if (!AccountUtils.hasAccount(c)) {
-            s.add(HomeCard.CardType.MINERVA_AGENDA);
-            s.add(HomeCard.CardType.MINERVA_ANNOUNCEMENT);
+            s.add(Card.Type.MINERVA_AGENDA);
+            s.add(Card.Type.MINERVA_ANNOUNCEMENT);
         }
 
         // Don't do Urgent.fm if there is no network.
         if (!NetworkUtils.isConnected(c)) {
-            s.add(HomeCard.CardType.URGENT_FM);
+            s.add(Card.Type.URGENT_FM);
         }
 
         // Test if the card type is ignored or not.
@@ -250,13 +250,13 @@ public class FeedLiveData extends BaseLiveData<Result<List<HomeCard>>> {
         operations.add(add(new SpecialEventRequest(c)));
 
         //Add other stuff if needed
-        operations.add(get(d, () -> new RestoRequest(c), HomeCard.CardType.RESTO));
-        operations.add(get(d, () -> new EventRequest(c), HomeCard.CardType.ACTIVITY));
-        operations.add(get(d, () -> new SchamperRequest(c), HomeCard.CardType.SCHAMPER));
-        operations.add(get(d, () -> new NewsRequest(c), HomeCard.CardType.NEWS_ITEM));
-        operations.add(get(d, () -> new MinervaAnnouncementRequest(c), HomeCard.CardType.MINERVA_ANNOUNCEMENT));
-        operations.add(get(d, () -> new MinervaAgendaRequest(c), HomeCard.CardType.MINERVA_AGENDA));
-        operations.add(get(d, UrgentRequest::new, HomeCard.CardType.URGENT_FM));
+        operations.add(get(d, () -> new RestoRequest(c), Card.Type.RESTO));
+        operations.add(get(d, () -> new EventRequest(c), Card.Type.ACTIVITY));
+        operations.add(get(d, () -> new SchamperRequest(c), Card.Type.SCHAMPER));
+        operations.add(get(d, () -> new NewsRequest(c), Card.Type.NEWS_ITEM));
+        operations.add(get(d, () -> new MinervaAnnouncementRequest(c), Card.Type.MINERVA_ANNOUNCEMENT));
+        operations.add(get(d, () -> new MinervaAgendaRequest(c), Card.Type.MINERVA_AGENDA));
+        operations.add(get(d, UrgentRequest::new, Card.Type.URGENT_FM));
 
         // Add debug request.
         if (BuildConfig.DEBUG && BuildConfig.DEBUG_HOME_STREAM_STALL) {

@@ -3,8 +3,8 @@ package be.ugent.zeus.hydra.ui.main.homefeed.operations;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.repository.requests.Result;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 
 import java.util.List;
 
@@ -26,13 +26,13 @@ public interface FeedOperation {
      * @return The new list, or null on error.
      */
     @NonNull
-    Result<List<HomeCard>> transform(Bundle args, List<HomeCard> current);
+    Result<List<Card>> transform(Bundle args, List<Card> current);
 
     /**
      * The type of card that will be added/removed by this operation.
      *
      * @return The type.
      */
-    @HomeCard.CardType
+    @Card.Type
     int getCardType();
 }

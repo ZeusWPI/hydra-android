@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.data.database.RepositoryFactory;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.domain.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.domain.repository.AgendaItemRepository;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.stream.Collectors;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
@@ -34,7 +34,7 @@ public class MinervaAgendaRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Result<Stream<HomeCard>> performRequest(Bundle args) {
+    public Result<Stream<Card>> performRequest(Bundle args) {
 
         OffsetDateTime now = OffsetDateTime.now();
         // Only display things up to 3 weeks from now.
@@ -51,6 +51,6 @@ public class MinervaAgendaRequest implements HomeFeedRequest {
 
     @Override
     public int getCardType() {
-        return HomeCard.CardType.MINERVA_AGENDA;
+        return Card.Type.MINERVA_AGENDA;
     }
 }

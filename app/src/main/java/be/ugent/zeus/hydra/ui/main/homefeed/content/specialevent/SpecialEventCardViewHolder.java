@@ -5,13 +5,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.domain.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
 import be.ugent.zeus.hydra.ui.main.homefeed.SwipeDismissableViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableIndividualCard;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
@@ -21,7 +21,7 @@ import com.squareup.picasso.Picasso;
  * @author Niko Strijbol
  * @author feliciaan
  */
-public class SpecialEventCardViewHolder extends DataViewHolder<HomeCard> implements SwipeDismissableViewHolder {
+public class SpecialEventCardViewHolder extends DataViewHolder<Card> implements SwipeDismissableViewHolder {
 
     private final TextView title;
     private final TextView text;
@@ -39,9 +39,9 @@ public class SpecialEventCardViewHolder extends DataViewHolder<HomeCard> impleme
     }
 
     @Override
-    public void populate(HomeCard card) {
+    public void populate(Card card) {
 
-        SpecialEventCard eventCard = card.checkCard(HomeCard.CardType.SPECIAL_EVENT);
+        SpecialEventCard eventCard = card.checkCard(Card.Type.SPECIAL_EVENT);
         event = eventCard.getSpecialEvent();
 
         title.setText(event.getName());
@@ -59,7 +59,7 @@ public class SpecialEventCardViewHolder extends DataViewHolder<HomeCard> impleme
                     new DisableIndividualCard(
                             HomeFeedFragment.PREF_DISABLED_SPECIALS,
                             String.valueOf(event.getId()),
-                            HomeCard.CardType.SPECIAL_EVENT
+                            Card.Type.SPECIAL_EVENT
                     )
             );
         }

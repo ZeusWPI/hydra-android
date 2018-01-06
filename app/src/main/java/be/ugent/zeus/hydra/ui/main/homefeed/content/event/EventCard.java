@@ -1,12 +1,11 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.event;
 
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.domain.models.association.Event;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import java8.util.Objects;
 import org.threeten.bp.Duration;
 import org.threeten.bp.ZonedDateTime;
-
 
 /**
  * Home card for {@link Event}.
@@ -14,7 +13,7 @@ import org.threeten.bp.ZonedDateTime;
  * @author silox
  * @author Niko Strijbol
  */
-class EventCard extends HomeCard {
+class EventCard extends Card {
 
     private Event event;
 
@@ -30,8 +29,13 @@ class EventCard extends HomeCard {
     }
 
     @Override
+    public String getIdentifier() {
+        return event.getIdentifier();
+    }
+
+    @Override
     public int getCardType() {
-        return CardType.ACTIVITY;
+        return Card.Type.ACTIVITY;
     }
 
     public Event getEvent() {

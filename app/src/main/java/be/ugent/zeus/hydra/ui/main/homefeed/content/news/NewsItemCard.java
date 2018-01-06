@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.news;
 
 import be.ugent.zeus.hydra.domain.models.association.UgentNewsItem;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.domain.models.association.NewsItem;
 import java8.util.Objects;
@@ -14,7 +14,7 @@ import org.threeten.bp.ZonedDateTime;
  * @author Niko Strijbol
  * @author feliciaan
  */
-class NewsItemCard extends HomeCard {
+class NewsItemCard extends Card {
 
     private static final int TWO_WEEKS_HOURS = 14 * 24;
 
@@ -33,8 +33,13 @@ class NewsItemCard extends HomeCard {
     }
 
     @Override
+    public String getIdentifier() {
+        return newsItem.getIdentifier();
+    }
+
+    @Override
     public int getCardType() {
-        return CardType.NEWS_ITEM;
+        return Card.Type.NEWS_ITEM;
     }
 
     public UgentNewsItem getNewsItem() {

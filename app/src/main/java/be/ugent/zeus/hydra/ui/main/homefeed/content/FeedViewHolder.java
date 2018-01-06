@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.common.widgets.NowToolbar;
@@ -15,7 +16,7 @@ import be.ugent.zeus.hydra.ui.common.widgets.NowToolbar;
  *
  * @author Niko Strijbol
  */
-public abstract class FeedViewHolder extends DataViewHolder<HomeCard> {
+public abstract class FeedViewHolder extends DataViewHolder<Card> {
 
     protected final HomeFeedAdapter adapter;
     protected final NowToolbar toolbar;
@@ -35,13 +36,13 @@ public abstract class FeedViewHolder extends DataViewHolder<HomeCard> {
     }
 
     @Override
-    public void populate(HomeCard card) {
+    public void populate(Card card) {
         toolbar.setOnClickListener(adapter.listener(card.getCardType()));
         debugPriority(card);
     }
 
     @SuppressLint("SetTextI18n")
-    protected void debugPriority(HomeCard card) {
+    protected void debugPriority(Card card) {
         if(BuildConfig.DEBUG && BuildConfig.DEBUG_HOME_STREAM_PRIORITY) {
             priority.setText("Prioriteit: " + card.getPriority());
         }

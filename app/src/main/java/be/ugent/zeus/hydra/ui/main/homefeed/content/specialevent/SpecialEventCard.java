@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.specialevent;
 
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.domain.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.Objects;
 
 /**
@@ -11,7 +11,7 @@ import java8.util.Objects;
  * @author Niko Strijbol
  * @author silox
  */
-class SpecialEventCard extends HomeCard {
+class SpecialEventCard extends Card {
 
     private final SpecialEvent specialEvent;
 
@@ -31,8 +31,13 @@ class SpecialEventCard extends HomeCard {
     }
 
     @Override
+    public String getIdentifier() {
+        return String.valueOf(specialEvent.getId());
+    }
+
+    @Override
     public int getCardType() {
-        return CardType.SPECIAL_EVENT;
+        return Card.Type.SPECIAL_EVENT;
     }
 
     @Override

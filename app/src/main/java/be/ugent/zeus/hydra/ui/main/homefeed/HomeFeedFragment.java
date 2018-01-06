@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.*;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
@@ -22,7 +23,6 @@ import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.ui.main.ScheduledRemovalListener;
 import be.ugent.zeus.hydra.ui.main.homefeed.commands.FeedCommand;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 
@@ -188,7 +188,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
             if (data.getBooleanExtra(CourseActivity.RESULT_ANNOUNCEMENT_UPDATED, false)
                     || data.getBooleanExtra(AnnouncementActivity.RESULT_ANNOUNCEMENT_READ, false)) {
                 Bundle extras = new Bundle();
-                extras.putInt(REFRESH_HOMECARD_TYPE, HomeCard.CardType.MINERVA_ANNOUNCEMENT);
+                extras.putInt(REFRESH_HOMECARD_TYPE, Card.Type.MINERVA_ANNOUNCEMENT);
                 model.requestRefresh(extras);
             }
         }

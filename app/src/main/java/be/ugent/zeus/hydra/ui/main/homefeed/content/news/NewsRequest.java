@@ -4,12 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.domain.models.association.UgentNewsItem;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.association.UgentNewsRequest;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
 import org.threeten.bp.LocalDateTime;
@@ -30,12 +30,12 @@ public class NewsRequest implements HomeFeedRequest {
 
     @Override
     public int getCardType() {
-        return HomeCard.CardType.NEWS_ITEM;
+        return Card.Type.NEWS_ITEM;
     }
 
     @NonNull
     @Override
-    public Result<Stream<HomeCard>> performRequest(Bundle args) {
+    public Result<Stream<Card>> performRequest(Bundle args) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime sixMonthsAgo = now.minusWeeks(2);
 

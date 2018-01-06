@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.minerva.announcement;
 
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
 import be.ugent.zeus.hydra.domain.models.minerva.Course;
@@ -17,7 +17,7 @@ import java.util.List;
  * @author Niko Strijbol
  * @author feliciaan
  */
-class MinervaAnnouncementsCard extends HomeCard {
+class MinervaAnnouncementsCard extends Card {
 
     private final List<Announcement> announcement;
     private final Course course;
@@ -43,9 +43,15 @@ class MinervaAnnouncementsCard extends HomeCard {
     }
 
     @Override
-    @HomeCard.CardType
+    public String getIdentifier() {
+        // We say this is the same if it is for the same course.
+        return course.getId();
+    }
+
+    @Override
+    @Card.Type
     public int getCardType() {
-        return CardType.MINERVA_ANNOUNCEMENT;
+        return Card.Type.MINERVA_ANNOUNCEMENT;
     }
 
     @Override

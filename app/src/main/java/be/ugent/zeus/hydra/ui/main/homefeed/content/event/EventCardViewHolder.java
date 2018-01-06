@@ -5,13 +5,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.ui.EventDetailActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableAssociationCommand;
 import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableTypeCommand;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.domain.models.association.Event;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
@@ -37,9 +37,9 @@ public class EventCardViewHolder extends FeedViewHolder {
     }
 
     @Override
-    public void populate(final HomeCard card) {
+    public void populate(final Card card) {
 
-        final Event event = card.<EventCard>checkCard(HomeCard.CardType.ACTIVITY).getEvent();
+        final Event event = card.<EventCard>checkCard(Card.Type.ACTIVITY).getEvent();
 
         title.setText(event.getTitle());
         association.setText(event.getLocation());

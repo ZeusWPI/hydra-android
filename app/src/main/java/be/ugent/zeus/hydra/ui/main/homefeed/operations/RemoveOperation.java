@@ -3,8 +3,8 @@ package be.ugent.zeus.hydra.ui.main.homefeed.operations;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.repository.requests.Result;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.function.Predicate;
 import java8.util.function.Predicates;
 import java8.util.stream.Collectors;
@@ -19,22 +19,22 @@ import java.util.List;
  */
 class RemoveOperation implements FeedOperation {
 
-    @HomeCard.CardType
+    @Card.Type
     private final int cardType;
-    private final Predicate<HomeCard> predicate;
+    private final Predicate<Card> predicate;
 
-    RemoveOperation(@HomeCard.CardType int cardType) {
+    RemoveOperation(@Card.Type int cardType) {
         this(cardType, c -> c.getCardType() == cardType);
     }
 
-    RemoveOperation(@HomeCard.CardType int cardType, Predicate<HomeCard> predicate) {
+    RemoveOperation(@Card.Type int cardType, Predicate<Card> predicate) {
         this.cardType = cardType;
         this.predicate = predicate;
     }
 
     @NonNull
     @Override
-    public Result<List<HomeCard>> transform(Bundle args, List<HomeCard> current) {
+    public Result<List<Card>> transform(Bundle args, List<Card> current) {
         return Result.Builder.fromData(StreamSupport.stream(current).filter(Predicates.negate(predicate)).collect(Collectors.toList()));
     }
 

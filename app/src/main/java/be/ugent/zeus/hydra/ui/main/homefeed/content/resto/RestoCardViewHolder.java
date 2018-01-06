@@ -5,12 +5,12 @@ import android.view.View;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.network.requests.resto.SelectableMetaRequest;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.ui.common.widgets.MenuTable;
 import be.ugent.zeus.hydra.ui.main.MainActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.main.resto.RestoFragment;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
@@ -30,10 +30,10 @@ public class RestoCardViewHolder extends FeedViewHolder {
     }
 
     @Override
-    public void populate(HomeCard card) {
+    public void populate(Card card) {
         super.populate(card);
 
-        RestoMenuCard menuCard = card.<RestoMenuCard>checkCard(HomeCard.CardType.RESTO);
+        RestoMenuCard menuCard = card.<RestoMenuCard>checkCard(Card.Type.RESTO);
         RestoMenu menu = menuCard.getRestoMenu();
         SelectableMetaRequest.RestoChoice choice = menuCard.getRestoChoice();
         String text = itemView.getResources().getString(R.string.resto_menu_title);

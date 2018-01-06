@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.domain.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.domain.models.specialevent.SpecialEventWrapper;
 import be.ugent.zeus.hydra.repository.requests.Request;
@@ -12,7 +13,6 @@ import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
@@ -39,11 +39,11 @@ public class SpecialEventRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Result<Stream<HomeCard>> performRequest(Bundle args) {
+    public Result<Stream<Card>> performRequest(Bundle args) {
 
         ZonedDateTime now = ZonedDateTime.now();
         return remoteEventRequest.performRequest(args).map(specialEventWrapper -> {
-            List<HomeCard> list = new ArrayList<>();
+            List<Card> list = new ArrayList<>();
             Set<String> hidden = PreferencesUtils.getStringSet(context, HomeFeedFragment.PREF_DISABLED_SPECIALS);
 
             List<SpecialEvent> specialEvents = new ArrayList<>(specialEventWrapper.getSpecialEvents());
@@ -74,7 +74,7 @@ public class SpecialEventRequest implements HomeFeedRequest {
 
     @Override
     public int getCardType() {
-        return HomeCard.CardType.SPECIAL_EVENT;
+        return Card.Type.SPECIAL_EVENT;
     }
 
     private SpecialEvent buildDebugSko() {

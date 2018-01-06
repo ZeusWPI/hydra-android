@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
 import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -37,10 +37,10 @@ public class MinervaAnnouncementViewHolder extends FeedViewHolder {
     }
 
     @Override
-    public void populate(HomeCard card) {
+    public void populate(Card card) {
         super.populate(card);
 
-        final MinervaAnnouncementsCard mCard = card.checkCard(HomeCard.CardType.MINERVA_ANNOUNCEMENT);
+        final MinervaAnnouncementsCard mCard = card.checkCard(Card.Type.MINERVA_ANNOUNCEMENT);
 
         String titleS = itemView.getContext().getString(R.string.home_feed_card_announcement_title, mCard.getCourse().getTitle());
         toolbar.setTitle(titleS);

@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.ui.main.homefeed.commands;
 import android.content.Context;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
 
 /**
@@ -13,10 +13,10 @@ public class DisableIndividualCard implements FeedCommand {
 
     private final String id;
     private final String key;
-    @HomeCard.CardType
+    @Card.Type
     private final int cardType;
 
-    public DisableIndividualCard(String key, String id, @HomeCard.CardType int cardType) {
+    public DisableIndividualCard(String key, String id, @Card.Type int cardType) {
         this.id = id;
         this.key = key;
         this.cardType = cardType;

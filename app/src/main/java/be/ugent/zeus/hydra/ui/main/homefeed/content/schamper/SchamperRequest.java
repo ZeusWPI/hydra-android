@@ -3,13 +3,14 @@ package be.ugent.zeus.hydra.ui.main.homefeed.content.schamper;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.domain.models.schamper.Article;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.data.network.requests.SchamperArticlesRequest;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
 import org.threeten.bp.LocalDateTime;
@@ -30,12 +31,12 @@ public class SchamperRequest implements HomeFeedRequest {
 
     @Override
     public int getCardType() {
-        return HomeCard.CardType.SCHAMPER;
+        return Card.Type.SCHAMPER;
     }
 
     @NonNull
     @Override
-    public Result<Stream<HomeCard>> performRequest(Bundle args) {
+    public Result<Stream<Card>> performRequest(Bundle args) {
         LocalDateTime twoMonthsAgo = LocalDateTime.now().minusMonths(1);
 
         return request.performRequest(args).map(articles -> StreamSupport.stream(articles)

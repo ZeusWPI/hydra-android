@@ -231,4 +231,17 @@ public final class Event implements Parcelable, Serializable {
     public int hashCode() {
         return Objects.hash(title, start, end, location, latitude, longitude, description, url, facebookId, highlighted, association);
     }
+
+    /**
+     * Calculate an identifier for the event. Since it is calculated with external data, there is no guarantee this
+     * will be unique, but it will be very likely.
+     *
+     * This is conceptually similar to the {@link #hashCode()}, but with a bigger chance of uniqueness, since we use
+     * a string.
+     *
+     * @return The identifier.
+     */
+    public String getIdentifier() {
+        return title + start.toString() + end.toString() + latitude + longitude + url + association.getName();
+    }
 }

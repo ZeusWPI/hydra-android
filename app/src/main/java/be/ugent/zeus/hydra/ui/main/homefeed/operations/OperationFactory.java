@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.operations;
 
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.function.IntPredicate;
 import java8.util.function.Supplier;
 
@@ -30,7 +30,7 @@ public final class OperationFactory {
      *
      * @return The operation.
      */
-    public static FeedOperation del(@HomeCard.CardType int cardType) {
+    public static FeedOperation del(@Card.Type int cardType) {
         return new RemoveOperation(cardType);
     }
 
@@ -44,7 +44,7 @@ public final class OperationFactory {
      *
      * @return The operation.
      */
-    public static FeedOperation get(IntPredicate isIgnored, Supplier<HomeFeedRequest> supplier, @HomeCard.CardType int type) {
+    public static FeedOperation get(IntPredicate isIgnored, Supplier<HomeFeedRequest> supplier, @Card.Type int type) {
         if (isIgnored.test(type)) {
             return del(type);
         } else {

@@ -1,18 +1,19 @@
-package be.ugent.zeus.hydra.ui.main.homefeed.content;
+package be.ugent.zeus.hydra.domain.models.feed;
 
 import android.support.annotation.IntDef;
+
+import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import java8.lang.Integers;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard.CardType.*;
+import static be.ugent.zeus.hydra.domain.models.feed.Card.Type.*;
 
 /**
- * Base model for the cards in the home feed.
+ * Every subclass should have a {@link Card.Type} associated with it. This is to facilitate working with adapters.
  *
- * Every subclass should have a {@link CardType} associated with it. This is to facilitate working with adapters.
- *
+ * <h2>Priority</h2>
  * Every card must give itself a priority in [0,1000]. This defines the natural ordening of the cards; 0 is the
  * card with the highest priority, 1000 has the lowest priority. Cards should generally strive to produce unique
  * priorities for a certain card type, as the order of two cards with the same priority is not defined.
@@ -25,13 +26,24 @@ import static be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard.CardType.*;
  *
  * The negative values ]-Inf,0[ are reserved for use with special cards.
  *
- * Implementations must provide working {@link #equals(Object)} and {@link #hashCode()} functions. These functions are
- * used to calculate differences between collections of cards.
+ * <h2>Identifier</h2>
+ * Each card instance should have an unique identifier. The identifier must be unique within the card type.
+ *
+ * The identifier is used to identify card instances that are conceptually the same card. Note that the content does
+ * not need to be identical. An example is a calendar card that shows the events for a certain day. Although the content
+ * might change during the day or even before the day, it represents the same card nonetheless. In other words, this
+ * depends on the functional requirements of the application.
  *
  * @author Niko Strijbol
  * @author feliciaan
  */
-public abstract class HomeCard implements Comparable<HomeCard> {
+public abstract class Card implements Comparable<Card> {
+
+    /**
+     * @return The card type.
+     */
+    @Type
+    public abstract int getCardType();
 
     /**
      * @return Priority should be a number between 0 and 1010. See the class description.
@@ -39,17 +51,16 @@ public abstract class HomeCard implements Comparable<HomeCard> {
     public abstract int getPriority();
 
     /**
-     * @return The card type.
+     * @return Unique identifier for this card under the card type.
      */
-    @CardType
-    public abstract int getCardType();
+    public abstract String getIdentifier();
 
     /**
      * Android is horrible with enums, since Google doesn't know what they are doing apparently. Sigh.
      */
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({RESTO, ACTIVITY, SPECIAL_EVENT, SCHAMPER, NEWS_ITEM, MINERVA_LOGIN, MINERVA_ANNOUNCEMENT, MINERVA_AGENDA, URGENT_FM, DEBUG})
-    public @interface CardType {
+    public @interface Type {
         int RESTO = 1;
         int ACTIVITY = 2;
         int SPECIAL_EVENT = 3;
@@ -62,6 +73,26 @@ public abstract class HomeCard implements Comparable<HomeCard> {
         int DEBUG = 100;
     }
 
+    @Override
+    public abstract int hashCode();
+
+    @Override
+    public abstract boolean equals(Object obj);
+
+    /**
+     * The ordering of cards is implemented using the {@link #getPriority()} function.
+     * As long as that function is correctly implemented, this class guarantees a correct
+     * implementation of the comparison.
+     *
+     * The cards are ordered in an ascending manner; more information is available in the class description.
+     *
+     * Note: this class has a natural ordering that is inconsistent with equals.
+     */
+    @Override
+    public int compareTo(Card card) {
+        return Integers.compare(this.getPriority(), card.getPriority());
+    }
+
     /**
      * Check the card type of this card, and return a casted version.
      *
@@ -71,22 +102,12 @@ public abstract class HomeCard implements Comparable<HomeCard> {
      * @param <C> The type of card you need.
      * @return The cast card if it is of the right type.
      */
-    public <C extends HomeCard> C checkCard(@CardType int type) {
+    public <C extends Card> C checkCard(@Type int type) {
         if (getCardType() != type) {
             throw new ClassCastException("This card has the wrong type.");
         }
 
         //noinspection unchecked
         return (C) this;
-    }
-
-    /**
-     * Items are compared using {@link #getPriority()}.
-     *
-     * {@inheritDoc}
-     */
-    @Override
-    public int compareTo(HomeCard homeCard) {
-        return Integers.compare(this.getPriority(), homeCard.getPriority());
     }
 }

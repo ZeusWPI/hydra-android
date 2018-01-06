@@ -3,9 +3,9 @@ package be.ugent.zeus.hydra.ui.main.homefeed.operations;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.stream.Collectors;
 import java8.util.stream.RefStreams;
 import java8.util.stream.Stream;
@@ -38,10 +38,10 @@ class RequestOperation implements FeedOperation {
      */
     @NonNull
     @Override
-    public Result<List<HomeCard>> transform(Bundle args, final List<HomeCard> current) {
+    public Result<List<Card>> transform(Bundle args, final List<Card> current) {
 
         // Filter existing cards away.
-        Stream<HomeCard> temp = StreamSupport.stream(current)
+        Stream<Card> temp = StreamSupport.stream(current)
                 .filter(c -> c.getCardType() != request.getCardType());
 
         return request.performRequest(args).map(homeCardStream ->
