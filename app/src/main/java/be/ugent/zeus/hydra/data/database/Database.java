@@ -5,14 +5,15 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
+import be.ugent.zeus.hydra.data.database.migrations.*;
 import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDao;
-import be.ugent.zeus.hydra.data.database.migrations.*;
 import be.ugent.zeus.hydra.data.dto.DateTypeConverters;
 import be.ugent.zeus.hydra.data.dto.minerva.AgendaItemDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementDTO;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
+import be.ugent.zeus.hydra.domain.models.feed.CardDismissal;
 
 import static be.ugent.zeus.hydra.data.database.Database.VERSION;
 
@@ -23,7 +24,10 @@ import static be.ugent.zeus.hydra.data.database.Database.VERSION;
  *
  * @author Niko Strijbol
  */
-@android.arch.persistence.room.Database(entities = {CourseDTO.class, AgendaItemDTO.class, AnnouncementDTO.class}, version = VERSION)
+@android.arch.persistence.room.Database(entities = {
+        CourseDTO.class, AgendaItemDTO.class, AnnouncementDTO.class, // Minerva
+        CardDismissal.class // Feed stuff
+}, version = VERSION)
 @TypeConverters(DateTypeConverters.class)
 public abstract class Database extends RoomDatabase {
 
@@ -31,10 +35,10 @@ public abstract class Database extends RoomDatabase {
      * The current version of the database. When changing this value, you must provide a appropriate migration, or the
      * app will crash.
      */
-    static final int VERSION = 11;
+    static final int VERSION = 12;
     /**
      * The current name of the database. Should not change.
-     *
+     * <p>
      * The name of the database is historically determined, although the database contains more than just
      * Minerva-related things these days.
      */
@@ -53,7 +57,7 @@ public abstract class Database extends RoomDatabase {
             instance = Room.databaseBuilder(context, Database.class, NAME)
                     .allowMainThreadQueries() // TODO
                     .addMigrations(new Migration_6_7(), new Migration_7_8(), new Migration_8_9(), new Migration_9_10(),
-                            new Migration_10_11()
+                            new Migration_10_11(), new Migration_11_12()
                     )
                     .build();
         }

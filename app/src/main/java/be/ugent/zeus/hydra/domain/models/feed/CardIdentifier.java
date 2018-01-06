@@ -1,5 +1,9 @@
 package be.ugent.zeus.hydra.domain.models.feed;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.support.annotation.NonNull;
+
+import be.ugent.zeus.hydra.data.database.feed.DismissalTable;
 import java8.util.Objects;
 
 /**
@@ -15,10 +19,13 @@ import java8.util.Objects;
 public class CardIdentifier {
 
     @Card.Type
+    @ColumnInfo(name = DismissalTable.Columns.CARD_TYPE)
     private final int cardType;
+    @NonNull
+    @ColumnInfo(name = DismissalTable.Columns.IDENTIFIER)
     private final String identifier;
 
-    public CardIdentifier(int cardType, String identifier) {
+    public CardIdentifier(int cardType, @NonNull String identifier) {
         this.cardType = cardType;
         this.identifier = identifier;
     }
@@ -34,6 +41,7 @@ public class CardIdentifier {
     /**
      * @return Get the identifier.
      */
+    @NonNull
     public String getIdentifier() {
         return identifier;
     }

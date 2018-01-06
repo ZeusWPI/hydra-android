@@ -1,5 +1,9 @@
 package be.ugent.zeus.hydra.domain.models.feed;
 
+import android.arch.persistence.room.*;
+import android.support.annotation.NonNull;
+
+import be.ugent.zeus.hydra.data.database.feed.DismissalTable;
 import java8.util.Objects;
 import org.threeten.bp.Instant;
 
@@ -8,12 +12,18 @@ import org.threeten.bp.Instant;
  *
  * @author Niko Strijbol
  */
+@Entity(tableName = DismissalTable.TABLE_NAME, indices = @Index(value = DismissalTable.Columns.CARD_TYPE))
 public class CardDismissal {
 
+    @NonNull
+    @Embedded
+    @PrimaryKey
     private final CardIdentifier identifier;
+    @NonNull
+    @ColumnInfo(name = DismissalTable.Columns.DISMISSAL_DATE)
     private final Instant dismissalDate;
 
-    public CardDismissal(CardIdentifier identifier, Instant dismissalDate) {
+    public CardDismissal(@NonNull CardIdentifier identifier, @NonNull Instant dismissalDate) {
         this.identifier = identifier;
         this.dismissalDate = dismissalDate;
     }
@@ -22,10 +32,12 @@ public class CardDismissal {
         return new CardDismissal(new CardIdentifier(card.getCardType(), card.getIdentifier()), Instant.now());
     }
 
+    @NonNull
     public CardIdentifier getIdentifier() {
         return identifier;
     }
 
+    @NonNull
     public Instant getDismissalDate() {
         return dismissalDate;
     }
