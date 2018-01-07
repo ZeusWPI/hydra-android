@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.data.database;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import be.ugent.zeus.hydra.data.database.feed.CardDatabaseRepository;
 import be.ugent.zeus.hydra.data.database.minerva.AgendaDatabaseRepository;
@@ -15,6 +16,8 @@ import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
 import be.ugent.zeus.hydra.domain.repository.CardRepository;
 import be.ugent.zeus.hydra.domain.repository.CourseRepository;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Provides implementations of the repository interfaces.
  *
@@ -22,44 +25,58 @@ import be.ugent.zeus.hydra.domain.repository.CourseRepository;
  */
 public class RepositoryFactory {
 
-    private static AgendaItemRepository agendaItemRepository;
-    private static AnnouncementRepository announcementRepository;
-    private static CourseRepository courseRepository;
-    private static CardRepository cardRepository;
+    private static final String TAG = "RepositoryFactory";
+
+    private static WeakReference<AgendaItemRepository> calendar = new WeakReference<>(null);
+    private static WeakReference<AnnouncementRepository> announcements = new WeakReference<>(null);
+    private static WeakReference<CourseRepository> courses = new WeakReference<>(null);
+    private static WeakReference<CardRepository> cards = new WeakReference<>(null);
 
     @NonNull
     public static synchronized AgendaItemRepository getAgendaItemRepository(Context context) {
-        if (agendaItemRepository == null) {
+        AgendaItemRepository repository = calendar.get();
+        if (repository == null) {
+            Log.d(TAG, "getAgendaItemRepository: create calendar repository");
             Database database = Database.get(context);
-            agendaItemRepository = new AgendaDatabaseRepository(database.getAgendaDao(), CourseMapper.INSTANCE, AgendaMapper.INSTANCE);
+            repository = new AgendaDatabaseRepository(database.getAgendaDao(), CourseMapper.INSTANCE, AgendaMapper.INSTANCE);
+            calendar = new WeakReference<>(repository);
         }
-        return agendaItemRepository;
+        return repository;
     }
 
     @NonNull
     public static synchronized AnnouncementRepository getAnnouncementRepository(Context context) {
-        if (announcementRepository == null) {
+        AnnouncementRepository repository = announcements.get();
+        if (repository == null) {
+            Log.d(TAG, "getAnnouncementRepository: creating announcement repo");
             Database database = Database.get(context);
-            announcementRepository = new AnnouncementDatabaseRepository(database.getAnnouncementDao(), CourseMapper.INSTANCE, AnnouncementMapper.INSTANCE);
+            repository = new AnnouncementDatabaseRepository(database.getAnnouncementDao(), CourseMapper.INSTANCE, AnnouncementMapper.INSTANCE);
+            announcements = new WeakReference<>(repository);
         }
-        return announcementRepository;
+        return repository;
     }
 
     @NonNull
     public static synchronized CourseRepository getCourseRepository(Context context) {
-        if (courseRepository == null) {
+        CourseRepository repository = courses.get();
+        if (repository == null) {
+            Log.d(TAG, "getCourseRepository: creating course repo");
             Database database = Database.get(context);
-            courseRepository = new CourseDatabaseRepository(database.getCourseDao(), CourseMapper.INSTANCE);
+            repository = new CourseDatabaseRepository(database.getCourseDao(), CourseMapper.INSTANCE);
+            courses = new WeakReference<>(repository);
         }
-        return courseRepository;
+        return repository;
     }
 
     @NonNull
     public static synchronized CardRepository getCardRepository(Context context) {
-        if (cardRepository == null) {
+        CardRepository repository = cards.get();
+        if (repository == null) {
+            Log.d(TAG, "getCardRepository: creating card repository");
             Database database = Database.get(context);
-            cardRepository = new CardDatabaseRepository(database.getCardDao());
+            repository = new CardDatabaseRepository(database.getCardDao());
+            cards = new WeakReference<>(repository);
         }
-        return cardRepository;
+        return repository;
     }
 }

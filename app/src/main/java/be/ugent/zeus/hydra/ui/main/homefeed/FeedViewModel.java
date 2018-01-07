@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class FeedViewModel extends RefreshViewModel<List<Card>> {
 
-    private final SingleLiveEvent<Runnable> commandLiveEvent = new SingleLiveEvent<>();
+    private SingleLiveEvent<Runnable> commandLiveEvent;
 
     public FeedViewModel(Application application) {
         super(application);
@@ -28,6 +28,15 @@ public class FeedViewModel extends RefreshViewModel<List<Card>> {
     }
 
     public MutableLiveData<Runnable> getCommandLiveEvent() {
+        if (commandLiveEvent == null) {
+            commandLiveEvent = new SingleLiveEvent<>();
+        }
         return commandLiveEvent;
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        commandLiveEvent = null;
     }
 }
