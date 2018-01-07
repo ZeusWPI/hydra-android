@@ -28,6 +28,11 @@ public class CardDatabaseRepository implements CardRepository {
     }
 
     @Override
+    public List<CardIdentifier> getIdForType(@Card.Type int cardType) {
+        return cardDao.getIdsForType(cardType);
+    }
+
+    @Override
     public void add(CardDismissal cardDismissal) {
         cardDao.insert(cardDismissal);
     }
@@ -39,9 +44,7 @@ public class CardDatabaseRepository implements CardRepository {
 
     @Override
     public void prune(@Card.Type int cardType, List<Card> allCards) {
-        Set<CardIdentifier> dismissals = StreamSupport.stream(cardDao.getForType(cardType))
-                .map(CardDismissal::getIdentifier)
-                .collect(Collectors.toCollection(HashSet::new));
+        Set<CardIdentifier> dismissals = new HashSet<>(getIdForType(cardType));
 
         Set<CardIdentifier> retained = StreamSupport.stream(allCards)
                 .map(c -> new CardIdentifier(c.getCardType(), c.getIdentifier()))

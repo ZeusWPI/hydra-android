@@ -64,7 +64,7 @@ public class HomeFeedAdapter extends ItemDiffAdapter<Card, DataViewHolder<Card>>
             case NEWS_ITEM:
                 return new NewsItemViewHolder(view(R.layout.home_card_news_item, parent), this);
             case MINERVA_LOGIN:
-                return new MinervaLoginViewHolder(view(R.layout.home_minerva_login_card, parent));
+                return new MinervaLoginViewHolder(view(R.layout.home_minerva_login_card, parent), this.getCompanion());
             case MINERVA_ANNOUNCEMENT:
                 return new MinervaAnnouncementViewHolder(view(R.layout.home_minerva_announcement_card, parent), this);
             case MINERVA_AGENDA:

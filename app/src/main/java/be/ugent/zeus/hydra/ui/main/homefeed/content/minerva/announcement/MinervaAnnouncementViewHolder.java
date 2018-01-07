@@ -81,4 +81,14 @@ public class MinervaAnnouncementViewHolder extends FeedViewHolder {
 
         cardView.setOnClickListener(v -> CourseActivity.startForResult(adapter.getCompanion(), mCard.getCourse(), CourseActivity.Tab.ANNOUNCEMENTS));
     }
+
+    @Override
+    public void onSwiped() {
+        // Do nothing
+    }
+
+    @Override
+    public boolean isSwipeEnabled() {
+        return false;
+    }
 }

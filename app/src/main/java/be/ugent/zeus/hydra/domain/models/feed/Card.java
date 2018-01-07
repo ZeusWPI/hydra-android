@@ -51,6 +51,8 @@ public abstract class Card implements Comparable<Card> {
     public abstract int getPriority();
 
     /**
+     * Get the unique (under the card type) identifier.
+     *
      * @return Unique identifier for this card under the card type.
      */
     public abstract String getIdentifier();

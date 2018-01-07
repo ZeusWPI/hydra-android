@@ -86,6 +86,18 @@ public class CardDaoTest {
     }
 
     @Test
+    @SuppressWarnings("WrongConstant")
+    public void testGetIdForType() {
+        List<CardIdentifier> expected = cards.stream()
+                .filter(c -> c.getIdentifier().getCardType() == 1)
+                .map(CardDismissal::getIdentifier)
+                .collect(Collectors.toList());
+        List<CardIdentifier> actual = cardDao.getIdsForType(1);
+
+        assertCollectionEquals(expected, actual);
+    }
+
+    @Test
     public void testInsert() {
         CardDismissal dismissal = random(CardDismissal.class);
         cardDao.insert(dismissal);

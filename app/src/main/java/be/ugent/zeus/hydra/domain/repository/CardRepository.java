@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.domain.repository;
 
 import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.domain.models.feed.CardDismissal;
+import be.ugent.zeus.hydra.domain.models.feed.CardIdentifier;
 
 import java.util.List;
 
@@ -18,6 +19,15 @@ public interface CardRepository {
      * @return The dismissals.
      */
     List<CardDismissal> getForType(@Card.Type int cardType);
+
+    /**
+     * Get all ids of the dismissals for a certain card type.
+     *
+     * @param cardType The type of cards to get dismissals for.
+     *
+     * @return The dismissals.
+     */
+    List<CardIdentifier> getIdForType(@Card.Type int cardType);
 
     /**
      * Add a new dismissal.
@@ -39,7 +49,7 @@ public interface CardRepository {
      * @param cardType The card type of the given cards.
      * @param allCards All cards. Cards not present in this list will be removed from the repository.
      */
-    void prune(@Card.Type int cardType, List<Card> allCards);
+    void prune(@Card.Type int cardType, final List<Card> allCards);
 
     /**
      * Delete a card dismissal if it is present.

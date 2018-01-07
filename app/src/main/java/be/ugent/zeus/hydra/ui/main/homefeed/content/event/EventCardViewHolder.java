@@ -8,6 +8,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.ui.EventDetailActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
+import be.ugent.zeus.hydra.ui.main.homefeed.SwipeDismissableViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableAssociationCommand;
 import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableTypeCommand;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
@@ -21,7 +22,7 @@ import be.ugent.zeus.hydra.utils.DateUtils;
  * @author Niko Strijbol
  * @author feliciaan
  */
-public class EventCardViewHolder extends FeedViewHolder {
+public class EventCardViewHolder extends FeedViewHolder implements SwipeDismissableViewHolder {
 
     private final TextView start;
     private final TextView title;
@@ -38,7 +39,7 @@ public class EventCardViewHolder extends FeedViewHolder {
 
     @Override
     public void populate(final Card card) {
-
+        super.populate(card);
         final Event event = card.<EventCard>checkCard(Card.Type.ACTIVITY).getEvent();
 
         title.setText(event.getTitle());
@@ -51,7 +52,6 @@ public class EventCardViewHolder extends FeedViewHolder {
 
         itemView.setOnClickListener(v -> EventDetailActivity.launchWithAnimation(((Activity) itemView.getContext()), imageView, "logo", event));
 
-        debugPriority(card);
         toolbar.setMenu(R.menu.now_toolbar_association_event);
         toolbar.setOnClickListener(item -> {
             switch (item.getItemId()) {
@@ -65,5 +65,10 @@ public class EventCardViewHolder extends FeedViewHolder {
                     return false;
             }
         });
+    }
+
+    @Override
+    protected boolean enableDefaultClickListener() {
+        return false;
     }
 }

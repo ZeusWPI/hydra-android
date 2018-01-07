@@ -3,14 +3,16 @@ package be.ugent.zeus.hydra.ui.main.homefeed.content.event;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.data.network.requests.association.EventFilter;
 import be.ugent.zeus.hydra.domain.models.association.Event;
 import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.domain.repository.CardRepository;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.repository.requests.Result;
-import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
+import be.ugent.zeus.hydra.ui.main.homefeed.HideableHomeFeedRequest;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
 import org.threeten.bp.ZonedDateTime;
@@ -23,11 +25,12 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class EventRequest implements HomeFeedRequest {
+public class EventRequest extends HideableHomeFeedRequest {
 
     private final Request<List<Event>> request;
 
-    public EventRequest(Context context) {
+    public EventRequest(Context context, CardRepository cardRepository) {
+        super(cardRepository);
         this.request = Requests.map(
                 Requests.map(Requests.cache(context, new be.ugent.zeus.hydra.data.network.requests.association.EventRequest()), Arrays::asList),
                 new EventFilter(context)
@@ -41,7 +44,7 @@ public class EventRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Result<Stream<Card>> performRequest(Bundle args) {
+    protected Result<Stream<Card>> performRequestCards(@Nullable Bundle args) {
         ZonedDateTime now = ZonedDateTime.now();
         ZonedDateTime plusOne = now.plusMonths(1);
 

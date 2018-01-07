@@ -27,6 +27,9 @@ public abstract class CardDao {
     @Query("SELECT * FROM " + DismissalTable.TABLE_NAME + " WHERE " + DismissalTable.Columns.CARD_TYPE + " = :type")
     public abstract List<CardDismissal> getForType(@Card.Type int type);
 
+    @Query("SELECT " + DismissalTable.Columns.CARD_TYPE + ", " + DismissalTable.Columns.IDENTIFIER + " FROM " + DismissalTable.TABLE_NAME + " WHERE " + DismissalTable.Columns.CARD_TYPE + " = :type")
+    public abstract List<CardIdentifier> getIdsForType(@Card.Type int type);
+
     @Insert
     public abstract void insert(CardDismissal dismissal);
 

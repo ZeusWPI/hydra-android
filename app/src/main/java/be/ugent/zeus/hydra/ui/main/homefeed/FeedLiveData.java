@@ -10,8 +10,10 @@ import android.util.Log;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
+import be.ugent.zeus.hydra.data.database.RepositoryFactory;
 import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
 import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.domain.repository.CardRepository;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.debug.WaitRequest;
@@ -86,7 +88,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
 
     private Map<String, Object> oldPreferences = new HashMap<>();
 
-    public FeedLiveData(Context context) {
+    FeedLiveData(Context context) {
         this.applicationContext = context.getApplicationContext();
         loadData(Bundle.EMPTY);
     }
@@ -246,16 +248,19 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
         // Test if the card type is ignored or not.
         IntPredicate d = s::contains;
 
+        // Repositories
+        CardRepository cr = RepositoryFactory.getCardRepository(c);
+
         //Always insert the special events.
-        operations.add(add(new SpecialEventRequest(c)));
+        operations.add(add(new SpecialEventRequest(c, cr)));
 
         //Add other stuff if needed
-        operations.add(get(d, () -> new RestoRequest(c), Card.Type.RESTO));
-        operations.add(get(d, () -> new EventRequest(c), Card.Type.ACTIVITY));
-        operations.add(get(d, () -> new SchamperRequest(c), Card.Type.SCHAMPER));
-        operations.add(get(d, () -> new NewsRequest(c), Card.Type.NEWS_ITEM));
+        operations.add(get(d, () -> new RestoRequest(c, cr), Card.Type.RESTO));
+        operations.add(get(d, () -> new EventRequest(c, cr), Card.Type.ACTIVITY));
+        operations.add(get(d, () -> new SchamperRequest(c, cr), Card.Type.SCHAMPER));
+        operations.add(get(d, () -> new NewsRequest(c, cr), Card.Type.NEWS_ITEM));
         operations.add(get(d, () -> new MinervaAnnouncementRequest(c), Card.Type.MINERVA_ANNOUNCEMENT));
-        operations.add(get(d, () -> new MinervaAgendaRequest(c), Card.Type.MINERVA_AGENDA));
+        operations.add(get(d, () -> new MinervaAgendaRequest(c, cr), Card.Type.MINERVA_AGENDA));
         operations.add(get(d, UrgentRequest::new, Card.Type.URGENT_FM));
 
         // Add debug request.

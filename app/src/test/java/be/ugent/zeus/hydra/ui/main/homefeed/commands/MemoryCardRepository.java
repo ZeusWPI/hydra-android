@@ -27,6 +27,14 @@ public class MemoryCardRepository implements CardRepository {
     }
 
     @Override
+    public List<CardIdentifier> getIdForType(int cardType) {
+        return dismissals.stream()
+                .map(CardDismissal::getIdentifier)
+                .filter(i -> i.getCardType() == cardType)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void add(CardDismissal cardDismissal) {
         dismissals.add(cardDismissal);
     }

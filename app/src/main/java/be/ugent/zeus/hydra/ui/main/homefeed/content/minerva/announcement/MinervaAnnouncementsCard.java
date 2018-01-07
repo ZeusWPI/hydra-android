@@ -45,6 +45,7 @@ class MinervaAnnouncementsCard extends Card {
     @Override
     public String getIdentifier() {
         // We say this is the same if it is for the same course.
+        // TODO: this is not correct, but we don't support it currently.
         return course.getId();
     }
 
