@@ -9,7 +9,6 @@ import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.domain.models.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
-import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
 import be.ugent.zeus.hydra.ui.main.homefeed.SwipeDismissableViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableIndividualCard;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -29,6 +28,7 @@ public class SpecialEventCardViewHolder extends DataViewHolder<Card> implements 
     private final HomeFeedAdapter.AdapterCompanion companion;
 
     private SpecialEvent event;
+    private Card card;
 
     public SpecialEventCardViewHolder(View itemView, HomeFeedAdapter.AdapterCompanion companion) {
         super(itemView);
@@ -49,21 +49,16 @@ public class SpecialEventCardViewHolder extends DataViewHolder<Card> implements 
         Picasso.with(itemView.getContext()).load(event.getImage()).into(image);
 
         itemView.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(v.getContext(), event.getViewIntent(v.getContext())));
+
+        this.card = card;
     }
 
     @Override
     public void onSwiped() {
         // Do nothing for now!
-        if (event != null) {
-            companion.executeCommand(
-                    new DisableIndividualCard(
-                            HomeFeedFragment.PREF_DISABLED_SPECIALS,
-                            String.valueOf(event.getId()),
-                            Card.Type.SPECIAL_EVENT
-                    )
-            );
+        if (event != null && card != null) {
+            companion.executeCommand(new DisableIndividualCard(card));
         }
-
     }
 
     @Override

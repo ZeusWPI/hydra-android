@@ -25,7 +25,7 @@ public class CardIdentifier {
     @ColumnInfo(name = DismissalTable.Columns.IDENTIFIER)
     private final String identifier;
 
-    public CardIdentifier(int cardType, @NonNull String identifier) {
+    public CardIdentifier(@Card.Type int cardType, @NonNull String identifier) {
         this.cardType = cardType;
         this.identifier = identifier;
     }

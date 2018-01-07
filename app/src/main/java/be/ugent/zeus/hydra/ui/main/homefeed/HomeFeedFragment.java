@@ -1,12 +1,15 @@
 package be.ugent.zeus.hydra.ui.main.homefeed;
 
-import android.support.v4.app.Fragment;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -73,12 +76,12 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView recyclerView = view.findViewById(R.id.home_cards_view);
@@ -112,6 +115,9 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         });
 
         model.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
+
+        // Observe results from commands.
+        model.getCommandLiveEvent().observe(this, Runnable::run);
 
         firstRun = true;
     }
@@ -201,26 +207,57 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void executeCommand(FeedCommand command) {
+        new CommandTask(model.getCommandLiveEvent()) {
+            @Override
+            protected Integer doInBackground(Void... voids) {
+                return command.execute(getContext());
+            }
 
-        // TODO: should this be done on a separate thread?
+            @Override
+            protected void onSafePostExecute(int cardType) {
+                Bundle extras = new Bundle();
+                extras.putInt(REFRESH_HOMECARD_TYPE, cardType);
+                model.requestRefresh(extras);
 
-        int cardType = command.execute(getContext());
-        Bundle extras = new Bundle();
-        extras.putInt(REFRESH_HOMECARD_TYPE, cardType);
-        model.requestRefresh(extras);
-
-        if (this.snackbar != null) {
-            this.snackbar.dismiss();
-        }
-        this.snackbar = Snackbar.make(getView(), command.getCompleteMessage(), BaseTransientBottomBar.LENGTH_LONG)
-                .setAction(R.string.home_feed_undo, view -> undoCommand(command));
-        this.snackbar.show();
+                if (snackbar != null) {
+                    snackbar.dismiss();
+                }
+                snackbar = Snackbar.make(getView(), command.getCompleteMessage(), BaseTransientBottomBar.LENGTH_LONG)
+                        .setAction(R.string.home_feed_undo, view -> undoCommand(command));
+                snackbar.show();
+            }
+        }.execute();
     }
 
     private void undoCommand(FeedCommand command) {
-        int cardType = command.undo(getContext());
-        Bundle extras = new Bundle();
-        extras.putInt(REFRESH_HOMECARD_TYPE, cardType);
-        model.requestRefresh(extras);
+        new CommandTask(model.getCommandLiveEvent()) {
+            @Override
+            protected Integer doInBackground(Void... voids) {
+                return command.undo(getContext());
+            }
+
+            @Override
+            protected void onSafePostExecute(int cardType) {
+                Bundle extras = new Bundle();
+                extras.putInt(REFRESH_HOMECARD_TYPE, cardType);
+                model.requestRefresh(extras);
+            }
+        }.execute();
+    }
+
+    private abstract static class CommandTask extends AsyncTask<Void, Void, Integer> {
+
+        private final MutableLiveData<Runnable> bus;
+
+        private CommandTask(MutableLiveData<Runnable> bus) {
+            this.bus = bus;
+        }
+
+        @Override
+        protected final void onPostExecute(Integer integer) {
+            bus.postValue(() -> onSafePostExecute(integer));
+        }
+
+        protected abstract void onSafePostExecute(int cardType);
     }
 }

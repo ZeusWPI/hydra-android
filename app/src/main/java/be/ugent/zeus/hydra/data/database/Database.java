@@ -5,6 +5,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
+import be.ugent.zeus.hydra.data.database.feed.CardDao;
 import be.ugent.zeus.hydra.data.database.migrations.*;
 import be.ugent.zeus.hydra.data.database.minerva.AgendaDao;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDao;
@@ -87,4 +88,12 @@ public abstract class Database extends RoomDatabase {
      * @return Instance of the calendar dao.
      */
     public abstract AgendaDao getAgendaDao();
+
+    /**
+     * Get an implementation of the card dao. This method is safe to call multiple times; only one instance will be
+     * created and returned.
+     *
+     * @return Instance of the card dao.
+     */
+    public abstract CardDao getCardDao();
 }

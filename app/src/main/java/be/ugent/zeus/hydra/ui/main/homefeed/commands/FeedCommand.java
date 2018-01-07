@@ -8,7 +8,8 @@ import be.ugent.zeus.hydra.domain.models.feed.Card;
 /**
  * Execute a command. Afterwards the cards of the returned type will be refreshed.
  *
- * A command is normally one-use: calling it multiple times is undefined behaviour.
+ * A command is normally one-use: calling it multiple times is undefined behaviour. Additionally, a command should
+ * be a fairly short operation.
  *
  * @author Niko Strijbol
  */

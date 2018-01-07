@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.data.database;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.data.database.feed.CardDatabaseRepository;
 import be.ugent.zeus.hydra.data.database.minerva.AgendaDatabaseRepository;
 import be.ugent.zeus.hydra.data.database.minerva.AnnouncementDatabaseRepository;
 import be.ugent.zeus.hydra.data.database.minerva.CourseDatabaseRepository;
@@ -11,6 +12,7 @@ import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementMapper;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseMapper;
 import be.ugent.zeus.hydra.domain.repository.AgendaItemRepository;
 import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
+import be.ugent.zeus.hydra.domain.repository.CardRepository;
 import be.ugent.zeus.hydra.domain.repository.CourseRepository;
 
 /**
@@ -23,6 +25,7 @@ public class RepositoryFactory {
     private static AgendaItemRepository agendaItemRepository;
     private static AnnouncementRepository announcementRepository;
     private static CourseRepository courseRepository;
+    private static CardRepository cardRepository;
 
     @NonNull
     public static synchronized AgendaItemRepository getAgendaItemRepository(Context context) {
@@ -49,5 +52,14 @@ public class RepositoryFactory {
             courseRepository = new CourseDatabaseRepository(database.getCourseDao(), CourseMapper.INSTANCE);
         }
         return courseRepository;
+    }
+
+    @NonNull
+    public static synchronized CardRepository getCardRepository(Context context) {
+        if (cardRepository == null) {
+            Database database = Database.get(context);
+            cardRepository = new CardDatabaseRepository(database.getCardDao());
+        }
+        return cardRepository;
     }
 }

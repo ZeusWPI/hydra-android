@@ -6,9 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 /**
- * Actually adjust the scheme to support Room.
- *
- * The SQL for creating the tables is copied from the scheme exported by Room.
+ * This is a legacy migration.
  *
  * @author Niko Strijbol
  */
