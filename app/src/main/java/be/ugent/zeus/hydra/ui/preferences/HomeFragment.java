@@ -1,8 +1,10 @@
 package be.ugent.zeus.hydra.ui.preferences;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -10,6 +12,7 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.database.RepositoryFactory;
 import be.ugent.zeus.hydra.domain.repository.CardRepository;
+import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
 
 /**
  * Settings about the home feed.
@@ -46,7 +49,12 @@ public class HomeFragment extends PreferenceFragment {
     private void deleteAll() {
         AsyncTask.execute(() -> {
             CardRepository cardRepository = RepositoryFactory.getCardRepository(getActivity());
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
             cardRepository.deleteAll();
+            boolean newValue = !preferences.getBoolean(HomeFeedFragment.PREF_DISABLED_CARD_HACK, true);
+            preferences.edit()
+                    .putBoolean(HomeFeedFragment.PREF_DISABLED_CARD_HACK, newValue)
+                    .apply();
             Log.i(TAG, "All hidden cards removed.");
         });
 

@@ -28,7 +28,7 @@ public class DisableTypeCommand implements FeedCommand {
     public int execute(Context context) {
         PreferencesUtils.addToStringSet(
                 context,
-                HomeFeedFragment.PREF_DISABLED_CARDS,
+                HomeFeedFragment.PREF_DISABLED_CARD_TYPES,
                 String.valueOf(cardType)
         );
         return cardType;
@@ -39,7 +39,7 @@ public class DisableTypeCommand implements FeedCommand {
     public int undo(Context context) {
         PreferencesUtils.removeFromStringSet(
                 context,
-                HomeFeedFragment.PREF_DISABLED_CARDS,
+                HomeFeedFragment.PREF_DISABLED_CARD_TYPES,
                 String.valueOf(cardType)
         );
         return cardType;

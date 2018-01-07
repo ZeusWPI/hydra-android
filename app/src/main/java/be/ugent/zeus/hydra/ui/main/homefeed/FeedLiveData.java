@@ -79,11 +79,11 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
 
     //For which settings the loader must refresh
     private static String[] watchedPreferences = {
-            HomeFeedFragment.PREF_DISABLED_CARDS,
+            HomeFeedFragment.PREF_DISABLED_CARD_TYPES,
             AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
             RestoPreferenceFragment.PREF_RESTO_KEY,
             RestoPreferenceFragment.PREF_RESTO_NAME,
-            HomeFeedFragment.PREF_DISABLED_SPECIALS
+            HomeFeedFragment.PREF_DISABLED_CARD_HACK
     };
 
     private Map<String, Object> oldPreferences = new HashMap<>();
@@ -231,7 +231,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
         Context c = applicationContext;
         Set<Integer> s = StreamSupport.stream(android.support.v7.preference.PreferenceManager
                 .getDefaultSharedPreferences(c)
-                .getStringSet(HomeFeedFragment.PREF_DISABLED_CARDS, Collections.emptySet()))
+                .getStringSet(HomeFeedFragment.PREF_DISABLED_CARD_TYPES, Collections.emptySet()))
                 .map(Integer::parseInt)
                 .collect(Collectors.toSet());
 
