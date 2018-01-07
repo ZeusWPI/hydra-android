@@ -163,6 +163,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
             @Override
             protected Void doInBackground(Void... voids) {
                 // Get the operations.
+                Log.d(TAG, "doInBackground: received load request with " + bundle);
                 Iterable<FeedOperation> operations = findOperations(scheduleOperations(), bundle);
 
                 // Get existing value if needed.

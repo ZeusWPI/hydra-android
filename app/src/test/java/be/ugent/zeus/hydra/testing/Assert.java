@@ -117,7 +117,7 @@ public class Assert {
      * @param expected The expected collection.
      * @param actual The actual collection.
      */
-    public static void assertCollectionEquals(Iterable<?> expected, Iterable<?> actual) {
+    public static <T> void assertCollectionEquals(Iterable<T> expected, Iterable<T> actual) {
         HashSet<Object> actualSet = new HashSet<>();
         HashSet<Object> notEqual = new HashSet<>();
         CollectionUtils.addAll(actualSet, actual.iterator());

@@ -150,6 +150,17 @@ public class CardDaoTest {
                 .map(CardDismissal::getIdentifier)
                 .collect(Collectors.toList());
 
+        // Get the expected result.
+        List<CardIdentifier> expectedType1 = cards.stream()
+                .map(CardDismissal::getIdentifier)
+                .filter(i -> i.getCardType() == dismissals.get(0).getCardType())
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        List<CardIdentifier> expectedType2 = cards.stream()
+                .map(CardDismissal::getIdentifier)
+                .filter(i -> i.getCardType() == dismissals.get(1).getCardType())
+                .collect(Collectors.toCollection(ArrayList::new));
+
         cardDao.deleteByIdentifier(dismissals);
 
         List<CardIdentifier> forType1 = cardDao.getForType(dismissals.get(0).getCardType()).stream()
@@ -159,7 +170,7 @@ public class CardDaoTest {
                 .map(CardDismissal::getIdentifier)
                 .collect(Collectors.toList());
 
-        assertFalse(forType1.contains(dismissals.get(0)));
-        assertFalse(forType2.contains(dismissals.get(1)));
+        assertCollectionEquals(expectedType1, forType1);
+        assertCollectionEquals(expectedType2, forType2);
     }
 }

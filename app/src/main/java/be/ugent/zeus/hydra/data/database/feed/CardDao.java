@@ -44,6 +44,10 @@ public abstract class CardDao {
 
     public void deleteByIdentifier(Collection<CardIdentifier> identifiers) {
 
+        if (identifiers.isEmpty()) {
+            return;
+        }
+
         String[] inSelectionArray = new String[identifiers.size()];
         for (int i = 0; i < identifiers.size(); i++) {
             inSelectionArray[i] = "(" + DismissalTable.Columns.CARD_TYPE + " = ? AND " + DismissalTable.Columns.IDENTIFIER + " = ?)";
