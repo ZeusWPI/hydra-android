@@ -58,4 +58,9 @@ public class CardDatabaseRepository implements CardRepository {
     public void delete(CardDismissal dismissal) {
         cardDao.delete(dismissal);
     }
+
+    @Override
+    public void deleteAll() {
+        cardDao.deleteAll();
+    }
 }

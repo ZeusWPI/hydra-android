@@ -47,4 +47,9 @@ public interface CardRepository {
      * @param dismissal The dismissal to remove.
      */
     void delete(CardDismissal dismissal);
+
+    /**
+     * Delete all cards.
+     */
+    void deleteAll();
 }

@@ -21,7 +21,6 @@ public class MemoryCardRepository implements CardRepository {
 
     private Set<CardDismissal> dismissals = new HashSet<>();
 
-
     @Override
     public List<CardDismissal> getForType(int cardType) {
         return dismissals.stream().filter(d -> d.getIdentifier().getCardType() == cardType).collect(Collectors.toList());
@@ -41,7 +40,7 @@ public class MemoryCardRepository implements CardRepository {
     public void prune(int cardType, List<Card> allCards) {
         List<CardDismissal> typeDismissals = getForType(cardType);
         Set<CardIdentifier> cardSet = allCards.stream().map(c -> new CardIdentifier(c.getCardType(), c.getIdentifier())).collect(Collectors.toSet());
-        for (CardDismissal dismissal: typeDismissals) {
+        for (CardDismissal dismissal : typeDismissals) {
             if (!cardSet.contains(dismissal.getIdentifier())) {
                 delete(dismissal);
             }
@@ -51,5 +50,10 @@ public class MemoryCardRepository implements CardRepository {
     @Override
     public void delete(CardDismissal dismissal) {
         dismissals.remove(dismissal);
+    }
+
+    @Override
+    public void deleteAll() {
+        dismissals.clear();
     }
 }

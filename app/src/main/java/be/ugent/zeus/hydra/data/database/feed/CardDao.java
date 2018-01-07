@@ -36,6 +36,9 @@ public abstract class CardDao {
     @Delete
     public abstract void delete(CardDismissal cardDismissal);
 
+    @Query("DELETE FROM " + DismissalTable.TABLE_NAME)
+    public abstract void deleteAll();
+
     public void deleteByIdentifier(Collection<CardIdentifier> identifiers) {
 
         String[] inSelectionArray = new String[identifiers.size()];

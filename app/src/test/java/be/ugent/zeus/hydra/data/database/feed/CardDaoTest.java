@@ -40,6 +40,7 @@ import static org.junit.Assert.*;
 public class CardDaoTest {
 
     private Database database;
+    private CardDao cardDao;
     private List<CardDismissal> cards;
 
     @Before
@@ -49,6 +50,7 @@ public class CardDaoTest {
                 .allowMainThreadQueries()
                 .build();
         fillData();
+        cardDao = database.getCardDao();
     }
 
     @SuppressWarnings("WrongConstant")
@@ -78,23 +80,21 @@ public class CardDaoTest {
         List<CardDismissal> expected = cards.stream()
                 .filter(c -> c.getIdentifier().getCardType() == 1)
                 .collect(Collectors.toList());
-        List<CardDismissal> actual = database.getCardDao().getForType(1);
+        List<CardDismissal> actual = cardDao.getForType(1);
 
         assertCollectionEquals(expected, actual);
     }
 
     @Test
     public void testInsert() {
-        CardDao dao = database.getCardDao();
         CardDismissal dismissal = random(CardDismissal.class);
-        dao.insert(dismissal);
-        List<CardDismissal> dismissals = dao.getForType(dismissal.getIdentifier().getCardType());
+        cardDao.insert(dismissal);
+        List<CardDismissal> dismissals = cardDao.getForType(dismissal.getIdentifier().getCardType());
         assertTrue(dismissals.contains(dismissal));
     }
 
     @Test
     public void testUpdate() {
-        CardDao cardDao = database.getCardDao();
         CardDismissal random = getRandom(cards);
         CardDismissal update = new CardDismissal(random.getIdentifier(), random.getDismissalDate().plusSeconds(60));
         cardDao.update(update);
@@ -113,16 +113,27 @@ public class CardDaoTest {
 
     @Test
     public void testDelete() {
-        CardDao dao = database.getCardDao();
         CardDismissal dismissal = getRandom(cards);
-        dao.delete(dismissal);
-        List<CardDismissal> dismissals = dao.getForType(dismissal.getIdentifier().getCardType());
+        cardDao.delete(dismissal);
+        List<CardDismissal> dismissals = cardDao.getForType(dismissal.getIdentifier().getCardType());
         assertFalse(dismissals.contains(dismissal));
     }
 
     @Test
+    public void testDeleteAll() {
+        cardDao.deleteAll();
+        // Get the types.
+        List<Integer> cardTypes = cards.stream()
+                .map(d -> d.getIdentifier().getCardType())
+                .distinct()
+                .collect(Collectors.toList());
+        for (int cardType: cardTypes) {
+            assertTrue(cardDao.getForType(cardType).isEmpty());
+        }
+    }
+
+    @Test
     public void testDeleteByIdentifier() {
-        CardDao cardDao = database.getCardDao();
         List<CardIdentifier> dismissals = getRandom(cards, 2).stream()
                 .map(CardDismissal::getIdentifier)
                 .collect(Collectors.toList());
