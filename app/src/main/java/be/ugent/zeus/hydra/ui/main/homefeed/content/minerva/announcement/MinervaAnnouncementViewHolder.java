@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.minerva.announcement;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.widget.CardView;
@@ -27,6 +28,7 @@ import static be.ugent.zeus.hydra.ui.common.ViewUtils.convertDpToPixelInt;
  */
 public class MinervaAnnouncementViewHolder extends FeedViewHolder {
 
+    private final static int MAX_DISPLAYED = 5;
     private final LinearLayout layout;
     private final CardView cardView;
 
@@ -41,16 +43,17 @@ public class MinervaAnnouncementViewHolder extends FeedViewHolder {
         super.populate(card);
 
         final MinervaAnnouncementsCard mCard = card.checkCard(Card.Type.MINERVA_ANNOUNCEMENT);
+        final Context context = itemView.getContext();
 
-        String titleS = itemView.getContext().getString(R.string.home_feed_card_announcement_title, mCard.getCourse().getTitle());
-        toolbar.setTitle(titleS);
+        toolbar.setTitle(context.getString(R.string.home_feed_card_announcement_title, mCard.getCourse().getTitle()));
 
         layout.removeAllViewsInLayout();
 
         ResultStarter starter = adapter.getCompanion();
+        LayoutInflater inflater = LayoutInflater.from(layout.getContext());
 
-        for (int i = 0; i < 5 && i < mCard.getAnnouncements().size(); i++) {
-            View view = LayoutInflater.from(layout.getContext()).inflate(R.layout.item_minerva_home_announcement, layout, false);
+        for (int i = 0; i < MAX_DISPLAYED && i < mCard.getAnnouncements().size(); i++) {
+            View view = inflater.inflate(R.layout.item_minerva_home_announcement, layout, false);
             TextView title = view.findViewById(R.id.title);
             TextView subtitle = view.findViewById(R.id.subtitle);
             Announcement announcement = mCard.getAnnouncements().get(i);
@@ -69,26 +72,16 @@ public class MinervaAnnouncementViewHolder extends FeedViewHolder {
             layout.addView(view);
         }
 
-        if (mCard.getAnnouncements().size() > 5) {
-            TextView textView = new TextView(itemView.getContext());
+        if (mCard.getAnnouncements().size() > MAX_DISPLAYED) {
+            TextView textView = new TextView(context);
             textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-            int remainingAnnouncements = mCard.getAnnouncements().size() - 5;
+            int remainingAnnouncements = mCard.getAnnouncements().size() - MAX_DISPLAYED;
             textView.setText(itemView.getResources().getQuantityString(R.plurals.home_feed_card_announcement_more, remainingAnnouncements, remainingAnnouncements));
-            textView.setPadding(0, convertDpToPixelInt(16, itemView.getContext()), 0, 0);
+            textView.setPadding(0, convertDpToPixelInt(16, context), 0, 0);
             layout.addView(textView);
         }
 
         cardView.setOnClickListener(v -> CourseActivity.startForResult(adapter.getCompanion(), mCard.getCourse(), CourseActivity.Tab.ANNOUNCEMENTS));
-    }
-
-    @Override
-    public void onSwiped() {
-        // Do nothing
-    }
-
-    @Override
-    public boolean isSwipeEnabled() {
-        return false;
     }
 }

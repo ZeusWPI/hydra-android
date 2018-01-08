@@ -105,9 +105,7 @@ public class HomeFeedAdapter extends ItemDiffAdapter<Card, DataViewHolder<Card>>
     }
 
     public interface AdapterCompanion extends ResultStarter {
-
         ActivityHelper getHelper();
-
         void executeCommand(FeedCommand command);
     }
 }

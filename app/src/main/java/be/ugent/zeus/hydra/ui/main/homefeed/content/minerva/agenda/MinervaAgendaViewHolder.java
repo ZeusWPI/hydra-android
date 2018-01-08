@@ -36,10 +36,11 @@ public class MinervaAgendaViewHolder extends FeedViewHolder {
         toolbar.setTitle(titleS);
 
         layout.removeAllViewsInLayout();
+        LayoutInflater inflater = LayoutInflater.from(layout.getContext());
 
         for (final AgendaItem item : mCard.getAgendaItems()) {
 
-            View view = LayoutInflater.from(layout.getContext()).inflate(R.layout.item_minerva_home_announcement, layout, false);
+            View view = inflater.inflate(R.layout.item_minerva_home_announcement, layout, false);
             TextView title = view.findViewById(R.id.title);
             TextView subtitle = view.findViewById(R.id.subtitle);
 

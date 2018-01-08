@@ -260,7 +260,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
         operations.add(get(d, () -> new EventRequest(c, cr), Card.Type.ACTIVITY));
         operations.add(get(d, () -> new SchamperRequest(c, cr), Card.Type.SCHAMPER));
         operations.add(get(d, () -> new NewsRequest(c, cr), Card.Type.NEWS_ITEM));
-        operations.add(get(d, () -> new MinervaAnnouncementRequest(c), Card.Type.MINERVA_ANNOUNCEMENT));
+        operations.add(get(d, () -> new MinervaAnnouncementRequest(c, cr), Card.Type.MINERVA_ANNOUNCEMENT));
         operations.add(get(d, () -> new MinervaAgendaRequest(c, cr), Card.Type.MINERVA_AGENDA));
         operations.add(get(d, UrgentRequest::new, Card.Type.URGENT_FM));
 

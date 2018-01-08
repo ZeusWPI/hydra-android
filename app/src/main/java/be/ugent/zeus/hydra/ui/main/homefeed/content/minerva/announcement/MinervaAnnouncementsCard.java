@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.minerva.announcement;
 
+import android.support.annotation.Size;
+
 import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
@@ -22,8 +24,11 @@ class MinervaAnnouncementsCard extends Card {
     private final List<Announcement> announcement;
     private final Course course;
 
-    MinervaAnnouncementsCard(List<Announcement> announcement, Course course) {
-        this.announcement = announcement;
+    MinervaAnnouncementsCard(@Size(min = 1) List<Announcement> announcements, Course course) {
+        if (announcements.isEmpty()) {
+            throw new IllegalStateException("The announcement card cannot be empty.");
+        }
+        this.announcement = announcements;
         this.course = course;
     }
 
@@ -44,9 +49,9 @@ class MinervaAnnouncementsCard extends Card {
 
     @Override
     public String getIdentifier() {
-        // We say this is the same if it is for the same course.
-        // TODO: this is not correct, but we don't support it currently.
-        return course.getId();
+        // We use the course and the ID of the most recent announcement. This way, a card will return
+        // if a new announcement appears for some course.
+        return course.getId() + announcement.get(0).getItemId();
     }
 
     @Override

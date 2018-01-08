@@ -32,6 +32,7 @@ import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static be.ugent.zeus.hydra.testing.Utils.getRandom;
 import static be.ugent.zeus.hydra.utils.IterableUtils.transform;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 
 /**
  * @author Niko Strijbol
@@ -164,6 +165,7 @@ public class AnnouncementRepositoryTest extends FullRepositoryTest<Integer, Anno
             List<Announcement> ex = expected.get(course);
             List<Announcement> ac = actual.get(course);
             assertCollectionEquals(ex, ac);
+            assertFalse(ac.isEmpty());
         }
     }
 }
