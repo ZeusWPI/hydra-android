@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.ui.main.homefeed;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.domain.models.feed.Card;
@@ -11,7 +10,6 @@ import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
-import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableTypeCommand;
 import be.ugent.zeus.hydra.ui.main.homefeed.commands.FeedCommand;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.event.EventCardViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.minerva.agenda.MinervaAgendaViewHolder;
@@ -87,25 +85,10 @@ public class HomeFeedAdapter extends ItemDiffAdapter<Card, DataViewHolder<Card>>
         return items.get(position).getCardType();
     }
 
-    /**
-     * Helper method that returns a listener that hides a given card type in this adapter. This will only work with the
-     * default menu in {@link be.ugent.zeus.hydra.ui.common.widgets.NowToolbar}.
-     *
-     * @param type The type of card to hide.
-     * @return A listener that will hide the given card type in this adapter.
-     */
-    public PopupMenu.OnMenuItemClickListener listener(@Card.Type final int type) {
-        return item -> {
-            if (item.getItemId() == R.id.menu_hide) {
-                companion.executeCommand(new DisableTypeCommand(type));
-                return true;
-            }
-            return false;
-        };
-    }
-
     public interface AdapterCompanion extends ResultStarter {
+
         ActivityHelper getHelper();
+
         void executeCommand(FeedCommand command);
     }
 }

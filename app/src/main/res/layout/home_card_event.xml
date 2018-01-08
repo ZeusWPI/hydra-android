@@ -19,7 +19,8 @@
             android:id="@+id/card_now_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:icon="@drawable/tabs_events" />
+            app:icon="@drawable/tabs_events"
+            app:menu="@menu/now_toolbar_association_event" />
 
         <LinearLayout
             android:paddingRight="@dimen/card_title_padding_vertical"

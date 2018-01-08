@@ -2,9 +2,11 @@ package be.ugent.zeus.hydra.ui.main.homefeed.content;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.CallSuper;
-import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.BuildConfig;
@@ -15,6 +17,7 @@ import be.ugent.zeus.hydra.ui.common.widgets.NowToolbar;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.SwipeDismissableViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableIndividualCard;
+import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableTypeCommand;
 
 /**
  * View holder for cards that are hideable, using the {@link NowToolbar}.
@@ -23,7 +26,7 @@ import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableIndividualCard;
  *
  * @author Niko Strijbol
  */
-public abstract class FeedViewHolder extends DataViewHolder<Card> implements SwipeDismissableViewHolder {
+public abstract class FeedViewHolder extends DataViewHolder<Card> implements SwipeDismissableViewHolder, PopupMenu.OnMenuItemClickListener {
 
     private static final String TAG = "FeedViewHolder";
 
@@ -40,8 +43,7 @@ public abstract class FeedViewHolder extends DataViewHolder<Card> implements Swi
 
         if (BuildConfig.DEBUG && BuildConfig.DEBUG_HOME_STREAM_PRIORITY) {
             priority = new TextView(itemView.getContext());
-            CardView cardView = (CardView) itemView;
-            cardView.addView(priority);
+            ((ViewGroup) itemView).addView(priority);
         }
     }
 
@@ -55,13 +57,27 @@ public abstract class FeedViewHolder extends DataViewHolder<Card> implements Swi
             priority.setText("Prioriteit: " + card.getPriority());
         }
 
-        if (enableDefaultClickListener()) {
-            toolbar.setOnClickListener(adapter.listener(card.getCardType()));
-        }
+        toolbar.setOnMenuClickListener(this);
     }
 
-    protected boolean enableDefaultClickListener() {
-        return true;
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        // TODO: should this crash?
+        if (card == null) {
+            Log.e(TAG, "Card was null when menu was called. Ignoring.");
+            return false;
+        }
+        HomeFeedAdapter.AdapterCompanion companion = adapter.getCompanion();
+        switch (item.getItemId()) {
+            case R.id.menu_hide_type:
+                companion.executeCommand(new DisableTypeCommand(card.getCardType()));
+                return true;
+            case R.id.menu_hide_card:
+                companion.executeCommand(new DisableIndividualCard(card));
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override

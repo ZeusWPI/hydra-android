@@ -4,9 +4,6 @@
         android:id="@+id/menu_hide_type"
         android:title="@string/card_title_hide_type" />
     <item
-        android:id="@+id/menu_hide_association"
-        android:title="@string/card_title_show" />
-    <item
         android:id="@+id/menu_hide_card"
         android:title="@string/card_title_hide_card" />
 </menu>
