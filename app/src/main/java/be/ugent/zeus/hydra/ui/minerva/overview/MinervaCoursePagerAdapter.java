@@ -18,13 +18,13 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class MinervaCoursePagerAdapter extends FragmentPagerAdapter {
+class MinervaCoursePagerAdapter extends FragmentPagerAdapter {
 
     private final Course course;
     private final Context context;
     private final List<Module> modules;
 
-    public MinervaCoursePagerAdapter(FragmentManager fm, Context context, Course course) {
+    MinervaCoursePagerAdapter(FragmentManager fm, Context context, Course course) {
         super(fm);
         this.context = context.getApplicationContext();
         this.course = course;

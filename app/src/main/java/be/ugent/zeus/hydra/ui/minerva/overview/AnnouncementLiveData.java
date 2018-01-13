@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class AnnouncementLiveData extends BaseLiveData<Result<List<Announcement>>> {
+class AnnouncementLiveData extends BaseLiveData<Result<List<Announcement>>> {
 
     private final Context applicationContext;
     private final AnnouncementRepository dao;
@@ -39,7 +39,7 @@ public class AnnouncementLiveData extends BaseLiveData<Result<List<Announcement>
         }
     };
 
-    public AnnouncementLiveData(Context context, Course course) {
+    AnnouncementLiveData(Context context, Course course) {
         this.applicationContext = context.getApplicationContext();
         this.dao = RepositoryFactory.getAnnouncementRepository(applicationContext);
         this.course = course;

@@ -95,9 +95,7 @@ public class EventDetailActivity extends BaseActivity {
                 location.setText(getString(R.string.events_unnamed_precise_location, event.getLatitude(), event.getLongitude()));
             }
             // Make location clickable
-            findViewById(R.id.location_row).setOnClickListener(view -> {
-                NetworkUtils.maybeLaunchIntent(this, getLocationIntent());
-            });
+            findViewById(R.id.location_row).setOnClickListener(view -> NetworkUtils.maybeLaunchIntent(this, getLocationIntent()));
         } else {
             location.setText(R.string.events_no_location);
         }

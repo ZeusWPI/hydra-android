@@ -38,7 +38,7 @@ public class LineupViewHolder extends DataViewHolder<Artist> implements View.OnC
     private ImageView image;
     private Artist artist;
 
-    public LineupViewHolder(View itemView) {
+    LineupViewHolder(View itemView) {
         super(itemView);
 
         title = itemView.findViewById(R.id.title);

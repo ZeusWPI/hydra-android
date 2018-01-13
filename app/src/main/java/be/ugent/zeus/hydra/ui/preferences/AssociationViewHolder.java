@@ -16,7 +16,7 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
  *
  * Needs to be static because generics are stupid.
  */
-public class AssociationViewHolder extends DataViewHolder<Pair<Association, Boolean>> {
+class AssociationViewHolder extends DataViewHolder<Pair<Association, Boolean>> {
 
     private final CheckBox checkBox;
     private final LinearLayout parent;
@@ -24,7 +24,7 @@ public class AssociationViewHolder extends DataViewHolder<Pair<Association, Bool
 
     private final SearchableAssociationsAdapter adapter;
 
-    public AssociationViewHolder(View itemView, SearchableAssociationsAdapter adapter) {
+    AssociationViewHolder(View itemView, SearchableAssociationsAdapter adapter) {
 
         super(itemView);
         this.adapter = adapter;

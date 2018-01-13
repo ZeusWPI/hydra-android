@@ -13,11 +13,11 @@ import be.ugent.zeus.hydra.ui.common.AdapterOutOfBoundsException;
  *
  * @author Niko Strijbol
  */
-public class SkoPagerAdapter extends FragmentPagerAdapter {
+class SkoPagerAdapter extends FragmentPagerAdapter {
 
     private final String[] titles;
 
-    public SkoPagerAdapter(FragmentManager fm, Context context) {
+    SkoPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         titles = context.getResources().getStringArray(R.array.sko_tab_names);
     }

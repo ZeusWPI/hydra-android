@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.schamper;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -32,7 +33,7 @@ public class SchamperFragment extends Fragment {
     private ActivityHelper helper;
     private SchamperViewModel viewModel;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_schamper, container, false);
     }
 
@@ -45,7 +46,7 @@ public class SchamperFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);

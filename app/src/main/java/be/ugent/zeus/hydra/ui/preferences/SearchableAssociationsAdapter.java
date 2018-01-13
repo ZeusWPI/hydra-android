@@ -17,7 +17,7 @@ import java.util.Collections;
  */
 class SearchableAssociationsAdapter extends MultiSelectSearchableAdapter<Association, AssociationViewHolder> implements SearchView.OnQueryTextListener {
 
-    protected SearchableAssociationsAdapter() {
+    SearchableAssociationsAdapter() {
         super(text -> a -> a.getDisplayName().toLowerCase().contains(text) ||
                 (a.getFullName() != null && a.getFullName().toLowerCase().contains(text)) ||
                 a.getInternalName().toLowerCase().contains(text));

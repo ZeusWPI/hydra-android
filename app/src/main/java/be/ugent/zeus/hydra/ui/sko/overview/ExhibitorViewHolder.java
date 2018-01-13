@@ -15,13 +15,13 @@ import com.squareup.picasso.Picasso;
 /**
  * @author Niko Strijbol
  */
-public class ExhibitorViewHolder extends DataViewHolder<Exhibitor> {
+class ExhibitorViewHolder extends DataViewHolder<Exhibitor> {
 
     private TextView name;
     private ImageView imageView;
     private TextView content;
 
-    public ExhibitorViewHolder(View itemView) {
+    ExhibitorViewHolder(View itemView) {
         super(itemView);
         name = itemView.findViewById(R.id.name);
         imageView = itemView.findViewById(R.id.logo);

@@ -16,7 +16,7 @@ import org.threeten.bp.format.DateTimeFormatter;
  */
 class AgendaAdapter extends ItemDiffAdapter<AgendaItem, AgendaViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
 
-    public AgendaAdapter() {
+    AgendaAdapter() {
         super((agendaItems, agendaItems2) -> new EqualsCallback<AgendaItem>(agendaItems, agendaItems2) {
             @Override
             public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {

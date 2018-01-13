@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.events;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -43,19 +44,18 @@ public class EventFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_activities, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         LinearLayout noData = view.findViewById(R.id.events_no_data);
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        //recyclerView.addItemDecoration(new StickyRecyclerHeadersDecoration(adapter));
         recyclerView.setAdapter(adapter);
         adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, noData));
 

@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class CourseLiveData extends RequestLiveData<List<Pair<Course, Long>>> {
+class CourseLiveData extends RequestLiveData<List<Pair<Course, Long>>> {
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override

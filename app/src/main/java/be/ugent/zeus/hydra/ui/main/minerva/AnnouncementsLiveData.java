@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class AnnouncementsLiveData extends BaseLiveData<Result<List<Announcement>>> {
+class AnnouncementsLiveData extends BaseLiveData<Result<List<Announcement>>> {
 
     private final Context applicationContext;
     private final AnnouncementRepository dao;
@@ -36,7 +36,7 @@ public class AnnouncementsLiveData extends BaseLiveData<Result<List<Announcement
         }
     };
 
-    public AnnouncementsLiveData(Context context) {
+    AnnouncementsLiveData(Context context) {
         this.applicationContext = context.getApplicationContext();
         this.dao = RepositoryFactory.getAnnouncementRepository(applicationContext);
         loadData(Bundle.EMPTY);

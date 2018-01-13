@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class EventItem {
+class EventItem {
 
     private final Event event;
     private final LocalDate header;
@@ -28,13 +28,13 @@ public class EventItem {
         this.header = header;
     }
 
-    public EventItem(Event event, boolean isFirstOfSection, boolean isLastOfSection) {
+    EventItem(Event event, boolean isFirstOfSection, boolean isLastOfSection) {
         this(event, null);
         this.isFirstOfSection = isFirstOfSection;
         this.isLastOfSection = isLastOfSection;
     }
 
-    public EventItem(LocalDate header) {
+    EventItem(LocalDate header) {
         this(null, header);
     }
 

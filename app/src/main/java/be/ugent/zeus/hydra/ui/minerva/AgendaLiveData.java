@@ -18,7 +18,7 @@ import be.ugent.zeus.hydra.common.request.Result;
 /**
  * @author Niko Strijbol
  */
-public class AgendaLiveData extends BaseLiveData<Result<AgendaItem>> {
+class AgendaLiveData extends BaseLiveData<Result<AgendaItem>> {
 
     private final Context applicationContext;
     private final AgendaItemRepository dao;
@@ -30,7 +30,7 @@ public class AgendaLiveData extends BaseLiveData<Result<AgendaItem>> {
         }
     };
 
-    public AgendaLiveData(Context context, int id) {
+    AgendaLiveData(Context context, int id) {
         this.applicationContext = context;
         this.dao = RepositoryFactory.getAgendaItemRepository(context);
         this.id = id;

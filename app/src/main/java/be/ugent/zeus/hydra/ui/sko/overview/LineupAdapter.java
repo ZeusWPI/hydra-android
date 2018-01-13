@@ -10,9 +10,9 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 /**
  * @author Niko Strijbol
  */
-public class LineupAdapter extends ItemDiffAdapter<Artist, LineupViewHolder> {
+class LineupAdapter extends ItemDiffAdapter<Artist, LineupViewHolder> {
 
-    protected LineupAdapter() {
+    LineupAdapter() {
         super();
     }
 

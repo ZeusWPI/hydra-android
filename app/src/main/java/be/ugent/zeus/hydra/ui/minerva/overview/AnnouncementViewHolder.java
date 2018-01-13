@@ -16,14 +16,14 @@ import be.ugent.zeus.hydra.utils.DateUtils;
 /**
  * @author Niko Strijbol
  */
-public class AnnouncementViewHolder extends DataViewHolder<Announcement> {
+class AnnouncementViewHolder extends DataViewHolder<Announcement> {
 
     private final TextView title;
     private final TextView subtitle;
     private final View clickingView;
     private final ResultStarter resultStarter;
 
-    public AnnouncementViewHolder(View itemView, ResultStarter starter) {
+    AnnouncementViewHolder(View itemView, ResultStarter starter) {
         super(itemView);
         title = itemView.findViewById(R.id.title);
         subtitle = itemView.findViewById(R.id.subtitle);

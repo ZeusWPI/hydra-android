@@ -17,7 +17,7 @@ import be.ugent.zeus.hydra.utils.DateUtils;
 /**
  * @author Niko Strijbol
  */
-public class AnnouncementsViewHolder extends DataViewHolder<Announcement> {
+class AnnouncementsViewHolder extends DataViewHolder<Announcement> {
 
     private final TextView title;
     private final TextView subtitle;
@@ -25,7 +25,7 @@ public class AnnouncementsViewHolder extends DataViewHolder<Announcement> {
     private final ResultStarter resultStarter;
     private final MultiSelectDiffAdapter<Announcement> adapter;
 
-    public AnnouncementsViewHolder(View itemView, ResultStarter starter, MultiSelectDiffAdapter<Announcement> adapter) {
+    AnnouncementsViewHolder(View itemView, ResultStarter starter, MultiSelectDiffAdapter<Announcement> adapter) {
         super(itemView);
         this.resultStarter = starter;
         this.adapter = adapter;

@@ -14,11 +14,11 @@ import be.ugent.zeus.hydra.ui.common.AdapterOutOfBoundsException;
  *
  * @author Niko Strijbol
  */
-public class ExtraFoodPagerAdapter extends FragmentPagerAdapter {
+class ExtraFoodPagerAdapter extends FragmentPagerAdapter {
 
     private final Context context;
 
-    public ExtraFoodPagerAdapter(FragmentManager fm, Context context) {
+    ExtraFoodPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context.getApplicationContext();
     }

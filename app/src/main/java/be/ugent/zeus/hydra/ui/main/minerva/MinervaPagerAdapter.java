@@ -8,11 +8,11 @@ import be.ugent.zeus.hydra.ui.common.AdapterOutOfBoundsException;
 /**
  * @author Niko Strijbol
  */
-public class MinervaPagerAdapter extends FragmentStatePagerAdapter {
+class MinervaPagerAdapter extends FragmentStatePagerAdapter {
 
     private boolean isLoggedIn;
 
-    public MinervaPagerAdapter(FragmentManager fm) {
+    MinervaPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

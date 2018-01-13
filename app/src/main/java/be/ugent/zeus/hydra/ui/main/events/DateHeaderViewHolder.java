@@ -14,11 +14,11 @@ import org.threeten.bp.format.FormatStyle;
  * @author Niko Strijbol
  * @author unknown
  */
-public class DateHeaderViewHolder extends DataViewHolder<EventItem> {
+class DateHeaderViewHolder extends DataViewHolder<EventItem> {
 
     private TextView headerText;
 
-    public DateHeaderViewHolder(View v) {
+    DateHeaderViewHolder(View v) {
         super(v);
         headerText = v.findViewById(R.id.date_header);
     }

@@ -11,11 +11,11 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 /**
  * @author Niko Strijbol
  */
-public class TimelineAdapter extends ItemDiffAdapter<TimelinePost, TimelineViewHolder> {
+class TimelineAdapter extends ItemDiffAdapter<TimelinePost, TimelineViewHolder> {
 
     private final ActivityHelper helper;
 
-    public TimelineAdapter(ActivityHelper helper) {
+    TimelineAdapter(ActivityHelper helper) {
         super();
         this.helper = helper;
     }

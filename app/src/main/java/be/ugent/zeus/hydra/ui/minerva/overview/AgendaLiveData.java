@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class AgendaLiveData extends BaseLiveData<Result<List<AgendaItem>>> {
+class AgendaLiveData extends BaseLiveData<Result<List<AgendaItem>>> {
 
     private final Context applicationContext;
     private final AgendaItemRepository dao;
@@ -35,7 +35,7 @@ public class AgendaLiveData extends BaseLiveData<Result<List<AgendaItem>>> {
         }
     };
 
-    public AgendaLiveData(Context context, Course course) {
+    AgendaLiveData(Context context, Course course) {
         this.applicationContext = context.getApplicationContext();
         this.dao = RepositoryFactory.getAgendaItemRepository(applicationContext);
         this.course = course;

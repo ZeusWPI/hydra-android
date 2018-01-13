@@ -20,11 +20,11 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class MenuLiveData extends RequestLiveData<List<RestoMenu>> implements SharedPreferences.OnSharedPreferenceChangeListener {
+class MenuLiveData extends RequestLiveData<List<RestoMenu>> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private SelectableMetaRequest.RestoChoice previousChoice;
 
-    public MenuLiveData(Context context) {
+    MenuLiveData(Context context) {
         super(context, Requests.map(Requests.map(Requests.cache(context, new MenuRequest(context)), Arrays::asList),
                 new MenuFilter(context)
         ));

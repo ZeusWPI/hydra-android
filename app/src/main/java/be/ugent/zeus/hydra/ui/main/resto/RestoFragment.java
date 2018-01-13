@@ -86,7 +86,7 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_resto, container, false);
     }
 
@@ -100,13 +100,13 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(ARG_POSITION, viewPager.getCurrentItem());
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "receiveResto: on view created");
 
@@ -328,12 +328,12 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
         private final SelectableMetaRequest.RestoChoice resto;
         private final String string;
 
-        public RestoWrapper(SelectableMetaRequest.RestoChoice resto) {
+        RestoWrapper(SelectableMetaRequest.RestoChoice resto) {
             this.resto = resto;
             this.string = null;
         }
 
-        public RestoWrapper(String string) {
+        RestoWrapper(String string) {
             this.resto = null;
             this.string = string;
         }

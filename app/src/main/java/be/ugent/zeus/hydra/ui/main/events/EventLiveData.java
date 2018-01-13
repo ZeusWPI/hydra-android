@@ -21,11 +21,11 @@ import java.util.Set;
  *
  * @author Niko Strijbol
  */
-public class EventLiveData extends RequestLiveData<List<EventItem>> implements SharedPreferences.OnSharedPreferenceChangeListener {
+class EventLiveData extends RequestLiveData<List<EventItem>> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private Set<String> disabledAssociations;
 
-    public EventLiveData(Context context) {
+    EventLiveData(Context context) {
         super(context, Requests.map(
                 Requests.map(
                         Requests.map(Requests.cache(context, new EventRequest()), Arrays::asList),

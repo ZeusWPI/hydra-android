@@ -22,11 +22,11 @@ import java.util.Set;
 /**
  * @author Niko Strijbol
  */
-public class LibraryLiveData extends RequestLiveData<List<Library>> implements SharedPreferences.OnSharedPreferenceChangeListener {
+class LibraryLiveData extends RequestLiveData<List<Library>> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private Set<String> favouriteLibraries;
 
-    public LibraryLiveData(Context context) {
+    LibraryLiveData(Context context) {
         super(context, makeRequest(context));
     }
 

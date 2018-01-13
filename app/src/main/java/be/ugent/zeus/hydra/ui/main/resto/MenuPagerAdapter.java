@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.resto;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -16,12 +17,12 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class MenuPagerAdapter extends FragmentStatePagerAdapter {
+class MenuPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<RestoMenu> data = Collections.emptyList();
     private boolean hasDataBeenSet = false;
 
-    public MenuPagerAdapter(FragmentManager fm) {
+    MenuPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -41,7 +42,7 @@ public class MenuPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public int getItemPosition(Object object) {
+    public int getItemPosition(@NonNull Object object) {
         return POSITION_NONE;
     }
 

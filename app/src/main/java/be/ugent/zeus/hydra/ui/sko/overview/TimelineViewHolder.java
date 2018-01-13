@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso;
 /**
  * @author Niko Strijbol
  */
-public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
+class TimelineViewHolder extends DataViewHolder<TimelinePost> {
 
     private TimelineAdapter adapter;
 
@@ -28,7 +28,7 @@ public class TimelineViewHolder extends DataViewHolder<TimelinePost> {
     private TextView body;
     private NowToolbar toolbar;
 
-    public TimelineViewHolder(View itemView, TimelineAdapter adapter) {
+    TimelineViewHolder(View itemView, TimelineAdapter adapter) {
         super(itemView);
         this.adapter = adapter;
         poster = itemView.findViewById(R.id.post_poster);
