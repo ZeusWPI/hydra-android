@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import be.ugent.zeus.hydra.repository.requests.Request;
-import be.ugent.zeus.hydra.repository.requests.RequestException;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.common.request.Request;
+import be.ugent.zeus.hydra.common.request.RequestException;
+import be.ugent.zeus.hydra.common.request.Result;
 import com.google.firebase.crash.FirebaseCrash;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;

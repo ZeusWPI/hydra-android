@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.feed.Card;
-import be.ugent.zeus.hydra.repository.requests.RequestException;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.common.request.RequestException;
+import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;

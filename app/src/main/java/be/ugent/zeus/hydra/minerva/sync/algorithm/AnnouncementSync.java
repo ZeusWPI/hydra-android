@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 import android.util.Log;
 
+import be.ugent.zeus.hydra.common.request.RequestException;
+import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.sync.Synchronisation;
 import be.ugent.zeus.hydra.minerva.*;
 import be.ugent.zeus.hydra.minerva.dto.AnnouncementMapper;
@@ -16,8 +18,6 @@ import be.ugent.zeus.hydra.minerva.dto.WhatsNew;
 import be.ugent.zeus.hydra.minerva.sync.network.AnnouncementsRequest;
 import be.ugent.zeus.hydra.minerva.sync.network.ModuleRequest;
 import be.ugent.zeus.hydra.minerva.sync.network.WhatsNewRequest;
-import be.ugent.zeus.hydra.repository.requests.RequestException;
-import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import com.google.gson.JsonSyntaxException;
 import java8.util.Maps;

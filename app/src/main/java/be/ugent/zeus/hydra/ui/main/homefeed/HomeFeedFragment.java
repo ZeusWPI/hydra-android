@@ -18,8 +18,8 @@ import android.view.*;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.Card;
-import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
-import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
+import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
+import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;

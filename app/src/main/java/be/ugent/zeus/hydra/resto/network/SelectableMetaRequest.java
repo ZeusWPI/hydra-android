@@ -7,9 +7,9 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.resto.RestoMeta;
-import be.ugent.zeus.hydra.repository.requests.Request;
-import be.ugent.zeus.hydra.repository.requests.Requests;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.common.request.Request;
+import be.ugent.zeus.hydra.common.request.Requests;
+import be.ugent.zeus.hydra.common.request.Result;
 import java8.util.Objects;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;

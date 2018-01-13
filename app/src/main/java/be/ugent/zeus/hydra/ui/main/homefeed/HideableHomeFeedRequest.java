@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.feed.CardIdentifier;
 import be.ugent.zeus.hydra.feed.CardRepository;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.common.request.Result;
 import java8.util.stream.Collectors;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;

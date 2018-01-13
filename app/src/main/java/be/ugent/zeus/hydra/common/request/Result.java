@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.repository.requests;
+package be.ugent.zeus.hydra.common.request;
 
 import android.support.annotation.NonNull;
 import java8.util.Objects;

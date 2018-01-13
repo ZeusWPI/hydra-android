@@ -4,12 +4,12 @@ import android.accounts.Account;
 import android.content.Context;
 import android.support.annotation.WorkerThread;
 
-import be.ugent.zeus.hydra.minerva.dto.CourseMapper;
-import be.ugent.zeus.hydra.minerva.sync.network.CoursesMinervaRequest;
+import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.sync.Synchronisation;
 import be.ugent.zeus.hydra.minerva.Course;
 import be.ugent.zeus.hydra.minerva.CourseRepository;
-import be.ugent.zeus.hydra.repository.requests.RequestException;
+import be.ugent.zeus.hydra.minerva.dto.CourseMapper;
+import be.ugent.zeus.hydra.minerva.sync.network.CoursesMinervaRequest;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.homefeed;
 
-import be.ugent.zeus.hydra.repository.requests.RequestException;
+import be.ugent.zeus.hydra.common.request.RequestException;
 
 import java.util.Arrays;
 import java.util.Set;

@@ -7,8 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.repository.requests.Result;
-import be.ugent.zeus.hydra.repository.requests.CacheableRequest;
+import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.common.request.CacheableRequest;
 import org.threeten.bp.Duration;
 
 import java.io.File;

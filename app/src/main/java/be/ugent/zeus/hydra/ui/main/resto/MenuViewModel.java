@@ -3,8 +3,8 @@ package be.ugent.zeus.hydra.ui.main.resto;
 import android.app.Application;
 
 import be.ugent.zeus.hydra.resto.RestoMenu;
-import be.ugent.zeus.hydra.repository.data.BaseLiveData;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
+import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
 
 import java.util.List;

@@ -1,10 +1,10 @@
-package be.ugent.zeus.hydra.repository.observers;
+package be.ugent.zeus.hydra.common.arch.observers;
 
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ProgressBar;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.common.request.Result;
 
 /**
  * @author Niko Strijbol

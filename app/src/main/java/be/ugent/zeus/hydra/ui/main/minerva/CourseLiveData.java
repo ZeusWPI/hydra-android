@@ -14,9 +14,9 @@ import be.ugent.zeus.hydra.common.database.RepositoryFactory;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.minerva.Course;
 import be.ugent.zeus.hydra.minerva.CourseRepository;
-import be.ugent.zeus.hydra.repository.data.RequestLiveData;
-import be.ugent.zeus.hydra.repository.requests.Request;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
+import be.ugent.zeus.hydra.common.request.Request;
+import be.ugent.zeus.hydra.common.request.Result;
 
 import java.util.List;
 

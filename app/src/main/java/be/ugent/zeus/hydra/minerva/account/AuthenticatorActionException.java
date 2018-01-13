@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.minerva.account;
 
-import be.ugent.zeus.hydra.repository.requests.RequestException;
+import be.ugent.zeus.hydra.common.request.RequestException;
 
 /**
  * Thrown when user action is required, e.g. the refresh token has expired.

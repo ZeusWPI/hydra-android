@@ -11,9 +11,9 @@ import android.util.Log;
 import android.view.*;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
-import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
-import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
+import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
+import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
+import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 

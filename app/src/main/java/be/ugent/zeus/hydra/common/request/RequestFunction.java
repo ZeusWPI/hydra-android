@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.repository.requests;
+package be.ugent.zeus.hydra.common.request;
 
 /**
  * Equivalent to {@link java8.util.function.Function}, but allows for an exception.

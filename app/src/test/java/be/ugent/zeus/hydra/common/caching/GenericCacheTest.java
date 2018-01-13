@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.common.caching;
 
 import android.content.Context;
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.repository.requests.RequestException;
+import be.ugent.zeus.hydra.common.request.RequestException;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

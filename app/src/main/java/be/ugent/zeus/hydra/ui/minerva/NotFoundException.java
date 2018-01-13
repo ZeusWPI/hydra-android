@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.minerva;
 
-import be.ugent.zeus.hydra.repository.requests.RequestException;
+import be.ugent.zeus.hydra.common.request.RequestException;
 
 /**
  * @author Niko Strijbol

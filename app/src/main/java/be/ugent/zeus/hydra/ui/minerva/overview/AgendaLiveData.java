@@ -13,8 +13,8 @@ import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.minerva.AgendaItem;
 import be.ugent.zeus.hydra.minerva.Course;
 import be.ugent.zeus.hydra.minerva.AgendaItemRepository;
-import be.ugent.zeus.hydra.repository.data.BaseLiveData;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
+import be.ugent.zeus.hydra.common.request.Result;
 import org.threeten.bp.OffsetDateTime;
 
 import java.util.List;

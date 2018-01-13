@@ -9,7 +9,7 @@ import be.ugent.zeus.hydra.common.database.RepositoryFactory;
 import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.minerva.AnnouncementRepository;
 import be.ugent.zeus.hydra.feed.CardRepository;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HideableHomeFeedRequest;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;

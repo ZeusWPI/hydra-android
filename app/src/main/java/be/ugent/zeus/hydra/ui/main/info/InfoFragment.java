@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
-import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
-import be.ugent.zeus.hydra.repository.observers.ProgressObserver;
+import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
+import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
+import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.ui.InfoSubItemActivity;
 
 /**

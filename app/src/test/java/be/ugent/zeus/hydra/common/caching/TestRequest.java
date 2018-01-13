@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.common.caching;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.repository.requests.Result;
-import be.ugent.zeus.hydra.repository.requests.CacheableRequest;
+import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.common.request.CacheableRequest;
 
 /**
  * @author Niko Strijbol

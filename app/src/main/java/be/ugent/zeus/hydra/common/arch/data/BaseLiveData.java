@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.repository.data;
+package be.ugent.zeus.hydra.common.arch.data;
 
 import android.arch.lifecycle.LiveData;
 import android.os.Bundle;

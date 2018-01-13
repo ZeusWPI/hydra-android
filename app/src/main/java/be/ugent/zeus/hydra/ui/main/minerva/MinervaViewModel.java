@@ -4,8 +4,8 @@ import android.app.Application;
 import android.util.Pair;
 
 import be.ugent.zeus.hydra.minerva.Course;
-import be.ugent.zeus.hydra.repository.data.BaseLiveData;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
+import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
 
 import java.util.List;

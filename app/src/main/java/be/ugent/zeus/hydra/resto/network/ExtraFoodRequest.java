@@ -6,7 +6,7 @@ import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.resto.ExtraFood;
 import be.ugent.zeus.hydra.common.caching.Cache;
-import be.ugent.zeus.hydra.repository.requests.CacheableRequest;
+import be.ugent.zeus.hydra.common.request.CacheableRequest;
 
 /**
  * Request to get the extra food.

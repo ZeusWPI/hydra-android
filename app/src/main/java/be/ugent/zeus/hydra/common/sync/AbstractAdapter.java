@@ -11,7 +11,7 @@ import android.util.Log;
 import be.ugent.zeus.hydra.minerva.account.AuthenticatorActionException;
 import be.ugent.zeus.hydra.common.network.IOFailureException;
 import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
-import be.ugent.zeus.hydra.repository.requests.RequestException;
+import be.ugent.zeus.hydra.common.request.RequestException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 
 /**

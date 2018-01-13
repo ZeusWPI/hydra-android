@@ -17,7 +17,7 @@ import be.ugent.zeus.hydra.minerva.CourseRepository;
 import be.ugent.zeus.hydra.minerva.sync.algorithm.AnnouncementSync;
 import be.ugent.zeus.hydra.minerva.sync.algorithm.CalendarSync;
 import be.ugent.zeus.hydra.minerva.sync.algorithm.CourseSync;
-import be.ugent.zeus.hydra.repository.requests.RequestException;
+import be.ugent.zeus.hydra.common.request.RequestException;
 import jonathanfinerty.once.Once;
 
 /**

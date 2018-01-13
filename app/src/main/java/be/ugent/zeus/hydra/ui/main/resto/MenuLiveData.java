@@ -10,8 +10,8 @@ import be.ugent.zeus.hydra.resto.MenuFilter;
 import be.ugent.zeus.hydra.resto.network.MenuRequest;
 import be.ugent.zeus.hydra.resto.network.SelectableMetaRequest;
 import be.ugent.zeus.hydra.resto.RestoMenu;
-import be.ugent.zeus.hydra.repository.data.RequestLiveData;
-import be.ugent.zeus.hydra.repository.requests.Requests;
+import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
+import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 
 import java.util.Arrays;

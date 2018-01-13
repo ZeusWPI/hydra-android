@@ -12,7 +12,7 @@ import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.minerva.sync.network.auth.BearerToken;
 import be.ugent.zeus.hydra.minerva.sync.network.auth.NewAccessTokenRequest;
 import be.ugent.zeus.hydra.minerva.sync.network.auth.RefreshAccessTokenRequest;
-import be.ugent.zeus.hydra.repository.requests.Request;
+import be.ugent.zeus.hydra.common.request.Request;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;

@@ -4,9 +4,9 @@ import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
 
 import be.ugent.zeus.hydra.feed.Card;
-import be.ugent.zeus.hydra.repository.data.BaseLiveData;
-import be.ugent.zeus.hydra.repository.data.SingleLiveEvent;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
+import be.ugent.zeus.hydra.common.arch.data.SingleLiveEvent;
+import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
 
 import java.util.List;

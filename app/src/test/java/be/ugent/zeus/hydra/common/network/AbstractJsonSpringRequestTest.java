@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.common.network;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.common.request.Result;
 import com.google.gson.Gson;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.junit.Assert;

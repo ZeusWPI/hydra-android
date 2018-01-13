@@ -6,8 +6,8 @@ import be.ugent.zeus.hydra.resto.Sandwich;
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.common.caching.Cache;
-import be.ugent.zeus.hydra.repository.requests.CacheableRequest;
-import be.ugent.zeus.hydra.repository.requests.Result;
+import be.ugent.zeus.hydra.common.request.CacheableRequest;
+import be.ugent.zeus.hydra.common.request.Result;
 
 import java.util.Arrays;
 

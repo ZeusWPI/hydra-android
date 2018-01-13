@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.common.network;
 
-import be.ugent.zeus.hydra.repository.requests.RequestException;
+import be.ugent.zeus.hydra.common.request.RequestException;
 
 /**
  * Exception thrown when the rest template could not be made.

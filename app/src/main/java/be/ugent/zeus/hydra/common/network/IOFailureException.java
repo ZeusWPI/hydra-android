@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.common.network;
 
-import be.ugent.zeus.hydra.repository.requests.RequestException;
+import be.ugent.zeus.hydra.common.request.RequestException;
 
 /**
  * This exception should be thrown when the request could not be completed due to IO failure. The most common use will

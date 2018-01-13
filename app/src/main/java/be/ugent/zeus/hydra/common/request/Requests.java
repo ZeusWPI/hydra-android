@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.repository.requests;
+package be.ugent.zeus.hydra.common.request;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,7 +6,7 @@ import android.util.Log;
 import be.ugent.zeus.hydra.common.caching.CacheManager;
 import be.ugent.zeus.hydra.common.network.IOFailureException;
 import be.ugent.zeus.hydra.common.caching.Cache;
-import be.ugent.zeus.hydra.repository.data.BaseLiveData;
+import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import java8.util.function.Function;
 
 import java.io.Serializable;

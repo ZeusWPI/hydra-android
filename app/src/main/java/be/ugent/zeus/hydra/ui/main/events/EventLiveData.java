@@ -7,8 +7,8 @@ import android.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.association.network.EventFilter;
 import be.ugent.zeus.hydra.association.network.EventRequest;
-import be.ugent.zeus.hydra.repository.data.RequestLiveData;
-import be.ugent.zeus.hydra.repository.requests.Requests;
+import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
+import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
 
 import java.util.Arrays;
