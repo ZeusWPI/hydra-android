@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.ui.library;
 
 import android.app.Application;
-import be.ugent.zeus.hydra.domain.models.library.Library;
-import be.ugent.zeus.hydra.domain.models.library.OpeningHours;
+import be.ugent.zeus.hydra.library.Library;
+import be.ugent.zeus.hydra.library.OpeningHours;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
-import be.ugent.zeus.hydra.data.network.requests.library.OpeningHoursRequest;
+import be.ugent.zeus.hydra.library.OpeningHoursRequest;
 import be.ugent.zeus.hydra.ui.common.RequestViewModel;
 
 import java.util.Arrays;

@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.ui.main.homefeed.content.minerva.login;
 import android.view.View;
 import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.SwipeDismissableViewHolder;

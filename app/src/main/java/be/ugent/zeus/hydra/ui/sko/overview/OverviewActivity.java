@@ -16,7 +16,7 @@ import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.preferences.SkoFragment;
-import be.ugent.zeus.hydra.service.notifications.FirebaseMessageService;
+import be.ugent.zeus.hydra.notification.FirebaseMessageService;
 import be.ugent.zeus.hydra.ui.sko.PreferenceActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.google.firebase.messaging.FirebaseMessaging;

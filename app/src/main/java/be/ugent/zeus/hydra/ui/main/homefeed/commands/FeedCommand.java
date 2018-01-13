@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.ui.main.homefeed.commands;
 import android.content.Context;
 import android.support.annotation.StringRes;
 
-import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.feed.Card;
 
 /**
  * Execute a command. Afterwards the cards of the returned type will be refreshed.

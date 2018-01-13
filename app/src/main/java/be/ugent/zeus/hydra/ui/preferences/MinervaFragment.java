@@ -11,10 +11,10 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.auth.AccountUtils;
-import be.ugent.zeus.hydra.data.auth.MinervaConfig;
-import be.ugent.zeus.hydra.data.sync.SyncUtils;
-import be.ugent.zeus.hydra.data.sync.minerva.MinervaAdapter;
+import be.ugent.zeus.hydra.minerva.account.AccountUtils;
+import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
+import be.ugent.zeus.hydra.common.sync.SyncUtils;
+import be.ugent.zeus.hydra.minerva.sync.MinervaAdapter;
 
 /**
  * Preferences for Minerva things.

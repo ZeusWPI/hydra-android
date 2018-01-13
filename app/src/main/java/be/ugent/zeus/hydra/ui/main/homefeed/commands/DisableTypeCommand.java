@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.StringRes;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
 

@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.domain.models.sko.Artist;
+import be.ugent.zeus.hydra.sko.Artist;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.sko.overview.LineupViewHolder;
 import be.ugent.zeus.hydra.utils.Analytics;

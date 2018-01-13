@@ -6,7 +6,7 @@ import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.data.ChannelCreator;
+import be.ugent.zeus.hydra.common.ChannelCreator;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;

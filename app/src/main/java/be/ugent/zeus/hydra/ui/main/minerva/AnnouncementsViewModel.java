@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.minerva;
 
 import android.app.Application;
-import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
+import be.ugent.zeus.hydra.minerva.Announcement;
 import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
 
 import java.util.List;

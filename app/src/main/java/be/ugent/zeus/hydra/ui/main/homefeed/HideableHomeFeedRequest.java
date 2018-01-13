@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import be.ugent.zeus.hydra.domain.models.feed.Card;
-import be.ugent.zeus.hydra.domain.models.feed.CardIdentifier;
-import be.ugent.zeus.hydra.domain.repository.CardRepository;
+import be.ugent.zeus.hydra.feed.Card;
+import be.ugent.zeus.hydra.feed.CardIdentifier;
+import be.ugent.zeus.hydra.feed.CardRepository;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import java8.util.stream.Collectors;
 import java8.util.stream.Stream;

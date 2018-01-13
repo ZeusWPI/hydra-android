@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.specialevent;
 
-import be.ugent.zeus.hydra.domain.models.feed.Card;
-import be.ugent.zeus.hydra.domain.models.specialevent.SpecialEvent;
+import be.ugent.zeus.hydra.feed.Card;
+import be.ugent.zeus.hydra.feed.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import java8.util.Objects;
 

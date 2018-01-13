@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.event;
 
-import be.ugent.zeus.hydra.domain.models.association.Event;
-import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.association.Event;
+import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import java8.util.Objects;
 import org.threeten.bp.Duration;

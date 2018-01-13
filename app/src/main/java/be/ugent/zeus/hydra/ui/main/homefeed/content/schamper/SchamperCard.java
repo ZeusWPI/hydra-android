@@ -1,12 +1,12 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.schamper;
 
-import be.ugent.zeus.hydra.domain.models.feed.Card;
-import be.ugent.zeus.hydra.domain.models.schamper.Article;
+import be.ugent.zeus.hydra.feed.Card;
+import be.ugent.zeus.hydra.schamper.Article;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import org.threeten.bp.Duration;
 import org.threeten.bp.ZonedDateTime;
 
-import static be.ugent.zeus.hydra.domain.models.feed.Card.Type.SCHAMPER;
+import static be.ugent.zeus.hydra.feed.Card.Type.SCHAMPER;
 
 /**
  * Home card for {@link Article}.

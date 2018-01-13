@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.events;
 
-import be.ugent.zeus.hydra.domain.models.association.Event;
+import be.ugent.zeus.hydra.association.Event;
 import java8.util.Objects;
 import java8.util.function.Function;
 import org.threeten.bp.LocalDate;

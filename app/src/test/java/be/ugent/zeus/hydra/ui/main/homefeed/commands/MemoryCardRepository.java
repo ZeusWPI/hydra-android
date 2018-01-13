@@ -3,10 +3,10 @@ package be.ugent.zeus.hydra.ui.main.homefeed.commands;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import be.ugent.zeus.hydra.domain.models.feed.Card;
-import be.ugent.zeus.hydra.domain.models.feed.CardDismissal;
-import be.ugent.zeus.hydra.domain.models.feed.CardIdentifier;
-import be.ugent.zeus.hydra.domain.repository.CardRepository;
+import be.ugent.zeus.hydra.feed.Card;
+import be.ugent.zeus.hydra.feed.CardDismissal;
+import be.ugent.zeus.hydra.feed.CardIdentifier;
+import be.ugent.zeus.hydra.feed.CardRepository;
 
 import java.util.HashSet;
 import java.util.List;

@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.ui.main.homefeed;
 
 import be.ugent.zeus.hydra.ui.main.homefeed.operations.FeedOperation;
-import be.ugent.zeus.hydra.utils.ExtendedSparseArray;
+import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 
 /**
  * @author Niko Strijbol

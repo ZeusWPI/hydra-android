@@ -24,7 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.service.urgent.MusicService;
+import be.ugent.zeus.hydra.urgent.player.MusicService;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 import java.util.List;

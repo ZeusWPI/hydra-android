@@ -8,8 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.domain.models.association.Event;
-import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.association.Event;
+import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.ui.EventDetailActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.SwipeDismissableViewHolder;

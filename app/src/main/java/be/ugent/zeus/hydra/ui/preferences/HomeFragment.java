@@ -10,8 +10,8 @@ import android.widget.Toast;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.database.RepositoryFactory;
-import be.ugent.zeus.hydra.domain.repository.CardRepository;
+import be.ugent.zeus.hydra.common.database.RepositoryFactory;
+import be.ugent.zeus.hydra.feed.CardRepository;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedFragment;
 
 /**

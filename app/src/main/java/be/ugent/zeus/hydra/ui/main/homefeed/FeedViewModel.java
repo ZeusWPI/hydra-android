@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.ui.main.homefeed;
 import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
 
-import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.repository.data.SingleLiveEvent;
 import be.ugent.zeus.hydra.repository.requests.Result;

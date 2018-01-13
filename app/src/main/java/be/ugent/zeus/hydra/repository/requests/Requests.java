@@ -3,9 +3,9 @@ package be.ugent.zeus.hydra.repository.requests;
 import android.content.Context;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.data.network.caching.CacheManager;
-import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
-import be.ugent.zeus.hydra.repository.Cache;
+import be.ugent.zeus.hydra.common.caching.CacheManager;
+import be.ugent.zeus.hydra.common.network.IOFailureException;
+import be.ugent.zeus.hydra.common.caching.Cache;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import java8.util.function.Function;
 

@@ -2,10 +2,10 @@ package be.ugent.zeus.hydra.ui.main.homefeed.commands;
 
 import android.content.Context;
 
-import be.ugent.zeus.hydra.domain.models.feed.Card;
-import be.ugent.zeus.hydra.domain.models.feed.CardDismissal;
-import be.ugent.zeus.hydra.domain.models.feed.CardIdentifier;
-import be.ugent.zeus.hydra.domain.repository.CardRepository;
+import be.ugent.zeus.hydra.feed.Card;
+import be.ugent.zeus.hydra.feed.CardDismissal;
+import be.ugent.zeus.hydra.feed.CardIdentifier;
+import be.ugent.zeus.hydra.feed.CardRepository;
 import org.junit.Test;
 
 import java.util.List;

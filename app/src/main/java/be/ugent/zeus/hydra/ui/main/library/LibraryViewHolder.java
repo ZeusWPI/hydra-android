@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.ui.library.LibraryDetailActivity;
-import be.ugent.zeus.hydra.domain.models.library.Library;
+import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 
 /**

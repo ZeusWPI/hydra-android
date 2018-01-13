@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.ui.main.info;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.domain.models.info.InfoItem;
+import be.ugent.zeus.hydra.info.InfoItem;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 

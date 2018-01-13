@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.ui.resto;
 
 import android.app.Application;
 
-import be.ugent.zeus.hydra.data.network.requests.resto.SelectableMetaRequest;
+import be.ugent.zeus.hydra.resto.network.SelectableMetaRequest;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.ui.common.RequestViewModel;
 

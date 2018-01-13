@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.ui.main.homefeed.operations;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import java8.util.stream.Collectors;

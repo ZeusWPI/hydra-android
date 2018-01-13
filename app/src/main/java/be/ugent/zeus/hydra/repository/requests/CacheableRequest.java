@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.repository.requests;
 
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.repository.Cache;
+import be.ugent.zeus.hydra.common.caching.Cache;
 
 /**
  * A request that provides additional metadata about the requested data to facilitate caching of said data.

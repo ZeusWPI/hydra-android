@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
@@ -13,7 +13,7 @@ import java8.util.stream.StreamSupport;
 
 import java.util.Collections;
 
-import static be.ugent.zeus.hydra.domain.models.feed.Card.Type.DEBUG;
+import static be.ugent.zeus.hydra.feed.Card.Type.DEBUG;
 
 /**
  * @author Niko Strijbol

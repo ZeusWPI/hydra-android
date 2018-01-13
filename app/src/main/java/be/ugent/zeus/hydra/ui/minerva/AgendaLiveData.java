@@ -8,10 +8,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
-import be.ugent.zeus.hydra.data.database.RepositoryFactory;
-import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
-import be.ugent.zeus.hydra.domain.models.minerva.AgendaItem;
-import be.ugent.zeus.hydra.domain.repository.AgendaItemRepository;
+import be.ugent.zeus.hydra.common.database.RepositoryFactory;
+import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
+import be.ugent.zeus.hydra.minerva.AgendaItem;
+import be.ugent.zeus.hydra.minerva.AgendaItemRepository;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.repository.requests.Result;
 

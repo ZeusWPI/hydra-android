@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.ui.minerva.overview;
 
 import android.app.Application;
-import be.ugent.zeus.hydra.domain.models.minerva.AgendaItem;
-import be.ugent.zeus.hydra.domain.models.minerva.Course;
+import be.ugent.zeus.hydra.minerva.AgendaItem;
+import be.ugent.zeus.hydra.minerva.Course;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.repository.data.BaseLiveData;
 import be.ugent.zeus.hydra.ui.common.RefreshViewModel;

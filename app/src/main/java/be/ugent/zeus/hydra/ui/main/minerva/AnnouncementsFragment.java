@@ -16,10 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.database.RepositoryFactory;
-import be.ugent.zeus.hydra.data.sync.minerva.helpers.NotificationHelper;
-import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
-import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
+import be.ugent.zeus.hydra.common.database.RepositoryFactory;
+import be.ugent.zeus.hydra.minerva.sync.algorithm.NotificationHelper;
+import be.ugent.zeus.hydra.minerva.Announcement;
+import be.ugent.zeus.hydra.minerva.AnnouncementRepository;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;
 import be.ugent.zeus.hydra.repository.observers.ErrorObserver;
 import be.ugent.zeus.hydra.repository.observers.ProgressObserver;

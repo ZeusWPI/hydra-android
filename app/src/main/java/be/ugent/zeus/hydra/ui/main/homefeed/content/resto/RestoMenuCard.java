@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.resto;
 
-import be.ugent.zeus.hydra.domain.models.feed.Card;
-import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
-import be.ugent.zeus.hydra.data.network.requests.resto.SelectableMetaRequest;
+import be.ugent.zeus.hydra.feed.Card;
+import be.ugent.zeus.hydra.resto.RestoMenu;
+import be.ugent.zeus.hydra.resto.network.SelectableMetaRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;

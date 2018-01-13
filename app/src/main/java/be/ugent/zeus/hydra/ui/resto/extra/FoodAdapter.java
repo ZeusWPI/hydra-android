@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.ui.resto.extra;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.domain.models.resto.Food;
+import be.ugent.zeus.hydra.resto.Food;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
 

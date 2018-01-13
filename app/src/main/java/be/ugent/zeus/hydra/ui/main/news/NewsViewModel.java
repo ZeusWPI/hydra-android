@@ -1,10 +1,10 @@
 package be.ugent.zeus.hydra.ui.main.news;
 
 import android.app.Application;
-import be.ugent.zeus.hydra.domain.models.association.UgentNewsItem;
+import be.ugent.zeus.hydra.association.UgentNewsItem;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
-import be.ugent.zeus.hydra.data.network.requests.association.UgentNewsRequest;
+import be.ugent.zeus.hydra.association.network.UgentNewsRequest;
 import be.ugent.zeus.hydra.ui.common.RequestViewModel;
 
 import java.util.Arrays;

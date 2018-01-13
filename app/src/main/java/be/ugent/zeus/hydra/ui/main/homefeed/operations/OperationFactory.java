@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.operations;
 
-import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
 import java8.util.function.IntPredicate;
 import java8.util.function.Supplier;

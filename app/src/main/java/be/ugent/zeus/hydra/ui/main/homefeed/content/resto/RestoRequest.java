@@ -8,12 +8,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.network.requests.resto.MenuFilter;
-import be.ugent.zeus.hydra.data.network.requests.resto.MenuRequest;
-import be.ugent.zeus.hydra.data.network.requests.resto.SelectableMetaRequest;
-import be.ugent.zeus.hydra.domain.models.feed.Card;
-import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
-import be.ugent.zeus.hydra.domain.repository.CardRepository;
+import be.ugent.zeus.hydra.resto.MenuFilter;
+import be.ugent.zeus.hydra.resto.network.MenuRequest;
+import be.ugent.zeus.hydra.resto.network.SelectableMetaRequest;
+import be.ugent.zeus.hydra.feed.Card;
+import be.ugent.zeus.hydra.resto.RestoMenu;
+import be.ugent.zeus.hydra.feed.CardRepository;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.repository.requests.Result;

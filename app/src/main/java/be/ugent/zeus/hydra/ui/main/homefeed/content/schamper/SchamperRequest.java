@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import be.ugent.zeus.hydra.data.network.requests.SchamperArticlesRequest;
-import be.ugent.zeus.hydra.domain.models.feed.Card;
-import be.ugent.zeus.hydra.domain.models.schamper.Article;
-import be.ugent.zeus.hydra.domain.repository.CardRepository;
+import be.ugent.zeus.hydra.schamper.SchamperArticlesRequest;
+import be.ugent.zeus.hydra.feed.Card;
+import be.ugent.zeus.hydra.schamper.Article;
+import be.ugent.zeus.hydra.feed.CardRepository;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.repository.requests.Result;

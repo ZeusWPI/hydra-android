@@ -2,10 +2,10 @@ package be.ugent.zeus.hydra.ui.main.homefeed.content.minerva.announcement;
 
 import android.support.annotation.Size;
 
-import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
-import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
-import be.ugent.zeus.hydra.domain.models.minerva.Course;
+import be.ugent.zeus.hydra.minerva.Announcement;
+import be.ugent.zeus.hydra.minerva.Course;
 import java8.util.Objects;
 import org.threeten.bp.Duration;
 import org.threeten.bp.OffsetDateTime;

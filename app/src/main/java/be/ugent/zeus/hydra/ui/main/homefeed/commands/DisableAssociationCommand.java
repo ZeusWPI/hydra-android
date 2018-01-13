@@ -3,8 +3,8 @@ package be.ugent.zeus.hydra.ui.main.homefeed.commands;
 import android.content.Context;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.domain.models.association.Association;
-import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.association.Association;
+import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
 

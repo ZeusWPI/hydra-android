@@ -15,10 +15,10 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.database.RepositoryFactory;
-import be.ugent.zeus.hydra.data.sync.minerva.helpers.NotificationHelper;
-import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
-import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
+import be.ugent.zeus.hydra.common.database.RepositoryFactory;
+import be.ugent.zeus.hydra.minerva.sync.algorithm.NotificationHelper;
+import be.ugent.zeus.hydra.minerva.Announcement;
+import be.ugent.zeus.hydra.minerva.AnnouncementRepository;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.ui.common.html.Utils;

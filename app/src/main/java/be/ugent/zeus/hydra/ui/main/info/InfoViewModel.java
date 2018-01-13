@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.ui.main.info;
 
 import android.app.Application;
-import be.ugent.zeus.hydra.domain.models.info.InfoItem;
+import be.ugent.zeus.hydra.info.InfoItem;
 import be.ugent.zeus.hydra.repository.requests.Request;
-import be.ugent.zeus.hydra.data.network.requests.InfoRequest;
+import be.ugent.zeus.hydra.info.InfoRequest;
 import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.ui.common.RequestViewModel;
 

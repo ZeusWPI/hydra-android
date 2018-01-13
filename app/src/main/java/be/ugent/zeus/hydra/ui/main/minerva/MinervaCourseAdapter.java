@@ -6,8 +6,8 @@ import android.util.Pair;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.domain.models.minerva.Course;
-import be.ugent.zeus.hydra.domain.repository.CourseRepository;
+import be.ugent.zeus.hydra.minerva.Course;
+import be.ugent.zeus.hydra.minerva.CourseRepository;
 import be.ugent.zeus.hydra.ui.common.ViewUtils;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.SearchableDiffAdapter;

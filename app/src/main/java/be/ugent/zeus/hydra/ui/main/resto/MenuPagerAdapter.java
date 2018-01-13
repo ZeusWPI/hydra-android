@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
+import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import org.threeten.bp.LocalDate;
 

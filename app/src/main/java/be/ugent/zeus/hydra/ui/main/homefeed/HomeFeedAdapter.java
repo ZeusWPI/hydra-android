@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
@@ -21,7 +21,7 @@ import be.ugent.zeus.hydra.ui.main.homefeed.content.schamper.SchamperViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.specialevent.SpecialEventCardViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.urgent.UrgentViewHolder;
 
-import static be.ugent.zeus.hydra.domain.models.feed.Card.Type.*;
+import static be.ugent.zeus.hydra.feed.Card.Type.*;
 
 /**
  * Adapter for {@link HomeFeedFragment}.

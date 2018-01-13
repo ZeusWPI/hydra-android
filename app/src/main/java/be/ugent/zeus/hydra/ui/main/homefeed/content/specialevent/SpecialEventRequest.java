@@ -6,10 +6,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.domain.models.feed.Card;
-import be.ugent.zeus.hydra.domain.models.specialevent.SpecialEvent;
-import be.ugent.zeus.hydra.domain.models.specialevent.SpecialEventWrapper;
-import be.ugent.zeus.hydra.domain.repository.CardRepository;
+import be.ugent.zeus.hydra.feed.Card;
+import be.ugent.zeus.hydra.feed.specialevent.SpecialEvent;
+import be.ugent.zeus.hydra.feed.specialevent.SpecialEventWrapper;
+import be.ugent.zeus.hydra.feed.CardRepository;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.repository.requests.Result;
@@ -32,7 +32,7 @@ public class SpecialEventRequest extends HideableHomeFeedRequest {
 
     public SpecialEventRequest(Context context, CardRepository cardRepository) {
         super(cardRepository);
-        this.remoteEventRequest = Requests.cache(context, new be.ugent.zeus.hydra.data.network.requests.SpecialEventRequest());
+        this.remoteEventRequest = Requests.cache(context, new be.ugent.zeus.hydra.feed.specialevent.SpecialEventRequest());
     }
 
     @NonNull

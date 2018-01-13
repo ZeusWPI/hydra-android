@@ -10,10 +10,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Pair;
 
-import be.ugent.zeus.hydra.data.database.RepositoryFactory;
-import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
-import be.ugent.zeus.hydra.domain.models.minerva.Course;
-import be.ugent.zeus.hydra.domain.repository.CourseRepository;
+import be.ugent.zeus.hydra.common.database.RepositoryFactory;
+import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
+import be.ugent.zeus.hydra.minerva.Course;
+import be.ugent.zeus.hydra.minerva.CourseRepository;
 import be.ugent.zeus.hydra.repository.data.RequestLiveData;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Result;

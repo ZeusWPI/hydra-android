@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.domain.models.minerva.Course;
-import be.ugent.zeus.hydra.domain.models.minerva.Module;
+import be.ugent.zeus.hydra.minerva.Course;
+import be.ugent.zeus.hydra.minerva.Module;
 
 import java.util.ArrayList;
 import java.util.EnumSet;

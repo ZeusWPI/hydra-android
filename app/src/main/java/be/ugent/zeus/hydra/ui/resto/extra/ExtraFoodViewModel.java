@@ -2,9 +2,9 @@ package be.ugent.zeus.hydra.ui.resto.extra;
 
 import android.app.Application;
 
-import be.ugent.zeus.hydra.data.network.requests.resto.ExtraFoodRequest;
-import be.ugent.zeus.hydra.domain.models.resto.ExtraFood;
-import be.ugent.zeus.hydra.domain.models.resto.Food;
+import be.ugent.zeus.hydra.resto.network.ExtraFoodRequest;
+import be.ugent.zeus.hydra.resto.ExtraFood;
+import be.ugent.zeus.hydra.resto.Food;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
 import be.ugent.zeus.hydra.ui.common.AdapterOutOfBoundsException;

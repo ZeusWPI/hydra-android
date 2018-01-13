@@ -226,14 +226,14 @@
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
 
         <!-- Firebase messages -->
-        <service android:name=".service.notifications.FirebaseMessageService">
+        <service android:name=".notification.FirebaseMessageService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <!-- Account service -->
-        <service android:name=".data.auth.MinervaService">
+        <service android:name=".minerva.account.MinervaService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -245,7 +245,7 @@
 
         <!-- Minerva sync service -->
         <service
-            android:name=".data.sync.minerva.MinervaService"
+            android:name=".minerva.sync.MinervaService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -258,7 +258,7 @@
 
         <!-- Stub minerva provider -->
         <provider
-            android:name=".data.sync.minerva.MinervaProvider"
+            android:name=".minerva.sync.MinervaProvider"
             android:authorities="be.ugent.zeus.hydra.minerva.provider"
             android:exported="false"
             android:label="@string/minerva_sync_provider"
@@ -266,7 +266,7 @@
 
         <!-- Handles transferring accounts to new devices -->
         <receiver
-            android:name=".data.auth.AccountTransferReceiver"
+            android:name=".minerva.account.AccountTransferReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.auth.START_ACCOUNT_EXPORT" />
@@ -280,11 +280,11 @@
             </intent-filter>
         </receiver>
         <!-- The accompanying service -->
-        <service android:name=".data.auth.AccountTransferService" android:exported="false" />
+        <service android:name=".minerva.account.AccountTransferService" android:exported="false" />
 
         <!-- Urgent stuff -->
         <service
-            android:name=".service.urgent.MusicService"
+            android:name=".urgent.player.MusicService"
             android:exported="true"
             android:process=":urgent">
             <intent-filter>
