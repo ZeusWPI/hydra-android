@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.common.database.migrations;
 
 import android.app.Instrumentation;
-import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.testing.LocalMigrationTestHelper;
 import android.support.annotation.RequiresApi;
 
@@ -42,9 +41,8 @@ public class TestMigration_11_12 {
     @Test
     @Ignore
     public void testMigration() throws IOException {
-        // There is no data to test, since we just add a new column.
-        SupportSQLiteDatabase version11 = testHelper.createDatabase("test-db", 11);
-        version11.close();
+        // There is no data to test, since we just add a new table.
+        testHelper.createDatabase("test-db", 11).close();
         testHelper.runMigrationsAndValidate("test-db", 12, true, new Migration_11_12());
     }
 }
