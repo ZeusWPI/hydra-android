@@ -40,7 +40,6 @@ public class AnnouncementFragment extends Fragment implements ResultStarter {
     private static final int ANNOUNCEMENT_RESULT_CODE = 5555;
 
     private AnnouncementViewModel viewModel;
-    private Course course;
 
     public static AnnouncementFragment newInstance(Course course) {
         AnnouncementFragment fragment = new AnnouncementFragment();
@@ -48,12 +47,6 @@ public class AnnouncementFragment extends Fragment implements ResultStarter {
         data.putParcelable(ARG_COURSE, course);
         fragment.setArguments(data);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        course = getArguments().getParcelable(ARG_COURSE);
     }
 
     @Override
