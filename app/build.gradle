@@ -133,20 +133,20 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.5'
-    compile 'net.sourceforge.streamsupport:streamsupport:1.5.6'
+    compile 'net.sourceforge.streamsupport:streamsupport:1.6.0'
     compile 'com.github.streamsupport.streamsupport:streamsupport-pro:-SNAPSHOT'
     compile 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
     compile 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
     compile 'com.heinrichreimersoftware:material-intro:1.6.2'
     compile 'su.j2e:rv-joiner:1.0.9'
-    compile 'com.github.alexfu:SQLiteQueryBuilder:0.3.0'
     compile 'com.jonathanfinerty.once:once:1.2.2'
-    compile 'com.karumi:dexter:4.1.1'
-    compile 'com.github.captain-miao:optroundcardview:1.0.0'
+    compile 'com.karumi:dexter:4.2.0'
+    compile 'com.github.captain-miao:optroundcardview:1.1.0'
+    compile 'blue.aodev:material-values:1.1.1'
 
     // Used for the OAuth stuff
-    compile ('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
+    compile('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
         exclude group: 'org.apache.oltu.oauth2'
     }
 
@@ -171,16 +171,16 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
     //Enable the normal library for unit tests
-    testCompile ('org.threeten:threetenbp:1.3.2'){
-        exclude group:'com.jakewharton.threetenabp', module:'threetenabp'
+    testCompile('org.threeten:threetenbp:1.3.6') {
+        exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
     }
 
-    testCompile 'nl.jqno.equalsverifier:equalsverifier:2.2.1'
-    testCompile ('com.shazam:shazamcrest:0.11') {
+    testCompile 'nl.jqno.equalsverifier:equalsverifier:2.4.1'
+    testCompile('com.shazam:shazamcrest:0.11') {
         exclude group: 'com.google.code.gson', module: 'gson'
     }
-    testCompile 'io.github.benas:random-beans:3.6.0'
-    testCompile 'org.apache.commons:commons-lang3:3.5'
+    testCompile 'io.github.benas:random-beans:3.7.0'
+    testCompile 'org.apache.commons:commons-lang3:3.7'
     testCompile 'org.hamcrest:hamcrest-core:1.3'
     testCompile 'com.googlecode:openbeans:1.0'
     testCompile 'org.robolectric:robolectric:3.6.1'

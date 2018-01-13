@@ -28,12 +28,6 @@
 - artifact: com.google.firebase:+:+
   skip: true
 
-- artifact: com.github.alexfu:SQLiteQueryBuilder:+
-  name: SQLiteQueryBuilder
-  copyrightHolder: Alex Fu
-  license: MIT License
-  url: https://github.com/alexfu/SQLiteQueryBuilder
-
 - artifact: org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:+
   name: Apache Oltu - OAuth 2.0 - Client
   copyrightHolder: Apache Software Foundation
