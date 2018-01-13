@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import be.ugent.zeus.hydra.association.network.EventFilter;
+import be.ugent.zeus.hydra.association.EventFilter;
 import be.ugent.zeus.hydra.association.Event;
 import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.feed.CardRepository;

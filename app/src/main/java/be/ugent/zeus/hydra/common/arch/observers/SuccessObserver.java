@@ -36,11 +36,11 @@ public abstract class SuccessObserver<D> implements Observer<Result<D>> {
      */
     protected abstract void onSuccess(D data);
 
-    public static <D> SuccessObserver<D> with(Consumer<D> consumer) {
+    public static <D> SuccessObserver<D> with(Consumer<D> onSuccess) {
         return new SuccessObserver<D>() {
             @Override
             protected void onSuccess(D data) {
-                consumer.accept(data);
+                onSuccess.accept(data);
             }
         };
     }

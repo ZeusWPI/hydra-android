@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.association.network;
+package be.ugent.zeus.hydra.association;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -7,6 +7,7 @@ import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.association.Event;
+import be.ugent.zeus.hydra.association.EventFilter;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
 import com.google.gson.Gson;
 import org.junit.Before;

@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import be.ugent.zeus.hydra.association.network.EventFilter;
+import be.ugent.zeus.hydra.association.EventFilter;
 import be.ugent.zeus.hydra.association.network.EventRequest;
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 import be.ugent.zeus.hydra.common.request.Requests;

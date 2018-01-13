@@ -13,7 +13,7 @@ import org.threeten.bp.Instant;
  * @author Niko Strijbol
  */
 @Entity(tableName = DismissalTable.TABLE_NAME, indices = @Index(value = DismissalTable.Columns.CARD_TYPE))
-public class CardDismissal {
+public final class CardDismissal {
 
     @NonNull
     @Embedded
@@ -54,10 +54,5 @@ public class CardDismissal {
     @Override
     public int hashCode() {
         return Objects.hash(identifier, dismissalDate);
-    }
-
-    @Override
-    public String toString() {
-        return "Dismissal <identifier=" + identifier + ", date=" + dismissalDate + ">";
     }
 }

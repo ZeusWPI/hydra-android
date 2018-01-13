@@ -1,10 +1,9 @@
-package be.ugent.zeus.hydra.association.network;
+package be.ugent.zeus.hydra.association;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import be.ugent.zeus.hydra.association.Event;
 import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
 import java8.util.Comparators;
 import java8.util.function.Function;

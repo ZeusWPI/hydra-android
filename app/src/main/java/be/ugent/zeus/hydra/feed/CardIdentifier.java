@@ -16,7 +16,7 @@ import java8.util.Objects;
  *
  * @author Niko Strijbol
  */
-public class CardIdentifier {
+public final class CardIdentifier {
 
     @Card.Type
     @ColumnInfo(name = DismissalTable.Columns.CARD_TYPE)
@@ -57,10 +57,5 @@ public class CardIdentifier {
     @Override
     public int hashCode() {
         return Objects.hash(cardType, identifier);
-    }
-
-    @Override
-    public String toString() {
-        return "Identifier <type=" + getCardType() + ", identifier=" + getIdentifier() + ">";
     }
 }
