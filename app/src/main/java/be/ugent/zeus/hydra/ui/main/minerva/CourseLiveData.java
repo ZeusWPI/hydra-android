@@ -25,14 +25,14 @@ import java.util.List;
  */
 public class CourseLiveData extends RequestLiveData<List<Pair<Course, Long>>> {
 
-    public final BroadcastReceiver receiver = new BroadcastReceiver() {
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             loadData(Bundle.EMPTY);
         }
     };
 
-    public CourseLiveData(Context context) {
+    CourseLiveData(Context context) {
         super(context, new CourseRequest(context));
     }
 
@@ -57,7 +57,7 @@ public class CourseLiveData extends RequestLiveData<List<Pair<Course, Long>>> {
 
         private final CourseRepository courseDao;
 
-        public CourseRequest(Context context) {
+        CourseRequest(Context context) {
             this.courseDao = RepositoryFactory.getCourseRepository(context);
         }
 

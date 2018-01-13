@@ -49,7 +49,7 @@ public class SchamperArticleActivity extends BaseActivity {
      * @param name     The name of the transition.
      * @param article  The article.
      */
-    public static void launchWithAnimation(Activity activity, View view, String name, Parcelable article) {
+    private static void launchWithAnimation(Activity activity, View view, String name, Parcelable article) {
         Intent intent = new Intent(activity, SchamperArticleActivity.class);
         intent.putExtra(PARCEL_ARTICLE, article);
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, view, name);

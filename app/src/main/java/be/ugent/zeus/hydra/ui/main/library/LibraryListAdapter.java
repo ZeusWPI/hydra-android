@@ -14,7 +14,7 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.SearchableDiffAdapter
  */
 class LibraryListAdapter extends SearchableDiffAdapter<Library, LibraryViewHolder> {
 
-    protected LibraryListAdapter() {
+    LibraryListAdapter() {
         super((library, s) -> {
             boolean contained = false;
             if (library.getName() != null && library.getName().toLowerCase().contains(s)) {

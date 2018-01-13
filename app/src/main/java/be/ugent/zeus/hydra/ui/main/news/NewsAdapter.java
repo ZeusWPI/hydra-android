@@ -16,7 +16,7 @@ class NewsAdapter extends ItemDiffAdapter<UgentNewsItem, NewsItemViewHolder> {
 
     private final ActivityHelper helper;
 
-    protected NewsAdapter(ActivityHelper helper) {
+    NewsAdapter(ActivityHelper helper) {
         super();
         this.helper = helper;
     }

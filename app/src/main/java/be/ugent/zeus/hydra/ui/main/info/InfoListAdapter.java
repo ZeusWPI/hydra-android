@@ -15,7 +15,7 @@ import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
  */
 class InfoListAdapter extends ItemDiffAdapter<InfoItem, InfoViewHolder> {
 
-    protected InfoListAdapter() {
+    InfoListAdapter() {
         super();
     }
 

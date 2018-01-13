@@ -22,7 +22,7 @@ class EventAdapter extends GenericSearchableAdapter<EventItem, DataViewHolder<Ev
 
     private final int HEADER_TYPE = 25;
 
-    protected EventAdapter() {
+    EventAdapter() {
         super((event, s) -> {
                     if (!TextUtils.isEmpty(event.getTitle()) && event.getTitle().toLowerCase().contains(s)) {
                         return true;
