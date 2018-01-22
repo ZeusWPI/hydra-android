@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
-import be.ugent.zeus.hydra.ui.sko.overview.OverviewActivity;
+import be.ugent.zeus.hydra.sko.OverviewActivity;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import java8.util.Objects;
@@ -56,7 +56,7 @@ public final class SpecialEvent implements Serializable {
         }
         switch (inApp) {
             case SKO_IN_APP:
-                return new Intent(context, OverviewActivity.class);
+                return OverviewActivity.start(context);
             default:
                 return new Intent(Intent.ACTION_VIEW, Uri.parse(getLink()));
         }

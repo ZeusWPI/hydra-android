@@ -187,7 +187,7 @@
 
         <!-- SKO overview activity -->
         <activity
-            android:name=".ui.sko.overview.OverviewActivity"
+            android:name=".sko.OverviewActivity"
             android:label="@string/activity_title_sko_overview"
             android:launchMode="singleTop"
             android:parentActivityName=".ui.main.MainActivity"
@@ -195,16 +195,16 @@
 
         <!-- SKO preference activity -->
         <activity
-            android:name=".ui.sko.PreferenceActivity"
+            android:name=".sko.preferences.WrapperActivity"
             android:label="@string/activity_title_sko_preferences"
-            android:parentActivityName=".ui.sko.overview.OverviewActivity"
+            android:parentActivityName=".sko.OverviewActivity"
             android:theme="@style/Hydra.Main.NoActionBar.Sko" />
 
         <!-- SKO artist page -->
         <activity
-            android:name=".ui.sko.ArtistActivity"
+            android:name=".sko.lineup.ArtistDetailsActivity"
             android:label="Artiest"
-            android:parentActivityName=".ui.sko.overview.OverviewActivity"
+            android:parentActivityName=".sko.OverviewActivity"
             android:theme="@style/Hydra.Main.NoActionBar.Sko.SystemWindows" />
 
         <!-- Onboarding activity -->

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.sko.preferences.SkoPreferencesFragment;
 import be.ugent.zeus.hydra.ui.common.AppCompatPreferenceActivity;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 || RestoPreferenceFragment.class.getName().equals(fragmentName)
                 || HomeFragment.class.getName().equals(fragmentName)
                 || MinervaFragment.class.getName().equals(fragmentName)
-                || SkoFragment.class.getName().equals(fragmentName)
+                || SkoPreferencesFragment.class.getName().equals(fragmentName)
                 || AboutFragment.class.getName().equals(fragmentName)
                 || ArticlePreferenceFragment.class.getName().equals(fragmentName);
     }
