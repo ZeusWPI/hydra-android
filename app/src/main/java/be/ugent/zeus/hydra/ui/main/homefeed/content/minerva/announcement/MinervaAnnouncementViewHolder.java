@@ -15,8 +15,8 @@ import be.ugent.zeus.hydra.minerva.Announcement;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
-import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
-import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
+import be.ugent.zeus.hydra.minerva.ui.announcement.AnnouncementActivity;
+import be.ugent.zeus.hydra.minerva.ui.course.CourseActivity;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 import static be.ugent.zeus.hydra.ui.common.ViewUtils.convertDpToPixelInt;

@@ -6,7 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.Card;
-import be.ugent.zeus.hydra.ui.minerva.AgendaActivity;
+import be.ugent.zeus.hydra.minerva.ui.calendaritem.AgendaActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 import be.ugent.zeus.hydra.minerva.AgendaItem;

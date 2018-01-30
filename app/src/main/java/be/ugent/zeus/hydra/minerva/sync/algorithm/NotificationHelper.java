@@ -19,9 +19,9 @@ import be.ugent.zeus.hydra.common.ChannelCreator;
 import be.ugent.zeus.hydra.minerva.Announcement;
 import be.ugent.zeus.hydra.minerva.Course;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
-import be.ugent.zeus.hydra.ui.main.MainActivity;
-import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
-import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
+import be.ugent.zeus.hydra.main.MainActivity;
+import be.ugent.zeus.hydra.minerva.ui.announcement.AnnouncementActivity;
+import be.ugent.zeus.hydra.minerva.ui.course.CourseActivity;
 
 import java.util.Collection;
 import java.util.List;

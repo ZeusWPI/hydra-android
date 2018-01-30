@@ -6,7 +6,7 @@ import android.preference.PreferenceFragment;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.main.MainActivity;
+import be.ugent.zeus.hydra.main.MainActivity;
 
 /**
  * Preferences for the resto notification.

@@ -8,7 +8,7 @@ import be.ugent.zeus.hydra.resto.network.SelectableMetaRequest;
 import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.ui.common.widgets.MenuTable;
-import be.ugent.zeus.hydra.ui.main.MainActivity;
+import be.ugent.zeus.hydra.main.MainActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 import be.ugent.zeus.hydra.ui.main.resto.RestoFragment;

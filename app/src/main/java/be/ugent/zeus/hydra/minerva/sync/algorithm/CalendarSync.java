@@ -30,7 +30,7 @@ import be.ugent.zeus.hydra.minerva.AgendaItemRepository;
 import be.ugent.zeus.hydra.minerva.CourseRepository;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.ui.minerva.CalendarPermissionActivity;
+import be.ugent.zeus.hydra.minerva.sync.CalendarPermissionActivity;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 import be.ugent.zeus.hydra.utils.StringUtils;

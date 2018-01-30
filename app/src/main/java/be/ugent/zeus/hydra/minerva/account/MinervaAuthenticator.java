@@ -11,7 +11,7 @@ import be.ugent.zeus.hydra.minerva.sync.network.auth.BearerToken;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.network.IOFailureException;
 import be.ugent.zeus.hydra.common.request.RequestException;
-import be.ugent.zeus.hydra.ui.minerva.AuthActivity;
+import be.ugent.zeus.hydra.minerva.sync.network.auth.AuthActivity;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 

@@ -45,7 +45,7 @@
 
         <!-- Main activity -->
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".main.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows">
             <intent-filter>
@@ -63,8 +63,8 @@
         <activity
             android:name=".ui.preferences.SettingsActivity"
             android:label="@string/action_settings"
-            android:parentActivityName=".ui.main.MainActivity"
-            android:theme="@style/Hydra.Main.TextColorSelector">
+            android:parentActivityName=".main.MainActivity"
+            android:theme="@style/Hydra.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
 
@@ -88,7 +88,7 @@
         <activity
             android:name=".ui.resto.SandwichActivity"
             android:label="@string/resto_sandwich"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".main.MainActivity" />
 
         <!-- The Maps API key -->
         <meta-data
@@ -99,65 +99,65 @@
         <activity
             android:name=".ui.resto.RestoLocationActivity"
             android:label="@string/title_activity_resto_location"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".main.MainActivity" />
 
         <!-- Show other food items -->
         <activity
             android:name=".ui.resto.extra.ExtraFoodActivity"
             android:label="@string/resto_extra_title"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".main.MainActivity" />
 
         <!-- Details about association events. -->
         <activity
             android:name=".ui.EventDetailActivity"
             android:label="@string/title_activity_association_activity_detail"
             android:launchMode="singleTop"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".main.MainActivity" />
 
         <!-- Show info items -->
         <activity
             android:name=".ui.InfoSubItemActivity"
             android:label="@string/title_activity_info_sub_item"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".main.MainActivity" />
 
         <!-- Display a Schamper article -->
         <activity
             android:name=".ui.SchamperArticleActivity"
             android:label="@string/title_activity_schamper"
             android:launchMode="singleTop"
-            android:parentActivityName=".ui.main.MainActivity"
+            android:parentActivityName=".main.MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
 
         <!-- Show news article -->
         <activity
             android:name=".ui.NewsArticleActivity"
             android:label="@string/title_activity_news"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".main.MainActivity" />
 
         <!-- Show a web view -->
         <activity
             android:name=".ui.common.WebViewActivity"
             android:label="@string/title_activity_hydra_web_view"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".main.MainActivity" />
 
         <!-- Show a Minerva course -->
         <activity
-            android:name=".ui.minerva.overview.CourseActivity"
+            android:name=".minerva.ui.course.CourseActivity"
             android:label="@string/activity_title_minerva_course"
             android:launchMode="singleTop"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".main.MainActivity" />
 
         <!-- Show a Minerva announcement -->
         <activity
-            android:name=".ui.minerva.AnnouncementActivity"
+            android:name=".minerva.ui.announcement.AnnouncementActivity"
             android:label="@string/title_announcement_title"
-            android:parentActivityName=".ui.minerva.overview.CourseActivity" />
+            android:parentActivityName=".minerva.ui.course.CourseActivity" />
 
         <!-- Show a Minerva agenda item -->
         <activity
-            android:name=".ui.minerva.AgendaActivity"
+            android:name=".minerva.ui.calendaritem.AgendaActivity"
             android:label="@string/activity_title_minerva_agenda"
-            android:parentActivityName=".ui.minerva.overview.CourseActivity">
+            android:parentActivityName=".minerva.ui.course.CourseActivity">
             <intent-filter>
                 <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
 
@@ -169,10 +169,10 @@
 
         <!-- Minerva auth activity -->
         <activity
-            android:name=".ui.minerva.AuthActivity"
+            android:name=".minerva.sync.network.auth.AuthActivity"
             android:label="@string/title_activity_authentication"
             android:launchMode="singleTask"
-            android:parentActivityName=".ui.main.MainActivity">
+            android:parentActivityName=".main.MainActivity">
 
             <!-- Intent filters: handle the custom URL scheme -->
             <intent-filter>
@@ -190,7 +190,7 @@
             android:name=".sko.OverviewActivity"
             android:label="@string/activity_title_sko_overview"
             android:launchMode="singleTop"
-            android:parentActivityName=".ui.main.MainActivity"
+            android:parentActivityName=".main.MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.Sko" />
 
         <!-- SKO preference activity -->
@@ -215,14 +215,14 @@
             android:name=".ui.ExceptionDialogActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
         <activity
-            android:name=".ui.minerva.CalendarPermissionActivity"
+            android:name=".minerva.sync.CalendarPermissionActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
 
         <!-- Library details -->
         <activity
             android:name=".ui.library.LibraryDetailActivity"
             android:label="Bibliotheek"
-            android:parentActivityName=".ui.main.MainActivity"
+            android:parentActivityName=".main.MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
 
         <!-- Firebase messages -->

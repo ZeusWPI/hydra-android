@@ -24,10 +24,10 @@ import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
-import be.ugent.zeus.hydra.ui.main.ScheduledRemovalListener;
+import be.ugent.zeus.hydra.main.ScheduledRemovalListener;
 import be.ugent.zeus.hydra.ui.main.homefeed.commands.FeedCommand;
-import be.ugent.zeus.hydra.ui.minerva.AnnouncementActivity;
-import be.ugent.zeus.hydra.ui.minerva.overview.CourseActivity;
+import be.ugent.zeus.hydra.minerva.ui.announcement.AnnouncementActivity;
+import be.ugent.zeus.hydra.minerva.ui.course.CourseActivity;
 
 import static android.app.Activity.RESULT_OK;
 import static be.ugent.zeus.hydra.ui.main.homefeed.FeedLiveData.REFRESH_HOMECARD_TYPE;
