@@ -6,22 +6,30 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
+import android.util.Log;
 
 import be.ugent.zeus.hydra.data.dto.minerva.AnnouncementMapper;
+import be.ugent.zeus.hydra.data.dto.minerva.Tools;
 import be.ugent.zeus.hydra.data.dto.minerva.WhatsNew;
 import be.ugent.zeus.hydra.data.network.requests.minerva.AnnouncementsRequest;
+import be.ugent.zeus.hydra.data.network.requests.minerva.ModuleRequest;
 import be.ugent.zeus.hydra.data.network.requests.minerva.WhatsNewRequest;
 import be.ugent.zeus.hydra.data.sync.Synchronisation;
 import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
 import be.ugent.zeus.hydra.domain.models.minerva.Course;
+import be.ugent.zeus.hydra.domain.models.minerva.Module;
 import be.ugent.zeus.hydra.domain.repository.AnnouncementRepository;
 import be.ugent.zeus.hydra.domain.repository.CourseRepository;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
+import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
+import com.google.gson.JsonSyntaxException;
 import java8.util.Maps;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.threeten.bp.Instant;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +43,8 @@ import static be.ugent.zeus.hydra.utils.IterableUtils.transform;
  * @author Niko Strijbol
  */
 public class AnnouncementSync {
+
+    private static final String TAG = "AnnouncementSync";
 
     /**
      * Provides access to the announcements in the database.
@@ -114,6 +124,29 @@ public class AnnouncementSync {
      */
     private void synchroniseCourse(Account account, Course course, boolean isInitialSync) throws RequestException {
 
+        // Get which requests are unread on the server.
+        WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, context, account);
+        Result<WhatsNew> result = whatsNewRequest.performRequest(null);
+
+        // If there was an error, check if the course in question actually supports announcements or not.
+        if (result.hasException() &&
+                result.getError().getCause() instanceof HttpMessageNotReadableException &&
+                result.getError().getCause().getCause() instanceof JsonSyntaxException) {
+
+            Log.i(TAG, "Error occurred while reading response.");
+            Tools tools = new ModuleRequest(context, account, course).performRequest(null).getOrThrow();
+            EnumSet<Module> modules = tools.asModules();
+            if (!modules.contains(Module.ANNOUNCEMENTS)) {
+                // Save the disabled modules.
+                course.setDisabledModules(EnumSet.complementOf(modules));
+                courseDao.update(course);
+                // Return.
+                Log.i(TAG, "Course " + course.getCode() + " does not have announcements: " + modules);
+                return;
+            }
+            // Else, we do nothing, since it is another error. We let the exception propagate.
+        }
+
         // Get all announcements from the server.
         AnnouncementsRequest request = new AnnouncementsRequest(context, account, course);
         List<Announcement> serverAnnouncements = request.performRequest(null)
@@ -132,9 +165,7 @@ public class AnnouncementSync {
         );
         Synchronisation.Diff<Announcement, Integer> diff = synchronisation.diff();
 
-        // Get which requests are unread on the server.
-        WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, context, account);
-        WhatsNew whatsNew = whatsNewRequest.performRequest(null).getOrThrow();
+        WhatsNew whatsNew = result.getOrThrow();
         List<Announcement> unreadOnServer = new ArrayList<>(transform(whatsNew.getAnnouncements(), announcementDTO -> AnnouncementMapper.INSTANCE.convert(announcementDTO, course)));
 
         // Check if we need to notify for announcements that have been sent as an e-mail.

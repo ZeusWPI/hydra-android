@@ -76,7 +76,7 @@ public class CourseActivity extends BaseActivity {
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         ViewPager viewPager = findViewById(R.id.pager);
 
-        viewPager.setAdapter(new MinervaCoursePagerAdapter(getSupportFragmentManager(), course));
+        viewPager.setAdapter(new MinervaCoursePagerAdapter(getSupportFragmentManager(), this, course));
 
         viewPager.setCurrentItem(getIntent().getIntExtra(ARG_TAB, Tab.ANNOUNCEMENTS), false);
         tabLayout.setupWithViewPager(viewPager);
