@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.minerva.dto;
 
-import be.ugent.zeus.hydra.minerva.Announcement;
-import be.ugent.zeus.hydra.minerva.Course;
+import be.ugent.zeus.hydra.minerva.announcement.Announcement;
+import be.ugent.zeus.hydra.minerva.course.Course;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

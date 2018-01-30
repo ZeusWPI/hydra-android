@@ -14,7 +14,7 @@ import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
 import be.ugent.zeus.hydra.common.sync.SyncUtils;
 import be.ugent.zeus.hydra.minerva.sync.MinervaAdapter;
-import be.ugent.zeus.hydra.minerva.sync.network.auth.AuthActivity;
+import be.ugent.zeus.hydra.minerva.auth.AuthActivity;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;

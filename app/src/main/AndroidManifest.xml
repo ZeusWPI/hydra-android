@@ -142,22 +142,22 @@
 
         <!-- Show a Minerva course -->
         <activity
-            android:name=".minerva.ui.course.CourseActivity"
+            android:name=".minerva.course.singlecourse.CourseActivity"
             android:label="@string/activity_title_minerva_course"
             android:launchMode="singleTop"
             android:parentActivityName=".main.MainActivity" />
 
         <!-- Show a Minerva announcement -->
         <activity
-            android:name=".minerva.ui.announcement.AnnouncementActivity"
+            android:name=".minerva.announcement.SingleAnnouncementActivity"
             android:label="@string/title_announcement_title"
-            android:parentActivityName=".minerva.ui.course.CourseActivity" />
+            android:parentActivityName=".minerva.course.singlecourse.CourseActivity" />
 
         <!-- Show a Minerva agenda item -->
         <activity
-            android:name=".minerva.ui.calendaritem.AgendaActivity"
+            android:name=".minerva.calendar.itemdetails.AgendaActivity"
             android:label="@string/activity_title_minerva_agenda"
-            android:parentActivityName=".minerva.ui.course.CourseActivity">
+            android:parentActivityName=".minerva.course.singlecourse.CourseActivity">
             <intent-filter>
                 <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
 
@@ -169,7 +169,7 @@
 
         <!-- Minerva auth activity -->
         <activity
-            android:name=".minerva.sync.network.auth.AuthActivity"
+            android:name=".minerva.auth.AuthActivity"
             android:label="@string/title_activity_authentication"
             android:launchMode="singleTask"
             android:parentActivityName=".main.MainActivity">
@@ -215,7 +215,7 @@
             android:name=".ui.ExceptionDialogActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
         <activity
-            android:name=".minerva.sync.CalendarPermissionActivity"
+            android:name=".minerva.calendar.sync.CalendarPermissionActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
 
         <!-- Library details -->

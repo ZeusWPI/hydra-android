@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.minerva;
 
-import be.ugent.zeus.hydra.minerva.Module;
+import be.ugent.zeus.hydra.minerva.course.Module;
 import org.junit.Test;
 
 import java.util.Collections;

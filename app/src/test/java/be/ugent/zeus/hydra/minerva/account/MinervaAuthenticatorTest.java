@@ -10,7 +10,7 @@ import android.os.Bundle;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
-import be.ugent.zeus.hydra.minerva.sync.network.auth.AuthActivity;
+import be.ugent.zeus.hydra.minerva.auth.AuthActivity;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.junit.Before;
 import org.junit.Test;

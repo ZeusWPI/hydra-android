@@ -5,7 +5,7 @@ import android.arch.persistence.room.migration.Migration;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.minerva.database.AgendaTable;
+import be.ugent.zeus.hydra.minerva.calendar.database.AgendaTable;
 
 /**
  * An older migration, kept for compatibility reasons.

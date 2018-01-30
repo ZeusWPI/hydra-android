@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.minerva.dto;
 
+import be.ugent.zeus.hydra.minerva.calendar.database.AgendaItemDTO;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;

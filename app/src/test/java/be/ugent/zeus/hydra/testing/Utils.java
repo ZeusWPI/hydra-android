@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.testing;
 
-import be.ugent.zeus.hydra.minerva.Module;
+import be.ugent.zeus.hydra.minerva.course.Module;
 import com.google.gson.Gson;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import io.github.benas.randombeans.api.Randomizer;

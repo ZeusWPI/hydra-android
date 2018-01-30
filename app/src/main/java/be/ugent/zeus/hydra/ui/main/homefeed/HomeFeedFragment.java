@@ -20,14 +20,14 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
+import be.ugent.zeus.hydra.minerva.announcement.courselist.AnnouncementsForCourseFragment;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.ui.common.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.main.ScheduledRemovalListener;
 import be.ugent.zeus.hydra.ui.main.homefeed.commands.FeedCommand;
-import be.ugent.zeus.hydra.minerva.ui.announcement.AnnouncementActivity;
-import be.ugent.zeus.hydra.minerva.ui.course.CourseActivity;
+import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
 
 import static android.app.Activity.RESULT_OK;
 import static be.ugent.zeus.hydra.ui.main.homefeed.FeedLiveData.REFRESH_HOMECARD_TYPE;
@@ -191,8 +191,8 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         if (requestCode == REQUEST_HOMECARD_ID && resultCode == RESULT_OK) {
             // Something was launched and we received a result back.
-            if (data.getBooleanExtra(CourseActivity.RESULT_ANNOUNCEMENT_UPDATED, false)
-                    || data.getBooleanExtra(AnnouncementActivity.RESULT_ANNOUNCEMENT_READ, false)) {
+            if (data.getBooleanExtra(AnnouncementsForCourseFragment.RESULT_ANNOUNCEMENT_UPDATED, false)
+                    || data.getBooleanExtra(SingleAnnouncementActivity.RESULT_ANNOUNCEMENT_READ, false)) {
                 Bundle extras = new Bundle();
                 extras.putInt(REFRESH_HOMECARD_TYPE, Card.Type.MINERVA_ANNOUNCEMENT);
                 model.requestRefresh(extras);

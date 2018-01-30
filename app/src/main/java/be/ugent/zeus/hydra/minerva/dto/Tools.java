@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.minerva.dto;
 
-import be.ugent.zeus.hydra.minerva.Module;
+import be.ugent.zeus.hydra.minerva.course.Module;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 

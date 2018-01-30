@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.Log;
-import be.ugent.zeus.hydra.minerva.sync.network.auth.BearerToken;
+import be.ugent.zeus.hydra.minerva.auth.BearerToken;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.network.IOFailureException;
 import be.ugent.zeus.hydra.common.request.RequestException;
-import be.ugent.zeus.hydra.minerva.sync.network.auth.AuthActivity;
+import be.ugent.zeus.hydra.minerva.auth.AuthActivity;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 

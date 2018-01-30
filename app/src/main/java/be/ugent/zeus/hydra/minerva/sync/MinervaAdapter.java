@@ -11,12 +11,12 @@ import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
 import be.ugent.zeus.hydra.common.sync.AbstractAdapter;
 import be.ugent.zeus.hydra.common.sync.SyncUtils;
-import be.ugent.zeus.hydra.minerva.AgendaItemRepository;
-import be.ugent.zeus.hydra.minerva.AnnouncementRepository;
-import be.ugent.zeus.hydra.minerva.CourseRepository;
-import be.ugent.zeus.hydra.minerva.sync.algorithm.AnnouncementSync;
-import be.ugent.zeus.hydra.minerva.sync.algorithm.CalendarSync;
-import be.ugent.zeus.hydra.minerva.sync.algorithm.CourseSync;
+import be.ugent.zeus.hydra.minerva.calendar.AgendaItemRepository;
+import be.ugent.zeus.hydra.minerva.announcement.AnnouncementRepository;
+import be.ugent.zeus.hydra.minerva.course.CourseRepository;
+import be.ugent.zeus.hydra.minerva.announcement.sync.AnnouncementSync;
+import be.ugent.zeus.hydra.minerva.calendar.sync.CalendarSync;
+import be.ugent.zeus.hydra.minerva.course.sync.CourseSync;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import jonathanfinerty.once.Once;
 
