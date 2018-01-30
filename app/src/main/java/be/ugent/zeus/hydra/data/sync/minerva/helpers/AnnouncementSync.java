@@ -124,6 +124,24 @@ public class AnnouncementSync {
      */
     private void synchroniseCourse(Account account, Course course, boolean isInitialSync) throws RequestException {
 
+        // If the course does not have announcements enabled, check if they are enabled now.
+        EnumSet<Module> disabled = course.getDisabledModules();
+        if (disabled.contains(Module.ANNOUNCEMENTS)) {
+            Log.d(TAG, "Checking if announcements are enabled for " + course.getId());
+            Tools tools = new ModuleRequest(context, account, course).performRequest(null).getOrThrow();
+            EnumSet<Module> enabled = tools.asModules();
+            if (enabled.contains(Module.ANNOUNCEMENTS)) {
+                // The announcements are enabled now, so save it to the database.
+                course.setDisabledModules(EnumSet.complementOf(enabled));
+                courseDao.update(course);
+            } else {
+                Log.i(TAG, "Announcements disabled for " + course.getId() + ", skipping.");
+                // The announcements are still not enabled, so skip this course.
+                return;
+            }
+        }
+
+        // Normally, if the we just enabled announcements above, the request below should not fail.
         // Get which requests are unread on the server.
         WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, context, account);
         Result<WhatsNew> result = whatsNewRequest.performRequest(null);
@@ -135,13 +153,13 @@ public class AnnouncementSync {
 
             Log.i(TAG, "Error occurred while reading response.");
             Tools tools = new ModuleRequest(context, account, course).performRequest(null).getOrThrow();
-            EnumSet<Module> modules = tools.asModules();
-            if (!modules.contains(Module.ANNOUNCEMENTS)) {
+            EnumSet<Module> enabled = tools.asModules();
+            if (!enabled.contains(Module.ANNOUNCEMENTS)) {
                 // Save the disabled modules.
-                course.setDisabledModules(EnumSet.complementOf(modules));
+                course.setDisabledModules(EnumSet.complementOf(enabled));
                 courseDao.update(course);
                 // Return.
-                Log.i(TAG, "Course " + course.getCode() + " does not have announcements: " + modules);
+                Log.i(TAG, "Announcements disabled for " + course.getId() + ", skipping.");
                 return;
             }
             // Else, we do nothing, since it is another error. We let the exception propagate.

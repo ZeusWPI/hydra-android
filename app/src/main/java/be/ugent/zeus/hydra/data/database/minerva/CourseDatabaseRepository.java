@@ -5,6 +5,7 @@ import android.util.Pair;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseMapper;
 import be.ugent.zeus.hydra.data.dto.minerva.CourseUnread;
 import be.ugent.zeus.hydra.domain.models.minerva.Course;
+import be.ugent.zeus.hydra.domain.models.minerva.Module;
 import be.ugent.zeus.hydra.domain.repository.CourseRepository;
 
 import java.util.*;
@@ -96,11 +97,11 @@ public class CourseDatabaseRepository implements CourseRepository {
     }
 
     @Override
-    public Map<String, Integer> getIdToOrderMap() {
-        Map<String, Integer> result = new HashMap<>();
-        List<CourseDao.IdAndOrder> orders = courseDao.getIdsAndOrders();
-        for (CourseDao.IdAndOrder idAndOrder : orders) {
-            result.put(idAndOrder.id, idAndOrder.order);
+    public Map<String, LocalData> getIdToLocalData() {
+        Map<String, LocalData> result = new HashMap<>();
+        List<CourseDao.IdAndLocalData> orders = courseDao.getIdsAndLocalData();
+        for (CourseDao.IdAndLocalData idAndOrder : orders) {
+            result.put(idAndOrder.id, from(idAndOrder));
         }
         return result;
     }
@@ -108,5 +109,9 @@ public class CourseDatabaseRepository implements CourseRepository {
     @Override
     public List<String> getIds() {
         return courseDao.getIds();
+    }
+
+    private LocalData from(CourseDao.IdAndLocalData idAndLocalData) {
+        return new LocalData(idAndLocalData.order, Module.fromNumericalValue(idAndLocalData.disabledModules));
     }
 }

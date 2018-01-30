@@ -60,18 +60,18 @@ public interface CourseDao {
     @Query("SELECT " + CourseTable.Columns.ID + " FROM " + CourseTable.TABLE_NAME)
     List<String> getIds();
 
-    @Query("SELECT " + CourseTable.Columns.ID + ", " + CourseTable.Columns.ORDER + " FROM " + CourseTable.TABLE_NAME)
-    List<IdAndOrder> getIdsAndOrders();
+    @Query("SELECT " + CourseTable.Columns.ID + ", " + CourseTable.Columns.ORDER + ", " + CourseTable.Columns.DISABLED_MODULES + " FROM " + CourseTable.TABLE_NAME)
+    List<IdAndLocalData> getIdsAndLocalData();
 
-    class IdAndOrder {
-        @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+    class IdAndLocalData {
         @ColumnInfo(name = CourseTable.Columns.ID)
         public String id;
-        @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
         @ColumnInfo(name = CourseTable.Columns.ORDER)
         public int order;
+        @ColumnInfo(name = CourseTable.Columns.DISABLED_MODULES)
+        public int disabledModules;
         @VisibleForTesting
-        public IdAndOrder(String id, int order) {
+        public IdAndLocalData(String id, int order) {
             this.id = id;
             this.order = order;
         }

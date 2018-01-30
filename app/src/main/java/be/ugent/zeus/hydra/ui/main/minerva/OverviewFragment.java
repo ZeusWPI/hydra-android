@@ -267,9 +267,9 @@ public class OverviewFragment extends Fragment implements ResultStarter, Schedul
                     ensureSyncStatus(getString(R.string.failure), Snackbar.LENGTH_LONG);
                     return;
                 case SyncBroadcast.SYNC_PROGRESS_WHATS_NEW:
-                    Log.d(TAG, "Progress");
                     int current = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_CURRENT, 0);
                     int total = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_TOTAL, 0);
+                    Log.d(TAG, "Progress: handled " + current + " of " + total);
                     ensureSyncStatus(getString(R.string.minerva_sync_progress, current, total));
             }
         }
