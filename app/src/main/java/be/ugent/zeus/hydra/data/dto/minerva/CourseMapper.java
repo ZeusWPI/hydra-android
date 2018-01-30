@@ -20,7 +20,8 @@ public interface CourseMapper {
 
     @Mappings({
             @Mapping(source = "tutor", target = "tutorName"),
-            @Mapping(source = "year", target = "academicYear")
+            @Mapping(source = "year", target = "academicYear"),
+            @Mapping(target = "enabledModules", ignore = true)
     })
     Course courseToCourse(CourseDTO course);
 

@@ -122,9 +122,9 @@ public class MockCourseDao implements CourseDao {
     }
 
     @Override
-    public List<IdAndOrder> getIdsAndOrders() {
+    public List<IdAndLocalData> getIdsAndLocalData() {
         return courses.stream()
-                .map(courseDTO -> new IdAndOrder(courseDTO.getId(), courseDTO.getOrder()))
+                .map(courseDTO -> new IdAndLocalData(courseDTO.getId(), courseDTO.getOrder(), courseDTO.getDisabledModules()))
                 .collect(Collectors.toList());
     }
 }

@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.testing;
 
+import be.ugent.zeus.hydra.domain.models.minerva.Module;
 import com.google.gson.Gson;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import io.github.benas.randombeans.api.Randomizer;
@@ -30,6 +31,7 @@ public class Utils {
                 .randomize(LocalDate.class, (Randomizer<LocalDate>) LocalDate::now)
                 .randomize(OffsetDateTime.class, (Randomizer<OffsetDateTime>) OffsetDateTime::now)
                 .randomize(Instant.class, (Randomizer<Instant>) Instant::now)
+                .randomize(EnumSet.class, (Randomizer<EnumSet>) () -> EnumSet.noneOf(Module.class)) // HACK
                 .build()
                 .nextObject(clazz, exclude);
     }
@@ -41,6 +43,7 @@ public class Utils {
                 .randomize(LocalDate.class, (Randomizer<LocalDate>) LocalDate::now)
                 .randomize(OffsetDateTime.class, (Randomizer<OffsetDateTime>) OffsetDateTime::now)
                 .randomize(Instant.class, (Randomizer<Instant>) Instant::now)
+                .randomize(EnumSet.class, (Randomizer<EnumSet>) () -> EnumSet.noneOf(Module.class)) // HACK
                 .build()
                 .objects(clazz, amount, exclude);
     }

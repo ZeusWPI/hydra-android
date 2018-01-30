@@ -71,9 +71,10 @@ public interface CourseDao {
         @ColumnInfo(name = CourseTable.Columns.DISABLED_MODULES)
         public int disabledModules;
         @VisibleForTesting
-        public IdAndLocalData(String id, int order) {
+        public IdAndLocalData(String id, int order, int disabledModules) {
             this.id = id;
             this.order = order;
+            this.disabledModules = disabledModules;
         }
     }
 }

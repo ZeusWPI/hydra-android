@@ -5,6 +5,7 @@ import android.util.Pair;
 
 import be.ugent.zeus.hydra.domain.models.minerva.Course;
 import be.ugent.zeus.hydra.domain.models.minerva.Module;
+import java8.util.Objects;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -40,6 +41,20 @@ public interface CourseRepository extends FullRepository<String, Course> {
         public LocalData(int order, EnumSet<Module> disabledModules) {
             this.order = order;
             this.disabledModules = disabledModules;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            LocalData localData = (LocalData) o;
+            return order == localData.order &&
+                    Objects.equals(disabledModules, localData.disabledModules);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(order, disabledModules);
         }
     }
 }
