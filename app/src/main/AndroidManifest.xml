@@ -209,7 +209,7 @@
 
         <!-- Onboarding activity -->
         <activity
-            android:name=".ui.onboarding.OnboardingActivity"
+            android:name=".onboarding.OnboardingActivity"
             android:theme="@style/Theme.Intro" />
         <activity
             android:name=".ui.ExceptionDialogActivity"

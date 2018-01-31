@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.onboarding;
+package be.ugent.zeus.hydra.onboarding;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

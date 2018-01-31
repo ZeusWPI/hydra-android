@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.onboarding;
+package be.ugent.zeus.hydra.onboarding;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;

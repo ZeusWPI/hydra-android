@@ -33,7 +33,7 @@ import be.ugent.zeus.hydra.minerva.mainui.OverviewFragment;
 import be.ugent.zeus.hydra.ui.main.news.NewsFragment;
 import be.ugent.zeus.hydra.ui.main.resto.RestoFragment;
 import be.ugent.zeus.hydra.ui.main.schamper.SchamperFragment;
-import be.ugent.zeus.hydra.ui.onboarding.OnboardingActivity;
+import be.ugent.zeus.hydra.onboarding.OnboardingActivity;
 import be.ugent.zeus.hydra.ui.preferences.SettingsActivity;
 import be.ugent.zeus.hydra.urgent.UrgentFragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
