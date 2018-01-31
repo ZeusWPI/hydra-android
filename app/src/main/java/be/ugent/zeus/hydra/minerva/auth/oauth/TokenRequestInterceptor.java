@@ -18,7 +18,7 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package be.ugent.zeus.hydra.minerva.auth;
+package be.ugent.zeus.hydra.minerva.auth.oauth;
 
 import org.springframework.http.HttpAuthentication;
 import org.springframework.http.HttpRequest;
@@ -46,14 +46,8 @@ public class TokenRequestInterceptor implements ClientHttpRequestInterceptor {
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-
         request.getHeaders().setAuthorization(new BearerAuthentication(token));
-        request.getHeaders().set("X-Bearer-Token", token);
-
-        // Log API Request
-        //Log.d(TAG, String.format("API Request: %s", request.getURI().toString()));
-
-        // Perform CacheRequest
+        request.getHeaders().set("X-Bearer-Token", token); // TODO: This might be unnecessary
         return execution.execute(request, body);
     }
 

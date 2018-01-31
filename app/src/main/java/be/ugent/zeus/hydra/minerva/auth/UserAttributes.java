@@ -22,8 +22,7 @@ package be.ugent.zeus.hydra.minerva.auth;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Minerva user attributes.
@@ -32,45 +31,45 @@ import java.util.ArrayList;
  * @author UGent
  */
 @SuppressWarnings("unused")
-public class UserAttributes implements Serializable {
+final class UserAttributes {
 
     @SerializedName("mail")
-    private ArrayList<String> email;
+    private List<String> email;
 
     @SuppressWarnings("SpellCheckingInspection")
     @SerializedName("jobcategory")
-    private ArrayList<String> jobCategory;
+    private List<String> jobCategory;
 
     @SuppressWarnings("SpellCheckingInspection")
     @SerializedName("givenname")
-    private ArrayList<String> givenName;
+    private List<String> givenName;
 
     @SerializedName("surname")
-    private ArrayList<String> surName;
+    private List<String> surName;
 
-    private ArrayList<String> uid;
+    private List<String> uid;
 
     public String getFullName() {
         return givenName + " " + surName;
     }
 
-    public ArrayList<String> getEmail() {
+    public List<String> getEmail() {
         return email;
     }
 
-    public ArrayList<String> getJobCategory() {
+    public List<String> getJobCategory() {
         return jobCategory;
     }
 
-    public ArrayList<String> getGivenName() {
+    public List<String> getGivenName() {
         return givenName;
     }
 
-    public ArrayList<String> getSurName() {
+    public List<String> getSurName() {
         return surName;
     }
 
-    public ArrayList<String> getUid() {
+    public List<String> getUid() {
         return uid;
     }
 }

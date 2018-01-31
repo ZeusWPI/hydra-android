@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
-import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
+import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
 
 /**
  * @author Niko Strijbol
@@ -78,8 +78,8 @@ public class SyncUtils {
     public static long frequencyFor(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        String prefKey = MinervaFragment.PREF_SYNC_FREQUENCY;
-        String prefDefault = MinervaFragment.PREF_DEFAULT_SYNC_FREQUENCY;
+        String prefKey = MinervaPreferenceFragment.PREF_SYNC_FREQUENCY;
+        String prefDefault = MinervaPreferenceFragment.PREF_DEFAULT_SYNC_FREQUENCY;
 
         String pref = preferences.getString(prefKey, prefDefault);
         return Long.parseLong(pref);

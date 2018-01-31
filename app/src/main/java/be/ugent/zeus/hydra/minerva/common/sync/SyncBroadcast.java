@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.minerva.sync;
+package be.ugent.zeus.hydra.minerva.common.sync;
 
 import android.content.Context;
 import android.content.Intent;

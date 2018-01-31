@@ -12,7 +12,7 @@ import android.util.Log;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
-import be.ugent.zeus.hydra.minerva.sync.MinervaAdapter;
+import be.ugent.zeus.hydra.minerva.common.sync.MinervaAdapter;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;

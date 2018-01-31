@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.minerva.dto;
+package be.ugent.zeus.hydra.minerva.announcement.database;
 
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.course.Course;

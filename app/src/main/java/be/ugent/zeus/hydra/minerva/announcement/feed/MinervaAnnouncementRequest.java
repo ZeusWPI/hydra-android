@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
 import be.ugent.zeus.hydra.feed.Card;
-import be.ugent.zeus.hydra.minerva.announcement.AnnouncementRepository;
+import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;
 import be.ugent.zeus.hydra.feed.CardRepository;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.ui.main.homefeed.HideableHomeFeedRequest;

@@ -1,12 +1,9 @@
-package be.ugent.zeus.hydra.minerva.course;
+package be.ugent.zeus.hydra.minerva.course.database;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import be.ugent.zeus.hydra.minerva.course.database.CourseDao;
-import be.ugent.zeus.hydra.minerva.dto.AnnouncementDTO;
-import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
-import be.ugent.zeus.hydra.minerva.course.database.CourseUnread;
+import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementDTO;
 
 import java.util.*;
 import java.util.stream.Collectors;

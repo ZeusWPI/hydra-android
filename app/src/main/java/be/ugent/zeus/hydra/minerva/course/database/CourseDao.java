@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.minerva.course.database;
 import android.arch.persistence.room.*;
 import android.support.annotation.VisibleForTesting;
 
-import be.ugent.zeus.hydra.minerva.announcement.AnnouncementTable;
+import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementTable;
 
 import java.util.Collection;
 import java.util.List;

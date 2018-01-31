@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.minerva.sync;
+package be.ugent.zeus.hydra.minerva.common.sync;
 
 import android.app.Notification;
 import android.app.NotificationManager;

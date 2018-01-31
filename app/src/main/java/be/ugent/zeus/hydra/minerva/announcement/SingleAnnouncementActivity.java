@@ -16,12 +16,13 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
-import be.ugent.zeus.hydra.minerva.sync.NotificationHelper;
+import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;
+import be.ugent.zeus.hydra.minerva.common.sync.NotificationHelper;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.ui.common.html.Utils;
 import be.ugent.zeus.hydra.minerva.course.singlecourse.CourseActivity;
-import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
+import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import org.threeten.bp.Instant;
@@ -123,7 +124,7 @@ public class SingleAnnouncementActivity extends BaseActivity {
 
     private String getOnlineUrl() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.getBoolean(MinervaFragment.PREF_USE_MOBILE_URL, false)) {
+        if (preferences.getBoolean(MinervaPreferenceFragment.PREF_USE_MOBILE_URL, false)) {
             return String.format(ONLINE_URL_MOBILE, announcement.getCourse().getId());
         } else {
             return String.format(ONLINE_URL_DESKTOP, announcement.getCourse().getId());

@@ -245,7 +245,7 @@
 
         <!-- Minerva sync service -->
         <service
-            android:name=".minerva.sync.MinervaService"
+            android:name=".minerva.common.sync.MinervaService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -258,7 +258,7 @@
 
         <!-- Stub minerva provider -->
         <provider
-            android:name=".minerva.sync.MinervaProvider"
+            android:name=".minerva.common.sync.MinervaProvider"
             android:authorities="be.ugent.zeus.hydra.minerva.provider"
             android:exported="false"
             android:label="@string/minerva_sync_provider"

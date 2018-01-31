@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.minerva.auth;
+package be.ugent.zeus.hydra.minerva.auth.oauth;
 
 import android.util.Log;
 
@@ -14,37 +14,34 @@ import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
 
 /**
- * Exchange an authorisation code for an access code. This is called the first time after an account has been added and
- * the user has granted access. After this, the refresh token is used to get new access codes until the account becomes
- * invalid.
+ * Exchange a refresh code for an access code.
  *
  * @author Niko Strijbol
  */
-public class NewAccessTokenRequest extends AccessTokenRequest {
+public class RefreshAccessTokenRequest extends AccessTokenRequest {
 
-    private static final String TAG = "NewAccessTokenRequest";
+    private static final String TAG = "RefreshAccessTokenReq";
 
-    public NewAccessTokenRequest(OAuthConfiguration configData, String code) {
+    public RefreshAccessTokenRequest(OAuthConfiguration configData, String code) {
         super(configData, code);
     }
 
     /**
-     * Get the token. This exchanges the authorisation code.
+     * Performs a token request based on the token refresh grant.
      *
-     * @return The token data.
+     * @return The response of the token request.
      *
      * @throws OAuthProblemException See documentation of {@link OAuthProblemException}.
      * @throws OAuthSystemException  See documentation of {@link OAuthSystemException}.
      */
-    @Override
     protected OAuthJSONAccessTokenResponse getToken() throws OAuthProblemException, OAuthSystemException {
-        Log.d(TAG, "Requesting access token based on the authorisation code.");
+        Log.d(TAG, "Requesting new access code based on the refresh token.");
         OAuthClientRequest request = OAuthClientRequest
                 .tokenLocation(MinervaConfig.TOKEN_ENDPOINT)
-                .setGrantType(GrantType.AUTHORIZATION_CODE)
+                .setGrantType(GrantType.REFRESH_TOKEN)
                 .setClientId(configData.API_KEY)
                 .setClientSecret(configData.API_SECRET)
-                .setCode(code)
+                .setRefreshToken(code)
                 .setRedirectURI(configData.CALLBACK_URI)
                 .buildBodyMessage();
         OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());

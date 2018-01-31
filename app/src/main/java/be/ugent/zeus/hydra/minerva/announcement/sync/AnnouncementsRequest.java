@@ -3,20 +3,21 @@ package be.ugent.zeus.hydra.minerva.announcement.sync;
 import android.accounts.Account;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.minerva.dto.Announcements;
+
+import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 import be.ugent.zeus.hydra.minerva.course.Course;
-import be.ugent.zeus.hydra.minerva.MinervaRequest;
 
 /**
  * This request retrieves all announcements for a specific course.
+ *
  * @author Niko Strijbol
  */
-public class AnnouncementsRequest extends MinervaRequest<Announcements> {
+class AnnouncementsRequest extends MinervaRequest<ApiAnnouncements> {
 
     private final Course course;
 
-    public AnnouncementsRequest(Context context, Account account, Course course) {
-        super(Announcements.class, context, account);
+    AnnouncementsRequest(Context context, Account account, Course course) {
+        super(ApiAnnouncements.class, context, account);
         this.course = course;
     }
 

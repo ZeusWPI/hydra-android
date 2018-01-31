@@ -21,7 +21,8 @@ interface ApiCourseMapper {
             @Mapping(source = "tutor", target = "tutorName"),
             @Mapping(source = "year", target = "academicYear"),
             @Mapping(target = "order", ignore = true),
-            @Mapping(target = "disabledModules", ignore = true)
+            @Mapping(target = "disabledModules", ignore = true),
+            @Mapping(target = "enabledModules", ignore = true),
     })
     Course courseToCourse(ApiCourse course);
 }

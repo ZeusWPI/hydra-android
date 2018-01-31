@@ -1,6 +1,7 @@
-package be.ugent.zeus.hydra.minerva.announcement;
+package be.ugent.zeus.hydra.minerva.announcement.database;
 
 import be.ugent.zeus.hydra.common.FullRepository;
+import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import org.threeten.bp.Instant;
 

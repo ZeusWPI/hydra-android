@@ -10,10 +10,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
-import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
+import be.ugent.zeus.hydra.minerva.common.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.course.Course;
-import be.ugent.zeus.hydra.minerva.announcement.AnnouncementRepository;
+import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.Result;
 

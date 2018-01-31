@@ -4,7 +4,7 @@ import android.accounts.Account;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.minerva.MinervaRequest;
+import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 
 /**
  * Request to get a list of courses.

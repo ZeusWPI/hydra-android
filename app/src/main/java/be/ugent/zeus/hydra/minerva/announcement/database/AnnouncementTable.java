@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.minerva.announcement;
+package be.ugent.zeus.hydra.minerva.announcement.database;
 
 import android.provider.BaseColumns;
 

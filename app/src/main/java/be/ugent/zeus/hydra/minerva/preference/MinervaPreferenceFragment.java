@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.preferences;
+package be.ugent.zeus.hydra.minerva.preference;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,14 +14,14 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
 import be.ugent.zeus.hydra.common.sync.SyncUtils;
-import be.ugent.zeus.hydra.minerva.sync.MinervaAdapter;
+import be.ugent.zeus.hydra.minerva.common.sync.MinervaAdapter;
 
 /**
- * Preferences for Minerva things.
+ * Preferences for Minerva-related things.
  *
  * @author Niko Strijbol
  */
-public class MinervaFragment extends PreferenceFragment {
+public class MinervaPreferenceFragment extends PreferenceFragment {
 
     public static final String PREF_SYNC_FREQUENCY = "pref_minerva_sync_announcement_frequency";
     public static final String PREF_ANNOUNCEMENT_NOTIFICATION = "pref_minerva_announcement_notification";

@@ -15,7 +15,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.minerva.announcement.courselist.AnnouncementsForCourseFragment;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
+import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
@@ -103,7 +103,7 @@ public class CourseActivity extends BaseActivity {
 
     private String getOnlineUrl() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.getBoolean(MinervaFragment.PREF_USE_MOBILE_URL, false)) {
+        if (preferences.getBoolean(MinervaPreferenceFragment.PREF_USE_MOBILE_URL, false)) {
             return String.format(ONLINE_URL_MOBILE, course.getId());
         } else {
             return String.format(ONLINE_URL_DESKTOP, course.getId());

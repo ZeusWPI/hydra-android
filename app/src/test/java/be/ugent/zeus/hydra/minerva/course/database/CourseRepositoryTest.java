@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.minerva.course;
+package be.ugent.zeus.hydra.minerva.course.database;
 
 import android.support.annotation.RequiresApi;
 import android.util.Pair;
@@ -6,10 +6,9 @@ import android.util.Pair;
 import be.ugent.zeus.hydra.common.FullRepository;
 import be.ugent.zeus.hydra.common.FullRepositoryTest;
 import be.ugent.zeus.hydra.minerva.AbstractDaoTest;
-import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
-import be.ugent.zeus.hydra.minerva.course.database.CourseDatabaseRepository;
-import be.ugent.zeus.hydra.minerva.course.database.CourseMapper;
-import be.ugent.zeus.hydra.minerva.dto.AnnouncementDTO;
+import be.ugent.zeus.hydra.minerva.course.Course;
+import be.ugent.zeus.hydra.minerva.course.CourseRepository;
+import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementDTO;
 import org.junit.Before;
 import org.junit.Test;
 

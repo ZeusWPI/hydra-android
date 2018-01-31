@@ -27,7 +27,7 @@ import be.ugent.zeus.hydra.minerva.calendar.AgendaItemRepository;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
+import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
 import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 import be.ugent.zeus.hydra.utils.StringUtils;
 import java8.util.function.Functions;
@@ -121,7 +121,7 @@ public class CalendarSync {
 
         List<AgendaItem> agenda;
 
-        if (preferences.getBoolean(MinervaFragment.PREF_DETECT_DUPLICATES, false)) {
+        if (preferences.getBoolean(MinervaPreferenceFragment.PREF_DETECT_DUPLICATES, false)) {
             agenda = agendaResult.map(new DuplicateDetector()).getOrThrow();
         } else {
             agenda = agendaResult.getOrThrow();
@@ -468,10 +468,10 @@ public class CalendarSync {
     private String getTitleFor(AgendaItem item) {
         String title;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (preferences.getBoolean(MinervaFragment.PREF_PREFIX_EVENT_TITLES, false)
+        if (preferences.getBoolean(MinervaPreferenceFragment.PREF_PREFIX_EVENT_TITLES, false)
                 && !TextUtils.equals(item.getTitle(), item.getCourse().getTitle())) {
             String courseTitle;
-            if (preferences.getBoolean(MinervaFragment.PREF_PREFIX_EVENT_ACRONYM, true)) {
+            if (preferences.getBoolean(MinervaPreferenceFragment.PREF_PREFIX_EVENT_ACRONYM, true)) {
                 courseTitle = StringUtils.generateAcronymFor(item.getCourse().getTitle());
             } else {
                 courseTitle = item.getCourse().getTitle();
@@ -493,7 +493,7 @@ public class CalendarSync {
      */
     private String getDescriptionFor(AgendaItem item) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (preferences.getBoolean(MinervaFragment.PREF_PREFIX_EVENT_TITLES, false)) {
+        if (preferences.getBoolean(MinervaPreferenceFragment.PREF_PREFIX_EVENT_TITLES, false)) {
             String original = item.getContent();
             String description = context.getString(R.string.minerva_calendar_device_description, item.getCourse().getTitle());
             if (TextUtils.isEmpty(original)) {

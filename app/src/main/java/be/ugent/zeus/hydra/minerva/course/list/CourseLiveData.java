@@ -11,7 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Pair;
 
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
-import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
+import be.ugent.zeus.hydra.minerva.common.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;

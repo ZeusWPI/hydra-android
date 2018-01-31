@@ -5,18 +5,17 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.minerva.course.Course;
-import be.ugent.zeus.hydra.minerva.dto.Tools;
-import be.ugent.zeus.hydra.minerva.MinervaRequest;
+import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 
 /**
  * @author Niko Strijbol
  */
-public class ModuleRequest extends MinervaRequest<Tools> {
+class ModuleRequest extends MinervaRequest<ApiTools> {
 
     private final Course course;
 
-    public ModuleRequest(Context context, Account account, Course course) {
-        super(Tools.class, context, account);
+    ModuleRequest(Context context, Account account, Course course) {
+        super(ApiTools.class, context, account);
         this.course = course;
     }
 

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.minerva.sync;
+package be.ugent.zeus.hydra.minerva.common.sync;
 
 import be.ugent.zeus.hydra.common.sync.StubProvider;
 

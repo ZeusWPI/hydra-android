@@ -12,15 +12,12 @@ import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.sync.Synchronisation;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
-import be.ugent.zeus.hydra.minerva.announcement.AnnouncementRepository;
+import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import be.ugent.zeus.hydra.minerva.course.Module;
-import be.ugent.zeus.hydra.minerva.dto.AnnouncementMapper;
-import be.ugent.zeus.hydra.minerva.dto.Tools;
-import be.ugent.zeus.hydra.minerva.dto.WhatsNew;
-import be.ugent.zeus.hydra.minerva.sync.NotificationHelper;
-import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
+import be.ugent.zeus.hydra.minerva.common.sync.NotificationHelper;
+import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
 import com.google.gson.JsonSyntaxException;
 import java8.util.Maps;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -35,7 +32,7 @@ import static be.ugent.zeus.hydra.utils.IterableUtils.transform;
 
 /**
  * Syncs the announcements for Minerva.
- * <p>
+ *
  * The exact details of the synchronisation algorithm can be found by looking at the {@link #synchronise(Account, boolean)} ()} method.
  *
  * @author Niko Strijbol
@@ -126,7 +123,7 @@ public class AnnouncementSync {
         EnumSet<Module> disabled = course.getDisabledModules();
         if (disabled.contains(Module.ANNOUNCEMENTS)) {
             Log.d(TAG, "Checking if announcements are enabled for " + course.getId());
-            Tools tools = new ModuleRequest(context, account, course).performRequest(null).getOrThrow();
+            ApiTools tools = new ModuleRequest(context, account, course).performRequest(null).getOrThrow();
             EnumSet<Module> enabled = tools.asModules();
             if (enabled.contains(Module.ANNOUNCEMENTS)) {
                 // The announcements are enabled now, so save it to the database.
@@ -142,7 +139,7 @@ public class AnnouncementSync {
         // Normally, if the we just enabled announcements above, the request below should not fail.
         // Get which requests are unread on the server.
         WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, context, account);
-        Result<WhatsNew> result = whatsNewRequest.performRequest(null);
+        Result<ApiWhatsNew> result = whatsNewRequest.performRequest(null);
 
         // If there was an error, check if the course in question actually supports announcements or not.
         if (result.hasException() &&
@@ -150,7 +147,7 @@ public class AnnouncementSync {
                 result.getError().getCause().getCause() instanceof JsonSyntaxException) {
 
             Log.i(TAG, "Error occurred while reading response.");
-            Tools tools = new ModuleRequest(context, account, course).performRequest(null).getOrThrow();
+            ApiTools tools = new ModuleRequest(context, account, course).performRequest(null).getOrThrow();
             EnumSet<Module> enabled = tools.asModules();
             if (!enabled.contains(Module.ANNOUNCEMENTS)) {
                 // Save the disabled modules.
@@ -166,7 +163,7 @@ public class AnnouncementSync {
         // Get all announcements from the server.
         AnnouncementsRequest request = new AnnouncementsRequest(context, account, course);
         List<Announcement> serverAnnouncements = request.performRequest(null)
-                .map(announcements -> transform(announcements.getAnnouncements(), announcementDTO -> AnnouncementMapper.INSTANCE.convert(announcementDTO, course)))
+                .map(announcements -> transform(announcements.announcements, announcementDTO -> ApiAnnouncementMapper.INSTANCE.convert(announcementDTO, course)))
                 .getOrThrow();
 
         // Get the announcements from the database. This returns the ID of the announcements and the read
@@ -181,15 +178,15 @@ public class AnnouncementSync {
         );
         Synchronisation.Diff<Announcement, Integer> diff = synchronisation.diff();
 
-        WhatsNew whatsNew = result.getOrThrow();
-        List<Announcement> unreadOnServer = new ArrayList<>(transform(whatsNew.getAnnouncements(), announcementDTO -> AnnouncementMapper.INSTANCE.convert(announcementDTO, course)));
+        ApiWhatsNew whatsNew = result.getOrThrow();
+        List<Announcement> unreadOnServer = new ArrayList<>(transform(whatsNew.announcements, announcementDTO -> ApiAnnouncementMapper.INSTANCE.convert(announcementDTO, course)));
 
         // Check if we need to notify for announcements that have been sent as an e-mail.
         boolean notifyIfEmailWasSent = preferences.getBoolean(
-                MinervaFragment.PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL,
-                MinervaFragment.PREF_DEFAULT_ANNOUNCEMENT_NOTIFICATION_EMAIL
+                MinervaPreferenceFragment.PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL,
+                MinervaPreferenceFragment.PREF_DEFAULT_ANNOUNCEMENT_NOTIFICATION_EMAIL
         );
-        boolean showNotifications = preferences.getBoolean(MinervaFragment.PREF_ANNOUNCEMENT_NOTIFICATION, true);
+        boolean showNotifications = preferences.getBoolean(MinervaPreferenceFragment.PREF_ANNOUNCEMENT_NOTIFICATION, true);
 
         Instant now = Instant.now();
 

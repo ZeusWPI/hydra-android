@@ -22,7 +22,6 @@ package be.ugent.zeus.hydra.minerva.auth;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 /**
@@ -32,7 +31,7 @@ import java.util.Collection;
  * @author UGent
  */
 @SuppressWarnings("unused")
-public class GrantInformation implements Serializable {
+final class GrantInformation {
 
     private Collection<String> scopes;
 

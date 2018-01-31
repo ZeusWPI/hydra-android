@@ -19,6 +19,7 @@ import be.ugent.zeus.hydra.minerva.account.MinervaAuthenticator;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.RequestException;
+import be.ugent.zeus.hydra.minerva.auth.oauth.BearerToken;
 import be.ugent.zeus.hydra.ui.common.BaseActivity;
 import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;

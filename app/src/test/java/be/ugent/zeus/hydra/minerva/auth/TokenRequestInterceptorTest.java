@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.minerva.auth;
 
+import be.ugent.zeus.hydra.minerva.auth.oauth.TokenRequestInterceptor;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

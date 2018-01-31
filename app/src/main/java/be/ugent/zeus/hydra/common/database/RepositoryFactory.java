@@ -7,13 +7,13 @@ import android.util.Log;
 import be.ugent.zeus.hydra.feed.CardRepository;
 import be.ugent.zeus.hydra.feed.database.CardDatabaseRepository;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
-import be.ugent.zeus.hydra.minerva.announcement.AnnouncementDatabaseRepository;
-import be.ugent.zeus.hydra.minerva.announcement.AnnouncementRepository;
+import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementDatabaseRepository;
+import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItemRepository;
 import be.ugent.zeus.hydra.minerva.calendar.database.AgendaDatabaseRepository;
 import be.ugent.zeus.hydra.minerva.course.database.CourseDatabaseRepository;
 import be.ugent.zeus.hydra.minerva.calendar.database.AgendaMapper;
-import be.ugent.zeus.hydra.minerva.dto.AnnouncementMapper;
+import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementMapper;
 import be.ugent.zeus.hydra.minerva.course.database.CourseMapper;
 
 import java.lang.ref.WeakReference;

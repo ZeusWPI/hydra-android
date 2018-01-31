@@ -5,8 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.minerva.course.Course;
-import be.ugent.zeus.hydra.minerva.dto.WhatsNew;
-import be.ugent.zeus.hydra.minerva.MinervaRequest;
+import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 
 /**
  * Request to get information about a course.
@@ -16,12 +15,12 @@ import be.ugent.zeus.hydra.minerva.MinervaRequest;
  * @author Niko Strijbol
  * @author feliciaan
  */
-public class WhatsNewRequest extends MinervaRequest<WhatsNew> {
+class WhatsNewRequest extends MinervaRequest<ApiWhatsNew> {
 
     private Course course;
 
-    public WhatsNewRequest(Course course, Context context, Account account) {
-        super(WhatsNew.class, context, account);
+    WhatsNewRequest(Course course, Context context, Account account) {
+        super(ApiWhatsNew.class, context, account);
         this.course = course;
     }
 

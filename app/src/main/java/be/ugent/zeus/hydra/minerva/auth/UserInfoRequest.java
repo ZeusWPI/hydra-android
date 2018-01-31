@@ -5,7 +5,8 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.common.network.RestTemplateException;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
-import be.ugent.zeus.hydra.minerva.MinervaRequest;
+import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
+import be.ugent.zeus.hydra.minerva.auth.oauth.TokenRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
@@ -19,14 +20,14 @@ import java.util.Collections;
  * @author Niko Strijbol
  * @author feliciaan
  */
-public class UserInfoRequest extends JsonSpringRequest<GrantInformation> {
+class UserInfoRequest extends JsonSpringRequest<GrantInformation> {
 
     private String token;
 
     /**
      * @param token The access token to use with the request.
      */
-    public UserInfoRequest(String token) {
+    UserInfoRequest(String token) {
         super(GrantInformation.class);
         this.token = token;
     }

@@ -9,7 +9,7 @@ import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.minerva.calendar.database.AgendaItemDTO;
-import be.ugent.zeus.hydra.minerva.dto.AnnouncementDTO;
+import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementDTO;
 import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

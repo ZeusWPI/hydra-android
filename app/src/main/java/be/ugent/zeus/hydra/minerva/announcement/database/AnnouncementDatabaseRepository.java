@@ -1,10 +1,9 @@
-package be.ugent.zeus.hydra.minerva.announcement;
+package be.ugent.zeus.hydra.minerva.announcement.database;
 
 import android.util.Log;
 
+import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.course.Course;
-import be.ugent.zeus.hydra.minerva.dto.AnnouncementDTO;
-import be.ugent.zeus.hydra.minerva.dto.AnnouncementMapper;
 import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
 import be.ugent.zeus.hydra.minerva.course.database.CourseMapper;
 import com.google.firebase.crash.FirebaseCrash;

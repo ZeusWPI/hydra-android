@@ -1,22 +1,18 @@
-package be.ugent.zeus.hydra.minerva.dto;
+package be.ugent.zeus.hydra.minerva.announcement.database;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
-import be.ugent.zeus.hydra.minerva.announcement.AnnouncementTable;
 import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
 import be.ugent.zeus.hydra.minerva.course.database.CourseTable;
-import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
 import java8.util.Objects;
 import org.threeten.bp.Instant;
 import org.threeten.bp.OffsetDateTime;
 
 /**
- * Represents an announcement from Minerva.
+ * Represents an announcement from Minerva as it is saved in the database.
  *
  * @author Niko Strijbol
  */
@@ -33,28 +29,21 @@ import org.threeten.bp.OffsetDateTime;
 )
 public final class AnnouncementDTO {
 
+    @PrimaryKey
+    @ColumnInfo(name = AnnouncementTable.Columns.ID)
+    private int id;
     @ColumnInfo(name = AnnouncementTable.Columns.TITLE)
     private String title;
     @ColumnInfo(name = AnnouncementTable.Columns.CONTENT)
     private String content;
-    @SerializedName("email_sent")
     @ColumnInfo(name = AnnouncementTable.Columns.EMAIL_SENT)
     private boolean wasEmailSent;
-    @SerializedName("item_id")
-    @PrimaryKey
-    @ColumnInfo(name = AnnouncementTable.Columns.ID)
-    private int id;
-    @SerializedName("last_edit_user")
     @ColumnInfo(name = AnnouncementTable.Columns.LECTURER)
     private String lecturer;
-    @SerializedName("last_edit_time")
-    @JsonAdapter(DateTypeConverters.GsonOffset.class)
     @ColumnInfo(name = AnnouncementTable.Columns.DATE)
     private OffsetDateTime lastEditedAt;
-    @SerializedName("read_at") // For testing
     @ColumnInfo(name = AnnouncementTable.Columns.READ_DATE)
     private Instant readAt;
-    @SerializedName("course_id")
     @ColumnInfo(name = AnnouncementTable.Columns.COURSE, index = true)
     private String courseId;
 

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.minerva.sync;
+package be.ugent.zeus.hydra.minerva.common.sync;
 
 import android.accounts.Account;
 import android.content.ContentProviderClient;
@@ -12,7 +12,7 @@ import be.ugent.zeus.hydra.common.database.RepositoryFactory;
 import be.ugent.zeus.hydra.common.sync.AbstractAdapter;
 import be.ugent.zeus.hydra.common.sync.SyncUtils;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItemRepository;
-import be.ugent.zeus.hydra.minerva.announcement.AnnouncementRepository;
+import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import be.ugent.zeus.hydra.minerva.announcement.sync.AnnouncementSync;
 import be.ugent.zeus.hydra.minerva.calendar.sync.CalendarSync;

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.minerva.course;
+package be.ugent.zeus.hydra.minerva.course.database;
 
 import android.database.sqlite.SQLiteConstraintException;
 import android.support.annotation.RequiresApi;

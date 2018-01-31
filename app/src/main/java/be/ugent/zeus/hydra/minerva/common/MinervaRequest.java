@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.minerva;
+package be.ugent.zeus.hydra.minerva.common;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -13,7 +13,7 @@ import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.common.network.IOFailureException;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.network.RestTemplateException;
-import be.ugent.zeus.hydra.minerva.auth.TokenRequestInterceptor;
+import be.ugent.zeus.hydra.minerva.auth.oauth.TokenRequestInterceptor;
 import be.ugent.zeus.hydra.common.request.Result;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpServerErrorException;

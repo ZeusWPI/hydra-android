@@ -11,7 +11,7 @@ import android.util.Log;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
-import be.ugent.zeus.hydra.minerva.sync.SyncBroadcast;
+import be.ugent.zeus.hydra.minerva.common.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.feed.CardRepository;
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;

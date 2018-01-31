@@ -1,9 +1,8 @@
-package be.ugent.zeus.hydra.minerva.announcement;
+package be.ugent.zeus.hydra.minerva.announcement.database;
 
 import android.arch.persistence.room.*;
 
 import be.ugent.zeus.hydra.minerva.course.database.CourseTable;
-import be.ugent.zeus.hydra.minerva.dto.AnnouncementDTO;
 import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
 import org.threeten.bp.Instant;
 

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.minerva.auth;
+package be.ugent.zeus.hydra.minerva.auth.oauth;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,13 +17,14 @@ import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
  *
  * @author Niko Strijbol
  */
-public abstract class AccessTokenRequest implements Request<BearerToken> {
+abstract class AccessTokenRequest implements Request<BearerToken> {
 
+    @SuppressWarnings("WeakerAccess")
     protected OAuthConfiguration configData;
     protected String code;
     private Gson gson;
 
-    public AccessTokenRequest(OAuthConfiguration configData, String code) {
+    AccessTokenRequest(OAuthConfiguration configData, String code) {
         this.configData = configData;
         this.code = code;
         this.gson = new Gson();

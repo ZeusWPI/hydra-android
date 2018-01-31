@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.minerva.dto;
+package be.ugent.zeus.hydra.minerva.announcement.sync;
 
 import be.ugent.zeus.hydra.minerva.course.Module;
 import java8.util.stream.Collectors;
@@ -14,20 +14,12 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-public class Tools {
+class ApiTools {
 
-    private List<Tool> tools;
-
-    public List<Tool> getTools() {
-        return tools;
-    }
-
-    public void setTools(List<Tool> tools) {
-        this.tools = tools;
-    }
+    public List<ApiTool> tools;
 
     public EnumSet<Module> asModules() {
-        return StreamSupport.stream(getTools())
+        return StreamSupport.stream(tools)
                 .flatMap(o -> o.asModule().stream())
                 .collect(Collectors.toCollection(() -> EnumSet.noneOf(Module.class)));
     }
