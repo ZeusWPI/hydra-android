@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
 
 import static be.ugent.zeus.hydra.testing.Assert.*;
 import static be.ugent.zeus.hydra.testing.Assert.assertThat;
+import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static be.ugent.zeus.hydra.testing.Utils.getRandom;
-import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.junit.Assert.*;
 
 /**
@@ -99,7 +99,7 @@ public class CardDaoTest {
 
     @Test
     public void testInsert() {
-        CardDismissal dismissal = random(CardDismissal.class);
+        CardDismissal dismissal = generate(CardDismissal.class);
         cardDao.insert(dismissal);
         List<CardDismissal> dismissals = cardDao.getForType(dismissal.getIdentifier().getCardType());
         assertTrue(dismissals.contains(dismissal));
