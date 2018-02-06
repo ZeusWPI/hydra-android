@@ -42,7 +42,7 @@ public class AnnouncementViewHolder extends DataViewHolder<Announcement> {
         if (data.isRead()) {
             itemView.setBackgroundColor(Color.TRANSPARENT);
         } else {
-            itemView.setBackgroundResource(R.color.hydra_item_selected_background);
+            itemView.setBackgroundColor(Color.WHITE);
         }
 
         clickingView.setOnClickListener(v -> {
