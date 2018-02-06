@@ -1,11 +1,12 @@
-package be.ugent.zeus.hydra.ui.main.schamper;
+package be.ugent.zeus.hydra.schamper.list;
 
 import android.app.Application;
-import be.ugent.zeus.hydra.schamper.Article;
+
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Requests;
+import be.ugent.zeus.hydra.common.ui.RequestViewModel;
+import be.ugent.zeus.hydra.schamper.Article;
 import be.ugent.zeus.hydra.schamper.SchamperArticlesRequest;
-import be.ugent.zeus.hydra.ui.common.RequestViewModel;
 
 import java.util.Arrays;
 import java.util.List;

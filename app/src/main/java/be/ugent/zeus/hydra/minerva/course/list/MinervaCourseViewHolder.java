@@ -6,14 +6,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.html.Utils;
+import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchHelper;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchStateListener;
+import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.OnStartDragListener;
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.minerva.course.Course;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.SearchHelper;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.SearchStateListener;
-import be.ugent.zeus.hydra.ui.common.html.Utils;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.OnStartDragListener;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.minerva.course.singlecourse.CourseActivity;
 
 /**

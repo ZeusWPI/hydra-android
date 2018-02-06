@@ -1,7 +1,8 @@
 package be.ugent.zeus.hydra.common.arch.observers;
 
 import android.arch.lifecycle.Observer;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.Adapter;
+
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.Adapter;
 
 import java.util.List;
 

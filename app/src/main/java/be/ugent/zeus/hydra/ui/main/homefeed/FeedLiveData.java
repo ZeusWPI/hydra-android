@@ -22,7 +22,7 @@ import be.ugent.zeus.hydra.minerva.calendar.feed.MinervaAgendaRequest;
 import be.ugent.zeus.hydra.minerva.announcement.feed.MinervaAnnouncementRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.news.NewsRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.resto.RestoRequest;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.schamper.SchamperRequest;
+import be.ugent.zeus.hydra.schamper.feed.SchamperRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.specialevent.SpecialEventRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.urgent.UrgentRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.operations.FeedOperation;

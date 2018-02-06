@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import be.ugent.zeus.hydra.common.ui.BaseActivity;
 
 /**
  * Show SKO preferences. This activity is a wrapper around {@link SkoPreferencesFragment}.

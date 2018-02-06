@@ -5,19 +5,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.feed.Card;
-import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
-import be.ugent.zeus.hydra.ui.main.homefeed.commands.FeedCommand;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.event.EventCardViewHolder;
-import be.ugent.zeus.hydra.minerva.calendar.feed.MinervaAgendaViewHolder;
 import be.ugent.zeus.hydra.minerva.announcement.feed.MinervaAnnouncementViewHolder;
 import be.ugent.zeus.hydra.minerva.auth.feed.MinervaLoginViewHolder;
+import be.ugent.zeus.hydra.minerva.calendar.feed.MinervaAgendaViewHolder;
+import be.ugent.zeus.hydra.schamper.feed.SchamperViewHolder;
+import be.ugent.zeus.hydra.ui.main.homefeed.commands.FeedCommand;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.event.EventCardViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.news.NewsItemViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.resto.RestoCardViewHolder;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.schamper.SchamperViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.specialevent.SpecialEventCardViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.urgent.UrgentViewHolder;
 

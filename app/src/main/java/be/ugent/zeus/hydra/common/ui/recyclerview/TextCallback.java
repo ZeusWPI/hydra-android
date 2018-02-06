@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview;
+package be.ugent.zeus.hydra.common.ui.recyclerview;
 
 import android.view.View;
 import android.view.ViewGroup;

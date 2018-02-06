@@ -2,10 +2,10 @@ package be.ugent.zeus.hydra.ui.main.library;
 
 import android.app.Application;
 
-import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
+import be.ugent.zeus.hydra.common.ui.RefreshViewModel;
+import be.ugent.zeus.hydra.library.Library;
 
 import java.util.List;
 

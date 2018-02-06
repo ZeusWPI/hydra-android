@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main.homefeed.content.schamper;
+package be.ugent.zeus.hydra.schamper.feed;
 
 import android.graphics.Color;
 import android.text.Spannable;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.schamper.Article;
-import be.ugent.zeus.hydra.ui.SchamperArticleActivity;
+import be.ugent.zeus.hydra.schamper.FullArticleActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
@@ -64,6 +64,6 @@ public class SchamperViewHolder extends FeedViewHolder {
 
         FeedUtils.loadThumbnail(itemView.getContext(), article.getImage(), image);
 
-        this.itemView.setOnClickListener(v -> SchamperArticleActivity.viewArticle(v.getContext(), article, adapter.getCompanion().getHelper(), image));
+        this.itemView.setOnClickListener(v -> FullArticleActivity.viewArticle(v.getContext(), article, adapter.getCompanion().getHelper(), image));
     }
 }

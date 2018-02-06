@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.resto.Sandwich;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 /**

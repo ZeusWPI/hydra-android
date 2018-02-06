@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import be.ugent.zeus.hydra.common.ui.AdapterOutOfBoundsException;
 import be.ugent.zeus.hydra.minerva.announcement.unreadlist.UnreadAnnouncementsFragment;
 import be.ugent.zeus.hydra.minerva.course.list.CourseListFragment;
-import be.ugent.zeus.hydra.ui.common.AdapterOutOfBoundsException;
 
 /**
  * @author Niko Strijbol

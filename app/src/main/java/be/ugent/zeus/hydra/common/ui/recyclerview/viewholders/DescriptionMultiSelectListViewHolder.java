@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview.viewholders;
+package be.ugent.zeus.hydra.common.ui.recyclerview.viewholders;
 
 
 import android.view.View;
@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectDiffAdapter;
 import java8.util.function.Function;
 
 /*

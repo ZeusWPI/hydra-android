@@ -20,7 +20,7 @@ import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
-import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
 import java.util.*;

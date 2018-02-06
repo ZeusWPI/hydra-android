@@ -22,14 +22,14 @@ import android.widget.Spinner;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.resto.network.SelectableMetaRequest;
-import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
-import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.main.ArgumentsReceiver;
 import be.ugent.zeus.hydra.main.ScheduledRemovalListener;
+import be.ugent.zeus.hydra.resto.RestoMenu;
+import be.ugent.zeus.hydra.resto.network.SelectableMetaRequest;
 import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.ui.resto.RestoLocationActivity;
 import be.ugent.zeus.hydra.ui.resto.SandwichActivity;

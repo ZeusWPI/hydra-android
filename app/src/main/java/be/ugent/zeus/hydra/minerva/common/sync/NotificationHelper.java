@@ -16,11 +16,11 @@ import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ChannelCreator;
-import be.ugent.zeus.hydra.minerva.announcement.Announcement;
-import be.ugent.zeus.hydra.minerva.course.Course;
-import be.ugent.zeus.hydra.ui.common.html.Utils;
+import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.main.MainActivity;
+import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
+import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.singlecourse.CourseActivity;
 
 import java.util.Collection;

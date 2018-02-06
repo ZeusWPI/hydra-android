@@ -1,11 +1,11 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
+package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 
-import be.ugent.zeus.hydra.ui.common.recyclerview.EqualsCallback;
+import be.ugent.zeus.hydra.common.ui.recyclerview.EqualsCallback;
 import java8.util.function.BiFunction;
 
 import java.util.ArrayList;

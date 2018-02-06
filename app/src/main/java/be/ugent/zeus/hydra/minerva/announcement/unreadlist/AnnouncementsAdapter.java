@@ -3,10 +3,10 @@ package be.ugent.zeus.hydra.minerva.announcement.unreadlist;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectDiffAdapter;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
-import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectDiffAdapter;
 
 /**
  * Adapteer for announcements.

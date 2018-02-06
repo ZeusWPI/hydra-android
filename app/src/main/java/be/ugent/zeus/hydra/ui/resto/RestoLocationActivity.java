@@ -15,12 +15,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.resto.Resto;
-import be.ugent.zeus.hydra.resto.RestoMeta;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
-import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.resto.Resto;
+import be.ugent.zeus.hydra.resto.RestoMeta;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;

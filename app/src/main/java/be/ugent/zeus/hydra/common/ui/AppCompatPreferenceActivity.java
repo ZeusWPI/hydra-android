@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.common;
+package be.ugent.zeus.hydra.common.ui;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

@@ -3,11 +3,11 @@ package be.ugent.zeus.hydra.ui.main.homefeed;
 import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
 
-import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.arch.data.SingleLiveEvent;
 import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
+import be.ugent.zeus.hydra.common.ui.RefreshViewModel;
+import be.ugent.zeus.hydra.feed.Card;
 
 import java.util.List;
 

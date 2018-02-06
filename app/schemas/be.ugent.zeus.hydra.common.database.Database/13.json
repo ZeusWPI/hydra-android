@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 13,
-    "identityHash": "95ebef7251b10b2809480ab315b075f0",
+    "identityHash": "e7ae03a82a103101487a166494a00562",
     "entities": [
       {
         "tableName": "minerva_courses",
@@ -181,8 +181,14 @@
       },
       {
         "tableName": "minerva_announcements",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`title` TEXT, `content` TEXT, `email_sent` INTEGER NOT NULL, `_id` INTEGER NOT NULL, `last_edit_user` TEXT, `date` TEXT, `read_at` TEXT, `course` TEXT, PRIMARY KEY(`_id`), FOREIGN KEY(`course`) REFERENCES `minerva_courses`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER NOT NULL, `title` TEXT, `content` TEXT, `email_sent` INTEGER NOT NULL, `last_edit_user` TEXT, `date` TEXT, `read_at` TEXT, `course` TEXT, PRIMARY KEY(`_id`), FOREIGN KEY(`course`) REFERENCES `minerva_courses`(`_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "title",
             "columnName": "title",
@@ -198,12 +204,6 @@
           {
             "fieldPath": "wasEmailSent",
             "columnName": "email_sent",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "id",
-            "columnName": "_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -307,7 +307,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"95ebef7251b10b2809480ab315b075f0\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e7ae03a82a103101487a166494a00562\")"
     ]
   }
 }

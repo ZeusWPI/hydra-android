@@ -6,13 +6,13 @@ import android.util.Pair;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.ItemDragHelperAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.OnStartDragListener;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
-import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.SearchableDiffAdapter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.ItemDragHelperAdapter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.OnStartDragListener;
 import java8.util.stream.Collectors;
 import java8.util.stream.IntStreams;
 

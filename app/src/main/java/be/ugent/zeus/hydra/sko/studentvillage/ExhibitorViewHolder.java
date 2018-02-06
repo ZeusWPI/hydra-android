@@ -7,8 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.html.Utils;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
+import be.ugent.zeus.hydra.common.ui.html.Utils;
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import com.squareup.picasso.Picasso;
 
 /**

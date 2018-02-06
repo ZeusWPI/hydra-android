@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import be.ugent.zeus.hydra.common.ui.BaseActivity;
 
 public class ExtraFoodActivity extends BaseActivity {
 

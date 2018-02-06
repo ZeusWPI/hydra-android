@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
+package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;

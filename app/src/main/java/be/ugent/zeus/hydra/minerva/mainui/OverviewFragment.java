@@ -22,18 +22,18 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.minerva.account.AccountUtils;
-import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
 import be.ugent.zeus.hydra.common.sync.SyncUtils;
-import be.ugent.zeus.hydra.minerva.common.sync.MinervaAdapter;
-import be.ugent.zeus.hydra.minerva.common.sync.SyncBroadcast;
-import be.ugent.zeus.hydra.minerva.common.sync.NotificationHelper;
-import be.ugent.zeus.hydra.minerva.calendar.AgendaItemRepository;
-import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;
-import be.ugent.zeus.hydra.minerva.course.CourseRepository;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.main.ScheduledRemovalListener;
+import be.ugent.zeus.hydra.minerva.account.AccountUtils;
+import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
+import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;
+import be.ugent.zeus.hydra.minerva.calendar.AgendaItemRepository;
+import be.ugent.zeus.hydra.minerva.common.sync.MinervaAdapter;
+import be.ugent.zeus.hydra.minerva.common.sync.NotificationHelper;
+import be.ugent.zeus.hydra.minerva.common.sync.SyncBroadcast;
+import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.IOException;

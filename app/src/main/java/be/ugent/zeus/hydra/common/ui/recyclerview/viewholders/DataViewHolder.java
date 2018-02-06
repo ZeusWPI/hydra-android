@@ -1,9 +1,9 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview.viewholders;
+package be.ugent.zeus.hydra.common.ui.recyclerview.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.Adapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.Adapter;
 
 /**
  * A generic view holder, intended as root of all other view holders.

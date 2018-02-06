@@ -10,10 +10,10 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.ui.WebViewActivity;
 import be.ugent.zeus.hydra.ui.InfoSubItemActivity;
-import be.ugent.zeus.hydra.ui.common.WebViewActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import be.ugent.zeus.hydra.ui.common.ViewUtils;
 
 /**
  * The type of information (external url/app, internal url, ...).

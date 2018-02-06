@@ -18,9 +18,9 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
+import be.ugent.zeus.hydra.common.ui.recyclerview.EmptyViewObserver;
+import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.minerva.course.Course;
-import be.ugent.zeus.hydra.ui.common.recyclerview.EmptyViewObserver;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
 import static android.app.Activity.RESULT_OK;

@@ -1,6 +1,6 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
+package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import java8.util.function.BiPredicate;
 import java8.util.function.Function;
 import java8.util.function.Functions;

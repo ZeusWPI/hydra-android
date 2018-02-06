@@ -14,15 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.request.Request;
+import be.ugent.zeus.hydra.common.request.RequestException;
+import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.minerva.account.MinervaAuthenticator;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
-import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.minerva.auth.oauth.BearerToken;
-import be.ugent.zeus.hydra.ui.common.BaseActivity;
-import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
 import org.threeten.bp.LocalDateTime;
 
 /**

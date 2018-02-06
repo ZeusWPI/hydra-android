@@ -2,10 +2,11 @@ package be.ugent.zeus.hydra.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.BaseActivity;
-import be.ugent.zeus.hydra.ui.main.info.InfoFragment;
+import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.info.InfoItem;
+import be.ugent.zeus.hydra.ui.main.info.InfoFragment;
 
 import java.util.ArrayList;
 

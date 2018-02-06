@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.common.html;
+package be.ugent.zeus.hydra.common.ui.html;
 /*
  * Copyright (C) 2016 Niko Strijbol
  * Copyright (C) 2013-2014 Dominik Schürmann <dominik@dominikschuermann.de>

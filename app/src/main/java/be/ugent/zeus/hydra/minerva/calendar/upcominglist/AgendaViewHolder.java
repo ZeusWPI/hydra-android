@@ -2,10 +2,11 @@ package be.ugent.zeus.hydra.minerva.calendar.upcominglist;
 
 import android.view.View;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.minerva.calendar.itemdetails.AgendaActivity;
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
+import be.ugent.zeus.hydra.minerva.calendar.itemdetails.AgendaActivity;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**

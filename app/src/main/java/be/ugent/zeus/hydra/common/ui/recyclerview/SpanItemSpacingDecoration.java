@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview;
+package be.ugent.zeus.hydra.common.ui.recyclerview;
 
 import android.content.Context;
 import android.graphics.Rect;

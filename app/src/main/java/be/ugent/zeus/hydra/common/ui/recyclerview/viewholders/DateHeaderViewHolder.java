@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview.viewholders;
+package be.ugent.zeus.hydra.common.ui.recyclerview.viewholders;
 
 import android.view.View;
 import android.widget.TextView;

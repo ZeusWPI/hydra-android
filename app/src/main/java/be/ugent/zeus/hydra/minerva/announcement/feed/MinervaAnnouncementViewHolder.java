@@ -9,17 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.feed.Card;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
 import be.ugent.zeus.hydra.minerva.course.singlecourse.CourseActivity;
+import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
+import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
-import static be.ugent.zeus.hydra.ui.common.ViewUtils.convertDpToPixelInt;
+import static be.ugent.zeus.hydra.common.ui.ViewUtils.convertDpToPixelInt;
 
 /**
  * Minerva home view holder. We limit it to 5 announcements.

@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.AdapterOutOfBoundsException;
+import be.ugent.zeus.hydra.common.ui.AdapterOutOfBoundsException;
 
 /**
  * This provides the tabs in a minerva course.

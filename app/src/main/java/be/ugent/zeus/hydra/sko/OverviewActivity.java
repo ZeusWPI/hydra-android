@@ -18,10 +18,10 @@ import android.view.MenuItem;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.Endpoints;
+import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.notification.FirebaseMessageService;
-import be.ugent.zeus.hydra.sko.preferences.WrapperActivity;
 import be.ugent.zeus.hydra.sko.preferences.SkoPreferencesFragment;
-import be.ugent.zeus.hydra.ui.common.BaseActivity;
+import be.ugent.zeus.hydra.sko.preferences.WrapperActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.google.firebase.messaging.FirebaseMessaging;
 

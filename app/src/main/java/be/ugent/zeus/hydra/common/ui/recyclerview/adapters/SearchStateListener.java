@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.common.recyclerview.adapters;
+package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
 /**
  * @author Niko Strijbol

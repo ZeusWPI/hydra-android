@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.ui.preferences;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
@@ -9,9 +10,9 @@ import android.view.MenuItem;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.AppCompatPreferenceActivity;
 import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
 import be.ugent.zeus.hydra.sko.preferences.SkoPreferencesFragment;
-import be.ugent.zeus.hydra.ui.common.AppCompatPreferenceActivity;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     @Override
-    public void onBuildHeaders(List<Header> target) {
+    public void onBuildHeaders(List<PreferenceActivity.Header> target) {
         loadHeadersFromResource(R.xml.pref_headers, target);
     }
 

@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import be.ugent.zeus.hydra.ui.common.html.Utils;
 import org.threeten.bp.LocalDate;
 
 import java.util.Locale;

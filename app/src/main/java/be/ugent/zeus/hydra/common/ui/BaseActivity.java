@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.common;
+package be.ugent.zeus.hydra.common.ui;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;

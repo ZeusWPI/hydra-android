@@ -17,16 +17,16 @@ import android.view.*;
 import android.widget.ProgressBar;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.database.RepositoryFactory;
-import be.ugent.zeus.hydra.minerva.course.Course;
-import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.DragCallback;
-import be.ugent.zeus.hydra.ui.common.recyclerview.ordering.OnStartDragListener;
+import be.ugent.zeus.hydra.common.database.RepositoryFactory;
+import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.DragCallback;
+import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.OnStartDragListener;
+import be.ugent.zeus.hydra.minerva.course.Course;
+import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 
 import java.util.List;
 

@@ -9,7 +9,7 @@ import android.support.v7.content.res.AppCompatResources;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.common.WebViewActivity;
+import be.ugent.zeus.hydra.common.ui.WebViewActivity;
 
 /**
  * @author Niko Strijbol

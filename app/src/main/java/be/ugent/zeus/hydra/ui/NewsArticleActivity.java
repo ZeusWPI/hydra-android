@@ -16,11 +16,11 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.UgentNewsItem;
-import be.ugent.zeus.hydra.ui.common.BaseActivity;
-import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.ui.common.customtabs.CustomTabsHelper;
-import be.ugent.zeus.hydra.ui.common.html.PicassoImageGetter;
-import be.ugent.zeus.hydra.ui.common.html.Utils;
+import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
+import be.ugent.zeus.hydra.common.ui.html.PicassoImageGetter;
+import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.ui.preferences.ArticlePreferenceFragment;
 import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.DateUtils;

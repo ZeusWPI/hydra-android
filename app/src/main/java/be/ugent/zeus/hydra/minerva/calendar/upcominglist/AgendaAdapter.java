@@ -3,11 +3,11 @@ package be.ugent.zeus.hydra.minerva.calendar.upcominglist;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.ui.recyclerview.EqualsCallback;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DateHeaderViewHolder;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;
-import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import be.ugent.zeus.hydra.ui.common.recyclerview.EqualsCallback;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.ItemDiffAdapter;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DateHeaderViewHolder;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import org.threeten.bp.format.DateTimeFormatter;
 

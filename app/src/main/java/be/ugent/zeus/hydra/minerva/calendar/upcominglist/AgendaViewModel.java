@@ -1,11 +1,12 @@
 package be.ugent.zeus.hydra.minerva.calendar.upcominglist;
 
 import android.app.Application;
+
+import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
+import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.common.ui.RefreshViewModel;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;
 import be.ugent.zeus.hydra.minerva.course.Course;
-import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
-import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
 import java8.util.Objects;
 
 import java.util.List;

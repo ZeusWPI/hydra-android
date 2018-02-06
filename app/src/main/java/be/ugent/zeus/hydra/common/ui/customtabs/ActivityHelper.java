@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.common.customtabs;
+package be.ugent.zeus.hydra.common.ui.customtabs;
 
 import android.app.Activity;
 import android.net.Uri;

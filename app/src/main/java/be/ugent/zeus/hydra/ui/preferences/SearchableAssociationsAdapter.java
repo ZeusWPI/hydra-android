@@ -6,8 +6,8 @@ import android.widget.SearchView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.ui.common.ViewUtils;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.MultiSelectSearchableAdapter;
+import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectSearchableAdapter;
 
 import java.util.Collections;
 

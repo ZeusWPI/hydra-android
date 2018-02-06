@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.common.widgets;
+package be.ugent.zeus.hydra.common.ui.widgets;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,9 +13,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.resto.RestoMeal;
 import be.ugent.zeus.hydra.resto.RestoMenu;
-import be.ugent.zeus.hydra.ui.common.ViewUtils;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.common.customtabs;
+package be.ugent.zeus.hydra.common.ui.customtabs;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -11,7 +11,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.customtabs.*;
 import android.util.Log;
-import be.ugent.zeus.hydra.ui.common.ViewUtils;
+
+import be.ugent.zeus.hydra.common.ui.ViewUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.HashSet;

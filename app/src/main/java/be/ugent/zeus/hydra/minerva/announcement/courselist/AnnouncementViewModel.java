@@ -1,9 +1,10 @@
 package be.ugent.zeus.hydra.minerva.announcement.courselist;
 
 import android.app.Application;
+
+import be.ugent.zeus.hydra.common.ui.RefreshViewModel;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.course.Course;
-import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
 import java8.util.Objects;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui;
+package be.ugent.zeus.hydra.schamper;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,11 +22,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.schamper.Article;
-import be.ugent.zeus.hydra.ui.common.BaseActivity;
-import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.ui.common.html.PicassoImageGetter;
-import be.ugent.zeus.hydra.ui.common.html.Utils;
+import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.common.ui.html.PicassoImageGetter;
+import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.ui.preferences.ArticlePreferenceFragment;
 import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -35,7 +34,7 @@ import be.ugent.zeus.hydra.utils.StringUtils;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
 
-public class SchamperArticleActivity extends BaseActivity {
+public class FullArticleActivity extends BaseActivity {
 
     private static final String PARCEL_ARTICLE = "article";
 
@@ -50,7 +49,7 @@ public class SchamperArticleActivity extends BaseActivity {
      * @param article  The article.
      */
     private static void launchWithAnimation(Activity activity, View view, String name, Parcelable article) {
-        Intent intent = new Intent(activity, SchamperArticleActivity.class);
+        Intent intent = new Intent(activity, FullArticleActivity.class);
         intent.putExtra(PARCEL_ARTICLE, article);
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, view, name);
         ActivityCompat.startActivity(activity, intent, options.toBundle());
@@ -182,7 +181,7 @@ public class SchamperArticleActivity extends BaseActivity {
             // Open in Custom tabs.
             helper.openCustomTab(Uri.parse(article.getLink()));
         } else {
-            SchamperArticleActivity.launchWithAnimation(helper.getActivity(), image, "hero", article);
+            FullArticleActivity.launchWithAnimation(helper.getActivity(), image, "hero", article);
         }
     }
 }

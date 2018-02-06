@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main.homefeed.content.schamper;
+package be.ugent.zeus.hydra.schamper.feed;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -3,10 +3,10 @@ package be.ugent.zeus.hydra.minerva.course.list;
 import android.app.Application;
 import android.util.Pair;
 
-import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
+import be.ugent.zeus.hydra.common.ui.RefreshViewModel;
+import be.ugent.zeus.hydra.minerva.course.Course;
 
 import java.util.List;
 

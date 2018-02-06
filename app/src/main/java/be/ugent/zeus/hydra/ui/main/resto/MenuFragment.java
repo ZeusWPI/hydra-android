@@ -6,9 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
 import be.ugent.zeus.hydra.resto.RestoMenu;
-import be.ugent.zeus.hydra.ui.common.widgets.MenuTable;
 
 /**
  * Displays the resto menu for one day. This is mostly used in the view pager.

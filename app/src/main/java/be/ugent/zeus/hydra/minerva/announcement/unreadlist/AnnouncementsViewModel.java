@@ -1,8 +1,9 @@
 package be.ugent.zeus.hydra.minerva.announcement.unreadlist;
 
 import android.app.Application;
+
+import be.ugent.zeus.hydra.common.ui.RefreshViewModel;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
-import be.ugent.zeus.hydra.ui.common.RefreshViewModel;
 
 import java.util.List;
 

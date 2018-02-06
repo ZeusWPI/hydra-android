@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Event;
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.ui.EventDetailActivity;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
 import com.github.captain_miao.optroundcardview.OptRoundCardView;
 import org.threeten.bp.format.DateTimeFormatter;
 

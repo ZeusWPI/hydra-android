@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.common;
+package be.ugent.zeus.hydra.common.ui;
 
 /**
  * Thrown when information for a non-existent tab is requested.

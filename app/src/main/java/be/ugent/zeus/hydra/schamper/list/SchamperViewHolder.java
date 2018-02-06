@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main.schamper;
+package be.ugent.zeus.hydra.schamper.list;
 
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
@@ -8,10 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.schamper.Article;
-import be.ugent.zeus.hydra.ui.SchamperArticleActivity;
-import be.ugent.zeus.hydra.ui.common.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.ui.common.recyclerview.viewholders.DataViewHolder;
+import be.ugent.zeus.hydra.schamper.FullArticleActivity;
 import be.ugent.zeus.hydra.utils.ColourUtils;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -83,7 +83,7 @@ class SchamperViewHolder extends DataViewHolder<Article> {
             Picasso.with(this.itemView.getContext()).load(article.getLargeImage()).into(image);
         }
 
-        this.itemView.setOnClickListener(v -> SchamperArticleActivity.viewArticle(v.getContext(), article, helper, image));
+        this.itemView.setOnClickListener(v -> FullArticleActivity.viewArticle(v.getContext(), article, helper, image));
     }
 
     private void setDefaultColours() {

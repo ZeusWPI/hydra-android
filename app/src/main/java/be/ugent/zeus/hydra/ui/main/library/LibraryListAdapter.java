@@ -4,8 +4,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableDiffAdapter;
 import be.ugent.zeus.hydra.library.Library;
-import be.ugent.zeus.hydra.ui.common.recyclerview.adapters.SearchableDiffAdapter;
 
 /**
  * Adapter for a list of libraries.
