@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.minerva.course;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -40,12 +41,16 @@ public enum Module {
      *
      * @return The numerical values.
      */
-    public static int toNumericalValue(@NonNull Set<Module> enums) {
-        int i = 0;
-        for (Module module: enums) {
-            i |= module.numericValue;
+    public static int toNumericalValue(@Nullable Set<Module> enums) {
+        if (enums == null) {
+            return 0;
+        } else {
+            int i = 0;
+            for (Module module : enums) {
+                i |= module.numericValue;
+            }
+            return i;
         }
-        return i;
     }
 
     /**

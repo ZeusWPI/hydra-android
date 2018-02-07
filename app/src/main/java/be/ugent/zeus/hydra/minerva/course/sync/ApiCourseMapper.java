@@ -13,7 +13,7 @@ import org.mapstruct.factory.Mappers;
  * @author Niko Strijbol
  */
 @Mapper
-interface ApiCourseMapper {
+public interface ApiCourseMapper {
 
     ApiCourseMapper INSTANCE = Mappers.getMapper(ApiCourseMapper.class);
 

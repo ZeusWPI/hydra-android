@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
  * @author Niko Strijbol
  */
 @Mapper
-interface ApiAnnouncementMapper {
+public interface ApiAnnouncementMapper {
 
     ApiAnnouncementMapper INSTANCE = Mappers.getMapper(ApiAnnouncementMapper.class);
 

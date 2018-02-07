@@ -15,14 +15,14 @@
         android:id="@+id/home_cards_resto_container"
         android:paddingBottom="@dimen/card_title_padding_bottom">
 
-        <be.ugent.zeus.hydra.ui.common.widgets.NowToolbar
+        <be.ugent.zeus.hydra.common.ui.widgets.NowToolbar
             android:id="@+id/card_now_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:icon="@drawable/tabs_menu"
             />
 
-        <be.ugent.zeus.hydra.ui.common.widgets.MenuTable
+        <be.ugent.zeus.hydra.common.ui.widgets.MenuTable
             android:paddingRight="@dimen/card_title_padding_vertical"
             android:paddingLeft="@dimen/card_title_padding_vertical"
             android:id="@+id/menu_table"

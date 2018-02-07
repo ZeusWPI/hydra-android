@@ -13,7 +13,7 @@ import org.mapstruct.factory.Mappers;
  * @author Niko Strijbol
  */
 @Mapper
-interface ApiCalendarMapper {
+public interface ApiCalendarMapper {
 
     ApiCalendarMapper INSTANCE = Mappers.getMapper(ApiCalendarMapper.class);
 

@@ -7,8 +7,8 @@ import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
-import org.junit.Ignore;
 import be.ugent.zeus.hydra.common.database.Database;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
