@@ -12,6 +12,7 @@ import org.robolectric.util.Pair;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static be.ugent.zeus.hydra.testing.Assert.*;
@@ -201,12 +202,39 @@ public class CourseDaoTest extends AbstractDaoTest {
 
     @Test
     public void getIdsAndOrders() {
-        List<Pair<String, Integer>> expected = courses.stream()
-                .map(c -> new Pair<>(c.getId(), c.getOrder()))
+        List<Triple<String, Integer, Integer>> expected = courses.stream()
+                .map(c -> new Triple<>(c.getId(), c.getOrder(), c.getDisabledModules()))
                 .collect(Collectors.toList());
-        List<Pair<String, Integer>> actual = dao.getIdsAndOrders().stream()
-                .map(r -> new Pair<>(r.id, r.order))
+        List<Triple<String, Integer, Integer>> actual = dao.getIdsAndLocalData().stream()
+                .map(r -> new Triple<>(r.id, r.order, r.disabledModules))
                 .collect(Collectors.toList());
         assertCollectionEquals(expected, actual);
+    }
+
+    private static class Triple<A, B, C> {
+        private final A one;
+        private final B two;
+        private final C three;
+
+        private Triple(A one, B two, C three) {
+            this.one = one;
+            this.two = two;
+            this.three = three;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Triple<?, ?, ?> triple = (Triple<?, ?, ?>) o;
+            return Objects.equals(one, triple.one) &&
+                    Objects.equals(two, triple.two) &&
+                    Objects.equals(three, triple.three);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(one, two, three);
+        }
     }
 }

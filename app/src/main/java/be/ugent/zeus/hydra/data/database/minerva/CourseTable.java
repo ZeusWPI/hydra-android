@@ -20,5 +20,6 @@ public final class CourseTable {
         String TUTOR = "tutor";
         String ACADEMIC_YEAR = "academic_year";
         String ORDER = "ordering";
+        String DISABLED_MODULES = "disabled_modules";
     }
 }

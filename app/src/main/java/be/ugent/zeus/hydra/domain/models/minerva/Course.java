@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+import java.util.EnumSet;
 
 /**
  * Created by feliciaan on 21/06/16.
@@ -17,6 +18,7 @@ public final class Course implements Serializable, Parcelable {
     private String tutorName;
     private int academicYear;
     private int order = 0;
+    private EnumSet<Module> disabledModules;
 
     public String getId() {
         return id;
@@ -66,6 +68,10 @@ public final class Course implements Serializable, Parcelable {
         this.academicYear = academicYear;
     }
 
+    public void setDisabledModules(EnumSet<Module> disabledModules) {
+        this.disabledModules = disabledModules;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -80,6 +86,7 @@ public final class Course implements Serializable, Parcelable {
         dest.writeString(this.tutorName);
         dest.writeInt(this.academicYear);
         dest.writeInt(this.order);
+        dest.writeInt(Module.toNumericalValue(disabledModules));
     }
 
     public Course() {
@@ -93,6 +100,7 @@ public final class Course implements Serializable, Parcelable {
         this.tutorName = in.readString();
         this.academicYear = in.readInt();
         this.order = in.readInt();
+        this.disabledModules = Module.fromNumericalValue(in.readInt());
     }
 
     public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>() {
@@ -126,5 +134,13 @@ public final class Course implements Serializable, Parcelable {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public EnumSet<Module> getDisabledModules() {
+        return disabledModules;
+    }
+
+    public EnumSet<Module> getEnabledModules() {
+        return EnumSet.complementOf(disabledModules);
     }
 }

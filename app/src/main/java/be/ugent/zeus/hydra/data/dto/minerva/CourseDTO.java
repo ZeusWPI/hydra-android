@@ -35,6 +35,8 @@ public final class CourseDTO {
     private int year;
     @ColumnInfo(name = CourseTable.Columns.ORDER)
     private int order = 0;
+    @ColumnInfo(name = CourseTable.Columns.DISABLED_MODULES)
+    private int disabledModules = 0;
 
     @NonNull
     public String getId() {
@@ -91,6 +93,14 @@ public final class CourseDTO {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public void setDisabledModules(int disabledModules) {
+        this.disabledModules = disabledModules;
+    }
+
+    public int getDisabledModules() {
+        return disabledModules;
     }
 
     @Override

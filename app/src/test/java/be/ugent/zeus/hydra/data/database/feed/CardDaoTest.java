@@ -9,6 +9,7 @@ import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.data.database.Database;
 import be.ugent.zeus.hydra.domain.models.feed.CardDismissal;
 import be.ugent.zeus.hydra.domain.models.feed.CardIdentifier;
+import be.ugent.zeus.hydra.testing.Utils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.data.dto.minerva;
 
 import be.ugent.zeus.hydra.domain.models.minerva.Course;
+import be.ugent.zeus.hydra.domain.models.minerva.Module;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,14 +13,15 @@ import org.mapstruct.factory.Mappers;
  *
  * @author Niko Strijbol
  */
-@Mapper
+@Mapper(uses = Module.class)
 public interface CourseMapper {
 
     CourseMapper INSTANCE = Mappers.getMapper(CourseMapper.class);
 
     @Mappings({
             @Mapping(source = "tutor", target = "tutorName"),
-            @Mapping(source = "year", target = "academicYear")
+            @Mapping(source = "year", target = "academicYear"),
+            @Mapping(target = "enabledModules", ignore = true)
     })
     Course courseToCourse(CourseDTO course);
 

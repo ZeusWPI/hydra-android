@@ -10,7 +10,6 @@ import be.ugent.zeus.hydra.data.sync.Synchronisation;
 import be.ugent.zeus.hydra.domain.models.minerva.Course;
 import be.ugent.zeus.hydra.domain.repository.CourseRepository;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
-import java8.util.Maps;
 
 import java.util.Collection;
 import java.util.List;
@@ -45,11 +44,16 @@ public class CourseSync {
         // Get all courses in the database.
         Collection<String> existingIds = courseDao.getIds();
 
-        // We want to keep the order of the courses.
-        Map<String, Integer> orders = courseDao.getIdToOrderMap();
+        // We want to keep local data.
+        Map<String, CourseRepository.LocalData> orders = courseDao.getIdToLocalData();
 
         for (Course newCourse: serverCourses) {
-            newCourse.setOrder(Maps.getOrDefault(orders, newCourse.getId(), 0));
+            CourseRepository.LocalData localData = orders.get(newCourse.getId());
+            if (localData == null) {
+                continue;
+            }
+            newCourse.setOrder(localData.order);
+            newCourse.setDisabledModules(localData.disabledModules);
         }
 
         // Perform the actual synchronisation.

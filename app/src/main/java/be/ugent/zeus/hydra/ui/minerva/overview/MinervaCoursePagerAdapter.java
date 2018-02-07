@@ -1,11 +1,17 @@
 package be.ugent.zeus.hydra.ui.minerva.overview;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.domain.models.minerva.Course;
-import be.ugent.zeus.hydra.ui.common.AdapterOutOfBoundsException;
+import be.ugent.zeus.hydra.domain.models.minerva.Module;
+
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
 
 /**
  * This provides the tabs in a minerva course.
@@ -15,38 +21,57 @@ import be.ugent.zeus.hydra.ui.common.AdapterOutOfBoundsException;
 public class MinervaCoursePagerAdapter extends FragmentPagerAdapter {
 
     private final Course course;
+    private final Context context;
+    private final List<Module> modules;
 
-    public MinervaCoursePagerAdapter(FragmentManager fm, Course course) {
+    public MinervaCoursePagerAdapter(FragmentManager fm, Context context, Course course) {
         super(fm);
+        this.context = context.getApplicationContext();
         this.course = course;
+        modules = new ArrayList<>();
+        EnumSet<Module> enabled = course.getEnabledModules();
+        if (enabled.contains(Module.ANNOUNCEMENTS)) {
+            modules.add(Module.ANNOUNCEMENTS);
+        }
+        if (enabled.contains(Module.CALENDAR)) {
+            modules.add(Module.CALENDAR);
+        }
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return CourseInfoFragment.newInstance(course);
-            case 1:
-                return AnnouncementFragment.newInstance(course);
-            case 2:
-                return AgendaFragment.newInstance(course);
+        // Default is fixed.
+        if (position == 0) {
+            return CourseInfoFragment.newInstance(course);
         }
 
-        throw new AdapterOutOfBoundsException(position, getCount());
+        requireModuleCount(position);
+        switch (modules.get(position - 1)) {
+            case ANNOUNCEMENTS:
+                return AnnouncementFragment.newInstance(course);
+            case CALENDAR:
+                return AgendaFragment.newInstance(course);
+            default:
+                throw new IllegalStateException("Module not supported.");
+        }
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 0:
-                return "Info";
-            case 1:
-                return "Aankondigingen";
-            case 2:
-                return "Agenda";
+        // Default is fixed.
+        if (position == 0) {
+            return context.getString(R.string.minerva_course_details_tabs_overview);
         }
 
-        throw new AdapterOutOfBoundsException(position, getCount());
+        requireModuleCount(position);
+        switch (modules.get(position - 1)) {
+            case ANNOUNCEMENTS:
+                return context.getString(R.string.minerva_course_details_tabs_announcements);
+            case CALENDAR:
+                return context.getString(R.string.minerva_course_details_tabs_calendar);
+            default:
+                throw new IllegalStateException("Module not supported.");
+        }
     }
 
     /**
@@ -54,6 +79,13 @@ public class MinervaCoursePagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public int getCount() {
-        return 3;
+        return modules.size() + 1;
+    }
+
+    private void requireModuleCount(int position) {
+        // Check if position is in range.
+        if (position - 1 > modules.size()) {
+            throw new IllegalStateException("Not enough modules are enabled, expected at least " + (position - 1) + ", but got " + modules.size());
+        }
     }
 }
