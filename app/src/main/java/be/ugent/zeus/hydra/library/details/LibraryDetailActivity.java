@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.library;
+package be.ugent.zeus.hydra.library.details;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -31,8 +31,7 @@ import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.library.Library;
-import be.ugent.zeus.hydra.library.OpeningHours;
-import be.ugent.zeus.hydra.ui.main.library.LibraryListFragment;
+import be.ugent.zeus.hydra.library.list.LibraryListFragment;
 import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;

@@ -1,9 +1,12 @@
-package be.ugent.zeus.hydra.library;
+package be.ugent.zeus.hydra.library.details;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.common.network.ArrayJsonSpringRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
+import be.ugent.zeus.hydra.library.details.OpeningHours;
+import be.ugent.zeus.hydra.library.details.OpeningHoursRequest;
+import be.ugent.zeus.hydra.library.list.LibraryList;
 import com.google.gson.Gson;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;

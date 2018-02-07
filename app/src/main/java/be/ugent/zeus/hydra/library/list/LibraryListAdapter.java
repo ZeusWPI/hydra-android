@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main.library;
+package be.ugent.zeus.hydra.library.list;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

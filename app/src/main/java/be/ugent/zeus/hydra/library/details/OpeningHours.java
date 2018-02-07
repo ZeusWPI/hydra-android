@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.library;
+package be.ugent.zeus.hydra.library.details;
 
 import be.ugent.zeus.hydra.common.converter.DateThreeTenAdapter;
 import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;

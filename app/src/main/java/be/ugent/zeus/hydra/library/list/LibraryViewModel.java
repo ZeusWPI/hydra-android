@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main.library;
+package be.ugent.zeus.hydra.library.list;
 
 import android.app.Application;
 

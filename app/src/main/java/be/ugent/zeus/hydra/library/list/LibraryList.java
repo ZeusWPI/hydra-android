@@ -1,8 +1,9 @@
-package be.ugent.zeus.hydra.library;
+package be.ugent.zeus.hydra.library.list;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.library.Library;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import java8.util.Objects;

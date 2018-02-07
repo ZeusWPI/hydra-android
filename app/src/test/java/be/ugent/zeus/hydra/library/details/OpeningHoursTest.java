@@ -1,5 +1,6 @@
-package be.ugent.zeus.hydra.library;
+package be.ugent.zeus.hydra.library.details;
 
+import be.ugent.zeus.hydra.library.details.OpeningHours;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 

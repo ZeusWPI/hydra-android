@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main.library;
+package be.ugent.zeus.hydra.library.list;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;

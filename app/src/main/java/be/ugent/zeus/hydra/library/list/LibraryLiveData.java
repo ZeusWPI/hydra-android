@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.main.library;
+package be.ugent.zeus.hydra.library.list;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.library.Library;
-import be.ugent.zeus.hydra.library.LibraryList;
-import be.ugent.zeus.hydra.library.LibraryListRequest;
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Requests;

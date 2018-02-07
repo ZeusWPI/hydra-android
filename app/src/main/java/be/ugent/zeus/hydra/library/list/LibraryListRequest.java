@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.library;
+package be.ugent.zeus.hydra.library.list;
 
 import android.support.annotation.NonNull;
 
@@ -12,9 +12,9 @@ import be.ugent.zeus.hydra.common.request.CacheableRequest;
  *
  * @author Niko Strijbol
  */
-public class LibraryListRequest extends JsonSpringRequest<LibraryList> implements CacheableRequest<LibraryList> {
+class LibraryListRequest extends JsonSpringRequest<LibraryList> implements CacheableRequest<LibraryList> {
 
-    public LibraryListRequest() {
+    LibraryListRequest() {
         super(LibraryList.class);
     }
 

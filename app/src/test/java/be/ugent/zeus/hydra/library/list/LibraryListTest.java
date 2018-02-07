@@ -1,5 +1,6 @@
-package be.ugent.zeus.hydra.library;
+package be.ugent.zeus.hydra.library.list;
 
+import be.ugent.zeus.hydra.library.list.LibraryList;
 import be.ugent.zeus.hydra.testing.Utils;
 import be.ugent.zeus.hydra.common.ModelTest;
 import nl.jqno.equalsverifier.Warning;

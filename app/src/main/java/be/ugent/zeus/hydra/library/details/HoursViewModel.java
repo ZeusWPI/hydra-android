@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.library;
+package be.ugent.zeus.hydra.library.details;
 
 import android.app.Application;
 
@@ -6,8 +6,6 @@ import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 import be.ugent.zeus.hydra.library.Library;
-import be.ugent.zeus.hydra.library.OpeningHours;
-import be.ugent.zeus.hydra.library.OpeningHoursRequest;
 
 import java.util.Arrays;
 import java.util.List;
