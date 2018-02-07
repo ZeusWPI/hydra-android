@@ -3,13 +3,16 @@ package be.ugent.zeus.hydra.ui.main.homefeed.content.news;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import be.ugent.zeus.hydra.data.network.requests.association.UgentNewsRequest;
 import be.ugent.zeus.hydra.domain.models.association.UgentNewsItem;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
+import be.ugent.zeus.hydra.domain.repository.CardRepository;
 import be.ugent.zeus.hydra.repository.requests.Request;
 import be.ugent.zeus.hydra.repository.requests.Requests;
-import be.ugent.zeus.hydra.data.network.requests.association.UgentNewsRequest;
 import be.ugent.zeus.hydra.repository.requests.Result;
-import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedRequest;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
+import be.ugent.zeus.hydra.ui.main.homefeed.HideableHomeFeedRequest;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
 import org.threeten.bp.LocalDateTime;
@@ -20,22 +23,23 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class NewsRequest implements HomeFeedRequest {
+public class NewsRequest extends HideableHomeFeedRequest {
 
     private final Request<List<UgentNewsItem>> request;
 
-    public NewsRequest(Context context) {
+    public NewsRequest(Context context, CardRepository cardRepository) {
+        super(cardRepository);
         this.request = Requests.map(Requests.cache(context, new UgentNewsRequest()), Arrays::asList);
     }
 
     @Override
     public int getCardType() {
-        return HomeCard.CardType.NEWS_ITEM;
+        return Card.Type.NEWS_ITEM;
     }
 
     @NonNull
     @Override
-    public Result<Stream<HomeCard>> performRequest(Bundle args) {
+    protected Result<Stream<Card>> performRequestCards(@Nullable Bundle args) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime sixMonthsAgo = now.minusWeeks(2);
 

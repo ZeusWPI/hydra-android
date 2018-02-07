@@ -19,7 +19,7 @@ import be.ugent.zeus.hydra.domain.repository.CourseRepository;
 import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
 import java8.util.Maps;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.Instant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,7 +122,7 @@ public class AnnouncementSync {
 
         // Get the announcements from the database. This returns the ID of the announcements and the read
         // date, since we want to preserve that.
-        Map<Integer, ZonedDateTime> existing = announcementDao.getIdsAndReadDateFor(course);
+        Map<Integer, Instant> existing = announcementDao.getIdsAndReadDateFor(course);
 
         // We calculate the diff.
         Synchronisation<Announcement, Integer> synchronisation = new Synchronisation<>(
@@ -144,7 +144,7 @@ public class AnnouncementSync {
         );
         boolean showNotifications = preferences.getBoolean(MinervaFragment.PREF_ANNOUNCEMENT_NOTIFICATION, true);
 
-        ZonedDateTime now = ZonedDateTime.now();
+        Instant now = Instant.now();
 
         // Synchronise the read date for updated announcements (thus those that are already in the database).
         for (Announcement announcement : diff.getUpdated()) {

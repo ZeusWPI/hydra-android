@@ -23,7 +23,7 @@ import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.data.auth.AccountUtils;
 import be.ugent.zeus.hydra.data.auth.MinervaConfig;
-import be.ugent.zeus.hydra.data.database.minerva2.RepositoryFactory;
+import be.ugent.zeus.hydra.data.database.RepositoryFactory;
 import be.ugent.zeus.hydra.data.sync.SyncUtils;
 import be.ugent.zeus.hydra.data.sync.minerva.MinervaAdapter;
 import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;

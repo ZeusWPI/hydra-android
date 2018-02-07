@@ -33,8 +33,8 @@ import be.ugent.zeus.hydra.repository.requests.RequestException;
 import be.ugent.zeus.hydra.repository.requests.Result;
 import be.ugent.zeus.hydra.ui.minerva.CalendarPermissionActivity;
 import be.ugent.zeus.hydra.ui.preferences.MinervaFragment;
+import be.ugent.zeus.hydra.utils.ExtendedSparseArray;
 import be.ugent.zeus.hydra.utils.StringUtils;
-import java8.util.Maps;
 import java8.util.function.Functions;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
@@ -133,17 +133,17 @@ public class CalendarSync {
         }
 
         // Get existing items and the calendar ids.
-        Map<Integer, Long> allItems = calendarRepository.getIdsAndCalendarIds();
+        ExtendedSparseArray<Long> allItems = calendarRepository.getIdsAndCalendarIds();
 
         Synchronisation<AgendaItem, Integer> sync = new Synchronisation<>(
-                allItems.keySet(),
+                allItems.getKeys(),
                 agenda,
                 AgendaItem::getItemId);
         Synchronisation.Diff<AgendaItem, Integer> diff = sync.diff();
 
         // Save the id's of the built-in items.
         for (AgendaItem item : diff.getUpdated()) {
-            item.setCalendarId(Maps.getOrDefault(allItems, item.getItemId(), AgendaItem.NO_CALENDAR_ID));
+            item.setCalendarId(allItems.get(item.getItemId(), AgendaItem.NO_CALENDAR_ID));
         }
 
         // Handle integration with the built-in calendar.
@@ -453,7 +453,7 @@ public class CalendarSync {
         contentValues.put(CalendarContract.Events.DTEND, item.getEndDate().toInstant().toEpochMilli());
         // Convert Java 8 TimeZone to old TimeZone
         @SuppressWarnings("UseOfObsoleteDateTimeApi")
-        TimeZone zone = DateTimeUtils.toTimeZone(item.getStartDate().getZone());
+        TimeZone zone = DateTimeUtils.toTimeZone(item.getStartDate().getOffset());
         contentValues.put(CalendarContract.Events.EVENT_TIMEZONE, zone.getID());
         contentValues.put(CalendarContract.Events.EVENT_LOCATION, item.getLocation());
         contentValues.put(CalendarContract.Events.SYNC_DATA1, item.getItemId());

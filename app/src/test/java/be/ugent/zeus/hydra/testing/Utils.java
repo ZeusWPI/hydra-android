@@ -6,7 +6,9 @@ import io.github.benas.randombeans.api.Randomizer;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZonedDateTime;
 
 import java.io.IOException;
@@ -26,6 +28,8 @@ public class Utils {
                 .scanClasspathForConcreteTypes(true)
                 .randomize(ZonedDateTime.class, (Randomizer<ZonedDateTime>) ZonedDateTime::now)
                 .randomize(LocalDate.class, (Randomizer<LocalDate>) LocalDate::now)
+                .randomize(OffsetDateTime.class, (Randomizer<OffsetDateTime>) OffsetDateTime::now)
+                .randomize(Instant.class, (Randomizer<Instant>) Instant::now)
                 .build()
                 .nextObject(clazz, exclude);
     }
@@ -35,6 +39,8 @@ public class Utils {
                 .scanClasspathForConcreteTypes(true)
                 .randomize(ZonedDateTime.class, (Randomizer<ZonedDateTime>) ZonedDateTime::now)
                 .randomize(LocalDate.class, (Randomizer<LocalDate>) LocalDate::now)
+                .randomize(OffsetDateTime.class, (Randomizer<OffsetDateTime>) OffsetDateTime::now)
+                .randomize(Instant.class, (Randomizer<Instant>) Instant::now)
                 .build()
                 .objects(clazz, amount, exclude);
     }

@@ -16,7 +16,7 @@ import android.view.*;
 import android.widget.ProgressBar;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.data.database.minerva2.RepositoryFactory;
+import be.ugent.zeus.hydra.data.database.RepositoryFactory;
 import be.ugent.zeus.hydra.domain.models.minerva.Course;
 import be.ugent.zeus.hydra.domain.repository.CourseRepository;
 import be.ugent.zeus.hydra.repository.observers.AdapterObserver;

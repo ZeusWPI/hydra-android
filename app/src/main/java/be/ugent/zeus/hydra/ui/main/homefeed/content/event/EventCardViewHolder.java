@@ -1,18 +1,21 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.event;
 
 import android.app.Activity;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.domain.models.association.Event;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.ui.EventDetailActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
+import be.ugent.zeus.hydra.ui.main.homefeed.SwipeDismissableViewHolder;
 import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableAssociationCommand;
-import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableTypeCommand;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
-import be.ugent.zeus.hydra.domain.models.association.Event;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
@@ -21,12 +24,16 @@ import be.ugent.zeus.hydra.utils.DateUtils;
  * @author Niko Strijbol
  * @author feliciaan
  */
-public class EventCardViewHolder extends FeedViewHolder {
+public class EventCardViewHolder extends FeedViewHolder implements SwipeDismissableViewHolder {
+
+    private static final String TAG = "EventCardViewHolder";
 
     private final TextView start;
     private final TextView title;
     private final TextView association;
     private final ImageView imageView;
+
+    private Event event;
 
     public EventCardViewHolder(View v, HomeFeedAdapter adapter) {
         super(v, adapter);
@@ -37,9 +44,9 @@ public class EventCardViewHolder extends FeedViewHolder {
     }
 
     @Override
-    public void populate(final HomeCard card) {
-
-        final Event event = card.<EventCard>checkCard(HomeCard.CardType.ACTIVITY).getEvent();
+    public void populate(final Card card) {
+        super.populate(card);
+        event = card.<EventCard>checkCard(Card.Type.ACTIVITY).getEvent();
 
         title.setText(event.getTitle());
         association.setText(event.getLocation());
@@ -50,20 +57,21 @@ public class EventCardViewHolder extends FeedViewHolder {
         FeedUtils.loadThumbnail(itemView.getContext(), event.getAssociation().getImageLink(), imageView);
 
         itemView.setOnClickListener(v -> EventDetailActivity.launchWithAnimation(((Activity) itemView.getContext()), imageView, "logo", event));
+    }
 
-        debugPriority(card);
-        toolbar.setMenu(R.menu.now_toolbar_association_event);
-        toolbar.setOnClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.menu_hide:
-                    adapter.getCompanion().executeCommand(new DisableTypeCommand(card.getCardType()));
-                    return true;
-                case R.id.menu_hide_association:
-                    adapter.getCompanion().executeCommand(new DisableAssociationCommand(event.getAssociation()));
-                    return true;
-                default:
-                    return false;
-            }
-        });
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        // TODO: should this crash?
+        if (event == null) {
+            Log.e(TAG, "The event was null when menu was called. Ignoring.");
+            return super.onMenuItemClick(item);
+        }
+        switch (item.getItemId()) {
+            case R.id.menu_hide_association:
+                adapter.getCompanion().executeCommand(new DisableAssociationCommand(event.getAssociation()));
+                return true;
+            default:
+                return super.onMenuItemClick(item);
+        }
     }
 }

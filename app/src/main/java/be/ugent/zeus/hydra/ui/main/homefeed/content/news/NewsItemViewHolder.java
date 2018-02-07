@@ -5,10 +5,10 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.domain.models.association.UgentNewsItem;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.ui.NewsArticleActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
@@ -29,10 +29,10 @@ public class NewsItemViewHolder extends FeedViewHolder {
     }
 
     @Override
-    public void populate(final HomeCard card) {
+    public void populate(final Card card) {
         super.populate(card);
 
-        UgentNewsItem newsItem = card.<NewsItemCard>checkCard(HomeCard.CardType.NEWS_ITEM).getNewsItem();
+        UgentNewsItem newsItem = card.<NewsItemCard>checkCard(Card.Type.NEWS_ITEM).getNewsItem();
 
         title.setText(newsItem.getTitle());
 

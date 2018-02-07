@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
-import be.ugent.zeus.hydra.data.database.minerva2.RepositoryFactory;
+import be.ugent.zeus.hydra.data.database.RepositoryFactory;
 import be.ugent.zeus.hydra.data.sync.minerva.SyncBroadcast;
 import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
 import be.ugent.zeus.hydra.domain.models.minerva.Course;

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.domain.models.association.Association;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
 
@@ -26,7 +26,7 @@ public class DisableAssociationCommand implements FeedCommand {
                 AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
                 association.getInternalName()
         );
-        return HomeCard.CardType.ACTIVITY;
+        return Card.Type.ACTIVITY;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class DisableAssociationCommand implements FeedCommand {
                 AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
                 association.getInternalName()
         );
-        return HomeCard.CardType.ACTIVITY;
+        return Card.Type.ACTIVITY;
     }
 
     @Override

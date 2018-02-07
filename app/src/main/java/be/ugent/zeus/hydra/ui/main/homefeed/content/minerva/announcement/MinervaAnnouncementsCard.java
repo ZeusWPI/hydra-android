@@ -1,11 +1,14 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.minerva.announcement;
 
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
+import android.support.annotation.Size;
+
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
 import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
 import be.ugent.zeus.hydra.domain.models.minerva.Course;
 import java8.util.Objects;
 import org.threeten.bp.Duration;
+import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.List;
@@ -16,13 +19,16 @@ import java.util.List;
  * @author Niko Strijbol
  * @author feliciaan
  */
-class MinervaAnnouncementsCard extends HomeCard {
+class MinervaAnnouncementsCard extends Card {
 
     private final List<Announcement> announcement;
     private final Course course;
 
-    MinervaAnnouncementsCard(List<Announcement> announcement, Course course) {
-        this.announcement = announcement;
+    MinervaAnnouncementsCard(@Size(min = 1) List<Announcement> announcements, Course course) {
+        if (announcements.isEmpty()) {
+            throw new IllegalStateException("The announcement card cannot be empty.");
+        }
+        this.announcement = announcements;
         this.course = course;
     }
 
@@ -36,15 +42,22 @@ class MinervaAnnouncementsCard extends HomeCard {
 
     @Override
     public int getPriority() {
-        ZonedDateTime date = getAnnouncements().get(0).getDate();
+        OffsetDateTime date = getAnnouncements().get(0).getDate();
         Duration duration = Duration.between(date, ZonedDateTime.now());
         return FeedUtils.lerp((int) duration.toHours(), 0, 1488);
     }
 
     @Override
-    @HomeCard.CardType
+    public String getIdentifier() {
+        // We use the course and the ID of the most recent announcement. This way, a card will return
+        // if a new announcement appears for some course.
+        return course.getId() + announcement.get(0).getItemId();
+    }
+
+    @Override
+    @Card.Type
     public int getCardType() {
-        return CardType.MINERVA_ANNOUNCEMENT;
+        return Card.Type.MINERVA_ANNOUNCEMENT;
     }
 
     @Override

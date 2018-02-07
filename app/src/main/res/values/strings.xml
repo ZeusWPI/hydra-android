@@ -307,7 +307,7 @@
     <string name="select_all">Alles selecteren</string>
     <string name="select_none">Niets selecteren</string>
     <string name="mark_as_read">Markeren als gelezen</string>
-    <string name="card_title_hide">Dit soort kaarten verbergen</string>
+    <string name="card_title_hide_type">Dit soort kaarten verbergen</string>
     <string name="card_title_show">Deze vereniging verbergen</string>
     <string name="open_map">Kaart openen</string>
     <string name="open_link">Link openen</string>
@@ -363,7 +363,7 @@
     <string name="home_feed_undone">Ongedaan gemaakt</string>
     <string name="home_feed_association_hidden">Vereniging verborgen</string>
     <string name="home_feed_undo">Ongedaan maken</string>
-    <string name="home_feed_card_done">Klaar met kaart</string>
+    <string name="home_feed_card_done">Klaar met deze kaart</string>
     <string name="pref_home_feed_cleared">Gewist</string>
     <string name="sko_artist_info">Beschrijving</string>
     <string name="sko_artist_more">Meer informatie</string>
@@ -409,4 +409,9 @@
     <string name="resto_extra_title">Overige</string>
     <string name="resto_food_price">€ %s</string>
     <string name="unrecoverable_error">Er is een fout opgetreden. Probeer het nogmaals.</string>
+    <string name="pref_theme_night_mode_restart">De wijzigingen worden van kracht nadat u de app herstart</string>
+    <string name="minerva_exporting_account">Minerva-account exporteren</string>
+    <string name="minerva_exporting_account_desc">De details van uw Minerva-account worden geëxporteerd.</string>
+    <string name="card_title_hide_card">Alleen deze kaart verbergen</string>
+    <string name="card_title_hide_single_type">Deze kaart verbergen</string>
 </resources>

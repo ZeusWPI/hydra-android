@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.domain.repository;
 
 import be.ugent.zeus.hydra.domain.models.minerva.Announcement;
 import be.ugent.zeus.hydra.domain.models.minerva.Course;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.Instant;
 
 import java.util.List;
 import java.util.Map;
@@ -19,5 +19,5 @@ public interface AnnouncementRepository extends FullRepository<Integer, Announce
     // TODO: rethink this approach.
     Map<Course, List<Announcement>> getMostRecentFirstMap();
 
-    Map<Integer, ZonedDateTime> getIdsAndReadDateFor(Course course);
+    Map<Integer, Instant> getIdsAndReadDateFor(Course course);
 }

@@ -5,10 +5,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.ui.minerva.AgendaActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import be.ugent.zeus.hydra.domain.models.minerva.AgendaItem;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
@@ -27,19 +27,20 @@ public class MinervaAgendaViewHolder extends FeedViewHolder {
     }
 
     @Override
-    public void populate(HomeCard card) {
+    public void populate(Card card) {
         super.populate(card);
 
-        final MinervaAgendaCard mCard = card.checkCard(HomeCard.CardType.MINERVA_AGENDA);
+        final MinervaAgendaCard mCard = card.checkCard(Card.Type.MINERVA_AGENDA);
 
         String titleS = itemView.getContext().getString(R.string.home_feed_agenda_title, DateUtils.getFriendlyDate(mCard.getDate()));
         toolbar.setTitle(titleS);
 
         layout.removeAllViewsInLayout();
+        LayoutInflater inflater = LayoutInflater.from(layout.getContext());
 
         for (final AgendaItem item : mCard.getAgendaItems()) {
 
-            View view = LayoutInflater.from(layout.getContext()).inflate(R.layout.item_minerva_home_announcement, layout, false);
+            View view = inflater.inflate(R.layout.item_minerva_home_announcement, layout, false);
             TextView title = view.findViewById(R.id.title);
             TextView subtitle = view.findViewById(R.id.subtitle);
 

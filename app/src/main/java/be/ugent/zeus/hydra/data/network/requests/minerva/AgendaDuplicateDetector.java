@@ -9,7 +9,7 @@ import java8.util.Objects;
 import java8.util.function.Function;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import java.util.*;
 
@@ -55,7 +55,7 @@ public class AgendaDuplicateDetector implements Function<List<AgendaItem>, List<
         List<AgendaItem> finalItems = new ArrayList<>();
 
         // Group them by start date.
-        Map<ZonedDateTime, List<AgendaItem>> perDate = StreamSupport.stream(items)
+        Map<OffsetDateTime, List<AgendaItem>> perDate = StreamSupport.stream(items)
                 .collect(Collectors.groupingBy(AgendaItem::getStartDate));
 
         // For every start date, we sort them by end date.
@@ -68,7 +68,7 @@ public class AgendaDuplicateDetector implements Function<List<AgendaItem>, List<
             }
 
             // We group every item by end date.
-            Map<ZonedDateTime, List<AgendaItem>> perEndDate = StreamSupport.stream(list)
+            Map<OffsetDateTime, List<AgendaItem>> perEndDate = StreamSupport.stream(list)
                     .collect(Collectors.groupingBy(AgendaItem::getEndDate));
 
             for (List<AgendaItem> endList : perEndDate.values()) {

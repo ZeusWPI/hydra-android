@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.ui.main.homefeed.content.resto;
 
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.domain.models.resto.RestoMenu;
 import be.ugent.zeus.hydra.data.network.requests.resto.SelectableMetaRequest;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedUtils;
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
 import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
@@ -14,7 +14,7 @@ import org.threeten.bp.temporal.ChronoUnit;
  * @author Niko Strijbol
  * @author silox
  */
-class RestoMenuCard extends HomeCard {
+class RestoMenuCard extends Card {
 
     // From 11 h to 15 h we are more interested in the menu.
     private static final LocalDateTime interestStart = LocalDateTime.now().withHour(11).withMinute(0);
@@ -49,8 +49,14 @@ class RestoMenuCard extends HomeCard {
     }
 
     @Override
+    public String getIdentifier() {
+        // Two resto's for the same day are equal, regardless of the resto.
+        return restoMenu.getDate().toString();
+    }
+
+    @Override
     public int getCardType() {
-        return CardType.RESTO;
+        return Card.Type.RESTO;
     }
 
     @Override

@@ -29,8 +29,8 @@ public class NowToolbar extends LinearLayout {
     private ImageView menuButton;
     private ImageView iconView;
 
-    //Menu-related things.
-    @MenuRes private int menu;
+    @MenuRes
+    private int menu;
 
     public NowToolbar(Context context) {
         super(context);
@@ -46,28 +46,27 @@ public class NowToolbar extends LinearLayout {
      * Initialize the view. A helper method that makes it easier to use different constructors.
      */
     private void initialize(AttributeSet set) {
-        //Inflate from XML
+        // Inflate from XML.
         inflate(getContext(), R.layout.x_now_toolbar, this);
 
         iconView = findViewById(R.id.now_toolbar_icon);
         titleView = findViewById(R.id.now_toolbar_title);
         menuButton = findViewById(R.id.now_toolbar_menu);
 
-        //If no attributes, stop here.
-        if(set == null) {
+        // If no attributes, stop here.
+        if (set == null) {
             return;
         }
 
-        //Get attributes
         TypedArray a = getContext().getTheme().obtainStyledAttributes(set, R.styleable.NowToolbar, 0, 0);
 
         try {
-            this.menu = a.getInt(R.styleable.NowToolbar_menu, R.menu.now_toolbar_hide);
+            this.menu = a.getResourceId(R.styleable.NowToolbar_menu, R.menu.now_toolbar_default);
             titleView.setText(a.getString(R.styleable.NowToolbar_title));
-            if(!a.getBoolean(R.styleable.NowToolbar_showMenu, true)) {
+            if (!a.getBoolean(R.styleable.NowToolbar_showMenu, true)) {
                 menuButton.setVisibility(GONE);
             }
-            if(a.hasValue(R.styleable.NowToolbar_icon)) {
+            if (a.hasValue(R.styleable.NowToolbar_icon)) {
                 setIcon(a.getResourceId(R.styleable.NowToolbar_icon, R.drawable.tabs_home));
             }
         } finally {
@@ -80,7 +79,7 @@ public class NowToolbar extends LinearLayout {
      *
      * @param listener The listener.
      */
-    public void setOnClickListener(final PopupMenu.OnMenuItemClickListener listener) {
+    public void setOnMenuClickListener(final PopupMenu.OnMenuItemClickListener listener) {
         menuButton.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(v.getContext(), v);
             popup.inflate(menu);

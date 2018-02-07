@@ -101,6 +101,10 @@ public final class Article implements Serializable, Parcelable {
                 java8.util.Objects.equals(pubDate, article.pubDate);
     }
 
+    public String getIdentifier() {
+        return link + pubDate.toString();
+    }
+
     @Override
     public int hashCode() {
         return java8.util.Objects.hash(link, pubDate);

@@ -3,12 +3,13 @@ package be.ugent.zeus.hydra.ui.main.homefeed.commands;
 import android.content.Context;
 import android.support.annotation.StringRes;
 
-import be.ugent.zeus.hydra.ui.main.homefeed.content.HomeCard;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 
 /**
  * Execute a command. Afterwards the cards of the returned type will be refreshed.
  *
- * A command is normally one-use: calling it multiple times is undefined behaviour.
+ * A command is normally one-use: calling it multiple times is undefined behaviour. Additionally, a command should
+ * be a fairly short operation.
  *
  * @author Niko Strijbol
  */
@@ -19,7 +20,7 @@ public interface FeedCommand {
      *
      * @return  Returns the type of card that should be refreshed.
      */
-    @HomeCard.CardType
+    @Card.Type
     int execute(Context context);
 
     /**
@@ -27,7 +28,7 @@ public interface FeedCommand {
      *
      * @return The affected card type.
      */
-    @HomeCard.CardType
+    @Card.Type
     int undo(Context context);
 
     /**

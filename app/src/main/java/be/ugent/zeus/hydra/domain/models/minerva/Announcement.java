@@ -4,9 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
-import be.ugent.zeus.hydra.utils.TtbUtils;
+import be.ugent.zeus.hydra.data.dto.DateTypeConverters;
 import java8.util.Objects;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.Instant;
+import org.threeten.bp.OffsetDateTime;
 
 import java.io.Serializable;
 
@@ -23,8 +24,8 @@ public final class Announcement implements Serializable, Parcelable {
     private String content;
     private boolean emailSent;
     private String lecturer;
-    private ZonedDateTime date;
-    private ZonedDateTime read;
+    private OffsetDateTime date;
+    private Instant read;
     private Course course;
 
     public Announcement() {
@@ -43,7 +44,7 @@ public final class Announcement implements Serializable, Parcelable {
      *
      * @param read The date or null to set to unread.
      */
-    public void setRead(ZonedDateTime read) {
+    public void setRead(Instant read) {
         this.read = read;
     }
 
@@ -53,7 +54,7 @@ public final class Announcement implements Serializable, Parcelable {
      * @return The date or null.
      */
     @Nullable
-    public ZonedDateTime getRead() {
+    public Instant getRead() {
         return read;
     }
 
@@ -97,11 +98,11 @@ public final class Announcement implements Serializable, Parcelable {
         this.lecturer = lecturer;
     }
 
-    public ZonedDateTime getDate() {
+    public OffsetDateTime getDate() {
         return this.date;
     }
 
-    public void setDate(ZonedDateTime date) {
+    public void setDate(OffsetDateTime date) {
         this.date = date;
     }
 
@@ -125,8 +126,8 @@ public final class Announcement implements Serializable, Parcelable {
         dest.writeByte((byte) (this.emailSent ? 1 : 0));
         dest.writeInt(this.itemId);
         dest.writeString(this.lecturer);
-        dest.writeLong(TtbUtils.serialize(this.date));
-        dest.writeLong(TtbUtils.serialize(this.read));
+        dest.writeString(DateTypeConverters.fromOffsetDateTime(this.date));
+        dest.writeString(DateTypeConverters.fromInstant(this.read));
         dest.writeParcelable(this.course, flags);
     }
 
@@ -136,10 +137,8 @@ public final class Announcement implements Serializable, Parcelable {
         this.emailSent = in.readByte() != 0;
         this.itemId = in.readInt();
         this.lecturer = in.readString();
-        long tmp = in.readLong();
-        this.date = TtbUtils.unserialize(tmp);
-        long tmpRead = in.readLong();
-        this.read = TtbUtils.unserialize(tmpRead);
+        this.date = DateTypeConverters.toOffsetDateTime(in.readString());
+        this.read = DateTypeConverters.toInstant(in.readString());
         this.course = in.readParcelable(Course.class.getClassLoader());
     }
 

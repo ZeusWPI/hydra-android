@@ -3,8 +3,10 @@ package be.ugent.zeus.hydra.ui.main.homefeed.content.urgent;
 import android.content.Intent;
 import android.view.View;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.domain.models.feed.Card;
 import be.ugent.zeus.hydra.ui.main.MainActivity;
 import be.ugent.zeus.hydra.ui.main.homefeed.HomeFeedAdapter;
+import be.ugent.zeus.hydra.ui.main.homefeed.commands.DisableTypeCommand;
 import be.ugent.zeus.hydra.ui.main.homefeed.content.FeedViewHolder;
 
 /**
@@ -20,5 +22,15 @@ public class UrgentViewHolder extends FeedViewHolder {
             intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_urgent);
             v.getContext().startActivity(intent);
         });
+    }
+
+    @Override
+    public void onSwiped() {
+        adapter.getCompanion().executeCommand(new DisableTypeCommand(Card.Type.URGENT_FM));
+    }
+
+    @Override
+    public boolean isSwipeEnabled() {
+        return true;
     }
 }

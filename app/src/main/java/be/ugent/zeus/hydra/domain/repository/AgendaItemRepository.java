@@ -2,11 +2,11 @@ package be.ugent.zeus.hydra.domain.repository;
 
 
 import be.ugent.zeus.hydra.domain.models.minerva.AgendaItem;
-import org.threeten.bp.ZonedDateTime;
+import be.ugent.zeus.hydra.utils.ExtendedSparseArray;
+import org.threeten.bp.OffsetDateTime;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Provides access to {@link AgendaItem}s.
@@ -22,7 +22,7 @@ public interface AgendaItemRepository extends FullRepository<Integer, AgendaItem
      *
      * @return The items.
      */
-    List<AgendaItem> getAllForCourseFuture(String courseId, ZonedDateTime now);
+    List<AgendaItem> getAllForCourseFuture(String courseId, OffsetDateTime now);
 
     /**
      * Get all items between two dates. The lower date is inclusive, the upper date is exclusive. More formal, we can
@@ -33,14 +33,16 @@ public interface AgendaItemRepository extends FullRepository<Integer, AgendaItem
      *
      * @return The results.
      */
-    List<AgendaItem> getBetween(ZonedDateTime lower, ZonedDateTime higher);
+    List<AgendaItem> getBetween(OffsetDateTime lower, OffsetDateTime higher);
 
     /**
-     * Get a map of all calendar items, mapping the item's id to the calendar id.
+     * Get a map of all calendar items, mapping the item's id to the calendar id. The actual returned object
+     * is a sparse array for performance reasons. If Java (and Android) ever introduces a Map with primitive types,
+     * we'll use that instead.
      *
      * @return The map of all items.
      */
-    Map<Integer, Long> getIdsAndCalendarIds();
+    ExtendedSparseArray<Long> getIdsAndCalendarIds();
 
     List<Long> getCalendarIdsForIds(Collection<Integer> agendaIds);
 }

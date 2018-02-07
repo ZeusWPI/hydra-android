@@ -5,7 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.data.database.minerva2.course.CourseTable;
+import be.ugent.zeus.hydra.data.database.minerva.CourseTable;
 import com.google.gson.annotations.SerializedName;
 import java8.util.Objects;
 
