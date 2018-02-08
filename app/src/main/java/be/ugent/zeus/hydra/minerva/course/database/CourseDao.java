@@ -59,7 +59,12 @@ public interface CourseDao {
     @Query("SELECT " + CourseTable.Columns.ID + " FROM " + CourseTable.TABLE_NAME)
     List<String> getIds();
 
-    @Query("SELECT " + CourseTable.Columns.ID + ", " + CourseTable.Columns.ORDER + ", " + CourseTable.Columns.DISABLED_MODULES + " FROM " + CourseTable.TABLE_NAME)
+    @Query("SELECT " + CourseTable.Columns.ID +
+            ", " + CourseTable.Columns.ORDER +
+            ", " + CourseTable.Columns.DISABLED_MODULES +
+            ", " + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
+            ", " + CourseTable.Columns.IGNORE_CALENDAR +
+            " FROM " + CourseTable.TABLE_NAME)
     List<IdAndLocalData> getIdsAndLocalData();
 
     class IdAndLocalData {
@@ -69,11 +74,17 @@ public interface CourseDao {
         public int order;
         @ColumnInfo(name = CourseTable.Columns.DISABLED_MODULES)
         public int disabledModules;
+        @ColumnInfo(name = CourseTable.Columns.IGNORE_ANNOUNCEMENTS)
+        public boolean ignoreAnnouncements;
+        @ColumnInfo(name = CourseTable.Columns.IGNORE_CALENDAR)
+        public boolean ignoreCalendar;
         @VisibleForTesting
-        public IdAndLocalData(String id, int order, int disabledModules) {
+        public IdAndLocalData(String id, int order, int disabledModules, boolean ignoreAnnouncements, boolean ignoreCalendar) {
             this.id = id;
             this.order = order;
             this.disabledModules = disabledModules;
+            this.ignoreAnnouncements = ignoreAnnouncements;
+            this.ignoreCalendar = ignoreCalendar;
         }
     }
 }

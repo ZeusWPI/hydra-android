@@ -111,7 +111,7 @@ public class CourseRepositoryTest extends FullRepositoryTest<String, Course> {
     public void getIdToOrderMap() {
         Map<String, CourseRepository.LocalData> expected = new HashMap<>();
         for (Course course: getData()) {
-            expected.put(course.getId(), new CourseRepository.LocalData(course.getOrder(), course.getDisabledModules()));
+            expected.put(course.getId(), new CourseRepository.LocalData(course.getOrder(), course.getDisabledModules(), course.getIgnoreAnnouncements(), course.getIgnoreCalendar()));
         }
         Map<String, CourseRepository.LocalData> actual = courseRepository.getIdToLocalData();
         assertEquals(expected, actual);

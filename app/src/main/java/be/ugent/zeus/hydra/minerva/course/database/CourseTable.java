@@ -21,5 +21,7 @@ public final class CourseTable {
         String ACADEMIC_YEAR = "academic_year";
         String ORDER = "ordering";
         String DISABLED_MODULES = "disabled_modules";
+        String IGNORE_ANNOUNCEMENTS = "ignore_announcements";
+        String IGNORE_CALENDAR = "ignore_calendar";
     }
 }

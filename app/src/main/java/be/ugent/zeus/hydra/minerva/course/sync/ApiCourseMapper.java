@@ -23,6 +23,8 @@ public interface ApiCourseMapper {
             @Mapping(target = "order", ignore = true),
             @Mapping(target = "disabledModules", ignore = true),
             @Mapping(target = "enabledModules", ignore = true),
+            @Mapping(target = "ignoreAnnouncements", ignore = true),
+            @Mapping(target = "ignoreCalendar", ignore = true)
     })
     Course courseToCourse(ApiCourse course);
 }

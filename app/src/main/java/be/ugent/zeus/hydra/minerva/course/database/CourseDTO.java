@@ -30,9 +30,13 @@ public final class CourseDTO {
     @ColumnInfo(name = CourseTable.Columns.ACADEMIC_YEAR)
     private int year;
     @ColumnInfo(name = CourseTable.Columns.ORDER)
-    private int order = 0;
+    private int order;
     @ColumnInfo(name = CourseTable.Columns.DISABLED_MODULES)
-    private int disabledModules = 0;
+    private int disabledModules;
+    @ColumnInfo(name = CourseTable.Columns.IGNORE_ANNOUNCEMENTS)
+    private boolean ignoreAnnouncements;
+    @ColumnInfo(name = CourseTable.Columns.IGNORE_CALENDAR)
+    private boolean isIgnoreCalendar;
 
     @NonNull
     public String getId() {
@@ -97,6 +101,22 @@ public final class CourseDTO {
 
     public int getDisabledModules() {
         return disabledModules;
+    }
+
+    public void setIgnoreCalendar(boolean ignoreCalendar) {
+        isIgnoreCalendar = ignoreCalendar;
+    }
+
+    public void setIgnoreAnnouncements(boolean ignoreAnnouncements) {
+        this.ignoreAnnouncements = ignoreAnnouncements;
+    }
+
+    public boolean getIgnoreAnnouncements() {
+        return ignoreAnnouncements;
+    }
+
+    public boolean getIgnoreCalendar() {
+        return isIgnoreCalendar;
     }
 
     @Override
