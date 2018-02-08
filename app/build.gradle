@@ -3,13 +3,13 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.cookpad.android.licensetools'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 270
         versionName "2.7.0"
         vectorDrawables.useSupportLibrary = true
@@ -97,9 +97,9 @@ project.afterEvaluate {
 }
 
 //The support library version
-final SUPPORT_LIBRARY_VERSION = '26.1.0'
-final GMS_VERSION = '11.6.2'
-final AAC_VERSION = '1.0.0'
+final SUPPORT_LIBRARY_VERSION = '27.0.2'
+final GMS_VERSION = '11.8.0'
+final AAC_VERSION = '1.1.0'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -116,12 +116,16 @@ dependencies {
     // Android Architecture Components
     compile "android.arch.lifecycle:extensions:$AAC_VERSION"
     annotationProcessor "android.arch.lifecycle:compiler:$AAC_VERSION"
-    testCompile "android.arch.core:core-testing:$AAC_VERSION"
+    testCompile("android.arch.core:core-testing:$AAC_VERSION") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 
-    compile "android.arch.persistence.room:runtime:$AAC_VERSION"
-    annotationProcessor "android.arch.persistence.room:compiler:$AAC_VERSION"
-    testCompile("android.arch.persistence.room:testing:$AAC_VERSION") {
+    compile "android.arch.persistence.room:runtime:1.0.0"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+    testCompile("android.arch.persistence.room:testing:1.0.0") {
         exclude group: 'com.google.code.gson', module: 'gson'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-core-utils'
     }
 
     // Mappers
@@ -164,7 +168,7 @@ dependencies {
 
     //Test code
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.7.20'
+    testCompile 'org.mockito:mockito-core:2.13.0'
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
@@ -175,7 +179,7 @@ dependencies {
         exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
     }
 
-    testCompile 'nl.jqno.equalsverifier:equalsverifier:2.4.1'
+    testCompile 'nl.jqno.equalsverifier:equalsverifier:2.4.3'
     testCompile('com.shazam:shazamcrest:0.11') {
         exclude group: 'com.google.code.gson', module: 'gson'
     }
