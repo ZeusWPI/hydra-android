@@ -52,7 +52,7 @@ public class CalendarSync {
 
     private static final String TAG = "CalendarSync";
     private static final String FIRST_SYNC_BUILT_IN_CALENDAR = "once_first_calendar";
-    private static long NO_CALENDAR = -1;
+    private static final long NO_CALENDAR = -1;
     private final AgendaItemRepository calendarRepository;
     private final CourseRepository courseDao;
     private final Context context;
@@ -230,8 +230,18 @@ public class CalendarSync {
             calendarId = getCalendarId(account, resolver);
         }
 
-        // Remove Calendar items we don't need anymore.
-        Collection<Long> toRemove = calendarRepository.getCalendarIdsForIds(diff.getStaleIds());
+        // Updated items (items that should already be on the device)
+        Set<AgendaItem> updatedItems = new HashSet<>(diff.getUpdated());
+        // Calendar id's of items we will remove.
+        Set<Long> toRemove = new HashSet<>(calendarRepository.getCalendarIdsForIds(diff.getStaleIds()));
+
+        // We remove ignored items from the updated set and add them to the "to be removed" set.
+        for (AgendaItem item: diff.getUpdated()) {
+            if (item.getCourse().getIgnoreCalendar()) {
+                toRemove.add(item.getCalendarId());
+                updatedItems.remove(item);
+            }
+        }
 
         for (long id : toRemove) {
             // We cannot delete non-existing values.
@@ -246,8 +256,8 @@ public class CalendarSync {
         // so we get all ids, remove the items we still know about and remove the rest.
         Set<Long> allDeviceIds = getAllIdsFromDeviceCalendar(account, resolver);
 
-        // Update Calendar items, as they might have changed.
-        for (AgendaItem updatedItem : diff.getUpdated()) {
+        // Update calendar items, as they might have changed. This should not contain any ignored items.
+        for (AgendaItem updatedItem : updatedItems) {
             long itemCalendarId = updatedItem.getCalendarId();
             ContentValues values = toCalendarValues(calendarId, updatedItem);
             // The item was not found.
@@ -272,9 +282,12 @@ public class CalendarSync {
 
         // Add new items to the calendar.
         for (AgendaItem newItem : diff.getNew()) {
-            ContentValues values = toCalendarValues(calendarId, newItem);
-            long id = insert(resolver, values, account);
-            newItem.setCalendarId(id);
+            // If we don't ignore the course of the item, add it.
+            if (!newItem.getCourse().getIgnoreCalendar()) {
+                ContentValues values = toCalendarValues(calendarId, newItem);
+                long id = insert(resolver, values, account);
+                newItem.setCalendarId(id);
+            }
         }
 
         Once.markDone(FIRST_SYNC_BUILT_IN_CALENDAR);
