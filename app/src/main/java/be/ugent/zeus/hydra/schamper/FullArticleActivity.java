@@ -26,7 +26,7 @@ import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
-import be.ugent.zeus.hydra.ui.preferences.ArticlePreferenceFragment;
+import be.ugent.zeus.hydra.association.news.ArticlePreferenceFragment;
 import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;

@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.ui.preferences.HomeFeedSelectFragment;
+import be.ugent.zeus.hydra.feed.preferences.HomeFeedSelectFragment;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 
 /**

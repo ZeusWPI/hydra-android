@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinator"
-    tools:context=".ui.preferences.AssociationSelectPrefActivity">
+    tools:context=".association.preference.AssociationSelectPrefActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
         <View style="@style/Divider" />
 
         <fragment
-            android:name="be.ugent.zeus.hydra.ui.preferences.HomeFeedSelectFragment"
+            android:name="be.ugent.zeus.hydra.feed.preferences.HomeFeedSelectFragment"
             android:paddingTop="@dimen/content_spacing"
             android:id="@+id/recycler_view_fragment"
             android:layout_width="match_parent"

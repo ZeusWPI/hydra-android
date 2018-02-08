@@ -5,8 +5,10 @@ import android.arch.persistence.room.migration.Migration;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import be.ugent.zeus.hydra.feed.cards.CardDismissal;
+
 /**
- * This migration adds support for {@link be.ugent.zeus.hydra.feed.CardDismissal}s.
+ * This migration adds support for {@link CardDismissal}s.
  *
  * TODO: this fails?
  *

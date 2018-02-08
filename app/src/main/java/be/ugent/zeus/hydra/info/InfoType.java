@@ -12,7 +12,7 @@ import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.WebViewActivity;
-import be.ugent.zeus.hydra.ui.InfoSubItemActivity;
+import be.ugent.zeus.hydra.info.list.InfoSubItemActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 /**

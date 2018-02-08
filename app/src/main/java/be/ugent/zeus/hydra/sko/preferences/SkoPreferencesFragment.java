@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.notification.FirebaseMessageService;
+import be.ugent.zeus.hydra.sko.FirebaseMessageService;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 /**

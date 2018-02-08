@@ -4,8 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.feed.CardRepository;
-import be.ugent.zeus.hydra.feed.database.CardDatabaseRepository;
+import be.ugent.zeus.hydra.feed.cards.CardRepository;
+import be.ugent.zeus.hydra.feed.cards.database.CardDatabaseRepository;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementDatabaseRepository;
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;

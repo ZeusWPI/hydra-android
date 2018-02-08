@@ -5,7 +5,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
-import be.ugent.zeus.hydra.feed.database.CardDao;
+import be.ugent.zeus.hydra.feed.cards.database.CardDao;
 import be.ugent.zeus.hydra.common.database.migrations.*;
 import be.ugent.zeus.hydra.minerva.calendar.database.AgendaDao;
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementDao;
@@ -14,7 +14,7 @@ import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.minerva.calendar.database.AgendaItemDTO;
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementDTO;
 import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
-import be.ugent.zeus.hydra.feed.CardDismissal;
+import be.ugent.zeus.hydra.feed.cards.CardDismissal;
 
 import static be.ugent.zeus.hydra.common.database.Database.VERSION;
 

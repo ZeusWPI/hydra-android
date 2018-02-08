@@ -3,7 +3,7 @@
 
     <!-- Home screen -->
     <header
-        android:fragment="be.ugent.zeus.hydra.ui.preferences.HomeFragment"
+        android:fragment="be.ugent.zeus.hydra.feed.preferences.HomeFragment"
         android:title="@string/pref_home_title"
         android:summary="Opties voor het starttabblad." />
 
@@ -18,7 +18,7 @@
 
     <!-- Resto -->
     <header
-        android:fragment="be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment"
+        android:fragment="be.ugent.zeus.hydra.resto.RestoPreferenceFragment"
         android:title="@string/pref_resto_title"
         android:summary="@string/pref_resto_description" />
     <!-- Minerva -->
@@ -30,7 +30,7 @@
 
     <!-- News -->
     <header
-        android:fragment="be.ugent.zeus.hydra.ui.preferences.ArticlePreferenceFragment"
+        android:fragment="be.ugent.zeus.hydra.association.news.ArticlePreferenceFragment"
         android:title="@string/pref_header_article_title"
         android:summary="@string/pref_header_article_desc">
     </header>
@@ -43,7 +43,7 @@
 
     <!-- About -->
     <header
-        android:fragment="be.ugent.zeus.hydra.ui.preferences.AboutFragment"
+        android:fragment="be.ugent.zeus.hydra.common.preferences.AboutFragment"
         android:title="@string/pref_about_header_title"
         android:summary="@string/pref_about_header_summary"
         />

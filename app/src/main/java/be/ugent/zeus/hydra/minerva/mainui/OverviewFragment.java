@@ -25,7 +25,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
 import be.ugent.zeus.hydra.common.sync.SyncUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.main.ScheduledRemovalListener;
+import be.ugent.zeus.hydra.common.main.ScheduledRemovalListener;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;

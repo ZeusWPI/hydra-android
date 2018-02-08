@@ -26,7 +26,7 @@ import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectDiffAdapter;
-import be.ugent.zeus.hydra.main.ScheduledRemovalListener;
+import be.ugent.zeus.hydra.common.main.ScheduledRemovalListener;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
 import be.ugent.zeus.hydra.minerva.announcement.courselist.AnnouncementsForCourseFragment;

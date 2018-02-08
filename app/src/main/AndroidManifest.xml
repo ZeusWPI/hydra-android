@@ -45,7 +45,7 @@
 
         <!-- Main activity -->
         <activity
-            android:name=".main.MainActivity"
+            android:name=".common.main.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows">
             <intent-filter>
@@ -60,9 +60,9 @@
 
         <!-- Settings -->
         <activity
-            android:name=".ui.preferences.SettingsActivity"
+            android:name=".common.preferences.SettingsActivity"
             android:label="@string/action_settings"
-            android:parentActivityName=".main.MainActivity"
+            android:parentActivityName=".common.main.MainActivity"
             android:theme="@style/Hydra.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
@@ -72,21 +72,21 @@
 
         <!-- Association select preference activity -->
         <activity
-            android:name=".ui.preferences.AssociationSelectPrefActivity"
+            android:name=".association.preference.AssociationSelectPrefActivity"
             android:label="Verenigingen"
-            android:parentActivityName=".ui.preferences.SettingsActivity" />
+            android:parentActivityName=".common.preferences.SettingsActivity" />
 
         <!-- Association select preference activity -->
         <activity
-            android:name=".ui.preferences.HomeFeedPrefActivity"
+            android:name=".feed.preferences.HomeFeedPrefActivity"
             android:label="@string/activity_title_homefeed_card_types"
-            android:parentActivityName=".ui.preferences.SettingsActivity" />
+            android:parentActivityName=".common.preferences.SettingsActivity" />
 
         <!-- Sandwich overview -->
         <activity
-            android:name=".ui.resto.SandwichActivity"
+            android:name=".resto.sandwich.SandwichActivity"
             android:label="@string/resto_sandwich"
-            android:parentActivityName=".main.MainActivity" />
+            android:parentActivityName=".common.main.MainActivity" />
 
         <!-- The Maps API key -->
         <meta-data
@@ -95,55 +95,55 @@
 
         <!-- Show a map of resto's -->
         <activity
-            android:name=".ui.resto.RestoLocationActivity"
+            android:name=".resto.locations.RestoLocationActivity"
             android:label="@string/title_activity_resto_location"
-            android:parentActivityName=".main.MainActivity" />
+            android:parentActivityName=".common.main.MainActivity" />
 
         <!-- Show other food items -->
         <activity
-            android:name=".ui.resto.extra.ExtraFoodActivity"
+            android:name=".resto.extrafood.ExtraFoodActivity"
             android:label="@string/resto_extra_title"
-            android:parentActivityName=".main.MainActivity" />
+            android:parentActivityName=".common.main.MainActivity" />
 
         <!-- Details about association events. -->
         <activity
-            android:name=".ui.EventDetailActivity"
+            android:name=".association.event.EventDetailActivity"
             android:label="@string/title_activity_association_activity_detail"
             android:launchMode="singleTop"
-            android:parentActivityName=".main.MainActivity" />
+            android:parentActivityName=".common.main.MainActivity" />
 
         <!-- Show info items -->
         <activity
-            android:name=".ui.InfoSubItemActivity"
+            android:name=".info.list.InfoSubItemActivity"
             android:label="@string/title_activity_info_sub_item"
-            android:parentActivityName=".main.MainActivity" />
+            android:parentActivityName=".common.main.MainActivity" />
 
         <!-- Display a Schamper article -->
         <activity
             android:name=".schamper.FullArticleActivity"
             android:label="@string/title_activity_schamper"
             android:launchMode="singleTop"
-            android:parentActivityName=".main.MainActivity"
+            android:parentActivityName=".common.main.MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
 
         <!-- Show news article -->
         <activity
-            android:name=".ui.NewsArticleActivity"
+            android:name=".association.news.NewsArticleActivity"
             android:label="@string/title_activity_news"
-            android:parentActivityName=".main.MainActivity" />
+            android:parentActivityName=".common.main.MainActivity" />
 
         <!-- Show a web view -->
         <activity
             android:name=".ui.common.WebViewActivity"
             android:label="@string/title_activity_hydra_web_view"
-            android:parentActivityName=".main.MainActivity" />
+            android:parentActivityName=".common.main.MainActivity" />
 
         <!-- Show a Minerva course -->
         <activity
             android:name=".minerva.course.singlecourse.CourseActivity"
             android:label="@string/activity_title_minerva_course"
             android:launchMode="singleTop"
-            android:parentActivityName=".main.MainActivity" />
+            android:parentActivityName=".common.main.MainActivity" />
 
         <!-- Show a Minerva announcement -->
         <activity
@@ -170,7 +170,7 @@
             android:name=".minerva.auth.AuthActivity"
             android:label="@string/title_activity_authentication"
             android:launchMode="singleTask"
-            android:parentActivityName=".main.MainActivity">
+            android:parentActivityName=".common.main.MainActivity">
 
             <!-- Intent filters: handle the custom URL scheme -->
             <intent-filter>
@@ -188,7 +188,7 @@
             android:name=".sko.OverviewActivity"
             android:label="@string/activity_title_sko_overview"
             android:launchMode="singleTop"
-            android:parentActivityName=".main.MainActivity"
+            android:parentActivityName=".common.main.MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.Sko" />
 
         <!-- SKO preference activity -->
@@ -210,7 +210,7 @@
             android:name=".onboarding.OnboardingActivity"
             android:theme="@style/Theme.Intro" />
         <activity
-            android:name=".ui.ExceptionDialogActivity"
+            android:name=".common.ui.ExceptionDialogActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
         <activity
             android:name=".minerva.calendar.sync.CalendarPermissionActivity"
@@ -220,11 +220,11 @@
         <activity
             android:name=".library.details.LibraryDetailActivity"
             android:label="Bibliotheek"
-            android:parentActivityName=".main.MainActivity"
+            android:parentActivityName=".common.main.MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
 
         <!-- Firebase messages -->
-        <service android:name=".notification.FirebaseMessageService">
+        <service android:name=".sko.FirebaseMessageService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

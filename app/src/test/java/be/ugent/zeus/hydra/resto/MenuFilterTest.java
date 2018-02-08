@@ -6,7 +6,6 @@ import android.preference.PreferenceManager;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.testing.Utils;
-import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;

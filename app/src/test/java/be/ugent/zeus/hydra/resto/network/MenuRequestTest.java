@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.common.network.ArrayJsonSpringRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.resto.RestoMenu;
-import be.ugent.zeus.hydra.ui.preferences.RestoPreferenceFragment;
+import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
