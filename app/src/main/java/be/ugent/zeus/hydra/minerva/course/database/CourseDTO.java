@@ -36,7 +36,7 @@ public final class CourseDTO {
     @ColumnInfo(name = CourseTable.Columns.IGNORE_ANNOUNCEMENTS)
     private boolean ignoreAnnouncements;
     @ColumnInfo(name = CourseTable.Columns.IGNORE_CALENDAR)
-    private boolean isIgnoreCalendar;
+    private boolean ignoreCalendar;
 
     @NonNull
     public String getId() {
@@ -104,7 +104,7 @@ public final class CourseDTO {
     }
 
     public void setIgnoreCalendar(boolean ignoreCalendar) {
-        isIgnoreCalendar = ignoreCalendar;
+        this.ignoreCalendar = ignoreCalendar;
     }
 
     public void setIgnoreAnnouncements(boolean ignoreAnnouncements) {
@@ -116,7 +116,7 @@ public final class CourseDTO {
     }
 
     public boolean getIgnoreCalendar() {
-        return isIgnoreCalendar;
+        return ignoreCalendar;
     }
 
     @Override

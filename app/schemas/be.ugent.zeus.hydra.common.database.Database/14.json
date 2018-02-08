@@ -63,7 +63,7 @@
             "notNull": true
           },
           {
-            "fieldPath": "isIgnoreCalendar",
+            "fieldPath": "ignoreCalendar",
             "columnName": "ignore_calendar",
             "affinity": "INTEGER",
             "notNull": true

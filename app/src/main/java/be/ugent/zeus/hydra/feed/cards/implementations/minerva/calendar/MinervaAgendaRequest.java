@@ -43,7 +43,7 @@ public class MinervaAgendaRequest extends HideableHomeFeedRequest {
         OffsetDateTime oneMonth = now.plusWeeks(3);
         //Note: in real Java 8 streams, we could concat the operations below.
         //Sort the items per day
-        Map<LocalDate, List<AgendaItem>> perDay = StreamSupport.stream(dao.getBetween(now, oneMonth))
+        Map<LocalDate, List<AgendaItem>> perDay = StreamSupport.stream(dao.getBetweenNonIgnored(now, oneMonth))
                 .collect(Collectors.groupingBy(AgendaItem::getLocalStartDate));
 
         //Convert it to a view

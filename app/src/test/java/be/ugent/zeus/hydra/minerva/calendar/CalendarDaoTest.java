@@ -267,8 +267,9 @@ public class CalendarDaoTest extends AbstractDaoTest {
                     boolean startDateBeforeHigher = i.getStartDate().isBefore(higher) || i.getStartDate().isEqual(higher);
                     return (startDateAfterLower || endDateAfterLower) && startDateBeforeHigher;
                 })
+                .filter(i -> !courseMap.get(i.getCourseId()).getIgnoreCalendar())
                 .collect(Collectors.toList());
-        List<AgendaItemDTO> actual = dao.getBetween(lower, higher).stream()
+        List<AgendaItemDTO> actual = dao.getBetweenNonIgnored(lower, higher).stream()
                 .map(r -> r.agendaItem)
                 .collect(Collectors.toList());
 

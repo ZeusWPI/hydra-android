@@ -28,12 +28,15 @@ public interface AgendaItemRepository extends FullRepository<Integer, AgendaItem
      * Get all items between two dates. The lower date is inclusive, the upper date is exclusive. More formal, we can
      * express it as {@code ∀ item ∈ results: lower ≤ item.date < upper}.
      *
+     * This will only return events from courses that don't have the "calendar ignore" flag set, so:
+     * {@code ∀ item ∈ results: lower ≤ item.date < upper ∧ ¬IgnoresCalendar(item)}
+     *
      * @param lower  The lower bound, inclusive.
      * @param higher The upper bound, exclusive.
      *
      * @return The results.
      */
-    List<AgendaItem> getBetween(OffsetDateTime lower, OffsetDateTime higher);
+    List<AgendaItem> getBetweenNonIgnored(OffsetDateTime lower, OffsetDateTime higher);
 
     /**
      * Get a map of all calendar items, mapping the item's id to the calendar id. The actual returned object
