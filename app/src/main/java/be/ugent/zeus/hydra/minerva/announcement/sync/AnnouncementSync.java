@@ -213,15 +213,20 @@ public class AnnouncementSync {
         // Check what to do with new announcements.
         for (Announcement announcement : diff.getNew()) {
             announcement.setCourse(course);
-            if (unreadOnServer.contains(announcement)) {
+            /*
+            If the announcement is unread on the server AND announcements are enabled for this course, potentially
+            notify the user of a new announcement. If the announcement is not unread on the server OR announcements
+            are disabled for this course, immediately mark the announcement as read.
+             */
+            // If the announcement is unread on the server, and announcements are enabled for this course
+            if (unreadOnServer.contains(announcement) && courseEnabled) {
                 /*
                 The notification for an announcement is sent, if:
                 - This is NOT the initial sync. If it is, we don't send announcements, AND
                 - Minerva announcement notifications are enabled, i.e. the global announcement switch is on, AND
-                - Announcement notifications for this particular course are enabled, AND
                 - If there was no email for this announcement OR there was an email, but notifications for emails are turned on.
                  */
-                if (!isInitialSync && globalEnabled && courseEnabled && (notifyIfEmailWasSent || !announcement.isEmailSent())) {
+                if (!isInitialSync && globalEnabled && (notifyIfEmailWasSent || !announcement.isEmailSent())) {
                     // Check if we want to show announcements or not.
                     toNotify.add(announcement);
                 }
