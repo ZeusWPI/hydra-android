@@ -181,13 +181,6 @@ public class AnnouncementSync {
         ApiWhatsNew whatsNew = result.getOrThrow();
         List<Announcement> unreadOnServer = new ArrayList<>(transform(whatsNew.announcements, announcementDTO -> ApiAnnouncementMapper.INSTANCE.convert(announcementDTO, course)));
 
-        // Check if we need to notify for announcements that have been sent as an e-mail.
-        boolean notifyIfEmailWasSent = preferences.getBoolean(
-                MinervaPreferenceFragment.PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL,
-                MinervaPreferenceFragment.PREF_DEFAULT_ANNOUNCEMENT_NOTIFICATION_EMAIL
-        );
-        boolean showNotifications = preferences.getBoolean(MinervaPreferenceFragment.PREF_ANNOUNCEMENT_NOTIFICATION, true);
-
         Instant now = Instant.now();
 
         // Synchronise the read date for updated announcements (thus those that are already in the database).
@@ -207,12 +200,28 @@ public class AnnouncementSync {
         // Contains announcements for which we want to show a notification.
         List<Announcement> toNotify = new ArrayList<>();
 
+        // Check if we need to notify for announcements that have been sent as an e-mail.
+        boolean notifyIfEmailWasSent = preferences.getBoolean(
+                MinervaPreferenceFragment.PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL,
+                MinervaPreferenceFragment.PREF_DEFAULT_ANNOUNCEMENT_NOTIFICATION_EMAIL
+        );
+        // Check if global announcements are enabled.
+        boolean globalEnabled = preferences.getBoolean(MinervaPreferenceFragment.PREF_ANNOUNCEMENT_NOTIFICATION, true);
+        // Check if announcements are enabled for this course
+        boolean courseEnabled = !course.getIgnoreAnnouncements();
+
         // Check what to do with new announcements.
         for (Announcement announcement : diff.getNew()) {
             announcement.setCourse(course);
             if (unreadOnServer.contains(announcement)) {
-                // The new announcement is also unread on the server.
-                if (!isInitialSync && showNotifications && (notifyIfEmailWasSent || !announcement.isEmailSent())) {
+                /*
+                The notification for an announcement is sent, if:
+                - This is NOT the initial sync. If it is, we don't send announcements, AND
+                - Minerva announcement notifications are enabled, i.e. the global announcement switch is on, AND
+                - Announcement notifications for this particular course are enabled, AND
+                - If there was no email for this announcement OR there was an email, but notifications for emails are turned on.
+                 */
+                if (!isInitialSync && globalEnabled && courseEnabled && (notifyIfEmailWasSent || !announcement.isEmailSent())) {
                     // Check if we want to show announcements or not.
                     toNotify.add(announcement);
                 }
