@@ -234,11 +234,14 @@ public class CalendarSync {
         Set<AgendaItem> updatedItems = new HashSet<>(diff.getUpdated());
         // Calendar id's of items we will remove.
         Set<Long> toRemove = new HashSet<>(calendarRepository.getCalendarIdsForIds(diff.getStaleIds()));
+        // List of calendar items id's we must update to remove the calendar ID from our database.
+        List<Integer> calendarIdsToRemove = new ArrayList<>();
 
         // We remove ignored items from the updated set and add them to the "to be removed" set.
         for (AgendaItem item: diff.getUpdated()) {
             if (item.getCourse().getIgnoreCalendar()) {
                 toRemove.add(item.getCalendarId());
+                item.setCalendarId(AgendaItem.NO_CALENDAR_ID);
                 updatedItems.remove(item);
             }
         }

@@ -47,5 +47,14 @@ public interface AgendaItemRepository extends FullRepository<Integer, AgendaItem
      */
     ExtendedSparseArray<Long> getIdsAndCalendarIds();
 
+    /**
+     * Get a list of device calender ID's for the items with the provided ID's. The resulting list is a one-on-one
+     * mapping between the item ID's and the calendar ID's, e.g. the first item in the resulting list is for the first
+     * item in the provided list.
+     *
+     * @param agendaIds The ID's for the items for which we want the calendar ID.
+     *
+     * @return One-on-one mapping of the calendar ID's.
+     */
     List<Long> getCalendarIdsForIds(Collection<Integer> agendaIds);
 }

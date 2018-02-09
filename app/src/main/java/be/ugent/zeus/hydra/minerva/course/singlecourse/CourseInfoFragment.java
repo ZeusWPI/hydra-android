@@ -1,18 +1,30 @@
 package be.ugent.zeus.hydra.minerva.course.singlecourse;
 
+import android.accounts.Account;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.database.RepositoryFactory;
+import be.ugent.zeus.hydra.common.sync.SyncUtils;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
+import be.ugent.zeus.hydra.minerva.account.AccountUtils;
+import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
+import be.ugent.zeus.hydra.minerva.common.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.minerva.course.Course;
+import be.ugent.zeus.hydra.minerva.course.CourseRepository;
+import be.ugent.zeus.hydra.minerva.course.Module;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import org.threeten.bp.LocalDate;
 
@@ -25,12 +37,14 @@ import java.util.Locale;
  */
 public class CourseInfoFragment extends Fragment {
 
+    private static final String TAG = "CourseInfoFragment";
     private static final String ARG_COURSE = "argCourse";
 
     private static final String URL = "https://studiegids.ugent.be/%d/NL/studiefiches/%s.pdf";
     private static final int DEFAULT_YEAR = LocalDate.now().getYear();
 
     private Course course;
+    private boolean courseWasModified;
 
     public static CourseInfoFragment newInstance(Course course) {
         CourseInfoFragment fragment = new CourseInfoFragment();
@@ -60,6 +74,10 @@ public class CourseInfoFragment extends Fragment {
         TextView courseYear = v.findViewById(R.id.course_year);
         TextView courseDescription = v.findViewById(R.id.course_description);
         TextView courseFiche = v.findViewById(R.id.course_fiche);
+        View announcementHeader = v.findViewById(R.id.course_settings_announcement_header);
+        View announcementDescription = v.findViewById(R.id.course_settings_announcement_description);
+        View calendarHeader = v.findViewById(R.id.course_settings_calendar_header);
+        View calendarDescription = v.findViewById(R.id.course_settings_calendar_description);
 
         courseTitle.setText(course.getTitle());
         courseCode.setText(course.getCode());
@@ -78,6 +96,32 @@ public class CourseInfoFragment extends Fragment {
             courseFiche.setVisibility(View.GONE);
         } else {
             courseFiche.setOnClickListener(view -> NetworkUtils.maybeLaunchBrowser(view.getContext(), url));
+        }
+
+        if (course.getEnabledModules().contains(Module.ANNOUNCEMENTS)) {
+            Switch announcementSwitch = v.findViewById(R.id.course_settings_announcement_switch);
+            announcementSwitch.setChecked(course.getIgnoreAnnouncements());
+            announcementSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                course.setIgnoreAnnouncements(isChecked);
+                courseWasModified = true;
+            });
+            announcementHeader.setOnClickListener(vi -> announcementSwitch.toggle());
+        } else {
+            announcementHeader.setVisibility(View.GONE);
+            announcementDescription.setVisibility(View.GONE);
+        }
+
+        if (course.getEnabledModules().contains(Module.CALENDAR)) {
+            Switch calendarSwitch = v.findViewById(R.id.course_settings_calendar_switch);
+            calendarSwitch.setChecked(course.getIgnoreCalendar());
+            calendarSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                course.setIgnoreCalendar(isChecked);
+                courseWasModified = true;
+            });
+            calendarHeader.setOnClickListener(vi -> calendarSwitch.toggle());
+        } else {
+            calendarHeader.setVisibility(View.GONE);
+            calendarDescription.setVisibility(View.GONE);
         }
     }
 
@@ -101,5 +145,26 @@ public class CourseInfoFragment extends Fragment {
 
         // We use the US locale since we are just formatting number without anything special.
         return String.format(Locale.US, URL, year, course.getCode());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // Save the course if necessary.
+        if (courseWasModified) {
+            Log.d(TAG, "Course was modified, saving...");
+            CourseRepository repository = RepositoryFactory.getCourseRepository(getContext());
+            Account account = AccountUtils.getAccount(getContext());
+            AsyncTask.execute(() -> {
+                repository.update(course);
+                Bundle bundle = new Bundle();
+                // Don't sync the announcements, this is not needed.
+                bundle.putBoolean(MinervaAdapter.SYNC_ANNOUNCEMENTS, false);
+                SyncUtils.requestSync(account, MinervaConfig.SYNC_AUTHORITY, bundle);
+            });
+            Toast.makeText(getContext(), R.string.minerva_course_info_settings_wait, Toast.LENGTH_LONG).show();
+            courseWasModified = false;
+        }
     }
 }
