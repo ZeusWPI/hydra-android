@@ -14,5 +14,6 @@ final class ApiCourse {
     public String description;
     @SerializedName("tutor_name")
     public String tutor;
+    @SerializedName("academic_year")
     public int year;
 }

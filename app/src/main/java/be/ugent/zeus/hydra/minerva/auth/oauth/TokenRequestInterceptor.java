@@ -20,6 +20,9 @@
  */
 package be.ugent.zeus.hydra.minerva.auth.oauth;
 
+import android.util.Log;
+
+import be.ugent.zeus.hydra.BuildConfig;
 import org.springframework.http.HttpAuthentication;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -38,6 +41,8 @@ import java.io.IOException;
  */
 public class TokenRequestInterceptor implements ClientHttpRequestInterceptor {
 
+    private static final String TAG = "TokenRequestInterceptor";
+
     private final String token;
 
     public TokenRequestInterceptor(String token) {
@@ -48,6 +53,7 @@ public class TokenRequestInterceptor implements ClientHttpRequestInterceptor {
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         request.getHeaders().setAuthorization(new BearerAuthentication(token));
         request.getHeaders().set("X-Bearer-Token", token); // TODO: This might be unnecessary
+        if (BuildConfig.DEBUG) Log.d(TAG, "Token for Minerva is " + token);
         return execution.execute(request, body);
     }
 
