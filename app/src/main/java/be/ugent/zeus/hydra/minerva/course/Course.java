@@ -3,6 +3,8 @@ package be.ugent.zeus.hydra.minerva.course;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java8.util.Objects;
+
 import java.io.Serializable;
 import java.util.EnumSet;
 
@@ -142,12 +144,16 @@ public final class Course implements Serializable, Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return java8.util.Objects.equals(id, course.id);
+        return order == course.order &&
+                ignoreAnnouncements == course.ignoreAnnouncements &&
+                ignoreCalendar == course.ignoreCalendar &&
+                Objects.equals(id, course.id) &&
+                Objects.equals(disabledModules, course.disabledModules);
     }
 
     @Override
     public int hashCode() {
-        return java8.util.Objects.hash(id);
+        return Objects.hash(id, order, disabledModules, ignoreAnnouncements, ignoreCalendar);
     }
 
     public int getOrder() {

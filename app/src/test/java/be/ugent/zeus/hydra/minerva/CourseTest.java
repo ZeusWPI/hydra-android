@@ -19,7 +19,7 @@ public class CourseTest extends ModelTest<Course> {
     public void equalsAndHash() {
         Utils.defaultVerifier(Course.class)
                 .suppress(Warning.NONFINAL_FIELDS)
-                .withOnlyTheseFields("id")
+                .withOnlyTheseFields("id", "order", "ignoreAnnouncements", "ignoreCalendar", "disabledModules")
                 .verify();
     }
 }
