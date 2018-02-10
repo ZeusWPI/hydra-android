@@ -25,9 +25,8 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
+import be.ugent.zeus.hydra.common.main.MainActivity;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
-import be.ugent.zeus.hydra.common.main.ArgumentsReceiver;
-import be.ugent.zeus.hydra.common.main.ScheduledRemovalListener;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.network.SelectableMetaRequest;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
@@ -47,7 +46,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public class RestoFragment extends Fragment implements AdapterView.OnItemSelectedListener, ArgumentsReceiver, BottomNavigationView.OnNavigationItemSelectedListener, ScheduledRemovalListener {
+public class RestoFragment extends Fragment implements AdapterView.OnItemSelectedListener, MainActivity.ArgumentsReceiver, BottomNavigationView.OnNavigationItemSelectedListener, MainActivity.ScheduledRemovalListener {
 
     private static final String TAG = "RestoFragment";
 

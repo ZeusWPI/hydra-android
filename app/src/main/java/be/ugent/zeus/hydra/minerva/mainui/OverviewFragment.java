@@ -23,9 +23,9 @@ import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
+import be.ugent.zeus.hydra.common.main.MainActivity;
 import be.ugent.zeus.hydra.common.sync.SyncUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.common.main.ScheduledRemovalListener;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;
@@ -44,7 +44,7 @@ import java.io.IOException;
  *
  * @author Niko Strijbol
  */
-public class OverviewFragment extends Fragment implements ResultStarter, ScheduledRemovalListener {
+public class OverviewFragment extends Fragment implements ResultStarter, MainActivity.ScheduledRemovalListener {
 
     private static final String TAG = "OverviewFragment";
     private static final int REQUEST_ANNOUNCEMENT_CHANGED_CODE = 56532;
@@ -322,8 +322,8 @@ public class OverviewFragment extends Fragment implements ResultStarter, Schedul
     public void onRemovalScheduled() {
         // Propagate this to the children.
         for (Fragment fragment : getChildFragmentManager().getFragments()) {
-            if (fragment instanceof ScheduledRemovalListener) {
-                ((ScheduledRemovalListener) fragment).onRemovalScheduled();
+            if (fragment instanceof MainActivity.ScheduledRemovalListener) {
+                ((MainActivity.ScheduledRemovalListener) fragment).onRemovalScheduled();
             }
         }
     }

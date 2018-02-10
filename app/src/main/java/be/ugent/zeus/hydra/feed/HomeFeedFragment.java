@@ -19,12 +19,12 @@ import android.view.*;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
+import be.ugent.zeus.hydra.common.main.MainActivity;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.common.main.ScheduledRemovalListener;
 import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
 import be.ugent.zeus.hydra.minerva.announcement.courselist.AnnouncementsForCourseFragment;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
@@ -48,7 +48,7 @@ import static be.ugent.zeus.hydra.feed.FeedLiveData.REFRESH_HOMECARD_TYPE;
  * @author Niko Strijbol
  * @author silox
  */
-public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, HomeFeedAdapter.AdapterCompanion, ScheduledRemovalListener {
+public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, HomeFeedAdapter.AdapterCompanion, MainActivity.ScheduledRemovalListener {
 
     private static final String TAG = "HomeFeedFragment";
 
