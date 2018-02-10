@@ -6,7 +6,7 @@ import android.view.View;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
 import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.common.main.MainActivity;
+import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.network.SelectableMetaRequest;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;

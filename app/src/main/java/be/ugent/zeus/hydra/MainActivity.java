@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.common.main;
+package be.ugent.zeus.hydra;
 
 import android.content.Intent;
 import android.content.pm.ShortcutManager;
@@ -22,19 +22,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import be.ugent.zeus.hydra.HydraApplication;
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.BaseActivity;
-import be.ugent.zeus.hydra.minerva.mainui.OverviewFragment;
-import be.ugent.zeus.hydra.onboarding.OnboardingActivity;
-import be.ugent.zeus.hydra.schamper.list.SchamperFragment;
 import be.ugent.zeus.hydra.association.event.list.EventFragment;
+import be.ugent.zeus.hydra.association.news.list.NewsFragment;
+import be.ugent.zeus.hydra.common.preferences.SettingsActivity;
+import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.feed.HomeFeedFragment;
 import be.ugent.zeus.hydra.info.list.InfoFragment;
 import be.ugent.zeus.hydra.library.list.LibraryListFragment;
-import be.ugent.zeus.hydra.association.news.list.NewsFragment;
+import be.ugent.zeus.hydra.minerva.mainui.OverviewFragment;
+import be.ugent.zeus.hydra.onboarding.OnboardingActivity;
 import be.ugent.zeus.hydra.resto.menu.RestoFragment;
-import be.ugent.zeus.hydra.common.preferences.SettingsActivity;
+import be.ugent.zeus.hydra.schamper.list.SchamperFragment;
 import be.ugent.zeus.hydra.urgent.UrgentFragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import jonathanfinerty.once.Once;
@@ -322,7 +320,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 fragment = new LibraryListFragment();
                 break;
             default:
-                fragment = new ComingSoonFragment();
+                throw new IllegalStateException("Unknown menu id for navigation drawer");
         }
 
         // Set the ID.

@@ -45,7 +45,7 @@
 
         <!-- Main activity -->
         <activity
-            android:name=".common.main.MainActivity"
+            android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows">
             <intent-filter>
@@ -62,7 +62,7 @@
         <activity
             android:name=".common.preferences.SettingsActivity"
             android:label="@string/action_settings"
-            android:parentActivityName=".common.main.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/Hydra.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
@@ -86,7 +86,7 @@
         <activity
             android:name=".resto.sandwich.SandwichActivity"
             android:label="@string/resto_sandwich"
-            android:parentActivityName=".common.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- The Maps API key -->
         <meta-data
@@ -97,53 +97,53 @@
         <activity
             android:name=".resto.locations.RestoLocationActivity"
             android:label="@string/title_activity_resto_location"
-            android:parentActivityName=".common.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- Show other food items -->
         <activity
             android:name=".resto.extrafood.ExtraFoodActivity"
             android:label="@string/resto_extra_title"
-            android:parentActivityName=".common.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- Details about association events. -->
         <activity
             android:name=".association.event.EventDetailActivity"
             android:label="@string/title_activity_association_activity_detail"
             android:launchMode="singleTop"
-            android:parentActivityName=".common.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- Show info items -->
         <activity
             android:name=".info.list.InfoSubItemActivity"
             android:label="@string/title_activity_info_sub_item"
-            android:parentActivityName=".common.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- Display a Schamper article -->
         <activity
             android:name=".schamper.FullArticleActivity"
             android:label="@string/title_activity_schamper"
             android:launchMode="singleTop"
-            android:parentActivityName=".common.main.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
 
         <!-- Show news article -->
         <activity
             android:name=".association.news.NewsArticleActivity"
             android:label="@string/title_activity_news"
-            android:parentActivityName=".common.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- Show a web view -->
         <activity
             android:name=".ui.common.WebViewActivity"
             android:label="@string/title_activity_hydra_web_view"
-            android:parentActivityName=".common.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- Show a Minerva course -->
         <activity
             android:name=".minerva.course.singlecourse.CourseActivity"
             android:label="@string/activity_title_minerva_course"
             android:launchMode="singleTop"
-            android:parentActivityName=".common.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- Show a Minerva announcement -->
         <activity
@@ -170,7 +170,7 @@
             android:name=".minerva.auth.AuthActivity"
             android:label="@string/title_activity_authentication"
             android:launchMode="singleTask"
-            android:parentActivityName=".common.main.MainActivity">
+            android:parentActivityName=".MainActivity">
 
             <!-- Intent filters: handle the custom URL scheme -->
             <intent-filter>
@@ -188,7 +188,7 @@
             android:name=".sko.OverviewActivity"
             android:label="@string/activity_title_sko_overview"
             android:launchMode="singleTop"
-            android:parentActivityName=".common.main.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.Sko" />
 
         <!-- SKO preference activity -->
@@ -220,7 +220,7 @@
         <activity
             android:name=".library.details.LibraryDetailActivity"
             android:label="Bibliotheek"
-            android:parentActivityName=".common.main.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
 
         <!-- Firebase messages -->
