@@ -9,7 +9,7 @@
             android:persistent="false"
             android:selectable="false" />
 
-        <be.ugent.zeus.hydra.ui.preferences.TimePreference
+        <be.ugent.zeus.hydra.common.ui.widgets.TimePreference
             android:key="pref_resto_closing_hour"
             android:summary="@string/pref_resto_closing_description"
             android:title="@string/pref_resto_closing_title"

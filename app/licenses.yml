@@ -9,11 +9,7 @@
   url: https://developer.android.com/topic/libraries/architecture/index.html
 - artifact: android.arch.core:runtime:+
   skip: true
-- artifact: android.arch.lifecycle:common:+
-  skip: true
-- artifact: android.arch.lifecycle:extensions:+
-  skip: true
-- artifact: android.arch.lifecycle:runtime:+
+- artifact: android.arch.lifecycle:+:+
   skip: true
 - artifact: android.arch.persistence.room:+:+
   skip: true
@@ -27,12 +23,6 @@
   skip: true
 - artifact: com.google.firebase:+:+
   skip: true
-
-- artifact: com.github.alexfu:SQLiteQueryBuilder:+
-  name: SQLiteQueryBuilder
-  copyrightHolder: Alex Fu
-  license: MIT License
-  url: https://github.com/alexfu/SQLiteQueryBuilder
 
 - artifact: org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:+
   name: Apache Oltu - OAuth 2.0 - Client
@@ -127,6 +117,12 @@
   copyrightHolder: Gunnar Morling
   license: The Apache Software License, Version 2.0
   url: http://mapstruct.org/
+
+- artifact: blue.aodev:material-values:+
+  name: material-values
+  copyrightHolder: Ao (Matthieu Esnault)
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/AoDevBlue/MaterialValues
 
 - artifact: net.sourceforge.streamsupport:streamsupport:+
   skip: true
