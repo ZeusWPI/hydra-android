@@ -21,7 +21,7 @@ import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
-import be.ugent.zeus.hydra.common.main.MainActivity;
+import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;
 import be.ugent.zeus.hydra.minerva.course.singlecourse.CourseActivity;
 import be.ugent.zeus.hydra.utils.DateUtils;

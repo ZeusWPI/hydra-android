@@ -17,7 +17,7 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.main.MainActivity;
+import be.ugent.zeus.hydra.MainActivity;
 
 import java.util.Collections;
 import java.util.List;
