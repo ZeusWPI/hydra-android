@@ -134,7 +134,7 @@
 
         <!-- Show a web view -->
         <activity
-            android:name=".ui.common.WebViewActivity"
+            android:name=".common.ui.WebViewActivity"
             android:label="@string/title_activity_hydra_web_view"
             android:parentActivityName=".MainActivity" />
 
