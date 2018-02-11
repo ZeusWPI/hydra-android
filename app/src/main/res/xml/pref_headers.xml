@@ -13,7 +13,7 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="be.ugent.zeus.hydra"
-            android:targetClass="be.ugent.zeus.hydra.ui.preferences.AssociationSelectPrefActivity"/>
+            android:targetClass="be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity"/>
     </header>
 
     <!-- Resto -->
