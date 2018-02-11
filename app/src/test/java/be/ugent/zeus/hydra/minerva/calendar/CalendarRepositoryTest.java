@@ -144,8 +144,9 @@ public class CalendarRepositoryTest extends FullRepositoryTest<Integer, AgendaIt
                     boolean startUpper = c.getStartDate().isBefore(upper) || c.getStartDate().isEqual(upper);
                     return (startAfter || endAfter) && startUpper;
                 })
+                .filter(i -> !i.getCourse().getIgnoreCalendar())
                 .collect(Collectors.toList());
-        List<AgendaItem> actual = agendaItemRepository.getBetween(lower, upper);
+        List<AgendaItem> actual = agendaItemRepository.getBetweenNonIgnored(lower, upper);
         assertCollectionEquals(expected, actual);
     }
 

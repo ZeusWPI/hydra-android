@@ -23,6 +23,8 @@ public interface AgendaDao {
             ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
             ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
             ", c." + CourseTable.Columns.DISABLED_MODULES + " AS c_" + CourseTable.Columns.DISABLED_MODULES +
+            ", c." + CourseTable.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
+            ", c." + CourseTable.Columns.IGNORE_CALENDAR + " AS c_" + CourseTable.Columns.IGNORE_CALENDAR +
             " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseTable.Columns.ID + " WHERE a." + AgendaTable.Columns.ID + " IS :id")
     Result getOne(int id);
 
@@ -34,6 +36,8 @@ public interface AgendaDao {
             ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
             ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
             ", c." + CourseTable.Columns.DISABLED_MODULES + " AS c_" + CourseTable.Columns.DISABLED_MODULES +
+            ", c." + CourseTable.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
+            ", c." + CourseTable.Columns.IGNORE_CALENDAR + " AS c_" + CourseTable.Columns.IGNORE_CALENDAR +
             " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseTable.Columns.ID)
     List<Result> getAll();
 
@@ -72,6 +76,8 @@ public interface AgendaDao {
             ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
             ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
             ", c." + CourseTable.Columns.DISABLED_MODULES + " AS c_" + CourseTable.Columns.DISABLED_MODULES +
+            ", c." + CourseTable.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
+            ", c." + CourseTable.Columns.IGNORE_CALENDAR + " AS c_" + CourseTable.Columns.IGNORE_CALENDAR +
             " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseTable.Columns.ID +
             " WHERE a." + AgendaTable.Columns.COURSE + " = :courseId" +
             " AND datetime(a." + AgendaTable.Columns.END_DATE + ") >= datetime(:now)" +
@@ -87,6 +93,8 @@ public interface AgendaDao {
             ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
             ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
             ", c." + CourseTable.Columns.DISABLED_MODULES + " AS c_" + CourseTable.Columns.DISABLED_MODULES +
+            ", c." + CourseTable.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
+            ", c." + CourseTable.Columns.IGNORE_CALENDAR + " AS c_" + CourseTable.Columns.IGNORE_CALENDAR +
             " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseTable.Columns.ID +
             " WHERE a." + AgendaTable.Columns.COURSE + " = :courseId" +
             " ORDER BY datetime(" + AgendaTable.Columns.START_DATE + ") ASC"
@@ -101,12 +109,15 @@ public interface AgendaDao {
             ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
             ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
             ", c." + CourseTable.Columns.DISABLED_MODULES + " AS c_" + CourseTable.Columns.DISABLED_MODULES +
+            ", c." + CourseTable.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
+            ", c." + CourseTable.Columns.IGNORE_CALENDAR + " AS c_" + CourseTable.Columns.IGNORE_CALENDAR +
             " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseTable.Columns.ID +
-            " WHERE (datetime(a." + AgendaTable.Columns.START_DATE + ") >= datetime(:lower) OR datetime(a." + AgendaTable.Columns.END_DATE + ") >= datetime(:lower))" +
-            " AND datetime(a." + AgendaTable.Columns.START_DATE + ") <= datetime(:upper) " +
+            " WHERE ((datetime(a." + AgendaTable.Columns.START_DATE + ") >= datetime(:lower) OR datetime(a." + AgendaTable.Columns.END_DATE + ") >= datetime(:lower))" +
+            " AND datetime(a." + AgendaTable.Columns.START_DATE + ") <= datetime(:upper)) " +
+            " AND c_" + CourseTable.Columns.IGNORE_CALENDAR + " = 0" +
             " ORDER BY datetime(" + AgendaTable.Columns.START_DATE + ") ASC"
     )
-    List<Result> getBetween(OffsetDateTime lower, OffsetDateTime upper);
+    List<Result> getBetweenNonIgnored(OffsetDateTime lower, OffsetDateTime upper);
 
     @Query("SELECT " + AgendaTable.Columns.CALENDAR_ID + " FROM " + AgendaTable.TABLE_NAME + " WHERE " + AgendaTable.Columns.ID + " IN (:ids)")
     List<Long> getCalendarIdsForIds(List<Integer> ids);

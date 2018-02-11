@@ -11,7 +11,6 @@ import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
 import org.threeten.bp.OffsetDateTime;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -123,7 +122,7 @@ public class MockCalendarDao implements AgendaDao {
         return this.calendarItems.stream()
                 .filter(i -> i.getCourseId().equals(courseId))
                 .filter(i -> i.getEndDate().isAfter(now) || i.getEndDate().isEqual(now))
-                .map((Function<AgendaItemDTO, Result>) c -> {
+                .map(c -> {
                     Result result = new Result();
                     result.agendaItem = c;
                     result.course = courses.get(c.getCourseId());
@@ -136,7 +135,7 @@ public class MockCalendarDao implements AgendaDao {
     public List<Result> getAllForCourse(String courseId) {
         return calendarItems.stream()
                 .filter(i -> i.getCourseId().equals(courseId))
-                .map((Function<AgendaItemDTO, Result>) c -> {
+                .map(c -> {
                     Result result = new Result();
                     result.agendaItem = c;
                     result.course = courses.get(c.getCourseId());
@@ -146,7 +145,7 @@ public class MockCalendarDao implements AgendaDao {
     }
 
     @Override
-    public List<Result> getBetween(OffsetDateTime lower, OffsetDateTime upper) {
+    public List<Result> getBetweenNonIgnored(OffsetDateTime lower, OffsetDateTime upper) {
         return calendarItems.stream()
                 .filter(c -> {
                     boolean startAfter = c.getStartDate().isAfter(lower) || c.getStartDate().isEqual(lower);
@@ -154,7 +153,8 @@ public class MockCalendarDao implements AgendaDao {
                     boolean startUpper = c.getStartDate().isBefore(upper) || c.getStartDate().isEqual(upper);
                     return (startAfter || endAfter) && startUpper;
                 })
-                .map((Function<AgendaItemDTO, Result>) c -> {
+                .filter(c -> !courses.get(c.getCourseId()).getIgnoreCalendar())
+                .map(c -> {
                     Result result = new Result();
                     result.agendaItem = c;
                     result.course = courses.get(c.getCourseId());

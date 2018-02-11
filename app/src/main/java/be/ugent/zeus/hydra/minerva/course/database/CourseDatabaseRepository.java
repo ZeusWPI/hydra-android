@@ -110,6 +110,11 @@ public class CourseDatabaseRepository implements CourseRepository {
     }
 
     private LocalData from(CourseDao.IdAndLocalData idAndLocalData) {
-        return new LocalData(idAndLocalData.order, Module.fromNumericalValue(idAndLocalData.disabledModules));
+        return new LocalData(
+                idAndLocalData.order,
+                Module.fromNumericalValue(idAndLocalData.disabledModules),
+                idAndLocalData.ignoreAnnouncements,
+                idAndLocalData.ignoreCalendar
+        );
     }
 }

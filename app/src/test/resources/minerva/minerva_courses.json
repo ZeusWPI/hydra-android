@@ -7,7 +7,9 @@
     "tutor": "Alana Stanton",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "Z824412017",
@@ -17,7 +19,9 @@
     "tutor": "Mannix Lancaster",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": true
   },
   {
     "id": "C886932017",
@@ -27,7 +31,9 @@
     "tutor": "Price Owens",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "U597952017",
@@ -37,7 +43,9 @@
     "tutor": "Ria Barton",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "Q672592017",
@@ -47,7 +55,9 @@
     "tutor": "Octavius Frederick",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": true
   },
   {
     "id": "A496402017",
@@ -57,7 +67,9 @@
     "tutor": "Tate Colon",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "C673442017",
@@ -67,7 +79,9 @@
     "tutor": "Dustin Houston",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "I508252017",
@@ -77,7 +91,9 @@
     "tutor": "Adara Weber",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": true
   },
   {
     "id": "X070602017",
@@ -87,7 +103,9 @@
     "tutor": "Jael Dillard",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "Q213772017",
@@ -97,7 +115,9 @@
     "tutor": "Rinah Palmer",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "I206492017",
@@ -107,7 +127,9 @@
     "tutor": "Teagan Colon",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "D820732017",
@@ -117,7 +139,9 @@
     "tutor": "Geoffrey Clayton",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": true
   },
   {
     "id": "V899732017",
@@ -127,7 +151,9 @@
     "tutor": "Arsenio Munoz",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "E208872017",
@@ -137,7 +163,9 @@
     "tutor": "Iona Gutierrez",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "Y849802017",
@@ -147,7 +175,9 @@
     "tutor": "Shana Golden",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "H515742017",
@@ -157,7 +187,9 @@
     "tutor": "Wallace Dale",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "N942942017",
@@ -167,7 +199,9 @@
     "tutor": "Blake Howell",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": true
   },
   {
     "id": "J171552017",
@@ -177,7 +211,9 @@
     "tutor": "Rashad Williams",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "A812682017",
@@ -187,7 +223,9 @@
     "tutor": "May Thomas",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "B755532017",
@@ -197,7 +235,9 @@
     "tutor": "Lillian Pratt",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "Z810462017",
@@ -207,7 +247,9 @@
     "tutor": "Rosalyn Mcdowell",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": true
   },
   {
     "id": "O545612017",
@@ -217,7 +259,9 @@
     "tutor": "Sydney Montoya",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "M733472017",
@@ -227,7 +271,9 @@
     "tutor": "Aladdin Compton",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "R572102017",
@@ -237,7 +283,9 @@
     "tutor": "Leonard Rose",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "A184372017",
@@ -247,7 +295,9 @@
     "tutor": "Armand Simmons",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "D953672017",
@@ -257,7 +307,9 @@
     "tutor": "Belle Wilson",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "W486002017",
@@ -267,7 +319,9 @@
     "tutor": "Jakeem Browning",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "C969962017",
@@ -277,7 +331,9 @@
     "tutor": "Sawyer Shaw",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "X224972017",
@@ -287,7 +343,9 @@
     "tutor": "Curran Welch",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": true
   },
   {
     "id": "I435932017",
@@ -297,6 +355,8 @@
     "tutor": "Yen Berry",
     "year": 2017,
     "order": 0,
-    "disabledModules": 0
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   }
 ]

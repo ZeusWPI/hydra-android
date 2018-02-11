@@ -23,6 +23,8 @@ public interface AnnouncementDao {
             ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
             ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
             ", c." + CourseTable.Columns.DISABLED_MODULES + " AS c_" + CourseTable.Columns.DISABLED_MODULES +
+            ", c." + CourseTable.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
+            ", c." + CourseTable.Columns.IGNORE_CALENDAR + " AS c_" + CourseTable.Columns.IGNORE_CALENDAR +
             " FROM " + AnnouncementTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AnnouncementTable.Columns.COURSE + " = c." + CourseTable.Columns.ID + " WHERE a." + AnnouncementTable.Columns.ID + " IS :id")
     Result getOne(int id);
 
@@ -34,6 +36,8 @@ public interface AnnouncementDao {
             ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
             ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
             ", c." + CourseTable.Columns.DISABLED_MODULES + " AS c_" + CourseTable.Columns.DISABLED_MODULES +
+            ", c." + CourseTable.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
+            ", c." + CourseTable.Columns.IGNORE_CALENDAR + " AS c_" + CourseTable.Columns.IGNORE_CALENDAR +
             " FROM " + AnnouncementTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AnnouncementTable.Columns.COURSE + " = c." + CourseTable.Columns.ID)
     List<Result> getAll();
 
@@ -72,6 +76,8 @@ public interface AnnouncementDao {
             ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
             ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
             ", c." + CourseTable.Columns.DISABLED_MODULES + " AS c_" + CourseTable.Columns.DISABLED_MODULES +
+            ", c." + CourseTable.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
+            ", c." + CourseTable.Columns.IGNORE_CALENDAR + " AS c_" + CourseTable.Columns.IGNORE_CALENDAR +
             " FROM " + AnnouncementTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AnnouncementTable.Columns.COURSE + " = c." + CourseTable.Columns.ID +
             " WHERE a." + AnnouncementTable.Columns.READ_DATE + " ISNULL ORDER BY datetime(a." + AnnouncementTable.Columns.DATE + ") DESC")
     List<Result> getUnreadMostRecentFirst();
@@ -84,6 +90,8 @@ public interface AnnouncementDao {
             ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
             ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
             ", c." + CourseTable.Columns.DISABLED_MODULES + " AS c_" + CourseTable.Columns.DISABLED_MODULES +
+            ", c." + CourseTable.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
+            ", c." + CourseTable.Columns.IGNORE_CALENDAR + " AS c_" + CourseTable.Columns.IGNORE_CALENDAR +
             " FROM " + AnnouncementTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AnnouncementTable.Columns.COURSE + " = c." + CourseTable.Columns.ID +
             " WHERE a." + AnnouncementTable.Columns.COURSE + " = :courseId ORDER BY datetime(a." + AnnouncementTable.Columns.DATE + ") DESC")
     List<Result> getMostRecentFirst(String courseId);

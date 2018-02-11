@@ -330,6 +330,22 @@
     <string name="minerva_course_info_year">Academiejaar</string>
     <string name="minerva_course_info_course_fiche">Studiefiche</string>
     <string name="minerva_course_info_course_fiche_warning">Merk op dat niet elk vak een studiefiche heeft.</string>
+    <string name="minerva_course_info_settings_header">Instellingen</string>
+    <string name="minerva_course_info_settings_announcements">Aankondigingen negeren</string>
+    <string name="minerva_course_info_settings_announcements_description">
+        Dit zorgt ervoor dat u voor aankondigingen van dit vak geen meldingen meer ontvangt, ze niet verschijnen in de
+        homefeed en ze niet bij de ongelezen aankondigingen verschijnen. De aankondigingen voor dit vak worden
+        onmiddellijk als gelezen gemarkeerd. Ze zijn nog wel zichtbaar in het overzicht van dit vak. Dit zal enkel gelden
+        voor nieuwe aankondigingen: aanwezige aankondigingen blijven zichtbaar.
+    </string>
+    <string name="minerva_course_info_settings_calendar">Agenda negeren</string>
+    <string name="minerva_course_info_settings_calendar_description">
+        Dit zorgt ervoor dat de evenementen voor dit vak niet meer verschijnen in de homefeed of in de ingebouwde agenda
+        van uw toestel. Ze zijn nog wel zichtbaar in het overzicht van dit vak.
+    </string>
+    <string name="minerva_course_info_settings_wait">
+        Het kan even duren voor de instellingen van kracht zijn, een synchronisatie start nu…
+    </string>
     <string name="view_pdf">Pdf bekijken</string>
     <string name="minerva_course_info_description">Beschrijving</string>
     <string name="library_info_remarks">Opmerkingen</string>

@@ -90,8 +90,8 @@ public class AgendaDatabaseRepository implements AgendaItemRepository {
     }
 
     @Override
-    public List<AgendaItem> getBetween(OffsetDateTime lower, OffsetDateTime higher) {
-        return transform(agendaDao.getBetween(lower, higher), result -> agendaMapper.convert(result.agendaItem, courseMapper.courseToCourse(result.course)));
+    public List<AgendaItem> getBetweenNonIgnored(OffsetDateTime lower, OffsetDateTime higher) {
+        return transform(agendaDao.getBetweenNonIgnored(lower, higher), result -> agendaMapper.convert(result.agendaItem, courseMapper.courseToCourse(result.course)));
     }
 
     @Override

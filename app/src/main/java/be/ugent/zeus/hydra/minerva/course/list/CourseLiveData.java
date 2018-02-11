@@ -53,11 +53,11 @@ class CourseLiveData extends RequestLiveData<List<Pair<Course, Long>>> {
     /**
      * Get all courses, given the order.
      */
-    public static class CourseRequest implements Request<List<Pair<Course, Long>>> {
+    private static class CourseRequest implements Request<List<Pair<Course, Long>>> {
 
         private final CourseRepository courseDao;
 
-        CourseRequest(Context context) {
+        private CourseRequest(Context context) {
             this.courseDao = RepositoryFactory.getCourseRepository(context);
         }
 

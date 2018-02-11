@@ -43,6 +43,7 @@ public class CourseSync {
         Collection<String> existingIds = courseDao.getIds();
 
         // We want to keep local data.
+        // TODO: perhaps do the reverse, only save the API fields.
         Map<String, CourseRepository.LocalData> orders = courseDao.getIdToLocalData();
 
         for (Course newCourse: serverCourses) {
@@ -52,6 +53,8 @@ public class CourseSync {
             }
             newCourse.setOrder(localData.order);
             newCourse.setDisabledModules(localData.disabledModules);
+            newCourse.setIgnoreAnnouncements(localData.ignoreAnnouncements);
+            newCourse.setIgnoreCalendar(localData.ignoreCalendar);
         }
 
         // Perform the actual synchronisation.

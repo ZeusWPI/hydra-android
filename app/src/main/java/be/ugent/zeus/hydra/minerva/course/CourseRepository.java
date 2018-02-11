@@ -36,10 +36,14 @@ public interface CourseRepository extends FullRepository<String, Course> {
 
         public final int order;
         public final EnumSet<Module> disabledModules;
+        public final boolean ignoreAnnouncements;
+        public final boolean ignoreCalendar;
 
-        public LocalData(int order, EnumSet<Module> disabledModules) {
+        public LocalData(int order, EnumSet<Module> disabledModules, boolean ignoreAnnouncements, boolean ignoreCalendar) {
             this.order = order;
             this.disabledModules = disabledModules;
+            this.ignoreAnnouncements = ignoreAnnouncements;
+            this.ignoreCalendar = ignoreCalendar;
         }
 
         @Override
@@ -48,12 +52,14 @@ public interface CourseRepository extends FullRepository<String, Course> {
             if (o == null || getClass() != o.getClass()) return false;
             LocalData localData = (LocalData) o;
             return order == localData.order &&
+                    ignoreAnnouncements == localData.ignoreAnnouncements &&
+                    ignoreCalendar == localData.ignoreCalendar &&
                     Objects.equals(disabledModules, localData.disabledModules);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(order, disabledModules);
+            return Objects.hash(order, disabledModules, ignoreAnnouncements, ignoreCalendar);
         }
     }
 }

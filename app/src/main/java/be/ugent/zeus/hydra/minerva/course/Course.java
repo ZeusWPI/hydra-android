@@ -3,6 +3,8 @@ package be.ugent.zeus.hydra.minerva.course;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java8.util.Objects;
+
 import java.io.Serializable;
 import java.util.EnumSet;
 
@@ -17,8 +19,10 @@ public final class Course implements Serializable, Parcelable {
     private String description;
     private String tutorName;
     private int academicYear;
-    private int order = 0;
+    private int order;
     private EnumSet<Module> disabledModules;
+    private boolean ignoreAnnouncements;
+    private boolean ignoreCalendar;
 
     public String getId() {
         return id;
@@ -72,6 +76,22 @@ public final class Course implements Serializable, Parcelable {
         this.disabledModules = disabledModules;
     }
 
+    public boolean getIgnoreAnnouncements() {
+        return ignoreAnnouncements;
+    }
+
+    public boolean getIgnoreCalendar() {
+        return ignoreCalendar;
+    }
+
+    public void setIgnoreAnnouncements(boolean ignoreAnnouncements) {
+        this.ignoreAnnouncements = ignoreAnnouncements;
+    }
+
+    public void setIgnoreCalendar(boolean ignoreCalendar) {
+        this.ignoreCalendar = ignoreCalendar;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -87,6 +107,8 @@ public final class Course implements Serializable, Parcelable {
         dest.writeInt(this.academicYear);
         dest.writeInt(this.order);
         dest.writeInt(Module.toNumericalValue(disabledModules));
+        dest.writeByte((byte) (ignoreAnnouncements ? 1 : 0));
+        dest.writeByte((byte) (ignoreCalendar ? 1 : 0));
     }
 
     public Course() {
@@ -101,6 +123,8 @@ public final class Course implements Serializable, Parcelable {
         this.academicYear = in.readInt();
         this.order = in.readInt();
         this.disabledModules = Module.fromNumericalValue(in.readInt());
+        this.ignoreAnnouncements = in.readByte() != 0;
+        this.ignoreCalendar = in.readByte() != 0;
     }
 
     public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>() {
@@ -120,12 +144,16 @@ public final class Course implements Serializable, Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Course course = (Course) o;
-        return java8.util.Objects.equals(id, course.id);
+        return order == course.order &&
+                ignoreAnnouncements == course.ignoreAnnouncements &&
+                ignoreCalendar == course.ignoreCalendar &&
+                Objects.equals(id, course.id) &&
+                Objects.equals(disabledModules, course.disabledModules);
     }
 
     @Override
     public int hashCode() {
-        return java8.util.Objects.hash(id);
+        return Objects.hash(id, order, disabledModules, ignoreAnnouncements, ignoreCalendar);
     }
 
     public int getOrder() {

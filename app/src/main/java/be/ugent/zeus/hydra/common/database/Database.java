@@ -36,7 +36,7 @@ public abstract class Database extends RoomDatabase {
      * The current version of the database. When changing this value, you must provide a appropriate migration, or the
      * app will crash.
      */
-    static final int VERSION = 13;
+    static final int VERSION = 14;
     /**
      * The current name of the database. Should not change.
      * <p>
@@ -58,7 +58,7 @@ public abstract class Database extends RoomDatabase {
             instance = Room.databaseBuilder(context, Database.class, NAME)
                     .allowMainThreadQueries() // TODO
                     .addMigrations(new Migration_6_7(), new Migration_7_8(), new Migration_8_9(), new Migration_9_10(),
-                            new Migration_10_11(), new Migration_11_12(), new Migration_12_13()
+                            new Migration_10_11(), new Migration_11_12(), new Migration_12_13(), new Migration_13_14()
                     )
                     .build();
         }
