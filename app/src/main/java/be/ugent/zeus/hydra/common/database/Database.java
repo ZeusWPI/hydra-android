@@ -55,7 +55,7 @@ public abstract class Database extends RoomDatabase {
      */
     static synchronized Database get(Context context) {
         if (instance == null) {
-            instance = Room.databaseBuilder(context, Database.class, NAME)
+            instance = Room.databaseBuilder(context.getApplicationContext(), Database.class, NAME)
                     .allowMainThreadQueries() // TODO
                     .addMigrations(new Migration_6_7(), new Migration_7_8(), new Migration_8_9(), new Migration_9_10(),
                             new Migration_10_11(), new Migration_11_12(), new Migration_12_13(), new Migration_13_14()
