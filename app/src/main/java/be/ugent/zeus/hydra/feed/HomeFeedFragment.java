@@ -58,7 +58,6 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     public static final int REQUEST_HOMECARD_ID = 5050;
 
     private boolean firstRun;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private ActivityHelper helper;
     private Snackbar snackbar;
     private FeedViewModel model;
@@ -86,7 +85,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         RecyclerView recyclerView = view.findViewById(R.id.home_cards_view);
         recyclerView.setHasFixedSize(true);
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
 
         HomeFeedAdapter adapter = new HomeFeedAdapter(this);
@@ -135,14 +134,6 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        //See https://code.google.com/p/android/issues/detail?id=78062
-        swipeRefreshLayout.setRefreshing(false);
-        swipeRefreshLayout.clearAnimation();
-    }
-
-    @Override
     public void onRemovalScheduled() {
         // If we are removing the fragment, hide any snackbars
         if (this.snackbar != null) {
@@ -162,7 +153,6 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.action_refresh) {
-            swipeRefreshLayout.setRefreshing(true);
             onRefresh();
             return true;
         }
