@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.ui.preferences;
+package be.ugent.zeus.hydra.theme;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -62,6 +62,8 @@
     <color name="launcher_shortcut_background">@color/material_color_grey_100</color>
     <color name="hydra_launcher_color">@color/hydra_primary_color</color>
 
+    <color name="hydra_item_selected_background">@color/white</color>
+
     <!--
        ~ Custom colours for the Round card view.
        ~ Normal card views do this automatically, maybe we should do that as well

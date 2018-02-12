@@ -16,6 +16,7 @@ import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
 import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.sko.preferences.SkoPreferencesFragment;
+import be.ugent.zeus.hydra.theme.ThemePreferenceFragment;
 
 import java.util.List;
 
