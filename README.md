@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/ZeusWPI/hydra-android.svg?branch=development)](https://travis-ci.org/ZeusWPI/hydra-android)
+[![Open Source Helpers](https://www.codetriage.com/zeuswpi/hydra-android/badges/users.svg)](https://www.codetriage.com/zeuswpi/hydra-android)
 
 # Hydra (Android)
 
