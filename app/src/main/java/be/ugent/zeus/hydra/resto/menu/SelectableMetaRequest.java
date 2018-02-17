@@ -25,7 +25,7 @@ public class SelectableMetaRequest implements Request<List<SelectableMetaRequest
 
     private final Request<RestoMeta> resultRequest;
 
-    public SelectableMetaRequest(Context context) {
+    SelectableMetaRequest(Context context) {
         this.resultRequest = Requests.cache(context.getApplicationContext(), new MetaRequest());
     }
 
@@ -39,8 +39,8 @@ public class SelectableMetaRequest implements Request<List<SelectableMetaRequest
     }
 
     public static class RestoChoice {
-        private String name;
-        private String endpoint;
+        private final String name;
+        private final String endpoint;
 
         public RestoChoice(String name, String endpoint) {
             this.name = name;
