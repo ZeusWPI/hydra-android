@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.resto.MenuFilter;
-import be.ugent.zeus.hydra.resto.network.MenuRequest;
-import be.ugent.zeus.hydra.resto.network.SelectableMetaRequest;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 import be.ugent.zeus.hydra.common.request.Requests;

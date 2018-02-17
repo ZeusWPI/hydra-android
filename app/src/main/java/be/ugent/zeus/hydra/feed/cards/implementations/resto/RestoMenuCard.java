@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.feed.cards.implementations.resto;
 
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.resto.RestoMenu;
-import be.ugent.zeus.hydra.resto.network.SelectableMetaRequest;
+import be.ugent.zeus.hydra.resto.menu.SelectableMetaRequest;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
 import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;

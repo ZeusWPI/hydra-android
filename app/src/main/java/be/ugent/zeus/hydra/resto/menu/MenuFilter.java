@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.resto;
+package be.ugent.zeus.hydra.resto.menu;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,6 +6,8 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
+import be.ugent.zeus.hydra.resto.RestoMenu;
+import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import java8.util.function.Function;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;

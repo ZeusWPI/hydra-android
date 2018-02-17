@@ -1,8 +1,9 @@
-package be.ugent.zeus.hydra.resto.network;
+package be.ugent.zeus.hydra.resto.meta;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
-import be.ugent.zeus.hydra.resto.RestoMeta;
+import be.ugent.zeus.hydra.resto.meta.MetaRequest;
+import be.ugent.zeus.hydra.resto.meta.RestoMeta;
 import be.ugent.zeus.hydra.common.network.AbstractJsonSpringRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
 import org.junit.runner.RunWith;

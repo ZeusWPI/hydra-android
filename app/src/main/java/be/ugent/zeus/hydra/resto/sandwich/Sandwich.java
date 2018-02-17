@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.resto;
+package be.ugent.zeus.hydra.resto.sandwich;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.resto;
+package be.ugent.zeus.hydra.resto.meta;
 
 import be.ugent.zeus.hydra.common.ModelTest;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -8,15 +8,15 @@ import org.junit.Test;
 /**
  * @author Niko Strijbol
  */
-public class SandwichTest extends ModelTest<Sandwich> {
+public class RestoTest extends ModelTest<Resto> {
 
-    public SandwichTest() {
-        super(Sandwich.class);
+    public RestoTest() {
+        super(Resto.class);
     }
 
     @Test
     public void equalsAndHash() {
-        EqualsVerifier.forClass(Sandwich.class)
+        EqualsVerifier.forClass(Resto.class)
                 .suppress(Warning.NONFINAL_FIELDS)
                 .verify();
     }

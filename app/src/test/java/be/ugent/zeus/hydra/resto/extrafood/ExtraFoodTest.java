@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.resto;
+package be.ugent.zeus.hydra.resto.extrafood;
 
 import be.ugent.zeus.hydra.common.ModelTest;
 import nl.jqno.equalsverifier.EqualsVerifier;

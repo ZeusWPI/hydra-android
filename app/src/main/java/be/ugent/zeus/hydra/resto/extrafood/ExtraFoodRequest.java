@@ -1,10 +1,9 @@
-package be.ugent.zeus.hydra.resto.network;
+package be.ugent.zeus.hydra.resto.extrafood;
 
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.resto.ExtraFood;
 import be.ugent.zeus.hydra.common.caching.Cache;
 import be.ugent.zeus.hydra.common.request.CacheableRequest;
 
@@ -13,13 +12,13 @@ import be.ugent.zeus.hydra.common.request.CacheableRequest;
  *
  * @author Niko Strijbol
  */
-public class ExtraFoodRequest extends JsonSpringRequest<ExtraFood> implements CacheableRequest<ExtraFood> {
+class ExtraFoodRequest extends JsonSpringRequest<ExtraFood> implements CacheableRequest<ExtraFood> {
 
     private static final String NAME = "extrafood.json";
 
     private static final String ENDPOINT = Endpoints.ZEUS_RESTO_URL + NAME;
 
-    public ExtraFoodRequest() {
+    ExtraFoodRequest() {
         super(ExtraFood.class);
     }
 

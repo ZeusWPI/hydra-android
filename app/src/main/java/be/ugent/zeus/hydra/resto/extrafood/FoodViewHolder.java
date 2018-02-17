@@ -5,7 +5,6 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
-import be.ugent.zeus.hydra.resto.Food;
 
 /**
  * @author Niko Strijbol

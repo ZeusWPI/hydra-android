@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.resto.network;
+package be.ugent.zeus.hydra.resto.extrafood;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -7,7 +7,6 @@ import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.common.network.AbstractJsonSpringRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.resto.ExtraFood;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;

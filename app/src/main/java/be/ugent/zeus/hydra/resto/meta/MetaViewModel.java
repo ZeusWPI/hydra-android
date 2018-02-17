@@ -1,12 +1,10 @@
-package be.ugent.zeus.hydra.resto.locations;
+package be.ugent.zeus.hydra.resto.meta;
 
 import android.app.Application;
 
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
-import be.ugent.zeus.hydra.resto.RestoMeta;
-import be.ugent.zeus.hydra.resto.network.MetaRequest;
 
 /**
  * @author Niko Strijbol

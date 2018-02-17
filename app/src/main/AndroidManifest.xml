@@ -103,7 +103,7 @@
 
         <!-- Show a map of resto's -->
         <activity
-            android:name=".resto.locations.RestoLocationActivity"
+            android:name=".resto.meta.RestoLocationActivity"
             android:label="@string/title_activity_resto_location"
             android:parentActivityName=".MainActivity" />
 

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.resto.network;
+package be.ugent.zeus.hydra.resto.menu;
 
 import android.content.Context;
 import android.content.SharedPreferences;

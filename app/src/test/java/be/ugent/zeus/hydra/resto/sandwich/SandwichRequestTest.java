@@ -1,11 +1,10 @@
-package be.ugent.zeus.hydra.resto.network;
+package be.ugent.zeus.hydra.resto.sandwich;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
-import be.ugent.zeus.hydra.resto.Sandwich;
 import be.ugent.zeus.hydra.common.network.ArrayJsonSpringRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.resto.network;
+package be.ugent.zeus.hydra.resto.menu;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,10 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import be.ugent.zeus.hydra.resto.RestoMeta;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.resto.meta.RestoMeta;
+import be.ugent.zeus.hydra.resto.meta.MetaRequest;
 import java8.util.Objects;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
