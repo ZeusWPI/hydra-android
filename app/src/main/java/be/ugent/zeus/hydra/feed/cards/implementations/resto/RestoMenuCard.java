@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.feed.cards.implementations.resto;
 
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.resto.RestoMenu;
-import be.ugent.zeus.hydra.resto.menu.SelectableMetaRequest;
+import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
 import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
@@ -21,9 +21,9 @@ class RestoMenuCard extends Card {
     private static final LocalDateTime interestEnd = LocalDateTime.now().withHour(15).withMinute(0);
 
     private final RestoMenu restoMenu;
-    private final SelectableMetaRequest.RestoChoice restoChoice;
+    private final RestoChoice restoChoice;
 
-    RestoMenuCard(RestoMenu restoMenu, SelectableMetaRequest.RestoChoice choice) {
+    RestoMenuCard(RestoMenu restoMenu, RestoChoice choice) {
         this.restoMenu = restoMenu;
         this.restoChoice = choice;
     }
@@ -32,7 +32,7 @@ class RestoMenuCard extends Card {
         return restoMenu;
     }
 
-    SelectableMetaRequest.RestoChoice getRestoChoice() {
+    RestoChoice getRestoChoice() {
         return restoChoice;
     }
 

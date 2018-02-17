@@ -27,8 +27,10 @@ import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
+import be.ugent.zeus.hydra.resto.history.HistoryActivity;
 import be.ugent.zeus.hydra.resto.meta.RestoLocationActivity;
 import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
 import be.ugent.zeus.hydra.resto.extrafood.ExtraFoodActivity;
@@ -73,7 +75,7 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
      * The start date for which resto to show.
      */
     @Nullable
-    private LocalDate startDate = null;
+    private LocalDate startDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -175,17 +177,17 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
         metaViewModel.getData().observe(this, SuccessObserver.with(this::receiveResto));
     }
 
-    private void receiveResto(@NonNull List<SelectableMetaRequest.RestoChoice> restos) {
+    private void receiveResto(@NonNull List<RestoChoice> restos) {
         // Find index of the currently selected.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String selectedKey = preferences.getString(RestoPreferenceFragment.PREF_RESTO_KEY, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
         String defaultName = getString(R.string.resto_default_name);
         String selectedName = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, defaultName);
-        SelectableMetaRequest.RestoChoice selectedChoice = new SelectableMetaRequest.RestoChoice(selectedName, selectedKey);
+        RestoChoice selectedChoice = new RestoChoice(selectedName, selectedKey);
         int index = restos.indexOf(selectedChoice);
         if (index == -1) {
             // The key does not exist.
-            SelectableMetaRequest.RestoChoice defaultChoice = new SelectableMetaRequest.RestoChoice(RestoPreferenceFragment.PREF_DEFAULT_RESTO, defaultName);
+            RestoChoice defaultChoice = new RestoChoice(RestoPreferenceFragment.PREF_DEFAULT_RESTO, defaultName);
             index = restos.indexOf(defaultChoice);
         }
         // Set the things.
@@ -254,7 +256,7 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
 
         // Get the item we selected.
         RestoWrapper wrapper = (RestoWrapper) parent.getItemAtPosition(position);
-        SelectableMetaRequest.RestoChoice resto = wrapper.resto;
+        RestoChoice resto = wrapper.resto;
 
         if (resto == null || resto.getEndpoint() == null) {
             // Do nothing, as this should not happen.
@@ -304,6 +306,9 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
             case R.id.resto_bottom_extra:
                 startActivity(new Intent(getContext(), ExtraFoodActivity.class));
                 return false;
+            case R.id.resto_bottom_history:
+                startActivity(new Intent(getContext(), HistoryActivity.class));
+                return false;
             default:
                 return false;
         }
@@ -322,15 +327,15 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
 
     private static class RestoWrapper {
 
-        private final SelectableMetaRequest.RestoChoice resto;
+        private final RestoChoice resto;
         private final String string;
 
-        RestoWrapper(SelectableMetaRequest.RestoChoice resto) {
+        private RestoWrapper(RestoChoice resto) {
             this.resto = resto;
             this.string = null;
         }
 
-        RestoWrapper(String string) {
+        private RestoWrapper(String string) {
             this.resto = null;
             this.string = string;
         }

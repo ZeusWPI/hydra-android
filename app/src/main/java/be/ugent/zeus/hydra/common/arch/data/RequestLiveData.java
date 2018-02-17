@@ -49,4 +49,8 @@ public class RequestLiveData<M> extends BaseLiveData<Result<M>> {
     protected Context getContext() {
         return applicationContext;
     }
+
+    protected Request<M> getRequest() {
+        return request;
+    }
 }
