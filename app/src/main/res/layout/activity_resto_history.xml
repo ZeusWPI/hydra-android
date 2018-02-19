@@ -71,6 +71,11 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <!--
+        The padding should be 16dp, but for compatibility reasons, we use 6dp, together with useCompatPadding=true.
+        This will make the padding internal, resulting in uniform padding across API levels.
+        This workaround may be removed once we are on API >= 21 (Lollipop)
+     -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         app:fabSize="normal"
@@ -79,8 +84,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_anchor="@id/bottom_toolbar"
+        android:layout_marginRight="6dp"
+        android:layout_marginEnd="6dp"
         app:layout_anchorGravity="top|right"
         app:elevation="@dimen/material_elevation_fab_resting"
-        android:layout_margin="16dp"/>
+        app:useCompatPadding="true" />
 
 </android.support.design.widget.CoordinatorLayout>
