@@ -21,25 +21,24 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import be.ugent.zeus.hydra.HydraApplication;
+import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
-import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
+import be.ugent.zeus.hydra.resto.extrafood.ExtraFoodActivity;
 import be.ugent.zeus.hydra.resto.history.HistoryActivity;
 import be.ugent.zeus.hydra.resto.meta.RestoLocationActivity;
+import be.ugent.zeus.hydra.resto.meta.selectable.SelectableMetaViewModel;
+import be.ugent.zeus.hydra.resto.meta.selectable.SelectedResto;
 import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
-import be.ugent.zeus.hydra.resto.extrafood.ExtraFoodActivity;
 import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import java8.util.Objects;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
 import org.threeten.bp.LocalDate;
 
 import java.util.List;
@@ -59,7 +58,7 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
     private MenuPagerAdapter pageAdapter;
     private ViewPager viewPager;
     private MenuViewModel viewModel;
-    private ArrayAdapter<RestoFragment.RestoWrapper> restoAdapter;
+    private ArrayAdapter<SelectedResto.Wrapper> restoAdapter;
     private Spinner spinner;
     private ProgressBar spinnerProgress;
     private TabLayout tabLayout;
@@ -158,7 +157,7 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
         spinner.setEnabled(false);
         spinner.setVisibility(View.VISIBLE);
         restoAdapter = new ArrayAdapter<>(getBaseActivity().getToolbar().getThemedContext(), android.R.layout.simple_spinner_item);
-        restoAdapter.add(new RestoWrapper(getString(R.string.resto_spinner_loading)));
+        restoAdapter.add(new SelectedResto.Wrapper(getString(R.string.resto_spinner_loading)));
         restoAdapter.setDropDownViewResource(R.layout.x_simple_spinner_dropdown_item);
         spinner.setAdapter(restoAdapter);
 
@@ -178,23 +177,14 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
     }
 
     private void receiveResto(@NonNull List<RestoChoice> restos) {
-        // Find index of the currently selected.
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String selectedKey = preferences.getString(RestoPreferenceFragment.PREF_RESTO_KEY, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
-        String defaultName = getString(R.string.resto_default_name);
-        String selectedName = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, defaultName);
-        RestoChoice selectedChoice = new RestoChoice(selectedName, selectedKey);
-        int index = restos.indexOf(selectedChoice);
-        if (index == -1) {
-            // The key does not exist.
-            RestoChoice defaultChoice = new RestoChoice(RestoPreferenceFragment.PREF_DEFAULT_RESTO, defaultName);
-            index = restos.indexOf(defaultChoice);
-        }
+        SelectedResto selectedResto = new SelectedResto(getContext());
+        selectedResto.setData(restos);
+
         // Set the things.
-        List<RestoWrapper> wrappers = StreamSupport.stream(restos).map(RestoWrapper::new).collect(Collectors.toList());
+        List<SelectedResto.Wrapper> wrappers = selectedResto.getAsWrappers();
         restoAdapter.clear();
         restoAdapter.addAll(wrappers);
-        spinner.setSelection(index, false);
+        spinner.setSelection(selectedResto.getSelectedIndex(), false);
         spinner.setEnabled(true);
 
         spinnerProgress.setVisibility(View.GONE);
@@ -255,7 +245,7 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         // Get the item we selected.
-        RestoWrapper wrapper = (RestoWrapper) parent.getItemAtPosition(position);
+        SelectedResto.Wrapper wrapper = (SelectedResto.Wrapper) parent.getItemAtPosition(position);
         RestoChoice resto = wrapper.resto;
 
         if (resto == null || resto.getEndpoint() == null) {
@@ -323,41 +313,6 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
     public void onDestroy() {
         super.onDestroy();
         hideExternalViews();
-    }
-
-    private static class RestoWrapper {
-
-        private final RestoChoice resto;
-        private final String string;
-
-        private RestoWrapper(RestoChoice resto) {
-            this.resto = resto;
-            this.string = null;
-        }
-
-        private RestoWrapper(String string) {
-            this.resto = null;
-            this.string = string;
-        }
-
-        @Override
-        public String toString() {
-            return resto == null ? string : resto.getName();
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            RestoWrapper that = (RestoWrapper) o;
-            return Objects.equals(resto, that.resto) &&
-                    Objects.equals(string, that.string);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(resto, string);
-        }
     }
 
     @Override

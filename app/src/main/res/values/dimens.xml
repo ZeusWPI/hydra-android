@@ -19,6 +19,9 @@
     <dimen name="card_small_vertical_margin">0dp</dimen>
     <dimen name="resto_menu_tab_spacing">0dp</dimen>
 
+    <!-- We deviate from the MD standard, since it's nicer like this -->
+    <dimen name="bottom_toolbar_height">48dp</dimen>
+
     <!-- Material design tabs -->
     <dimen name="tabs_icon_size">24dp</dimen>
 

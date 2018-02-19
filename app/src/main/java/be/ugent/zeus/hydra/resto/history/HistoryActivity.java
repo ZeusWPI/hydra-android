@@ -5,32 +5,43 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
-import android.widget.TextView;
+import android.widget.*;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
-import be.ugent.zeus.hydra.common.request.RequestException;
+import be.ugent.zeus.hydra.common.network.IOFailureException;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.common.ui.NoPaddingArrayAdapter;
+import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.SingleDayFragment;
+import be.ugent.zeus.hydra.resto.meta.selectable.SelectableMetaViewModel;
+import be.ugent.zeus.hydra.resto.meta.selectable.SelectedResto;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.Month;
 import org.threeten.bp.ZoneId;
 
-public class HistoryActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener {
+import java.util.List;
+
+public class HistoryActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
 
     private static final String ARG_DATE = "arg_date";
 
     private static final String TAG = "HistoryActivity";
 
     private LocalDate localDate;
+    private RestoChoice restoChoice;
     private SingleDayViewModel viewModel;
+    private Spinner restoSpinner;
+    private ProgressBar restoProgressBar;
+    private ArrayAdapter<SelectedResto.Wrapper> restoAdapter;
+    private TextView errorView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,30 +56,33 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
             localDate = LocalDate.now();
         }
 
-        TextView errorView = findViewById(R.id.error_view);
+        Toolbar bottomToolbar = findViewById(R.id.bottom_toolbar);
+
+        restoSpinner = findViewById(R.id.resto_spinner);
+        restoSpinner.setEnabled(false);
+        restoProgressBar = findViewById(R.id.resto_progress_bar);
+        restoAdapter = new NoPaddingArrayAdapter<>(bottomToolbar.getContext(), android.R.layout.simple_spinner_item);
+        restoAdapter.add(new SelectedResto.Wrapper(getString(R.string.resto_spinner_loading)));
+        restoAdapter.setDropDownViewResource(R.layout.x_simple_spinner_dropdown_item);
+        restoSpinner.setAdapter(restoAdapter);
+
+        errorView = findViewById(R.id.error_view);
         viewModel = ViewModelProviders.of(this).get(SingleDayViewModel.class);
-        viewModel.setInitialDate(localDate);
+        viewModel.changeDate(localDate); // Set the initial date
         viewModel.getData().observe(this, new SuccessObserver<RestoMenu>() {
             @Override
             protected void onSuccess(RestoMenu data) {
-                Log.d(TAG, "onSuccess: GOT DATA");
                 // Add the fragment
                 errorView.setVisibility(View.GONE);
-                setTitle(DateUtils.getFriendlyDate(data.getDate()));
+                setTitle(getString(R.string.resto_history_title, DateUtils.getFriendlyDate(data.getDate())));
                 showFragment(data);
             }
         });
-        viewModel.getData().observe(this, new ErrorObserver<RestoMenu>() {
-            @Override
-            protected void onError(RequestException throwable) {
-                Log.d(TAG, "Error", throwable);
-                hideFragment();
-                setTitle(R.string.resto_history_error);
-                errorView.setVisibility(View.VISIBLE);
-                errorView.setText(getString(R.string.resto_history_not_found, DateUtils.getFriendlyDate(localDate)));
-            }
-        });
+        viewModel.getData().observe(this, ErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
+
+        SelectableMetaViewModel metaViewModel = ViewModelProviders.of(this).get(SelectableMetaViewModel.class);
+        metaViewModel.getData().observe(this, SuccessObserver.with(this::onReceiveRestos));
 
         findViewById(R.id.fab).setOnClickListener(v -> createAndSetupDialog().show());
     }
@@ -89,6 +103,33 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
                     .remove(fragment)
                     .commit();
         }
+    }
+
+    private void onError(Throwable throwable) {
+        Log.w(TAG, "Error", throwable);
+        hideFragment();
+        setTitle(R.string.resto_history_error);
+        errorView.setVisibility(View.VISIBLE);
+        if (throwable instanceof IOFailureException) {
+            errorView.setText(R.string.no_network);
+        } else {
+            errorView.setText(getString(R.string.resto_history_not_found, DateUtils.getFriendlyDate(localDate)));
+        }
+    }
+
+    private void onReceiveRestos(List<RestoChoice> choices) {
+        SelectedResto selectedResto = new SelectedResto(this);
+        selectedResto.setSelected(restoChoice);
+        selectedResto.setData(choices);
+        viewModel.changeResto(selectedResto.getSelected());
+
+        List<SelectedResto.Wrapper> wrappers = selectedResto.getAsWrappers();
+        restoAdapter.clear();
+        restoAdapter.addAll(wrappers);
+        restoSpinner.setSelection(selectedResto.getSelectedIndex(), false);
+        restoSpinner.setEnabled(true);
+        restoProgressBar.setVisibility(View.GONE);
+        restoSpinner.setOnItemSelectedListener(this);
     }
 
     private DatePickerDialog createAndSetupDialog() {
@@ -113,5 +154,22 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         localDate = LocalDate.of(year, month + 1, dayOfMonth);
         viewModel.changeDate(localDate);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        SelectedResto.Wrapper wrapper = (SelectedResto.Wrapper) parent.getItemAtPosition(position);
+        restoChoice = wrapper.resto;
+
+        if (restoChoice == null || restoChoice.getEndpoint() == null) {
+            // Do nothing, as this should not happen.
+            return;
+        }
+        viewModel.changeResto(restoChoice);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Do nothing
     }
 }

@@ -18,9 +18,15 @@ public class RequestLiveData<M> extends BaseLiveData<Result<M>> {
     private final Context applicationContext;
 
     public RequestLiveData(Context context, Request<M> request) {
+        this(context, request, true);
+    }
+
+    public RequestLiveData(Context context, Request<M> request, boolean load) {
         this.applicationContext = context.getApplicationContext();
         this.request = request;
-        loadData(Bundle.EMPTY);
+        if (load) {
+            loadData(Bundle.EMPTY);
+        }
     }
 
     /**
@@ -34,7 +40,7 @@ public class RequestLiveData<M> extends BaseLiveData<Result<M>> {
 
             @Override
             protected Result<M> doInBackground(Void... voids) {
-                return request.performRequest(bundle);
+                return getRequest().performRequest(bundle);
             }
 
             @Override

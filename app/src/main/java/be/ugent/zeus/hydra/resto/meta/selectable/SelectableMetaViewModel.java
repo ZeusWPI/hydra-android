@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.resto.menu;
+package be.ugent.zeus.hydra.resto.meta.selectable;
 
 import android.app.Application;
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
+import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import org.threeten.bp.LocalDate;
@@ -15,8 +16,8 @@ import org.threeten.bp.LocalDate;
  */
 public class SingleDayLiveData extends RequestLiveData<RestoMenu> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    public SingleDayLiveData(Context context, LocalDate initialDate) {
-        super(context, new DayRequest(initialDate, context));
+    public SingleDayLiveData(Context context) {
+        super(context, new DayRequest(), false);
     }
 
     @Override
@@ -35,7 +36,21 @@ public class SingleDayLiveData extends RequestLiveData<RestoMenu> implements Sha
 
     public void changeDate(LocalDate newDate) {
         // This is due to Java limitations
-        ((DayRequest) getRequest()).setDate(newDate);
-        loadData(Bundle.EMPTY);
+        getRequest().setDate(newDate);
+        if (getRequest().isSetup()) {
+            loadData(Bundle.EMPTY);
+        }
+    }
+
+    public void changeResto(RestoChoice choice) {
+        getRequest().setChoice(choice);
+        if (getRequest().isSetup()) {
+            loadData(Bundle.EMPTY);
+        }
+    }
+
+    @Override
+    protected DayRequest getRequest() {
+        return (DayRequest) super.getRequest();
     }
 }

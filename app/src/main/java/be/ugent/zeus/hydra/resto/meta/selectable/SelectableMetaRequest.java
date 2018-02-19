@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.resto.menu;
+package be.ugent.zeus.hydra.resto.meta.selectable;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -21,11 +21,11 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-class SelectableMetaRequest implements Request<List<RestoChoice>> {
+public class SelectableMetaRequest implements Request<List<RestoChoice>> {
 
     private final Request<RestoMeta> resultRequest;
 
-    SelectableMetaRequest(Context context) {
+    public SelectableMetaRequest(Context context) {
         this.resultRequest = Requests.cache(context.getApplicationContext(), new MetaRequest());
     }
 

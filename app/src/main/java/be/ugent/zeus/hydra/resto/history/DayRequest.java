@@ -1,14 +1,11 @@
 package be.ugent.zeus.hydra.resto.history;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
+import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
-import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import org.threeten.bp.LocalDate;
 
 import java.util.Locale;
@@ -21,25 +18,36 @@ import java.util.Locale;
  */
 public class DayRequest extends JsonSpringRequest<RestoMenu> {
 
-    public static final String OVERVIEW_URL = Endpoints.ZEUS_RESTO_URL + "menu/%s/%d/%d/%d.json";
+    private static final String OVERVIEW_URL = Endpoints.ZEUS_RESTO_URL + "menu/%s/%d/%d/%d.json";
 
     private LocalDate date;
-    private final SharedPreferences preferences;
+    private RestoChoice choice;
 
-    DayRequest(LocalDate date, Context context) {
+    DayRequest() {
         super(RestoMenu.class);
-        this.date = date;
-        this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public void setDate(LocalDate date) {
         this.date = date;
     }
 
+    public void setChoice(RestoChoice choice) {
+        this.choice = choice;
+    }
+
+    public boolean isSetup() {
+        return date != null && choice != null;
+    }
+
     @NonNull
     @Override
     protected String getAPIUrl() {
-        String resto = preferences.getString(RestoPreferenceFragment.PREF_RESTO_KEY, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
-        return String.format(Locale.US, OVERVIEW_URL, resto, date.getYear(), date.getMonthValue(), date.getDayOfMonth());
+        if (date == null) {
+            throw new IllegalStateException("The date MUST be set before using the request.");
+        }
+        if (choice == null) {
+            throw new IllegalStateException("The resto choice MUST be set before using the request.");
+        }
+        return String.format(Locale.US, OVERVIEW_URL, choice.getEndpoint(), date.getYear(), date.getMonthValue(), date.getDayOfMonth());
     }
 }

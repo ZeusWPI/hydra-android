@@ -18,12 +18,14 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <FrameLayout
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/bottom_toolbar_height"
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -42,6 +44,33 @@
 
     </android.support.v4.widget.NestedScrollView>
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/bottom_toolbar"
+        android:background="?colorPrimary"
+        android:paddingRight="88dp"
+        android:paddingEnd="88dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_toolbar_height"
+        android:layout_gravity="bottom"
+        android:layout_below="@id/scroll"
+        android:ellipsize="marquee"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        tools:ignore="RtlSymmetry">
+
+        <Spinner
+            android:id="@+id/resto_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            tools:listitem="@android:layout/simple_spinner_item" />
+
+        <ProgressBar
+            android:id="@+id/resto_progress_bar"
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
+
+    </android.support.v7.widget.Toolbar>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         app:fabSize="normal"
@@ -49,7 +78,9 @@
         android:tint="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        app:layout_anchor="@id/bottom_toolbar"
+        app:layout_anchorGravity="top|right"
+        app:elevation="@dimen/material_elevation_fab_resting"
         android:layout_margin="16dp"/>
 
 </android.support.design.widget.CoordinatorLayout>
