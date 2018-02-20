@@ -127,6 +127,10 @@ import jonathanfinerty.once.Once;
  *     <li>A {@link android.support.design.widget.BottomNavigationView} with id {@link R.id#bottom_navigation}</li>
  * </ul>
  *
+ * The fragment's view is automatically adjusted for the TabLayout, if the fragment makes it visible. The activity
+ * does not manage the BottomNavigationView however. Fragments must take care of that themselves. The recommended
+ * method is adding X bottom padding to the main view, where X is the height of the BottomNavigationView.
+ *
  * These are hidden by default and should be shown and hidden by the fragments that use them.
  *
  * To this end, a fragment may implement {@link ScheduledRemovalListener}. This callback will called when the activity

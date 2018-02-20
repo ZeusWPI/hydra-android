@@ -27,6 +27,7 @@ import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.common.ui.NoPaddingArrayAdapter;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
@@ -44,9 +45,17 @@ import org.threeten.bp.LocalDate;
 import java.util.List;
 
 /**
+ * Displays the menu.
+ *
+ * TODO: the fragment currently only works with {@link MainActivity}.
+ *
  * @author Niko Strijbol
  */
-public class RestoFragment extends Fragment implements AdapterView.OnItemSelectedListener, MainActivity.ArgumentsReceiver, BottomNavigationView.OnNavigationItemSelectedListener, MainActivity.ScheduledRemovalListener {
+public class RestoFragment extends Fragment implements
+        AdapterView.OnItemSelectedListener,
+        MainActivity.ArgumentsReceiver,
+        BottomNavigationView.OnNavigationItemSelectedListener,
+        MainActivity.ScheduledRemovalListener {
 
     private static final String TAG = "RestoFragment";
 
@@ -156,7 +165,7 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
         spinner = getActivity().findViewById(R.id.spinner);
         spinner.setEnabled(false);
         spinner.setVisibility(View.VISIBLE);
-        restoAdapter = new ArrayAdapter<>(getBaseActivity().getToolbar().getThemedContext(), android.R.layout.simple_spinner_item);
+        restoAdapter = new NoPaddingArrayAdapter<>(getBaseActivity().getToolbar().getThemedContext(), R.layout.x_simple_title_spinner);
         restoAdapter.add(new SelectedResto.Wrapper(getString(R.string.resto_spinner_loading)));
         restoAdapter.setDropDownViewResource(R.layout.x_simple_spinner_dropdown_item);
         spinner.setAdapter(restoAdapter);
