@@ -5,8 +5,6 @@ import android.arch.persistence.room.migration.Migration;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.minerva.calendar.database.AgendaTable;
-
 /**
  * An older migration, kept for compatibility reasons.
  *
@@ -27,8 +25,8 @@ public class Migration_6_7 extends Migration {
          * Upgrade the database structure
          * ----------------------------------------- */
         // Add column
-        supportSQLiteDatabase.execSQL("ALTER TABLE " + AgendaTable.TABLE_NAME + " ADD COLUMN " + AgendaTable.Columns.CALENDAR_ID + " INTEGER");
+        supportSQLiteDatabase.execSQL("ALTER TABLE minerva_agenda ADD COLUMN calendar_id INTEGER");
         // Add data
-        supportSQLiteDatabase.execSQL("UPDATE " + AgendaTable.TABLE_NAME + " SET " + AgendaTable.Columns.CALENDAR_ID + "=-1");
+        supportSQLiteDatabase.execSQL("UPDATE minerva_agenda SET calendar_id =-1");
     }
 }
