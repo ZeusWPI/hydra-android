@@ -137,7 +137,7 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
         DatePicker picker = datePickerDialog.getDatePicker();
         // Hard coded earliest date
         LocalDate earliest = LocalDate.of(2016, Month.FEBRUARY, 1);
-        LocalDate furthest = LocalDate.now().plusWeeks(2).plusDays(1);
+        LocalDate furthest = LocalDate.now();
         ZoneId defaultZone = ZoneId.systemDefault();
         picker.setMinDate(earliest.atStartOfDay(defaultZone).toInstant().toEpochMilli());
         picker.setMaxDate(furthest.atStartOfDay(defaultZone).toInstant().toEpochMilli());
