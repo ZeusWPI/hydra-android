@@ -15,10 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
+import android.widget.*;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.MainActivity;
@@ -172,7 +169,7 @@ public class RestoFragment extends Fragment implements
 
         Bundle extras = getArguments();
         //Get the default start date
-        if (extras.containsKey(ARG_DATE)) {
+        if (extras != null && extras.containsKey(ARG_DATE)) {
             startDate = (LocalDate) extras.getSerializable(ARG_DATE);
         }
 
@@ -233,17 +230,22 @@ public class RestoFragment extends Fragment implements
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_resto, menu);
-        ((BaseActivity) getActivity()).tintToolbarIcons(menu, R.id.action_refresh);
+        ((BaseActivity) getActivity()).tintToolbarIcons(menu, R.id.action_refresh, R.id.action_history);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_refresh:
+                Toast toast = Toast.makeText(getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT);
+                toast.show();
                 viewModel.onRefresh();
                 return true;
             case R.id.resto_show_website:
                 NetworkUtils.maybeLaunchBrowser(getContext(), URL);
+                return true;
+            case R.id.action_history:
+                startActivity(new Intent(getContext(), HistoryActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -304,9 +306,6 @@ public class RestoFragment extends Fragment implements
                 return false;
             case R.id.resto_bottom_extra:
                 startActivity(new Intent(getContext(), ExtraFoodActivity.class));
-                return false;
-            case R.id.resto_bottom_history:
-                startActivity(new Intent(getContext(), HistoryActivity.class));
                 return false;
             default:
                 return false;
