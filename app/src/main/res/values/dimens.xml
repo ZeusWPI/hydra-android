@@ -26,6 +26,9 @@
     <dimen name="card_margin">8dp</dimen>
     <dimen name="card_spacing">8dp</dimen>
     <dimen name="card_margin_half">4dp</dimen>
+    <!-- Is always small, use together with big_component -->
+    <dimen name="card_margin_small">@dimen/card_margin</dimen>
+    <dimen name="card_margin_big_component">0dp</dimen>
 
     <dimen name="card_elevation">2dp</dimen>
     <dimen name="card_elevation_raised">8dp</dimen>
@@ -65,6 +68,11 @@
     <dimen name="list_dense_two_line_secondary_text_size">13sp</dimen>
     <dimen name="list_dense_two_line_margin_horizontal">4dp</dimen>
 
+    <!-- Material design for one-line list -->
+    <dimen name="list_one_line_padding_vertical">16dp</dimen>
+    <dimen name="list_one_line_padding_horizontal">16dp</dimen>
+    <dimen name="list_one_line_text_size">16sp</dimen>
+
     <!-- Schamper -->
     <dimen name="schamper_image_size">192dp</dimen>
 
@@ -74,5 +82,8 @@
 
     <dimen name="hero_image_height">256dp</dimen>
     <dimen name="card_title_padding_bottom_subtitle">12dp</dimen>
+
+    <!-- Urgent social buttons -->
+    <dimen name="urgent_social_icon_size">112dp</dimen>
 
 </resources>

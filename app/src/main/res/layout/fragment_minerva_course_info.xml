@@ -18,10 +18,8 @@
             android:stretchColumns="0,1"
             android:shrinkColumns="0,1"
             android:paddingTop="@dimen/content_spacing"
-            android:paddingBottom="@dimen/content_spacing"
             android:divider="?android:attr/dividerHorizontal"
-            android:showDividers="middle"
-            >
+            android:showDividers="middle">
 
             <TableRow
                 android:minHeight="@dimen/table_row_height"
@@ -100,6 +98,68 @@
             </TableRow>
 
         </TableLayout>
+
+        <TextView
+            android:id="@+id/course_settings_header"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            style="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:text="@string/minerva_course_info_settings_header"
+            android:textColor="?attr/colorAccent"
+            android:gravity="bottom" />
+
+        <LinearLayout
+            android:id="@+id/course_settings_announcement_header"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:background="?android:attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/minerva_course_info_settings_announcements"/>
+
+            <Switch
+                android:id="@+id/course_settings_announcement_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/course_settings_announcement_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/minerva_course_info_settings_announcements_description" />
+
+        <LinearLayout
+            android:id="@+id/course_settings_calendar_header"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="?android:attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/minerva_course_info_settings_calendar"/>
+
+            <Switch
+                android:id="@+id/course_settings_calendar_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/course_settings_calendar_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/minerva_course_info_settings_calendar_description" />
 
         <TextView
             android:id="@+id/course_fiche_header"

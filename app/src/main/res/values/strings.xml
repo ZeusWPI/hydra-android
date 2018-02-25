@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- General -->
     <string name="app_name">Hydra</string>
@@ -16,7 +16,6 @@
     <!-- Action bar -->
     <string name="action_example">Voorbeeldactie</string>
     <string name="action_settings">Instellingen</string>
-    <string name="resto_menu">Restomenu</string>
 
     <!-- Content descriptions -->
     <string name="hydra_icon_content_description">Hydra icoon</string>
@@ -205,10 +204,10 @@
     <string name="title_license">Licenties</string>
     <string name="agenda_subtitle">%1$s • %2$s</string>
     <string name="minerva_calendar_device_event_title">
-        <xliff:g id="course_name" example="Machinaal leren">%1$s</xliff:g>: <xliff:g id="event_title" example="Inleiding en afspraken">%2$s</xliff:g>
+        <xliff:g example="Machinaal leren" id="course_name">%1$s</xliff:g>: <xliff:g example="Inleiding en afspraken" id="event_title">%2$s</xliff:g>
     </string>
     <string name="minerva_calendar_device_description">
-        Les van het vak <xliff:g id="course_name" example="Machinaal leren">%1$s</xliff:g>
+        Les van het vak <xliff:g example="Machinaal leren" id="course_name">%1$s</xliff:g>
     </string>
     <plurals name="home_feed_announcement_title">
         <item quantity="one">%d aankondiging</item>
@@ -303,12 +302,16 @@
     <string name="channel_sko_desc">Meldingen over de Student Kick-Off</string>
     <string name="channel_urgent">Urgent.fm</string>
     <string name="channel_urgent_desc">Meldingen over Urgent.fm, inclusief de mediamelding voor de radiospeler.</string>
+    
+    <string name="minerva_course_details_tabs_overview">Info</string>
+    <string name="minerva_course_details_tabs_announcements">Aankondigingen</string>
+    <string name="minerva_course_details_tabs_calendar">Agenda</string>
 
     <string name="selected_n" tools:ignore="PluralsCandidate">%d geselecteerd</string>
     <string name="select_all">Alles selecteren</string>
     <string name="select_none">Niets selecteren</string>
     <string name="mark_as_read">Markeren als gelezen</string>
-    <string name="card_title_hide">Dit soort kaarten verbergen</string>
+    <string name="card_title_hide_type">Dit soort kaarten verbergen</string>
     <string name="card_title_show">Deze vereniging verbergen</string>
     <string name="open_map">Kaart openen</string>
     <string name="open_link">Link openen</string>
@@ -327,6 +330,22 @@
     <string name="minerva_course_info_year">Academiejaar</string>
     <string name="minerva_course_info_course_fiche">Studiefiche</string>
     <string name="minerva_course_info_course_fiche_warning">Merk op dat niet elk vak een studiefiche heeft.</string>
+    <string name="minerva_course_info_settings_header">Instellingen</string>
+    <string name="minerva_course_info_settings_announcements">Aankondigingen negeren</string>
+    <string name="minerva_course_info_settings_announcements_description">
+        Dit zorgt ervoor dat u voor aankondigingen van dit vak geen meldingen meer ontvangt, ze niet verschijnen in de
+        homefeed en ze niet bij de ongelezen aankondigingen verschijnen. De aankondigingen voor dit vak worden
+        onmiddellijk als gelezen gemarkeerd. Ze zijn nog wel zichtbaar in het overzicht van dit vak. Dit zal enkel gelden
+        voor nieuwe aankondigingen: aanwezige aankondigingen blijven zichtbaar.
+    </string>
+    <string name="minerva_course_info_settings_calendar">Agenda negeren</string>
+    <string name="minerva_course_info_settings_calendar_description">
+        Dit zorgt ervoor dat de evenementen voor dit vak niet meer verschijnen in de homefeed of in de ingebouwde agenda
+        van uw toestel. Ze zijn nog wel zichtbaar in het overzicht van dit vak.
+    </string>
+    <string name="minerva_course_info_settings_wait">
+        Het kan even duren voor de instellingen van kracht zijn, een synchronisatie start nu…
+    </string>
     <string name="view_pdf">Pdf bekijken</string>
     <string name="minerva_course_info_description">Beschrijving</string>
     <string name="library_info_remarks">Opmerkingen</string>
@@ -364,13 +383,14 @@
     <string name="home_feed_undone">Ongedaan gemaakt</string>
     <string name="home_feed_association_hidden">Vereniging verborgen</string>
     <string name="home_feed_undo">Ongedaan maken</string>
-    <string name="home_feed_card_done">Klaar met kaart</string>
+    <string name="home_feed_card_done">Klaar met deze kaart</string>
     <string name="pref_home_feed_cleared">Gewist</string>
     <string name="sko_artist_info">Beschrijving</string>
     <string name="sko_artist_more">Meer informatie</string>
     <string name="sko_artist_search_web">Artiest zoeken op internet</string>
     <string name="sko_artist_search_music">Artiest zoeken in muziek</string>
     <string name="sko_artist_no_content">Geen beschrijving gevonden voor deze artiest.</string>
+    <string name="sko_artist_time">%1$s tot %2$s</string>
     <string name="activity_title_homefeed_card_types">Kaartsoorten</string>
     <string name="events_unnamed_precise_location">Precieze locatie: (%1$f, %2$f)</string>µ
 
@@ -400,7 +420,19 @@
     <string name="content_desc_special_event_icon">Icoon speciaal evenement</string>
     <string name="content_desc_urgent_icon">Logo Urgent.fm</string>
     <string name="content_desc_association_icon">Icon vereniging</string>
+
     <string name="resto_default_name">Resto De Brug</string>
     <string name="resto_spinner_loading">Laden…</string>
+    <string name="resto_menu_other">Algemeen</string>
+    <string name="resto_extra_breakfast">Ontbijt</string>
+    <string name="resto_extra_desserts">Desserts</string>
+    <string name="resto_extra_drinks">Drank</string>
+    <string name="resto_extra_title">Overige</string>
+    <string name="resto_food_price">€ %s</string>
     <string name="unrecoverable_error">Er is een fout opgetreden. Probeer het nogmaals.</string>
+    <string name="pref_theme_night_mode_restart">De wijzigingen worden van kracht nadat u de app herstart</string>
+    <string name="minerva_exporting_account">Minerva-account exporteren</string>
+    <string name="minerva_exporting_account_desc">De details van uw Minerva-account worden geëxporteerd.</string>
+    <string name="card_title_hide_card">Alleen deze kaart verbergen</string>
+    <string name="card_title_hide_single_type">Deze kaart verbergen</string>
 </resources>

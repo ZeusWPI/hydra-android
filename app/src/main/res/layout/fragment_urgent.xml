@@ -69,5 +69,60 @@
 
         </FrameLayout>
 
+        <LinearLayout
+            android:paddingTop="@dimen/vertical_padding"
+            android:animateLayoutChanges="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingBottom="@dimen/content_spacing">
+
+            <ImageButton
+                android:layout_marginRight="@dimen/content_spacing"
+                android:id="@+id/social_facebook"
+                android:layout_width="@dimen/urgent_social_icon_size"
+                android:layout_height="@dimen/urgent_social_icon_size"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_social_facebook_inner"
+                android:tint="?android:attr/textColorPrimary"/>
+
+            <ImageButton
+                android:id="@+id/social_instagram"
+                android:layout_width="@dimen/urgent_social_icon_size"
+                android:layout_height="@dimen/urgent_social_icon_size"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_social_instagram"
+                android:tint="?android:attr/textColorPrimary"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:animateLayoutChanges="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/social_urgentfm"
+                android:layout_marginRight="@dimen/content_spacing"
+                android:layout_width="@dimen/urgent_social_icon_size"
+                android:layout_height="@dimen/urgent_social_icon_size"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/tabs_urgent"
+                android:tint="?android:attr/textColorPrimary"/>
+
+            <ImageButton
+                android:id="@+id/social_youtube"
+                android:layout_width="@dimen/urgent_social_icon_size"
+                android:layout_height="@dimen/urgent_social_icon_size"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_social_youtube"
+                android:tint="?android:attr/textColorPrimary"/>
+
+        </LinearLayout>
+
+
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

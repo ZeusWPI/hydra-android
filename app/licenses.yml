@@ -1,14 +1,28 @@
-# Support libraries
 - artifact: com.android.support:+:+
   name: Android Support Libraries
   copyrightHolder: The Android Open Source Project
   license: The Apache Software License, Version 2.0
-
-- artifact: com.github.alexfu:SQLiteQueryBuilder:+
-  name: SQLiteQueryBuilder
-  copyrightHolder: Alex Fu
-  license: MIT License
-  url: https://github.com/alexfu/SQLiteQueryBuilder
+- artifact: android.arch.core:common:+
+  name: Android Architecture Components
+  copyrightHolder: The Android Open Source Project
+  license: The Apache Software License, Version 2.0
+  url: https://developer.android.com/topic/libraries/architecture/index.html
+- artifact: android.arch.core:runtime:+
+  skip: true
+- artifact: android.arch.lifecycle:+:+
+  skip: true
+- artifact: android.arch.persistence.room:+:+
+  skip: true
+- artifact: android.arch.persistence:+:+
+  skip: true
+- artifact: com.android.support.constraint:+:+
+  skip: true
+- artifact: com.android.databinding:+:+
+  skip: true
+- artifact: com.google.android.gms:+:+
+  skip: true
+- artifact: com.google.firebase:+:+
+  skip: true
 
 - artifact: org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:+
   name: Apache Oltu - OAuth 2.0 - Client
@@ -57,6 +71,10 @@
   copyrightHolder: Jake Wharton
   license: The Apache Software License, Version 2.0
   url: https://github.com/JakeWharton/ThreeTenABP
+- artifact: joda-time:joda-time:+
+  skip: true
+- artifact: org.threeten:threetenbp:+
+  skip: true
 
 - artifact: com.heinrichreimersoftware:material-intro:+
   name: Material Intro
@@ -86,52 +104,33 @@
   name: Dexter
   copyrightHolder: Karumi
   license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://github.com/karumi/Dexter
 
 - artifact: com.github.captain-miao:optroundcardview:+
   name: OptionRoundCardView
   copyrightHolder: YanLu, Matthew Lee, The Android Open Source Project
   license: MIT
-  licenseUrl: http://opensource.org/licenses/MIT
   url: https://github.com/captain-miao/OptionRoundCardview
 
-- artifact: com.android.support.constraint:+:+
-  skip: true
+- artifact: org.mapstruct:mapstruct:+
+  name: MapStruct
+  copyrightHolder: Gunnar Morling
+  license: The Apache Software License, Version 2.0
+  url: http://mapstruct.org/
 
-- artifact: com.android.databinding:+:+
-  skip: true
+- artifact: blue.aodev:material-values:+
+  name: material-values
+  copyrightHolder: Ao (Matthieu Esnault)
+  license: The Apache Software License, Version 2.0
+  url: https://github.com/AoDevBlue/MaterialValues
 
 - artifact: net.sourceforge.streamsupport:streamsupport:+
   skip: true
-
-- artifact: com.google.android.gms:+:+
-  skip: true
-
-- artifact: joda-time:joda-time:+
-  skip: true
-
-- artifact: com.google.firebase:+:+
+- artifact: com.github.streamsupport.streamsupport:streamsupport-pro:+
   skip: true
 
 - artifact: org.slf4j:slf4j-api:+
   skip: true
 
-- artifact: org.threeten:threetenbp:+
-  skip: true
-
-- artifact: android.arch.core:common:+
-  name: Android Architecture Components
-  copyrightHolder: Google
-  license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: https://developer.android.com/topic/libraries/architecture/index.html
-- artifact: android.arch.core:runtime:+
-  skip: true
-
-- artifact: android.arch.lifecycle:common:+
-  skip: true
-- artifact: android.arch.lifecycle:extensions:+
-  skip: true
-- artifact: android.arch.lifecycle:runtime:+
+- artifact: com.github.jsqlparser:jsqlparser:+
   skip: true

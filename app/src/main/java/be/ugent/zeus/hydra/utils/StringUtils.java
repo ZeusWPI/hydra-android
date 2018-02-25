@@ -28,7 +28,7 @@ public class StringUtils {
      * @return The string
      */
     public static String convertStreamToString(@NonNull InputStream is) {
-        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        java.util.Scanner s = new java.util.Scanner(is, "UTF-8").useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }
 

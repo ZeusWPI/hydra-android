@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.utils;
 
+import android.arch.persistence.room.TypeConverter;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import org.threeten.bp.Instant;
@@ -23,6 +24,7 @@ import org.threeten.bp.ZonedDateTime;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class TtbUtils {
 
     @VisibleForTesting
@@ -36,6 +38,8 @@ public class TtbUtils {
      *
      * @return The representation in epoch milli.
      */
+    @TypeConverter
+    @Deprecated
     public static long serialize(@Nullable ZonedDateTime dateTime) {
         if (dateTime == null) {
             return -1;
@@ -51,6 +55,8 @@ public class TtbUtils {
      *
      * @return A ZonedDateTime representing the epoch milli.
      */
+    @TypeConverter
+    @Deprecated
     public static ZonedDateTime unserialize(long epochMilli) {
         if (epochMilli == -1) {
             return null;

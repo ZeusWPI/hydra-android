@@ -34,8 +34,13 @@
         android:persistent="false" />
 
     <Preference
+        android:iconSpaceReserved="true"
         android:key="pref_about_creator"
         android:title="@string/pref_about_creator_title"
-        android:persistent="false" />
+        android:persistent="false">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://zeus.ugent.be" />
+    </Preference>
 
 </PreferenceScreen>

@@ -18,6 +18,7 @@
             android:paddingTop="@dimen/card_margin_half"
             android:paddingBottom="@dimen/card_margin_half"
             android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay"
             app:layoutManager="@string/app_layout_manager_linear" />
 
         <include layout="@layout/x_progress_bar" />

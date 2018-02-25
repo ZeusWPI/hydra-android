@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:transitionGroup="true"
     tools:targetApi="lollipop"
-    tools:context=".ui.SchamperArticleActivity">
+    tools:context=".schamper.FullArticleActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"

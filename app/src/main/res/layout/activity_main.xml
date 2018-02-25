@@ -17,11 +17,32 @@
             android:id="@id/app_bar_layout"
             android:animateLayoutChanges="true">
 
-            <include layout="@layout/x_toolbar" />
+            <!--<include layout="@layout/x_toolbar" />-->
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
+
+                <Spinner
+                    android:visibility="gone"
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ProgressBar
+                    android:visibility="gone"
+                    android:id="@+id/spinner_progress"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp" />
+
+            </android.support.v7.widget.Toolbar>
 
             <!-- TODO: for some reason adding it dynamically doesn't work. Move this to the fragments instead -->
             <android.support.design.widget.TabLayout
                 android:id="@+id/tab_layout"
+                app:tabContentStart="@dimen/keyline_tab"
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,7 +56,20 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <include android:visibility="gone" layout="@layout/x_progress_bar" android:id="@+id/drawer_loading" />
+        </FrameLayout>
+
+        <!-- TODO: move this to fragment instead -->
+        <android.support.design.widget.BottomNavigationView
+            android:visibility="gone"
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:menu="@menu/bottom_resto"
+            app:itemBackground="?android:colorBackground" />
 
     </android.support.design.widget.CoordinatorLayout>
 
