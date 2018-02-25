@@ -230,7 +230,7 @@ public class RestoFragment extends Fragment implements
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_resto, menu);
-        ((BaseActivity) getActivity()).tintToolbarIcons(menu, R.id.action_refresh, R.id.action_history);
+        ((BaseActivity) getActivity()).tintToolbarIcons(menu, R.id.action_history);
     }
 
     @Override
