@@ -45,7 +45,7 @@ class EventAdapter extends GenericSearchableAdapter<EventItem, DataViewHolder<Ev
                         .filter(EventItem::isItem)
                         .map(EventItem::getItem)
                         .collect(Collectors.toList()),
-                new EventItem.Converter()
+                new EventListConverter()
         );
     }
 

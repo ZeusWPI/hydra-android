@@ -31,7 +31,7 @@ class EventLiveData extends RequestLiveData<List<EventItem>> implements SharedPr
                         Requests.map(Requests.cache(context, new EventRequest()), Arrays::asList),
                         new EventFilter(context)
                 ),
-                new EventItem.Converter()
+                new EventListConverter()
         ));
     }
 

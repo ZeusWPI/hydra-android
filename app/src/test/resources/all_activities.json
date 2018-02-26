@@ -16,5 +16,54 @@
       "full_name": "Katholiek Vlaams Hoogstudenten Verbond",
       "display_name": "KVHV"
     }
+  },
+  {
+    "title": "Zeus: meeting to take over the world",
+    "start": "2017-10-27T11:00:00+02:00",
+    "end": "2017-10-27T18:00:00+02:00",
+    "location": "DE kelder",
+    "description": "Nieuwe meeting over Hydra enzo",
+    "url": "https://www.facebook.com/events/247882788977099/",
+    "facebook_id": "",
+    "categories": null,
+    "highlighted": 0,
+    "association": {
+      "display_name": "Zeus WPI",
+      "full_name": "Zeus WerkgroeP Informatica",
+      "internal_name": "ZEUS"
+    }
+  },
+  {
+    "title": "Zeus: meeting to take over the world, deel II",
+    "start": "2017-10-27T18:00:00+02:00",
+    "end": "2017-10-27T23:00:00+02:00",
+    "location": "DE kelder",
+    "description": "Nieuwe meeting over Hydra enzo",
+    "facebook_id": "",
+    "categories": null,
+    "highlighted": 0,
+    "association": {
+      "display_name": "Zeus WPI",
+      "full_name": "Zeus WerkgroeP Informatica",
+      "internal_name": "ZEUS"
+    }
+  },
+  {
+    "title": "KVHV op de IJzerwake 2018",
+    "start": "2018-10-27T11:00:00+02:00",
+    "end": "2018-10-27T18:00:00+02:00",
+    "location": "Monument gebroeders van Raemdonck",
+    "latitude": 50.9130344,
+    "longitude": 2.8295441,
+    "description": "17de IJzerwake aan het monument van de Gebroeders van Raemdonck.",
+    "url": "https://www.facebook.com/events/247882788977099/",
+    "facebook_id": "",
+    "categories": null,
+    "highlighted": 0,
+    "association": {
+      "internal_name": "KVHV",
+      "full_name": "Katholiek Vlaams Hoogstudenten Verbond",
+      "display_name": "KVHV"
+    }
   }
 ]
