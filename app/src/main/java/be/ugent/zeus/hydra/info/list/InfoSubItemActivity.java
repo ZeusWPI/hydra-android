@@ -25,7 +25,7 @@ public class InfoSubItemActivity extends BaseActivity {
 
         // Set title
         String title = intent.getStringExtra(INFO_TITLE);
-        getToolbar().setTitle(title);
+        requireToolbar().setTitle(title);
 
         // Create bundle for fragment
         ArrayList<InfoItem> infoList = intent.getParcelableArrayListExtra(INFO_ITEMS);

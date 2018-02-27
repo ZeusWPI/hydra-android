@@ -108,7 +108,7 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "receiveResto: on view created");
 
-        getBaseActivity().getToolbar().setDisplayShowTitleEnabled(false);
+        getBaseActivity().requireToolbar().setDisplayShowTitleEnabled(false);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -156,7 +156,7 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
         spinner = getActivity().findViewById(R.id.spinner);
         spinner.setEnabled(false);
         spinner.setVisibility(View.VISIBLE);
-        restoAdapter = new ArrayAdapter<>(getBaseActivity().getToolbar().getThemedContext(), android.R.layout.simple_spinner_item);
+        restoAdapter = new ArrayAdapter<>(getBaseActivity().requireToolbar().getThemedContext(), android.R.layout.simple_spinner_item);
         restoAdapter.add(new RestoWrapper(getString(R.string.resto_spinner_loading)));
         restoAdapter.setDropDownViewResource(R.layout.x_simple_spinner_dropdown_item);
         spinner.setAdapter(restoAdapter);
@@ -362,7 +362,7 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
         tabLayout.setVisibility(View.GONE);
         spinner.setVisibility(View.GONE);
         spinnerProgress.setVisibility(View.GONE);
-        getBaseActivity().getToolbar().setDisplayShowTitleEnabled(true);
+        getBaseActivity().requireToolbar().setDisplayShowTitleEnabled(true);
     }
 
     private void hideExternalViews() {

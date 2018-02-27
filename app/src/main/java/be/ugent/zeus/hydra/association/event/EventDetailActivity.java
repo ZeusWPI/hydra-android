@@ -74,7 +74,7 @@ public class EventDetailActivity extends BaseActivity {
         TextView smallName = findViewById(R.id.event_organisator_small);
         if (event.getTitle() != null) {
             title.setText(event.getTitle());
-            getToolbar().setTitle(event.getTitle());
+            requireToolbar().setTitle(event.getTitle());
         }
 
         if (event.getAssociation() != null) {

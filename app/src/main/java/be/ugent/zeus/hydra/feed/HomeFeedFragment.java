@@ -146,7 +146,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         inflater.inflate(R.menu.menu_refresh, menu);
         //TODO there must a better of doing this
         BaseActivity activity = (BaseActivity) getActivity();
-        BaseActivity.tintToolbarIcons(activity.getToolbar(), menu, R.id.action_refresh);
+        BaseActivity.tintToolbarIcons(activity.requireToolbar(), menu, R.id.action_refresh);
     }
 
     @Override

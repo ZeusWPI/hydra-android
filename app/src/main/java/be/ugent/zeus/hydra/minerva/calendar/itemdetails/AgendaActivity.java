@@ -96,7 +96,7 @@ public class AgendaActivity extends BaseActivity {
 
         TextView title = findViewById(R.id.title);
         title.setText(item.getTitle());
-        getToolbar().setTitle(item.getTitle());
+        requireToolbar().setTitle(item.getTitle());
 
         //Description
         if (!TextUtils.isEmpty(item.getContent())) {

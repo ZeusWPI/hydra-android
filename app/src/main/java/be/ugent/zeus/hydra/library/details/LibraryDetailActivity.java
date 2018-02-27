@@ -82,7 +82,7 @@ public class LibraryDetailActivity extends BaseActivity {
         ImageView header = findViewById(R.id.header_image);
         Picasso.with(this).load(library.getEnsuredImage()).into(header);
 
-        getToolbar().setTitle(library.getName());
+        requireToolbar().setTitle(library.getName());
 
         String address = makeFullAddressText();
         if (TextUtils.isEmpty(address)) {

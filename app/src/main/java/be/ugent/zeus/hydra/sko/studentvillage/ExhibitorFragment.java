@@ -71,7 +71,7 @@ public class ExhibitorFragment extends Fragment implements SwipeRefreshLayout.On
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
         BaseActivity activity = (BaseActivity) getActivity();
-        BaseActivity.tintToolbarIcons(activity.getToolbar(), menu, R.id.action_refresh);
+        BaseActivity.tintToolbarIcons(activity.requireToolbar(), menu, R.id.action_refresh);
     }
 
     @Override
