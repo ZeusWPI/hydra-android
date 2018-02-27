@@ -17,8 +17,6 @@
             android:id="@id/app_bar_layout"
             android:animateLayoutChanges="true">
 
-            <!--<include layout="@layout/x_toolbar" />-->
-
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -61,12 +59,14 @@
             <include android:visibility="gone" layout="@layout/x_progress_bar" android:id="@+id/drawer_loading" />
         </FrameLayout>
 
-        <!-- TODO: move this to fragment instead -->
+        <!-- TODO: should this be moved to the fragment instead? -->
+        <!-- The menu is a shortcut, because it is only used by the RestoFragment for now -->
         <android.support.design.widget.BottomNavigationView
             android:visibility="gone"
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/material_bottom_nav_bar_height"
+            app:elevation="@dimen/material_bottom_nav_bar_elevation"
             android:layout_gravity="bottom"
             app:menu="@menu/bottom_resto"
             app:itemBackground="?android:colorBackground" />
