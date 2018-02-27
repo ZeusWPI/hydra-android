@@ -2,8 +2,6 @@ package be.ugent.zeus.hydra.association.event;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
-import be.ugent.zeus.hydra.association.event.Event;
-import be.ugent.zeus.hydra.association.event.EventRequest;
 import be.ugent.zeus.hydra.common.network.ArrayJsonSpringRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
 import org.junit.runner.RunWith;
@@ -30,6 +28,6 @@ public class EventRequestTest extends ArrayJsonSpringRequestTest<Event> {
 
     @Override
     protected JsonSpringRequest<Event[]> getRequest() {
-        return new EventRequest();
+        return new RawEventRequest();
     }
 }

@@ -9,7 +9,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
-import be.ugent.zeus.hydra.association.event.EventDetailActivity;
+import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
 import com.github.captain_miao.optroundcardview.OptRoundCardView;
 import org.threeten.bp.format.DateTimeFormatter;
 
@@ -43,8 +43,8 @@ class EventViewHolder extends DataViewHolder<EventItem> {
         association.setText(event.getAssociation().getDisplayName());
         start.setText(event.getLocalStart().format(HOUR_FORMATTER));
         itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), EventDetailActivity.class);
-            intent.putExtra(EventDetailActivity.PARCEL_EVENT, (Parcelable) event);
+            Intent intent = new Intent(v.getContext(), EventDetailsActivity.class);
+            intent.putExtra(EventDetailsActivity.PARCEL_EVENT, (Parcelable) event);
             v.getContext().startActivity(intent);
         });
 

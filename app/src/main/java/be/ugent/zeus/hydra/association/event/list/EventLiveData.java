@@ -5,13 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import be.ugent.zeus.hydra.association.event.EventFilter;
-import be.ugent.zeus.hydra.association.event.EventRequest;
+import be.ugent.zeus.hydra.association.event.RawEventRequest;
+import be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 import be.ugent.zeus.hydra.common.request.Requests;
-import be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -27,10 +25,7 @@ class EventLiveData extends RequestLiveData<List<EventItem>> implements SharedPr
 
     EventLiveData(Context context) {
         super(context, Requests.map(
-                Requests.map(
-                        Requests.map(Requests.cache(context, new EventRequest()), Arrays::asList),
-                        new EventFilter(context)
-                ),
+                RawEventRequest.cachedFilteredSortedRequest(context),
                 new EventListConverter()
         ));
     }

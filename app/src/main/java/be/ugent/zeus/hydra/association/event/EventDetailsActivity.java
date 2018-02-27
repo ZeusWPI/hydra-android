@@ -33,7 +33,7 @@ import org.threeten.bp.format.DateTimeFormatter;
  *
  * @author Niko Strijbol
  */
-public class EventDetailActivity extends BaseActivity {
+public class EventDetailsActivity extends BaseActivity {
 
     public static final String PARCEL_EVENT = "eventParcelable";
     private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -50,7 +50,7 @@ public class EventDetailActivity extends BaseActivity {
      * @param event    The event.
      */
     public static void launchWithAnimation(Activity activity, View view, String name, Parcelable event) {
-        Intent intent = new Intent(activity, EventDetailActivity.class);
+        Intent intent = new Intent(activity, EventDetailsActivity.class);
         intent.putExtra(PARCEL_EVENT, event);
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, view, name);
         ActivityCompat.startActivity(activity, intent, options.toBundle());

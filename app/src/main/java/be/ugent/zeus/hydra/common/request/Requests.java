@@ -3,13 +3,15 @@ package be.ugent.zeus.hydra.common.request;
 import android.content.Context;
 import android.util.Log;
 
+import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
+import be.ugent.zeus.hydra.common.caching.Cache;
 import be.ugent.zeus.hydra.common.caching.CacheManager;
 import be.ugent.zeus.hydra.common.network.IOFailureException;
-import be.ugent.zeus.hydra.common.caching.Cache;
-import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import java8.util.function.Function;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Utility methods for use with {@link Request}s.
@@ -24,11 +26,10 @@ public class Requests {
      *
      * TODO: look how we can support both Function and our custom function at the same time, without additional methods.
      *
-     * @param request The request to apply the function on.
+     * @param request  The request to apply the function on.
      * @param function The function to apply.
-     *
-     * @param <R> The type of the result.
-     * @param <O> The type of the original request.
+     * @param <R>      The type of the result.
+     * @param <O>      The type of the original request.
      *
      * @return The new request.
      */
@@ -40,11 +41,10 @@ public class Requests {
      * Similar to {@link #map(Request, Function)}, but allows for exceptions to happen.
      * See also {@link Result#mapError(RequestFunction)}.
      *
-     * @param request The request to apply the function on.
+     * @param request  The request to apply the function on.
      * @param function The function to apply.
-     *
-     * @param <R> The type of the result.
-     * @param <O> The type of the original request.
+     * @param <R>      The type of the result.
+     * @param <O>      The type of the original request.
      *
      * @return The new request.
      */
@@ -57,7 +57,8 @@ public class Requests {
      *
      * @param context The context.
      * @param request The request.
-     * @param <R> The type of data.
+     * @param <R>     The type of data.
+     *
      * @return The new request.
      */
     public static <R extends Serializable> Request<R> cache(Context context, CacheableRequest<R> request) {
@@ -81,5 +82,20 @@ public class Requests {
 
             return data;
         };
+    }
+
+    /**
+     * Shortcut for calling {@link #cache(Context, CacheableRequest)} and then {@link #map(Request, Function)}.
+     * <p>
+     * It will cache a request and then transform the resulting array into a list.
+     *
+     * @param context The context.
+     * @param request The request.
+     * @param <R>     The type of the data.
+     *
+     * @return The cached and "listified" request.
+     */
+    public static <R extends Serializable> Request<List<R>> cachedList(Context context, CacheableRequest<R[]> request) {
+        return map(cache(context, request), Arrays::asList);
     }
 }

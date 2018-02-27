@@ -10,7 +10,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.association.event.EventDetailActivity;
+import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.SwipeDismissableViewHolder;
 import be.ugent.zeus.hydra.feed.commands.DisableAssociationCommand;
@@ -56,7 +56,7 @@ public class EventCardViewHolder extends CardViewHolder implements SwipeDismissa
 
         PriorityUtils.loadThumbnail(itemView.getContext(), event.getAssociation().getImageLink(), imageView);
 
-        itemView.setOnClickListener(v -> EventDetailActivity.launchWithAnimation(((Activity) itemView.getContext()), imageView, "logo", event));
+        itemView.setOnClickListener(v -> EventDetailsActivity.launchWithAnimation(((Activity) itemView.getContext()), imageView, "logo", event));
     }
 
     @Override

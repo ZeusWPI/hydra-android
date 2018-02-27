@@ -6,8 +6,6 @@ import android.support.annotation.RequiresApi;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.event.Event;
-import be.ugent.zeus.hydra.association.event.EventFilter;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
 import com.google.gson.Gson;
 import org.junit.Before;
@@ -25,17 +23,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 /**
- * TODO: we need more events!
- *
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, application = TestApp.class)
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class EventFilterTest {
+public class DisabledEventRemoverTest {
 
     private List<Event> data;
     private List<Association> associations;
@@ -66,12 +62,12 @@ public class EventFilterTest {
         PreferencesUtils.addToStringSet(RuntimeEnvironment.application, PREF_ASSOCIATIONS_SHOWING, toRemoveIds);
 
         // Do the filtering
-        EventFilter filter = new EventFilter(RuntimeEnvironment.application);
+        DisabledEventRemover filter = new DisabledEventRemover(RuntimeEnvironment.application);
         List<Event> result = filter.apply(data);
 
         assertTrue(
-                result.stream()
-                        .noneMatch(event -> toRemoveIds.contains(event.getAssociation().getInternalName()))
+                "Events that should have been filtered away are still present.",
+                result.stream().noneMatch(event -> toRemoveIds.contains(event.getAssociation().getInternalName()))
         );
     }
 }

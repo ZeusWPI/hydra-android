@@ -7,10 +7,10 @@ import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import java8.util.Objects;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZonedDateTime;
 
@@ -22,7 +22,7 @@ import java.io.Serializable;
  * @author Niko Strijbol
  * @author feliciaan
  */
-public final class Event implements Parcelable, Serializable {
+public final class Event implements Parcelable, Serializable, Comparable<Event> {
 
     private String title;
     @JsonAdapter(ZonedThreeTenAdapter.class)
@@ -244,5 +244,10 @@ public final class Event implements Parcelable, Serializable {
      */
     public String getIdentifier() {
         return title + start.toString() + end.toString() + latitude + longitude + url + association.getName();
+    }
+
+    @Override
+    public int compareTo(Event o) {
+        return start.compareTo(o.start);
     }
 }

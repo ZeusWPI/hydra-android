@@ -5,32 +5,35 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity;
-import java8.util.Comparators;
+import java8.lang.Iterables;
 import java8.util.function.Function;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 /**
+ * Filters events according to the user preferences.
+ *
  * @author Niko Strijbol
  */
-public class EventFilter implements Function<List<Event>, List<Event>> {
+class DisabledEventRemover implements Function<List<Event>, List<Event>> {
 
     private final SharedPreferences preferences;
 
-    public EventFilter(Context context) {
+    DisabledEventRemover(Context context) {
         this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @Override
     public List<Event> apply(List<Event> events) {
+        // Not all list support editing, so make a copy.
+        events = new ArrayList<>(events);
+        // The set of disabled associations.
         Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
-        return StreamSupport.stream(events)
-                .filter(e -> !disabled.contains(e.getAssociation().getInternalName()))
-                .sorted(Comparators.comparing(Event::getStart))
-                .collect(Collectors.toList());
+        // Remove events that have are of the disabled associations.
+        Iterables.removeIf(events, e -> disabled.contains(e.getAssociation().getInternalName()));
+        return events;
     }
 }
