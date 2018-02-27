@@ -10,7 +10,7 @@ import org.threeten.bp.LocalDate;
  *
  * @author Niko Strijbol
  */
-class EventItem {
+final class EventItem {
 
     private final Event event;
     private final LocalDate header;
