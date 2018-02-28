@@ -8,6 +8,7 @@ import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.resto.Sandwich;
 import be.ugent.zeus.hydra.common.network.ArrayJsonSpringRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
+import be.ugent.zeus.hydra.resto.sandwich.SandwichRequest;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;

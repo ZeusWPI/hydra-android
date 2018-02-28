@@ -21,6 +21,9 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
+
 /**
  * Displays the upcoming calendar for a given course.
  *
@@ -28,7 +31,7 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
  */
 public class UpcomingCalendarForCourseFragment extends Fragment {
 
-    private static final String TAG = "UpcomingCalendarForCourseFragment";
+    private static final String TAG = "UpcomingCalendarFrag";
 
     private static final String ARG_COURSE = "argCourse";
 
@@ -53,12 +56,12 @@ public class UpcomingCalendarForCourseFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new StickyRecyclerHeadersDecoration(adapter));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
 
         adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
 
-        Course course = getArguments().getParcelable(ARG_COURSE);
+        Course course = requireArguments(this).getParcelable(ARG_COURSE);
         AgendaViewModel model = ViewModelProviders.of(this).get(AgendaViewModel.class);
         model.setCourse(course);
         model.getData().observe(this, ErrorObserver.with(this::onError));
@@ -68,7 +71,7 @@ public class UpcomingCalendarForCourseFragment extends Fragment {
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .show();
     }
 }

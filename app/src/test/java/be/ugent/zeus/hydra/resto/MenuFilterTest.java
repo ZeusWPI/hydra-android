@@ -5,6 +5,9 @@ import android.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
+import be.ugent.zeus.hydra.resto.MenuFilter;
+import be.ugent.zeus.hydra.resto.RestoMenu;
+import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.testing.Utils;
 import org.junit.Test;
 import org.junit.runner.RunWith;

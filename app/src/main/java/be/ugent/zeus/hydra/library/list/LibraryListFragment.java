@@ -17,10 +17,12 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
-import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
+
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
 
 /**
  * @author Niko Strijbol
@@ -51,7 +53,7 @@ public class LibraryListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         RecyclerFastScroller s = view.findViewById(R.id.fast_scroller);
         s.attachRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);
@@ -71,8 +73,7 @@ public class LibraryListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_library_list, menu);
-        BaseActivity activity = (BaseActivity) getActivity();
-        activity.tintToolbarIcons(menu, R.id.library_visit_catalogue, R.id.action_refresh);
+        requireBaseActivity(this).tintToolbarIcons(menu, R.id.library_visit_catalogue, R.id.action_refresh);
         SearchView view = (SearchView) menu.findItem(R.id.action_search).getActionView();
         view.setOnQueryTextListener(adapter);
         view.setOnCloseListener(adapter);
@@ -96,7 +97,7 @@ public class LibraryListFragment extends Fragment {
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
     }

@@ -11,6 +11,7 @@ import be.ugent.zeus.hydra.common.network.ArrayJsonSpringRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
+import be.ugent.zeus.hydra.resto.network.MenuRequest;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

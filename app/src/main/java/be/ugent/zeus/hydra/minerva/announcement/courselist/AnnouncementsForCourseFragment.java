@@ -24,6 +24,8 @@ import be.ugent.zeus.hydra.minerva.course.Course;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
 import static android.app.Activity.RESULT_OK;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
 
 /**
  * Displays a list of announcements for a given course.
@@ -66,7 +68,7 @@ public class AnnouncementsForCourseFragment extends Fragment implements ResultSt
         Adapter adapter = new Adapter(this);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
 
         adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
@@ -74,7 +76,8 @@ public class AnnouncementsForCourseFragment extends Fragment implements ResultSt
         RecyclerFastScroller scroller = view.findViewById(R.id.fast_scroller);
         scroller.attachRecyclerView(recyclerView);
 
-        Course course = getArguments().getParcelable(ARG_COURSE);
+        Bundle arguments = requireArguments(this);
+        Course course = arguments.getParcelable(ARG_COURSE);
         viewModel = ViewModelProviders.of(this).get(AnnouncementViewModel.class);
         viewModel.setCourse(course);
         viewModel.getData().observe(this, ErrorObserver.with(this::onError));
@@ -84,7 +87,7 @@ public class AnnouncementsForCourseFragment extends Fragment implements ResultSt
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .show();
     }
 
@@ -96,9 +99,8 @@ public class AnnouncementsForCourseFragment extends Fragment implements ResultSt
             // One of the announcements was marked as read, so update the UI.
             viewModel.requestRefresh();
             Intent intent = new Intent();
-            // TODO: prevent the fragment from depending on the activity.
             intent.putExtra(RESULT_ANNOUNCEMENT_UPDATED, true);
-            getActivity().setResult(RESULT_OK, intent);
+            requireActivity().setResult(RESULT_OK, intent);
         }
     }
 

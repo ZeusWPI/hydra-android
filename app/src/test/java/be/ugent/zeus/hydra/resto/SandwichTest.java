@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.resto;
 
 import be.ugent.zeus.hydra.common.ModelTest;
+import be.ugent.zeus.hydra.resto.Sandwich;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;

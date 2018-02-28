@@ -17,6 +17,8 @@ import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
+
 /**
  * Display info items.
  *
@@ -57,6 +59,6 @@ public class InfoFragment extends Fragment {
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG).show();
+        Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG).show();
     }
 }

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.resto.network;
+package be.ugent.zeus.hydra.resto.sandwich;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,11 +16,11 @@ import java.util.Arrays;
  *
  * @author feliciaan
  */
-public class SandwichRequest extends JsonSpringRequest<Sandwich[]> implements CacheableRequest<Sandwich[]> {
+class SandwichRequest extends JsonSpringRequest<Sandwich[]> implements CacheableRequest<Sandwich[]> {
 
     private static final String FILE_NAME = "sandwiches.json";
 
-    public SandwichRequest() {
+    SandwichRequest() {
         super(Sandwich[].class);
     }
 
