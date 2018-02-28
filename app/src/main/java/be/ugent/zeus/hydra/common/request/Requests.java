@@ -1,17 +1,11 @@
 package be.ugent.zeus.hydra.common.request;
 
 import android.content.Context;
-import android.util.Log;
 
-import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
-import be.ugent.zeus.hydra.common.caching.Cache;
-import be.ugent.zeus.hydra.common.caching.CacheManager;
-import be.ugent.zeus.hydra.common.network.IOFailureException;
+import be.ugent.zeus.hydra.repository.requests.CacheRequest;
 import java8.util.function.Function;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Utility methods for use with {@link Request}s.
@@ -33,8 +27,9 @@ public class Requests {
      *
      * @return The new request.
      */
+    @Deprecated
     public static <O, R> Request<R> map(Request<O> request, Function<O, R> function) {
-        return args -> request.performRequest(args).map(function);
+        return request.map(function);
     }
 
     /**
@@ -48,8 +43,9 @@ public class Requests {
      *
      * @return The new request.
      */
+    @Deprecated
     public static <O, R> Request<R> mapE(Request<O> request, RequestFunction<O, R> function) {
-        return args -> request.performRequest(args).mapError(function);
+        return request.mapError(function);
     }
 
     /**
@@ -62,26 +58,7 @@ public class Requests {
      * @return The new request.
      */
     public static <R extends Serializable> Request<R> cache(Context context, CacheableRequest<R> request) {
-        return args -> {
-            Cache cache = CacheManager.defaultCache(context);
-            Result<R> data;
-
-            boolean shouldRefresh = args != null && args.getBoolean(BaseLiveData.REFRESH_COLD, false);
-
-            if (shouldRefresh) {
-                data = cache.get(request, args, Cache.NEVER);
-            } else {
-                data = cache.get(request, args);
-            }
-
-            // If getting data failed because of the network, get the cached data anyway.
-            if (data.hasException() && data.getError() instanceof IOFailureException) {
-                Log.w("CachedRequest", "Could not get data from network, getting cached data.");
-                data = data.updateWith(cache.get(request, args, Cache.ALWAYS));
-            }
-
-            return data;
-        };
+        return CacheRequest.cache(request, context);
     }
 
     /**
