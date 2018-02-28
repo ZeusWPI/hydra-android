@@ -8,9 +8,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.resto.MenuFilter;
-import be.ugent.zeus.hydra.resto.network.MenuRequest;
-import be.ugent.zeus.hydra.resto.network.SelectableMetaRequest;
+import be.ugent.zeus.hydra.resto.menu.MenuFilter;
+import be.ugent.zeus.hydra.resto.menu.MenuRequest;
+import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.feed.cards.CardRepository;
@@ -53,7 +53,7 @@ public class RestoRequest extends HideableHomeFeedRequest {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String restoKey = preferences.getString(RestoPreferenceFragment.PREF_RESTO_KEY, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
         String restoName = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, context.getString(R.string.resto_default_name));
-        SelectableMetaRequest.RestoChoice choice = new SelectableMetaRequest.RestoChoice(restoName, restoKey);
+        RestoChoice choice = new RestoChoice(restoName, restoKey);
         return request.performRequest(args).map(restoMenus -> StreamSupport.stream(restoMenus)
                 .map(restoMenu -> new RestoMenuCard(restoMenu, choice)));
     }

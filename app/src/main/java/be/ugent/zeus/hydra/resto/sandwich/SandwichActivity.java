@@ -70,8 +70,8 @@ public class SandwichActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_resto, menu);
-        tintToolbarIcons(menu, R.id.action_refresh);
+        getMenuInflater().inflate(R.menu.menu_sandwhich, menu);
+        tintToolbarIcons(menu, R.id.resto_show_website);
         return true;
     }
 

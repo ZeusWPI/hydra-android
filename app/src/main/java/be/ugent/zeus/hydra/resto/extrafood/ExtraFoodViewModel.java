@@ -6,9 +6,6 @@ import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.ui.AdapterOutOfBoundsException;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
-import be.ugent.zeus.hydra.resto.ExtraFood;
-import be.ugent.zeus.hydra.resto.Food;
-import be.ugent.zeus.hydra.resto.network.ExtraFoodRequest;
 
 import java.util.List;
 
