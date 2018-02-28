@@ -19,9 +19,11 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
-import be.ugent.zeus.hydra.common.ui.BaseActivity;
-import be.ugent.zeus.hydra.common.ui.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.common.preferences.SettingsActivity;
+import be.ugent.zeus.hydra.common.ui.recyclerview.EmptyViewObserver;
+
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
 
 /**
  * Displays a list of activities, filtered by the settings.
@@ -78,7 +80,7 @@ public class EventFragment extends Fragment {
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
     }
@@ -87,9 +89,7 @@ public class EventFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_main_events, menu);
-        //TODO there must a better of doing this
-        BaseActivity activity = (BaseActivity) getActivity();
-        activity.tintToolbarIcons(menu, R.id.action_refresh);
+        requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_refresh);
         SearchView view = (SearchView) menu.findItem(R.id.action_search).getActionView();
         view.setOnQueryTextListener(adapter);
         view.setOnCloseListener(adapter);
