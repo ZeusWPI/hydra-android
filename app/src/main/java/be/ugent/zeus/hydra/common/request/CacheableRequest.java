@@ -1,7 +1,11 @@
 package be.ugent.zeus.hydra.common.request;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import be.ugent.zeus.hydra.common.caching.Cache;
+import java8.util.function.Function;
 
 /**
  * A request that provides additional metadata about the requested data to facilitate caching of said data.

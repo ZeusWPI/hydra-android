@@ -62,10 +62,13 @@ public class EventListConverterTest {
                 previousWasFirstOfSection = true;
             } else if (previousWasFirstOfSection) {
                 previousWasFirstOfSection = false;
-            } else {
+            } else if (item.isItem()) {
                 previousWasLastOfSection = item.isLastOfSection();
             }
         }
+
+        // Manually assert the last element is the last in the section.
+        assertTrue(result.get(result.size() - 1).isLastOfSection());
 
         // Assert the events are sorted by date. Extract all dates.
         List<LocalDate> dates = result.stream()

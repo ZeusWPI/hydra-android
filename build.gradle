@@ -3,6 +3,7 @@
 buildscript {
     repositories {
         jcenter()
+        google()
         maven { url "https://jitpack.io" }
         maven { url "http://dl.bintray.com/melix/thirdparty-apache" }
     }

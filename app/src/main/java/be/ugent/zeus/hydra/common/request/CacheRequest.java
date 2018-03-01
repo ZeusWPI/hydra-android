@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.repository.requests;
+package be.ugent.zeus.hydra.common.request;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,10 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.data.network.caching.CacheManager;
-import be.ugent.zeus.hydra.data.network.exceptions.IOFailureException;
-import be.ugent.zeus.hydra.repository.Cache;
-import be.ugent.zeus.hydra.repository.data.BaseLiveData;
+import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
+import be.ugent.zeus.hydra.common.caching.Cache;
+import be.ugent.zeus.hydra.common.caching.CacheManager;
+import be.ugent.zeus.hydra.common.network.IOFailureException;
 
 import java.io.Serializable;
 
@@ -22,7 +22,7 @@ import java.io.Serializable;
  * 
  * @author Niko Strijbol
  */
-public final class CacheRequest<R extends Serializable> implements Request<R> {
+final class CacheRequest<R extends Serializable> implements Request<R> {
     
     private final CacheableRequest<R> wrapping;
     private final Cache cache;
