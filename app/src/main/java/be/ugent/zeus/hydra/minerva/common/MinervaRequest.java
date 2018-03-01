@@ -91,7 +91,7 @@ public abstract class MinervaRequest<T> extends JsonSpringRequest<T> {
             //We only try again one time.
             if(first && e.getCause() instanceof HttpServerErrorException) {
                 HttpServerErrorException error = (HttpServerErrorException) e.getCause();
-                if(error.getStatusCode().equals(HttpStatus.SERVICE_UNAVAILABLE)) {
+                if(error.getStatusCode() == HttpStatus.SERVICE_UNAVAILABLE) {
                     try {
                         Log.d("MinervaRequest", "Invalid token while accessing stuff", e);
                         //Invalidate auth token and try again.

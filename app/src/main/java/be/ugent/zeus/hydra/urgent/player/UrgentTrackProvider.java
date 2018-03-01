@@ -17,7 +17,7 @@ import java8.util.function.Consumer;
 /**
  * @author Niko Strijbol
  */
-public class UrgentTrackProvider {
+class UrgentTrackProvider {
 
     public static final String URGENT_ID = "be.ugent.zeus.hydra.urgent";
 

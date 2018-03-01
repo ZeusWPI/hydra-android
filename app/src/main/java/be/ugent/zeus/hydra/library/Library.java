@@ -189,7 +189,7 @@ public final class Library implements Serializable, Parcelable {
      * @return True if there is at least one telephone number.
      */
     public boolean hasTelephone() {
-        return getTelephone() != null && getTelephone().size() > 0;
+        return getTelephone() != null && !getTelephone().isEmpty();
     }
 
     @Override

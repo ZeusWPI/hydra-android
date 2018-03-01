@@ -146,7 +146,6 @@ public class AccountTransferService extends IntentService {
         }
     }
 
-
     /**
      * Collects the information we send to the new device.
      *
@@ -159,10 +158,10 @@ public class AccountTransferService extends IntentService {
      * The access token and related expiration date are not sent.
      */
     private static class AccountInformation {
-        String accountType;
-        int accountVersion;
-        String accountName;
-        String accountPassword;
+        private String accountType;
+        private int accountVersion;
+        private String accountName;
+        private String accountPassword;
     }
 
     /**
@@ -171,7 +170,7 @@ public class AccountTransferService extends IntentService {
      * @param context The context.
      * @param data The data. Can be null.
      */
-    public static void importAccountFrom(Context context, byte[] data) {
+    private static void importAccountFrom(Context context, byte[] data) {
         if (data == null) {
             Log.w(TAG, "Data bytes are null, aborting import.");
             return;

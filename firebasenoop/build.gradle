@@ -14,9 +14,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile ('com.google.firebase:firebase-core:11.8.0') {
+    implementation ('com.google.firebase:firebase-core:11.8.0') {
         exclude module:'support-v4'
     }
 }

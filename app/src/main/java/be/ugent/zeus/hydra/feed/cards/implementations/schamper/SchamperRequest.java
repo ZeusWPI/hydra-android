@@ -5,19 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import be.ugent.zeus.hydra.schamper.SchamperArticlesRequest;
-import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.schamper.Article;
-import be.ugent.zeus.hydra.feed.cards.CardRepository;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HideableHomeFeedRequest;
+import be.ugent.zeus.hydra.feed.cards.Card;
+import be.ugent.zeus.hydra.feed.cards.CardRepository;
+import be.ugent.zeus.hydra.schamper.Article;
+import be.ugent.zeus.hydra.schamper.list.SchamperArticlesRequest;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
 import org.threeten.bp.LocalDateTime;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,7 +28,7 @@ public class SchamperRequest extends HideableHomeFeedRequest {
 
     public SchamperRequest(Context context, CardRepository cardRepository) {
         super(cardRepository);
-        this.request = Requests.map(Requests.cache(context, new SchamperArticlesRequest()), Arrays::asList);
+        this.request = Requests.cachedList(context, new SchamperArticlesRequest());
     }
 
     @Override

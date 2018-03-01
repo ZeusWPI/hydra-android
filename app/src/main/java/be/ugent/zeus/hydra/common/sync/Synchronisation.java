@@ -23,7 +23,7 @@ public class Synchronisation<E, ID> {
 
     private boolean classified;
 
-    private Function<E, ID> container;
+    private final Function<E, ID> container;
 
     /**
      * Initialise a synchronisation. The algorithm assumes that the elements in these collection will be equal, even

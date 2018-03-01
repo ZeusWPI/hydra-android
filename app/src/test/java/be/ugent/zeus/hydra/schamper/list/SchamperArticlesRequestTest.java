@@ -1,11 +1,10 @@
-package be.ugent.zeus.hydra.schamper;
+package be.ugent.zeus.hydra.schamper.list;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
-import be.ugent.zeus.hydra.schamper.Article;
 import be.ugent.zeus.hydra.common.network.ArrayJsonSpringRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.schamper.SchamperArticlesRequest;
+import be.ugent.zeus.hydra.schamper.Article;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;

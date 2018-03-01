@@ -38,6 +38,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
 
 /**
  * Displays all unread announcements, with the newest first.
@@ -49,7 +50,7 @@ import static android.app.Activity.RESULT_OK;
  */
 public class UnreadAnnouncementsFragment extends Fragment implements MultiSelectDiffAdapter.Callback<Announcement>, MainActivity.ScheduledRemovalListener {
 
-    private static final String TAG = "UnreadAnnouncementsFragment";
+    private static final String TAG = "UnreadAnnFragment";
 
     private ResultStarter resultStarter;
     private ProgressBar progressBar;
@@ -79,7 +80,7 @@ public class UnreadAnnouncementsFragment extends Fragment implements MultiSelect
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
 
         adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
@@ -92,7 +93,7 @@ public class UnreadAnnouncementsFragment extends Fragment implements MultiSelect
         super.onActivityCreated(savedInstanceState);
 
         progressBar.setVisibility(View.VISIBLE);
-        model = ViewModelProviders.of(getActivity()).get(AnnouncementsViewModel.class);
+        model = ViewModelProviders.of(requireActivity()).get(AnnouncementsViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>(progressBar));
         model.getData().observe(this, new AdapterObserver<>(adapter));
@@ -100,7 +101,7 @@ public class UnreadAnnouncementsFragment extends Fragment implements MultiSelect
             @Override
             protected void onSuccess(List<Announcement> data) {
                 recyclerView.setVisibility(View.VISIBLE);
-                getActivity().invalidateOptionsMenu();
+                requireActivity().invalidateOptionsMenu();
                 // Stop the CAB - the adapter is cleared automatically.
                 if (actionMode != null) {
                     actionMode.finish();
@@ -111,7 +112,7 @@ public class UnreadAnnouncementsFragment extends Fragment implements MultiSelect
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .show();
     }
 
@@ -124,7 +125,7 @@ public class UnreadAnnouncementsFragment extends Fragment implements MultiSelect
         }
     }
 
-    private ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
+    private final ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
 
         // Called when the action mode is created; startActionMode() was called
         @Override
@@ -132,7 +133,7 @@ public class UnreadAnnouncementsFragment extends Fragment implements MultiSelect
             // Inflate a menu resource providing context menu items
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_main_minerva_announcements_cab, menu);
-            int colorInt = ContextCompat.getColor(getContext(), R.color.white);
+            int colorInt = ContextCompat.getColor(requireContext(), R.color.white);
             BaseActivity.tintToolbarIcons(colorInt, menu, R.id.minerva_announcements_mark_done, R.id.action_select_all);
             return true;
         }
@@ -176,12 +177,18 @@ public class UnreadAnnouncementsFragment extends Fragment implements MultiSelect
     public void onStateChanged(MultiSelectDiffAdapter<Announcement> adapter) {
         if (adapter.hasSelected()) {
             if (actionMode == null) {
-                actionMode = getActivity().startActionMode(actionModeCallback);
-                actionMode.setTitleOptionalHint(true);
+                actionMode = requireActivity().startActionMode(actionModeCallback);
+                if (actionMode != null) {
+                    actionMode.setTitleOptionalHint(true);
+                }
             }
-            actionMode.setTitle(getString(R.string.selected_n, adapter.selectedSize()));
+            if (actionMode != null) {
+                actionMode.setTitle(getString(R.string.selected_n, adapter.selectedSize()));
+            }
         } else {
-            actionMode.finish();
+            if (actionMode != null) {
+                actionMode.finish();
+            }
         }
     }
 
@@ -190,14 +197,14 @@ public class UnreadAnnouncementsFragment extends Fragment implements MultiSelect
         AnnouncementRepository dao = RepositoryFactory.getAnnouncementRepository(getContext());
         Collection<Announcement> announcements = adapter.getSelectedItems();
         Instant read = Instant.now();
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(requireContext());
         for (Announcement an : announcements) {
             an.setRead(read);
             NotificationHelper.cancel(an, notificationManager);
         }
         dao.update(announcements);
         // Request a refresh of the data to update the list of announcements.
-        Toast.makeText(getContext().getApplicationContext(),
+        Toast.makeText(requireContext(),
                 getResources().getQuantityString(R.plurals.minerva_marked_announcements, announcements.size(), announcements.size()),
                 Toast.LENGTH_SHORT)
                 .show();

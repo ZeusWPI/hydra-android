@@ -22,7 +22,7 @@ abstract class AccessTokenRequest implements Request<BearerToken> {
     @SuppressWarnings("WeakerAccess")
     protected OAuthConfiguration configData;
     protected String code;
-    private Gson gson;
+    private final Gson gson;
 
     AccessTokenRequest(OAuthConfiguration configData, String code) {
         this.configData = configData;

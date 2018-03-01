@@ -6,9 +6,7 @@ import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 import be.ugent.zeus.hydra.schamper.Article;
-import be.ugent.zeus.hydra.schamper.SchamperArticlesRequest;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,6 +20,6 @@ public class SchamperViewModel extends RequestViewModel<List<Article>> {
 
     @Override
     protected Request<List<Article>> getRequest() {
-        return Requests.map(Requests.cache(getApplication(), new SchamperArticlesRequest()), Arrays::asList);
+        return Requests.cachedList(getApplication(), new SchamperArticlesRequest());
     }
 }

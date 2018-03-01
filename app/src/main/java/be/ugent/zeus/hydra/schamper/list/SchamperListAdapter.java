@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.schamper.list;
 
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
@@ -21,8 +22,9 @@ class SchamperListAdapter extends ItemDiffAdapter<Article, SchamperViewHolder> {
         this.helper = helper;
     }
 
+    @NonNull
     @Override
-    public SchamperViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SchamperViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new SchamperViewHolder(ViewUtils.inflate(parent, R.layout.item_schamper), helper);
     }
 }

@@ -239,7 +239,7 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
 
                 //Account name
                 String name;
-                if (information.getUserAttributes().getEmail().size() == 0) {
+                if (information.getUserAttributes().getEmail().isEmpty()) {
                     name = "Minerva-account";
                 } else {
                     name = information.getUserAttributes().getEmail().get(0).toLowerCase();
