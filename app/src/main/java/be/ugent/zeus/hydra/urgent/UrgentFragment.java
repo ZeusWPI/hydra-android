@@ -88,7 +88,7 @@ public class UrgentFragment extends Fragment {
 
                 @Override
                 public void onError(@NonNull String id) {
-                    Toast.makeText(getActivity(), "Errror", Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireContext(), "Errror", Toast.LENGTH_LONG).show();
                 }
             };
 
@@ -101,8 +101,8 @@ public class UrgentFragment extends Fragment {
                     mediaBrowser.subscribe(mediaBrowser.getRoot(), subscriptionCallback);
                     try {
                         MediaControllerCompat mediaController =
-                                new MediaControllerCompat(getActivity(), mediaBrowser.getSessionToken());
-                        MediaControllerCompat.setMediaController(getActivity(), mediaController);
+                                new MediaControllerCompat(requireActivity(), mediaBrowser.getSessionToken());
+                        MediaControllerCompat.setMediaController(requireActivity(), mediaController);
 
                         // Register a Callback to stay in sync
                         mediaController.registerCallback(mediaControllerCallback);
@@ -120,10 +120,10 @@ public class UrgentFragment extends Fragment {
                 public void onConnectionSuspended() {
                     Log.d(TAG, "onConnectionSuspended");
                     MediaControllerCompat mediaController = MediaControllerCompat
-                            .getMediaController(getActivity());
+                            .getMediaController(requireActivity());
                     if (mediaController != null) {
                         mediaController.unregisterCallback(mediaControllerCallback);
-                        MediaControllerCompat.setMediaController(getActivity(), null);
+                        MediaControllerCompat.setMediaController(requireActivity(), null);
                     }
                 }
             };
@@ -153,7 +153,7 @@ public class UrgentFragment extends Fragment {
         view.findViewById(R.id.social_urgentfm)
                 .setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(getContext(), URGENT_URL));
 
-        mediaBrowser = new MediaBrowserCompat(getActivity(), new ComponentName(getActivity(), MusicService.class), connectionCallback, null);
+        mediaBrowser = new MediaBrowserCompat(requireActivity(), new ComponentName(requireActivity(), MusicService.class), connectionCallback, null);
         hideMediaControls();
     }
 
