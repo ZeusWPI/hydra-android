@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.common.ui;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -40,8 +41,9 @@ public class NoPaddingArrayAdapter<T> extends ArrayAdapter<T> {
         super(context, resource, textViewResourceId, objects);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View view = super.getView(position, convertView, parent);
         view.setPadding(0, view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom());
         return view;

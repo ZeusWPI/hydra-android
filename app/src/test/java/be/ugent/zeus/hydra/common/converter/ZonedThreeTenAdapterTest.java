@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.threeten.bp.ZonedDateTime;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Niko Strijbol
@@ -34,7 +35,7 @@ public class ZonedThreeTenAdapterTest {
     public void nullTest() {
         String json = gson.toJson(null);
         ZonedDateTime actual = gson.fromJson(json, ZonedDateTime.class);
-        assertEquals(null, actual);
+        assertNull(actual);
     }
 
 }

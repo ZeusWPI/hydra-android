@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +24,14 @@ public class TestItemAdapter extends Adapter<Integer, SimpleViewHolder<?>> {
         });
     }
 
+    @NonNull
     @Override
-    public SimpleViewHolder<?> onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SimpleViewHolder<?> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new SimpleViewHolder<>(new View(null));
     }
 
     @Override
-    public void onBindViewHolder(SimpleViewHolder<?> holder, int position) {
+    public void onBindViewHolder(@NonNull SimpleViewHolder<?> holder, int position) {
         // DO NOTHING.
     }
 

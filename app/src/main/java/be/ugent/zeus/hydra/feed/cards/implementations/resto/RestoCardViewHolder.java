@@ -33,7 +33,7 @@ public class RestoCardViewHolder extends CardViewHolder {
     public void populate(Card card) {
         super.populate(card);
 
-        RestoMenuCard menuCard = card.<RestoMenuCard>checkCard(Card.Type.RESTO);
+        RestoMenuCard menuCard = card.checkCard(Card.Type.RESTO);
         RestoMenu menu = menuCard.getRestoMenu();
         RestoChoice choice = menuCard.getRestoChoice();
         String text = itemView.getResources().getString(R.string.resto_menu_title);

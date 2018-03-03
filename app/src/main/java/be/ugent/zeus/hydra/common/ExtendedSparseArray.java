@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.common;
 
+import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class ExtendedSparseArray<E> extends SparseArray<E> implements Iterable<E
      *
      * @return The iterator.
      */
+    @NonNull
     @Override
     public Iterator<E> iterator() {
 

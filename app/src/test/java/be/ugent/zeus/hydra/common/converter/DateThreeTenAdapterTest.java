@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.threeten.bp.LocalDate;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Niko Strijbol
@@ -23,7 +24,7 @@ public class DateThreeTenAdapterTest {
     }
 
     @Test
-    public void generalTest() throws Exception {
+    public void generalTest() {
         LocalDate expected = LocalDate.now();
         String json = gson.toJson(expected);
         LocalDate actual = gson.fromJson(json, LocalDate.class);
@@ -31,9 +32,9 @@ public class DateThreeTenAdapterTest {
     }
 
     @Test
-    public void nullTestRead() throws Exception {
+    public void nullTestRead() {
         String json = gson.toJson(null);
         LocalDate actual = gson.fromJson(json, LocalDate.class);
-        assertEquals(null, actual);
+        assertNull(actual);
     }
 }

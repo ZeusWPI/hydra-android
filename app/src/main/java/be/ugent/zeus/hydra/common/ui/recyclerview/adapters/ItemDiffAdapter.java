@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
+import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
@@ -28,7 +29,7 @@ public abstract class ItemDiffAdapter<D, V extends DataViewHolder<D>> extends Di
     }
 
     @Override
-    public void onBindViewHolder(V holder, int position) {
+    public void onBindViewHolder(@NonNull V holder, int position) {
         holder.populate(items.get(position));
     }
 }

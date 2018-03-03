@@ -78,7 +78,7 @@ public class Utils {
         return gson.fromJson(new InputStreamReader(resource.getInputStream()), clazz);
     }
 
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     public static <T> T getRandom(List<T> collection) {
         return collection.get(random.nextInt(collection.size()));

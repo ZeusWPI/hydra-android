@@ -78,7 +78,7 @@ public class UrgentFragment extends Fragment {
         }
     };
 
-    private MediaBrowserCompat.SubscriptionCallback subscriptionCallback =
+    private final MediaBrowserCompat.SubscriptionCallback subscriptionCallback =
             new MediaBrowserCompat.SubscriptionCallback() {
                 @Override
                 public void onChildrenLoaded(@NonNull String parentId, @NonNull List<MediaBrowserCompat.MediaItem> children) {
@@ -92,7 +92,7 @@ public class UrgentFragment extends Fragment {
                 }
             };
 
-    private MediaBrowserCompat.ConnectionCallback connectionCallback =
+    private final MediaBrowserCompat.ConnectionCallback connectionCallback =
             new MediaBrowserCompat.ConnectionCallback() {
                 @Override
                 public void onConnected() {

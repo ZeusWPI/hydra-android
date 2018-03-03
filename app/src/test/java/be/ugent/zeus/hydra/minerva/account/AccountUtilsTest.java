@@ -88,6 +88,6 @@ public class AccountUtilsTest {
 
         assertEquals(BuildConfig.OAUTH_ID, URLDecoder.decode(query.getFirst(OAuth.OAUTH_CLIENT_ID), StandardCharsets.UTF_8.name()));
         assertEquals(MinervaConfig.CALLBACK_URI, URLDecoder.decode(query.getFirst(OAuth.OAUTH_REDIRECT_URI), "UTF-8"));
-        assertEquals(ResponseType.CODE.toString(), query.getFirst(OAuth.OAUTH_RESPONSE_TYPE));;
+        assertEquals(ResponseType.CODE.toString(), query.getFirst(OAuth.OAUTH_RESPONSE_TYPE));
     }
 }

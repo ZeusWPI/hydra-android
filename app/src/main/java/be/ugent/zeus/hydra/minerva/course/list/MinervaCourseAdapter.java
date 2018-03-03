@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.minerva.course.list;
 
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.ViewGroup;
@@ -43,8 +44,9 @@ class MinervaCourseAdapter extends SearchableDiffAdapter<Pair<Course, Long>, Min
         this.courseDao = courseDao;
     }
 
+    @NonNull
     @Override
-    public MinervaCourseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MinervaCourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MinervaCourseViewHolder(ViewUtils.inflate(parent, R.layout.item_minerva_course), startDragListener, this, resultStarter);
     }
 

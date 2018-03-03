@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.minerva.announcement.unreadlist;
 
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
@@ -21,8 +22,9 @@ class AnnouncementsAdapter extends MultiSelectDiffAdapter<Announcement> {
         this.starter = starter;
     }
 
+    @NonNull
     @Override
-    public AnnouncementsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AnnouncementsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new AnnouncementsViewHolder(ViewUtils.inflate(parent, R.layout.item_minerva_extended_announcement), starter, this);
     }
 }

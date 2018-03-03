@@ -19,7 +19,7 @@ public class TestExecutor implements CacheExecutor {
     private int code = BuildConfig.VERSION_CODE;
 
     @Override
-    public <D extends Serializable> void save(String key, CacheObject<D> data) throws CacheException {
+    public <D extends Serializable> void save(String key, CacheObject<D> data) {
         hasSaved = true;
     }
 

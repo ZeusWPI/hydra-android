@@ -114,8 +114,9 @@ public class HomeFeedSelectFragment extends Fragment {
 
     private static class FeedOptionsAdapter extends MultiSelectDiffAdapter<Tuple> {
 
+        @NonNull
         @Override
-        public DataViewHolder<Tuple> onCreateViewHolder(ViewGroup parent, int viewType) {
+        public DataViewHolder<Tuple> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new DescriptionMultiSelectListViewHolder<>(
                     ViewUtils.inflate(parent, R.layout.item_checkbox_string_description),
                     this,

@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.association.event.list;
 
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
@@ -30,8 +31,9 @@ class EventAdapter extends GenericSearchableAdapter<EventItem, DataViewHolder<Ev
         );
     }
 
+    @NonNull
     @Override
-    public DataViewHolder<EventItem> onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DataViewHolder<EventItem> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == HEADER_TYPE) {
             return new DateHeaderViewHolder(ViewUtils.inflate(parent, R.layout.item_events_date_header));
         } else {

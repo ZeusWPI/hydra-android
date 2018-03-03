@@ -34,22 +34,6 @@ public class Requests {
     }
 
     /**
-     * Similar to {@link #map(Request, Function)}, but allows for exceptions to happen.
-     * See also {@link Result#mapError(RequestFunction)}.
-     *
-     * @param request  The request to apply the function on.
-     * @param function The function to apply.
-     * @param <R>      The type of the result.
-     * @param <O>      The type of the original request.
-     *
-     * @return The new request.
-     */
-    @Deprecated
-    public static <O, R> Request<R> mapE(Request<O> request, RequestFunction<O, R> function) {
-        return request.mapError(function);
-    }
-
-    /**
      * Cache a request.
      *
      * Implementation note: we cannot make this a default function on {@link Request}, since it requires

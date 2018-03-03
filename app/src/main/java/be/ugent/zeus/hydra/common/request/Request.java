@@ -39,18 +39,4 @@ public interface Request<T> {
     default <R> Request<R> map(Function<T, R> function) {
         return args -> performRequest(args).map(function);
     }
-
-    /**
-     * Similar to {@link #map(Function)}, but allows for exceptions to happen.
-     * See also {@link Result#mapError(RequestFunction)}.
-     *
-     * @param function The function to apply.
-     *
-     * @param <R> The type of the result.
-     *
-     * @return The new request.
-     */
-    default <R> Request<R> mapError(RequestFunction<T, R> function) {
-        return args -> performRequest(args).mapError(function);
-    }
 }

@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.association.news.list;
 
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
@@ -21,8 +22,9 @@ class NewsAdapter extends ItemDiffAdapter<UgentNewsItem, NewsItemViewHolder> {
         this.helper = helper;
     }
 
+    @NonNull
     @Override
-    public NewsItemViewHolder onCreateViewHolder(ViewGroup p, int viewType) {
+    public NewsItemViewHolder onCreateViewHolder(@NonNull ViewGroup p, int viewType) {
         return new NewsItemViewHolder(ViewUtils.inflate(p, R.layout.item_news), helper);
     }
 }

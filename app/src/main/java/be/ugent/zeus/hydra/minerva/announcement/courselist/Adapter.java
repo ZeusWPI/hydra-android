@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.minerva.announcement.courselist;
 
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
@@ -21,8 +22,9 @@ class Adapter extends ItemDiffAdapter<Announcement, ViewHolder> {
         this.starter = starter;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(ViewUtils.inflate(parent, R.layout.item_minerva_announcement), starter);
     }
 }

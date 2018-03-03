@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.feed;
 
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +11,16 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemDiffAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.feed.cards.implementations.minerva.announcement.MinervaAnnouncementViewHolder;
-import be.ugent.zeus.hydra.feed.cards.implementations.minerva.login.MinervaLoginViewHolder;
-import be.ugent.zeus.hydra.feed.cards.implementations.minerva.calendar.MinervaAgendaViewHolder;
-import be.ugent.zeus.hydra.feed.cards.implementations.schamper.SchamperViewHolder;
-import be.ugent.zeus.hydra.feed.commands.FeedCommand;
 import be.ugent.zeus.hydra.feed.cards.implementations.event.EventCardViewHolder;
+import be.ugent.zeus.hydra.feed.cards.implementations.minerva.announcement.MinervaAnnouncementViewHolder;
+import be.ugent.zeus.hydra.feed.cards.implementations.minerva.calendar.MinervaAgendaViewHolder;
+import be.ugent.zeus.hydra.feed.cards.implementations.minerva.login.MinervaLoginViewHolder;
 import be.ugent.zeus.hydra.feed.cards.implementations.news.NewsItemViewHolder;
 import be.ugent.zeus.hydra.feed.cards.implementations.resto.RestoCardViewHolder;
+import be.ugent.zeus.hydra.feed.cards.implementations.schamper.SchamperViewHolder;
 import be.ugent.zeus.hydra.feed.cards.implementations.specialevent.SpecialEventCardViewHolder;
 import be.ugent.zeus.hydra.feed.cards.implementations.urgent.UrgentViewHolder;
+import be.ugent.zeus.hydra.feed.commands.FeedCommand;
 
 import static be.ugent.zeus.hydra.feed.cards.Card.Type.*;
 
@@ -48,8 +49,9 @@ public class HomeFeedAdapter extends ItemDiffAdapter<Card, DataViewHolder<Card>>
         return items.get(position).hashCode();
     }
 
+    @NonNull
     @Override
-    public DataViewHolder<Card> onCreateViewHolder(ViewGroup parent, @Card.Type int viewType) {
+    public DataViewHolder<Card> onCreateViewHolder(@NonNull ViewGroup parent, @Card.Type int viewType) {
         switch (viewType) {
             case RESTO:
                 return new RestoCardViewHolder(view(R.layout.home_card_resto, parent), this);
@@ -71,7 +73,7 @@ public class HomeFeedAdapter extends ItemDiffAdapter<Card, DataViewHolder<Card>>
                 return new UrgentViewHolder(view(R.layout.home_card_urgent, parent), this);
             case DEBUG:
             default:
-                return null;
+                throw new IllegalArgumentException("Non-supported view type in home feed: " + viewType);
         }
     }
 

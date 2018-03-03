@@ -20,8 +20,8 @@ import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 abstract class AccessTokenRequest implements Request<BearerToken> {
 
     @SuppressWarnings("WeakerAccess")
-    protected OAuthConfiguration configData;
-    protected String code;
+    protected final OAuthConfiguration configData;
+    protected final String code;
     private final Gson gson;
 
     AccessTokenRequest(OAuthConfiguration configData, String code) {

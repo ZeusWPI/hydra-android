@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.library.list;
 
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -27,8 +28,9 @@ class LibraryListAdapter extends SearchableDiffAdapter<Library, LibraryViewHolde
         });
     }
 
+    @NonNull
     @Override
-    public LibraryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public LibraryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new LibraryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_library, parent, false));
     }
 }

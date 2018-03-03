@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.threeten.bp.OffsetDateTime;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Niko Strijbol
@@ -34,6 +35,6 @@ public class OffsetAdapterTest {
     public void nullTest() {
         String json = gson.toJson(null);
         OffsetDateTime actual = gson.fromJson(json, OffsetDateTime.class);
-        assertEquals(null, actual);
+        assertNull(actual);
     }
 }

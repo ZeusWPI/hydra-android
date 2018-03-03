@@ -132,7 +132,7 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
     }
 
     @Override
-    public void onBindViewHolder(DataViewHolder<H> holder, int position) {
+    public void onBindViewHolder(@NonNull DataViewHolder<H> holder, int position) {
         holder.populate(items.get(position));
     }
 

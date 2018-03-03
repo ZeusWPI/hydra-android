@@ -72,36 +72,4 @@ public interface CacheableRequest<D> extends Request<D> {
         };
     }
 
-    /**
-     * Construct a new cacheable request where a given function has been applied to the output of this request.
-     * The cache key and duration are still the same.
-     *
-     * @param function The function to apply.
-     *
-     * @param <R> The resulting type.
-     *
-     * @return The new request.
-     */
-    @Override
-    default <R> CacheableRequest<R> mapError(RequestFunction<D, R> function) {
-        CacheableRequest<D> r = this;
-        return new CacheableRequest<R>() {
-            @NonNull
-            @Override
-            public String getCacheKey() {
-                return r.getCacheKey();
-            }
-
-            @Override
-            public long getCacheDuration() {
-                return r.getCacheDuration();
-            }
-
-            @NonNull
-            @Override
-            public Result<R> performRequest(@Nullable Bundle args) {
-                return r.performRequest(args).mapError(function);
-            }
-        };
-    }
 }

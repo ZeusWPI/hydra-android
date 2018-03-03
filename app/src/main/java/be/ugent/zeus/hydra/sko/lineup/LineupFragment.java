@@ -23,6 +23,9 @@ import su.j2e.rvjoiner.RvJoiner;
 
 import java.util.*;
 
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
+
 /**
  * Show the lineup.
  *
@@ -95,8 +98,7 @@ public class LineupFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
-        BaseActivity activity = (BaseActivity) getActivity();
-        BaseActivity.tintToolbarIcons(activity.requireToolbar(), menu, R.id.action_refresh);
+        BaseActivity.tintToolbarIcons(requireBaseActivity(this).requireToolbar(), menu, R.id.action_refresh);
     }
 
     @Override
@@ -110,7 +112,7 @@ public class LineupFragment extends Fragment {
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
     }

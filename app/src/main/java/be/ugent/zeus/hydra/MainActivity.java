@@ -37,6 +37,8 @@ import be.ugent.zeus.hydra.urgent.UrgentFragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import jonathanfinerty.once.Once;
 
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
+
 /**
  * Main activity.
  *
@@ -476,7 +478,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     @IdRes
     private int getFragmentMenuId(Fragment fragment) {
-        return fragment.getArguments().getInt(FRAGMENT_MENU_ID);
+        return requireArguments(fragment).getInt(FRAGMENT_MENU_ID);
     }
 
     @Override

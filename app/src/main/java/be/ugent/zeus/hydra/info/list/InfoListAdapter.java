@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.info.list;
 
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
@@ -19,8 +20,9 @@ class InfoListAdapter extends ItemDiffAdapter<InfoItem, InfoViewHolder> {
         super();
     }
 
+    @NonNull
     @Override
-    public InfoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public InfoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new InfoViewHolder(ViewUtils.inflate(parent, R.layout.info_card));
     }
 }

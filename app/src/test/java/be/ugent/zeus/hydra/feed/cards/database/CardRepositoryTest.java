@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.threeten.bp.Instant;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +32,7 @@ public class CardRepositoryTest {
 
     @Before
     @SuppressWarnings("WrongConstant")
-    public void setUp() throws IOException {
+    public void setUp() {
         cards = new ArrayList<>();
         cards.add(new CardDismissal(new CardIdentifier(1, "test1"), p("2064-06-25T20:30:24Z")));
         cards.add(new CardDismissal(new CardIdentifier(1, "test2"), p("2067-02-28T21:00:35Z")));

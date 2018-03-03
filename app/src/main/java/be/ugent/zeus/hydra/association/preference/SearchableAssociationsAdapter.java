@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.association.preference;
 
+import android.support.annotation.NonNull;
 import android.util.Pair;
 import android.view.ViewGroup;
 import android.widget.SearchView;
@@ -23,8 +24,9 @@ class SearchableAssociationsAdapter extends MultiSelectSearchableAdapter<Associa
                 a.getInternalName().toLowerCase().contains(text));
     }
 
+    @NonNull
     @Override
-    public AssociationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AssociationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new AssociationViewHolder(ViewUtils.inflate(parent, R.layout.item_checkbox_string),this);
     }
 

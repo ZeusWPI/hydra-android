@@ -39,7 +39,7 @@ final class CacheRequest<R extends Serializable> implements Request<R> {
     }
 
     public static <R extends Serializable> CacheRequest<R> cache(CacheableRequest<R> request, Context context) {
-        return new CacheRequest<R>(request, context);
+        return new CacheRequest<>(request, context);
     }
 
     @NonNull

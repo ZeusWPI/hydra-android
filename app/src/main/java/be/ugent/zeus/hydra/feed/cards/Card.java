@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.feed.cards;
 
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 
 import java8.lang.Integers;
 
@@ -90,7 +91,7 @@ public abstract class Card implements Comparable<Card> {
      * Note: this class has a natural ordering that is inconsistent with equals.
      */
     @Override
-    public int compareTo(Card card) {
+    public int compareTo(@NonNull Card card) {
         return Integers.compare(this.getPriority(), card.getPriority());
     }
 

@@ -1,10 +1,11 @@
 package be.ugent.zeus.hydra.common.caching;
 
 import android.content.Context;
+
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.common.request.RequestException;
+import be.ugent.zeus.hydra.common.request.Result;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.threeten.bp.Instant;
 import org.threeten.bp.temporal.ChronoUnit;
@@ -26,7 +27,7 @@ public class GenericCacheTest {
     private TestExecutor executor;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         executor = new TestExecutor();
         cache = new GenericCache(new File(""), executor);
     }
@@ -68,17 +69,17 @@ public class GenericCacheTest {
         request.reset();
     }
 
-    @Ignore
     @Test(expected = RequestException.class)
     public void getException() throws RequestException {
         ErrorRequest errorRequest = new ErrorRequest();
 
         executor.setUpdated(Instant.now().minus(31, ChronoUnit.DAYS).toEpochMilli());
-        cache.get(errorRequest, null);
+        Result<ErrorRequest.Voider> r = cache.get(errorRequest, null);
+        r.getOrThrow();
     }
 
     @Test
-    public void getNonExistingNull() throws RequestException {
+    public void getNonExistingNull() {
         TestRequest request = new TestRequest(Cache.ONE_SECOND, "TestKeyNonExisting");
 
         executor.setUpdated(Instant.now().minus(31, ChronoUnit.DAYS).toEpochMilli());
@@ -134,7 +135,7 @@ public class GenericCacheTest {
     }
 
     @Test
-    public void shouldRefresh() throws Exception {
+    public void shouldRefresh() {
         assertTrue(cache.shouldRefresh(null, Cache.ALWAYS));
 
         CacheObject<TestObject> object = new CacheObject<>(new TestObject());
@@ -148,7 +149,7 @@ public class GenericCacheTest {
     }
 
     @Test
-    public void isExpired() throws Exception {
+    public void isExpired() {
         executor.setUpdated(Instant.now().toEpochMilli());
         assertFalse(cache.isExpired(TestObject.TEST_FILE_KEY, Cache.ONE_HOUR));
         executor.setUpdated(Instant.now().minus(31, ChronoUnit.DAYS).toEpochMilli());

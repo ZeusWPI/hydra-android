@@ -67,7 +67,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
     }
 
     @Override
-    public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options) throws NetworkErrorException {
+    public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options) {
         final Intent intent = new Intent(mContext, AuthActivity.class);
         intent.putExtra(AuthActivity.ARG_ACCOUNT_TYPE, accountType);
         intent.putExtra(AuthActivity.ARG_AUTH_TYPE, authTokenType);
@@ -83,7 +83,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
     }
 
     @Override
-    public Bundle confirmCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, Bundle bundle) throws NetworkErrorException {
+    public Bundle confirmCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, Bundle bundle) {
         throw new UnsupportedOperationException();
     }
 
@@ -186,12 +186,12 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
     }
 
     @Override
-    public Bundle updateCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String s, Bundle bundle) throws NetworkErrorException {
+    public Bundle updateCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String s, Bundle bundle) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Bundle hasFeatures(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String[] strings) throws NetworkErrorException {
+    public Bundle hasFeatures(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String[] strings) {
         // We don't support features in Hydra.
         Bundle result = new Bundle();
         result.putBoolean(AccountManager.KEY_BOOLEAN_RESULT, false);

@@ -22,7 +22,7 @@ import java.util.Collections;
  */
 class UserInfoRequest extends JsonSpringRequest<GrantInformation> {
 
-    private String token;
+    private final String token;
 
     /**
      * @param token The access token to use with the request.

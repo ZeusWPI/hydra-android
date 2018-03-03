@@ -29,7 +29,7 @@ public class PreferencesUtilsTest {
     private static final String TEST_KEY = "test_key";
 
     @Test
-    public void addToStringSet() throws Exception {
+    public void addToStringSet() {
         String value = "1";
         PreferencesUtils.addToStringSet(RuntimeEnvironment.application, TEST_KEY, value);
         Set<String> result = PreferencesUtils.getStringSet(RuntimeEnvironment.application, TEST_KEY);
@@ -37,7 +37,7 @@ public class PreferencesUtilsTest {
     }
 
     @Test
-    public void addToStringSetMore() throws Exception {
+    public void addToStringSetMore() {
         String[] toAdd = {"1", "2", "3"};
         PreferencesUtils.addToStringSet(RuntimeEnvironment.application, TEST_KEY, Arrays.asList(toAdd));
         Set<String> result = PreferencesUtils.getStringSet(RuntimeEnvironment.application, TEST_KEY);
@@ -45,7 +45,7 @@ public class PreferencesUtilsTest {
     }
 
     @Test
-    public void removeFromStringSet() throws Exception {
+    public void removeFromStringSet() {
 
         String[] data = {"1", "2", "3", "4", "a", "5"};
 
@@ -61,7 +61,7 @@ public class PreferencesUtilsTest {
     }
 
     @Test
-    public void removeFromStringSetMore() throws Exception {
+    public void removeFromStringSetMore() {
 
         String[] data = {"1", "2", "3", "4", "a", "5"};
 

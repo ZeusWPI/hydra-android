@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.minerva.calendar.upcominglist;
 
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
@@ -27,8 +28,9 @@ class AgendaAdapter extends ItemDiffAdapter<AgendaItem, AgendaViewHolder> implem
 
     private static final DateTimeFormatter INT_FORMATTER = DateTimeFormatter.ofPattern("ddMMyyyy");
 
+    @NonNull
     @Override
-    public AgendaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AgendaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new AgendaViewHolder(ViewUtils.inflate(parent, R.layout.item_minerva_agenda));
     }
 

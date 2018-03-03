@@ -212,7 +212,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
                     snackbar.dismiss();
                 }
                 snackbar = Snackbar.make(requireView(HomeFeedFragment.this), command.getCompleteMessage(), BaseTransientBottomBar.LENGTH_LONG)
-                        .setAction(R.string.home_feed_undo, view -> undoCommand(command));
+                        .setAction(command.getUndoMessage(), view -> undoCommand(command));
                 snackbar.show();
             }
         }.execute();
