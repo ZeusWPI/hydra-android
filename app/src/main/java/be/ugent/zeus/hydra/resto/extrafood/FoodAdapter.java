@@ -5,14 +5,14 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemAdapter2;
 
 /**
  * Adapter for food items.
  *
  * @author Niko Strijbol
  */
-public class FoodAdapter extends ItemDiffAdapter<Food, FoodViewHolder> {
+public class FoodAdapter extends ItemAdapter2<Food, FoodViewHolder> {
 
     @NonNull
     @Override

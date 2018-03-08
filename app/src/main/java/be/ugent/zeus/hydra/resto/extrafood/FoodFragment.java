@@ -60,7 +60,7 @@ public class FoodFragment extends Fragment {
         viewModel.getData().observe(this, new SuccessObserver<ExtraFood>() {
             @Override
             protected void onSuccess(ExtraFood data) {
-                adapter.setItems(viewModel.getFor(position, data));
+                adapter.submitList(viewModel.getFor(position, data));
             }
 
             @Override

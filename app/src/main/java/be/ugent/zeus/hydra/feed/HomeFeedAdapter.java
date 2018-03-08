@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemAdapter2;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.implementations.event.EventCardViewHolder;
@@ -30,7 +30,7 @@ import static be.ugent.zeus.hydra.feed.cards.Card.Type.*;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class HomeFeedAdapter extends ItemDiffAdapter<Card, DataViewHolder<Card>> {
+public class HomeFeedAdapter extends ItemAdapter2<Card, DataViewHolder<Card>> {
 
     private final AdapterCompanion companion;
 
@@ -46,7 +46,7 @@ public class HomeFeedAdapter extends ItemDiffAdapter<Card, DataViewHolder<Card>>
 
     @Override
     public long getItemId(int position) {
-        return items.get(position).hashCode();
+        return getItem(position).hashCode();
     }
 
     @NonNull
@@ -84,7 +84,7 @@ public class HomeFeedAdapter extends ItemDiffAdapter<Card, DataViewHolder<Card>>
     @Override
     @Card.Type
     public int getItemViewType(int position) {
-        return items.get(position).getCardType();
+        return getItem(position).getCardType();
     }
 
     public interface AdapterCompanion extends ResultStarter {

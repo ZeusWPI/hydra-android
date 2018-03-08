@@ -7,13 +7,13 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.news.UgentNewsItem;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemAdapter2;
 
 /**
  * @author Niko Strijbol
  * @author ellen
  */
-class NewsAdapter extends ItemDiffAdapter<UgentNewsItem, NewsItemViewHolder> {
+class NewsAdapter extends ItemAdapter2<UgentNewsItem, NewsItemViewHolder> {
 
     private final ActivityHelper helper;
 

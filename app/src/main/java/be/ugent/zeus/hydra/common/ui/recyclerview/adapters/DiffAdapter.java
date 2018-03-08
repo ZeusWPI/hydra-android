@@ -20,6 +20,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public abstract class DiffAdapter<D, VH extends RecyclerView.ViewHolder> extends Adapter<D, VH> {
 
     private final Handler handler = new Handler(Looper.getMainLooper());

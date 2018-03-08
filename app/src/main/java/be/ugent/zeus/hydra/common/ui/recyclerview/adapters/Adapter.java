@@ -17,6 +17,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public abstract class Adapter<D, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
     public static final int ITEM_TYPE = 0;

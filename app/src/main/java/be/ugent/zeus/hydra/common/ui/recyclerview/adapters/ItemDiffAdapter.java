@@ -13,6 +13,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public abstract class ItemDiffAdapter<D, V extends DataViewHolder<D>> extends DiffAdapter<D, V> {
 
     /**

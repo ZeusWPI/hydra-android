@@ -5,8 +5,8 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
-import be.ugent.zeus.hydra.common.ui.recyclerview.EqualsCallback;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.EqualsItemCallback;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemAdapter2;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DateHeaderViewHolder;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
@@ -15,13 +15,13 @@ import org.threeten.bp.format.DateTimeFormatter;
 /**
  * @author Niko Strijbol
  */
-class AgendaAdapter extends ItemDiffAdapter<AgendaItem, AgendaViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
+class AgendaAdapter extends ItemAdapter2<AgendaItem, AgendaViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
 
     AgendaAdapter() {
-        super((agendaItems, agendaItems2) -> new EqualsCallback<AgendaItem>(agendaItems, agendaItems2) {
+        super(new EqualsItemCallback<AgendaItem>() {
             @Override
-            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                return oldItems.get(oldItemPosition).isMerged() == newItems.get(newItemPosition).isMerged();
+            public boolean areContentsTheSame(AgendaItem oldItem, AgendaItem newItem) {
+                return oldItem.isMerged() == newItem.isMerged();
             }
         });
     }
@@ -39,7 +39,7 @@ class AgendaAdapter extends ItemDiffAdapter<AgendaItem, AgendaViewHolder> implem
      */
     @Override
     public long getHeaderId(int position) {
-        return Integer.parseInt(items.get(position).getStartDate().format(INT_FORMATTER));
+        return Integer.parseInt(getItem(position).getStartDate().format(INT_FORMATTER));
     }
 
     @Override
@@ -49,6 +49,6 @@ class AgendaAdapter extends ItemDiffAdapter<AgendaItem, AgendaViewHolder> implem
 
     @Override
     public void onBindHeaderViewHolder(DateHeaderViewHolder holder, int position) {
-        holder.populate(items.get(position).getStartDate());
+        holder.populate(getItem(position).getStartDate());
     }
 }
