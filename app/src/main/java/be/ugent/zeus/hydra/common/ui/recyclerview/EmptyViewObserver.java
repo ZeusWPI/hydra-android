@@ -14,7 +14,7 @@ public class EmptyViewObserver extends RecyclerView.AdapterDataObserver {
 
     private final RecyclerView recyclerView;
     private final View emptyView;
-    private final RecyclerView.Adapter<?> consolidator;
+    private final RecyclerView.Adapter<?> adapter;
 
     /**
      * When using this constructor, you must register the adapter with the RecyclerView before calling this.
@@ -34,15 +34,15 @@ public class EmptyViewObserver extends RecyclerView.AdapterDataObserver {
      * @param recyclerView The RecyclerView. Will be shown when there is data.
      * @param emptyView The View to display when there is no data.
      */
-    public EmptyViewObserver(RecyclerView recyclerView, View emptyView, RecyclerView.Adapter<?> consolidator) {
+    public EmptyViewObserver(RecyclerView recyclerView, View emptyView, RecyclerView.Adapter<?> adapter) {
         this.recyclerView = recyclerView;
         this.emptyView = emptyView;
-        this.consolidator = consolidator;
+        this.adapter = adapter;
     }
 
     @Override
     public void onChanged() {
-        if (consolidator.getItemCount() == 0) {
+        if (adapter.getItemCount() == 0) {
             hide();
         } else {
             show();
@@ -73,7 +73,7 @@ public class EmptyViewObserver extends RecyclerView.AdapterDataObserver {
 
     @Override
     public void onItemRangeRemoved(int positionStart, int itemCount) {
-        if (consolidator.getItemCount() - itemCount == 0) {
+        if (adapter.getItemCount() - itemCount == 0) {
             hide();
         }
     }
