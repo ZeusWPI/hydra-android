@@ -13,11 +13,15 @@ import java8.util.function.BiPredicate;
  *
  * @author Niko Strijbol
  */
-class EventSearchPredicate implements BiPredicate<Event, String> {
+class EventSearchPredicate implements BiPredicate<EventItem, String> {
 
     @Override
     @SuppressWarnings("RedundantIfStatement") // Ifs are clearer here
-    public boolean test(Event event, String searchTerm) {
+    public boolean test(EventItem eventItem, String searchTerm) {
+        if (!eventItem.isItem()) {
+            return true;
+        }
+        Event event = eventItem.getItem();
         if (event.getTitle() != null && event.getTitle().toLowerCase().contains(searchTerm)) {
             return true;
         }

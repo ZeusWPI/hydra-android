@@ -4,12 +4,9 @@ import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.GenericSearchableAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.GenericSearchableAdapter2;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
 
 /**
  * Adapter for the list of activities.
@@ -17,18 +14,12 @@ import java8.util.stream.StreamSupport;
  * @author ellen
  * @author Niko Strijbol
  */
-class EventAdapter extends GenericSearchableAdapter<EventItem, DataViewHolder<EventItem>, Event> {
+class EventAdapter extends GenericSearchableAdapter2<EventItem, DataViewHolder<EventItem>> {
 
     private final int HEADER_TYPE = 25;
 
     EventAdapter() {
-        super(new EventSearchPredicate(),
-                eventItems -> StreamSupport.stream(eventItems)
-                        .filter(EventItem::isItem)
-                        .map(EventItem::getItem)
-                        .collect(Collectors.toList()),
-                new EventListConverter()
-        );
+        super(new EventSearchPredicate());
     }
 
     @NonNull
@@ -43,7 +34,7 @@ class EventAdapter extends GenericSearchableAdapter<EventItem, DataViewHolder<Ev
 
     @Override
     public int getItemViewType(int position) {
-        if (items.get(position).isHeader()) {
+        if (getItem(position).isHeader()) {
             return HEADER_TYPE;
         } else {
             return super.getItemViewType(position);

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SimpleSearchableAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.ItemDragHelperAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.OnStartDragListener;
 import be.ugent.zeus.hydra.minerva.course.Course;
@@ -25,7 +25,7 @@ import java.util.Collections;
  *
  * @author Niko Strijbol
  */
-class MinervaCourseAdapter extends SearchableDiffAdapter<Pair<Course, Long>, MinervaCourseViewHolder> implements ItemDragHelperAdapter {
+class MinervaCourseAdapter extends SimpleSearchableAdapter<Pair<Course, Long>, MinervaCourseViewHolder> implements ItemDragHelperAdapter {
 
     private CourseRepository courseDao;
     private final OnStartDragListener startDragListener;
