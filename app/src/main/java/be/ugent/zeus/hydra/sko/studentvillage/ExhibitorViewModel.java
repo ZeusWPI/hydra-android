@@ -6,7 +6,6 @@ import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,6 +19,6 @@ public class ExhibitorViewModel extends RequestViewModel<List<Exhibitor>> {
 
     @Override
     protected Request<List<Exhibitor>> getRequest() {
-        return Requests.map(Requests.cache(getApplication(), new ExhibitorRequest()), Arrays::asList);
+        return Requests.cachedList(getApplication(), new ExhibitorRequest());
     }
 }

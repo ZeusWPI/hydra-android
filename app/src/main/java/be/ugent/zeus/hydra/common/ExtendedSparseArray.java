@@ -25,7 +25,6 @@ public class ExtendedSparseArray<E> extends SparseArray<E> implements Iterable<E
     @NonNull
     @Override
     public Iterator<E> iterator() {
-
         return new Iterator<E>() {
             private int current;
 

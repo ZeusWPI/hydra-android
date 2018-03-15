@@ -16,24 +16,6 @@ import java.util.List;
 public class Requests {
 
     /**
-     * Transform a {@code request} to result in another value. This is similar to {@link Result#map(Function)}, but
-     * this method allows transforming the request's result without executing the request now.
-     *
-     * TODO: look how we can support both Function and our custom function at the same time, without additional methods.
-     *
-     * @param request  The request to apply the function on.
-     * @param function The function to apply.
-     * @param <R>      The type of the result.
-     * @param <O>      The type of the original request.
-     *
-     * @return The new request.
-     */
-    @Deprecated
-    public static <O, R> Request<R> map(Request<O> request, Function<O, R> function) {
-        return request.map(function);
-    }
-
-    /**
      * Cache a request.
      *
      * Implementation note: we cannot make this a default function on {@link Request}, since it requires
@@ -50,7 +32,7 @@ public class Requests {
     }
 
     /**
-     * Shortcut for calling {@link #cache(Context, CacheableRequest)} and then {@link #map(Request, Function)}.
+     * Shortcut for calling {@link #cache(Context, CacheableRequest)} and then {@link Request#map(Function)}.
      *
      * It will cache a request and then transform the resulting array into a list.
      *

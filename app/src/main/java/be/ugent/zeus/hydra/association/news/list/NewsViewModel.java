@@ -8,7 +8,6 @@ import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,6 +21,6 @@ public class NewsViewModel extends RequestViewModel<List<UgentNewsItem>> {
 
     @Override
     protected Request<List<UgentNewsItem>> getRequest() {
-        return Requests.map(Requests.cache(getApplication(), new UgentNewsRequest()), Arrays::asList);
+        return Requests.cachedList(getApplication(), new UgentNewsRequest());
     }
 }

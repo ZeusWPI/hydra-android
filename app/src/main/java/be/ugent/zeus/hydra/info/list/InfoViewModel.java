@@ -8,7 +8,6 @@ import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 import be.ugent.zeus.hydra.info.InfoItem;
 import be.ugent.zeus.hydra.info.InfoRequest;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,6 +21,6 @@ public class InfoViewModel extends RequestViewModel<List<InfoItem>> {
 
     @Override
     protected Request<List<InfoItem>> getRequest() {
-        return Requests.map(Requests.cache(getApplication(), new InfoRequest()), Arrays::asList);
+        return Requests.cachedList(getApplication(), new InfoRequest());
     }
 }

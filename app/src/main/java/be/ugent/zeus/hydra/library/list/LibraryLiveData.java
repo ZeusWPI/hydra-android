@@ -66,7 +66,7 @@ class LibraryLiveData extends RequestLiveData<List<Library>> implements SharedPr
         Request<LibraryList> cached = Requests.cache(context, new LibraryListRequest());
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        return Requests.map(cached, libraryList -> {
+        return cached.map(libraryList -> {
             Set<String> favourites = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
 
             List<Library> libraries = libraryList.getLibraries();

@@ -9,6 +9,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class EqualsCallback<E> extends DiffUtil.Callback {
 
     protected final List<E> oldItems;

@@ -49,16 +49,16 @@ public class RawEventRequest extends JsonSpringRequest<Event[]> implements Cache
     /**
      * Transform the {@link RawEventRequest} by applying:
      * - {@link Requests#cachedList(Context, CacheableRequest)}
-     * - {@link Requests#map(Request, Function)} with {@link DisabledEventRemover}
-     * - {@link Requests#map(Request, Function)} with {@link EventSorter}
+     * - {@link Request#map(Function)} with {@link DisabledEventRemover}
+     * - {@link Request#map(Function)} with {@link EventSorter}
      *
      * @param context The context.
      *
      * @return The modified request.
      */
     public static Request<List<Event>> cachedFilteredSortedRequest(Context context) {
-        Request<List<Event>> cached = Requests.cachedList(context, new RawEventRequest());
-        Request<List<Event>> filtered = Requests.map(cached, new DisabledEventRemover(context));
-        return Requests.map(filtered, new EventSorter());
+        return Requests.cachedList(context, new RawEventRequest())
+                .map(new DisabledEventRemover(context))
+                .map(new EventSorter());
     }
 }

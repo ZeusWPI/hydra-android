@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.library.details;
 import android.app.Application;
 
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 import be.ugent.zeus.hydra.library.Library;
 
@@ -34,6 +33,6 @@ public class HoursViewModel extends RequestViewModel<List<OpeningHours>> {
         }
 
         // TODO: this is currently not cached.
-        return Requests.map(new OpeningHoursRequest(library), Arrays::asList);
+        return new OpeningHoursRequest(library).map(Arrays::asList);
     }
 }
