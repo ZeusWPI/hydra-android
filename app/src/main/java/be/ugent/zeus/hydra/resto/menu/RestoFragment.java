@@ -333,6 +333,7 @@ public class RestoFragment extends Fragment implements
         spinner.setVisibility(View.GONE);
         spinnerProgress.setVisibility(View.GONE);
         getBaseActivity().requireToolbar().setDisplayShowTitleEnabled(true);
+        spinner.setOnItemSelectedListener(null);
     }
 
     private void hideExternalViews() {
