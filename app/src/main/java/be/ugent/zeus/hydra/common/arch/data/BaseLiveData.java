@@ -16,11 +16,10 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
     @Nullable
     private OnRefreshStartListener onRefreshStartListener;
 
-    @Deprecated
-    public static final String REFRESH_MANUAL = "be.ugent.zeus.hydra.data.refresh.manual";
-
     /**
-     * Set this to true in the args,
+     * Set this argument to {@code true} in the arguments for a request to bypass any potential cache. Note that this
+     * is more of a suggestion than a requirement: the underling data provider may still return cached data if it deems
+     * it appropriate, e.g. when there is no network.
      */
     public static final String REFRESH_COLD = "be.ugent.zeus.hydra.data.refresh.cold";
 
