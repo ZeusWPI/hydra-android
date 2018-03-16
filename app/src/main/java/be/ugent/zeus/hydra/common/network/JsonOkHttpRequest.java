@@ -58,9 +58,6 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     @Override
     public Result<D> performRequest(@Nullable Bundle args) {
 
-        Log.d(TAG, "performRequest: NNNOOOOOOO");
-        new Throwable().printStackTrace();
-
         OkHttpClient client = InstanceProvider.getClient(context);
         Gson gson = InstanceProvider.getGson();
 
