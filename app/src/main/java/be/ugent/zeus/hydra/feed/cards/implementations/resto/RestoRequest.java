@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HideableHomeFeedRequest;
 import be.ugent.zeus.hydra.feed.cards.Card;
@@ -34,7 +33,7 @@ public class RestoRequest extends HideableHomeFeedRequest {
 
     public RestoRequest(Context context, CardRepository cardRepository) {
         super(cardRepository);
-        this.request = Requests.cachedList(context, new MenuRequest(context))
+        this.request = new MenuRequest(context)
                 .map(new MenuFilter(context));
         this.context = context.getApplicationContext();
     }

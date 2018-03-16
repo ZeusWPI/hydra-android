@@ -43,6 +43,7 @@ public abstract class JsonSpringRequest<R> implements Request<R> {
     @Override
     public Result<R> performRequest(Bundle args) {
         try {
+
             // Note: if you are chasing a bug here, take a look at b/112443.
             // Apparently, this crashes sometimes on some Samsung devices, but there is nothing we can do.
             R result = getRestTemplate().getForEntity(getAPIUrl(), clazz).getBody();

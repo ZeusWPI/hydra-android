@@ -42,6 +42,19 @@
   license: The Apache Software License, Version 2.0
   url: http://square.github.io/picasso/
 
+- artifact: com.squareup.okhttp3:okhttp:+
+  name: OkHttp
+  copyrightHolder: Square
+  license: The Apache Software License, Version 2.0
+- artifact: com.squareup.okio:okio:+
+  name: Okio
+  copyrightHolder: Square
+  license: The Apache Software License, Version 2.0
+- artifact: com.squareup.okhttp3:logging-interceptor:+
+  name: OkHttp
+  copyrightHolder: Square
+  license: The Apache Software License, Version 2.0
+
 - artifact: com.github.pluscubed:recycler-fast-scroll:+
   name: recycler-fast-scroll
   copyrightHolder: Daniel Ciao
