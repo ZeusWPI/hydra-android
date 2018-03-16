@@ -2,7 +2,11 @@ package be.ugent.zeus.hydra.common.network;
 
 import android.content.Context;
 
+import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
+import be.ugent.zeus.hydra.common.converter.DateThreeTenAdapter;
+import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
 import com.google.gson.Gson;
+import com.squareup.moshi.Moshi;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -35,5 +39,18 @@ class InstanceProvider {
             gson = new Gson();
         }
         return gson;
+    }
+
+    private static Moshi moshi;
+
+    public static synchronized Moshi getMoshi() {
+        if (moshi == null) {
+            moshi = new Moshi.Builder()
+                    .add(new BooleanJsonAdapter())
+                    .add(new ZonedThreeTenAdapter())
+                    .add(new DateThreeTenAdapter())
+                    .build();
+        }
+        return moshi;
     }
 }

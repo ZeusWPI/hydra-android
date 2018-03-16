@@ -5,11 +5,13 @@ import android.os.Parcelable;
 
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
+import be.ugent.zeus.hydra.common.converter.IntBoolean;
 import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZonedDateTime;
@@ -35,10 +37,15 @@ public final class Event implements Parcelable, Serializable, Comparable<Event> 
     private String description;
     private String url;
     @SerializedName("facebook_id")
+    @Json(name = "facebook_id")
     private String facebookId;
+    @IntBoolean
     @JsonAdapter(BooleanJsonAdapter.class)
     private boolean highlighted;
     private Association association;
+
+    @SuppressWarnings("unused") // Moshi uses this!
+    public Event() {}
 
     /**
      * Get the start date, converted to the local time zone. The resulting DateTime is the time as it is used

@@ -4,6 +4,8 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import com.squareup.moshi.FromJson;
+import com.squareup.moshi.ToJson;
 import org.threeten.bp.ZonedDateTime;
 
 import java.io.IOException;
@@ -22,7 +24,7 @@ public class ZonedThreeTenAdapter extends TypeAdapter<ZonedDateTime> {
             return;
         }
 
-        out.value(date.toString());
+        out.value(write(date));
     }
 
     @Override
@@ -32,6 +34,16 @@ public class ZonedThreeTenAdapter extends TypeAdapter<ZonedDateTime> {
             return null;
         }
 
-        return ZonedDateTime.parse(in.nextString());
+        return read(in.nextString());
+    }
+
+    @FromJson
+    ZonedDateTime read(String value) {
+        return ZonedDateTime.parse(value);
+    }
+
+    @ToJson
+    String write(ZonedDateTime value) {
+        return value.toString();
     }
 }

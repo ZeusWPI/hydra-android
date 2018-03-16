@@ -4,6 +4,8 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import com.squareup.moshi.FromJson;
+import com.squareup.moshi.ToJson;
 
 import java.io.IOException;
 
@@ -16,7 +18,7 @@ public class BooleanJsonAdapter extends TypeAdapter<Boolean> {
 
     @Override
     public void write(JsonWriter out, Boolean value) throws IOException {
-        out.value(value ? 1 : 0);
+        out.value(write(value));
     }
 
     @Override
@@ -27,6 +29,16 @@ public class BooleanJsonAdapter extends TypeAdapter<Boolean> {
             return null;
         }
 
-        return in.nextInt() == 1;
+        return read(in.nextInt());
+    }
+
+    @ToJson
+    int write(@IntBoolean boolean value) {
+        return value ? 1 : 0;
+    }
+
+    @FromJson
+    @IntBoolean boolean read(int value) {
+        return value != 0;
     }
 }

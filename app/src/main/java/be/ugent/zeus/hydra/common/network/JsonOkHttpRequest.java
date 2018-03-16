@@ -10,15 +10,15 @@ import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
 import com.google.firebase.crash.FirebaseCrash;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 import okhttp3.CacheControl;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import org.threeten.bp.Duration;
 
 import java.io.IOException;
-import java.util.List;
+import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -33,6 +33,9 @@ import java.util.concurrent.TimeUnit;
  *
  * To disable the cache, pass {@link BaseLiveData#REFRESH_COLD} as an argument to the request.
  *
+ * <h2>Decode</h2>
+ * The request uses Moshi to decode the json response into Java objects.
+ *
  * @author Niko Strijbol
  */
 public abstract class JsonOkHttpRequest<D> implements Request<D> {
@@ -42,16 +45,22 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     private static final String ALLOW_STALENESS = "be.ugent.zeus.hydra.data.staleness";
 
     private final Context context;
-    private final TypeToken<D> typeToken;
+    private final Type typeToken;
 
-    public JsonOkHttpRequest(Context context) {
+    JsonOkHttpRequest(Context context, Type token) {
         this.context = context.getApplicationContext();
-        this.typeToken = new TypeToken<D>(){};
+        this.typeToken = token;
     }
 
-    public JsonOkHttpRequest(Context context, TypeToken<D> listToken) {
+    /**
+     * Construct a new request.
+     *
+     * @param context The context.
+     * @param token   The class of the return type. If you need a generic list, use {@link JsonArrayRequest} instead.
+     */
+    public JsonOkHttpRequest(Context context, Class<D> token) {
         this.context = context.getApplicationContext();
-        this.typeToken = listToken;
+        this.typeToken = token;
     }
 
     @NonNull
@@ -59,14 +68,15 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     public Result<D> performRequest(@Nullable Bundle args) {
 
         OkHttpClient client = InstanceProvider.getClient(context);
-        Gson gson = InstanceProvider.getGson();
+        Moshi moshi = InstanceProvider.getMoshi();
+        JsonAdapter<D> adapter = moshi.adapter(typeToken);
 
         if (args == null) {
             args = Bundle.EMPTY;
         }
 
         try {
-            return executeRequest(client, gson, args);
+            return executeRequest(client, adapter, args);
         } catch (IOException e) {
             Log.d(TAG, "Error while getting data, try to get stale data.");
             // We try to get stale data at this point.
@@ -76,7 +86,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
             Result<D> result = new Result.Builder<D>().withError(new IOFailureException(e)).build();
 
             try {
-                Result<D> staleResult = executeRequest(client, gson, args);
+                Result<D> staleResult = executeRequest(client, adapter, args);
                 Log.d(TAG, "Stale data was found and used.");
                 // Add the result.
                 return result.updateWith(staleResult);
@@ -88,7 +98,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
         }
     }
 
-    private Result<D> executeRequest(OkHttpClient client, Gson gson, @NonNull Bundle args) throws IOException {
+    private Result<D> executeRequest(OkHttpClient client, JsonAdapter<D> adapter, @NonNull Bundle args) throws IOException {
         okhttp3.Request request = constructRequest(args);
 
         Response response = client.newCall(request).execute();
@@ -97,7 +107,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
         Log.d(TAG, "executeRequest: response is from network? " + String.valueOf(response.networkResponse() != null));
 
         assert response.body() != null;
-        D result = gson.fromJson(response.body().charStream(), typeToken.getType());
+        D result = adapter.fromJson(response.body().source());
 
         if (result == null) {
             // Create, log and throw exception, since this is not normal.
@@ -150,18 +160,5 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
      */
     protected Duration getCacheDuration() {
         return Duration.ZERO;
-    }
-
-    /**
-     * Get an appropriate TypeToken for a generic list.
-     *
-     * @param clazz The class instance of the type of the element in the list.
-     * @param <X>   The type of the element in the list.
-     *
-     * @return The correct type token, usable by Gson.
-     */
-    @SuppressWarnings("unchecked") // We know it is always correct.
-    public static <X> TypeToken<List<X>> listToken(Class<X> clazz) {
-        return (TypeToken<List<X>>) TypeToken.getParameterized(List.class, clazz);
     }
 }

@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import com.squareup.moshi.Json;
 import java8.util.Objects;
 import com.google.gson.annotations.SerializedName;
 
@@ -23,12 +24,16 @@ public final class Association implements Parcelable, Serializable {
     private static final String IMAGE_LINK = "https://zeus.ugent.be/hydra/api/2.0/association/logo/%s.png";
 
     @SerializedName("internal_name")
+    @Json(name = "internal_name")
     private String internalName;
     @SerializedName("full_name")
+    @Json(name = "full_name")
     private String fullName;
     @SerializedName("display_name")
+    @Json(name = "display_name")
     private String displayName;
     @SerializedName("parent_association")
+    @Json(name = "parent_association")
     private String parentAssociation;
 
     /**

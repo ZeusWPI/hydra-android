@@ -4,6 +4,8 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import com.squareup.moshi.FromJson;
+import com.squareup.moshi.ToJson;
 import org.threeten.bp.LocalDate;
 
 import java.io.IOException;
@@ -22,7 +24,7 @@ public class DateThreeTenAdapter extends TypeAdapter<LocalDate> {
             return;
         }
 
-        out.value(date.toString());
+        out.value(write(date));
     }
 
     @Override
@@ -32,6 +34,16 @@ public class DateThreeTenAdapter extends TypeAdapter<LocalDate> {
             return null;
         }
 
-        return LocalDate.parse(in.nextString());
+        return read(in.nextString());
+    }
+
+    @FromJson
+    LocalDate read(String value) {
+        return LocalDate.parse(value);
+    }
+
+    @ToJson
+    String write(LocalDate value) {
+        return value.toString();
     }
 }
