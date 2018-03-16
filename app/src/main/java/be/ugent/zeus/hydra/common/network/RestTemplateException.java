@@ -7,6 +7,7 @@ import be.ugent.zeus.hydra.common.request.RequestException;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class RestTemplateException extends RequestException {
 
     public RestTemplateException(Throwable cause) {

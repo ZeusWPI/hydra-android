@@ -20,6 +20,7 @@ import java.io.Serializable;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 class GenericCache implements Cache {
 
     private static final String TAG = "GenericCache";

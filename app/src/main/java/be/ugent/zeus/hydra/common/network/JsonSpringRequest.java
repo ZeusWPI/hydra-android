@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
  * @author feliciaan
  * @author Niko Strijbol
  */
+@Deprecated
 public abstract class JsonSpringRequest<R> implements Request<R> {
 
     private Class<R> clazz;

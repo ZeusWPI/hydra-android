@@ -7,6 +7,7 @@ import android.content.Context;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class CacheManager {
 
     private static Cache cache;

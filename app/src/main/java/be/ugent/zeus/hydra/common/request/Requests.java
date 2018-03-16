@@ -13,6 +13,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class Requests {
 
     /**

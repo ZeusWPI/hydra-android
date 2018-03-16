@@ -12,6 +12,7 @@ import java.io.Serializable;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 @SuppressWarnings("WeakerAccess")
 class CacheObject<T extends Serializable> implements Serializable {
 

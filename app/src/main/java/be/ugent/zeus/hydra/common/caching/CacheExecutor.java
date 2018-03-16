@@ -9,6 +9,7 @@ import java.io.Serializable;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public interface CacheExecutor {
 
     /**

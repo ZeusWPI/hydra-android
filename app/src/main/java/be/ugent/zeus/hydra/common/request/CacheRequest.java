@@ -22,6 +22,7 @@ import java.io.Serializable;
  * 
  * @author Niko Strijbol
  */
+@Deprecated
 final class CacheRequest<R extends Serializable> implements Request<R> {
     
     private final CacheableRequest<R> wrapping;

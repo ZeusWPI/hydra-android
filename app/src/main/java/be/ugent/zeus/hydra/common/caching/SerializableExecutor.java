@@ -17,6 +17,7 @@ import java.io.*;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 class SerializableExecutor implements CacheExecutor {
 
     private static final String TAG = "SerializableExecutor";

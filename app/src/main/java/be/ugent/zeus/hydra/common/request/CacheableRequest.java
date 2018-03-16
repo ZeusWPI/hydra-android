@@ -22,6 +22,7 @@ import java8.util.function.Function;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public interface CacheableRequest<D> extends Request<D> {
 
     /**
