@@ -202,6 +202,7 @@
     <string name="error_no_activity">Niets gevonden om dit te openen!</string>
     <string name="events_no_location">Zonder locatie</string>
     <string name="title_license">Licenties</string>
+    <string name="article_date_changed">%1$s, bewerkt %2$s</string>
     <string name="agenda_subtitle">%1$s • %2$s</string>
     <string name="minerva_calendar_device_event_title">
         <xliff:g example="Machinaal leren" id="course_name">%1$s</xliff:g>: <xliff:g example="Inleiding en afspraken" id="event_title">%2$s</xliff:g>

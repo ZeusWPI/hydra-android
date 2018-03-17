@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.association.news.UgentNewsItem;
 import be.ugent.zeus.hydra.association.news.UgentNewsRequest;
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HideableHomeFeedRequest;
 import be.ugent.zeus.hydra.feed.cards.Card;
@@ -28,7 +27,7 @@ public class NewsRequest extends HideableHomeFeedRequest {
 
     public NewsRequest(Context context, CardRepository cardRepository) {
         super(cardRepository);
-        this.request = Requests.cachedList(context, new UgentNewsRequest());
+        this.request = new UgentNewsRequest(context);
     }
 
     @Override
@@ -43,7 +42,7 @@ public class NewsRequest extends HideableHomeFeedRequest {
         LocalDateTime sixMonthsAgo = now.minusWeeks(2);
 
         return request.performRequest(args).map(ugentNewsItems -> StreamSupport.stream(ugentNewsItems)
-                .filter(n -> sixMonthsAgo.isBefore(n.getLocalCreated()))
+                .filter(ugentNewsItem -> sixMonthsAgo.isBefore(ugentNewsItem.getLocalModified()))
                 .map(NewsItemCard::new));
     }
 }

@@ -7,7 +7,6 @@ import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.common.converter.IntBoolean;
-import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -27,9 +26,9 @@ import java.io.Serializable;
 public final class Event implements Parcelable, Serializable, Comparable<Event> {
 
     private String title;
-    @JsonAdapter(ZonedThreeTenAdapter.class)
+    @JsonAdapter(DateTypeConverters.GsonOffset.class)
     private OffsetDateTime start;
-    @JsonAdapter(ZonedThreeTenAdapter.class)
+    @JsonAdapter(DateTypeConverters.GsonOffset.class)
     private OffsetDateTime end;
     private String location;
     private double latitude;

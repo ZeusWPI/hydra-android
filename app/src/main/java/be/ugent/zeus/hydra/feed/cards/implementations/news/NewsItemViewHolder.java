@@ -38,8 +38,18 @@ public class NewsItemViewHolder extends CardViewHolder {
 
         String author = newsItem.getCreators().isEmpty() ? "" : newsItem.getCreators().iterator().next();
 
+        CharSequence dateString;
+        if (newsItem.getCreated().toLocalDate().isEqual(newsItem.getModified().toLocalDate())) {
+            dateString = DateUtils.relativeDateTimeString(newsItem.getCreated(), itemView.getContext());
+        } else {
+            dateString = itemView.getContext().getString(R.string.article_date_changed,
+                    DateUtils.relativeDateTimeString(newsItem.getCreated(), itemView.getContext(), true),
+                    DateUtils.relativeDateTimeString(newsItem.getModified(), itemView.getContext(), true)
+            );
+        }
+
         String infoText = itemView.getContext().getString(R.string.agenda_subtitle,
-                DateUtils.relativeDateTimeString(newsItem.getCreated(), itemView.getContext()),
+                dateString,
                 author);
         info.setText(infoText);
         title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);

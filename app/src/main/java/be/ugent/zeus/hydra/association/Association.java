@@ -36,6 +36,9 @@ public final class Association implements Parcelable, Serializable {
     @Json(name = "parent_association")
     private String parentAssociation;
 
+    @SuppressWarnings("unused") // Moshi uses this!
+    public Association() {}
+
     /**
      * @return A name for this association. If a full name is available, that is returned. If not, the display name is.
      */

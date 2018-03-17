@@ -57,9 +57,16 @@ public class NewsArticleActivity extends BaseActivity {
 
         author.setText(TextUtils.join(", ", article.getCreators()));
 
-        if (article.getCreated() != null) {
-            date.setText(DateUtils.relativeDateTimeString(article.getCreated(), date.getContext()));
+        CharSequence dateString;
+        if (article.getCreated().toLocalDate().isEqual(article.getModified().toLocalDate())) {
+            dateString = DateUtils.relativeDateTimeString(article.getCreated(), this);
+        } else {
+            dateString = getString(R.string.article_date_changed,
+                    DateUtils.relativeDateTimeString(article.getCreated(), this),
+                    DateUtils.relativeDateTimeString(article.getModified(), this)
+            );
         }
+        date.setText(dateString);
 
         if (!TextUtils.isEmpty(article.getDescription())) {
             lead.setText(Utils.fromHtml(article.getDescription(), new PicassoImageGetter(lead, getResources(), this)));

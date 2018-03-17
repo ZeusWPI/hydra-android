@@ -1,12 +1,12 @@
 package be.ugent.zeus.hydra.feed.cards.implementations.news;
 
+import be.ugent.zeus.hydra.association.news.NewsItem;
 import be.ugent.zeus.hydra.association.news.UgentNewsItem;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
-import be.ugent.zeus.hydra.association.news.NewsItem;
 import java8.util.Objects;
 import org.threeten.bp.Duration;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 /**
  * Home card for {@link NewsItem}.
@@ -27,8 +27,8 @@ class NewsItemCard extends Card {
     @Override
     public int getPriority() {
         //TODO: multiplier for highlight
-        ZonedDateTime date = getNewsItem().getCreated();
-        Duration duration = Duration.between(date, ZonedDateTime.now());
+        OffsetDateTime date = getNewsItem().getModified();
+        Duration duration = Duration.between(date, OffsetDateTime.now());
         return PriorityUtils.lerp((int) duration.toHours(), 0, TWO_WEEKS_HOURS);
     }
 
