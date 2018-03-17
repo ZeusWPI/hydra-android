@@ -5,16 +5,16 @@ import android.os.Parcelable;
 
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
+import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.common.converter.IntBoolean;
 import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.TtbUtils;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.squareup.moshi.Json;
 import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import java.io.Serializable;
 
@@ -28,9 +28,9 @@ public final class Event implements Parcelable, Serializable, Comparable<Event> 
 
     private String title;
     @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime start;
+    private OffsetDateTime start;
     @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime end;
+    private OffsetDateTime end;
     private String location;
     private double latitude;
     private double longitude;
@@ -79,19 +79,19 @@ public final class Event implements Parcelable, Serializable, Comparable<Event> 
         this.title = title;
     }
 
-    public ZonedDateTime getStart() {
+    public OffsetDateTime getStart() {
         return start;
     }
 
-    public void setStart(ZonedDateTime start) {
+    public void setStart(OffsetDateTime start) {
         this.start = start;
     }
 
-    public ZonedDateTime getEnd() {
+    public OffsetDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(ZonedDateTime end) {
+    public void setEnd(OffsetDateTime end) {
         this.end = end;
     }
 
@@ -179,8 +179,8 @@ public final class Event implements Parcelable, Serializable, Comparable<Event> 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.title);
-        dest.writeLong(TtbUtils.serialize(this.start));
-        dest.writeLong(TtbUtils.serialize(this.end));
+        dest.writeString(DateTypeConverters.fromOffsetDateTime(this.start));
+        dest.writeString(DateTypeConverters.fromOffsetDateTime(this.end));
         dest.writeString(this.location);
         dest.writeDouble(this.latitude);
         dest.writeDouble(this.longitude);
@@ -193,8 +193,8 @@ public final class Event implements Parcelable, Serializable, Comparable<Event> 
 
     protected Event(Parcel in) {
         this.title = in.readString();
-        this.start = TtbUtils.unserialize(in.readLong());
-        this.end = TtbUtils.unserialize(in.readLong());
+        this.start = DateTypeConverters.toOffsetDateTime(in.readString());
+        this.end = DateTypeConverters.toOffsetDateTime(in.readString());
         this.location = in.readString();
         this.latitude = in.readDouble();
         this.longitude = in.readDouble();

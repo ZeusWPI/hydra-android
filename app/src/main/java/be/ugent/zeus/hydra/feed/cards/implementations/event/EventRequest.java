@@ -14,7 +14,7 @@ import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardRepository;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import java.util.List;
 
@@ -40,8 +40,8 @@ public class EventRequest extends HideableHomeFeedRequest {
     @NonNull
     @Override
     protected Result<Stream<Card>> performRequestCards(@Nullable Bundle args) {
-        ZonedDateTime now = ZonedDateTime.now();
-        ZonedDateTime plusOne = now.plusMonths(1);
+        OffsetDateTime now = OffsetDateTime.now();
+        OffsetDateTime plusOne = now.plusMonths(1);
 
         return request.performRequest(args).map(events -> StreamSupport.stream(events)
                 .filter(c -> c.getStart().isAfter(now) && c.getStart().isBefore(plusOne))

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.common.converter.DateThreeTenAdapter;
+import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
 import com.google.gson.Gson;
 import com.squareup.moshi.Moshi;
@@ -49,6 +50,7 @@ class InstanceProvider {
                     .add(new BooleanJsonAdapter())
                     .add(new ZonedThreeTenAdapter())
                     .add(new DateThreeTenAdapter())
+                    .add(new DateTypeConverters.GsonOffset())
                     .build();
         }
         return moshi;

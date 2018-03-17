@@ -6,6 +6,8 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import com.squareup.moshi.FromJson;
+import com.squareup.moshi.ToJson;
 import org.threeten.bp.Instant;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -86,6 +88,11 @@ public class DateTypeConverters {
             out.value(fromOffsetDateTime(value));
         }
 
+        @FromJson
+        OffsetDateTime read(String value) {
+            return toOffsetDateTime(value);
+        }
+
         @Override
         public OffsetDateTime read(JsonReader in) throws IOException {
             if (in.peek() == JsonToken.NULL) {
@@ -93,6 +100,11 @@ public class DateTypeConverters {
                 return null;
             }
             return toOffsetDateTime(in.nextString());
+        }
+
+        @ToJson
+        String write(OffsetDateTime offsetDateTime) {
+            return fromOffsetDateTime(offsetDateTime);
         }
     }
 
