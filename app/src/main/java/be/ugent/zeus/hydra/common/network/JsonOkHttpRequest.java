@@ -44,11 +44,19 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
 
     private static final String ALLOW_STALENESS = "be.ugent.zeus.hydra.data.staleness";
 
-    private final Context context;
+    private final Moshi moshi;
+    private final OkHttpClient client;
     private final Type typeToken;
 
     JsonOkHttpRequest(Context context, Type token) {
-        this.context = context.getApplicationContext();
+        this.moshi = InstanceProvider.getMoshi();
+        this.client = InstanceProvider.getClient(context);
+        this.typeToken = token;
+    }
+
+    JsonOkHttpRequest(Moshi moshi, OkHttpClient client, Type token) {
+        this.moshi = moshi;
+        this.client = client;
         this.typeToken = token;
     }
 
@@ -59,16 +67,13 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
      * @param token   The class of the return type. If you need a generic list, use {@link JsonArrayRequest} instead.
      */
     public JsonOkHttpRequest(Context context, Class<D> token) {
-        this.context = context.getApplicationContext();
-        this.typeToken = token;
+        this(context, (Type) token);
     }
 
     @NonNull
     @Override
     public Result<D> performRequest(@Nullable Bundle args) {
 
-        OkHttpClient client = InstanceProvider.getClient(context);
-        Moshi moshi = InstanceProvider.getMoshi();
         JsonAdapter<D> adapter = moshi.adapter(typeToken);
 
         if (args == null) {
@@ -76,7 +81,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
         }
 
         try {
-            return executeRequest(client, adapter, args);
+            return executeRequest(adapter, args);
         } catch (IOException e) {
             Log.d(TAG, "Error while getting data, try to get stale data.");
             // We try to get stale data at this point.
@@ -86,7 +91,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
             Result<D> result = new Result.Builder<D>().withError(new IOFailureException(e)).build();
 
             try {
-                Result<D> staleResult = executeRequest(client, adapter, args);
+                Result<D> staleResult = executeRequest(adapter, args);
                 Log.d(TAG, "Stale data was found and used.");
                 // Add the result.
                 return result.updateWith(staleResult);
@@ -98,7 +103,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
         }
     }
 
-    private Result<D> executeRequest(OkHttpClient client, JsonAdapter<D> adapter, @NonNull Bundle args) throws IOException {
+    private Result<D> executeRequest(JsonAdapter<D> adapter, @NonNull Bundle args) throws IOException {
         okhttp3.Request request = constructRequest(args);
 
         Response response = client.newCall(request).execute();

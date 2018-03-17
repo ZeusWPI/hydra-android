@@ -50,7 +50,7 @@ public class MenuRequestTest extends ArrayJsonSpringRequestTest<RestoMenu> {
 
     @Override
     protected JsonSpringRequest<RestoMenu[]> getRequest() {
-        return new MenuRequest(RuntimeEnvironment.application);
+        return null;
     }
 
     @Test

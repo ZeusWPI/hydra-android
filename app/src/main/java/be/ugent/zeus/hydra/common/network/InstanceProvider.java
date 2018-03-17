@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.common.network;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 
 import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.common.converter.DateThreeTenAdapter;
@@ -54,5 +55,12 @@ class InstanceProvider {
                     .build();
         }
         return moshi;
+    }
+
+    @VisibleForTesting
+    static void reset() {
+        client = null;
+        moshi = null;
+        gson = null;
     }
 }

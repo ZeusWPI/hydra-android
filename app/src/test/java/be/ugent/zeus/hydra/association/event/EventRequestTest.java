@@ -28,6 +28,6 @@ public class EventRequestTest extends ArrayJsonSpringRequestTest<Event> {
 
     @Override
     protected JsonSpringRequest<Event[]> getRequest() {
-        return new RawEventRequest();
+        return null;
     }
 }
