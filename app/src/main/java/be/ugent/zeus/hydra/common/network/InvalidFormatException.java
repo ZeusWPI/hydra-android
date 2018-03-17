@@ -7,8 +7,8 @@ import be.ugent.zeus.hydra.common.request.RequestException;
  */
 public class InvalidFormatException extends RequestException {
 
-    public InvalidFormatException(String message) {
-        super(message);
+    public InvalidFormatException(String message, Throwable cause) {
+        super(message, cause);
     }
 
 }

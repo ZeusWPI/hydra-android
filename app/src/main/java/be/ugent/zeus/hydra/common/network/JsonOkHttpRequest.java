@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
@@ -11,6 +12,7 @@ import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
 import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.JsonDataException;
 import com.squareup.moshi.Moshi;
 import okhttp3.CacheControl;
 import okhttp3.OkHttpClient;
@@ -51,12 +53,6 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     JsonOkHttpRequest(Context context, Type token) {
         this.moshi = InstanceProvider.getMoshi();
         this.client = InstanceProvider.getClient(context);
-        this.typeToken = token;
-    }
-
-    JsonOkHttpRequest(Moshi moshi, OkHttpClient client, Type token) {
-        this.moshi = moshi;
-        this.client = client;
         this.typeToken = token;
     }
 
@@ -112,20 +108,24 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
         Log.d(TAG, "executeRequest: response is from network? " + String.valueOf(response.networkResponse() != null));
 
         assert response.body() != null;
-        D result = adapter.fromJson(response.body().source());
 
-        if (result == null) {
+        try {
+            D result = adapter.fromJson(response.body().source());
+            if (result == null) {
+                throw new NullPointerException("Null is not a valid value.");
+            }
+            return new Result.Builder<D>()
+                    .withData(result)
+                    .build();
+        } catch (JsonDataException | NullPointerException e) {
             // Create, log and throw exception, since this is not normal.
-            InvalidFormatException exception = new InvalidFormatException("The server did not respond with the expected format for URL: " + getAPIUrl());
+            String message = "The server did not respond with the expected format for URL: " + getAPIUrl();
+            InvalidFormatException exception = new InvalidFormatException(message, e);
             FirebaseCrash.report(exception);
             return new Result.Builder<D>()
                     .withError(exception)
                     .build();
         }
-
-        return new Result.Builder<D>()
-                .withData(result)
-                .build();
     }
 
     @NonNull
@@ -165,5 +165,10 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
      */
     protected Duration getCacheDuration() {
         return Duration.ZERO;
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    Type getTypeToken() {
+        return typeToken;
     }
 }

@@ -29,6 +29,7 @@ import static junit.framework.TestCase.assertTrue;
  * @author Niko Strijbol
  */
 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+@Deprecated
 public abstract class AbstractJsonSpringRequestTest<R> {
 
     private final Class<R> clazz;

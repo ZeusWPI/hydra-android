@@ -27,6 +27,9 @@ public final class RestoMenu implements Parcelable, Serializable {
     private transient List<RestoMeal> mainDishes;
     private List<String> vegetables;
 
+    @SuppressWarnings("unused") // Moshi uses this.
+    public RestoMenu() {}
+
     /**
      * Sort the meals available in the menu.
      */

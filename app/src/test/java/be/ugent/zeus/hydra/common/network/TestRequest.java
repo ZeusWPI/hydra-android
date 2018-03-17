@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class TestRequest<R> extends JsonSpringRequest<R> {
 
     private static final String URL = "http://www.example.com/test";

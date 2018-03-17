@@ -20,6 +20,7 @@ import static org.junit.Assert.assertFalse;
 /**
  * @author Niko Strijbol
  */
+@Deprecated
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, application = TestApp.class)
 public class JsonSpringRequestTest {

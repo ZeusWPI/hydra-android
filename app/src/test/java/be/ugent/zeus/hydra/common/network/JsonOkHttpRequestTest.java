@@ -23,7 +23,8 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 /**
- * Test the default request. Includes tests for caching and offline handling.
+ * Test the default request. Includes tests for caching and offline handling. Therefor, when testing implementations of
+ * this class, it is often enough to test the "everything OK" case, as other cases are covered by this test.
  *
  * @author Niko Strijbol
  */
@@ -34,14 +35,14 @@ public class JsonOkHttpRequestTest {
 
     @Before
     public void setUp() {
+        // TODO: this is ugly but necessary due to the singletons
+        InstanceProvider.reset();
         server = new MockWebServer();
     }
 
     @After
     public void breakDown() throws IOException {
         server.shutdown();
-        // TODO: this is ugly
-        InstanceProvider.reset();
     }
 
     private static class TestRequest extends JsonOkHttpRequest<Integer> {
@@ -170,7 +171,36 @@ public class JsonOkHttpRequestTest {
 
     @Test(expected = RequestException.class)
     public void testWrongFormatString() throws IOException, RequestException {
+        server.enqueue(new MockResponse().setBody("\"TEST\""));
+        server.start();
+        HttpUrl url = server.url("/fine.json");
+
+        TestRequest request = new TestRequest(url);
+        Result<Integer> result = request.performRequest(null);
+        assertTrue(result.hasException());
+        assertFalse(result.hasData());
+        result.getOrThrow();
+    }
+
+    @Test(expected = RequestException.class)
+    public void testWrongFormatText() throws IOException, RequestException {
         server.enqueue(new MockResponse().setBody("TEST"));
+        server.start();
+        HttpUrl url = server.url("/fine.json");
+
+        TestRequest request = new TestRequest(url);
+        Result<Integer> result = request.performRequest(null);
+        assertTrue(result.hasException());
+        assertFalse(result.hasData());
+        result.getOrThrow();
+    }
+
+    @Test(expected = RequestException.class)
+    public void testWrongFormatObject() throws IOException, RequestException {
+        server.enqueue(new MockResponse().setBody("{\n" +
+                "\t   \"rank\": \"4\",\n" +
+                "\t   \"suit\": \"CLUBS\"\n" +
+                "\t }"));
         server.start();
         HttpUrl url = server.url("/fine.json");
 
@@ -187,9 +217,6 @@ public class JsonOkHttpRequestTest {
         HttpUrl url = server.url("/fine.json");
         server.shutdown();
 
-        // Before we do a request, manually create the client and set the timeout low, to speed up the test.
-        InstanceProvider.getClient(RuntimeEnvironment.application);
-
         TestRequest request = new TestRequest(url);
         Result<Integer> result = request.performRequest(null);
         assertTrue(result.hasException());
@@ -202,9 +229,6 @@ public class JsonOkHttpRequestTest {
         server.enqueue(integerJsonResponse());
         server.start();
         HttpUrl url = server.url("/fine.json");
-
-        // Before we do a request, manually create the client and set the timeout low, to speed up the test.
-        InstanceProvider.getClient(RuntimeEnvironment.application);
 
         // Put the request in the cache.
         TestRequest request = new TestRequest(url);

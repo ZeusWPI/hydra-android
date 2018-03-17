@@ -9,6 +9,7 @@ import org.junit.Assert;
  * @author Niko Strijbol
  */
 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+@Deprecated
 public abstract class ArrayJsonSpringRequestTest<R> extends AbstractJsonSpringRequestTest<R[]> {
 
     public ArrayJsonSpringRequestTest(Class<R[]> clazz) {

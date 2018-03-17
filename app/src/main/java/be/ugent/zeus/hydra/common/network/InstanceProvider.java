@@ -13,6 +13,8 @@ import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
+import java.io.File;
+
 /**
  * Provide instances of singletons. In the future this might be replaced with dependency injection.
  *
@@ -24,14 +26,18 @@ class InstanceProvider {
 
     private static final long CACHE_SIZE = 10 * 1024 * 1024;
 
-    public static synchronized OkHttpClient getClient(Context context) {
+    public static synchronized OkHttpClient getClient(File cacheDir) {
         if (client == null) {
             client = new OkHttpClient.Builder()
                     .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                    .cache(new Cache(context.getCacheDir(), CACHE_SIZE)) // 10 MiB cache
+                    .cache(new Cache(cacheDir, CACHE_SIZE))
                     .build();
         }
         return client;
+    }
+
+    public static synchronized OkHttpClient getClient(Context context) {
+        return getClient(context.getCacheDir());
     }
 
     private static Gson gson;
@@ -57,7 +63,7 @@ class InstanceProvider {
         return moshi;
     }
 
-    @VisibleForTesting
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     static void reset() {
         client = null;
         moshi = null;

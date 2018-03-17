@@ -21,6 +21,9 @@ public final class RestoMeal implements Parcelable, Serializable {
     private MealType type;
     private String kind;
 
+    @SuppressWarnings("unused") // Moshi uses this.
+    public RestoMeal() {}
+
     public String getName() {
         return name;
     }
