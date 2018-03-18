@@ -1,41 +1,32 @@
 package be.ugent.zeus.hydra.resto.extrafood;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.common.caching.Cache;
-import be.ugent.zeus.hydra.common.request.CacheableRequest;
+import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
+import org.threeten.bp.Duration;
+import org.threeten.bp.temporal.ChronoUnit;
 
 /**
  * Request to get the extra food.
  *
  * @author Niko Strijbol
  */
-class ExtraFoodRequest extends JsonSpringRequest<ExtraFood> implements CacheableRequest<ExtraFood> {
+class ExtraFoodRequest extends JsonOkHttpRequest<ExtraFood> {
 
-    private static final String NAME = "extrafood.json";
-
-    private static final String ENDPOINT = Endpoints.ZEUS_RESTO_URL + NAME;
-
-    ExtraFoodRequest() {
-        super(ExtraFood.class);
+    ExtraFoodRequest(Context context) {
+        super(context, ExtraFood.class);
     }
 
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return ENDPOINT;
-    }
-
-    @NonNull
-    @Override
-    public String getCacheKey() {
-        return NAME;
+        return Endpoints.ZEUS_RESTO_URL + "extrafood.json";
     }
 
     @Override
-    public long getCacheDuration() {
-        return Cache.ONE_WEEK;
+    public Duration getCacheDuration() {
+        return ChronoUnit.WEEKS.getDuration();
     }
 }

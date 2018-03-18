@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.resto.extrafood;
 
-import be.ugent.zeus.hydra.common.ModelTest;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
@@ -8,11 +7,7 @@ import org.junit.Test;
 /**
  * @author Niko Strijbol
  */
-public class ExtraFoodTest extends ModelTest<ExtraFood> {
-
-    public ExtraFoodTest() {
-        super(ExtraFood.class);
-    }
+public class ExtraFoodTest {
 
     @Test
     public void equalsAndHash() {

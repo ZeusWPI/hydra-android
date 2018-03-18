@@ -1,37 +1,24 @@
 package be.ugent.zeus.hydra.resto.extrafood;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
-import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.TestApp;
-import be.ugent.zeus.hydra.common.network.AbstractJsonSpringRequestTest;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
+import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
+import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.robolectric.RuntimeEnvironment;
 
 /**
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
-@RequiresApi(api = Build.VERSION_CODES.N)
-public class ExtraFoodRequestTest extends AbstractJsonSpringRequestTest<ExtraFood> {
+public class ExtraFoodRequestTest extends AbstractJsonRequestTest<ExtraFood> {
 
-    public ExtraFoodRequestTest() {
-        super(ExtraFood.class);
+    @Override
+    protected String getRelativePath() {
+        return "resto/extrafood.json";
     }
 
     @Override
-    protected Resource getSuccessResponse() {
-        return new ClassPathResource("resto/extrafood.json");
-    }
-
-    @Override
-    protected JsonSpringRequest<ExtraFood> getRequest() {
-        return new ExtraFoodRequest();
+    protected JsonOkHttpRequest<ExtraFood> getRequest() {
+        return new ExtraFoodRequest(RuntimeEnvironment.application);
     }
 }
