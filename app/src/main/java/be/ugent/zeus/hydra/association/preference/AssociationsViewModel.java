@@ -4,7 +4,6 @@ import android.app.Application;
 
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
 import java.util.List;
@@ -20,6 +19,6 @@ public class AssociationsViewModel extends RequestViewModel<List<Association>> {
 
     @Override
     protected Request<List<Association>> getRequest() {
-        return Requests.cachedList(getApplication(), new AssociationsRequest());
+        return new AssociationsRequest(getApplication());
     }
 }
