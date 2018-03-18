@@ -17,7 +17,7 @@ import org.threeten.bp.LocalDate;
 public class SingleDayLiveData extends RequestLiveData<RestoMenu> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public SingleDayLiveData(Context context) {
-        super(context, new DayRequest(), false);
+        super(context, new DayRequest(context), false);
     }
 
     @Override

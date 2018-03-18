@@ -178,9 +178,9 @@ dependencies {
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
     //Enable the normal library for unit tests
-//    testImplementation('org.threeten:threetenbp:1.3.6') {
-//        exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
-//    }
+    testImplementation('org.threeten:threetenbp:1.3.6') {
+        exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
+    }
 
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.10.0'
     testImplementation 'nl.jqno.equalsverifier:equalsverifier:2.4.3'
