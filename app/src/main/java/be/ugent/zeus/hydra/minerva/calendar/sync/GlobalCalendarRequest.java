@@ -9,6 +9,8 @@ import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.threeten.bp.ZonedDateTime;
 
+import static be.ugent.zeus.hydra.common.network.Endpoints.MINERVA_API;
+
 /**
  * Request agenda items, optionally in a time range.
  *
@@ -20,7 +22,7 @@ class GlobalCalendarRequest extends MinervaRequest<ApiCalendar> {
     private ZonedDateTime end;
 
     GlobalCalendarRequest(Context context, @Nullable Account account) {
-        super(ApiCalendar.class, context, account);
+        super(context, ApiCalendar.class, account);
     }
 
     public void setStart(ZonedDateTime start) {

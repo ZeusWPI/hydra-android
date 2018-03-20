@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 
+import static be.ugent.zeus.hydra.common.network.Endpoints.MINERVA_API;
+
 /**
  * Request to get a list of courses.
  *
@@ -17,7 +19,7 @@ import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 class CoursesMinervaRequest extends MinervaRequest<ApiCourses> {
 
     CoursesMinervaRequest(Context context, Account account) {
-        super(ApiCourses.class, context, account);
+        super(context, ApiCourses.class, account);
     }
 
     @Override

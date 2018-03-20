@@ -2,11 +2,15 @@ package be.ugent.zeus.hydra.common.network;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.*;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.annotation.WorkerThread;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.Request;
+import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
 import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.moshi.JsonAdapter;
@@ -70,44 +74,59 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
         this(context, (Type) token);
     }
 
+    /**
+     * Execute the request. See the class documentation for a description of the caching system.
+     */
     @NonNull
     @Override
     @WorkerThread
     public Result<D> performRequest(@Nullable Bundle args) {
 
-        JsonAdapter<D> adapter = moshi.adapter(typeToken);
+        JsonAdapter<D> adapter = getAdapter();
 
         if (args == null) {
             args = Bundle.EMPTY;
         }
 
         try {
-            return executeRequest(adapter, args);
-        } catch (IOException e) {
-            Log.d(TAG, "Error while getting data, try to get stale data.");
-            // We try to get stale data at this point.
-            args = new Bundle(args);
-            args.putBoolean(ALLOW_STALENESS, true);
-
-            Result<D> result = new Result.Builder<D>().withError(new IOFailureException(e)).build();
-
             try {
-                Result<D> staleResult = executeRequest(adapter, args);
-                Log.d(TAG, "Stale data was found and used.");
-                // Add the result.
-                return result.updateWith(staleResult);
-            } catch (IOException e2) {
-                Log.d(TAG, "Stale data was not found.");
-                // Just give up at this point.
-                return result;
+                return executeRequest(adapter, args);
+            } catch (IOException e) {
+                Log.d(TAG, "Error while getting data, try to get stale data.");
+                // We try to get stale data at this point.
+                args = new Bundle(args);
+                args.putBoolean(ALLOW_STALENESS, true);
+
+                Result<D> result = Result.Builder.fromException(new IOFailureException(e));
+
+                try {
+                    Result<D> staleResult = executeRequest(adapter, args);
+                    Log.d(TAG, "Stale data was found and used.");
+                    // Add the result.
+                    return result.updateWith(staleResult);
+                } catch (IOException e2) {
+                    Log.d(TAG, "Stale data was not found.");
+                    // Just give up at this point.
+                    return result;
+                }
             }
+        } catch (ConstructionException e) {
+            return Result.Builder.fromException(new RequestException(e));
         }
     }
 
-    private Result<D> executeRequest(JsonAdapter<D> adapter, @NonNull Bundle args) throws IOException {
-        okhttp3.Request request = constructRequest(args);
+    protected JsonAdapter<D> getAdapter() {
+        return moshi.adapter(typeToken);
+    }
+
+    protected Result<D> executeRequest(JsonAdapter<D> adapter, @NonNull Bundle args) throws IOException, ConstructionException {
+        okhttp3.Request request = constructRequest(args).build();
 
         Response response = client.newCall(request).execute();
+
+        if (!response.isSuccessful()) {
+            throw new UnsuccessfulRequestException(response.code());
+        }
 
         Log.d(TAG, "executeRequest: response is from cache? " + String.valueOf(response.cacheResponse() != null));
         Log.d(TAG, "executeRequest: response is from network? " + String.valueOf(response.networkResponse() != null));
@@ -127,20 +146,17 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
             String message = "The server did not respond with the expected format for URL: " + getAPIUrl();
             InvalidFormatException exception = new InvalidFormatException(message, e);
             FirebaseCrash.report(exception);
-            return new Result.Builder<D>()
-                    .withError(exception)
-                    .build();
+            return Result.Builder.fromException(exception);
         }
     }
 
     @NonNull
     protected abstract String getAPIUrl();
 
-    protected okhttp3.Request constructRequest(@NonNull Bundle arguments) {
+    protected okhttp3.Request.Builder constructRequest(@NonNull Bundle arguments) throws ConstructionException {
         return new okhttp3.Request.Builder()
                 .url(getAPIUrl())
-                .cacheControl(constructCacheControl(arguments))
-                .build();
+                .cacheControl(constructCacheControl(arguments));
     }
 
     protected CacheControl constructCacheControl(@NonNull Bundle arguments) {
@@ -175,5 +191,14 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     Type getTypeToken() {
         return typeToken;
+    }
+
+    /**
+     * Exception thrown when the construction of the request failed for some reason.
+     */
+    protected static class ConstructionException extends Exception {
+        public ConstructionException(String message) {
+            super(message);
+        }
     }
 }

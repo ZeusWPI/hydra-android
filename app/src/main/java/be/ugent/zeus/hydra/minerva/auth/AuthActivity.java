@@ -20,7 +20,6 @@ import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
-import be.ugent.zeus.hydra.minerva.account.MinervaAuthenticator;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.auth.oauth.BearerToken;
 import org.threeten.bp.LocalDateTime;
@@ -254,7 +253,7 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
                 }
 
                 LocalDateTime expiration = LocalDateTime.now().plusSeconds(result.getExpiresIn());
-                manager.setUserData(account, MinervaAuthenticator.EXP_DATE, expiration.format(MinervaAuthenticator.formatter));
+                AccountUtils.setExpirationDate(manager, account, expiration);
                 manager.setAuthToken(account, authType, result.getAccessToken());
 
                 //Make intent for return value

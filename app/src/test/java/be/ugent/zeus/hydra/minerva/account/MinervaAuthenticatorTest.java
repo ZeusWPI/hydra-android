@@ -81,7 +81,7 @@ public class MinervaAuthenticatorTest {
         manager.setAuthToken(testAccount, MinervaConfig.DEFAULT_SCOPE, testToken);
         // The token expires in the future.
         manager.setUserData(testAccount, MinervaAuthenticator.EXP_DATE,
-                LocalDateTime.now().plusMonths(1).format(MinervaAuthenticator.formatter));
+                LocalDateTime.now().plusMonths(1).format(AccountUtils.FORMATTER));
 
         Bundle result = authenticator.getAuthToken(response, testAccount, MinervaConfig.DEFAULT_SCOPE, null);
 
@@ -115,7 +115,7 @@ public class MinervaAuthenticatorTest {
         manager.setAuthToken(testAccount, MinervaConfig.DEFAULT_SCOPE, expiredToken);
         // The token expires in the future.
         manager.setUserData(testAccount, MinervaAuthenticator.EXP_DATE,
-                LocalDateTime.now().minusMonths(1).format(MinervaAuthenticator.formatter));
+                LocalDateTime.now().minusMonths(1).format(AccountUtils.FORMATTER));
         manager.setPassword(testAccount, password);
 
         Bundle result = authenticator.getAuthToken(response, testAccount, MinervaConfig.DEFAULT_SCOPE, null);
@@ -137,7 +137,7 @@ public class MinervaAuthenticatorTest {
         manager.setAuthToken(testAccount, MinervaConfig.DEFAULT_SCOPE, expiredToken);
         // The token expires in the future.
         manager.setUserData(testAccount, MinervaAuthenticator.EXP_DATE,
-                LocalDateTime.now().minusMonths(1).format(MinervaAuthenticator.formatter));
+                LocalDateTime.now().minusMonths(1).format(AccountUtils.FORMATTER));
 
         Bundle result = authenticator.getAuthToken(response, testAccount, MinervaConfig.DEFAULT_SCOPE, null);
 
@@ -169,7 +169,7 @@ public class MinervaAuthenticatorTest {
         manager.setAuthToken(testAccount, MinervaConfig.DEFAULT_SCOPE, "test");
         // The token expires in the future.
         manager.setUserData(testAccount, MinervaAuthenticator.EXP_DATE,
-                LocalDateTime.now().minusMonths(1).format(MinervaAuthenticator.formatter));
+                LocalDateTime.now().minusMonths(1).format(AccountUtils.FORMATTER));
         manager.setPassword(testAccount, "test");
 
         authenticator.getAuthToken(response, testAccount, MinervaConfig.DEFAULT_SCOPE, null);

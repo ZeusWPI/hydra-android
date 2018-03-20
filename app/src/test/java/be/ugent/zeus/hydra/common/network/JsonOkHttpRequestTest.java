@@ -45,35 +45,6 @@ public class JsonOkHttpRequestTest {
         server.shutdown();
     }
 
-    private static class TestRequest extends JsonOkHttpRequest<Integer> {
-
-        private final HttpUrl url;
-        private final Duration cacheDuration;
-
-        TestRequest(HttpUrl url) {
-            super(RuntimeEnvironment.application, Integer.class);
-            this.url = url;
-            this.cacheDuration = Duration.ofHours(1);
-        }
-
-        TestRequest(HttpUrl url, Duration duration) {
-            super(RuntimeEnvironment.application, Integer.class);
-            this.url = url;
-            this.cacheDuration = duration;
-        }
-
-        @NonNull
-        @Override
-        protected String getAPIUrl() {
-            return url.toString();
-        }
-
-        @Override
-        protected Duration getCacheDuration() {
-            return cacheDuration;
-        }
-    }
-
     @Test
     public void testFromNetworkFine() throws IOException {
         server.enqueue(integerJsonResponse());
@@ -283,10 +254,52 @@ public class JsonOkHttpRequestTest {
         assertEquals(4, cache.requestCount());
     }
 
+    @Test(expected = RequestException.class)
+    public void testResponseError() throws IOException, RequestException {
+        server.enqueue(new MockResponse().setResponseCode(500));
+        server.start();
+        HttpUrl url = server.url("/fine.json");
+
+        TestRequest request = new TestRequest(url);
+        Result<Integer> result = request.performRequest(null);
+        assertTrue(result.hasException());
+        assertFalse(result.hasData());
+        result.getOrThrow();
+    }
+
     private MockResponse integerJsonResponse() {
         return new MockResponse()
                 .addHeader("Cache-Control", "max-age=" + Integer.MAX_VALUE)
                 .addHeader("Content-Type", "application/json; charset=utf-8")
                 .setBody("1");
+    }
+
+    private static class TestRequest extends JsonOkHttpRequest<Integer> {
+
+        private final HttpUrl url;
+        private final Duration cacheDuration;
+
+        TestRequest(HttpUrl url) {
+            super(RuntimeEnvironment.application, Integer.class);
+            this.url = url;
+            this.cacheDuration = Duration.ofHours(1);
+        }
+
+        TestRequest(HttpUrl url, Duration duration) {
+            super(RuntimeEnvironment.application, Integer.class);
+            this.url = url;
+            this.cacheDuration = duration;
+        }
+
+        @NonNull
+        @Override
+        protected String getAPIUrl() {
+            return url.toString();
+        }
+
+        @Override
+        protected Duration getCacheDuration() {
+            return cacheDuration;
+        }
     }
 }

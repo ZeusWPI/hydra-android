@@ -68,9 +68,9 @@ public class AccountUtilsTest {
         manager.addAccount(testAccount);
 
         LocalDateTime testValue = LocalDateTime.parse(
-                LocalDateTime.now().format(MinervaAuthenticator.formatter), MinervaAuthenticator.formatter);
+                LocalDateTime.now().format(AccountUtils.FORMATTER), AccountUtils.FORMATTER);
         accountManager
-                .setUserData(testAccount, MinervaAuthenticator.EXP_DATE, testValue.format(MinervaAuthenticator.formatter));
+                .setUserData(testAccount, MinervaAuthenticator.EXP_DATE, testValue.format(AccountUtils.FORMATTER));
 
         assertEquals(testValue, AccountUtils.getExpirationDate(accountManager, testAccount));
     }

@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 
+import static be.ugent.zeus.hydra.common.network.Endpoints.MINERVA_API;
+
 /**
  * Request to get information about a course.
  *
@@ -20,7 +22,7 @@ class WhatsNewRequest extends MinervaRequest<ApiWhatsNew> {
     private Course course;
 
     WhatsNewRequest(Course course, Context context, Account account) {
-        super(ApiWhatsNew.class, context, account);
+        super(context, ApiWhatsNew.class, account);
         this.course = course;
     }
 

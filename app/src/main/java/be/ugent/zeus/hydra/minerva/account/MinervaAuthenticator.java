@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.Log;
-import be.ugent.zeus.hydra.minerva.auth.oauth.BearerToken;
-import be.ugent.zeus.hydra.common.request.Request;
+
 import be.ugent.zeus.hydra.common.network.IOFailureException;
+import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.minerva.auth.AuthActivity;
+import be.ugent.zeus.hydra.minerva.auth.oauth.BearerToken;
 import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * Authenticator to save Minerva account details in the AccountManager. Minerva uses OAuth2 authentication with
@@ -48,9 +48,6 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
     private static final String TAG = MinervaAuthenticator.class.getSimpleName();
 
     public static final String EXP_DATE = "expDate";
-    private static final String EXP_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(EXP_DATE_FORMAT);
 
     private Context mContext;
     private AccountManager manager;
@@ -99,7 +96,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
 
         //Check the expiration date
         if(!TextUtils.isEmpty(accessToken)) {
-            LocalDateTime expires = LocalDateTime.parse(manager.getUserData(account, EXP_DATE), formatter);
+            LocalDateTime expires = AccountUtils.getExpirationDate(manager, account);
             LocalDateTime now = LocalDateTime.now();
 
             //The token is invalid, so get get new one.
@@ -167,7 +164,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
             }
 
             LocalDateTime expiration = LocalDateTime.now().plusSeconds(token.getExpiresIn());
-            manager.setUserData(account, EXP_DATE, expiration.format(formatter));
+            AccountUtils.setExpirationDate(manager, account, expiration);
 
             return token.getAccessToken();
         } catch (IOFailureException e) {
