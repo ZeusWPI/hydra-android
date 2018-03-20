@@ -90,8 +90,11 @@ public abstract class AbstractJsonRequestTest<D> {
         // Test that all data is present by getting the normal data first.
 
         // Write the parsed data back to json and parse that.
-        JsonAdapter<D> adapter = request.getAdapter();
+        JsonAdapter<D> adapter = request.getAdapter().serializeNulls();
         String actualData = adapter.toJson(result.getData());
+
+        System.out.println(actualData);
+        //System.out.println(data);
 
         JSONAssert.assertEquals(data, actualData, false);
 

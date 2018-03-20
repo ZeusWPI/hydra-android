@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import be.ugent.zeus.hydra.library.Library;
+import com.squareup.moshi.Json;
 import java8.util.Objects;
 
 import java.io.Serializable;
@@ -17,6 +18,8 @@ import java.util.List;
 public final class LibraryList implements Serializable, Parcelable {
 
     private String name;
+    @Json(name = "libraries_total")
+    private int totalLibraries;
 
     private List<Library> libraries;
 
@@ -28,18 +31,23 @@ public final class LibraryList implements Serializable, Parcelable {
         return libraries;
     }
 
+    public int getTotalLibraries() {
+        return totalLibraries;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LibraryList that = (LibraryList) o;
         return Objects.equals(name, that.name) &&
-                Objects.equals(libraries, that.libraries);
+                Objects.equals(libraries, that.libraries) &&
+                totalLibraries == that.totalLibraries;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, libraries);
+        return Objects.hash(name, libraries, totalLibraries);
     }
 
     @Override
@@ -51,6 +59,7 @@ public final class LibraryList implements Serializable, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
         dest.writeTypedList(this.libraries);
+        dest.writeInt(totalLibraries);
     }
 
     @SuppressWarnings("unused") // Used by Moshi.
@@ -60,6 +69,7 @@ public final class LibraryList implements Serializable, Parcelable {
     protected LibraryList(Parcel in) {
         this.name = in.readString();
         this.libraries = in.createTypedArrayList(Library.CREATOR);
+        this.totalLibraries = in.readInt();
     }
 
     public static final Parcelable.Creator<LibraryList> CREATOR = new Parcelable.Creator<LibraryList>() {

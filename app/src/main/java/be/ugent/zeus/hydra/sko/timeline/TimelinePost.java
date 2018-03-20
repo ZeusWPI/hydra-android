@@ -34,6 +34,7 @@ public final class TimelinePost implements Serializable, Parcelable {
     @Retention(RetentionPolicy.SOURCE)
     public @interface PostType {}
 
+    private int id;
     private String title;
     private String body;
     private String link;
@@ -45,6 +46,7 @@ public final class TimelinePost implements Serializable, Parcelable {
     private String poster;
     @SerializedName("created_at")
     @JsonAdapter(DateTypeConverters.GsonOffset.class)
+    @Json(name = "created_at")
     private OffsetDateTime createdAt;
 
     @Nullable
@@ -150,12 +152,13 @@ public final class TimelinePost implements Serializable, Parcelable {
         return Objects.equals(title, that.title) &&
                 Objects.equals(body, that.body) &&
                 Objects.equals(postType, that.postType) &&
-                Objects.equals(createdAt, that.createdAt);
+                Objects.equals(createdAt, that.createdAt) &&
+                id == that.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, body, postType, createdAt);
+        return Objects.hash(id, title, body, postType, createdAt);
     }
 
     private TimelinePost(Parcel in) {
