@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.schamper.list;
 import android.app.Application;
 
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 import be.ugent.zeus.hydra.schamper.Article;
 
@@ -20,6 +19,6 @@ public class SchamperViewModel extends RequestViewModel<List<Article>> {
 
     @Override
     protected Request<List<Article>> getRequest() {
-        return Requests.cachedList(getApplication(), new SchamperArticlesRequest());
+        return new SchamperArticlesRequest(getApplication());
     }
 }

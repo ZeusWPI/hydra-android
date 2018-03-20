@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HideableHomeFeedRequest;
 import be.ugent.zeus.hydra.feed.cards.Card;
@@ -28,7 +27,7 @@ public class SchamperRequest extends HideableHomeFeedRequest {
 
     public SchamperRequest(Context context, CardRepository cardRepository) {
         super(cardRepository);
-        this.request = Requests.cachedList(context, new SchamperArticlesRequest());
+        this.request = new SchamperArticlesRequest(context);
     }
 
     @Override

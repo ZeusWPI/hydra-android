@@ -1,28 +1,22 @@
 package be.ugent.zeus.hydra.schamper.list;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.common.caching.Cache;
 import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.common.request.CacheableRequest;
+import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
 import be.ugent.zeus.hydra.schamper.Article;
+import org.threeten.bp.Duration;
 
 /**
  * Request to get Schamper articles.
  *
  * @author feliciaan
  */
-public class SchamperArticlesRequest extends JsonSpringRequest<Article[]> implements CacheableRequest<Article[]> {
+public class SchamperArticlesRequest extends JsonArrayRequest<Article> {
 
-    public SchamperArticlesRequest() {
-        super(Article[].class);
-    }
-
-    @NonNull
-    @Override
-    public String getCacheKey() {
-        return "schamper.dailies";
+    public SchamperArticlesRequest(Context context) {
+        super(context, Article.class);
     }
 
     @NonNull
@@ -32,7 +26,7 @@ public class SchamperArticlesRequest extends JsonSpringRequest<Article[]> implem
     }
 
     @Override
-    public long getCacheDuration() {
-        return Cache.ONE_DAY;
+    public Duration getCacheDuration() {
+        return Duration.ofDays(1);
     }
 }
