@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.info.list;
+package be.ugent.zeus.hydra.info;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;

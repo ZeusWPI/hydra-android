@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.info.list;
+package be.ugent.zeus.hydra.info;
 
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;
@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemAdapter2;
-import be.ugent.zeus.hydra.info.InfoItem;
 
 /**
  * Adapter for the list of information items.

@@ -27,7 +27,7 @@ import be.ugent.zeus.hydra.association.news.list.NewsFragment;
 import be.ugent.zeus.hydra.common.preferences.SettingsActivity;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.feed.HomeFeedFragment;
-import be.ugent.zeus.hydra.info.list.InfoFragment;
+import be.ugent.zeus.hydra.info.InfoFragment;
 import be.ugent.zeus.hydra.library.list.LibraryListFragment;
 import be.ugent.zeus.hydra.minerva.mainui.OverviewFragment;
 import be.ugent.zeus.hydra.onboarding.OnboardingActivity;

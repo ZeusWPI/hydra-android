@@ -132,7 +132,7 @@
 
         <!-- Show info items -->
         <activity
-            android:name=".info.list.InfoSubItemActivity"
+            android:name=".info.InfoSubItemActivity"
             android:label="@string/title_activity_info_sub_item"
             android:parentActivityName=".MainActivity" />
 

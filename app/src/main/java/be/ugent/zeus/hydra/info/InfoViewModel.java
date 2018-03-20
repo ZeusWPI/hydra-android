@@ -1,12 +1,9 @@
-package be.ugent.zeus.hydra.info.list;
+package be.ugent.zeus.hydra.info;
 
 import android.app.Application;
 
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
-import be.ugent.zeus.hydra.info.InfoItem;
-import be.ugent.zeus.hydra.info.InfoRequest;
 
 import java.util.List;
 
@@ -21,6 +18,6 @@ public class InfoViewModel extends RequestViewModel<List<InfoItem>> {
 
     @Override
     protected Request<List<InfoItem>> getRequest() {
-        return Requests.cachedList(getApplication(), new InfoRequest());
+        return new InfoRequest(getApplication());
     }
 }

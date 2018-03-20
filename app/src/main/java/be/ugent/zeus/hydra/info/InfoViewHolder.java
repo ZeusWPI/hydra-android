@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.info.list;
+package be.ugent.zeus.hydra.info;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -8,7 +8,6 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
-import be.ugent.zeus.hydra.info.InfoItem;
 
 /**
  * View holder for info items.

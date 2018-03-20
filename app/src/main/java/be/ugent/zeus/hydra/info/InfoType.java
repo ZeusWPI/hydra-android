@@ -12,8 +12,9 @@ import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.WebViewActivity;
-import be.ugent.zeus.hydra.info.list.InfoSubItemActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
+
+import java.util.ArrayList;
 
 /**
  * The type of information (external url/app, internal url, ...).
@@ -70,7 +71,7 @@ public enum InfoType {
         @Override
         public void doOnClick(Context context, InfoItem infoItem) {
             Intent intent = new Intent(context, InfoSubItemActivity.class);
-            intent.putParcelableArrayListExtra(InfoSubItemActivity.INFO_ITEMS, infoItem.getSubContent());
+            intent.putParcelableArrayListExtra(InfoSubItemActivity.INFO_ITEMS, new ArrayList<>(infoItem.getSubContent()));
             intent.putExtra(InfoSubItemActivity.INFO_TITLE, infoItem.getTitle());
             context.startActivity(intent);
         }
