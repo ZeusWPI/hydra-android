@@ -1,39 +1,32 @@
 package be.ugent.zeus.hydra.resto.meta;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.common.caching.Cache;
-import be.ugent.zeus.hydra.common.request.CacheableRequest;
+import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
+import org.threeten.bp.Duration;
+import org.threeten.bp.temporal.ChronoUnit;
 
 /**
  * Request for meta information about the resto.
  *
  * @author feliciaan
  */
-public class MetaRequest extends JsonSpringRequest<RestoMeta> implements CacheableRequest<RestoMeta> {
+public class MetaRequest extends JsonOkHttpRequest<RestoMeta> {
 
-    private static final String NAME = "meta.json";
-
-    public MetaRequest() {
-        super(RestoMeta.class);
-    }
-
-    @NonNull
-    @Override
-    public String getCacheKey() {
-        return "resto" + NAME;
+    public MetaRequest(Context context) {
+        super(context, RestoMeta.class);
     }
 
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.ZEUS_RESTO_URL + NAME;
+        return Endpoints.ZEUS_RESTO_URL + "meta.json";
     }
 
     @Override
-    public long getCacheDuration() {
-        return Cache.ONE_WEEK * 4;
+    public Duration getCacheDuration() {
+        return ChronoUnit.MONTHS.getDuration();
     }
 }
