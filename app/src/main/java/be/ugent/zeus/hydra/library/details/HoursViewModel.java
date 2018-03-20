@@ -6,7 +6,6 @@ import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 import be.ugent.zeus.hydra.library.Library;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,13 +25,10 @@ public class HoursViewModel extends RequestViewModel<List<OpeningHours>> {
 
     @Override
     protected Request<List<OpeningHours>> getRequest() {
-
         if (library == null) {
             //TODO: should this be a LiveData instead?
             throw new IllegalStateException("You must set the library before using it.");
         }
-
-        // TODO: this is currently not cached.
-        return new OpeningHoursRequest(library).map(Arrays::asList);
+        return new OpeningHoursRequest(getApplication(), library);
     }
 }

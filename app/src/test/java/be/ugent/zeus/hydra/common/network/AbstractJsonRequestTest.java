@@ -29,10 +29,10 @@ import static org.mockito.Mockito.when;
  */
 public abstract class AbstractJsonRequestTest<D> {
 
-    private Moshi moshi = InstanceProvider.getMoshi();
+    protected Moshi moshi = InstanceProvider.getMoshi();
 
-    private File getData() {
-        return new File(getClass().getClassLoader().getResource(getRelativePath()).getFile());
+    protected final File getResourceFile(String resourcePath) {
+        return new File(getClass().getClassLoader().getResource(resourcePath).getFile());
     }
 
     protected abstract String getRelativePath();
@@ -47,7 +47,7 @@ public abstract class AbstractJsonRequestTest<D> {
         return adapter.fromJson(data);
     }
 
-    private String readData(File file) throws IOException {
+    protected final String readData(File file) throws IOException {
         BufferedSource source = Okio.buffer(Okio.source(new FileInputStream(file)));
         return source.readUtf8();
     }
@@ -73,7 +73,7 @@ public abstract class AbstractJsonRequestTest<D> {
     public void testNormal() throws IOException {
 
         JsonOkHttpRequest<D> request = getRequest();
-        File resource = getData();
+        File resource = getResourceFile(getRelativePath());
         String data = readData(resource);
 
         MockWebServer mockWebServer = new MockWebServer();
