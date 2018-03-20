@@ -36,12 +36,11 @@ import static org.junit.Assert.*;
 public class MinervaRequestTest {
 
     private MockWebServer server;
-    private Account account;
+    private Account account = new Account("TEST", MinervaConfig.ACCOUNT_TYPE);
 
     @Before
     public void setUp() {
         server = new MockWebServer();
-        account = new Account("TEST", MinervaConfig.ACCOUNT_TYPE);
     }
 
     @After

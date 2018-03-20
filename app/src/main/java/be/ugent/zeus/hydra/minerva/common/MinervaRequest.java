@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.annotation.WorkerThread;
 import android.util.Log;
 
@@ -69,7 +70,6 @@ public abstract class MinervaRequest<T> extends JsonOkHttpRequest<T> {
         try {
             try {
                 return executeRequest(adapter, args);
-
             } catch (UnsuccessfulRequestException e) {
                 if (e.getHttpCode() != 503) {
                     throw e; // Proceed with error.
@@ -97,7 +97,8 @@ public abstract class MinervaRequest<T> extends JsonOkHttpRequest<T> {
     }
 
     @NonNull
-    private String getToken() throws ConstructionException {
+    @VisibleForTesting
+    protected String getToken() throws ConstructionException {
         // Attempt to get the access token.
         Bundle tokenBundle = tokenProvider.getAccessTokenBundle(accountManager, account);
 

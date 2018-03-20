@@ -187,6 +187,7 @@ dependencies {
     testImplementation('com.shazam:shazamcrest:0.11') {
         exclude group: 'com.google.code.gson', module: 'gson'
     }
+    testImplementation 'org.skyscreamer:jsonassert:1.5.0'
     testImplementation 'io.github.benas:random-beans:3.7.0'
     testImplementation 'org.apache.commons:commons-lang3:3.7'
     testImplementation 'org.hamcrest:hamcrest-core:1.3'

@@ -9,8 +9,9 @@ import okhttp3.mockwebserver.MockWebServer;
 import okio.BufferedSource;
 import okio.Okio;
 import org.apache.commons.validator.routines.UrlValidator;
-import org.junit.Assert;
+import org.json.JSONException;
 import org.junit.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,8 +19,8 @@ import java.io.IOException;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
 
 /**
  * Base class for testing Json requests. This base class provides the test to see if the request parses the data
@@ -52,16 +53,6 @@ public abstract class AbstractJsonRequestTest<D> {
         return source.readUtf8();
     }
 
-    /**
-     * By default this will call {@link Assert#assertEquals(Object, Object)} )}
-     *
-     * @param expected The expected result.
-     * @param actual   The actual result.
-     */
-    protected void assertEquals(D expected, D actual) {
-        Assert.assertEquals(expected, actual);
-    }
-
     @Test
     public void testValidUrl() {
         JsonOkHttpRequest<?> request = getRequest();
@@ -70,7 +61,7 @@ public abstract class AbstractJsonRequestTest<D> {
     }
 
     @Test
-    public void testNormal() throws IOException {
+    public void testNormal() throws IOException, JSONException {
 
         JsonOkHttpRequest<D> request = getRequest();
         File resource = getResourceFile(getRelativePath());
@@ -87,8 +78,8 @@ public abstract class AbstractJsonRequestTest<D> {
         HttpUrl originalUrl = HttpUrl.parse(request.getAPIUrl());
         assertNotNull(originalUrl);
         HttpUrl serverUrl = mockWebServer.url(originalUrl.encodedPath());
-        request = spy(request);
-        when(request.getAPIUrl()).thenReturn(serverUrl.toString());
+        request = spyForNormal(request);
+        doReturn(serverUrl.toString()).when(request).getAPIUrl();
 
         Result<D> result = request.performRequest(null);
 
@@ -96,11 +87,21 @@ public abstract class AbstractJsonRequestTest<D> {
         assertTrue(result.isDone());
         assertTrue(result.isWithoutError());
 
-        // Test that all data is present by getting the normal data first
-        D expected = getExpectedResult(data);
+        // Test that all data is present by getting the normal data first.
 
-        assertEquals(expected, result.getData());
+        // Write the parsed data back to json and parse that.
+        JsonAdapter<D> adapter = request.getAdapter();
+        String actualData = adapter.toJson(result.getData());
+
+        JSONAssert.assertEquals(data, actualData, false);
 
         mockWebServer.shutdown();
+    }
+
+    /**
+     * Can also be used to inject spy methods.
+     */
+    protected JsonOkHttpRequest<D> spyForNormal(JsonOkHttpRequest<D> request) {
+        return spy(request);
     }
 }
