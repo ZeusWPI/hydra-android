@@ -5,13 +5,13 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringDef;
-import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
-import be.ugent.zeus.hydra.utils.DateUtils;
+
+import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 import java8.util.Objects;
-import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import java.io.Serializable;
 import java.lang.annotation.Retention;
@@ -40,11 +40,12 @@ public final class TimelinePost implements Serializable, Parcelable {
     private String media;
     private String origin;
     @SerializedName("post_type")
+    @Json(name = "post_type")
     private String postType;
     private String poster;
     @SerializedName("created_at")
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime createdAt;
+    @JsonAdapter(DateTypeConverters.GsonOffset.class)
+    private OffsetDateTime createdAt;
 
     @Nullable
     public String getTitle() {
@@ -80,12 +81,8 @@ public final class TimelinePost implements Serializable, Parcelable {
         return poster;
     }
 
-    public ZonedDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
-    }
-
-    public LocalDateTime getLocalCreatedAt() {
-        return DateUtils.toLocalDateTime(getCreatedAt());
     }
 
     /**
@@ -169,7 +166,7 @@ public final class TimelinePost implements Serializable, Parcelable {
         this.origin = in.readString();
         this.postType = in.readString();
         this.poster = in.readString();
-        this.createdAt = (ZonedDateTime) in.readSerializable();
+        this.createdAt = (OffsetDateTime) in.readSerializable();
     }
 
     public static final Parcelable.Creator<TimelinePost> CREATOR = new Parcelable.Creator<TimelinePost>() {
