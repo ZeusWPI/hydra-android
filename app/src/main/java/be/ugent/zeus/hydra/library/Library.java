@@ -6,13 +6,13 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
-import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.common.converter.IntBoolean;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 import java8.util.Objects;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
-import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
 import java.util.List;
@@ -33,27 +33,25 @@ public final class Library implements Serializable, Parcelable {
     private String code;
     private List<String> telephone;
     @JsonAdapter(BooleanJsonAdapter.class)
+    @IntBoolean
     private boolean active;
     @SerializedName("thumbnail_url")
+    @Json(name = "thumbnail_url")
     private String thumbnail;
     @SerializedName("image_url")
+    @Json(name = "image_url")
     private String image;
     @SerializedName("lat")
+    @Json(name = "lat")
     private String latitude;
     @SerializedName("long")
+    @Json(name = "long")
     private String longitude;
-    @SerializedName("comments")
     private List<String> comments;
     private String contact;
     private String campus;
     private String faculty;
     private String link;
-    @SerializedName("created_at")
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime createdAt;
-    @SerializedName("updated_at")
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime updatedAt;
 
     private boolean favourite;
 
@@ -121,14 +119,6 @@ public final class Library implements Serializable, Parcelable {
 
     public String getLink() {
         return link;
-    }
-
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public ZonedDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     public void setFavourite(boolean favourite) {
@@ -228,8 +218,6 @@ public final class Library implements Serializable, Parcelable {
         dest.writeString(this.campus);
         dest.writeString(this.faculty);
         dest.writeString(this.link);
-        dest.writeSerializable(this.createdAt);
-        dest.writeSerializable(this.updatedAt);
         dest.writeByte(this.favourite ? (byte) 1 : (byte) 0);
     }
 
@@ -250,8 +238,6 @@ public final class Library implements Serializable, Parcelable {
         this.campus = in.readString();
         this.faculty = in.readString();
         this.link = in.readString();
-        this.createdAt = (ZonedDateTime) in.readSerializable();
-        this.updatedAt = (ZonedDateTime) in.readSerializable();
         this.favourite = in.readByte() != 0;
     }
 

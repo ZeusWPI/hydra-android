@@ -2,12 +2,9 @@ package be.ugent.zeus.hydra.library.list;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
+
 import be.ugent.zeus.hydra.library.Library;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
 import java8.util.Objects;
-import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,26 +18,10 @@ public final class LibraryList implements Serializable, Parcelable {
 
     private String name;
 
-    @SerializedName("created_at")
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime createdAt;
-
-    @SerializedName("updated_at")
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime updatedAt;
-
     private List<Library> libraries;
 
     public String getName() {
         return name;
-    }
-
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public ZonedDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     public List<Library> getLibraries() {
@@ -69,18 +50,15 @@ public final class LibraryList implements Serializable, Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
-        dest.writeSerializable(this.createdAt);
-        dest.writeSerializable(this.updatedAt);
         dest.writeTypedList(this.libraries);
     }
 
+    @SuppressWarnings("unused") // Used by Moshi.
     public LibraryList() {
     }
 
     protected LibraryList(Parcel in) {
         this.name = in.readString();
-        this.createdAt = (ZonedDateTime) in.readSerializable();
-        this.updatedAt = (ZonedDateTime) in.readSerializable();
         this.libraries = in.createTypedArrayList(Library.CREATOR);
     }
 
