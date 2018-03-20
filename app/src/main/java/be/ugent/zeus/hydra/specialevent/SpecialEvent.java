@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.sko.OverviewActivity;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 import java8.util.Objects;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import java.io.Serializable;
 
@@ -28,18 +29,19 @@ public final class SpecialEvent implements Serializable {
     private String name;
     private String link;
     @SerializedName("simple-text")
+    @Json(name = "simple-text")
     private String simpleText;
     private String image;
     private String html;
     private int priority;
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime start;
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime end;
+    @JsonAdapter(DateTypeConverters.GsonOffset.class)
+    private OffsetDateTime start;
+    @JsonAdapter(DateTypeConverters.GsonOffset.class)
+    private OffsetDateTime end;
     private boolean development;
     @SerializedName("in-app")
+    @Json(name = "in-app")
     private String inApp;
-
     private long id;
 
     /**
@@ -102,11 +104,11 @@ public final class SpecialEvent implements Serializable {
         this.priority = priority;
     }
 
-    public ZonedDateTime getStart() {
+    public OffsetDateTime getStart() {
         return start;
     }
 
-    public ZonedDateTime getEnd() {
+    public OffsetDateTime getEnd() {
         return end;
     }
 
