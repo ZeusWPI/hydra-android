@@ -2,9 +2,7 @@ package be.ugent.zeus.hydra.common.network;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
+import android.support.annotation.*;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
@@ -50,6 +48,12 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     private final OkHttpClient client;
     private final Type typeToken;
 
+    /**
+     * Construct a new request. As this constructor is not type-safe, it must only be used internally.
+     *
+     * @param context The context.
+     * @param token The type token of the return type.
+     */
     JsonOkHttpRequest(Context context, Type token) {
         this.moshi = InstanceProvider.getMoshi();
         this.client = InstanceProvider.getClient(context);
@@ -68,6 +72,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
 
     @NonNull
     @Override
+    @WorkerThread
     public Result<D> performRequest(@Nullable Bundle args) {
 
         JsonAdapter<D> adapter = moshi.adapter(typeToken);
