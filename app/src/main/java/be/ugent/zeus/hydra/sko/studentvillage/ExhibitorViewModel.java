@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.sko.studentvillage;
 import android.app.Application;
 
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
 import java.util.List;
@@ -19,6 +18,6 @@ public class ExhibitorViewModel extends RequestViewModel<List<Exhibitor>> {
 
     @Override
     protected Request<List<Exhibitor>> getRequest() {
-        return Requests.cachedList(getApplication(), new ExhibitorRequest());
+        return new ExhibitorRequest(getApplication());
     }
 }
