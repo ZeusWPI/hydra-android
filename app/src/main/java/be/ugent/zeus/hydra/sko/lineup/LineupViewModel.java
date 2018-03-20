@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.sko.lineup;
 import android.app.Application;
 
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
 import java.util.List;
@@ -21,6 +20,6 @@ public class LineupViewModel extends RequestViewModel<List<Artist>> {
 
     @Override
     protected Request<List<Artist>> getRequest() {
-        return Requests.cachedList(getApplication(), new LineupRequest());
+        return new LineupRequest(getApplication());
     }
 }

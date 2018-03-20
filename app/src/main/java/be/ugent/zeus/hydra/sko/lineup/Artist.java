@@ -7,12 +7,12 @@ import android.os.Parcelable;
 import android.provider.CalendarContract;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import com.google.gson.annotations.JsonAdapter;
 import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import java.io.Serializable;
@@ -29,10 +29,10 @@ public final class Artist implements Serializable, Parcelable {
     private static final String LOCATION = "Sint-Pietersplein, Gent";
 
     private String name;
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime start;
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime end;
+    @JsonAdapter(DateTypeConverters.GsonOffset.class)
+    private OffsetDateTime start;
+    @JsonAdapter(DateTypeConverters.GsonOffset.class)
+    private OffsetDateTime end;
     private String banner;
     private String image;
     private String content;
@@ -48,14 +48,14 @@ public final class Artist implements Serializable, Parcelable {
     /**
      * @return The start date, with time zone information.
      */
-    public ZonedDateTime getStart() {
+    public OffsetDateTime getStart() {
         return start;
     }
 
     /**
      * @return The end date, with time zone information.
      */
-    public ZonedDateTime getEnd() {
+    public OffsetDateTime getEnd() {
         return end;
     }
 
@@ -117,8 +117,8 @@ public final class Artist implements Serializable, Parcelable {
 
     private Artist(Parcel in) {
         this.name = in.readString();
-        this.start = (ZonedDateTime) in.readSerializable();
-        this.end = (ZonedDateTime) in.readSerializable();
+        this.start = (OffsetDateTime) in.readSerializable();
+        this.end = (OffsetDateTime) in.readSerializable();
         this.banner = in.readString();
         this.image = in.readString();
         this.content = in.readString();
