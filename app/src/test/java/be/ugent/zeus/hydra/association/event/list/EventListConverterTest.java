@@ -4,17 +4,16 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.association.event.Event;
-import com.google.gson.Gson;
+import be.ugent.zeus.hydra.common.network.InstanceProvider;
+import be.ugent.zeus.hydra.testing.Utils;
+import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Types;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
 import org.threeten.bp.LocalDate;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,10 +31,9 @@ public class EventListConverterTest {
 
     @Before
     public void setUp() throws IOException {
-        Gson gson = new Gson();
-        InputStream eventStream = new ClassPathResource("all_activities.json").getInputStream();
-        Event[] events = gson.fromJson(new InputStreamReader(eventStream), Event[].class);
-        data = Arrays.asList(events);
+        Moshi moshi = InstanceProvider.getMoshi();
+        data = Utils.readJson(moshi, "all_activities.json",
+                Types.newParameterizedType(List.class, Event.class));
     }
 
     @Test

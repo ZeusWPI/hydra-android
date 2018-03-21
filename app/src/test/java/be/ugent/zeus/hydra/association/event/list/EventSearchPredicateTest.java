@@ -3,15 +3,14 @@ package be.ugent.zeus.hydra.association.event.list;
 import android.annotation.SuppressLint;
 
 import be.ugent.zeus.hydra.association.event.Event;
-import com.google.gson.Gson;
+import be.ugent.zeus.hydra.common.network.InstanceProvider;
+import be.ugent.zeus.hydra.testing.Utils;
+import com.squareup.moshi.Types;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,13 +23,12 @@ public class EventSearchPredicateTest {
 
     @Before
     public void setUp() throws IOException {
-        Gson gson = new Gson();
-        InputStream eventStream = new ClassPathResource("all_activities.json").getInputStream();
-        Event[] events = gson.fromJson(new InputStreamReader(eventStream), Event[].class);
-        data = Arrays.asList(events);
+        data = Utils.readJson(InstanceProvider.getMoshi(), "all_activities.json",
+                Types.newParameterizedType(List.class, Event.class));
     }
 
     @Test
+    @Ignore
     public void testNonExisting() {
 //        String randomWord = "µ$µ$µ$µ$µ$";
 //
@@ -47,6 +45,7 @@ public class EventSearchPredicateTest {
     }
 
     @Test
+    @Ignore
     public void testExisting() {
 //        Event random = Utils.getRandom(data);
 //        EventSearchPredicate searchPredicate = new EventSearchPredicate();

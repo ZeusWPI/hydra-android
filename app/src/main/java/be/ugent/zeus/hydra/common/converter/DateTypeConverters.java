@@ -2,10 +2,6 @@ package be.ugent.zeus.hydra.common.converter;
 
 import android.arch.persistence.room.TypeConverter;
 
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
-import com.google.gson.stream.JsonWriter;
 import com.squareup.moshi.FromJson;
 import com.squareup.moshi.ToJson;
 import org.threeten.bp.Instant;
@@ -13,8 +9,6 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
-
-import java.io.IOException;
 
 /**
  * Converts for various date-related classes.
@@ -90,28 +84,11 @@ public class DateTypeConverters {
         return LocalDateTime.parse(value, DateTimeFormatter.ISO_LOCAL_DATE_TIME).atZone(LocalZonedDateTime.BRUSSELS);
     }
 
-    /**
-     * Adapter for Gson.
-     */
-    public static class GsonOffset extends TypeAdapter<OffsetDateTime> {
-
-        @Override
-        public void write(JsonWriter out, OffsetDateTime value) throws IOException {
-            out.value(fromOffsetDateTime(value));
-        }
+    public static class GsonOffset {
 
         @FromJson
         OffsetDateTime read(String value) {
             return toOffsetDateTime(value);
-        }
-
-        @Override
-        public OffsetDateTime read(JsonReader in) throws IOException {
-            if (in.peek() == JsonToken.NULL) {
-                in.nextNull();
-                return null;
-            }
-            return toOffsetDateTime(in.nextString());
         }
 
         @ToJson
@@ -120,24 +97,21 @@ public class DateTypeConverters {
         }
     }
 
-    public static class GsonInstant extends TypeAdapter<Instant> {
+    public static class GsonInstant {
 
-        @Override
-        public void write(JsonWriter out, Instant instant) throws IOException {
-            out.value(fromInstant(instant));
+        @FromJson
+        Instant read(String value) {
+            return toInstant(value);
         }
 
-        @Override
-        public Instant read(JsonReader in) throws IOException {
-            if (in.peek() == JsonToken.NULL) {
-                in.nextNull();
-                return null;
-            }
-            return toInstant(in.nextString());
+        @ToJson
+        String write(Instant value) {
+            return fromInstant(value);
         }
     }
 
     public static class LocalZonedDateTimeInstance {
+
         @FromJson
         @LocalZonedDateTime
         ZonedDateTime fromJson(String value) {

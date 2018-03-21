@@ -7,7 +7,6 @@ import android.support.annotation.RequiresApi;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.common.database.Database;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +38,6 @@ public class TestMigration_11_12 {
     }
 
     @Test
-    @Ignore
     public void testMigration() throws IOException {
         // There is no data to test, since we just add a new table.
         testHelper.createDatabase("test-db", 11).close();

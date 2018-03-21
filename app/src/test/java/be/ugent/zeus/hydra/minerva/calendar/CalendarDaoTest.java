@@ -11,6 +11,8 @@ import be.ugent.zeus.hydra.minerva.calendar.database.AgendaItemDTO;
 import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.threeten.bp.OffsetDateTime;
 
 import java.util.HashMap;
@@ -30,6 +32,7 @@ import static org.junit.Assert.assertNull;
  * @author Niko Strijbol
  */
 @RequiresApi(api = 26)
+@RunWith(RobolectricTestRunner.class)
 public class CalendarDaoTest extends AbstractDaoTest {
 
     private AgendaDao dao;

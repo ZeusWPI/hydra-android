@@ -20,7 +20,6 @@
  */
 package be.ugent.zeus.hydra.minerva.auth;
 
-import com.google.gson.annotations.SerializedName;
 import com.squareup.moshi.Json;
 
 import java.util.List;
@@ -33,15 +32,12 @@ import java.util.List;
  */
 final class UserAttributes {
 
-    @SerializedName("mail")
     @Json(name = "mail")
     private List<String> email;
 
-    @SerializedName("objectClass")
     @Json(name = "objectClass")
     private List<String> userClass;
 
-    @SerializedName("givenname")
     @Json(name = "givenname")
     private List<String> givenName;
 

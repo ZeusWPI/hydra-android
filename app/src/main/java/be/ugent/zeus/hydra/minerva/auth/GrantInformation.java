@@ -20,7 +20,6 @@
  */
 package be.ugent.zeus.hydra.minerva.auth;
 
-import com.google.gson.annotations.SerializedName;
 import com.squareup.moshi.Json;
 
 import java.util.Collection;
@@ -35,7 +34,6 @@ final class GrantInformation {
 
     private Collection<String> scopes;
 
-    @SerializedName("user")
     @Json(name = "user")
     private UserAttributes userAttributes;
 

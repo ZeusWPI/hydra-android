@@ -2,8 +2,7 @@ package be.ugent.zeus.hydra.resto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.common.converter.DateThreeTenAdapter;
-import com.google.gson.annotations.JsonAdapter;
+
 import org.threeten.bp.LocalDate;
 
 import java.io.Serializable;
@@ -20,7 +19,6 @@ import java.util.List;
 public final class RestoMenu implements Parcelable, Serializable {
 
     private boolean open;
-    @JsonAdapter(DateThreeTenAdapter.class)
     private LocalDate date;
     private List<RestoMeal> meals;
     private transient List<RestoMeal> sideDishes;

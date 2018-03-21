@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.info;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
 import com.squareup.moshi.Json;
 import java8.util.Objects;
 
@@ -22,10 +21,8 @@ public final class InfoItem implements Parcelable, Serializable {
     private String image;
     private String html;
     private String url;
-    @SerializedName("url-android")
     @Json(name = "url-android")
     private String urlAndroid;
-    @SerializedName("subcontent")
     @Json(name = "subcontent")
     private List<InfoItem> subContent;
 

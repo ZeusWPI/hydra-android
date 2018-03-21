@@ -6,8 +6,6 @@ import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
 import com.squareup.moshi.Json;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;
@@ -21,8 +19,6 @@ public final class Article implements Serializable, Parcelable {
 
     private String title;
     private String link;
-    @JsonAdapter(DateTypeConverters.GsonOffset.class)
-    @SerializedName("pub_date")
     @Json(name = "pub_date")
     private OffsetDateTime pubDate;
     private String author;
@@ -30,7 +26,6 @@ public final class Article implements Serializable, Parcelable {
     private String image;
     private String category;
     private String intro;
-    @SerializedName("category_color")
     @Json(name = "category_color")
     private String categoryColour;
 

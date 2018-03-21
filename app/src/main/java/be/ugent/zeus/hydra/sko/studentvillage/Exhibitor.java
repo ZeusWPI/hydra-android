@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.sko.studentvillage;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.google.gson.annotations.SerializedName;
+
 import com.squareup.moshi.Json;
 import java8.util.Objects;
 
@@ -15,7 +15,6 @@ import java.io.Serializable;
  */
 public final class Exhibitor implements Serializable, Parcelable {
 
-    @SerializedName("naam")
     @Json(name = "naam")
     private String name;
     private String logo;

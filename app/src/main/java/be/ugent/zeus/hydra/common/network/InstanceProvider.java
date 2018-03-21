@@ -6,8 +6,6 @@ import android.support.annotation.VisibleForTesting;
 import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.common.converter.DateThreeTenAdapter;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
-import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
-import com.google.gson.Gson;
 import com.squareup.moshi.Moshi;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -20,7 +18,8 @@ import java.io.File;
  *
  * @author Niko Strijbol
  */
-class InstanceProvider {
+@VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+public class InstanceProvider {
 
     private static OkHttpClient client;
 
@@ -40,22 +39,12 @@ class InstanceProvider {
         return getClient(context.getCacheDir());
     }
 
-    private static Gson gson;
-
-    public static synchronized Gson getGson() {
-        if (gson == null) {
-            gson = new Gson();
-        }
-        return gson;
-    }
-
     private static Moshi moshi;
 
     public static synchronized Moshi getMoshi() {
         if (moshi == null) {
             moshi = new Moshi.Builder()
                     .add(new BooleanJsonAdapter())
-                    .add(new ZonedThreeTenAdapter())
                     .add(new DateThreeTenAdapter())
                     .add(new DateTypeConverters.GsonOffset())
                     .add(new DateTypeConverters.LocalZonedDateTimeInstance())
@@ -68,6 +57,5 @@ class InstanceProvider {
     static void reset() {
         client = null;
         moshi = null;
-        gson = null;
     }
 }

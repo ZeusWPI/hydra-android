@@ -6,9 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringDef;
 
-import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
 import com.squareup.moshi.Json;
 import java8.util.Objects;
 import org.threeten.bp.OffsetDateTime;
@@ -40,12 +37,9 @@ public final class TimelinePost implements Serializable, Parcelable {
     private String link;
     private String media;
     private String origin;
-    @SerializedName("post_type")
     @Json(name = "post_type")
     private String postType;
     private String poster;
-    @SerializedName("created_at")
-    @JsonAdapter(DateTypeConverters.GsonOffset.class)
     @Json(name = "created_at")
     private OffsetDateTime createdAt;
 
@@ -139,6 +133,7 @@ public final class TimelinePost implements Serializable, Parcelable {
         dest.writeString(this.postType);
         dest.writeString(this.poster);
         dest.writeSerializable(this.createdAt);
+        dest.writeInt(this.id);
     }
 
     public TimelinePost() {
@@ -170,6 +165,7 @@ public final class TimelinePost implements Serializable, Parcelable {
         this.postType = in.readString();
         this.poster = in.readString();
         this.createdAt = (OffsetDateTime) in.readSerializable();
+        this.id = in.readInt();
     }
 
     public static final Parcelable.Creator<TimelinePost> CREATOR = new Parcelable.Creator<TimelinePost>() {

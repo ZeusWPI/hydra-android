@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.minerva.course.sync;
 
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 /**
  * Represents an API course.
@@ -12,8 +12,8 @@ final class ApiCourse {
     public String code;
     public String title;
     public String description;
-    @SerializedName("tutor_name")
+    @Json(name = "tutor_name")
     public String tutor;
-    @SerializedName("academic_year")
+    @Json(name = "academic_year")
     public int year;
 }

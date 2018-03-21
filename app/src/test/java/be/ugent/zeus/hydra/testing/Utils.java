@@ -1,19 +1,23 @@
 package be.ugent.zeus.hydra.testing;
 
+import be.ugent.zeus.hydra.minerva.AbstractDaoTest;
 import be.ugent.zeus.hydra.minerva.course.Module;
-import com.google.gson.Gson;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import io.github.benas.randombeans.api.Randomizer;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import okio.BufferedSource;
+import okio.Okio;
 import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZonedDateTime;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -61,21 +65,14 @@ public class Utils {
                 .withPrefabValues(ZonedDateTime.class, ZonedDateTime.now(), ZonedDateTime.now().minusDays(2));
     }
 
-    /**
-     * Read a JSON file from the resources folder.
-     *
-     * @param clazz    The class of the file.
-     * @param filename The name of the file.
-     * @param <T>      The type.
-     *
-     * @return The file.
-     *
-     * @throws IOException If the file was not found or not readable.
-     */
-    public static <T> T readJsonResource(Class<T> clazz, String filename) throws IOException {
-        Gson gson = new Gson();
-        Resource resource = new ClassPathResource(filename);
-        return gson.fromJson(new InputStreamReader(resource.getInputStream()), clazz);
+    public static <T> T readJson(Moshi moshi, String file, Type type) throws IOException {
+        BufferedSource source = Okio.buffer(Okio.source(new FileInputStream(getResourceFile(file))));
+        JsonAdapter<T> adapter = moshi.adapter(type);
+        return adapter.fromJson(source);
+    }
+
+    public static File getResourceFile(String resourcePath) {
+        return new File(AbstractDaoTest.class.getClassLoader().getResource(resourcePath).getFile());
     }
 
     private static final Random random = new Random();

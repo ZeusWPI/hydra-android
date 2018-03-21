@@ -5,9 +5,12 @@ import android.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
+import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.testing.Utils;
+import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Types;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -16,7 +19,6 @@ import org.robolectric.annotation.Config;
 import org.threeten.bp.*;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,20 +39,20 @@ public class MenuFilterTest {
 
     @Test
     public void testDefaults() throws IOException {
-        RestoMenu[] menus = Utils.readJsonResource(RestoMenu[].class, "resto/menu_default.json");
+        Moshi moshi = InstanceProvider.getMoshi();
+        List<RestoMenu> menus = Utils.readJson(moshi, "resto/menu_default.json", Types.newParameterizedType(List.class, RestoMenu.class));
         // Set half of the restos to before, half after.
-        for (int i = 0; i < menus.length; i++) {
-            if (i < menus.length / 2) {
-                menus[i].setDate(LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate().minusDays(menus.length / 2 - i));
+        for (int i = 0; i < menus.size(); i++) {
+            if (i < menus.size() / 2) {
+                menus.get(i).setDate(LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate().minusDays(menus.size() / 2 - i));
             } else {
-                menus[i].setDate(LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate().plusDays(i - menus.length / 2));
+                menus.get(i).setDate(LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate().plusDays(i - menus.size() / 2));
             }
         }
 
-        List<RestoMenu> restoMenus = Arrays.asList(menus);
         MenuFilter filter = new MenuFilter(RuntimeEnvironment.application, clock);
-        List<RestoMenu> result = filter.apply(restoMenus);
-        assertThat(result, hasSize(restoMenus.size() / 2));
+        List<RestoMenu> result = filter.apply(menus);
+        assertThat(result, hasSize(menus.size() / 2));
         assertTrue(result.stream().noneMatch(restoMenu -> restoMenu.getDate().isBefore(cutOff.atZone(ZoneId.systemDefault()).toLocalDate())));
     }
 

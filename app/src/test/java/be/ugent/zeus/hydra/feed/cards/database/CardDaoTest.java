@@ -9,16 +9,16 @@ import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.feed.cards.CardDismissal;
 import be.ugent.zeus.hydra.feed.cards.CardIdentifier;
+import be.ugent.zeus.hydra.testing.Utils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.threeten.bp.Instant;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -63,8 +63,8 @@ public class CardDaoTest {
         cards.add(new CardDismissal(new CardIdentifier(3, "test4"), p("2061-07-28T12:03:37Z")));
         cards.add(new CardDismissal(new CardIdentifier(4, "test1"), p("2026-11-07T07:23:49Z")));
 
-        Resource sql = new ClassPathResource("feed/dismissals.sql");
-        List<String> inserts = Files.readAllLines(sql.getFile().toPath());
+        File sql = Utils.getResourceFile("feed/dismissals.sql");
+        List<String> inserts = Files.readAllLines(sql.toPath());
         inserts.forEach(s -> database.compileStatement(s).execute());
 
         assertEquals("Error during data loading.", cards.size(), inserts.size());

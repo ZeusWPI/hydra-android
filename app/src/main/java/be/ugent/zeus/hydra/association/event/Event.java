@@ -4,12 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.common.converter.IntBoolean;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
 import com.squareup.moshi.Json;
 import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
@@ -26,20 +23,16 @@ import java.io.Serializable;
 public final class Event implements Parcelable, Serializable, Comparable<Event> {
 
     private String title;
-    @JsonAdapter(DateTypeConverters.GsonOffset.class)
     private OffsetDateTime start;
-    @JsonAdapter(DateTypeConverters.GsonOffset.class)
     private OffsetDateTime end;
     private String location;
     private double latitude;
     private double longitude;
     private String description;
     private String url;
-    @SerializedName("facebook_id")
     @Json(name = "facebook_id")
     private String facebookId;
     @IntBoolean
-    @JsonAdapter(BooleanJsonAdapter.class)
     private boolean highlighted;
     private Association association;
 

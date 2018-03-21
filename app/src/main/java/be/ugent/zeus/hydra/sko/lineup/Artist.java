@@ -7,9 +7,7 @@ import android.os.Parcelable;
 import android.provider.CalendarContract;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import com.google.gson.annotations.JsonAdapter;
 import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;
@@ -29,9 +27,7 @@ public final class Artist implements Serializable, Parcelable {
     private static final String LOCATION = "Sint-Pietersplein, Gent";
 
     private String name;
-    @JsonAdapter(DateTypeConverters.GsonOffset.class)
     private OffsetDateTime start;
-    @JsonAdapter(DateTypeConverters.GsonOffset.class)
     private OffsetDateTime end;
     private String banner;
     private String image;
@@ -167,6 +163,8 @@ public final class Artist implements Serializable, Parcelable {
         content = in.readString();
         stage = in.readString();
         link = in.readString();
+        start = (OffsetDateTime) in.readSerializable();
+        end = (OffsetDateTime) in.readSerializable();
     }
 
     @Override
@@ -177,6 +175,8 @@ public final class Artist implements Serializable, Parcelable {
         dest.writeString(content);
         dest.writeString(stage);
         dest.writeString(link);
+        dest.writeSerializable(start);
+        dest.writeSerializable(end);
     }
 
     @Override

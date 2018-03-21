@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.specialevent;
 
 import android.support.annotation.NonNull;
-import com.google.gson.annotations.SerializedName;
+
 import com.squareup.moshi.Json;
 import java8.util.Objects;
 
@@ -14,7 +14,6 @@ import java.util.List;
  */
 public final class SpecialEventWrapper implements Serializable {
 
-    @SerializedName("special-events")
     @Json(name = "special-events")
     private List<SpecialEvent> specialEvents;
 

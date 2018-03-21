@@ -5,10 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.common.converter.IntBoolean;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
 import com.squareup.moshi.Json;
 import java8.util.Objects;
 import java8.util.stream.Collectors;
@@ -32,19 +29,14 @@ public final class Library implements Serializable, Parcelable {
     private String name;
     private String code;
     private List<String> telephone;
-    @JsonAdapter(BooleanJsonAdapter.class)
     @IntBoolean
     private boolean active;
-    @SerializedName("thumbnail_url")
     @Json(name = "thumbnail_url")
     private String thumbnail;
-    @SerializedName("image_url")
     @Json(name = "image_url")
     private String image;
-    @SerializedName("lat")
     @Json(name = "lat")
     private String latitude;
-    @SerializedName("long")
     @Json(name = "long")
     private String longitude;
     private List<String> comments;

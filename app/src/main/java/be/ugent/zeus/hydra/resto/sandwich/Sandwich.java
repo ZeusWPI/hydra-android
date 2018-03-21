@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.resto.sandwich;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
 import com.squareup.moshi.Json;
 import java8.util.Objects;
 
@@ -18,10 +17,8 @@ public final class Sandwich implements Parcelable, Serializable {
     private String name;
     private List<String> ingredients;
     @Json(name = "price_small")
-    @SerializedName("price_small")
     private String priceSmall;
     @Json(name = "price_medium")
-    @SerializedName("price_medium")
     private String priceMedium;
 
     public String getName() {

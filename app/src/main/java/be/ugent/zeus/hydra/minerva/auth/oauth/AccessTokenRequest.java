@@ -2,15 +2,19 @@ package be.ugent.zeus.hydra.minerva.auth.oauth;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.minerva.account.OAuthConfiguration;
-import be.ugent.zeus.hydra.common.request.Request;
+
 import be.ugent.zeus.hydra.common.network.IOFailureException;
+import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
-import com.google.gson.Gson;
+import be.ugent.zeus.hydra.minerva.account.OAuthConfiguration;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+
+import java.io.IOException;
 
 /**
  * Exchange an authorisation code for an access code.
@@ -22,12 +26,12 @@ abstract class AccessTokenRequest implements Request<BearerToken> {
     @SuppressWarnings("WeakerAccess")
     protected final OAuthConfiguration configData;
     protected final String code;
-    private final Gson gson;
+    private final JsonAdapter<BearerToken> jsonAdapter;
 
     AccessTokenRequest(OAuthConfiguration configData, String code) {
         this.configData = configData;
         this.code = code;
-        this.gson = new Gson();
+        this.jsonAdapter = new Moshi.Builder().build().adapter(BearerToken.class);
     }
 
     @NonNull
@@ -35,10 +39,14 @@ abstract class AccessTokenRequest implements Request<BearerToken> {
     public Result<BearerToken> performRequest(Bundle args) {
         try {
             OAuthJSONAccessTokenResponse accessTokenResponse = getToken();
+            BearerToken token = jsonAdapter.fromJson(accessTokenResponse.getBody());
+            if (token == null) {
+                throw new IOException("Error while reading code!");
+            }
             return new Result.Builder<BearerToken>()
-                    .withData(gson.fromJson(accessTokenResponse.getBody(), BearerToken.class))
+                    .withData(token)
                     .build();
-        } catch (OAuthSystemException e) {
+        } catch (OAuthSystemException | IOException e) {
             return new Result.Builder<BearerToken>()
                     .withError(new IOFailureException(e))
                     .build();

@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.feed.cards.implementations.news;
 
-import be.ugent.zeus.hydra.association.news.NewsItem;
 import be.ugent.zeus.hydra.association.news.UgentNewsItem;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
@@ -9,7 +8,7 @@ import org.threeten.bp.Duration;
 import org.threeten.bp.OffsetDateTime;
 
 /**
- * Home card for {@link NewsItem}.
+ * Home card for {@link UgentNewsItem}.
  *
  * @author Niko Strijbol
  * @author feliciaan

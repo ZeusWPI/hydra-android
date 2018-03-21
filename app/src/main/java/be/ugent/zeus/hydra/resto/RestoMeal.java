@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.resto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.google.gson.annotations.SerializedName;
+
 import com.squareup.moshi.Json;
 import java8.util.Objects;
 
@@ -58,10 +58,8 @@ public final class RestoMeal implements Parcelable, Serializable {
 
     public enum MealType {
         @Json(name = "main")
-        @SerializedName("main")
         MAIN,
         @Json(name = "side")
-        @SerializedName("side")
         SIDE
     }
 

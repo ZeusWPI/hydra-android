@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 import android.util.Log;
 
+import be.ugent.zeus.hydra.common.network.InvalidFormatException;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.sync.Synchronisation;
@@ -18,9 +19,7 @@ import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import be.ugent.zeus.hydra.minerva.course.Module;
 import be.ugent.zeus.hydra.minerva.common.sync.NotificationHelper;
 import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
-import com.google.gson.JsonSyntaxException;
 import java8.util.Maps;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.threeten.bp.Instant;
 
 import java.util.ArrayList;
@@ -142,10 +141,7 @@ public class AnnouncementSync {
         Result<ApiWhatsNew> result = whatsNewRequest.performRequest(null);
 
         // If there was an error, check if the course in question actually supports announcements or not.
-        if (result.hasException() &&
-                result.getError().getCause() instanceof HttpMessageNotReadableException &&
-                result.getError().getCause().getCause() instanceof JsonSyntaxException) {
-
+        if (result.hasException() && result.getError().getCause() instanceof InvalidFormatException) {
             Log.i(TAG, "Error occurred while reading response.");
             ApiTools tools = new ModuleRequest(context, account, course).performRequest(null).getOrThrow();
             EnumSet<Module> enabled = tools.asModules();

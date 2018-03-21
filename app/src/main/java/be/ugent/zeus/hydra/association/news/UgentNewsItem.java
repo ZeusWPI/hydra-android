@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import com.google.gson.annotations.JsonAdapter;
 import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;
@@ -26,9 +25,7 @@ public final class UgentNewsItem implements Serializable, Parcelable {
     private String effective;
     private String language;
     private String rights;
-    @JsonAdapter(DateTypeConverters.GsonOffset.class)
     private OffsetDateTime created;
-    @JsonAdapter(DateTypeConverters.GsonOffset.class)
     private OffsetDateTime modified;
     private String expiration;
     private String title;

@@ -6,20 +6,23 @@ import android.support.annotation.RequiresApi;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.association.Association;
+import be.ugent.zeus.hydra.common.network.InstanceProvider;
+import be.ugent.zeus.hydra.testing.Utils;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
-import com.google.gson.Gson;
+import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Types;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING;
@@ -38,13 +41,11 @@ public class DisabledEventRemoverTest {
 
     @Before
     public void setUp() throws IOException {
-        Gson gson = new Gson();
-        InputStream eventStream = new ClassPathResource("all_activities.json").getInputStream();
-        Event[] events = gson.fromJson(new InputStreamReader(eventStream), Event[].class);
-        data = Arrays.asList(events);
-        InputStream associationStream = new ClassPathResource("associations.json").getInputStream();
-        Association[] associations = gson.fromJson(new InputStreamReader(associationStream), Association[].class);
-        this.associations = Arrays.asList(associations);
+        Moshi moshi = InstanceProvider.getMoshi();
+        data = Utils.readJson(moshi, "all_activities.json",
+                Types.newParameterizedType(List.class, Event.class));
+        this.associations = Utils.readJson(moshi, "associations.json",
+                Types.newParameterizedType(List.class, Association.class));
     }
 
     @Test
