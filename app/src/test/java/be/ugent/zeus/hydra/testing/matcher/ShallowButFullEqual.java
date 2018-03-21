@@ -78,6 +78,7 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
                         return false;
                     }
                 } else {
+                    @SuppressWarnings("SuspiciousMethodCalls")
                     Matcher<Object> matcher = matcherMap.getOrDefault(expected.getClass(), IsEqual::new).apply(expected);
 
                     if (!matcher.matches(actual)) {
@@ -113,8 +114,8 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
         return new ShallowButFullEqual<>(expectedBean);
     }
 
+    @SuppressWarnings("unchecked")
     public <V> ShallowButFullEqual<T> withMatcher(Class<V> clazz, Function<V, Matcher<V>> matcher) {
-        //noinspection unchecked
         matcherMap.put((Class<Object>) clazz, (Function<Object, Matcher<Object>>)(Function<?,?>) matcher);
         return this;
     }

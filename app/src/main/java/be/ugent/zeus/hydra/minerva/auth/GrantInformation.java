@@ -21,6 +21,7 @@
 package be.ugent.zeus.hydra.minerva.auth;
 
 import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 import java.util.Collection;
 
@@ -30,13 +31,16 @@ import java.util.Collection;
  * @author Niko Strijbol
  * @author UGent
  */
-@SuppressWarnings("unused")
 final class GrantInformation {
 
     private Collection<String> scopes;
 
     @SerializedName("user")
+    @Json(name = "user")
     private UserAttributes userAttributes;
+
+    @Json(name = "expires_in")
+    private String expiresIn;
 
     public Collection<String> getScopes() {
         return scopes;
@@ -44,5 +48,9 @@ final class GrantInformation {
 
     public UserAttributes getUserAttributes() {
         return userAttributes;
+    }
+
+    public String getExpiresIn() {
+        return expiresIn;
     }
 }

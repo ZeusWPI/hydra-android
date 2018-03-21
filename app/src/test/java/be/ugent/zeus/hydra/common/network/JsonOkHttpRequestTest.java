@@ -7,6 +7,7 @@ import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
 import okhttp3.Cache;
+import okhttp3.CacheControl;
 import okhttp3.HttpUrl;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -106,7 +107,7 @@ public class JsonOkHttpRequestTest {
     }
 
     @Test
-    public void testUnCacheableRequest() throws IOException {
+    public void testZeroCacheRequest() throws IOException {
         server.enqueue(integerJsonResponse());
         server.enqueue(integerJsonResponse());
         server.start();
@@ -220,8 +221,38 @@ public class JsonOkHttpRequestTest {
         assertEquals(2, cache.requestCount());
     }
 
+    @Test(expected = IOFailureException.class)
+    public void testOfflineNotCacheable() throws IOException, RequestException {
+        server.enqueue(integerJsonResponse());
+        server.start();
+        HttpUrl url = server.url("/fine.json");
+
+        // Before we do a request, manually create the client and set the timeout low, to speed up the test.
+        InstanceProvider.getClient(RuntimeEnvironment.application);
+
+        // Put the request in the cache.
+        TestRequest request = new NoCacheRequest(url);
+        Result<Integer> result = request.performRequest(null);
+        assertTrue(result.hasData());
+        assertEquals(1, (int) result.getData());
+
+        Cache cache = InstanceProvider.getClient(RuntimeEnvironment.application).cache();
+        assertEquals(1, cache.networkCount());
+        assertEquals(0, cache.hitCount());
+        assertEquals(1, cache.requestCount());
+
+        server.shutdown();
+
+        // Make another request. Since we don't allow caching, this should not attempt to use the cache.
+        Result<Integer> result2 = request.performRequest(null);
+        assertFalse(result2.hasData());
+        assertTrue(result2.hasException());
+
+        result2.getOrThrow();
+    }
+
     @Test
-    public void testOfflineWithStaleCache() throws IOException {
+    public void testOfflineCacheable() throws IOException {
         server.enqueue(integerJsonResponse());
         server.start();
         HttpUrl url = server.url("/fine.json");
@@ -300,6 +331,18 @@ public class JsonOkHttpRequestTest {
         @Override
         protected Duration getCacheDuration() {
             return cacheDuration;
+        }
+    }
+
+    private static class NoCacheRequest extends TestRequest {
+
+        NoCacheRequest(HttpUrl url) {
+            super(url);
+        }
+
+        @Override
+        protected CacheControl constructCacheControl(@NonNull Bundle arguments) {
+            return CacheControl.FORCE_NETWORK;
         }
     }
 }

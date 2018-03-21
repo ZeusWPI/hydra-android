@@ -92,12 +92,19 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
             try {
                 return executeRequest(adapter, args);
             } catch (IOException e) {
+
+                Result<D> result = Result.Builder.fromException(new IOFailureException(e));
+
+                // Only do this if caching is enabled.
+                if (constructCacheControl(args) == CacheControl.FORCE_NETWORK) {
+                    Log.d(TAG, "Cache is disabled, do not attempt getting stale data.");
+                    return result;
+                }
+
                 Log.d(TAG, "Error while getting data, try to get stale data.");
                 // We try to get stale data at this point.
                 args = new Bundle(args);
                 args.putBoolean(ALLOW_STALENESS, true);
-
-                Result<D> result = Result.Builder.fromException(new IOFailureException(e));
 
                 try {
                     Result<D> staleResult = executeRequest(adapter, args);
@@ -162,6 +169,8 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     protected CacheControl constructCacheControl(@NonNull Bundle arguments) {
         CacheControl.Builder cacheControl = new CacheControl.Builder();
 
+        // TODO: we can simplify this is OkHttp supports the stale-if-error header.
+        // Track it at https://github.com/square/okhttp/issues/1083.
         if (arguments.getBoolean(ALLOW_STALENESS, false)) {
             Log.d(TAG, "constructCacheControl: stale data is allowed!");
             cacheControl.maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS);

@@ -11,10 +11,8 @@ import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
 import okhttp3.HttpUrl;
-import okhttp3.mockwebserver.Dispatcher;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -174,35 +172,25 @@ public class MinervaRequestTest {
         result.getOrThrow();
     }
 
+    @Test
+    public void testTokenInjection() throws IOException {
+        final String expectedToken = "test-token";
+        server.setDispatcher(new AuthDispatcher(expectedToken, integerJsonResponse()));
+        server.start();
+
+        HttpUrl url = server.url("/fine.json");
+
+        SimpleTestRequest request = new SimpleTestRequest(url, account, expectedToken);
+        Result<Integer> result = request.performRequest(null);
+
+        assertTrue(result.hasData());
+        assertEquals(1, (int) result.getData());
+    }
+
     private static MockResponse integerJsonResponse() {
         return new MockResponse()
                 .addHeader("Content-Type", "application/json; charset=utf-8")
                 .setBody("1");
-    }
-
-    /**
-     * This dispatcher will return 200 when authenticated, but 403 when not authenticated, and 503 when authenticated
-     * with a wrong or expired key (just like Minerva).
-     */
-    private static class AuthDispatcher extends Dispatcher {
-
-        private final String token;
-
-        private AuthDispatcher(String token) {
-            this.token = "Bearer " + token;
-        }
-
-        @Override
-        public MockResponse dispatch(RecordedRequest request) {
-            String headerToken = request.getHeader("Authorization");
-            if (headerToken == null) {
-                return new MockResponse().setResponseCode(403);
-            } else if (headerToken.equals(token)) {
-                return integerJsonResponse();
-            } else {
-                return new MockResponse().setResponseCode(503);
-            }
-        }
     }
 
     private static class SimpleTestRequest extends MinervaRequest<Integer> {

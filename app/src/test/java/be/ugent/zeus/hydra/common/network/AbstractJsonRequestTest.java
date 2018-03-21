@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.common.network;
 
+import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
@@ -61,7 +62,7 @@ public abstract class AbstractJsonRequestTest<D> {
     }
 
     @Test
-    public void testNormal() throws IOException, JSONException {
+    public void testNormal() throws IOException, JSONException, RequestException {
 
         JsonOkHttpRequest<D> request = getRequest();
         File resource = getResourceFile(getRelativePath());
@@ -82,6 +83,11 @@ public abstract class AbstractJsonRequestTest<D> {
         doReturn(serverUrl.toString()).when(request).getAPIUrl();
 
         Result<D> result = request.performRequest(null);
+
+        // Throw the error if present for better error reporting.
+        if (result.hasException()) {
+            throw result.getError();
+        }
 
         assertTrue(result.hasData());
         assertTrue(result.isDone());

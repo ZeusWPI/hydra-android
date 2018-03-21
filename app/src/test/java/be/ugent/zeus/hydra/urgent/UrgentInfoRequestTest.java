@@ -1,35 +1,24 @@
 package be.ugent.zeus.hydra.urgent;
 
-import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.TestApp;
-import be.ugent.zeus.hydra.urgent.UrgentInfo;
-import be.ugent.zeus.hydra.common.network.AbstractJsonSpringRequestTest;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.urgent.UrgentInfoRequest;
+import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
+import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.robolectric.RuntimeEnvironment;
 
 /**
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
-public class UrgentInfoRequestTest extends AbstractJsonSpringRequestTest<UrgentInfo> {
+public class UrgentInfoRequestTest extends AbstractJsonRequestTest<UrgentInfo> {
 
-    public UrgentInfoRequestTest() {
-        super(UrgentInfo.class);
+    @Override
+    protected String getRelativePath() {
+        return "urgent.json";
     }
 
     @Override
-    protected Resource getSuccessResponse() {
-        return new ClassPathResource("urgent.json");
-    }
-
-    @Override
-    protected JsonSpringRequest<UrgentInfo> getRequest() {
-        return new UrgentInfoRequest();
+    protected JsonOkHttpRequest<UrgentInfo> getRequest() {
+        return new UrgentInfoRequest(RuntimeEnvironment.application);
     }
 }

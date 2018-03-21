@@ -58,7 +58,7 @@ class UrgentTrackProvider {
     }
 
     private synchronized void loadData() {
-        UrgentInfoRequest infoRequest = new UrgentInfoRequest();
+        UrgentInfoRequest infoRequest = new UrgentInfoRequest(context);
         Result<UrgentInfo> programme = infoRequest.performRequest(null);
 
         if (!programme.hasData()) {

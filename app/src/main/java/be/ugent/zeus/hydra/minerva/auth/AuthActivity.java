@@ -233,7 +233,7 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
                 BearerToken result = request.performRequest(null).getOrThrow();
 
                 //Get the information
-                UserInfoRequest infoRequest = new UserInfoRequest(result.getAccessToken());
+                UserInfoRequest infoRequest = new UserInfoRequest(AuthActivity.this, result.getAccessToken());
                 GrantInformation information = infoRequest.performRequest(null).getOrThrow();
 
                 //Account name

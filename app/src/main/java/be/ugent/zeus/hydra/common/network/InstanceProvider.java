@@ -58,6 +58,7 @@ class InstanceProvider {
                     .add(new ZonedThreeTenAdapter())
                     .add(new DateThreeTenAdapter())
                     .add(new DateTypeConverters.GsonOffset())
+                    .add(new DateTypeConverters.LocalZonedDateTimeInstance())
                     .build();
         }
         return moshi;

@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.urgent;
 
+import be.ugent.zeus.hydra.common.converter.LocalZonedDateTime;
 import be.ugent.zeus.hydra.common.converter.ZonedThreeTenUTCAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import java8.util.Objects;
@@ -12,6 +13,7 @@ public final class UrgentInfo {
 
     private final String name;
     @JsonAdapter(ZonedThreeTenUTCAdapter.class)
+    @LocalZonedDateTime
     private final ZonedDateTime validUntil;
     private final String url;
 
