@@ -3,8 +3,6 @@ package be.ugent.zeus.hydra.resto.menu;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
@@ -15,7 +13,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.threeten.bp.*;
 
 import java.io.IOException;
@@ -31,7 +28,6 @@ import static org.junit.Assert.assertThat;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
 public class MenuFilterTest {
 
     private final Instant cutOff = Instant.parse("2007-12-03T10:15:00.000Z");
