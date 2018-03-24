@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SimpleSearchableAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.GenericSearchableAdapter2;
 import be.ugent.zeus.hydra.library.Library;
 
 /**
@@ -13,7 +13,7 @@ import be.ugent.zeus.hydra.library.Library;
  *
  * @author Niko Strijbol
  */
-class LibraryListAdapter extends SimpleSearchableAdapter<Library, LibraryViewHolder> {
+class LibraryListAdapter extends GenericSearchableAdapter2<Library, LibraryViewHolder> {
 
     LibraryListAdapter() {
         super((library, s) -> {

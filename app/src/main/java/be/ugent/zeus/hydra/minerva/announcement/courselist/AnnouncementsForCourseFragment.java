@@ -18,7 +18,6 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
-import be.ugent.zeus.hydra.common.ui.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
@@ -71,7 +70,8 @@ public class AnnouncementsForCourseFragment extends Fragment implements ResultSt
         recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
 
-        adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
+        // TODO
+        // adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
 
         RecyclerFastScroller scroller = view.findViewById(R.id.fast_scroller);
         scroller.attachRecyclerView(recyclerView);

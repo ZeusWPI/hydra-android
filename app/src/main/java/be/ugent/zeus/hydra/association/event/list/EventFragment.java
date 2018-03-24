@@ -20,7 +20,6 @@ import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.preferences.SettingsActivity;
-import be.ugent.zeus.hydra.common.ui.recyclerview.EmptyViewObserver;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
@@ -59,7 +58,8 @@ public class EventFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
-        adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, noData));
+        // TODO
+        // adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, noData));
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);

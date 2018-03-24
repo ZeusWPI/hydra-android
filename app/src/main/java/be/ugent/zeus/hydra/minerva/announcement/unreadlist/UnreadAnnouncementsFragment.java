@@ -16,15 +16,14 @@ import android.view.*;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
-import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
-import be.ugent.zeus.hydra.common.ui.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectDiffAdapter;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
@@ -83,7 +82,8 @@ public class UnreadAnnouncementsFragment extends Fragment implements MultiSelect
         recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
 
-        adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
+        // TODO
+        // adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
 
         progressBar = view.findViewById(R.id.progress_bar);
     }

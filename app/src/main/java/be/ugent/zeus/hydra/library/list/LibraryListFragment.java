@@ -17,7 +17,6 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
-import be.ugent.zeus.hydra.common.ui.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
@@ -57,7 +56,8 @@ public class LibraryListFragment extends Fragment {
         RecyclerFastScroller s = view.findViewById(R.id.fast_scroller);
         s.attachRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);
-        adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
+        // TODO
+        // adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);

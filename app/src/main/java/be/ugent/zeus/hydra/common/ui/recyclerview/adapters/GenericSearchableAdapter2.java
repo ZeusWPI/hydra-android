@@ -69,11 +69,11 @@ public abstract class GenericSearchableAdapter2<D, V extends DataViewHolder<D>> 
         return false;
     }
 
-//    @Override
-//    public void submitList(List<D> list) {
-//        this.allData = Collections.unmodifiableList(new ArrayList<>(list));
-//        super.submitList(list);
-//    }
+    @Override
+    public void submitList(List<D> list) {
+        this.allData = Collections.unmodifiableList(new ArrayList<>(list));
+        super.submitList(list);
+    }
 
     @Override
     public boolean onQueryTextChange(String newText) {
