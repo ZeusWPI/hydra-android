@@ -19,7 +19,7 @@ class EventAdapter extends GenericSearchableAdapter2<EventItem, DataViewHolder<E
     private final int HEADER_TYPE = 25;
 
     EventAdapter() {
-        super(new EventSearchPredicate());
+        super(new EventSearchPredicate(), new EventSearchFilter());
     }
 
     @NonNull

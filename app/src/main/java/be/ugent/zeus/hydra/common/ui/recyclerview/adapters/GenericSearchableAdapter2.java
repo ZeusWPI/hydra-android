@@ -7,6 +7,7 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import java8.lang.Iterables;
 import java8.util.function.BiPredicate;
 import java8.util.function.Function;
+import java8.util.function.Functions;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 
@@ -36,7 +37,6 @@ import java.util.*;
  *
  * @param <D> The type used by the adapter and the type that should be displayed. See the description of {@link ItemDiffAdapter}.
  * @param <V> The view holder. See the description at {@link ItemDiffAdapter}.
- * @param <S> The type of the data in which the search is performed.
  *
  * @author Niko Strijbol
  */
@@ -45,6 +45,7 @@ public abstract class GenericSearchableAdapter2<D, V extends DataViewHolder<D>> 
 
     protected List<D> allData = Collections.emptyList();
     private final BiPredicate<D, String> searchPredicate;
+    private final Function<List<D>, List<D>> filter;
 
     private boolean isSearching;
 
@@ -58,6 +59,18 @@ public abstract class GenericSearchableAdapter2<D, V extends DataViewHolder<D>> 
     protected GenericSearchableAdapter2(BiPredicate<D, String> searchPredicate) {
         super();
         this.searchPredicate = searchPredicate;
+        this.filter = Functions.identity();
+    }
+
+    /**
+     * @param searchPredicate The predicate used when searching. The predicate receives an item and the search query and
+     *                        should return true if the item is a match for the given query. This should be fairly fast,
+     *                        as it is executed for every item for every change in search query.
+     */
+    protected GenericSearchableAdapter2(BiPredicate<D, String> searchPredicate, Function<List<D>, List<D>> filter) {
+        super();
+        this.searchPredicate = searchPredicate;
+        this.filter = filter;
     }
 
     protected GenericSearchableAdapter2(Function<D, String> stringifier) {
@@ -84,6 +97,7 @@ public abstract class GenericSearchableAdapter2<D, V extends DataViewHolder<D>> 
         List<D> filtered = StreamSupport.stream(allData)
                 .filter(s -> searchPredicate.test(s, newText.toLowerCase()))
                 .collect(Collectors.toList());
+        filtered = filter.apply(filtered);
         super.submitList(filtered);
         return true;
     }
