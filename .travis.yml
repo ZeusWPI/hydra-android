@@ -1,4 +1,4 @@
-language: android
+language: java
 jdk:
   - oraclejdk8
 
@@ -21,8 +21,8 @@ notifications:
 
 sudo: false
 
-# before_install:
-#   - yes | sdkmanager "platforms;android-27"
+before_install:
+  - yes | sdkmanager "platforms;android-27"
 
 # Caching according to the docs at https://docs.travis-ci.com/user/languages/java/#Projects-Using-Gradle
 before_cache:
