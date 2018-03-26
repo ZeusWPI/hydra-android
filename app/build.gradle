@@ -227,7 +227,7 @@ def loadProperties() {
     if (actualKeyFile.exists()) {
         actualKeys.load(actualKeyFile.newReader())
     } else {
-        logger.warn("A secrets.properties file was not found. Minerva and other API's will not work.")
+        logger.warn("A secrets.properties file was not found. Minerva and other APIs will not work.")
     }
 
     return actualKeys
