@@ -10,7 +10,6 @@ import be.ugent.zeus.hydra.common.ChannelCreator;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.squareup.leakcanary.LeakCanary;
 import jonathanfinerty.once.Once;
 
 /**
@@ -27,11 +26,11 @@ public class TestApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            // This process is dedicated to LeakCanary for heap analysis.
+//            // You should not init your app in this process.
+//            return;
+//        }
 
         if (BuildConfig.DEBUG) {
             enableStrictModeInDebug();
