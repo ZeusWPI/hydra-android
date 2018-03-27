@@ -37,6 +37,8 @@ import be.ugent.zeus.hydra.urgent.UrgentFragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import jonathanfinerty.once.Once;
 
+import java.util.Objects;
+
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
 
 /**
@@ -358,10 +360,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (current instanceof ScheduledRemovalListener) {
                 ((ScheduledRemovalListener) current).onRemovalScheduled();
             }
-            Log.d(TAG, "selectDrawerItem: drawer is open, so scheduling update instead.");
             this.scheduledContentUpdate = new DrawerUpdate(navigationSource, fragment, menuItem);
         } else {
-            Log.d(TAG, "selectDrawerItem: drawer is closed, so doing update now.");
             setFragment(fragment, menuItem, navigationSource);
         }
         updateDrawer(menuItem);
@@ -400,7 +400,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         // If this is a drawer navigation, clear the back stack.
         if (navigationSource == NavigationSource.DRAWER) {
-            Log.d(TAG, "setFragment: Clearing back stack, due to drawer navigation.");
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
 
@@ -411,13 +410,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         // If this is an inner navigation, add it to the back stack.
         if (navigationSource == NavigationSource.INNER) {
-            Log.d(TAG, "setFragment: registering on back stack, due to inner navigation.");
             transaction.addToBackStack(name);
-        }
-
-        // TODO: temp debug
-        if (navigationSource == NavigationSource.INITIALISATION) {
-            Log.d(TAG, "setFragment: setting fragment for initialisation");
         }
 
         // We allow state loss to prevent crashes in rare case.
@@ -488,8 +481,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void reportShortcutUsed(String shortcutId) {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            Log.d(TAG, "Report shortcut use: " + shortcutId);
-            ShortcutManager manager = getSystemService(ShortcutManager.class);
+            ShortcutManager manager = Objects.requireNonNull(getSystemService(ShortcutManager.class));
             try {
                 manager.reportShortcutUsed(shortcutId);
             } catch (IllegalStateException e) {
@@ -534,8 +526,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     /**
      * Represents the origins of a navigation event. These are ints instead of enums for performance reasons.
      * See the class documentation for an overview.
-     *
-     * TODO: check if should these be enums, proguard would optimize this or not.
      */
     @IntDef({NavigationSource.DRAWER, NavigationSource.INNER, NavigationSource.INITIALISATION})
     private @interface NavigationSource {
