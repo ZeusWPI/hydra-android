@@ -96,7 +96,6 @@ public class HydraApplication extends Application {
     private void createChannels() {
         ChannelCreator channelCreator = ChannelCreator.getInstance(this);
         channelCreator.createSkoChannel();
-        channelCreator.createUrgentChannel();
     }
 
     /**
