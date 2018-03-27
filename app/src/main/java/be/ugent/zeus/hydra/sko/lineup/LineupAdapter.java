@@ -5,12 +5,12 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemAdapter2;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemDiffAdapter;
 
 /**
  * @author Niko Strijbol
  */
-class LineupAdapter extends ItemAdapter2<Artist, LineupViewHolder> {
+class LineupAdapter extends ItemDiffAdapter<Artist, LineupViewHolder> {
 
     LineupAdapter() {
         super();

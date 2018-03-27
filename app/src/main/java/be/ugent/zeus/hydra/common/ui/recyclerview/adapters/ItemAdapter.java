@@ -9,7 +9,6 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
  *
  * @author Niko Strijbol
  */
-@Deprecated
 public abstract class ItemAdapter<D, V extends DataViewHolder<D>> extends Adapter<D, V> {
 
     @Override

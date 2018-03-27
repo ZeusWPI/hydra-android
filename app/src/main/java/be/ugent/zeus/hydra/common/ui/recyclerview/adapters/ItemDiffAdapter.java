@@ -13,7 +13,6 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-@Deprecated
 public abstract class ItemDiffAdapter<D, V extends DataViewHolder<D>> extends DiffAdapter<D, V> {
 
     /**
@@ -21,7 +20,7 @@ public abstract class ItemDiffAdapter<D, V extends DataViewHolder<D>> extends Di
      *
      * @param callback The callback to use.
      */
-    protected ItemDiffAdapter(BiFunction<List<D>, List<D>, DiffUtil.Callback> callback) {
+    protected ItemDiffAdapter(DiffUtil.ItemCallback<D> callback) {
         super(callback);
     }
 

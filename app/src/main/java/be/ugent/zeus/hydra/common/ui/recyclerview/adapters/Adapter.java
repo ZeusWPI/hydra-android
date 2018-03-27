@@ -17,10 +17,7 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-@Deprecated
 public abstract class Adapter<D, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
-
-    public static final int ITEM_TYPE = 0;
 
     protected List<D> items = Collections.emptyList();
 
@@ -46,11 +43,6 @@ public abstract class Adapter<D, VH extends RecyclerView.ViewHolder> extends Rec
         notifyDataSetChanged();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return ITEM_TYPE;
-    }
-
     /**
      * Remove all items from the adapter.
      */
@@ -69,5 +61,9 @@ public abstract class Adapter<D, VH extends RecyclerView.ViewHolder> extends Rec
     @NonNull
     public Collection<D> getItems() {
         return Collections.unmodifiableCollection(items);
+    }
+
+    protected D getItem(int position) {
+        return this.items.get(position);
     }
 }

@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.GenericSearchableAdapter2;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.GenericSearchableAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
 /**
@@ -14,7 +14,7 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
  * @author ellen
  * @author Niko Strijbol
  */
-class EventAdapter extends GenericSearchableAdapter2<EventItem, DataViewHolder<EventItem>> {
+class EventAdapter extends GenericSearchableAdapter<EventItem, DataViewHolder<EventItem>> {
 
     private final int HEADER_TYPE = 25;
 

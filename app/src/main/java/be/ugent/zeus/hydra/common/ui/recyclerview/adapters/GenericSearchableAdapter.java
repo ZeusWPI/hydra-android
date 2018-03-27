@@ -7,6 +7,7 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import java8.lang.Iterables;
 import java8.util.function.BiPredicate;
 import java8.util.function.Function;
+import java8.util.function.Functions;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 
@@ -26,8 +27,6 @@ import java.util.*;
  * This is a very generic class, supporting a lot of situations, including adapters with multiple
  * view types.
  *
- * A simpler and probably the version you are looking for is {@link SimpleSearchableAdapter}.
- *
  * Currently searching is executed on the main thread. This imposes some limits, see the constructor description. This
  * is not guaranteed behaviour: searching may be executed in a different thread in the future.
  *
@@ -36,18 +35,15 @@ import java.util.*;
  *
  * @param <D> The type used by the adapter and the type that should be displayed. See the description of {@link ItemDiffAdapter}.
  * @param <V> The view holder. See the description at {@link ItemDiffAdapter}.
- * @param <S> The type of the data in which the search is performed.
  *
  * @author Niko Strijbol
  */
-@Deprecated
-public abstract class GenericSearchableAdapter<D, V extends DataViewHolder<D>, S> extends ItemDiffAdapter<D, V> implements
+public abstract class GenericSearchableAdapter<D, V extends DataViewHolder<D>> extends ItemDiffAdapter<D, V> implements
         SearchView.OnQueryTextListener, SearchView.OnCloseListener, SearchHelper, android.widget.SearchView.OnQueryTextListener {
 
-    protected List<S> allData = new ArrayList<>();
-    private final BiPredicate<S, String> searchPredicate;
-    private final Function<List<D>, List<S>> converter;
-    private final Function<List<S>, List<D>> reverser;
+    protected List<D> allData = new ArrayList<>();
+    private final BiPredicate<D, String> searchPredicate;
+    private final Function<List<D>, List<D>> filter;
 
     private boolean isSearching;
 
@@ -57,16 +53,26 @@ public abstract class GenericSearchableAdapter<D, V extends DataViewHolder<D>, S
      * @param searchPredicate The predicate used when searching. The predicate receives an item and the search query and
      *                        should return true if the item is a match for the given query. This should be fairly fast,
      *                        as it is executed for every item for every change in search query.
-     * @param converter Convert the list of data to the list of searchable data. This function is called every time
-     *                  {@link #setItems(List)} is called.
-     * @param reverser Convert a list of searchable items back to a list of presentable items. This method should be
-     *                 fairly fast, as it is called every time the search query changes.
      */
-    protected GenericSearchableAdapter(BiPredicate<S, String> searchPredicate, Function<List<D>, List<S>> converter, Function<List<S>, List<D>> reverser) {
+    protected GenericSearchableAdapter(BiPredicate<D, String> searchPredicate) {
         super();
-        this.converter = converter;
         this.searchPredicate = searchPredicate;
-        this.reverser = reverser;
+        this.filter = Functions.identity();
+    }
+
+    /**
+     * @param searchPredicate The predicate used when searching. The predicate receives an item and the search query and
+     *                        should return true if the item is a match for the given query. This should be fairly fast,
+     *                        as it is executed for every item for every change in search query.
+     */
+    protected GenericSearchableAdapter(BiPredicate<D, String> searchPredicate, Function<List<D>, List<D>> filter) {
+        super();
+        this.searchPredicate = searchPredicate;
+        this.filter = filter;
+    }
+
+    protected GenericSearchableAdapter(Function<D, String> stringifier) {
+        this((d, s) -> stringifier.apply(d).contains(s));
     }
 
     @Override
@@ -76,7 +82,7 @@ public abstract class GenericSearchableAdapter<D, V extends DataViewHolder<D>, S
 
     @Override
     public void setItems(List<D> items) {
-        this.allData = converter.apply(items);
+        this.allData = Collections.unmodifiableList(new ArrayList<>(items));
         super.setItems(items);
     }
 
@@ -86,29 +92,12 @@ public abstract class GenericSearchableAdapter<D, V extends DataViewHolder<D>, S
             Iterables.forEach(listeners, listener -> listener.onSearchStateChange(true));
         }
         this.isSearching = true;
-        List<S> filtered = StreamSupport.stream(allData)
+        List<D> filtered = StreamSupport.stream(allData)
                 .filter(s -> searchPredicate.test(s, newText.toLowerCase()))
                 .collect(Collectors.toList());
-        setUpdate(reverser.apply(filtered));
+        filtered = filter.apply(filtered);
+        super.setItems(filtered);
         return true;
-    }
-
-    /**
-     * Same as {@link #setItems(List)}, but does not update the original data. This means the adapter's current 'live'
-     * data will be changed, but when search is finished, the original data will be restored. On the contrary, {@link #setItems(List)}
-     * will also set the original data.
-     *
-     * @param items The items.
-     */
-    protected void setUpdate(List<D> items) {
-        synchronized (updateLock) {
-            if (isDiffing) {
-                scheduledUpdate = items;
-            } else {
-                updateItemInternal(items);
-                isDiffing = true;
-            }
-        }
     }
 
     @Override

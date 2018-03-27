@@ -5,9 +5,6 @@ import android.os.Looper;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 
-import be.ugent.zeus.hydra.common.ui.recyclerview.EqualsCallback;
-import java8.util.function.BiFunction;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +17,6 @@ import java.util.List;
  *
  * @author Niko Strijbol
  */
-@Deprecated
 public abstract class DiffAdapter<D, VH extends RecyclerView.ViewHolder> extends Adapter<D, VH> {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -38,22 +34,22 @@ public abstract class DiffAdapter<D, VH extends RecyclerView.ViewHolder> extends
      */
     boolean isDiffing = false;
 
-    private final BiFunction<List<D>, List<D>, DiffUtil.Callback> callback;
+    private final DiffUtil.ItemCallback<D> diffCallback;
 
     /**
      * Initialize with a custom callback.
      *
-     * @param callback The callback to use.
+     * @param diffCallback The callback to use.
      */
-    protected DiffAdapter(BiFunction<List<D>, List<D>, DiffUtil.Callback> callback) {
-        this.callback = callback;
+    protected DiffAdapter(DiffUtil.ItemCallback<D> diffCallback) {
+        this.diffCallback = diffCallback;
     }
 
     /**
-     * Initialise with the default callback, {@link EqualsCallback}.
+     * Initialise with the default callback, {@link EqualsItemCallback}.
      */
     protected DiffAdapter() {
-        this(EqualsCallback::new);
+        this(new EqualsItemCallback<>());
     }
 
     /**
@@ -79,8 +75,30 @@ public abstract class DiffAdapter<D, VH extends RecyclerView.ViewHolder> extends
         // Save a copy of the old items.
         final List<D> oldItems = new ArrayList<>(this.items);
 
+        final DiffUtil.Callback callback = new DiffUtil.Callback() {
+            @Override
+            public int getOldListSize() {
+                return oldItems.size();
+            }
+
+            @Override
+            public int getNewListSize() {
+                return items.size();
+            }
+
+            @Override
+            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+                return diffCallback.areItemsTheSame(oldItems.get(oldItemPosition), items.get(newItemPosition));
+            }
+
+            @Override
+            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+                return diffCallback.areContentsTheSame(oldItems.get(oldItemPosition), items.get(newItemPosition));
+            }
+        };
+
         new Thread(() -> {
-            DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback.apply(oldItems, items), true);
+            DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback, true);
             handler.post(() -> applyDiffResult(items, result));
         }).start();
     }

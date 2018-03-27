@@ -2,11 +2,10 @@ package be.ugent.zeus.hydra.minerva.announcement.courselist;
 
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemAdapter2;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemDiffAdapter;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 
 /**
@@ -14,7 +13,7 @@ import be.ugent.zeus.hydra.minerva.announcement.Announcement;
  *
  * @author Niko Strijbol
  */
-class Adapter extends ItemAdapter2<Announcement, ViewHolder> {
+class Adapter extends ItemDiffAdapter<Announcement, ViewHolder> {
 
     private final ResultStarter starter;
 

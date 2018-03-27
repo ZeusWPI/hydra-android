@@ -47,7 +47,7 @@ public class InfoFragment extends Fragment {
         Bundle bundle = getArguments();
         // If we receive a list as argument, just show that list. No need to load anything.
         if (bundle != null && bundle.getParcelableArrayList(InfoSubItemActivity.INFO_ITEMS) != null) {
-            adapter.submitList(bundle.getParcelableArrayList(InfoSubItemActivity.INFO_ITEMS));
+            adapter.setItems(bundle.getParcelableArrayList(InfoSubItemActivity.INFO_ITEMS));
             progressBar.setVisibility(View.GONE);
         } else {
             InfoViewModel model = ViewModelProviders.of(this).get(InfoViewModel.class);

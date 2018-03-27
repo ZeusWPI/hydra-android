@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Basic searchable adapter with basic multi-select support. Extending a {@link SimpleSearchableAdapter} to be multi-select
+ * Basic searchable adapter with basic multi-select support. Extending a {@link GenericSearchableAdapter} to be multi-select
  * or a {@link MultiSelectDiffAdapter} to be searchable is very difficult and complicated, while we don't need all that
  * stuff.
  *

@@ -3,9 +3,8 @@ package be.ugent.zeus.hydra.library.list;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.GenericSearchableAdapter2;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.GenericSearchableAdapter;
 import be.ugent.zeus.hydra.library.Library;
 
 /**
@@ -13,7 +12,7 @@ import be.ugent.zeus.hydra.library.Library;
  *
  * @author Niko Strijbol
  */
-class LibraryListAdapter extends GenericSearchableAdapter2<Library, LibraryViewHolder> {
+class LibraryListAdapter extends GenericSearchableAdapter<Library, LibraryViewHolder> {
 
     LibraryListAdapter() {
         super((library, s) -> {

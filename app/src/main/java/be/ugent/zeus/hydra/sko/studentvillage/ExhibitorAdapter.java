@@ -5,14 +5,14 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemAdapter2;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemDiffAdapter;
 
 /**
  * Exhibitors. Can be filtered on the name of the exhibitor.
  *
  * @author Niko Strijbol
  */
-class ExhibitorAdapter extends ItemAdapter2<Exhibitor, ExhibitorViewHolder> {
+class ExhibitorAdapter extends ItemDiffAdapter<Exhibitor, ExhibitorViewHolder> {
 
     @NonNull
     @Override

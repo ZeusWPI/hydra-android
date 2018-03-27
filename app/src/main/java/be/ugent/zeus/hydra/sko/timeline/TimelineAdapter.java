@@ -6,12 +6,12 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemAdapter2;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemDiffAdapter;
 
 /**
  * @author Niko Strijbol
  */
-class TimelineAdapter extends ItemAdapter2<TimelinePost, TimelineViewHolder> {
+class TimelineAdapter extends ItemDiffAdapter<TimelinePost, TimelineViewHolder> {
 
     private final ActivityHelper helper;
 

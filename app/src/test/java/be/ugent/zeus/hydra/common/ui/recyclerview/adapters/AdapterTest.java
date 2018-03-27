@@ -50,7 +50,7 @@ public class AdapterTest {
         fillAdapter();
         assertTrue(adapter.takeChanged());
         assertEquals(NR_OF_OBJECTS, adapter.getItemCount());
-        assertEquals(Adapter.ITEM_TYPE, adapter.getItemViewType(0));
+        assertEquals(0, adapter.getItemViewType(0));
     }
 
     @Test

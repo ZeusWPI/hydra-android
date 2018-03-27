@@ -4,11 +4,10 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemAdapter2;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemDiffAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.implementations.event.EventCardViewHolder;
@@ -30,7 +29,7 @@ import static be.ugent.zeus.hydra.feed.cards.Card.Type.*;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public class HomeFeedAdapter extends ItemAdapter2<Card, DataViewHolder<Card>> {
+public class HomeFeedAdapter extends ItemDiffAdapter<Card, DataViewHolder<Card>> {
 
     private final AdapterCompanion companion;
 
