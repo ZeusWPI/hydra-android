@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
 
 /**
  * Adapter for the list of information items.
@@ -13,7 +13,7 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemDiffAdapter;
  * @author Niko Strijbol
  * @author Ellen
  */
-class InfoListAdapter extends ItemDiffAdapter<InfoItem, InfoViewHolder> {
+class InfoListAdapter extends DiffAdapter<InfoItem, InfoViewHolder> {
 
     InfoListAdapter() {
         super();

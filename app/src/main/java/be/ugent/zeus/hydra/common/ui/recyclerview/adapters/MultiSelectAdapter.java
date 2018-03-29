@@ -15,7 +15,7 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
-public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewHolder<H>> {
+public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolder<H>> {
 
     /**
      * This keeps track of which elements are selected and which are not.
@@ -39,7 +39,7 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
     public void clear() {
         booleanArray.clear();
         super.clear();
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectDiffAdapter.this));
+        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectAdapter.this));
     }
 
     /**
@@ -48,10 +48,10 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
      * @param values  The values.
      * @param initial The initial value.
      */
-    public void setItems(List<H> values, boolean initial) {
+    public void submitData(List<H> values, boolean initial) {
         this.defaultValue = initial;
-        this.setItems(values);
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectDiffAdapter.this));
+        this.submitData(values);
+        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectAdapter.this));
     }
 
     /**
@@ -61,29 +61,29 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
      * @param nonInitials The indices of the items of {@code values} that should not receive the default value.
      * @param initial The initial value.
      */
-    public void setItems(List<H> values, Set<Integer> nonInitials, boolean initial) {
+    public void submitData(List<H> values, Set<Integer> nonInitials, boolean initial) {
         this.defaultValue = initial;
-        this.setItems(values);
+        this.submitData(values);
         for (int index : nonInitials) {
             setChecked(index);
             notifyItemChanged(index);
         }
 
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectDiffAdapter.this));
+        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectAdapter.this));
     }
 
     /**
      * {@inheritDoc}
      * <p>
-     * This method will NOT erase or reset the state of the items; use {@link #setItems(List, boolean)} for that.
+     * This method will NOT erase or reset the state of the items; use {@link #submitData(List, boolean)} for that.
      */
     @Override
-    public void setItems(List<H> items) {
+    public void submitData(List<H> items) {
         this.booleanArray.clear();
-        super.setItems(items);
+        super.submitData(items);
     }
 
-    private static final String TAG = "MultiSelectDiffAdapter";
+    private static final String TAG = "MultiSelectAdapter";
 
     /**
      * Change the boolean value at the given position to the reverse value. This operation DOES NOT trigger a change in
@@ -101,7 +101,7 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
             Log.d(TAG, "setChecked: setting to " + !getDefaultValue());
             booleanArray.put(position, !getDefaultValue());
         }
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectDiffAdapter.this));
+        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectAdapter.this));
     }
 
     /**
@@ -116,7 +116,7 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
          */
         this.defaultValue = checked;
         this.booleanArray.clear();
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectDiffAdapter.this));
+        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectAdapter.this));
         notifyDataSetChanged();
     }
 
@@ -133,7 +133,7 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
 
     @Override
     public void onBindViewHolder(@NonNull DataViewHolder<H> holder, int position) {
-        holder.populate(items.get(position));
+        holder.populate(getItem(position));
     }
 
     public Iterable<Pair<H, Boolean>> getItemsAndState() {
@@ -143,12 +143,12 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
 
             @Override
             public boolean hasNext() {
-                return current < items.size();
+                return current < getItemCount();
             }
 
             @Override
             public Pair<H, Boolean> next() {
-                Pair<H, Boolean> value = new Pair<>(items.get(current), isChecked(current));
+                Pair<H, Boolean> value = new Pair<>(getItem(current), isChecked(current));
                 current++;
                 return value;
             }
@@ -156,16 +156,16 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
     }
 
     /**
-     * Set items and their state. Similar to {@link #setItems(List)}, but with a custom state for every item. This can
+     * Set items and their state. Similar to {@link #submitData(List)}, but with a custom state for every item. This can
      * be useful when populating the list if the previous states were saved.
      * <p>
-     * If the state of every item is the same, it is more efficient to use {@link #setItems(List, boolean)}.
+     * If the state of every item is the same, it is more efficient to use {@link #submitData(List, boolean)}.
      *
      * @param values The values to set.
      */
     public void setItemsAndState(List<Pair<H, Boolean>> values) {
         List<H> items = new ArrayList<>();
-        setItems(items);
+        submitData(items);
         booleanArray.clear();
         for (int i = 0; i < values.size(); i++) {
             Pair<H, Boolean> value = values.get(i);
@@ -174,7 +174,7 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
                 booleanArray.append(i, value.second);
             }
         }
-        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectDiffAdapter.this));
+        Iterables.forEach(callbacks, c -> c.onStateChanged(MultiSelectAdapter.this));
     }
 
     /**
@@ -191,7 +191,7 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
      */
     public int selectedSize() {
         if (getDefaultValue()) {
-            return items.size();
+            return getItemCount();
         } else {
             return booleanArray.size();
         }
@@ -203,10 +203,10 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
     public Collection<H> getSelectedItems() {
         List<H> list = new ArrayList<>();
         if (getDefaultValue()) {
-            return Collections.unmodifiableCollection(items);
+            return dataContainer.getData();
         } else {
             for (int i = 0; i < booleanArray.size(); i++) {
-                list.add(items.get(booleanArray.keyAt(i)));
+                list.add(getItem(booleanArray.keyAt(i)));
             }
         }
         return Collections.unmodifiableCollection(list);
@@ -221,7 +221,7 @@ public abstract class MultiSelectDiffAdapter<H> extends DiffAdapter<H, DataViewH
          *
          * @param adapter Can be used by the client to query things.
          */
-        void onStateChanged(MultiSelectDiffAdapter<H> adapter);
+        void onStateChanged(MultiSelectAdapter<H> adapter);
     }
 
     /**

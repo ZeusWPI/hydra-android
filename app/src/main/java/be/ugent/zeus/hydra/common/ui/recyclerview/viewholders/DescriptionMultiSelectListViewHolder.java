@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
 import java8.util.function.Function;
 
 /*
@@ -21,14 +21,14 @@ public class DescriptionMultiSelectListViewHolder<E> extends DataViewHolder<E> {
     private final TextView title;
     private final TextView description;
 
-    private final MultiSelectDiffAdapter<E> adapter;
+    private final MultiSelectAdapter<E> adapter;
 
     private final Function<E, String> titleProvider;
     private final Function<E, String> descriptionProvider;
 
     public DescriptionMultiSelectListViewHolder(
             View itemView,
-            MultiSelectDiffAdapter<E> adapter,
+            MultiSelectAdapter<E> adapter,
             Function<E, String> titleProvider,
             Function<E, String> descriptionProvider
     ) {

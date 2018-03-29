@@ -5,14 +5,14 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
 
 /**
  * Adapter for sandwiches.
  *
  * @author Niko Strijbol
  */
-class SandwichAdapter extends MultiSelectDiffAdapter<Sandwich> {
+class SandwichAdapter extends MultiSelectAdapter<Sandwich> {
 
     @NonNull
     @Override

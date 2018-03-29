@@ -2,13 +2,12 @@ package be.ugent.zeus.hydra.common.ui.recyclerview.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.Adapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DataAdapter;
 
 /**
  * A generic view holder, intended as root of all other view holders.
  *
- * This view holder is designed to be used with an {@link Adapter}.
+ * This view holder is designed to be used with an {@link DataAdapter}.
  *
  * @param <D> The type of the data this view holder displays.
  *

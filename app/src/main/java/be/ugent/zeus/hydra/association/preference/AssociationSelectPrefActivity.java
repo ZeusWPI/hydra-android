@@ -95,7 +95,7 @@ public class AssociationSelectPrefActivity extends BaseActivity {
             values.add(new Pair<>(association, !disabled.contains(association.getInternalName())));
         }
 
-        adapter.setItems(values);
+        adapter.submitData(values);
     }
 
     @Override

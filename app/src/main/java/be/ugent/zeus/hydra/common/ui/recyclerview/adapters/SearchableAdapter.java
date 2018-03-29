@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.SearchView;
-
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import java8.lang.Iterables;
 import java8.util.function.BiPredicate;
@@ -33,15 +32,12 @@ import java.util.*;
  * Users of this class should call the {@link #onOpen()} method. Not doing so may result in unreliable behaviour related
  * to the listeners.
  *
- * @param <D> The type used by the adapter and the type that should be displayed. See the description of {@link ItemDiffAdapter}.
- * @param <V> The view holder. See the description at {@link ItemDiffAdapter}.
- *
  * @author Niko Strijbol
  */
-public abstract class GenericSearchableAdapter<D, V extends DataViewHolder<D>> extends ItemDiffAdapter<D, V> implements
-        SearchView.OnQueryTextListener, SearchView.OnCloseListener, SearchHelper, android.widget.SearchView.OnQueryTextListener {
+public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends DiffAdapter<D, VH> implements
+        SearchView.OnQueryTextListener, SearchView.OnCloseListener, SearchHelper {
 
-    protected List<D> allData = new ArrayList<>();
+    private List<D> allData = Collections.emptyList();
     private final BiPredicate<D, String> searchPredicate;
     private final Function<List<D>, List<D>> filter;
 
@@ -54,7 +50,7 @@ public abstract class GenericSearchableAdapter<D, V extends DataViewHolder<D>> e
      *                        should return true if the item is a match for the given query. This should be fairly fast,
      *                        as it is executed for every item for every change in search query.
      */
-    protected GenericSearchableAdapter(BiPredicate<D, String> searchPredicate) {
+    protected SearchableAdapter(BiPredicate<D, String> searchPredicate) {
         super();
         this.searchPredicate = searchPredicate;
         this.filter = Functions.identity();
@@ -65,13 +61,13 @@ public abstract class GenericSearchableAdapter<D, V extends DataViewHolder<D>> e
      *                        should return true if the item is a match for the given query. This should be fairly fast,
      *                        as it is executed for every item for every change in search query.
      */
-    protected GenericSearchableAdapter(BiPredicate<D, String> searchPredicate, Function<List<D>, List<D>> filter) {
+    protected SearchableAdapter(BiPredicate<D, String> searchPredicate, Function<List<D>, List<D>> filter) {
         super();
         this.searchPredicate = searchPredicate;
         this.filter = filter;
     }
 
-    protected GenericSearchableAdapter(Function<D, String> stringifier) {
+    protected SearchableAdapter(Function<D, String> stringifier) {
         this((d, s) -> stringifier.apply(d).contains(s));
     }
 
@@ -81,9 +77,9 @@ public abstract class GenericSearchableAdapter<D, V extends DataViewHolder<D>> e
     }
 
     @Override
-    public void setItems(List<D> items) {
-        this.allData = Collections.unmodifiableList(new ArrayList<>(items));
-        super.setItems(items);
+    public void submitData(List<D> data) {
+        this.allData = Collections.unmodifiableList(new ArrayList<>(data));
+        super.submitData(data);
     }
 
     @Override
@@ -96,7 +92,7 @@ public abstract class GenericSearchableAdapter<D, V extends DataViewHolder<D>> e
                 .filter(s -> searchPredicate.test(s, newText.toLowerCase()))
                 .collect(Collectors.toList());
         filtered = filter.apply(filtered);
-        super.setItems(filtered);
+        super.submitData(filtered);
         return true;
     }
 

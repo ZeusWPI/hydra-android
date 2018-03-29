@@ -1,161 +1,63 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
-import android.os.Handler;
-import android.os.Looper;
+import android.support.v7.util.AdapterListUpdateCallback;
 import android.support.v7.util.DiffUtil;
-import android.support.v7.widget.RecyclerView;
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Generic adapter for a collection of elements {@code D}. This adapter will change the items using
- * {@link android.support.v7.util.DiffUtil.DiffResult}, which will be calculated on a different thread.
+ * Generic adapter with support for calculating diffs on a background thread for data updates.
  *
- * @param <D> The type of items used in the adapter.
- * @param <VH> The type of the view holder used by the adapter.
+ * <h2>View types</h2>
+ * By default, the adapter only supports one view type. Additional types must be implemented by the
+ * subclasses.
  *
+ * <h2>Data updates</h2>
+ * When calling {@link #submitData(List)}, a diff with the current data will be calculated on a background thread,
+ * after which the changes will be dispatched to this adapter. This uses {@link android.support.v7.util.DiffUtil}
+ * behind the scenes.
+ * <p>
+ * Subclasses can publish different types of updates directly to the {@link #dataContainer} by implementing
+ * {@link AdapterUpdate}.
+ *
+ * @param <D>  The type of the items this adapter will contain. If multiple view types are needed, it is recommended
+ *             to create a custom superclass of all the types.
+ * @param <VH> The type of the view holder.
  * @author Niko Strijbol
  */
-public abstract class DiffAdapter<D, VH extends RecyclerView.ViewHolder> extends Adapter<D, VH> {
+public abstract class DiffAdapter<D, VH extends DataViewHolder<D>> extends DataAdapter<D, VH> {
 
-    private final Handler handler = new Handler(Looper.getMainLooper());
-    protected final Object updateLock = new Object();
+    protected final DataContainer<D> dataContainer;
+    protected final DiffUtil.ItemCallback<D> callback;
 
-    /**
-     * The next update. This stores the next items, if we're already calculating a diff when we receive a new
-     * update.
-     */
-    protected List<D> scheduledUpdate;
-
-    /**
-     * Indicates if the adapter is currently processing an update or not. If this is true, you should schedule
-     * the update and not run it immediately.
-     */
-    boolean isDiffing = false;
-
-    private final DiffUtil.ItemCallback<D> diffCallback;
-
-    /**
-     * Initialize with a custom callback.
-     *
-     * @param diffCallback The callback to use.
-     */
-    protected DiffAdapter(DiffUtil.ItemCallback<D> diffCallback) {
-        this.diffCallback = diffCallback;
-    }
-
-    /**
-     * Initialise with the default callback, {@link EqualsItemCallback}.
-     */
-    protected DiffAdapter() {
+    public DiffAdapter() {
         this(new EqualsItemCallback<>());
     }
 
-    /**
-     * Schedule a DiffResult calculation with given items. This will calculate the diff result in a separate thread,
-     * and deliver the result in the main thread, in the {@link #applyDiffResult(List, DiffUtil.DiffResult)} method.
-     * This will also set the {@link #isDiffing} variable to true.
-     *
-     * The caller of this method should ensure the Thread from a previous call has been finished, or the data may
-     * become inconsistent.
-     *
-     * Most of the time, you should call {@link #setItems(List)} instead.
-     *
-     * @param items The new items.
-     */
-    protected void updateItemInternal(List<D> items) {
-        synchronized (updateLock) {
-            if (isDiffing) {
-                throw new IllegalStateException("An update is already being applied!");
-            }
-            isDiffing = true;
-        }
-
-        // Save a copy of the old items.
-        final List<D> oldItems = new ArrayList<>(this.items);
-
-        final DiffUtil.Callback callback = new DiffUtil.Callback() {
-            @Override
-            public int getOldListSize() {
-                return oldItems.size();
-            }
-
-            @Override
-            public int getNewListSize() {
-                return items.size();
-            }
-
-            @Override
-            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                return diffCallback.areItemsTheSame(oldItems.get(oldItemPosition), items.get(newItemPosition));
-            }
-
-            @Override
-            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                return diffCallback.areContentsTheSame(oldItems.get(oldItemPosition), items.get(newItemPosition));
-            }
-        };
-
-        new Thread(() -> {
-            DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback, true);
-            handler.post(() -> applyDiffResult(items, result));
-        }).start();
+    public DiffAdapter(DiffUtil.ItemCallback<D> callback) {
+        this.callback = callback;
+        // TODO: should we use a BatchedListCallback here?
+        this.dataContainer = new DataContainer<>(new AdapterListUpdateCallback(this));
     }
 
-    /**
-     * Receives the diff result from the Thread in the {@link #updateItemInternal(List)} method. This will
-     * dispatch the update to the adapter (this class).
-     *
-     * After the dispatching of the results, the method will launch the next update, if one is scheduled.
-     *
-     * @param newItems The new items.
-     * @param diffResult The diff result.
-     */
-    private void applyDiffResult(List<D> newItems, DiffUtil.DiffResult diffResult) {
-        // Dispatch the update to the adapter.
-        this.items = newItems;
-        diffResult.dispatchUpdatesTo(this);
-
-        // If there is scheduled one next, execute it.
-        synchronized (updateLock) {
-            // We are done with this update.
-            isDiffing = false;
-
-            if (scheduledUpdate != null) {
-                updateItemInternal(scheduledUpdate);
-                scheduledUpdate = null;
-            }
-        }
+    @Override
+    public int getItemCount() {
+        return dataContainer.getData().size();
     }
 
-    /**
-     * Set the items. When calling this method while an update is being executed, the update
-     * will be scheduled. If an update is already scheduled, the new update will replace the old one.
-     *
-     * Changing the list of items after calling this function is undefined behaviour and strongly discouraged.
-     * The adapter itself does reserve the right to edit the list.
-     *
-     * @param items The new items.
-     */
-    public void setItems(List<D> items) {
-        synchronized (updateLock) {
+    @Override
+    public D getItem(int position) {
+        return dataContainer.getData().get(position);
+    }
 
-            // When using diff util, the recycler view always scrolls to the top after updating.
-            // This is very annoying when rotating the device, so don't use it when there are no cards.
-            // This is also (marginally) more efficient.
-            if (this.items.isEmpty()) {
-                this.items = items;
-                notifyItemRangeInserted(0, this.getItemCount());
-                return;
-            }
+    @Override
+    public void submitData(List<D> data) {
+        dataContainer.submitUpdate(new DiffUpdate<>(callback, data));
+    }
 
-            // If we are currently updating, schedule the update.
-            if (isDiffing) {
-                scheduledUpdate = items;
-            } else {
-                updateItemInternal(items);
-            }
-        }
+    @Override
+    public void clear() {
+        dataContainer.submitUpdate(new DiffUpdate<>(null));
     }
 }

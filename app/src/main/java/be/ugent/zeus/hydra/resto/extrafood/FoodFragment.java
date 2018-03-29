@@ -63,8 +63,8 @@ public class FoodFragment extends Fragment {
         viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         viewModel.getData().observe(this, new SuccessObserver<ExtraFood>() {
             @Override
-            protected void onSuccess(ExtraFood data) {
-                adapter.setItems(viewModel.getFor(position, data));
+            protected void onSuccess(@NonNull ExtraFood data) {
+                adapter.submitData(viewModel.getFor(position, data));
             }
 
             @Override

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
@@ -20,9 +20,9 @@ class SandwichHolder extends DataViewHolder<Sandwich> {
     private TextView mediumPrice;
     private ExpandableLayout expandableLayout;
     private TextView ingredients;
-    private MultiSelectDiffAdapter<Sandwich> adapter;
+    private MultiSelectAdapter<Sandwich> adapter;
 
-    SandwichHolder(View itemView, MultiSelectDiffAdapter<Sandwich> adapter) {
+    SandwichHolder(View itemView, MultiSelectAdapter<Sandwich> adapter) {
         super(itemView);
 
         name = itemView.findViewById(R.id.sandwich_name);

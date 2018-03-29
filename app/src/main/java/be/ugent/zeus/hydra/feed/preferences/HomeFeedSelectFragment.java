@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DescriptionMultiSelectListViewHolder;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
@@ -71,7 +71,7 @@ public class HomeFeedSelectFragment extends Fragment {
                 .filter(integer -> integer != -1) // Non-existing ones are gone
                 .collect(Collectors.toSet());
 
-        adapter.setItems(itemTuples, unwanted, true);
+        adapter.submitData(itemTuples, unwanted, true);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class HomeFeedSelectFragment extends Fragment {
         }
     }
 
-    private static class FeedOptionsAdapter extends MultiSelectDiffAdapter<Tuple> {
+    private static class FeedOptionsAdapter extends MultiSelectAdapter<Tuple> {
 
         @NonNull
         @Override

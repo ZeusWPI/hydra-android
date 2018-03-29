@@ -14,14 +14,16 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Basic searchable adapter with basic multi-select support. Extending a {@link GenericSearchableAdapter} to be multi-select
- * or a {@link MultiSelectDiffAdapter} to be searchable is very difficult and complicated, while we don't need all that
+ * Basic searchable adapter with basic multi-select support. Extending a {@link SearchableAdapter} to be multi-select
+ * or a {@link MultiSelectAdapter} to be searchable is very difficult and complicated, while we don't need all that
  * stuff.
  *
  * @author Niko Strijbol
  */
-public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<Pair<D, Boolean>>> extends ItemAdapter<Pair<D, Boolean>, VH> implements
+public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<Pair<D, Boolean>>> extends DataAdapter<Pair<D, Boolean>, VH> implements
         SearchView.OnQueryTextListener, android.widget.SearchView.OnQueryTextListener {
+
+    private List<Pair<D, Boolean>> items = Collections.emptyList();
 
     protected List<Pair<D, Boolean>> allData = Collections.emptyList();
 
@@ -37,9 +39,27 @@ public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<
     }
 
     @Override
-    public void setItems(List<Pair<D, Boolean>> items) {
-        allData = new ArrayList<>(items);
-        super.setItems(items);
+    public void submitData(List<Pair<D, Boolean>> data) {
+        allData = new ArrayList<>(data);
+        this.items = data;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void clear() {
+        int size = items.size();
+        items = Collections.emptyList();
+        notifyItemRangeRemoved(0, size);
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    @Override
+    public Pair<D, Boolean> getItem(int position) {
+        return items.get(position);
     }
 
     /**

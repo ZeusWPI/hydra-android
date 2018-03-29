@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.minerva.course.list;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.v7.util.ListUpdateCallback;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.ViewGroup;
@@ -9,7 +10,8 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.GenericSearchableAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.AdapterUpdate;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.ItemDragHelperAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.OnStartDragListener;
 import be.ugent.zeus.hydra.minerva.course.Course;
@@ -19,13 +21,14 @@ import java8.util.stream.IntStreams;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Adapts a list of courses.
  *
  * @author Niko Strijbol
  */
-class MinervaCourseAdapter extends GenericSearchableAdapter<Pair<Course, Long>, MinervaCourseViewHolder> implements ItemDragHelperAdapter {
+class MinervaCourseAdapter extends SearchableAdapter<Pair<Course, Long>, MinervaCourseViewHolder> implements ItemDragHelperAdapter {
 
     private CourseRepository courseDao;
     private final OnStartDragListener startDragListener;
@@ -52,8 +55,24 @@ class MinervaCourseAdapter extends GenericSearchableAdapter<Pair<Course, Long>, 
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
-        Collections.swap(items, fromPosition, toPosition);
-        notifyItemMoved(fromPosition, toPosition);
+        AdapterUpdate<Pair<Course, Long>> update = new AdapterUpdate<Pair<Course, Long>>() {
+            @Override
+            public List<Pair<Course, Long>> getNewData(List<Pair<Course, Long>> existingData) {
+                Collections.swap(existingData, fromPosition, toPosition);
+                return existingData;
+            }
+
+            @Override
+            public void applyUpdatesTo(ListUpdateCallback listUpdateCallback) {
+                notifyItemMoved(fromPosition, toPosition);
+            }
+
+            @Override
+            public boolean shouldUseMultiThreading() {
+                return false; // Multithreading causes problems.
+            }
+        };
+        dataContainer.submitUpdate(update);
         return true;
     }
 
@@ -65,7 +84,7 @@ class MinervaCourseAdapter extends GenericSearchableAdapter<Pair<Course, Long>, 
         AsyncTask.execute(() -> {
             Collection<Course> courses = IntStreams.range(0, getItemCount())
                     .mapToObj(value -> {
-                        Course course1 = items.get(value).first;
+                        Course course1 = getItem(value).first;
                         course1.setOrder(value);
                         return course1;
                     })

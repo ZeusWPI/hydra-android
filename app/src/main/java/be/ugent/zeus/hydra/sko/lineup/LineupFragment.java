@@ -91,7 +91,7 @@ public class LineupFragment extends Fragment {
                 joiner.add(new JoinableLayout(R.layout.item_title, new TextCallback(entry.getKey())));
                 joiner.add(new JoinableAdapter(adapter));
             }
-            adapters.get(entry.getKey()).setItems(entry.getValue());
+            adapters.get(entry.getKey()).submitData(entry.getValue());
         }
     }
 

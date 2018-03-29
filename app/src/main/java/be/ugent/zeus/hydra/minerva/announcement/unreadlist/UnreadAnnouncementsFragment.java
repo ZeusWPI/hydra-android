@@ -25,7 +25,7 @@ import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
 import be.ugent.zeus.hydra.minerva.announcement.courselist.AnnouncementsForCourseFragment;
@@ -47,7 +47,7 @@ import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
  *
  * @author Niko Strijbol
  */
-public class UnreadAnnouncementsFragment extends Fragment implements MultiSelectDiffAdapter.Callback<Announcement>, MainActivity.ScheduledRemovalListener {
+public class UnreadAnnouncementsFragment extends Fragment implements MultiSelectAdapter.Callback<Announcement>, MainActivity.ScheduledRemovalListener {
 
     private static final String TAG = "UnreadAnnFragment";
 
@@ -174,7 +174,7 @@ public class UnreadAnnouncementsFragment extends Fragment implements MultiSelect
     };
 
     @Override
-    public void onStateChanged(MultiSelectDiffAdapter<Announcement> adapter) {
+    public void onStateChanged(MultiSelectAdapter<Announcement> adapter) {
         if (adapter.hasSelected()) {
             if (actionMode == null) {
                 actionMode = requireActivity().startActionMode(actionModeCallback);
