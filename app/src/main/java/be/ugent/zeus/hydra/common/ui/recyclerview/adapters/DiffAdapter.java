@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
-import android.support.v7.util.AdapterListUpdateCallback;
 import android.support.v7.util.DiffUtil;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
@@ -37,7 +36,6 @@ public abstract class DiffAdapter<D, VH extends DataViewHolder<D>> extends DataA
 
     public DiffAdapter(DiffUtil.ItemCallback<D> callback) {
         this.callback = callback;
-        // TODO: should we use a BatchedListCallback here?
         this.dataContainer = new DataContainer<>(new AdapterListUpdateCallback(this));
     }
 

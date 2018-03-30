@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
 import android.support.annotation.*;
-import android.support.v7.util.ListUpdateCallback;
 
 import java.util.List;
 

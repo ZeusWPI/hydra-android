@@ -5,10 +5,7 @@ import android.os.Looper;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.recyclerview.extensions.ListAdapter;
-import android.support.v7.util.ListUpdateCallback;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
