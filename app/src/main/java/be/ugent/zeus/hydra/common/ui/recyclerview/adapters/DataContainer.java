@@ -10,34 +10,30 @@ import android.support.v7.recyclerview.extensions.ListAdapter;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Manages the data for an adapter.
- *
- * TODO: should we support blocking updates (e.g. for when we are searching?)
- * TODO: replace our threads by a variant on the system used by the Support Libs
  *
  * @author Niko Strijbol
  */
 public class DataContainer<D> {
 
-    private final Object updateLock = new Object();
+    // Threading-related stuff.
+    private final Executor backgroundExecutor = getDefaultBackgroundExecutor();
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private final ListUpdateCallback callback;
+    private final Executor mainThreadExecutor = handler::post;
 
+    // Data stuff.
     @Nullable
     private List<D> internalData = null;
     @NonNull
     private List<D> readOnly = Collections.emptyList();
 
-    /**
-     * An update that is scheduled because the adapter is busy updating or is not accepting update right now.
-     */
-    private AdapterUpdate<D> scheduledUpdate;
-
-    private boolean isUpdating = false;
+    private final ListUpdateCallback callback;
 
     /**
      * @param callback The callback to which updates will be dispatched.
@@ -46,6 +42,9 @@ public class DataContainer<D> {
         this.callback = callback;
     }
 
+    // Max generation of currently scheduled runnable
+    private int maxScheduledGeneration;
+
     /**
      * Submit an update to the data.
      *
@@ -53,16 +52,26 @@ public class DataContainer<D> {
      */
     @MainThread
     public void submitUpdate(AdapterUpdate<D> update) {
-        synchronized (updateLock) {
-            if (isUpdating) {
-                scheduledUpdate = update;
-                return;
-            } else {
-                isUpdating = true;
-                scheduledUpdate = null;
-            }
+
+        final int generation = ++maxScheduledGeneration;
+
+        // Construct a unit of work for the update.
+        Runnable work = () -> {
+            List<D> newData = update.getNewData(internalData);
+            mainThreadExecutor.execute(() -> {
+                if (maxScheduledGeneration == generation) {
+                    applyResult(newData, update);
+                }
+            });
+        };
+
+        if (update.shouldUseMultiThreading()) {
+            // Schedule the update.
+            backgroundExecutor.execute(work);
+        } else {
+            // Just run execute the work if threading is not allowed.
+            work.run();
         }
-        executeUpdate(update);
     }
 
     @MainThread
@@ -74,35 +83,29 @@ public class DataContainer<D> {
         } else {
             readOnly = Collections.unmodifiableList(internalData);
         }
-        synchronized (updateLock) {
-            isUpdating = false;
-        }
-        if (scheduledUpdate != null) {
-            submitUpdate(scheduledUpdate);
-            scheduledUpdate = null;
-        }
-    }
-
-    @MainThread
-    private void executeUpdate(AdapterUpdate<D> update) {
-        if (update.shouldUseMultiThreading()) {
-            Runnable work = () -> {
-                List<D> newData = update.getNewData(internalData);
-                handler.post(() -> applyResult(newData, update));
-            };
-            new Thread(work).start();
-        } else {
-            List<D> newData = update.getNewData(internalData);
-            applyResult(newData, update);
-        }
     }
 
     /**
-     * @return Get a read-only copy of the current data. When the data in the container is updated, this may or may not
-     * be updated.
+     * @return Get a read-only copy of the current data. When the data in the container is updated,
+     * this may or may not be updated.
      */
     @NonNull
     public List<D> getData() {
         return readOnly;
+    }
+
+    /**
+     * Construct a default background executor.
+     * <p>
+     * The default executor has a fixed thread pool with 2 threads. This is both the suggested and maximal amount of
+     * threads. The thread pool has a bounded queue of size 1. The rejected policy is discarding the oldest first.
+     *
+     * @return The executor.
+     */
+    private static Executor getDefaultBackgroundExecutor() {
+        return new ThreadPoolExecutor(2, 2,
+                0, TimeUnit.MILLISECONDS,
+                new ArrayBlockingQueue<>(1),
+                new ThreadPoolExecutor.DiscardOldestPolicy());
     }
 }
