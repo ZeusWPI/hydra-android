@@ -52,7 +52,8 @@ public class LimitingSpecialEventRequest extends HideableHomeFeedRequest {
             for (SpecialEvent event : specialEvents) {
                 if ((event.getStart() == null && event.getEnd() == null)
                         || (event.getStart().isBefore(now) && event.getEnd().isAfter(now))
-                        || (BuildConfig.DEBUG && event.isDevelopment())) {
+                        || (BuildConfig.DEBUG && event.isDevelopment())
+                        || (BuildConfig.DEBUG && BuildConfig.DEBUG_ENABLE_ALL_SPECIALS)) {
                     list.add(new SpecialEventCard(event));
                 }
             }

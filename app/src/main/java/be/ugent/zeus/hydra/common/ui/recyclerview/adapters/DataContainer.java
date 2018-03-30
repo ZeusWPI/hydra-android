@@ -94,6 +94,8 @@ public class DataContainer<D> {
         return readOnly;
     }
 
+    private static Executor backgroundExecutorSingleton;
+
     /**
      * Construct a default background executor.
      * <p>
@@ -103,9 +105,12 @@ public class DataContainer<D> {
      * @return The executor.
      */
     private static Executor getDefaultBackgroundExecutor() {
-        return new ThreadPoolExecutor(2, 2,
-                0, TimeUnit.MILLISECONDS,
-                new ArrayBlockingQueue<>(1),
-                new ThreadPoolExecutor.DiscardOldestPolicy());
+        if (backgroundExecutorSingleton == null) {
+            backgroundExecutorSingleton = new ThreadPoolExecutor(2, 2,
+                    0, TimeUnit.MILLISECONDS,
+                    new ArrayBlockingQueue<>(1),
+                    new ThreadPoolExecutor.DiscardOldestPolicy());
+        }
+        return backgroundExecutorSingleton;
     }
 }

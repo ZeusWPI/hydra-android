@@ -27,6 +27,7 @@ android {
         buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", props.getProperty('hydra.debug.home.stream.stall')
         buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", props.getProperty('hydra.debug.home.stream.sko')
         buildConfigField "boolean", "DEBUG_ENABLE_STRICT_MODE", props.getProperty('hydra.debug.strict_mode')
+        buildConfigField "boolean", "DEBUG_ENABLE_ALL_SPECIALS", props.getProperty('hydra.debug.home.stream.specials')
 
         // used by Room, to test migrations
         javaCompileOptions {
