@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.common.network;
 import android.content.Context;
 import android.support.annotation.VisibleForTesting;
 
+import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.common.converter.DateThreeTenAdapter;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
@@ -27,10 +28,13 @@ public class InstanceProvider {
 
     public static synchronized OkHttpClient getClient(File cacheDir) {
         if (client == null) {
-            client = new OkHttpClient.Builder()
-                    .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                    .cache(new Cache(cacheDir, CACHE_SIZE))
-                    .build();
+            OkHttpClient.Builder builder = new OkHttpClient.Builder().cache(new Cache(cacheDir, CACHE_SIZE));
+
+            if (BuildConfig.DEBUG && BuildConfig.DEBUG_NETWORK_ENABLE_LOGS) {
+                builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+            }
+
+            client = builder.build();
         }
         return client;
     }
