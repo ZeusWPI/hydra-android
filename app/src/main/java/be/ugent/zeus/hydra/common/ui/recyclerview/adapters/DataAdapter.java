@@ -13,12 +13,32 @@ import java.util.List;
  */
 public abstract class DataAdapter<D, VH extends DataViewHolder<D>> extends RecyclerView.Adapter<VH> {
 
+    protected final DataContainer<D> dataContainer;
+
+    DataAdapter() {
+        this.dataContainer = new DataContainer<>(new AdapterListUpdateCallback(this));
+    }
+
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         holder.populate(getItem(position));
     }
 
-    public abstract D getItem(int position);
+    @Override
+    public int getItemCount() {
+        return dataContainer.getData().size();
+    }
+
+    /**
+     * Get the item that is currently at {@code position}.
+     *
+     * @param position The position of the item in the adapter's data set.
+     *
+     * @return The item.
+     */
+    public D getItem(int position) {
+        return dataContainer.getData().get(position);
+    }
 
     /**
      * Submit new data to the adapter.
@@ -27,5 +47,8 @@ public abstract class DataAdapter<D, VH extends DataViewHolder<D>> extends Recyc
      */
     public abstract void submitData(List<D> data);
 
+    /**
+     * Remove all data from the adapter.
+     */
     public abstract void clear();
 }

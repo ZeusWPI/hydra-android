@@ -27,7 +27,6 @@ import java.util.List;
  */
 public abstract class DiffAdapter<D, VH extends DataViewHolder<D>> extends DataAdapter<D, VH> {
 
-    protected final DataContainer<D> dataContainer;
     protected final DiffUtil.ItemCallback<D> callback;
 
     public DiffAdapter() {
@@ -35,18 +34,8 @@ public abstract class DiffAdapter<D, VH extends DataViewHolder<D>> extends DataA
     }
 
     public DiffAdapter(DiffUtil.ItemCallback<D> callback) {
+        super();
         this.callback = callback;
-        this.dataContainer = new DataContainer<>(new AdapterListUpdateCallback(this));
-    }
-
-    @Override
-    public int getItemCount() {
-        return dataContainer.getData().size();
-    }
-
-    @Override
-    public D getItem(int position) {
-        return dataContainer.getData().get(position);
     }
 
     @Override

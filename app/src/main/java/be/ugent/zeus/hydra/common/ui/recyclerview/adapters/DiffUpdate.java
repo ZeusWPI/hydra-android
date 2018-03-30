@@ -4,7 +4,6 @@ import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 import android.support.v7.util.DiffUtil;
-import android.support.v7.util.ListUpdateCallback;
 import android.util.Log;
 import java8.util.Objects;
 
