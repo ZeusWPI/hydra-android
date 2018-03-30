@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
-import android.support.v7.util.ListUpdateCallback;
 import be.ugent.zeus.hydra.testing.Utils;
 import java8.util.Lists;
 import org.junit.Test;

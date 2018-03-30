@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.minerva.course.list;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.v7.util.ListUpdateCallback;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.AdapterUpdate;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ListUpdateCallback;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.ItemDragHelperAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.OnStartDragListener;
