@@ -135,9 +135,6 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
             throw new UnsuccessfulRequestException(response.code());
         }
 
-        Log.d(TAG, "executeRequest: response is from cache? " + String.valueOf(response.cacheResponse() != null));
-        Log.d(TAG, "executeRequest: response is from network? " + String.valueOf(response.networkResponse() != null));
-
         assert response.body() != null;
 
         try {

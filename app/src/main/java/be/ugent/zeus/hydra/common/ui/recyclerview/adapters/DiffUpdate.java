@@ -20,8 +20,6 @@ import java.util.Set;
  */
 class DiffUpdate<D> implements AdapterUpdate<D> {
 
-    private static final String TAG = "DataUpdate";
-
     private final DiffUtil.ItemCallback<D> callback;
 
     private final List<D> newData;
@@ -43,18 +41,14 @@ class DiffUpdate<D> implements AdapterUpdate<D> {
     @Override
     @WorkerThread
     public List<D> getNewData(@Nullable List<D> existingData) {
-        Log.v(TAG, "getNewData: executing update");
 
         if (existingData == null || existingData.isEmpty()) {
-            Log.v(TAG, "getNewData: existing data is empty");
             status.add(Empty.OLD_DATA);
         } else {
-            Log.v(TAG, "getNewData: existing data is not null");
             existingDataSize = existingData.size();
         }
 
         if (newData == null || newData.isEmpty()) {
-            Log.v(TAG, "getNewData: new data is empty");
             status.add(Empty.NEW_DATA);
         }
 
@@ -62,7 +56,6 @@ class DiffUpdate<D> implements AdapterUpdate<D> {
             assert existingData != null;
             assert newData != null;
             // Else we calculate a diff, as both are non-empty.
-            Log.v(TAG, "getNewData: both are non-empty");
             result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
                 @Override
                 public int getOldListSize() {
