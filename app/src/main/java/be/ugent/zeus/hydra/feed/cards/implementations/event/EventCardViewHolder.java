@@ -56,7 +56,13 @@ public class EventCardViewHolder extends CardViewHolder implements SwipeDismissa
 
         PriorityUtils.loadThumbnail(itemView.getContext(), event.getAssociation().getImageLink(), imageView);
 
-        itemView.setOnClickListener(v -> EventDetailsActivity.launchWithAnimation(((Activity) itemView.getContext()), imageView, "logo", event));
+        itemView.setOnClickListener(v -> {
+            if (itemView.getContext() instanceof Activity) {
+                EventDetailsActivity.launchWithAnimation(((Activity) itemView.getContext()), imageView, "logo", event);
+            } else {
+                itemView.getContext().startActivity(EventDetailsActivity.start(itemView.getContext(), event));
+            }
+        });
     }
 
     @Override
