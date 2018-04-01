@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Remove headers that have no more events.
+ *
  * @author Niko Strijbol
  */
 public class EventSearchFilter implements Function<List<EventItem>, List<EventItem>> {
