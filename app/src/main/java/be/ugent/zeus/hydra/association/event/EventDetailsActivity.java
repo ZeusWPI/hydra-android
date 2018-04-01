@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.association.event;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -49,11 +50,16 @@ public class EventDetailsActivity extends BaseActivity {
      * @param name     The name of the transition.
      * @param event    The event.
      */
-    public static void launchWithAnimation(Activity activity, View view, String name, Parcelable event) {
-        Intent intent = new Intent(activity, EventDetailsActivity.class);
-        intent.putExtra(PARCEL_EVENT, event);
+    public static void launchWithAnimation(Activity activity, View view, String name, Event event) {
+        Intent intent = start(activity, event);
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, view, name);
         ActivityCompat.startActivity(activity, intent, options.toBundle());
+    }
+
+    public static Intent start(Context context, Event event) {
+        Intent intent = new Intent(context, EventDetailsActivity.class);
+        intent.putExtra(PARCEL_EVENT, (Parcelable) event);
+        return intent;
     }
 
     @Override

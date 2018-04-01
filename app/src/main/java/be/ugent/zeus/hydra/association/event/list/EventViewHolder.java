@@ -43,8 +43,7 @@ class EventViewHolder extends DataViewHolder<EventItem> {
         association.setText(event.getAssociation().getDisplayName());
         start.setText(event.getLocalStart().format(HOUR_FORMATTER));
         itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), EventDetailsActivity.class);
-            intent.putExtra(EventDetailsActivity.PARCEL_EVENT, (Parcelable) event);
+            Intent intent = EventDetailsActivity.start(v.getContext(), event);
             v.getContext().startActivity(intent);
         });
 

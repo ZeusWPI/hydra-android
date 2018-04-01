@@ -28,13 +28,13 @@ public class EventListConverter implements Function<List<Event>, List<EventItem>
         // Add the first header.
         items.add(new EventItem(lastDate));
         // Add the first item
-        items.add(new EventItem(events.get(0), true, false));
+        items.add(new EventItem(events.get(0), false));
 
         for (int i = 1; i < events.size(); i++) {
             LocalDate date = events.get(i).getStart().toLocalDate();
             if (lastDate.equals(date)) {
                 // This is the same date as the last one, just add the event.
-                items.add(new EventItem(events.get(i), false, false));
+                items.add(new EventItem(events.get(i), false));
             } else {
                 // This is a new date.
                 // We first modify the last element.
@@ -42,7 +42,7 @@ public class EventListConverter implements Function<List<Event>, List<EventItem>
                 // Add the new header.
                 items.add(new EventItem(date));
                 // Add the actual item
-                items.add(new EventItem(events.get(i), true, false));
+                items.add(new EventItem(events.get(i), false));
                 // Set the last seen date.
                 lastDate = date;
             }

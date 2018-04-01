@@ -55,7 +55,6 @@ public class EventListConverterTest {
                 previousWasHeader = true;
                 previousWasLastOfSection = false;
             } else if (previousWasHeader) {
-                assertTrue(item.isFirstOfSection());
                 previousWasHeader = false;
                 previousWasFirstOfSection = true;
             } else if (previousWasFirstOfSection) {

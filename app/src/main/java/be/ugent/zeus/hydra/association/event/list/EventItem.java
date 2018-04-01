@@ -15,7 +15,6 @@ final class EventItem {
     private final Event event;
     private final LocalDate header;
 
-    private boolean isFirstOfSection;
     private boolean isLastOfSection;
 
     private EventItem(Event event, LocalDate header) {
@@ -23,9 +22,8 @@ final class EventItem {
         this.header = header;
     }
 
-    EventItem(Event event, boolean isFirstOfSection, boolean isLastOfSection) {
+    EventItem(Event event, boolean isLastOfSection) {
         this(event, null);
-        this.isFirstOfSection = isFirstOfSection;
         this.isLastOfSection = isLastOfSection;
     }
 
@@ -39,13 +37,6 @@ final class EventItem {
 
     public boolean isItem() {
         return event != null;
-    }
-
-    public boolean isFirstOfSection() {
-        if (!isItem()) {
-            throw new IllegalStateException("Can only be used if the EventItem contains an item.");
-        }
-        return isFirstOfSection;
     }
 
     public boolean isLastOfSection() {
@@ -74,15 +65,14 @@ final class EventItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EventItem eventItem = (EventItem) o;
-        return isFirstOfSection == eventItem.isFirstOfSection &&
-                isLastOfSection == eventItem.isLastOfSection &&
+        return isLastOfSection == eventItem.isLastOfSection &&
                 Objects.equals(event, eventItem.event) &&
                 Objects.equals(header, eventItem.header);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(event, header, isFirstOfSection, isLastOfSection);
+        return Objects.hash(event, header, isLastOfSection);
     }
 
     void markAsLastOfSection() {
