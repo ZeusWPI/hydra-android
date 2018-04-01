@@ -94,6 +94,10 @@ public final class UgentNewsItem implements Serializable, Parcelable {
         return creators;
     }
 
+    public void setModified(OffsetDateTime modified) {
+        this.modified = modified;
+    }
+
     @Override
     public int describeContents() {
         return 0;
