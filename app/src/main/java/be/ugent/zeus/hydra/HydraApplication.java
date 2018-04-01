@@ -30,6 +30,10 @@ public class HydraApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        onCreateInitialise();
+    }
+
+    protected void onCreateInitialise() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
@@ -93,7 +97,7 @@ public class HydraApplication extends Application {
      * Create notifications channels when needed.
      * TODO: should this move to the SKO activity?
      */
-    private void createChannels() {
+    protected void createChannels() {
         ChannelCreator channelCreator = ChannelCreator.getInstance(this);
         channelCreator.createSkoChannel();
     }
@@ -101,7 +105,7 @@ public class HydraApplication extends Application {
     /**
      * Used to enable {@link StrictMode} for debug builds.
      */
-    private void enableStrictModeInDebug() {
+    protected void enableStrictModeInDebug() {
 
         if (!BuildConfig.DEBUG_ENABLE_STRICT_MODE) {
             return;

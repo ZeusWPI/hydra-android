@@ -17,11 +17,7 @@ import jonathanfinerty.once.Once;
  *
  * @author Niko Strijbol
  */
-public class TestApp extends Application {
-
-    private static final String TAG = "HydraApplication";
-
-    private Tracker tracker;
+public class TestApp extends HydraApplication {
 
     @Override
     public void onCreate() {
@@ -45,71 +41,24 @@ public class TestApp extends Application {
         createChannels();
     }
 
-    /**
-     * Gets the default {@link Tracker} for this {@link Application}.
-     *
-     * @return tracker
-     */
-    synchronized public Tracker getDefaultTracker() {
-        if (tracker == null) {
-            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-            analytics.setDryRun(true);
-            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
-            tracker = analytics.newTracker(R.xml.global_tracker);
-        }
-        return tracker;
-    }
+    @Override
+    protected void onCreateInitialise() {
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            // This process is dedicated to LeakCanary for heap analysis.
+//            // You should not init your app in this process.
+//            return;
+//        }
 
-    /**
-     * Send a screen name to the analytics.
-     *
-     * @param screenName The screen name to send.
-     */
-    public void sendScreenName(String screenName) {
-        Tracker t = getDefaultTracker();
-        t.setScreenName(screenName);
-        t.send(new HitBuilders.ScreenViewBuilder().build());
-    }
-
-    /**
-     * Get the application from an activity. The application is cast to this class.
-     *
-     * @param activity The activity.
-     *
-     * @return The application.
-     */
-    public static HydraApplication getApplication(@NonNull Activity activity) {
-        return (HydraApplication) activity.getApplication();
-    }
-
-    /**
-     * Create notifications channels when needed.
-     * TODO: should this move to the SKO activity?
-     */
-    private void createChannels() {
-        ChannelCreator channelCreator = ChannelCreator.getInstance(this);
-        channelCreator.createSkoChannel();
-        channelCreator.createUrgentChannel();
-    }
-
-    /**
-     * Used to enable {@link StrictMode} for debug builds.
-     */
-    private void enableStrictModeInDebug() {
-
-        if (!BuildConfig.DEBUG_ENABLE_STRICT_MODE) {
-            return;
+        if (BuildConfig.DEBUG) {
+            enableStrictModeInDebug();
         }
 
-        Log.d(TAG, "Enabling strict mode...");
+        // This below is disabled for tests.
+        //AndroidThreeTen.init(this);
+        //LeakCanary.install(this);
+        Once.initialise(this);
 
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                .detectAll()
-                .penaltyLog()
-                .build());
-        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                .detectAll()
-                .penaltyLog()
-                .build());
+        // Initialize the channels that are needed in the whole app. The channels for Minerva are created when needed.
+        createChannels();
     }
 }

@@ -5,10 +5,7 @@ import android.content.pm.ShortcutManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -160,10 +157,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private static final String TAG = "BaseActivity";
 
-    private static final String ONCE_ONBOARDING = "once_onboarding";
+    @VisibleForTesting
+    static final String ONCE_ONBOARDING = "once_onboarding";
     private static final int ONBOARDING_REQUEST = 5;
 
-    private static final String ONCE_DRAWER = "once_drawer";
+    @VisibleForTesting
+    static final String ONCE_DRAWER = "once_drawer";
 
     private static final String FRAGMENT_MENU_ID = "backStack";
 

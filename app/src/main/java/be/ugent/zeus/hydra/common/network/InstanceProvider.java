@@ -28,15 +28,22 @@ public class InstanceProvider {
 
     public static synchronized OkHttpClient getClient(File cacheDir) {
         if (client == null) {
-            OkHttpClient.Builder builder = new OkHttpClient.Builder().cache(new Cache(cacheDir, CACHE_SIZE));
-
-            if (BuildConfig.DEBUG && BuildConfig.DEBUG_NETWORK_ENABLE_LOGS) {
-                builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
-            }
+            OkHttpClient.Builder builder = getBuilder(cacheDir);
 
             client = builder.build();
         }
         return client;
+    }
+
+    @VisibleForTesting
+    public static OkHttpClient.Builder getBuilder(File cacheDir) {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder().cache(new Cache(cacheDir, CACHE_SIZE));
+
+        if (BuildConfig.DEBUG && BuildConfig.DEBUG_NETWORK_ENABLE_LOGS) {
+            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+        }
+
+        return builder;
     }
 
     public static synchronized OkHttpClient getClient(Context context) {
@@ -58,7 +65,7 @@ public class InstanceProvider {
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-    static void reset() {
+    public static void reset() {
         client = null;
         moshi = null;
     }
