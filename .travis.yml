@@ -13,8 +13,12 @@ android:
 #     - extra-android-m2repository
 #     - extra-google-m2repository
 
+env:
+  - FLAVOUR=testDebug
+  - FLAVOUR=testRelease
+
 script:
-  - "./gradlew clean test"
+  - "./gradlew clean $FLAVOUR"
 
 notifications:
   email: false
