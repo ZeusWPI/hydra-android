@@ -31,7 +31,7 @@ public class PriorityUtils {
     public static int FEED_MAX_VALUE = 1000 + FEED_SPECIAL_SHIFT;
 
     /**
-     * Lineair interpolation of the value x ∈ [a,b] to [10,FEED_MAX_VALUE]. The formula used is:
+     * Lineair interpolation of the value x ∈ [a,b] to [FEED_SPECIAL_SHIFT,FEED_MAX_VALUE]. The formula used is:
      *
      * x' = (c - a) * FEED_MAX_VALUE / (b - a)
      *
