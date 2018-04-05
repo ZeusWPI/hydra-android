@@ -5,54 +5,27 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
+import be.ugent.zeus.hydra.feed.cards.implementations.minerva.AbstractMinervaViewHolderTest;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.singlecourse.CourseActivity;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowApplication;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertNotEmpty;
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Niko Strijbol
  */
-@RunWith(RobolectricTestRunner.class)
-public class MinervaAnnouncementViewHolderTest {
-
-    private HomeFeedAdapter adapter;
-
-    @Before
-    public void setUp() {
-        adapter = mock(HomeFeedAdapter.class);
-        HomeFeedAdapter.AdapterCompanion companion = mock(HomeFeedAdapter.AdapterCompanion.class);
-        when(adapter.getCompanion()).thenReturn(companion);
-        when(companion.getContext()).thenReturn(RuntimeEnvironment.application);
-        doAnswer((Answer<Void>) invocation -> {
-            RuntimeEnvironment.application.startActivity(invocation.getArgument(0));
-            return null;
-        }).when(companion).startActivityForResult(any(Intent.class), anyInt());
-    }
+public class MinervaAnnouncementViewHolderTest extends AbstractMinervaViewHolderTest {
 
     @Test
     public void populateLessThanLimit() {
