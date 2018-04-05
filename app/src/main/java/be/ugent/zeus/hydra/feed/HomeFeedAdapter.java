@@ -13,7 +13,6 @@ import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.implementations.event.EventCardViewHolder;
 import be.ugent.zeus.hydra.feed.cards.implementations.minerva.announcement.MinervaAnnouncementViewHolder;
 import be.ugent.zeus.hydra.feed.cards.implementations.minerva.calendar.MinervaAgendaViewHolder;
-import be.ugent.zeus.hydra.feed.cards.implementations.minerva.login.MinervaLoginViewHolder;
 import be.ugent.zeus.hydra.feed.cards.implementations.news.NewsItemViewHolder;
 import be.ugent.zeus.hydra.feed.cards.implementations.resto.RestoCardViewHolder;
 import be.ugent.zeus.hydra.feed.cards.implementations.schamper.SchamperViewHolder;
@@ -62,8 +61,6 @@ public class HomeFeedAdapter extends DiffAdapter<Card, DataViewHolder<Card>> {
                 return new SchamperViewHolder(view(R.layout.home_card_schamper, parent), this);
             case NEWS_ITEM:
                 return new NewsItemViewHolder(view(R.layout.home_card_news_item, parent), this);
-            case MINERVA_LOGIN:
-                return new MinervaLoginViewHolder(view(R.layout.home_minerva_login_card, parent), this.getCompanion());
             case MINERVA_ANNOUNCEMENT:
                 return new MinervaAnnouncementViewHolder(view(R.layout.home_minerva_announcement_card, parent), this);
             case MINERVA_AGENDA:

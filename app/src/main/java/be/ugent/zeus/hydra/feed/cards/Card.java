@@ -61,14 +61,13 @@ public abstract class Card implements Comparable<Card> {
      * Android is horrible with enums, since Google doesn't know what they are doing apparently. Sigh.
      */
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({RESTO, ACTIVITY, SPECIAL_EVENT, SCHAMPER, NEWS_ITEM, MINERVA_LOGIN, MINERVA_ANNOUNCEMENT, MINERVA_AGENDA, URGENT_FM, DEBUG})
+    @IntDef({RESTO, ACTIVITY, SPECIAL_EVENT, SCHAMPER, NEWS_ITEM, MINERVA_ANNOUNCEMENT, MINERVA_AGENDA, URGENT_FM, DEBUG})
     public @interface Type {
         int RESTO = 1;
         int ACTIVITY = 2;
         int SPECIAL_EVENT = 3;
         int SCHAMPER = 4;
         int NEWS_ITEM = 5;
-        int MINERVA_LOGIN = 6;
         int MINERVA_ANNOUNCEMENT = 7;
         int MINERVA_AGENDA = 8;
         int URGENT_FM = 9;
