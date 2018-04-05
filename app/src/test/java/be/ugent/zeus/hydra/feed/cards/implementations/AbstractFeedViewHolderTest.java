@@ -1,6 +1,7 @@
-package be.ugent.zeus.hydra.feed.cards.implementations.minerva;
+package be.ugent.zeus.hydra.feed.cards.implementations;
 
 import android.content.Intent;
+import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -17,10 +18,10 @@ import static org.mockito.Mockito.when;
 /**
  * @author Niko Strijbol
  */
-@RunWith(RobolectricTestRunner.class)
-public class AbstractMinervaViewHolderTest {
+public class AbstractFeedViewHolderTest {
 
     protected HomeFeedAdapter adapter;
+    protected ActivityHelper helper;
 
     @Before
     public void setUp() {
@@ -32,5 +33,7 @@ public class AbstractMinervaViewHolderTest {
             RuntimeEnvironment.application.startActivity(invocation.getArgument(0));
             return null;
         }).when(companion).startActivityForResult(any(Intent.class), anyInt());
+        helper = mock(ActivityHelper.class);
+        when(companion.getHelper()).thenReturn(helper);
     }
 }

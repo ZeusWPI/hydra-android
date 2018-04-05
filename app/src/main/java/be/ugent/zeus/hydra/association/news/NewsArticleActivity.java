@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
@@ -32,7 +33,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
  */
 public class NewsArticleActivity extends BaseActivity {
 
-    private static final String PARCEL_NAME = "newsItem";
+    @VisibleForTesting
+    public static final String PARCEL_NAME = "newsItem";
 
     private ActivityHelper helper;
 

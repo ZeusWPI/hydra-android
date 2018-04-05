@@ -5,12 +5,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.feed.cards.implementations.minerva.AbstractMinervaViewHolderTest;
+import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.singlecourse.CourseActivity;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowApplication;
 
 import java.util.List;
@@ -25,7 +27,8 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Niko Strijbol
  */
-public class MinervaAnnouncementViewHolderTest extends AbstractMinervaViewHolderTest {
+@RunWith(RobolectricTestRunner.class)
+public class MinervaAnnouncementViewHolderTest extends AbstractFeedViewHolderTest {
 
     @Test
     public void populateLessThanLimit() {

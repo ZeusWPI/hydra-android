@@ -26,8 +26,6 @@ import be.ugent.zeus.hydra.utils.DateUtils;
  */
 public class SchamperViewHolder extends CardViewHolder {
 
-    private static final String TAG = "SchamperViewHolder";
-
     private final TextView title;
     private final TextView date;
     private final TextView author;

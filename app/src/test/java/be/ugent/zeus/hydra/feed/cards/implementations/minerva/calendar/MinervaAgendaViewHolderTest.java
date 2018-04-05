@@ -5,10 +5,12 @@ import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.LinearLayout;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.feed.cards.implementations.minerva.AbstractMinervaViewHolderTest;
+import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;
 import be.ugent.zeus.hydra.minerva.calendar.itemdetails.AgendaActivity;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowApplication;
 import org.threeten.bp.LocalDate;
 
@@ -22,7 +24,8 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Niko Strijbol
  */
-public class MinervaAgendaViewHolderTest extends AbstractMinervaViewHolderTest {
+@RunWith(RobolectricTestRunner.class)
+public class MinervaAgendaViewHolderTest extends AbstractFeedViewHolderTest {
 
     @Test
     public void populate() {

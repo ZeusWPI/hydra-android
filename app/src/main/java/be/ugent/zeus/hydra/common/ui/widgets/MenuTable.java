@@ -212,6 +212,10 @@ public class MenuTable extends TableLayout {
         requestLayout();
     }
 
+    public RestoMenu getMenu() {
+        return menu;
+    }
+
     /**
      * Add content.
      */
