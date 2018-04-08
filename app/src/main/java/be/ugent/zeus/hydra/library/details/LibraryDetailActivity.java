@@ -56,7 +56,7 @@ import java.util.Set;
  */
 public class LibraryDetailActivity extends BaseActivity {
 
-    private static final String ARG_LIBRARY = "argLibrary";
+    public static final String ARG_LIBRARY = "argLibrary";
 
     private static final String TAG = "LibraryDetailActivity";
 

@@ -7,6 +7,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
+import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
 import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,14 +27,7 @@ import static org.mockito.Mockito.mock;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-public class EventCardViewHolderTest {
-
-    private HomeFeedAdapter adapter;
-
-    @Before
-    public void setUp() {
-        adapter = mock(HomeFeedAdapter.class);
-    }
+public class EventCardViewHolderTest extends AbstractFeedViewHolderTest {
 
     @Test
     public void populate() {
