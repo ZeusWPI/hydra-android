@@ -30,7 +30,7 @@ public class EventViewHolderTest {
 
     @Test(expected = IllegalStateException.class)
     public void populateHeader() {
-        View view = inflate(R.layout.item_activity);
+        View view = inflate(R.layout.item_event_item);
         EventViewHolder viewHolder = new EventViewHolder(view);
         EventItem item = new EventItem(generate(LocalDate.class));
         viewHolder.populate(item);
@@ -42,7 +42,7 @@ public class EventViewHolderTest {
     }
 
     private void testEvent(boolean isLast) {
-        View view = inflate(R.layout.item_activity);
+        View view = inflate(R.layout.item_event_item);
         EventViewHolder viewHolder = new EventViewHolder(view);
         EventItem item = new EventItem(generate(Event.class), isLast);
         Event event = item.getItem();
