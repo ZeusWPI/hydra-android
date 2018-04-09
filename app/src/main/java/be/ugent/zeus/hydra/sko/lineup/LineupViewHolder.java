@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.sko.lineup;
 
 import android.content.Intent;
+import android.support.annotation.VisibleForTesting;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +18,8 @@ import com.squareup.picasso.Picasso;
  */
 class LineupViewHolder extends DataViewHolder<Artist> implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
 
-    private static final int MENU_ID_ADD_TO_CALENDAR = 0;
+    @VisibleForTesting
+    static final int MENU_ID_ADD_TO_CALENDAR = 0;
 
     private TextView title;
     private TextView date;
