@@ -41,6 +41,9 @@ import org.threeten.bp.LocalDate;
 
 import java.util.List;
 
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
+
 /**
  * Displays the menu.
  *
@@ -114,7 +117,7 @@ public class RestoFragment extends Fragment implements
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "receiveResto: on view created");
 
-        getBaseActivity().getToolbar().setDisplayShowTitleEnabled(false);
+        getBaseActivity().requireToolbar().setDisplayShowTitleEnabled(false);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -124,15 +127,15 @@ public class RestoFragment extends Fragment implements
         viewPager = view.findViewById(R.id.resto_tabs_content);
         viewPager.setAdapter(pageAdapter);
 
-        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(requireContext());
 
-        final AppBarLayout appBarLayout = getActivity().findViewById(R.id.app_bar_layout);
+        final AppBarLayout appBarLayout = requireActivity().findViewById(R.id.app_bar_layout);
         // Send analytics
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 appBarLayout.setExpanded(true);
-                HydraApplication app = (HydraApplication) getActivity().getApplication();
+                HydraApplication app = HydraApplication.getApplication(requireActivity());
                 app.sendScreenName("Menu tab: " + pageAdapter.getPageTitle(position));
                 Bundle parameters = new Bundle();
                 parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.RESTO_MENU);
@@ -148,21 +151,21 @@ public class RestoFragment extends Fragment implements
         });
 
         // Make the tab layout from the main activity visible.
-        tabLayout = getActivity().findViewById(R.id.tab_layout);
+        tabLayout = requireActivity().findViewById(R.id.tab_layout);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setVisibility(View.VISIBLE);
 
-        bottomNavigation = getActivity().findViewById(R.id.bottom_navigation);
+        bottomNavigation = requireActivity().findViewById(R.id.bottom_navigation);
         bottomNavigation.setVisibility(View.VISIBLE);
         bottomNavigation.setOnNavigationItemSelectedListener(this);
 
-        spinnerProgress = getActivity().findViewById(R.id.spinner_progress);
+        spinnerProgress = requireActivity().findViewById(R.id.spinner_progress);
         spinnerProgress.setVisibility(View.VISIBLE);
-        spinner = getActivity().findViewById(R.id.spinner);
+        spinner = requireActivity().findViewById(R.id.spinner);
         spinner.setEnabled(false);
         spinner.setVisibility(View.VISIBLE);
-        restoAdapter = new NoPaddingArrayAdapter<>(getBaseActivity().getToolbar().getThemedContext(), R.layout.x_simple_title_spinner);
+        restoAdapter = new NoPaddingArrayAdapter<>(getBaseActivity().requireToolbar().getThemedContext(), R.layout.x_simple_title_spinner);
         restoAdapter.add(new SelectedResto.Wrapper(getString(R.string.resto_spinner_loading)));
         restoAdapter.setDropDownViewResource(R.layout.x_simple_spinner_dropdown_item);
         spinner.setAdapter(restoAdapter);
@@ -183,7 +186,7 @@ public class RestoFragment extends Fragment implements
     }
 
     private void receiveResto(@NonNull List<RestoChoice> restos) {
-        SelectedResto selectedResto = new SelectedResto(getContext());
+        SelectedResto selectedResto = new SelectedResto(requireContext());
         selectedResto.setData(restos);
 
         // Set the things.
@@ -230,7 +233,7 @@ public class RestoFragment extends Fragment implements
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_resto, menu);
-        ((BaseActivity) getActivity()).tintToolbarIcons(menu, R.id.action_history);
+        requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_history);
     }
 
     @Override
@@ -283,7 +286,7 @@ public class RestoFragment extends Fragment implements
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
     }
@@ -329,7 +332,8 @@ public class RestoFragment extends Fragment implements
         tabLayout.setVisibility(View.GONE);
         spinner.setVisibility(View.GONE);
         spinnerProgress.setVisibility(View.GONE);
-        getBaseActivity().getToolbar().setDisplayShowTitleEnabled(true);
+        getBaseActivity().requireToolbar().setDisplayShowTitleEnabled(true);
+        spinner.setOnItemSelectedListener(null);
     }
 
     private void hideExternalViews() {

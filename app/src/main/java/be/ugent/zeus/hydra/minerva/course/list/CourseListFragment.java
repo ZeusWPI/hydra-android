@@ -31,6 +31,7 @@ import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
 
 /**
  * Display a list of courses.
@@ -79,7 +80,7 @@ public class CourseListFragment extends Fragment implements OnStartDragListener 
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         ItemTouchHelper.Callback callback = new DragCallback(adapter);
         helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(recyclerView);
@@ -91,7 +92,7 @@ public class CourseListFragment extends Fragment implements OnStartDragListener 
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .show();
     }
 
@@ -100,7 +101,7 @@ public class CourseListFragment extends Fragment implements OnStartDragListener 
         super.onActivityCreated(savedInstanceState);
 
         progressBar.setVisibility(View.VISIBLE);
-        model = ViewModelProviders.of(getActivity()).get(MinervaViewModel.class);
+        model = ViewModelProviders.of(requireActivity()).get(MinervaViewModel.class);
         model.getData().observe(this, ErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>(progressBar));
         model.getData().observe(this, new AdapterObserver<>(adapter));
@@ -108,7 +109,7 @@ public class CourseListFragment extends Fragment implements OnStartDragListener 
             @Override
             protected void onSuccess(List<Pair<Course, Long>> data) {
                 recyclerView.setVisibility(View.VISIBLE);
-                getActivity().invalidateOptionsMenu();
+                requireActivity().invalidateOptionsMenu();
             }
         });
     }

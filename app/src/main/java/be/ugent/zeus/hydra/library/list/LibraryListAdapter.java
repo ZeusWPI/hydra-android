@@ -1,10 +1,10 @@
 package be.ugent.zeus.hydra.library.list;
 
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableAdapter;
 import be.ugent.zeus.hydra.library.Library;
 
 /**
@@ -12,7 +12,7 @@ import be.ugent.zeus.hydra.library.Library;
  *
  * @author Niko Strijbol
  */
-class LibraryListAdapter extends SearchableDiffAdapter<Library, LibraryViewHolder> {
+class LibraryListAdapter extends SearchableAdapter<Library, LibraryViewHolder> {
 
     LibraryListAdapter() {
         super((library, s) -> {
@@ -27,8 +27,9 @@ class LibraryListAdapter extends SearchableDiffAdapter<Library, LibraryViewHolde
         });
     }
 
+    @NonNull
     @Override
-    public LibraryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public LibraryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new LibraryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_library, parent, false));
     }
 }

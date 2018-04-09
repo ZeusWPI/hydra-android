@@ -69,15 +69,15 @@ public interface CourseDao {
 
     class IdAndLocalData {
         @ColumnInfo(name = CourseTable.Columns.ID)
-        public String id;
+        public final String id;
         @ColumnInfo(name = CourseTable.Columns.ORDER)
-        public int order;
+        public final int order;
         @ColumnInfo(name = CourseTable.Columns.DISABLED_MODULES)
-        public int disabledModules;
+        public final int disabledModules;
         @ColumnInfo(name = CourseTable.Columns.IGNORE_ANNOUNCEMENTS)
-        public boolean ignoreAnnouncements;
+        public final boolean ignoreAnnouncements;
         @ColumnInfo(name = CourseTable.Columns.IGNORE_CALENDAR)
-        public boolean ignoreCalendar;
+        public final boolean ignoreCalendar;
         @VisibleForTesting
         public IdAndLocalData(String id, int order, int disabledModules, boolean ignoreAnnouncements, boolean ignoreCalendar) {
             this.id = id;

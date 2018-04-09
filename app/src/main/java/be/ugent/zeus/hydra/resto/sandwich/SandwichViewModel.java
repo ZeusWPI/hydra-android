@@ -3,10 +3,8 @@ package be.ugent.zeus.hydra.resto.sandwich;
 import android.app.Application;
 
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,6 +18,6 @@ public class SandwichViewModel extends RequestViewModel<List<Sandwich>> {
 
     @Override
     protected Request<List<Sandwich>> getRequest() {
-        return Requests.map(Requests.cache(getApplication(), new SandwichRequest()), Arrays::asList);
+        return new SandwichRequest(getApplication());
     }
 }

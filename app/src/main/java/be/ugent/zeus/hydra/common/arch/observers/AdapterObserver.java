@@ -2,34 +2,32 @@ package be.ugent.zeus.hydra.common.arch.observers;
 
 import android.arch.lifecycle.Observer;
 
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.Adapter;
+import android.support.annotation.NonNull;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DataAdapter;
 
 import java.util.List;
 
 /**
- * Enables using a {@link Adapter} as {@link Observer}. This observer handles setting the data, and only that. It does
+ * Enables using a {@link DataAdapter} as {@link Observer}. This observer handles setting the data, and only that. It does
  * not handle errors, or anything like that.
  *
  * @author Niko Strijbol
  */
 public class AdapterObserver<D> extends SuccessObserver<List<D>> {
 
-    private final Adapter<D, ?> adapter;
+    private final DataAdapter<D, ?> dataAdapter;
 
-    /**
-     * @param adapter The adapter.
-     */
-    public AdapterObserver(Adapter<D, ?> adapter) {
-        this.adapter = adapter;
+    public AdapterObserver(DataAdapter<D, ?> adapter) {
+        this.dataAdapter = adapter;
     }
 
     @Override
-    protected void onSuccess(List<D> data) {
-        adapter.setItems(data);
+    protected void onSuccess(@NonNull List<D> data) {
+        dataAdapter.submitData(data);
     }
 
     @Override
     protected void onEmpty() {
-        adapter.clear();
+        dataAdapter.clear();
     }
 }

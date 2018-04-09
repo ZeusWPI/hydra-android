@@ -2,12 +2,10 @@ package be.ugent.zeus.hydra.library.list;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
+
 import be.ugent.zeus.hydra.library.Library;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 import java8.util.Objects;
-import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,14 +18,8 @@ import java.util.List;
 public final class LibraryList implements Serializable, Parcelable {
 
     private String name;
-
-    @SerializedName("created_at")
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime createdAt;
-
-    @SerializedName("updated_at")
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime updatedAt;
+    @Json(name = "libraries_total")
+    private int totalLibraries;
 
     private List<Library> libraries;
 
@@ -35,16 +27,12 @@ public final class LibraryList implements Serializable, Parcelable {
         return name;
     }
 
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public ZonedDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
     public List<Library> getLibraries() {
         return libraries;
+    }
+
+    public int getTotalLibraries() {
+        return totalLibraries;
     }
 
     @Override
@@ -53,12 +41,13 @@ public final class LibraryList implements Serializable, Parcelable {
         if (o == null || getClass() != o.getClass()) return false;
         LibraryList that = (LibraryList) o;
         return Objects.equals(name, that.name) &&
-                Objects.equals(libraries, that.libraries);
+                Objects.equals(libraries, that.libraries) &&
+                totalLibraries == that.totalLibraries;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, libraries);
+        return Objects.hash(name, libraries, totalLibraries);
     }
 
     @Override
@@ -69,19 +58,18 @@ public final class LibraryList implements Serializable, Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
-        dest.writeSerializable(this.createdAt);
-        dest.writeSerializable(this.updatedAt);
         dest.writeTypedList(this.libraries);
+        dest.writeInt(totalLibraries);
     }
 
+    @SuppressWarnings("unused") // Used by Moshi.
     public LibraryList() {
     }
 
     protected LibraryList(Parcel in) {
         this.name = in.readString();
-        this.createdAt = (ZonedDateTime) in.readSerializable();
-        this.updatedAt = (ZonedDateTime) in.readSerializable();
         this.libraries = in.createTypedArrayList(Library.CREATOR);
+        this.totalLibraries = in.readInt();
     }
 
     public static final Parcelable.Creator<LibraryList> CREATOR = new Parcelable.Creator<LibraryList>() {

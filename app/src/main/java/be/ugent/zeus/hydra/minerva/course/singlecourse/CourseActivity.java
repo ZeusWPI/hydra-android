@@ -81,7 +81,7 @@ public class CourseActivity extends BaseActivity {
         viewPager.setCurrentItem(getIntent().getIntExtra(ARG_TAB, Tab.ANNOUNCEMENTS), false);
         tabLayout.setupWithViewPager(viewPager);
 
-        getToolbar().setTitle(course.getTitle());
+        requireToolbar().setTitle(course.getTitle());
     }
 
     @Override

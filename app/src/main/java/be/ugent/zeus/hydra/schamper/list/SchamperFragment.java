@@ -20,6 +20,9 @@ import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
+
 /**
  * Display Schamper articles in the main activity.
  *
@@ -51,7 +54,7 @@ public class SchamperFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
+        recyclerView.addItemDecoration(new SpanItemSpacingDecoration(requireContext()));
         SchamperListAdapter adapter = new SchamperListAdapter(helper);
         recyclerView.setAdapter(adapter);
 
@@ -71,8 +74,8 @@ public class SchamperFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_refresh, menu);
         //TODO there must a better of doing this
-        BaseActivity activity = (BaseActivity) getActivity();
-        BaseActivity.tintToolbarIcons(activity.getToolbar(), menu, R.id.action_refresh);
+        BaseActivity activity = requireBaseActivity(this);
+        BaseActivity.tintToolbarIcons(activity.requireToolbar(), menu, R.id.action_refresh);
     }
 
     @Override
@@ -88,7 +91,7 @@ public class SchamperFragment extends Fragment {
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
     }

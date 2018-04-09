@@ -6,17 +6,20 @@ import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.minerva.auth.oauth.BearerToken;
 import be.ugent.zeus.hydra.minerva.auth.oauth.NewAccessTokenRequest;
 import be.ugent.zeus.hydra.minerva.auth.oauth.RefreshAccessTokenRequest;
-import be.ugent.zeus.hydra.common.request.Request;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
 import java.io.IOException;
 
@@ -91,44 +94,48 @@ public class AccountUtils {
     }
 
     /**
-     * Get an access token. This is executed in a blocking manner. This method assumes an account is present. Use
-     * the method {@link #hasAccount(Context)} to find out if there actually is an account.
+     * Try to get a valid access token. This method assumes the {@code account} has already been added to the
+     * AccountManager.
      *
-     * This method does not take an activity, and always returns the bundle instead.
+     * This method will retrieve the current access token. If it is not available or expired, the method will
+     * invalidate the access token and request another one. If there still isn't any token available, it will
+     * return the bundle from the AccountManager.
      *
-     * @param context The application context.
+     * If the refresh token is also expired (last scenario above), a notification will be shown by the AccountManager.
+     *
+     * @param manager The account manager.
      * @param account The account.
      *
      * @return The bundle containing the access code, or an intent to re-authorise the account.
      */
-    public static Bundle syncAuthCode(Context context, Account account) throws IOException {
-        AccountManager manager = AccountManager.get(context);
-
+    @NonNull
+    public static Bundle getAccessToken(AccountManager manager, Account account) {
         try {
-            Bundle result = manager.getAuthToken(account, MinervaConfig.DEFAULT_SCOPE, null, true, null, null).getResult();
+            Bundle result = manager
+                    .getAuthToken(account, MinervaConfig.DEFAULT_SCOPE, null, true, null, null)
+                    .getResult();
 
-            //If the bundle contains an authorisation code.
-            if(result.containsKey(AccountManager.KEY_AUTHTOKEN)) {
-                //Check the expiration date
+            String authToken = result.getString(AccountManager.KEY_AUTHTOKEN);
+
+            if (authToken != null) {
+                // Get the expiration date from the account manager.
                 LocalDateTime expires = getExpirationDate(manager, account);
                 LocalDateTime now = LocalDateTime.now();
 
-                String token = result.getString(AccountManager.KEY_AUTHTOKEN);
-
-                //The token is invalid, so get get new one.
-                if(result.get(AccountManager.KEY_AUTHTOKEN) != null && now.isAfter(expires)) {
-                    Log.d(TAG, "Expired token. Setting to null.");
-                    manager.invalidateAuthToken(MinervaConfig.ACCOUNT_TYPE, token);
-                    //Get the token again.
-                    result = manager.getAuthToken(account, MinervaConfig.DEFAULT_SCOPE, null, null, null, null).getResult();
+                // We consider a token expired if e don't have any date or it is actually expired.
+                if (expires == null || now.isAfter(expires)) {
+                    Log.d(TAG, "The access token is expired. Invalidating and requesting a new one.");
+                    manager.invalidateAuthToken(MinervaConfig.ACCOUNT_TYPE, authToken);
+                    result = manager
+                            .getAuthToken(account, MinervaConfig.DEFAULT_SCOPE, null, true, null, null)
+                            .getResult();
                 }
             }
 
             return result;
-
-        } catch (OperationCanceledException | AuthenticatorException e) {
+        } catch (OperationCanceledException | AuthenticatorException | IOException e) {
             Log.w(TAG, "Getting result failed.", e);
-            return null;
+            return Bundle.EMPTY;
         }
     }
 
@@ -141,16 +148,34 @@ public class AccountUtils {
        return AccountManager.get(context).getAccountsByType(MinervaConfig.ACCOUNT_TYPE)[0];
     }
 
+    private static final String EXP_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(EXP_DATE_FORMAT);
+
     /**
      * Get the expiration date of the access token for an account.
      *
      * @param manager The account manager.
-     *
      * @param account The account to get the date for.
-     * @return The date.
+     *
+     * @return The date or null if there was no date.
      */
+    @Nullable
     public static LocalDateTime getExpirationDate(AccountManager manager, Account account) {
         String exp = manager.getUserData(account, EXP_DATE);
-        return LocalDateTime.parse(exp, MinervaAuthenticator.formatter);
+        if (exp == null) {
+            return null;
+        } else {
+            return LocalDateTime.parse(exp, FORMATTER);
+        }
+    }
+
+    /**
+     * Get the expiration date of the access token for an account.
+     *
+     * @param manager The account manager.
+     * @param account The account to get the date for.
+     */
+    public static void setExpirationDate(AccountManager manager, Account account, LocalDateTime date) {
+        manager.setUserData(account, EXP_DATE, date.format(FORMATTER));
     }
 }

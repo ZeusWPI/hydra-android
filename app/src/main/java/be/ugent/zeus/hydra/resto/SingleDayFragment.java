@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
 
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
+
 /**
  * Displays the resto menu for one day. This is mostly used in the view pager.
  *
@@ -32,7 +34,7 @@ public class SingleDayFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        data = getArguments().getParcelable(ARG_DATA_MENU);
+        data = requireArguments(this).getParcelable(ARG_DATA_MENU);
     }
 
     @Override

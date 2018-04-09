@@ -20,6 +20,9 @@ import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
+
 /**
  * Show a list of timeline posts for SKO.
  *
@@ -57,7 +60,7 @@ public class TimelineFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
+        recyclerView.addItemDecoration(new SpanItemSpacingDecoration(requireContext()));
         recyclerView.setAdapter(adapter);
 
         viewModel = ViewModelProviders.of(this).get(TimelineViewModel.class);
@@ -82,7 +85,7 @@ public class TimelineFragment extends Fragment {
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
     }
@@ -90,8 +93,8 @@ public class TimelineFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
-        BaseActivity activity = (BaseActivity) getActivity();
-        BaseActivity.tintToolbarIcons(activity.getToolbar(), menu, R.id.action_refresh);
+        BaseActivity activity = requireBaseActivity(this);
+        BaseActivity.tintToolbarIcons(activity.requireToolbar(), menu, R.id.action_refresh);
     }
 
     @Override

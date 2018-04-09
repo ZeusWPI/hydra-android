@@ -1,8 +1,6 @@
 package be.ugent.zeus.hydra.minerva.announcement.sync;
 
-import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 import org.threeten.bp.OffsetDateTime;
 
 /**
@@ -13,15 +11,14 @@ import org.threeten.bp.OffsetDateTime;
 final class ApiAnnouncement {
     public String title;
     public String content;
-    @SerializedName("email_sent")
+    @Json(name = "email_sent")
     public boolean wasEmailSent;
-    @SerializedName("item_id")
+    @Json(name = "item_id")
     public int id;
-    @SerializedName("last_edit_user")
+    @Json(name = "last_edit_user")
     public String lecturer;
-    @SerializedName("last_edit_time")
-    @JsonAdapter(DateTypeConverters.GsonOffset.class)
+    @Json(name = "last_edit_time")
     public OffsetDateTime lastEditedAt;
-    @SerializedName("course_id")
+    @Json(name = "course_id")
     public String courseId;
 }

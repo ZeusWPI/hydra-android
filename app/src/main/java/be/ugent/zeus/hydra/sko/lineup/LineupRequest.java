@@ -1,39 +1,31 @@
 package be.ugent.zeus.hydra.sko.lineup;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.common.caching.Cache;
-import be.ugent.zeus.hydra.common.request.CacheableRequest;
+import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
+import org.threeten.bp.Duration;
 
 /**
  * Request SKO lineup data.
  *
  * @author Niko Strijbol
  */
-class LineupRequest extends JsonSpringRequest<Artist[]> implements CacheableRequest<Artist[]> {
+class LineupRequest extends JsonArrayRequest<Artist> {
 
-    private static final String FILE_NAME = "artists.json";
-
-    LineupRequest() {
-        super(Artist[].class);
-    }
-
-    @NonNull
-    @Override
-    public String getCacheKey() {
-        return FILE_NAME;
+    LineupRequest(Context context) {
+        super(context, Artist.class);
     }
 
     @Override
-    public long getCacheDuration() {
-        return Cache.ONE_DAY;
+    public Duration getCacheDuration() {
+        return Duration.ofDays(1);
     }
 
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.SKO_URL + FILE_NAME;
+        return Endpoints.SKO_URL + "artists.json";
     }
 }

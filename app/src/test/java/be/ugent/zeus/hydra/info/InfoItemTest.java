@@ -39,7 +39,7 @@ public class InfoItemTest extends ModelTest<InfoItem> {
     }
 
     @Test
-    public void getType() throws Exception {
+    public void getType() {
         InfoItem infoItem = generate(InfoItem.class, "urlAndroid", "html", "subContent");
         assertEquals(InfoType.EXTERNAL_LINK, infoItem.getType());
         InfoItem infoItem1 = generate(InfoItem.class, "url", "html", "subContent");

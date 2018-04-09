@@ -1,39 +1,32 @@
 package be.ugent.zeus.hydra.info;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.common.caching.Cache;
 import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.common.request.CacheableRequest;
+import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
+import org.threeten.bp.Duration;
+import org.threeten.bp.temporal.ChronoUnit;
 
 /**
  * Request to get the information from the Zeus API.
  *
  * @author Juta
  */
-public class InfoRequest extends JsonSpringRequest<InfoItem[]> implements CacheableRequest<InfoItem[]> {
+class InfoRequest extends JsonArrayRequest<InfoItem> {
 
-    private static final String FILE_NAME = "info-content.json";
-
-    public InfoRequest() {
-        super(InfoItem[].class);
-    }
-
-    @NonNull
-    @Override
-    public String getCacheKey() {
-        return FILE_NAME;
+    InfoRequest(Context context) {
+        super(context, InfoItem.class);
     }
 
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.ZEUS_API_URL_2  + "info/" + FILE_NAME;
+        return Endpoints.ZEUS_API_URL_2  + "info/info-content.json";
     }
 
     @Override
-    public long getCacheDuration() {
-        return Cache.ONE_WEEK * 4;
+    public Duration getCacheDuration() {
+        return ChronoUnit.WEEKS.getDuration().multipliedBy(4);
     }
 }

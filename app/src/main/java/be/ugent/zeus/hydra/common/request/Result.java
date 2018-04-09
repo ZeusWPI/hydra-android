@@ -24,7 +24,7 @@ import java.util.NoSuchElementException;
  * In addition to data, this class has support for indicating the status of the request result. The
  * status is either done or continuing.
  *
- * Done means that the request has done. Except for external factors, no more results should be produced. This means the
+ * Done means that the request is done. Except for external factors, no more results should be produced. This means the
  * UI could display the request as done.
  *
  * Continuing means that this result represents a partial result, and you should expect the request to produce more
@@ -104,9 +104,8 @@ public class Result<D> {
 
     /**
      * Applies a function to the data of the result. The exception and status are not modified.
-     * <p>
-     * The function to map the data will never receive a null value and must never produce a null value. If there is a
-     * situation where converting the value might fail, use {@link #mapError(RequestFunction)} instead.
+     *
+     * The function to map the data will never receive a null value and must never produce a null value.
      *
      * @param function The function to apply.
      * @param <R>      The result type.
@@ -123,29 +122,6 @@ public class Result<D> {
     }
 
     /**
-     * Applies a function to the data of the result, if there is data. If there is no data, the optional exception and
-     * the status are kept the same. If there is data and the function can be applied, it is as if {@link
-     * #map(Function)} had been called. If there is data but the function threw an error, the result will be the
-     * exception from the function, no data and the status from the original result.
-     *
-     * @param function The function to apply.
-     * @param <R>      The result type.
-     *
-     * @return The result.
-     */
-    public <R> Result<R> mapError(RequestFunction<D, R> function) {
-        try {
-            if (data != null) {
-                return new Result<>(this.throwable, Objects.requireNonNull(function.apply(data)), this.done);
-            } else {
-                return new Result<>(this.throwable, null, this.done);
-            }
-        } catch (RequestException e) {
-            return new Result<>(e, null, this.done);
-        }
-    }
-
-    /**
      * If a value is present, performs the given action with the value, otherwise does nothing.
      *
      * @param action The action to be performed, if a value is present.
@@ -158,7 +134,7 @@ public class Result<D> {
 
     /**
      * Returns the data if there is no exception. If there is an exception, the exception is thrown, regardless if there
-     * is data present or not. See {@link #getDataOrThrow()} to get the data if present.
+     * is data present or not.
      *
      * @return The data.
      *
@@ -173,30 +149,16 @@ public class Result<D> {
     }
 
     /**
-     * Returns the data if it is present. If there is no data, the exception is thrown. You might also want to use
-     * {@link #getOrThrow()}, which will throw an exception if there is one, regardless if there is data or not.
-     *
-     * @return The data.
-     *
-     * @throws RequestException If there is no data.
-     */
-    public D getDataOrThrow() throws RequestException {
-        if (hasData()) {
-            return data;
-        } else {
-            throw throwable;
-        }
-    }
-
-    /**
      * If a value is present, performs the given action with the value, otherwise performs the given empty-based
      * action.
+     *
+     * This means the {@code action} will be executed if data is available, regardless of the presence of errors.
      *
      * @param action      The action to be performed, if a value is present.
      * @param emptyAction The empty-based action to be performed, if no value is present.
      */
     public void ifPresentOrElse(Consumer<? super D> action, Runnable emptyAction) {
-        if (data != null) {
+        if (hasData()) {
             action.accept(data);
         } else {
             emptyAction.run();

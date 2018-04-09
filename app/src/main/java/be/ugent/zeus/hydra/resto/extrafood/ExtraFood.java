@@ -1,46 +1,30 @@
 package be.ugent.zeus.hydra.resto.extrafood;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java8.util.Objects;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contains all extra food items.
  *
  * @author Niko Strijbol
  */
-public final class ExtraFood implements Serializable, Parcelable {
+public final class ExtraFood {
 
-    private ArrayList<Food> breakfast;
-    private ArrayList<Food> desserts;
-    private ArrayList<Food> drinks;
+    private List<Food> breakfast;
+    private List<Food> desserts;
+    private List<Food> drinks;
 
-    public ArrayList<Food> getBreakfast() {
+    public List<Food> getBreakfast() {
         return breakfast;
     }
 
-    public void setBreakfast(ArrayList<Food> breakfast) {
-        this.breakfast = breakfast;
-    }
-
-    public ArrayList<Food> getDesserts() {
+    public List<Food> getDesserts() {
         return desserts;
     }
 
-    public void setDesserts(ArrayList<Food> desserts) {
-        this.desserts = desserts;
-    }
-
-    public ArrayList<Food> getDrinks() {
+    public List<Food> getDrinks() {
         return drinks;
-    }
-
-    public void setDrinks(ArrayList<Food> drinks) {
-        this.drinks = drinks;
     }
 
     @Override
@@ -58,37 +42,15 @@ public final class ExtraFood implements Serializable, Parcelable {
         return Objects.hash(breakfast, desserts, drinks);
     }
 
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setDrinks(List<Food> drinks) {
+        this.drinks = drinks;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(this.breakfast);
-        dest.writeTypedList(this.desserts);
-        dest.writeTypedList(this.drinks);
+    public void setDesserts(List<Food> desserts) {
+        this.desserts = desserts;
     }
 
-    public ExtraFood() {
+    public void setBreakfast(List<Food> breakfast) {
+        this.breakfast = breakfast;
     }
-
-    protected ExtraFood(Parcel in) {
-        this.breakfast = in.createTypedArrayList(Food.CREATOR);
-        this.desserts = in.createTypedArrayList(Food.CREATOR);
-        this.drinks = in.createTypedArrayList(Food.CREATOR);
-    }
-
-    public static final Parcelable.Creator<ExtraFood> CREATOR = new Parcelable.Creator<ExtraFood>() {
-        @Override
-        public ExtraFood createFromParcel(Parcel source) {
-            return new ExtraFood(source);
-        }
-
-        @Override
-        public ExtraFood[] newArray(int size) {
-            return new ExtraFood[size];
-        }
-    };
 }

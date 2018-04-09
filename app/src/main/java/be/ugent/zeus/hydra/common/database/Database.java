@@ -5,6 +5,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
+import android.support.annotation.VisibleForTesting;
 import be.ugent.zeus.hydra.feed.cards.database.CardDao;
 import be.ugent.zeus.hydra.common.database.migrations.*;
 import be.ugent.zeus.hydra.minerva.calendar.database.AgendaDao;
@@ -32,6 +33,8 @@ import static be.ugent.zeus.hydra.common.database.Database.VERSION;
 @TypeConverters(DateTypeConverters.class)
 public abstract class Database extends RoomDatabase {
 
+    private static final Object LOCK = new Object();
+
     /**
      * The current version of the database. When changing this value, you must provide a appropriate migration, or the
      * app will crash.
@@ -53,16 +56,25 @@ public abstract class Database extends RoomDatabase {
      *
      * @return An instance of the database.
      */
-    static synchronized Database get(Context context) {
-        if (instance == null) {
-            instance = Room.databaseBuilder(context.getApplicationContext(), Database.class, NAME)
-                    .allowMainThreadQueries() // TODO
-                    .addMigrations(new Migration_6_7(), new Migration_7_8(), new Migration_8_9(), new Migration_9_10(),
-                            new Migration_10_11(), new Migration_11_12(), new Migration_12_13(), new Migration_13_14()
-                    )
-                    .build();
+    static Database get(Context context) {
+        synchronized (LOCK) {
+            if (instance == null) {
+                instance = Room.databaseBuilder(context.getApplicationContext(), Database.class, NAME)
+                        .allowMainThreadQueries() // TODO
+                        .addMigrations(new Migration_6_7(), new Migration_7_8(), new Migration_8_9(), new Migration_9_10(),
+                                new Migration_10_11(), new Migration_11_12(), new Migration_12_13(), new Migration_13_14()
+                        )
+                        .build();
+            }
         }
         return instance;
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    public static void reset() {
+        synchronized (LOCK) {
+            instance = null;
+        }
     }
 
     /**

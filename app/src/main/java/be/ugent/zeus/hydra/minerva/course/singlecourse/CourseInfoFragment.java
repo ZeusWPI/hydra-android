@@ -30,6 +30,8 @@ import org.threeten.bp.LocalDate;
 
 import java.util.Locale;
 
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
+
 /**
  * Show information about a course, including the description.
  *
@@ -57,7 +59,7 @@ public class CourseInfoFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        course = getArguments().getParcelable(ARG_COURSE);
+        course = requireArguments(this).getParcelable(ARG_COURSE);
     }
 
     @Override
@@ -127,7 +129,7 @@ public class CourseInfoFragment extends Fragment {
 
     private String getAcademicYear() {
         if (course.getAcademicYear() == 0) {
-            return getContext().getString(R.string.minerva_course_unknown_year);
+            return getString(R.string.minerva_course_unknown_year);
         } else {
             return String.valueOf(course.getAcademicYear());
         }

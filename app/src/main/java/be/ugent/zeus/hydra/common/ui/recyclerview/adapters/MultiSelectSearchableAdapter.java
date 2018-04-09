@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.SearchView;
 import android.util.Pair;
 
@@ -14,13 +15,13 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Basic searchable adapter with basic multi-select support. Extending a {@link SearchableDiffAdapter} to be multi-select
- * or a {@link MultiSelectDiffAdapter} to be searchable is very difficult and complicated, while we don't need all that
+ * Basic searchable adapter with basic multi-select support. Extending a {@link SearchableAdapter} to be multi-select
+ * or a {@link MultiSelectAdapter} to be searchable is very difficult and complicated, while we don't need all that
  * stuff.
  *
  * @author Niko Strijbol
  */
-public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<Pair<D, Boolean>>> extends ItemAdapter<Pair<D, Boolean>, VH> implements
+public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<Pair<D, Boolean>>> extends DataAdapter<Pair<D, Boolean>, VH> implements
         SearchView.OnQueryTextListener, android.widget.SearchView.OnQueryTextListener {
 
     protected List<Pair<D, Boolean>> allData = Collections.emptyList();
@@ -37,9 +38,18 @@ public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<
     }
 
     @Override
-    public void setItems(List<Pair<D, Boolean>> items) {
-        allData = new ArrayList<>(items);
-        super.setItems(items);
+    public void submitData(List<Pair<D, Boolean>> data) {
+        allData = new ArrayList<>(data);
+        setData(data);
+    }
+
+    private void setData(List<Pair<D, Boolean>> data) {
+        dataContainer.submitUpdate(new DumbUpdate<>(data));
+    }
+
+    @Override
+    public void clear() {
+        dataContainer.submitUpdate(new DumbUpdate<>(Collections.emptyList()));
     }
 
     /**
@@ -50,17 +60,33 @@ public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<
      * @param position The position.
      */
     public void setChecked(int position) {
-        Pair<D, Boolean> data = items.get(position);
-        Pair<D, Boolean> newData = new Pair<>(data.first, !data.second);
+        dataContainer.submitUpdate(new AdapterUpdate<Pair<D, Boolean>>() {
+            @Override
+            public List<Pair<D, Boolean>> getNewData(List<Pair<D, Boolean>> existingData) {
 
-        items.remove(data);
-        items.add(position, newData);
+                Pair<D, Boolean> data = getItem(position);
+                Pair<D, Boolean> newData = new Pair<>(data.first, !data.second);
 
-        int allDataIndex = allData.indexOf(data);
-        allData.remove(data);
-        allData.add(allDataIndex, newData);
+                existingData.remove(data);
+                existingData.add(position, newData);
 
-        notifyItemChanged(position);
+                int allDataIndex = allData.indexOf(data);
+                allData.remove(data);
+                allData.add(allDataIndex, newData);
+
+                return existingData;
+            }
+
+            @Override
+            public void applyUpdatesTo(ListUpdateCallback listUpdateCallback) {
+                notifyItemChanged(position);
+            }
+
+            @Override
+            public boolean shouldUseMultiThreading() {
+                return false;
+            }
+        });
     }
 
     /**
@@ -69,29 +95,44 @@ public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<
      * @param checked The value.
      */
     public void setAllChecked(boolean checked) {
+        dataContainer.submitUpdate(new AdapterUpdate<Pair<D, Boolean>>() {
+            @Override
+            public List<Pair<D, Boolean>> getNewData(List<Pair<D, Boolean>> existingData) {
 
-        List<Pair<D, Boolean>> newList = new ArrayList<>();
-        List<Pair<D, Boolean>> newAllData = new ArrayList<>();
+                List<Pair<D, Boolean>> newList = new ArrayList<>();
+                List<Pair<D, Boolean>> newAllData = new ArrayList<>();
 
-        for (Pair<D, Boolean> oldPair : items) {
-            newList.add(new Pair<>(oldPair.first, checked));
-        }
-        for (Pair<D, Boolean> oldPair: allData) {
-            newAllData .add(new Pair<>(oldPair.first, checked));
-        }
+                for (Pair<D, Boolean> oldPair : existingData) {
+                    newList.add(new Pair<>(oldPair.first, checked));
+                }
+                for (Pair<D, Boolean> oldPair: allData) {
+                    newAllData .add(new Pair<>(oldPair.first, checked));
+                }
 
-        this.allData = newAllData;
-        this.items = newList;
-        notifyDataSetChanged();
+                allData = newAllData;
+
+                return newList;
+            }
+
+            @Override
+            public void applyUpdatesTo(ListUpdateCallback listUpdateCallback) {
+                notifyItemRangeChanged(0, getItemCount());
+            }
+
+            @Override
+            public boolean shouldUseMultiThreading() {
+                return false;
+            }
+        });
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
         Predicate<D> predicate = searchPredicate.apply(newText);
-        this.items = StreamSupport.stream(allData)
+        List<Pair<D, Boolean>> newData = StreamSupport.stream(allData)
                 .filter(dBooleanPair -> predicate.test(dBooleanPair.first))
                 .collect(Collectors.toList());
-        notifyDataSetChanged();
+        dataContainer.submitUpdate(new DumbUpdate<>(newData));
         return true;
     }
 }

@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.common.arch.observers;
 
 import android.arch.lifecycle.Observer;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.common.request.Result;
@@ -34,12 +35,12 @@ public abstract class SuccessObserver<D> implements Observer<Result<D>> {
      *
      * @param data The data.
      */
-    protected abstract void onSuccess(D data);
+    protected abstract void onSuccess(@NonNull D data);
 
     public static <D> SuccessObserver<D> with(Consumer<D> onSuccess) {
         return new SuccessObserver<D>() {
             @Override
-            protected void onSuccess(D data) {
+            protected void onSuccess(@NonNull D data) {
                 onSuccess.accept(data);
             }
         };

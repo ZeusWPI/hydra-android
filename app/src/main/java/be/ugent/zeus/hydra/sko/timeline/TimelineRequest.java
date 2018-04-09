@@ -1,39 +1,31 @@
 package be.ugent.zeus.hydra.sko.timeline;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.common.caching.Cache;
-import be.ugent.zeus.hydra.common.request.CacheableRequest;
+import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
+import org.threeten.bp.Duration;
 
 /**
  * Request for posts.
  *
  * @author Niko Strijbol
  */
-class TimelineRequest extends JsonSpringRequest<TimelinePost[]> implements CacheableRequest<TimelinePost[]> {
+class TimelineRequest extends JsonArrayRequest<TimelinePost> {
 
-    private static final String FILE_NAME = "timeline.json";
-
-    TimelineRequest() {
-        super(TimelinePost[].class);
-    }
-
-    @NonNull
-    @Override
-    public String getCacheKey() {
-        return FILE_NAME;
+    TimelineRequest(Context context) {
+        super(context, TimelinePost.class);
     }
 
     @Override
-    public long getCacheDuration() {
-        return Cache.ONE_MINUTE * 15;
+    public Duration getCacheDuration() {
+        return Duration.ofMinutes(15);
     }
 
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.LIVE_SKO_URL + FILE_NAME;
+        return Endpoints.LIVE_SKO_URL + "timeline.json";
     }
 }

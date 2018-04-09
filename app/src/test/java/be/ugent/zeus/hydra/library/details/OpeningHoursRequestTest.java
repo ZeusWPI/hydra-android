@@ -1,48 +1,53 @@
 package be.ugent.zeus.hydra.library.details;
 
-import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.TestApp;
-import be.ugent.zeus.hydra.common.network.ArrayJsonSpringRequestTest;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.library.details.OpeningHours;
-import be.ugent.zeus.hydra.library.details.OpeningHoursRequest;
+import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
+import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.library.list.LibraryList;
-import com.google.gson.Gson;
+import com.squareup.moshi.JsonAdapter;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.robolectric.RuntimeEnvironment;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.List;
+
+import static org.hamcrest.Matchers.endsWith;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
-public class OpeningHoursRequestTest extends ArrayJsonSpringRequestTest<OpeningHours> {
+public class OpeningHoursRequestTest extends AbstractJsonRequestTest<List<OpeningHours>> {
 
-    public OpeningHoursRequestTest() {
-        super(OpeningHours[].class);
+    @Override
+    protected String getRelativePath() {
+        return "library_hours.json";
     }
 
     @Override
-    protected Resource getSuccessResponse() {
-        return new ClassPathResource("library_hours.json");
-    }
-
-    @Override
-    protected JsonSpringRequest<OpeningHours[]> getRequest() {
+    protected OpeningHoursRequest getRequest() {
         try {
-            // Get a library from the file with libraries.
-            Gson gson = new Gson();
-            Resource resource = new ClassPathResource("all_libraries.json");
-            LibraryList list = gson.fromJson(new InputStreamReader(resource.getInputStream()), LibraryList.class);
-            return new OpeningHoursRequest(list.getLibraries().get(0));
+            return new OpeningHoursRequest(RuntimeEnvironment.application, getRandomConstLibrary());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    public void testLibraryCode() throws IOException {
+        Library library = getRandomConstLibrary();
+        OpeningHoursRequest request = getRequest();
+        assertThat(request.getAPIUrl(), endsWith("libraries/" + library.getCode() + "/calendar.json"));
+    }
+
+    private Library getRandomConstLibrary() throws IOException {
+        JsonAdapter<LibraryList> listAdapter = moshi.adapter(LibraryList.class);
+        LibraryList list = listAdapter.fromJson(readData(getResourceFile("all_libraries.json")));
+        assertNotNull(list);
+        assertNotNull(list.getLibraries());
+        return list.getLibraries().get(0);
     }
 }

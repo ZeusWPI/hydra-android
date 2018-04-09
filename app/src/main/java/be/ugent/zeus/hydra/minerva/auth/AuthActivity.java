@@ -20,7 +20,6 @@ import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
-import be.ugent.zeus.hydra.minerva.account.MinervaAuthenticator;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.auth.oauth.BearerToken;
 import org.threeten.bp.LocalDateTime;
@@ -234,12 +233,12 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
                 BearerToken result = request.performRequest(null).getOrThrow();
 
                 //Get the information
-                UserInfoRequest infoRequest = new UserInfoRequest(result.getAccessToken());
+                UserInfoRequest infoRequest = new UserInfoRequest(AuthActivity.this, result.getAccessToken());
                 GrantInformation information = infoRequest.performRequest(null).getOrThrow();
 
                 //Account name
                 String name;
-                if (information.getUserAttributes().getEmail().size() == 0) {
+                if (information.getUserAttributes().getEmail().isEmpty()) {
                     name = "Minerva-account";
                 } else {
                     name = information.getUserAttributes().getEmail().get(0).toLowerCase();
@@ -254,7 +253,7 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
                 }
 
                 LocalDateTime expiration = LocalDateTime.now().plusSeconds(result.getExpiresIn());
-                manager.setUserData(account, MinervaAuthenticator.EXP_DATE, expiration.format(MinervaAuthenticator.formatter));
+                AccountUtils.setExpirationDate(manager, account, expiration);
                 manager.setAuthToken(account, authType, result.getAccessToken());
 
                 //Make intent for return value

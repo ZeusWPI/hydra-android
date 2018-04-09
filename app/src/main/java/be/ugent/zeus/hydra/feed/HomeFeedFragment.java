@@ -16,21 +16,22 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.*;
 
+import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
-import be.ugent.zeus.hydra.MainActivity;
-import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.feed.cards.Card;
+import be.ugent.zeus.hydra.feed.commands.FeedCommand;
 import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
 import be.ugent.zeus.hydra.minerva.announcement.courselist.AnnouncementsForCourseFragment;
-import be.ugent.zeus.hydra.feed.commands.FeedCommand;
 
 import static android.app.Activity.RESULT_OK;
 import static be.ugent.zeus.hydra.feed.FeedLiveData.REFRESH_HOMECARD_TYPE;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
 
 /**
  * The fragment showing the home feed.
@@ -55,7 +56,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     public static final String PREF_DISABLED_CARD_TYPES = "pref_disabled_cards";
     public static final String PREF_DISABLED_CARD_HACK = "pref_disabled_specials_hack";
 
-    public static final int REQUEST_HOMECARD_ID = 5050;
+    private static final int REQUEST_HOMECARD_ID = 5050;
 
     private boolean firstRun;
     private ActivityHelper helper;
@@ -90,7 +91,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         HomeFeedAdapter adapter = new HomeFeedAdapter(this);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new SpanItemSpacingDecoration(getContext()));
+        recyclerView.addItemDecoration(new SpanItemSpacingDecoration(requireContext()));
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setRefreshing(true);
 
@@ -144,9 +145,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
-        //TODO there must a better of doing this
-        BaseActivity activity = (BaseActivity) getActivity();
-        BaseActivity.tintToolbarIcons(activity.getToolbar(), menu, R.id.action_refresh);
+        requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_refresh);
     }
 
     @Override
@@ -170,7 +169,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         if (snackbar != null) {
             snackbar.dismiss();
         }
-        snackbar = Snackbar.make(getView(), getString(R.string.home_feed_failure), Snackbar.LENGTH_LONG)
+        snackbar = Snackbar.make(requireView(this), getString(R.string.home_feed_failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> onRefresh());
         snackbar.show();
     }
@@ -212,8 +211,8 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
                 if (snackbar != null) {
                     snackbar.dismiss();
                 }
-                snackbar = Snackbar.make(getView(), command.getCompleteMessage(), BaseTransientBottomBar.LENGTH_LONG)
-                        .setAction(R.string.home_feed_undo, view -> undoCommand(command));
+                snackbar = Snackbar.make(requireView(HomeFeedFragment.this), command.getCompleteMessage(), BaseTransientBottomBar.LENGTH_LONG)
+                        .setAction(command.getUndoMessage(), view -> undoCommand(command));
                 snackbar.show();
             }
         }.execute();

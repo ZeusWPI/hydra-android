@@ -17,4 +17,5 @@ public final class Endpoints {
     public static final String SKO_WEBSITE = SKO_URL;
     public static final String SKO_VILLAGE_MAP = ZEUS_API_URL_1 + "grondplan-android.html";
     public static final String URGENT_STATUS_URL = ZEUS_API_URL_2 + "urgentfm/status.json";
+    public static final String MINERVA_API = "https://minerva.ugent.be/api/rest/v2/";
 }

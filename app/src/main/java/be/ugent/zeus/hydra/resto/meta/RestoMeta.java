@@ -2,17 +2,22 @@ package be.ugent.zeus.hydra.resto.meta;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import java8.util.Objects;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by feliciaan on 04/02/16.
  */
 public final class RestoMeta implements Parcelable, Serializable {
 
-    public ArrayList<Resto> locations;
+    public List<Resto> locations;
+
+    @SuppressWarnings("unused") // Used by Moshi.
+    public RestoMeta() {
+    }
 
     @Override
     public int describeContents() {
@@ -22,9 +27,6 @@ public final class RestoMeta implements Parcelable, Serializable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeTypedList(this.locations);
-    }
-
-    public RestoMeta() {
     }
 
     protected RestoMeta(Parcel in) {

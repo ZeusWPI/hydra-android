@@ -1,12 +1,8 @@
 package be.ugent.zeus.hydra.library.details;
 
-import be.ugent.zeus.hydra.common.converter.DateThreeTenAdapter;
-import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 import java8.util.Objects;
 import org.threeten.bp.LocalDate;
-import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
 
@@ -15,33 +11,19 @@ import java.io.Serializable;
  */
 public final class OpeningHours implements Serializable {
 
-    @SerializedName("wday")
+    @Json(name = "wday")
     private int weekday;
-
-    @SerializedName("wday_formatted")
+    @Json(name = "wday_formatted")
     private String weekdayName;
-
+    @Json(name = "date_formatted")
+    private String formattedDate;
     private String hours;
-
     private int month;
-
-    @JsonAdapter(DateThreeTenAdapter.class)
     private LocalDate date;
-
     private String comments;
-
-    @SerializedName("mday")
+    @Json(name = "mday")
     private String monthDay;
-
     private String year;
-
-    @SerializedName("created_at")
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime createdAt;
-
-    @SerializedName("updated_at")
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime updatedAt;
 
     public OpeningHours() {
     }
@@ -78,12 +60,8 @@ public final class OpeningHours implements Serializable {
         return year;
     }
 
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public ZonedDateTime getUpdatedAt() {
-        return updatedAt;
+    public String getFormattedDate() {
+        return formattedDate;
     }
 
     @Override
@@ -99,12 +77,11 @@ public final class OpeningHours implements Serializable {
                 Objects.equals(comments, that.comments) &&
                 Objects.equals(monthDay, that.monthDay) &&
                 Objects.equals(year, that.year) &&
-                Objects.equals(createdAt, that.createdAt) &&
-                Objects.equals(updatedAt, that.updatedAt);
+                Objects.equals(formattedDate, that.formattedDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(weekday, weekdayName, hours, month, date, comments, monthDay, year, createdAt, updatedAt);
+        return Objects.hash(weekday, weekdayName, hours, month, date, comments, monthDay, year, formattedDate);
     }
 }

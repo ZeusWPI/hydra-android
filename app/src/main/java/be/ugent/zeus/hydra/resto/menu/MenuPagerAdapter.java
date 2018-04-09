@@ -67,6 +67,7 @@ class MenuPagerAdapter extends FragmentStatePagerAdapter {
      * @return The title.
      */
     @Override
+    @NonNull
     public CharSequence getPageTitle(int position) {
         return DateUtils.getFriendlyDate(data.get(position).getDate());
     }

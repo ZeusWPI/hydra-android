@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.feed.cards.implementations.minerva.announcement;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,14 +30,17 @@ import static be.ugent.zeus.hydra.common.ui.ViewUtils.convertDpToPixelInt;
  */
 public class MinervaAnnouncementViewHolder extends CardViewHolder {
 
-    private final static int MAX_DISPLAYED = 5;
+    @VisibleForTesting
+    final static int MAX_DISPLAYED = 5;
     private final LinearLayout layout;
     private final CardView cardView;
+    private final LayoutInflater inflater;
 
     public MinervaAnnouncementViewHolder(View v, HomeFeedAdapter adapter) {
         super(v, adapter);
         layout = v.findViewById(R.id.linear_layout);
         cardView = v.findViewById(R.id.card_view);
+        inflater = LayoutInflater.from(layout.getContext());
     }
 
     @Override
@@ -51,7 +55,6 @@ public class MinervaAnnouncementViewHolder extends CardViewHolder {
         layout.removeAllViewsInLayout();
 
         ResultStarter starter = adapter.getCompanion();
-        LayoutInflater inflater = LayoutInflater.from(layout.getContext());
 
         for (int i = 0; i < MAX_DISPLAYED && i < mCard.getAnnouncements().size(); i++) {
             View view = inflater.inflate(R.layout.item_minerva_home_announcement, layout, false);

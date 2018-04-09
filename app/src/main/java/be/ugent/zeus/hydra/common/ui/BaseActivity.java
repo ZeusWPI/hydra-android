@@ -26,14 +26,20 @@ import be.ugent.zeus.hydra.R;
 public abstract class BaseActivity extends AppCompatActivity {
 
     /**
-     * Get the toolbar. Don't call it when there is no toolbar, as it may crash.
+     * Returns the action bar of this activity. If the ActionBar is not present or the method is called at the wrong
+     * time, an {@link IllegalStateException} is thrown.
      *
-     * @return The toolbar.
+     * @return The ActionBar.
+     * @throws IllegalStateException If the method is called at the wrong time or there is no ActionBar.
      */
     @NonNull
-    public ActionBar getToolbar() {
-        assert getSupportActionBar() != null;
-        return getSupportActionBar();
+    public ActionBar requireToolbar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar == null) {
+            throw new IllegalStateException("There is no ActionBar or the method is called at the wrong time.");
+        } else {
+            return actionBar;
+        }
     }
 
     /**
@@ -46,7 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         //Set the up button.
         if (hasParent()) {
-            getToolbar().setDisplayHomeAsUpEnabled(true);
+            requireToolbar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
@@ -70,7 +76,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param ids  The ids of the icon.
      */
     public void tintToolbarIcons(Menu menu, int... ids) {
-        tintToolbarIcons(getToolbar(), menu, ids);
+        tintToolbarIcons(requireToolbar(), menu, ids);
     }
 
     /**

@@ -30,17 +30,28 @@
   license: The Apache Software License, Version 2.0
   url: https://oltu.apache.org/
 
-- artifact: com.google.code.gson:gson:+
-  name: Gson
-  copyrightHolder: Google Inc.
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/google/gson
-
 - artifact: com.squareup.picasso:picasso:+
   name: Picasso
   copyrightHolder: Square, Inc.
   license: The Apache Software License, Version 2.0
   url: http://square.github.io/picasso/
+
+- artifact: com.squareup.okhttp3:okhttp:+
+  name: OkHttp
+  copyrightHolder: Square
+  license: The Apache Software License, Version 2.0
+- artifact: com.squareup.okio:okio:+
+  name: Okio
+  copyrightHolder: Square
+  license: The Apache Software License, Version 2.0
+- artifact: com.squareup.okhttp3:logging-interceptor:+
+  name: OkHttp
+  copyrightHolder: Square
+  license: The Apache Software License, Version 2.0
+- artifact: com.squareup.moshi:moshi:+
+  name: Moshi
+  copyrightHolder: Square
+  license: The Apache Software License, Version 2.0
 
 - artifact: com.github.pluscubed:recycler-fast-scroll:+
   name: recycler-fast-scroll
@@ -53,12 +64,6 @@
   copyrightHolder: j2esu (Evgeny Egorov)
   license: The Apache Software License, Version 2.0
   url: https://github.com/j2esu/rv-joiner
-
-- artifact: org.springframework.android:+:+
-  name: Spring for Android
-  copyrightHolder: Spring Authors
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/SpringSource/spring-android
 
 - artifact: com.timehop.stickyheadersrecyclerview:library:+
   name: Sticky Headers RecyclerView

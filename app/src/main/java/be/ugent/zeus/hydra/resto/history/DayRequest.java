@@ -1,9 +1,10 @@
 package be.ugent.zeus.hydra.resto.history;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
+import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import org.threeten.bp.LocalDate;
@@ -14,17 +15,20 @@ import java.util.Locale;
 /**
  * Request the menu for a single day.
  *
+ * If not properly initialised before use (call {@link #setChoice(RestoChoice)} and {@link #setDate(LocalDate)}, it
+ * will throw {@link IllegalStateException}s when used.
+ *
  * @author Niko Strijbol
  */
-public class DayRequest extends JsonSpringRequest<RestoMenu> {
+public class DayRequest extends JsonOkHttpRequest<RestoMenu> {
 
     private static final String OVERVIEW_URL = Endpoints.ZEUS_RESTO_URL + "menu/%s/%d/%d/%d.json";
 
     private LocalDate date;
     private RestoChoice choice;
 
-    DayRequest() {
-        super(RestoMenu.class);
+    DayRequest(Context context) {
+        super(context, RestoMenu.class);
     }
 
     public void setDate(LocalDate date) {

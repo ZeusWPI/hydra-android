@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
@@ -23,9 +23,9 @@ class AnnouncementsViewHolder extends DataViewHolder<Announcement> {
     private final TextView subtitle;
     private final View backgroundHolder;
     private final ResultStarter resultStarter;
-    private final MultiSelectDiffAdapter<Announcement> adapter;
+    private final MultiSelectAdapter<Announcement> adapter;
 
-    AnnouncementsViewHolder(View itemView, ResultStarter starter, MultiSelectDiffAdapter<Announcement> adapter) {
+    AnnouncementsViewHolder(View itemView, ResultStarter starter, MultiSelectAdapter<Announcement> adapter) {
         super(itemView);
         this.resultStarter = starter;
         this.adapter = adapter;

@@ -1,0 +1,16 @@
+{
+  "tools": [
+    {
+      "tool": "agenda",
+      "icon": "agenda.gif",
+      "link": "calendar\/agenda.php",
+      "visibilty": true
+    },
+    {
+      "tool": "announcement",
+      "icon": "valves.gif",
+      "link": "announcements\/announcements.php",
+      "visibilty": true
+    }
+  ]
+}

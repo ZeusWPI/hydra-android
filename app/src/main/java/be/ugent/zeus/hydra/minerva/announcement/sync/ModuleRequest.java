@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 
+import static be.ugent.zeus.hydra.common.network.Endpoints.MINERVA_API;
+
 /**
  * @author Niko Strijbol
  */
@@ -15,7 +17,7 @@ class ModuleRequest extends MinervaRequest<ApiTools> {
     private final Course course;
 
     ModuleRequest(Context context, Account account, Course course) {
-        super(ApiTools.class, context, account);
+        super(context, ApiTools.class, account);
         this.course = course;
     }
 

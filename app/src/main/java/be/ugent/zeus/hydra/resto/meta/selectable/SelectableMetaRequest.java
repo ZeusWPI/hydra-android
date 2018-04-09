@@ -7,11 +7,10 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.resto.RestoChoice;
-import be.ugent.zeus.hydra.resto.meta.RestoMeta;
 import be.ugent.zeus.hydra.resto.meta.MetaRequest;
+import be.ugent.zeus.hydra.resto.meta.RestoMeta;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 
@@ -26,7 +25,7 @@ public class SelectableMetaRequest implements Request<List<RestoChoice>> {
     private final Request<RestoMeta> resultRequest;
 
     public SelectableMetaRequest(Context context) {
-        this.resultRequest = Requests.cache(context.getApplicationContext(), new MetaRequest());
+        this.resultRequest = new MetaRequest(context);
     }
 
     @NonNull

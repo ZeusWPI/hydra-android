@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.sko.timeline;
 
 import be.ugent.zeus.hydra.common.ModelTest;
-import be.ugent.zeus.hydra.sko.timeline.TimelinePost;
 import be.ugent.zeus.hydra.testing.Utils;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
@@ -19,7 +18,7 @@ public class TimelinePostTest extends ModelTest<TimelinePost> {
     public void equalsAndHash() {
         Utils.defaultVerifier(TimelinePost.class)
                 .suppress(Warning.NONFINAL_FIELDS)
-                .withOnlyTheseFields("title", "body", "postType", "createdAt")
+                .withOnlyTheseFields("id", "title", "body", "postType", "createdAt")
                 .verify();
     }
 }

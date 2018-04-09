@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.accounts.NetworkErrorException;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -48,12 +47,13 @@ public class MinervaAuthenticatorTest {
     }
 
     @Test
-    public void addAccount() throws Exception {
+    public void addAccount() {
 
         Bundle bundle = authenticator.addAccount(response, MinervaConfig.ACCOUNT_TYPE, MinervaConfig.DEFAULT_SCOPE, null, Bundle.EMPTY);
         Intent intent = bundle.getParcelable(AccountManager.KEY_INTENT);
         assertNotNull(intent);
 
+        assertNotNull(intent.getComponent());
         assertEquals(AuthActivity.class.getName(), intent.getComponent().getClassName());
         assertEquals(MinervaConfig.ACCOUNT_TYPE, intent.getStringExtra(AuthActivity.ARG_ACCOUNT_TYPE));
         assertTrue(intent.getBooleanExtra(AuthActivity.ARG_ADDING_NEW_ACCOUNT, false));
@@ -81,7 +81,7 @@ public class MinervaAuthenticatorTest {
         manager.setAuthToken(testAccount, MinervaConfig.DEFAULT_SCOPE, testToken);
         // The token expires in the future.
         manager.setUserData(testAccount, MinervaAuthenticator.EXP_DATE,
-                LocalDateTime.now().plusMonths(1).format(MinervaAuthenticator.formatter));
+                LocalDateTime.now().plusMonths(1).format(AccountUtils.FORMATTER));
 
         Bundle result = authenticator.getAuthToken(response, testAccount, MinervaConfig.DEFAULT_SCOPE, null);
 
@@ -115,7 +115,7 @@ public class MinervaAuthenticatorTest {
         manager.setAuthToken(testAccount, MinervaConfig.DEFAULT_SCOPE, expiredToken);
         // The token expires in the future.
         manager.setUserData(testAccount, MinervaAuthenticator.EXP_DATE,
-                LocalDateTime.now().minusMonths(1).format(MinervaAuthenticator.formatter));
+                LocalDateTime.now().minusMonths(1).format(AccountUtils.FORMATTER));
         manager.setPassword(testAccount, password);
 
         Bundle result = authenticator.getAuthToken(response, testAccount, MinervaConfig.DEFAULT_SCOPE, null);
@@ -137,13 +137,14 @@ public class MinervaAuthenticatorTest {
         manager.setAuthToken(testAccount, MinervaConfig.DEFAULT_SCOPE, expiredToken);
         // The token expires in the future.
         manager.setUserData(testAccount, MinervaAuthenticator.EXP_DATE,
-                LocalDateTime.now().minusMonths(1).format(MinervaAuthenticator.formatter));
+                LocalDateTime.now().minusMonths(1).format(AccountUtils.FORMATTER));
 
         Bundle result = authenticator.getAuthToken(response, testAccount, MinervaConfig.DEFAULT_SCOPE, null);
 
         Intent intent = result.getParcelable(AccountManager.KEY_INTENT);
         assertNotNull(intent);
 
+        assertNotNull(intent.getComponent());
         assertEquals(AuthActivity.class.getName(), intent.getComponent().getClassName());
         assertEquals(response, intent.getParcelableExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE));
         assertEquals(testAccount.type, intent.getStringExtra(AuthActivity.ARG_ACCOUNT_TYPE));
@@ -168,37 +169,25 @@ public class MinervaAuthenticatorTest {
         manager.setAuthToken(testAccount, MinervaConfig.DEFAULT_SCOPE, "test");
         // The token expires in the future.
         manager.setUserData(testAccount, MinervaAuthenticator.EXP_DATE,
-                LocalDateTime.now().minusMonths(1).format(MinervaAuthenticator.formatter));
+                LocalDateTime.now().minusMonths(1).format(AccountUtils.FORMATTER));
         manager.setPassword(testAccount, "test");
 
         authenticator.getAuthToken(response, testAccount, MinervaConfig.DEFAULT_SCOPE, null);
     }
 
     @Test
-    public void getAuthTokenLabel() throws Exception {
+    public void getAuthTokenLabel() {
         assertNull(authenticator.getAuthTokenLabel("Test_Type"));
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void updateCredentials() throws Exception {
+    public void updateCredentials() {
         authenticator.updateCredentials(response, testAccount, "", new Bundle());
     }
 
     @Test
-    public void hasFeatures() throws Exception {
+    public void hasFeatures() {
         Bundle result = authenticator.hasFeatures(response, testAccount, new String[]{});
         assertFalse(result.getBoolean(AccountManager.KEY_BOOLEAN_RESULT));
-    }
-
-    private static class TestMinervaAuthenticator extends MinervaAuthenticator {
-
-        public TestMinervaAuthenticator(Context context) {
-            super(context);
-        }
-
-        @Override
-        String getRefreshAccessToken(Account account, String refreshToken) throws NetworkErrorException {
-            return super.getRefreshAccessToken(account, refreshToken);
-        }
     }
 }

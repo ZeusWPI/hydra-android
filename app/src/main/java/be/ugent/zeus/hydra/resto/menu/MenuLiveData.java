@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
-import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
-import be.ugent.zeus.hydra.common.request.Requests;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -23,9 +21,7 @@ class MenuLiveData extends RequestLiveData<List<RestoMenu>> implements SharedPre
     private RestoChoice previousChoice;
 
     MenuLiveData(Context context) {
-        super(context, Requests.map(Requests.map(Requests.cache(context, new MenuRequest(context)), Arrays::asList),
-                new MenuFilter(context)
-        ));
+        super(context, new MenuRequest(context).map(new MenuFilter(context)));
     }
 
     @Override

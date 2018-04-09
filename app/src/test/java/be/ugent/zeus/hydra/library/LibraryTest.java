@@ -19,7 +19,7 @@ public class LibraryTest extends ModelTest<Library> {
     }
 
     @Test
-    public void hasTelephone() throws Exception {
+    public void hasTelephone() {
         Library empty = new Library();
         assertFalse(empty.hasTelephone());
         Library full = generate(Library.class);
