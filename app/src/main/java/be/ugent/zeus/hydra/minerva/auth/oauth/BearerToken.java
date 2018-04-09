@@ -20,7 +20,7 @@
  */
 package be.ugent.zeus.hydra.minerva.auth.oauth;
 
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 /**
  * A bearer token. This contains the various tokens and meta data about the tokens the Minerva API returns.
@@ -31,16 +31,16 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("unused")
 public class BearerToken {
 
-    @SerializedName("access_token")
+    @Json(name = "access_token")
     private String accessToken;
 
-    @SerializedName("refresh_token")
+    @Json(name = "refresh_token")
     private String refreshToken;
 
-    @SerializedName("token_type")
+    @Json(name = "token_type")
     private String tokenType;
 
-    @SerializedName("expires_in")
+    @Json(name = "expires_in")
     private Integer expiresIn;
 
     public String getAccessToken() {

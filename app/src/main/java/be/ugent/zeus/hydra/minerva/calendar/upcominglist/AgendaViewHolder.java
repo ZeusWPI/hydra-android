@@ -14,9 +14,9 @@ import be.ugent.zeus.hydra.utils.DateUtils;
  */
 class AgendaViewHolder extends DataViewHolder<AgendaItem> {
 
-    private TextView title;
-    private TextView subtitle;
-    private View parent;
+    private final TextView title;
+    private final TextView subtitle;
+    private final View parent;
 
     AgendaViewHolder(View itemView) {
         super(itemView);

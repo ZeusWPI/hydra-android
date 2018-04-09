@@ -1,16 +1,17 @@
 package be.ugent.zeus.hydra.sko.timeline;
 
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.ItemDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
 
 /**
  * @author Niko Strijbol
  */
-class TimelineAdapter extends ItemDiffAdapter<TimelinePost, TimelineViewHolder> {
+class TimelineAdapter extends DiffAdapter<TimelinePost, TimelineViewHolder> {
 
     private final ActivityHelper helper;
 
@@ -23,8 +24,9 @@ class TimelineAdapter extends ItemDiffAdapter<TimelinePost, TimelineViewHolder> 
         return helper;
     }
 
+    @NonNull
     @Override
-    public TimelineViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TimelineViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new TimelineViewHolder(ViewUtils.inflate(parent, R.layout.item_sko_timeline_post), this);
     }
 }

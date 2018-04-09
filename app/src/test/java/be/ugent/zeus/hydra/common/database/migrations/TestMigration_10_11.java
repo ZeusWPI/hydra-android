@@ -5,17 +5,13 @@ import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.testing.LocalMigrationTestHelper;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.RequiresApi;
 
-import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.common.database.Database;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.threeten.bp.Instant;
 import org.threeten.bp.OffsetDateTime;
 
@@ -28,9 +24,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author Niko Strijbol
  */
-@RequiresApi(api = 26)
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
 public class TestMigration_10_11 {
 
     @Rule

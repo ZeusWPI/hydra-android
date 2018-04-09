@@ -106,7 +106,7 @@ public class FullArticleActivity extends BaseActivity {
 
         if (article.getTitle() != null) {
             title.setText(article.getTitle());
-            getSupportActionBar().setTitle(article.getTitle());
+            requireToolbar().setTitle(article.getTitle());
         }
     }
 

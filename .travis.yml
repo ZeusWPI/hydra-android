@@ -4,17 +4,21 @@ jdk:
 
 android:
   components:
-    - tools
-    - platform-tools
-    - tools
+#     - tools
+#     - platform-tools
+#     - tools
     - build-tools-27.0.3
-    - android-27
-    - extra-android-support
-    - extra-android-m2repository
-    - extra-google-m2repository
+#     - android-27
+#     - extra-android-support
+#     - extra-android-m2repository
+#     - extra-google-m2repository
+
+env:
+  - FLAVOUR=testDebug
+  - FLAVOUR=testRelease
 
 script:
-  - "./gradlew clean test"
+  - "./gradlew clean $FLAVOUR"
 
 notifications:
   email: false

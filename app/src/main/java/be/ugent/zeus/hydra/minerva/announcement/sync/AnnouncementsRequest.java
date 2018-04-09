@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 import be.ugent.zeus.hydra.minerva.course.Course;
 
+import static be.ugent.zeus.hydra.common.network.Endpoints.MINERVA_API;
+
 /**
  * This request retrieves all announcements for a specific course.
  *
@@ -17,7 +19,7 @@ class AnnouncementsRequest extends MinervaRequest<ApiAnnouncements> {
     private final Course course;
 
     AnnouncementsRequest(Context context, Account account, Course course) {
-        super(ApiAnnouncements.class, context, account);
+        super(context, ApiAnnouncements.class, account);
         this.course = course;
     }
 

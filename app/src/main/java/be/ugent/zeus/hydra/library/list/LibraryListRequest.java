@@ -1,21 +1,22 @@
 package be.ugent.zeus.hydra.library.list;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.common.caching.Cache;
-import be.ugent.zeus.hydra.common.request.CacheableRequest;
+import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
+import org.threeten.bp.Duration;
+import org.threeten.bp.temporal.ChronoUnit;
 
 /**
  * Get the list of libraries.
  *
  * @author Niko Strijbol
  */
-class LibraryListRequest extends JsonSpringRequest<LibraryList> implements CacheableRequest<LibraryList> {
+class LibraryListRequest extends JsonOkHttpRequest<LibraryList> {
 
-    LibraryListRequest() {
-        super(LibraryList.class);
+    LibraryListRequest(Context context) {
+        super(context, LibraryList.class);
     }
 
     @NonNull
@@ -24,14 +25,8 @@ class LibraryListRequest extends JsonSpringRequest<LibraryList> implements Cache
         return Endpoints.LIBRARY_URL + "library_groups/all.json";
     }
 
-    @NonNull
     @Override
-    public String getCacheKey() {
-        return "all_libraries.json";
-    }
-
-    @Override
-    public long getCacheDuration() {
-        return Cache.ONE_WEEK * 4;
+    public Duration getCacheDuration() {
+        return ChronoUnit.MONTHS.getDuration();
     }
 }

@@ -1,36 +1,30 @@
 package be.ugent.zeus.hydra.library.details;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.common.caching.Cache;
-import be.ugent.zeus.hydra.common.request.CacheableRequest;
+import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
 import be.ugent.zeus.hydra.library.Library;
+import org.threeten.bp.Duration;
 
 /**
  * Get the opening hours for one library.
  *
  * @author Niko Strijbol
  */
-class OpeningHoursRequest extends JsonSpringRequest<OpeningHours[]> implements CacheableRequest<OpeningHours[]> {
+class OpeningHoursRequest extends JsonArrayRequest<OpeningHours> {
 
     private final String libraryCode;
 
-    OpeningHoursRequest(Library library) {
-        super(OpeningHours[].class);
+    OpeningHoursRequest(Context context, Library library) {
+        super(context, OpeningHours.class);
         this.libraryCode = library.getCode();
     }
 
-    @NonNull
     @Override
-    public String getCacheKey() {
-        return libraryCode + "_opening.json";
-    }
-
-    @Override
-    public long getCacheDuration() {
-        return Cache.ONE_DAY * 4;
+    public Duration getCacheDuration() {
+        return Duration.ofDays(4);
     }
 
     @NonNull

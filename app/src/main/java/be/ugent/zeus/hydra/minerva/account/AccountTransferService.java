@@ -16,8 +16,10 @@ import com.google.android.gms.auth.api.accounttransfer.AccountTransferClient;
 import com.google.android.gms.auth.api.accounttransfer.AuthenticatorTransferCompletionStatus;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
-import com.google.gson.Gson;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -116,8 +118,9 @@ public class AccountTransferService extends IntentService {
         information.accountName = account.name;
         information.accountPassword = accountManager.getPassword(account);
 
-        Gson gson = new Gson();
-        byte[] bytes = gson.toJson(information).getBytes(Charset.forName("UTF-8"));
+        Moshi moshi = new Moshi.Builder().build();
+        JsonAdapter<AccountInformation> informationJsonAdapter = moshi.adapter(AccountInformation.class);
+        byte[] bytes = informationJsonAdapter.toJson(information).getBytes(Charset.forName("UTF-8"));
         // Send the data over to the other device.
         Task<Void> exportTask = client.sendData(MinervaConfig.ACCOUNT_TYPE, bytes);
 
@@ -140,12 +143,11 @@ public class AccountTransferService extends IntentService {
             byte[] data = Tasks.await(importTask, 10, TimeUnit.SECONDS);
             importAccountFrom(this, data);
             client.notifyCompletion(MinervaConfig.ACCOUNT_TYPE, AuthenticatorTransferCompletionStatus.COMPLETED_SUCCESS);
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+        } catch (InterruptedException | ExecutionException | TimeoutException | IOException e) {
             Log.w(TAG, "Failure while importing account.", e);
             client.notifyCompletion(MinervaConfig.ACCOUNT_TYPE, AuthenticatorTransferCompletionStatus.COMPLETED_FAILURE);
         }
     }
-
 
     /**
      * Collects the information we send to the new device.
@@ -159,10 +161,10 @@ public class AccountTransferService extends IntentService {
      * The access token and related expiration date are not sent.
      */
     private static class AccountInformation {
-        String accountType;
-        int accountVersion;
-        String accountName;
-        String accountPassword;
+        private String accountType;
+        private int accountVersion;
+        private String accountName;
+        private String accountPassword;
     }
 
     /**
@@ -171,14 +173,18 @@ public class AccountTransferService extends IntentService {
      * @param context The context.
      * @param data The data. Can be null.
      */
-    public static void importAccountFrom(Context context, byte[] data) {
+    private static void importAccountFrom(Context context, byte[] data) throws IOException {
         if (data == null) {
             Log.w(TAG, "Data bytes are null, aborting import.");
             return;
         }
 
-        Gson gson = new Gson();
-        AccountInformation information = gson.fromJson(new String(data, Charset.forName("UTF-8")), AccountInformation.class);
+        Moshi moshi = new Moshi.Builder().build();
+        JsonAdapter<AccountInformation> informationJsonAdapter = moshi.adapter(AccountInformation.class);
+        AccountInformation information = informationJsonAdapter.fromJson(new String(data, Charset.forName("UTF-8")));
+        if (information == null) {
+            throw new IOException("Wrong data.");
+        }
         AccountManager accountManager = AccountManager.get(context);
         if (information.accountVersion != ACCOUNT_TRANSFER_PROTOCOL_VERSION) {
             Log.w(TAG, "Protocol version does not match, aborting import.");

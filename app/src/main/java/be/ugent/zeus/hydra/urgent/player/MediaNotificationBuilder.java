@@ -18,12 +18,14 @@ import be.ugent.zeus.hydra.common.ChannelCreator;
  *
  * @author Niko Strijbol
  */
-public class MediaNotificationBuilder {
+class MediaNotificationBuilder {
 
     private final Context context;
 
     public MediaNotificationBuilder(Context context) {
         this.context = context;
+        // Initialise the channel.
+        ChannelCreator.getInstance(context).createUrgentChannel();
     }
 
     public Notification buildNotification(MediaSessionCompat mediaSession) {

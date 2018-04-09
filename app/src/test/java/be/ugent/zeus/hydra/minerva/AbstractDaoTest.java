@@ -2,30 +2,18 @@ package be.ugent.zeus.hydra.minerva;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
-import android.support.annotation.RequiresApi;
 
-import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.TestApp;
-import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
-import be.ugent.zeus.hydra.minerva.calendar.database.AgendaItemDTO;
+import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementDTO;
+import be.ugent.zeus.hydra.minerva.calendar.database.AgendaItemDTO;
 import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
+import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Types;
 import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.threeten.bp.Instant;
-import org.threeten.bp.OffsetDateTime;
 
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
@@ -34,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import static be.ugent.zeus.hydra.testing.Utils.getResourceFile;
+import static be.ugent.zeus.hydra.testing.Utils.readJson;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -41,9 +31,6 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Niko Strijbol
  */
-@RequiresApi(api = 26)
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
 public abstract class AbstractDaoTest {
 
     protected Database database;
@@ -62,14 +49,14 @@ public abstract class AbstractDaoTest {
         fillData();
     }
 
-    public void fillData() throws IOException {
-        Resource courses = new ClassPathResource("minerva/minerva_courses.sql");
-        Resource announcements = new ClassPathResource("minerva/minerva_announcements.sql");
-        Resource calendar = new ClassPathResource("minerva/minerva_calendar.sql");
+    private void fillData() throws IOException {
+        File courses = getResourceFile("minerva/minerva_courses.sql");
+        File announcements = getResourceFile("minerva/minerva_announcements.sql");
+        File calendar = getResourceFile("minerva/minerva_calendar.sql");
 
-        List<String> courseInserts = Files.readAllLines(courses.getFile().toPath());
-        List<String> announcementInserts = Files.readAllLines(announcements.getFile().toPath());
-        List<String> calendarInserts = Files.readAllLines(calendar.getFile().toPath());
+        List<String> courseInserts = Files.readAllLines(courses.toPath());
+        List<String> announcementInserts = Files.readAllLines(announcements.toPath());
+        List<String> calendarInserts = Files.readAllLines(calendar.toPath());
 
         Consumer<String> insert = s -> database.compileStatement(s).executeInsert();
         courseInserts.forEach(insert);
@@ -91,28 +78,25 @@ public abstract class AbstractDaoTest {
         }
     }
 
-    private static Gson getGson() {
-        return new GsonBuilder()
-                .registerTypeAdapter(OffsetDateTime.class, new DateTypeConverters.GsonOffset())
-                .registerTypeAdapter(Instant.class, new DateTypeConverters.GsonInstant())
-                .create();
+    private static Moshi getMoshi() {
+        return new Moshi.Builder()
+                .add(new DateTypeConverters.GsonOffset())
+                .add(new DateTypeConverters.GsonInstant())
+                .build();
     }
 
     public static List<CourseDTO> loadTestCourses() throws IOException {
-        Resource jsonCourses = new ClassPathResource("minerva/minerva_courses.json");
-        Type courseType = new TypeToken<List<CourseDTO>>() {}.getType();
-        return getGson().fromJson(new JsonReader(new FileReader(jsonCourses.getFile())), courseType);
+        Type courseType = Types.newParameterizedType(List.class, CourseDTO.class);
+        return readJson(getMoshi(), "minerva/minerva_courses.json", courseType);
     }
 
     public static List<AnnouncementDTO> loadTestAnnouncements() throws IOException {
-        Resource jsonAnnouncements = new ClassPathResource("minerva/minerva_announcements.json");
-        Type announcementType = new TypeToken<List<AnnouncementDTO>>() {}.getType();
-        return getGson().fromJson(new JsonReader(new FileReader(jsonAnnouncements.getFile())), announcementType);
+        Type announcementType = Types.newParameterizedType(List.class, AnnouncementDTO.class);
+        return readJson(getMoshi(), "minerva/minerva_announcements.json", announcementType);
     }
 
     public static List<AgendaItemDTO> loadTestCalendarItems() throws IOException {
-        Resource jsonCalendar = new ClassPathResource("minerva/minerva_calendar.json");
-        Type calendarType = new TypeToken<List<AgendaItemDTO>>() {}.getType();
-        return getGson().fromJson(new JsonReader(new FileReader(jsonCalendar.getFile())), calendarType);
+        Type calendarType = Types.newParameterizedType(List.class, AgendaItemDTO.class);
+        return readJson(getMoshi(), "minerva/minerva_calendar.json", calendarType);
     }
 }

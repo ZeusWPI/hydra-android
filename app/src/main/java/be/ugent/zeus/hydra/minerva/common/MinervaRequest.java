@@ -5,152 +5,146 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
+import android.support.annotation.WorkerThread;
 import android.util.Log;
-import be.ugent.zeus.hydra.minerva.account.AccountUtils;
-import be.ugent.zeus.hydra.minerva.account.AuthenticatorActionException;
-import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
+
 import be.ugent.zeus.hydra.common.network.IOFailureException;
-import be.ugent.zeus.hydra.common.request.RequestException;
-import be.ugent.zeus.hydra.common.network.RestTemplateException;
-import be.ugent.zeus.hydra.minerva.auth.oauth.TokenRequestInterceptor;
+import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
+import be.ugent.zeus.hydra.common.network.UnsuccessfulRequestException;
 import be.ugent.zeus.hydra.common.request.Result;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.RestTemplate;
+import be.ugent.zeus.hydra.minerva.account.AccountUtils;
+import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
+import com.google.firebase.crash.FirebaseCrash;
+import com.squareup.moshi.JsonAdapter;
+import okhttp3.CacheControl;
+import okhttp3.Request;
 
 import java.io.IOException;
-import java.util.Collections;
 
 /**
- * Execute a request with a Minerva account.
+ * Execute a request with a Minerva account. This class will inject the correct headers for authentication with the API.
  *
  * @author Niko Strijbol
  */
-public abstract class MinervaRequest<T> extends JsonSpringRequest<T> {
+public abstract class MinervaRequest<T> extends JsonOkHttpRequest<T> {
 
     private static final String TAG = "MinervaRequest";
 
-    protected static final String MINERVA_API = "https://minerva.ugent.be/api/rest/v2/";
-
-    protected final Context context;
-    protected final Account account;
-
-    //This variable tracks if this is the first time the request is tried or not. This prevents endless loops if the
-    //server is down for example.
-    private boolean first = true;
+    private final AccountManager accountManager;
+    private final Account account;
+    private final AccessTokenProvider tokenProvider;
 
     /**
      * @param clazz The class of the result.
      * @param context The application context.
      * @param account The account to work with. Pass null to get the default account.
      */
-    public MinervaRequest(Class<T> clazz, Context context, Account account) {
-        super(clazz);
-        this.context = context;
+    public MinervaRequest(Context context, Class<T> clazz, Account account) {
+        this(context, clazz, account, AccountUtils::getAccessToken);
+    }
+
+    MinervaRequest(Context context, Class<T> clazz, Account account, AccessTokenProvider provider) {
+        super(context, clazz);
+        this.accountManager = AccountManager.get(context);
         this.account = account;
+        this.tokenProvider = provider;
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * After the first try, this function requests new credentials, and tries the request again, because the first
-     * time may have failed because the saved OAuth keys are invalid.
-     *
-     * If the request still fails after the first time or new OAuth keys could not be obtained, the method will throw
-     * the exception (same behavior as the parent method).
-     * @param args
+     * Execute the request. If this fails, one possible reason is an expired auth token. In that case, we invalidate
+     * our local token and try the request again. This will result in a new auth token being obtained if everything
+     * goes well.
      */
     @NonNull
     @Override
+    @WorkerThread
     public Result<T> performRequest(Bundle args) {
-        //Try the request one time.
+
+        JsonAdapter<T> adapter = getAdapter();
+
+        if (args == null) {
+            args = Bundle.EMPTY;
+        }
+
         try {
-            Result<T> result = super.performRequest(args);
-            if (result.hasException()) {
-                throw result.getError();
-            } else {
-                return result;
+            try {
+                return executeRequest(adapter, args);
+            } catch (UnsuccessfulRequestException e) {
+                if (e.getHttpCode() != 503) {
+                    throw e; // Proceed with error.
+                }
+
+                // TODO: log if this happens at all.
+                // This should never be the case:
+                // 1. If the access token is expired, the getToken() function will have caught and resolved it.
+                // 2. If not resolvable, an AuthenticatorActionException will be thrown.
+                Log.w(TAG, "Invalid auth token.", e);
+                FirebaseCrash.log("There was an invalid token!");
+                FirebaseCrash.report(e);
+
+                accountManager.invalidateAuthToken(MinervaConfig.ACCOUNT_TYPE, getToken());
+                // Re-issue request.
+                return executeRequest(adapter, args);
             }
         } catch (AuthenticatorActionException e) {
-            Log.i(TAG, "User action is required.");
-            //In this case we need user interaction, so we must not try again.
-            return new Result.Builder<T>()
-                    .withError(e)
-                    .build();
-        } catch (IOFailureException e) {
-            Log.i(TAG, "Network failure.");
-            //The network failed, don't try again.
-            return new Result.Builder<T>()
-                    .withError(e)
-                    .build();
-        } catch (RequestException e) {
-            Log.i(TAG, "Request failed", e);
-
-            //If is is a server error, the access token might be invalid.
-            //We only try again one time.
-            if(first && e.getCause() instanceof HttpServerErrorException) {
-                HttpServerErrorException error = (HttpServerErrorException) e.getCause();
-                if(error.getStatusCode().equals(HttpStatus.SERVICE_UNAVAILABLE)) {
-                    try {
-                        Log.d("MinervaRequest", "Invalid token while accessing stuff", e);
-                        //Invalidate auth token and try again.
-                        AccountManager m = AccountManager.get(context);
-                        m.invalidateAuthToken(MinervaConfig.ACCOUNT_TYPE, getToken());
-                        first = false;
-                        return performRequest(null);
-                    } catch (RequestException ex) {
-                        return new Result.Builder<T>()
-                                .withError(ex)
-                                .build();
-                    }
-                } else {
-                    //It was something else, like servers that don't work.
-                    return new Result.Builder<T>()
-                            .withError(e)
-                            .build();
-                }
-            } else {
-                return new Result.Builder<T>()
-                        .withError(e)
-                        .build();
-            }
+            Log.i(TAG, "Authenticator exception during request.", e);
+            return Result.Builder.fromException(new AuthException(e));
+        } catch (IOException | ConstructionException e) {
+            Log.i(TAG, "An exception during request execution.", e);
+            return Result.Builder.fromException(new IOFailureException(e));
         }
     }
 
     @NonNull
-    private String getToken() throws RequestException {
+    @VisibleForTesting
+    protected String getToken() throws ConstructionException {
+        // Attempt to get the access token.
+        Bundle tokenBundle = tokenProvider.getAccessTokenBundle(accountManager, account);
 
-        //First we get the token to insert to this request.
-        Bundle accountBundle;
-        try {
-            accountBundle = AccountUtils.syncAuthCode(context, account);
-        } catch (IOException e) {
-            throw new IOFailureException(e);
-        }
-
-        if (accountBundle == null) {
-            throw new RequestException("The account not be read.");
-        }
-
-        //If the bundle contains an intent, we throw an error.
-        if (accountBundle.containsKey(AccountManager.KEY_INTENT)) {
+        // If the bundle contains an intent, the refresh token is invalid, so stop trying.
+        if (tokenBundle.containsKey(AccountManager.KEY_INTENT)) {
             throw new AuthenticatorActionException();
-        } else { //Otherwise we can proceed.
-            String token = accountBundle.getString(AccountManager.KEY_AUTHTOKEN);
-            Log.v(TAG, "Minerva auth key: " + token);
-            return token;
         }
+
+        String accessToken = tokenBundle.getString(AccountManager.KEY_AUTHTOKEN);
+
+        // If the token is null, something else went wrong.
+        if (accessToken == null) {
+            throw new ConstructionException("Something went wrong while accessing the account.");
+        }
+
+        // Log the key for debug purposes.
+        Log.d(TAG, "Minerva access token is: " + accessToken);
+        return accessToken;
     }
 
     @Override
-    protected RestTemplate createRestTemplate() throws RestTemplateException {
-        try {
-            RestTemplate t = super.createRestTemplate();
-            t.setInterceptors(Collections.singletonList(new TokenRequestInterceptor(getToken())));
-            return t;
-        } catch (RequestException e) {
-            throw new RestTemplateException(e);
+    protected CacheControl constructCacheControl(@NonNull Bundle arguments) {
+        return CacheControl.FORCE_NETWORK; // No caching for Minerva.
+    }
+
+    @Override
+    protected Request.Builder constructRequest(@NonNull Bundle arguments) throws ConstructionException {
+        return super.constructRequest(arguments)
+                .addHeader("Authorization", String.format("Bearer %s", getToken()));
+    }
+
+    /**
+     * Wrapper interface for providing the request with an access token. Using this interface makes testing this
+     * class a lot easier.
+     */
+    protected interface AccessTokenProvider {
+        /**
+         * @see AccountUtils#getAccessToken(AccountManager, Account)
+         */
+        @NonNull
+        Bundle getAccessTokenBundle(AccountManager accountManager, Account account);
+    }
+
+    private static class AuthenticatorActionException extends ConstructionException {
+        AuthenticatorActionException() {
+            super("The auth token requires user action.");
         }
     }
 }

@@ -6,8 +6,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
-import org.springframework.web.util.UriComponentsBuilder;
+import okhttp3.HttpUrl;
 import org.threeten.bp.ZonedDateTime;
+
+import static be.ugent.zeus.hydra.common.network.Endpoints.MINERVA_API;
 
 /**
  * Request agenda items, optionally in a time range.
@@ -20,7 +22,7 @@ class GlobalCalendarRequest extends MinervaRequest<ApiCalendar> {
     private ZonedDateTime end;
 
     GlobalCalendarRequest(Context context, @Nullable Account account) {
-        super(ApiCalendar.class, context, account);
+        super(context, ApiCalendar.class, account);
     }
 
     public void setStart(ZonedDateTime start) {
@@ -36,20 +38,22 @@ class GlobalCalendarRequest extends MinervaRequest<ApiCalendar> {
     protected String getAPIUrl() {
         final String url = MINERVA_API + "agenda";
 
-        if(start == null && end == null) {
+        if (start == null && end == null) {
             return MINERVA_API + "agenda";
         }
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
+        HttpUrl base = HttpUrl.parse(url);
+        assert base != null;
+        HttpUrl.Builder builder = base.newBuilder();
 
-        if(start != null) {
-            builder.queryParam("start", start.toEpochSecond());
+        if (start != null) {
+            builder.addQueryParameter("start", String.valueOf(start.toEpochSecond()));
         }
 
-        if(end != null) {
-            builder.queryParam("end", end.toEpochSecond());
+        if (end != null) {
+            builder.addQueryParameter("end", String.valueOf(end.toEpochSecond()));
         }
 
-        return builder.build().toUriString();
+        return builder.build().toString();
     }
 }

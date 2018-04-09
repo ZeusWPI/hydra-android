@@ -5,10 +5,7 @@ import android.content.pm.ShortcutManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.*;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -27,7 +24,7 @@ import be.ugent.zeus.hydra.association.news.list.NewsFragment;
 import be.ugent.zeus.hydra.common.preferences.SettingsActivity;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.feed.HomeFeedFragment;
-import be.ugent.zeus.hydra.info.list.InfoFragment;
+import be.ugent.zeus.hydra.info.InfoFragment;
 import be.ugent.zeus.hydra.library.list.LibraryListFragment;
 import be.ugent.zeus.hydra.minerva.mainui.OverviewFragment;
 import be.ugent.zeus.hydra.onboarding.OnboardingActivity;
@@ -36,6 +33,10 @@ import be.ugent.zeus.hydra.schamper.list.SchamperFragment;
 import be.ugent.zeus.hydra.urgent.UrgentFragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import jonathanfinerty.once.Once;
+
+import java.util.Objects;
+
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
 
 /**
  * Main activity.
@@ -127,6 +128,10 @@ import jonathanfinerty.once.Once;
  *     <li>A {@link android.support.design.widget.BottomNavigationView} with id {@link R.id#bottom_navigation}</li>
  * </ul>
  *
+ * The fragment's view is automatically adjusted for the TabLayout, if the fragment makes it visible. The activity
+ * does not manage the BottomNavigationView however. Fragments must take care of that themselves. The recommended
+ * method is adding X bottom padding to the main view, where X is the height of the BottomNavigationView.
+ *
  * These are hidden by default and should be shown and hidden by the fragments that use them.
  *
  * To this end, a fragment may implement {@link ScheduledRemovalListener}. This callback will called when the activity
@@ -152,10 +157,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private static final String TAG = "BaseActivity";
 
-    private static final String ONCE_ONBOARDING = "once_onboarding";
+    @VisibleForTesting
+    static final String ONCE_ONBOARDING = "once_onboarding";
     private static final int ONBOARDING_REQUEST = 5;
 
-    private static final String ONCE_DRAWER = "once_drawer";
+    @VisibleForTesting
+    static final String ONCE_DRAWER = "once_drawer";
 
     private static final String FRAGMENT_MENU_ID = "backStack";
 
@@ -352,10 +359,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (current instanceof ScheduledRemovalListener) {
                 ((ScheduledRemovalListener) current).onRemovalScheduled();
             }
-            Log.d(TAG, "selectDrawerItem: drawer is open, so scheduling update instead.");
             this.scheduledContentUpdate = new DrawerUpdate(navigationSource, fragment, menuItem);
         } else {
-            Log.d(TAG, "selectDrawerItem: drawer is closed, so doing update now.");
             setFragment(fragment, menuItem, navigationSource);
         }
         updateDrawer(menuItem);
@@ -394,7 +399,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         // If this is a drawer navigation, clear the back stack.
         if (navigationSource == NavigationSource.DRAWER) {
-            Log.d(TAG, "setFragment: Clearing back stack, due to drawer navigation.");
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
 
@@ -405,13 +409,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         // If this is an inner navigation, add it to the back stack.
         if (navigationSource == NavigationSource.INNER) {
-            Log.d(TAG, "setFragment: registering on back stack, due to inner navigation.");
             transaction.addToBackStack(name);
-        }
-
-        // TODO: temp debug
-        if (navigationSource == NavigationSource.INITIALISATION) {
-            Log.d(TAG, "setFragment: setting fragment for initialisation");
         }
 
         // We allow state loss to prevent crashes in rare case.
@@ -472,7 +470,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     @IdRes
     private int getFragmentMenuId(Fragment fragment) {
-        return fragment.getArguments().getInt(FRAGMENT_MENU_ID);
+        return requireArguments(fragment).getInt(FRAGMENT_MENU_ID);
     }
 
     @Override
@@ -482,8 +480,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void reportShortcutUsed(String shortcutId) {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            Log.d(TAG, "Report shortcut use: " + shortcutId);
-            ShortcutManager manager = getSystemService(ShortcutManager.class);
+            ShortcutManager manager = Objects.requireNonNull(getSystemService(ShortcutManager.class));
             try {
                 manager.reportShortcutUsed(shortcutId);
             } catch (IllegalStateException e) {
@@ -528,8 +525,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     /**
      * Represents the origins of a navigation event. These are ints instead of enums for performance reasons.
      * See the class documentation for an overview.
-     *
-     * TODO: check if should these be enums, proguard would optimize this or not.
      */
     @IntDef({NavigationSource.DRAWER, NavigationSource.INNER, NavigationSource.INITIALISATION})
     private @interface NavigationSource {

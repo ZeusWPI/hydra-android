@@ -15,38 +15,47 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
+import android.widget.*;
 
 import be.ugent.zeus.hydra.HydraApplication;
+import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
-import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.common.ui.NoPaddingArrayAdapter;
+import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
-import be.ugent.zeus.hydra.resto.network.SelectableMetaRequest;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
-import be.ugent.zeus.hydra.resto.locations.RestoLocationActivity;
-import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
 import be.ugent.zeus.hydra.resto.extrafood.ExtraFoodActivity;
+import be.ugent.zeus.hydra.resto.history.HistoryActivity;
+import be.ugent.zeus.hydra.resto.meta.RestoLocationActivity;
+import be.ugent.zeus.hydra.resto.meta.selectable.SelectableMetaViewModel;
+import be.ugent.zeus.hydra.resto.meta.selectable.SelectedResto;
+import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
 import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import java8.util.Objects;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
 import org.threeten.bp.LocalDate;
 
 import java.util.List;
 
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
+
 /**
+ * Displays the menu.
+ *
+ * TODO: the fragment currently only works with {@link MainActivity}.
+ *
  * @author Niko Strijbol
  */
-public class RestoFragment extends Fragment implements AdapterView.OnItemSelectedListener, MainActivity.ArgumentsReceiver, BottomNavigationView.OnNavigationItemSelectedListener, MainActivity.ScheduledRemovalListener {
+public class RestoFragment extends Fragment implements
+        AdapterView.OnItemSelectedListener,
+        MainActivity.ArgumentsReceiver,
+        BottomNavigationView.OnNavigationItemSelectedListener,
+        MainActivity.ScheduledRemovalListener {
 
     private static final String TAG = "RestoFragment";
 
@@ -58,7 +67,7 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
     private MenuPagerAdapter pageAdapter;
     private ViewPager viewPager;
     private MenuViewModel viewModel;
-    private ArrayAdapter<RestoFragment.RestoWrapper> restoAdapter;
+    private ArrayAdapter<SelectedResto.Wrapper> restoAdapter;
     private Spinner spinner;
     private ProgressBar spinnerProgress;
     private TabLayout tabLayout;
@@ -74,7 +83,7 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
      * The start date for which resto to show.
      */
     @Nullable
-    private LocalDate startDate = null;
+    private LocalDate startDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -108,7 +117,7 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "receiveResto: on view created");
 
-        getBaseActivity().getToolbar().setDisplayShowTitleEnabled(false);
+        getBaseActivity().requireToolbar().setDisplayShowTitleEnabled(false);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -118,15 +127,15 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
         viewPager = view.findViewById(R.id.resto_tabs_content);
         viewPager.setAdapter(pageAdapter);
 
-        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(requireContext());
 
-        final AppBarLayout appBarLayout = getActivity().findViewById(R.id.app_bar_layout);
+        final AppBarLayout appBarLayout = requireActivity().findViewById(R.id.app_bar_layout);
         // Send analytics
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 appBarLayout.setExpanded(true);
-                HydraApplication app = (HydraApplication) getActivity().getApplication();
+                HydraApplication app = HydraApplication.getApplication(requireActivity());
                 app.sendScreenName("Menu tab: " + pageAdapter.getPageTitle(position));
                 Bundle parameters = new Bundle();
                 parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.RESTO_MENU);
@@ -142,28 +151,28 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
         });
 
         // Make the tab layout from the main activity visible.
-        tabLayout = getActivity().findViewById(R.id.tab_layout);
+        tabLayout = requireActivity().findViewById(R.id.tab_layout);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setVisibility(View.VISIBLE);
 
-        bottomNavigation = getActivity().findViewById(R.id.bottom_navigation);
+        bottomNavigation = requireActivity().findViewById(R.id.bottom_navigation);
         bottomNavigation.setVisibility(View.VISIBLE);
         bottomNavigation.setOnNavigationItemSelectedListener(this);
 
-        spinnerProgress = getActivity().findViewById(R.id.spinner_progress);
+        spinnerProgress = requireActivity().findViewById(R.id.spinner_progress);
         spinnerProgress.setVisibility(View.VISIBLE);
-        spinner = getActivity().findViewById(R.id.spinner);
+        spinner = requireActivity().findViewById(R.id.spinner);
         spinner.setEnabled(false);
         spinner.setVisibility(View.VISIBLE);
-        restoAdapter = new ArrayAdapter<>(getBaseActivity().getToolbar().getThemedContext(), android.R.layout.simple_spinner_item);
-        restoAdapter.add(new RestoWrapper(getString(R.string.resto_spinner_loading)));
+        restoAdapter = new NoPaddingArrayAdapter<>(getBaseActivity().requireToolbar().getThemedContext(), R.layout.x_simple_title_spinner);
+        restoAdapter.add(new SelectedResto.Wrapper(getString(R.string.resto_spinner_loading)));
         restoAdapter.setDropDownViewResource(R.layout.x_simple_spinner_dropdown_item);
         spinner.setAdapter(restoAdapter);
 
         Bundle extras = getArguments();
         //Get the default start date
-        if (extras.containsKey(ARG_DATE)) {
+        if (extras != null && extras.containsKey(ARG_DATE)) {
             startDate = (LocalDate) extras.getSerializable(ARG_DATE);
         }
 
@@ -176,24 +185,15 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
         metaViewModel.getData().observe(this, SuccessObserver.with(this::receiveResto));
     }
 
-    private void receiveResto(@NonNull List<SelectableMetaRequest.RestoChoice> restos) {
-        // Find index of the currently selected.
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String selectedKey = preferences.getString(RestoPreferenceFragment.PREF_RESTO_KEY, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
-        String defaultName = getString(R.string.resto_default_name);
-        String selectedName = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, defaultName);
-        SelectableMetaRequest.RestoChoice selectedChoice = new SelectableMetaRequest.RestoChoice(selectedName, selectedKey);
-        int index = restos.indexOf(selectedChoice);
-        if (index == -1) {
-            // The key does not exist.
-            SelectableMetaRequest.RestoChoice defaultChoice = new SelectableMetaRequest.RestoChoice(RestoPreferenceFragment.PREF_DEFAULT_RESTO, defaultName);
-            index = restos.indexOf(defaultChoice);
-        }
+    private void receiveResto(@NonNull List<RestoChoice> restos) {
+        SelectedResto selectedResto = new SelectedResto(requireContext());
+        selectedResto.setData(restos);
+
         // Set the things.
-        List<RestoWrapper> wrappers = StreamSupport.stream(restos).map(RestoWrapper::new).collect(Collectors.toList());
+        List<SelectedResto.Wrapper> wrappers = selectedResto.getAsWrappers();
         restoAdapter.clear();
         restoAdapter.addAll(wrappers);
-        spinner.setSelection(index, false);
+        spinner.setSelection(selectedResto.getSelectedIndex(), false);
         spinner.setEnabled(true);
 
         spinnerProgress.setVisibility(View.GONE);
@@ -233,17 +233,22 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_resto, menu);
-        ((BaseActivity) getActivity()).tintToolbarIcons(menu, R.id.action_refresh);
+        requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_history);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_refresh:
+                Toast toast = Toast.makeText(getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT);
+                toast.show();
                 viewModel.onRefresh();
                 return true;
             case R.id.resto_show_website:
                 NetworkUtils.maybeLaunchBrowser(getContext(), URL);
+                return true;
+            case R.id.action_history:
+                startActivity(new Intent(getContext(), HistoryActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -254,8 +259,8 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         // Get the item we selected.
-        RestoWrapper wrapper = (RestoWrapper) parent.getItemAtPosition(position);
-        SelectableMetaRequest.RestoChoice resto = wrapper.resto;
+        SelectedResto.Wrapper wrapper = (SelectedResto.Wrapper) parent.getItemAtPosition(position);
+        RestoChoice resto = wrapper.resto;
 
         if (resto == null || resto.getEndpoint() == null) {
             // Do nothing, as this should not happen.
@@ -281,7 +286,7 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(getView(), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.again), v -> viewModel.onRefresh())
                 .show();
     }
@@ -321,48 +326,14 @@ public class RestoFragment extends Fragment implements AdapterView.OnItemSelecte
         hideExternalViews();
     }
 
-    private static class RestoWrapper {
-
-        private final SelectableMetaRequest.RestoChoice resto;
-        private final String string;
-
-        RestoWrapper(SelectableMetaRequest.RestoChoice resto) {
-            this.resto = resto;
-            this.string = null;
-        }
-
-        RestoWrapper(String string) {
-            this.resto = null;
-            this.string = string;
-        }
-
-        @Override
-        public String toString() {
-            return resto == null ? string : resto.getName();
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            RestoWrapper that = (RestoWrapper) o;
-            return Objects.equals(resto, that.resto) &&
-                    Objects.equals(string, that.string);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(resto, string);
-        }
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         tabLayout.setVisibility(View.GONE);
         spinner.setVisibility(View.GONE);
         spinnerProgress.setVisibility(View.GONE);
-        getBaseActivity().getToolbar().setDisplayShowTitleEnabled(true);
+        getBaseActivity().requireToolbar().setDisplayShowTitleEnabled(true);
+        spinner.setOnItemSelectedListener(null);
     }
 
     private void hideExternalViews() {

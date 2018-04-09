@@ -17,7 +17,6 @@ import android.util.Log;
 
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -223,18 +222,9 @@ public class LocalMigrationTestHelper extends TestWatcher {
         } catch (FileNotFoundException testAssetsIOExceptions) {
             Log.w(TAG, "Could not find the schema file in the test assets. Checking the"
                     + " application assets");
-            try {
-                // Try loading it from the resources.
-                return SchemaBundle.deserialize(new ClassPathResource(mAssetsFolder + "/" + version + ".json").getInputStream());
-            } catch (FileNotFoundException appAssetsException) {
-                // throw the test assets exception instead
-                throw new FileNotFoundException("Cannot find the schema file in the assets folder. "
-                        + "Make sure to include the exported json schemas in your test assert "
-                        + "inputs. See "
-                        + "https://developer.android.com/topic/libraries/architecture/"
-                        + "room.html#db-migration-testing for details. Missing file: "
-                        + testAssetsIOExceptions.getMessage());
-            }
+            // Try loading it from the resources.
+            InputStream stream = getClass().getClassLoader().getResourceAsStream(mAssetsFolder + "/" + version + ".json");
+            return SchemaBundle.deserialize(stream);
         }
     }
 

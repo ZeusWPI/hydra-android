@@ -50,14 +50,6 @@ public final class AgendaItem implements Serializable, Parcelable {
         return course;
     }
 
-    public String getCourseId() {
-        if (course == null) {
-            return null;
-        } else {
-            return course.getId();
-        }
-    }
-
     public void setCourse(Course course) {
         this.course = course;
     }

@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.cookpad.android.licensetools'
 
 android {
@@ -10,8 +9,8 @@ android {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 272
-        versionName "2.7.0"
+        versionCode 274
+        versionName "2.7.1"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -28,6 +27,8 @@ android {
         buildConfigField "boolean", "DEBUG_HOME_STREAM_STALL", props.getProperty('hydra.debug.home.stream.stall')
         buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", props.getProperty('hydra.debug.home.stream.sko')
         buildConfigField "boolean", "DEBUG_ENABLE_STRICT_MODE", props.getProperty('hydra.debug.strict_mode')
+        buildConfigField "boolean", "DEBUG_ENABLE_ALL_SPECIALS", props.getProperty('hydra.debug.home.stream.specials')
+        buildConfigField "boolean", "DEBUG_NETWORK_ENABLE_LOGS", props.getProperty('hydra.debug.network.logging')
 
         // used by Room, to test migrations
         javaCompileOptions {
@@ -63,7 +64,7 @@ android {
 
     testOptions {
         unitTests {
-        //    includeAndroidResources = true
+            includeAndroidResources = true
             returnDefaultValues = true
         }
         unitTests.all {
@@ -97,104 +98,105 @@ project.afterEvaluate {
 }
 
 //The support library version
-final SUPPORT_LIBRARY_VERSION = '27.0.2'
+final SUPPORT_LIBRARY_VERSION = '27.1.0'
 final GMS_VERSION = '11.8.0'
 final AAC_VERSION = '1.1.0'
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:support-v13:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:support-v13:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:preference-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:support-v13:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:support-v13:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:preference-v7:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
+    implementation "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
 
     // Android Architecture Components
-    compile "android.arch.lifecycle:extensions:$AAC_VERSION"
+    implementation "android.arch.lifecycle:extensions:$AAC_VERSION"
     annotationProcessor "android.arch.lifecycle:compiler:$AAC_VERSION"
-    testCompile("android.arch.core:core-testing:$AAC_VERSION") {
+    testImplementation("android.arch.core:core-testing:$AAC_VERSION") {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-core-utils'
     }
 
-    compile "android.arch.persistence.room:runtime:1.0.0"
+    implementation "android.arch.persistence.room:runtime:1.0.0"
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
-    testCompile("android.arch.persistence.room:testing:1.0.0") {
-        exclude group: 'com.google.code.gson', module: 'gson'
+    testImplementation("android.arch.persistence.room:testing:1.0.0") {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-core-utils'
     }
 
     // Mappers
-    compile 'org.mapstruct:mapstruct:1.2.0.Final'
+    implementation 'org.mapstruct:mapstruct:1.2.0.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.2.0.Final'
 
-    compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
-    compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
-    compile 'com.google.code.gson:gson:2.8.2'
-    compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
-    compile 'com.jakewharton.threetenabp:threetenabp:1.0.5'
-    compile 'net.sourceforge.streamsupport:streamsupport:1.6.0'
-    compile 'com.github.streamsupport.streamsupport:streamsupport-pro:-SNAPSHOT'
-    compile 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
-    compile 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
-    compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
-    compile 'com.heinrichreimersoftware:material-intro:1.6.2'
-    compile 'su.j2e:rv-joiner:1.0.9'
-    compile 'com.jonathanfinerty.once:once:1.2.2'
-    compile 'com.karumi:dexter:4.2.0'
-    compile 'com.github.captain-miao:optroundcardview:1.1.0'
-    compile 'blue.aodev:material-values:1.1.1'
+    // Network stack
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    implementation 'com.squareup.moshi:moshi:1.5.0'
+
+    implementation 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.0.5'
+    implementation 'net.sourceforge.streamsupport:streamsupport:1.6.0'
+    implementation 'com.github.streamsupport.streamsupport:streamsupport-pro:-SNAPSHOT'
+    implementation 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
+    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+    implementation 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
+    implementation 'com.heinrichreimersoftware:material-intro:1.6.2'
+    implementation 'su.j2e:rv-joiner:1.0.9'
+    implementation 'com.jonathanfinerty.once:once:1.2.2'
+    implementation 'com.karumi:dexter:4.2.0'
+    implementation 'com.github.captain-miao:optroundcardview:1.1.0'
+    implementation 'blue.aodev:material-values:1.1.1'
 
     // Used for the OAuth stuff
     compile('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
         exclude group: 'org.apache.oltu.oauth2'
     }
 
-    compile "com.google.android.gms:play-services-analytics:$GMS_VERSION"
-    compile "com.google.android.gms:play-services-maps:$GMS_VERSION"
-    compile "com.google.android.gms:play-services-auth:$GMS_VERSION"
+    implementation "com.google.android.gms:play-services-analytics:$GMS_VERSION"
+    implementation "com.google.android.gms:play-services-maps:$GMS_VERSION"
+    implementation "com.google.android.gms:play-services-auth:$GMS_VERSION"
 
-    compile "com.google.firebase:firebase-core:$GMS_VERSION"
+    implementation "com.google.firebase:firebase-core:$GMS_VERSION"
 
-    testCompile project(':firebasenoop')
-    debugCompile project(':firebasenoop')
-    releaseCompile "com.google.firebase:firebase-crash:$GMS_VERSION"
+    testImplementation project(':firebasenoop')
+    debugImplementation project(':firebasenoop')
+    releaseImplementation "com.google.firebase:firebase-crash:$GMS_VERSION"
 
-    compile "com.google.firebase:firebase-messaging:$GMS_VERSION"
+    implementation "com.google.firebase:firebase-messaging:$GMS_VERSION"
 
     //Test code
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.13.0'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.13.0'
 
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
     //Enable the normal library for unit tests
-    testCompile('org.threeten:threetenbp:1.3.6') {
+    testImplementation('org.threeten:threetenbp:1.3.6') {
         exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
     }
 
-    testCompile 'nl.jqno.equalsverifier:equalsverifier:2.4.3'
-    testCompile('com.shazam:shazamcrest:0.11') {
-        exclude group: 'com.google.code.gson', module: 'gson'
-    }
-    testCompile 'io.github.benas:random-beans:3.7.0'
-    testCompile 'org.apache.commons:commons-lang3:3.7'
-    testCompile 'org.hamcrest:hamcrest-core:1.3'
-    testCompile 'com.googlecode:openbeans:1.0'
-    testCompile 'org.robolectric:robolectric:3.6.1'
-    testCompile('org.springframework:spring-test:3.2.18.RELEASE') {
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.10.0'
+    testImplementation 'nl.jqno.equalsverifier:equalsverifier:2.4.3'
+    testImplementation 'com.shazam:shazamcrest:0.11'
+    testImplementation 'org.skyscreamer:jsonassert:1.5.0'
+    testImplementation 'io.github.benas:random-beans:3.7.0'
+    testImplementation 'org.apache.commons:commons-lang3:3.7'
+    testImplementation 'org.hamcrest:hamcrest-core:1.3'
+    testImplementation 'com.googlecode:openbeans:1.0'
+    testImplementation 'org.robolectric:robolectric:3.8'
+    testImplementation('org.springframework:spring-test:3.2.18.RELEASE') {
         exclude module: 'spring-core'
     }
-    testCompile 'commons-validator:commons-validator:1.6'
+    testImplementation 'commons-validator:commons-validator:1.6'
 }
 
 apply plugin: 'com.google.gms.google-services'
@@ -230,7 +232,7 @@ def loadProperties() {
     if (actualKeyFile.exists()) {
         actualKeys.load(actualKeyFile.newReader())
     } else {
-        logger.warn("A secrets.properties file was not found. Minerva and other API's will not work.")
+        logger.warn("A secrets.properties file was not found. Minerva and other APIs will not work.")
     }
 
     return actualKeys

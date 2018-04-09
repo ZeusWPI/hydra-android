@@ -5,6 +5,7 @@ import org.threeten.bp.Instant;
 import org.threeten.bp.OffsetDateTime;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author Niko Strijbol
@@ -20,7 +21,7 @@ public class DateTypeConvertersTest {
 
     @Test
     public void toOffsetDateTimeNull() {
-        assertEquals(null, DateTypeConverters.fromOffsetDateTime(null));
+        assertNull(DateTypeConverters.fromOffsetDateTime(null));
     }
 
     @Test
@@ -32,7 +33,7 @@ public class DateTypeConvertersTest {
 
     @Test
     public void fromOffsetDateTimeNull() {
-        assertEquals(null, DateTypeConverters.toOffsetDateTime(null));
+        assertNull(DateTypeConverters.toOffsetDateTime(null));
     }
 
     @Test
@@ -43,7 +44,7 @@ public class DateTypeConvertersTest {
 
     @Test
     public void fromInstantNull() {
-        assertEquals(null, DateTypeConverters.fromInstant(null));
+        assertNull(DateTypeConverters.fromInstant(null));
     }
 
     @Test
@@ -54,6 +55,6 @@ public class DateTypeConvertersTest {
 
     @Test
     public void toInstantNull() {
-        assertEquals(null, DateTypeConverters.toInstant(null));
+        assertNull(DateTypeConverters.toInstant(null));
     }
 }

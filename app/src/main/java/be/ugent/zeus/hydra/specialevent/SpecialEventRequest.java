@@ -1,27 +1,21 @@
 package be.ugent.zeus.hydra.specialevent;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.common.caching.Cache;
 import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.common.request.CacheableRequest;
+import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
+import org.threeten.bp.Duration;
 
 /**
  * Request to get special events (such as the 12urenloop).
  *
  * @author feliciaan
  */
-public class SpecialEventRequest extends JsonSpringRequest<SpecialEventWrapper> implements CacheableRequest<SpecialEventWrapper> {
+public class SpecialEventRequest extends JsonOkHttpRequest<SpecialEventWrapper> {
 
-    public SpecialEventRequest() {
-        super(SpecialEventWrapper.class);
-    }
-
-    @NonNull
-    @Override
-    public String getCacheKey() {
-        return "specialEvents.json";
+    public SpecialEventRequest(Context context) {
+        super(context, SpecialEventWrapper.class);
     }
 
     @NonNull
@@ -31,7 +25,7 @@ public class SpecialEventRequest extends JsonSpringRequest<SpecialEventWrapper> 
     }
 
     @Override
-    public long getCacheDuration() {
-        return Cache.ONE_DAY;
+    public Duration getCacheDuration() {
+        return Duration.ofDays(1);
     }
 }

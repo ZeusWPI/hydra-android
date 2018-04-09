@@ -2,7 +2,8 @@ package be.ugent.zeus.hydra.resto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.google.gson.annotations.SerializedName;
+
+import com.squareup.moshi.Json;
 import java8.util.Objects;
 
 import java.io.Serializable;
@@ -19,6 +20,9 @@ public final class RestoMeal implements Parcelable, Serializable {
     private String price;
     private MealType type;
     private String kind;
+
+    @SuppressWarnings("unused") // Moshi uses this.
+    public RestoMeal() {}
 
     public String getName() {
         return name;
@@ -53,9 +57,9 @@ public final class RestoMeal implements Parcelable, Serializable {
     }
 
     public enum MealType {
-        @SerializedName("main")
+        @Json(name = "main")
         MAIN,
-        @SerializedName("side")
+        @Json(name = "side")
         SIDE
     }
 

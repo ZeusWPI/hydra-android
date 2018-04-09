@@ -5,19 +5,19 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import android.support.annotation.VisibleForTesting;
 import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.common.request.Request;
+import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.feed.HideableHomeFeedRequest;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardRepository;
-import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Requests;
-import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.specialevent.SpecialEventRequest;
 import be.ugent.zeus.hydra.specialevent.SpecialEventWrapper;
-import be.ugent.zeus.hydra.feed.HideableHomeFeedRequest;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +33,13 @@ public class LimitingSpecialEventRequest extends HideableHomeFeedRequest {
 
     public LimitingSpecialEventRequest(Context context, CardRepository cardRepository) {
         super(cardRepository);
-        this.remoteEventRequest = Requests.cache(context, new SpecialEventRequest());
+        this.remoteEventRequest = new SpecialEventRequest(context);
     }
 
     @NonNull
     @Override
     protected Result<Stream<Card>> performRequestCards(@Nullable Bundle args) {
-        ZonedDateTime now = ZonedDateTime.now();
+        OffsetDateTime now = OffsetDateTime.now();
         return remoteEventRequest.performRequest(args).map(specialEventWrapper -> {
             List<Card> list = new ArrayList<>();
 
@@ -53,7 +53,8 @@ public class LimitingSpecialEventRequest extends HideableHomeFeedRequest {
             for (SpecialEvent event : specialEvents) {
                 if ((event.getStart() == null && event.getEnd() == null)
                         || (event.getStart().isBefore(now) && event.getEnd().isAfter(now))
-                        || (BuildConfig.DEBUG && event.isDevelopment())) {
+                        || (BuildConfig.DEBUG && event.isDevelopment())
+                        || (BuildConfig.DEBUG && BuildConfig.DEBUG_ENABLE_ALL_SPECIALS)) {
                     list.add(new SpecialEventCard(event));
                 }
             }

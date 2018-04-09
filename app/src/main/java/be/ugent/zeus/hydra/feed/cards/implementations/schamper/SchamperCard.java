@@ -1,10 +1,10 @@
 package be.ugent.zeus.hydra.feed.cards.implementations.schamper;
 
 import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.schamper.Article;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
+import be.ugent.zeus.hydra.schamper.Article;
 import org.threeten.bp.Duration;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import static be.ugent.zeus.hydra.feed.cards.Card.Type.SCHAMPER;
 
@@ -28,8 +28,8 @@ class SchamperCard extends Card {
 
     @Override
     public int getPriority() {
-        ZonedDateTime date = article.getPubDate();
-        Duration duration = Duration.between(date, ZonedDateTime.now());
+        OffsetDateTime date = article.getPubDate();
+        Duration duration = Duration.between(date, OffsetDateTime.now());
         // We only show the last month of schamper articles.
         return PriorityUtils.lerp((int) duration.toDays(), 0, 30);
     }

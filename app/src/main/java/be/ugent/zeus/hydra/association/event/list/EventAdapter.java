@@ -1,16 +1,12 @@
 package be.ugent.zeus.hydra.association.event.list;
 
-import android.text.TextUtils;
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.GenericSearchableAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
 
 /**
  * Adapter for the list of activities.
@@ -18,39 +14,17 @@ import java8.util.stream.StreamSupport;
  * @author ellen
  * @author Niko Strijbol
  */
-class EventAdapter extends GenericSearchableAdapter<EventItem, DataViewHolder<EventItem>, Event> {
+class EventAdapter extends SearchableAdapter<EventItem, DataViewHolder<EventItem>> {
 
     private final int HEADER_TYPE = 25;
 
     EventAdapter() {
-        super((event, s) -> {
-                    if (!TextUtils.isEmpty(event.getTitle()) && event.getTitle().toLowerCase().contains(s)) {
-                        return true;
-                    }
-                    if (event.getAssociation() != null) {
-                        Association association = event.getAssociation();
-                        if (!TextUtils.isEmpty(association.getDisplayName()) && association.getDisplayName().toLowerCase().contains(s)) {
-                            return true;
-                        }
-                        if (!TextUtils.isEmpty(association.getFullName()) && association.getFullName().toLowerCase().contains(s)) {
-                            return true;
-                        }
-                        if (association.getInternalName().contains(s)) {
-                            return true;
-                        }
-                    }
-                    return false;
-                },
-                eventItems -> StreamSupport.stream(eventItems)
-                        .filter(EventItem::isItem)
-                        .map(EventItem::getItem)
-                        .collect(Collectors.toList()),
-                new EventItem.Converter()
-        );
+        super(new EventSearchPredicate(), new EventSearchFilter());
     }
 
+    @NonNull
     @Override
-    public DataViewHolder<EventItem> onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DataViewHolder<EventItem> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == HEADER_TYPE) {
             return new DateHeaderViewHolder(ViewUtils.inflate(parent, R.layout.item_event_date_header));
         } else {
@@ -60,7 +34,7 @@ class EventAdapter extends GenericSearchableAdapter<EventItem, DataViewHolder<Ev
 
     @Override
     public int getItemViewType(int position) {
-        if (items.get(position).isHeader()) {
+        if (getItem(position).isHeader()) {
             return HEADER_TYPE;
         } else {
             return super.getItemViewType(position);

@@ -8,11 +8,11 @@ import android.content.SyncResult;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.util.Log;
-import be.ugent.zeus.hydra.minerva.account.AuthenticatorActionException;
+
 import be.ugent.zeus.hydra.common.network.IOFailureException;
-import be.ugent.zeus.hydra.minerva.common.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.common.request.RequestException;
-import org.springframework.http.converter.HttpMessageNotReadableException;
+import be.ugent.zeus.hydra.minerva.common.AuthException;
+import be.ugent.zeus.hydra.minerva.common.sync.SyncBroadcast;
 
 /**
  * Abstract adapter that supports broadcasts and syncing the courses.
@@ -72,7 +72,7 @@ public abstract class AbstractAdapter extends AbstractThreadedSyncAdapter {
             Log.i(TAG, "IO error while syncing.", e);
             syncResult.stats.numIoExceptions++;
             broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
-        } catch (AuthenticatorActionException e) {
+        } catch (AuthException e) {
             Log.w(TAG, "Auth exception while syncing.", e);
             syncResult.stats.numAuthExceptions++;
             broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
@@ -84,10 +84,6 @@ public abstract class AbstractAdapter extends AbstractThreadedSyncAdapter {
         } catch (SQLException e) {
             Log.e(TAG, "Exception during sync:", e);
             syncResult.databaseError = true;
-            broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
-        } catch (HttpMessageNotReadableException e) {
-            Log.e(TAG, "Exception during sync:", e);
-            syncResult.stats.numParseExceptions++;
             broadcast.publishIntent(SyncBroadcast.SYNC_ERROR);
         }
     }

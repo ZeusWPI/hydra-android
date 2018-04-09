@@ -6,14 +6,30 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- Account & sync permissions -->
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+
+    <!-- Account permissions -->
+    <!-- No longer exists on API 23 and up -->
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <!-- We use our own account, so we no longer need this on higher API levels -->
+    <uses-permission
+        android:name="android.permission.GET_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <!-- No longer exists on API 23 and up -->
+    <uses-permission
+        android:name="android.permission.MANAGE_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <!-- No longer exists on API 23 and up -->
+    <uses-permission
+        android:name="android.permission.USE_CREDENTIALS"
+        android:maxSdkVersion="22" />
+
+    <!-- Sync permissions -->
     <uses-permission android:name="android.permission.READ_SYNC_STATS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+
     <!-- Urgent stuff -->
     <permission android:name="android.permission.WAKE_LOCK" />
     <permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
@@ -50,6 +66,7 @@
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -66,6 +83,7 @@
             android:theme="@style/Hydra.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -95,7 +113,7 @@
 
         <!-- Show a map of resto's -->
         <activity
-            android:name=".resto.locations.RestoLocationActivity"
+            android:name=".resto.meta.RestoLocationActivity"
             android:label="@string/title_activity_resto_location"
             android:parentActivityName=".MainActivity" />
 
@@ -107,14 +125,14 @@
 
         <!-- Details about association events. -->
         <activity
-            android:name=".association.event.EventDetailActivity"
+            android:name=".association.event.EventDetailsActivity"
             android:label="@string/title_activity_association_activity_detail"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity" />
 
         <!-- Show info items -->
         <activity
-            android:name=".info.list.InfoSubItemActivity"
+            android:name=".info.InfoSubItemActivity"
             android:label="@string/title_activity_info_sub_item"
             android:parentActivityName=".MainActivity" />
 
@@ -150,6 +168,12 @@
             android:name=".minerva.announcement.SingleAnnouncementActivity"
             android:label="@string/title_announcement_title"
             android:parentActivityName=".minerva.course.singlecourse.CourseActivity" />
+
+        <activity
+            android:name=".resto.history.HistoryActivity"
+            android:label="Historische menu"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity" />
 
         <!-- Show a Minerva agenda item -->
         <activity
@@ -278,7 +302,9 @@
             </intent-filter>
         </receiver>
         <!-- The accompanying service -->
-        <service android:name=".minerva.account.AccountTransferService" android:exported="false" />
+        <service
+            android:name=".minerva.account.AccountTransferService"
+            android:exported="false" />
 
         <!-- Urgent stuff -->
         <service
@@ -296,4 +322,5 @@
             </intent-filter>
         </receiver>
     </application>
+
 </manifest>

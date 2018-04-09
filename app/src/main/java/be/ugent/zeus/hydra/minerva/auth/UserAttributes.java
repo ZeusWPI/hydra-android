@@ -20,7 +20,7 @@
  */
 package be.ugent.zeus.hydra.minerva.auth;
 
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 import java.util.List;
 
@@ -30,46 +30,51 @@ import java.util.List;
  * @author Niko Strijbol
  * @author UGent
  */
-@SuppressWarnings("unused")
 final class UserAttributes {
 
-    @SerializedName("mail")
+    @Json(name = "mail")
     private List<String> email;
 
-    @SuppressWarnings("SpellCheckingInspection")
-    @SerializedName("jobcategory")
-    private List<String> jobCategory;
+    @Json(name = "objectClass")
+    private List<String> userClass;
 
-    @SuppressWarnings("SpellCheckingInspection")
-    @SerializedName("givenname")
+    @Json(name = "givenname")
     private List<String> givenName;
 
-    @SerializedName("surname")
-    private List<String> surName;
+    private List<String> surname;
 
     private List<String> uid;
 
+    private List<String> ugentStudentID;
+
+    @Json(name = "lastenrolled")
+    private List<String> lastEnrolled;
+
     public String getFullName() {
-        return givenName + " " + surName;
+        return givenName + " " + surname;
     }
 
     public List<String> getEmail() {
         return email;
     }
 
-    public List<String> getJobCategory() {
-        return jobCategory;
+    public List<String> getUserClass() {
+        return userClass;
     }
 
     public List<String> getGivenName() {
         return givenName;
     }
 
-    public List<String> getSurName() {
-        return surName;
+    public List<String> getSurname() {
+        return surname;
     }
 
     public List<String> getUid() {
         return uid;
+    }
+
+    public List<String> getUgentStudentID() {
+        return ugentStudentID;
     }
 }

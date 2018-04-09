@@ -1,40 +1,36 @@
 package be.ugent.zeus.hydra.association.news;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.common.caching.Cache;
 import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
-import be.ugent.zeus.hydra.common.request.CacheableRequest;
+import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
 import be.ugent.zeus.hydra.common.request.Result;
 import java8.util.Comparators;
+import org.threeten.bp.Duration;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Request to get UGent news.
  *
  * @author feliciaan
  */
-public class UgentNewsRequest extends JsonSpringRequest<UgentNewsItem[]> implements CacheableRequest<UgentNewsItem[]> {
+public class UgentNewsRequest extends JsonArrayRequest<UgentNewsItem> {
 
-    public UgentNewsRequest() {
-        super(UgentNewsItem[].class);
+    public UgentNewsRequest(Context context) {
+        super(context, UgentNewsItem.class);
     }
 
     @NonNull
     @Override
-    public Result<UgentNewsItem[]> performRequest(Bundle args) {
+    public Result<List<UgentNewsItem>> performRequest(Bundle args) {
         return super.performRequest(args).map(ugentNewsItems -> {
-            Arrays.sort(ugentNewsItems, Comparators.reversed(Comparators.comparing(UgentNewsItem::getModified)));
+            Collections.sort(ugentNewsItems, Comparators.reversed(Comparators.comparing(UgentNewsItem::getModified)));
             return ugentNewsItems;
         });
-    }
-
-    @NonNull
-    public String getCacheKey() {
-        return "ugent_association_news";
     }
 
     @NonNull
@@ -44,7 +40,7 @@ public class UgentNewsRequest extends JsonSpringRequest<UgentNewsItem[]> impleme
     }
 
     @Override
-    public long getCacheDuration() {
-        return Cache.ONE_DAY;
+    public Duration getCacheDuration() {
+        return Duration.ofDays(1);
     }
 }

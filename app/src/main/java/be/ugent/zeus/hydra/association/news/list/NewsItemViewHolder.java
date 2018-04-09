@@ -5,11 +5,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.association.news.NewsArticleActivity;
 import be.ugent.zeus.hydra.association.news.UgentNewsItem;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
-import be.ugent.zeus.hydra.association.news.NewsArticleActivity;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
@@ -40,8 +40,18 @@ class NewsItemViewHolder extends DataViewHolder<UgentNewsItem> {
 
         String author = newsItem.getCreators().isEmpty() ? "" : newsItem.getCreators().iterator().next();
 
+        CharSequence dateString;
+        if (newsItem.getCreated().toLocalDate().isEqual(newsItem.getModified().toLocalDate())) {
+            dateString = DateUtils.relativeDateTimeString(newsItem.getCreated(), itemView.getContext());
+        } else {
+            dateString = itemView.getContext().getString(R.string.article_date_changed,
+                    DateUtils.relativeDateTimeString(newsItem.getCreated(), itemView.getContext(), true),
+                    DateUtils.relativeDateTimeString(newsItem.getModified(), itemView.getContext(), true)
+            );
+        }
+
         String infoText = itemView.getContext().getString(R.string.agenda_subtitle,
-                DateUtils.relativeDateTimeString(newsItem.getCreated(), itemView.getContext()),
+                dateString,
                 author);
         info.setText(infoText);
 

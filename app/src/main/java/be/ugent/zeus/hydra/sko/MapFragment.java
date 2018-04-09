@@ -43,7 +43,7 @@ public class MapFragment extends Fragment {
         webView.getSettings().setDisplayZoomControls(false);
         webView.getSettings().setSupportZoom(true);
         webView.setWebViewClient(new WebViewClient() {
-            public void onPageFinished(WebView view, String url) {
+            public void onPageFinished(WebView webView1, String url) {
                 progressBar.setVisibility(View.GONE);
             }
         });

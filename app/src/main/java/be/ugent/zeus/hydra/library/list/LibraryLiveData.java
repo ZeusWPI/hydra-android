@@ -5,10 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Requests;
+import be.ugent.zeus.hydra.library.Library;
 import java8.lang.Iterables;
 import java8.util.Comparators;
 import java8.util.Lists;
@@ -63,10 +62,9 @@ class LibraryLiveData extends RequestLiveData<List<Library>> implements SharedPr
      */
     private static Request<List<Library>> makeRequest(Context context) {
 
-        Request<LibraryList> cached = Requests.cache(context, new LibraryListRequest());
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        return Requests.map(cached, libraryList -> {
+        return new LibraryListRequest(context).map(libraryList -> {
             Set<String> favourites = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
 
             List<Library> libraries = libraryList.getLibraries();

@@ -7,12 +7,10 @@ import android.os.Parcelable;
 import android.provider.CalendarContract;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import com.google.gson.annotations.JsonAdapter;
 import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import java.io.Serializable;
@@ -29,14 +27,13 @@ public final class Artist implements Serializable, Parcelable {
     private static final String LOCATION = "Sint-Pietersplein, Gent";
 
     private String name;
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime start;
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime end;
+    private OffsetDateTime start;
+    private OffsetDateTime end;
     private String banner;
     private String image;
     private String content;
     private String stage;
+    private String link;
 
     /**
      * @return The name of the act.
@@ -48,14 +45,14 @@ public final class Artist implements Serializable, Parcelable {
     /**
      * @return The start date, with time zone information.
      */
-    public ZonedDateTime getStart() {
+    public OffsetDateTime getStart() {
         return start;
     }
 
     /**
      * @return The end date, with time zone information.
      */
-    public ZonedDateTime getEnd() {
+    public OffsetDateTime getEnd() {
         return end;
     }
 
@@ -99,43 +96,9 @@ public final class Artist implements Serializable, Parcelable {
         return stage;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getLink() {
+        return link;
     }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.name);
-        dest.writeSerializable(this.start);
-        dest.writeSerializable(this.end);
-        dest.writeString(this.banner);
-        dest.writeString(this.image);
-        dest.writeString(this.content);
-        dest.writeString(this.stage);
-    }
-
-    private Artist(Parcel in) {
-        this.name = in.readString();
-        this.start = (ZonedDateTime) in.readSerializable();
-        this.end = (ZonedDateTime) in.readSerializable();
-        this.banner = in.readString();
-        this.image = in.readString();
-        this.content = in.readString();
-        this.stage = in.readString();
-    }
-
-    public static final Parcelable.Creator<Artist> CREATOR = new Parcelable.Creator<Artist>() {
-        @Override
-        public Artist createFromParcel(Parcel source) {
-            return new Artist(source);
-        }
-
-        @Override
-        public Artist[] newArray(int size) {
-            return new Artist[size];
-        }
-    };
 
     /**
      * Get the display date. The resulting string is of the following format:
@@ -192,4 +155,44 @@ public final class Artist implements Serializable, Parcelable {
     public int hashCode() {
         return Objects.hash(name, start, end, stage);
     }
+
+    protected Artist(Parcel in) {
+        name = in.readString();
+        banner = in.readString();
+        image = in.readString();
+        content = in.readString();
+        stage = in.readString();
+        link = in.readString();
+        start = (OffsetDateTime) in.readSerializable();
+        end = (OffsetDateTime) in.readSerializable();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(banner);
+        dest.writeString(image);
+        dest.writeString(content);
+        dest.writeString(stage);
+        dest.writeString(link);
+        dest.writeSerializable(start);
+        dest.writeSerializable(end);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Artist> CREATOR = new Creator<Artist>() {
+        @Override
+        public Artist createFromParcel(Parcel in) {
+            return new Artist(in);
+        }
+
+        @Override
+        public Artist[] newArray(int size) {
+            return new Artist[size];
+        }
+    };
 }

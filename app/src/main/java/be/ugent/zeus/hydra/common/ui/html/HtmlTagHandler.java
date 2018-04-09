@@ -1,4 +1,3 @@
-package be.ugent.zeus.hydra.common.ui.html;
 /*
  * Copyright (C) 2016 Niko Strijbol
  * Copyright (C) 2013-2014 Dominik Schürmann <dominik@dominikschuermann.de>
@@ -16,6 +15,7 @@ package be.ugent.zeus.hydra.common.ui.html;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package be.ugent.zeus.hydra.common.ui.html;
 
 import android.support.annotation.Nullable;
 import android.text.Editable;

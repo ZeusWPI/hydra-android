@@ -4,10 +4,10 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.minerva.AbstractDaoTest;
-import be.ugent.zeus.hydra.minerva.course.database.CourseDao;
-import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.util.Pair;
 
 import java.util.Comparator;
@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
  * @author Niko Strijbol
  */
 @RequiresApi(api = 26)
+@RunWith(RobolectricTestRunner.class)
 public class CourseDaoTest extends AbstractDaoTest {
 
     private CourseDao dao;

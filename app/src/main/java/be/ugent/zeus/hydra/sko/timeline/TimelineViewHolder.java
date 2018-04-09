@@ -19,13 +19,13 @@ import com.squareup.picasso.Picasso;
  */
 class TimelineViewHolder extends DataViewHolder<TimelinePost> {
 
-    private TimelineAdapter adapter;
+    private final TimelineAdapter adapter;
 
-    private ImageView poster;
-    private TextView title;
-    private TextView subtitle;
-    private TextView body;
-    private NowToolbar toolbar;
+    private final ImageView poster;
+    private final TextView title;
+    private final TextView subtitle;
+    private final TextView body;
+    private final NowToolbar toolbar;
 
     TimelineViewHolder(View itemView, TimelineAdapter adapter) {
         super(itemView);

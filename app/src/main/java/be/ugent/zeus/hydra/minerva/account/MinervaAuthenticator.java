@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.Log;
-import be.ugent.zeus.hydra.minerva.auth.oauth.BearerToken;
-import be.ugent.zeus.hydra.common.request.Request;
+
 import be.ugent.zeus.hydra.common.network.IOFailureException;
+import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.minerva.auth.AuthActivity;
+import be.ugent.zeus.hydra.minerva.auth.oauth.BearerToken;
 import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * Authenticator to save Minerva account details in the AccountManager. Minerva uses OAuth2 authentication with
@@ -48,9 +48,6 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
     private static final String TAG = MinervaAuthenticator.class.getSimpleName();
 
     public static final String EXP_DATE = "expDate";
-    private static final String EXP_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(EXP_DATE_FORMAT);
 
     private Context mContext;
     private AccountManager manager;
@@ -67,7 +64,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
     }
 
     @Override
-    public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options) throws NetworkErrorException {
+    public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options) {
         final Intent intent = new Intent(mContext, AuthActivity.class);
         intent.putExtra(AuthActivity.ARG_ACCOUNT_TYPE, accountType);
         intent.putExtra(AuthActivity.ARG_AUTH_TYPE, authTokenType);
@@ -83,7 +80,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
     }
 
     @Override
-    public Bundle confirmCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, Bundle bundle) throws NetworkErrorException {
+    public Bundle confirmCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, Bundle bundle) {
         throw new UnsupportedOperationException();
     }
 
@@ -99,7 +96,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
 
         //Check the expiration date
         if(!TextUtils.isEmpty(accessToken)) {
-            LocalDateTime expires = LocalDateTime.parse(manager.getUserData(account, EXP_DATE), formatter);
+            LocalDateTime expires = AccountUtils.getExpirationDate(manager, account);
             LocalDateTime now = LocalDateTime.now();
 
             //The token is invalid, so get get new one.
@@ -167,7 +164,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
             }
 
             LocalDateTime expiration = LocalDateTime.now().plusSeconds(token.getExpiresIn());
-            manager.setUserData(account, EXP_DATE, expiration.format(formatter));
+            AccountUtils.setExpirationDate(manager, account, expiration);
 
             return token.getAccessToken();
         } catch (IOFailureException e) {
@@ -186,12 +183,12 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
     }
 
     @Override
-    public Bundle updateCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String s, Bundle bundle) throws NetworkErrorException {
+    public Bundle updateCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String s, Bundle bundle) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Bundle hasFeatures(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String[] strings) throws NetworkErrorException {
+    public Bundle hasFeatures(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, String[] strings) {
         // We don't support features in Hydra.
         Bundle result = new Bundle();
         result.putBoolean(AccountManager.KEY_BOOLEAN_RESULT, false);

@@ -1,9 +1,7 @@
 package be.ugent.zeus.hydra.minerva.calendar.sync;
 
 
-import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 import org.threeten.bp.OffsetDateTime;
 
 /**
@@ -14,25 +12,22 @@ import org.threeten.bp.OffsetDateTime;
  * @author Niko Strijbol
  */
 final class ApiCalendarItem {
-    @SerializedName("item_id")
+    @Json(name = "item_id")
     public int id;
     public String title;
     public String content;
-    @SerializedName("start_date")
-    @JsonAdapter(DateTypeConverters.GsonOffset.class)
+    @Json(name = "start_date")
     public OffsetDateTime startDate;
-    @SerializedName("end_date")
-    @JsonAdapter(DateTypeConverters.GsonOffset.class)
+    @Json(name = "end_date")
     public OffsetDateTime endDate;
     public String location;
     public String type;
-    @SerializedName("last_edit_user")
+    @Json(name = "last_edit_user")
     public String lastEditedUser;
-    @SerializedName("last_edit_time")
-    @JsonAdapter(DateTypeConverters.GsonOffset.class)
+    @Json(name = "last_edit_time")
     public OffsetDateTime lastEditDate;
-    @SerializedName("last_edit_type")
+    @Json(name = "last_edit_type")
     public String lastEditType;
-    @SerializedName("course_id")
+    @Json(name = "course_id")
     public String courseId;
 }

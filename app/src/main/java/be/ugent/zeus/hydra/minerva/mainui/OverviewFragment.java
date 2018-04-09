@@ -78,7 +78,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
         manager = AccountManager.get(getContext());
         authWrapper = view.findViewById(R.id.auth_wrapper);
         viewPager = view.findViewById(R.id.pager);
-        tabLayout = getActivity().findViewById(R.id.tab_layout);
+        tabLayout = requireActivity().findViewById(R.id.tab_layout);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
     }
 
@@ -96,7 +96,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
 
             @Override
             public void onPageSelected(int position) {
-                getActivity().invalidateOptionsMenu();
+                requireActivity().invalidateOptionsMenu();
             }
 
             @Override
@@ -116,7 +116,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
                     Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
                     onAccountAdded();
                 } catch (OperationCanceledException e) {
-                    Toast.makeText(getContext().getApplicationContext(), R.string.minerva_no_permission, Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireContext(), R.string.minerva_no_permission, Toast.LENGTH_LONG).show();
                 } catch (IOException | AuthenticatorException e) {
                     Log.w(TAG, "Account not added.", e);
                 }
@@ -138,7 +138,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
         //Get an account
         Account account = AccountUtils.getAccount(getContext());
 
-        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(requireContext());
         analytics.logEvent(FirebaseAnalytics.Event.LOGIN,  null);
 
         //Request first sync
@@ -195,7 +195,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
         Toast.makeText(getContext(), "Logging out...", Toast.LENGTH_SHORT).show();
         manager.removeAccount(a, accountManagerFuture -> {
             // Delete any notifications that could be present.
-            NotificationHelper.cancelAll(getContext());
+            NotificationHelper.cancelAll(requireContext());
             //Delete items
             if (minervaPagerAdapter != null) {
                 minervaPagerAdapter.setLoggedIn(false);
@@ -210,7 +210,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
             //Delete database
             clearDatabase();
             //Reload options
-            getActivity().invalidateOptionsMenu();
+            requireActivity().invalidateOptionsMenu();
         }, null);
     }
 
@@ -226,14 +226,14 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
     @Override
     public void onResume() {
         super.onResume();
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(requireContext());
         manager.registerReceiver(syncReceiver, SyncBroadcast.getBroadcastFilter());
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(requireContext());
         manager.unregisterReceiver(syncReceiver);
         if (syncBar != null && syncBar.isShown()) {
             syncBar.dismiss();
@@ -242,7 +242,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
     }
 
     //This will only be called if manually set to send broadcasts.
-    private BroadcastReceiver syncReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver syncReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             assert getView() != null;

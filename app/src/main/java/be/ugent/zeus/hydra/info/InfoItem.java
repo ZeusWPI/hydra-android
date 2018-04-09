@@ -2,11 +2,12 @@ package be.ugent.zeus.hydra.info;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.google.gson.annotations.SerializedName;
+
+import com.squareup.moshi.Json;
 import java8.util.Objects;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An info item.
@@ -20,10 +21,10 @@ public final class InfoItem implements Parcelable, Serializable {
     private String image;
     private String html;
     private String url;
-    @SerializedName("url-android")
+    @Json(name = "url-android")
     private String urlAndroid;
-    @SerializedName("subcontent")
-    private ArrayList<InfoItem> subContent;
+    @Json(name = "subcontent")
+    private List<InfoItem> subContent;
 
     public String getTitle() {
         return title;
@@ -65,11 +66,11 @@ public final class InfoItem implements Parcelable, Serializable {
         this.urlAndroid = urlAndroid;
     }
 
-    public ArrayList<InfoItem> getSubContent() {
+    public List<InfoItem> getSubContent() {
         return subContent;
     }
 
-    public void setSubContent(ArrayList<InfoItem> subContent) {
+    public void setSubContent(List<InfoItem> subContent) {
         this.subContent = subContent;
     }
 
@@ -88,6 +89,7 @@ public final class InfoItem implements Parcelable, Serializable {
         }
     }
 
+    @SuppressWarnings("unused") // Used by Moshi.
     public InfoItem() {}
 
     protected InfoItem(Parcel in) {

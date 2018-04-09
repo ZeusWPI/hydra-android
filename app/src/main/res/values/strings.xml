@@ -202,6 +202,7 @@
     <string name="error_no_activity">Niets gevonden om dit te openen!</string>
     <string name="events_no_location">Zonder locatie</string>
     <string name="title_license">Licenties</string>
+    <string name="article_date_changed">%1$s, bewerkt %2$s</string>
     <string name="agenda_subtitle">%1$s • %2$s</string>
     <string name="minerva_calendar_device_event_title">
         <xliff:g example="Machinaal leren" id="course_name">%1$s</xliff:g>: <xliff:g example="Inleiding en afspraken" id="event_title">%2$s</xliff:g>
@@ -302,7 +303,7 @@
     <string name="channel_sko_desc">Meldingen over de Student Kick-Off</string>
     <string name="channel_urgent">Urgent.fm</string>
     <string name="channel_urgent_desc">Meldingen over Urgent.fm, inclusief de mediamelding voor de radiospeler.</string>
-    
+
     <string name="minerva_course_details_tabs_overview">Info</string>
     <string name="minerva_course_details_tabs_announcements">Aankondigingen</string>
     <string name="minerva_course_details_tabs_calendar">Agenda</string>
@@ -449,4 +450,8 @@
     <string name="minerva_exporting_account_desc">De details van uw Minerva-account worden geëxporteerd.</string>
     <string name="card_title_hide_card">Alleen deze kaart verbergen</string>
     <string name="card_title_hide_single_type">Deze kaart verbergen</string>
+    <string name="resto_history">Historisch</string>
+    <string name="resto_history_not_found">Er is geen menu voor %s.</string>
+    <string name="resto_history_error">Fout</string>
+    <string name="resto_history_title">Menu van %s</string>
 </resources>

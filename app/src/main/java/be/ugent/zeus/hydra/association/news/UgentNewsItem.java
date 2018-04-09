@@ -3,13 +3,11 @@ package be.ugent.zeus.hydra.association.news;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.TtbUtils;
-import com.google.gson.annotations.JsonAdapter;
 import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,28 +18,21 @@ import java.util.List;
 public final class UgentNewsItem implements Serializable, Parcelable {
 
     private String description;
-
     private List<String> contributors;
-
     private String text;
-
-    private List<String> subject = null;
-
+    private List<String> subject;
     private String identifier;
-
     private String effective;
     private String language;
     private String rights;
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime created;
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    private ZonedDateTime modified;
-
+    private OffsetDateTime created;
+    private OffsetDateTime modified;
     private String expiration;
-
     private String title;
-
     private List<String> creators;
+
+    @SuppressWarnings("unused") // Moshi uses this!
+    public UgentNewsItem() {}
 
     public String getDescription() {
         return description;
@@ -79,7 +70,7 @@ public final class UgentNewsItem implements Serializable, Parcelable {
         return DateUtils.toLocalDateTime(getCreated());
     }
 
-    public ZonedDateTime getCreated() {
+    public OffsetDateTime getCreated() {
         return created;
     }
 
@@ -87,7 +78,7 @@ public final class UgentNewsItem implements Serializable, Parcelable {
         return DateUtils.toLocalDateTime(getModified());
     }
 
-    public ZonedDateTime getModified() {
+    public OffsetDateTime getModified() {
         return modified;
     }
 
@@ -101,6 +92,10 @@ public final class UgentNewsItem implements Serializable, Parcelable {
 
     public List<String> getCreators() {
         return creators;
+    }
+
+    public void setModified(OffsetDateTime modified) {
+        this.modified = modified;
     }
 
     @Override
@@ -118,14 +113,11 @@ public final class UgentNewsItem implements Serializable, Parcelable {
         dest.writeString(this.effective);
         dest.writeString(this.language);
         dest.writeString(this.rights);
-        dest.writeLong(TtbUtils.serialize(this.created));
-        dest.writeLong(TtbUtils.serialize(this.modified));
+        dest.writeString(DateTypeConverters.fromOffsetDateTime(this.created));
+        dest.writeString(DateTypeConverters.fromOffsetDateTime(this.modified));
         dest.writeString(this.expiration);
         dest.writeString(this.title);
         dest.writeStringList(this.creators);
-    }
-
-    public UgentNewsItem() {
     }
 
     protected UgentNewsItem(Parcel in) {
@@ -137,8 +129,8 @@ public final class UgentNewsItem implements Serializable, Parcelable {
         this.effective = in.readString();
         this.language = in.readString();
         this.rights = in.readString();
-        this.created = TtbUtils.unserialize(in.readLong());
-        this.modified = TtbUtils.unserialize(in.readLong());
+        this.created = DateTypeConverters.toOffsetDateTime(in.readString());
+        this.modified = DateTypeConverters.toOffsetDateTime(in.readString());
         this.expiration = in.readString();
         this.title = in.readString();
         this.creators = in.createStringArrayList();

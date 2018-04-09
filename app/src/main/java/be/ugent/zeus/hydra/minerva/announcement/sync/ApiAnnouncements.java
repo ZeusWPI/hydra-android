@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.minerva.announcement.sync;
 
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 
 import java.util.List;
 
@@ -10,6 +10,6 @@ import java.util.List;
  * @author Niko Strijbol
  */
 final class ApiAnnouncements {
-    @SerializedName("items")
+    @Json(name = "items")
     public List<ApiAnnouncement> announcements;
 }

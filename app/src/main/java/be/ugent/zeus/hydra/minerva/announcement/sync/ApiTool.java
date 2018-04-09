@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.minerva.announcement.sync;
 
 import be.ugent.zeus.hydra.minerva.course.Module;
+import com.squareup.moshi.Json;
 import java8.util.Optional;
 
 /**
@@ -13,6 +14,7 @@ class ApiTool {
     public String tool;
     public String icon;
     public String link;
+    @Json(name = "visibilty")
     public boolean visibility;
 
     /**

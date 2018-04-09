@@ -6,15 +6,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.resto.MenuFilter;
-import be.ugent.zeus.hydra.resto.network.MenuRequest;
-import be.ugent.zeus.hydra.resto.network.SelectableMetaRequest;
-import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
-import be.ugent.zeus.hydra.common.request.Requests;
+import be.ugent.zeus.hydra.resto.RestoChoice;
+import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,12 +18,10 @@ import java.util.List;
  */
 class MenuLiveData extends RequestLiveData<List<RestoMenu>> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private SelectableMetaRequest.RestoChoice previousChoice;
+    private RestoChoice previousChoice;
 
     MenuLiveData(Context context) {
-        super(context, Requests.map(Requests.map(Requests.cache(context, new MenuRequest(context)), Arrays::asList),
-                new MenuFilter(context)
-        ));
+        super(context, new MenuRequest(context).map(new MenuFilter(context)));
     }
 
     @Override
@@ -36,7 +30,7 @@ class MenuLiveData extends RequestLiveData<List<RestoMenu>> implements SharedPre
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         String key = preferences.getString(RestoPreferenceFragment.PREF_RESTO_KEY, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
         String name = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, getContext().getString(R.string.resto_default_name));
-        SelectableMetaRequest.RestoChoice resto = new SelectableMetaRequest.RestoChoice(name, key);
+        RestoChoice resto = new RestoChoice(name, key);
         // Register the listener for when the settings change while it's active
         preferences.registerOnSharedPreferenceChangeListener(this);
         // Check if the value is equal to the saved value. If not, we need to reload.

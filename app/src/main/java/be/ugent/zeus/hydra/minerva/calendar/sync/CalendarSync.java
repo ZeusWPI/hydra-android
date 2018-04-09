@@ -19,16 +19,16 @@ import android.util.Log;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ChannelCreator;
-import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
-import be.ugent.zeus.hydra.common.sync.Synchronisation;
-import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;
-import be.ugent.zeus.hydra.minerva.course.Course;
-import be.ugent.zeus.hydra.minerva.calendar.AgendaItemRepository;
-import be.ugent.zeus.hydra.minerva.course.CourseRepository;
+import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.common.sync.Synchronisation;
+import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
+import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;
+import be.ugent.zeus.hydra.minerva.calendar.AgendaItemRepository;
+import be.ugent.zeus.hydra.minerva.course.Course;
+import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
-import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 import be.ugent.zeus.hydra.utils.StringUtils;
 import java8.util.function.Functions;
 import java8.util.stream.Collectors;
@@ -151,9 +151,17 @@ public class CalendarSync {
             Log.d(TAG, "Missing permissions");
             handleNoPermission();
         } else {
-            // First, we synchronise the items to the calendar. This will modify the items if necessary.
-            // It will insert Calendar ids to the items that need it.
-            synchronizeCalendar(account, isInitialSync, diff);
+            try {
+                // First, we synchronise the items to the calendar. This will modify the items if necessary.
+                // It will insert Calendar ids to the items that need it.
+                synchronizeCalendar(account, isInitialSync, diff);
+            } catch (SecurityException e) {
+                // This exception is possible, but very unlikely. This can happen if the user revokes the permission
+                // between the check above and the actual execution. In reality, I don't think this can actually happen,
+                // but to make Android lint happy, we handle it anyway.
+                Log.w(TAG, "Permission problem during calendar sync.", e);
+                handleNoPermission();
+            }
         }
 
         // Apply synchronisation. We can only do this after the built-in calendar has been synchronised, since
@@ -199,8 +207,10 @@ public class CalendarSync {
 
     /**
      * Synchronise our database with the built-in database.
+     *
+     * @throws SecurityException Thrown in the rare case where we have permission, but the user revokes it during the sync.
      */
-    private void synchronizeCalendar(Account account, boolean isInitialSync, Synchronisation.Diff<AgendaItem, Integer> diff) {
+    private void synchronizeCalendar(Account account, boolean isInitialSync, Synchronisation.Diff<AgendaItem, Integer> diff) throws SecurityException {
 
         // Get the URI for our calendar.
         ContentResolver resolver = context.getContentResolver();
@@ -319,8 +329,10 @@ public class CalendarSync {
      * @param account The account.
      *
      * @return The ID or {@link #NO_CALENDAR} if there is no calendar.
+     *
+     * @throws SecurityException Thrown in the rare case where we have permission, but the user revokes it during the sync.
      */
-    private long getCalendarId(Account account, ContentResolver resolver) {
+    private long getCalendarId(Account account, ContentResolver resolver) throws SecurityException {
 
         String selection =
                 CalendarContract.Calendars.ACCOUNT_NAME +
@@ -362,8 +374,11 @@ public class CalendarSync {
      * @param account The account.
      *
      * @return The ID or {@link #NO_CALENDAR} if there is no calendar.
+     *
+     * @throws SecurityException Thrown in the very rare case that we have permission when starting the sync,
+     * but the user revokes it during the sync, but before this has executed.
      */
-    private int deleteCalendarFor(Account account, ContentResolver resolver) {
+    private int deleteCalendarFor(Account account, ContentResolver resolver) throws SecurityException {
 
         String selection =
                 CalendarContract.Calendars.ACCOUNT_NAME +
@@ -380,7 +395,7 @@ public class CalendarSync {
         );
     }
 
-    private Set<Long> getAllIdsFromDeviceCalendar(Account account, ContentResolver resolver) {
+    private Set<Long> getAllIdsFromDeviceCalendar(Account account, ContentResolver resolver) throws SecurityException {
 
         String[] projection = {CalendarContract.Events._ID};
 

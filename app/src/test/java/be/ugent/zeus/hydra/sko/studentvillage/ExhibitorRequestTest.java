@@ -1,37 +1,26 @@
 package be.ugent.zeus.hydra.sko.studentvillage;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
-import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.TestApp;
-import be.ugent.zeus.hydra.common.network.ArrayJsonSpringRequestTest;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
+import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
+import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.robolectric.RuntimeEnvironment;
+
+import java.util.List;
 
 /**
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
-@RequiresApi(api = Build.VERSION_CODES.KITKAT)
-public class ExhibitorRequestTest extends ArrayJsonSpringRequestTest<Exhibitor> {
+public class ExhibitorRequestTest extends AbstractJsonRequestTest<List<Exhibitor>> {
 
-    public ExhibitorRequestTest() {
-        super(Exhibitor[].class);
+    @Override
+    protected String getRelativePath() {
+        return "sko_student_village.json";
     }
 
     @Override
-    protected Resource getSuccessResponse() {
-        return new ClassPathResource("sko_student_village.json");
-    }
-
-    @Override
-    protected JsonSpringRequest<Exhibitor[]> getRequest() {
-        return new ExhibitorRequest();
+    protected JsonOkHttpRequest<List<Exhibitor>> getRequest() {
+        return new ExhibitorRequest(RuntimeEnvironment.application);
     }
 }

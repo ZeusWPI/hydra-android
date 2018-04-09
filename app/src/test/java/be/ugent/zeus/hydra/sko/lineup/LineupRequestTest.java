@@ -1,37 +1,26 @@
 package be.ugent.zeus.hydra.sko.lineup;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
-import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.TestApp;
-import be.ugent.zeus.hydra.common.network.ArrayJsonSpringRequestTest;
-import be.ugent.zeus.hydra.common.network.JsonSpringRequest;
+import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
+import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.robolectric.RuntimeEnvironment;
+
+import java.util.List;
 
 /**
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
-@RequiresApi(api = Build.VERSION_CODES.KITKAT)
-public class LineupRequestTest extends ArrayJsonSpringRequestTest<Artist> {
+public class LineupRequestTest extends AbstractJsonRequestTest<List<Artist>> {
 
-    public LineupRequestTest() {
-        super(Artist[].class);
+    @Override
+    protected String getRelativePath() {
+        return "sko_lineup.json";
     }
 
     @Override
-    protected Resource getSuccessResponse() {
-        return new ClassPathResource("sko_lineup.json");
-    }
-
-    @Override
-    protected JsonSpringRequest<Artist[]> getRequest() {
-        return new LineupRequest();
+    protected JsonOkHttpRequest<List<Artist>> getRequest() {
+        return new LineupRequest(RuntimeEnvironment.application);
     }
 }

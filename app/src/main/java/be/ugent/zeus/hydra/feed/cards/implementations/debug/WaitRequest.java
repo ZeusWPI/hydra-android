@@ -31,7 +31,7 @@ public class WaitRequest implements HomeFeedRequest {
     @Override
     public Result<Stream<Card>> performRequest(Bundle args) {
         try {
-            Log.d(TAG, "performRequest: sleep 5 seconds.");
+            Log.i(TAG, "performRequest: sleep 5 seconds.");
             Thread.sleep(5000); //Sleep 5 seconds
             return Result.Builder.fromData(StreamSupport.stream(Collections.emptyList()));
         } catch (InterruptedException e) {

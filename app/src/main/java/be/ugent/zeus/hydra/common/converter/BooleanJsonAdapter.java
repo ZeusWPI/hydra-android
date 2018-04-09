@@ -1,32 +1,23 @@
 package be.ugent.zeus.hydra.common.converter;
 
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
-import com.google.gson.stream.JsonWriter;
-
-import java.io.IOException;
+import com.squareup.moshi.FromJson;
+import com.squareup.moshi.ToJson;
 
 /**
- * Read booleans from a zero (0) or one (1).
+ * Read booleans from a zero (0) or one (1). Integers that are not 0 or 1 will result in undefined behaviour.
  *
- * @author feliciaan
+ * @author Niko Strijbol
  */
-public class BooleanJsonAdapter extends TypeAdapter<Boolean> {
+public class BooleanJsonAdapter {
 
-    @Override
-    public void write(JsonWriter out, Boolean value) throws IOException {
-        out.value(value ? 1 : 0);
+    @ToJson
+    int write(@IntBoolean boolean value) {
+        return value ? 1 : 0;
     }
 
-    @Override
-    public Boolean read(JsonReader in) throws IOException {
-
-        if (in.peek() == JsonToken.NULL) {
-            in.nextNull();
-            return null;
-        }
-
-        return in.nextInt() == 1;
+    @FromJson
+    @IntBoolean
+    boolean read(int value) {
+        return value != 0;
     }
 }

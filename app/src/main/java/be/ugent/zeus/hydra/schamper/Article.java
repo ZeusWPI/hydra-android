@@ -4,13 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
-import be.ugent.zeus.hydra.common.converter.ZonedThreeTenAdapter;
+import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.TtbUtils;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
+import com.squareup.moshi.Json;
 import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.OffsetDateTime;
 
 import java.io.Serializable;
 
@@ -21,19 +19,17 @@ public final class Article implements Serializable, Parcelable {
 
     private String title;
     private String link;
-    @JsonAdapter(ZonedThreeTenAdapter.class)
-    @SerializedName("pub_date")
-    private ZonedDateTime pubDate;
+    @Json(name = "pub_date")
+    private OffsetDateTime pubDate;
     private String author;
     private String body;
     private String image;
     private String category;
     private String intro;
-    @SerializedName("category_color")
+    @Json(name = "category_color")
     private String categoryColour;
 
     public Article() {
-        // Empty constructor for Gson
     }
 
     public String getTitle() {
@@ -44,7 +40,7 @@ public final class Article implements Serializable, Parcelable {
         return link;
     }
 
-    public ZonedDateTime getPubDate() {
+    public OffsetDateTime getPubDate() {
         return pubDate;
     }
 
@@ -113,7 +109,7 @@ public final class Article implements Serializable, Parcelable {
     protected Article(Parcel in) {
         title = in.readString();
         link = in.readString();
-        pubDate = TtbUtils.unserialize(in.readLong());
+        pubDate = DateTypeConverters.toOffsetDateTime(in.readString());
         author = in.readString();
         body = in.readString();
         image = in.readString();
@@ -126,7 +122,7 @@ public final class Article implements Serializable, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
         dest.writeString(link);
-        dest.writeLong(TtbUtils.serialize(pubDate));
+        dest.writeString(DateTypeConverters.fromOffsetDateTime(pubDate));
         dest.writeString(author);
         dest.writeString(body);
         dest.writeString(image);

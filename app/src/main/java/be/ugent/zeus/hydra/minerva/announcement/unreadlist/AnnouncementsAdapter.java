@@ -1,11 +1,12 @@
 package be.ugent.zeus.hydra.minerva.announcement.unreadlist;
 
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectDiffAdapter;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 
 /**
@@ -13,7 +14,7 @@ import be.ugent.zeus.hydra.minerva.announcement.Announcement;
  *
  * @author Niko Strijbol
  */
-class AnnouncementsAdapter extends MultiSelectDiffAdapter<Announcement> {
+class AnnouncementsAdapter extends MultiSelectAdapter<Announcement> {
 
     private final ResultStarter starter;
 
@@ -21,8 +22,9 @@ class AnnouncementsAdapter extends MultiSelectDiffAdapter<Announcement> {
         this.starter = starter;
     }
 
+    @NonNull
     @Override
-    public AnnouncementsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AnnouncementsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new AnnouncementsViewHolder(ViewUtils.inflate(parent, R.layout.item_minerva_extended_announcement), starter, this);
     }
 }

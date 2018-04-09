@@ -7,6 +7,7 @@ import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
+import okhttp3.HttpUrl;
 import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
 import org.junit.Test;
@@ -15,9 +16,6 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowAccountManager;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.threeten.bp.LocalDateTime;
 
 import java.net.URLDecoder;
@@ -68,9 +66,9 @@ public class AccountUtilsTest {
         manager.addAccount(testAccount);
 
         LocalDateTime testValue = LocalDateTime.parse(
-                LocalDateTime.now().format(MinervaAuthenticator.formatter), MinervaAuthenticator.formatter);
+                LocalDateTime.now().format(AccountUtils.FORMATTER), AccountUtils.FORMATTER);
         accountManager
-                .setUserData(testAccount, MinervaAuthenticator.EXP_DATE, testValue.format(MinervaAuthenticator.formatter));
+                .setUserData(testAccount, MinervaAuthenticator.EXP_DATE, testValue.format(AccountUtils.FORMATTER));
 
         assertEquals(testValue, AccountUtils.getExpirationDate(accountManager, testAccount));
     }
@@ -83,11 +81,11 @@ public class AccountUtilsTest {
         // Do some testing, we don't test if the URL is exactly right, as we can't do that.
         assertThat(url, startsWith(MinervaConfig.AUTHORIZATION_ENDPOINT));
 
-        UriComponents components = UriComponentsBuilder.fromHttpUrl(url).build();
-        MultiValueMap<String, String> query = components.getQueryParams();
+        HttpUrl httpUrl = HttpUrl.parse(url);
+        assert httpUrl != null;
 
-        assertEquals(BuildConfig.OAUTH_ID, URLDecoder.decode(query.getFirst(OAuth.OAUTH_CLIENT_ID), StandardCharsets.UTF_8.name()));
-        assertEquals(MinervaConfig.CALLBACK_URI, URLDecoder.decode(query.getFirst(OAuth.OAUTH_REDIRECT_URI), "UTF-8"));
-        assertEquals(ResponseType.CODE.toString(), query.getFirst(OAuth.OAUTH_RESPONSE_TYPE));;
+        assertEquals(BuildConfig.OAUTH_ID, URLDecoder.decode(httpUrl.queryParameter(OAuth.OAUTH_CLIENT_ID), StandardCharsets.UTF_8.name()));
+        assertEquals(MinervaConfig.CALLBACK_URI, URLDecoder.decode(httpUrl.queryParameter(OAuth.OAUTH_REDIRECT_URI), "UTF-8"));
+        assertEquals(ResponseType.CODE.toString(), httpUrl.queryParameter(OAuth.OAUTH_RESPONSE_TYPE));
     }
 }

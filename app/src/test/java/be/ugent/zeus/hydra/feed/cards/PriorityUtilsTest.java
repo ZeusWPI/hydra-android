@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.feed.cards;
 
-import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -11,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 public class PriorityUtilsTest {
 
     @Test
-    public void lerp() throws Exception {
+    public void lerp() {
 
         //These tests only work for FEED_MAX_VALUE = 100;
         assertEquals(1000 + PriorityUtils.FEED_SPECIAL_SHIFT, PriorityUtils.FEED_MAX_VALUE);
