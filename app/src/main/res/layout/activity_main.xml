@@ -68,10 +68,10 @@
             android:layout_height="@dimen/material_bottom_nav_bar_height"
             app:elevation="@dimen/material_bottom_nav_bar_elevation"
             android:layout_gravity="bottom"
-            app:menu="@menu/bottom_resto"
-            app:itemIconTint="?attr/colorPrimary"
-            app:itemTextColor="?attr/colorPrimary"
-            app:itemBackground="?android:colorBackground" />
+            android:background="?attr/colorPrimary"
+            app:itemIconTint="@color/material_typography_primary_text_color_light"
+            app:itemTextColor="@color/material_typography_primary_text_color_light"
+            app:menu="@menu/bottom_resto" />
 
     </android.support.design.widget.CoordinatorLayout>
 
