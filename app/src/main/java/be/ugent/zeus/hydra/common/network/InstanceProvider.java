@@ -24,7 +24,7 @@ public class InstanceProvider {
 
     private static OkHttpClient client;
 
-    private static final long CACHE_SIZE = 10 * 1024 * 1024;
+    private static final long CACHE_SIZE = 10 * 1024 * 1024; // 10 MiB
 
     public static synchronized OkHttpClient getClient(File cacheDir) {
         if (client == null) {
@@ -47,7 +47,8 @@ public class InstanceProvider {
     }
 
     public static synchronized OkHttpClient getClient(Context context) {
-        return getClient(context.getCacheDir());
+        File cacheDir = new File(context.getCacheDir(), "http");
+        return getClient(cacheDir);
     }
 
     private static Moshi moshi;

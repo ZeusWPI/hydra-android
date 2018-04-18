@@ -101,7 +101,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
                     return result;
                 }
 
-                Log.d(TAG, "Error while getting data, try to get stale data.");
+                Log.d(TAG, "Error while getting data, try to get stale data.", e);
                 // We try to get stale data at this point.
                 args = new Bundle(args);
                 args.putBoolean(ALLOW_STALENESS, true);
@@ -112,7 +112,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
                     // Add the result.
                     return result.updateWith(staleResult);
                 } catch (IOException e2) {
-                    Log.d(TAG, "Stale data was not found.");
+                    Log.d(TAG, "Stale data was not found.", e2);
                     // Just give up at this point.
                     return result;
                 }
