@@ -48,7 +48,7 @@
     <color name="hydra_text_accent">@color/hydra_primary_color</color>
 
     <!-- Backgrounds -->
-    <color name="hydra_background">@color/ugent_white</color>
+    <color name="hydra_background">@color/material_grey_50</color>
     <color name="hydra_background_long_text">@color/material_color_white</color>
 
     <!-- Custom views -->
