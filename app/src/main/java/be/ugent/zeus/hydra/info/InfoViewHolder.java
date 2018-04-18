@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
 /**
@@ -18,18 +19,20 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
  */
 class InfoViewHolder extends DataViewHolder<InfoItem> {
 
-    private TextView title;
+    private final TextView title;
+    private final ActivityHelper helper;
 
-    InfoViewHolder(View v) {
+    InfoViewHolder(View v, ActivityHelper helper) {
         super(v);
         title = v.findViewById(R.id.info_name);
+        this.helper = helper;
     }
 
     @Override
     public void populate(final InfoItem infoItem) {
         Context c = itemView.getContext();
         title.setText(infoItem.getTitle());
-        itemView.setOnClickListener(v -> infoItem.getType().doOnClick(v.getContext(), infoItem));
+        itemView.setOnClickListener(v -> infoItem.getType().doOnClick(v.getContext(), helper, infoItem));
 
         // Get the primary colour of the app.
         TypedValue typedValue = new TypedValue();

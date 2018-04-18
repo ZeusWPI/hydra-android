@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.WebViewActivity;
+import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ public enum InfoType {
     //Opens in the browser
     EXTERNAL_LINK(R.drawable.ic_open_in_browser) {
         @Override
-        public void doOnClick(Context context, InfoItem infoItem) {
-            NetworkUtils.maybeLaunchBrowser(context, infoItem.getUrl());
+        public void doOnClick(Context context, ActivityHelper helper, InfoItem infoItem) {
+            helper.openCustomTab(Uri.parse(infoItem.getUrl()));
         }
     },
 
@@ -40,7 +41,7 @@ public enum InfoType {
         private static final String PLAY_URL = "https://play.google.com/store/apps/details?id=";
 
         @Override
-        public void doOnClick(Context context, InfoItem infoItem) {
+        public void doOnClick(Context context, ActivityHelper helper, InfoItem infoItem) {
 
             String androidUrl = infoItem.getUrlAndroid();
 
@@ -58,7 +59,7 @@ public enum InfoType {
         private final static String HTML_API = "https://zeus.ugent.be/hydra/api/2.0/info/";
 
         @Override
-        public void doOnClick(Context context, InfoItem infoItem) {
+        public void doOnClick(Context context, ActivityHelper helper, InfoItem infoItem) {
             Intent intent = new Intent(context, WebViewActivity.class);
             intent.putExtra(WebViewActivity.URL, HTML_API + infoItem.getHtml());
             intent.putExtra(WebViewActivity.TITLE, infoItem.getTitle());
@@ -69,7 +70,7 @@ public enum InfoType {
     //Opens a new list of info items.
     SUBLIST(R.drawable.ic_chevron_right) {
         @Override
-        public void doOnClick(Context context, InfoItem infoItem) {
+        public void doOnClick(Context context, ActivityHelper helper, InfoItem infoItem) {
             Intent intent = new Intent(context, InfoSubItemActivity.class);
             intent.putParcelableArrayListExtra(InfoSubItemActivity.INFO_ITEMS, new ArrayList<>(infoItem.getSubContent()));
             intent.putExtra(InfoSubItemActivity.INFO_TITLE, infoItem.getTitle());
@@ -119,5 +120,5 @@ public enum InfoType {
      * @param context The context to launch the intent.
      * @param infoItem The item.
      */
-    public abstract void doOnClick(Context context, InfoItem infoItem);
+    public abstract void doOnClick(Context context, ActivityHelper helper, InfoItem infoItem);
 }
