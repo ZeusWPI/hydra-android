@@ -69,4 +69,7 @@
        ~ Normal card views do this automatically, maybe we should do that as well
        -->
     <color name="hydra_card_background">@color/cardview_light_background</color>
+
+    <!-- Background of the navigation drawer -->
+    <color name="hydra_drawer_background">@color/material_color_white</color>
 </resources>

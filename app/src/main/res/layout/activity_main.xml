@@ -83,6 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/hydra_drawer_background"
         app:menu="@menu/drawer_items"
         android:fitsSystemWindows="true"/>
 
