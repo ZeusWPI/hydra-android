@@ -299,13 +299,12 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/Base.TextAppearance.AppCompat.Subhead"
+                            style="@style/Subhead.Light"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:height="48dp"
                             android:gravity="center_vertical"
-                            android:text="@string/description"
-                            android:textColor="?attr/colorAccent" />
+                            android:text="@string/description" />
 
                         <TextView
                             android:id="@+id/agenda_description"

@@ -89,11 +89,10 @@ public class MenuTable extends TableLayout {
         if (span) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 //noinspection deprecation
-                v.setTextAppearance(getContext(), R.style.MaterialTypography_Regular_Subheading);
+                v.setTextAppearance(getContext(), R.style.Subhead);
             } else {
-                v.setTextAppearance(R.style.MaterialTypography_Regular_Subheading);
+                v.setTextAppearance(R.style.Subhead);
             }
-            v.setTextColor(primaryColour);
             v.setPadding(
                     v.getPaddingLeft(),
                     rowPadding,

@@ -251,9 +251,8 @@
                         android:height="48dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/Base.TextAppearance.AppCompat.Subhead"
+                        style="@style/Subhead"
                         android:text="@string/description"
-                        android:textColor="?attr/colorAccent"
                         android:gravity="center_vertical" />
 
                     <TextView

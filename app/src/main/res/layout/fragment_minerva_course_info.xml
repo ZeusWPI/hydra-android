@@ -103,9 +103,8 @@
             android:id="@+id/course_settings_header"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            style="@style/Base.TextAppearance.AppCompat.Subhead"
+            style="@style/Subhead"
             android:text="@string/minerva_course_info_settings_header"
-            android:textColor="?attr/colorAccent"
             android:gravity="bottom" />
 
         <LinearLayout
@@ -166,9 +165,8 @@
             android:height="48dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Base.TextAppearance.AppCompat.Subhead"
+            style="@style/Subhead"
             android:text="@string/minerva_course_info_course_fiche"
-            android:textColor="?attr/colorAccent"
             android:gravity="center_vertical" />
 
         <TextView
@@ -187,9 +185,8 @@
             android:height="48dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Base.TextAppearance.AppCompat.Subhead"
+            style="@style/Subhead"
             android:text="@string/minerva_course_info_description"
-            android:textColor="?attr/colorAccent"
             android:gravity="center_vertical" />
 
         <TextView

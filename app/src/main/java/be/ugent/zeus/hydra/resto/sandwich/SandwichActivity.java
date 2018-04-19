@@ -44,7 +44,7 @@ public class SandwichActivity extends BaseActivity {
         recyclerView.setAdapter(adapter);
 
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
+        swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow);
 
         viewModel = ViewModelProviders.of(this).get(SandwichViewModel.class);
         viewModel.getData().observe(this, ErrorObserver.with(this::onError));
