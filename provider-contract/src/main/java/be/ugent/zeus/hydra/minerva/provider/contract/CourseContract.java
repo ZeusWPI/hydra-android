@@ -60,6 +60,25 @@ public final class CourseContract {
          * <p>Type: INTEGER</p>
          */
         String ORDER = "ordering";
+        /**
+         * Int flag depicting which modules are disabled. The possible values at this time are:
+         * <ul>
+         *     <li>{@code 1 << 0}: Announcements</li>
+         *     <li>{@code 1 << 1}: Calendar</li>
+         * </ul>
+         * <p>Type: INTEGER</p>
+         */
+        String DISABLED_MODULES = "disabled_modules";
+        /**
+         * Boolean representing if the announcements should be ignored for this course or not.
+         * <p>Type: INTEGER</p>
+         */
+        String IGNORE_ANNOUNCEMENTS = "ignore_announcements";
+        /**
+         * Boolean representing if the calendar should be ignored for this course or not.
+         * <p>Type: INTEGER</p>
+         */
+        String IGNORE_CALENDAR = "ignore_calendar";
     }
 
     public interface Provider {

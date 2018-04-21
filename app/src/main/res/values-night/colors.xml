@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+      ~ These are functional colours. This means they don't specify a colour itself, but rather a colour for
+      ~ a certain feature.
+     -->
+
+    <color name="hydra_text_primary">@color/material_typography_primary_text_color_light</color>
+    <color name="hydra_text_secondary">@color/material_typography_secondary_text_color_light</color>
+    <color name="hydra_background">@color/material_color_black_87_percent</color>
+    <color name="hydra_background_long_text">@color/material_color_black</color>
+    <color name="hydra_text_accent">@color/hydra_accent_color</color>
+    <color name="hydra_now_toolbar_icon_tint">@color/ugent_yellow</color>
+    <color name="hydra_card_background">@color/cardview_dark_background</color>
+    <color name="hydra_item_selected_background">#FF424242</color>
+    <color name="hydra_drawer_background">@color/material_color_black</color>
+    <color name="hydra_subhead_text_color">@color/hydra_accent_color</color>
+</resources>

@@ -1,22 +1,22 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         minSdkVersion 14
-        versionName "11.6.2"
-        versionCode 1162
+        versionName "11.8.0"
+        versionCode 1180
 
         consumerProguardFiles 'proguard-rules.pro'
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile ('com.google.firebase:firebase-core:11.6.2') {
+    implementation ('com.google.firebase:firebase-core:11.8.0') {
         exclude module:'support-v4'
     }
 }

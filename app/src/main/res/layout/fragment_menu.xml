@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <be.ugent.zeus.hydra.ui.common.widgets.MenuTable
+    <be.ugent.zeus.hydra.common.ui.widgets.MenuTable
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/menu_table"

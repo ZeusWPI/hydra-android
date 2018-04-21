@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/resto_show_website"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_open_in_browser"
+        app:showAsAction="ifRoom"
+        android:title="@string/resto_show_website" />
+    <item
+        android:id="@+id/action_refresh"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/action_refresh" />
+</menu>

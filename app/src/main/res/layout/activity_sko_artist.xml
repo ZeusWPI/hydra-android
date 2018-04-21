@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.sko.ArtistActivity">
+    tools:context=".sko.lineup.ArtistDetailsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -116,7 +116,7 @@
                         android:height="48dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/Base.TextAppearance.AppCompat.Subhead"
+                        style="@style/Subhead"
                         android:text="@string/sko_artist_info"
                         android:textColor="?attr/colorAccent"
                         android:gravity="center_vertical" />
@@ -138,7 +138,7 @@
                 android:height="48dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Base.TextAppearance.AppCompat.Subhead"
+                style="@style/Subhead"
                 android:text="@string/sko_artist_more"
                 android:textColor="?attr/colorAccent"
                 android:gravity="center_vertical" />

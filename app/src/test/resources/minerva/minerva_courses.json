@@ -4,269 +4,359 @@
     "code": "I72318",
     "title": "Amet Institute",
     "description": null,
-    "tutor_name": "Alana Stanton",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Alana Stanton",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "Z824412017",
     "code": "Z82441",
     "title": "Ligula Tortor Dictum Ltd",
     "description": null,
-    "tutor_name": "Mannix Lancaster",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Mannix Lancaster",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": true
   },
   {
     "id": "C886932017",
     "code": "C88693",
     "title": "Et Limited",
     "description": null,
-    "tutor_name": "Price Owens",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Price Owens",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "U597952017",
     "code": "U59795",
     "title": "Vestibulum Neque Sed Inc.",
     "description": null,
-    "tutor_name": "Ria Barton",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Ria Barton",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "Q672592017",
     "code": "Q67259",
     "title": "Id Ante Institute",
     "description": null,
-    "tutor_name": "Octavius Frederick",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Octavius Frederick",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": true
   },
   {
     "id": "A496402017",
     "code": "A49640",
     "title": "Tortor Integer Aliquam Associates",
     "description": null,
-    "tutor_name": "Tate Colon",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Tate Colon",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "C673442017",
     "code": "C67344",
     "title": "Fringilla Est Company",
     "description": null,
-    "tutor_name": "Dustin Houston",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Dustin Houston",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "I508252017",
     "code": "I50825",
     "title": "Turpis In Inc.",
     "description": null,
-    "tutor_name": "Adara Weber",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Adara Weber",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": true
   },
   {
     "id": "X070602017",
     "code": "X07060",
     "title": "Integer Tincidunt Aliquam LLC",
     "description": null,
-    "tutor_name": "Jael Dillard",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Jael Dillard",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "Q213772017",
     "code": "Q21377",
     "title": "Amet Consectetuer Adipiscing Institute",
     "description": null,
-    "tutor_name": "Rinah Palmer",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Rinah Palmer",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "I206492017",
     "code": "I20649",
     "title": "Ornare Sagittis Felis Industries",
     "description": null,
-    "tutor_name": "Teagan Colon",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Teagan Colon",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "D820732017",
     "code": "D82073",
     "title": "Donec Tempor Est Incorporated",
     "description": null,
-    "tutor_name": "Geoffrey Clayton",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Geoffrey Clayton",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": true
   },
   {
     "id": "V899732017",
     "code": "V89973",
     "title": "Dapibus Associates",
     "description": null,
-    "tutor_name": "Arsenio Munoz",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Arsenio Munoz",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "E208872017",
     "code": "E20887",
     "title": "Pellentesque Tincidunt Corp.",
     "description": null,
-    "tutor_name": "Iona Gutierrez",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Iona Gutierrez",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "Y849802017",
     "code": "Y84980",
     "title": "Sociis Natoque Associates",
     "description": null,
-    "tutor_name": "Shana Golden",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Shana Golden",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "H515742017",
     "code": "H51574",
     "title": "Nullam Incorporated",
     "description": null,
-    "tutor_name": "Wallace Dale",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Wallace Dale",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "N942942017",
     "code": "N94294",
     "title": "Adipiscing Company",
     "description": null,
-    "tutor_name": "Blake Howell",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Blake Howell",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": true
   },
   {
     "id": "J171552017",
     "code": "J17155",
     "title": "Vivamus LLP",
     "description": null,
-    "tutor_name": "Rashad Williams",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Rashad Williams",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "A812682017",
     "code": "A81268",
     "title": "Venenatis Vel PC",
     "description": null,
-    "tutor_name": "May Thomas",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "May Thomas",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "B755532017",
     "code": "B75553",
     "title": "Nam Porttitor Scelerisque Institute",
     "description": null,
-    "tutor_name": "Lillian Pratt",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Lillian Pratt",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "Z810462017",
     "code": "Z81046",
     "title": "Mauris Company",
     "description": null,
-    "tutor_name": "Rosalyn Mcdowell",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Rosalyn Mcdowell",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": true
   },
   {
     "id": "O545612017",
     "code": "O54561",
     "title": "Vitae Company",
     "description": null,
-    "tutor_name": "Sydney Montoya",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Sydney Montoya",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "M733472017",
     "code": "M73347",
     "title": "Feugiat Sed LLP",
     "description": null,
-    "tutor_name": "Aladdin Compton",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Aladdin Compton",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "R572102017",
     "code": "R57210",
     "title": "Feugiat Metus Foundation",
     "description": null,
-    "tutor_name": "Leonard Rose",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Leonard Rose",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "A184372017",
     "code": "A18437",
     "title": "Felis Ullamcorper Viverra Company",
     "description": null,
-    "tutor_name": "Armand Simmons",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Armand Simmons",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "D953672017",
     "code": "D95367",
     "title": "Mus Proin Limited",
     "description": null,
-    "tutor_name": "Belle Wilson",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Belle Wilson",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "W486002017",
     "code": "W48600",
     "title": "Sociis Corporation",
     "description": null,
-    "tutor_name": "Jakeem Browning",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Jakeem Browning",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "C969962017",
     "code": "C96996",
     "title": "Odio Foundation",
     "description": null,
-    "tutor_name": "Sawyer Shaw",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Sawyer Shaw",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   },
   {
     "id": "X224972017",
     "code": "X22497",
     "title": "Phasellus Limited",
     "description": null,
-    "tutor_name": "Curran Welch",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Curran Welch",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": true
   },
   {
     "id": "I435932017",
     "code": "I43593",
     "title": "Ultricies Ligula LLP",
     "description": null,
-    "tutor_name": "Yen Berry",
-    "academic_year": 2017,
-    "order": 0
+    "tutor": "Yen Berry",
+    "year": 2017,
+    "order": 0,
+    "disabledModules": 0,
+    "ignoreAnnouncements": false,
+    "ignoreCalendar": false
   }
 ]

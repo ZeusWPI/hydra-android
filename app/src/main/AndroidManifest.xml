@@ -6,14 +6,30 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- Account & sync permissions -->
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+
+    <!-- Account permissions -->
+    <!-- No longer exists on API 23 and up -->
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <!-- We use our own account, so we no longer need this on higher API levels -->
+    <uses-permission
+        android:name="android.permission.GET_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <!-- No longer exists on API 23 and up -->
+    <uses-permission
+        android:name="android.permission.MANAGE_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <!-- No longer exists on API 23 and up -->
+    <uses-permission
+        android:name="android.permission.USE_CREDENTIALS"
+        android:maxSdkVersion="22" />
+
+    <!-- Sync permissions -->
     <uses-permission android:name="android.permission.READ_SYNC_STATS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+
     <!-- Urgent stuff -->
     <permission android:name="android.permission.WAKE_LOCK" />
     <permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
@@ -34,10 +50,6 @@
         android:protectionLevel="normal"
         android:label="@string/permissions_read_courses"
         android:description="@string/permissions_read_courses_desc" />
-    <permission android:name="be.ugent.zeus.hydra.minerva.LISTEN_TO_SYNC"
-        android:protectionLevel="normal"
-        android:label="@string/permissions_listen_to_sync"
-        android:description="@string/permissions_listen_to_sync_desc" />
 
     <!-- We send a broadcast to this app -->
     <uses-permission android:name="be.ugent.zeus.hydra.minerva.documents.START_SYNC" />
@@ -58,7 +70,7 @@
 
         <!-- Main activity -->
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows">
             <intent-filter>
@@ -74,9 +86,9 @@
 
         <!-- Settings -->
         <activity
-            android:name=".ui.preferences.SettingsActivity"
+            android:name=".common.preferences.SettingsActivity"
             android:label="@string/action_settings"
-            android:parentActivityName=".ui.main.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/Hydra.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
@@ -87,21 +99,21 @@
 
         <!-- Association select preference activity -->
         <activity
-            android:name=".ui.preferences.AssociationSelectPrefActivity"
+            android:name=".association.preference.AssociationSelectPrefActivity"
             android:label="Verenigingen"
-            android:parentActivityName=".ui.preferences.SettingsActivity" />
+            android:parentActivityName=".common.preferences.SettingsActivity" />
 
         <!-- Association select preference activity -->
         <activity
-            android:name=".ui.preferences.HomeFeedPrefActivity"
+            android:name=".feed.preferences.HomeFeedPrefActivity"
             android:label="@string/activity_title_homefeed_card_types"
-            android:parentActivityName=".ui.preferences.SettingsActivity" />
+            android:parentActivityName=".common.preferences.SettingsActivity" />
 
         <!-- Sandwich overview -->
         <activity
-            android:name=".ui.resto.SandwichActivity"
+            android:name=".resto.sandwich.SandwichActivity"
             android:label="@string/resto_sandwich"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- The Maps API key -->
         <meta-data
@@ -110,66 +122,73 @@
 
         <!-- Show a map of resto's -->
         <activity
-            android:name=".ui.resto.RestoLocationActivity"
+            android:name=".resto.meta.RestoLocationActivity"
             android:label="@string/title_activity_resto_location"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- Show other food items -->
-        <activity android:name=".ui.resto.extra.ExtraFoodActivity"
+        <activity
+            android:name=".resto.extrafood.ExtraFoodActivity"
             android:label="@string/resto_extra_title"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- Details about association events. -->
         <activity
-            android:name=".ui.EventDetailActivity"
+            android:name=".association.event.EventDetailsActivity"
             android:label="@string/title_activity_association_activity_detail"
             android:launchMode="singleTop"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- Show info items -->
         <activity
-            android:name=".ui.InfoSubItemActivity"
+            android:name=".info.InfoSubItemActivity"
             android:label="@string/title_activity_info_sub_item"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- Display a Schamper article -->
         <activity
-            android:name=".ui.SchamperArticleActivity"
+            android:name=".schamper.FullArticleActivity"
             android:label="@string/title_activity_schamper"
             android:launchMode="singleTop"
-            android:parentActivityName=".ui.main.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
 
         <!-- Show news article -->
         <activity
-            android:name=".ui.NewsArticleActivity"
+            android:name=".association.news.NewsArticleActivity"
             android:label="@string/title_activity_news"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- Show a web view -->
         <activity
-            android:name=".ui.common.WebViewActivity"
+            android:name=".common.ui.WebViewActivity"
             android:label="@string/title_activity_hydra_web_view"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- Show a Minerva course -->
         <activity
-            android:name=".ui.minerva.overview.CourseActivity"
+            android:name=".minerva.course.singlecourse.CourseActivity"
             android:label="@string/activity_title_minerva_course"
             android:launchMode="singleTop"
-            android:parentActivityName=".ui.main.MainActivity" />
+            android:parentActivityName=".MainActivity" />
 
         <!-- Show a Minerva announcement -->
         <activity
-            android:name=".ui.minerva.AnnouncementActivity"
+            android:name=".minerva.announcement.SingleAnnouncementActivity"
             android:label="@string/title_announcement_title"
-            android:parentActivityName=".ui.minerva.overview.CourseActivity" />
+            android:parentActivityName=".minerva.course.singlecourse.CourseActivity" />
+
+        <activity
+            android:name=".resto.history.HistoryActivity"
+            android:label="Historische menu"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity" />
 
         <!-- Show a Minerva agenda item -->
         <activity
-            android:name=".ui.minerva.AgendaActivity"
+            android:name=".minerva.calendar.itemdetails.AgendaActivity"
             android:label="@string/activity_title_minerva_agenda"
-            android:parentActivityName=".ui.minerva.overview.CourseActivity">
+            android:parentActivityName=".minerva.course.singlecourse.CourseActivity">
             <intent-filter>
                 <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
 
@@ -181,10 +200,10 @@
 
         <!-- Minerva auth activity -->
         <activity
-            android:name=".ui.minerva.AuthActivity"
+            android:name=".minerva.auth.AuthActivity"
             android:label="@string/title_activity_authentication"
             android:launchMode="singleTask"
-            android:parentActivityName=".ui.main.MainActivity">
+            android:parentActivityName=".MainActivity">
 
             <!-- Intent filters: handle the custom URL scheme -->
             <intent-filter>
@@ -199,53 +218,53 @@
 
         <!-- SKO overview activity -->
         <activity
-            android:name=".ui.sko.overview.OverviewActivity"
+            android:name=".sko.OverviewActivity"
             android:label="@string/activity_title_sko_overview"
             android:launchMode="singleTop"
-            android:parentActivityName=".ui.main.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.Sko" />
 
         <!-- SKO preference activity -->
         <activity
-            android:name=".ui.sko.PreferenceActivity"
+            android:name=".sko.preferences.WrapperActivity"
             android:label="@string/activity_title_sko_preferences"
-            android:parentActivityName=".ui.sko.overview.OverviewActivity"
+            android:parentActivityName=".sko.OverviewActivity"
             android:theme="@style/Hydra.Main.NoActionBar.Sko" />
 
         <!-- SKO artist page -->
         <activity
-            android:name=".ui.sko.ArtistActivity"
+            android:name=".sko.lineup.ArtistDetailsActivity"
             android:label="Artiest"
-            android:parentActivityName=".ui.sko.overview.OverviewActivity"
+            android:parentActivityName=".sko.OverviewActivity"
             android:theme="@style/Hydra.Main.NoActionBar.Sko.SystemWindows" />
 
         <!-- Onboarding activity -->
         <activity
-            android:name=".ui.onboarding.OnboardingActivity"
+            android:name=".onboarding.OnboardingActivity"
             android:theme="@style/Theme.Intro" />
         <activity
-            android:name=".ui.ExceptionDialogActivity"
+            android:name=".common.ui.ExceptionDialogActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
         <activity
-            android:name=".ui.minerva.CalendarPermissionActivity"
+            android:name=".minerva.calendar.sync.CalendarPermissionActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
 
         <!-- Library details -->
         <activity
-            android:name=".ui.library.LibraryDetailActivity"
+            android:name=".library.details.LibraryDetailActivity"
             android:label="Bibliotheek"
-            android:parentActivityName=".ui.main.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
 
         <!-- Firebase messages -->
-        <service android:name=".service.notifications.FirebaseMessageService">
+        <service android:name=".sko.FirebaseMessageService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <!-- Account service -->
-        <service android:name=".data.auth.MinervaService">
+        <service android:name=".minerva.account.MinervaService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -257,7 +276,7 @@
 
         <!-- Minerva sync service -->
         <service
-            android:name=".data.sync.minerva.MinervaService"
+            android:name=".minerva.common.sync.MinervaService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -271,15 +290,35 @@
         <!-- Stub minerva provider -->
         <provider
             android:readPermission="be.ugent.zeus.hydra.minerva.READ_COURSES"
-            android:name=".data.sync.minerva.MinervaProvider"
+            android:name=".minerva.common.sync.MinervaProvider"
             android:authorities="be.ugent.zeus.hydra.minerva.provider"
             android:exported="true"
             android:label="@string/minerva_sync_provider"
             android:syncable="true" />
 
+        <!-- Handles transferring accounts to new devices -->
+        <receiver
+            android:name=".minerva.account.AccountTransferReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.START_ACCOUNT_EXPORT" />
+            </intent-filter>
+            <!-- I don't think the ones below are used for non-system apps, but who knows -->
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.ACCOUNT_IMPORT_DATA_AVAILABLE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.ACCOUNT_EXPORT_DATA_AVAILABLE" />
+            </intent-filter>
+        </receiver>
+        <!-- The accompanying service -->
+        <service
+            android:name=".minerva.account.AccountTransferService"
+            android:exported="false" />
+
         <!-- Urgent stuff -->
         <service
-            android:name=".service.urgent.MusicService"
+            android:name=".urgent.player.MusicService"
             android:exported="true"
             android:process=":urgent">
             <intent-filter>

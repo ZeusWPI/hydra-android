@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.data.ChannelCreator;
+import be.ugent.zeus.hydra.common.ChannelCreator;
+import be.ugent.zeus.hydra.theme.ThemePreferenceFragment;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -30,6 +32,10 @@ public class HydraApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        onCreateInitialise();
+    }
+
+    protected void onCreateInitialise() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
@@ -39,6 +45,9 @@ public class HydraApplication extends Application {
         if (BuildConfig.DEBUG) {
             enableStrictModeInDebug();
         }
+
+        // Set the theme.
+        AppCompatDelegate.setDefaultNightMode(ThemePreferenceFragment.getNightMode(this));
 
         AndroidThreeTen.init(this);
         LeakCanary.install(this);
@@ -93,16 +102,15 @@ public class HydraApplication extends Application {
      * Create notifications channels when needed.
      * TODO: should this move to the SKO activity?
      */
-    private void createChannels() {
+    protected void createChannels() {
         ChannelCreator channelCreator = ChannelCreator.getInstance(this);
         channelCreator.createSkoChannel();
-        channelCreator.createUrgentChannel();
     }
 
     /**
      * Used to enable {@link StrictMode} for debug builds.
      */
-    private void enableStrictModeInDebug() {
+    protected void enableStrictModeInDebug() {
 
         if (!BuildConfig.DEBUG_ENABLE_STRICT_MODE) {
             return;

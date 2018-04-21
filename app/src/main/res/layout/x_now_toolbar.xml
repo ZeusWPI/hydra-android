@@ -19,7 +19,7 @@
         android:layout_gravity="center_vertical"
         tools:src="@drawable/tabs_resto"
         tools:ignore="MissingPrefix"
-        android:tint="@color/ugent_blue_lighter"
+        android:tint="@color/hydra_now_toolbar_icon_tint"
         android:contentDescription="@string/content_desc_resto"/>
 
     <TextView
@@ -41,7 +41,7 @@
         android:padding="8dp"
         android:layout_marginRight="8dp"
         android:layout_gravity="center_vertical"
-        android:tint="@color/ugent_blue_lighter"
+        android:tint="@color/hydra_text_secondary"
         app:srcCompat="@drawable/ic_more_vert"
         tools:ignore="MissingPrefix"
         android:id="@+id/now_toolbar_menu"

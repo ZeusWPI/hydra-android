@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:targetApi="lollipop"
-    tools:context=".ui.library.LibraryDetailActivity">
+    tools:context=".library.details.LibraryDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -91,9 +91,8 @@
                         android:height="48dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/Base.TextAppearance.AppCompat.Subhead"
+                        style="@style/Subhead"
                         android:text="@string/library_address_title"
-                        android:textColor="?attr/colorAccent"
                         android:gravity="center_vertical" />
 
                     <TextView
@@ -153,9 +152,8 @@
                                 android:height="48dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/Base.TextAppearance.AppCompat.Subhead"
+                                style="@style/Subhead"
                                 android:text="@string/library_info_remarks"
-                                android:textColor="?attr/colorAccent"
                                 android:gravity="center_vertical" />
 
                             <TextView
@@ -173,9 +171,8 @@
                                 android:height="48dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/Base.TextAppearance.AppCompat.Subhead"
+                                style="@style/Subhead"
                                 android:text="@string/library_info_details"
-                                android:textColor="?attr/colorAccent"
                                 android:gravity="center_vertical" />
 
                             <TableLayout
@@ -250,7 +247,6 @@
                 android:layout_height="wrap_content"
                 style="@style/Base.TextAppearance.AppCompat.Title"
                 android:text="@string/library_opening_hours_title"
-                android:textColor="?attr/colorAccent"
                 android:gravity="center_vertical" />
 
             <FrameLayout

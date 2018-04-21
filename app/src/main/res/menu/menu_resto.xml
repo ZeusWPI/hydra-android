@@ -1,9 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
-		android:id="@+id/action_refresh"
+		android:id="@+id/action_history"
 		android:orderInCategory="50"
 		app:showAsAction="ifRoom"
+		android:icon="@drawable/ic_history"
+		android:title="@string/resto_history" />
+	<item
+		android:id="@+id/action_refresh"
+		android:orderInCategory="60"
+		app:showAsAction="never"
 		android:icon="@drawable/ic_refresh"
 		android:title="@string/action_refresh" />
 	<item

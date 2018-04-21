@@ -6,7 +6,7 @@
     android:viewportHeight="48">
 
     <path
-        android:fillColor="@color/launcher_icon_main"
+        android:fillColor="@color/hydra_launcher_color"
         android:pathData="M23.6006,12.9978 C20.8275,13.7978,19.3312,16.8078,19.3828,19.5278
 C19.3502,20.6879,19.8336,21.7478,20.1759,22.8278
 C20.4529,23.5178,19.9968,24.1879,19.8528,24.8478

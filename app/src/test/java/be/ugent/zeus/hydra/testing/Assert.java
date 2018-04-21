@@ -3,8 +3,10 @@ package be.ugent.zeus.hydra.testing;
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
-import be.ugent.zeus.hydra.domain.models.MockParcel;
+
+import be.ugent.zeus.hydra.common.MockParcel;
 import be.ugent.zeus.hydra.testing.matcher.ShallowButFullEqual;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.hamcrest.Description;
@@ -12,10 +14,10 @@ import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.ComparisonFailure;
+import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -81,6 +83,21 @@ public class Assert {
                     public void describeTo(Description description) {
                         description.appendValue(instance);
                     }
+                })
+                .withMatcher(OffsetDateTime.class, o -> new TypeSafeDiagnosingMatcher<OffsetDateTime>() {
+                    @Override
+                    protected boolean matchesSafely(OffsetDateTime item, Description mismatchDescription) {
+                        if (!o.isEqual(item)) {
+                            mismatchDescription.appendText(" was ").appendValue(item);
+                            return false;
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public void describeTo(Description description) {
+                        description.appendValue(instance);
+                    }
                 });
     }
 
@@ -100,10 +117,11 @@ public class Assert {
      * @param expected The expected collection.
      * @param actual The actual collection.
      */
-    public static void assertCollectionEquals(Collection<?> expected, Collection<?> actual) {
-        assertEquals(expected.size(), actual.size());
-        HashSet<Object> actualSet = new HashSet<>(actual);
-        HashSet<Object> notEqual = new HashSet<>(expected);
+    public static <T> void assertCollectionEquals(Iterable<T> expected, Iterable<T> actual) {
+        HashSet<Object> actualSet = new HashSet<>();
+        HashSet<Object> notEqual = new HashSet<>();
+        CollectionUtils.addAll(actualSet, actual.iterator());
+        CollectionUtils.addAll(notEqual, actual.iterator());
         assertEquals(notEqual, actualSet);
     }
 }

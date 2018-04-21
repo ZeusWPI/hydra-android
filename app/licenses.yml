@@ -9,11 +9,7 @@
   url: https://developer.android.com/topic/libraries/architecture/index.html
 - artifact: android.arch.core:runtime:+
   skip: true
-- artifact: android.arch.lifecycle:common:+
-  skip: true
-- artifact: android.arch.lifecycle:extensions:+
-  skip: true
-- artifact: android.arch.lifecycle:runtime:+
+- artifact: android.arch.lifecycle:+:+
   skip: true
 - artifact: android.arch.persistence.room:+:+
   skip: true
@@ -28,29 +24,34 @@
 - artifact: com.google.firebase:+:+
   skip: true
 
-- artifact: com.github.alexfu:SQLiteQueryBuilder:+
-  name: SQLiteQueryBuilder
-  copyrightHolder: Alex Fu
-  license: MIT License
-  url: https://github.com/alexfu/SQLiteQueryBuilder
-
 - artifact: org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:+
   name: Apache Oltu - OAuth 2.0 - Client
   copyrightHolder: Apache Software Foundation
   license: The Apache Software License, Version 2.0
   url: https://oltu.apache.org/
 
-- artifact: com.google.code.gson:gson:+
-  name: Gson
-  copyrightHolder: Google Inc.
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/google/gson
-
 - artifact: com.squareup.picasso:picasso:+
   name: Picasso
   copyrightHolder: Square, Inc.
   license: The Apache Software License, Version 2.0
   url: http://square.github.io/picasso/
+
+- artifact: com.squareup.okhttp3:okhttp:+
+  name: OkHttp
+  copyrightHolder: Square
+  license: The Apache Software License, Version 2.0
+- artifact: com.squareup.okio:okio:+
+  name: Okio
+  copyrightHolder: Square
+  license: The Apache Software License, Version 2.0
+- artifact: com.squareup.okhttp3:logging-interceptor:+
+  name: OkHttp
+  copyrightHolder: Square
+  license: The Apache Software License, Version 2.0
+- artifact: com.squareup.moshi:moshi:+
+  name: Moshi
+  copyrightHolder: Square
+  license: The Apache Software License, Version 2.0
 
 - artifact: com.github.pluscubed:recycler-fast-scroll:+
   name: recycler-fast-scroll
@@ -63,12 +64,6 @@
   copyrightHolder: j2esu (Evgeny Egorov)
   license: The Apache Software License, Version 2.0
   url: https://github.com/j2esu/rv-joiner
-
-- artifact: org.springframework.android:+:+
-  name: Spring for Android
-  copyrightHolder: Spring Authors
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/SpringSource/spring-android
 
 - artifact: com.timehop.stickyheadersrecyclerview:library:+
   name: Sticky Headers RecyclerView

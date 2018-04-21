@@ -13,12 +13,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <be.ugent.zeus.hydra.ui.common.widgets.NowToolbar
+        <be.ugent.zeus.hydra.common.ui.widgets.NowToolbar
             android:id="@+id/card_now_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:icon="@drawable/tabs_urgent"
-            app:title="@string/title_home_urgent" />
+            app:title="@string/title_home_urgent"
+            app:menu="@menu/now_toolbar_urgent" />
 
         <LinearLayout
             android:paddingLeft="@dimen/card_title_padding_vertical"

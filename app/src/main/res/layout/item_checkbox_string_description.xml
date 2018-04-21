@@ -30,7 +30,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_typography_secondary_text_color_dark"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="@dimen/material_list_normal_secondary_text_size"
             android:id="@+id/description_checkbox"
             tools:text="Description" />

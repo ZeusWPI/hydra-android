@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".resto.history.HistoryActivity"
+    tools:menu="menu_resto"
+    android:id="@+id/coordinator">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/app_bar_layout">
+
+        <include layout="@layout/x_toolbar_no_scroll" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <FrameLayout
+            android:paddingTop="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/bottom_toolbar_height"
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/x_progress_bar" />
+
+            <TextView
+                android:paddingLeft="@dimen/vertical_padding"
+                android:paddingRight="@dimen/vertical_padding"
+                android:visibility="gone"
+                android:id="@+id/error_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/bottom_toolbar"
+        android:background="?colorPrimary"
+        android:paddingRight="88dp"
+        android:paddingEnd="88dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_toolbar_height"
+        android:layout_gravity="bottom"
+        android:layout_below="@id/scroll"
+        android:ellipsize="marquee"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        tools:ignore="RtlSymmetry">
+
+        <Spinner
+            android:id="@+id/resto_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            tools:listitem="@android:layout/simple_spinner_item" />
+
+        <ProgressBar
+            android:id="@+id/resto_progress_bar"
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <!--
+        The padding should be 16dp, but for compatibility reasons, we use 6dp, together with useCompatPadding=true.
+        This will make the padding internal, resulting in uniform padding across API levels.
+        This workaround may be removed once we are on API >= 21 (Lollipop)
+     -->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_calendar_clock"
+        android:tint="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/bottom_toolbar"
+        android:layout_marginRight="6dp"
+        android:layout_marginEnd="6dp"
+        app:layout_anchorGravity="top|right"
+        app:elevation="@dimen/material_elevation_fab_resting"
+        app:useCompatPadding="true" />
+
+</android.support.design.widget.CoordinatorLayout>
