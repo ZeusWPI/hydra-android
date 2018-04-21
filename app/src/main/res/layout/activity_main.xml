@@ -86,7 +86,6 @@
         android:layout_gravity="start"
         app:itemTextColor="@color/white"
         app:itemIconTint="@color/white"
-        app:itemBackground="@drawable/drawer_item_selector"
         android:background="@color/ugent_blue"
         app:menu="@menu/drawer_items"
         android:fitsSystemWindows="true"/>
