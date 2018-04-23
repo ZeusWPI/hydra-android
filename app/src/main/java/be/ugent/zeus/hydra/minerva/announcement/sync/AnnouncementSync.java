@@ -14,11 +14,12 @@ import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.sync.Synchronisation;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;
+import be.ugent.zeus.hydra.minerva.common.sync.NotificationHelper;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import be.ugent.zeus.hydra.minerva.course.Module;
-import be.ugent.zeus.hydra.minerva.common.sync.NotificationHelper;
 import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
+import com.squareup.moshi.JsonDataException;
 import java8.util.Maps;
 import org.threeten.bp.Instant;
 
@@ -31,7 +32,7 @@ import static be.ugent.zeus.hydra.utils.IterableUtils.transform;
 
 /**
  * Syncs the announcements for Minerva.
- *
+ * <p>
  * The exact details of the synchronisation algorithm can be found by looking at the {@link #synchronise(Account, boolean)} ()} method.
  *
  * @author Niko Strijbol
@@ -77,7 +78,6 @@ public class AnnouncementSync {
      *
      * @param account       The account for which the synchronisation happens.
      * @param isInitialSync If this is the initial sync, e.g. when adding an account.
-     *
      * @throws RequestException If something went wrong.
      */
     @WorkerThread
@@ -108,12 +108,11 @@ public class AnnouncementSync {
 
     /**
      * Synchronise the announcements for one course.
-     *
+     * <p>
      * This method will also take care of managing notifications.
      *
      * @param account The account.
      * @param course  The course to synchronise.
-     *
      * @throws RequestException If something goes wrong contacting the server.
      */
     private void synchroniseCourse(Account account, Course course, boolean isInitialSync) throws RequestException {
@@ -138,43 +137,40 @@ public class AnnouncementSync {
         // Normally, if the we just enabled announcements above, the request below should not fail.
         // Get which requests are unread on the server.
         WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, context, account);
-        Result<ApiWhatsNew> result = whatsNewRequest.performRequest(null);
+        ApiWhatsNew whatsNew;
 
-        // If there was an error, check if the course in question actually supports announcements or not.
-        if (result.hasException() && result.getError().getCause() instanceof InvalidFormatException) {
-            Log.i(TAG, "Error occurred while reading response.");
+        try {
+            whatsNew = whatsNewRequest.performRequest(null).getOrThrow();
+        } catch (InvalidFormatException e) {
+            // If this exception occurs here, it's most likely a course that does not have every module enabled.
+            // We check this with a new request.
+            Log.i(TAG, "Error occurred while reading response.", e);
             ApiTools tools = new ModuleRequest(context, account, course).performRequest(null).getOrThrow();
             EnumSet<Module> enabled = tools.asModules();
             if (!enabled.contains(Module.ANNOUNCEMENTS)) {
                 // Save the disabled modules.
                 course.setDisabledModules(EnumSet.complementOf(enabled));
                 courseDao.update(course);
-                // Return.
+                // Return, we are done for this course.
                 Log.i(TAG, "Announcements disabled for " + course.getId() + ", skipping.");
                 return;
             }
             // Else, we do nothing, since it is another error. We let the exception propagate.
+            throw e;
         }
 
         // Get all announcements from the server.
         AnnouncementsRequest request = new AnnouncementsRequest(context, account, course);
-        List<Announcement> serverAnnouncements = request.performRequest(null)
-                .map(announcements -> transform(announcements.announcements, announcementDTO -> ApiAnnouncementMapper.INSTANCE.convert(announcementDTO, course)))
-                .getOrThrow();
+        List<Announcement> serverAnnouncements = request.performRequest(null).map(announcements -> transform(announcements.announcements, announcementDTO -> ApiAnnouncementMapper.INSTANCE.convert(announcementDTO, course))).getOrThrow();
 
         // Get the announcements from the database. This returns the ID of the announcements and the read
         // date, since we want to preserve that.
         Map<Integer, Instant> existing = announcementDao.getIdsAndReadDateFor(course);
 
         // We calculate the diff.
-        Synchronisation<Announcement, Integer> synchronisation = new Synchronisation<>(
-                existing.keySet(),
-                serverAnnouncements,
-                Announcement::getItemId
-        );
+        Synchronisation<Announcement, Integer> synchronisation = new Synchronisation<>(existing.keySet(), serverAnnouncements, Announcement::getItemId);
         Synchronisation.Diff<Announcement, Integer> diff = synchronisation.diff();
 
-        ApiWhatsNew whatsNew = result.getOrThrow();
         List<Announcement> unreadOnServer = new ArrayList<>(transform(whatsNew.announcements, announcementDTO -> ApiAnnouncementMapper.INSTANCE.convert(announcementDTO, course)));
 
         Instant now = Instant.now();
@@ -197,10 +193,7 @@ public class AnnouncementSync {
         List<Announcement> toNotify = new ArrayList<>();
 
         // Check if we need to notify for announcements that have been sent as an e-mail.
-        boolean notifyIfEmailWasSent = preferences.getBoolean(
-                MinervaPreferenceFragment.PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL,
-                MinervaPreferenceFragment.PREF_DEFAULT_ANNOUNCEMENT_NOTIFICATION_EMAIL
-        );
+        boolean notifyIfEmailWasSent = preferences.getBoolean(MinervaPreferenceFragment.PREF_ANNOUNCEMENT_NOTIFICATION_EMAIL, MinervaPreferenceFragment.PREF_DEFAULT_ANNOUNCEMENT_NOTIFICATION_EMAIL);
         // Check if global announcements are enabled.
         boolean globalEnabled = preferences.getBoolean(MinervaPreferenceFragment.PREF_ANNOUNCEMENT_NOTIFICATION, true);
         // Check if announcements are enabled for this course
@@ -214,7 +207,6 @@ public class AnnouncementSync {
             notify the user of a new announcement. If the announcement is not unread on the server OR announcements
             are disabled for this course, immediately mark the announcement as read.
              */
-            // If the announcement is unread on the server, and announcements are enabled for this course
             if (unreadOnServer.contains(announcement) && courseEnabled) {
                 /*
                 The notification for an announcement is sent, if:
@@ -247,6 +239,7 @@ public class AnnouncementSync {
      */
     public interface Companion {
         boolean isCancelled();
+
         void onProgress(int active, int total);
     }
 }
