@@ -11,6 +11,7 @@
     <!-- See https://github.com/captain-miao/OptionRoundCardview/issues/4 -->
 
     <com.github.captain_miao.optroundcardview.OptRoundCardView
+        app:optRoundCardBackgroundColor="@color/hydra_card_background"
         app:optRoundCardBottomEdges="false"
         app:optRoundCardLeftBottomCorner="false"
         app:optRoundCardRightBottomCorner="false"
@@ -26,14 +27,13 @@
             android:id="@+id/date_header"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="16sp"
-            android:textColor="?attr/colorAccent"
+            style="@style/Subhead"
             android:gravity="center_vertical"
             tools:text="Een datum komt hier" />
 
     </com.github.captain_miao.optroundcardview.OptRoundCardView>
 
-    <View style="@style/Divider" android:background="@color/ugent_white" />
+    <View style="@style/Divider" android:background="?android:attr/colorBackground" />
 
 </LinearLayout>
 

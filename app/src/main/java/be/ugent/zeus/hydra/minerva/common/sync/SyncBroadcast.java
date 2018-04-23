@@ -6,6 +6,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
+import be.ugent.zeus.hydra.Manifest;
+
 /**
  * Class to manage sending broadcasts from the sync adapter. These are local broadcasts.
  *
@@ -60,7 +62,7 @@ public class SyncBroadcast {
      * @param context A context that sends the broadcasts.
      */
     public SyncBroadcast(Context context) {
-        broadcastManager = LocalBroadcastManager.getInstance(context);
+        this.broadcastManager = LocalBroadcastManager.getInstance(context);
     }
 
     /**

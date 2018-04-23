@@ -9,8 +9,8 @@
     android:clickable="true">
 
     <LinearLayout
-        android:paddingLeft="@dimen/card_title_padding_vertical"
-        android:paddingRight="@dimen/card_title_padding_vertical"
+        android:paddingLeft="@dimen/material_card_title_block_padding_horizontal"
+        android:paddingRight="@dimen/material_card_title_block_padding_horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -19,19 +19,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/name"
-            android:paddingTop="@dimen/card_title_padding_top_large_title"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-            android:paddingBottom="@dimen/card_title_padding_bottom_subtitle"
-            android:textSize="@dimen/card_title_size_large"
+            android:paddingTop="@dimen/material_card_title_block_large_padding_top"
+            android:textSize="@dimen/material_card_title_block_large_title_text_size"
             tools:text="Dit is een nieuwsartikel! Met een lange titel van meerdere lijnen!" />
 
         <TextView
+            android:paddingTop="@dimen/material_card_title_block_large_subtitle_margin_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/info"
-            android:textColor="@color/ugent_blue_lighter"
+            android:textSize="@dimen/material_card_title_block_subtitle_text_size"
+            android:textColor="@color/hydra_text_accent"
             tools:text="Informatie over het artikel"
-            android:paddingBottom="@dimen/card_title_padding_bottom"/>
+            android:paddingBottom="@dimen/material_card_title_block_large_padding_bottom"/>
 
         <TextView
             android:layout_width="match_parent"

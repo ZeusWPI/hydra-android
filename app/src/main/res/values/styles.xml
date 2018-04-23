@@ -4,24 +4,18 @@
         General style for activities that need a default action bar.
         Note: it is preferred to use the toolbar, not the default action bar.
     -->
-    <style name="Hydra.Main" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/ugent_blue_medium</item>
-        <item name="colorPrimaryDark">@color/ugent_blue_dark</item>
-        <item name="android:windowBackground">@color/ugent_white</item>
-        <item name="android:colorBackground">@color/ugent_white</item>
-        <item name="colorAccent">@color/ugent_yellow_dark</item>
+    <style name="Hydra.Main" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/hydra_primary_color</item>
+        <item name="colorPrimaryDark">@color/hydra_primary_color_dark</item>
+        <item name="android:windowBackground">@color/hydra_background</item>
+        <item name="android:colorBackground">@color/hydra_background</item>
+        <item name="colorAccent">@color/hydra_accent_color</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-        <item name="android:textColorPrimary">@color/ugent_blue_dark</item>
-        <item name="android:textColorSecondary">@color/ugent_blue_medium</item>
-        <item name="android:textColorTertiary">@color/ugent_blue_medium</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textColorPrimary">@color/hydra_text_primary</item>
+        <item name="android:textColorSecondary">@color/hydra_text_secondary</item>
         <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
         <item name="windowActionModeOverlay">true</item>
-    </style>
-
-    <style name="Hydra.Main.TextColorSelector" parent="Hydra.Main">
-        <item name="android:textColorPrimary">@color/ugent_blue_dark_selector</item>
-        <item name="android:textColorSecondary">@color/ugent_blue_medium_selector</item>
-        <item name="android:textColorTertiary">@color/ugent_blue_medium_selector</item>
     </style>
 
     <!-- Same as the main theme, except there is no action bar -->
@@ -32,14 +26,16 @@
 
     <!-- Style for long texts; black & lighter font + more line spacing -->
     <style name="Hydra.LongText" parent="Base.TextAppearance.AppCompat.Body1">
-        <item name="android:textColor">@android:color/black</item>
+        <!-- No longer needed with the new colour scheme -->
+        <!--<item name="android:textColor">@android:color/black</item>-->
         <item name="android:lineSpacingMultiplier">1.2</item>
         <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
     </style>
 
     <!-- Style for long texts; black & lighter font + more line spacing -->
     <style name="Hydra.LongSubhead" parent="Base.TextAppearance.AppCompat.Subhead">
-        <item name="android:textColor">@android:color/black</item>
+        <!-- No longer needed with the new colour scheme -->
+        <!--<item name="android:textColor">@android:color/black</item>-->
         <item name="android:lineSpacingMultiplier">1.2</item>
         <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
     </style>
@@ -50,8 +46,13 @@
     </style>
 
     <!-- Needed for custom views -->
-    <style name="Material.Typography.Subhead" parent="Base.TextAppearance.AppCompat.Subhead">
+    <style name="Subhead">
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/hydra_subhead_text_color</item>
+    </style>
+
+    <style name="Subhead.Light">
+        <item name="android:textColor">@color/hydra_accent_color</item>
     </style>
 
     <style name="Material.Typography.Caption" parent="Base.TextAppearance.AppCompat.Caption" />
@@ -66,6 +67,10 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <style name="DrawerDivider">
+        <item name="android:listDivider">@color/ugent_yellow</item>
     </style>
 
     <!-- Style for SKO part of the app -->

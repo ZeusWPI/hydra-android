@@ -256,6 +256,11 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
                 AccountUtils.setExpirationDate(manager, account, expiration);
                 manager.setAuthToken(account, authType, result.getAccessToken());
 
+                // Set the account's user name if present.
+                if (information.getUserAttributes().getUid().size() >= 1) {
+                    manager.setUserData(account, AccountUtils.USERNAME, information.getUserAttributes().getUid().get(0));
+                }
+
                 //Make intent for return value
                 Intent res = new Intent();
                 res.putExtra(AccountManager.KEY_ACCOUNT_NAME, name);

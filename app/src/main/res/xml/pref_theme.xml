@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory
+		android:title="@string/pref_theme_settings">
+		<ListPreference
+			android:key="pref_theme_night_mode"
+			android:title="@string/pref_theme_use_night_title"
+			android:summary="%s"
+			android:entries="@array/pref_night_mode"
+			android:entryValues="@array/pref_night_mode_values"
+			android:defaultValue="3" />
+	</PreferenceCategory>
+
+	<PreferenceCategory
+		android:title="@string/pref_theme_explanations">
+		<Preference
+			android:persistent="false"
+			android:title="@string/pref_theme_night_mode_auto"
+			android:summary="@string/pref_theme_night_mode_auto_desc" />
+
+		<Preference
+			android:persistent="false"
+			android:title="@string/pref_theme_night_mode_never"
+			android:summary="@string/pref_theme_night_mode_never_desc" />
+
+		<Preference
+			android:persistent="false"
+			android:title="@string/pref_theme_night_mode_always"
+			android:summary="@string/pref_theme_night_mode_always_desc" />
+
+		<Preference
+			android:persistent="false"
+			android:title="@string/pref_theme_night_mode_system"
+			android:summary="@string/pref_theme_night_mode_system_desc" />
+	</PreferenceCategory>
+</PreferenceScreen>

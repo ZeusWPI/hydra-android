@@ -215,12 +215,12 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
     }
 
     private void clearDatabase() {
-        CourseRepository courseDao = RepositoryFactory.getCourseRepository(getContext());
-        courseDao.deleteAll();
         AnnouncementRepository announcementDao = RepositoryFactory.getAnnouncementRepository(getContext());
         announcementDao.deleteAll();
         AgendaItemRepository agendaItemRepository = RepositoryFactory.getAgendaItemRepository(getContext());
         agendaItemRepository.deleteAll();
+        CourseRepository courseDao = RepositoryFactory.getCourseRepository(getContext());
+        courseDao.deleteAll();
     }
 
     @Override

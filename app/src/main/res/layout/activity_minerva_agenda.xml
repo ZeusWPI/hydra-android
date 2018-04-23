@@ -112,7 +112,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="32dp"
-                                android:tint="@color/ugent_blue_dark"
+                                android:tint="?attr/colorPrimary"
                                 app:srcCompat="@drawable/ic_place"
                                 tools:ignore="MissingPrefix"
                                 tools:src="@drawable/ic_place"
@@ -146,7 +146,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="32dp"
-                                android:tint="@color/ugent_blue_dark"
+                                android:tint="?attr/colorPrimary"
                                 app:srcCompat="@drawable/ic_schedule"
                                 tools:ignore="MissingPrefix"
                                 tools:src="@drawable/ic_schedule"
@@ -195,7 +195,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="32dp"
-                                android:tint="@color/ugent_blue_dark"
+                                android:tint="?attr/colorPrimary"
                                 app:srcCompat="@drawable/ic_book_open_page_variant"
                                 tools:ignore="MissingPrefix"
                                 tools:src="@drawable/ic_book_open_page_variant"
@@ -230,7 +230,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="32dp"
-                                android:tint="@color/ugent_blue_dark"
+                                android:tint="?attr/colorPrimary"
                                 app:srcCompat="@drawable/ic_person"
                                 tools:ignore="MissingPrefix"
                                 tools:src="@drawable/ic_person"
@@ -264,7 +264,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="32dp"
-                                android:tint="@color/ugent_blue_dark"
+                                android:tint="?attr/colorAccent"
                                 app:srcCompat="@drawable/ic_warning"
                                 tools:ignore="MissingPrefix"
                                 android:contentDescription="waarschuwing"/>
@@ -299,13 +299,12 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/Base.TextAppearance.AppCompat.Subhead"
+                            style="@style/Subhead.Light"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:height="48dp"
                             android:gravity="center_vertical"
-                            android:text="@string/description"
-                            android:textColor="?attr/colorAccent" />
+                            android:text="@string/description" />
 
                         <TextView
                             android:id="@+id/agenda_description"

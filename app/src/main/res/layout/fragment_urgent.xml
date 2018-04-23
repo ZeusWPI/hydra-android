@@ -19,8 +19,7 @@
             android:layout_width="@dimen/media_control_image"
             android:layout_height="@dimen/media_control_image"
             android:contentDescription="@string/urgent_album_art"
-            app:srcCompat="@drawable/logo_urgent"
-            />
+            app:srcCompat="@drawable/logo_urgent" />
 
         <TextView
             android:paddingTop="@dimen/content_spacing"
@@ -28,6 +27,7 @@
             android:paddingRight="@dimen/activity_vertical_margin"
             android:id="@+id/artistText"
             style="?android:attr/textAppearanceMedium"
+            android:textColor="?attr/colorPrimary"
             android:ellipsize="marquee"
             tools:text="The End is the Beginning is the End (Soundtrack Version)"
             android:layout_width="match_parent"
@@ -38,6 +38,7 @@
             android:paddingLeft="@dimen/activity_vertical_margin"
             android:paddingRight="@dimen/activity_vertical_margin"
             android:id="@+id/titleText"
+            android:textColor="?attr/colorPrimary"
             style="?android:attr/textAppearanceMedium"
             android:textStyle="bold"
             android:ellipsize="marquee"
@@ -65,6 +66,7 @@
                 android:layout_height="wrap_content"
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/playPauseButton"
+                android:tint="?android:attr/textColor"
                 app:srcCompat="@drawable/ic_play_arrow_24dp" />
 
         </FrameLayout>
@@ -85,7 +87,7 @@
                 android:layout_height="@dimen/urgent_social_icon_size"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_social_facebook_inner"
-                android:tint="?android:attr/textColorPrimary"/>
+                android:tint="@color/ugent_blue_dark" />
 
             <ImageButton
                 android:id="@+id/social_instagram"
@@ -93,7 +95,7 @@
                 android:layout_height="@dimen/urgent_social_icon_size"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_social_instagram"
-                android:tint="?android:attr/textColorPrimary"/>
+                android:tint="@color/ugent_blue_dark" />
 
         </LinearLayout>
 
@@ -111,7 +113,7 @@
                 android:layout_height="@dimen/urgent_social_icon_size"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/tabs_urgent"
-                android:tint="?android:attr/textColorPrimary"/>
+                android:tint="@color/ugent_blue_dark" />
 
             <ImageButton
                 android:id="@+id/social_youtube"
@@ -119,10 +121,8 @@
                 android:layout_height="@dimen/urgent_social_icon_size"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_social_youtube"
-                android:tint="?android:attr/textColorPrimary"/>
+                android:tint="@color/ugent_blue_dark" />
 
         </LinearLayout>
-
-
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -58,7 +58,7 @@ public class NewsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
+        swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow);
 
         viewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
         viewModel.getData().observe(this, ErrorObserver.with(this::onError));

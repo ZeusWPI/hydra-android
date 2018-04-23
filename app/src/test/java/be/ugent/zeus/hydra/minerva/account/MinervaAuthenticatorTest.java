@@ -48,7 +48,6 @@ public class MinervaAuthenticatorTest {
 
     @Test
     public void addAccount() {
-
         Bundle bundle = authenticator.addAccount(response, MinervaConfig.ACCOUNT_TYPE, MinervaConfig.DEFAULT_SCOPE, null, Bundle.EMPTY);
         Intent intent = bundle.getParcelable(AccountManager.KEY_INTENT);
         assertNotNull(intent);
@@ -62,9 +61,17 @@ public class MinervaAuthenticatorTest {
         assertEquals(Bundle.EMPTY, intent.getBundleExtra(AuthActivity.ARG_EXTRA_BUNDLE));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
-    public void confirmCredentials() throws Exception {
-        authenticator.confirmCredentials(response, testAccount, new Bundle());
+    @Test
+    public void confirmCredentials() {
+        Bundle bundle = authenticator.confirmCredentials(response, testAccount, new Bundle());
+        Intent intent = bundle.getParcelable(AccountManager.KEY_INTENT);
+        assertNotNull(intent);
+
+        assertNotNull(intent.getComponent());
+        assertEquals(AuthActivity.class.getName(), intent.getComponent().getClassName());
+        assertEquals(MinervaConfig.ACCOUNT_TYPE, intent.getStringExtra(AuthActivity.ARG_ACCOUNT_TYPE));
+        assertFalse(intent.getBooleanExtra(AuthActivity.ARG_ADDING_NEW_ACCOUNT, false));
+        assertEquals(response, intent.getParcelableExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE));
     }
 
     /**

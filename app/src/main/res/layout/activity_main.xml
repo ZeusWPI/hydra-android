@@ -68,19 +68,25 @@
             android:layout_height="@dimen/material_bottom_nav_bar_height"
             app:elevation="@dimen/material_bottom_nav_bar_elevation"
             android:layout_gravity="bottom"
-            app:menu="@menu/bottom_resto"
-            app:itemBackground="?android:colorBackground" />
+            android:background="?attr/colorPrimary"
+            app:itemIconTint="@color/material_typography_primary_text_color_light"
+            app:itemTextColor="@color/material_typography_primary_text_color_light"
+            app:menu="@menu/bottom_resto" />
 
     </android.support.design.widget.CoordinatorLayout>
 
     <!-- The navigation drawer that comes from the left -->
     <!-- Note that `android:layout_gravity` needs to be set to 'start' -->
     <android.support.design.widget.NavigationView
+        android:theme="@style/DrawerDivider"
         app:headerLayout="@layout/drawer_header"
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:itemTextColor="@color/white"
+        app:itemIconTint="@color/white"
+        android:background="@color/ugent_blue"
         app:menu="@menu/drawer_items"
         android:fitsSystemWindows="true"/>
 

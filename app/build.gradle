@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.cookpad.android.licensetools'
+//apply plugin: 'com.cookpad.android.licensetools'
 
 android {
     compileSdkVersion 27
@@ -93,17 +93,24 @@ android {
     }
 }
 
-project.afterEvaluate {
-    preBuild.dependsOn checkLicenses, generateLicensePage
-}
+//project.afterEvaluate {
+//    preBuild.dependsOn checkLicenses, generateLicensePage
+//}
 
 //The support library version
-final SUPPORT_LIBRARY_VERSION = '27.1.0'
+final SUPPORT_LIBRARY_VERSION = '27.1.1'
 final GMS_VERSION = '11.8.0'
 final AAC_VERSION = '1.1.0'
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    // TODO: properly fix this
+//    if (project.gradle.startParameter.taskNames.contains("checkLicenses")) {
+//        implementation project(path: ':provider-contract', configuration: 'default')
+//    } else {
+        implementation project(':provider-contract')
+//    }
+
     implementation "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
     implementation "com.android.support:support-v13:$SUPPORT_LIBRARY_VERSION"
     implementation "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
@@ -119,12 +126,15 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:$AAC_VERSION"
     testImplementation("android.arch.core:core-testing:$AAC_VERSION") {
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-compat'
+        exclude group: 'com.android.support', module: 'support-core-utils'
     }
 
     implementation "android.arch.persistence.room:runtime:1.0.0"
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
     testImplementation("android.arch.persistence.room:testing:1.0.0") {
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-core-utils'
     }
 
@@ -152,7 +162,7 @@ dependencies {
     implementation 'blue.aodev:material-values:1.1.1'
 
     // Used for the OAuth stuff
-    compile('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
+    implementation('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
         exclude group: 'org.apache.oltu.oauth2'
     }
 

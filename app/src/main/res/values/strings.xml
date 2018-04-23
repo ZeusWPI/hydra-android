@@ -6,6 +6,10 @@
     <string name="name_minerva">Minerva</string>
     <string name="name_schamper">Schamper</string>
 
+    <!-- Permissions -->
+    <string name="permissions_read_courses">Minerva-vakken lezen</string>
+    <string name="permissions_read_courses_desc">Staat apps toe om de lijst van Minerva-vakken te lezen en informatie over de vakken te lezen.</string>
+
     <!-- Navigation tabs -->
     <string name="nieuws">hydra</string>
     <string name="activiteiten">activiteiten</string>
@@ -393,7 +397,21 @@
     <string name="sko_artist_no_content">Geen beschrijving gevonden voor deze artiest.</string>
     <string name="sko_artist_time">%1$s tot %2$s</string>
     <string name="activity_title_homefeed_card_types">Kaartsoorten</string>
-    <string name="events_unnamed_precise_location">Precieze locatie: (%1$f, %2$f)</string>µ
+    <string name="events_unnamed_precise_location">Precieze locatie: (%1$f, %2$f)</string>
+
+    <string name="pref_header_theme_title">Lay-out</string>
+    <string name="pref_header_theme_desc">Opties voor de lay-out van de app</string>
+    <string name="pref_theme_use_night_title">Nachtmodus gebruiken</string>
+    <string name="pref_theme_night_mode_always">Altijd donker</string>
+    <string name="pref_theme_night_mode_always_desc">Gebruik altijd het donkere thema.</string>
+    <string name="pref_theme_night_mode_system">Systeemstandaard</string>
+    <string name="pref_theme_night_mode_system_desc">Volg de systeemstandaard. Meestal is dit hetzelfde als "Altijd licht".</string>
+    <string name="pref_theme_night_mode_never">Altijd licht</string>
+    <string name="pref_theme_night_mode_never_desc">Gebruik altijd het lichte thema.</string>
+    <string name="pref_theme_night_mode_auto">Automatisch kiezen</string>
+    <string name="pref_theme_night_mode_auto_desc">Kies automatisch op basis van de tijd.</string>
+    <string name="pref_theme_settings">Instellingen</string>
+    <string name="pref_theme_explanations">Uitleg over de modi</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_unread_icon">Heeft ongelezen aankondigingen</string>

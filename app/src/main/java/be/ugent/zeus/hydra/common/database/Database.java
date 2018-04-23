@@ -56,7 +56,7 @@ public abstract class Database extends RoomDatabase {
      *
      * @return An instance of the database.
      */
-    static Database get(Context context) {
+    public static Database get(Context context) {
         synchronized (LOCK) {
             if (instance == null) {
                 instance = Room.databaseBuilder(context.getApplicationContext(), Database.class, NAME)

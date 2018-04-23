@@ -24,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class RestoLocationActivity extends BaseActivity implements OnMapReadyCallback {
@@ -66,7 +67,6 @@ public class RestoLocationActivity extends BaseActivity implements OnMapReadyCal
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-
         if (meta != null) {
             addData();
         }
@@ -109,6 +109,7 @@ public class RestoLocationActivity extends BaseActivity implements OnMapReadyCal
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_LOCATION_REQUEST_CODE);
         }
 
+        map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.maps));
         map.getUiSettings().setMyLocationButtonEnabled(true);
         for (Resto location : meta.locations) {
             LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());

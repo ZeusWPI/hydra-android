@@ -60,7 +60,7 @@ public class LibraryListFragment extends Fragment {
         // adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow_dark);
+        swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow);
 
         viewModel = ViewModelProviders.of(this).get(LibraryViewModel.class);
         viewModel.getData().observe(this, ErrorObserver.with(this::onError));

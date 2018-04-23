@@ -97,6 +97,8 @@ public class MinervaAdapter extends AbstractAdapter {
             agendaDao.deleteAll();
             announcementDao.deleteAll();
             courseDao.deleteAll();
+        } else {
+            Log.i(TAG, "Not the first sync, so not clearing anything.");
         }
 
         // First, we synchronise the courses.

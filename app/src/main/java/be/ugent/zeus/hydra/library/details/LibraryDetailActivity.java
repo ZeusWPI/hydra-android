@@ -101,7 +101,7 @@ public class LibraryDetailActivity extends BaseActivity {
         Drawable drawable;
         if (favourites.contains(library.getCode())) {
             button.setSelected(true);
-            drawable = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star, R.color.ugent_yellow_dark);
+            drawable = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star, R.color.ugent_yellow);
         } else {
             drawable = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star, R.color.ugent_blue_dark);
             button.setSelected(false);
@@ -117,7 +117,7 @@ public class LibraryDetailActivity extends BaseActivity {
                 button.setSelected(false);
             } else {
                 PreferencesUtils.addToStringSet(LibraryDetailActivity.this, LibraryListFragment.PREF_LIBRARY_FAVOURITES, library.getCode());
-                DrawableCompat.setTint(drawable, ActivityCompat.getColor(LibraryDetailActivity.this, R.color.ugent_yellow_dark));
+                DrawableCompat.setTint(drawable, ActivityCompat.getColor(LibraryDetailActivity.this, R.color.ugent_yellow));
                 button.setSelected(true);
             }
         });
@@ -198,17 +198,6 @@ public class LibraryDetailActivity extends BaseActivity {
         final int rowPadding = ViewUtils.convertDpToPixelInt(4, this);
 
         TableLayout tableLayout = new TableLayout(this);
-
-        TableRow header = new TableRow(this);
-        TextView dateHeader = new TextView(this);
-        dateHeader.setTypeface(null, Typeface.BOLD);
-        dateHeader.setText(R.string.library_opening_header_date);
-        TextView hoursHeader = new TextView(this);
-        hoursHeader.setTypeface(null, Typeface.BOLD);
-        hoursHeader.setText(R.string.library_opening_header_hours);
-        header.addView(dateHeader);
-        header.addView(hoursHeader);
-        tableLayout.addView(header);
 
         for (OpeningHours hours : list) {
             TableRow tableRow = new TableRow(this);

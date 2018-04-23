@@ -106,7 +106,7 @@
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_marginRight="32dp"
-                            android:tint="@color/ugent_blue_dark"
+                            android:tint="?attr/colorPrimary"
                             app:srcCompat="@drawable/ic_place"
                             tools:src="@drawable/ic_place"
                             tools:ignore="MissingPrefix"
@@ -140,7 +140,7 @@
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_marginRight="32dp"
-                            android:tint="@color/ugent_blue_dark"
+                            android:tint="?attr/colorPrimary"
                             app:srcCompat="@drawable/ic_schedule"
                             tools:src="@drawable/ic_schedule"
                             tools:ignore="MissingPrefix"
@@ -215,7 +215,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/event_organisator_main"
-                                style="@style/Base.TextAppearance.AppCompat.Title"
+                                android:textSize="@dimen/material_typography_regular_title_text_size"
                                 tools:text="Lange organisatienaam!" />
 
                             <TextView
@@ -251,9 +251,8 @@
                         android:height="48dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/Base.TextAppearance.AppCompat.Subhead"
+                        style="@style/Subhead"
                         android:text="@string/description"
-                        android:textColor="?attr/colorAccent"
                         android:gravity="center_vertical" />
 
                     <TextView

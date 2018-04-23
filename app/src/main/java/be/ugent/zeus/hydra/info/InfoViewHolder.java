@@ -2,11 +2,14 @@ package be.ugent.zeus.hydra.info;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
 /**
@@ -16,27 +19,32 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
  */
 class InfoViewHolder extends DataViewHolder<InfoItem> {
 
-    private TextView title;
+    private final TextView title;
+    private final ActivityHelper helper;
 
-    InfoViewHolder(View v) {
+    InfoViewHolder(View v, ActivityHelper helper) {
         super(v);
         title = v.findViewById(R.id.info_name);
+        this.helper = helper;
     }
 
     @Override
     public void populate(final InfoItem infoItem) {
-
-        title.setText(infoItem.getTitle());
-        itemView.setOnClickListener(v -> infoItem.getType().doOnClick(v.getContext(), infoItem));
-
-        int color = R.color.ugent_blue_dark;
         Context c = itemView.getContext();
-        Drawable more = infoItem.getType().getDrawable(c, color);
+        title.setText(infoItem.getTitle());
+        itemView.setOnClickListener(v -> infoItem.getType().doOnClick(v.getContext(), helper, infoItem));
+
+        // Get the primary colour of the app.
+        TypedValue typedValue = new TypedValue();
+        c.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+
+        int color = ContextCompat.getColor(c, typedValue.resourceId);
+        Drawable more = infoItem.getType().getDrawable(itemView.getContext(), typedValue.resourceId);
 
         //If the item itself has an image.
         if (infoItem.getImage() != null) {
             int resId = c.getResources().getIdentifier(infoItem.getImage(), "drawable", c.getPackageName());
-            Drawable icon = ViewUtils.getTintedVectorDrawable(c, resId, color);
+            Drawable icon = ViewUtils.getTintedVectorDrawable(c, resId, typedValue.resourceId);
             title.setCompoundDrawablesWithIntrinsicBounds(icon, null, more, null);
         } else {
             title.setCompoundDrawablesWithIntrinsicBounds(null, null, more, null);

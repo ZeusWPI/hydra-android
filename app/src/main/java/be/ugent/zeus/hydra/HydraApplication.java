@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.common.ChannelCreator;
+import be.ugent.zeus.hydra.theme.ThemePreferenceFragment;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -43,6 +45,9 @@ public class HydraApplication extends Application {
         if (BuildConfig.DEBUG) {
             enableStrictModeInDebug();
         }
+
+        // Set the theme.
+        AppCompatDelegate.setDefaultNightMode(ThemePreferenceFragment.getNightMode(this));
 
         AndroidThreeTen.init(this);
         LeakCanary.install(this);

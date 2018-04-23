@@ -10,8 +10,8 @@
     android:longClickable="true">
 
     <LinearLayout
-        android:paddingLeft="@dimen/list_two_line_padding_vertical"
-        android:paddingRight="@dimen/list_two_line_padding_vertical"
+        android:paddingLeft="@dimen/material_list_text_only_margin_horizontal"
+        android:paddingRight="@dimen/material_list_text_only_margin_horizontal"
         android:paddingTop="@dimen/list_two_line_padding_horizontal"
         android:paddingBottom="@dimen/list_two_line_padding_horizontal"
         android:id="@+id/background_container"
@@ -22,15 +22,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textSize="@dimen/list_two_line_primary_text_size"
+            android:textSize="@dimen/material_list_normal_primary_text_size"
             android:id="@+id/title"
             tools:text="Titel" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/list_two_line_secondary_text_size"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="@dimen/material_list_normal_secondary_text_size"
             android:id="@+id/subtitle"
             tools:text="Vak en datum" />
 
