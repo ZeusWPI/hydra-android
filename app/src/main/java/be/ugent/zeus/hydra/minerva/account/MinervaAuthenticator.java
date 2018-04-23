@@ -80,8 +80,15 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
     }
 
     @Override
-    public Bundle confirmCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse, Account account, Bundle bundle) {
-        throw new UnsupportedOperationException();
+    public Bundle confirmCredentials(AccountAuthenticatorResponse response, Account account, Bundle bundle) {
+        final Intent intent = new Intent(mContext, AuthActivity.class);
+        intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+        intent.putExtra(AuthActivity.ARG_ACCOUNT_TYPE, account.type);
+
+        Log.d(TAG, "Account needs re-validation.");
+        final Bundle result = new Bundle(bundle == null ? Bundle.EMPTY : bundle);
+        result.putParcelable(AccountManager.KEY_INTENT, intent);
+        return result;
     }
 
     /**
