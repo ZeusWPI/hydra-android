@@ -162,7 +162,7 @@ dependencies {
     implementation 'blue.aodev:material-values:1.1.1'
 
     // Used for the OAuth stuff
-    compile('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
+    implementation('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2') {
         exclude group: 'org.apache.oltu.oauth2'
     }
 

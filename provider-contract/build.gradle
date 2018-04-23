@@ -10,13 +10,4 @@ android {
         versionName "1.0.0"
         versionCode 100
     }
-
-    buildTypes {
-        release {
-            minifyEnabled true
-        }
-        debug {
-            debuggable true
-        }
-    }
 }
