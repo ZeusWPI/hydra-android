@@ -47,7 +47,7 @@
 
     <!-- Our own permission to read courses. -->
     <permission android:name="be.ugent.zeus.hydra.minerva.READ_COURSES"
-        android:protectionLevel="normal"
+        android:protectionLevel="signature"
         android:label="@string/permissions_read_courses"
         android:description="@string/permissions_read_courses_desc" />
 

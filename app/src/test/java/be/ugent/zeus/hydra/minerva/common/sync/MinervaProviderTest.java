@@ -1,20 +1,17 @@
-package be.ugent.zeus.hydra.data.sync.minerva;
+package be.ugent.zeus.hydra.minerva.common.sync;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.support.annotation.RequiresApi;
 
-import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.data.database.minerva2.AbstractDaoTest;
-import be.ugent.zeus.hydra.data.database.minerva2.MinervaDatabase;
-import be.ugent.zeus.hydra.data.dto.minerva.CourseDTO;
-import be.ugent.zeus.hydra.minerva.provider.contract.CourseContract;
+import be.ugent.zeus.hydra.common.database.Database;
+import be.ugent.zeus.hydra.minerva.AbstractDaoTest;
+import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
+import be.ugent.zeus.hydra.minerva.provider.CourseContract;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowContentResolver;
 
 import java.io.IOException;
@@ -29,8 +26,6 @@ import static org.junit.Assert.assertTrue;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
-@RequiresApi(api = 26)
 public class MinervaProviderTest extends AbstractDaoTest {
 
     @Before
@@ -38,7 +33,7 @@ public class MinervaProviderTest extends AbstractDaoTest {
         super.setUp();
         MinervaProvider provider = new MinervaProvider() {
             @Override
-            protected MinervaDatabase getDatabase() {
+            protected Database getDatabase() {
                 return database;
             }
         };

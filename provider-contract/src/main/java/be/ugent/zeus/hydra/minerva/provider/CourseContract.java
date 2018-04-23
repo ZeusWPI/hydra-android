@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.minerva.provider.contract;
+package be.ugent.zeus.hydra.minerva.provider;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -90,5 +90,12 @@ public final class CourseContract {
          * The base content URI, as defined by the Android documentation.
          */
         Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
+    }
+
+    public interface Permission {
+        /**
+         * The name of the permission you need to hold to read the courses.
+         */
+        String READ = "be.ugent.zeus.hydra.minerva.READ_COURSES";
     }
 }

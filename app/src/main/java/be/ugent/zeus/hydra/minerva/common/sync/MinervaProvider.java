@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.minerva.common.sync;
 import android.arch.persistence.db.SupportSQLiteQuery;
 import android.arch.persistence.db.SupportSQLiteQueryBuilder;
 import android.content.ContentProvider;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -13,16 +14,20 @@ import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.Log;
 import be.ugent.zeus.hydra.common.database.Database;
-import be.ugent.zeus.hydra.minerva.provider.contract.CourseContract;
+import be.ugent.zeus.hydra.minerva.provider.CourseContract;
 
 /**
- * We only expose a read-only version of the list of courses for now.
+ * We expose a read-only list of the courses.
+ *
+ * You must hold the {@link be.ugent.zeus.hydra.Manifest.permission#READ_COURSES} permission to access them.
  *
  * @author Niko Strijbol
  */
 public class MinervaProvider extends ContentProvider {
 
     private static final String TAG = "MinervaProvider";
+
+    private static final String MIME_TYPE = "/vnd." + CourseContract.Provider.AUTHORITY + "." + CourseContract.TABLE_NAME;
 
     private static final int ALL_COURSES = 1;
     private static final int ONE_COURSE = 2;
@@ -69,7 +74,8 @@ public class MinervaProvider extends ContentProvider {
             where.append(whereClause);
             where.append(')');
         }
-        // Tackle user selection (taken from the SQLiteQueryBuilder.
+
+        // Tackle user selection (taken from the SQLiteQueryBuilder).
         if (selection != null && selection.length() > 0) {
             if (!TextUtils.isEmpty(whereClause)) {
                 where.append(" AND ");
@@ -93,11 +99,12 @@ public class MinervaProvider extends ContentProvider {
     public String getType(@NonNull Uri uri) {
         switch (uriMatcher.match(uri)) {
             case ALL_COURSES:
-                return "vnd.android.cursor.dir/vnd." + CourseContract.Provider.AUTHORITY + "." + CourseContract.TABLE_NAME;
+
+                return ContentResolver.CURSOR_DIR_BASE_TYPE + MIME_TYPE;
             case ONE_COURSE:
-                return "vnd.android.cursor.item/vnd." + CourseContract.Provider.AUTHORITY + "." + CourseContract.TABLE_NAME;
+                return ContentResolver.CURSOR_ITEM_BASE_TYPE + MIME_TYPE;
             default:
-                throw new IllegalArgumentException("Uri was not recognized.");
+                throw new IllegalArgumentException("Uri '" + uri + "' was not recognized by the provider.");
         }
     }
 
