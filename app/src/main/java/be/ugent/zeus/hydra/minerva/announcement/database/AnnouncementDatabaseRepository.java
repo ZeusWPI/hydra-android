@@ -34,6 +34,9 @@ public class AnnouncementDatabaseRepository implements AnnouncementRepository {
     @Override
     public Announcement getOne(Integer integer) {
         AnnouncementDao.Result result = announcementDao.getOne(integer);
+        if (result == null) {
+            return null;
+        }
         return announcementMapper.convert(result.announcement, courseMapper.courseToCourse(result.course));
     }
 
