@@ -106,8 +106,8 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
             LocalDateTime expires = AccountUtils.getExpirationDate(manager, account);
             LocalDateTime now = LocalDateTime.now();
 
-            //The token is invalid, so get get new one.
-            if(now.isAfter(expires)) {
+            // The token is invalid, so get get new one.
+            if (expires == null || now.isAfter(expires)) {
                 Log.d(TAG, "Expired token. Setting to null.");
                 accessToken = null;
             }
