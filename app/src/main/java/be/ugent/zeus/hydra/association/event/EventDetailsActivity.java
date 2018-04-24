@@ -109,7 +109,12 @@ public class EventDetailsActivity extends BaseActivity {
         TextView endTime = findViewById(R.id.time_end);
 
         startTime.setText(event.getLocalStart().format(format));
-        endTime.setText(event.getLocalEnd().format(format));
+
+        if (event.getLocalEnd() != null) {
+            endTime.setText(event.getLocalEnd().format(format));
+        } else {
+            endTime.setText(R.string.date_unknown);
+        }
 
         if (event.getAssociation() != null && event.getAssociation().getImageLink() != null) {
             Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage, new Callback.EmptyCallback() {
@@ -162,11 +167,14 @@ public class EventDetailsActivity extends BaseActivity {
         Intent intent = new Intent(Intent.ACTION_INSERT)
                 .setData(CalendarContract.Events.CONTENT_URI)
                 .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getStart().toInstant().toEpochMilli())
-                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.getEnd().toInstant().toEpochMilli())
                 .putExtra(CalendarContract.Events.TITLE, event.getTitle())
                 .putExtra(CalendarContract.Events.EVENT_LOCATION, event.getLocation())
                 .putExtra(CalendarContract.Events.DESCRIPTION, event.getDescription())
                 .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_TENTATIVE);
+
+        if (event.getEnd() != null) {
+            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, event.getEnd().toInstant().toEpochMilli());
+        }
 
         NetworkUtils.maybeLaunchIntent(this, intent);
     }

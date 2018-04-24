@@ -458,4 +458,5 @@
     <string name="resto_history_not_found">Er is geen menu voor %s.</string>
     <string name="resto_history_error">Fout</string>
     <string name="resto_history_title">Menu van %s</string>
+    <string name="date_unknown">Onbekend</string>
 </resources>

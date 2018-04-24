@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.association.event;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
@@ -24,6 +25,7 @@ public final class Event implements Parcelable, Serializable, Comparable<Event> 
 
     private String title;
     private OffsetDateTime start;
+    @Nullable
     private OffsetDateTime end;
     private String location;
     private double latitude;
@@ -59,7 +61,11 @@ public final class Event implements Parcelable, Serializable, Comparable<Event> 
      *
      * @return The converted end date.
      */
+    @Nullable
     public LocalDateTime getLocalEnd() {
+        if (getEnd() == null) {
+            return null;
+        }
         return DateUtils.toLocalDateTime(getEnd());
     }
 
@@ -79,11 +85,12 @@ public final class Event implements Parcelable, Serializable, Comparable<Event> 
         this.start = start;
     }
 
+    @Nullable
     public OffsetDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(OffsetDateTime end) {
+    public void setEnd(@Nullable OffsetDateTime end) {
         this.end = end;
     }
 
@@ -242,7 +249,8 @@ public final class Event implements Parcelable, Serializable, Comparable<Event> 
      * @return The identifier.
      */
     public String getIdentifier() {
-        return title + start.toString() + end.toString() + latitude + longitude + url + association.getName();
+        String endDate = end == null ? "" : end.toString();
+        return title + start.toString() + endDate + latitude + longitude + url + association.getName();
     }
 
     @Override
