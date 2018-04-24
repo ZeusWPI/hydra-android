@@ -35,7 +35,7 @@ public class AboutFragment extends PreferenceFragment {
             Intent intent = new Intent(getActivity().getApplicationContext(), WebViewActivity.class);
             String title = getResources().getString(R.string.title_license);
             intent.putExtra(WebViewActivity.TITLE, title);
-            intent.putExtra(WebViewActivity.URL, "file:///android_asset/licenses.html");
+            intent.putExtra(WebViewActivity.URL, "file:///android_asset/open_source_licenses.html");
 
             getActivity().startActivity(intent);
 
