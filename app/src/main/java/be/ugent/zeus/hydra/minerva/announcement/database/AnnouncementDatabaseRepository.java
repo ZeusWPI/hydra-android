@@ -8,6 +8,7 @@ import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
 import be.ugent.zeus.hydra.minerva.course.database.CourseMapper;
 import com.google.firebase.crash.FirebaseCrash;
 import java8.util.stream.Collectors;
+import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
 import org.threeten.bp.Instant;
 
@@ -115,7 +116,7 @@ public class AnnouncementDatabaseRepository implements AnnouncementRepository {
                 .filter(result -> {
                     // Temporary log null values to error
                     if (result.course == null) {
-                        FirebaseCrash.log("The database is inconsistent! Ignoring data for now. Affected row is " + printFields(result));
+                        FirebaseCrash.log("The database is inconsistent! Attempt to fix database. Announcement without course is " + printFields(result.announcement));
                     }
                     return result.course != null;
                 })
