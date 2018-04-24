@@ -302,7 +302,7 @@
     <string name="channel_sko_desc">Meldingen over de Student Kick-Off</string>
     <string name="channel_urgent">Urgent.fm</string>
     <string name="channel_urgent_desc">Meldingen over Urgent.fm, inclusief de mediamelding voor de radiospeler.</string>
-    
+
     <string name="minerva_course_details_tabs_overview">Info</string>
     <string name="minerva_course_details_tabs_announcements">Aankondigingen</string>
     <string name="minerva_course_details_tabs_calendar">Agenda</string>
@@ -435,4 +435,5 @@
     <string name="minerva_exporting_account_desc">De details van uw Minerva-account worden geëxporteerd.</string>
     <string name="card_title_hide_card">Alleen deze kaart verbergen</string>
     <string name="card_title_hide_single_type">Deze kaart verbergen</string>
+    <string name="date_unknown">Onbekend</string>
 </resources>
