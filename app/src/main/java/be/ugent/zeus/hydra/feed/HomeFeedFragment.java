@@ -1,7 +1,9 @@
 package be.ugent.zeus.hydra.feed;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +29,9 @@ import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
 import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
 import be.ugent.zeus.hydra.minerva.announcement.courselist.AnnouncementsForCourseFragment;
+import java8.util.function.Consumer;
+import java8.util.function.Function;
+import java8.util.function.IntConsumer;
 
 import static android.app.Activity.RESULT_OK;
 import static be.ugent.zeus.hydra.feed.FeedLiveData.REFRESH_HOMECARD_TYPE;
@@ -195,38 +200,48 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
+    @SuppressLint("StaticFieldLeak")
     public void executeCommand(FeedCommand command) {
-        new CommandTask(model.getCommandLiveEvent()) {
+        new CommandTask(getContext(), model.getCommandLiveEvent()) {
             @Override
-            protected Integer doInBackground(Void... voids) {
-                return command.execute(getContext());
+            protected int safeDoInBackground(Context context) {
+                return command.execute(context);
             }
 
             @Override
-            protected void onSafePostExecute(int cardType) {
+            protected void safePostExecute(int cardType) {
                 Bundle extras = new Bundle();
                 extras.putInt(REFRESH_HOMECARD_TYPE, cardType);
                 model.requestRefresh(extras);
 
+                // Sometimes this is null because the new fragment is still initialising.
+                // If that's the case, don't show any snackbar for now. Perhaps we can do this in the future
+                // if we have a better way of doing this.
+                if (getView() == null) {
+                    return;
+                }
+
                 if (snackbar != null) {
                     snackbar.dismiss();
                 }
-                snackbar = Snackbar.make(requireView(HomeFeedFragment.this), command.getCompleteMessage(), BaseTransientBottomBar.LENGTH_LONG)
+                snackbar = Snackbar.make(getView(), command.getCompleteMessage(), BaseTransientBottomBar.LENGTH_LONG)
                         .setAction(command.getUndoMessage(), view -> undoCommand(command));
                 snackbar.show();
             }
         }.execute();
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void undoCommand(FeedCommand command) {
-        new CommandTask(model.getCommandLiveEvent()) {
+        new CommandTask(getContext(), model.getCommandLiveEvent()) {
+
             @Override
-            protected Integer doInBackground(Void... voids) {
-                return command.undo(getContext());
+            protected int safeDoInBackground(Context context) {
+                return command.undo(context);
             }
 
             @Override
-            protected void onSafePostExecute(int cardType) {
+            protected void safePostExecute(int cardType) {
                 Bundle extras = new Bundle();
                 extras.putInt(REFRESH_HOMECARD_TYPE, cardType);
                 model.requestRefresh(extras);
@@ -236,17 +251,34 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private abstract static class CommandTask extends AsyncTask<Void, Void, Integer> {
 
+        private static final int ABORTED = -100;
+
+        @SuppressLint("StaticFieldLeak")
+        private final Context applicationContext;
         private final MutableLiveData<Runnable> bus;
 
-        private CommandTask(MutableLiveData<Runnable> bus) {
+        private CommandTask(Context context, MutableLiveData<Runnable> bus) {
+            this.applicationContext = context == null ? null : context.getApplicationContext();
             this.bus = bus;
         }
 
         @Override
-        protected final void onPostExecute(Integer integer) {
-            bus.postValue(() -> onSafePostExecute(integer));
+        protected final Integer doInBackground(Void... voids) {
+            if (applicationContext == null) {
+                return ABORTED;
+            } else {
+                return safeDoInBackground(applicationContext);
+            }
         }
 
-        protected abstract void onSafePostExecute(int cardType);
+        @Override
+        protected final void onPostExecute(Integer integer) {
+            if (integer != ABORTED) {
+                bus.postValue(() -> safePostExecute(integer));
+            }
+        }
+
+        protected abstract int safeDoInBackground(Context context);
+        protected abstract void safePostExecute(int cardType);
     }
 }
