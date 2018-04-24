@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.association.event;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
@@ -27,6 +28,7 @@ public final class Event implements Parcelable, Serializable {
     private String title;
     @JsonAdapter(ZonedThreeTenAdapter.class)
     private ZonedDateTime start;
+    @Nullable
     @JsonAdapter(ZonedThreeTenAdapter.class)
     private ZonedDateTime end;
     private String location;
@@ -60,7 +62,11 @@ public final class Event implements Parcelable, Serializable {
      *
      * @return The converted end date.
      */
+    @Nullable
     public LocalDateTime getLocalEnd() {
+        if (getEnd() == null) {
+            return null;
+        }
         return DateUtils.toLocalDateTime(getEnd());
     }
 
@@ -80,11 +86,12 @@ public final class Event implements Parcelable, Serializable {
         this.start = start;
     }
 
+    @Nullable
     public ZonedDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(ZonedDateTime end) {
+    public void setEnd(@Nullable ZonedDateTime end) {
         this.end = end;
     }
 
@@ -243,6 +250,7 @@ public final class Event implements Parcelable, Serializable {
      * @return The identifier.
      */
     public String getIdentifier() {
-        return title + start.toString() + end.toString() + latitude + longitude + url + association.getName();
+        String endDate = end == null ? "" : end.toString();
+        return title + start.toString() + endDate + latitude + longitude + url + association.getName();
     }
 }

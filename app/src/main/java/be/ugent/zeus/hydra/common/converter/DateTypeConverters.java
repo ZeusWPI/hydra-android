@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.common.converter;
 
 import android.arch.persistence.room.TypeConverter;
+import android.support.annotation.Nullable;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -33,8 +34,9 @@ public class DateTypeConverters {
      *
      * @return The instance or {@code null} if the input was {@code null}.
      */
+    @Nullable
     @TypeConverter
-    public static OffsetDateTime toOffsetDateTime(String sqlValue) {
+    public static OffsetDateTime toOffsetDateTime(@Nullable String sqlValue) {
         if (sqlValue == null) {
             return null;
         } else {
@@ -49,8 +51,9 @@ public class DateTypeConverters {
      *
      * @return The string or {@code null} if the input was {@code null}.
      */
+    @Nullable
     @TypeConverter
-    public static String fromOffsetDateTime(OffsetDateTime dateTime) {
+    public static String fromOffsetDateTime(@Nullable OffsetDateTime dateTime) {
         if (dateTime == null) {
             return null;
         } else {
