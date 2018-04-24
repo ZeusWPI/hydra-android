@@ -19,9 +19,6 @@
 # Keep all our classes
 -keep class be.ugent.zeus.hydra.** {*;}
 
-# Rules for Spring
--dontwarn org.springframework.**
-
 # Rules for apache
 -dontwarn org.apache.oltu.**
 -dontwarn org.slf4j.**
