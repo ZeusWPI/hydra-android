@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.minerva.calendar.itemdetails;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -38,14 +39,12 @@ class AgendaLiveData extends BaseLiveData<Result<AgendaItem>> {
     }
 
     @Override
+    @SuppressLint("StaticFieldLeak")
     protected void loadData(Bundle args) {
         new AsyncTask<Void, Void, Result<AgendaItem>>() {
-
             @Override
             protected Result<AgendaItem> doInBackground(Void... voids) {
-
                 AgendaItem item = dao.getOne(id);
-
                 if (item == null) {
                     return Result.Builder.fromException(new CalendarItemNotFoundException("Agenda item with ID " + id + " was not found."));
                 } else {

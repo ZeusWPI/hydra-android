@@ -30,6 +30,10 @@ public class AgendaDatabaseRepository implements AgendaItemRepository {
     @Override
     public AgendaItem getOne(Integer integer) {
         AgendaDao.Result result = agendaDao.getOne(integer);
+        if (result == null) {
+            // Fix for bug.
+            return null;
+        }
         return agendaMapper.convert(result.agendaItem, courseMapper.courseToCourse(result.course));
     }
 
