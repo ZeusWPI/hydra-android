@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.cookpad.android.licensetools'
+apply plugin: 'com.jaredsburrows.license'
 
 android {
     compileSdkVersion 27
@@ -51,7 +51,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
         }
         debug {
@@ -93,23 +93,21 @@ android {
     }
 }
 
-//project.afterEvaluate {
-//    preBuild.dependsOn checkLicenses, generateLicensePage
-//}
+licenseReport {
+    generateJsonReport = false
+}
 
-//The support library version
+// TODO: Run the library generate task automatically.
+// Might become automatic in the future, see https://github.com/jaredsburrows/gradle-license-plugin/issues/38.
+
+// The support library version
 final SUPPORT_LIBRARY_VERSION = '27.1.1'
-final GMS_VERSION = '11.8.0'
+final GMS_VERSION = '15.0.0'
 final AAC_VERSION = '1.1.0'
 
 dependencies {
 
-    // TODO: properly fix this
-//    if (project.gradle.startParameter.taskNames.contains("checkLicenses")) {
-//        implementation project(path: ':provider-contract', configuration: 'default')
-//    } else {
-        implementation project(':provider-contract')
-//    }
+    implementation project(':provider-contract')
 
     implementation "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
     implementation "com.android.support:support-v13:$SUPPORT_LIBRARY_VERSION"
@@ -198,7 +196,6 @@ dependencies {
     testImplementation 'io.github.benas:random-beans:3.7.0'
     testImplementation 'org.apache.commons:commons-lang3:3.7'
     testImplementation 'org.hamcrest:hamcrest-core:1.3'
-    testImplementation 'com.googlecode:openbeans:1.0'
     testImplementation 'org.robolectric:robolectric:3.8'
     testImplementation('org.springframework:spring-test:3.2.18.RELEASE') {
         exclude module: 'spring-core'
