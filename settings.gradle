@@ -1,1 +1,1 @@
-include ':app', ':firebasenoop', ':provider-contract'
+include ':app', ':provider-contract'
