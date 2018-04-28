@@ -39,3 +39,8 @@
     @com.squareup.moshi.* <methods>;
 }
 -keep @com.squareup.moshi.JsonQualifier interface *
+
+# Crashlytics settings.
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception

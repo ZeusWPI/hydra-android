@@ -61,9 +61,12 @@
         android:theme="@style/Hydra.Main.NoActionBar">
 
         <!-- Disable all Firebase analytics in debug mode. -->
-        <meta-data
-            android:name="firebase_analytics_collection_deactivated"
+        <meta-data android:name="firebase_analytics_collection_deactivated"
             android:value="${disableAnalytics}" />
+
+        <!-- Disable all Firebase crash reporting in debug mode -->
+        <meta-data android:name="firebase_crashlytics_collection_enabled"
+            android:value="${enableCrashReporting}" />
 
         <!-- Main activity -->
         <activity
