@@ -1,5 +1,8 @@
 package be.ugent.zeus.hydra;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
+import io.fabric.sdk.android.Fabric;
 import jonathanfinerty.once.Once;
 
 /**
@@ -20,5 +23,8 @@ public class TestApp extends HydraApplication {
     protected void onCreateInitialise() {
         Once.initialise(this);
         createChannels();
+
+        CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(true).build();
+        Fabric.with(this, new Crashlytics.Builder().core(core).build());
     }
 }
