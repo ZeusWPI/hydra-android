@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jaredsburrows.license'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 27
@@ -17,7 +18,8 @@ android {
         def props = loadProperties()
         manifestPlaceholders = [
                 google_maps_key: props.getProperty('MAPS_API_KEY'),
-                disableAnalytics: false
+                disableAnalytics: false,
+                enableCrashReporting: true
         ]
         // Minerva authentication keys
         buildConfigField "String", "OAUTH_ID", '"' + props.getProperty('OAUTH_ID') + '"'
@@ -58,7 +60,11 @@ android {
             // Set this to false on release versions!
             debuggable true
             // Disable analytics in debug builds
-            manifestPlaceholders = [disableAnalytics: true]
+            manifestPlaceholders = [
+                    disableAnalytics: true,
+                    enableCrashReporting: false
+            ]
+            ext.enableCrashlytics = false
         }
     }
 
@@ -169,12 +175,9 @@ dependencies {
     implementation "com.google.android.gms:play-services-auth:$GMS_VERSION"
 
     implementation "com.google.firebase:firebase-core:$GMS_VERSION"
-
-    testImplementation project(':firebasenoop')
-    debugImplementation project(':firebasenoop')
-    releaseImplementation "com.google.firebase:firebase-crash:$GMS_VERSION"
-
     implementation "com.google.firebase:firebase-messaging:$GMS_VERSION"
+
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.2'
 
     //Test code
     testImplementation 'junit:junit:4.12'

@@ -9,6 +9,7 @@ import android.util.Log;
 
 import be.ugent.zeus.hydra.common.ChannelCreator;
 import be.ugent.zeus.hydra.theme.ThemePreferenceFragment;
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;

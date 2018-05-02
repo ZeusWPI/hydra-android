@@ -15,7 +15,7 @@ import be.ugent.zeus.hydra.common.network.UnsuccessfulRequestException;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
-import com.google.firebase.crash.FirebaseCrash;
+import com.crashlytics.android.Crashlytics;
 import com.squareup.moshi.JsonAdapter;
 import okhttp3.CacheControl;
 import okhttp3.Request;
@@ -80,8 +80,8 @@ public abstract class MinervaRequest<T> extends JsonOkHttpRequest<T> {
                 // 1. If the access token is expired, the getToken() function will have caught and resolved it.
                 // 2. If not resolvable, an AuthenticatorActionException will be thrown.
                 Log.w(TAG, "Invalid auth token.", e);
-                FirebaseCrash.log("There was an invalid token!");
-                FirebaseCrash.report(e);
+                Crashlytics.log("There was an invalid token!");
+                Crashlytics.logException(e);
 
                 accountManager.invalidateAuthToken(MinervaConfig.ACCOUNT_TYPE, getToken());
                 // Re-issue request.

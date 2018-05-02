@@ -12,7 +12,7 @@ import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
-import com.google.firebase.crash.FirebaseCrash;
+import com.crashlytics.android.Crashlytics;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.JsonDataException;
 import com.squareup.moshi.Moshi;
@@ -149,7 +149,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
             // Create, log and throw exception, since this is not normal.
             String message = "The server did not respond with the expected format for URL: " + getAPIUrl();
             InvalidFormatException exception = new InvalidFormatException(message, e);
-            FirebaseCrash.report(exception);
+            Crashlytics.logException(exception);
             return Result.Builder.fromException(exception);
         }
     }
