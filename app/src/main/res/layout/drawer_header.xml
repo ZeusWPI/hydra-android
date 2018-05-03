@@ -17,11 +17,12 @@
 
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="?attr/actionBarSize"
+             android:background="?attr/colorPrimary">
 
             <ImageView
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:id="@+id/main_logo"
                 android:tint="?android:attr/textColorPrimaryInverse"
                 app:srcCompat="@drawable/logo_hydra"
@@ -35,9 +36,10 @@
 
     </FrameLayout>
 
-    <!-- This dummy view enables showing the elevation of the frame layout -->
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="5dp" />
+    <!-- TODO: adding this view enables shadows, but adds ugly space, while removing it removes the shadow -->
+     <!--This dummy view enables showing the elevation of the frame layout -->
+    <!--<View-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="5dp" />-->
 
 </LinearLayout>
