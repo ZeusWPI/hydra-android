@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
+import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
@@ -76,7 +76,7 @@ public class AgendaActivity extends BaseActivity {
 
         AgendaViewModel model = ViewModelProviders.of(this).get(AgendaViewModel.class);
         model.setId(agendaItemId);
-        model.getData().observe(this, ErrorObserver.with(this::onError));
+        model.getData().observe(this, PartialErrorObserver.with(this::onError));
         model.getData().observe(this, SuccessObserver.with(this::onResult));
         model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
     }

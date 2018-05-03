@@ -17,7 +17,7 @@ import android.view.MenuItem;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
+import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
@@ -59,7 +59,7 @@ public class AssociationSelectPrefActivity extends BaseActivity {
         searchView.setOnQueryTextListener(adapter);
 
         AssociationsViewModel model = ViewModelProviders.of(this).get(AssociationsViewModel.class);
-        model.getData().observe(this, ErrorObserver.with(this::onError));
+        model.getData().observe(this, PartialErrorObserver.with(this::onError));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
         model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
     }

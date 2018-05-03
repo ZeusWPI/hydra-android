@@ -21,7 +21,7 @@ import android.view.*;
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
-import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
+import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
@@ -29,9 +29,6 @@ import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
 import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
 import be.ugent.zeus.hydra.minerva.announcement.courselist.AnnouncementsForCourseFragment;
-import java8.util.function.Consumer;
-import java8.util.function.Function;
-import java8.util.function.IntConsumer;
 
 import static android.app.Activity.RESULT_OK;
 import static be.ugent.zeus.hydra.feed.FeedLiveData.REFRESH_HOMECARD_TYPE;
@@ -104,7 +101,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         model = ViewModelProviders.of(this).get(FeedViewModel.class);
-        model.getData().observe(this, ErrorObserver.with(this::onError));
+        model.getData().observe(this, PartialErrorObserver.with(this::onError));
         model.getData().observe(this, new AdapterObserver<>(adapter));
         model.getData().observe(this, data -> {
             if (data != null && data.hasData()) {

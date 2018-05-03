@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.*;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
+import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.network.IOFailureException;
@@ -78,7 +78,7 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
                 showFragment(data);
             }
         });
-        viewModel.getData().observe(this, ErrorObserver.with(this::onError));
+        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
 
         SelectableMetaViewModel metaViewModel = ViewModelProviders.of(this).get(SelectableMetaViewModel.class);

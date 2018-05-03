@@ -21,7 +21,6 @@ import java.util.List;
 class MenuPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<RestoMenu> data = Collections.emptyList();
-    private boolean hasDataBeenSet = false;
 
     MenuPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -29,12 +28,11 @@ class MenuPagerAdapter extends FragmentStatePagerAdapter {
 
     public void setData(List<RestoMenu> data) {
         this.data = data;
-        this.hasDataBeenSet = true;
         notifyDataSetChanged();
     }
 
-    public boolean hasDataBeenSet() {
-        return hasDataBeenSet;
+    public boolean hasData() {
+        return !data.isEmpty();
     }
 
     @Override
