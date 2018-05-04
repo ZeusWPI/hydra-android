@@ -144,11 +144,12 @@ public class RestoFragment extends Fragment implements
                 parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, pageAdapter.getPageTitle(position).toString());
                 LocalDate id = pageAdapter.getTabDate(position);
                 if (id == null) {
-                    parameters.putString(FirebaseAnalytics.Param.ITEM_ID, "COMMON");
+                    parameters.putString(FirebaseAnalytics.Param.ITEM_ID, "LEGEND");
                 } else {
                     parameters.putString(FirebaseAnalytics.Param.ITEM_ID, String.valueOf(id.toEpochDay()));
                 }
                 analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
+
             }
         });
 
@@ -219,14 +220,23 @@ public class RestoFragment extends Fragment implements
                     //Set the tab to this day!
                     if (menu.getDate().isEqual(startDate)) {
                         Log.d(TAG, "receiveData: setting item to " + (i + 1));
-                        TabLayout.Tab tab = tabLayout.getTabAt(i);
+                        TabLayout.Tab tab = tabLayout.getTabAt(i + 1);
                         if (tab != null) {
                             tab.select();
+                            Log.d(TAG, "receiveData: NOT NULL");
                         } else {
-                            viewPager.setCurrentItem(i);
+                            viewPager.setCurrentItem(i + 1);
                         }
                         break;
                     }
+                }
+            } else if (pageAdapter.hasData()) {
+                TabLayout.Tab tab = tabLayout.getTabAt(1);
+                if (tab != null) {
+                    tab.select();
+                    Log.d(TAG, "receiveData: NOT NULL");
+                } else {
+                    viewPager.setCurrentItem(1);
                 }
             }
         }

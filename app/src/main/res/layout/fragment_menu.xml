@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/menu_table"
-        android:paddingLeft="@dimen/card_text_padding_vertical"
-        android:paddingRight="@dimen/card_text_padding_vertical"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_vertical_margin"
         app:show="all"
         app:selectable="true" />
 

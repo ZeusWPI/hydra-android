@@ -17,8 +17,8 @@ android {
 
         def props = loadProperties()
         manifestPlaceholders = [
-                google_maps_key: props.getProperty('MAPS_API_KEY'),
-                disableAnalytics: false,
+                google_maps_key     : props.getProperty('MAPS_API_KEY'),
+                disableAnalytics    : false,
                 enableCrashReporting: true
         ]
         // Minerva authentication keys
@@ -61,7 +61,7 @@ android {
             debuggable true
             // Disable analytics in debug builds
             manifestPlaceholders = [
-                    disableAnalytics: true,
+                    disableAnalytics    : true,
                     enableCrashReporting: false
             ]
             ext.enableCrashlytics = false
