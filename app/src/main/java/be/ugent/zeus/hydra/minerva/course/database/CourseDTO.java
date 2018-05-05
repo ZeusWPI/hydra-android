@@ -5,6 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import be.ugent.zeus.hydra.minerva.provider.CourseContract;
 import java8.util.Objects;
 
 /**
@@ -12,31 +13,31 @@ import java8.util.Objects;
  *
  * @author Niko Strijbol
  */
-@Entity(tableName = CourseTable.TABLE_NAME)
+@Entity(tableName = CourseContract.TABLE_NAME)
 public final class CourseDTO {
 
     @NonNull
     @PrimaryKey
-    @ColumnInfo(name = CourseTable.Columns.ID)
+    @ColumnInfo(name = CourseContract.Columns.ID)
     @SuppressWarnings("NullableProblems")
     private String id;
-    @ColumnInfo(name = CourseTable.Columns.CODE)
+    @ColumnInfo(name = CourseContract.Columns.CODE)
     private String code;
-    @ColumnInfo(name = CourseTable.Columns.TITLE)
+    @ColumnInfo(name = CourseContract.Columns.TITLE)
     private String title;
-    @ColumnInfo(name = CourseTable.Columns.DESCRIPTION)
+    @ColumnInfo(name = CourseContract.Columns.DESCRIPTION)
     private String description;
-    @ColumnInfo(name = CourseTable.Columns.TUTOR)
+    @ColumnInfo(name = CourseContract.Columns.TUTOR)
     private String tutor;
-    @ColumnInfo(name = CourseTable.Columns.ACADEMIC_YEAR)
+    @ColumnInfo(name = CourseContract.Columns.ACADEMIC_YEAR)
     private int year;
-    @ColumnInfo(name = CourseTable.Columns.ORDER)
+    @ColumnInfo(name = CourseContract.Columns.ORDER)
     private int order;
-    @ColumnInfo(name = CourseTable.Columns.DISABLED_MODULES)
+    @ColumnInfo(name = CourseContract.Columns.DISABLED_MODULES)
     private int disabledModules;
-    @ColumnInfo(name = CourseTable.Columns.IGNORE_ANNOUNCEMENTS)
+    @ColumnInfo(name = CourseContract.Columns.IGNORE_ANNOUNCEMENTS)
     private boolean ignoreAnnouncements;
-    @ColumnInfo(name = CourseTable.Columns.IGNORE_CALENDAR)
+    @ColumnInfo(name = CourseContract.Columns.IGNORE_CALENDAR)
     private boolean ignoreCalendar;
 
     @NonNull

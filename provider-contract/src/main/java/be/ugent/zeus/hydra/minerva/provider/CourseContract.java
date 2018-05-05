@@ -9,21 +9,22 @@ import android.provider.BaseColumns;
  * These are considered APIs and will not be broken in a backwards incompatible manner (e.g. columns may be added, but
  * not renamed or removed).
  *
- * @version 1.0.0
+ * @version 1.1.0
  *
  * @author Niko Strijbol
  */
-public final class CourseContract {
+@SuppressWarnings("unused")
+public interface CourseContract {
 
     /**
      * The name of the table. You probably need {@link Provider#CONTENT_URI} instead.
      */
-    public static final String TABLE_NAME = "minerva_courses";
+    String TABLE_NAME = "minerva_courses";
 
     /**
      * The columns available in the provider.
      */
-    public interface Columns extends BaseColumns {
+    interface Columns extends BaseColumns {
 
         /**
          * The unique ID of a course.
@@ -81,7 +82,7 @@ public final class CourseContract {
         String IGNORE_CALENDAR = "ignore_calendar";
     }
 
-    public interface Provider {
+    interface Provider {
         /**
          * The authority of the content provider.
          */
@@ -92,7 +93,7 @@ public final class CourseContract {
         Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
     }
 
-    public interface Permission {
+    interface Permission {
         /**
          * The name of the permission you need to hold to read the courses.
          */
