@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,7 +23,7 @@ import android.view.View;
 import android.widget.*;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
+import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
@@ -160,7 +159,7 @@ public class LibraryDetailActivity extends BaseActivity {
 
         HoursViewModel model = ViewModelProviders.of(this).get(HoursViewModel.class);
         model.setLibrary(library);
-        model.getData().observe(this, ErrorObserver.with(this::onError));
+        model.getData().observe(this, PartialErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
 

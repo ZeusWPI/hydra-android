@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
-import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
+import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
@@ -76,7 +76,7 @@ public class InfoFragment extends Fragment {
             progressBar.setVisibility(View.GONE);
         } else {
             InfoViewModel model = ViewModelProviders.of(this).get(InfoViewModel.class);
-            model.getData().observe(this, ErrorObserver.with(this::onError));
+            model.getData().observe(this, PartialErrorObserver.with(this::onError));
             model.getData().observe(this, new ProgressObserver<>(progressBar));
             model.getData().observe(this, new AdapterObserver<>(adapter));
         }

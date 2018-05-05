@@ -13,7 +13,7 @@ import android.view.*;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
-import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
+import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
@@ -62,7 +62,7 @@ public class ExhibitorFragment extends Fragment implements SwipeRefreshLayout.On
         scroller.attachRecyclerView(recyclerView);
 
         model = ViewModelProviders.of(this).get(ExhibitorViewModel.class);
-        model.getData().observe(this, ErrorObserver.with(this::onError));
+        model.getData().observe(this, PartialErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         model.getData().observe(this, new AdapterObserver<>(adapter));
         model.getRefreshing().observe(this, refreshLayout::setRefreshing);

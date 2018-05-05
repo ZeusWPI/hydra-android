@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
+import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 
@@ -59,7 +59,7 @@ public class FoodFragment extends Fragment {
         int position = requireArguments(this).getInt(ARG_POSITION);
 
         viewModel = ViewModelProviders.of(requireActivity()).get(ExtraFoodViewModel.class);
-        viewModel.getData().observe(this, ErrorObserver.with(this::onError));
+        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         viewModel.getData().observe(this, new SuccessObserver<ExtraFood>() {
             @Override

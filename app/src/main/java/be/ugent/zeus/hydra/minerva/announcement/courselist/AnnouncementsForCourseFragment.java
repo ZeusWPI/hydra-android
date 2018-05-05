@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
-import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
+import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.minerva.course.Course;
@@ -80,7 +80,7 @@ public class AnnouncementsForCourseFragment extends Fragment implements ResultSt
         Course course = arguments.getParcelable(ARG_COURSE);
         viewModel = ViewModelProviders.of(this).get(AnnouncementViewModel.class);
         viewModel.setCourse(course);
-        viewModel.getData().observe(this, ErrorObserver.with(this::onError));
+        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new AdapterObserver<>(adapter));
         viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
     }

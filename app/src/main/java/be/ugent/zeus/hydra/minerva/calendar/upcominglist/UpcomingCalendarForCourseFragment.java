@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
-import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
+import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
@@ -64,7 +64,7 @@ public class UpcomingCalendarForCourseFragment extends Fragment {
         Course course = requireArguments(this).getParcelable(ARG_COURSE);
         AgendaViewModel model = ViewModelProviders.of(this).get(AgendaViewModel.class);
         model.setCourse(course);
-        model.getData().observe(this, ErrorObserver.with(this::onError));
+        model.getData().observe(this, PartialErrorObserver.with(this::onError));
         model.getData().observe(this, new AdapterObserver<>(adapter));
         model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
     }

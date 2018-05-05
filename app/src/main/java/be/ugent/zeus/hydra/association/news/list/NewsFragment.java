@@ -13,7 +13,7 @@ import android.view.*;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
-import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
+import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
@@ -61,7 +61,7 @@ public class NewsFragment extends Fragment {
         swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow);
 
         viewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
-        viewModel.getData().observe(this, ErrorObserver.with(this::onError));
+        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         viewModel.getData().observe(this, new AdapterObserver<>(adapter));
         viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);

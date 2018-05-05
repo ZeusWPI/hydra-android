@@ -21,7 +21,6 @@ import java.util.List;
 class MenuPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<RestoMenu> data = Collections.emptyList();
-    private boolean hasDataBeenSet = false;
 
     MenuPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -29,31 +28,42 @@ class MenuPagerAdapter extends FragmentStatePagerAdapter {
 
     public void setData(List<RestoMenu> data) {
         this.data = data;
-        this.hasDataBeenSet = true;
         notifyDataSetChanged();
     }
 
-    public boolean hasDataBeenSet() {
-        return hasDataBeenSet;
+    public boolean hasData() {
+        return !data.isEmpty();
     }
 
     @Override
     public Fragment getItem(int position) {
-        return SingleDayFragment.newInstance(data.get(position));
+        if (position == 0) {
+            return new LegendFragment();
+        } else {
+            return SingleDayFragment.newInstance(data.get(position - 1));
+        }
     }
 
     @Override
     public int getItemPosition(@NonNull Object object) {
-        return POSITION_NONE;
+        if (object instanceof LegendFragment) {
+            return POSITION_UNCHANGED;
+        } else {
+            return POSITION_NONE;
+        }
     }
 
     @Override
     public int getCount() {
-        return data.size();
+        if (hasData()) {
+            return data.size() + 1;
+        } else {
+            return data.size();
+        }
     }
 
     public LocalDate getTabDate(int position) {
-        return data.get(position).getDate();
+        return position == 0 ? null : data.get(position - 1).getDate();
     }
 
     /**
@@ -69,6 +79,10 @@ class MenuPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     @NonNull
     public CharSequence getPageTitle(int position) {
-        return DateUtils.getFriendlyDate(data.get(position).getDate());
+        if (position == 0) {
+            return "Legende";
+        } else {
+            return DateUtils.getFriendlyDate(data.get(position - 1).getDate());
+        }
     }
 }

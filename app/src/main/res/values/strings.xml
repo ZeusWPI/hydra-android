@@ -459,4 +459,15 @@
     <string name="resto_history_error">Fout</string>
     <string name="resto_history_title">Menu van %s</string>
     <string name="date_unknown">Onbekend</string>
+    <string name="menu_legend_icon_header">Iconen</string>
+    <string name="resto_legend_fish">Vis</string>
+    <string name="resto_legend_soup">Soep</string>
+    <string name="resto_legend_vegetables">Groenten</string>
+    <string name="resto_legend_meat">Vlees</string>
+    <string name="resto_legend_veg">Vegetarisch/veganistisch</string>
+    <string name="menu_legend_abbr_header">Afkortingen</string>
+    <string name="menu_legend_msc_abbr">MSC</string>
+    <string name="resto_legend_msc_desc">Marine Stewardship Council, duurzame visserij</string>
+    <string name="menu_legend_asc_abbr">ASC</string>
+    <string name="resto_legend_asc_desc">Aquaculture Stewardship Council, verantwoorde kweek</string>
 </resources>

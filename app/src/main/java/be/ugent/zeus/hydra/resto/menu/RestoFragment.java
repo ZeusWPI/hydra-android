@@ -39,6 +39,7 @@ import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import org.threeten.bp.LocalDate;
 
+import java.util.Collections;
 import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
@@ -66,7 +67,8 @@ public class RestoFragment extends Fragment implements
     private static final String URL = "https://www.ugent.be/student/nl/meer-dan-studeren/resto";
     private MenuPagerAdapter pageAdapter;
     private ViewPager viewPager;
-    private MenuViewModel viewModel;
+    private MenuViewModel menuViewModel;
+    private SelectableMetaViewModel metaViewModel;
     private ArrayAdapter<SelectedResto.Wrapper> restoAdapter;
     private Spinner spinner;
     private ProgressBar spinnerProgress;
@@ -101,7 +103,7 @@ public class RestoFragment extends Fragment implements
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         // If the data has been set, we don't need to restore anything, since Android does it for us.
-        if (savedInstanceState != null && !pageAdapter.hasDataBeenSet()) {
+        if (savedInstanceState != null && !pageAdapter.hasData()) {
             mustBeRestored = savedInstanceState.getInt(ARG_POSITION, -1);
         }
     }
@@ -142,11 +144,12 @@ public class RestoFragment extends Fragment implements
                 parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, pageAdapter.getPageTitle(position).toString());
                 LocalDate id = pageAdapter.getTabDate(position);
                 if (id == null) {
-                    parameters.putString(FirebaseAnalytics.Param.ITEM_ID, "COMMON");
+                    parameters.putString(FirebaseAnalytics.Param.ITEM_ID, "LEGEND");
                 } else {
                     parameters.putString(FirebaseAnalytics.Param.ITEM_ID, String.valueOf(id.toEpochDay()));
                 }
                 analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
+
             }
         });
 
@@ -176,12 +179,12 @@ public class RestoFragment extends Fragment implements
             startDate = (LocalDate) extras.getSerializable(ARG_DATE);
         }
 
-        viewModel = ViewModelProviders.of(this).get(MenuViewModel.class);
-        viewModel.getData().observe(this, ErrorObserver.with(this::onError));
-        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(this, SuccessObserver.with(this::receiveData));
+        menuViewModel = ViewModelProviders.of(this).get(MenuViewModel.class);
+        menuViewModel.getData().observe(this, ErrorObserver.with(this::onError));
+        menuViewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        menuViewModel.getData().observe(this, SuccessObserver.with(this::receiveData));
 
-        SelectableMetaViewModel metaViewModel = ViewModelProviders.of(this).get(SelectableMetaViewModel.class);
+        metaViewModel = ViewModelProviders.of(this).get(SelectableMetaViewModel.class);
         metaViewModel.getData().observe(this, SuccessObserver.with(this::receiveResto));
     }
 
@@ -217,14 +220,23 @@ public class RestoFragment extends Fragment implements
                     //Set the tab to this day!
                     if (menu.getDate().isEqual(startDate)) {
                         Log.d(TAG, "receiveData: setting item to " + (i + 1));
-                        TabLayout.Tab tab = tabLayout.getTabAt(i);
+                        TabLayout.Tab tab = tabLayout.getTabAt(i + 1);
                         if (tab != null) {
                             tab.select();
+                            Log.d(TAG, "receiveData: NOT NULL");
                         } else {
-                            viewPager.setCurrentItem(i);
+                            viewPager.setCurrentItem(i + 1);
                         }
                         break;
                     }
+                }
+            } else if (pageAdapter.hasData()) {
+                TabLayout.Tab tab = tabLayout.getTabAt(1);
+                if (tab != null) {
+                    tab.select();
+                    Log.d(TAG, "receiveData: NOT NULL");
+                } else {
+                    viewPager.setCurrentItem(1);
                 }
             }
         }
@@ -242,7 +254,8 @@ public class RestoFragment extends Fragment implements
             case R.id.action_refresh:
                 Toast toast = Toast.makeText(getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT);
                 toast.show();
-                viewModel.onRefresh();
+                metaViewModel.onRefresh();
+                menuViewModel.onRefresh();
                 return true;
             case R.id.resto_show_website:
                 NetworkUtils.maybeLaunchBrowser(getContext(), URL);
@@ -276,7 +289,7 @@ public class RestoFragment extends Fragment implements
         if (pageAdapter.getCount() > viewPager.getCurrentItem()) {
             startDate = pageAdapter.getTabDate(viewPager.getCurrentItem());
         }
-        viewModel.onRefresh();
+        menuViewModel.onRefresh();
     }
 
     @Override
@@ -285,9 +298,10 @@ public class RestoFragment extends Fragment implements
     }
 
     private void onError(Throwable throwable) {
+        pageAdapter.setData(Collections.emptyList());
         Log.e(TAG, "Error while getting data.", throwable);
         Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> viewModel.onRefresh())
+                .setAction(getString(R.string.again), v -> menuViewModel.onRefresh())
                 .show();
     }
 
