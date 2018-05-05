@@ -9,17 +9,19 @@ Android version of the Hydra app, available for Jelly Bean and up.
 ## Contributing
 
 ### Quickstart
-If you don't have Android Studio already, [download it and install it](https://developer.android.com/studio/index.html).
+If you don't have Android Studio or Intellij already, [download it and install it](https://developer.android.com/studio/index.html).
 
 * Clone the repo, i.e. `git clone git@github.com:ZeusWPI/hydra-android.git`
 * Choose 'Import Project (gradle etc.)'
 * Choose the local folder
 * Have fun :)
 
+Alternatively, you can [checkout](https://www.jetbrains.com/help/idea/set-up-a-git-repository.html#clone-repo) the repo directly from within Android Studio or Intellij.
+
 ### Keys
-You will need to copy the file `app/secrets.properties.example` to `app/secrets.properties`. 
-The keys do not have to be valid to build, but then you won't be able to use the Minerva API.
-Contact us in our Slack channel for more information.
+If you want to use the Minerva or Google Maps integration, you will need the API keys. You can contact us for more information and to obtain the keys. _This is not required to compile and build the app._
+
+After you've obtained the keys, you will need to copy the file `app/secrets.properties.example` to `app/secrets.properties`.
 
 ### Other repos
 
