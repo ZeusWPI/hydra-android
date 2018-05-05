@@ -37,7 +37,7 @@ public class MinervaAgendaRequest extends HideableHomeFeedRequest {
 
     @NonNull
     @Override
-    protected Result<Stream<Card>> performRequestCards(@Nullable Bundle args) {
+    protected Result<Stream<Card>> performRequestCards(@NonNull Bundle args) {
         OffsetDateTime now = OffsetDateTime.now();
         // Only display things up to 3 weeks from now.
         OffsetDateTime oneMonth = now.plusWeeks(3);

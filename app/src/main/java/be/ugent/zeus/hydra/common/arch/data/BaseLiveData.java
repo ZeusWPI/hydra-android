@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
  */
 public abstract class BaseLiveData<R> extends LiveData<R> {
 
+    @Nullable
     private Bundle queuedRefresh;
     @Nullable
     private OnRefreshStartListener onRefreshStartListener;
@@ -69,7 +70,14 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
      *
      * @param bundle The arguments for the request.
      */
-    protected abstract void loadData(@Nullable Bundle bundle);
+    protected abstract void loadData(@NonNull Bundle bundle);
+
+    /**
+     * @see #loadData(Bundle)
+     */
+    protected void loadData() {
+        this.loadData(Bundle.EMPTY);
+    }
 
     @FunctionalInterface
     public interface OnRefreshStartListener {

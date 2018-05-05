@@ -6,17 +6,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Pair;
 
+import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
+import be.ugent.zeus.hydra.common.request.Request;
+import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.minerva.common.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
-import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
-import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.Result;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ class CourseLiveData extends RequestLiveData<List<Pair<Course, Long>>> {
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            loadData(Bundle.EMPTY);
+            loadData();
         }
     };
 
@@ -63,7 +62,7 @@ class CourseLiveData extends RequestLiveData<List<Pair<Course, Long>>> {
 
         @NonNull
         @Override
-        public Result<List<Pair<Course, Long>>> performRequest(@Nullable Bundle args) {
+        public Result<List<Pair<Course, Long>>> performRequest(@NonNull Bundle args) {
             return Result.Builder.fromData(courseDao.getAllAndUnreadInOrder());
         }
     }

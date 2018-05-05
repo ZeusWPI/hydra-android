@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.resto.meta.selectable;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.common.request.Request;
@@ -30,7 +29,7 @@ public class SelectableMetaRequest implements Request<List<RestoChoice>> {
 
     @NonNull
     @Override
-    public Result<List<RestoChoice>> performRequest(@Nullable Bundle args) {
+    public Result<List<RestoChoice>> performRequest(@NonNull Bundle args) {
         return resultRequest.performRequest(args).map(restoMeta -> StreamSupport.stream(restoMeta.locations)
                 .filter(resto -> !TextUtils.isEmpty(resto.getEndpoint()))
                 .map(resto -> new RestoChoice(resto.getName(), resto.getEndpoint()))

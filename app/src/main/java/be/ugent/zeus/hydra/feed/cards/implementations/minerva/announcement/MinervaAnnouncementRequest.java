@@ -28,7 +28,7 @@ public class MinervaAnnouncementRequest extends HideableHomeFeedRequest {
 
     @NonNull
     @Override
-    protected Result<Stream<Card>> performRequestCards(@Nullable Bundle args) {
+    protected Result<Stream<Card>> performRequestCards(@NonNull Bundle args) {
         return Result.Builder.fromData(StreamSupport.stream(dao.getMostRecentFirstMap().entrySet())
                 .map(s -> new MinervaAnnouncementsCard(s.getValue(), s.getKey())));
     }

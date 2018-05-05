@@ -3,9 +3,7 @@ package be.ugent.zeus.hydra.feed.cards.implementations.specialevent;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import android.support.annotation.VisibleForTesting;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
@@ -38,7 +36,7 @@ public class LimitingSpecialEventRequest extends HideableHomeFeedRequest {
 
     @NonNull
     @Override
-    protected Result<Stream<Card>> performRequestCards(@Nullable Bundle args) {
+    protected Result<Stream<Card>> performRequestCards(@NonNull Bundle args) {
         OffsetDateTime now = OffsetDateTime.now();
         return remoteEventRequest.performRequest(args).map(specialEventWrapper -> {
             List<Card> list = new ArrayList<>();
@@ -68,7 +66,7 @@ public class LimitingSpecialEventRequest extends HideableHomeFeedRequest {
         return Card.Type.SPECIAL_EVENT;
     }
 
-    private SpecialEvent buildDebugSko() {
+    private static SpecialEvent buildDebugSko() {
         SpecialEvent event = new SpecialEvent();
         event.setId(-5);
         event.setName("Student Kick-Off");

@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.minerva.announcement;
 import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementDao;
@@ -28,7 +29,7 @@ public class MockAnnouncementDao implements AnnouncementDao {
     private final Map<String, CourseDTO> courses;
 
     @SuppressLint("UseSparseArrays")
-    public MockAnnouncementDao(List<AnnouncementDTO> announcements, List<CourseDTO> courses) {
+    MockAnnouncementDao(List<AnnouncementDTO> announcements, List<CourseDTO> courses) {
         this.announcements = new ArrayList<>(announcements);
         this.idMap = new HashMap<>();
         for (AnnouncementDTO a: announcements) {
@@ -40,6 +41,7 @@ public class MockAnnouncementDao implements AnnouncementDao {
         }
     }
 
+    @Nullable
     @Override
     public Result getOne(int id) {
         if (!idMap.containsKey(id)) {

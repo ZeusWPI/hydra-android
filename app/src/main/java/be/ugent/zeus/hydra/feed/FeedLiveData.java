@@ -1,9 +1,11 @@
 package be.ugent.zeus.hydra.feed;
 
+import android.annotation.SuppressLint;
 import android.content.*;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -59,13 +61,13 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
     /**
      * Sets which card type should be updated. The default value is {@link #REFRESH_ALL_CARDS}.
      */
-    public static final String REFRESH_HOMECARD_TYPE = "be.ugent.zeus.hydra.data.refresh.homecard.type";
-    public static final int REFRESH_ALL_CARDS = -20;
+    static final String REFRESH_HOMECARD_TYPE = "be.ugent.zeus.hydra.data.refresh.homecard.type";
+    private static final int REFRESH_ALL_CARDS = -20;
 
     private static final String TAG = "HomeFeedLoader";
-    private RestoListener restoListener = new RestoListener();
+    private final SharedPreferences.OnSharedPreferenceChangeListener restoListener = new RestoListener();
 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (SyncBroadcast.SYNC_DONE.equals(intent.getAction())) {
@@ -78,7 +80,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
     private final Context applicationContext;
 
     //For which settings the loader must refresh
-    private static String[] watchedPreferences = {
+    private static final String[] watchedPreferences = {
             HomeFeedFragment.PREF_DISABLED_CARD_TYPES,
             AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
             RestoPreferenceFragment.PREF_RESTO_KEY,
@@ -86,11 +88,11 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
             HomeFeedFragment.PREF_DISABLED_CARD_HACK
     };
 
-    private Map<String, Object> oldPreferences = new HashMap<>();
+    private final Map<String, Object> oldPreferences = new HashMap<>();
 
     FeedLiveData(Context context) {
         this.applicationContext = context.getApplicationContext();
-        loadData(Bundle.EMPTY);
+        loadData();
     }
 
     @Override
@@ -141,7 +143,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
         }
     }
 
-    private List<Card> executeOperation(@Nullable Bundle args, FeedOperation operation, Set<Integer> errors, List<Card> results) {
+    private static List<Card> executeOperation(@Nullable Bundle args, FeedOperation operation, Collection<Integer> errors, List<Card> results) {
 
         Result<List<Card>> result = operation.transform(args, results);
 
@@ -157,7 +159,9 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
      *
      * @param bundle The arguments for the request.
      */
-    protected void loadData(@Nullable Bundle bundle) {
+    @Override
+    @SuppressLint("StaticFieldLeak")
+    protected void loadData(@NonNull Bundle bundle) {
         new AsyncTask<Void, Result<List<Card>>, Void>() {
 
             @Override
@@ -180,7 +184,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
                 Set<Integer> errors = new HashSet<>();
                 Result<List<Card>> result = null;
 
-                for (final FeedOperation operation: operations) {
+                for (FeedOperation operation: operations) {
                     if (isCancelled()) {
                         return null;
                     }
@@ -213,7 +217,6 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
             @SafeVarargs
             @Override
             protected final void onProgressUpdate(Result<List<Card>>... values) {
-                super.onProgressUpdate(values);
                 setValue(values[0]);
             }
         }.execute();
@@ -279,10 +282,10 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
      * @param args The arguments to determine which requests will be executed.
      * @return The requests to be executed.
      */
-    private Iterable<FeedOperation> findOperations(ExtendedSparseArray<FeedOperation> allOperations, @Nullable Bundle args) {
+    private static Iterable<FeedOperation> findOperations(ExtendedSparseArray<FeedOperation> allOperations, @NonNull Bundle args) {
 
         // If there are no arguments, or we must do all operations, do nothing.
-        if (args == null || args.getInt(REFRESH_HOMECARD_TYPE, REFRESH_ALL_CARDS) == REFRESH_ALL_CARDS) {
+        if (args.getInt(REFRESH_HOMECARD_TYPE, REFRESH_ALL_CARDS) == REFRESH_ALL_CARDS) {
             Log.i(TAG, "Returning all card types.");
             return allOperations;
         }

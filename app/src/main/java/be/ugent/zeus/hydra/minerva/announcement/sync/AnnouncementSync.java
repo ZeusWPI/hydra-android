@@ -9,8 +9,8 @@ import android.support.annotation.WorkerThread;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.common.network.InvalidFormatException;
+import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.RequestException;
-import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.sync.Synchronisation;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;
@@ -19,14 +19,10 @@ import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import be.ugent.zeus.hydra.minerva.course.Module;
 import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
-import com.squareup.moshi.JsonDataException;
 import java8.util.Maps;
 import org.threeten.bp.Instant;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static be.ugent.zeus.hydra.utils.IterableUtils.transform;
 
@@ -121,7 +117,7 @@ public class AnnouncementSync {
         EnumSet<Module> disabled = course.getDisabledModules();
         if (disabled.contains(Module.ANNOUNCEMENTS)) {
             Log.d(TAG, "Checking if announcements are enabled for " + course.getId());
-            ApiTools tools = new ModuleRequest(context, account, course).performRequest(null).getOrThrow();
+            ApiTools tools = new ModuleRequest(context, account, course).performRequest().getOrThrow();
             EnumSet<Module> enabled = tools.asModules();
             if (enabled.contains(Module.ANNOUNCEMENTS)) {
                 // The announcements are enabled now, so save it to the database.
@@ -136,16 +132,16 @@ public class AnnouncementSync {
 
         // Normally, if the we just enabled announcements above, the request below should not fail.
         // Get which requests are unread on the server.
-        WhatsNewRequest whatsNewRequest = new WhatsNewRequest(course, context, account);
+        Request<ApiWhatsNew> whatsNewRequest = new WhatsNewRequest(course, context, account);
         ApiWhatsNew whatsNew;
 
         try {
-            whatsNew = whatsNewRequest.performRequest(null).getOrThrow();
+            whatsNew = whatsNewRequest.performRequest().getOrThrow();
         } catch (InvalidFormatException e) {
             // If this exception occurs here, it's most likely a course that does not have every module enabled.
             // We check this with a new request.
             Log.i(TAG, "Error occurred while reading response.", e);
-            ApiTools tools = new ModuleRequest(context, account, course).performRequest(null).getOrThrow();
+            ApiTools tools = new ModuleRequest(context, account, course).performRequest().getOrThrow();
             EnumSet<Module> enabled = tools.asModules();
             if (!enabled.contains(Module.ANNOUNCEMENTS)) {
                 // Save the disabled modules.
@@ -160,8 +156,8 @@ public class AnnouncementSync {
         }
 
         // Get all announcements from the server.
-        AnnouncementsRequest request = new AnnouncementsRequest(context, account, course);
-        List<Announcement> serverAnnouncements = request.performRequest(null).map(announcements -> transform(announcements.announcements, announcementDTO -> ApiAnnouncementMapper.INSTANCE.convert(announcementDTO, course))).getOrThrow();
+        Request<ApiAnnouncements> request = new AnnouncementsRequest(context, account, course);
+        List<Announcement> serverAnnouncements = request.performRequest().map(announcements -> transform(announcements.announcements, announcementDTO -> ApiAnnouncementMapper.INSTANCE.convert(announcementDTO, course))).getOrThrow();
 
         // Get the announcements from the database. This returns the ID of the announcements and the read
         // date, since we want to preserve that.
@@ -171,7 +167,7 @@ public class AnnouncementSync {
         Synchronisation<Announcement, Integer> synchronisation = new Synchronisation<>(existing.keySet(), serverAnnouncements, Announcement::getItemId);
         Synchronisation.Diff<Announcement, Integer> diff = synchronisation.diff();
 
-        List<Announcement> unreadOnServer = new ArrayList<>(transform(whatsNew.announcements, announcementDTO -> ApiAnnouncementMapper.INSTANCE.convert(announcementDTO, course)));
+        Collection<Announcement> unreadOnServer = new ArrayList<>(transform(whatsNew.announcements, announcementDTO -> ApiAnnouncementMapper.INSTANCE.convert(announcementDTO, course)));
 
         Instant now = Instant.now();
 

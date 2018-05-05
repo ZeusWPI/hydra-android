@@ -1,20 +1,21 @@
 package be.ugent.zeus.hydra.minerva.announcement.unreadlist;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
+import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
-import be.ugent.zeus.hydra.minerva.common.sync.SyncBroadcast;
+import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;
-import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
-import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.minerva.common.sync.SyncBroadcast;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ class AnnouncementsLiveData extends BaseLiveData<Result<List<Announcement>>> {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (SyncBroadcast.SYNC_PROGRESS_WHATS_NEW.equals(action)) {
-                loadData(Bundle.EMPTY);
+                loadData();
             }
         }
     };
@@ -39,11 +40,12 @@ class AnnouncementsLiveData extends BaseLiveData<Result<List<Announcement>>> {
     AnnouncementsLiveData(Context context) {
         this.applicationContext = context.getApplicationContext();
         this.dao = RepositoryFactory.getAnnouncementRepository(applicationContext);
-        loadData(Bundle.EMPTY);
+        loadData();
     }
 
     @Override
-    protected void loadData(@Nullable Bundle args) {
+    @SuppressLint("StaticFieldLeak")
+    protected void loadData(@NonNull Bundle args) {
         new AsyncTask<Void, Void, Result<List<Announcement>>>() {
 
             @Override

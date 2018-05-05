@@ -107,7 +107,7 @@ public class CourseListFragment extends Fragment implements OnStartDragListener 
         model.getData().observe(this, new AdapterObserver<>(adapter));
         model.getData().observe(this, new SuccessObserver<List<Pair<Course, Long>>>() {
             @Override
-            protected void onSuccess(List<Pair<Course, Long>> data) {
+            protected void onSuccess(@NonNull List<Pair<Course, Long>> data) {
                 recyclerView.setVisibility(View.VISIBLE);
                 requireActivity().invalidateOptionsMenu();
             }

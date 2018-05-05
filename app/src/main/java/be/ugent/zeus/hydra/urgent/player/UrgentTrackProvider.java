@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.urgent.player;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +10,7 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.urgent.UrgentInfo;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.urgent.UrgentInfoRequest;
@@ -19,15 +21,15 @@ import java8.util.function.Consumer;
  */
 class UrgentTrackProvider {
 
-    public static final String URGENT_ID = "be.ugent.zeus.hydra.urgent";
+    static final String URGENT_ID = "be.ugent.zeus.hydra.urgent";
 
-    public static final String MEDIA_ID_ROOT = "__ROOT__";
-    public static final String MEDIA_ID_EMPTY_ROOT = "__EMPTY__";
+    static final String MEDIA_ID_ROOT = "__ROOT__";
+    static final String MEDIA_ID_EMPTY_ROOT = "__EMPTY__";
 
     private MediaMetadataCompat track;
     private final Context context;
 
-    public UrgentTrackProvider(Context context) {
+    UrgentTrackProvider(Context context) {
         this.context = context.getApplicationContext();
     }
 
@@ -35,7 +37,8 @@ class UrgentTrackProvider {
         return track;
     }
 
-    public void prepareMedia(@NonNull Consumer<Boolean> callback) {
+    @SuppressLint("StaticFieldLeak")
+    void prepareMedia(@NonNull Consumer<Boolean> callback) {
 
         if (track != null) {
             callback.accept(true);
@@ -58,8 +61,8 @@ class UrgentTrackProvider {
     }
 
     private synchronized void loadData() {
-        UrgentInfoRequest infoRequest = new UrgentInfoRequest(context);
-        Result<UrgentInfo> programme = infoRequest.performRequest(null);
+        Request<UrgentInfo> infoRequest = new UrgentInfoRequest(context);
+        Result<UrgentInfo> programme = infoRequest.performRequest();
 
         if (!programme.hasData()) {
             // It failed.
@@ -83,7 +86,7 @@ class UrgentTrackProvider {
         track = builder.build();
     }
 
-    public synchronized boolean hasTrackInformation() {
+    synchronized boolean hasTrackInformation() {
         return track != null;
     }
 }

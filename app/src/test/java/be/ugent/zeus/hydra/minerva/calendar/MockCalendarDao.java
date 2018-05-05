@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.minerva.calendar;
 import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.minerva.calendar.database.AgendaDao;
@@ -41,6 +42,7 @@ public class MockCalendarDao implements AgendaDao {
         }
     }
 
+    @Nullable
     @Override
     public Result getOne(int id) {
         if (!idMap.containsKey(id)) {

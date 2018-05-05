@@ -59,13 +59,9 @@ public abstract class MinervaRequest<T> extends JsonOkHttpRequest<T> {
     @NonNull
     @Override
     @WorkerThread
-    public Result<T> performRequest(Bundle args) {
+    public Result<T> performRequest(@NonNull Bundle args) {
 
         JsonAdapter<T> adapter = getAdapter();
-
-        if (args == null) {
-            args = Bundle.EMPTY;
-        }
 
         try {
             try {
@@ -134,6 +130,7 @@ public abstract class MinervaRequest<T> extends JsonOkHttpRequest<T> {
      * Wrapper interface for providing the request with an access token. Using this interface makes testing this
      * class a lot easier.
      */
+    @FunctionalInterface
     protected interface AccessTokenProvider {
         /**
          * @see AccountUtils#getAccessToken(AccountManager, Account)

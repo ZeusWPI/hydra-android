@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.resto.history;
 
 import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
+import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import org.junit.Test;
@@ -43,7 +44,7 @@ public class DayRequestTest extends AbstractJsonRequestTest<RestoMenu> {
 
     @Test(expected = IllegalStateException.class)
     public void testNonInitialised() {
-        DayRequest request = new DayRequest(RuntimeEnvironment.application);
-        request.performRequest(null);
+        Request<RestoMenu> request = new DayRequest(RuntimeEnvironment.application);
+        request.performRequest();
     }
 }

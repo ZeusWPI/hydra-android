@@ -29,7 +29,7 @@ public class WaitRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Result<Stream<Card>> performRequest(Bundle args) {
+    public Result<Stream<Card>> performRequest(@NonNull Bundle args) {
         try {
             Log.i(TAG, "performRequest: sleep 5 seconds.");
             Thread.sleep(5000); //Sleep 5 seconds

@@ -4,7 +4,7 @@ import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 import android.support.v7.util.DiffUtil;
-import android.util.Log;
+
 import java8.util.Objects;
 
 import java.util.EnumSet;
@@ -26,7 +26,7 @@ class DiffUpdate<D> implements AdapterUpdate<D> {
 
     private DiffUtil.DiffResult result;
     private int existingDataSize = -1;
-    private Set<Empty> status = EnumSet.noneOf(Empty.class);
+    private final Set<Empty> status = EnumSet.noneOf(Empty.class);
 
     DiffUpdate(@Nullable List<D> newData) {
         this(new EqualsItemCallback<>(), newData);

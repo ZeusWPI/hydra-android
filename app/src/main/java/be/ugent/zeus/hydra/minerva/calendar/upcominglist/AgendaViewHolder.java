@@ -26,7 +26,7 @@ class AgendaViewHolder extends DataViewHolder<AgendaItem> {
     }
 
     @Override
-    public void populate(final AgendaItem data) {
+    public void populate(AgendaItem data) {
         title.setText(data.getTitle());
         subtitle.setText(DateUtils.relativeTimeSpan(itemView.getContext(), data.getStartDate(), data.getEndDate()));
         parent.setOnClickListener(view -> AgendaActivity.start(view.getContext(), data));

@@ -36,6 +36,7 @@ class LineupViewHolder extends DataViewHolder<Artist> implements View.OnCreateCo
         itemView.setOnCreateContextMenuListener(this);
     }
 
+    @Override
     public void populate(final Artist artist) {
         this.artist = artist;
         title.setText(artist.getName());

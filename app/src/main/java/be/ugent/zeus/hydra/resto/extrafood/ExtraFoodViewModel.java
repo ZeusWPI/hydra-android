@@ -31,7 +31,7 @@ public class ExtraFoodViewModel extends RequestViewModel<ExtraFood> {
      * @param data The data.
      * @return The result.
      */
-    public List<Food> getFor(int position, ExtraFood data) {
+    static List<Food> getFor(int position, ExtraFood data) {
         switch (position) {
             case 0:
                 return data.getBreakfast();

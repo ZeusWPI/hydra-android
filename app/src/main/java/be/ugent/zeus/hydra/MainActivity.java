@@ -469,7 +469,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * Get the position of a fragment in the menu. While stupid, there is no other way to do this.
      */
     @IdRes
-    private int getFragmentMenuId(Fragment fragment) {
+    private static int getFragmentMenuId(Fragment fragment) {
         return requireArguments(fragment).getInt(FRAGMENT_MENU_ID);
     }
 

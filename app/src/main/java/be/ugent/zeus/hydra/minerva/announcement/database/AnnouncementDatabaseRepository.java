@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.minerva.announcement.database;
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
@@ -31,6 +32,7 @@ public class AnnouncementDatabaseRepository implements AnnouncementRepository {
         this.announcementMapper = announcementMapper;
     }
 
+    @Nullable
     @Override
     public Announcement getOne(Integer integer) {
         AnnouncementDao.Result result = announcementDao.getOne(integer);

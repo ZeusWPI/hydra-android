@@ -62,11 +62,4 @@ public class DateUtilsTest {
         assertEquals(formatter.format(far), DateUtils.getFriendlyDate(far, FormatStyle.LONG));
         assertEquals(formatter.format(exact), DateUtils.getFriendlyDate(exact, FormatStyle.LONG));
     }
-
-    @Test
-    public void toLocalDateTime() {
-        ZonedDateTime dateTime = ZonedDateTime.of(LocalDateTime.of(1996, 4, 18, 8, 0), ZoneOffset.UTC);
-        LocalDateTime converted = DateUtils.toLocalDateTime(dateTime);
-        assertEquals(dateTime.withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime(), converted);
-    }
 }

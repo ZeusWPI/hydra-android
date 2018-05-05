@@ -29,8 +29,8 @@ public interface ItemDragHelperAdapter {
 
     /**
      * Called when an item has been dragged far enough to trigger a move. This is called every time
-     * an item is shifted, and <strong>not</strong> at the end of a "drop" event.<br/>
-     * <br/>
+     * an item is shifted, and <strong>not</strong> at the end of a "drop" event.<br>
+     * <br>
      * Implementations should call {@link RecyclerView.Adapter#notifyItemMoved(int, int)} after
      * adjusting the underlying data to reflect this move.
      *

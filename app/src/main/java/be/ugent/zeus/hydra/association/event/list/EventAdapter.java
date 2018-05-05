@@ -16,7 +16,7 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
  */
 class EventAdapter extends SearchableAdapter<EventItem, DataViewHolder<EventItem>> {
 
-    private final int HEADER_TYPE = 25;
+    private static final int HEADER_TYPE = 25;
 
     EventAdapter() {
         super(new EventSearchPredicate(), new EventSearchFilter());

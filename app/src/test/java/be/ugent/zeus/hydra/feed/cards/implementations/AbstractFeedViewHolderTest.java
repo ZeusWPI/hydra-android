@@ -1,19 +1,16 @@
 package be.ugent.zeus.hydra.feed.cards.implementations;
 
 import android.content.Intent;
+
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import org.junit.Before;
-import org.junit.runner.RunWith;
 import org.mockito.stubbing.Answer;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Niko Strijbol

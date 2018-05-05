@@ -56,7 +56,7 @@ public enum InfoType {
     //Opens in the app itself (web view or native)
     INTERNAL {
 
-        private final static String HTML_API = "https://zeus.ugent.be/hydra/api/2.0/info/";
+        private static final String HTML_API = "https://zeus.ugent.be/hydra/api/2.0/info/";
 
         @Override
         public void doOnClick(Context context, ActivityHelper helper, InfoItem infoItem) {

@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.common.arch.observers;
 
+import android.support.annotation.NonNull;
+
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
 import org.apache.commons.lang3.mutable.MutableBoolean;
@@ -67,12 +69,12 @@ public class SuccessObserverTest {
 
     private static class TestSuccessObserver extends SuccessObserver<Integer> {
 
-        private Integer successData = null;
-        private boolean hasCalledEmpty = false;
-        private boolean hasCalledSuccess = false;
+        private Integer successData;
+        private boolean hasCalledEmpty;
+        private boolean hasCalledSuccess;
 
         @Override
-        protected void onSuccess(Integer data) {
+        protected void onSuccess(@NonNull Integer data) {
             successData = data;
             hasCalledSuccess = true;
         }

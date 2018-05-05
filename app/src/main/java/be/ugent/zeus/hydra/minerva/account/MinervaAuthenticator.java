@@ -4,6 +4,7 @@ import android.accounts.*;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.Log;
@@ -47,14 +48,14 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
 
     private static final String TAG = MinervaAuthenticator.class.getSimpleName();
 
-    public static final String EXP_DATE = "expDate";
+    static final String EXP_DATE = "expDate";
 
-    private Context mContext;
-    private AccountManager manager;
+    private final Context context;
+    private final AccountManager manager;
 
-    public MinervaAuthenticator(Context context) {
+    MinervaAuthenticator(Context context) {
         super(context);
-        this.mContext = context;
+        this.context = context;
         this.manager = AccountManager.get(context);
     }
 
@@ -65,7 +66,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
 
     @Override
     public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options) {
-        final Intent intent = new Intent(mContext, AuthActivity.class);
+        Intent intent = new Intent(context, AuthActivity.class);
         intent.putExtra(AuthActivity.ARG_ACCOUNT_TYPE, accountType);
         intent.putExtra(AuthActivity.ARG_AUTH_TYPE, authTokenType);
         intent.putExtra(AuthActivity.ARG_ADDING_NEW_ACCOUNT, true);
@@ -74,19 +75,19 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
             intent.putExtra(AuthActivity.ARG_EXTRA_BUNDLE, options);
         }
 
-        final Bundle bundle = new Bundle();
+        Bundle bundle = new Bundle();
         bundle.putParcelable(AccountManager.KEY_INTENT, intent);
         return bundle;
     }
 
     @Override
     public Bundle confirmCredentials(AccountAuthenticatorResponse response, Account account, Bundle bundle) {
-        final Intent intent = new Intent(mContext, AuthActivity.class);
+        Intent intent = new Intent(context, AuthActivity.class);
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
         intent.putExtra(AuthActivity.ARG_ACCOUNT_TYPE, account.type);
 
         Log.d(TAG, "Account needs re-validation.");
-        final Bundle result = new Bundle(bundle == null ? Bundle.EMPTY : bundle);
+        Bundle result = new Bundle(bundle == null ? Bundle.EMPTY : bundle);
         result.putParcelable(AccountManager.KEY_INTENT, intent);
         return result;
     }
@@ -96,9 +97,10 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
      */
     @Override
     public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle options) throws NetworkErrorException {
-        final AccountManager am = AccountManager.get(mContext);
+        AccountManager am = AccountManager.get(context);
 
-        //Get a access token from the cache.
+        // Get a access token from the cache.
+        @Nullable
         String accessToken = am.peekAuthToken(account, authTokenType);
 
         //Check the expiration date
@@ -127,7 +129,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
 
         //If we got an access token, we return.
         if(!TextUtils.isEmpty(accessToken)) {
-            final Bundle result = new Bundle();
+            Bundle result = new Bundle();
             result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
             result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
             result.putString(AccountManager.KEY_AUTHTOKEN, accessToken);
@@ -137,13 +139,13 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
         // If we get here, then we couldn't access the user's password - so we
         // need to re-prompt them for their credentials. We do that by creating
         // an intent to display our AuthenticatorActivity.
-        final Intent intent = new Intent(mContext, AuthActivity.class);
+        Intent intent = new Intent(context, AuthActivity.class);
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
         intent.putExtra(AuthActivity.ARG_ACCOUNT_TYPE, account.type);
         intent.putExtra(AuthActivity.ARG_AUTH_TYPE, authTokenType);
 
         Log.d(TAG, "Account needs re-validation.");
-        final Bundle bundle = new Bundle();
+        Bundle bundle = new Bundle();
         bundle.putParcelable(AccountManager.KEY_INTENT, intent);
         return bundle;
     }
@@ -157,6 +159,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
      *
      * @throws NetworkErrorException If the access token could not be retrieved due to network issues.
      */
+    @Nullable
     @VisibleForTesting
     String getRefreshAccessToken(Account account, String refreshToken) throws NetworkErrorException {
 
@@ -165,7 +168,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
 
         try {
             //Execute the request.
-            BearerToken token = request.performRequest(null).getOrThrow();
+            BearerToken token = request.performRequest().getOrThrow();
             if (token.getRefreshToken() != null) {
                 manager.setPassword(account, token.getRefreshToken());
             }
@@ -184,6 +187,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
     }
 
     @Override
+    @Nullable
     public String getAuthTokenLabel(String authTokenType) {
         // We don't have multiple types in Hydra.
         return null;

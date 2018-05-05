@@ -42,11 +42,20 @@ public class MapFragment extends Fragment {
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDisplayZoomControls(false);
         webView.getSettings().setSupportZoom(true);
-        webView.setWebViewClient(new WebViewClient() {
-            public void onPageFinished(WebView webView1, String url) {
-                progressBar.setVisibility(View.GONE);
-            }
-        });
+        webView.setWebViewClient(new ProgressClient(progressBar));
         webView.loadUrl(Endpoints.SKO_VILLAGE_MAP);
+    }
+
+    private static class ProgressClient extends WebViewClient {
+        private final ProgressBar progressBar;
+
+        ProgressClient(ProgressBar progressBar) {
+            this.progressBar = progressBar;
+        }
+
+        @Override
+        public void onPageFinished(WebView webView1, String url) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }

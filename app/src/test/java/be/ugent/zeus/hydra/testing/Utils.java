@@ -35,7 +35,7 @@ public class Utils {
                 .randomize(LocalDate.class, (Randomizer<LocalDate>) LocalDate::now)
                 .randomize(OffsetDateTime.class, (Randomizer<OffsetDateTime>) OffsetDateTime::now)
                 .randomize(Instant.class, (Randomizer<Instant>) Instant::now)
-                .randomize(EnumSet.class, (Randomizer<EnumSet>) () -> EnumSet.noneOf(Module.class)) // HACK
+                .randomize(EnumSet.class, (Randomizer<EnumSet<Module>>) () -> EnumSet.noneOf(Module.class)) // HACK
                 .build()
                 .nextObject(clazz, exclude);
     }
@@ -47,7 +47,7 @@ public class Utils {
                 .randomize(LocalDate.class, (Randomizer<LocalDate>) LocalDate::now)
                 .randomize(OffsetDateTime.class, (Randomizer<OffsetDateTime>) OffsetDateTime::now)
                 .randomize(Instant.class, (Randomizer<Instant>) Instant::now)
-                .randomize(EnumSet.class, (Randomizer<EnumSet>) () -> EnumSet.noneOf(Module.class)) // HACK
+                .randomize(EnumSet.class, (Randomizer<EnumSet<Module>>) () -> EnumSet.noneOf(Module.class)) // HACK
                 .build()
                 .objects(clazz, amount, exclude);
     }

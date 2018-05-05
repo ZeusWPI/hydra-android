@@ -1,11 +1,13 @@
 package be.ugent.zeus.hydra.minerva.calendar.upcominglist;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
@@ -31,7 +33,7 @@ class AgendaLiveData extends BaseLiveData<Result<List<AgendaItem>>> {
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            loadData(Bundle.EMPTY);
+            loadData();
         }
     };
 
@@ -39,12 +41,14 @@ class AgendaLiveData extends BaseLiveData<Result<List<AgendaItem>>> {
         this.applicationContext = context.getApplicationContext();
         this.dao = RepositoryFactory.getAgendaItemRepository(applicationContext);
         this.course = course;
-        loadData(Bundle.EMPTY);
+        loadData();
     }
 
-    protected void loadData(Bundle args) {
-        new AsyncTask<Void, Void, Result<List<AgendaItem>>>() {
 
+    @Override
+    @SuppressLint("StaticFieldLeak")
+    protected void loadData(@NonNull Bundle args) {
+        new AsyncTask<Void, Void, Result<List<AgendaItem>>>() {
             @Override
             protected Result<List<AgendaItem>> doInBackground(Void... voids) {
                 return Result.Builder.fromData(dao.getAllForCourseFuture(course.getId(), OffsetDateTime.now()));

@@ -21,7 +21,7 @@ public class UrgentRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Result<Stream<Card>> performRequest(Bundle args) {
+    public Result<Stream<Card>> performRequest(@NonNull Bundle args) {
         return Result.Builder.fromData(RefStreams.of(new UrgentCard()));
     }
 }

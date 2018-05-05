@@ -103,7 +103,7 @@ public class CalendarSync {
         // The result.
         Result<List<AgendaItem>> agendaResult;
         try {
-            agendaResult = request.performRequest(null)
+            agendaResult = request.performRequest()
                     .map(c -> c.items)
                     .map(list -> transform(list, i -> {
                         if (!courses.containsKey(i.courseId)) {
@@ -202,6 +202,7 @@ public class CalendarSync {
                 .build();
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        assert manager != null;
         manager.notify(0, notification);
     }
 
@@ -229,9 +230,7 @@ public class CalendarSync {
         } else if (isInitialSync || !Once.beenDone(FIRST_SYNC_BUILT_IN_CALENDAR)) {
             Log.i(TAG, "Removing existing calendar.");
             // Remove existing things.
-            //Uri calendarUri = adapterUri(CalendarContract.Calendars.CONTENT_URI, account);
             deleteCalendarFor(account, resolver);
-            //resolver.delete(ContentUris.withAppendedId(calendarUri, calendarId), null, null);
             Uri result = insertCalendar(account, resolver);
             if (result == null) {
                 Log.e(TAG, "Inserting the calendar failed for some reason, abort sync.");
@@ -241,11 +240,9 @@ public class CalendarSync {
         }
 
         // Updated items (items that should already be on the device)
-        Set<AgendaItem> updatedItems = new HashSet<>(diff.getUpdated());
+        Collection<AgendaItem> updatedItems = new HashSet<>(diff.getUpdated());
         // Calendar id's of items we will remove.
-        Set<Long> toRemove = new HashSet<>(calendarRepository.getCalendarIdsForIds(diff.getStaleIds()));
-        // List of calendar items id's we must update to remove the calendar ID from our database.
-        List<Integer> calendarIdsToRemove = new ArrayList<>();
+        Collection<Long> toRemove = new HashSet<>(calendarRepository.getCalendarIdsForIds(diff.getStaleIds()));
 
         // We remove ignored items from the updated set and add them to the "to be removed" set.
         for (AgendaItem item: diff.getUpdated()) {
@@ -314,7 +311,7 @@ public class CalendarSync {
      *
      * @return The ID of the item.
      */
-    private long insert(ContentResolver resolver, ContentValues values, Account account) {
+    private static long insert(ContentResolver resolver, ContentValues values, Account account) {
         Uri result = resolver.insert(adapterUri(CalendarContract.Events.CONTENT_URI, account), values);
         if (result == null) {
             Log.e(TAG, "Error while inserting in calendar, abort this item.");
@@ -332,7 +329,7 @@ public class CalendarSync {
      *
      * @throws SecurityException Thrown in the rare case where we have permission, but the user revokes it during the sync.
      */
-    private long getCalendarId(Account account, ContentResolver resolver) throws SecurityException {
+    private static long getCalendarId(Account account, ContentResolver resolver) throws SecurityException {
 
         String selection =
                 CalendarContract.Calendars.ACCOUNT_NAME +
@@ -340,7 +337,7 @@ public class CalendarSync {
                         CalendarContract.Calendars.ACCOUNT_TYPE +
                         " = ? ";
 
-        String[] selArgs = new String[]{account.name, MinervaConfig.ACCOUNT_TYPE};
+        String[] selArgs = {account.name, MinervaConfig.ACCOUNT_TYPE};
 
         Cursor cursor = resolver
                 .query(
@@ -373,12 +370,10 @@ public class CalendarSync {
      *
      * @param account The account.
      *
-     * @return The ID or {@link #NO_CALENDAR} if there is no calendar.
-     *
      * @throws SecurityException Thrown in the very rare case that we have permission when starting the sync,
      * but the user revokes it during the sync, but before this has executed.
      */
-    private int deleteCalendarFor(Account account, ContentResolver resolver) throws SecurityException {
+    private static void deleteCalendarFor(Account account, ContentResolver resolver) throws SecurityException {
 
         String selection =
                 CalendarContract.Calendars.ACCOUNT_NAME +
@@ -386,16 +381,12 @@ public class CalendarSync {
                         CalendarContract.Calendars.ACCOUNT_TYPE +
                         " = ? ";
 
-        String[] selArgs = new String[]{account.name, MinervaConfig.ACCOUNT_TYPE};
+        String[] selArgs = {account.name, MinervaConfig.ACCOUNT_TYPE};
 
-        return resolver.delete(
-                CalendarContract.Calendars.CONTENT_URI,
-                selection,
-                selArgs
-        );
+        resolver.delete(CalendarContract.Calendars.CONTENT_URI, selection, selArgs);
     }
 
-    private Set<Long> getAllIdsFromDeviceCalendar(Account account, ContentResolver resolver) throws SecurityException {
+    private static Set<Long> getAllIdsFromDeviceCalendar(Account account, ContentResolver resolver) throws SecurityException {
 
         String[] projection = {CalendarContract.Events._ID};
 
@@ -405,7 +396,7 @@ public class CalendarSync {
                         CalendarContract.Calendars.ACCOUNT_TYPE +
                         " = ? ";
 
-        String[] selArgs = new String[]{account.name, MinervaConfig.ACCOUNT_TYPE};
+        String[] selArgs = {account.name, MinervaConfig.ACCOUNT_TYPE};
 
         Cursor result = resolver.query(CalendarContract.Events.CONTENT_URI, projection, selection, selArgs, null);
         if (result == null) {

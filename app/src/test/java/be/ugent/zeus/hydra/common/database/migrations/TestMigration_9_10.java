@@ -78,7 +78,7 @@ public class TestMigration_9_10 {
         assertContent(expectedCalendarItem, getFirstFrom(newDatabase, "minerva_calendar"));
     }
 
-    private ContentValues insertCourse(SQLiteDatabase database) {
+    private static ContentValues insertCourse(SQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("_id", "testCourse");
         contentValues.put("code", "TEST");
@@ -91,7 +91,7 @@ public class TestMigration_9_10 {
         return contentValues;
     }
 
-    private ContentValues insertAnnouncement(SQLiteDatabase database) {
+    private static ContentValues insertAnnouncement(SQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("_id", 500);
         contentValues.put("course", "testCourse");
@@ -105,7 +105,7 @@ public class TestMigration_9_10 {
         return contentValues;
     }
 
-    private ContentValues insertCalendarItem(SQLiteDatabase database) {
+    private static ContentValues insertCalendarItem(SQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("_id", 500);
         contentValues.put("course", "testCourse");

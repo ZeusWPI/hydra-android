@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.resto.history;
 import android.app.DatePickerDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
@@ -71,7 +72,7 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
         viewModel.changeDate(localDate); // Set the initial date
         viewModel.getData().observe(this, new SuccessObserver<RestoMenu>() {
             @Override
-            protected void onSuccess(RestoMenu data) {
+            protected void onSuccess(@NonNull RestoMenu data) {
                 // Add the fragment
                 errorView.setVisibility(View.GONE);
                 setTitle(getString(R.string.resto_history_title, DateUtils.getFriendlyDate(data.getDate())));

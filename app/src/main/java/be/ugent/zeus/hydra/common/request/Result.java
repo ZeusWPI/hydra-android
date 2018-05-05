@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 /**
  * The result of a {@link Request}.
  *
- * <h2>Either-or-both</h2>
+ * <h1>Either-or-both</h1>
  * This class represents an "inclusive or" type, sometimes referred to as an "outer join" type.
  * This means the class holds either a value, an error or both. To prevent wrong usage, a builder is provided, while the
  * constructor is private.
@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
  *
  * The class supports various methods for working with this, similar to {@link java.util.Optional}.
  *
- * <h2>Status</h2>
+ * <h1>Status</h1>
  * In addition to data, this class has support for indicating the status of the request result. The
  * status is either done or continuing.
  *
@@ -223,9 +223,6 @@ public class Result<D> {
 
         private D data;
         private RequestException error;
-
-        public Builder() {
-        }
 
         /**
          * Shortcut for a completed result with data.

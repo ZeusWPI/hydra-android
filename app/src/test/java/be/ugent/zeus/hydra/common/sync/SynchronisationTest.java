@@ -50,7 +50,6 @@ public class SynchronisationTest {
 
     private static class TestObject {
         final String id;
-        final String data = "Nice object!";
 
         private TestObject(String id) {
             this.id = id;

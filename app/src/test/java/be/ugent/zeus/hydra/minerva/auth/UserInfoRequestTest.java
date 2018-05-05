@@ -14,7 +14,7 @@ import org.robolectric.RuntimeEnvironment;
 
 import java.io.IOException;
 
-import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
@@ -50,7 +50,7 @@ public class UserInfoRequestTest extends AbstractJsonRequestTest<GrantInformatio
         request = spy(getRequest());
         doReturn(serverUrl.toString()).when(request).getAPIUrl();
 
-        Result<GrantInformation> result = request.performRequest(null);
+        Result<GrantInformation> result = request.performRequest();
 
         if (result.hasException()) {
             throw result.getError();

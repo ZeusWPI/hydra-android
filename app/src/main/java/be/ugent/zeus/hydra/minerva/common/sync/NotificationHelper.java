@@ -59,7 +59,7 @@ public class NotificationHelper {
      *
      * @return The same text with the HTML tags stripped.
      */
-    private String stripHtml(String containingHtml) {
+    private static String stripHtml(String containingHtml) {
         return Utils.fromHtml(containingHtml).toString();
     }
 
@@ -220,6 +220,7 @@ public class NotificationHelper {
      */
     public static void cancelAll(Context context) {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        assert manager != null;
         manager.cancelAll();
     }
 

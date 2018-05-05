@@ -28,6 +28,7 @@ public class NetworkUtils {
      */
     public static boolean isConnected(Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert manager != null;
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
@@ -44,6 +45,7 @@ public class NetworkUtils {
      */
     public static boolean isMeteredConnection(Context context) {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert manager != null;
         return manager.isActiveNetworkMetered();
     }
 

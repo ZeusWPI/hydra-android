@@ -4,19 +4,18 @@ import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import be.ugent.zeus.hydra.common.RobolectricTest;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
+
 import org.robolectric.RuntimeEnvironment;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * @author Niko Strijbol
  */
 public class RobolectricUtils {
+
+    private RobolectricUtils() {
+    }
 
     @SuppressWarnings("unchecked")
     public static <T extends View> T inflate(@LayoutRes int layout) {

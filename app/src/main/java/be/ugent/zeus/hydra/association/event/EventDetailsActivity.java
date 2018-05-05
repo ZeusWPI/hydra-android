@@ -117,12 +117,7 @@ public class EventDetailsActivity extends BaseActivity {
         }
 
         if (event.getAssociation() != null && event.getAssociation().getImageLink() != null) {
-            Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage, new Callback.EmptyCallback() {
-                @Override
-                public void onError() {
-                    organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
-                }
-            });
+            Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage, new EventCallback(organisatorImage));
         } else {
             organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
@@ -243,6 +238,19 @@ public class EventDetailsActivity extends BaseActivity {
             fade.excludeTarget(android.R.id.navigationBarBackground, true);
             getWindow().setExitTransition(fade);
             getWindow().setEnterTransition(fade);
+        }
+    }
+
+    private static class EventCallback extends Callback.EmptyCallback {
+        private final ImageView organisatorImage;
+
+        EventCallback(ImageView organisatorImage) {
+            this.organisatorImage = organisatorImage;
+        }
+
+        @Override
+        public void onError() {
+            organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
     }
 }

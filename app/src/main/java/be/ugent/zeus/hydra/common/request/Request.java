@@ -1,15 +1,13 @@
 package be.ugent.zeus.hydra.common.request;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java8.util.function.Function;
 
 /**
  * The basis interface for a request. A request is something that returns data.
- * It is similar for Supplier<T> in Java 8.
+ * It is similar for {@link java.util.function.Supplier} in Java 8.
  *
  * The interface does not specify any restrictions or requirements, but many implementations should only be run on
  * a background thread.
@@ -22,12 +20,22 @@ public interface Request<T> {
     /**
      * Perform the request. This may be called multiple times.
      *
-     * @param args The args for this request. This value is nullable because {@link Intent#getExtras()} is nullable.
+     * @param args The args for this request. Can be {@link Bundle#EMPTY}.
      *
      * @return The data.
      */
     @NonNull
-    Result<T> performRequest(@Nullable Bundle args);
+    Result<T> performRequest(@NonNull Bundle args);
+
+    /**
+     * Identical to {@link #performRequest(Bundle)}, but with {@link Bundle#EMPTY} as argument.
+     *
+     * @see #performRequest(Bundle)
+     */
+    @NonNull
+    default Result<T> performRequest() {
+        return performRequest(Bundle.EMPTY);
+    }
 
     /**
      * This is similar to {@link Result#map(Function)}, but this method allows transforming the request's result

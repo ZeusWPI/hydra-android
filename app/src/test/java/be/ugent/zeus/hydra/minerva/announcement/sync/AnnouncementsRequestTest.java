@@ -8,7 +8,6 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.junit.Assert.*;
 
 /**
  * @author Niko Strijbol
@@ -16,7 +15,7 @@ import static org.junit.Assert.*;
 @RunWith(RobolectricTestRunner.class)
 public class AnnouncementsRequestTest extends AbstractMinervaRequestTest<ApiAnnouncements> {
 
-    private Course course = generate(Course.class);
+    private final Course course = generate(Course.class);
 
     @Override
     protected String getRelativePath() {

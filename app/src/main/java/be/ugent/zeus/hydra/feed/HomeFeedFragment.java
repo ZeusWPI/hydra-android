@@ -73,6 +73,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         helper.setShareMenu();
     }
 
+    @Override
     public ActivityHelper getHelper() {
         return helper;
     }

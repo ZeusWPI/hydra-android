@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.content.Context;
 import android.support.annotation.WorkerThread;
 
+import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.sync.Synchronisation;
 import be.ugent.zeus.hydra.minerva.course.Course;
@@ -34,8 +35,8 @@ public class CourseSync {
     public void synchronise(Account account) throws RequestException {
 
         // Get the courses from the server.
-        CoursesMinervaRequest minervaRequest = new CoursesMinervaRequest(context, account);
-        List<Course> serverCourses = minervaRequest.performRequest(null)
+        Request<ApiCourses> minervaRequest = new CoursesMinervaRequest(context, account);
+        List<Course> serverCourses = minervaRequest.performRequest()
                 .map(courses -> transform(courses.courses, ApiCourseMapper.INSTANCE::courseToCourse))
                 .getOrThrow();
 

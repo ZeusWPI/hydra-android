@@ -70,7 +70,7 @@ public class CardDaoTest {
         assertEquals("Error during data loading.", cards.size(), inserts.size());
     }
 
-    private Instant p(String d) {
+    private static Instant p(String d) {
         return Instant.parse(d);
     }
 

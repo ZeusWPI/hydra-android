@@ -56,6 +56,7 @@ class SchamperViewHolder extends DataViewHolder<Article> {
         this.helper = helper;
     }
 
+    @Override
     public void populate(final Article article) {
         title.setText(article.getTitle());
         date.setText(DateUtils.relativeDateTimeString(article.getPubDate(), itemView.getContext()));

@@ -24,7 +24,7 @@ import be.ugent.zeus.hydra.utils.DateUtils;
  * @author Niko Strijbol
  * @author feliciaan
  */
-public class EventCardViewHolder extends CardViewHolder implements SwipeDismissableViewHolder {
+public class EventCardViewHolder extends CardViewHolder {
 
     private static final String TAG = "EventCardViewHolder";
 
@@ -44,7 +44,7 @@ public class EventCardViewHolder extends CardViewHolder implements SwipeDismissa
     }
 
     @Override
-    public void populate(final Card card) {
+    public void populate(Card card) {
         super.populate(card);
         event = card.<EventCard>checkCard(Card.Type.ACTIVITY).getEvent();
 

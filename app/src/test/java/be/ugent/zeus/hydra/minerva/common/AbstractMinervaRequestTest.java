@@ -30,7 +30,7 @@ public abstract class AbstractMinervaRequestTest<D> extends AbstractJsonRequestT
     @Override
     protected abstract MinervaRequest<D> getRequest();
 
-    protected Account getAccount() {
+    protected static Account getAccount() {
         return new Account("TEST", MinervaConfig.ACCOUNT_TYPE);
     }
 }

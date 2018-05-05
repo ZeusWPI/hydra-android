@@ -99,7 +99,7 @@ public class UnreadAnnouncementsFragment extends Fragment implements MultiSelect
         model.getData().observe(this, new AdapterObserver<>(adapter));
         model.getData().observe(this, new SuccessObserver<List<Announcement>>() {
             @Override
-            protected void onSuccess(List<Announcement> data) {
+            protected void onSuccess(@NonNull List<Announcement> data) {
                 recyclerView.setVisibility(View.VISIBLE);
                 requireActivity().invalidateOptionsMenu();
                 // Stop the CAB - the adapter is cleared automatically.

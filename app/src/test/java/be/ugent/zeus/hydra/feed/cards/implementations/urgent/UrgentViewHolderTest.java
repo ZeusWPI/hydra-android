@@ -2,17 +2,17 @@ package be.ugent.zeus.hydra.feed.cards.implementations.urgent;
 
 import android.content.Intent;
 import android.view.View;
+
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowApplication;
 
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Niko Strijbol

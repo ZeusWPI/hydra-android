@@ -18,6 +18,7 @@ public final class CourseDTO {
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = CourseTable.Columns.ID)
+    @SuppressWarnings("NullableProblems")
     private String id;
     @ColumnInfo(name = CourseTable.Columns.CODE)
     private String code;
