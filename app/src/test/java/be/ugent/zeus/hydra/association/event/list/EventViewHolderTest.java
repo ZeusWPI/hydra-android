@@ -41,7 +41,7 @@ public class EventViewHolderTest {
         testEvent(true);
     }
 
-    private void testEvent(boolean isLast) {
+    private static void testEvent(boolean isLast) {
         View view = inflate(R.layout.item_event_item);
         EventViewHolder viewHolder = new EventViewHolder(view);
         EventItem item = new EventItem(generate(Event.class), isLast);

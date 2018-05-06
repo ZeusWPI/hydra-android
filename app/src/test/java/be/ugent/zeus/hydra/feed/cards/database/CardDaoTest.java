@@ -29,6 +29,8 @@ import static be.ugent.zeus.hydra.testing.Assert.*;
 import static be.ugent.zeus.hydra.testing.Assert.assertThat;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static be.ugent.zeus.hydra.testing.Utils.getRandom;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 /**
@@ -70,7 +72,7 @@ public class CardDaoTest {
         assertEquals("Error during data loading.", cards.size(), inserts.size());
     }
 
-    private Instant p(String d) {
+    private static Instant p(String d) {
         return Instant.parse(d);
     }
 
@@ -86,15 +88,31 @@ public class CardDaoTest {
     }
 
     @Test
-    @SuppressWarnings("WrongConstant")
-    public void testGetIdForType() {
-        List<CardIdentifier> expected = cards.stream()
-                .filter(c -> c.getIdentifier().getCardType() == 1)
+    public void testForType() {
+        List<CardIdentifier> dismissals = getRandom(cards, 2).stream()
                 .map(CardDismissal::getIdentifier)
                 .collect(Collectors.toList());
-        List<CardIdentifier> actual = cardDao.getIdsForType(1);
 
-        assertCollectionEquals(expected, actual);
+        // Get the expected result.
+        List<CardIdentifier> expectedType1 = cards.stream()
+                .map(CardDismissal::getIdentifier)
+                .filter(i -> i.getCardType() == dismissals.get(0).getCardType())
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        List<CardIdentifier> expectedType2 = cards.stream()
+                .map(CardDismissal::getIdentifier)
+                .filter(i -> i.getCardType() == dismissals.get(1).getCardType())
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        List<CardIdentifier> forType1 = cardDao.getForType(dismissals.get(0).getCardType()).stream()
+                .map(CardDismissal::getIdentifier)
+                .collect(Collectors.toList());
+        List<CardIdentifier> forType2 = cardDao.getForType(dismissals.get(1).getCardType()).stream()
+                .map(CardDismissal::getIdentifier)
+                .collect(Collectors.toList());
+
+        assertCollectionEquals(expectedType1, forType1);
+        assertCollectionEquals(expectedType2, forType2);
     }
 
     @Test
@@ -106,6 +124,7 @@ public class CardDaoTest {
     }
 
     @Test
+    @SuppressWarnings("Duplicates")
     public void testUpdate() {
         CardDismissal random = getRandom(cards);
         CardDismissal update = new CardDismissal(random.getIdentifier(), random.getDismissalDate().plusSeconds(60));
@@ -140,7 +159,7 @@ public class CardDaoTest {
                 .distinct()
                 .collect(Collectors.toList());
         for (int cardType: cardTypes) {
-            assertTrue(cardDao.getForType(cardType).isEmpty());
+            assertThat(cardDao.getForType(cardType), is(empty()));
         }
     }
 
@@ -154,11 +173,13 @@ public class CardDaoTest {
         List<CardIdentifier> expectedType1 = cards.stream()
                 .map(CardDismissal::getIdentifier)
                 .filter(i -> i.getCardType() == dismissals.get(0).getCardType())
+                .filter(i -> !i.equals(dismissals.get(0)))
                 .collect(Collectors.toCollection(ArrayList::new));
 
         List<CardIdentifier> expectedType2 = cards.stream()
                 .map(CardDismissal::getIdentifier)
                 .filter(i -> i.getCardType() == dismissals.get(1).getCardType())
+                .filter(i -> !i.equals(dismissals.get(1)))
                 .collect(Collectors.toCollection(ArrayList::new));
 
         cardDao.deleteByIdentifier(dismissals);

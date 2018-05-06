@@ -18,6 +18,7 @@ import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZonedDateTime;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -118,10 +119,10 @@ public class Assert {
      * @param actual The actual collection.
      */
     public static <T> void assertCollectionEquals(Iterable<T> expected, Iterable<T> actual) {
-        HashSet<Object> actualSet = new HashSet<>();
-        HashSet<Object> notEqual = new HashSet<>();
+        Collection<Object> actualSet = new HashSet<>();
+        Collection<Object> notEqual = new HashSet<>();
         CollectionUtils.addAll(actualSet, actual.iterator());
-        CollectionUtils.addAll(notEqual, actual.iterator());
+        CollectionUtils.addAll(notEqual, expected.iterator());
         assertEquals(notEqual, actualSet);
     }
 }

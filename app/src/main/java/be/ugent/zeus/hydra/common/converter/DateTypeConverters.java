@@ -24,6 +24,9 @@ public class DateTypeConverters {
      */
     static final DateTimeFormatter OFFSET_FORMATTER = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 
+    private DateTypeConverters() {
+    }
+
     /**
      * Converts a string representing a date in the format specified by {@link #OFFSET_FORMATTER}.
      *
@@ -59,6 +62,7 @@ public class DateTypeConverters {
         }
     }
 
+    @Nullable
     @TypeConverter
     public static String fromInstant(Instant instant) {
         if (instant == null) {
@@ -68,6 +72,7 @@ public class DateTypeConverters {
         }
     }
 
+    @Nullable
     @TypeConverter
     public static Instant toInstant(String value) {
         if (value == null) {
@@ -77,13 +82,13 @@ public class DateTypeConverters {
         }
     }
 
-    public static String fromLocalZonedDateTime(@LocalZonedDateTime ZonedDateTime zonedDateTime) {
+    private static String fromLocalZonedDateTime(@LocalZonedDateTime ZonedDateTime zonedDateTime) {
         LocalDateTime dateTime = LocalDateTime.ofInstant(zonedDateTime.toInstant(), LocalZonedDateTime.BRUSSELS);
         return dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 
     @LocalZonedDateTime
-    public static ZonedDateTime toLocalZonedDateTime(String value) {
+    private static ZonedDateTime toLocalZonedDateTime(String value) {
         return LocalDateTime.parse(value, DateTimeFormatter.ISO_LOCAL_DATE_TIME).atZone(LocalZonedDateTime.BRUSSELS);
     }
 

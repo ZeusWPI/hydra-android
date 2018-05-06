@@ -18,8 +18,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 
@@ -49,7 +49,7 @@ public abstract class AbstractJsonRequestTest<D> {
         return adapter.fromJson(data);
     }
 
-    protected final String readData(File file) throws IOException {
+    protected static String readData(File file) throws IOException {
         BufferedSource source = Okio.buffer(Okio.source(new FileInputStream(file)));
         return source.readUtf8();
     }
@@ -82,7 +82,7 @@ public abstract class AbstractJsonRequestTest<D> {
         request = spyForNormal(request);
         doReturn(serverUrl.toString()).when(request).getAPIUrl();
 
-        Result<D> result = request.performRequest(null);
+        Result<D> result = request.performRequest();
 
         // Throw the error if present for better error reporting.
         if (result.hasException()) {

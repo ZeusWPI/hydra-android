@@ -109,7 +109,7 @@ public class CourseDatabaseRepository implements CourseRepository {
         return courseDao.getIds();
     }
 
-    private LocalData from(CourseDao.IdAndLocalData idAndLocalData) {
+    private static LocalData from(CourseDao.IdAndLocalData idAndLocalData) {
         return new LocalData(
                 idAndLocalData.order,
                 Module.fromNumericalValue(idAndLocalData.disabledModules),

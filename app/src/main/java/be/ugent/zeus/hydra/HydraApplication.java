@@ -9,7 +9,6 @@ import android.util.Log;
 
 import be.ugent.zeus.hydra.common.ChannelCreator;
 import be.ugent.zeus.hydra.theme.ThemePreferenceFragment;
-import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -63,7 +62,7 @@ public class HydraApplication extends Application {
      *
      * @return tracker
      */
-    synchronized public Tracker getDefaultTracker() {
+    public synchronized Tracker getDefaultTracker() {
         if (tracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
             if (BuildConfig.DEBUG) {
@@ -111,7 +110,7 @@ public class HydraApplication extends Application {
     /**
      * Used to enable {@link StrictMode} for debug builds.
      */
-    protected void enableStrictModeInDebug() {
+    protected static void enableStrictModeInDebug() {
 
         if (!BuildConfig.DEBUG_ENABLE_STRICT_MODE) {
             return;

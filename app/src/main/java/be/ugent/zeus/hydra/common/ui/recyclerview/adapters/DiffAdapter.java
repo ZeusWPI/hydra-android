@@ -8,11 +8,11 @@ import java.util.List;
 /**
  * Generic adapter with support for calculating diffs on a background thread for data updates.
  *
- * <h2>View types</h2>
+ * <h1>View types</h1>
  * By default, the adapter only supports one view type. Additional types must be implemented by the
  * subclasses.
  *
- * <h2>Data updates</h2>
+ * <h1>Data updates</h1>
  * When calling {@link #submitData(List)}, a diff with the current data will be calculated on a background thread,
  * after which the changes will be dispatched to this adapter. This uses {@link android.support.v7.util.DiffUtil}
  * behind the scenes.

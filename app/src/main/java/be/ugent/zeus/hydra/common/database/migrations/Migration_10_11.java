@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.threeten.bp.Instant;
@@ -131,7 +132,7 @@ public class Migration_10_11 extends Migration {
     }
 
     private static final ZoneOffset ZONE = ZoneOffset.UTC;
-    private static DateTimeFormatter OFFSET_FORMATTER = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+    private static final DateTimeFormatter OFFSET_FORMATTER = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 
     /**
      * Unserialize a calculated epoch to a ZonedDateTime.
@@ -152,6 +153,7 @@ public class Migration_10_11 extends Migration {
      *
      * @return The string value.
      */
+    @Nullable
     private static String fromInstant(Instant instant) {
         if (instant == null) {
             return null;
@@ -167,6 +169,7 @@ public class Migration_10_11 extends Migration {
      *
      * @return The string or {@code null} if the input was {@code null}.
      */
+    @Nullable
     private static String fromOffsetDateTime(OffsetDateTime dateTime) {
         if (dateTime == null) {
             return null;

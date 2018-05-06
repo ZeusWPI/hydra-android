@@ -29,11 +29,7 @@ public class WebViewActivity extends BaseActivity {
         ProgressBar progressBar = findViewById(R.id.progress_bar);
 
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient() {
-            public void onPageFinished(WebView view, String url) {
-                progressBar.setVisibility(View.GONE);
-            }
-        });
+        webView.setWebViewClient(new ProgressClient(progressBar));
 
         Intent intent = getIntent();
         String url = intent.getStringExtra(URL);
@@ -49,5 +45,18 @@ public class WebViewActivity extends BaseActivity {
     @Override
     protected String getScreenName() {
         return "Webview > " + getTitle();
+    }
+
+    private static class ProgressClient extends WebViewClient {
+        private final ProgressBar progressBar;
+
+        ProgressClient(ProgressBar progressBar) {
+            this.progressBar = progressBar;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }

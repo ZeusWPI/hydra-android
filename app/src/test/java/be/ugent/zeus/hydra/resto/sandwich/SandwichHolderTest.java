@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.resto.sandwich;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -18,9 +18,7 @@ import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Niko Strijbol

@@ -20,6 +20,9 @@ import be.ugent.zeus.hydra.R;
 @SuppressWarnings("WeakerAccess")
 public class ViewUtils {
 
+    private ViewUtils() {
+    }
+
     @ColorInt
     public static int getPrimaryColor(Context context) {
         return getColor(context, R.attr.colorPrimary);
@@ -28,7 +31,7 @@ public class ViewUtils {
     @ColorInt
     public static int getColor(Context context, @AttrRes int attribute) {
 
-        int[] attrs = new int[]{attribute};
+        int[] attrs = {attribute};
         TypedArray ta = context.obtainStyledAttributes(attrs);
 
         try {

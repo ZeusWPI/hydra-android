@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
@@ -27,7 +28,7 @@ class AgendaLiveData extends BaseLiveData<Result<AgendaItem>> {
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            loadData(Bundle.EMPTY);
+            loadData();
         }
     };
 
@@ -35,12 +36,12 @@ class AgendaLiveData extends BaseLiveData<Result<AgendaItem>> {
         this.applicationContext = context;
         this.dao = RepositoryFactory.getAgendaItemRepository(context);
         this.id = id;
-        loadData(Bundle.EMPTY);
+        loadData();
     }
 
     @Override
     @SuppressLint("StaticFieldLeak")
-    protected void loadData(Bundle args) {
+    protected void loadData(@NonNull Bundle args) {
         new AsyncTask<Void, Void, Result<AgendaItem>>() {
             @Override
             protected Result<AgendaItem> doInBackground(Void... voids) {

@@ -12,10 +12,6 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
  */
 class LineupAdapter extends DiffAdapter<Artist, LineupViewHolder> {
 
-    LineupAdapter() {
-        super();
-    }
-
     @NonNull
     @Override
     public LineupViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

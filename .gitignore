@@ -90,3 +90,5 @@ secrets.properties
 app/src/main/assets/open_source_licenses.html
 # Custom configuration files
 app/custom-config.properties
+com.crashlytics.settings.json
+session_analytics.tap

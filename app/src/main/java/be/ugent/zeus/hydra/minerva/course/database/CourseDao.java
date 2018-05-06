@@ -4,6 +4,7 @@ import android.arch.persistence.room.*;
 import android.support.annotation.VisibleForTesting;
 
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementTable;
+import be.ugent.zeus.hydra.minerva.provider.CourseContract;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,10 +15,10 @@ import java.util.List;
 @Dao
 public interface CourseDao {
 
-    @Query("SELECT * FROM " + CourseTable.TABLE_NAME + " WHERE " + CourseTable.Columns.ID + " IS :id")
+    @Query("SELECT * FROM " + CourseContract.TABLE_NAME + " WHERE " + CourseContract.Columns.ID + " IS :id")
     CourseDTO getOne(String id);
 
-    @Query("SELECT * FROM " + CourseTable.TABLE_NAME)
+    @Query("SELECT * FROM " + CourseContract.TABLE_NAME)
     List<CourseDTO> getAll();
 
     @Insert
@@ -38,45 +39,45 @@ public interface CourseDao {
     @Delete
     void delete(Collection<CourseDTO> courses);
 
-    @Query("DELETE FROM " + CourseTable.TABLE_NAME)
+    @Query("DELETE FROM " + CourseContract.TABLE_NAME)
     void deleteAll();
 
-    @Query("DELETE FROM " + CourseTable.TABLE_NAME + " WHERE " + CourseTable.Columns.ID + " IS :id")
+    @Query("DELETE FROM " + CourseContract.TABLE_NAME + " WHERE " + CourseContract.Columns.ID + " IS :id")
     void delete(String id);
 
-    @Query("DELETE FROM " + CourseTable.TABLE_NAME + " WHERE " + CourseTable.Columns.ID + " IN (:ids)")
+    @Query("DELETE FROM " + CourseContract.TABLE_NAME + " WHERE " + CourseContract.Columns.ID + " IN (:ids)")
     void deleteById(List<String> ids);
 
-    @Query("SELECT * FROM " + CourseTable.TABLE_NAME + " WHERE " + CourseTable.Columns.ID + " IN (:ids)")
+    @Query("SELECT * FROM " + CourseContract.TABLE_NAME + " WHERE " + CourseContract.Columns.ID + " IN (:ids)")
     List<CourseDTO> getIn(List<String> ids);
 
-    @Query("SELECT " + CourseTable.TABLE_NAME + ".*, (SELECT count(*) FROM " + AnnouncementTable.TABLE_NAME + " WHERE " +
-            AnnouncementTable.Columns.COURSE + " = " + CourseTable.TABLE_NAME + "." + CourseTable.Columns.ID + " AND " +
-            AnnouncementTable.Columns.READ_DATE + " ISNULL) AS unread_count FROM " + CourseTable.TABLE_NAME +
-            " ORDER BY " + CourseTable.TABLE_NAME + "." + CourseTable.Columns.ORDER + " ASC, " + CourseTable.TABLE_NAME + "." + CourseTable.Columns.TITLE + " ASC")
+    @Query("SELECT " + CourseContract.TABLE_NAME + ".*, (SELECT count(*) FROM " + AnnouncementTable.TABLE_NAME + " WHERE " +
+            AnnouncementTable.Columns.COURSE + " = " + CourseContract.TABLE_NAME + "." + CourseContract.Columns.ID + " AND " +
+            AnnouncementTable.Columns.READ_DATE + " ISNULL) AS unread_count FROM " + CourseContract.TABLE_NAME +
+            " ORDER BY " + CourseContract.TABLE_NAME + "." + CourseContract.Columns.ORDER + " ASC, " + CourseContract.TABLE_NAME + "." + CourseContract.Columns.TITLE + " ASC")
     List<CourseUnread> getAllAndUnreadInOrder();
 
-    @Query("SELECT " + CourseTable.Columns.ID + " FROM " + CourseTable.TABLE_NAME)
+    @Query("SELECT " + CourseContract.Columns.ID + " FROM " + CourseContract.TABLE_NAME)
     List<String> getIds();
 
-    @Query("SELECT " + CourseTable.Columns.ID +
-            ", " + CourseTable.Columns.ORDER +
-            ", " + CourseTable.Columns.DISABLED_MODULES +
-            ", " + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
-            ", " + CourseTable.Columns.IGNORE_CALENDAR +
-            " FROM " + CourseTable.TABLE_NAME)
+    @Query("SELECT " + CourseContract.Columns.ID +
+            ", " + CourseContract.Columns.ORDER +
+            ", " + CourseContract.Columns.DISABLED_MODULES +
+            ", " + CourseContract.Columns.IGNORE_ANNOUNCEMENTS +
+            ", " + CourseContract.Columns.IGNORE_CALENDAR +
+            " FROM " + CourseContract.TABLE_NAME)
     List<IdAndLocalData> getIdsAndLocalData();
 
     class IdAndLocalData {
-        @ColumnInfo(name = CourseTable.Columns.ID)
+        @ColumnInfo(name = CourseContract.Columns.ID)
         public final String id;
-        @ColumnInfo(name = CourseTable.Columns.ORDER)
+        @ColumnInfo(name = CourseContract.Columns.ORDER)
         public final int order;
-        @ColumnInfo(name = CourseTable.Columns.DISABLED_MODULES)
+        @ColumnInfo(name = CourseContract.Columns.DISABLED_MODULES)
         public final int disabledModules;
-        @ColumnInfo(name = CourseTable.Columns.IGNORE_ANNOUNCEMENTS)
+        @ColumnInfo(name = CourseContract.Columns.IGNORE_ANNOUNCEMENTS)
         public final boolean ignoreAnnouncements;
-        @ColumnInfo(name = CourseTable.Columns.IGNORE_CALENDAR)
+        @ColumnInfo(name = CourseContract.Columns.IGNORE_CALENDAR)
         public final boolean ignoreCalendar;
         @VisibleForTesting
         public IdAndLocalData(String id, int order, int disabledModules, boolean ignoreAnnouncements, boolean ignoreCalendar) {

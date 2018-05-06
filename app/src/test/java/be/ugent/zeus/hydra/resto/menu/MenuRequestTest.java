@@ -22,7 +22,8 @@ import java.util.concurrent.ThreadLocalRandom;
 @RunWith(RobolectricTestRunner.class)
 public class MenuRequestTest extends AbstractJsonRequestTest<List<RestoMenu>> {
 
-    private static final String[] RESTAURANTS = new String[] {
+    // This is the default one.
+    private static final String[] RESTAURANTS = {
             "nl-debrug", // This is the default one.
             "nl",
             "en",

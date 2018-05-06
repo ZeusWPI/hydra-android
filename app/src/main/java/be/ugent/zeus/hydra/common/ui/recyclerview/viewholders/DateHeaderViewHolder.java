@@ -16,13 +16,14 @@ import org.threeten.bp.format.FormatStyle;
  */
 public class DateHeaderViewHolder extends DataViewHolder<OffsetDateTime> {
 
-    private TextView headerText;
+    private final TextView headerText;
 
     public DateHeaderViewHolder(View v) {
         super(v);
         headerText = v.findViewById(R.id.date_header);
     }
 
+    @Override
     public void populate(OffsetDateTime date) {
         headerText.setText(DateUtils.getFriendlyDate(date.toLocalDate(), FormatStyle.LONG));
     }

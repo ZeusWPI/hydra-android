@@ -73,7 +73,7 @@ public class HomeFeedAdapter extends DiffAdapter<Card, DataViewHolder<Card>> {
         }
     }
 
-    private View view(int rLayout, ViewGroup parent) {
+    private static View view(int rLayout, ViewGroup parent) {
         return LayoutInflater.from(parent.getContext()).inflate(rLayout, parent, false);
     }
 

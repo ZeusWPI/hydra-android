@@ -36,6 +36,7 @@ public class SchamperFragment extends Fragment {
     private ActivityHelper helper;
     private SchamperViewModel viewModel;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_schamper, container, false);
     }

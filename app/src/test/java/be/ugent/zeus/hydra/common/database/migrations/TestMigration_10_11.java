@@ -65,7 +65,7 @@ public class TestMigration_10_11 {
         testAllTypes(expectedCourse, expectedAnnouncement, expectedCalendar, version11);
     }
 
-    private void testAllTypes(ContentValues expectedCourse, ContentValues expectedAnnouncement, ContentValues expectedCalendar, SupportSQLiteDatabase database) {
+    private static void testAllTypes(ContentValues expectedCourse, ContentValues expectedAnnouncement, ContentValues expectedCalendar, SupportSQLiteDatabase database) {
         // Test the course.
         ContentValues actualCourse = getFirstFrom(database, "minerva_courses");
         assertContent(expectedCourse, actualCourse);
@@ -84,7 +84,7 @@ public class TestMigration_10_11 {
         assertContent(expectedCalendar, actualCalendar);
     }
 
-    private ContentValues insertCourse(SupportSQLiteDatabase database) {
+    private static ContentValues insertCourse(SupportSQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("_id", "testCourse");
         contentValues.put("code", "TEST");
@@ -98,7 +98,7 @@ public class TestMigration_10_11 {
         return contentValues;
     }
 
-    private ContentValues insertAnnouncement(SupportSQLiteDatabase database) {
+    private static ContentValues insertAnnouncement(SupportSQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("_id", 500);
         contentValues.put("course", "testCourse");
@@ -112,7 +112,7 @@ public class TestMigration_10_11 {
         return contentValues;
     }
 
-    private ContentValues insertAnnouncementNoDates(SupportSQLiteDatabase database) {
+    private static ContentValues insertAnnouncementNoDates(SupportSQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("_id", 501);
         contentValues.put("course", "testCourse");
@@ -126,7 +126,7 @@ public class TestMigration_10_11 {
         return contentValues;
     }
 
-    private ContentValues insertCalendarItem(SupportSQLiteDatabase database) {
+    private static ContentValues insertCalendarItem(SupportSQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("_id", 500);
         contentValues.put("course", "testCourse");
@@ -145,7 +145,7 @@ public class TestMigration_10_11 {
         return contentValues;
     }
 
-    private ContentValues insertCalendarItemNoDates(SupportSQLiteDatabase database) {
+    private static ContentValues insertCalendarItemNoDates(SupportSQLiteDatabase database) {
         ContentValues contentValues = new ContentValues();
         contentValues.put("_id", 501);
         contentValues.put("course", "testCourse");

@@ -27,14 +27,14 @@ import android.support.v7.widget.RecyclerView;
 class AdapterListUpdateCallback implements ListUpdateCallback {
 
     @NonNull
-    private final RecyclerView.Adapter adapter;
+    private final RecyclerView.Adapter<?> adapter;
 
     /**
      * Creates an AdapterListUpdateCallback that will dispatch update events to the given adapter.
      *
      * @param adapter The Adapter to send updates to.
      */
-    AdapterListUpdateCallback(@NonNull RecyclerView.Adapter adapter) {
+    AdapterListUpdateCallback(@NonNull RecyclerView.Adapter<?> adapter) {
         this.adapter = adapter;
     }
 

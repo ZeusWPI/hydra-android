@@ -3,10 +3,12 @@ package be.ugent.zeus.hydra.minerva.auth;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -45,15 +47,16 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
     //Adding a new account or not?
     public static final String ARG_ADDING_NEW_ACCOUNT = "addingNewAccount";
     private static final String TAG = "AuthActivity";
-    private AccountAuthenticatorResponse response = null;
-    private Bundle resultBundle = null;
-    private Bundle extra = null;
+    @Nullable
+    private AccountAuthenticatorResponse response;
+    private Bundle resultBundle;
+    private Bundle extra;
     private String accountType;
     private String authType;
     private AccountManager manager;
     private ActivityHelper customTabActivityHelper;
     private TextView progressMessage;
-    private boolean launched = false;
+    private boolean launched;
 
     /**
      * Set the result that is to be sent as the result of the request that caused this Activity to be launched. If
@@ -220,9 +223,11 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
         customTabActivityHelper = null;
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class InfoTask extends AsyncTask<String, Void, Intent> {
 
         @Override
+        @Nullable
         protected Intent doInBackground(String... strings) {
 
             String token = strings[0];
@@ -230,11 +235,11 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
             //First we get an auth code.
             try {
                 Request<BearerToken> request = AccountUtils.buildAuthTokenRequest(token);
-                BearerToken result = request.performRequest(null).getOrThrow();
+                BearerToken result = request.performRequest().getOrThrow();
 
                 //Get the information
-                UserInfoRequest infoRequest = new UserInfoRequest(AuthActivity.this, result.getAccessToken());
-                GrantInformation information = infoRequest.performRequest(null).getOrThrow();
+                Request<GrantInformation> infoRequest = new UserInfoRequest(AuthActivity.this, result.getAccessToken());
+                GrantInformation information = infoRequest.performRequest().getOrThrow();
 
                 //Account name
                 String name;
@@ -275,7 +280,7 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
         }
 
         @Override
-        protected void onPostExecute(Intent intent) {
+        protected void onPostExecute(@Nullable Intent intent) {
             if (intent == null) {
                 finishWithError();
             } else {

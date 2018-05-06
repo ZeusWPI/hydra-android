@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.association.event.list;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.association.event.RawEventRequest;
@@ -35,7 +34,7 @@ class EventLiveData extends RequestLiveData<List<EventItem>> implements SharedPr
         preferences.registerOnSharedPreferenceChangeListener(this);
         // Check if the value is equal to the saved value. If not, we need to reload.
         if (disabledAssociations != null && !current.equals(disabledAssociations)) {
-            loadData(Bundle.EMPTY);
+            loadData();
         }
         disabledAssociations = current;
     }
@@ -50,7 +49,7 @@ class EventLiveData extends RequestLiveData<List<EventItem>> implements SharedPr
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING.equals(key)) {
-            loadData(Bundle.EMPTY);
+            loadData();
         }
     }
 }

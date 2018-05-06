@@ -23,12 +23,15 @@ public class PriorityUtils {
     /**
      * The special shift.
      */
-    public static int FEED_SPECIAL_SHIFT = 10;
+    public static final int FEED_SPECIAL_SHIFT = 10;
 
     /**
      * The upper limit on the feed.
      */
-    public static int FEED_MAX_VALUE = 1000 + FEED_SPECIAL_SHIFT;
+    public static final int FEED_MAX_VALUE = 1000 + FEED_SPECIAL_SHIFT;
+
+    private PriorityUtils() {
+    }
 
     /**
      * Lineair interpolation of the value x ∈ [a,b] to [FEED_SPECIAL_SHIFT,FEED_MAX_VALUE]. The formula used is:

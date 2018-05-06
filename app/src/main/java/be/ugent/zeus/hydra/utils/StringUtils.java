@@ -3,11 +3,15 @@ package be.ugent.zeus.hydra.utils;
 import android.support.annotation.NonNull;
 
 import java.io.InputStream;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 /**
  * @author Niko Strijbol
  */
 public class StringUtils {
+
+    private static final Pattern ACRONYM_SPLITTER = Pattern.compile("\\s");
 
     /**
      * Ensure the first letter is capitalised, while not touching the rest.
@@ -28,7 +32,7 @@ public class StringUtils {
      * @return The string
      */
     public static String convertStreamToString(@NonNull InputStream is) {
-        java.util.Scanner s = new java.util.Scanner(is, "UTF-8").useDelimiter("\\A");
+        Scanner s = new Scanner(is, "UTF-8").useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }
 
@@ -46,7 +50,7 @@ public class StringUtils {
      */
     public static String generateAcronymFor(String name) {
         StringBuilder result = new StringBuilder();
-        for (String word : name.split("\\s")) {
+        for (String word : ACRONYM_SPLITTER.split(name)) {
             int i = 0;
             char c;
             do {

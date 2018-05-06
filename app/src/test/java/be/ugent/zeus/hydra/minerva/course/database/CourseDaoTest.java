@@ -19,7 +19,6 @@ import static be.ugent.zeus.hydra.testing.Assert.*;
 import static be.ugent.zeus.hydra.testing.Assert.assertThat;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static be.ugent.zeus.hydra.testing.Utils.getRandom;
-import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;
 
 /**

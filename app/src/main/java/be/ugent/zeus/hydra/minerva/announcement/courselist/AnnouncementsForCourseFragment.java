@@ -47,6 +47,7 @@ public class AnnouncementsForCourseFragment extends Fragment implements ResultSt
 
     private AnnouncementViewModel viewModel;
 
+    @SuppressWarnings("TypeMayBeWeakened")
     public static AnnouncementsForCourseFragment newInstance(Course course) {
         AnnouncementsForCourseFragment fragment = new AnnouncementsForCourseFragment();
         Bundle data = new Bundle();

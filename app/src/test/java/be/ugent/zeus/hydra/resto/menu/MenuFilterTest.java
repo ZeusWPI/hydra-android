@@ -20,9 +20,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Niko Strijbol

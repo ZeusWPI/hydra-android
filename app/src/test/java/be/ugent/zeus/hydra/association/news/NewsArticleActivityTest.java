@@ -1,13 +1,12 @@
 package be.ugent.zeus.hydra.association.news;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
-import be.ugent.zeus.hydra.common.RobolectricTest;
+
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,11 +18,9 @@ import org.robolectric.shadows.ShadowConnectivityManager;
 import org.robolectric.shadows.ShadowNetworkInfo;
 
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.robolectric.Shadows.shadowOf;
 
 /**
@@ -40,14 +37,14 @@ public class NewsArticleActivityTest {
         shadow = shadowOf(connectivityManager);
     }
 
-    private void setUseCustomTabs(boolean use) {
+    private static void setUseCustomTabs(boolean use) {
         PreferenceManager.getDefaultSharedPreferences(RuntimeEnvironment.application)
                 .edit()
                 .putBoolean(ArticlePreferenceFragment.PREF_USE_CUSTOM_TABS, use)
                 .commit();
     }
 
-    private void assertIntent(UgentNewsItem item) {
+    private static void assertIntent(UgentNewsItem item) {
         Intent expected = new Intent(RuntimeEnvironment.application, NewsArticleActivity.class);
         Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
 

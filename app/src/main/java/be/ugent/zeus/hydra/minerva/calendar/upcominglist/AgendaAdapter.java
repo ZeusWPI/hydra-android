@@ -18,12 +18,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 class AgendaAdapter extends DiffAdapter<AgendaItem, AgendaViewHolder> implements StickyRecyclerHeadersAdapter<DateHeaderViewHolder> {
 
     AgendaAdapter() {
-        super(new EqualsItemCallback<AgendaItem>() {
-            @Override
-            public boolean areContentsTheSame(AgendaItem oldItem, AgendaItem newItem) {
-                return oldItem.isMerged() == newItem.isMerged();
-            }
-        });
+        super(new AgendaItemEqualsItemCallback());
     }
 
     private static final DateTimeFormatter INT_FORMATTER = DateTimeFormatter.ofPattern("ddMMyyyy");
@@ -50,5 +45,12 @@ class AgendaAdapter extends DiffAdapter<AgendaItem, AgendaViewHolder> implements
     @Override
     public void onBindHeaderViewHolder(DateHeaderViewHolder holder, int position) {
         holder.populate(getItem(position).getStartDate());
+    }
+
+    private static class AgendaItemEqualsItemCallback extends EqualsItemCallback<AgendaItem> {
+        @Override
+        public boolean areContentsTheSame(AgendaItem oldItem, AgendaItem newItem) {
+            return oldItem.isMerged() == newItem.isMerged();
+        }
     }
 }

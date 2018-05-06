@@ -17,19 +17,20 @@ import org.threeten.bp.format.FormatStyle;
  */
 class DateHeaderViewHolder extends DataViewHolder<EventItem> {
 
-    private TextView headerText;
+    private final TextView headerText;
 
     DateHeaderViewHolder(View v) {
         super(v);
         headerText = v.findViewById(R.id.date_header);
     }
 
+    @Override
     public void populate(EventItem eventItem) {
         headerText.setText(formatDate(eventItem.getHeader()));
     }
 
     @VisibleForTesting
-    String formatDate(LocalDate localDate) {
+    static String formatDate(LocalDate localDate) {
         String date = DateUtils.getFriendlyDate(localDate, FormatStyle.LONG);
         date = date.substring(0, 1).toUpperCase() + date.substring(1);
         return date;

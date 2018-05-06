@@ -34,6 +34,7 @@ public class RefreshAccessTokenRequest extends AccessTokenRequest {
      * @throws OAuthProblemException See documentation of {@link OAuthProblemException}.
      * @throws OAuthSystemException  See documentation of {@link OAuthSystemException}.
      */
+    @Override
     protected OAuthJSONAccessTokenResponse getToken() throws OAuthProblemException, OAuthSystemException {
         Log.d(TAG, "Requesting new access code based on the refresh token.");
         OAuthClientRequest request = OAuthClientRequest

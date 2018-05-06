@@ -45,7 +45,7 @@ public class CardRepositoryTest {
         repository = new CardDatabaseRepository(dao);
     }
 
-    private Instant p(String d) {
+    private static Instant p(String d) {
         return Instant.parse(d);
     }
 

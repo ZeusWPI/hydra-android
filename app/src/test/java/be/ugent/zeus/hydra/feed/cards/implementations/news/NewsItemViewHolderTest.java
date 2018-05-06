@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.feed.cards.implementations.news;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.news.ArticlePreferenceFragment;
 import be.ugent.zeus.hydra.association.news.NewsArticleActivity;
@@ -14,11 +14,9 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowApplication;
 
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertNotEmpty;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Niko Strijbol

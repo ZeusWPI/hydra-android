@@ -36,12 +36,14 @@ import java.util.List;
  * Custom HTML tag handler to support more tags.
  *
  * Currently the tag handler supports:
- * <li>ul</li>
- * <li>ol</li>
- * <li>dd</li>
- * <li>li</li>
- * <li>code</li>
- * <li>center</li>
+ * <ul>
+ *  <li>ul</li>
+ *  <li>ol</li>
+ *  <li>dd</li>
+ *  <li>li</li>
+ *  <li>code</li>
+ *  <li>center</li>
+ * </ul>
  *
  * More elements can be added. However, some elements, such as center, are no longer part of the HTML standard. Thus,
  * this is 'pseudo-HTML'.
@@ -56,8 +58,8 @@ public class HtmlTagHandler implements Html.TagHandler {
 
     private static final String TAG = "TagHandler";
 
-    private int listItemCount = 0;
-    private List<String> listParents = new ArrayList<>();
+    private int listItemCount;
+    private final List<String> listParents = new ArrayList<>();
 
     private static class Code {
     }
@@ -66,7 +68,7 @@ public class HtmlTagHandler implements Html.TagHandler {
     }
 
     @Override
-    public void handleTag(final boolean opening, final String tag, Editable output, final XMLReader xmlReader) {
+    public void handleTag(boolean opening, String tag, Editable output, XMLReader xmlReader) {
         if (opening) {
             // opening tag
             Log.v(TAG, "opening, output: " + output.toString());
@@ -98,18 +100,15 @@ public class HtmlTagHandler implements Html.TagHandler {
 
     /**
      * Mark the opening tag by using private classes
-     *
-     * @param output
-     * @param mark
      */
-    private void start(Editable output, Object mark) {
+    private static void start(Editable output, Object mark) {
         int len = output.length();
         output.setSpan(mark, len, len, Spannable.SPAN_MARK_MARK);
 
         Log.v(TAG, "len: " + len);
     }
 
-    private <T> void end(Editable output, Class<T> kind, Object repl, boolean paragraphStyle) {
+    private static <T> void end(Editable output, Class<T> kind, Object repl, boolean paragraphStyle) {
         T obj = getLast(output, kind);
         // start of the tag
         int where = output.getSpanStart(obj);
@@ -139,7 +138,7 @@ public class HtmlTagHandler implements Html.TagHandler {
      * @return The last marked position.
      */
     @Nullable
-    private <T> T getLast(Editable text, Class<T> kind) {
+    private static <T> T getLast(Editable text, Class<T> kind) {
         T[] spans = text.getSpans(0, text.length(), kind);
 
         //Begin at the back of the list.

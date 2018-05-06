@@ -39,7 +39,7 @@ public class RawEventRequest extends JsonArrayRequest<Event> {
     }
 
     /**
-     * Transform the {@link RawEventRequest} by applying:
+     * Transform by applying:
      * - {@link Request#map(Function)} with {@link DisabledEventRemover}
      * - {@link Request#map(Function)} with {@link EventSorter}
      *

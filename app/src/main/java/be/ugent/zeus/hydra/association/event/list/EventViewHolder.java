@@ -1,15 +1,14 @@
 package be.ugent.zeus.hydra.association.event.list;
 
 import android.content.Intent;
-import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.event.Event;
-import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import com.github.captain_miao.optroundcardview.OptRoundCardView;
 import org.threeten.bp.format.DateTimeFormatter;
 
@@ -22,11 +21,11 @@ class EventViewHolder extends DataViewHolder<EventItem> {
 
     private static final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 
-    private TextView start;
-    private TextView title;
-    private TextView association;
-    private OptRoundCardView cardView;
-    private View divider;
+    private final TextView start;
+    private final TextView title;
+    private final TextView association;
+    private final OptRoundCardView cardView;
+    private final View divider;
 
     EventViewHolder(View v) {
         super(v);
@@ -37,6 +36,7 @@ class EventViewHolder extends DataViewHolder<EventItem> {
         divider = v.findViewById(R.id.item_event_divider);
     }
 
+    @Override
     public void populate(final EventItem eventItem) {
         Event event = eventItem.getItem();
         title.setText(event.getTitle());

@@ -131,11 +131,6 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
         return booleanArray.get(position, defaultValue);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull DataViewHolder<H> holder, int position) {
-        holder.populate(getItem(position));
-    }
-
     public Iterable<Pair<H, Boolean>> getItemsAndState() {
         return () -> new Iterator<Pair<H, Boolean>>() {
 

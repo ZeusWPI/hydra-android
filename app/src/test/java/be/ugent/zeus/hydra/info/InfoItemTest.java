@@ -61,6 +61,7 @@ public class InfoItemTest extends ModelTest<InfoItem> {
     }
 
     @Test
+    @Override
     public void parcelable() {
         Parcel parcel = MockParcel.writeToParcelable(oneDeep);
         InfoItem restored = InfoItem.CREATOR.createFromParcel(parcel);
@@ -68,6 +69,7 @@ public class InfoItemTest extends ModelTest<InfoItem> {
     }
 
     @Test
+    @Override
     public void serialize() {
         byte[] serialized = SerializationUtils.serialize(oneDeep);
         @SuppressWarnings("unchecked")

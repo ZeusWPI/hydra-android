@@ -30,27 +30,27 @@ import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
  * @author Niko Strijbol
  * @author kevin
  */
-public class MinervaConfig {
+public interface MinervaConfig {
 
     //Endpoints
-    public final static String AUTHORIZATION_ENDPOINT = "https://oauth.ugent.be/authorize";
-    public final static String TOKEN_ENDPOINT = "https://oauth.ugent.be/access_token";
-    public final static String GRANT_INFORMATION_ENDPOINT = "https://oauth.ugent.be/tokeninfo";
+    String AUTHORIZATION_ENDPOINT = "https://oauth.ugent.be/authorize";
+    String TOKEN_ENDPOINT = "https://oauth.ugent.be/access_token";
+    String GRANT_INFORMATION_ENDPOINT = "https://oauth.ugent.be/tokeninfo";
 
     //The URL scheme of the callback
-    public final static String CALLBACK_SCHEME = "hydra-ugent";
-    public final static String CALLBACK_URI = "https://zeus.ugent.be/hydra/oauth/callback";
+    String CALLBACK_SCHEME = "hydra-ugent";
+    String CALLBACK_URI = "https://zeus.ugent.be/hydra/oauth/callback";
 
     //Account information
-    public final static String ACCOUNT_TYPE = "be.ugent.zeus.hydra.minerva.account";
-    public static final String SYNC_AUTHORITY = "be.ugent.zeus.hydra.minerva.provider";
+    String ACCOUNT_TYPE = "be.ugent.zeus.hydra.minerva.account";
+    String SYNC_AUTHORITY = "be.ugent.zeus.hydra.minerva.provider";
 
     //Scopes
     //These are currently not used.
-    public final static String DEFAULT_SCOPE = "MINERVA_NOTIFICATION_COUNT";
-    public static final String SCOPE_NOTIFICATION_COUNT = "MINERVA_NOTIFICATION_COUNT";
-    public static final String SCOPE_COURSE_LIST = "MINERVA_COURSE_LIST";
-    public static final String SCOPE_COURSE_CONTENT = "MINERVA_COURSE_CONTENT";
+    String DEFAULT_SCOPE = "MINERVA_NOTIFICATION_COUNT";
+    String SCOPE_NOTIFICATION_COUNT = "MINERVA_NOTIFICATION_COUNT";
+    String SCOPE_COURSE_LIST = "MINERVA_COURSE_LIST";
+    String SCOPE_COURSE_CONTENT = "MINERVA_COURSE_CONTENT";
 
     //see https://github.ugent.be/Onderwijstechnologie/ugent-android-sdk/wiki/Registering-Your-Application
 }

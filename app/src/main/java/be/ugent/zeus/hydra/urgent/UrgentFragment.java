@@ -96,8 +96,6 @@ public class UrgentFragment extends Fragment {
             new MediaBrowserCompat.ConnectionCallback() {
                 @Override
                 public void onConnected() {
-                    Log.d(TAG, "onConnected: session token " + mediaBrowser.getSessionToken());
-
                     mediaBrowser.subscribe(mediaBrowser.getRoot(), subscriptionCallback);
                     try {
                         MediaControllerCompat mediaController =

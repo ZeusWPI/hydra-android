@@ -43,7 +43,7 @@ public class AnnouncementsViewHolderTest {
         testGeneric(false);
     }
 
-    private void testGeneric(boolean checked) {
+    private static void testGeneric(boolean checked) {
         ResultStarter starter = mock(ResultStarter.class);
         doAnswer((Answer<Void>) invocation -> {
             RuntimeEnvironment.application.startActivity(invocation.getArgument(0));
@@ -51,6 +51,7 @@ public class AnnouncementsViewHolderTest {
         }).when(starter).startActivityForResult(any(Intent.class), anyInt());
         when(starter.getContext()).thenReturn(RuntimeEnvironment.application);
         View view = inflate(R.layout.item_minerva_extended_announcement);
+        @SuppressWarnings("unchecked")
         MultiSelectAdapter<Announcement> adapter = mock(MultiSelectAdapter.class);
         when(adapter.isChecked(anyInt())).thenReturn(checked);
         AnnouncementsViewHolder viewHolder = new AnnouncementsViewHolder(view, starter, adapter);

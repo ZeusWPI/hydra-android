@@ -100,7 +100,7 @@ public abstract class RefreshViewModel<D> extends AndroidViewModel implements Sw
     private LiveData<Boolean> buildRefreshLiveData() {
         MediatorLiveData<Boolean> result = new MediatorLiveData<>();
         MutableLiveData<Boolean> refreshLiveData = new MutableLiveData<>();
-        result.addSource(internalGet(), data -> result.setValue(data != null && !data.isDone()));
+        result.addSource(internalGet(), d -> result.setValue(d != null && !d.isDone()));
         result.addSource(refreshLiveData, result::setValue);
         internalGet().registerRefreshListener(() -> result.setValue(true));
         return result;

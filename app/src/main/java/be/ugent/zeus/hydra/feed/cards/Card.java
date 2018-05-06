@@ -13,7 +13,7 @@ import static be.ugent.zeus.hydra.feed.cards.Card.Type.*;
 /**
  * Every subclass should have a {@link Card.Type} associated with it. This is to facilitate working with adapters.
  *
- * <h2>Priority</h2>
+ * <h1>Priority</h1>
  * Every card must give itself a priority in [0,1000]. This defines the natural ordening of the cards; 0 is the
  * card with the highest priority, 1000 has the lowest priority. Cards should generally strive to produce unique
  * priorities for a certain card type, as the order of two cards with the same priority is not defined.
@@ -26,7 +26,7 @@ import static be.ugent.zeus.hydra.feed.cards.Card.Type.*;
  *
  * The negative values ]-Inf,0[ are reserved for use with special cards.
  *
- * <h2>Identifier</h2>
+ * <h1>Identifier</h1>
  * Each card instance should have an unique identifier. The identifier must be unique within the card type.
  *
  * The identifier is used to identify card instances that are conceptually the same card. Note that the content does
@@ -37,6 +37,7 @@ import static be.ugent.zeus.hydra.feed.cards.Card.Type.*;
  * @author Niko Strijbol
  * @author feliciaan
  */
+@SuppressWarnings("ComparableImplementedButEqualsNotOverridden")
 public abstract class Card implements Comparable<Card> {
 
     /**

@@ -6,7 +6,7 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
 import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
-import be.ugent.zeus.hydra.minerva.course.database.CourseTable;
+import be.ugent.zeus.hydra.minerva.provider.CourseContract;
 import java8.util.Objects;
 import org.threeten.bp.Instant;
 import org.threeten.bp.OffsetDateTime;
@@ -21,7 +21,7 @@ import org.threeten.bp.OffsetDateTime;
         foreignKeys = {
                 @ForeignKey(
                         entity = CourseDTO.class,
-                        parentColumns = CourseTable.Columns.ID,
+                        parentColumns = CourseContract.Columns.ID,
                         childColumns = AnnouncementTable.Columns.COURSE,
                         onDelete = ForeignKey.CASCADE
                 )

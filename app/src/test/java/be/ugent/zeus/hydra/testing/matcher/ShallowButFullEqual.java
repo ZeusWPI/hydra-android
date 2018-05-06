@@ -102,7 +102,7 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
      * Creates a matcher that matches when the examined object has values for all of
      * its JavaBean properties that are equal to the corresponding values of the
      * specified bean.
-     * <p/>
+     * <p>
      * For example:
      * <pre>assertThat(myBean, sameFieldsAs(myExpectedBean))</pre>
      *

@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.minerva.calendar.database;
 
 import android.arch.persistence.room.*;
 
-import be.ugent.zeus.hydra.minerva.course.database.CourseTable;
+import be.ugent.zeus.hydra.minerva.provider.CourseContract;
 import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
 import org.threeten.bp.OffsetDateTime;
 
@@ -15,30 +15,30 @@ import java.util.List;
 @Dao
 public interface AgendaDao {
 
-    @Query("SELECT a.*, c." + CourseTable.Columns.ID + " AS c_" + CourseTable.Columns.ID +
-            ", c." + CourseTable.Columns.CODE + " AS c_" + CourseTable.Columns.CODE +
-            ", c." + CourseTable.Columns.TITLE + " AS c_" + CourseTable.Columns.TITLE +
-            ", c." + CourseTable.Columns.DESCRIPTION + " AS c_" + CourseTable.Columns.DESCRIPTION +
-            ", c." + CourseTable.Columns.TUTOR + " AS c_" + CourseTable.Columns.TUTOR +
-            ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
-            ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
-            ", c." + CourseTable.Columns.DISABLED_MODULES + " AS c_" + CourseTable.Columns.DISABLED_MODULES +
-            ", c." + CourseTable.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
-            ", c." + CourseTable.Columns.IGNORE_CALENDAR + " AS c_" + CourseTable.Columns.IGNORE_CALENDAR +
-            " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseTable.Columns.ID + " WHERE a." + AgendaTable.Columns.ID + " IS :id")
+    @Query("SELECT a.*, c." + CourseContract.Columns.ID + " AS c_" + CourseContract.Columns.ID +
+            ", c." + CourseContract.Columns.CODE + " AS c_" + CourseContract.Columns.CODE +
+            ", c." + CourseContract.Columns.TITLE + " AS c_" + CourseContract.Columns.TITLE +
+            ", c." + CourseContract.Columns.DESCRIPTION + " AS c_" + CourseContract.Columns.DESCRIPTION +
+            ", c." + CourseContract.Columns.TUTOR + " AS c_" + CourseContract.Columns.TUTOR +
+            ", c." + CourseContract.Columns.ACADEMIC_YEAR + " AS c_" + CourseContract.Columns.ACADEMIC_YEAR +
+            ", c." + CourseContract.Columns.ORDER + " AS c_" + CourseContract.Columns.ORDER +
+            ", c." + CourseContract.Columns.DISABLED_MODULES + " AS c_" + CourseContract.Columns.DISABLED_MODULES +
+            ", c." + CourseContract.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseContract.Columns.IGNORE_ANNOUNCEMENTS +
+            ", c." + CourseContract.Columns.IGNORE_CALENDAR + " AS c_" + CourseContract.Columns.IGNORE_CALENDAR +
+            " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseContract.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseContract.Columns.ID + " WHERE a." + AgendaTable.Columns.ID + " IS :id")
     Result getOne(int id);
 
-    @Query("SELECT a.*, c." + CourseTable.Columns.ID + " AS c_" + CourseTable.Columns.ID +
-            ", c." + CourseTable.Columns.CODE + " AS c_" + CourseTable.Columns.CODE +
-            ", c." + CourseTable.Columns.TITLE + " AS c_" + CourseTable.Columns.TITLE +
-            ", c." + CourseTable.Columns.DESCRIPTION + " AS c_" + CourseTable.Columns.DESCRIPTION +
-            ", c." + CourseTable.Columns.TUTOR + " AS c_" + CourseTable.Columns.TUTOR +
-            ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
-            ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
-            ", c." + CourseTable.Columns.DISABLED_MODULES + " AS c_" + CourseTable.Columns.DISABLED_MODULES +
-            ", c." + CourseTable.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
-            ", c." + CourseTable.Columns.IGNORE_CALENDAR + " AS c_" + CourseTable.Columns.IGNORE_CALENDAR +
-            " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseTable.Columns.ID)
+    @Query("SELECT a.*, c." + CourseContract.Columns.ID + " AS c_" + CourseContract.Columns.ID +
+            ", c." + CourseContract.Columns.CODE + " AS c_" + CourseContract.Columns.CODE +
+            ", c." + CourseContract.Columns.TITLE + " AS c_" + CourseContract.Columns.TITLE +
+            ", c." + CourseContract.Columns.DESCRIPTION + " AS c_" + CourseContract.Columns.DESCRIPTION +
+            ", c." + CourseContract.Columns.TUTOR + " AS c_" + CourseContract.Columns.TUTOR +
+            ", c." + CourseContract.Columns.ACADEMIC_YEAR + " AS c_" + CourseContract.Columns.ACADEMIC_YEAR +
+            ", c." + CourseContract.Columns.ORDER + " AS c_" + CourseContract.Columns.ORDER +
+            ", c." + CourseContract.Columns.DISABLED_MODULES + " AS c_" + CourseContract.Columns.DISABLED_MODULES +
+            ", c." + CourseContract.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseContract.Columns.IGNORE_ANNOUNCEMENTS +
+            ", c." + CourseContract.Columns.IGNORE_CALENDAR + " AS c_" + CourseContract.Columns.IGNORE_CALENDAR +
+            " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseContract.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseContract.Columns.ID)
     List<Result> getAll();
 
     @Insert
@@ -68,53 +68,53 @@ public interface AgendaDao {
     @Query("DELETE FROM " + AgendaTable.TABLE_NAME + " WHERE " + AgendaTable.Columns.ID + " IS :id")
     void delete(int id);
 
-    @Query("SELECT a.*, c." + CourseTable.Columns.ID + " AS c_" + CourseTable.Columns.ID +
-            ", c." + CourseTable.Columns.CODE + " AS c_" + CourseTable.Columns.CODE +
-            ", c." + CourseTable.Columns.TITLE + " AS c_" + CourseTable.Columns.TITLE +
-            ", c." + CourseTable.Columns.DESCRIPTION + " AS c_" + CourseTable.Columns.DESCRIPTION +
-            ", c." + CourseTable.Columns.TUTOR + " AS c_" + CourseTable.Columns.TUTOR +
-            ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
-            ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
-            ", c." + CourseTable.Columns.DISABLED_MODULES + " AS c_" + CourseTable.Columns.DISABLED_MODULES +
-            ", c." + CourseTable.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
-            ", c." + CourseTable.Columns.IGNORE_CALENDAR + " AS c_" + CourseTable.Columns.IGNORE_CALENDAR +
-            " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseTable.Columns.ID +
+    @Query("SELECT a.*, c." + CourseContract.Columns.ID + " AS c_" + CourseContract.Columns.ID +
+            ", c." + CourseContract.Columns.CODE + " AS c_" + CourseContract.Columns.CODE +
+            ", c." + CourseContract.Columns.TITLE + " AS c_" + CourseContract.Columns.TITLE +
+            ", c." + CourseContract.Columns.DESCRIPTION + " AS c_" + CourseContract.Columns.DESCRIPTION +
+            ", c." + CourseContract.Columns.TUTOR + " AS c_" + CourseContract.Columns.TUTOR +
+            ", c." + CourseContract.Columns.ACADEMIC_YEAR + " AS c_" + CourseContract.Columns.ACADEMIC_YEAR +
+            ", c." + CourseContract.Columns.ORDER + " AS c_" + CourseContract.Columns.ORDER +
+            ", c." + CourseContract.Columns.DISABLED_MODULES + " AS c_" + CourseContract.Columns.DISABLED_MODULES +
+            ", c." + CourseContract.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseContract.Columns.IGNORE_ANNOUNCEMENTS +
+            ", c." + CourseContract.Columns.IGNORE_CALENDAR + " AS c_" + CourseContract.Columns.IGNORE_CALENDAR +
+            " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseContract.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseContract.Columns.ID +
             " WHERE a." + AgendaTable.Columns.COURSE + " = :courseId" +
             " AND datetime(a." + AgendaTable.Columns.END_DATE + ") >= datetime(:now)" +
             " ORDER BY datetime(" + AgendaTable.Columns.START_DATE + ") ASC"
     )
     List<Result> getAllFutureForCourse(String courseId, OffsetDateTime now);
 
-    @Query("SELECT a.*, c." + CourseTable.Columns.ID + " AS c_" + CourseTable.Columns.ID +
-            ", c." + CourseTable.Columns.CODE + " AS c_" + CourseTable.Columns.CODE +
-            ", c." + CourseTable.Columns.TITLE + " AS c_" + CourseTable.Columns.TITLE +
-            ", c." + CourseTable.Columns.DESCRIPTION + " AS c_" + CourseTable.Columns.DESCRIPTION +
-            ", c." + CourseTable.Columns.TUTOR + " AS c_" + CourseTable.Columns.TUTOR +
-            ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
-            ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
-            ", c." + CourseTable.Columns.DISABLED_MODULES + " AS c_" + CourseTable.Columns.DISABLED_MODULES +
-            ", c." + CourseTable.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
-            ", c." + CourseTable.Columns.IGNORE_CALENDAR + " AS c_" + CourseTable.Columns.IGNORE_CALENDAR +
-            " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseTable.Columns.ID +
+    @Query("SELECT a.*, c." + CourseContract.Columns.ID + " AS c_" + CourseContract.Columns.ID +
+            ", c." + CourseContract.Columns.CODE + " AS c_" + CourseContract.Columns.CODE +
+            ", c." + CourseContract.Columns.TITLE + " AS c_" + CourseContract.Columns.TITLE +
+            ", c." + CourseContract.Columns.DESCRIPTION + " AS c_" + CourseContract.Columns.DESCRIPTION +
+            ", c." + CourseContract.Columns.TUTOR + " AS c_" + CourseContract.Columns.TUTOR +
+            ", c." + CourseContract.Columns.ACADEMIC_YEAR + " AS c_" + CourseContract.Columns.ACADEMIC_YEAR +
+            ", c." + CourseContract.Columns.ORDER + " AS c_" + CourseContract.Columns.ORDER +
+            ", c." + CourseContract.Columns.DISABLED_MODULES + " AS c_" + CourseContract.Columns.DISABLED_MODULES +
+            ", c." + CourseContract.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseContract.Columns.IGNORE_ANNOUNCEMENTS +
+            ", c." + CourseContract.Columns.IGNORE_CALENDAR + " AS c_" + CourseContract.Columns.IGNORE_CALENDAR +
+            " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseContract.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseContract.Columns.ID +
             " WHERE a." + AgendaTable.Columns.COURSE + " = :courseId" +
             " ORDER BY datetime(" + AgendaTable.Columns.START_DATE + ") ASC"
     )
     List<Result> getAllForCourse(String courseId);
 
-    @Query("SELECT a.*, c." + CourseTable.Columns.ID + " AS c_" + CourseTable.Columns.ID +
-            ", c." + CourseTable.Columns.CODE + " AS c_" + CourseTable.Columns.CODE +
-            ", c." + CourseTable.Columns.TITLE + " AS c_" + CourseTable.Columns.TITLE +
-            ", c." + CourseTable.Columns.DESCRIPTION + " AS c_" + CourseTable.Columns.DESCRIPTION +
-            ", c." + CourseTable.Columns.TUTOR + " AS c_" + CourseTable.Columns.TUTOR +
-            ", c." + CourseTable.Columns.ACADEMIC_YEAR + " AS c_" + CourseTable.Columns.ACADEMIC_YEAR +
-            ", c." + CourseTable.Columns.ORDER + " AS c_" + CourseTable.Columns.ORDER +
-            ", c." + CourseTable.Columns.DISABLED_MODULES + " AS c_" + CourseTable.Columns.DISABLED_MODULES +
-            ", c." + CourseTable.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseTable.Columns.IGNORE_ANNOUNCEMENTS +
-            ", c." + CourseTable.Columns.IGNORE_CALENDAR + " AS c_" + CourseTable.Columns.IGNORE_CALENDAR +
-            " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseTable.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseTable.Columns.ID +
+    @Query("SELECT a.*, c." + CourseContract.Columns.ID + " AS c_" + CourseContract.Columns.ID +
+            ", c." + CourseContract.Columns.CODE + " AS c_" + CourseContract.Columns.CODE +
+            ", c." + CourseContract.Columns.TITLE + " AS c_" + CourseContract.Columns.TITLE +
+            ", c." + CourseContract.Columns.DESCRIPTION + " AS c_" + CourseContract.Columns.DESCRIPTION +
+            ", c." + CourseContract.Columns.TUTOR + " AS c_" + CourseContract.Columns.TUTOR +
+            ", c." + CourseContract.Columns.ACADEMIC_YEAR + " AS c_" + CourseContract.Columns.ACADEMIC_YEAR +
+            ", c." + CourseContract.Columns.ORDER + " AS c_" + CourseContract.Columns.ORDER +
+            ", c." + CourseContract.Columns.DISABLED_MODULES + " AS c_" + CourseContract.Columns.DISABLED_MODULES +
+            ", c." + CourseContract.Columns.IGNORE_ANNOUNCEMENTS + " AS c_" + CourseContract.Columns.IGNORE_ANNOUNCEMENTS +
+            ", c." + CourseContract.Columns.IGNORE_CALENDAR + " AS c_" + CourseContract.Columns.IGNORE_CALENDAR +
+            " FROM " + AgendaTable.TABLE_NAME + " a LEFT JOIN " + CourseContract.TABLE_NAME + " c ON a." + AgendaTable.Columns.COURSE + " = c." + CourseContract.Columns.ID +
             " WHERE ((datetime(a." + AgendaTable.Columns.START_DATE + ") >= datetime(:lower) OR datetime(a." + AgendaTable.Columns.END_DATE + ") >= datetime(:lower))" +
             " AND datetime(a." + AgendaTable.Columns.START_DATE + ") <= datetime(:upper)) " +
-            " AND c_" + CourseTable.Columns.IGNORE_CALENDAR + " = 0" +
+            " AND c_" + CourseContract.Columns.IGNORE_CALENDAR + " = 0" +
             " ORDER BY datetime(" + AgendaTable.Columns.START_DATE + ") ASC"
     )
     List<Result> getBetweenNonIgnored(OffsetDateTime lower, OffsetDateTime upper);

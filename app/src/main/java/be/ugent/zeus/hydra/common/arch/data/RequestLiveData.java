@@ -1,9 +1,11 @@
 package be.ugent.zeus.hydra.common.arch.data;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
+
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
 
@@ -25,7 +27,7 @@ public class RequestLiveData<M> extends BaseLiveData<Result<M>> {
         this.applicationContext = context.getApplicationContext();
         this.request = request;
         if (load) {
-            loadData(Bundle.EMPTY);
+            loadData();
         }
     }
 
@@ -35,7 +37,8 @@ public class RequestLiveData<M> extends BaseLiveData<Result<M>> {
      * @param bundle The arguments for the request.
      */
     @Override
-    protected void loadData(@Nullable Bundle bundle) {
+    @SuppressLint("StaticFieldLeak")
+    protected void loadData(@NonNull Bundle bundle) {
         new AsyncTask<Void, Void, Result<M>>() {
 
             @Override
@@ -45,7 +48,6 @@ public class RequestLiveData<M> extends BaseLiveData<Result<M>> {
 
             @Override
             protected void onPostExecute(Result<M> m) {
-                super.onPostExecute(m);
                 setValue(m);
             }
         }

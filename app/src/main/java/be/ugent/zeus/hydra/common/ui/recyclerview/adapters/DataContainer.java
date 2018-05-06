@@ -2,11 +2,9 @@ package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.AnyThread;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.recyclerview.extensions.ListAdapter;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +27,7 @@ public class DataContainer<D> {
 
     // Data stuff.
     @Nullable
-    private List<D> internalData = null;
+    private List<D> internalData;
     @NonNull
     private List<D> readOnly = Collections.emptyList();
 
@@ -53,7 +51,7 @@ public class DataContainer<D> {
     @MainThread
     public void submitUpdate(AdapterUpdate<D> update) {
 
-        final int generation = ++maxScheduledGeneration;
+        int generation = ++maxScheduledGeneration;
 
         // Construct a unit of work for the update.
         Runnable work = () -> {

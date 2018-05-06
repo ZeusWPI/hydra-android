@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
-import android.support.annotation.Nullable;
 import android.support.v7.widget.SearchView;
 import android.util.Pair;
 

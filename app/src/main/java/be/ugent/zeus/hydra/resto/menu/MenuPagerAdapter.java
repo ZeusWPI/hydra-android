@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.resto.menu;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -62,7 +63,8 @@ class MenuPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
-    public LocalDate getTabDate(int position) {
+    @Nullable
+    LocalDate getTabDate(int position) {
         return position == 0 ? null : data.get(position - 1).getDate();
     }
 

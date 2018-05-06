@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.minerva.calendar.database;
 
+import android.support.annotation.Nullable;
+
 import be.ugent.zeus.hydra.minerva.course.database.CourseMapper;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItemRepository;
@@ -27,6 +29,7 @@ public class AgendaDatabaseRepository implements AgendaItemRepository {
         this.agendaMapper = agendaMapper;
     }
 
+    @Nullable
     @Override
     public AgendaItem getOne(Integer integer) {
         AgendaDao.Result result = agendaDao.getOne(integer);

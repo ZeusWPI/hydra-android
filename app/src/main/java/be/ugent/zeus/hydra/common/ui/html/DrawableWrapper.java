@@ -145,25 +145,16 @@ class DrawableWrapper extends Drawable implements Drawable.Callback {
         return mDrawable.getPadding(padding);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void invalidateDrawable(@NonNull Drawable who) {
         invalidateSelf();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void scheduleDrawable(@NonNull Drawable who, @NonNull Runnable what, long when) {
         scheduleSelf(what, when);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void unscheduleDrawable(@NonNull Drawable who, @NonNull Runnable what) {
         unscheduleSelf(what);

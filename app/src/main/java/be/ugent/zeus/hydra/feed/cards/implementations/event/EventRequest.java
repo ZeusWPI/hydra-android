@@ -39,7 +39,7 @@ public class EventRequest extends HideableHomeFeedRequest {
 
     @NonNull
     @Override
-    protected Result<Stream<Card>> performRequestCards(@Nullable Bundle args) {
+    protected Result<Stream<Card>> performRequestCards(@NonNull Bundle args) {
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime plusOne = now.plusMonths(1);
 

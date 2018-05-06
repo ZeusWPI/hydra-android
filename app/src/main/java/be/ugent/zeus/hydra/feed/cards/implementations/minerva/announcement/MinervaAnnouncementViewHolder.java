@@ -31,7 +31,7 @@ import static be.ugent.zeus.hydra.common.ui.ViewUtils.convertDpToPixelInt;
 public class MinervaAnnouncementViewHolder extends CardViewHolder {
 
     @VisibleForTesting
-    final static int MAX_DISPLAYED = 5;
+    static final int MAX_DISPLAYED = 5;
     private final LinearLayout layout;
     private final CardView cardView;
     private final LayoutInflater inflater;
@@ -47,8 +47,8 @@ public class MinervaAnnouncementViewHolder extends CardViewHolder {
     public void populate(Card card) {
         super.populate(card);
 
-        final MinervaAnnouncementsCard mCard = card.checkCard(Card.Type.MINERVA_ANNOUNCEMENT);
-        final Context context = itemView.getContext();
+        MinervaAnnouncementsCard mCard = card.checkCard(Card.Type.MINERVA_ANNOUNCEMENT);
+        Context context = itemView.getContext();
 
         toolbar.setTitle(context.getString(R.string.home_feed_card_announcement_title, mCard.getCourse().getTitle()));
 

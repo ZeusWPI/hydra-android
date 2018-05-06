@@ -7,15 +7,20 @@ import android.text.TextUtils;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import com.squareup.moshi.Json;
+import java8.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;
 
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by feliciaan on 16/06/16.
  */
 public final class Article implements Serializable, Parcelable {
+
+    private static final Pattern IMAGE_REPLACEMENT = Pattern.compile("/regulier/", Pattern.LITERAL);
 
     private String title;
     private String link;
@@ -84,8 +89,8 @@ public final class Article implements Serializable, Parcelable {
         }
     }
 
-    public static String getLargeImage(String url) {
-        return url.replace("/regulier/", "/preview/");
+    static String getLargeImage(String url) {
+        return IMAGE_REPLACEMENT.matcher(url).replaceAll(Matcher.quoteReplacement("/preview/"));
     }
 
     @Override
@@ -93,8 +98,8 @@ public final class Article implements Serializable, Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Article article = (Article) o;
-        return java8.util.Objects.equals(link, article.link) &&
-                java8.util.Objects.equals(pubDate, article.pubDate);
+        return Objects.equals(link, article.link) &&
+                Objects.equals(pubDate, article.pubDate);
     }
 
     public String getIdentifier() {
@@ -103,10 +108,10 @@ public final class Article implements Serializable, Parcelable {
 
     @Override
     public int hashCode() {
-        return java8.util.Objects.hash(link, pubDate);
+        return Objects.hash(link, pubDate);
     }
 
-    protected Article(Parcel in) {
+    private Article(Parcel in) {
         title = in.readString();
         link = in.readString();
         pubDate = DateTypeConverters.toOffsetDateTime(in.readString());

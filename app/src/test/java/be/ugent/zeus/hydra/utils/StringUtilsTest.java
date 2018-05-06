@@ -51,14 +51,14 @@ public class StringUtilsTest {
 
     @Test
     public void generateAcronymFor() {
-        String[] values = new String[] {
+        String[] values = {
                 "Algoritmen en datastructuren III",
                 "Parallelle en gedistribueerde computersystemen",
                 "Recht van de intellectuele eigendom",
                 "Betonkunde 1"
         };
         // Note: these are NOT good abbreviations, just what the algorithm currently does
-        String[] expectedAcronyms = new String[] {
+        String[] expectedAcronyms = {
                 "AEDI",
                 "PEGC",
                 "RVDIE",

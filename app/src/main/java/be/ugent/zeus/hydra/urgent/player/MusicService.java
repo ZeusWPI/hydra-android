@@ -150,6 +150,7 @@ public class MusicService extends MediaBrowserServiceCompat implements MediaStat
     private void updateNotification() {
 
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        assert manager != null;
         if (mediaSession.getController().getMetadata() == null || mediaSession.getController().getPlaybackState() == null) {
             return;
         }

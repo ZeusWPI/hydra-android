@@ -2,37 +2,32 @@ package be.ugent.zeus.hydra.minerva.course.list;
 
 import android.content.Intent;
 import android.os.SystemClock;
-import android.support.transition.Visibility;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.OnStartDragListener;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.singlecourse.CourseActivity;
-import java8.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.stubbing.Answer;
 import org.robolectric.ParameterizedRobolectricTestRunner;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowApplication;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertNotEmpty;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;

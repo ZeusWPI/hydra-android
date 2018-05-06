@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 
 import static be.ugent.zeus.hydra.testing.Assert.assertCollectionEquals;
 import static be.ugent.zeus.hydra.testing.Utils.getRandom;
-import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Niko Strijbol

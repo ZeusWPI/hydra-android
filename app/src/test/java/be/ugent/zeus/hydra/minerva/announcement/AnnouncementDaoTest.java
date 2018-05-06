@@ -23,7 +23,6 @@ import static be.ugent.zeus.hydra.testing.Assert.assertCollectionEquals;
 import static be.ugent.zeus.hydra.testing.Assert.samePropertyValuesAs;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static be.ugent.zeus.hydra.testing.Utils.getRandom;
-import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.*;
 
 /**

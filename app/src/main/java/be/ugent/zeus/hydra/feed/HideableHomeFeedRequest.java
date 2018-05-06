@@ -4,17 +4,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardIdentifier;
 import be.ugent.zeus.hydra.feed.cards.CardRepository;
-import be.ugent.zeus.hydra.common.request.Result;
 import java8.util.stream.Collectors;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Home feed request that takes care of maintaining and hiding cards the user no longer wants to see.
@@ -30,7 +30,7 @@ public abstract class HideableHomeFeedRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public final Result<Stream<Card>> performRequest(@Nullable Bundle args) {
+    public final Result<Stream<Card>> performRequest(@NonNull Bundle args) {
         return performRequestCards(args).map(cardsStream -> {
             List<Card> cards = cardsStream.collect(Collectors.toList());
             // Remove all stale hidden cards.
@@ -43,7 +43,7 @@ public abstract class HideableHomeFeedRequest implements HomeFeedRequest {
                 return StreamSupport.stream(cards);
             } else {
                 // Wrap in a set for fast contains.
-                Set<CardIdentifier> fastHidden = new HashSet<>(hiddenList);
+                Collection<CardIdentifier> fastHidden = new HashSet<>(hiddenList);
                 return StreamSupport.stream(cards)
                         .filter(card -> !fastHidden.contains(new CardIdentifier(card.getCardType(), card.getIdentifier())));
             }
@@ -51,5 +51,5 @@ public abstract class HideableHomeFeedRequest implements HomeFeedRequest {
     }
 
     @NonNull
-    protected abstract Result<Stream<Card>> performRequestCards(@Nullable Bundle args);
+    protected abstract Result<Stream<Card>> performRequestCards(@NonNull Bundle args);
 }

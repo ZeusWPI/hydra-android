@@ -73,7 +73,7 @@ public class LineupFragment extends Fragment {
         refreshLayout.setOnRefreshListener(viewModel);
     }
 
-    private void receiveData(@NonNull Collection<Artist> data) {
+    private void receiveData(@NonNull Iterable<Artist> data) {
         //Sort into stages
         Map<String, List<Artist>> stages = new LinkedHashMap<>();
 

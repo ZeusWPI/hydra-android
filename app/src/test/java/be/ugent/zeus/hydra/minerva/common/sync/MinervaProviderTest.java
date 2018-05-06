@@ -18,8 +18,8 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -28,6 +28,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(RobolectricTestRunner.class)
 public class MinervaProviderTest extends AbstractDaoTest {
 
+    @Override
     @Before
     public void setUp() throws IOException {
         super.setUp();

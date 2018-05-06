@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.Log;
@@ -76,7 +77,7 @@ public class MinervaProvider extends ContentProvider {
         }
 
         // Tackle user selection (taken from the SQLiteQueryBuilder).
-        if (selection != null && selection.length() > 0) {
+        if (selection != null && !selection.isEmpty()) {
             if (!TextUtils.isEmpty(whereClause)) {
                 where.append(" AND ");
             }
@@ -108,6 +109,7 @@ public class MinervaProvider extends ContentProvider {
         }
     }
 
+    @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
         // Don't allow inserts.

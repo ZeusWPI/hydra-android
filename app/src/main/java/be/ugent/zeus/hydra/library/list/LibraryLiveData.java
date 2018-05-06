@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.library.list;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
@@ -34,7 +33,7 @@ class LibraryLiveData extends RequestLiveData<List<Library>> implements SharedPr
         preferences.registerOnSharedPreferenceChangeListener(this);
         Set<String> current = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
         if (favouriteLibraries != null && !current.equals(favouriteLibraries)) {
-            loadData(Bundle.EMPTY);
+            loadData();
         }
         favouriteLibraries = current;
     }
@@ -49,7 +48,7 @@ class LibraryLiveData extends RequestLiveData<List<Library>> implements SharedPr
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (LibraryListFragment.PREF_LIBRARY_FAVOURITES.equals(key)) {
-            loadData(Bundle.EMPTY);
+            loadData();
         }
     }
 

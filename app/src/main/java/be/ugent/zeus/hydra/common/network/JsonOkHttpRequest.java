@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.common.network;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.annotation.WorkerThread;
 import android.util.Log;
@@ -29,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  * Common implementation base for requests that are network requests. This request provides built-in caching on the
  * networking level.
  *
- * <h2>Caching</h2>
+ * <h1>Caching</h1>
  * The caching implementation uses OkHttp's cache implementation. How long a response is cached is determined by
  * {@link #getCacheDuration()}. By default, requests are not cached.
  *
@@ -37,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  *
  * To disable the cache, pass {@link BaseLiveData#REFRESH_COLD} as an argument to the request.
  *
- * <h2>Decode</h2>
+ * <h1>Decode</h1>
  * The request uses Moshi to decode the json response into Java objects.
  *
  * @author Niko Strijbol
@@ -80,13 +79,9 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     @NonNull
     @Override
     @WorkerThread
-    public Result<D> performRequest(@Nullable Bundle args) {
+    public Result<D> performRequest(@NonNull Bundle args) {
 
         JsonAdapter<D> adapter = getAdapter();
-
-        if (args == null) {
-            args = Bundle.EMPTY;
-        }
 
         try {
             try {

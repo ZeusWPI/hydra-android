@@ -246,6 +246,9 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
         @Override
         public void onReceive(Context context, Intent intent) {
             assert getView() != null;
+            if (intent.getAction() == null) {
+                return;
+            }
             switch (intent.getAction()) {
                 case SyncBroadcast.SYNC_COURSES:
                     Log.d(TAG, "Courses!");

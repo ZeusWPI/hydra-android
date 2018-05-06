@@ -25,9 +25,6 @@ public final class OpeningHours implements Serializable {
     private String monthDay;
     private String year;
 
-    public OpeningHours() {
-    }
-
     public int getWeekday() {
         return weekday;
     }
