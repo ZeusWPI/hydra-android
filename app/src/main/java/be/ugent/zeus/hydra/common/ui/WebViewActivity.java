@@ -1,13 +1,25 @@
 package be.ugent.zeus.hydra.common.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.network.InstanceProvider;
+import be.ugent.zeus.hydra.common.network.InterceptingWebViewClient;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+import java.io.IOException;
 
 /**
  * Displays a web view.
@@ -15,6 +27,8 @@ import be.ugent.zeus.hydra.R;
  * @author Niko Strijbol
  */
 public class WebViewActivity extends BaseActivity {
+
+    private static final String TAG = "WebViewActivity";
 
     public static final String URL = "be.ugent.zeus.hydra.url";
     public static final String TITLE = "be.ugent.zeus.hydra.title";
@@ -29,7 +43,7 @@ public class WebViewActivity extends BaseActivity {
         ProgressBar progressBar = findViewById(R.id.progress_bar);
 
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new ProgressClient(progressBar));
+        webView.setWebViewClient(new ProgressClient(progressBar, this));
 
         Intent intent = getIntent();
         String url = intent.getStringExtra(URL);
@@ -47,10 +61,11 @@ public class WebViewActivity extends BaseActivity {
         return "Webview > " + getTitle();
     }
 
-    private static class ProgressClient extends WebViewClient {
+    private static class ProgressClient extends InterceptingWebViewClient {
         private final ProgressBar progressBar;
 
-        ProgressClient(ProgressBar progressBar) {
+        ProgressClient(ProgressBar progressBar, Context context) {
+            super(context);
             this.progressBar = progressBar;
         }
 

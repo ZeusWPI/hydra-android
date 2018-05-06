@@ -1,12 +1,18 @@
 package be.ugent.zeus.hydra.common.network;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.common.converter.DateThreeTenAdapter;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.security.ProviderInstaller;
 import com.squareup.moshi.Moshi;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -19,18 +25,20 @@ import java.io.File;
  *
  * @author Niko Strijbol
  */
-@VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
-public class InstanceProvider {
+public final class InstanceProvider {
+
+    private static final String TAG = "InstanceProvider";
 
     private static OkHttpClient client;
 
     private static final long CACHE_SIZE = 10 * 1024 * 1024; // 10 MiB
 
-    public static synchronized OkHttpClient getClient(File cacheDir) {
-        if (client == null) {
-            OkHttpClient.Builder builder = getBuilder(cacheDir);
+    private InstanceProvider() {
+    }
 
-            client = builder.build();
+    private static synchronized OkHttpClient getClient(File cacheDir) {
+        if (client == null) {
+            client = getBuilder(cacheDir).build();
         }
         return client;
     }
@@ -46,13 +54,19 @@ public class InstanceProvider {
         return builder;
     }
 
-    public static synchronized OkHttpClient getClient(Context context) {
+    static synchronized OkHttpClient getClient(Context context) {
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
+            installGoogleProvider(context);
+        }
+
         File cacheDir = new File(context.getCacheDir(), "http");
         return getClient(cacheDir);
     }
 
     private static Moshi moshi;
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     public static synchronized Moshi getMoshi() {
         if (moshi == null) {
             moshi = new Moshi.Builder()
@@ -69,5 +83,18 @@ public class InstanceProvider {
     public static void reset() {
         client = null;
         moshi = null;
+    }
+
+    private static void installGoogleProvider(Context context) {
+        Log.i(TAG, "Installing Play Services to enable TLSv1.2");
+        try {
+            ProviderInstaller.installIfNeeded(context);
+        } catch (GooglePlayServicesRepairableException e) {
+            Log.w(TAG, "Play Services are outdated", e);
+            // Prompt the user to install/update/enable Google Play services.
+            GoogleApiAvailability.getInstance().showErrorNotification(context, e.getConnectionStatusCode());
+        } catch (GooglePlayServicesNotAvailableException e) {
+            Log.e(TAG, "Unable to install provider, SSL will not work", e);
+        }
     }
 }
