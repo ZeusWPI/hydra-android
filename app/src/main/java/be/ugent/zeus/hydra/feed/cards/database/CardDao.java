@@ -1,14 +1,17 @@
 package be.ugent.zeus.hydra.feed.cards.database;
 
 import android.arch.persistence.db.SupportSQLiteDatabase;
+import android.arch.persistence.db.SupportSQLiteQueryBuilder;
 import android.arch.persistence.room.*;
 import android.text.TextUtils;
+import android.util.Log;
 
 import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardDismissal;
 import be.ugent.zeus.hydra.feed.cards.CardIdentifier;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,6 +20,8 @@ import java.util.List;
  */
 @Dao
 public abstract class CardDao {
+
+    private static final String TAG = "CardDao";
 
     private final Database database;
 
@@ -61,10 +66,12 @@ public abstract class CardDao {
         }
 
         SupportSQLiteDatabase supportSQLiteDatabase = database.getOpenHelper().getWritableDatabase();
-        supportSQLiteDatabase.delete(
-                DismissalTable.TABLE_NAME,
-                TextUtils.join(" OR ", inSelectionArray),
-                args
-        );
+        supportSQLiteDatabase.beginTransaction();
+        try {
+            supportSQLiteDatabase.delete(DismissalTable.TABLE_NAME, TextUtils.join(" OR ", inSelectionArray), args);
+            supportSQLiteDatabase.setTransactionSuccessful();
+        } finally {
+            supportSQLiteDatabase.endTransaction();
+        }
     }
 }

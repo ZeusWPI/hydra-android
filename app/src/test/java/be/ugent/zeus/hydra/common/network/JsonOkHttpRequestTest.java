@@ -97,7 +97,7 @@ public class JsonOkHttpRequestTest {
 
         Bundle args = new Bundle();
         args.putBoolean(BaseLiveData.REFRESH_COLD, true);
-        Result<Integer> result2 = request.performRequest();
+        Result<Integer> result2 = request.performRequest(args);
         assertTrue(result2.hasData());
         assertEquals(1, (int) result2.getData());
 
