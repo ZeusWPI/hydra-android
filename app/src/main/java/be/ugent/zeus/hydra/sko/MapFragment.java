@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.sko;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.widget.ProgressBar;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.Endpoints;
+import be.ugent.zeus.hydra.common.network.InterceptingWebViewClient;
 
 /**
  * Display a map of the Student Village.
@@ -42,14 +44,15 @@ public class MapFragment extends Fragment {
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setDisplayZoomControls(false);
         webView.getSettings().setSupportZoom(true);
-        webView.setWebViewClient(new ProgressClient(progressBar));
+        webView.setWebViewClient(new ProgressClient(requireContext(), progressBar));
         webView.loadUrl(Endpoints.SKO_VILLAGE_MAP);
     }
 
-    private static class ProgressClient extends WebViewClient {
+    private static class ProgressClient extends InterceptingWebViewClient {
         private final ProgressBar progressBar;
 
-        ProgressClient(ProgressBar progressBar) {
+        ProgressClient(Context context, ProgressBar progressBar) {
+            super(context);
             this.progressBar = progressBar;
         }
 
