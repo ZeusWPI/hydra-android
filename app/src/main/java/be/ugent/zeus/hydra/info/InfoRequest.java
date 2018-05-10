@@ -22,7 +22,7 @@ class InfoRequest extends JsonArrayRequest<InfoItem> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.ZEUS_API_URL_2  + "info/info-content.json";
+        return Endpoints.ZEUS_V2 + "info/info-content.json";
     }
 
     @Override

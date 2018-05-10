@@ -31,6 +31,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
  */
 public class OverviewActivity extends BaseActivity {
 
+    private static final String SKO_WEBSITE = Endpoints.SKO;
+
     private static final String TAG = "SkoOverviewActivity";
 
     /**
@@ -115,7 +117,7 @@ public class OverviewActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sko_visit_website:
-                NetworkUtils.maybeLaunchBrowser(this, Endpoints.SKO_WEBSITE);
+                NetworkUtils.maybeLaunchBrowser(this, SKO_WEBSITE);
                 return true;
             case R.id.action_settings:
                 startActivity(new Intent(this, WrapperActivity.class));

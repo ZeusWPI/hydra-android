@@ -26,6 +26,6 @@ class ExhibitorRequest extends JsonArrayRequest<Exhibitor> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.SKO_URL + "studentvillage.json";
+        return Endpoints.SKO + "studentvillage.json";
     }
 }

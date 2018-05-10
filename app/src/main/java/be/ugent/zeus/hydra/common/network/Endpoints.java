@@ -1,21 +1,21 @@
 package be.ugent.zeus.hydra.common.network;
 
 /**
- * The endpoints for the API.
+ * Hosts used in the APIs, together with some common API endpoints.
  *
  * @author Niko Strijbol
  */
-public final class Endpoints {
+public interface Endpoints {
 
-    public static final String DSA_API_URL_3 = "http://student.ugent.be/hydra/api/3.0/";
-    public static final String ZEUS_API_URL_1 = "https://zeus.ugent.be/hydra/api/1.0/";
-    public static final String ZEUS_API_URL_2 = "https://zeus.ugent.be/hydra/api/2.0/";
-    public static final String ZEUS_RESTO_URL = ZEUS_API_URL_2 + "resto/";
-    public static final String LIBRARY_URL = "http://widgets.lib.ugent.be/";
-    public static final String SKO_URL = "https://studentkickoff.be/";
-    public static final String LIVE_SKO_URL = "https://live.studentkickoff.be/";
-    public static final String SKO_WEBSITE = SKO_URL;
-    public static final String SKO_VILLAGE_MAP = ZEUS_API_URL_1 + "grondplan-android.html";
-    public static final String URGENT_STATUS_URL = ZEUS_API_URL_2 + "urgentfm/status.json";
-    public static final String MINERVA_API = "https://minerva.ugent.be/api/rest/v2/";
+    String DSA_V3 = "http://student.ugent.be/hydra/api/3.0/";
+
+    String ZEUS_V1 = "https://hydra.ugent.be/api/1.0/";
+    String ZEUS_V2 = "https://hydra.ugent.be/api/2.0/";
+
+    String LIBRARY = "http://widgets.lib.ugent.be/";
+
+    String SKO = "https://studentkickoff.be/";
+    String SKO_LIVE = "https://live.studentkickoff.be/";
+
+    String MINERVA = "https://minerva.ugent.be/api/rest/v2/";
 }

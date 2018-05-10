@@ -20,8 +20,6 @@ import java.util.List;
  */
 class SandwichRequest extends JsonArrayRequest<Sandwich> {
 
-    private static final String FILE_NAME = "sandwiches.json";
-
     SandwichRequest(Context context) {
         super(context, Sandwich.class);
     }
@@ -39,7 +37,7 @@ class SandwichRequest extends JsonArrayRequest<Sandwich> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.ZEUS_RESTO_URL + FILE_NAME;
+        return Endpoints.ZEUS_V2 + "resto/sandwiches.json";
     }
 
     @Override

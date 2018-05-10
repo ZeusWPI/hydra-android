@@ -37,7 +37,7 @@ public class UgentNewsRequest extends JsonArrayRequest<UgentNewsItem> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.DSA_API_URL_3 + "recent_news.json";
+        return Endpoints.DSA_V3 + "recent_news.json";
     }
 
     @Override

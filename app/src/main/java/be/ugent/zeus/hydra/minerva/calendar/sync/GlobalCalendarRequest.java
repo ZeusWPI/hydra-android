@@ -9,7 +9,7 @@ import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 import okhttp3.HttpUrl;
 import org.threeten.bp.ZonedDateTime;
 
-import static be.ugent.zeus.hydra.common.network.Endpoints.MINERVA_API;
+import static be.ugent.zeus.hydra.common.network.Endpoints.MINERVA;
 
 /**
  * Request agenda items, optionally in a time range.
@@ -36,10 +36,10 @@ class GlobalCalendarRequest extends MinervaRequest<ApiCalendar> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        final String url = MINERVA_API + "agenda";
+        final String url = MINERVA + "agenda";
 
         if (start == null && end == null) {
-            return MINERVA_API + "agenda";
+            return MINERVA + "agenda";
         }
 
         HttpUrl base = HttpUrl.parse(url);

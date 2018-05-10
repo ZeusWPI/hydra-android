@@ -26,6 +26,6 @@ class TimelineRequest extends JsonArrayRequest<TimelinePost> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.LIVE_SKO_URL + "timeline.json";
+        return Endpoints.SKO_LIVE + "timeline.json";
     }
 }
