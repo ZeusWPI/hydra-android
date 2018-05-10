@@ -53,6 +53,7 @@ public class MinervaProvider extends ContentProvider {
         return Database.get(getContext());
     }
 
+    @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 
@@ -66,7 +67,7 @@ public class MinervaProvider extends ContentProvider {
                 whereClause = BaseColumns._ID + " = " + uri.getLastPathSegment();
                 break;
             default:
-                throw new IllegalArgumentException("Uri was not recognized.");
+                return null;
         }
 
         StringBuilder where = new StringBuilder();
@@ -96,16 +97,16 @@ public class MinervaProvider extends ContentProvider {
         return database.query(query);
     }
 
+    @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
         switch (uriMatcher.match(uri)) {
             case ALL_COURSES:
-
                 return ContentResolver.CURSOR_DIR_BASE_TYPE + MIME_TYPE;
             case ONE_COURSE:
                 return ContentResolver.CURSOR_ITEM_BASE_TYPE + MIME_TYPE;
             default:
-                throw new IllegalArgumentException("Uri '" + uri + "' was not recognized by the provider.");
+                return null;
         }
     }
 

@@ -3,4 +3,5 @@
     android:accountType="be.ugent.zeus.hydra.minerva.account"
     android:icon="@mipmap/ic_launcher"
     android:smallIcon="@mipmap/ic_launcher"
+    android:accountPreferences="@xml/pref_authenticator"
     android:label="@string/account_label" />

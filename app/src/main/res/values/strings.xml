@@ -471,4 +471,5 @@
     <string name="menu_legend_asc_abbr">ASC</string>
     <string name="resto_legend_asc_desc">Aquaculture Stewardship Council, verantwoorde kweek</string>
     <string name="new_until">Nu tot %s</string>
+    <string name="launch_settings">Accountinstellingen openen</string>
 </resources>
