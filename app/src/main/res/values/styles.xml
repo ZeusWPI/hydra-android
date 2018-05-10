@@ -52,7 +52,7 @@
     </style>
 
     <style name="Subhead.Light">
-        <item name="android:textColor">@color/hydra_accent_color</item>
+        <item name="android:textColor">@color/hydra_secondary_colour</item>
     </style>
 
     <style name="Material.Typography.Caption" parent="Base.TextAppearance.AppCompat.Caption" />
@@ -69,15 +69,11 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
-    <style name="DrawerDivider">
-        <item name="android:listDivider">@color/ugent_yellow</item>
-    </style>
-
     <!-- Style for SKO part of the app -->
     <style name="Hydra.Main.NoActionBar.Sko" parent="Hydra.Main.NoActionBar">
-        <item name="colorPrimary">@color/sko_blue_light</item>
-        <item name="colorPrimaryDark">@color/sko_blue_dark</item>
-        <item name="colorAccent">@color/sko_red</item>
+        <item name="colorPrimary">@color/sko_primary_colour</item>
+        <item name="colorPrimaryDark">@color/sko_primary_dark_colour</item>
+        <item name="colorAccent">@color/sko_secondary_colour</item>
     </style>
 
     <style name="Hydra.Main.NoActionBar.Sko.SystemWindows" parent="Hydra.Main.NoActionBar.Sko">

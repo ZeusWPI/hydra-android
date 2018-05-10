@@ -45,7 +45,7 @@
         android:layout_width="@dimen/material_list_icon_size"
         android:layout_height="@dimen/material_list_icon_size"
         app:srcCompat="@drawable/ic_star"
-        android:tint="@color/ugent_yellow"
+        android:tint="@color/hydra_secondary_colour"
         android:contentDescription="@string/content_desc_library" />
 
 </LinearLayout>

@@ -100,9 +100,9 @@ public class LibraryDetailActivity extends BaseActivity {
         Drawable drawable;
         if (favourites.contains(library.getCode())) {
             button.setSelected(true);
-            drawable = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star, R.color.ugent_yellow);
+            drawable = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star, R.color.hydra_secondary_colour);
         } else {
-            drawable = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star, R.color.ugent_blue_dark);
+            drawable = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star, R.color.hydra_primary_dark_colour);
             button.setSelected(false);
         }
 
@@ -112,11 +112,11 @@ public class LibraryDetailActivity extends BaseActivity {
         button.setOnClickListener(v -> {
             if (button.isSelected()) {
                 PreferencesUtils.removeFromStringSet(LibraryDetailActivity.this, LibraryListFragment.PREF_LIBRARY_FAVOURITES, library.getCode());
-                DrawableCompat.setTint(drawable, ActivityCompat.getColor(LibraryDetailActivity.this, R.color.ugent_blue_dark));
+                DrawableCompat.setTint(drawable, ActivityCompat.getColor(LibraryDetailActivity.this, R.color.hydra_primary_dark_colour));
                 button.setSelected(false);
             } else {
                 PreferencesUtils.addToStringSet(LibraryDetailActivity.this, LibraryListFragment.PREF_LIBRARY_FAVOURITES, library.getCode());
-                DrawableCompat.setTint(drawable, ActivityCompat.getColor(LibraryDetailActivity.this, R.color.ugent_yellow));
+                DrawableCompat.setTint(drawable, ActivityCompat.getColor(LibraryDetailActivity.this, R.color.hydra_secondary_colour));
                 button.setSelected(true);
             }
         });

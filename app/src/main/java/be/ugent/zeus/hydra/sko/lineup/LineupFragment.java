@@ -58,7 +58,7 @@ public class LineupFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
 
         SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh_layout);
-        refreshLayout.setColorSchemeResources(R.color.sko_red);
+        refreshLayout.setColorSchemeResources(R.color.sko_secondary_colour);
 
         if (joiner == null) {
             joiner = new RvJoiner();

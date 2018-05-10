@@ -46,14 +46,14 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
                 .title(R.string.onboarding_welcome)
                 .description(R.string.onboarding_welcome_description)
                 .image(R.drawable.logo_onboarding_ugent)
-                .background(R.color.ugent_blue_medium)
-                .backgroundDark(R.color.ugent_blue_dark)
+                .background(R.color.hydra_primary_colour)
+                .backgroundDark(R.color.hydra_primary_dark_colour)
                 .build());
 
         //Home feed selector
         addSlide(new FragmentSlide.Builder()
-                .background(R.color.ugent_blue_medium)
-                .backgroundDark(R.color.ugent_blue_dark)
+                .background(R.color.hydra_primary_colour)
+                .backgroundDark(R.color.hydra_primary_dark_colour)
                 .fragment(new HomeFeedFragment())
                 .build());
 
@@ -64,8 +64,8 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
                     .title(R.string.onboarding_minerva_title)
                     .description(R.string.onboarding_minerva_description)
                     .image(R.drawable.logo_onboarding_minerva)
-                    .background(R.color.ugent_blue_medium)
-                    .backgroundDark(R.color.ugent_blue_dark)
+                    .background(R.color.hydra_primary_colour)
+                    .backgroundDark(R.color.hydra_primary_dark_colour)
                     .buttonCtaLabel(R.string.onboarding_minerva_button)
                     .buttonCtaClickListener(this)
                     .build());
