@@ -62,7 +62,7 @@ public class EventFragment extends Fragment {
         // adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, noData));
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.ugent_yellow);
+        swipeRefreshLayout.setColorSchemeResources(R.color.hydra_secondary_colour);
 
         viewModel = ViewModelProviders.of(this).get(EventViewModel.class);
         viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));

@@ -22,7 +22,7 @@ class ExtraFoodRequest extends JsonOkHttpRequest<ExtraFood> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.ZEUS_RESTO_URL + "extrafood.json";
+        return Endpoints.ZEUS_V2 + "resto/extrafood.json";
     }
 
     @Override

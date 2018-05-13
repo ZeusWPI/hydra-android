@@ -450,7 +450,7 @@ public class CalendarSync {
      * @return The colour of the calendar.
      */
     private int getCalendarColour() {
-        return ContextCompat.getColor(context, R.color.ugent_blue_dark);
+        return ContextCompat.getColor(context, R.color.hydra_primary_dark_colour);
     }
 
     /**

@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 
-import static be.ugent.zeus.hydra.common.network.Endpoints.MINERVA_API;
+import static be.ugent.zeus.hydra.common.network.Endpoints.MINERVA;
 
 /**
  * @author Niko Strijbol
@@ -24,6 +24,6 @@ class ModuleRequest extends MinervaRequest<ApiTools> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return MINERVA_API + "course/" + course.getId() + "/tools";
+        return MINERVA + "course/" + course.getId() + "/tools";
     }
 }

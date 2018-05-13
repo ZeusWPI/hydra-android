@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 
-import static be.ugent.zeus.hydra.common.network.Endpoints.MINERVA_API;
+import static be.ugent.zeus.hydra.common.network.Endpoints.MINERVA;
 
 /**
  * Request to get a list of courses.
@@ -25,6 +25,6 @@ class CoursesMinervaRequest extends MinervaRequest<ApiCourses> {
     @Override
     @NonNull
     protected String getAPIUrl() {
-        return MINERVA_API + "courses";
+        return MINERVA + "courses";
     }
 }

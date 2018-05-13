@@ -49,7 +49,7 @@ public class NotificationHelper {
         this.context = context.getApplicationContext();
         //Set default values
         smallIcon = R.drawable.ic_notification_announcement;
-        notificationColour = ContextCompat.getColor(context, R.color.ugent_blue_medium);
+        notificationColour = ContextCompat.getColor(context, R.color.hydra_primary_colour);
     }
 
     /**

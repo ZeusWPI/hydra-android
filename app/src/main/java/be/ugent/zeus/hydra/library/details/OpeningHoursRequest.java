@@ -30,6 +30,6 @@ class OpeningHoursRequest extends JsonArrayRequest<OpeningHours> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.LIBRARY_URL + "libraries/" + libraryCode + "/calendar.json";
+        return Endpoints.LIBRARY + "libraries/" + libraryCode + "/calendar.json";
     }
 }

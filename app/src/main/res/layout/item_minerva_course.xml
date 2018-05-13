@@ -47,7 +47,7 @@
         android:layout_marginLeft="@dimen/material_list_icon_last_position_margin_horizontal"
         android:layout_marginRight="@dimen/material_list_icon_last_position_margin_horizontal"
         android:scaleType="center"
-        android:tint="@color/ugent_blue_lighter"
+        android:tint="@color/hydra_primary_light_colour"
         app:srcCompat="@drawable/ic_megaphone"
         android:contentDescription="@string/content_desc_unread_icon" />
 
@@ -58,7 +58,7 @@
         android:layout_marginRight="@dimen/material_list_icon_last_position_margin_horizontal"
         android:adjustViewBounds="true"
         android:scaleType="center"
-        android:tint="@color/ugent_blue_lighter"
+        android:tint="@color/hydra_primary_light_colour"
         app:srcCompat="@drawable/ic_drag_handle"
         android:contentDescription="@string/content_desc_reorder"/>
 

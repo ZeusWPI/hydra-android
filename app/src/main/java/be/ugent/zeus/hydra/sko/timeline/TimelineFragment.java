@@ -54,7 +54,7 @@ public class TimelineFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh_layout);
-        refreshLayout.setColorSchemeResources(R.color.sko_red);
+        refreshLayout.setColorSchemeResources(R.color.sko_secondary_colour);
 
         TimelineAdapter adapter = new TimelineAdapter(helper);
 

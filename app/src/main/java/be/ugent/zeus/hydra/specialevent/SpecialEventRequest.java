@@ -21,7 +21,7 @@ public class SpecialEventRequest extends JsonOkHttpRequest<SpecialEventWrapper> 
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.ZEUS_API_URL_2 + "association/special_events.json";
+        return Endpoints.ZEUS_V2 + "association/special_events.json";
     }
 
     @Override

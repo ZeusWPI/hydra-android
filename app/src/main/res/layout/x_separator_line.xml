@@ -6,4 +6,4 @@
     android:layout_gravity="center"
     android:layout_width="128dp"
     android:layout_height="1dp"
-    android:background="@color/ugent_blue_dark" />
+    android:background="@color/hydra_primary_dark_colour" />

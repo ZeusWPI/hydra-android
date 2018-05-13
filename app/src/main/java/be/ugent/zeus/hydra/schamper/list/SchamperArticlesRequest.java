@@ -22,7 +22,7 @@ public class SchamperArticlesRequest extends JsonArrayRequest<Article> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.ZEUS_API_URL_1 + "schamper/daily_android.json";
+        return Endpoints.ZEUS_V1 + "schamper/daily_android.json";
     }
 
     @Override

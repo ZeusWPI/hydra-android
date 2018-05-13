@@ -55,7 +55,7 @@ public class ExhibitorFragment extends Fragment implements SwipeRefreshLayout.On
         recyclerView.setAdapter(adapter);
 
         SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh_layout);
-        refreshLayout.setColorSchemeResources(R.color.sko_red);
+        refreshLayout.setColorSchemeResources(R.color.sko_secondary_colour);
         refreshLayout.setOnRefreshListener(this);
 
         RecyclerFastScroller scroller = view.findViewById(R.id.fast_scroller);

@@ -22,7 +22,7 @@ import java.util.Locale;
  */
 public class DayRequest extends JsonOkHttpRequest<RestoMenu> {
 
-    private static final String OVERVIEW_URL = Endpoints.ZEUS_RESTO_URL + "menu/%s/%d/%d/%d.json";
+    private static final String OVERVIEW_URL = Endpoints.ZEUS_V2 + "resto/menu/%s/%d/%d/%d.json";
 
     private LocalDate date;
     private RestoChoice choice;
@@ -52,6 +52,7 @@ public class DayRequest extends JsonOkHttpRequest<RestoMenu> {
         if (choice == null) {
             throw new IllegalStateException("The resto choice MUST be set before using the request.");
         }
-        return String.format(Locale.US, OVERVIEW_URL, choice.getEndpoint(), date.getYear(), date.getMonthValue(), date.getDayOfMonth());
+
+        return String.format(Locale.ROOT, OVERVIEW_URL, choice.getEndpoint(), date.getYear(), date.getMonthValue(), date.getDayOfMonth());
     }
 }

@@ -87,7 +87,7 @@
                 android:layout_height="@dimen/urgent_social_icon_size"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_social_facebook_inner"
-                android:tint="@color/ugent_blue_dark" />
+                android:tint="@color/hydra_primary_dark_colour" />
 
             <ImageButton
                 android:id="@+id/social_instagram"
@@ -95,7 +95,7 @@
                 android:layout_height="@dimen/urgent_social_icon_size"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_social_instagram"
-                android:tint="@color/ugent_blue_dark" />
+                android:tint="@color/hydra_primary_dark_colour" />
 
         </LinearLayout>
 
@@ -113,7 +113,7 @@
                 android:layout_height="@dimen/urgent_social_icon_size"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/tabs_urgent"
-                android:tint="@color/ugent_blue_dark" />
+                android:tint="@color/hydra_primary_dark_colour" />
 
             <ImageButton
                 android:id="@+id/social_youtube"
@@ -121,7 +121,7 @@
                 android:layout_height="@dimen/urgent_social_icon_size"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_social_youtube"
-                android:tint="@color/ugent_blue_dark" />
+                android:tint="@color/hydra_primary_dark_colour" />
 
         </LinearLayout>
     </LinearLayout>

@@ -12,6 +12,8 @@ import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import org.threeten.bp.Duration;
 
+import java.util.Locale;
+
 /**
  * Request for the menu's of the resto's.
  *
@@ -20,7 +22,7 @@ import org.threeten.bp.Duration;
 public class MenuRequest extends JsonArrayRequest<RestoMenu> {
 
     @VisibleForTesting
-    public static final String OVERVIEW_URL = Endpoints.ZEUS_RESTO_URL + "menu/%s/overview.json";
+    public static final String OVERVIEW_URL = Endpoints.ZEUS_V2 + "resto/menu/%s/overview.json";
 
     private final SharedPreferences preferences;
 
@@ -33,7 +35,7 @@ public class MenuRequest extends JsonArrayRequest<RestoMenu> {
     @Override
     protected String getAPIUrl() {
         String resto = preferences.getString(RestoPreferenceFragment.PREF_RESTO_KEY, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
-        return String.format(OVERVIEW_URL, resto);
+        return String.format(Locale.ROOT, OVERVIEW_URL, resto);
     }
 
     @Override

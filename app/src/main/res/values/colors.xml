@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Hydra colours -->
-    <color name="ugent_blue_highlight">#19A3D2</color>
-    <color name="ugent_blue_light">#BCD1EF</color>
-    <color name="ugent_blue_lighter">#6293D9</color>
-    <color name="ugent_blue_medium">#1E64C8</color> <!-- The base UGent colour -->
-    <color name="ugent_blue_dark">#003b96</color>
-    <color name="ugent_yellow">#FFD200</color> <!-- The secondary colour -->
-    <color name="ugent_white">#EAEAEA</color>
-    <color name="ugent_grey_light">#C0C0C0</color>
-    <color name="ugent_grey_dark">#A3A3A3</color>
-
-    <color name="ugent_blue">@color/ugent_blue_medium</color>
-
-    <!-- General colours -->
-    <color name="light_blue">#c9d8e7</color>
-    <color name="bright_blue">#245b8d</color>
-    <color name="dark_blue">#122b44</color>
-    <color name="white">@color/material_color_white</color>
-
-    <!-- Overlay colours -->
-    <color name="black_overlay">#78000000</color>
+    <!--
+       ~ The colour scheme for Hydra.
+       ~ This colour scheme was generated from https://goo.gl/Mzta1m
+       ~ See also https://styleguide.ugent.be/basic-principles/colours.html#corporate-colours
+      -->
+    <color name="hydra_primary_colour">#1e64c8</color>
+    <color name="hydra_primary_light_colour">#6391fc</color>
+    <color name="hydra_primary_dark_colour">#003b96</color>
+    <color name="hydra_secondary_colour">#ffd200</color>
+    <color name="hydra_secondary_light_colour">#ffff52</color>
+    <color name="hydra_secondary_dark_colour">#c7a100</color>
+    <color name="hydra_primary_text_colour">#ffffff</color>
+    <color name="hydra_secondary_text_colour">#000000</color>
 
     <!--
-       ~ SKO colours
-       ~ The light blue and red colour are from the official style guide.
-       ~ The dark blue colour was extracted from the same document, because the official values result in
-       ~ weird, and ugly, colour.
+       ~ The colour scheme for SKO.
+       ~ This colour scheme was generated from https://goo.gl/mpDLkv
       -->
-    <color name="sko_blue_light">#009ADE</color>
-    <color name="sko_blue_dark">#005C86</color>
-    <color name="sko_red">#E43026</color>
+    <color name="sko_primary_colour">#009ade</color>
+    <color name="sko_primary_light_colour">#61cbff</color>
+    <color name="sko_primary_dark_colour">#005C86</color>
+    <color name="sko_secondary_colour">#e43026</color>
+    <color name="sko_secondary_light_colour">#ff6851</color>
+    <color name="sko_secondary_dark_colour">#aa0000</color>
+    <color name="sko_primary_text_colour">#000000</color>
+    <color name="sko_secondary_text_colour">#000000</color>
+
+
+    <!-- General colours -->
+    <color name="white">@color/material_color_white</color>
 
     <!--
       ~ These are functional colours. This means they don't specify a colour itself, but rather a colour for
@@ -40,9 +39,9 @@
 
     <!-- The correspond to the theme attributes -->
     <!-- If possible, use ?attr:colorAccent or similar -->
-    <color name="hydra_primary_color">@color/ugent_blue_medium</color>
-    <color name="hydra_primary_color_dark">@color/ugent_blue_dark</color>
-    <color name="hydra_accent_color">@color/ugent_yellow</color>
+    <color name="hydra_primary_color">@color/hydra_primary_colour</color>
+    <color name="hydra_primary_color_dark">@color/hydra_primary_dark_colour</color>
+    <color name="hydra_accent_color">@color/hydra_secondary_colour</color>
 
     <!-- Text colours -->
     <color name="hydra_text_primary">@color/material_typography_primary_text_color_dark</color>
@@ -54,7 +53,7 @@
     <color name="hydra_background_long_text">@color/material_color_white</color>
 
     <!-- Custom views -->
-    <color name="hydra_now_toolbar_icon_tint">@color/ugent_blue_lighter</color>
+    <color name="hydra_now_toolbar_icon_tint">@color/hydra_primary_light_colour</color>
 
     <!--
         ~ The grey colour for the launcher shortcuts background.
@@ -62,7 +61,7 @@
         ~ the colour must be Solid fill of Material Grey 100 (#F5F5F5)
         -->
     <color name="launcher_shortcut_background">@color/material_color_grey_100</color>
-    <color name="hydra_launcher_color">@color/hydra_primary_color</color>
+    <color name="hydra_launcher_color">@color/hydra_primary_colour</color>
 
     <color name="hydra_item_selected_background">@color/white</color>
 
@@ -76,5 +75,5 @@
     <color name="hydra_drawer_background">@color/material_color_white</color>
 
     <!-- The text colour of sub headers -->
-    <color name="hydra_subhead_text_color">@color/hydra_primary_color</color>
+    <color name="hydra_subhead_text_color">@color/hydra_primary_colour</color>
 </resources>

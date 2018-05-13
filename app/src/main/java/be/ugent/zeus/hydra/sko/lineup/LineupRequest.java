@@ -26,6 +26,6 @@ class LineupRequest extends JsonArrayRequest<Artist> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.SKO_URL + "artists.json";
+        return Endpoints.SKO + "artists.json";
     }
 }

@@ -22,7 +22,7 @@ public class MetaRequest extends JsonOkHttpRequest<RestoMeta> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.ZEUS_RESTO_URL + "meta.json";
+        return Endpoints.ZEUS_V2 + "resto/meta.json";
     }
 
     @Override

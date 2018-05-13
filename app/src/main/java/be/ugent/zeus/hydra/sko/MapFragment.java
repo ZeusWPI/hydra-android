@@ -24,6 +24,8 @@ import be.ugent.zeus.hydra.common.network.InterceptingWebViewClient;
  */
 public class MapFragment extends Fragment {
 
+    private static final String SKO_VILLAGE_MAP = Endpoints.ZEUS_V1 + "grondplan-android.html";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class MapFragment extends Fragment {
         webView.getSettings().setDisplayZoomControls(false);
         webView.getSettings().setSupportZoom(true);
         webView.setWebViewClient(new ProgressClient(requireContext(), progressBar));
-        webView.loadUrl(Endpoints.SKO_VILLAGE_MAP);
+        webView.loadUrl(SKO_VILLAGE_MAP);
     }
 
     private static class ProgressClient extends InterceptingWebViewClient {

@@ -71,7 +71,6 @@
             <TextView
                 android:layout_gravity="center_vertical"
                 android:id="@+id/schamper_category"
-                android:textColor="@color/ugent_grey_dark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Base.TextAppearance.AppCompat.Button"
