@@ -11,6 +11,7 @@ import be.ugent.zeus.hydra.feed.cards.CardDismissal;
 import be.ugent.zeus.hydra.feed.cards.CardIdentifier;
 import be.ugent.zeus.hydra.testing.Utils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -164,6 +165,7 @@ public class CardDaoTest {
     }
 
     @Test
+    @Ignore
     public void testDeleteByIdentifier() {
         List<CardIdentifier> dismissals = getRandom(cards, 2).stream()
                 .map(CardDismissal::getIdentifier)
