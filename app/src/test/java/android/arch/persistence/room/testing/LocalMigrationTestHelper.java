@@ -100,9 +100,12 @@ public class LocalMigrationTestHelper extends TestWatcher {
         RoomDatabase.MigrationContainer container = new RoomDatabase.MigrationContainer();
         DatabaseConfiguration configuration = new DatabaseConfiguration(
                 mInstrumentation.getTargetContext(), name, mOpenFactory, container, null, true,
-                true);
+                RoomDatabase.JournalMode.TRUNCATE, true, Collections.<Integer>emptySet());
         RoomOpenHelper roomOpenHelper = new RoomOpenHelper(configuration,
-                new MigrationTestHelper.CreatingDelegate(schemaBundle.getDatabase()),
+                new CreatingDelegate(schemaBundle.getDatabase()),
+                schemaBundle.getDatabase().getIdentityHash(),
+                // we pass the same hash twice since an old schema does not necessarily have
+                // a legacy hash and we would not even persist it.
                 schemaBundle.getDatabase().getIdentityHash());
         return openDatabase(name, roomOpenHelper);
     }
@@ -131,7 +134,7 @@ public class LocalMigrationTestHelper extends TestWatcher {
      * @throws IllegalStateException If the schema validation fails.
      */
     public SupportSQLiteDatabase runMigrationsAndValidate(String name, int version,
-                                                          boolean validateDroppedTables, Migration... migrations) throws IOException {
+            boolean validateDroppedTables, Migration... migrations) throws IOException {
         File dbPath = mInstrumentation.getTargetContext().getDatabasePath(name);
         if (!dbPath.exists()) {
             throw new IllegalStateException("Cannot find the database file for " + name + ". "
@@ -143,9 +146,12 @@ public class LocalMigrationTestHelper extends TestWatcher {
         container.addMigrations(migrations);
         DatabaseConfiguration configuration = new DatabaseConfiguration(
                 mInstrumentation.getTargetContext(), name, mOpenFactory, container, null, true,
-                true);
+                RoomDatabase.JournalMode.TRUNCATE, true, Collections.<Integer>emptySet());
         RoomOpenHelper roomOpenHelper = new RoomOpenHelper(configuration,
                 new MigratingDelegate(schemaBundle.getDatabase(), validateDroppedTables),
+                // we pass the same hash twice since an old schema does not necessarily have
+                // a legacy hash and we would not even persist it.
+                schemaBundle.getDatabase().getIdentityHash(),
                 schemaBundle.getDatabase().getIdentityHash());
         return openDatabase(name, roomOpenHelper);
     }
@@ -334,6 +340,48 @@ public class LocalMigrationTestHelper extends TestWatcher {
                     cursor.close();
                 }
             }
+        }
+    }
+
+    static class CreatingDelegate extends RoomOpenHelperDelegate {
+
+        CreatingDelegate(DatabaseBundle databaseBundle) {
+            super(databaseBundle);
+        }
+
+        @Override
+        protected void createAllTables(SupportSQLiteDatabase database) {
+            for (String query : mDatabaseBundle.buildCreateQueries()) {
+                database.execSQL(query);
+            }
+        }
+
+        @Override
+        protected void validateMigration(SupportSQLiteDatabase db) {
+            throw new UnsupportedOperationException("This open helper just creates the database but"
+                    + " it received a migration request.");
+        }
+    }
+
+    abstract static class RoomOpenHelperDelegate extends RoomOpenHelper.Delegate {
+        final DatabaseBundle mDatabaseBundle;
+
+        RoomOpenHelperDelegate(DatabaseBundle databaseBundle) {
+            super(databaseBundle.getVersion());
+            mDatabaseBundle = databaseBundle;
+        }
+
+        @Override
+        protected void dropAllTables(SupportSQLiteDatabase database) {
+            throw new UnsupportedOperationException("cannot drop all tables in the test");
+        }
+
+        @Override
+        protected void onCreate(SupportSQLiteDatabase database) {
+        }
+
+        @Override
+        protected void onOpen(SupportSQLiteDatabase database) {
         }
     }
 }
