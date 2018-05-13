@@ -193,5 +193,7 @@ public class CardDaoTest {
 
         assertCollectionEquals(expectedType1, forType1);
         assertCollectionEquals(expectedType2, forType2);
+
+        database.close();
     }
 }

@@ -108,9 +108,11 @@ licenseReport {
 
 // The support library version
 final SUPPORT_LIBRARY_VERSION = '27.1.1'
-final AAC_VERSION = '1.1.0'
 
 dependencies {
+
+    final ROOM_VERSION = "1.1.0"
+    final LIFECYCLE_VERSION = "1.1.1"
 
     implementation project(':provider-contract')
 
@@ -125,17 +127,17 @@ dependencies {
     implementation "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
 
     // Android Architecture Components
-    implementation "android.arch.lifecycle:extensions:$AAC_VERSION"
-    annotationProcessor "android.arch.lifecycle:compiler:$AAC_VERSION"
-    testImplementation("android.arch.core:core-testing:$AAC_VERSION") {
+    implementation "android.arch.lifecycle:extensions:$LIFECYCLE_VERSION"
+    annotationProcessor "android.arch.lifecycle:compiler:$LIFECYCLE_VERSION"
+    testImplementation("android.arch.core:core-testing:$LIFECYCLE_VERSION") {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-core-utils'
     }
 
-    implementation "android.arch.persistence.room:runtime:1.0.0"
-    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
-    testImplementation("android.arch.persistence.room:testing:1.0.0") {
+    implementation "android.arch.persistence.room:runtime:$ROOM_VERSION"
+    annotationProcessor "android.arch.persistence.room:compiler:$ROOM_VERSION"
+    testImplementation("android.arch.persistence.room:testing:$ROOM_VERSION") {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-core-utils'
@@ -151,7 +153,7 @@ dependencies {
     implementation 'com.squareup.moshi:moshi:1.5.0'
 
     implementation 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.0.5'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
     implementation 'net.sourceforge.streamsupport:streamsupport:1.6.0'
     implementation 'com.github.streamsupport.streamsupport:streamsupport-pro:-SNAPSHOT'
     implementation 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
@@ -169,10 +171,10 @@ dependencies {
         exclude group: 'org.apache.oltu.oauth2'
     }
 
-    //noinspection GradleCompatible
+    //noinspection GradleCompatible  // until we move to a newer version of the gradle plugin
     implementation "com.google.android.gms:play-services-analytics:15.0.2"
-    implementation "com.google.android.gms:play-services-maps:15.0.0"
-    implementation "com.google.android.gms:play-services-auth:15.0.0"
+    implementation "com.google.android.gms:play-services-maps:15.0.1"
+    implementation "com.google.android.gms:play-services-auth:15.0.1"
 
     implementation 'com.google.firebase:firebase-core:15.0.2'
     implementation 'com.google.firebase:firebase-messaging:15.0.2'
