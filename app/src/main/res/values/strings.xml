@@ -149,6 +149,8 @@
     <string name="title_announcement_title">Aankondiging</string>
     <string name="logout">Afmelden</string>
     <string name="title_association_activity_detail">Vereniging</string>
+    <string name="article_date_and_category">%1$s - %2$s</string>
+    <string name="minerva_course_tutor_and_course">%1$s - %2$s</string>
 
     <string name="activity_title_minerva_course">Minerva-vak</string>
     <string name="activity_title_minerva_agenda">Agenda-item</string>
@@ -373,14 +375,17 @@
         <item quantity="one">%d aankondiging als gelezen gemarkeerd</item>
         <item quantity="other">%d aankondigingen als gelezen gemarkeerd</item>
     </plurals>
+    <string name="minerva_calendar_merge_warning">
+        Dit evenement is samengevoegd door de duplicatendetectie van Hydra. Als het evenement vreemd lijkt, is het
+        best om het nog eens na te kijken op de website of de optie uit te schakelen, aangezien deze functie
+        nog experimenteel is.
+    </string>
 
     <string name="pref_article_use_custom_tabs_desc">
         Open artikels in Chrome Custom Tabs. Als er geen internetverbinding is, zullen de artikels toch in de app geopend worden.
     </string>
 
-    <string name="pref_article_use_custom_tabs_title">
-        Gebruik Custom Tabs
-    </string>
+    <string name="pref_article_use_custom_tabs_title">Gebruik Custom Tabs</string>
     <string name="pref_header_article_title">Artikels</string>
     <string name="pref_header_article_desc">Opties voor de Schamper- en nieuwsartikels</string>
     <string name="share">Delen</string>

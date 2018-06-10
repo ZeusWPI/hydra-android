@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.minerva.course.list;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.MotionEvent;
@@ -27,6 +28,7 @@ class MinervaCourseViewHolder extends DataViewHolder<Pair<Course, Long>> impleme
     private final ImageView unreadCount;
     private final ResultStarter resultStarter;
     private final ImageView dragHandle;
+
 
     MinervaCourseViewHolder(View itemView, OnStartDragListener listener, SearchHelper searchHelper, ResultStarter starter) {
         super(itemView);
@@ -57,7 +59,8 @@ class MinervaCourseViewHolder extends DataViewHolder<Pair<Course, Long>> impleme
         Course course = data.first;
         name.setText(course.getTitle());
         final CharSequence tutor = Utils.fromHtml(course.getTutorName());
-        subtitle.setText(tutor + " - " + course.getCode());
+        Context c = subtitle.getContext();
+        subtitle.setText(c.getString(R.string.minerva_course_tutor_and_course, tutor, course.getCode()));
 
         //Set onclick listener
         itemView.setOnClickListener(view -> CourseActivity.startForResult(resultStarter, course, CourseActivity.Tab.ANNOUNCEMENTS));
