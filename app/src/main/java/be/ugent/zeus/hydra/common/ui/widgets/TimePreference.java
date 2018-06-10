@@ -38,8 +38,8 @@ public class TimePreference extends DialogPreference {
     public TimePreference(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         time = LocalTime.now();
-        setPositiveButtonText(R.string.set);
-        setNegativeButtonText(R.string.cancel);
+        setPositiveButtonText(android.R.string.ok);
+        setNegativeButtonText(android.R.string.cancel);
 
         //We do not want a title.
         setDialogTitle(null);

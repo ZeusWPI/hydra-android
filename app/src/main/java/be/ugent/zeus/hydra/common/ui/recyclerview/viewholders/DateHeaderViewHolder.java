@@ -25,6 +25,6 @@ public class DateHeaderViewHolder extends DataViewHolder<OffsetDateTime> {
 
     @Override
     public void populate(OffsetDateTime date) {
-        headerText.setText(DateUtils.getFriendlyDate(date.toLocalDate(), FormatStyle.LONG));
+        headerText.setText(DateUtils.getFriendlyDate(headerText.getContext(), date.toLocalDate(), FormatStyle.LONG));
     }
 }

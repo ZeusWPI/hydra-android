@@ -124,7 +124,7 @@ public class AgendaActivity extends BaseActivity {
             if (DateUtils.isFriendly(localStart.toLocalDate())) {
                 dayTime.setText(getString(
                         R.string.minerva_calendar_friendly_date,
-                        DateUtils.getFriendlyDate(localStart.toLocalDate()),
+                        DateUtils.getFriendlyDate(this, localStart.toLocalDate()),
                         localStart.format(DAY_FORMATTER)
                 ));
             } else {

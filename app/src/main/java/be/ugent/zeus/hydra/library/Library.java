@@ -13,6 +13,7 @@ import java8.util.stream.StreamSupport;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Model for a library.
@@ -27,6 +28,10 @@ public final class Library implements Serializable, Parcelable {
     private String email;
     private List<String> address;
     private String name;
+    @Json(name = "name_nl")
+    private String nameDutch;
+    @Json(name = "name_en")
+    private String nameEnglish;
     private String code;
     private List<String> telephone;
     @IntBoolean
@@ -64,7 +69,14 @@ public final class Library implements Serializable, Parcelable {
     }
 
     public String getName() {
-        return name;
+        Locale locale = Locale.getDefault();
+        if (locale.getLanguage().equals(Locale.ENGLISH.getLanguage()) && !TextUtils.isEmpty(nameEnglish)) {
+            return nameEnglish;
+        } else if (locale.getLanguage().equals(new Locale("nl").getLanguage()) && !TextUtils.isEmpty(nameDutch)) {
+            return nameDutch;
+        } else {
+            return name;
+        }
     }
 
     public String getCode() {
@@ -211,6 +223,8 @@ public final class Library implements Serializable, Parcelable {
         dest.writeString(this.faculty);
         dest.writeString(this.link);
         dest.writeByte(this.favourite ? (byte) 1 : (byte) 0);
+        dest.writeString(this.nameEnglish);
+        dest.writeString(this.nameDutch);
     }
 
     protected Library(Parcel in) {
@@ -231,6 +245,8 @@ public final class Library implements Serializable, Parcelable {
         this.faculty = in.readString();
         this.link = in.readString();
         this.favourite = in.readByte() != 0;
+        this.nameEnglish = in.readString();
+        this.nameDutch = in.readString();
     }
 
     public static final Creator<Library> CREATOR = new Creator<Library>() {

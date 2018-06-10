@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.feed.cards.implementations.minerva.calendar;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -31,8 +32,8 @@ public class MinervaAgendaViewHolder extends CardViewHolder {
         super.populate(card);
 
         final MinervaAgendaCard mCard = card.checkCard(Card.Type.MINERVA_AGENDA);
-
-        String titleS = itemView.getContext().getString(R.string.home_feed_agenda_title, DateUtils.getFriendlyDate(mCard.getDate()));
+        Context c = itemView.getContext();
+        String titleS = c.getString(R.string.home_feed_agenda_title, DateUtils.getFriendlyDate(c, mCard.getDate()));
         toolbar.setTitle(titleS);
 
         layout.removeAllViewsInLayout();

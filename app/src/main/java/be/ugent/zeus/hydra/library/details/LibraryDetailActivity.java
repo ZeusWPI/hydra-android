@@ -202,7 +202,7 @@ public class LibraryDetailActivity extends BaseActivity {
             TableRow tableRow = new TableRow(this);
             tableRow.setPadding(0, rowPadding, 0, rowPadding);
             TextView date = new TextView(this);
-            date.setText(DateUtils.getFriendlyDate(hours.getDate()));
+            date.setText(DateUtils.getFriendlyDate(this, hours.getDate()));
             TextView openHours = new TextView(this);
             openHours.setPadding(rowPadding, 0, 0, 0);
             openHours.setText(hours.getHours());

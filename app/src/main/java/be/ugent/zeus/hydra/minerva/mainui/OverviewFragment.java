@@ -85,7 +85,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
     private void onLoggedIn() {
         authWrapper.setVisibility(View.GONE);
         tabLayout.setVisibility(View.VISIBLE);
-        minervaPagerAdapter = new MinervaPagerAdapter(getChildFragmentManager());
+        minervaPagerAdapter = new MinervaPagerAdapter(getChildFragmentManager(), requireContext());
         minervaPagerAdapter.setLoggedIn(true);
         viewPager.setAdapter(minervaPagerAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

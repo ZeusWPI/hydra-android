@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.utils;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import be.ugent.zeus.hydra.R;
 import org.threeten.bp.*;
@@ -10,6 +11,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.threeten.bp.temporal.IsoFields;
+import org.threeten.bp.temporal.WeekFields;
 
 import java.util.Locale;
 
@@ -20,11 +22,9 @@ import java.util.Locale;
  */
 public class DateUtils {
 
-    private static final Locale locale = new Locale("nl");
     @VisibleForTesting
-    static final DateTimeFormatter DAY_FORMATTER = DateTimeFormatter.ofPattern("cccc", locale);
-    private static final DateTimeFormatter WEEK_FORMATTER = DateTimeFormatter.ofPattern("w", locale);
-    private static final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern("HH:mm", new Locale("nl"));
+    static final DateTimeFormatter DAY_FORMATTER = DateTimeFormatter.ofPattern("cccc");
+    private static final DateTimeFormatter WEEK_FORMATTER = DateTimeFormatter.ofPattern("w");
 
     private DateUtils() {
         // Utils.
@@ -33,8 +33,8 @@ public class DateUtils {
     /**
      * Get the date in friendly format.
      */
-    public static String getFriendlyDate(@NonNull LocalDate date) {
-        return getFriendlyDate(date, FormatStyle.MEDIUM);
+    public static String getFriendlyDate(Context context, @NonNull LocalDate date) {
+        return getFriendlyDate(context, date, FormatStyle.MEDIUM);
     }
 
     /**
@@ -52,7 +52,7 @@ public class DateUtils {
      *
      * @return A friendly representation of the date.
      */
-    public static String getFriendlyDate(@NonNull LocalDate date, FormatStyle formatStyle) {
+    public static String getFriendlyDate(Context context, @NonNull LocalDate date, FormatStyle formatStyle) {
 
         LocalDate today = LocalDate.now();
 
@@ -63,17 +63,17 @@ public class DateUtils {
         DateTimeFormatter dateFormatter = getDateFormatterForStyle(formatStyle);
 
         if (daysBetween == 0) {
-            return "vandaag";
+            return context.getString(R.string.date_today);
         } else if (daysBetween == 1) {
-            return "morgen";
+            return context.getString(R.string.date_tomorrow);
         } else if (daysBetween == 2) {
-            return "overmorgen";
+            return context.getString(R.string.date_overmorrow);
         } else if (daysBetween < 0) {
             return dateFormatter.format(date);
         } else if (daysBetween < 7) {
             return DAY_FORMATTER.format(date).toLowerCase();
         } else if (week == thisWeek + 1) {
-            return "volgende " + DAY_FORMATTER.format(date).toLowerCase();
+            return context.getString(R.string.date_next_x, DAY_FORMATTER.format(date).toLowerCase());
         } else {
             return dateFormatter.format(date);
         }
@@ -81,11 +81,11 @@ public class DateUtils {
 
     @VisibleForTesting
     static DateTimeFormatter getDateFormatterForStyle(FormatStyle style) {
-        return DateTimeFormatter.ofLocalizedDate(style).withLocale(locale);
+        return DateTimeFormatter.ofLocalizedDate(style);
     }
 
     /**
-     * Check if for a given date, the {@link #getFriendlyDate(LocalDate)} would return a friendly date or not.
+     * Check if for a given date, the {@link #getFriendlyDate(Context, LocalDate)} would return a friendly date or not.
      *
      * @param date The date to check.
      *
@@ -176,6 +176,8 @@ public class DateUtils {
         LocalDateTime localStart = DateUtils.toLocalDateTime(start);
         LocalDateTime localEnd = DateUtils.toLocalDateTime(end);
 
+        final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern(context.getString(R.string.formatter_general_hour_only));
+
         if (start.isBefore(now) && end.isAfter(now)) {
             long epochMillis = end.toInstant().toEpochMilli();
             String endString;
@@ -193,7 +195,7 @@ public class DateUtils {
         }
 
         if (start.getDayOfMonth() == end.getDayOfMonth()) {
-            return localStart.format(HOUR_FORMATTER) + " tot " + localEnd.format(HOUR_FORMATTER);
+            return context.getString(R.string.date_between, localStart.format(HOUR_FORMATTER), localEnd.format(HOUR_FORMATTER));
         } else {
             return android.text.format.DateUtils.formatDateRange(
                     context,

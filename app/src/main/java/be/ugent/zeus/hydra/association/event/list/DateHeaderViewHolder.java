@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.association.event.list;
 
+import android.content.Context;
 import android.support.annotation.VisibleForTesting;
 import android.view.View;
 import android.widget.TextView;
@@ -26,12 +27,12 @@ class DateHeaderViewHolder extends DataViewHolder<EventItem> {
 
     @Override
     public void populate(EventItem eventItem) {
-        headerText.setText(formatDate(eventItem.getHeader()));
+        headerText.setText(formatDate(headerText.getContext(), eventItem.getHeader()));
     }
 
     @VisibleForTesting
-    static String formatDate(LocalDate localDate) {
-        String date = DateUtils.getFriendlyDate(localDate, FormatStyle.LONG);
+    static String formatDate(Context context, LocalDate localDate) {
+        String date = DateUtils.getFriendlyDate(context, localDate, FormatStyle.LONG);
         date = date.substring(0, 1).toUpperCase() + date.substring(1);
         return date;
     }

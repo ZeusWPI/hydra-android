@@ -3,13 +3,14 @@ package be.ugent.zeus.hydra.resto.history;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import org.threeten.bp.LocalDate;
+
+import java.util.Locale;
+
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
-import org.threeten.bp.LocalDate;
-
-import java.util.Locale;
 
 
 /**

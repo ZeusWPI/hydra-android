@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.association.event.list;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -7,6 +8,7 @@ import be.ugent.zeus.hydra.R;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
@@ -24,7 +26,8 @@ public class DateHeaderViewHolderTest {
         DateHeaderViewHolder viewHolder = new DateHeaderViewHolder(view);
         EventItem item = generate(EventItem.class);
 
-        String expectedDate = DateHeaderViewHolder.formatDate(item.getHeader());
+        Context c = RuntimeEnvironment.application;
+        String expectedDate = DateHeaderViewHolder.formatDate(c, item.getHeader());
 
         viewHolder.populate(item);
         TextView textView = view.findViewById(R.id.date_header);

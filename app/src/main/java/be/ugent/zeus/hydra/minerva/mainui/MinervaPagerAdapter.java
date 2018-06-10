@@ -1,9 +1,11 @@
 package be.ugent.zeus.hydra.minerva.mainui;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.AdapterOutOfBoundsException;
 import be.ugent.zeus.hydra.minerva.announcement.unreadlist.UnreadAnnouncementsFragment;
 import be.ugent.zeus.hydra.minerva.course.list.CourseListFragment;
@@ -14,9 +16,11 @@ import be.ugent.zeus.hydra.minerva.course.list.CourseListFragment;
 class MinervaPagerAdapter extends FragmentStatePagerAdapter {
 
     private boolean isLoggedIn;
+    private Context context;
 
-    MinervaPagerAdapter(FragmentManager fm) {
+    MinervaPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
+        this.context = context.getApplicationContext();
     }
 
     public void setLoggedIn(boolean isLoggedIn) {
@@ -40,9 +44,9 @@ class MinervaPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Vakken";
+                return context.getString(R.string.minerva_main_tab_courses);
             case 1:
-                return "Ongelezen aankondigingen";
+                return context.getString(R.string.minerva_main_tab_announcements);
             default:
                 throw new AdapterOutOfBoundsException(position, getCount());
         }

@@ -123,7 +123,7 @@ public class RestoFragment extends Fragment implements
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        pageAdapter = new MenuPagerAdapter(getChildFragmentManager());
+        pageAdapter = new MenuPagerAdapter(getChildFragmentManager(), requireContext());
 
         // Set up the ViewPager with the sections adapter.
         viewPager = view.findViewById(R.id.resto_tabs_content);

@@ -1,6 +1,11 @@
 package be.ugent.zeus.hydra.utils;
 
+import android.content.Context;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.threeten.bp.*;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
@@ -11,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Niko Strijbol
  */
+@RunWith(RobolectricTestRunner.class)
 public class DateUtilsTest {
 
     @Test
@@ -28,14 +34,16 @@ public class DateUtilsTest {
 
         DateTimeFormatter formatter = getDateFormatterForStyle(FormatStyle.MEDIUM);
 
+        Context c = RuntimeEnvironment.application;
+
         //Assert correct results
-        assertEquals("vandaag", DateUtils.getFriendlyDate(today));
-        assertEquals("morgen", DateUtils.getFriendlyDate(tomorrow));
-        assertEquals("overmorgen", DateUtils.getFriendlyDate(overmorrow));
-        assertEquals(formatter.format(yesterday), DateUtils.getFriendlyDate(yesterday));
-        assertEquals(DAY_FORMATTER.format(thisWeek).toLowerCase(), DateUtils.getFriendlyDate(thisWeek));
-        assertEquals(formatter.format(far), DateUtils.getFriendlyDate(far));
-        assertEquals(formatter.format(exact), DateUtils.getFriendlyDate(exact));
+        assertEquals("vandaag", DateUtils.getFriendlyDate(c, today));
+        assertEquals("morgen", DateUtils.getFriendlyDate(c, tomorrow));
+        assertEquals("overmorgen", DateUtils.getFriendlyDate(c, overmorrow));
+        assertEquals(formatter.format(yesterday), DateUtils.getFriendlyDate(c, yesterday));
+        assertEquals(DAY_FORMATTER.format(thisWeek).toLowerCase(), DateUtils.getFriendlyDate(c, thisWeek));
+        assertEquals(formatter.format(far), DateUtils.getFriendlyDate(c, far));
+        assertEquals(formatter.format(exact), DateUtils.getFriendlyDate(c, exact));
     }
 
     @Test
@@ -47,19 +55,20 @@ public class DateUtilsTest {
         LocalDate overmorrow = today.plusDays(2);
         LocalDate yesterday = today.minusDays(1);
         LocalDate thisWeek = today.plusDays(6);
-        LocalDate nextWeek = today.plusDays(8);
         LocalDate far = today.plusDays(50);
         LocalDate exact = today.plusMonths(1);
 
         DateTimeFormatter formatter = getDateFormatterForStyle(FormatStyle.LONG);
 
+        Context c = RuntimeEnvironment.application;
+
         //Assert correct results
-        assertEquals("vandaag", DateUtils.getFriendlyDate(today, FormatStyle.LONG));
-        assertEquals("morgen", DateUtils.getFriendlyDate(tomorrow, FormatStyle.LONG));
-        assertEquals("overmorgen", DateUtils.getFriendlyDate(overmorrow, FormatStyle.LONG));
-        assertEquals(formatter.format(yesterday), DateUtils.getFriendlyDate(yesterday, FormatStyle.LONG));
-        assertEquals(DAY_FORMATTER.format(thisWeek).toLowerCase(), DateUtils.getFriendlyDate(thisWeek, FormatStyle.LONG));
-        assertEquals(formatter.format(far), DateUtils.getFriendlyDate(far, FormatStyle.LONG));
-        assertEquals(formatter.format(exact), DateUtils.getFriendlyDate(exact, FormatStyle.LONG));
+        assertEquals("vandaag", DateUtils.getFriendlyDate(c, today, FormatStyle.LONG));
+        assertEquals("morgen", DateUtils.getFriendlyDate(c, tomorrow, FormatStyle.LONG));
+        assertEquals("overmorgen", DateUtils.getFriendlyDate(c, overmorrow, FormatStyle.LONG));
+        assertEquals(formatter.format(yesterday), DateUtils.getFriendlyDate(c, yesterday, FormatStyle.LONG));
+        assertEquals(DAY_FORMATTER.format(thisWeek).toLowerCase(), DateUtils.getFriendlyDate(c, thisWeek, FormatStyle.LONG));
+        assertEquals(formatter.format(far), DateUtils.getFriendlyDate(c, far, FormatStyle.LONG));
+        assertEquals(formatter.format(exact), DateUtils.getFriendlyDate(c, exact, FormatStyle.LONG));
     }
 }
