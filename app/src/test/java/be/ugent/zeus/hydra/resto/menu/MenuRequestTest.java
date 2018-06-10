@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.resto.menu;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -45,7 +46,9 @@ public class MenuRequestTest extends AbstractJsonRequestTest<List<RestoMenu>> {
     @Test
     public void testDefaultUrl() {
         MenuRequest request = new MenuRequest(RuntimeEnvironment.application);
-        String expected = String.format(MenuRequest.OVERVIEW_URL, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
+        Context context = RuntimeEnvironment.application;
+        String defaultResto = RestoPreferenceFragment.getDefaultResto(context);
+        String expected = String.format(MenuRequest.OVERVIEW_URL, defaultResto);
         Assert.assertEquals(expected, request.getAPIUrl());
     }
 

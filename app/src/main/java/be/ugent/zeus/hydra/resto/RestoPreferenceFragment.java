@@ -1,6 +1,8 @@
 package be.ugent.zeus.hydra.resto;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
@@ -24,7 +26,6 @@ public class RestoPreferenceFragment extends PreferenceFragment {
      * The name of the chosen resto. We keep this saved, as we then don't have to access to full file every time.
      */
     public static final String PREF_RESTO_NAME = "pref_resto_choice_name";
-    public static final String PREF_DEFAULT_RESTO = "nl-debrug";
 
     public static final String DEFAULT_CLOSING_TIME = "21:00";
     public static final String PREF_RESTO_CLOSING_HOUR = "pref_resto_closing_hour";
@@ -47,5 +48,14 @@ public class RestoPreferenceFragment extends PreferenceFragment {
     public void onResume() {
         super.onResume();
         HydraApplication.getApplication(getActivity()).sendScreenName("Settings > Resto");
+    }
+
+    public static String getDefaultResto(Context context) {
+        return context.getString(R.string.value_resto_default_endpoint);
+    }
+
+    public static String getRestoEndpoint(Context context, SharedPreferences preferences) {
+        String defaultResto = getDefaultResto(context);
+        return preferences.getString(PREF_RESTO_KEY, defaultResto);
     }
 }

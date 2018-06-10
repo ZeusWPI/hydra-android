@@ -33,7 +33,7 @@ public class SelectedResto {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         String selectedKey;
         if (selected == null) {
-            selectedKey = preferences.getString(RestoPreferenceFragment.PREF_RESTO_KEY, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
+            selectedKey = RestoPreferenceFragment.getRestoEndpoint(context, preferences);
         } else {
             selectedKey = selected.getEndpoint();
         }
@@ -51,7 +51,8 @@ public class SelectedResto {
         selectedIndex = receivedRestos.indexOf(selectedChoice);
         if (selectedIndex == -1) {
             // The key does not exist.
-            RestoChoice defaultChoice = new RestoChoice(RestoPreferenceFragment.PREF_DEFAULT_RESTO, defaultName);
+            String defaultRestoEndpoint = RestoPreferenceFragment.getDefaultResto(context);
+            RestoChoice defaultChoice = new RestoChoice(defaultRestoEndpoint, defaultName);
             selectedIndex = receivedRestos.indexOf(defaultChoice);
         }
     }
