@@ -22,7 +22,7 @@ import java.util.Locale;
 public class MenuRequest extends JsonArrayRequest<RestoMenu> {
 
     @VisibleForTesting
-    public static final String OVERVIEW_URL = Endpoints.ZEUS_V2 + "resto/menu/%s/overview.json";
+    static final String OVERVIEW_URL = Endpoints.ZEUS_V2 + "resto/menu/%s/overview.json";
 
     private final SharedPreferences preferences;
     private final Context context;
