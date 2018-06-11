@@ -16,5 +16,5 @@
 		android:id="@+id/resto_show_website"
 		android:orderInCategory="100"
 		app:showAsAction="never"
-		android:title="@string/resto_show_website" />
+		android:title="@string/action_view_website" />
 </menu>

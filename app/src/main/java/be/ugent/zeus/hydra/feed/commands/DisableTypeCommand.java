@@ -48,12 +48,12 @@ public class DisableTypeCommand implements FeedCommand {
     @Override
     @StringRes
     public int getCompleteMessage() {
-        return R.string.home_feed_card_type_hidden;
+        return R.string.feed_card_hidden_type;
     }
 
     @Override
     @StringRes
     public int getUndoMessage() {
-        return R.string.home_feed_undone;
+        return R.string.feed_card_undone;
     }
 }

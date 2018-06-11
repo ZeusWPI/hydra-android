@@ -2,28 +2,28 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<PreferenceCategory
-		android:title="@string/pref_resto_closing_hour">
+		android:title="@string/resto_pref_closing_hour_category_title">
 
         <Preference
-            android:summary="@string/pref_resto_closing_description"
+            android:summary="@string/resto_pref_closing_description"
             android:persistent="false"
             android:selectable="false" />
 
         <be.ugent.zeus.hydra.common.ui.widgets.TimePreference
             android:key="pref_resto_closing_hour"
-            android:summary="@string/pref_resto_closing_description"
-            android:title="@string/pref_resto_closing_title"
+            android:summary="@string/resto_pref_closing_description"
+            android:title="@string/resto_pref_closing_title"
             android:defaultValue="21:00" />
 
 	</PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/pref_resto_choice">
+        android:title="@string/resto_pref_choice">
 
 	    <Preference
             android:key="pref_choice_resto_select"
-		    android:title="@string/pref_resto_choice"
-		    android:summary="@string/pref_resto_choice_title"
+		    android:title="@string/resto_pref_choice"
+		    android:summary="@string/resto_pref_choice_title"
 		    android:persistent="false" />
 
     </PreferenceCategory>

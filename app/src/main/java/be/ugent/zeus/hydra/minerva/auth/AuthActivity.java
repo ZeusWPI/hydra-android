@@ -89,7 +89,7 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
         Bundle bundle = getIntent().getExtras();
 
         if (bundle == null) {
-            Toast.makeText(this, R.string.unrecoverable_error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.minerva_auth_error, Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -100,7 +100,7 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
         manager = AccountManager.get(this);
 
         //Launch custom tab
-        progressMessage.setText(getString(R.string.auth_progress_prepare));
+        progressMessage.setText(getString(R.string.minerva_auth_progress_prepare));
         customTabActivityHelper = CustomTabsHelper.initHelper(this, false, this);
         customTabActivityHelper.setIntentFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         customTabActivityHelper.mayLaunchUrl(Uri.parse(AccountUtils.getRequestUri()), null, null);
@@ -150,7 +150,7 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
             // Successful authorization: send the code and event.
             if (errorParameter == null) {
                 InfoTask task = new InfoTask();
-                progressMessage.setText(getString(R.string.auth_progress_information));
+                progressMessage.setText(getString(R.string.minerva_auth_progress_information));
                 task.execute(uri.getQueryParameter("code"));
             }
             // failed authorization
@@ -165,21 +165,21 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
     }
 
     private void finishOK(Intent intent) {
-        progressMessage.setText(getString(R.string.auth_progress_done));
+        progressMessage.setText(getString(R.string.minerva_auth_progress_done));
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
         finishUp();
     }
 
     private void finishWithError() {
-        progressMessage.setText(getString(R.string.auth_progress_failure));
+        progressMessage.setText(getString(R.string.minerva_auth_progress_failure));
         setAccountAuthenticatorResult(null);
         finishUp();
     }
 
     @Override
     public void onCustomTabsConnected(ActivityHelper activityHelper) {
-        progressMessage.setText(getString(R.string.auth_progress_permission));
+        progressMessage.setText(getString(R.string.minerva_auth_progress_permission));
         if (!launched) {
             activityHelper.openCustomTab(Uri.parse(AccountUtils.getRequestUri()));
             launched = true;

@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:text="@string/name_minerva" />
+            android:text="@string/minerva_login_title" />
 
         <ImageView
             android:layout_width="100dp"
@@ -35,13 +35,13 @@
             android:paddingLeft="@dimen/vertical_padding"
             android:paddingRight="@dimen/vertical_padding"
             android:gravity="center"
-            android:text="@string/need_auth"
+            android:text="@string/minerva_login_description"
             android:paddingBottom="16dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/minerva_authorize"
+            android:text="@string/minerva_login_authorize"
             android:id="@+id/authorize" />
 
     </LinearLayout>

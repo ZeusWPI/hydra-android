@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/pref_minerva_category_account_title">
+    <PreferenceCategory android:title="@string/minerva_pref_account_category_title">
         <PreferenceScreen
             android:key="account_settings"
             android:persistent="false"
-            android:summary="@string/pref_minerva_account_management_desc"
-            android:title="@string/pref_minerva_account_management_title" />
+            android:summary="@string/minerva_pref_account_management_desc"
+            android:title="@string/minerva_pref_account_management_title" />
 
         <ListPreference
             android:defaultValue="86400"
             android:entries="@array/minerva_frequencies_text"
             android:entryValues="@array/minerva_frequencies_seconds"
             android:key="pref_minerva_sync_announcement_frequency"
-            android:summary="@string/pref_minerva_sync_time_desc"
-            android:title="@string/pref_minerva_sync_time_title" />
+            android:summary="@string/minerva_pref_sync_time_desc"
+            android:title="@string/minerva_pref_sync_time_title" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_minerva_category_notification_title">
+    <PreferenceCategory android:title="@string/minerva_pref_category_notification_title">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="pref_minerva_announcement_notification"
-            android:summary="@string/pref_minerva_announcements_desc"
-            android:title="@string/pref_minerva_announcements_title" />
+            android:summary="@string/minerva_pref_announcements_desc"
+            android:title="@string/minerva_pref_announcements_title" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_minerva_announcement_notification_email"
-            android:summary="@string/pref_minerva_announcements_mail_desc"
-            android:title="@string/pref_minerva_announcements_mail_title" />
+            android:summary="@string/minerva_pref_announcements_mail_desc"
+            android:title="@string/minerva_pref_announcements_mail_title" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_minerva_category_calendar_title">
+    <PreferenceCategory android:title="@string/minerva_pref_category_calendar_title">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_minerva_prefix_event_titles"
-            android:summary="@string/pref_minerva_calendar_add_course_desc"
-            android:title="@string/pref_minerva_calendar_add_course_title" />
+            android:summary="@string/minerva_pref_calendar_add_course_desc"
+            android:title="@string/minerva_pref_calendar_add_course_title" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="pref_minerva_prefix_event_acronym"
-            android:summary="@string/pref_minerva_calendar_prefix_desc"
-            android:title="@string/pref_minerva_calendar_prefix_title" />
+            android:summary="@string/minerva_pref_calendar_prefix_desc"
+            android:title="@string/minerva_pref_calendar_prefix_title" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_minerva_category_duplicates_title">
+    <PreferenceCategory android:title="@string/minerva_pref_category_duplicates_title">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_minerva_detect_duplicates"
-            android:summary="@string/pref_minerva_duplicates_detect_desc"
-            android:title="@string/pref_minerva_duplicates_detect_title" />
+            android:summary="@string/minerva_pref_duplicates_detect_desc"
+            android:title="@string/minerva_pref_duplicates_detect_title" />
 
         <Preference
             android:persistent="false"
-            android:summary="@string/pref_minerva_duplicates_explanation_desc"
-            android:title="@string/pref_minerva_duplicates_explanation_title" />
+            android:summary="@string/minerva_pref_duplicates_explanation_desc"
+            android:title="@string/minerva_pref_duplicates_explanation_title" />
 
         <Preference
             android:persistent="false"
-            android:summary="@string/pref_minerva_duplicates_rationale_desc"
-            android:title="@string/pref_minerva_duplicates_rationale_title" />
+            android:summary="@string/minerva_pref_duplicates_rationale_desc"
+            android:title="@string/minerva_pref_duplicates_rationale_title" />
     </PreferenceCategory>
 
 </PreferenceScreen>

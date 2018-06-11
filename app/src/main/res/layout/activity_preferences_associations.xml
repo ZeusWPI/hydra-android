@@ -38,7 +38,7 @@
                     android:paddingRight="@dimen/activity_vertical_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/choose_associations"/>
+                    android:text="@string/event_pref_choose_associations_desc"/>
 
                 <android.support.v7.widget.SearchView
                     app:iconifiedByDefault="false"

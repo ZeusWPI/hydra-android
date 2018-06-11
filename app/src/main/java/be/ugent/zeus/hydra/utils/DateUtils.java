@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.utils;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
 import be.ugent.zeus.hydra.R;
 import org.threeten.bp.*;
@@ -11,9 +10,6 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.threeten.bp.temporal.IsoFields;
-import org.threeten.bp.temporal.WeekFields;
-
-import java.util.Locale;
 
 /**
  * Date utilities.
@@ -191,7 +187,7 @@ public class DateUtils {
                 );
             }
 
-            return context.getString(R.string.new_until, endString);
+            return context.getString(R.string.date_now_until, endString);
         }
 
         if (start.getDayOfMonth() == end.getDayOfMonth()) {

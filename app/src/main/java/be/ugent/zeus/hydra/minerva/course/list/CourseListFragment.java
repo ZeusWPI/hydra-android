@@ -92,7 +92,7 @@ public class CourseListFragment extends Fragment implements OnStartDragListener 
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(this), getString(R.string.error_network), Snackbar.LENGTH_LONG)
                 .show();
     }
 

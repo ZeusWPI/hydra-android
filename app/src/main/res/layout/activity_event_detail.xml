@@ -155,7 +155,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingRight="@dimen/content_spacing"
-                                android:text="@string/from" />
+                                android:text="@string/event_detail_from" />
 
                             <TextView
                                 android:layout_gravity="center_vertical"
@@ -169,7 +169,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingRight="@dimen/content_spacing"
-                                android:text="@string/to" />
+                                android:text="@string/event_detail_to" />
 
                             <TextView
                                 android:paddingTop="4dp"
@@ -252,7 +252,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/Subhead"
-                        android:text="@string/description"
+                        android:text="@string/event_detail_description_title"
                         android:gravity="center_vertical" />
 
                     <TextView
@@ -260,7 +260,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/description"
                         android:paddingBottom="@dimen/content_spacing"
-                        android:text="@string/no_description"
+                        android:text="@string/event_detail_no_description"
                         android:textIsSelectable="true"
                         style="@style/Hydra.LongText"/>
 

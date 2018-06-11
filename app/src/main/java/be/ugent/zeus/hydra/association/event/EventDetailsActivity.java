@@ -97,12 +97,12 @@ public class EventDetailsActivity extends BaseActivity {
             if (event.hasLocation()) {
                 location.setText(event.getLocation());
             } else {
-                location.setText(getString(R.string.events_unnamed_precise_location, event.getLatitude(), event.getLongitude()));
+                location.setText(getString(R.string.event_detail_precise_location, event.getLatitude(), event.getLongitude()));
             }
             // Make location clickable
             findViewById(R.id.location_row).setOnClickListener(view -> NetworkUtils.maybeLaunchIntent(this, getLocationIntent()));
         } else {
-            location.setText(R.string.events_no_location);
+            location.setText(R.string.event_detail_no_location);
         }
 
         TextView startTime = findViewById(R.id.time_start);
@@ -113,7 +113,7 @@ public class EventDetailsActivity extends BaseActivity {
         if (event.getLocalEnd() != null) {
             endTime.setText(event.getLocalEnd().format(format));
         } else {
-            endTime.setText(R.string.date_unknown);
+            endTime.setText(R.string.event_detail_date_unknown);
         }
 
         if (event.getAssociation() != null && event.getAssociation().getImageLink() != null) {

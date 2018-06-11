@@ -7,11 +7,11 @@
         android:id="@+id/sko_visit_website"
         android:orderInCategory="100"
         android:icon="@drawable/ic_open_in_browser"
-        android:title="@string/menu_sko_view_website"
+        android:title="@string/action_view_website"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+        android:title="@string/action_view_settings"
         android:orderInCategory="110"
         app:showAsAction="never" />
 </menu>

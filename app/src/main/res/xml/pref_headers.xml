@@ -4,12 +4,12 @@
     <!-- Home screen -->
     <header
         android:fragment="be.ugent.zeus.hydra.feed.preferences.HomeFragment"
-        android:title="@string/pref_home_title"
-        android:summary="@string/pref_home_feed_description" />
+        android:title="@string/pref_overview_feed_title"
+        android:summary="@string/pref_overview_feed_desc" />
 
     <header
-        android:title="@string/pref_activities_title"
-        android:summary="@string/pref_activities_description">
+        android:title="@string/pref_overview_activities_title"
+        android:summary="@string/pref_overview_activities_desc">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="be.ugent.zeus.hydra"
@@ -19,36 +19,36 @@
     <!-- Resto -->
     <header
         android:fragment="be.ugent.zeus.hydra.resto.RestoPreferenceFragment"
-        android:title="@string/pref_resto_title"
-        android:summary="@string/pref_resto_description" />
+        android:title="@string/pref_overview_resto_title"
+        android:summary="@string/pref_overview_resto_desc" />
 
     <!-- Minerva -->
     <header
         android:fragment="be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment"
-        android:title="@string/pref_minerva_title"
-        android:summary="@string/pref_minerva_description" />
+        android:title="@string/pref_overview_minerva_title"
+        android:summary="@string/pref_overview_minerva_desc" />
 
     <!-- News -->
     <header
         android:fragment="be.ugent.zeus.hydra.association.news.ArticlePreferenceFragment"
-        android:title="@string/pref_header_article_title"
-        android:summary="@string/pref_header_article_desc" />
+        android:title="@string/pref_overview_article_title"
+        android:summary="@string/pref_overview_article_desc" />
 
     <!-- Theme -->
     <header
         android:fragment="be.ugent.zeus.hydra.theme.ThemePreferenceFragment"
-        android:title="@string/pref_header_theme_title"
-        android:summary="@string/pref_header_theme_desc" />
+        android:title="@string/pref_overview_theme_title"
+        android:summary="@string/pref_overview_theme_desc" />
 
     <!-- SKO -->
     <header
         android:fragment="be.ugent.zeus.hydra.sko.preferences.SkoPreferencesFragment"
-        android:title="@string/pref_notifications_sko_title"
-        android:summary="@string/pref_sko_description" />
+        android:title="@string/pref_overview_sko_title"
+        android:summary="@string/pref_overview_sko_desc" />
 
     <!-- About -->
     <header
         android:fragment="be.ugent.zeus.hydra.common.preferences.AboutFragment"
-        android:title="@string/pref_about_header_title"
-        android:summary="@string/pref_about_header_summary" />
+        android:title="@string/pref_overview_about_title"
+        android:summary="@string/pref_overview_about_desc" />
 </preference-headers>

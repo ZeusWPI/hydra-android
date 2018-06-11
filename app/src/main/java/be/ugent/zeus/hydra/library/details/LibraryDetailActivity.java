@@ -149,7 +149,7 @@ public class LibraryDetailActivity extends BaseActivity {
         TextView phone = findViewById(R.id.library_phone_row_text);
         String phoneString = library.getPhones();
         if (TextUtils.isEmpty(phoneString)) {
-            phone.setText(R.string.library_no_phone);
+            phone.setText(R.string.library_detail_no_phone);
         } else {
             phone.setText(phoneString);
             LinkifyCompat.addLinks(phone, Linkify.PHONE_NUMBERS);
@@ -290,7 +290,7 @@ public class LibraryDetailActivity extends BaseActivity {
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(findViewById(android.R.id.content), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.error_network), Snackbar.LENGTH_LONG)
                 .show();
     }
 }

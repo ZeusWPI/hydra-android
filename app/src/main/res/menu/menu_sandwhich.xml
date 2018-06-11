@@ -5,7 +5,7 @@
         android:orderInCategory="100"
         android:icon="@drawable/ic_open_in_browser"
         app:showAsAction="ifRoom"
-        android:title="@string/resto_show_website" />
+        android:title="@string/action_view_website" />
     <item
         android:id="@+id/action_refresh"
         android:orderInCategory="100"

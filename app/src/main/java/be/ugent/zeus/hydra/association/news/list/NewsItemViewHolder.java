@@ -50,7 +50,7 @@ class NewsItemViewHolder extends DataViewHolder<UgentNewsItem> {
             );
         }
 
-        String infoText = itemView.getContext().getString(R.string.agenda_subtitle,
+        String infoText = itemView.getContext().getString(R.string.deprecated_dot_seperated,
                 dateString,
                 author);
         info.setText(infoText);

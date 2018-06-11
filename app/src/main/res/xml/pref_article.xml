@@ -3,7 +3,7 @@
 
 	<CheckBoxPreference
 		android:key="pref_article_use_custom_tabs"
-		android:summary="@string/pref_article_use_custom_tabs_desc"
-		android:title="@string/pref_article_use_custom_tabs_title"
+		android:summary="@string/article_pref_use_custom_tabs_desc"
+		android:title="@string/article_pref_use_custom_tabs_title"
 		android:defaultValue="true" />
 </PreferenceScreen>

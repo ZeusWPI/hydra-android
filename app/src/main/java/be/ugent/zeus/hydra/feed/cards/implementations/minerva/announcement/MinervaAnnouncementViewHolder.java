@@ -50,7 +50,7 @@ public class MinervaAnnouncementViewHolder extends CardViewHolder {
         MinervaAnnouncementsCard mCard = card.checkCard(Card.Type.MINERVA_ANNOUNCEMENT);
         Context context = itemView.getContext();
 
-        toolbar.setTitle(context.getString(R.string.home_feed_card_announcement_title, mCard.getCourse().getTitle()));
+        toolbar.setTitle(context.getString(R.string.feed_announcement_single_title, mCard.getCourse().getTitle()));
 
         layout.removeAllViewsInLayout();
 
@@ -63,7 +63,7 @@ public class MinervaAnnouncementViewHolder extends CardViewHolder {
             Announcement announcement = mCard.getAnnouncements().get(i);
 
             title.setText(announcement.getTitle());
-            String infoText = itemView.getContext().getString(R.string.agenda_subtitle,
+            String infoText = itemView.getContext().getString(R.string.deprecated_dot_seperated,
                     DateUtils.relativeDateTimeString(announcement.getDate(), itemView.getContext(), false),
                     announcement.getLecturer());
             subtitle.setText(infoText);
@@ -81,7 +81,7 @@ public class MinervaAnnouncementViewHolder extends CardViewHolder {
             textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
             int remainingAnnouncements = mCard.getAnnouncements().size() - MAX_DISPLAYED;
-            textView.setText(itemView.getResources().getQuantityString(R.plurals.home_feed_card_announcement_more, remainingAnnouncements, remainingAnnouncements));
+            textView.setText(itemView.getResources().getQuantityString(R.plurals.feed_announcement_view_more, remainingAnnouncements, remainingAnnouncements));
             textView.setPadding(0, convertDpToPixelInt(16, context), 0, 0);
             layout.addView(textView);
         }

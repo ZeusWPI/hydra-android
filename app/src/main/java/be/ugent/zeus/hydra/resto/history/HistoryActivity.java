@@ -112,7 +112,7 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
         setTitle(R.string.resto_history_error);
         errorView.setVisibility(View.VISIBLE);
         if (throwable instanceof IOFailureException) {
-            errorView.setText(R.string.no_network);
+            errorView.setText(R.string.error_network);
         } else {
             errorView.setText(getString(R.string.resto_history_not_found, DateUtils.getFriendlyDate(this, localDate)));
         }

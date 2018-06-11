@@ -3,11 +3,11 @@
 
     <item
         android:id="@+id/action_sync_all"
-        android:title="@string/minerva_action_sync_all"
+        android:title="@string/action_sync"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_logout"
-        android:title="@string/logout"
+        android:title="@string/action_logout"
         app:showAsAction="never" />
 </menu>

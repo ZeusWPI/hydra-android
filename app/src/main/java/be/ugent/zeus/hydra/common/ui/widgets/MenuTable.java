@@ -245,17 +245,17 @@ public class MenuTable extends TableLayout {
         setColumnShrinkable(1, true);
 
         if (!menu.isOpen()) {
-            createTitle(getContext().getString(R.string.resto_closed), false);
+            createTitle(getContext().getString(R.string.resto_menu_not_available), false);
             return;
         }
 
         if (mode == ALL) {
             //Add actual menu data
-            createTitle(getContext().getString(R.string.resto_main_dish));
+            createTitle(getContext().getString(R.string.resto_menu_main_dish));
             makeTableDishes(menu.getMainDishes());
-            createTitle(getContext().getString(R.string.resto_side_dish));
+            createTitle(getContext().getString(R.string.resto_menu_side_dish));
             makeTableDishes(menu.getSideDishes());
-            createTitle(getContext().getString(R.string.vegetables));
+            createTitle(getContext().getString(R.string.resto_menu_vegetables));
             makeVegetables(menu.getVegetables());
             //Add date data
             createTitle(String.format(getContext().getString(R.string.resto_menu_date), menu.getDate().toString()), false);

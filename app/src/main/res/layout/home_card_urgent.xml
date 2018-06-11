@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:icon="@drawable/tabs_urgent"
-            app:title="@string/title_home_urgent"
+            app:title="@string/drawer_title_urgent"
             app:menu="@menu/now_toolbar_urgent" />
 
         <LinearLayout
@@ -45,7 +45,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/urgent_card_go_to_player"/>
+                    android:text="@string/feed_urgent_player_desc"/>
             </LinearLayout>
 
             <ImageView

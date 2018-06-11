@@ -3,5 +3,5 @@
     <!-- This is for card types that have only one instance -->
     <item
         android:id="@+id/menu_hide_type"
-        android:title="@string/card_title_hide_single_type" />
+        android:title="@string/feed_card_hide_single_type" />
 </menu>

@@ -86,7 +86,7 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
                 Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
                 onAccountCreated();
             } catch (OperationCanceledException e) {
-                Toast.makeText(getApplicationContext(), R.string.minerva_no_permission, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.minerva_login_no_permission, Toast.LENGTH_LONG).show();
             } catch (IOException | AuthenticatorException e) {
                 Log.w(TAG, "Account not added.", e);
             }

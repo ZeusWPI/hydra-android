@@ -33,7 +33,7 @@ public class AboutFragment extends PreferenceFragment {
         findPreference("pref_about_licenses").setOnPreferenceClickListener(preference -> {
 
             Intent intent = new Intent(getActivity().getApplicationContext(), WebViewActivity.class);
-            String title = getResources().getString(R.string.title_license);
+            String title = getResources().getString(R.string.pref_licenses_title);
             intent.putExtra(WebViewActivity.TITLE, title);
             intent.putExtra(WebViewActivity.URL, "file:///android_asset/open_source_licenses.html");
 

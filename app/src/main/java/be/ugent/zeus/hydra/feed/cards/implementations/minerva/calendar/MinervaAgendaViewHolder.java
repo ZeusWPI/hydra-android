@@ -33,7 +33,7 @@ public class MinervaAgendaViewHolder extends CardViewHolder {
 
         final MinervaAgendaCard mCard = card.checkCard(Card.Type.MINERVA_AGENDA);
         Context c = itemView.getContext();
-        String titleS = c.getString(R.string.home_feed_agenda_title, DateUtils.getFriendlyDate(c, mCard.getDate()));
+        String titleS = c.getString(R.string.feed_calendar_title, DateUtils.getFriendlyDate(c, mCard.getDate()));
         toolbar.setTitle(titleS);
 
         layout.removeAllViewsInLayout();

@@ -51,7 +51,7 @@ class LineupViewHolder extends DataViewHolder<Artist> implements View.OnCreateCo
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         if (artist != null) {
-            String string = itemView.getContext().getString(R.string.action_add_to_menu);
+            String string = itemView.getContext().getString(R.string.action_add_to_calendar);
             menu.add(Menu.NONE, MENU_ID_ADD_TO_CALENDAR, 0, string).setOnMenuItemClickListener(this);
         }
     }

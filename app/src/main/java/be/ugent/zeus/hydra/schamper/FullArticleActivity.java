@@ -85,7 +85,7 @@ public class FullArticleActivity extends BaseActivity {
         String category = StringUtils.capitaliseFirst(article.getCategory());
         if (article.getPubDate() != null) {
             CharSequence dateString = DateUtils.relativeDateTimeString(article.getPubDate(), date.getContext());
-            date.setText(getString(R.string.article_date_and_category, dateString, category));
+            date.setText(getString(R.string.schamper_article_date_and_category, dateString, category));
         } else {
             date.setText(category);
         }

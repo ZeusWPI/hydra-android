@@ -58,6 +58,6 @@ public class HomeFragment extends PreferenceFragment {
             Log.i(TAG, "All hidden cards removed.");
         });
 
-        Toast.makeText(getActivity(), R.string.pref_home_feed_cleared, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.feed_pref_hidden_cleared, Toast.LENGTH_SHORT).show();
     }
 }
