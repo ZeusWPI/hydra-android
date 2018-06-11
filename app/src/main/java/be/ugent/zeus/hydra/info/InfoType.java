@@ -55,13 +55,11 @@ public enum InfoType {
 
     //Opens in the app itself (web view or native)
     INTERNAL {
-
-        private static final String HTML_API = "https://zeus.ugent.be/hydra/api/2.0/info/";
-
         @Override
         public void doOnClick(Context context, ActivityHelper helper, InfoItem infoItem) {
             Intent intent = new Intent(context, WebViewActivity.class);
-            intent.putExtra(WebViewActivity.URL, HTML_API + infoItem.getHtml());
+            String baseUrl = InfoRequest.getBaseApiUrl(context);
+            intent.putExtra(WebViewActivity.URL, baseUrl + infoItem.getHtml());
             intent.putExtra(WebViewActivity.TITLE, infoItem.getTitle());
             context.startActivity(intent);
         }

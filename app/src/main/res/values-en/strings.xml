@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Hydra</string>
+    <!--
+      ~ This is the endpoint for the Resto API. Must be one of the provided API endpoints.
+      -->
     <string name="value_resto_default_endpoint">en</string>
     <string name="name_minerva">Minerva</string>
     <string name="name_schamper">Schamper</string>
@@ -423,4 +426,10 @@
     <string name="pref_minerva_duplicates_rationale_desc">Hydra shows both the calendar from Oasis and the one from Minerva. If a lecturer adds events on Minerva, Oasis will not be updated. This results in duplicate events.</string>
     <string name="minerva_main_tab_courses">Courses</string>
     <string name="minerva_main_tab_announcements">Unread announcements</string>
+
+
+    <!--
+      ~ This is the endpoint for the information API. Can be nl or en, nothing else.
+      -->
+    <string name="value_info_endpoint">en</string>
 </resources>

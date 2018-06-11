@@ -445,6 +445,11 @@
     <string name="value_resto_default_endpoint">nl-debrug</string>
     <string name="resto_default_name">Resto De Brug</string>
 
+    <!--
+      ~ This is the endpoint for the information API. Can be nl or en, nothing else.
+      -->
+    <string name="value_info_endpoint">nl</string>
+
     <string name="sko_tab_map">Kaart</string>
     <string name="sko_tab_village">Student Village</string>
     <string name="sko_tab_lineup">Line-up</string>
