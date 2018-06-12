@@ -168,7 +168,6 @@
         Er is geen menu of we konden hem niet ophalen. Misschien heb je meer geluk op de
         <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">website van de resto's</a>.
     </string>
-    <string name="resto_menu_other">Algemeen</string>
 
     <string name="resto_spinner_loading">Laden…</string>
 
@@ -310,7 +309,6 @@
     <string name="minerva_pref_announcements_desc">Toon een melding bij een nieuwe aankondiging</string>
     <string name="minerva_pref_announcements_mail_title">Meldingen voor e-mail</string>
     <string name="minerva_pref_announcements_mail_desc">Toon een melding bij een nieuwe aankondiging waarvoor al een e-mail verstuurd is.</string>
-    <string name="minerva_pref_category_other_title">Overige</string>
     <string name="minerva_pref_category_calendar_title">Agenda</string>
     <string name="minerva_pref_calendar_add_course_title">Vak toevoegen aan agenda-items</string>
     <string name="minerva_pref_calendar_add_course_desc">Voeg de naam van het vak toe aan de titel van evenementen als die titel niet de naam van het vak is.</string>

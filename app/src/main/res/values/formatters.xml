@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!--
       ~ This file contains localized date/time formatters.
       ~ In all these strings, the full Java formatting arguments can be used.
       -->
 
-    <string name="formatter_sko_artist_full" tools:ignore="MissingTranslation">dd/MM - HH:mm</string>
-    <string name="formatter_sko_artist_hour_only" tools:ignore="MissingTranslation">@string/formatter_general_hour_only</string>
+    <string name="formatter_sko_artist_full" translatable="false">dd/MM - HH:mm</string>
+    <string name="formatter_sko_artist_hour_only" translatable="false">@string/formatter_general_hour_only</string>
 
-    <string name="formatter_general_hour_only" tools:ignore="MissingTranslation">HH:mm</string>
+    <string name="formatter_general_hour_only" translatable="false">HH:mm</string>
 
 </resources>
