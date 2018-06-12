@@ -21,11 +21,13 @@ import android.view.*;
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
+import be.ugent.zeus.hydra.common.arch.observers.EventObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.feed.cards.Card;
+import be.ugent.zeus.hydra.feed.commands.CommandResult;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
 import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
 import be.ugent.zeus.hydra.minerva.announcement.courselist.AnnouncementsForCourseFragment;
@@ -119,8 +121,8 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         model.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
 
-        // Observe results from commands.
-        model.getCommandLiveEvent().observe(this, Runnable::run);
+        // Monitor commands
+        model.getCommandLiveData().observe(this, EventObserver.with(this::onCommandExecuted));
 
         firstRun = true;
     }
@@ -198,85 +200,25 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    @SuppressLint("StaticFieldLeak")
     public void executeCommand(FeedCommand command) {
-        new CommandTask(getContext(), model.getCommandLiveEvent()) {
-            @Override
-            protected int safeDoInBackground(Context context) {
-                return command.execute(context);
-            }
-
-            @Override
-            protected void safePostExecute(int cardType) {
-                Bundle extras = new Bundle();
-                extras.putInt(REFRESH_HOMECARD_TYPE, cardType);
-                model.requestRefresh(extras);
-
-                // Sometimes this is null because the new fragment is still initialising.
-                // If that's the case, don't show any snackbar for now. Perhaps we can do this in the future
-                // if we have a better way of doing this.
-                if (getView() == null) {
-                    return;
-                }
-
-                if (snackbar != null) {
-                    snackbar.dismiss();
-                }
-                snackbar = Snackbar.make(getView(), command.getCompleteMessage(), BaseTransientBottomBar.LENGTH_LONG)
-                        .setAction(command.getUndoMessage(), view -> undoCommand(command));
-                snackbar.show();
-            }
-        }.execute();
+        model.execute(command);
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private void undoCommand(FeedCommand command) {
-        new CommandTask(getContext(), model.getCommandLiveEvent()) {
+    private void onCommandExecuted(CommandResult result) {
+        Bundle extras = new Bundle();
+        extras.putInt(REFRESH_HOMECARD_TYPE, result.getCardType());
+        model.requestRefresh(extras);
 
-            @Override
-            protected int safeDoInBackground(Context context) {
-                return command.undo(context);
+        // If it is the undoing, don't show a snackbar, otherwise do show it.
+        if (!result.wasUndo()) {
+            if (snackbar != null) {
+                snackbar.dismiss();
             }
-
-            @Override
-            protected void safePostExecute(int cardType) {
-                Bundle extras = new Bundle();
-                extras.putInt(REFRESH_HOMECARD_TYPE, cardType);
-                model.requestRefresh(extras);
-            }
-        }.execute();
-    }
-
-    private abstract static class CommandTask extends AsyncTask<Void, Void, Integer> {
-
-        private static final int ABORTED = -100;
-
-        @SuppressLint("StaticFieldLeak")
-        private final Context applicationContext;
-        private final MutableLiveData<Runnable> bus;
-
-        private CommandTask(Context context, MutableLiveData<Runnable> bus) {
-            this.applicationContext = context == null ? null : context.getApplicationContext();
-            this.bus = bus;
+            FeedCommand command = result.getCommand();
+            assert getView() != null;
+            snackbar = Snackbar.make(getView(), command.getCompleteMessage(), BaseTransientBottomBar.LENGTH_LONG)
+                    .setAction(command.getUndoMessage(), view -> model.undo(command));
+            snackbar.show();
         }
-
-        @Override
-        protected final Integer doInBackground(Void... voids) {
-            if (applicationContext == null) {
-                return ABORTED;
-            } else {
-                return safeDoInBackground(applicationContext);
-            }
-        }
-
-        @Override
-        protected final void onPostExecute(Integer integer) {
-            if (integer != ABORTED) {
-                bus.postValue(() -> safePostExecute(integer));
-            }
-        }
-
-        protected abstract int safeDoInBackground(Context context);
-        protected abstract void safePostExecute(int cardType);
     }
 }
