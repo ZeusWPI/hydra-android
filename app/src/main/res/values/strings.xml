@@ -203,7 +203,6 @@
 
     <string name="minerva_login_authorize">Autoriseren</string>
     <string name="minerva_login_description">Om Minerva te gebruiken dien je toestemming te geven.</string>
-    <string name="minerva_login_denied">Je gaf geen toestemming om Minerva te gebruiken.</string>
     <string name="minerva_login_no_permission">Je gaf geen toestemming om je account te gebruiken.</string>
     <string name="minerva_login_title">Minerva</string>
 
@@ -366,14 +365,10 @@
     <string name="feed_general_error">Ophalen sommige kaarten mislukt.</string>
 
     <string name="feed_resto_menu_title">Menu van %1$s • %2$s</string>
-    <string name="feed_resto_menu_title_short">Menu van %1$s</string>
 
     <string name="feed_urgent_player_desc">Ga naar de Urgent.fm-speler.</string>
 
     <string name="feed_event_title">Activiteit door %s</string>
-
-    <string name="feed_minerva_login_title">Login op Minerva</string>
-    <string name="feed_minerva_login_description">Na het inloggen worden uw komende lessen en recente aankondigingen geladen</string>
 
     <string name="feed_announcement_single_title">Aankondigingen %s</string>
     <plurals name="feed_announcement_view_more">
@@ -389,7 +384,6 @@
     <string name="feed_card_hide_single_type">Deze kaart verbergen</string>
 
     <string name="feed_card_hidden_type">Kaartsoort verborgen</string>
-    <string name="feed_card_undone">Ongedaan gemaakt</string>
     <string name="feed_card_hidden_association">Vereniging verborgen</string>
     <string name="feed_card_hidden_single">Klaar met deze kaart</string>
 
@@ -414,16 +408,12 @@
     <!-- Urgent.fm -->
     <string name="urgent_fm">Urgent.fm</string>
     <string name="urgent_album_art">Albumhoes</string>
-    <string name="urgent_wifi_lock_description">De radiospeler moet verhinderen dat uw apparaat in slaapstand gaat om muziek te kunnen blijven spelen.</string>
     <string name="urgent_channel_title">Urgent.fm</string>
     <string name="urgent_channel_desc">Meldingen over Urgent.fm, inclusief de mediamelding voor de radiospeler.</string>
     <string name="urgent_play">Spelen</string>
     <string name="urgent_stop">Stoppen</string>
-    <string name="urgent_unknown_programme">Onbekend programma</string>
 
     <!-- Libraries -->
-    <string name="library_opening_header_date">Datum</string>
-    <string name="library_opening_header_hours">Openingsuren</string>
     <string name="library_favourite">Opslaan</string>
     <string name="library_action_open_catalogue">Catalogus openen</string>
     <string name="library_detail_no_phone">Geen telefoon</string>
@@ -448,13 +438,11 @@
     <string name="content_desc_time">Tijd</string>
     <string name="content_desc_hydra_logo">Hydra-logo</string>
     <string name="content_desc_library">Bibliotheek</string>
-    <string name="content_desc_event_image">Afbeelding van evenement</string>
     <string name="content_desc_lesson">Les</string>
     <string name="content_desc_organiser">Lesgever</string>
     <string name="content_desc_announcement">Aankondiging</string>
     <string name="content_desc_warning">Waarschuwing</string>
     <string name="content_desc_resto">Resto</string>
-    <string name="content_desc_user_offline">Gebruiker offline</string>
     <string name="content_desc_kickoff_logo">Logo Student Kick-Off</string>
     <string name="content_desc_schamper_article">Schamperartikel</string>
     <string name="content_desc_search">Zoeken</string>

@@ -22,9 +22,6 @@
     <!-- We deviate from the MD standard, since it's nicer like this -->
     <dimen name="bottom_toolbar_height">48dp</dimen>
 
-    <!-- Material design tabs -->
-    <dimen name="tabs_icon_size">24dp</dimen>
-
     <!-- Material design dimensions for Cards -->
     <dimen name="card_margin">8dp</dimen>
     <dimen name="card_spacing">8dp</dimen>
@@ -75,13 +72,6 @@
     <dimen name="list_one_line_padding_vertical">16dp</dimen>
     <dimen name="list_one_line_padding_horizontal">16dp</dimen>
     <dimen name="list_one_line_text_size">16sp</dimen>
-
-    <!-- Schamper -->
-    <dimen name="schamper_image_size">192dp</dimen>
-
-    <!-- Mini FAB -->
-    <dimen name="mini_fab_size">40dp</dimen>
-    <dimen name="mini_fab_margin">4dp</dimen>
 
     <dimen name="hero_image_height">256dp</dimen>
     <dimen name="card_title_padding_bottom_subtitle">12dp</dimen>

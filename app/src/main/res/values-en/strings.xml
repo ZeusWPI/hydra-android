@@ -201,7 +201,6 @@
 
     <string name="minerva_login_authorize">Authorise</string>
     <string name="minerva_login_description">To use Minerva you need to give permission.</string>
-    <string name="minerva_login_denied">You did not give permission to use Minerva.</string>
     <string name="minerva_login_no_permission">You did not give permission to use your account.</string>
     <string name="minerva_login_title">Minerva</string>
 
@@ -358,14 +357,10 @@
 
     <string name="feed_general_error">Could not get some cards.</string>
     <string name="feed_resto_menu_title">Menu for %1$s • %2$s</string>
-    <string name="feed_resto_menu_title_short">Menu for %1$s</string>
 
     <string name="feed_urgent_player_desc">Go to the Urgent.fm player.</string>
 
     <string name="feed_event_title">Activity by %s</string>
-
-    <string name="feed_minerva_login_title">Login with Minerva</string>
-    <string name="feed_minerva_login_description">After login, your upcoming lectures and recent announcements will be loaded</string>
 
     <string name="feed_announcement_single_title">Announcements %s</string>
     <plurals name="feed_announcement_view_more">
@@ -381,7 +376,6 @@
     <string name="feed_card_hide_single_type">Hide this card</string>
 
     <string name="feed_card_hidden_type">Undo successful</string>
-    <string name="feed_card_undone">Undone</string>
     <string name="feed_card_hidden_association">Organisation hidden</string>
     <string name="feed_card_hidden_single">Done with this card</string>
 
@@ -406,16 +400,12 @@
     <!-- Urgent.fm -->
     <string name="urgent_fm">Urgent.fm</string>
     <string name="urgent_album_art">Cover art</string>
-    <string name="urgent_wifi_lock_description">The music player needs to keep your phone from going into sleep mode to prevent interrupting the music.</string>
     <string name="urgent_channel_title">Urgent.fm</string>
     <string name="urgent_channel_desc">Notifications about Urgent.fm, including the media notification for the player.</string>
     <string name="urgent_play">Play</string>
     <string name="urgent_stop">Stop</string>
-    <string name="urgent_unknown_programme">Unknown programme</string>
 
     <!-- Libraries -->
-    <string name="library_opening_header_date">Date</string>
-    <string name="library_opening_header_hours">Opening hours</string>
     <string name="library_favourite">Save</string>
     <string name="library_action_open_catalogue">Open catalogue</string>
     <string name="library_detail_no_phone">No phone</string>
@@ -440,13 +430,11 @@
     <string name="content_desc_time">Time</string>
     <string name="content_desc_hydra_logo">Hydra icon</string>
     <string name="content_desc_library">Library</string>
-    <string name="content_desc_event_image">Event image</string>
     <string name="content_desc_lesson">Lecture</string>
     <string name="content_desc_organiser">Lecturer</string>
     <string name="content_desc_announcement">Announcement</string>
     <string name="content_desc_warning">Warning</string>
     <string name="content_desc_resto">Resto</string>
-    <string name="content_desc_user_offline">User off-line</string>
     <string name="content_desc_kickoff_logo">Icon Student Kick-Off</string>
     <string name="content_desc_schamper_article">Schamper article</string>
     <string name="content_desc_search">Search</string>

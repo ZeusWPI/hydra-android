@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Specifies which resources we use dynamically -->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/info_academiccalendar,
+    @drawable/info_bicycle,
+    @drawable/info_doctors,
+    @drawable/info_guide,
+    @drawable/info_library,
+    @drawable/info_mapmarker,
+    @drawable/info_minerva,
+    @drawable/info_more,
+    @drawable/info_sports" />

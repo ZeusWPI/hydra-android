@@ -72,7 +72,6 @@
     <color name="hydra_card_background">@color/cardview_light_background</color>
 
     <!-- Background of the navigation drawer -->
-    <color name="hydra_drawer_background">@color/material_color_white</color>
 
     <!-- The text colour of sub headers -->
     <color name="hydra_subhead_text_color">@color/hydra_primary_colour</color>

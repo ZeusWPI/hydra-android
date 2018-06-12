@@ -15,7 +15,6 @@
     <dimen name="resto_menu_tab_spacing">8dp</dimen>
 
     <!-- Material design tabs -->
-    <dimen name="tabs_icon_size">24dp</dimen>
 
     <!-- Material design dimensions for Cards -->
     <dimen name="card_margin">24dp</dimen>

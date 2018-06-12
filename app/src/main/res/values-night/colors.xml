@@ -14,6 +14,5 @@
     <color name="hydra_now_toolbar_icon_tint">@color/hydra_secondary_colour</color>
     <color name="hydra_card_background">@color/cardview_dark_background</color>
     <color name="hydra_item_selected_background">#FF424242</color>
-    <color name="hydra_drawer_background">@color/material_color_black</color>
     <color name="hydra_subhead_text_color">@color/hydra_accent_color</color>
 </resources>
