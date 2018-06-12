@@ -38,6 +38,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author Niko Strijbol
  * @author Google
  */
+@Deprecated
 public class SingleLiveEvent<T> extends MutableLiveData<T> {
 
     private static final String TAG = "SingleLiveEvent";
