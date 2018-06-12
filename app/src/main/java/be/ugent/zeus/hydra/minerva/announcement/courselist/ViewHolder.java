@@ -34,7 +34,7 @@ class ViewHolder extends DataViewHolder<Announcement> {
     @Override
     public void populate(final Announcement data) {
         title.setText(data.getTitle());
-        String infoText = itemView.getContext().getString(R.string.deprecated_dot_seperated,
+        String infoText = itemView.getContext().getString(R.string.deprecated_dot_separated,
                 DateUtils.relativeDateTimeString(data.getDate(), itemView.getContext(), false),
                 data.getLecturer());
         subtitle.setText(infoText);

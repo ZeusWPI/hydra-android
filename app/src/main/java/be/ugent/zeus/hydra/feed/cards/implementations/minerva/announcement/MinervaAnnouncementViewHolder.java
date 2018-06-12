@@ -63,7 +63,7 @@ public class MinervaAnnouncementViewHolder extends CardViewHolder {
             Announcement announcement = mCard.getAnnouncements().get(i);
 
             title.setText(announcement.getTitle());
-            String infoText = itemView.getContext().getString(R.string.deprecated_dot_seperated,
+            String infoText = itemView.getContext().getString(R.string.deprecated_dot_separated,
                     DateUtils.relativeDateTimeString(announcement.getDate(), itemView.getContext(), false),
                     announcement.getLecturer());
             subtitle.setText(infoText);

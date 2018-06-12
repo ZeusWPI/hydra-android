@@ -40,7 +40,7 @@ class AnnouncementsViewHolder extends DataViewHolder<Announcement> {
         toggleBackground();
 
         title.setText(announcement.getTitle());
-        String infoText = itemView.getContext().getString(R.string.deprecated_dot_seperated,
+        String infoText = itemView.getContext().getString(R.string.deprecated_dot_separated,
                 announcement.getCourse().getTitle(),
                 DateUtils.relativeDateTimeString(announcement.getDate(), itemView.getContext(), false));
         subtitle.setText(infoText);

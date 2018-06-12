@@ -2,10 +2,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <!-- Generic stuff -->
-    <string name="app_name">Hydra</string>
+    <string name="app_name" translatable="false">Hydra</string>
 
     <string name="permissions_read_courses">Minerva-vakken lezen</string>
-    <string name="permissions_read_courses_desc">Staat apps toe om de lijst van Minerva-vakken te lezen en informatie over de vakken te lezen.</string>
+    <string name="permissions_read_courses_desc">
+        Staat apps toe om de lijst van Minerva-vakken te lezen en informatie over de vakken te lezen.
+    </string>
 
     <string name="title_activity_hydra_web_view">Web View</string>
 
@@ -31,7 +33,7 @@
     <string name="action_undo">Ongedaan maken</string>
 
     <string name="selected_n" tools:ignore="PluralsCandidate">%d geselecteerd</string>
-    <string name="select_all">@android:string/selectAll</string>
+    <string name="select_all" translatable="false">@android:string/selectAll</string>
     <string name="select_none">Niets selecteren</string>
 
     <string name="error_network">Netwerkfout</string>
@@ -66,7 +68,7 @@
     <string name="date_next_x">volgende %s</string>
 
     <!-- TODO: remove this and replace by a custom string for each use -->
-    <string name="deprecated_dot_seperated">%1$s • %2$s</string>
+    <string name="deprecated_dot_separated">%1$s • %2$s</string>
 
     <!-- General preferences -->
     <string name="pref_overview_resto_title">Resto</string>
@@ -137,7 +139,9 @@
     <!-- Restaurants -->
     <string name="resto_pref_closing_hour_category_title">Sluitingsuur</string>
     <string name="resto_pref_closing_title">Sluitingsuur</string>
-    <string name="resto_pref_closing_description">Kies vanaf welk uur de menu voor de volgende dag getoond wordt.</string>
+    <string name="resto_pref_closing_description">
+        Kies vanaf welk uur de menu voor de volgende dag getoond wordt.
+    </string>
 
     <string name="resto_pref_choice">Keuze resto</string>
     <string name="resto_pref_choice_title">Kies een resto in het overzicht</string>
@@ -231,7 +235,7 @@
     <string name="minerva_sync_getting_calendar">Agenda ophalen…</string>
     <string name="minerva_sync_done">Klaar.</string>
     <string name="minerva_sync_cancelled">Geannuleerd.</string>
-    <string name="minerva_sync_progress" tools:ignore="PluralsCandidate">Vak %1$d van %2$d ophalen…</string>
+    <string name="minerva_sync_progress">Vak %1$d van %2$d ophalen…</string>
 
     <string name="minerva_calendar_detail_activity_title">Agenda-item</string>
     <string name="minerva_calendar_device_event_title">
@@ -459,5 +463,4 @@
     <string name="content_desc_special_event_icon">Icoon speciaal evenement</string>
     <string name="content_desc_urgent_icon">Logo Urgent.fm</string>
     <string name="content_desc_association_icon">Icon vereniging</string>
-
 </resources>
