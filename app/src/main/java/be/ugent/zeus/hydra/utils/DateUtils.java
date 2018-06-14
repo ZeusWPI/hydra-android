@@ -73,9 +73,9 @@ public class DateUtils {
             return context.getString(R.string.date_tomorrow);
         } else if (daysBetween == 2 && context.getResources().getBoolean(R.bool.date_supports_overmorrow)) {
             return context.getString(R.string.date_overmorrow);
-        } else if (daysBetween < ONE_WEEK_DAYS) {
+        } else if (0 <= daysBetween && daysBetween < ONE_WEEK_DAYS) {
             return date.getDayOfWeek().getDisplayName(TextStyle.FULL_STANDALONE, locale);
-        } else if (daysBetween < TWO_WEEKS_DAYS && context.getResources().getBoolean(R.bool.date_supports_next)) {
+        } else if (0 <= daysBetween && daysBetween < TWO_WEEKS_DAYS && context.getResources().getBoolean(R.bool.date_supports_next)) {
             return context.getString(R.string.date_next_x, date.getDayOfWeek().getDisplayName(TextStyle.FULL, locale));
         } else {
             // All other cases, e.g. the past, the far future or some language that does not support all features.
