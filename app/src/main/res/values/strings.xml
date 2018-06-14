@@ -62,9 +62,13 @@
 
     <string name="date_now_until">Nu tot %s</string>
     <string name="date_between">%1$s tot %2$s</string>
+    <!-- Must be translated if R.bool.date_supports_today is true -->
     <string name="date_today">vandaag</string>
+    <!-- Must be translated if R.bool.date_supports_tomorrow is true -->
     <string name="date_tomorrow">morgen</string>
+    <!-- Must be translated if R.bool.date_supports_overmorrow is true -->
     <string name="date_overmorrow">overmorgen</string>
+    <!-- Must be translated if R.bool.date_supports_next is true -->
     <string name="date_next_x">volgende %s</string>
 
     <!-- TODO: remove this and replace by a custom string for each use -->

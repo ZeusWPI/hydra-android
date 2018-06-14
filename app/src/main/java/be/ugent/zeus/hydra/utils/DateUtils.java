@@ -8,8 +8,11 @@ import be.ugent.zeus.hydra.R;
 import org.threeten.bp.*;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
+import org.threeten.bp.format.TextStyle;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.threeten.bp.temporal.IsoFields;
+
+import java.util.Locale;
 
 /**
  * Date utilities.
@@ -18,8 +21,6 @@ import org.threeten.bp.temporal.IsoFields;
  */
 public class DateUtils {
 
-    @VisibleForTesting
-    static final DateTimeFormatter DAY_FORMATTER = DateTimeFormatter.ofPattern("cccc");
     private static final DateTimeFormatter WEEK_FORMATTER = DateTimeFormatter.ofPattern("w");
 
     private DateUtils() {
@@ -37,9 +38,16 @@ public class DateUtils {
      * Transform a given date to a more 'friendly' date, with the given formatStyle as a suggestion. This method is very
      * similar to {@link android.text.format.DateUtils#getRelativeTimeSpanString(long)}.
      *
-     * The relative date applies to {@code date}s in the future, for the coming week. If the date is today, tomorrow or
-     * overmorrow, the formatted date will be those terms. Is the date in the next week, it will be the name of the day,
-     * e.g. 'Saturday'.
+     * The relative date applies to {@code date}s in the future, for the coming two week. The the date is today,
+     * tomorrow or overmorrow and the current language supports it, the formatted date will be those terms. If the
+     * date is in the current week, the day of week name will be returned. If the date is in the next week,
+     * the result will be "next {weekday}".
+     *
+     * For example, if today is 11/02/2018 and the language supports all features:
+     * <ul>
+     *     <li>11/02/2018 will result in {@code today}.</li>
+     *     <li>12/02/2018 will result in {@code tomorrow}.</li>
+     * </ul>
      *
      * Other dates are formatted using {@link #getDateFormatterForStyle(FormatStyle)}.
      *
@@ -50,28 +58,28 @@ public class DateUtils {
      */
     public static String getFriendlyDate(Context context, @NonNull LocalDate date, FormatStyle formatStyle) {
 
-        LocalDate today = LocalDate.now();
+        final int ONE_WEEK_DAYS = 7;
+        final int TWO_WEEKS_DAYS = 14;
 
-        int thisWeek = Integer.parseInt(today.format(WEEK_FORMATTER));
-        int week = date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
+        LocalDate today = LocalDate.now();
+        Locale locale = Locale.getDefault();
+
         long daysBetween = ChronoUnit.DAYS.between(today, date);
 
-        DateTimeFormatter dateFormatter = getDateFormatterForStyle(formatStyle);
-
-        if (daysBetween == 0) {
+        // Do all the special cases. We currently support three base cases.
+        if (daysBetween == 0 && context.getResources().getBoolean(R.bool.date_supports_today)) {
             return context.getString(R.string.date_today);
-        } else if (daysBetween == 1) {
+        } else if (daysBetween == 1 && context.getResources().getBoolean(R.bool.date_supports_tomorrow)) {
             return context.getString(R.string.date_tomorrow);
-        } else if (daysBetween == 2) {
+        } else if (daysBetween == 2 && context.getResources().getBoolean(R.bool.date_supports_overmorrow)) {
             return context.getString(R.string.date_overmorrow);
-        } else if (daysBetween < 0) {
-            return dateFormatter.format(date);
-        } else if (daysBetween < 7) {
-            return DAY_FORMATTER.format(date).toLowerCase();
-        } else if (week == thisWeek + 1) {
-            return context.getString(R.string.date_next_x, DAY_FORMATTER.format(date).toLowerCase());
+        } else if (daysBetween < ONE_WEEK_DAYS) {
+            return date.getDayOfWeek().getDisplayName(TextStyle.FULL_STANDALONE, locale);
+        } else if (daysBetween < TWO_WEEKS_DAYS && context.getResources().getBoolean(R.bool.date_supports_next)) {
+            return context.getString(R.string.date_next_x, date.getDayOfWeek().getDisplayName(TextStyle.FULL, locale));
         } else {
-            return dateFormatter.format(date);
+            // All other cases, e.g. the past, the far future or some language that does not support all features.
+            return getDateFormatterForStyle(formatStyle).format(date);
         }
     }
 

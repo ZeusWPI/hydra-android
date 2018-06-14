@@ -7,11 +7,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.threeten.bp.*;
+import org.threeten.bp.DayOfWeek;
+import org.threeten.bp.LocalDate;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
+import org.threeten.bp.format.TextStyle;
 
-import static be.ugent.zeus.hydra.utils.DateUtils.*;
+import java.util.Locale;
+
+import static be.ugent.zeus.hydra.utils.DateUtils.getDateFormatterForStyle;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -29,8 +33,11 @@ public class DateUtilsTest {
         LocalDate overmorrow = today.plusDays(2);
         LocalDate yesterday = today.minusDays(1);
         LocalDate thisWeek = today.plusDays(6);
+        DayOfWeek thisWeekDay = thisWeek.getDayOfWeek();
         LocalDate far = today.plusDays(50);
         LocalDate exact = today.plusMonths(1);
+
+        Locale locale = Locale.getDefault();
 
         DateTimeFormatter formatter = getDateFormatterForStyle(FormatStyle.MEDIUM);
 
@@ -44,7 +51,7 @@ public class DateUtilsTest {
         assertEquals(tomorrowResult, DateUtils.getFriendlyDate(c, tomorrow));
         assertEquals(overmorrowResult, DateUtils.getFriendlyDate(c, overmorrow));
         assertEquals(formatter.format(yesterday), DateUtils.getFriendlyDate(c, yesterday));
-        assertEquals(DAY_FORMATTER.format(thisWeek).toLowerCase(), DateUtils.getFriendlyDate(c, thisWeek));
+        assertEquals(thisWeekDay.getDisplayName(TextStyle.FULL, locale), DateUtils.getFriendlyDate(c, thisWeek));
         assertEquals(formatter.format(far), DateUtils.getFriendlyDate(c, far));
         assertEquals(formatter.format(exact), DateUtils.getFriendlyDate(c, exact));
     }
@@ -58,8 +65,11 @@ public class DateUtilsTest {
         LocalDate overmorrow = today.plusDays(2);
         LocalDate yesterday = today.minusDays(1);
         LocalDate thisWeek = today.plusDays(6);
+        DayOfWeek thisWeekDay = thisWeek.getDayOfWeek();
         LocalDate far = today.plusDays(50);
         LocalDate exact = today.plusMonths(1);
+
+        Locale locale = Locale.getDefault();
 
         DateTimeFormatter formatter = getDateFormatterForStyle(FormatStyle.LONG);
 
@@ -73,7 +83,7 @@ public class DateUtilsTest {
         assertEquals(tomorrowResult, DateUtils.getFriendlyDate(c, tomorrow, FormatStyle.LONG));
         assertEquals(overmorrowResult, DateUtils.getFriendlyDate(c, overmorrow, FormatStyle.LONG));
         assertEquals(formatter.format(yesterday), DateUtils.getFriendlyDate(c, yesterday, FormatStyle.LONG));
-        assertEquals(DAY_FORMATTER.format(thisWeek).toLowerCase(), DateUtils.getFriendlyDate(c, thisWeek, FormatStyle.LONG));
+        assertEquals(thisWeekDay.getDisplayName(TextStyle.FULL, locale), DateUtils.getFriendlyDate(c, thisWeek, FormatStyle.LONG));
         assertEquals(formatter.format(far), DateUtils.getFriendlyDate(c, far, FormatStyle.LONG));
         assertEquals(formatter.format(exact), DateUtils.getFriendlyDate(c, exact, FormatStyle.LONG));
     }

@@ -32,8 +32,6 @@ class DateHeaderViewHolder extends DataViewHolder<EventItem> {
 
     @VisibleForTesting
     static String formatDate(Context context, LocalDate localDate) {
-        String date = DateUtils.getFriendlyDate(context, localDate, FormatStyle.LONG);
-        date = date.substring(0, 1).toUpperCase() + date.substring(1);
-        return date;
+        return be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DateHeaderViewHolder.format(context, localDate);
     }
 }
