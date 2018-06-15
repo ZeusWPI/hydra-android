@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+      ~ This file contains localized date/time formatters.
+      ~ In all these strings, the full Java formatting arguments can be used.
+      -->
+
+    <bool name="date_supports_overmorrow">false</bool>
+
+</resources>

@@ -6,7 +6,13 @@
       ~ In all these strings, the full Java formatting arguments can be used.
       -->
 
-    <string name="formatter_sko_artist_full">dd/MM - HH:mm</string>
-    <string name="formatter_sko_artist_hour_only">HH:mm</string>
+    <string name="formatter_sko_artist_full" translatable="false">dd/MM - HH:mm</string>
+    <string name="formatter_sko_artist_hour_only" translatable="false">@string/formatter_general_hour_only</string>
+
+    <string name="formatter_general_hour_only" translatable="false">HH:mm</string>
+
+    <bool name="date_supports_today">true</bool>
+    <bool name="date_supports_tomorrow">true</bool>
+    <bool name="date_supports_overmorrow">true</bool>
 
 </resources>

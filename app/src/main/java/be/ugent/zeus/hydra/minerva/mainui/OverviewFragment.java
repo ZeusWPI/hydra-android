@@ -85,7 +85,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
     private void onLoggedIn() {
         authWrapper.setVisibility(View.GONE);
         tabLayout.setVisibility(View.VISIBLE);
-        minervaPagerAdapter = new MinervaPagerAdapter(getChildFragmentManager());
+        minervaPagerAdapter = new MinervaPagerAdapter(getChildFragmentManager(), requireContext());
         minervaPagerAdapter.setLoggedIn(true);
         viewPager.setAdapter(minervaPagerAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -116,7 +116,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
                     Log.d(TAG, "Account " + result.getString(AccountManager.KEY_ACCOUNT_NAME) + " was created.");
                     onAccountAdded();
                 } catch (OperationCanceledException e) {
-                    Toast.makeText(requireContext(), R.string.minerva_no_permission, Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireContext(), R.string.minerva_login_no_permission, Toast.LENGTH_LONG).show();
                 } catch (IOException | AuthenticatorException e) {
                     Log.w(TAG, "Account not added.", e);
                 }
@@ -180,7 +180,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
     private void manualSync() {
         Account account = AccountUtils.getAccount(getContext());
         Bundle bundle = new Bundle();
-        Toast.makeText(getContext(), R.string.minerva_syncing, Toast.LENGTH_LONG)
+        Toast.makeText(getContext(), R.string.minerva_sync_started, Toast.LENGTH_LONG)
                 .show();
         SyncUtils.requestSync(account, MinervaConfig.SYNC_AUTHORITY, bundle);
     }
@@ -268,7 +268,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
                     return;
                 case SyncBroadcast.SYNC_ERROR:
                     Log.d(TAG, "Error");
-                    ensureSyncStatus(getString(R.string.failure), Snackbar.LENGTH_LONG);
+                    ensureSyncStatus(getString(R.string.error_network), Snackbar.LENGTH_LONG);
                     return;
                 case SyncBroadcast.SYNC_PROGRESS_WHATS_NEW:
                     int current = intent.getIntExtra(SyncBroadcast.ARG_SYNC_PROGRESS_CURRENT, 0);

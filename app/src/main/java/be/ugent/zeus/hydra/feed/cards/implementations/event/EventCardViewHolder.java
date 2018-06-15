@@ -12,7 +12,6 @@ import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
-import be.ugent.zeus.hydra.feed.SwipeDismissableViewHolder;
 import be.ugent.zeus.hydra.feed.commands.DisableAssociationCommand;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
 import be.ugent.zeus.hydra.feed.cards.CardViewHolder;
@@ -51,7 +50,7 @@ public class EventCardViewHolder extends CardViewHolder {
         title.setText(event.getTitle());
         association.setText(event.getLocation());
         start.setText(DateUtils.relativeDateTimeString(event.getStart(), itemView.getContext(), false));
-        String description = itemView.getResources().getString(R.string.home_card_description);
+        String description = itemView.getResources().getString(R.string.feed_event_title);
         toolbar.setTitle(String.format(description, event.getAssociation().getInternalName()));
 
         PriorityUtils.loadThumbnail(itemView.getContext(), event.getAssociation().getImageLink(), imageView);

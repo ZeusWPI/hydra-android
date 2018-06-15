@@ -178,7 +178,7 @@
             android:id="@+id/course_fiche"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/view_pdf"/>
+            android:text="@string/action_view_pdf"/>
 
         <TextView
             android:id="@+id/course_description_header"

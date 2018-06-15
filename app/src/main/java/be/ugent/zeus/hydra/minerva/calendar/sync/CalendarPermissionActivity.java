@@ -59,7 +59,7 @@ public class CalendarPermissionActivity extends AppCompatActivity implements Mul
             builder.setMessage(R.string.minerva_calendar_permission_text);
 
             builder.setOnDismissListener(dialogInterface -> finish());
-            builder.setNeutralButton(R.string.ok, (dialogInterface, i) -> finish());
+            builder.setNeutralButton(android.R.string.ok, (dialogInterface, i) -> finish());
             builder.show();
         } else {
             // Schedule new sync
@@ -83,7 +83,7 @@ public class CalendarPermissionActivity extends AppCompatActivity implements Mul
         builder.setMessage(R.string.minerva_calendar_permission_rationale);
 
         builder.setOnDismissListener(dialogInterface -> token.continuePermissionRequest());
-        builder.setNeutralButton(R.string.ok, (dialogInterface, i) -> token.continuePermissionRequest());
+        builder.setNeutralButton(android.R.string.ok, (dialogInterface, i) -> token.continuePermissionRequest());
         builder.show();
         builder.setOnCancelListener(dialog -> token.continuePermissionRequest());
     }

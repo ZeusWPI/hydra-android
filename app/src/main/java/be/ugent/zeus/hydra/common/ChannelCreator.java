@@ -52,8 +52,8 @@ public class ChannelCreator {
             return;
         }
 
-        String channelName = context.getString(R.string.channel_minerva_announcements);
-        String channelDescription = context.getString(R.string.channel_minerva_announcements_desc);
+        String channelName = context.getString(R.string.minerva_announcement_channel_title);
+        String channelDescription = context.getString(R.string.minerva_announcement_channel_desc);
 
         NotificationChannel channel = new NotificationChannel(MINERVA_ANNOUNCEMENT_CHANNEL, channelName, NotificationManager.IMPORTANCE_DEFAULT);
         channel.setDescription(channelDescription);
@@ -72,8 +72,8 @@ public class ChannelCreator {
             return;
         }
 
-        String channelName = context.getString(R.string.channel_minerva_account);
-        String channelDescription = context.getString(R.string.channel_minerva_account_desc);
+        String channelName = context.getString(R.string.minerva_account_channel_title);
+        String channelDescription = context.getString(R.string.minerva_account_channel_desc);
 
         NotificationChannel channel = new NotificationChannel(MINERVA_ACCOUNT_CHANNEL, channelName, NotificationManager.IMPORTANCE_DEFAULT);
         channel.setDescription(channelDescription);
@@ -92,8 +92,8 @@ public class ChannelCreator {
             return;
         }
 
-        String channelName = context.getString(R.string.channel_sko);
-        String channelDescription = context.getString(R.string.channel_sko_desc);
+        String channelName = context.getString(R.string.sko_channel_title);
+        String channelDescription = context.getString(R.string.sko_channel_desc);
 
         NotificationChannel channel = new NotificationChannel(SKO_CHANNEL, channelName, NotificationManager.IMPORTANCE_DEFAULT);
         channel.setDescription(channelDescription);
@@ -113,8 +113,8 @@ public class ChannelCreator {
             return;
         }
 
-        String channelName = context.getString(R.string.channel_urgent);
-        String channelDescription = context.getString(R.string.channel_urgent_desc);
+        String channelName = context.getString(R.string.urgent_channel_title);
+        String channelDescription = context.getString(R.string.urgent_channel_desc);
 
         NotificationChannel channel = new NotificationChannel(URGENT_CHANNEL, channelName, NotificationManager.IMPORTANCE_LOW);
         channel.setDescription(channelDescription);

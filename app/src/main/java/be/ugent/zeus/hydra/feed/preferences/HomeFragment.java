@@ -40,7 +40,7 @@ public class HomeFragment extends PreferenceFragment implements LifecycleOwner {
         viewModel.getLiveData().observe(this, new EventObserver<Context>() {
             @Override
             protected void onUnhandled(Context data) {
-                Toast.makeText(data, R.string.pref_home_feed_cleared, Toast.LENGTH_SHORT).show();
+                Toast.makeText(data, R.string.feed_pref_hidden_cleared, Toast.LENGTH_SHORT).show();
             }
         });
 

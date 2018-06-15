@@ -34,7 +34,7 @@ public class ExceptionDialogActivity extends AppCompatActivity {
         }
 
         builder.setOnDismissListener(dialogInterface -> ExceptionDialogActivity.this.finish());
-        builder.setNeutralButton(R.string.ok, (dialogInterface, i) -> ExceptionDialogActivity.this.finish());
+        builder.setNeutralButton(android.R.string.ok, (dialogInterface, i) -> ExceptionDialogActivity.this.finish());
         builder.show();
     }
 }

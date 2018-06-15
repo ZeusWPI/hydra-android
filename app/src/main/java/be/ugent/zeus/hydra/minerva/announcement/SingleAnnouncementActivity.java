@@ -45,7 +45,6 @@ public class SingleAnnouncementActivity extends BaseActivity {
 
     private static final String STATE_MARKED = "state_marked";
 
-    private static final String ONLINE_URL_MOBILE = "https://minerva.ugent.be/mobile/courses/%s/announcement";
     private static final String ONLINE_URL_DESKTOP = "http://minerva.ugent.be/main/announcements/announcements.php?cidReq=%s";
 
     private Announcement announcement;
@@ -92,7 +91,8 @@ public class SingleAnnouncementActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.minerva_announcement_link:
-                NetworkUtils.maybeLaunchBrowser(this, getOnlineUrl());
+                String url = String.format(ONLINE_URL_DESKTOP, announcement.getCourse().getId());
+                NetworkUtils.maybeLaunchBrowser(this, url);
                 return true;
             case android.R.id.home:
                 Intent upIntent = NavUtils.getParentActivityIntent(this);
@@ -120,15 +120,6 @@ public class SingleAnnouncementActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.menu_minerva_announcement, menu);
         tintToolbarIcons(menu, R.id.minerva_announcement_link);
         return super.onCreateOptionsMenu(menu);
-    }
-
-    private String getOnlineUrl() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.getBoolean(MinervaPreferenceFragment.PREF_USE_MOBILE_URL, false)) {
-            return String.format(ONLINE_URL_MOBILE, announcement.getCourse().getId());
-        } else {
-            return String.format(ONLINE_URL_DESKTOP, announcement.getCourse().getId());
-        }
     }
 
     @Override

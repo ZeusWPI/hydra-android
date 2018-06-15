@@ -3,7 +3,7 @@
 
     <Preference
         android:key="launch_settings"
-        android:title="@string/launch_settings"
+        android:title="@string/minerva_account_launch_pref"
         android:persistent="false">
         <intent
             android:action="android.intent.action.VIEW"

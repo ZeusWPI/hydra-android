@@ -4,4 +4,4 @@
     android:icon="@mipmap/ic_launcher"
     android:smallIcon="@mipmap/ic_launcher"
     android:accountPreferences="@xml/pref_authenticator"
-    android:label="@string/account_label" />
+    android:label="@string/minerva_account_label" />

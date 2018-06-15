@@ -3,8 +3,8 @@
 
     <CheckBoxPreference
         android:key="pref_sko_notification"
-        android:title="@string/pref_sko_notification_title"
-        android:summary="@string/pref_sko_notification_desc"
+        android:title="@string/sko_pref_notification_title"
+        android:summary="@string/sko_pref_notification_desc"
         android:defaultValue="true"/>
 
 </PreferenceScreen>

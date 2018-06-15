@@ -123,7 +123,7 @@ public class RestoFragment extends Fragment implements
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        pageAdapter = new MenuPagerAdapter(getChildFragmentManager());
+        pageAdapter = new MenuPagerAdapter(getChildFragmentManager(), requireContext());
 
         // Set up the ViewPager with the sections adapter.
         viewPager = view.findViewById(R.id.resto_tabs_content);
@@ -252,7 +252,7 @@ public class RestoFragment extends Fragment implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                Toast toast = Toast.makeText(getContext(), R.string.begin_refresh, Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getContext(), R.string.resto_extra_refresh_started, Toast.LENGTH_SHORT);
                 toast.show();
                 metaViewModel.onRefresh();
                 menuViewModel.onRefresh();
@@ -300,8 +300,8 @@ public class RestoFragment extends Fragment implements
     private void onError(Throwable throwable) {
         pageAdapter.setData(Collections.emptyList());
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> menuViewModel.onRefresh())
+        Snackbar.make(requireView(this), getString(R.string.error_network), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.action_again), v -> menuViewModel.onRefresh())
                 .show();
     }
 

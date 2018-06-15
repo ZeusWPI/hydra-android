@@ -112,7 +112,7 @@ public class UnreadAnnouncementsFragment extends Fragment implements MultiSelect
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(requireView(this), getString(R.string.failure), Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(this), getString(R.string.error_network), Snackbar.LENGTH_LONG)
                 .show();
     }
 
@@ -205,7 +205,7 @@ public class UnreadAnnouncementsFragment extends Fragment implements MultiSelect
         dao.update(announcements);
         // Request a refresh of the data to update the list of announcements.
         Toast.makeText(requireContext(),
-                getResources().getQuantityString(R.plurals.minerva_marked_announcements, announcements.size(), announcements.size()),
+                getResources().getQuantityString(R.plurals.minerva_announcement_marked, announcements.size(), announcements.size()),
                 Toast.LENGTH_SHORT)
                 .show();
 

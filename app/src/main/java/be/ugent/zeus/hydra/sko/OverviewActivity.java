@@ -129,7 +129,7 @@ public class OverviewActivity extends BaseActivity {
 
     private void showNotificationSnackbar() {
         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), R.string.sko_notification_on, Snackbar.LENGTH_LONG);
-        snackbar.setAction(R.string.turn_off, v -> {
+        snackbar.setAction(R.string.action_turn_off, v -> {
             FirebaseMessaging.getInstance().unsubscribeFromTopic(FirebaseMessageService.SKO_TOPIC);
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(OverviewActivity.this);
             prefs.edit().putBoolean(SkoPreferencesFragment.PREF_SKO_NOTIFICATION, false).apply();

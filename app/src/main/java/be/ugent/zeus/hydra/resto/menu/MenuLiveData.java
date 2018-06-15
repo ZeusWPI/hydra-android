@@ -27,7 +27,7 @@ class MenuLiveData extends RequestLiveData<List<RestoMenu>> implements SharedPre
     protected void onActive() {
         super.onActive();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String key = preferences.getString(RestoPreferenceFragment.PREF_RESTO_KEY, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
+        String key = RestoPreferenceFragment.getRestoEndpoint(getContext(), preferences);
         String name = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, getContext().getString(R.string.resto_default_name));
         RestoChoice resto = new RestoChoice(name, key);
         // Register the listener for when the settings change while it's active

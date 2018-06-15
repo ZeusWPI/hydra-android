@@ -22,19 +22,21 @@ import java.util.Locale;
 public class MenuRequest extends JsonArrayRequest<RestoMenu> {
 
     @VisibleForTesting
-    public static final String OVERVIEW_URL = Endpoints.ZEUS_V2 + "resto/menu/%s/overview.json";
+    static final String OVERVIEW_URL = Endpoints.ZEUS_V2 + "resto/menu/%s/overview.json";
 
     private final SharedPreferences preferences;
+    private final Context context;
 
     public MenuRequest(Context context) {
         super(context, RestoMenu.class);
+        this.context = context.getApplicationContext();
         this.preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
     }
 
     @NonNull
     @Override
     protected String getAPIUrl() {
-        String resto = preferences.getString(RestoPreferenceFragment.PREF_RESTO_KEY, RestoPreferenceFragment.PREF_DEFAULT_RESTO);
+        String resto = RestoPreferenceFragment.getRestoEndpoint(context, preferences);
         return String.format(Locale.ROOT, OVERVIEW_URL, resto);
     }
 

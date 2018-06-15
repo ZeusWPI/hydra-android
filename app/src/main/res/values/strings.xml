@@ -1,197 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- General -->
-    <string name="app_name">Hydra</string>
-    <string name="name_minerva">Minerva</string>
-    <string name="name_schamper">Schamper</string>
+    <!-- Generic stuff -->
+    <string name="app_name" translatable="false">Hydra</string>
 
-    <!-- Permissions -->
     <string name="permissions_read_courses">Minerva-vakken lezen</string>
-    <string name="permissions_read_courses_desc">Staat apps toe om de lijst van Minerva-vakken te lezen en informatie over de vakken te lezen.</string>
-
-    <!-- Navigation tabs -->
-    <string name="nieuws">hydra</string>
-    <string name="activiteiten">activiteiten</string>
-    <string name="info">info</string>
-    <string name="urgent">urgent</string>
-    <string name="schamper">schamper</string>
-
-    <!-- Action bar -->
-    <string name="action_example">Voorbeeldactie</string>
-    <string name="action_settings">Instellingen</string>
-
-    <!-- Content descriptions -->
-    <string name="hydra_icon_content_description">Hydra icoon</string>
-
-    <string name="title_activity_association_activity_detail">Evenement</string>
-
-    <!-- Onboarding -->
-    <string name="onboarding_homefeed_title">Homefeed</string>
-    <string name="onboarding_homefeed_description">Kies wat je wilt zien in jouw homefeed.</string>
-
-    <!-- Settings -->
-    <string name="pref_daily_notifications_title">Notificaties (experimenteel)</string>
-    <string name="pref_daily_notifications_checkbox_summary">Geef dagelijks een notificatie over wat er op het menu staat in de resto.</string>
-    <string name="pref_daily_notifications_checkbox_title">Dagelijkse notificaties</string>
-    <string name="pref_daily_notifications_time_summary">Op welk moment wil je de melding krijgen?</string>
-    <string name="pref_daily_notifications_time_title">Tijdstip</string>
-
-    <string name="pref_daily_notifications_testbutton_text">Toon voorbeeld</string>
-    <string name="pref_daily_notifications_test_summary">Laat een voorbeeldnotificatie zien.</string>
-    <string name="pref_daily_notifications_test_title">Voorbeeld</string>
-
-    <string name="pref_resto_title">Resto</string>
-    <string name="pref_resto_description">Instellingen voor de studentenrestaurants</string>
-
-    <string name="pref_resto_closing_hour">Sluitingsuur</string>
-    <string name="pref_resto_closing_title">Sluitingsuur</string>
-    <string name="pref_resto_closing_description">Kies vanaf welk uur de menu voor de volgende dag getoond wordt.</string>
-
-    <string name="pref_resto_choice">Keuze resto</string>
-    <string name="pref_resto_choice_title">Kies een resto in het overzicht</string>
-
-    <string name="pref_activities_title">Activiteiten</string>
-
-    <string name="pref_about_header_title">Over</string>
-    <string name="pref_about_header_summary">Over de app</string>
-    <string name="pref_about_licenses_title">Openbronsoftware</string>
-    <string name="pref_about_licenses_summary">Licentiedetails voor gebruikte bibliotheken</string>
-    <string name="pref_about_version_title">Versie</string>
-    <string name="pref_about_version_summary">Versie %1$s [%2$d] (%3$s)</string>
-
-    <string name="pref_about_changelog_title">Wijzigingen</string>
-    <string name="pref_about_changelog_summary">Bekijk wat er nieuw is</string>
-
-    <string name="pref_about_creator_title">Gemaakt door Zeus WPI</string>
-
-    <string name="pref_about_issues_title">Feedback</string>
-    <string name="pref_about_issues_summary">Meld fouten of geef suggesties</string>
-
-    <string name="pref_minerva_title">Minerva</string>
-
-    <string name="pref_minerva_category_account_title">Account &amp; synchronisatie</string>
-
-    <string name="pref_sko_notification_title">Meldingen</string>
-    <string name="pref_sko_notification_desc">Krijg meldingen over SKO</string>
-
-    <string name="pref_notifications_sko_title">Student Kick-Off</string>
-
-    <string name="openFacebook">Ondertussen kan je een bezoekje brengen aan onze Facebook-pagina.</string>
-    <string name="facebookButtonDescription">Link naar onze Facebook-pagina.</string>
-    <string name="comingsoontitle">Coming soon!</string>
-
-    <string name="pref_home_feed_card_types_title">Soorten kaarten</string>
-    <string name="pref_home_feed_card_types_summary">Kies welke soort kaarten je wilt zien in de homefeed</string>
-    <string name="pref_home_feed_card_types_description">Kies welke soort kaarten je wilt zien in jouw homefeed. Je kan ook altijd kaarten verbergen vanuit de homefeed zelf.</string>
-
-    <string name="pref_home_feed_data_saving_title">Databesparing</string>
-    <string name="pref_home_feed_data_saving_summary">Bespaar data door geen nieuwe miniaturen te laden bij mobiele verbindingen</string>
-
-    <string name="pref_home_feed_clear_cards_title">Verborgen kaarten wissen</string>
-    <string name="pref_home_feed_clear_cards_summary">Wis de lijst van verborgen kaarten. Hierdoor zullen alle kaarten opnieuw getoond worden.</string>
+    <string name="permissions_read_courses_desc">
+        Staat apps toe om de lijst van Minerva-vakken te lezen en informatie over de vakken te lezen.
+    </string>
 
     <string name="title_activity_hydra_web_view">Web View</string>
-    <string name="title_activity_info_sub_item">Meer info</string>
-    <string name="cancel">annuleren</string>
-    <string name="set">OK</string>
-    <string name="monday">maandag</string>
-    <string name="tuesday">dinsdag</string>
-    <string name="wednesday">woensdag</string>
-    <string name="thursday">donderdag</string>
-    <string name="friday">vrijdag</string>
-    <string name="saturday">zaterdag</string>
-    <string name="sunday">zondag</string>
 
-    <string name="resto_notification_title">Resto menu</string>
-    <string name="resto_notification_text">Bekijk het menu van de resto in de Hydra-app.</string>
-
-    <string name="resto_action">OPEN RESTO PLOX!</string>
-    <string name="section_format">Tab</string>
-    <string name="resto_show_website">Website bekijken</string>
     <string name="action_refresh">Vernieuwen</string>
+    <string name="action_view_website">Website bekijken</string>
+    <string name="action_open_browser">Bekijken in browser</string>
+    <string name="action_view_settings">Instellingen</string>
+    <string name="action_view_link">Link openen</string>
+    <string name="action_again">Opnieuw</string>
+    <string name="action_logout">Afmelden</string>
+    <string name="action_drawer_open">Openen</string>
+    <string name="action_drawer_close">Sluiten</string>
+    <string name="action_turn_off">Uitschakelen</string>
+    <string name="action_open_map">Kaart openen</string>
+    <string name="action_send_mail">Versturen als e-mail</string>
+    <string name="action_call">Bellen</string>
+    <string name="action_sync">Synchroniseren</string>
+    <string name="action_search">Zoeken</string>
+    <string name="action_mark_as_read">Markeren als gelezen</string>
+    <string name="action_add_to_calendar">Toevoegen aan agenda</string>
+    <string name="action_view_pdf">Pdf bekijken</string>
+    <string name="action_share">Delen</string>
+    <string name="action_undo">Ongedaan maken</string>
 
-    <string name="begin_refresh">Vernieuwen…</string>
-    <string name="end_refresh">Voltooid.</string>
-    <string name="home_resto_view_menu">Menu</string>
-    <string name="home_resto_view_sandwiches">Broodjes</string>
-    <string name="resto_sandwich">Belegde broodjes</string>
-    <string name="sandwich_price_medium">Groot: € %s</string>
-    <string name="sandwich_price_small">Klein: € %s</string>
-    <string name="sandwich_ingredients">Ingrediënten: %s.</string>
-    <string name="again">Opnieuw</string>
-    <string name="failure">Ophalen niet gelukt.</string>
-    <string name="home_feed_failure">Ophalen sommige kaarten mislukt.</string>
-    <string name="home_resto_view_resto">Resto\'s</string>
-    <string name="resto_resto">Resto\'s</string>
-    <string name="description">Beschrijving</string>
-    <string name="no_location">Geen locatie.</string>
-    <string name="no_description">Geen beschrijving.</string>
-    <string name="no_data">Geen gegevens.</string>
-    <string name="events_no_data">Er zijn geen evenementen gevonden. Probeer eens de filters aan te passen.</string>
-    <string name="events_customize_filters">Filters aanpassen</string>
-    <string name="title_activity_schamper">Schamperartikel</string>
-    <string name="title_activity_news">Nieuwsartikel</string>
-    <string name="resto_menu_title">Menu van %1$s • %2$s</string>
-    <string name="resto_menu_title_short">Menu van %1$s</string>
-    <string name="home_card_description">Activiteit door %s</string>
-    <string name="by_author">Door %s</string>
-    <string name="pref_home_title">Startscherm</string>
-    <string name="title_activity_authentication">Autorisatie</string>
-    <string name="account_label">Hydra</string>
-    <string name="auth_maybe_not_ugent">Je bent waarschijnlijk niet verbonden met het netwerk van de UGent. Minerva zal dan (voorlopig) niet werken.</string>
-    <string name="minerva_authorize">Autoriseren</string>
-    <string name="need_auth">Om Minerva te gebruiken dien je toestemming te geven.</string>
-    <string name="auth_denied">Je gaf geen toestemming om Minerva te gebruiken.</string>
-    <string name="no_network">Kon niet verbinden.</string>
-    <string name="announcement_by">Zender</string>
-    <string name="announcement_when">Op</string>
-    <string name="title_announcement_title">Aankondiging</string>
-    <string name="logout">Afmelden</string>
-    <string name="title_association_activity_detail">Vereniging</string>
+    <string name="selected_n" tools:ignore="PluralsCandidate">%d geselecteerd</string>
+    <string name="select_all" translatable="false">@android:string/selectAll</string>
+    <string name="select_none">Niets selecteren</string>
 
-    <string name="activity_title_minerva_course">Minerva-vak</string>
-    <string name="activity_title_minerva_agenda">Agenda-item</string>
+    <string name="error_network">Netwerkfout</string>
+    <string name="error_no_activity">Niets gevonden om dit te openen!</string>
 
-    <string name="auth_progress_prepare">Klaarmaken…</string>
-    <string name="auth_progress_permission">Toegang vragen…</string>
-    <string name="auth_progress_information">Informatie ophalen…</string>
-    <string name="auth_progress_failure">Niet ingelogd.</string>
-    <string name="auth_progress_done">Klaar.</string>
-
-    <string name="minerva_sync_provider">Minerva</string>
-
-    <string name="fragment_home_error">Kon %s niet laden.</string>
-    <string name="fragment_home_error_minerva">minerva</string>
-    <string name="fragment_home_error_event">activiteiten</string>
-    <string name="fragment_home_error_news">nieuws</string>
-    <string name="fragment_home_error_menu">menu</string>
-    <string name="fragment_home_error_schamper">Schamper</string>
-    <string name="fragment_home_error_special">evenement</string>
-
-    <string name="drawer_open">Openen</string>
-    <string name="drawer_close">Sluiten</string>
-
-    <string name="title_home_feed">Overzicht</string>
-    <string name="title_home_schamper">Schamper</string>
-    <string name="title_home_resto">Resto</string>
-    <string name="title_home_events">Evenementen</string>
-    <string name="title_home_news">Nieuws</string>
-    <string name="title_home_info">Info</string>
-    <string name="title_home_minerva">Minerva</string>
-    <string name="title_home_soon">Binnenkort</string>
-    <string name="title_home_pref">Instellingen</string>
-
-    <string name="activity_title_sko_overview">Student Kick-Off</string>
-    <string name="activity_title_sko_preferences">Instellingen</string>
-
-    <string name="menu_sko_view_website">Website bekijken</string>
-    <string name="pref_notifications_urgent_title">Urgent.fm</string>
-    <string name="pref_notifications_urgent_description">Opties voor Urgent.fm</string>
-
-
-    <string name="urgent_album_art">Albumhoes</string>
-    <string name="urgent_wifi_lock_description">The music player needs to keep your phone from going into sleep mode to prevent interrupting the music.</string>
+    <string name="drawer_title_feed">Overzicht</string>
+    <string name="drawer_title_schamper">Schamper</string>
+    <string name="drawer_title_resto">Resto</string>
+    <string name="drawer_title_events">Evenementen</string>
+    <string name="drawer_title_news">Nieuws</string>
+    <string name="drawer_title_info">Info</string>
+    <string name="drawer_title_minerva">Minerva</string>
+    <string name="drawer_title_pref">Instellingen</string>
+    <string name="drawer_title_urgent">Urgent.fm</string>
+    <string name="drawer_title_library">Bibliotheken</string>
 
     <string name="shortcut_resto_short_label">Restomenu</string>
     <string name="shortcut_resto_long_label">Bekijk de restomenu</string>
@@ -200,135 +57,228 @@
     <string name="shortcut_minerva_short_label">Minerva</string>
     <string name="shortcut_minerva_long_label">Bekijk Minerva-dingen</string>
     <string name="shortcut_minerva_disabled">Uitgeschakeld</string>
-    <string name="title_activity_resto_location">Resto\'s</string>
-    <string name="action_center">Ga naar resto\'s</string>
 
-    <string name="error_no_activity">Niets gevonden om dit te openen!</string>
-    <string name="events_no_location">Zonder locatie</string>
-    <string name="title_license">Licenties</string>
-    <string name="article_date_changed">%1$s, bewerkt %2$s</string>
-    <string name="agenda_subtitle">%1$s • %2$s</string>
+    <string name="no_items">Geen items</string>
+
+    <string name="date_now_until">Nu tot %s</string>
+    <string name="date_between">%1$s tot %2$s</string>
+    <!-- Must be translated if R.bool.date_supports_today is true -->
+    <string name="date_today">vandaag</string>
+    <!-- Must be translated if R.bool.date_supports_tomorrow is true -->
+    <string name="date_tomorrow">morgen</string>
+    <!-- Must be translated if R.bool.date_supports_overmorrow is true -->
+    <string name="date_overmorrow">overmorgen</string>
+    <string name="date_next_x">volgende %s</string>
+
+    <!-- TODO: remove this and replace by a custom string for each use -->
+    <string name="deprecated_dot_separated">%1$s • %2$s</string>
+
+    <!-- General preferences -->
+    <string name="pref_overview_resto_title">Resto</string>
+    <string name="pref_overview_resto_desc">Instellingen voor de studentenrestaurants</string>
+    <string name="pref_overview_activities_title">Activiteiten</string>
+    <string name="pref_overview_activities_desc">Opties voor de activiteiten</string>
+    <string name="pref_overview_minerva_title">Minerva</string>
+    <string name="pref_overview_minerva_desc">Opties voor de Minerva-integratie</string>
+    <string name="pref_overview_sko_title">Student Kick-Off</string>
+    <string name="pref_overview_sko_desc">SKO-opties</string>
+    <string name="pref_overview_feed_title">Homefeed</string>
+    <string name="pref_overview_feed_desc">Opties voor de homefeed</string>
+    <string name="pref_overview_article_title">Artikels</string>
+    <string name="pref_overview_article_desc">Opties voor de Schamper- en nieuwsartikels</string>
+    <string name="pref_overview_about_title">Over</string>
+    <string name="pref_overview_about_desc">Over de app</string>
+    <string name="pref_overview_theme_title">Lay-out</string>
+    <string name="pref_overview_theme_desc">Opties voor de lay-out van de app</string>
+
+    <string name="pref_about_licenses_title">Openbronsoftware</string>
+    <string name="pref_about_licenses_summary">Licentiedetails voor gebruikte bibliotheken</string>
+    <string name="pref_about_version_title">Versie</string>
+    <string name="pref_about_version_summary">Versie %1$s [%2$d] (%3$s)</string>
+    <string name="pref_about_changelog_title">Wijzigingen</string>
+    <string name="pref_about_changelog_summary">Bekijk wat er nieuw is</string>
+    <string name="pref_about_creator_title">Gemaakt door Zeus WPI</string>
+    <string name="pref_about_issues_title">Feedback</string>
+    <string name="pref_about_issues_summary">Meld fouten of geef suggesties</string>
+
+    <string name="pref_licenses_title">Licenties</string>
+
+    <string name="pref_theme_use_night_title">Nachtmodus gebruiken</string>
+    <string name="pref_theme_night_mode_always">Altijd donker</string>
+    <string name="pref_theme_night_mode_always_desc">Gebruik altijd het donkere thema.</string>
+    <string name="pref_theme_night_mode_system">Systeemstandaard</string>
+    <string name="pref_theme_night_mode_system_desc">Volg de systeemstandaard. Meestal is dit hetzelfde als "Altijd licht".</string>
+    <string name="pref_theme_night_mode_never">Altijd licht</string>
+    <string name="pref_theme_night_mode_never_desc">Gebruik altijd het lichte thema.</string>
+    <string name="pref_theme_night_mode_auto">Automatisch kiezen</string>
+    <string name="pref_theme_night_mode_auto_desc">Kies automatisch op basis van de tijd.</string>
+    <string name="pref_theme_night_mode_restart">De wijzigingen worden van kracht nadat u de app herstart</string>
+    <string name="pref_theme_night_mode_title">Instellingen</string>
+    <string name="pref_theme_explanations">Uitleg over de modi</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_welcome">Welkom bij Hydra</string>
+    <string name="onboarding_welcome_description">Kies wat je wilt zien en doen in de app</string>
+    <string name="onboarding_minerva_title">Minerva</string>
+    <string name="onboarding_minerva_description">Meld je aan bij Minerva om je vakken te kunnen bekijken</string>
+    <string name="onboarding_minerva_button">Aanmelden</string>
+    <string name="onboarding_feed_title">Homefeed</string>
+    <string name="onboarding_feed_desc">Kies wat je wilt zien in de homefeed.</string>
+
+    <!-- Association events -->
+    <string name="event_detail_activity_title">Evenement</string>
+    <string name="event_detail_description_title">Beschrijving</string>
+    <string name="event_detail_no_description">Geen beschrijving.</string>
+    <string name="event_detail_no_location">Zonder locatie</string>
+    <string name="event_detail_from">Van</string>
+    <string name="event_detail_to">Tot</string>
+    <string name="event_detail_precise_location">Precieze locatie: (%1$f, %2$f)</string>
+    <string name="event_detail_date_unknown">Onbekend</string>
+
+    <string name="event_no_data">Er zijn geen evenementen gevonden. Probeer eens de filters aan te passen.</string>
+
+    <string name="event_pref_choose_associations_desc">Kies voor welke verenigingen activiteiten getoond moeten worden.</string>
+
+    <!-- Restaurants -->
+    <string name="resto_pref_closing_hour_category_title">Sluitingsuur</string>
+    <string name="resto_pref_closing_title">Sluitingsuur</string>
+    <string name="resto_pref_closing_description">
+        Kies vanaf welk uur de menu voor de volgende dag getoond wordt.
+    </string>
+
+    <string name="resto_pref_choice">Keuze resto</string>
+    <string name="resto_pref_choice_title">Kies een resto in het overzicht</string>
+
+    <string name="resto_extra_refresh_started">Vernieuwen…</string>
+    <string name="resto_extra_breakfast">Ontbijt</string>
+    <string name="resto_extra_desserts">Desserts</string>
+    <string name="resto_extra_drinks">Drank</string>
+    <string name="resto_extra_title">Overige</string>
+    <string name="resto_extra_food_price">€ %s</string>
+
+    <string name="resto_main_view_sandwiches">Broodjes</string>
+    <string name="resto_main_view_locations">Resto\'s</string>
+
+    <string name="resto_sandwich_activity_title">Belegde broodjes</string>
+    <string name="resto_sandwich_price_medium">Groot: € %s</string>
+    <string name="resto_sandwich_price_small">Klein: € %s</string>
+    <string name="resto_sandwich_ingredients">Ingrediënten: %s.</string>
+
+    <string name="resto_location_activity_title">Resto\'s</string>
+    <string name="resto_location_action_center">Ga naar resto\'s</string>
+
+    <string name="resto_menu_main_dish">Hoofdgerechten</string>
+    <string name="resto_menu_side_dish">Bijgerechten</string>
+    <string name="resto_menu_vegetables">Groenten</string>
+    <string name="resto_menu_date">Datum van menu: %s</string>
+    <string name="resto_menu_not_available">
+        Er is geen menu of we konden hem niet ophalen. Misschien heb je meer geluk op de
+        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">website van de resto's</a>.
+    </string>
+
+    <string name="resto_spinner_loading">Laden…</string>
+
+    <string name="resto_history">Historisch</string>
+    <string name="resto_history_not_found">Er is geen menu voor %s.</string>
+    <string name="resto_history_error">Fout</string>
+    <string name="resto_history_title">Menu van %s</string>
+
+    <string name="resto_tab_title_legend">Legende</string>
+    <string name="resto_legend_icon_header">Iconen</string>
+    <string name="resto_legend_fish">Vis</string>
+    <string name="resto_legend_soup">Soep</string>
+    <string name="resto_legend_vegetables">Groenten</string>
+    <string name="resto_legend_meat">Vlees</string>
+    <string name="resto_legend_veg">Vegetarisch/veganistisch</string>
+    <string name="resto_legend_abbr_header">Afkortingen</string>
+    <string name="resto_legend_msc_abbr">MSC</string>
+    <string name="resto_legend_msc_desc">Marine Stewardship Council, duurzame visserij</string>
+    <string name="resto_legend_asc_abbr">ASC</string>
+    <string name="resto_legend_asc_desc">Aquaculture Stewardship Council, verantwoorde kweek</string>
+
+    <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
+    <string name="value_resto_default_endpoint">nl-debrug</string>
+    <string name="resto_default_name">Resto De Brug</string>
+
+    <!-- Minerva -->
+    <string name="minerva_main_tab_courses">Vakken</string>
+    <string name="minerva_main_tab_announcements">Ongelezen aankondigingen</string>
+
+    <string name="minerva_login_authorize">Autoriseren</string>
+    <string name="minerva_login_description">Om Minerva te gebruiken dien je toestemming te geven.</string>
+    <string name="minerva_login_no_permission">Je gaf geen toestemming om je account te gebruiken.</string>
+    <string name="minerva_login_title">Minerva</string>
+
+    <string name="minerva_auth_activity_title">Autorisatie</string>
+    <string name="minerva_auth_progress_prepare">Klaarmaken…</string>
+    <string name="minerva_auth_progress_permission">Toegang vragen…</string>
+    <string name="minerva_auth_progress_information">Informatie ophalen…</string>
+    <string name="minerva_auth_progress_failure">Niet ingelogd.</string>
+    <string name="minerva_auth_progress_done">Klaar.</string>
+    <string name="minerva_auth_error">Er is een fout opgetreden. Probeer het nogmaals.</string>
+
+    <string name="minerva_announcement_detail_activity_title">Aankondiging</string>
+    <string name="minerva_announcement_notification_content">Nieuwe aankondiging</string>
+    <string name="minerva_announcement_notification_single_title">Aankondiging in %s</string>
+    <plurals name="minerva_announcement_notification_title">
+        <item quantity="one">%d aankondiging</item>
+        <item quantity="other">%d aankondigingen</item>
+    </plurals>
+    <string name="minerva_announcement_channel_title">Minerva-aankondigingen</string>
+    <string name="minerva_announcement_channel_desc">Bevat alle aankondigingen van Minerva.</string>
+    <plurals name="minerva_announcement_marked">
+        <item quantity="one">%d aankondiging als gelezen gemarkeerd</item>
+        <item quantity="other">%d aankondigingen als gelezen gemarkeerd</item>
+    </plurals>
+
+    <string name="minerva_sync_started">Synchroniseren…</string>
+    <string name="minerva_sync_provider_label">Minerva</string>
+    <string name="minerva_sync_getting_courses">Vakken ophalen…</string>
+    <string name="minerva_sync_getting_calendar">Agenda ophalen…</string>
+    <string name="minerva_sync_done">Klaar.</string>
+    <string name="minerva_sync_cancelled">Geannuleerd.</string>
+    <string name="minerva_sync_progress">Vak %1$d van %2$d ophalen…</string>
+
+    <string name="minerva_calendar_detail_activity_title">Agenda-item</string>
     <string name="minerva_calendar_device_event_title">
         <xliff:g example="Machinaal leren" id="course_name">%1$s</xliff:g>: <xliff:g example="Inleiding en afspraken" id="event_title">%2$s</xliff:g>
     </string>
     <string name="minerva_calendar_device_description">
         Les van het vak <xliff:g example="Machinaal leren" id="course_name">%1$s</xliff:g>
     </string>
-    <plurals name="home_feed_announcement_title">
-        <item quantity="one">%d aankondiging</item>
-        <item quantity="other">%d aankondigingen</item>
-    </plurals>
-    <plurals name="home_feed_announcement_more">
-        <item quantity="one">nog %d aankondiging…</item>
-        <item quantity="other">nog %d aankondigingen…</item>
-    </plurals>
-    <string name="announcement_notification_content">Nieuwe aankondiging</string>
-    <string name="announcement_notification_title">Aankondiging in %s</string>
-    <string name="without">Zonder</string>
-    <string name="ok">OK</string>
-    <string name="home_feed_not_loaded">Kom sommige dingen niet ophalen.</string>
-    <string name="offline_data_use">Offline data gebruikt.</string>
-    <string name="action_add_to_menu">Toevoegen aan agenda</string>
-    <string name="resto_closed">De resto is gesloten op deze dag.</string>
-    <string name="resto_main_dish">Hoofdgerechten</string>
-    <string name="resto_side_dish">Bijgerechten</string>
-    <string name="vegetables">Groenten</string>
-    <string name="home_feed_agenda_title">Agenda voor %s</string>
-    <string name="home_feed_card_announcement_title">Aankondigingen %s</string>
-    <plurals name="home_feed_card_announcement_more">
-        <item quantity="one">Bekijk nog %d aankondiging…</item>
-        <item quantity="other">Bekijk nog %d aankondigingen…</item>
-    </plurals>
-    <string name="minerva_no_permission">Je gaf geen toestemming om je account te gebruiken.</string>
-    <string name="minerva_sync_getting_courses">Vakken ophalen…</string>
-    <string name="minerva_sync_getting_calendar">Agenda ophalen…</string>
-    <string name="minerva_sync_done">Klaar.</string>
-    <string name="minerva_sync_cancelled">Geannuleerd.</string>
-    <string name="minerva_sync_progress" tools:ignore="PluralsCandidate">Vak %1$d van %2$d ophalen…</string>
-    <string name="not_done_yet">Nog niet klaar</string>
-    <string name="onboarding_welcome">Welkom bij Hydra</string>
-    <string name="onboarding_welcome_description">Kies wat je wilt zien en doen in de app</string>
-    <string name="onboarding_minerva_title">Minerva</string>
-    <string name="onboarding_minerva_description">Meld je aan bij Minerva om je vakken te kunnen bekijken</string>
-    <string name="onboarding_minerva_button">Aanmelden</string>
-    <string name="sko_notification_on">Meldingen ingeschakeld</string>
-    <string name="turn_off">Uitschakelen</string>
-    <string name="minerva_notification_again">Minerva: opnieuw aanmelden</string>
-    <string name="minerva_notification_text">Druk om opnieuw aan te melden</string>
-    <string name="minerva_notification_big_text">Je moet opnieuw aanmelden bij Minerva, want de inloggegevens zijn verouderd.</string>
-    <string name="minerva_modal_title">Minerva-fout</string>
-    <string name="minerva_modal_content">Synchronisatiefout</string>
-    <string name="minerva_modal_big">Er trad een fout op bij het synchroniseren met Minerva. Gegevens kunnen verouderd zijn.</string>
-    <string name="minerva_error_with">Er trad een fout op bij het synchroniseren, met deze boodschap:\\n\\n%s</string>
-    <string name="urgent_loading">Radio laden…</string>
-    <string name="oops">Oeps!</string>
-    <string name="title_home_urgent">Urgent.fm</string>
-    <string name="title_activity_libraries">Bibliotheken</string>
-    <string name="title_library">Bibliotheken</string>
-    <string name="resto_menu_date">Datum van menu: %s</string>
-    <string name="error_oh_no">Oh nee!</string>
-    <string name="error_description">Er was een probleem bij het ophalen van de data. Controleer uw verbinding en probeer opnieuw.</string>
-    <string name="schamper_error">Kon artikel niet openen.</string>
-    <string name="library_opening_header_date">Datum</string>
-    <string name="library_opening_header_hours">Openingsuren</string>
-    <string name="library_favourite">Opslaan</string>
-    <string name="menu_library_catalogue">Catalogus openen</string>
-    <string name="library_open_website">Website openen</string>
-    <string name="library_open_map">Open kaart</string>
-    <string name="library_send_mail">E-mail versturen</string>
-    <string name="library_call">Bellen</string>
-    <string name="library_no_phone">Geen telefoon</string>
-    <string name="library_details_email">E-mail</string>
-    <string name="library_details_phone">Telefoon</string>
-    <string name="library_details_contact">Verantwoordelijke</string>
-    <string name="library_opening_hours_title">Openingsuren</string>
-    <string name="library_address_title" tools:ignore="Typos">Adres</string>
-    <string name="library_more">Meer</string>
-    <string name="library_less">Minder</string>
     <string name="minerva_calender_name">Minerva-agenda</string>
     <string name="minerva_calendar_permission_title">Machtiging nodig</string>
-    <string name="minerva_calendar_permission_text">Hydra moet met de agenda kunnen werken om de Minerva-agenda te tonen. Zonder machtiging wordt de agenda niet gesynchroniseerd. We zullen het de volgende keer nogmaals vragen.</string>
-    <string name="minerva_calendar_permission_rationale">Hydra moet met de agenda kunnen werken om de Minerva-agenda te tonen. Zonder machtiging wordt de agenda niet gesynchroniseerd.</string>
-    <string name="minerva_action_sync_all">Synchroniseren</string>
-    <string name="minerva_syncing">Synchroniseren…</string>
+    <string name="minerva_calendar_permission_text">
+        Hydra moet met de agenda kunnen werken om de Minerva-agenda te tonen. Zonder machtiging wordt de agenda
+        niet gesynchroniseerd. We zullen het de volgende keer nogmaals vragen.
+    </string>
+    <string name="minerva_calendar_permission_rationale">
+        Hydra moet met de agenda kunnen werken om de Minerva-agenda te tonen. Zonder machtiging wordt de agenda
+        niet gesynchroniseerd.
+    </string>
     <string name="minerva_calendar_not_found">Agenda-item werd niet gevonden.</string>
     <string name="minerva_calendar_duration">%1$s – %2$s</string>
     <string name="minerva_calendar_friendly_date">%1$s (%2$s)</string>
-    <string name="action_sort">Sorteren</string>
-    <string name="action_minerva_courses_sort_title">Naam</string>
-    <string name="action_minerva_courses_sort_year">Jaar</string>
-    <string name="action_search">Zoeken</string>
-    <string name="minerva_course_unknown_year">Onbekend</string>
-    <string name="channel_minerva_announcements">Minerva-aankondigingen</string>
-    <string name="channel_minerva_announcements_desc">Bevat alle aankondigingen van Minerva.</string>
-    <string name="channel_minerva_account">Minerva-account</string>
-    <string name="channel_minerva_account_desc">Meldingen over uw account van Minerva.</string>
-    <string name="channel_sko">Student Kick-Off</string>
-    <string name="channel_sko_desc">Meldingen over de Student Kick-Off</string>
-    <string name="channel_urgent">Urgent.fm</string>
-    <string name="channel_urgent_desc">Meldingen over Urgent.fm, inclusief de mediamelding voor de radiospeler.</string>
+
+    <string name="minerva_calendar_merge_warning">
+        Dit evenement is samengevoegd door de duplicatendetectie van Hydra. Als het evenement vreemd lijkt, is het
+        best om het nog eens na te kijken op de website of de optie uit te schakelen, aangezien deze functie
+        nog experimenteel is.
+    </string>
+
+    <string name="minerva_account_channel_title">Minerva-account</string>
+    <string name="minerva_account_channel_desc">Meldingen over uw account van Minerva.</string>
+    <string name="minerva_account_launch_pref">Accountinstellingen openen</string>
+    <string name="minerva_account_label" translatable="false">@string/app_name</string>
 
     <string name="minerva_course_details_tabs_overview">Info</string>
     <string name="minerva_course_details_tabs_announcements">Aankondigingen</string>
     <string name="minerva_course_details_tabs_calendar">Agenda</string>
 
-    <string name="selected_n" tools:ignore="PluralsCandidate">%d geselecteerd</string>
-    <string name="select_all">Alles selecteren</string>
-    <string name="select_none">Niets selecteren</string>
-    <string name="mark_as_read">Markeren als gelezen</string>
-    <string name="card_title_hide_type">Dit soort kaarten verbergen</string>
-    <string name="card_title_show">Deze vereniging verbergen</string>
-    <string name="open_map">Kaart openen</string>
-    <string name="open_link">Link openen</string>
-    <string name="add_to_calendar">Toevoegen aan agenda</string>
-    <string name="open_browser">Bekijken in browser</string>
-    <string name="urgent_fm">Urgent.fm</string>
-    <string name="urgent_card_go_to_player">Ga naar de Urgent.fm-speler.</string>
-    <string name="card_title_login_minerva">Login op Minerva</string>
-    <string name="card_minerva_login_description">Na het inloggen worden uw komende lessen en recente aankondigingen geladen</string>
-    <string name="choose_associations">Kies voor welke verenigingen activiteiten getoond moeten worden.</string>
-    <string name="no_category">Geen categorie</string>
-    <string name="play">Afspelen</string>
+    <string name="minerva_course_tutor_and_course">%1$s - %2$s</string>
+    <string name="minerva_course_unknown_year">Onbekend</string>
+    <string name="minerva_course_detail_activity_title">Minerva-vak</string>
+    <string name="minerva_course_info_description">Beschrijving</string>
     <string name="minerva_course_info_name">Naam</string>
     <string name="minerva_course_info_code">Code</string>
     <string name="minerva_course_info_professor">Lesgever</string>
@@ -351,67 +301,134 @@
     <string name="minerva_course_info_settings_wait">
         Het kan even duren voor de instellingen van kracht zijn, een synchronisatie start nu…
     </string>
-    <string name="view_pdf">Pdf bekijken</string>
-    <string name="minerva_course_info_description">Beschrijving</string>
-    <string name="library_info_remarks">Opmerkingen</string>
-    <string name="library_info_details">Details</string>
-    <string name="from">Van</string>
-    <string name="to">Tot</string>
-    <string name="no_items">Geen items</string>
-    <string name="homefeed">Homefeed</string>
-    <string name="homefeed_choice">Kies wat je wilt zien in de homefeed.</string>
-    <string name="urgent_pause">Pauze</string>
-    <string name="urgent_play">Spelen</string>
-    <string name="urgent_stop">Stoppen</string>
-    <string name="urgent_warning">Let op! Als Urgent.fm op pauze staat wordt er nog steeds internet en batterij gebruikt. Als je klaar bent met luisteren druk je best op stop.</string>
-    <string name="urgent_unknown_programme">Onbekend programma</string>
-    <string name="resto_no_menu">Er is geen menu of we konden hem niet ophalen. Misschien heb je meer geluk op de
-        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">website van de resto\'s</a>.
+
+    <string name="minerva_exporting_account">Minerva-account exporteren</string>
+    <string name="minerva_exporting_account_desc">De details van uw Minerva-account worden geëxporteerd.</string>
+
+    <string name="minerva_pref_account_category_title">Account &amp; synchronisatie</string>
+    <string name="minerva_pref_account_management_title">Accountbeheer</string>
+    <string name="minerva_pref_account_management_desc">Zet de synchronisatie aan of uit</string>
+    <string name="minerva_pref_sync_time_title">Sync-interval Minerva</string>
+    <string name="minerva_pref_sync_time_desc">Om de hoeveel tijd Minerva gesynchroniseerd wordt (nu %s)</string>
+    <string name="minerva_pref_category_notification_title">Meldingen</string>
+    <string name="minerva_pref_announcements_title">Meldingen</string>
+    <string name="minerva_pref_announcements_desc">Toon een melding bij een nieuwe aankondiging</string>
+    <string name="minerva_pref_announcements_mail_title">Meldingen voor e-mail</string>
+    <string name="minerva_pref_announcements_mail_desc">Toon een melding bij een nieuwe aankondiging waarvoor al een e-mail verstuurd is.</string>
+    <string name="minerva_pref_category_calendar_title">Agenda</string>
+    <string name="minerva_pref_calendar_add_course_title">Vak toevoegen aan agenda-items</string>
+    <string name="minerva_pref_calendar_add_course_desc">Voeg de naam van het vak toe aan de titel van evenementen als die titel niet de naam van het vak is.</string>
+    <string name="minerva_pref_calendar_prefix_title">Vaknaam afkorten</string>
+    <string name="minerva_pref_calendar_prefix_desc">Gebruik acroniemen als naam van het vak in de titel van evenementen.</string>
+    <string name="minerva_pref_category_duplicates_title">Duplicatendetectie (experimenteel)</string>
+    <string name="minerva_pref_duplicates_detect_title">Duplicaten agenda samenvoegen</string>
+    <string name="minerva_pref_duplicates_detect_desc">Let op! Dit is experimenteel! Zie hieronder voor uitleg.</string>
+    <string name="minerva_pref_duplicates_explanation_title">Wat?</string>
+    <string name="minerva_pref_duplicates_explanation_desc">De duplicatendetectie probeert om voor elke les slechts één item in de agenda te tonen.</string>
+    <string name="minerva_pref_duplicates_rationale_title">Waarom?</string>
+    <string name="minerva_pref_duplicates_rationale_desc">
+        Hydra toont zowel de agenda van Oasis als die van Minerva zelf. Als een lesgever op Minerva dingen toevoegt,
+        wordt Oasis niet aangepast. Hierdoor staan sommige lessen twee keer in de agenda.
     </string>
 
-    <plurals name="minerva_marked_announcements">
-        <item quantity="one">%d aankondiging als gelezen gemarkeerd</item>
-        <item quantity="other">%d aankondigingen als gelezen gemarkeerd</item>
-    </plurals>
+    <!-- SKO -->
+    <string name="sko_overview_activity_title">Student Kick-Off</string>
 
-    <string name="pref_article_use_custom_tabs_desc">
-        Open artikels in Chrome Custom Tabs. Als er geen internetverbinding is, zullen de artikels toch in de app geopend worden.
-    </string>
+    <string name="sko_pref_notification_title">Meldingen</string>
+    <string name="sko_pref_notification_desc">Krijg meldingen over SKO</string>
+    <string name="sko_pref_activity_title">Instellingen</string>
 
-    <string name="pref_article_use_custom_tabs_title">
-        Gebruik Custom Tabs
-    </string>
-    <string name="pref_header_article_title">Artikels</string>
-    <string name="pref_header_article_desc">Opties voor de Schamper- en nieuwsartikels</string>
-    <string name="share">Delen</string>
-    <string name="home_feed_card_type_hidden">Kaartsoort verborgen</string>
-    <string name="home_feed_undone">Ongedaan gemaakt</string>
-    <string name="home_feed_association_hidden">Vereniging verborgen</string>
-    <string name="home_feed_undo">Ongedaan maken</string>
-    <string name="home_feed_card_done">Klaar met deze kaart</string>
-    <string name="pref_home_feed_cleared">Gewist</string>
+    <string name="sko_notification_on">Meldingen ingeschakeld</string>
+
+    <string name="sko_channel_title">Student Kick-Off</string>
+    <string name="sko_channel_desc">Meldingen over de Student Kick-Off</string>
+
     <string name="sko_artist_info">Beschrijving</string>
     <string name="sko_artist_more">Meer informatie</string>
     <string name="sko_artist_search_web">Artiest zoeken op internet</string>
     <string name="sko_artist_search_music">Artiest zoeken in muziek</string>
     <string name="sko_artist_no_content">Geen beschrijving gevonden voor deze artiest.</string>
     <string name="sko_artist_time">%1$s tot %2$s</string>
-    <string name="activity_title_homefeed_card_types">Kaartsoorten</string>
-    <string name="events_unnamed_precise_location">Precieze locatie: (%1$f, %2$f)</string>
 
-    <string name="pref_header_theme_title">Lay-out</string>
-    <string name="pref_header_theme_desc">Opties voor de lay-out van de app</string>
-    <string name="pref_theme_use_night_title">Nachtmodus gebruiken</string>
-    <string name="pref_theme_night_mode_always">Altijd donker</string>
-    <string name="pref_theme_night_mode_always_desc">Gebruik altijd het donkere thema.</string>
-    <string name="pref_theme_night_mode_system">Systeemstandaard</string>
-    <string name="pref_theme_night_mode_system_desc">Volg de systeemstandaard. Meestal is dit hetzelfde als "Altijd licht".</string>
-    <string name="pref_theme_night_mode_never">Altijd licht</string>
-    <string name="pref_theme_night_mode_never_desc">Gebruik altijd het lichte thema.</string>
-    <string name="pref_theme_night_mode_auto">Automatisch kiezen</string>
-    <string name="pref_theme_night_mode_auto_desc">Kies automatisch op basis van de tijd.</string>
-    <string name="pref_theme_settings">Instellingen</string>
-    <string name="pref_theme_explanations">Uitleg over de modi</string>
+    <string name="sko_tab_map">Kaart</string>
+    <string name="sko_tab_village">Student Village</string>
+    <string name="sko_tab_lineup">Line-up</string>
+    <string name="sko_tab_timeline">Timeline</string>
+
+    <!-- Home feed -->
+    <string name="feed_pref_card_types_title">Soorten kaarten</string>
+    <string name="feed_pref_card_types_summary">Kies welke soort kaarten je wilt zien in de homefeed</string>
+    <string name="feed_pref_card_types_description">Kies welke soort kaarten je wilt zien in jouw homefeed. Je kan ook altijd kaarten verbergen vanuit de homefeed zelf.</string>
+    <string name="feed_pref_data_saving_title">Databesparing</string>
+    <string name="feed_pref_data_saving_summary">Bespaar data door geen nieuwe miniaturen te laden bij mobiele verbindingen</string>
+    <string name="feed_pref_clear_cards_title">Verborgen kaarten wissen</string>
+    <string name="feed_pref_clear_cards_summary">Wis de lijst van verborgen kaarten. Hierdoor zullen alle kaarten opnieuw getoond worden.</string>
+    <string name="feed_pref_hidden_cleared">Gewist</string>
+
+    <string name="feed_general_error">Ophalen sommige kaarten mislukt.</string>
+
+    <string name="feed_resto_menu_title">Menu van %1$s • %2$s</string>
+
+    <string name="feed_urgent_player_desc">Ga naar de Urgent.fm-speler.</string>
+
+    <string name="feed_event_title">Activiteit door %s</string>
+
+    <string name="feed_announcement_single_title">Aankondigingen %s</string>
+    <plurals name="feed_announcement_view_more">
+        <item quantity="one">Bekijk nog %d aankondiging…</item>
+        <item quantity="other">Bekijk nog %d aankondigingen…</item>
+    </plurals>
+
+    <string name="feed_calendar_title">Agenda voor %s</string>
+
+    <string name="feed_card_hide_type">Dit soort kaarten verbergen</string>
+    <string name="feed_card_hide_association">Deze vereniging verbergen</string>
+    <string name="feed_card_hide_card">Alleen deze kaart verbergen</string>
+    <string name="feed_card_hide_single_type">Deze kaart verbergen</string>
+
+    <string name="feed_card_hidden_type">Kaartsoort verborgen</string>
+    <string name="feed_card_hidden_association">Vereniging verborgen</string>
+    <string name="feed_card_hidden_single">Klaar met deze kaart</string>
+
+    <!-- Info -->
+    <string name="info_sub_item_activity_title">Meer info</string>
+    <!-- This is the endpoint for the information API. Can be nl or en, nothing else. -->
+    <string name="value_info_endpoint">nl</string>
+
+    <!-- Schamper and news -->
+    <string name="schamper_article_activity_title">Schamperartikel</string>
+    <string name="schamper_article_date_and_category">%1$s - %2$s</string>
+    <string name="schamper_category_none">Geen categorie</string>
+
+    <string name="new_article_activity_title">Nieuwsartikel</string>
+
+    <string name="article_date_changed">%1$s, bewerkt %2$s</string>
+    <string name="article_pref_use_custom_tabs_title">Custom Tabs gebruiken</string>
+    <string name="article_pref_use_custom_tabs_desc">
+        Open artikels in Custom Tabs. Als er geen internetverbinding is, zullen de artikels toch in de app geopend worden.
+    </string>
+
+    <!-- Urgent.fm -->
+    <string name="urgent_fm">Urgent.fm</string>
+    <string name="urgent_album_art">Albumhoes</string>
+    <string name="urgent_channel_title">Urgent.fm</string>
+    <string name="urgent_channel_desc">Meldingen over Urgent.fm, inclusief de mediamelding voor de radiospeler.</string>
+    <string name="urgent_play">Spelen</string>
+    <string name="urgent_stop">Stoppen</string>
+
+    <!-- Libraries -->
+    <string name="library_favourite">Opslaan</string>
+    <string name="library_action_open_catalogue">Catalogus openen</string>
+    <string name="library_detail_no_phone">Geen telefoon</string>
+    <string name="library_details_email">E-mail</string>
+    <string name="library_details_phone">Telefoon</string>
+    <string name="library_details_contact">Verantwoordelijke</string>
+    <string name="library_opening_hours_title">Openingsuren</string>
+    <string name="library_address_title" tools:ignore="Typos">Adres</string>
+    <string name="library_more">Meer</string>
+    <string name="library_less">Minder</string>
+    <string name="library_info_remarks">Opmerkingen</string>
+    <string name="library_info_details">Details</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_unread_icon">Heeft ongelezen aankondigingen</string>
@@ -424,13 +441,11 @@
     <string name="content_desc_time">Tijd</string>
     <string name="content_desc_hydra_logo">Hydra-logo</string>
     <string name="content_desc_library">Bibliotheek</string>
-    <string name="content_desc_event_image">Afbeelding van evenement</string>
     <string name="content_desc_lesson">Les</string>
     <string name="content_desc_organiser">Lesgever</string>
     <string name="content_desc_announcement">Aankondiging</string>
     <string name="content_desc_warning">Waarschuwing</string>
     <string name="content_desc_resto">Resto</string>
-    <string name="content_desc_user_offline">Gebruiker offline</string>
     <string name="content_desc_kickoff_logo">Logo Student Kick-Off</string>
     <string name="content_desc_schamper_article">Schamperartikel</string>
     <string name="content_desc_search">Zoeken</string>
@@ -439,37 +454,4 @@
     <string name="content_desc_special_event_icon">Icoon speciaal evenement</string>
     <string name="content_desc_urgent_icon">Logo Urgent.fm</string>
     <string name="content_desc_association_icon">Icon vereniging</string>
-
-    <string name="resto_default_name">Resto De Brug</string>
-    <string name="resto_spinner_loading">Laden…</string>
-    <string name="resto_menu_other">Algemeen</string>
-    <string name="resto_extra_breakfast">Ontbijt</string>
-    <string name="resto_extra_desserts">Desserts</string>
-    <string name="resto_extra_drinks">Drank</string>
-    <string name="resto_extra_title">Overige</string>
-    <string name="resto_food_price">€ %s</string>
-    <string name="unrecoverable_error">Er is een fout opgetreden. Probeer het nogmaals.</string>
-    <string name="pref_theme_night_mode_restart">De wijzigingen worden van kracht nadat u de app herstart</string>
-    <string name="minerva_exporting_account">Minerva-account exporteren</string>
-    <string name="minerva_exporting_account_desc">De details van uw Minerva-account worden geëxporteerd.</string>
-    <string name="card_title_hide_card">Alleen deze kaart verbergen</string>
-    <string name="card_title_hide_single_type">Deze kaart verbergen</string>
-    <string name="resto_history">Historisch</string>
-    <string name="resto_history_not_found">Er is geen menu voor %s.</string>
-    <string name="resto_history_error">Fout</string>
-    <string name="resto_history_title">Menu van %s</string>
-    <string name="date_unknown">Onbekend</string>
-    <string name="menu_legend_icon_header">Iconen</string>
-    <string name="resto_legend_fish">Vis</string>
-    <string name="resto_legend_soup">Soep</string>
-    <string name="resto_legend_vegetables">Groenten</string>
-    <string name="resto_legend_meat">Vlees</string>
-    <string name="resto_legend_veg">Vegetarisch/veganistisch</string>
-    <string name="menu_legend_abbr_header">Afkortingen</string>
-    <string name="menu_legend_msc_abbr">MSC</string>
-    <string name="resto_legend_msc_desc">Marine Stewardship Council, duurzame visserij</string>
-    <string name="menu_legend_asc_abbr">ASC</string>
-    <string name="resto_legend_asc_desc">Aquaculture Stewardship Council, verantwoorde kweek</string>
-    <string name="new_until">Nu tot %s</string>
-    <string name="launch_settings">Accountinstellingen openen</string>
 </resources>

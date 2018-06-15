@@ -8,6 +8,7 @@ import be.ugent.zeus.hydra.R;
 import org.threeten.bp.*;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
+import org.threeten.bp.format.TextStyle;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.threeten.bp.temporal.IsoFields;
 
@@ -20,30 +21,36 @@ import java.util.Locale;
  */
 public class DateUtils {
 
-    private static final Locale locale = new Locale("nl");
-    @VisibleForTesting
-    static final DateTimeFormatter DAY_FORMATTER = DateTimeFormatter.ofPattern("cccc", locale);
-    private static final DateTimeFormatter WEEK_FORMATTER = DateTimeFormatter.ofPattern("w", locale);
-    private static final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern("HH:mm", new Locale("nl"));
-
     private DateUtils() {
         // Utils.
     }
 
     /**
-     * Get the date in friendly format.
+     * Get the date in friendly format. The style is {@link FormatStyle#MEDIUM}.
+     *
+     * @see #getFriendlyDate(Context, LocalDate, FormatStyle)
      */
-    public static String getFriendlyDate(@NonNull LocalDate date) {
-        return getFriendlyDate(date, FormatStyle.MEDIUM);
+    public static String getFriendlyDate(Context context, @NonNull LocalDate date) {
+        return getFriendlyDate(context, date, FormatStyle.MEDIUM);
     }
 
     /**
      * Transform a given date to a more 'friendly' date, with the given formatStyle as a suggestion. This method is very
      * similar to {@link android.text.format.DateUtils#getRelativeTimeSpanString(long)}.
      *
-     * The relative date applies to {@code date}s in the future, for the coming week. If the date is today, tomorrow or
-     * overmorrow, the formatted date will be those terms. Is the date in the next week, it will be the name of the day,
-     * e.g. 'Saturday'.
+     * The relative date applies to {@code date}s in the future, for the coming two week. If the date is today,
+     * tomorrow or overmorrow and the current language supports it, the formatted date will be those terms. If the
+     * date is in the current week, the day of week name (e.g. Monday) will be returned. If the date is in the next week,
+     * the result will be "next {weekday}".
+     *
+     * For example, if today is 11/02/2018 and the language supports all features:
+     * <ul>
+     *     <li>11/02/2018 will result in {@code today}.</li>
+     *     <li>12/02/2018 will result in {@code tomorrow}.</li>
+     * </ul>
+     *
+     * A date is thus considered special if it is one of the cases above; this can be summarized as follows: a date
+     * is special if it is less than 14 days (two weeks) in the future.
      *
      * Other dates are formatted using {@link #getDateFormatterForStyle(FormatStyle)}.
      *
@@ -52,51 +59,48 @@ public class DateUtils {
      *
      * @return A friendly representation of the date.
      */
-    public static String getFriendlyDate(@NonNull LocalDate date, FormatStyle formatStyle) {
+    public static String getFriendlyDate(Context context, @NonNull LocalDate date, FormatStyle formatStyle) {
+
+        final int ONE_WEEK_DAYS = 7;
+        final int TWO_WEEKS_DAYS = 14;
 
         LocalDate today = LocalDate.now();
+        Locale locale = Locale.getDefault();
 
-        int thisWeek = Integer.parseInt(today.format(WEEK_FORMATTER));
-        int week = date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
         long daysBetween = ChronoUnit.DAYS.between(today, date);
 
-        DateTimeFormatter dateFormatter = getDateFormatterForStyle(formatStyle);
-
-        if (daysBetween == 0) {
-            return "vandaag";
-        } else if (daysBetween == 1) {
-            return "morgen";
-        } else if (daysBetween == 2) {
-            return "overmorgen";
-        } else if (daysBetween < 0) {
-            return dateFormatter.format(date);
-        } else if (daysBetween < 7) {
-            return DAY_FORMATTER.format(date).toLowerCase();
-        } else if (week == thisWeek + 1) {
-            return "volgende " + DAY_FORMATTER.format(date).toLowerCase();
+        // We currently support three specialized cases.
+        if (daysBetween == 0 && context.getResources().getBoolean(R.bool.date_supports_today)) {
+            return context.getString(R.string.date_today);
+        } else if (daysBetween == 1 && context.getResources().getBoolean(R.bool.date_supports_tomorrow)) {
+            return context.getString(R.string.date_tomorrow);
+        } else if (daysBetween == 2 && context.getResources().getBoolean(R.bool.date_supports_overmorrow)) {
+            return context.getString(R.string.date_overmorrow);
+        } else if (0 <= daysBetween && daysBetween < ONE_WEEK_DAYS) {
+            return date.getDayOfWeek().getDisplayName(TextStyle.FULL_STANDALONE, locale);
+        } else if (0 <= daysBetween && daysBetween < TWO_WEEKS_DAYS) {
+            return context.getString(R.string.date_next_x, date.getDayOfWeek().getDisplayName(TextStyle.FULL, locale));
         } else {
-            return dateFormatter.format(date);
+            // All other cases, e.g. the past, the far future or some language that does not support all features.
+            return getDateFormatterForStyle(formatStyle).format(date);
         }
     }
 
     @VisibleForTesting
     static DateTimeFormatter getDateFormatterForStyle(FormatStyle style) {
-        return DateTimeFormatter.ofLocalizedDate(style).withLocale(locale);
+        return DateTimeFormatter.ofLocalizedDate(style);
     }
 
     /**
-     * Check if for a given date, the {@link #getFriendlyDate(LocalDate)} would return a friendly date or not.
+     * Check if a given date is friendly or not. Friendly is defined by {@link #getFriendlyDate(Context, LocalDate)}.
      *
      * @param date The date to check.
      *
      * @return True if a friendly date would be returned.
      */
-    public static boolean isFriendly(@NonNull LocalDate date) {
-        LocalDate today = LocalDate.now();
-        long daysBetween = ChronoUnit.DAYS.between(today, date);
-        int week = date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
-        int thisWeek = Integer.parseInt(today.format(WEEK_FORMATTER));
-        return daysBetween == 0 || daysBetween == 1 || daysBetween == 2 || daysBetween >= 0 && (daysBetween < 7 || week == thisWeek + 1);
+    public static boolean willBeFriendly(@NonNull LocalDate date) {
+        long daysBetween = ChronoUnit.DAYS.between(LocalDate.now(), date);
+        return 0 <= daysBetween && daysBetween < 14;
     }
 
     /**
@@ -176,6 +180,8 @@ public class DateUtils {
         LocalDateTime localStart = DateUtils.toLocalDateTime(start);
         LocalDateTime localEnd = DateUtils.toLocalDateTime(end);
 
+        final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern(context.getString(R.string.formatter_general_hour_only));
+
         if (start.isBefore(now) && end.isAfter(now)) {
             long epochMillis = end.toInstant().toEpochMilli();
             String endString;
@@ -189,11 +195,11 @@ public class DateUtils {
                 );
             }
 
-            return context.getString(R.string.new_until, endString);
+            return context.getString(R.string.date_now_until, endString);
         }
 
         if (start.getDayOfMonth() == end.getDayOfMonth()) {
-            return localStart.format(HOUR_FORMATTER) + " tot " + localEnd.format(HOUR_FORMATTER);
+            return context.getString(R.string.date_between, localStart.format(HOUR_FORMATTER), localEnd.format(HOUR_FORMATTER));
         } else {
             return android.text.format.DateUtils.formatDateRange(
                     context,

@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.feed.commands;
 import android.content.Context;
 import android.support.annotation.StringRes;
 
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.cards.Card;
 
 /**
@@ -45,5 +46,7 @@ public interface FeedCommand {
      * @return The string resource.
      */
     @StringRes
-    int getUndoMessage();
+    default int getUndoMessage() {
+        return R.string.action_undo;
+    }
 }

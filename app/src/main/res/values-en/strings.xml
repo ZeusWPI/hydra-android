@@ -1,0 +1,446 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Generic stuff -->
+    <string name="permissions_read_courses">Read Minerva courses</string>
+    <string name="permissions_read_courses_desc">
+        Allow apps to read the list of Minerva courses and to read information about the courses.
+    </string>
+
+    <string name="title_activity_hydra_web_view">Web View</string>
+
+    <string name="action_refresh">Refresh</string>
+    <string name="action_view_website">View website</string>
+    <string name="action_open_browser">View in browser</string>
+    <string name="action_view_settings">Settings</string>
+    <string name="action_view_link">Open link</string>
+    <string name="action_again">Again</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_drawer_open">Open</string>
+    <string name="action_drawer_close">Close</string>
+    <string name="action_turn_off">Disable</string>
+    <string name="action_open_map">Open map</string>
+    <string name="action_send_mail">Send e-mail</string>
+    <string name="action_call">Call</string>
+    <string name="action_sync">Sync</string>
+    <string name="action_search">Search</string>
+    <string name="action_mark_as_read">Mark as read</string>
+    <string name="action_add_to_calendar">Add to calendar</string>
+    <string name="action_view_pdf">View pdf</string>
+    <string name="action_share">Share</string>
+    <string name="action_undo">Undo</string>
+
+    <string name="selected_n">%s selected</string>
+
+    <string name="select_none">Select none</string>
+
+    <string name="error_network">Network failure.</string>
+    <string name="error_no_activity">Nothing found to open this!</string>
+
+    <string name="drawer_title_feed">Overview</string>
+    <string name="drawer_title_schamper">Schamper</string>
+    <string name="drawer_title_resto">Resto</string>
+    <string name="drawer_title_events">Events</string>
+    <string name="drawer_title_news">News</string>
+    <string name="drawer_title_info">Info</string>
+    <string name="drawer_title_minerva">Minerva</string>
+    <string name="drawer_title_pref">Settings</string>
+    <string name="drawer_title_urgent">Urgent.fm</string>
+    <string name="drawer_title_library">Libraries</string>
+
+    <string name="shortcut_resto_short_label">Resto menu</string>
+    <string name="shortcut_resto_long_label">View the resto menu</string>
+    <string name="shortcut_resto_disabled">Disabled</string>
+
+    <string name="shortcut_minerva_short_label">Minerva</string>
+    <string name="shortcut_minerva_long_label">View Minerva stuff</string>
+    <string name="shortcut_minerva_disabled">Disabled</string>
+
+    <string name="no_items">No items</string>
+
+    <string name="date_now_until">Now to %s</string>
+    <string name="date_between">%1$s to %2$s</string>
+    <string name="date_today">today</string>
+    <string name="date_tomorrow">tomorrow</string>
+    <string name="date_overmorrow">overmorrow</string>
+    <string name="date_next_x">next %s</string>
+
+    <!-- TODO: remove this and replace by a custom string for each use -->
+    <string name="deprecated_dot_separated">%1$s • %2$s</string>
+
+    <!-- General preferences -->
+    <string name="pref_overview_resto_title">Resto</string>
+    <string name="pref_overview_resto_desc">Settings for the student restaurants</string>
+    <string name="pref_overview_activities_title">Activities</string>
+    <string name="pref_overview_activities_desc">Options for the activities</string>
+    <string name="pref_overview_minerva_title">Minerva</string>
+    <string name="pref_overview_minerva_desc">Options for the Minerva integration</string>
+    <string name="pref_overview_sko_title">Student Kick-Off</string>
+    <string name="pref_overview_sko_desc">Options for SKO</string>
+    <string name="pref_overview_feed_title">Home screen</string>
+    <string name="pref_overview_feed_desc">Options for the homefeed</string>
+    <string name="pref_overview_article_title">Articles</string>
+    <string name="pref_overview_article_desc">Options for Schamper and news articles</string>
+    <string name="pref_overview_about_title">About</string>
+    <string name="pref_overview_about_desc">About the app</string>
+    <string name="pref_overview_theme_title">Lay-out</string>
+    <string name="pref_overview_theme_desc">Options for the lay-out of the app</string>
+
+    <string name="pref_about_licenses_title">Open source software</string>
+    <string name="pref_about_licenses_summary">License details for used libraries</string>
+    <string name="pref_about_version_title">Version</string>
+    <string name="pref_about_version_summary">Version %1$s [%2$d] (%3$s)</string>
+    <string name="pref_about_changelog_title">Changelog</string>
+    <string name="pref_about_changelog_summary">View what\'s new</string>
+    <string name="pref_about_creator_title">Made by Zeus WPI</string>
+    <string name="pref_about_issues_title">Feedback</string>
+    <string name="pref_about_issues_summary">Report problems or give suggestions</string>
+
+    <string name="pref_licenses_title">Licenses</string>
+
+    <string name="pref_theme_use_night_title">Use night mode</string>
+    <string name="pref_theme_night_mode_always">Always dark</string>
+    <string name="pref_theme_night_mode_always_desc">Always use the dark theme</string>
+    <string name="pref_theme_night_mode_system">System default</string>
+    <string name="pref_theme_night_mode_system_desc">Follow the system default. Often the same as Always light.</string>
+    <string name="pref_theme_night_mode_never">Always light</string>
+    <string name="pref_theme_night_mode_never_desc">Always use the light theme</string>
+    <string name="pref_theme_night_mode_auto">Choose automatically</string>
+    <string name="pref_theme_night_mode_auto_desc">Choose a theme based on the time of day.</string>
+    <string name="pref_theme_night_mode_restart">The changes will be applied after you restart the app</string>
+    <string name="pref_theme_night_mode_title">Settings</string>
+    <string name="pref_theme_explanations">Explanations of the modes</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_welcome">Welcome to Hydra</string>
+    <string name="onboarding_welcome_description">Choose what you want to see and do in the app</string>
+    <string name="onboarding_minerva_title">Minerva</string>
+    <string name="onboarding_minerva_description">Login to Minerva to see your courses</string>
+    <string name="onboarding_minerva_button">Login</string>
+    <string name="onboarding_feed_title">Homefeed</string>
+    <string name="onboarding_feed_desc">Choose what you want to see in the homefeed.</string>
+
+    <!-- Association events -->
+    <string name="event_detail_activity_title">Event</string>
+    <string name="event_detail_description_title">Description</string>
+    <string name="event_detail_no_description">No description.</string>
+    <string name="event_detail_no_location">Without location</string>
+    <string name="event_detail_from">From</string>
+    <string name="event_detail_to">To</string>
+    <string name="event_detail_precise_location">Precise location: (%1$f, %2$f)</string>
+    <string name="event_detail_date_unknown">Unknown</string>
+
+    <string name="event_no_data">No events were found. Try changing the filters.</string>
+
+    <string name="event_pref_choose_associations_desc">Choose for which organisation activities should be shown.</string>
+
+    <!-- Restaurants -->
+    <string name="resto_pref_closing_hour_category_title">Closing hour</string>
+    <string name="resto_pref_closing_title">Closing hour</string>
+    <string name="resto_pref_closing_description">
+        Choose from which hour the menu for the next day will be displayed.
+    </string>
+
+    <string name="resto_pref_choice">Resto choice</string>
+    <string name="resto_pref_choice_title">Choose a resto in the overview</string>
+
+    <string name="resto_extra_refresh_started">Refreshing…</string>
+    <string name="resto_extra_breakfast">Breakfast</string>
+    <string name="resto_extra_desserts">Desserts</string>
+    <string name="resto_extra_drinks">Drinks</string>
+    <string name="resto_extra_title">Other</string>
+    <string name="resto_extra_food_price">€ %s</string>
+
+    <string name="resto_main_view_sandwiches">Sandwiches</string>
+    <string name="resto_main_view_locations">Restos</string>
+
+    <string name="resto_sandwich_activity_title">Sandwiches</string>
+    <string name="resto_sandwich_price_medium">Large: € %s</string>
+    <string name="resto_sandwich_price_small">Small: € %s</string>
+    <string name="resto_sandwich_ingredients">Ingredients: %s.</string>
+
+    <string name="resto_location_activity_title">Restos</string>
+    <string name="resto_location_action_center">Go to restos</string>
+
+    <string name="resto_menu_main_dish">Main courses</string>
+    <string name="resto_menu_side_dish">Side dish</string>
+    <string name="resto_menu_vegetables">Vegetables</string>
+    <string name="resto_menu_date">Date of the menu: %s</string>
+    <string name="resto_menu_not_available">
+        There is no menu or we could not retrieve it. Perhaps you will have more luck on the
+        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">website of the restos</a>.
+    </string>
+
+    <string name="resto_spinner_loading">Loading…</string>
+
+    <string name="resto_history">Historic</string>
+    <string name="resto_history_not_found">There is no menu for %s.</string>
+    <string name="resto_history_error">Error</string>
+    <string name="resto_history_title">Menu of %s</string>
+
+    <string name="resto_tab_title_legend">Legend</string>
+    <string name="resto_legend_icon_header">Icons</string>
+    <string name="resto_legend_fish">Fish</string>
+    <string name="resto_legend_soup">Soup</string>
+    <string name="resto_legend_vegetables">Vegetables</string>
+    <string name="resto_legend_meat">Meat</string>
+    <string name="resto_legend_veg">Vegetarian/vegan</string>
+    <string name="resto_legend_abbr_header">Abbreviations</string>
+    <string name="resto_legend_msc_abbr">MSC</string>
+    <string name="resto_legend_msc_desc">Marine Stewardship Council, sustainable fishing</string>
+    <string name="resto_legend_asc_abbr">ASC</string>
+    <string name="resto_legend_asc_desc">Aquaculture Stewardship Council, responsible seafood</string>
+
+    <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
+    <string name="value_resto_default_endpoint">en</string>
+    <string name="resto_default_name">English customers</string>
+
+    <!-- Minerva -->
+    <string name="minerva_main_tab_courses">Courses</string>
+    <string name="minerva_main_tab_announcements">Unread announcements</string>
+
+    <string name="minerva_login_authorize">Authorise</string>
+    <string name="minerva_login_description">To use Minerva you need to give permission.</string>
+    <string name="minerva_login_no_permission">You did not give permission to use your account.</string>
+    <string name="minerva_login_title">Minerva</string>
+
+    <string name="minerva_auth_activity_title">Authorisation</string>
+    <string name="minerva_auth_progress_prepare">Preparing…</string>
+    <string name="minerva_auth_progress_permission">Requesting access…</string>
+    <string name="minerva_auth_progress_information">Retrieving information…</string>
+    <string name="minerva_auth_progress_failure">Not signed in.</string>
+    <string name="minerva_auth_progress_done">Done.</string>
+    <string name="minerva_auth_error">An error occurred. Please try again.</string>
+
+    <string name="minerva_announcement_detail_activity_title">Announcement</string>
+    <string name="minerva_announcement_notification_content">New announcement</string>
+    <string name="minerva_announcement_notification_single_title">Announcement in %s</string>
+    <plurals name="minerva_announcement_notification_title">
+        <item quantity="one">%d announcement</item>
+        <item quantity="other">%d announcements</item>
+    </plurals>
+    <string name="minerva_announcement_channel_title">Minerva announcements</string>
+    <string name="minerva_announcement_channel_desc">View all Minerva announcements.</string>
+    <plurals name="minerva_announcement_marked">
+        <item quantity="one">%d aankondiging als gelezen gemarkeerd</item>
+        <item quantity="other">%d aankondigingen als gelezen gemarkeerd</item>
+    </plurals>
+
+    <string name="minerva_sync_started">Synchronising…</string>
+    <string name="minerva_sync_provider_label">Minerva</string>
+    <string name="minerva_sync_getting_courses">Retrieving courses…</string>
+    <string name="minerva_sync_getting_calendar">Retrieving calendar…</string>
+    <string name="minerva_sync_done">Done.</string>
+    <string name="minerva_sync_cancelled">Cancelled.</string>
+    <string name="minerva_sync_progress">Retrieving course %1$d of %2$d…</string>
+
+    <string name="minerva_calendar_detail_activity_title">Calendar item</string>
+    <string name="minerva_calendar_device_event_title">
+        <xliff:g example="Machinaal leren" id="course_name">%1$s</xliff:g>: <xliff:g example="Inleiding en afspraken" id="event_title">%2$s</xliff:g>
+    </string>
+    <string name="minerva_calendar_device_description">
+        Lecture of  the course <xliff:g example="Machinaal leren" id="course_name">%1$s</xliff:g>
+    </string>
+    <string name="minerva_calender_name">Minerva calendar</string>
+    <string name="minerva_calendar_permission_title">Permissions needed</string>
+    <string name="minerva_calendar_permission_text">
+        Hydra must be able to work with the calendar to display the Minerva calendar.
+        Without permissions, the calendar will not by synchronised. We will ask again next time.
+    </string>
+    <string name="minerva_calendar_permission_rationale">
+        Hydra must be able to work with the calendar to display the Minerva calendar.
+        Without permissions, the calendar will not by synchronised.
+    </string>
+    <string name="minerva_calendar_not_found">Calendar item not found.</string>
+    <string name="minerva_calendar_duration">%1$s – %2$s</string>
+    <string name="minerva_calendar_friendly_date">%1$s (%2$s)</string>
+
+    <string name="minerva_calendar_merge_warning">
+        This event was merged by Hydra\'s duplicate detection. If the event seems weird, it\'s probably better to double
+        check it on the website or to disable the option, since this function is experimental.
+    </string>
+
+    <string name="minerva_account_channel_title">Minerva account</string>
+    <string name="minerva_account_channel_desc">Notifications about your Minerva account.</string>
+    <string name="minerva_account_launch_pref">Open account settings</string>
+
+
+    <string name="minerva_course_details_tabs_overview">Info</string>
+    <string name="minerva_course_details_tabs_announcements">Announcements</string>
+    <string name="minerva_course_details_tabs_calendar">Calendar</string>
+
+    <string name="minerva_course_tutor_and_course">%1$s - %2$s</string>
+    <string name="minerva_course_unknown_year">Unknown</string>
+    <string name="minerva_course_detail_activity_title">Minerva course</string>
+    <string name="minerva_course_info_description">Description</string>
+    <string name="minerva_course_info_name">Name</string>
+    <string name="minerva_course_info_code">Code</string>
+    <string name="minerva_course_info_professor">Tutor</string>
+    <string name="minerva_course_info_year">Academic year</string>
+    <string name="minerva_course_info_course_fiche">Course specifications</string>
+    <string name="minerva_course_info_course_fiche_warning">Note that not every course has course specifications.</string>
+    <string name="minerva_course_info_settings_header">Settings</string>
+    <string name="minerva_course_info_settings_announcements">Ignore announcements</string>
+    <string name="minerva_course_info_settings_announcements_description">
+        This will make sure you no longer receive announcements for this course, they will no longer appear in the homefeed
+        and they will not appear in the list of unread announcements. The announcements of this course are immediately marked as read.
+        They are still visible in the course overview. This only applies to new announcements: existing ones stay visible.
+    </string>
+    <string name="minerva_course_info_settings_calendar">Ignore calendar</string>
+    <string name="minerva_course_info_settings_calendar_description">
+        This makes sure events for this course no longer appear in the homefeed or the device calendar.
+        They are still visible in the course overview.
+    </string>
+    <string name="minerva_course_info_settings_wait">
+        It kan take a while until the settings are applied; a sync starts now…
+    </string>
+
+    <string name="minerva_exporting_account">Export Minerva-account</string>
+    <string name="minerva_exporting_account_desc">The details of your Minerva account will be exported.</string>
+
+    <string name="minerva_pref_account_category_title">Account &amp; synchronisation</string>
+    <string name="minerva_pref_account_management_title">Account management</string>
+    <string name="minerva_pref_account_management_desc">Enable or disable synchronisation</string>
+    <string name="minerva_pref_sync_time_title">Sync interval Minerva</string>
+    <string name="minerva_pref_sync_time_desc">Every how often Minerva should be synced (now %s)</string>
+    <string name="minerva_pref_category_notification_title">Notifications</string>
+    <string name="minerva_pref_announcements_title">Notifications</string>
+    <string name="minerva_pref_announcements_desc">Show a notification for new announcements</string>
+    <string name="minerva_pref_announcements_mail_title">Notification for e-mail</string>
+    <string name="minerva_pref_announcements_mail_desc">Show a notification for new announcements for which an e-mail has already been sent.</string>
+    <string name="minerva_pref_category_calendar_title">Calendar</string>
+    <string name="minerva_pref_calendar_add_course_title">Add course to calendar items</string>
+    <string name="minerva_pref_calendar_add_course_desc">Add the name of the course to the event title if this title is not the name of the course.</string>
+    <string name="minerva_pref_calendar_prefix_title">Abbreviate course name</string>
+    <string name="minerva_pref_calendar_prefix_desc">Attempt to use acronyms as name of the course in the title of events.</string>
+    <string name="minerva_pref_category_duplicates_title">Duplicate detection (experimental)</string>
+    <string name="minerva_pref_duplicates_detect_title">Merge duplicate calendar items</string>
+    <string name="minerva_pref_duplicates_detect_desc">Warning! This is experimental! See below for information.</string>
+    <string name="minerva_pref_duplicates_explanation_title">What?</string>
+    <string name="minerva_pref_duplicates_explanation_desc">The duplicate detection attempts to only show one calendar event for each lecture.</string>
+    <string name="minerva_pref_duplicates_rationale_title">Why?</string>
+    <string name="minerva_pref_duplicates_rationale_desc">Hydra shows both the calendar from Oasis and the one from Minerva. If a lecturer adds events on Minerva, Oasis will not be updated. This results in duplicate events.</string>
+
+    <!-- SKO -->
+    <string name="sko_overview_activity_title">Student Kick-Off</string>
+
+    <string name="sko_pref_notification_title">Notifications</string>
+    <string name="sko_pref_notification_desc">Receive notifications about SKO</string>
+    <string name="sko_pref_activity_title">Settings</string>
+
+    <string name="sko_notification_on">Notifications enabled</string>
+
+    <string name="sko_channel_title">Student Kick-Off</string>
+    <string name="sko_channel_desc">Notifications about the Student Kick-Off</string>
+
+    <string name="sko_artist_info">Description</string>
+    <string name="sko_artist_more">More information</string>
+    <string name="sko_artist_search_web">Search artist on the web</string>
+    <string name="sko_artist_search_music">Search artist in music</string>
+    <string name="sko_artist_no_content">No description for this artist</string>
+    <string name="sko_artist_time">%1$s to %2$s</string>
+
+    <string name="sko_tab_map">Map</string>
+    <string name="sko_tab_village">Student Village</string>
+    <string name="sko_tab_lineup">Line-up</string>
+    <string name="sko_tab_timeline">Timeline</string>
+
+    <!-- Home feed -->
+    <string name="feed_pref_card_types_title">Card types</string>
+    <string name="feed_pref_card_types_summary">Choose which card types you want in your homefeed</string>
+    <string name="feed_pref_card_types_description">Choose which card types you want in your homefeed. You can also hide cards directly from the homefeed.</string>
+    <string name="feed_pref_data_saving_title">Data saver</string>
+    <string name="feed_pref_data_saving_summary">Save data by not loading thumbnails on mobile networks</string>
+    <string name="feed_pref_clear_cards_title">Erase hidden cards</string>
+    <string name="feed_pref_clear_cards_summary">Erase the list of hidden cards. Causes all cards to be displayed again.</string>
+    <string name="feed_pref_hidden_cleared">Erased</string>
+
+    <string name="feed_general_error">Could not get some cards.</string>
+    <string name="feed_resto_menu_title">Menu for %1$s • %2$s</string>
+
+    <string name="feed_urgent_player_desc">Go to the Urgent.fm player.</string>
+
+    <string name="feed_event_title">Activity by %s</string>
+
+    <string name="feed_announcement_single_title">Announcements %s</string>
+    <plurals name="feed_announcement_view_more">
+        <item quantity="one">View %d more announcement…</item>
+        <item quantity="other">View %d more announcements…</item>
+    </plurals>
+
+    <string name="feed_calendar_title">Calendar for %s</string>
+
+    <string name="feed_card_hide_type">Hide this card type</string>
+    <string name="feed_card_hide_association">Hide this organisation</string>
+    <string name="feed_card_hide_card">Hide only this card</string>
+    <string name="feed_card_hide_single_type">Hide this card</string>
+
+    <string name="feed_card_hidden_type">Undo successful</string>
+    <string name="feed_card_hidden_association">Organisation hidden</string>
+    <string name="feed_card_hidden_single">Done with this card</string>
+
+    <!-- Info -->
+    <string name="info_sub_item_activity_title">More info</string>
+    <!-- This is the endpoint for the information API. Can be nl or en, nothing else. -->
+    <string name="value_info_endpoint">en</string>
+
+    <!-- Schamper and news -->
+    <string name="schamper_article_activity_title">Schamper article</string>
+    <string name="schamper_article_date_and_category">%1$s - %2$s</string>
+    <string name="schamper_category_none">No category</string>
+
+    <string name="new_article_activity_title">News article</string>
+
+    <string name="article_date_changed">%1$s, edited %2$s</string>
+    <string name="article_pref_use_custom_tabs_title">Use Custom Tabs</string>
+    <string name="article_pref_use_custom_tabs_desc">
+        Open articles in Chrome Custom Tabs. If there is no connection, the articles will be opend in-app anyway.
+    </string>
+
+    <!-- Urgent.fm -->
+    <string name="urgent_fm">Urgent.fm</string>
+    <string name="urgent_album_art">Cover art</string>
+    <string name="urgent_channel_title">Urgent.fm</string>
+    <string name="urgent_channel_desc">Notifications about Urgent.fm, including the media notification for the player.</string>
+    <string name="urgent_play">Play</string>
+    <string name="urgent_stop">Stop</string>
+
+    <!-- Libraries -->
+    <string name="library_favourite">Save</string>
+    <string name="library_action_open_catalogue">Open catalogue</string>
+    <string name="library_detail_no_phone">No phone</string>
+    <string name="library_details_email">E-mail</string>
+    <string name="library_details_phone">Phone</string>
+    <string name="library_details_contact">Responsible</string>
+    <string name="library_opening_hours_title">Opening hours</string>
+    <string name="library_address_title">Address</string>
+    <string name="library_more">More</string>
+    <string name="library_less">Less</string>
+    <string name="library_info_remarks">Remarks</string>
+    <string name="library_info_details">Details</string>
+
+    <!-- Accessibility strings -->
+    <string name="content_desc_unread_icon">Has unread descriptions</string>
+    <string name="content_desc_reorder">Order</string>
+    <string name="content_desc_more">more</string>
+    <string name="content_desc_artist_image">Artist picture</string>
+    <string name="content_desc_schamper_image">Schamper image</string>
+    <string name="content_desc_calendar_icon">Calendar icon</string>
+    <string name="content_desc_location">Location</string>
+    <string name="content_desc_time">Time</string>
+    <string name="content_desc_hydra_logo">Hydra icon</string>
+    <string name="content_desc_library">Library</string>
+    <string name="content_desc_lesson">Lecture</string>
+    <string name="content_desc_organiser">Lecturer</string>
+    <string name="content_desc_announcement">Announcement</string>
+    <string name="content_desc_warning">Warning</string>
+    <string name="content_desc_resto">Resto</string>
+    <string name="content_desc_kickoff_logo">Icon Student Kick-Off</string>
+    <string name="content_desc_schamper_article">Schamper article</string>
+    <string name="content_desc_search">Search</string>
+    <string name="content_desc_search_artist">Search by artist</string>
+    <string name="content_desc_minerva_icon">Minerva icon</string>
+    <string name="content_desc_special_event_icon">Icon special event</string>
+    <string name="content_desc_urgent_icon">Urgent.fm icon</string>
+    <string name="content_desc_association_icon">Icon organisation</string>
+</resources>

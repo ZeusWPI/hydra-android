@@ -113,7 +113,7 @@ public final class RestoMenu implements Parcelable, Serializable {
         dest.writeStringList(this.vegetables);
     }
 
-    protected RestoMenu(Parcel in) {
+    private RestoMenu(Parcel in) {
         this.open = in.readByte() != 0;
         long tmpDate = in.readLong();
         this.date = tmpDate == -1 ? null : LocalDate.ofEpochDay(tmpDate);

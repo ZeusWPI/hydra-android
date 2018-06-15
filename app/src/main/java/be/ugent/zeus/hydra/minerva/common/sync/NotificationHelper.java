@@ -145,7 +145,7 @@ public class NotificationHelper {
 
     private String getNotificationCourseTitle(Course course) {
         if (TextUtils.isEmpty(course.getTitle())) {
-            return context.getString(R.string.announcement_notification_title, course.getCode());
+            return context.getString(R.string.minerva_announcement_notification_single_title, course.getCode());
         } else {
             return course.getTitle();
         }
@@ -153,7 +153,7 @@ public class NotificationHelper {
 
     private String getNotificationAnnouncementTitle(Announcement announcement) {
         if (TextUtils.isEmpty(announcement.getTitle())) {
-            return context.getString(R.string.announcement_notification_content);
+            return context.getString(R.string.minerva_announcement_notification_content);
         } else {
             return announcement.getTitle();
         }
@@ -179,7 +179,7 @@ public class NotificationHelper {
         }
 
         // Add a summary.
-        inboxStyle.setSummaryText(context.getResources().getQuantityString(R.plurals.home_feed_announcement_title, announcements.size(), announcements.size()));
+        inboxStyle.setSummaryText(context.getResources().getQuantityString(R.plurals.minerva_announcement_notification_title, announcements.size(), announcements.size()));
 
         // Secondly, we get the notification itself.
 
@@ -188,7 +188,7 @@ public class NotificationHelper {
                 .setCategory(CATEGORY_EMAIL)
                 .setAutoCancel(true)
                 .setContentTitle(getNotificationCourseTitle(course))
-                .setContentText(context.getResources().getQuantityString(R.plurals.home_feed_announcement_title, announcements.size(), announcements.size()))
+                .setContentText(context.getResources().getQuantityString(R.plurals.minerva_announcement_notification_title, announcements.size(), announcements.size()))
                 .setContentIntent(upIntentMore(course))
                 .setColor(notificationColour)
                 .setStyle(inboxStyle)

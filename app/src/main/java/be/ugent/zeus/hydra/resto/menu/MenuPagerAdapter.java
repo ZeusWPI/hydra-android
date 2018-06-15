@@ -1,11 +1,13 @@
 package be.ugent.zeus.hydra.resto.menu;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.SingleDayFragment;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -22,9 +24,11 @@ import java.util.List;
 class MenuPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<RestoMenu> data = Collections.emptyList();
+    private final Context context;
 
-    MenuPagerAdapter(FragmentManager fm) {
+    MenuPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
+        this.context = context.getApplicationContext();
     }
 
     public void setData(List<RestoMenu> data) {
@@ -82,9 +86,9 @@ class MenuPagerAdapter extends FragmentStatePagerAdapter {
     @NonNull
     public CharSequence getPageTitle(int position) {
         if (position == 0) {
-            return "Legende";
+            return context.getString(R.string.resto_tab_title_legend);
         } else {
-            return DateUtils.getFriendlyDate(data.get(position - 1).getDate());
+            return DateUtils.getFriendlyDate(context, data.get(position - 1).getDate());
         }
     }
 }

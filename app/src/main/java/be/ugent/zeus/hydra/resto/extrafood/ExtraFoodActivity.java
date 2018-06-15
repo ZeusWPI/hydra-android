@@ -29,7 +29,7 @@ public class ExtraFoodActivity extends BaseActivity {
         viewModel = ViewModelProviders.of(this).get(ExtraFoodViewModel.class);
         viewModel.getRefreshing().observe(this, aBoolean -> {
             if (aBoolean != null && aBoolean) {
-                Toast.makeText(getApplicationContext(), R.string.begin_refresh, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.resto_extra_refresh_started, Toast.LENGTH_SHORT).show();
             }
         });
     }

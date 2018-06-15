@@ -41,11 +41,6 @@ public class DisableAssociationCommand implements FeedCommand {
 
     @Override
     public int getCompleteMessage() {
-        return R.string.home_feed_association_hidden;
-    }
-
-    @Override
-    public int getUndoMessage() {
-        return R.string.home_feed_undone;
+        return R.string.feed_card_hidden_association;
     }
 }

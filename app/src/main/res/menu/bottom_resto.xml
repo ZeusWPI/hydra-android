@@ -5,13 +5,13 @@
     <item
         android:id="@+id/resto_bottom_sandwich"
         android:icon="@drawable/ic_sandwich"
-        android:title="@string/home_resto_view_sandwiches"
+        android:title="@string/resto_main_view_sandwiches"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/resto_bottom_locations"
         android:icon="@drawable/ic_explore"
-        android:title="@string/home_resto_view_resto"
+        android:title="@string/resto_main_view_locations"
         app:showAsAction="ifRoom" />
 
     <item

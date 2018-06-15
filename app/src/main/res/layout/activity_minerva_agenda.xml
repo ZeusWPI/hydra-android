@@ -267,7 +267,7 @@
                                 android:tint="?attr/colorAccent"
                                 app:srcCompat="@drawable/ic_warning"
                                 tools:ignore="MissingPrefix"
-                                android:contentDescription="waarschuwing"/>
+                                android:contentDescription="@string/content_desc_warning"/>
 
                             <TextView
                                 android:id="@+id/agenda_warning"
@@ -275,7 +275,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 style="@style/TextAppearance.AppCompat.Caption"
-                                android:text="Dit evenement is samengevoegd door de duplicatendetectie van Hydra. Als het evenement vreemd lijkt, is het best om het nog eens na te kijken op de website of de optie uit te schakelen, aangezien deze functie nog experimenteel is."/>
+                                android:text="@string/minerva_calendar_merge_warning"/>
 
                         </LinearLayout>
 
@@ -304,7 +304,7 @@
                             android:layout_height="wrap_content"
                             android:height="48dp"
                             android:gravity="center_vertical"
-                            android:text="@string/description" />
+                            android:text="@string/event_detail_description_title" />
 
                         <TextView
                             android:id="@+id/agenda_description"
@@ -312,7 +312,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingBottom="@dimen/content_spacing"
-                            android:text="@string/no_description"
+                            android:text="@string/event_detail_no_description"
                             android:textIsSelectable="true" />
 
                     </LinearLayout>

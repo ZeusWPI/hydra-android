@@ -6,7 +6,7 @@
 		android:orderInCategory="50"
 		app:showAsAction="ifRoom"
 		android:icon="@drawable/ic_place"
-		android:title="@string/action_center" />
+		android:title="@string/resto_location_action_center" />
 
 	<item
 		android:id="@+id/resto_refresh"

@@ -47,7 +47,6 @@ public class CourseActivity extends BaseActivity {
     }
 
     private static final String ONLINE_URL_DESKTOP = "https://minerva.ugent.be/main/course_home/course_home.php?cidReq=%s";
-    private static final String ONLINE_URL_MOBILE = "https://minerva.ugent.be/mobile/courses/%s";
 
     private Course course;
 
@@ -88,7 +87,7 @@ public class CourseActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.minerva_course_link:
-                NetworkUtils.maybeLaunchBrowser(this, getOnlineUrl());
+                NetworkUtils.maybeLaunchBrowser(this, String.format(ONLINE_URL_DESKTOP, course.getId()));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -100,14 +99,5 @@ public class CourseActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.menu_minerva_course, menu);
         tintToolbarIcons(menu, R.id.minerva_course_link);
         return super.onCreateOptionsMenu(menu);
-    }
-
-    private String getOnlineUrl() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.getBoolean(MinervaPreferenceFragment.PREF_USE_MOBILE_URL, false)) {
-            return String.format(ONLINE_URL_MOBILE, course.getId());
-        } else {
-            return String.format(ONLINE_URL_DESKTOP, course.getId());
-        }
     }
 }

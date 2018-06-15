@@ -36,8 +36,8 @@ public class RestoCardViewHolder extends CardViewHolder {
         RestoMenuCard menuCard = card.checkCard(Card.Type.RESTO);
         RestoMenu menu = menuCard.getRestoMenu();
         RestoChoice choice = menuCard.getRestoChoice();
-        String text = itemView.getResources().getString(R.string.resto_menu_title);
-        toolbar.setTitle(String.format(text, DateUtils.getFriendlyDate(menu.getDate()), choice.getName()));
+        String text = itemView.getResources().getString(R.string.feed_resto_menu_title);
+        toolbar.setTitle(String.format(text, DateUtils.getFriendlyDate(toolbar.getContext(), menu.getDate()), choice.getName()));
 
         table.setMenu(menu);
 

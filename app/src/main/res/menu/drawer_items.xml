@@ -8,39 +8,39 @@
         <item
             android:id="@+id/drawer_feed"
             android:icon="@drawable/tabs_home"
-            android:title="@string/title_home_feed" />
+            android:title="@string/drawer_title_feed" />
         <item
             android:id="@+id/drawer_resto"
             android:icon="@drawable/tabs_resto"
-            android:title="@string/title_home_resto" />
+            android:title="@string/drawer_title_resto" />
         <item
             android:id="@+id/drawer_minerva"
             android:icon="@drawable/tabs_minerva"
-            android:title="@string/title_home_minerva" />
+            android:title="@string/drawer_title_minerva" />
         <item
             android:id="@+id/drawer_events"
             android:icon="@drawable/tabs_events"
-            android:title="@string/title_home_events" />
+            android:title="@string/drawer_title_events" />
         <item
             android:id="@+id/drawer_schamper"
             android:icon="@drawable/tabs_schamper"
-            android:title="@string/title_home_schamper" />
+            android:title="@string/drawer_title_schamper" />
         <item
             android:id="@+id/drawer_urgent"
             android:icon="@drawable/tabs_urgent"
-            android:title="@string/title_home_urgent" />
+            android:title="@string/drawer_title_urgent" />
         <item
             android:id="@+id/drawer_library"
             android:icon="@drawable/tabs_library"
-            android:title="@string/title_library"/>
+            android:title="@string/drawer_title_library"/>
         <item
             android:id="@+id/drawer_news"
             android:icon="@drawable/tabs_news"
-            android:title="@string/title_home_news" />
+            android:title="@string/drawer_title_news" />
         <item
             android:id="@+id/drawer_info"
             android:icon="@drawable/tabs_info"
-            android:title="@string/title_home_info" />
+            android:title="@string/drawer_title_info" />
     </group>
 
     <group
@@ -50,6 +50,6 @@
             android:id="@+id/drawer_pref"
             android:checkable="false"
             android:icon="@drawable/ic_settings_24dp"
-            android:title="@string/title_home_pref" />
+            android:title="@string/drawer_title_pref" />
     </group>
 </menu>

@@ -39,10 +39,10 @@ class SandwichHolder extends DataViewHolder<Sandwich> {
     public void populate(Sandwich sandwich) {
         Context c = itemView.getContext();
         name.setText(sandwich.getName());
-        mediumPrice.setText(String.format(c.getString(R.string.sandwich_price_medium), sandwich.getPriceMedium()));
-        smallPrice.setText(String.format(c.getString(R.string.sandwich_price_small), sandwich.getPriceSmall()));
+        mediumPrice.setText(String.format(c.getString(R.string.resto_sandwich_price_medium), sandwich.getPriceMedium()));
+        smallPrice.setText(String.format(c.getString(R.string.resto_sandwich_price_small), sandwich.getPriceSmall()));
         String ingredientsString = TextUtils.join(", ", sandwich.getIngredients());
-        ingredients.setText(String.format(c.getString(R.string.sandwich_ingredients), ingredientsString));
+        ingredients.setText(String.format(c.getString(R.string.resto_sandwich_ingredients), ingredientsString));
         expandableLayout.setExpanded(adapter.isChecked(getAdapterPosition()), false);
         itemView.setOnClickListener(v -> {
             adapter.setChecked(getAdapterPosition());

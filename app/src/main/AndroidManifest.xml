@@ -87,7 +87,7 @@
         <!-- Settings -->
         <activity
             android:name=".common.preferences.SettingsActivity"
-            android:label="@string/action_settings"
+            android:label="@string/action_view_settings"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Hydra.Main">
             <intent-filter>
@@ -106,13 +106,13 @@
         <!-- Association select preference activity -->
         <activity
             android:name=".feed.preferences.HomeFeedPrefActivity"
-            android:label="@string/activity_title_homefeed_card_types"
+            android:label="@string/feed_pref_card_types_title"
             android:parentActivityName=".common.preferences.SettingsActivity" />
 
         <!-- Sandwich overview -->
         <activity
             android:name=".resto.sandwich.SandwichActivity"
-            android:label="@string/resto_sandwich"
+            android:label="@string/resto_sandwich_activity_title"
             android:parentActivityName=".MainActivity" />
 
         <!-- The Maps API key -->
@@ -123,7 +123,7 @@
         <!-- Show a map of resto's -->
         <activity
             android:name=".resto.meta.RestoLocationActivity"
-            android:label="@string/title_activity_resto_location"
+            android:label="@string/resto_location_activity_title"
             android:parentActivityName=".MainActivity" />
 
         <!-- Show other food items -->
@@ -135,20 +135,20 @@
         <!-- Details about association events. -->
         <activity
             android:name=".association.event.EventDetailsActivity"
-            android:label="@string/title_activity_association_activity_detail"
+            android:label="@string/event_detail_activity_title"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity" />
 
         <!-- Show info items -->
         <activity
             android:name=".info.InfoSubItemActivity"
-            android:label="@string/title_activity_info_sub_item"
+            android:label="@string/info_sub_item_activity_title"
             android:parentActivityName=".MainActivity" />
 
         <!-- Display a Schamper article -->
         <activity
             android:name=".schamper.FullArticleActivity"
-            android:label="@string/title_activity_schamper"
+            android:label="@string/schamper_article_activity_title"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
@@ -156,7 +156,7 @@
         <!-- Show news article -->
         <activity
             android:name=".association.news.NewsArticleActivity"
-            android:label="@string/title_activity_news"
+            android:label="@string/new_article_activity_title"
             android:parentActivityName=".MainActivity" />
 
         <!-- Show a web view -->
@@ -168,14 +168,14 @@
         <!-- Show a Minerva course -->
         <activity
             android:name=".minerva.course.singlecourse.CourseActivity"
-            android:label="@string/activity_title_minerva_course"
+            android:label="@string/minerva_course_detail_activity_title"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity" />
 
         <!-- Show a Minerva announcement -->
         <activity
             android:name=".minerva.announcement.SingleAnnouncementActivity"
-            android:label="@string/title_announcement_title"
+            android:label="@string/minerva_announcement_detail_activity_title"
             android:parentActivityName=".minerva.course.singlecourse.CourseActivity" />
 
         <activity
@@ -187,7 +187,7 @@
         <!-- Show a Minerva agenda item -->
         <activity
             android:name=".minerva.calendar.itemdetails.AgendaActivity"
-            android:label="@string/activity_title_minerva_agenda"
+            android:label="@string/minerva_calendar_detail_activity_title"
             android:parentActivityName=".minerva.course.singlecourse.CourseActivity">
             <intent-filter>
                 <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
@@ -201,7 +201,7 @@
         <!-- Minerva auth activity -->
         <activity
             android:name=".minerva.auth.AuthActivity"
-            android:label="@string/title_activity_authentication"
+            android:label="@string/minerva_auth_activity_title"
             android:launchMode="singleTask"
             android:parentActivityName=".MainActivity">
 
@@ -219,7 +219,7 @@
         <!-- SKO overview activity -->
         <activity
             android:name=".sko.OverviewActivity"
-            android:label="@string/activity_title_sko_overview"
+            android:label="@string/sko_overview_activity_title"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.Sko" />
@@ -227,7 +227,7 @@
         <!-- SKO preference activity -->
         <activity
             android:name=".sko.preferences.WrapperActivity"
-            android:label="@string/activity_title_sko_preferences"
+            android:label="@string/sko_pref_activity_title"
             android:parentActivityName=".sko.OverviewActivity"
             android:theme="@style/Hydra.Main.NoActionBar.Sko" />
 
@@ -293,7 +293,7 @@
             android:name=".minerva.common.sync.MinervaProvider"
             android:authorities="be.ugent.zeus.hydra.minerva.provider"
             android:exported="true"
-            android:label="@string/minerva_sync_provider"
+            android:label="@string/minerva_sync_provider_label"
             android:syncable="true" />
 
         <!-- Handles transferring accounts to new devices -->

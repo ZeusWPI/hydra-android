@@ -266,7 +266,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             style="@style/TextAppearance.AppCompat.Caption"
-                            android:text="Dit evenement is samengevoegd door de duplicatendetectie van Hydra. Als het evenement vreemd lijkt, is het best om het nog eens na te kijken op de website of de optie uit te schakelen, aangezien deze functie nog experimenteel is."/>
+                            android:text="@string/minerva_calendar_merge_warning"/>
 
                     </LinearLayout>
 
@@ -301,7 +301,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             style="@style/Base.TextAppearance.AppCompat.Subhead"
-                            android:text="@string/description"
+                            android:text="@string/event_detail_description_title"
                             android:textColor="?attr/colorAccent"
                             android:gravity="center_vertical" />
 
@@ -310,7 +310,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/agenda_description"
                             android:paddingBottom="@dimen/content_spacing"
-                            android:text="@string/no_description"
+                            android:text="@string/event_detail_no_description"
                             android:textIsSelectable="true"
                             style="@style/Hydra.LongText"/>
 

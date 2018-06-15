@@ -18,7 +18,7 @@
             style="@style/Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/menu_legend_icon_header" />
+            android:text="@string/resto_legend_icon_header" />
 
         <TableLayout
             android:layout_width="match_parent"
@@ -118,7 +118,7 @@
             style="@style/Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/menu_legend_abbr_header" />
+            android:text="@string/resto_legend_abbr_header" />
 
         <TableLayout
             android:layout_width="match_parent"
@@ -130,7 +130,7 @@
                 android:minHeight="@dimen/material_list_single_line_without_avatar_dense_height">
 
                 <TextView
-                    android:text="@string/menu_legend_msc_abbr"
+                    android:text="@string/resto_legend_msc_abbr"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp"
                     tools:ignore="RtlSymmetry" />
@@ -145,7 +145,7 @@
                 android:minHeight="@dimen/material_list_single_line_without_avatar_dense_height">
 
                 <TextView
-                    android:text="@string/menu_legend_asc_abbr"
+                    android:text="@string/resto_legend_asc_abbr"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp"
                     tools:ignore="RtlSymmetry" />

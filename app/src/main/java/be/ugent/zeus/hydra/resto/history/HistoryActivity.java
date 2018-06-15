@@ -75,7 +75,7 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
             protected void onSuccess(@NonNull RestoMenu data) {
                 // Add the fragment
                 errorView.setVisibility(View.GONE);
-                setTitle(getString(R.string.resto_history_title, DateUtils.getFriendlyDate(data.getDate())));
+                setTitle(getString(R.string.resto_history_title, DateUtils.getFriendlyDate(HistoryActivity.this, data.getDate())));
                 showFragment(data);
             }
         });
@@ -112,9 +112,9 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
         setTitle(R.string.resto_history_error);
         errorView.setVisibility(View.VISIBLE);
         if (throwable instanceof IOFailureException) {
-            errorView.setText(R.string.no_network);
+            errorView.setText(R.string.error_network);
         } else {
-            errorView.setText(getString(R.string.resto_history_not_found, DateUtils.getFriendlyDate(localDate)));
+            errorView.setText(getString(R.string.resto_history_not_found, DateUtils.getFriendlyDate(this, localDate)));
         }
     }
 

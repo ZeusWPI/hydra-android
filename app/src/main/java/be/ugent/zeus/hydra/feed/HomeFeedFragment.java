@@ -174,8 +174,8 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         if (snackbar != null) {
             snackbar.dismiss();
         }
-        snackbar = Snackbar.make(requireView(this), getString(R.string.home_feed_failure), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.again), v -> onRefresh());
+        snackbar = Snackbar.make(requireView(this), getString(R.string.feed_general_error), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.action_again), v -> onRefresh());
         snackbar.show();
     }
 
