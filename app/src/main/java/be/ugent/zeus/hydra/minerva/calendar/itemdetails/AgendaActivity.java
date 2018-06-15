@@ -121,7 +121,7 @@ public class AgendaActivity extends BaseActivity {
 
         // If they are on the same day, don't display the day on the end date.
         if (localStart.toLocalDate().equals(localEnd.toLocalDate())) {
-            if (DateUtils.isFriendly(localStart.toLocalDate())) {
+            if (DateUtils.willBeFriendly(localStart.toLocalDate())) {
                 dayTime.setText(getString(
                         R.string.minerva_calendar_friendly_date,
                         DateUtils.getFriendlyDate(this, localStart.toLocalDate()),

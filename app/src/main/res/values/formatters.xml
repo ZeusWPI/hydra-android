@@ -14,6 +14,5 @@
     <bool name="date_supports_today">true</bool>
     <bool name="date_supports_tomorrow">true</bool>
     <bool name="date_supports_overmorrow">true</bool>
-    <bool name="date_supports_next">true</bool>
 
 </resources>

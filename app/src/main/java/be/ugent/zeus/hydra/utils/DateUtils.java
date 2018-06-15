@@ -38,9 +38,9 @@ public class DateUtils {
      * Transform a given date to a more 'friendly' date, with the given formatStyle as a suggestion. This method is very
      * similar to {@link android.text.format.DateUtils#getRelativeTimeSpanString(long)}.
      *
-     * The relative date applies to {@code date}s in the future, for the coming two week. The the date is today,
+     * The relative date applies to {@code date}s in the future, for the coming two week. If the date is today,
      * tomorrow or overmorrow and the current language supports it, the formatted date will be those terms. If the
-     * date is in the current week, the day of week name will be returned. If the date is in the next week,
+     * date is in the current week, the day of week name (e.g. Monday) will be returned. If the date is in the next week,
      * the result will be "next {weekday}".
      *
      * For example, if today is 11/02/2018 and the language supports all features:
@@ -48,6 +48,9 @@ public class DateUtils {
      *     <li>11/02/2018 will result in {@code today}.</li>
      *     <li>12/02/2018 will result in {@code tomorrow}.</li>
      * </ul>
+     *
+     * A date is thus considered special if it is one of the cases above; this can be summarized as follows: a date
+     * is special if it is less than 14 days (two weeks) in the future.
      *
      * Other dates are formatted using {@link #getDateFormatterForStyle(FormatStyle)}.
      *
@@ -66,7 +69,7 @@ public class DateUtils {
 
         long daysBetween = ChronoUnit.DAYS.between(today, date);
 
-        // Do all the special cases. We currently support three base cases.
+        // We currently support three specialized cases.
         if (daysBetween == 0 && context.getResources().getBoolean(R.bool.date_supports_today)) {
             return context.getString(R.string.date_today);
         } else if (daysBetween == 1 && context.getResources().getBoolean(R.bool.date_supports_tomorrow)) {
@@ -75,7 +78,7 @@ public class DateUtils {
             return context.getString(R.string.date_overmorrow);
         } else if (0 <= daysBetween && daysBetween < ONE_WEEK_DAYS) {
             return date.getDayOfWeek().getDisplayName(TextStyle.FULL_STANDALONE, locale);
-        } else if (0 <= daysBetween && daysBetween < TWO_WEEKS_DAYS && context.getResources().getBoolean(R.bool.date_supports_next)) {
+        } else if (0 <= daysBetween && daysBetween < TWO_WEEKS_DAYS) {
             return context.getString(R.string.date_next_x, date.getDayOfWeek().getDisplayName(TextStyle.FULL, locale));
         } else {
             // All other cases, e.g. the past, the far future or some language that does not support all features.
@@ -89,18 +92,15 @@ public class DateUtils {
     }
 
     /**
-     * Check if for a given date, the {@link #getFriendlyDate(Context, LocalDate)} would return a friendly date or not.
+     * Check if a given date is friendly or not. Friendly is defined by {@link #getFriendlyDate(Context, LocalDate)}.
      *
      * @param date The date to check.
      *
      * @return True if a friendly date would be returned.
      */
-    public static boolean isFriendly(@NonNull LocalDate date) {
-        LocalDate today = LocalDate.now();
-        long daysBetween = ChronoUnit.DAYS.between(today, date);
-        int week = date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
-        int thisWeek = Integer.parseInt(today.format(WEEK_FORMATTER));
-        return daysBetween == 0 || daysBetween == 1 || daysBetween == 2 || daysBetween >= 0 && (daysBetween < 7 || week == thisWeek + 1);
+    public static boolean willBeFriendly(@NonNull LocalDate date) {
+        long daysBetween = ChronoUnit.DAYS.between(LocalDate.now(), date);
+        return 0 <= daysBetween && daysBetween < 14;
     }
 
     /**

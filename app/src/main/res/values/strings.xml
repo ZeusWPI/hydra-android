@@ -68,7 +68,6 @@
     <string name="date_tomorrow">morgen</string>
     <!-- Must be translated if R.bool.date_supports_overmorrow is true -->
     <string name="date_overmorrow">overmorgen</string>
-    <!-- Must be translated if R.bool.date_supports_next is true -->
     <string name="date_next_x">volgende %s</string>
 
     <!-- TODO: remove this and replace by a custom string for each use -->
