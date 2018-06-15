@@ -21,14 +21,14 @@ import java.util.Locale;
  */
 public class DateUtils {
 
-    private static final DateTimeFormatter WEEK_FORMATTER = DateTimeFormatter.ofPattern("w");
-
     private DateUtils() {
         // Utils.
     }
 
     /**
-     * Get the date in friendly format.
+     * Get the date in friendly format. The style is {@link FormatStyle#MEDIUM}.
+     *
+     * @see #getFriendlyDate(Context, LocalDate, FormatStyle)
      */
     public static String getFriendlyDate(Context context, @NonNull LocalDate date) {
         return getFriendlyDate(context, date, FormatStyle.MEDIUM);
