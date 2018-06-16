@@ -331,6 +331,11 @@
         wordt Oasis niet aangepast. Hierdoor staan sommige lessen twee keer in de agenda.
     </string>
 
+    <string name="minerva_pref_sync_freq_6_hours">6 uur</string>
+    <string name="minerva_pref_sync_freq_12_hours">12 uur</string>
+    <string name="minerva_pref_sync_freq_24_hours">24 uur</string>
+    <string name="minerva_pref_sync_freq_1_week">1 week</string>
+
     <!-- SKO -->
     <string name="sko_overview_activity_title">Student Kick-Off</string>
 
@@ -364,6 +369,22 @@
     <string name="feed_pref_clear_cards_title">Verborgen kaarten wissen</string>
     <string name="feed_pref_clear_cards_summary">Wis de lijst van verborgen kaarten. Hierdoor zullen alle kaarten opnieuw getoond worden.</string>
     <string name="feed_pref_hidden_cleared">Gewist</string>
+
+    <string name="feed_card_type_title_resto">Restomenu</string>
+    <string name="feed_card_type_title_events">Activiteiten</string>
+    <string name="feed_card_type_title_schamper">Schamper</string>
+    <string name="feed_card_type_title_news">Nieuws</string>
+    <string name="feed_card_type_title_minerva_announcements">Minerva: Aankondigingen</string>
+    <string name="feed_card_type_title_minerva_calendar">Minerva: Agenda</string>
+    <string name="feed_card_type_title_urgent">Urgent.fm</string>
+
+    <string name="feed_card_type_desc_resto">De dagelijkse menu voor alle UGent-resto\'s.</string>
+    <string name="feed_card_type_desc_events">De activiteiten van je favoriete verenigingen.</string>
+    <string name="feed_card_type_desc_schamper">Artikels uit Schamper.</string>
+    <string name="feed_card_type_desc_news">Het nieuws, rechtstreeks van de UGent.</string>
+    <string name="feed_card_type_desc_minerva_announcements">Je aankondigingen van op Minerva.</string>
+    <string name="feed_card_type_desc_minerva_calendar">Je agenda van Minerva en Oasis.</string>
+    <string name="feed_card_type_desc_urgent">De jongerenradio van (U)Gent en omstreken.</string>
 
     <string name="feed_general_error">Ophalen sommige kaarten mislukt.</string>
 

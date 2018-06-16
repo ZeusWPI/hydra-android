@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="card_types_nr">
+    <string-array name="card_types_nr" translatable="false">
         <item>1</item>
         <item>2</item>
         <item>4</item>
@@ -9,57 +9,57 @@
         <item>7</item>
         <item>8</item>
         <item>9</item>
+    </string-array>-array>
+
+    <string-array name="card_types_names" translatable="false">
+        <item>@string/feed_card_type_title_resto</item>
+        <item>@string/feed_card_type_title_events</item>
+        <item>@string/feed_card_type_title_schamper</item>
+        <item>@string/feed_card_type_title_news</item>
+        <item>@string/feed_card_type_title_minerva_announcements</item>
+        <item>@string/feed_card_type_title_minerva_calendar</item>
+        <item>@string/feed_card_type_title_urgent</item>
     </string-array>
 
-    <string-array name="card_types_names">
-        <item>Restomenu</item>
-        <item>Activiteiten</item>
-        <item>Schamper</item>
-        <item>Nieuws</item>
-        <item>Minerva: Aankondigingen</item>
-        <item>Minerva: Agenda</item>
-        <item>Urgent.fm</item>
+    <string-array name="card_types_descriptions" translatable="false">
+        <item>@string/feed_card_type_desc_resto</item>
+        <item>@string/feed_card_type_desc_events</item>
+        <item>@string/feed_card_type_desc_schamper</item>
+        <item>@string/feed_card_type_desc_news</item>
+        <item>@string/feed_card_type_desc_minerva_announcements</item>
+        <item>@string/feed_card_type_desc_minerva_calendar</item>
+        <item>@string/feed_card_type_desc_urgent</item>
     </string-array>
 
-    <string-array name="card_types_descriptions">
-        <item>De dagelijkse menu voor alle UGent-resto\'s.</item>
-        <item>De activiteiten van je favoriete verenigingen.</item>
-        <item>Schamper dailies.</item>
-        <item>Het nieuws rechtstreeks van de UGent.</item>
-        <item>Je aankondigingen net zoals op Minerva.</item>
-        <item>Je agenda net zoals op Minerva.</item>
-        <item>De jongerenradio van (U)Gent en omstreken.</item>
+    <string-array name="minerva_frequencies_text" translatable="false">
+        <item>@string/minerva_pref_sync_freq_6_hours</item>
+        <item>@string/minerva_pref_sync_freq_12_hours</item>
+        <item>@string/minerva_pref_sync_freq_24_hours</item>
+        <item>@string/minerva_pref_sync_freq_1_week</item>
     </string-array>
 
-    <string-array name="minerva_frequencies_text">
-        <item>6 uur</item>
-        <item>12 uur</item>
-        <item>24 uur</item>
-        <item>1 week</item>
-    </string-array>
-
-    <string-array name="minerva_frequencies_seconds">
+    <string-array name="minerva_frequencies_seconds" translatable="false">
         <item>21600</item>
         <item>43200</item>
         <item>86400</item>
         <item>604800</item>
     </string-array>
 
-    <string-array name="sko_tab_names">
+    <string-array name="sko_tab_names" translatable="false">
         <item>@string/sko_tab_timeline</item>
         <item>@string/sko_tab_lineup</item>
         <item>@string/sko_tab_village</item>
         <item>@string/sko_tab_map</item>
     </string-array>
 
-    <string-array name="pref_night_mode_values">
+    <string-array name="pref_night_mode_values" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
     </string-array>
 
-    <string-array name="pref_night_mode">
+    <string-array name="pref_night_mode" translatable="false">
         <item>@string/pref_theme_night_mode_auto</item>
         <item>@string/pref_theme_night_mode_never</item>
         <item>@string/pref_theme_night_mode_always</item>

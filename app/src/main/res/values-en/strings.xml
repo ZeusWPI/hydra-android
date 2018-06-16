@@ -319,7 +319,15 @@
     <string name="minerva_pref_duplicates_explanation_title">What?</string>
     <string name="minerva_pref_duplicates_explanation_desc">The duplicate detection attempts to only show one calendar event for each lecture.</string>
     <string name="minerva_pref_duplicates_rationale_title">Why?</string>
-    <string name="minerva_pref_duplicates_rationale_desc">Hydra shows both the calendar from Oasis and the one from Minerva. If a lecturer adds events on Minerva, Oasis will not be updated. This results in duplicate events.</string>
+    <string name="minerva_pref_duplicates_rationale_desc">
+        Hydra shows both the calendar from Oasis and the one from Minerva. If a lecturer adds events on Minerva,
+        Oasis will not be updated. This results in duplicate events.
+    </string>
+
+    <string name="minerva_pref_sync_freq_6_hours">6 hours</string>
+    <string name="minerva_pref_sync_freq_12_hours">12 hours</string>
+    <string name="minerva_pref_sync_freq_24_hours">24 hours</string>
+    <string name="minerva_pref_sync_freq_1_week">1 week</string>
 
     <!-- SKO -->
     <string name="sko_overview_activity_title">Student Kick-Off</string>
@@ -354,6 +362,22 @@
     <string name="feed_pref_clear_cards_title">Erase hidden cards</string>
     <string name="feed_pref_clear_cards_summary">Erase the list of hidden cards. Causes all cards to be displayed again.</string>
     <string name="feed_pref_hidden_cleared">Erased</string>
+
+    <string name="feed_card_type_title_resto">Resto menu</string>
+    <string name="feed_card_type_title_events">Activities</string>
+    <string name="feed_card_type_title_schamper">Schamper</string>
+    <string name="feed_card_type_title_news">News</string>
+    <string name="feed_card_type_title_minerva_announcements">Minerva: Announcements</string>
+    <string name="feed_card_type_title_minerva_calendar">Minerva: Calendar</string>
+    <string name="feed_card_type_title_urgent">Urgent.fm</string>
+
+    <string name="feed_card_type_desc_resto">The daily menu for all student restaurants.</string>
+    <string name="feed_card_type_desc_events">The activities of your favourite student association.</string>
+    <string name="feed_card_type_desc_schamper">Articles from Schamper.</string>
+    <string name="feed_card_type_desc_news">The news, directly from Ghent University.</string>
+    <string name="feed_card_type_desc_minerva_announcements">Your announcements from Minerva.</string>
+    <string name="feed_card_type_desc_minerva_calendar">Your calendar from Minerva and Oasis.</string>
+    <string name="feed_card_type_desc_urgent">The youth radio for the Ghent area.</string>
 
     <string name="feed_general_error">Could not get some cards.</string>
     <string name="feed_resto_menu_title">Menu for %1$s • %2$s</string>
