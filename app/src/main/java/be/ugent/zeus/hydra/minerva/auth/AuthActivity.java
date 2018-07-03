@@ -243,7 +243,10 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
 
                 //Account name
                 String name;
-                if (information.getUserAttributes().getEmail().isEmpty()) {
+                if (information == null
+                        || information.getUserAttributes() == null
+                        || information.getUserAttributes().getEmail() == null
+                        || information.getUserAttributes().getEmail().isEmpty()) {
                     name = "Minerva-account";
                 } else {
                     name = information.getUserAttributes().getEmail().get(0).toLowerCase();
@@ -262,7 +265,10 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
                 manager.setAuthToken(account, authType, result.getAccessToken());
 
                 // Set the account's user name if present.
-                if (information.getUserAttributes().getUid().size() >= 1) {
+                if (information != null
+                        && information.getUserAttributes() != null
+                        && information.getUserAttributes().getUid() != null
+                        && information.getUserAttributes().getUid().size() >= 1) {
                     manager.setUserData(account, AccountUtils.USERNAME, information.getUserAttributes().getUid().get(0));
                 }
 
