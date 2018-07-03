@@ -26,7 +26,7 @@ import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
-import be.ugent.zeus.hydra.association.news.ArticlePreferenceFragment;
+import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
 import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -175,7 +175,7 @@ public class FullArticleActivity extends BaseActivity {
 
         // Open in-app or in a custom tab
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean useCustomTabs = preferences.getBoolean(ArticlePreferenceFragment.PREF_USE_CUSTOM_TABS, ArticlePreferenceFragment.PREF_USE_CUSTOM_TABS_DEFAULT);
+        boolean useCustomTabs = preferences.getBoolean(CustomTabPreferenceFragment.PREF_USE_CUSTOM_TABS, CustomTabPreferenceFragment.PREF_USE_CUSTOM_TABS_DEFAULT);
         boolean isOnline = NetworkUtils.isConnected(context);
 
         if (useCustomTabs && isOnline) {

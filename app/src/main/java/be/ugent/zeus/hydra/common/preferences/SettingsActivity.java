@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.news.ArticlePreferenceFragment;
+import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
 import be.ugent.zeus.hydra.common.ui.AppCompatPreferenceActivity;
 import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
 import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
@@ -50,7 +50,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 || MinervaPreferenceFragment.class.getName().equals(fragmentName)
                 || SkoPreferencesFragment.class.getName().equals(fragmentName)
                 || AboutFragment.class.getName().equals(fragmentName)
-                || ArticlePreferenceFragment.class.getName().equals(fragmentName)
+                || CustomTabPreferenceFragment.class.getName().equals(fragmentName)
                 || ThemePreferenceFragment.class.getName().equals(fragmentName);
     }
 

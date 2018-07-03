@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
+import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +41,7 @@ public class NewsArticleActivityTest {
     private static void setUseCustomTabs(boolean use) {
         PreferenceManager.getDefaultSharedPreferences(RuntimeEnvironment.application)
                 .edit()
-                .putBoolean(ArticlePreferenceFragment.PREF_USE_CUSTOM_TABS, use)
+                .putBoolean(CustomTabPreferenceFragment.PREF_USE_CUSTOM_TABS, use)
                 .commit();
     }
 
