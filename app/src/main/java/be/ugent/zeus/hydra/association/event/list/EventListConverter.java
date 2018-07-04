@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Convert events to EventItems. The list of events MUST be sorted by start date.
  */
-public class EventListConverter implements Function<List<Event>, List<EventItem>> {
+class EventListConverter implements Function<List<Event>, List<EventItem>> {
 
     @Override
     public List<EventItem> apply(List<Event> events) {

@@ -5,7 +5,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.news.ArticlePreferenceFragment;
+import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
 import be.ugent.zeus.hydra.association.news.NewsArticleActivity;
 import be.ugent.zeus.hydra.association.news.UgentNewsItem;
 import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
@@ -38,7 +38,7 @@ public class NewsItemViewHolderTest extends AbstractFeedViewHolderTest {
         // No custom tabs, we check this elsewhere.
         PreferenceManager.getDefaultSharedPreferences(view.getContext())
                 .edit()
-                .putBoolean(ArticlePreferenceFragment.PREF_USE_CUSTOM_TABS, false)
+                .putBoolean(CustomTabPreferenceFragment.PREF_USE_CUSTOM_TABS, false)
                 .commit();
         view.performClick();
 

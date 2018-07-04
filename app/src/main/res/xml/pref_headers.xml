@@ -30,7 +30,7 @@
 
     <!-- News -->
     <header
-        android:fragment="be.ugent.zeus.hydra.association.news.ArticlePreferenceFragment"
+        android:fragment="be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment"
         android:title="@string/pref_overview_article_title"
         android:summary="@string/pref_overview_article_desc" />
 

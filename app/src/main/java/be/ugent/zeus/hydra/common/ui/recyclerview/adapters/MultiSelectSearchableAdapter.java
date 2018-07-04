@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.SearchView;
 import android.util.Pair;
 
@@ -96,21 +97,20 @@ public abstract class MultiSelectSearchableAdapter<D, VH extends DataViewHolder<
     public void setAllChecked(boolean checked) {
         dataContainer.submitUpdate(new AdapterUpdate<Pair<D, Boolean>>() {
             @Override
-            public List<Pair<D, Boolean>> getNewData(List<Pair<D, Boolean>> existingData) {
+            @Nullable
+            public List<Pair<D, Boolean>> getNewData(@Nullable List<Pair<D, Boolean>> existingData) {
 
-                List<Pair<D, Boolean>> newList = new ArrayList<>();
-                List<Pair<D, Boolean>> newAllData = new ArrayList<>();
-
-                for (Pair<D, Boolean> oldPair : existingData) {
-                    newList.add(new Pair<>(oldPair.first, checked));
-                }
-                for (Pair<D, Boolean> oldPair: allData) {
-                    newAllData .add(new Pair<>(oldPair.first, checked));
+                if (existingData == null) {
+                    return null;
                 }
 
-                allData = newAllData;
+                allData = StreamSupport.stream(allData)
+                        .map(p -> new Pair<>(p.first, checked))
+                        .collect(Collectors.toList());
 
-                return newList;
+                return StreamSupport.stream(existingData)
+                        .map(p -> new Pair<>(p.first, checked))
+                        .collect(Collectors.toList());
             }
 
             @Override
