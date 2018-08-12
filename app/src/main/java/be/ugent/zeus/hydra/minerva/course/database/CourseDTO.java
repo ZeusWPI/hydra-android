@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.minerva.provider.CourseContract;
-import java8.util.Objects;
+import java9.util.Objects;
 
 /**
  * Represents a course as it is saved in the database.

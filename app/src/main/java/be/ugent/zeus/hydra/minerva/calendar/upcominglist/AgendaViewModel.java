@@ -7,7 +7,7 @@ import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.ui.RefreshViewModel;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;
 import be.ugent.zeus.hydra.minerva.course.Course;
-import java8.util.Objects;
+import java9.util.Objects;
 
 import java.util.List;
 

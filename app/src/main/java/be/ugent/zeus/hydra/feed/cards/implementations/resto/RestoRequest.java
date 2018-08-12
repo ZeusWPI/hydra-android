@@ -18,8 +18,8 @@ import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.resto.menu.MenuFilter;
 import be.ugent.zeus.hydra.resto.menu.MenuRequest;
-import java8.util.stream.Stream;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Stream;
+import java9.util.stream.StreamSupport;
 
 import java.util.List;
 

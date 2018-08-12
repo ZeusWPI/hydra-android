@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
-import java8.util.function.Function;
+import java9.util.function.Function;
 
 /*
  * ViewHolder for MultiSelectLists with both a title and description for each item.

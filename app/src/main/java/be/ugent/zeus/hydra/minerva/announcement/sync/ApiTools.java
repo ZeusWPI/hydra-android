@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.minerva.announcement.sync;
 
 import be.ugent.zeus.hydra.minerva.course.Module;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
 import java.util.EnumSet;
 import java.util.List;

@@ -64,7 +64,7 @@ public class PriorityUtils {
      * @param target The target view for the image.
      */
     public static void loadThumbnail(Context context, String image, ImageView target) {
-        RequestCreator creator = Picasso.with(context).load(image).fit().centerInside();
+        RequestCreator creator = Picasso.get().load(image).fit().centerInside();
 
         if (PriorityUtils.isDataConstrained(context)) {
             creator.networkPolicy(NetworkPolicy.OFFLINE);

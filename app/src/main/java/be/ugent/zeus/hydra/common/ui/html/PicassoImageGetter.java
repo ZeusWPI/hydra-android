@@ -39,12 +39,13 @@ public class PicassoImageGetter implements Html.ImageGetter {
     public Drawable getDrawable(final String source) {
         final DrawableWrapper result = new DrawableWrapper(new ColorDrawable());
 
+        // TODO: move out of async task?
         @SuppressLint("StaticFieldLeak") // There is no leak
         AsyncTask<Void, Void, Bitmap> t = new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(final Void... meh) {
                 try {
-                    return Picasso.with(context).load(source).get();
+                    return Picasso.get().load(source).get();
                 } catch (Exception e) {
                     return null;
                 }

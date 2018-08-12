@@ -75,7 +75,7 @@ public class FullArticleActivity extends BaseActivity {
         ImageView headerImage = findViewById(R.id.header_image);
 
         if (article.getImage() != null) {
-            Picasso.with(this).load(article.getImage()).into(headerImage);
+            Picasso.get().load(article.getImage()).into(headerImage);
         }
 
         if (article.getAuthor() != null) {

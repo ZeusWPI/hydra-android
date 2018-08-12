@@ -7,9 +7,9 @@ import android.preference.PreferenceManager;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
-import java8.util.Objects;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.Objects;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
 import java.util.List;
 

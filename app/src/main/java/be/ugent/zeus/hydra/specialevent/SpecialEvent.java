@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.sko.OverviewActivity;
 import com.squareup.moshi.Json;
-import java8.util.Objects;
+import java9.util.Objects;
 import org.threeten.bp.OffsetDateTime;
 
 import java.io.Serializable;

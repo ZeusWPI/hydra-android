@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.resto;
 
-import java8.util.Objects;
+import java9.util.Objects;
 
 /**
  * @author Niko Strijbol

@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.feed.operations;
 
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.HomeFeedRequest;
-import java8.util.function.IntPredicate;
-import java8.util.function.Supplier;
+import java9.util.function.IntPredicate;
+import java9.util.function.Supplier;
 
 /**
  * Factory to get operations on a feed.

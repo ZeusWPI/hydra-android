@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.squareup.moshi.Json;
-import java8.util.Objects;
+import java9.util.Objects;
 
 import java.io.Serializable;
 import java.util.List;
@@ -75,14 +75,14 @@ public final class Sandwich implements Parcelable, Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Sandwich sandwich = (Sandwich) o;
         return Objects.equals(name, sandwich.name) &&
-                java8.util.Objects.equals(ingredients, sandwich.ingredients) &&
-                java8.util.Objects.equals(priceSmall, sandwich.priceSmall) &&
-                java8.util.Objects.equals(priceMedium, sandwich.priceMedium);
+                Objects.equals(ingredients, sandwich.ingredients) &&
+                Objects.equals(priceSmall, sandwich.priceSmall) &&
+                Objects.equals(priceMedium, sandwich.priceMedium);
     }
 
     @Override
     public int hashCode() {
-        return java8.util.Objects.hash(name, ingredients, priceSmall, priceMedium);
+        return Objects.hash(name, ingredients, priceSmall, priceMedium);
     }
 
     @Override

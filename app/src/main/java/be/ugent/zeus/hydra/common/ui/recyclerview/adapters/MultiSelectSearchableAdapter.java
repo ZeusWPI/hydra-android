@@ -5,10 +5,10 @@ import android.support.v7.widget.SearchView;
 import android.util.Pair;
 
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
-import java8.util.function.Function;
-import java8.util.function.Predicate;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.function.Function;
+import java9.util.function.Predicate;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
 import java.util.ArrayList;
 import java.util.Collections;

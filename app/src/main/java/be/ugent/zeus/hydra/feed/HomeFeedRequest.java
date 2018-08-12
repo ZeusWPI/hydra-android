@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.feed;
 
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.common.request.Request;
-import java8.util.stream.Stream;
+import java9.util.stream.Stream;
 
 /**
  * A request that provides {@link Card}s for use in the home feed.

@@ -173,7 +173,7 @@
     <string name="resto_menu_date">Datum van menu: %s</string>
     <string name="resto_menu_not_available">
         Er is geen menu of we konden hem niet ophalen. Misschien heb je meer geluk op de
-        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">website van de resto's</a>.
+        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">website van de resto\'s</a>.
     </string>
 
     <string name="resto_spinner_loading">Laden…</string>

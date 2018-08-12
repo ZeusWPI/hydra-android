@@ -7,9 +7,9 @@ import android.preference.PreferenceManager;
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.library.Library;
-import java8.lang.Iterables;
-import java8.util.Comparators;
-import java8.util.Lists;
+import java9.lang.Iterables;
+import java9.util.Comparators;
+import java9.util.Lists;
 
 import java.util.Collections;
 import java.util.List;

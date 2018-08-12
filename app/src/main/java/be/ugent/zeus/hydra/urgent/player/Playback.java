@@ -8,8 +8,8 @@ import android.os.PowerManager;
 import android.support.v4.media.MediaMetadataCompat;
 import android.util.Log;
 
-import java8.lang.Iterables;
-import java8.util.stream.IntStreams;
+import java9.lang.Iterables;
+import java9.util.stream.IntStream;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -142,7 +142,7 @@ public class Playback implements
      * @return True or false.
      */
     boolean isStateOneOf(@MediaState int... states) {
-        return IntStreams.of(states).anyMatch(i -> i ==  getState());
+        return IntStream.of(states).anyMatch(i -> i ==  getState());
     }
 
     /**

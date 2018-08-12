@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;
 import be.ugent.zeus.hydra.minerva.course.Course;
-import java8.util.Objects;
+import java9.util.Objects;
 import org.threeten.bp.Instant;
 import org.threeten.bp.OffsetDateTime;
 

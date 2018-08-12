@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.common.request;
 
 import android.support.annotation.NonNull;
-import java8.util.Objects;
-import java8.util.function.Consumer;
-import java8.util.function.Function;
+import java9.util.Objects;
+import java9.util.function.Consumer;
+import java9.util.function.Function;
 
 import java.util.NoSuchElementException;
 

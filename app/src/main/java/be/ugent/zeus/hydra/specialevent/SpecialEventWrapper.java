@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.specialevent;
 import android.support.annotation.NonNull;
 
 import com.squareup.moshi.Json;
-import java8.util.Objects;
+import java9.util.Objects;
 
 import java.io.Serializable;
 import java.util.ArrayList;

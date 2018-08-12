@@ -11,8 +11,8 @@ import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;
 import be.ugent.zeus.hydra.feed.cards.CardRepository;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HideableHomeFeedRequest;
-import java8.util.stream.Stream;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Stream;
+import java9.util.stream.StreamSupport;
 
 /**
  * @author Niko Strijbol

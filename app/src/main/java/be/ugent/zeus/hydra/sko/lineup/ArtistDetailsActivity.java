@@ -52,7 +52,7 @@ public class ArtistDetailsActivity extends BaseActivity {
         title.setText(artist.getName());
 
         if (artist.getImage() != null) {
-            Picasso.with(this).load(artist.getImage()).fit().centerInside().into(headerImage);
+            Picasso.get().load(artist.getImage()).fit().centerInside().into(headerImage);
         }
 
         date.setText(artist.getDisplayDate(this));

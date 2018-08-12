@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.feed.cards.implementations.event;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.RawEventRequest;
@@ -12,8 +11,8 @@ import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HideableHomeFeedRequest;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardRepository;
-import java8.util.stream.Stream;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Stream;
+import java9.util.stream.StreamSupport;
 import org.threeten.bp.OffsetDateTime;
 
 import java.util.List;

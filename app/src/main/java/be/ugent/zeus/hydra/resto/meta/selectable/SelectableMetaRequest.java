@@ -10,8 +10,8 @@ import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.meta.MetaRequest;
 import be.ugent.zeus.hydra.resto.meta.RestoMeta;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
 import java.util.ArrayList;
 import java.util.List;

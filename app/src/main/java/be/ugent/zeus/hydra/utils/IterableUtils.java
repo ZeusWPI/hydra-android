@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.utils;
 
-import java8.util.function.Function;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.function.Function;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
 import java.util.Collection;
 import java.util.List;

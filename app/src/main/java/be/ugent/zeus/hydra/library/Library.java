@@ -7,9 +7,9 @@ import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.common.converter.IntBoolean;
 import com.squareup.moshi.Json;
-import java8.util.Objects;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.Objects;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
 import java.io.Serializable;
 import java.util.List;

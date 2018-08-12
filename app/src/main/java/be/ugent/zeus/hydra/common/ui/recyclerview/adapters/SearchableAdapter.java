@@ -3,12 +3,11 @@ package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.SearchView;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
-import java8.lang.Iterables;
-import java8.util.function.BiPredicate;
-import java8.util.function.Function;
-import java8.util.function.Functions;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.lang.Iterables;
+import java9.util.function.BiPredicate;
+import java9.util.function.Function;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
 import java.util.*;
 
@@ -53,7 +52,7 @@ public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends
     protected SearchableAdapter(BiPredicate<D, String> searchPredicate) {
         super();
         this.searchPredicate = searchPredicate;
-        this.filter = Functions.identity();
+        this.filter = Function.identity();
     }
 
     /**

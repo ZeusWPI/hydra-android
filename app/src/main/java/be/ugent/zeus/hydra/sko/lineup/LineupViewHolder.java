@@ -41,7 +41,7 @@ class LineupViewHolder extends DataViewHolder<Artist> implements View.OnCreateCo
         this.artist = artist;
         title.setText(artist.getName());
         date.setText(artist.getDisplayDate(date.getContext()));
-        Picasso.with(this.itemView.getContext()).load(artist.getBanner()).into(image);
+        Picasso.get().load(artist.getBanner()).into(image);
         itemView.setOnClickListener(v -> {
             Intent intent = ArtistDetailsActivity.start(v.getContext(), artist);
             v.getContext().startActivity(intent);

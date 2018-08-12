@@ -7,6 +7,7 @@ android {
     buildToolsVersion "27.0.3"
 
     defaultConfig {
+        multiDexEnabled true
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
         targetSdkVersion 27
@@ -116,6 +117,8 @@ dependencies {
 
     implementation project(':provider-contract')
 
+    implementation 'com.android.support:multidex:1.0.3'
+
     implementation "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
     implementation "com.android.support:support-v13:$SUPPORT_LIBRARY_VERSION"
     implementation "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
@@ -148,15 +151,16 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.2.0.Final'
 
     // Network stack
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
-    implementation 'com.squareup.moshi:moshi:1.5.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+    implementation 'com.squareup.moshi:moshi:1.6.0'
 
     implementation 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
-    implementation 'net.sourceforge.streamsupport:streamsupport:1.6.0'
-    implementation 'com.github.streamsupport.streamsupport:streamsupport-pro:-SNAPSHOT'
-    implementation 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
+    // implementation 'net.sourceforge.streamsupport:streamsupport:1.6.3'
+    implementation 'net.sourceforge.streamsupport:android-retrostreams:1.6.3'
+    // implementation 'com.github.streamsupport.streamsupport:streamsupport-pro:-SNAPSHOT'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     implementation 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
     implementation 'com.heinrichreimersoftware:material-intro:1.6.2'
@@ -185,17 +189,18 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.15.0'
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.1'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
 
     //Enable the normal library for unit tests
     testImplementation('org.threeten:threetenbp:1.3.6') {
         exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
     }
 
-    testImplementation 'com.squareup.okhttp3:mockwebserver:3.10.0'
-    testImplementation 'nl.jqno.equalsverifier:equalsverifier:2.4.3'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
+    testImplementation 'nl.jqno.equalsverifier:equalsverifier:2.5.1'
     testImplementation 'com.shazam:shazamcrest:0.11'
     testImplementation 'org.skyscreamer:jsonassert:1.5.0'
     testImplementation 'io.github.benas:random-beans:3.7.0'

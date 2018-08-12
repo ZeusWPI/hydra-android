@@ -8,9 +8,9 @@ import android.support.annotation.VisibleForTesting;
 
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
-import java8.util.function.Function;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.function.Function;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 import org.threeten.bp.Clock;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;

@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.minerva.announcement.sync;
 
 import be.ugent.zeus.hydra.minerva.course.Module;
 import com.squareup.moshi.Json;
-import java8.util.Optional;
+import java9.util.Optional;
 
 /**
  * A tool, as defined by the Minerva API.

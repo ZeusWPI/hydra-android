@@ -32,10 +32,10 @@ import be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import java8.util.J8Arrays;
-import java8.util.function.IntPredicate;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.J8Arrays;
+import java9.util.function.IntPredicate;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
 import java.util.*;
 

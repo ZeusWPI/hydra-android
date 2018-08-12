@@ -5,6 +5,7 @@ import android.app.Application;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.common.ChannelCreator;
@@ -23,7 +24,7 @@ import jonathanfinerty.once.Once;
  * @author feliciaan
  */
 @SuppressWarnings("WeakerAccess")
-public class HydraApplication extends Application {
+public class HydraApplication extends MultiDexApplication {
 
     private static final String TAG = "HydraApplication";
 

@@ -7,7 +7,7 @@ import be.ugent.zeus.hydra.common.database.RepositoryFactory;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardDismissal;
 import be.ugent.zeus.hydra.feed.cards.CardRepository;
-import java8.util.function.Function;
+import java9.util.function.Function;
 
 /**
  * @author Niko Strijbol

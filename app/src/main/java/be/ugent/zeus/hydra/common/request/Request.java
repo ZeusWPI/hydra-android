@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.common.request;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import java8.util.function.Function;
+import java9.util.function.Function;
 
 /**
  * The basis interface for a request. A request is something that returns data.

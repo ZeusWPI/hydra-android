@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.feed.cards.implementations.schamper;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
 import be.ugent.zeus.hydra.schamper.Article;
+import java9.util.Objects;
 import org.threeten.bp.Duration;
 import org.threeten.bp.OffsetDateTime;
 
@@ -49,11 +50,11 @@ class SchamperCard extends Card {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SchamperCard that = (SchamperCard) o;
-        return java8.util.Objects.equals(article, that.article);
+        return Objects.equals(article, that.article);
     }
 
     @Override
     public int hashCode() {
-        return java8.util.Objects.hash(article);
+        return Objects.hash(article);
     }
 }

@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.feed.cards.implementations.minerva.calendar;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
-import java8.util.Objects;
+import java9.util.Objects;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.temporal.ChronoUnit;

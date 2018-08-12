@@ -37,8 +37,8 @@ import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.ArrayList;
@@ -79,7 +79,7 @@ public class LibraryDetailActivity extends BaseActivity {
         layout = findViewById(R.id.frame_layout);
 
         ImageView header = findViewById(R.id.header_image);
-        Picasso.with(this).load(library.getEnsuredImage()).into(header);
+        Picasso.get().load(library.getEnsuredImage()).into(header);
 
         requireToolbar().setTitle(library.getName());
 

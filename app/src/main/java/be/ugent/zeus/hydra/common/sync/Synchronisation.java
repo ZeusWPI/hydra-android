@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.common.sync;
 
 import be.ugent.zeus.hydra.common.FullRepository;
-import java8.util.function.Function;
+import java9.util.function.Function;
 
 import java.util.Collection;
 import java.util.HashSet;

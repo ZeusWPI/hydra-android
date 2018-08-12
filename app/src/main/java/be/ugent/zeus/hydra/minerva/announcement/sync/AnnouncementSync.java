@@ -19,7 +19,7 @@ import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import be.ugent.zeus.hydra.minerva.course.Module;
 import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
-import java8.util.Maps;
+import java9.util.Maps;
 import org.threeten.bp.Instant;
 
 import java.util.*;

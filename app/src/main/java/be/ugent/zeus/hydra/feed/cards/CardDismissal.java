@@ -4,7 +4,7 @@ import android.arch.persistence.room.*;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.feed.cards.database.DismissalTable;
-import java8.util.Objects;
+import java9.util.Objects;
 import org.threeten.bp.Instant;
 
 /**

@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
 import be.ugent.zeus.hydra.common.request.Result;
-import java8.util.Comparators;
+import java9.util.Comparators;
 import org.threeten.bp.Duration;
 
 import java.util.Collections;

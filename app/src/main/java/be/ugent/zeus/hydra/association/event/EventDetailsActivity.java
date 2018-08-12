@@ -117,7 +117,7 @@ public class EventDetailsActivity extends BaseActivity {
         }
 
         if (event.getAssociation() != null && event.getAssociation().getImageLink() != null) {
-            Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage, new EventCallback(organisatorImage));
+            Picasso.get().load(event.getAssociation().getImageLink()).into(organisatorImage, new EventCallback(organisatorImage));
         } else {
             organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
@@ -249,7 +249,7 @@ public class EventDetailsActivity extends BaseActivity {
         }
 
         @Override
-        public void onError() {
+        public void onError(Exception e) {
             organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
     }
