@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="be.ugent.zeus.hydra"
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    package="be.ugent.zeus.hydra"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Network permissions -->
@@ -317,10 +318,12 @@
             android:exported="false" />
 
         <!-- Urgent stuff -->
+        <!-- This is a music service without sensitive data and thus does not require permissions -->
         <service
             android:name=".urgent.player.MusicService"
             android:exported="true"
-            android:process=":urgent">
+            android:process=":urgent"
+            tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>
@@ -329,6 +332,23 @@
         <receiver android:name="android.support.v4.media.session.MediaButtonReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Slices stuff -->
+        <provider android:name=".resto.menu.slice.SliceProvider"
+            android:authorities="be.ugent.zeus.hydra.resto.menu"
+            android:exported="true"
+            tools:ignore="ExportedContentProvider">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.app.slice.category.SLICE" />
+            </intent-filter>
+        </provider>
+
+        <receiver android:name = ".resto.menu.slice.UpdatedMenuBroadcastReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="be.ugent.zeus.hydra.resto.update" />
             </intent-filter>
         </receiver>
     </application>

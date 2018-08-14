@@ -3,14 +3,14 @@ apply plugin: 'com.jaredsburrows.license'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.2"
 
     defaultConfig {
         multiDexEnabled true
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 2805
         versionName "2.8.3"
         vectorDrawables.useSupportLibrary = true
@@ -108,7 +108,7 @@ licenseReport {
 // Might become automatic in the future, see https://github.com/jaredsburrows/gradle-license-plugin/issues/38.
 
 // The support library version
-final SUPPORT_LIBRARY_VERSION = '27.1.1'
+final SUPPORT_LIBRARY_VERSION = '28.0.0-rc01'
 
 dependencies {
 
@@ -128,6 +128,8 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
     implementation "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
     implementation "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
+    //noinspection GradleCompatible
+    implementation "com.android.support:slices-builders:28.0.0-rc01"
 
     // Android Architecture Components
     implementation "android.arch.lifecycle:extensions:$LIFECYCLE_VERSION"
