@@ -24,6 +24,7 @@ import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
 import be.ugent.zeus.hydra.resto.*;
 import be.ugent.zeus.hydra.resto.history.DayRequest;
+import be.ugent.zeus.hydra.utils.DateUtils;
 import org.threeten.bp.LocalDate;
 
 import static be.ugent.zeus.hydra.resto.Broadcast.REQUEST_CODE;
@@ -119,8 +120,8 @@ public class SliceProvider extends androidx.slice.SliceProvider {
         return SliceAction.create(
                 pendingIntent,
                 IconCompat.createWithResource(getContext(), R.drawable.tabs_resto),
-                ListBuilder.LARGE_IMAGE,
-                getContext().getString(R.string.resto_slice_open)
+                ListBuilder.ICON_IMAGE,
+                getContext().getString(R.string.resto_menu_slice_open_menu)
         );
     }
 
@@ -143,28 +144,29 @@ public class SliceProvider extends androidx.slice.SliceProvider {
                 getChangeRestoDayIntent(nextDay),
                 IconCompat.createWithResource(getContext(), R.drawable.ic_navigate_next),
                 ListBuilder.LARGE_IMAGE,
-                "Volgende dag");
+                getContext().getString(R.string.resto_menu_slice_next));
 
         SliceAction dayPrevious = SliceAction.create(
                 getChangeRestoDayIntent(previousDay),
                 IconCompat.createWithResource(getContext(), R.drawable.ic_navigate_before),
                 ListBuilder.LARGE_IMAGE,
-                "Vorige dag");
+                getContext().getString(R.string.resto_menu_slice_previous));
 
         ListBuilder.HeaderBuilder header = new ListBuilder.HeaderBuilder()
                 .setPrimaryAction(getOpenRestoAction());
 
+        String date = DateUtils.getFriendlyDate(getContext(), currentDate);
         if (result == null) {
-            header.setSubtitle("Menu van " + currentDate.toString() + " laden...", true);
+            header.setSubtitle(getContext().getString(R.string.resto_menu_slice_subtitle_loading, date), true);
         } else {
-            header.setSubtitle("Menu van " + currentDate.toString());
+            header.setSubtitle(getContext().getString(R.string.resto_menu_slice_subtitle, date));
         }
 
 
         if (result != null && result.hasException()) {
-            header.setTitle("Restomenu niet beschikbaar");
+            header.setTitle(getContext().getString(R.string.resto_menu_slice_title_error));
         } else {
-            header.setTitle("Restomenu voor " + restoChoice.getName());
+            header.setTitle(getContext().getString(R.string.resto_menu_slice_title, restoChoice.getName()));
         }
 
         ListBuilder body = new ListBuilder(getContext(), sliceUri, ListBuilder.INFINITY)
@@ -180,7 +182,7 @@ public class SliceProvider extends androidx.slice.SliceProvider {
 
                 //Set the correct image.
                 @DrawableRes int id = MenuTable.getDrawable(meal);
-                //row.setTitleItem(IconCompat.createWithResource(getContext(), id), ListBuilder.RowBuilder.TYPE_ICON);
+                row.setTitleItem(IconCompat.createWithResource(getContext(), id), ListBuilder.RowBuilder.TYPE_ICON);
 
                 row.setTitle(meal.getName());
                 row.setSubtitle(meal.getPrice());

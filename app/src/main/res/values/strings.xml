@@ -196,6 +196,14 @@
     <string name="resto_legend_asc_abbr">ASC</string>
     <string name="resto_legend_asc_desc">Aquaculture Stewardship Council, verantwoorde kweek</string>
 
+    <string name="resto_menu_slice_open_menu">Open restomenu</string>
+    <string name="resto_menu_slice_next">Volgende dag</string>
+    <string name="resto_menu_slice_previous">Vorige dag</string>
+    <string name="resto_menu_slice_subtitle_loading">Menu van %s laden…</string>
+    <string name="resto_menu_slice_subtitle">Menu van %s</string>
+    <string name="resto_menu_slice_title_error">Restomenu niet beschikbaar</string>
+    <string name="resto_menu_slice_title">Restomenu voor %s</string>
+
     <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
     <string name="value_resto_default_endpoint">nl-debrug</string>
     <string name="resto_default_name">Resto De Brug</string>
@@ -475,5 +483,4 @@
     <string name="content_desc_special_event_icon">Icoon speciaal evenement</string>
     <string name="content_desc_urgent_icon">Logo Urgent.fm</string>
     <string name="content_desc_association_icon">Icon vereniging</string>
-    <string name="resto_slice_open">Open restomenu</string>
 </resources>

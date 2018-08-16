@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.urgent;
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.DrawableRes;
@@ -24,7 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.urgent.player.MusicService;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 import java.util.List;
@@ -180,6 +180,12 @@ public class UrgentFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        requireActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
+    }
+
     private void readMetadata(MediaMetadataCompat metadata) {
         if (metadata != null) {
             MediaDescriptionCompat descriptionCompat = metadata.getDescription();
@@ -246,7 +252,7 @@ public class UrgentFragment extends Fragment {
 
         playPauseButton.setOnClickListener(v -> {
             if (state.getState() == PlaybackStateCompat.STATE_PLAYING) {
-                mediaController.getTransportControls().stop();
+                mediaController.getTransportControls().pause();
             } else {
                 mediaController.getTransportControls().play();
             }

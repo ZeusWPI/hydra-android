@@ -131,6 +131,11 @@ dependencies {
     //noinspection GradleCompatible
     implementation "com.android.support:slices-builders:28.0.0-rc01"
 
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.8.3'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.8.3'
+    implementation 'com.google.android.exoplayer:extension-mediasession:2.8.3'
+
+
     // Android Architecture Components
     implementation "android.arch.lifecycle:extensions:$LIFECYCLE_VERSION"
     annotationProcessor "android.arch.lifecycle:compiler:$LIFECYCLE_VERSION"

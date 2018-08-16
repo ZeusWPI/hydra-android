@@ -11,20 +11,17 @@ import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.urgent.UrgentInfo;
 import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.urgent.UrgentInfo;
 import be.ugent.zeus.hydra.urgent.UrgentInfoRequest;
 import java9.util.function.Consumer;
 
 /**
  * @author Niko Strijbol
  */
-class UrgentTrackProvider {
+public class UrgentTrackProvider {
 
-    static final String URGENT_ID = "be.ugent.zeus.hydra.urgent";
-
-    static final String MEDIA_ID_ROOT = "__ROOT__";
-    static final String MEDIA_ID_EMPTY_ROOT = "__EMPTY__";
+    public static final String URGENT_ID = "be.ugent.zeus.hydra.urgent";
 
     private MediaMetadataCompat track;
     private final Context context;
@@ -33,15 +30,11 @@ class UrgentTrackProvider {
         this.context = context.getApplicationContext();
     }
 
-    public MediaMetadataCompat getTrack() {
-        return track;
-    }
-
     @SuppressLint("StaticFieldLeak")
-    void prepareMedia(@NonNull Consumer<Boolean> callback) {
+    public void prepareMedia(@NonNull Consumer<MediaMetadataCompat> callback) {
 
-        if (track != null) {
-            callback.accept(true);
+        if (hasTrackInformation()) {
+            callback.accept(track);
             return;
         }
 
@@ -55,9 +48,13 @@ class UrgentTrackProvider {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                callback.accept(hasTrackInformation());
+                callback.accept(track);
             }
         }.execute();
+    }
+
+    public boolean hasTrackInformation() {
+        return track != null;
     }
 
     private synchronized void loadData() {
@@ -84,9 +81,5 @@ class UrgentTrackProvider {
         }
 
         track = builder.build();
-    }
-
-    synchronized boolean hasTrackInformation() {
-        return track != null;
     }
 }
