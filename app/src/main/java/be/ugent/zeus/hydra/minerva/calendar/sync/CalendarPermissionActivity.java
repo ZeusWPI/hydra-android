@@ -53,6 +53,10 @@ public class CalendarPermissionActivity extends AppCompatActivity implements Mul
         }
 
         if (!report.areAllPermissionsGranted()) {
+            // Fix for a rare bug where the activity is finished before we show the dialog; just give up in that case.
+            if (this.isFinishing()) {
+                return;
+            }
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             builder.setTitle(R.string.minerva_calendar_permission_title);
