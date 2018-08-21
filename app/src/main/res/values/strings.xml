@@ -458,6 +458,8 @@
     <string name="library_less">Minder</string>
     <string name="library_info_remarks">Opmerkingen</string>
     <string name="library_info_details">Details</string>
+    <string name="library_list_no_opening_hours">Geen openingsuren vandaag.</string>
+    <string name="library_list_opening_hours_today">Vandaag open: %s</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_unread_icon">Heeft ongelezen aankondigingen</string>

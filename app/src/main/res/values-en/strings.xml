@@ -191,6 +191,14 @@
     <string name="resto_legend_asc_abbr">ASC</string>
     <string name="resto_legend_asc_desc">Aquaculture Stewardship Council, responsible seafood</string>
 
+    <string name="resto_menu_slice_open_menu">Open resto menu</string>
+    <string name="resto_menu_slice_next">Next day</string>
+    <string name="resto_menu_slice_previous">Previous day</string>
+    <string name="resto_menu_slice_subtitle_loading">Loading menu for %s laden…</string>
+    <string name="resto_menu_slice_subtitle">Menu for %s</string>
+    <string name="resto_menu_slice_title_error">Resto menu not available</string>
+    <string name="resto_menu_slice_title">Resto menu for %s</string>
+
     <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
     <string name="value_resto_default_endpoint">en</string>
     <string name="resto_default_name">English customers</string>
@@ -442,6 +450,8 @@
     <string name="library_less">Less</string>
     <string name="library_info_remarks">Remarks</string>
     <string name="library_info_details">Details</string>
+    <string name="library_list_no_opening_hours">No opening hours found today.</string>
+    <string name="library_list_opening_hours_today">Open today: %s</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_unread_icon">Has unread descriptions</string>

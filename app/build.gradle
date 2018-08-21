@@ -185,10 +185,10 @@ dependencies {
     //noinspection GradleCompatible  // until we move to a newer version of the gradle plugin
     implementation "com.google.android.gms:play-services-analytics:16.0.1"
     implementation "com.google.android.gms:play-services-maps:15.0.1"
-    implementation "com.google.android.gms:play-services-auth:15.0.1"
+    implementation "com.google.android.gms:play-services-auth:16.0.0"
 
     implementation 'com.google.firebase:firebase-core:16.0.1'
-    implementation 'com.google.firebase:firebase-messaging:17.1.0'
+    implementation 'com.google.firebase:firebase-messaging:17.3.0'
 
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
 
