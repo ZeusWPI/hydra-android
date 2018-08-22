@@ -445,6 +445,7 @@
     <string name="urgent_play">Spelen</string>
     <string name="urgent_stop">Stoppen</string>
     <string name="urgent_loading">Laden…</string>
+    <string name="urgent_error">Fout</string>
 
     <!-- Libraries -->
     <string name="library_favourite">Opslaan</string>

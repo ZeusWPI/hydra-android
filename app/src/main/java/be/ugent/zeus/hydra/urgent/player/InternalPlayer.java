@@ -52,6 +52,10 @@ class InternalPlayer {
         this.mediaPlayer = null;
     }
 
+    boolean isNullified() {
+        return this.mediaPlayer == null;
+    }
+
     void createNew(Context context) {
         if (state != END && state != IDLE) {
             mediaPlayer.release();

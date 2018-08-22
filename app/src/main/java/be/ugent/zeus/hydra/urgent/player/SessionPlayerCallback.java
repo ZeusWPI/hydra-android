@@ -62,7 +62,7 @@ class SessionPlayerCallback implements MediaStateListener, MetadataListener {
                 updateSessionState(PlaybackStateCompat.STATE_STOPPED);
                 break;
             case PREPARING:
-                updateSessionState(PlaybackStateCompat.STATE_CONNECTING);
+                updateSessionState(PlaybackStateCompat.STATE_BUFFERING);
                 break;
             case STARTED:
                 updateSessionState(PlaybackStateCompat.STATE_PLAYING);

@@ -224,15 +224,16 @@ public class UrgentFragment extends Fragment {
 
         boolean enablePlay = false;
         switch (state.getState()) {
-            case PlaybackStateCompat.STATE_PLAYING:
-                break;
             case PlaybackStateCompat.STATE_PAUSED:
                 enablePlay = true;
                 break;
             case PlaybackStateCompat.STATE_ERROR:
-                Log.e(TAG, "error playbackstate: " + state.getErrorMessage());
-                Toast.makeText(getActivity(), state.getErrorMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.urgent_error, Toast.LENGTH_SHORT).show();
                 break;
+            case PlaybackStateCompat.STATE_PLAYING:
+            case PlaybackStateCompat.STATE_CONNECTING:
+            case PlaybackStateCompat.STATE_BUFFERING:
+                break; // Do nothing.
             default:
                 enablePlay = true;
         }
@@ -251,10 +252,17 @@ public class UrgentFragment extends Fragment {
         }
 
         playPauseButton.setOnClickListener(v -> {
-            if (state.getState() == PlaybackStateCompat.STATE_PLAYING) {
-                mediaController.getTransportControls().pause();
-            } else {
-                mediaController.getTransportControls().play();
+            switch (state.getState()) {
+                case PlaybackStateCompat.STATE_PLAYING:
+                    mediaController.getTransportControls().pause();
+                    break;
+                case PlaybackStateCompat.STATE_ERROR:
+                case PlaybackStateCompat.STATE_CONNECTING:
+                case PlaybackStateCompat.STATE_BUFFERING:
+                    mediaController.getTransportControls().stop();
+                    break;
+                default:
+                    mediaController.getTransportControls().play();
             }
         });
     }

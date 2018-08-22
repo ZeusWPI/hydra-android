@@ -124,6 +124,7 @@ public class Player {
         }
 
         if (isStateOneOf(STOPPED)) {
+            Log.d(TAG, "playOrSchedulePlay: stopped.");
             mediaPlayer.prepareAsync();
             return;
         }

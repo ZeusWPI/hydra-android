@@ -104,7 +104,6 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "Destroying Music Service...");
-        mediaSession.getController().getTransportControls().stop();
         mediaSession.release();
         player.destroy();
         if (wifiLock != null && wifiLock.isHeld()) {

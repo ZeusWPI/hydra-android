@@ -49,12 +49,20 @@ class MediaNotificationBuilder {
 
         // Construct the play/pause button.
         boolean isPlaying = controller.getPlaybackState().getState() == PlaybackStateCompat.STATE_PLAYING;
-        boolean isConnecting =  controller.getPlaybackState().getState() == PlaybackStateCompat.STATE_CONNECTING;
+        boolean isConnecting =  controller.getPlaybackState().getState() == PlaybackStateCompat.STATE_CONNECTING
+                || controller.getPlaybackState().getState() == PlaybackStateCompat.STATE_BUFFERING;
+        boolean isError = controller.getPlaybackState().getState() == PlaybackStateCompat.STATE_ERROR;
         if (isPlaying || isConnecting) {
             builder.addAction(new NotificationCompat.Action(
                     R.drawable.noti_ic_stop,
                     context.getString(R.string.urgent_stop),
                     MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_PAUSE))
+            );
+        } else if (isError) {
+            builder.addAction(new NotificationCompat.Action(
+                    R.drawable.noti_ic_stop,
+                    context.getString(R.string.urgent_stop),
+                    MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP))
             );
         } else {
             builder.addAction(
@@ -78,6 +86,8 @@ class MediaNotificationBuilder {
             builder.setContentTitle(descriptionCompat.getTitle());
             if (isConnecting) {
                 builder.setContentText(context.getString(R.string.urgent_loading));
+            } else if (isError) {
+                builder.setContentText(context.getString(R.string.urgent_error));
             } else {
                 builder.setContentText(descriptionCompat.getSubtitle());
             }
@@ -88,7 +98,11 @@ class MediaNotificationBuilder {
             }
         } else {
             builder.setContentTitle(context.getString(R.string.urgent_fm));
-            builder.setContentText(context.getString(R.string.urgent_loading));
+            if (isError) {
+                builder.setContentText(context.getString(R.string.urgent_error));
+            } else {
+                builder.setContentText(context.getString(R.string.urgent_loading));
+            }
             builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_album));
         }
 
