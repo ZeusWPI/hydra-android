@@ -31,7 +31,7 @@ public final class InstanceProvider {
 
     private static OkHttpClient client;
 
-    private static final long CACHE_SIZE = 10 * 1024 * 1024; // 10 MiB
+    private static final long CACHE_SIZE = 20 * 1024 * 1024; // 20 MiB
 
     private InstanceProvider() {
     }
@@ -54,6 +54,13 @@ public final class InstanceProvider {
         return builder;
     }
 
+    /**
+     * Get the OkHttpClient we use for requests.
+     *
+     * @param context A context.
+     *
+     * @return The client.
+     */
     static synchronized OkHttpClient getClient(Context context) {
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {

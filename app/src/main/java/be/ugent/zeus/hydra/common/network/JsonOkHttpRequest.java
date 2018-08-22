@@ -131,15 +131,16 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     protected Result<D> executeRequest(JsonAdapter<D> adapter, @NonNull Bundle args) throws IOException, ConstructionException {
         okhttp3.Request request = constructRequest(args).build();
 
-        Response response = client.newCall(request).execute();
+        try (Response response = client.newCall(request).execute()) {
 
-        if (!response.isSuccessful()) {
-            throw new UnsuccessfulRequestException(response.code());
-        }
+            if (!response.isSuccessful()) {
+                throw new UnsuccessfulRequestException(response.code());
+            }
 
-        assert response.body() != null;
+            if (response.body() == null) {
+                throw new NullPointerException("Unexpected null body on request response.");
+            }
 
-        try {
             D result = adapter.fromJson(response.body().source());
             if (result == null) {
                 throw new NullPointerException("Null is not a valid value.");
