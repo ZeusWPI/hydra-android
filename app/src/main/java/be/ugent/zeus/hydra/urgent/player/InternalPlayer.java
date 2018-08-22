@@ -67,7 +67,12 @@ class InternalPlayer {
             return false;
         });
         mediaPlayer.setOnPreparedListener(mp -> setState(PREPARED));
-        mediaPlayer.setOnCompletionListener(mp -> setState(PLAYBACK_COMPLETED));
+        mediaPlayer.setOnCompletionListener(mp -> {
+            // Weirdly, this callback is called in the error state?
+            if (state != END && state != ERROR) {
+                setState(PLAYBACK_COMPLETED);
+            }
+        });
         setState(IDLE);
     }
 
@@ -77,7 +82,7 @@ class InternalPlayer {
      * @param states One of these.
      */
     private void checkStateIsOneOf(@MediaStateListener.State int... states) {
-        if(!IntStream.of(states).anyMatch(i -> i ==  state)) {
+        if (!IntStream.of(states).anyMatch(i -> i == state)) {
             throw new IllegalStateException("Illegal state: " + state + ", allowed are " + Arrays.toString(states));
         }
     }
@@ -88,6 +93,7 @@ class InternalPlayer {
     }
 
     private void setState(@MediaStateListener.State int newState) {
+        Log.i(TAG, "setState: from " + state + " to " + newState, new Exception("Stacktrace"));
         if (newState != state) {
             int oldState = this.state;
             this.state = newState;
