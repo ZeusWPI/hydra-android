@@ -59,8 +59,10 @@ class PlayerSessionCallback extends MediaSessionCompat.Callback {
     public void onStop() {
         super.onStop();
         Log.d(TAG, "onStop called");
-        onPause();
-        //player.destroy();
+        receiver.unregister();
+        cancelMetadataUpdate();
+        serviceCallback.onPause();
+        player.destroy();
         serviceCallback.onStop();
     }
 

@@ -70,12 +70,15 @@ public class Player {
      */
     private float volume = MEDIA_VOLUME_DEFAULT;
 
-    private Player(Context context, AudioManager manager, AudioAttributesCompat audioAttributes, UrgentTrackProvider provider) {
+    private final MetadataListener metadataListener;
+
+    private Player(Context context, AudioManager manager, AudioAttributesCompat audioAttributes, UrgentTrackProvider provider, MetadataListener metadataListener) {
         this.provider = provider;
         this.context = context;
         this.mediaPlayer = new InternalPlayer(context);
         this.audioManager = manager;
         this.audioAttributes = audioAttributes;
+        this.metadataListener = metadataListener;
         this.focusChangeListener = new AudioFocusListener(this);
         this.mediaPlayer.addListener((oldState, newState) -> {
             if (newState == PREPARED && shouldPlayWhenReady) {
@@ -115,6 +118,7 @@ public class Player {
             // Set audio types
             mediaPlayer.setAudioAttributes(audioAttributes);
             // This will propagate to a call to prepare.
+            Log.d(TAG, "playOrSchedulePlay: preparing media, return.");
             provider.prepareMedia(this::receiveTrackInformation);
             return;
         }
@@ -145,14 +149,16 @@ public class Player {
      * @param track The track to play.
      */
     void receiveTrackInformation(@Nullable MediaMetadataCompat track) {
+        Log.d(TAG, "receiveTrackInformation: received metadata, state is " + mediaPlayer.getState());
         if (isStateOneOf(IDLE)) {
             mediaPlayer.setDataSource(track);
             if (shouldPlayWhenReady && isStateOneOf(INITIALIZED)) {
                 mediaPlayer.prepareAsync();
             }
         } else {
-            Log.w(TAG, "Ignoring data, player is not ready. State of player is " + mediaPlayer.getState());
+            Log.i(TAG, "Ignoring metadata URI, simply propagating data");
         }
+        metadataListener.onMetadataUpdate(track);
     }
 
     /**
@@ -294,16 +300,18 @@ public class Player {
                     .setContentType(AudioAttributesCompat.CONTENT_TYPE_MUSIC)
                     .build();
             UrgentTrackProvider provider = new UrgentTrackProvider(context);
-            Player player = new Player(context.getApplicationContext(), audioManager, attributes, provider);
+
+            SessionPlayerCallback listener = new SessionPlayerCallback(mediaSession, serviceCallback1);
+
+            Player player = new Player(context.getApplicationContext(), audioManager, attributes, provider, listener);
+
+            // Connect the player to the media session.
+            player.mediaPlayer.addListener(listener);
 
             // Connect the media session to the player.
             BecomingNoisyReceiver receiver = new BecomingNoisyReceiver(context, mediaSession);
             PlayerSessionCallback callback = new PlayerSessionCallback(player, receiver, serviceCallback2);
             mediaSession.setCallback(callback);
-
-            // Connect the player to the media session.
-            SessionPlayerCallback listener = new SessionPlayerCallback(mediaSession, serviceCallback1);
-            player.mediaPlayer.addListener(listener);
 
             return player;
         }

@@ -1,7 +1,9 @@
 package be.ugent.zeus.hydra.urgent;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.media.MediaDescriptionCompat;
@@ -10,6 +12,7 @@ import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
+import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ChannelCreator;
 
@@ -19,6 +22,8 @@ import be.ugent.zeus.hydra.common.ChannelCreator;
  * @author Niko Strijbol
  */
 class MediaNotificationBuilder {
+
+    private static final int REQUEST_CODE = 122;
 
     private final Context context;
 
@@ -44,7 +49,8 @@ class MediaNotificationBuilder {
 
         // Construct the play/pause button.
         boolean isPlaying = controller.getPlaybackState().getState() == PlaybackStateCompat.STATE_PLAYING;
-        if (isPlaying) {
+        boolean isConnecting =  controller.getPlaybackState().getState() == PlaybackStateCompat.STATE_CONNECTING;
+        if (isPlaying || isConnecting) {
             builder.addAction(new NotificationCompat.Action(
                     R.drawable.noti_ic_stop,
                     context.getString(R.string.urgent_stop),
@@ -58,13 +64,8 @@ class MediaNotificationBuilder {
             );
         }
 
-        MediaDescriptionCompat descriptionCompat = controller.getMetadata().getDescription();
-
         builder.setSmallIcon(R.drawable.ic_notification_urgent)
                 .setShowWhen(false)
-                // .setColor(ContextCompat.getColor(context, R.color.ugent_blue_dark))
-                .setContentTitle(descriptionCompat.getTitle())
-                .setContentText(descriptionCompat.getSubtitle())
                 .setSubText(context.getString(R.string.urgent_fm))
                 .setDeleteIntent(MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP))
                 .setContentIntent(controller.getSessionActivity())
@@ -72,11 +73,22 @@ class MediaNotificationBuilder {
                 .setChannelId(ChannelCreator.URGENT_CHANNEL)
                 .setStyle(style);
 
-
-        //Add album artwork if available
-        if (descriptionCompat.getIconBitmap() != null) {
-            builder.setLargeIcon(descriptionCompat.getIconBitmap());
+        if (controller.getMetadata() != null) {
+            MediaDescriptionCompat descriptionCompat = controller.getMetadata().getDescription();
+            builder.setContentTitle(descriptionCompat.getTitle());
+            if (isConnecting) {
+                builder.setContentText(context.getString(R.string.urgent_loading));
+            } else {
+                builder.setContentText(descriptionCompat.getSubtitle());
+            }
+            if (descriptionCompat.getIconBitmap() != null) {
+                builder.setLargeIcon(descriptionCompat.getIconBitmap());
+            } else {
+                builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_album));
+            }
         } else {
+            builder.setContentTitle(context.getString(R.string.urgent_fm));
+            builder.setContentText(context.getString(R.string.urgent_loading));
             builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_album));
         }
 
@@ -84,6 +96,9 @@ class MediaNotificationBuilder {
     }
 
     Notification buildPlaceHolderNotification() {
+        Intent startThis = new Intent(context, MainActivity.class);
+        startThis.putExtra(MainActivity.ARG_TAB, R.id.drawer_urgent);
+        PendingIntent pi = PendingIntent.getActivity(context, REQUEST_CODE, startThis, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Construct the actual notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, ChannelCreator.URGENT_CHANNEL)
@@ -93,6 +108,7 @@ class MediaNotificationBuilder {
                 .setContentText("Laden...")
                 .setDeleteIntent(MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentIntent(pi)
                 .setChannelId(ChannelCreator.URGENT_CHANNEL);
 
         return builder.build();

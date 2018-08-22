@@ -149,15 +149,8 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
     private Notification constructNotification(boolean alt) {
 
         // If required objects are null, return null.
-        if (mediaSession == null ||
-                mediaSession.getController() == null ||
-                mediaSession.getController().getMetadata() == null ||
-                mediaSession.getController().getPlaybackState() == null) {
-            if (!alt) {
-                return null;
-            } else {
-                return notificationBuilder.buildPlaceHolderNotification();
-            }
+        if ((mediaSession == null || mediaSession.getController() == null) && !alt) {
+            return null;
         }
 
         return notificationBuilder.buildNotification(mediaSession);
@@ -165,6 +158,15 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
 
     @Override
     public void onSessionStateChanged(int newState) {
+        updateNotification();
+    }
+
+    @Override
+    public void onMetadataUpdate() {
+        updateNotification();
+    }
+
+    private void updateNotification() {
         Notification notification = constructNotification(false);
         if (notification != null) {
             notificationManager.notify(MUSIC_SERVICE_ID, notification);
@@ -197,6 +199,9 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
 
     @Override
     public void onStop() {
+        if (wifiLock != null && wifiLock.isHeld()) {
+            wifiLock.release();
+        }
         stopForeground(true);
     }
 }

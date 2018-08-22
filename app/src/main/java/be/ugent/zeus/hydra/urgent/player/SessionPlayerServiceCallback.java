@@ -13,4 +13,6 @@ public interface SessionPlayerServiceCallback {
      * Called when the state of the session changes.
      */
     void onSessionStateChanged(@PlaybackStateCompat.State int newState);
+
+    void onMetadataUpdate();
 }

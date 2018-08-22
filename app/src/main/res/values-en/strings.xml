@@ -436,6 +436,7 @@
     <string name="urgent_channel_desc">Notifications about Urgent.fm, including the media notification for the player.</string>
     <string name="urgent_play">Play</string>
     <string name="urgent_stop">Stop</string>
+    <string name="urgent_loading">Loading…</string>
 
     <!-- Libraries -->
     <string name="library_favourite">Save</string>

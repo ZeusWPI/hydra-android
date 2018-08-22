@@ -1,6 +1,8 @@
 package be.ugent.zeus.hydra.urgent.player;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
@@ -14,7 +16,7 @@ import static be.ugent.zeus.hydra.urgent.player.MediaStateListener.State.*;
  * @author Niko Strijbol
  * @see PlayerSessionCallback for the reverse mapping.
  */
-class SessionPlayerCallback implements MediaStateListener {
+class SessionPlayerCallback implements MediaStateListener, MetadataListener {
 
     private static final String TAG = "SessionPlayerCallback";
 
@@ -82,5 +84,11 @@ class SessionPlayerCallback implements MediaStateListener {
         stateCompatBuilder.setState(state, 0, 1f);
         session.setPlaybackState(stateCompatBuilder.build());
         serviceCallback.onSessionStateChanged(state);
+    }
+
+    @Override
+    public void onMetadataUpdate(@Nullable MediaMetadataCompat metadataCompat) {
+        session.setMetadata(metadataCompat);
+        serviceCallback.onMetadataUpdate();
     }
 }

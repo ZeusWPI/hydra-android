@@ -444,6 +444,7 @@
     <string name="urgent_channel_desc">Meldingen over Urgent.fm, inclusief de mediamelding voor de radiospeler.</string>
     <string name="urgent_play">Spelen</string>
     <string name="urgent_stop">Stoppen</string>
+    <string name="urgent_loading">Laden…</string>
 
     <!-- Libraries -->
     <string name="library_favourite">Opslaan</string>
