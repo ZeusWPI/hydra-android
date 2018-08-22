@@ -22,6 +22,7 @@ import org.threeten.bp.Duration;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.UnknownServiceException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -87,6 +88,12 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
             try {
                 return executeRequest(adapter, args);
             } catch (IOException e) {
+
+                // If this exception is for a clear text violation, log it. We want to fix these.
+                if (e instanceof UnknownServiceException) {
+                    Log.e(TAG, "Unexpected error during network request.", e);
+                    Crashlytics.logException(e);
+                }
 
                 Result<D> result = Result.Builder.fromException(new IOFailureException(e));
 

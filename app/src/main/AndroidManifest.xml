@@ -59,15 +59,20 @@
         android:label="@string/app_name"
         android:logo="@drawable/logo"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Hydra.Main.NoActionBar">
+        android:theme="@style/Hydra.Main.NoActionBar"
+        android:networkSecurityConfig="@xml/network_security_config">
 
         <!-- Disable all Firebase analytics in debug mode. -->
         <meta-data android:name="firebase_analytics_collection_deactivated"
             android:value="${disableAnalytics}" />
 
-        <!-- Disable all Firebase crash reporting in debug mode -->
-        <meta-data android:name="firebase_crashlytics_collection_enabled"
-            android:value="${enableCrashReporting}" />
+        <!--
+          ~ Disables automatic initialisation of Crashlytics.
+          ~
+          ~ This is necessary because we want to disable Crashlytics in debug builds. The initialisation happens
+          ~ in the HydraApplication.
+          -->
+        <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
 
         <!-- Main activity -->
         <activity

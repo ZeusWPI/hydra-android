@@ -11,9 +11,12 @@ import android.util.Log;
 
 import be.ugent.zeus.hydra.common.ChannelCreator;
 import be.ugent.zeus.hydra.theme.ThemePreferenceFragment;
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
+import io.fabric.sdk.android.Fabric;
 import jonathanfinerty.once.Once;
 
 /**
@@ -43,6 +46,12 @@ public class HydraApplication extends Application {
         if (BuildConfig.DEBUG) {
             enableStrictModeInDebug();
         }
+
+        // Enable or disable Crashlytics.
+        CrashlyticsCore core = new CrashlyticsCore.Builder()
+                .disabled(BuildConfig.DEBUG) // Disable when DEBUG is true.
+                .build();
+        Fabric.with(this, new Crashlytics.Builder().core(core).build());
 
         // Set the theme.
         AppCompatDelegate.setDefaultNightMode(ThemePreferenceFragment.getNightMode(this));
@@ -93,7 +102,7 @@ public class HydraApplication extends Application {
      */
     protected static void enableStrictModeInDebug() {
 
-        if (!BuildConfig.DEBUG_ENABLE_STRICT_MODE) {
+        if (!BuildConfig.DEBUG || !BuildConfig.DEBUG_ENABLE_STRICT_MODE) {
             return;
         }
 
