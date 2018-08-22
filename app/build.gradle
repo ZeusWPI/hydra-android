@@ -155,7 +155,7 @@ dependencies {
 
     // Network stack
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
-    debugImplementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
     implementation 'com.squareup.moshi:moshi:1.6.0'
 
     implementation 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'

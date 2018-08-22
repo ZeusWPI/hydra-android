@@ -25,7 +25,7 @@ public class RestoCardViewHolderTest extends AbstractFeedViewHolderTest {
 
     @Test
     public void populate() {
-        View view = inflate(R.layout.home_card_resto);
+        View view = inflate(activityContext, R.layout.home_card_resto);
         RestoCardViewHolder viewHolder = new RestoCardViewHolder(view, adapter);
         RestoMenuCard card = generate(RestoMenuCard.class);
         viewHolder.populate(card);

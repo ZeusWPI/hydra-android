@@ -25,7 +25,7 @@ public class EventCardViewHolderTest extends AbstractFeedViewHolderTest {
 
     @Test
     public void populate() {
-        View view = inflate(R.layout.home_card_event);
+        View view = inflate(activityContext, R.layout.home_card_event);
         EventCardViewHolder viewHolder = new EventCardViewHolder(view, adapter);
         EventCard eventCard = generate(EventCard.class);
         Event event = eventCard.getEvent();
@@ -36,7 +36,7 @@ public class EventCardViewHolderTest extends AbstractFeedViewHolderTest {
         assertNotEmpty(view.findViewById(R.id.starttime));
 
         view.performClick();
-        Intent expected = EventDetailsActivity.start(RuntimeEnvironment.application, event);
+        Intent expected = EventDetailsActivity.start(activityContext, event);
         Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
         assertEquals(expected.getComponent(), actual.getComponent());
     }

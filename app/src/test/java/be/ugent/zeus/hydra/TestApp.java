@@ -1,9 +1,12 @@
 package be.ugent.zeus.hydra;
 
+import be.ugent.zeus.hydra.testing.Utils;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import io.fabric.sdk.android.Fabric;
 import jonathanfinerty.once.Once;
+
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.setupPicasso;
 
 /**
  * Disable some libraries we don't use during Robolectric tests.
@@ -26,5 +29,7 @@ public class TestApp extends HydraApplication {
 
         CrashlyticsCore core = new CrashlyticsCore.Builder().disabled(true).build();
         Fabric.with(this, new Crashlytics.Builder().core(core).build());
+
+        setupPicasso();
     }
 }

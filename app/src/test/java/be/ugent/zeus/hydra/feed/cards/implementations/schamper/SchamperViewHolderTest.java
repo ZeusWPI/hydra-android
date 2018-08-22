@@ -26,7 +26,8 @@ public class SchamperViewHolderTest extends AbstractFeedViewHolderTest {
 
     @Test
     public void populate() {
-        View view = inflate(R.layout.home_card_schamper);
+        View view = inflate(activityContext, R.layout.home_card_schamper);
+
         SchamperViewHolder schamperViewHolder = new SchamperViewHolder(view, adapter);
         Article article = generate(Article.class, "image", "categoryColour");
         SchamperCard card = new SchamperCard(article);

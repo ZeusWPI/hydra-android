@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
@@ -32,7 +33,7 @@ public class MinervaAnnouncementViewHolderTest extends AbstractFeedViewHolderTes
 
     @Test
     public void populateLessThanLimit() {
-        View view = inflate(R.layout.home_minerva_announcement_card);
+        View view = inflate(activityContext, R.layout.home_minerva_announcement_card);
         MinervaAnnouncementViewHolder viewHolder = new MinervaAnnouncementViewHolder(view, adapter);
         Course course = generate(Course.class);
         List<Announcement> announcements =
@@ -50,7 +51,7 @@ public class MinervaAnnouncementViewHolderTest extends AbstractFeedViewHolderTes
 
     @Test
     public void populateMoreThanLimit() {
-        View view = inflate(R.layout.home_minerva_announcement_card);
+        View view = inflate(activityContext, R.layout.home_minerva_announcement_card);
         MinervaAnnouncementViewHolder viewHolder = new MinervaAnnouncementViewHolder(view, adapter);
         Course course = generate(Course.class);
         List<Announcement> announcements =

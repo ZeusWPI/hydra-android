@@ -3,17 +3,17 @@ package be.ugent.zeus.hydra.sko.lineup;
 import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
+
 import be.ugent.zeus.hydra.R;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowApplication;
 
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -31,7 +31,7 @@ public class LineupViewHolderTest {
         viewHolder.populate(artist);
 
         assertTextIs(artist.getName(), view.findViewById(R.id.title));
-        assertTextIs(artist.getDisplayDate(RuntimeEnvironment.application), view.findViewById(R.id.date));
+        assertTextIs(artist.getDisplayDate(view.getContext()), view.findViewById(R.id.date));
 
         view.performClick();
         Intent expected = ArtistDetailsActivity.start(view.getContext(), artist);
