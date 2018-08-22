@@ -29,7 +29,7 @@ public abstract class HideableHomeFeedRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public final Result<Stream<Card>> performRequest(@NonNull Bundle args) {
+    public final Result<Stream<Card>> execute(@NonNull Bundle args) {
         return performRequestCards(args).map(cardsStream -> {
             List<Card> cards = cardsStream.collect(Collectors.toList());
             // Remove all stale hidden cards.

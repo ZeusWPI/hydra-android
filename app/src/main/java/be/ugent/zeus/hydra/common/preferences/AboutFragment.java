@@ -48,8 +48,7 @@ public class AboutFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        HydraApplication app = (HydraApplication) getActivity().getApplication();
-        app.sendScreenName("Setting > About");
+        HydraApplication.sendScreenName(getActivity(), "Setting > About");
     }
 }
 

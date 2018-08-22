@@ -24,7 +24,7 @@ import static org.junit.Assert.assertTrue;
  */
 @RequiresApi(api = 26)
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
+@Config(application = TestApp.class)
 public abstract class FullRepositoryTest<ID, M> {
 
     /**

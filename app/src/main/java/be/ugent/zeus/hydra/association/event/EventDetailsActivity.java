@@ -24,9 +24,12 @@ import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import org.threeten.bp.LocalDate;
 import org.threeten.bp.format.DateTimeFormatter;
 
 /**
@@ -121,6 +124,13 @@ public class EventDetailsActivity extends BaseActivity {
         } else {
             organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
+
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
+        Bundle parameters = new Bundle();
+        parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.EVENT);
+        parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, event.getTitle());
+        parameters.putString(FirebaseAnalytics.Param.ITEM_ID, event.getIdentifier());
+        analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
     }
 
     @Override
@@ -189,11 +199,6 @@ public class EventDetailsActivity extends BaseActivity {
         }
 
         return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    protected String getScreenName() {
-        return "Event > " + event.getTitle();
     }
 
     /**

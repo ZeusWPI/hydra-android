@@ -25,6 +25,6 @@ public class CustomTabPreferenceFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        HydraApplication.getApplication(getActivity()).sendScreenName("Settings > Custom Tabs");
+        HydraApplication.sendScreenName(getActivity(), "Settings > Custom Tabs");
     }
 }

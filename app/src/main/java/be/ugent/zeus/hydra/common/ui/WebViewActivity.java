@@ -56,11 +56,6 @@ public class WebViewActivity extends BaseActivity {
         webView.loadUrl(url);
     }
 
-    @Override
-    protected String getScreenName() {
-        return "Webview > " + getTitle();
-    }
-
     private static class ProgressClient extends InterceptingWebViewClient {
         private final ProgressBar progressBar;
 

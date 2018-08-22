@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.request.Request;
@@ -50,7 +49,7 @@ public class RestoRequest extends HideableHomeFeedRequest {
         String restoKey = RestoPreferenceFragment.getRestoEndpoint(context, preferences);
         String restoName = preferences.getString(RestoPreferenceFragment.PREF_RESTO_NAME, context.getString(R.string.resto_default_name));
         RestoChoice choice = new RestoChoice(restoName, restoKey);
-        return request.performRequest(args).map(restoMenus -> StreamSupport.stream(restoMenus)
+        return request.execute(args).map(restoMenus -> StreamSupport.stream(restoMenus)
                 .map(restoMenu -> new RestoMenuCard(restoMenu, choice)));
     }
 }

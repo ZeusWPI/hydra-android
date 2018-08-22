@@ -38,7 +38,7 @@ public class LimitingSpecialEventRequest extends HideableHomeFeedRequest {
     @Override
     protected Result<Stream<Card>> performRequestCards(@NonNull Bundle args) {
         OffsetDateTime now = OffsetDateTime.now();
-        return remoteEventRequest.performRequest(args).map(specialEventWrapper -> {
+        return remoteEventRequest.execute(args).map(specialEventWrapper -> {
             List<Card> list = new ArrayList<>();
 
             List<SpecialEvent> specialEvents = new ArrayList<>(specialEventWrapper.getSpecialEvents());

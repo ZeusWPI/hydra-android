@@ -17,6 +17,7 @@ public class Analytics {
         String LIBRARY = "library_information";
         String SKO_ARTIST = "sko_artist";
         String RESTO_MENU = "resto_menu";
+        String EVENT = "association_event";
         /**
          * Note: this value is added for completeness. You should NOT report which courses the user views, as this
          * might be used to identify the user.

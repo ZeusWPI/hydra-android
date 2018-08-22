@@ -62,13 +62,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         setUpActionBar();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        HydraApplication application = (HydraApplication) getApplicationContext();
-        application.sendScreenName(getScreenName());
-    }
-
     /**
      * Replace an icon with given ID by the same icon but in the correct colour.
      *
@@ -103,10 +96,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             DrawableCompat.setTint(drawable, colour);
             menu.findItem(id).setIcon(drawable);
         }
-    }
-
-    protected String getScreenName() {
-        return getClass().getSimpleName();
     }
 
     /**

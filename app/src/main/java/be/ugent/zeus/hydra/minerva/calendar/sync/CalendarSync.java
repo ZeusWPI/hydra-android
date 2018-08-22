@@ -103,7 +103,7 @@ public class CalendarSync {
         // The result.
         Result<List<AgendaItem>> agendaResult;
         try {
-            agendaResult = request.performRequest()
+            agendaResult = request.execute()
                     .map(c -> c.items)
                     .map(list -> transform(list, i -> {
                         if (!courses.containsKey(i.courseId)) {

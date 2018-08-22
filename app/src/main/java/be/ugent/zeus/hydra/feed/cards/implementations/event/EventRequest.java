@@ -42,7 +42,7 @@ public class EventRequest extends HideableHomeFeedRequest {
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime plusOne = now.plusMonths(1);
 
-        return request.performRequest(args).map(events -> StreamSupport.stream(events)
+        return request.execute(args).map(events -> StreamSupport.stream(events)
                 .filter(c -> c.getStart().isAfter(now) && c.getStart().isBefore(plusOne))
                 .map(EventCard::new));
     }

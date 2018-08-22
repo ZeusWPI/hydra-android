@@ -3,16 +3,15 @@ package be.ugent.zeus.hydra;
 import android.app.Activity;
 import android.app.Application;
 import android.os.StrictMode;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.common.ChannelCreator;
 import be.ugent.zeus.hydra.theme.ThemePreferenceFragment;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
 import jonathanfinerty.once.Once;
@@ -24,11 +23,9 @@ import jonathanfinerty.once.Once;
  * @author feliciaan
  */
 @SuppressWarnings("WeakerAccess")
-public class HydraApplication extends MultiDexApplication {
+public class HydraApplication extends Application {
 
     private static final String TAG = "HydraApplication";
-
-    private Tracker tracker;
 
     @Override
     public void onCreate() {
@@ -59,33 +56,16 @@ public class HydraApplication extends MultiDexApplication {
     }
 
     /**
-     * Gets the default {@link Tracker} for this {@link Application}.
-     *
-     * @return tracker
-     */
-    public synchronized Tracker getDefaultTracker() {
-        if (tracker == null) {
-            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-            if (BuildConfig.DEBUG) {
-                // disable google analytics while debugging
-                analytics.setDryRun(true);
-            }
-
-            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
-            tracker = analytics.newTracker(R.xml.global_tracker);
-        }
-        return tracker;
-    }
-
-    /**
      * Send a screen name to the analytics.
      *
      * @param screenName The screen name to send.
      */
-    public void sendScreenName(String screenName) {
-        Tracker t = getDefaultTracker();
-        t.setScreenName(screenName);
-        t.send(new HitBuilders.ScreenViewBuilder().build());
+    @MainThread
+    public static void sendScreenName(@Nullable Activity activity, @NonNull String screenName) {
+        if (activity == null) {
+            return;
+        }
+        FirebaseAnalytics.getInstance(activity).setCurrentScreen(activity, screenName, null);
     }
 
     /**

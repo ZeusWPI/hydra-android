@@ -180,9 +180,9 @@ public class Result<D> {
      * This will merge this and another Result into one. The function tries to produce a sensible result:
      *
      * <ul>
-     *     <li>The status of the {@code update} request is kept.</li>
-     *     <li>If one of the results do not have data, the other one's data is used. </li>
-     *     <li>If neither has data, no data will be used.</li>
+     *     <li>The status of the {@code update} result is kept.</li>
+     *     <li>If one of the results does not have data, the other result's data will be used. </li>
+     *     <li>If neither result has data, no data will be used.</li>
      *     <li>If both have data, the data from the {@code update} result is used.</li>
      *     <li>Same for exceptions.</li>
      * </ul>
@@ -212,6 +212,26 @@ public class Result<D> {
         }
 
         return new Result<>(chosenThrowable, chosenData, update.done);
+    }
+
+    /**
+     * A result is equal to another result if the state, data and error are the same.
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Result<?> result = (Result<?>) o;
+        return done == result.done &&
+                Objects.equals(data, result.data) &&
+                Objects.equals(throwable, result.throwable);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(data, throwable, done);
     }
 
     /**

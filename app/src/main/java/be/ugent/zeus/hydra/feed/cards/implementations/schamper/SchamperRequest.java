@@ -39,7 +39,7 @@ public class SchamperRequest extends HideableHomeFeedRequest {
     protected Result<Stream<Card>> performRequestCards(@NonNull Bundle args) {
         LocalDateTime twoMonthsAgo = LocalDateTime.now().minusMonths(1);
 
-        return request.performRequest(args).map(articles -> StreamSupport.stream(articles)
+        return request.execute(args).map(articles -> StreamSupport.stream(articles)
                 .filter(a -> a.getLocalPubDate().isAfter(twoMonthsAgo))
                 .map(SchamperCard::new));
     }

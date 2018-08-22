@@ -59,7 +59,7 @@ public class UrgentTrackProvider {
 
     private synchronized void loadData() {
         Request<UrgentInfo> infoRequest = new UrgentInfoRequest(context);
-        Result<UrgentInfo> programme = infoRequest.performRequest();
+        Result<UrgentInfo> programme = infoRequest.execute();
 
         if (!programme.hasData()) {
             // It failed.

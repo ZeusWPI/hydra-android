@@ -75,15 +75,15 @@ public class OverviewActivity extends BaseActivity {
         setContentView(R.layout.activity_sko_main);
 
         ViewPager viewpager = findViewById(R.id.pager);
-        viewpager.setAdapter(new PagerAdapter(getSupportFragmentManager(), this));
+        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), this);
+        viewpager.setAdapter(adapter);
 
         final AppBarLayout appBarLayout = findViewById(R.id.app_bar_layout);
         viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 //Log tabs
-                HydraApplication app = (HydraApplication) OverviewActivity.this.getApplication();
-                app.sendScreenName("SKO tab position: " + position);
+                HydraApplication.sendScreenName(OverviewActivity.this, "SKO tab > " + adapter.getPageTitle(position));
                 //Expand
                 appBarLayout.setExpanded(true);
             }

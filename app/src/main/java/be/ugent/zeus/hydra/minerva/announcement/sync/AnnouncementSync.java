@@ -117,7 +117,7 @@ public class AnnouncementSync {
         EnumSet<Module> disabled = course.getDisabledModules();
         if (disabled.contains(Module.ANNOUNCEMENTS)) {
             Log.d(TAG, "Checking if announcements are enabled for " + course.getId());
-            ApiTools tools = new ModuleRequest(context, account, course).performRequest().getOrThrow();
+            ApiTools tools = new ModuleRequest(context, account, course).execute().getOrThrow();
             EnumSet<Module> enabled = tools.asModules();
             if (enabled.contains(Module.ANNOUNCEMENTS)) {
                 // The announcements are enabled now, so save it to the database.
@@ -136,12 +136,12 @@ public class AnnouncementSync {
         ApiWhatsNew whatsNew;
 
         try {
-            whatsNew = whatsNewRequest.performRequest().getOrThrow();
+            whatsNew = whatsNewRequest.execute().getOrThrow();
         } catch (InvalidFormatException e) {
             // If this exception occurs here, it's most likely a course that does not have every module enabled.
             // We check this with a new request.
             Log.i(TAG, "Error occurred while reading response.", e);
-            ApiTools tools = new ModuleRequest(context, account, course).performRequest().getOrThrow();
+            ApiTools tools = new ModuleRequest(context, account, course).execute().getOrThrow();
             EnumSet<Module> enabled = tools.asModules();
             if (!enabled.contains(Module.ANNOUNCEMENTS)) {
                 // Save the disabled modules.
@@ -157,7 +157,7 @@ public class AnnouncementSync {
 
         // Get all announcements from the server.
         Request<ApiAnnouncements> request = new AnnouncementsRequest(context, account, course);
-        List<Announcement> serverAnnouncements = request.performRequest().map(announcements -> transform(announcements.announcements, announcementDTO -> ApiAnnouncementMapper.INSTANCE.convert(announcementDTO, course))).getOrThrow();
+        List<Announcement> serverAnnouncements = request.execute().map(announcements -> transform(announcements.announcements, announcementDTO -> ApiAnnouncementMapper.INSTANCE.convert(announcementDTO, course))).getOrThrow();
 
         // Get the announcements from the database. This returns the ID of the announcements and the read
         // date, since we want to preserve that.

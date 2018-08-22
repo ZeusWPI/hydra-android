@@ -36,7 +36,7 @@ abstract class AccessTokenRequest implements Request<BearerToken> {
 
     @NonNull
     @Override
-    public Result<BearerToken> performRequest(@NonNull Bundle args) {
+    public Result<BearerToken> execute(@NonNull Bundle args) {
         try {
             OAuthJSONAccessTokenResponse accessTokenResponse = getToken();
             BearerToken token = jsonAdapter.fromJson(accessTokenResponse.getBody());

@@ -7,18 +7,32 @@ package be.ugent.zeus.hydra.common.request;
  */
 public class RequestException extends Exception {
 
+    /**
+     * No further details are known. You probably want one of the other constructors.
+     *
+     * @see Exception#Exception()
+     */
     public RequestException() {
         super();
     }
 
+    /**
+     * @see Exception#Exception(Throwable)
+     */
     public RequestException(Throwable cause) {
         super(cause);
     }
 
+    /**
+     * @see Exception#Exception(String, Throwable)
+     */
     public RequestException(String message, Throwable cause) {
         super(message, cause);
     }
 
+    /**
+     * @see Exception#Exception(String)
+     */
     public RequestException(String message) {
         super(message);
     }

@@ -39,7 +39,6 @@ public class NewsArticleActivity extends BaseActivity {
 
     private ActivityHelper helper;
 
-    private String title;
     private String url;
 
     @Override
@@ -84,7 +83,6 @@ public class NewsArticleActivity extends BaseActivity {
 
         if (article.getTitle() != null) {
             title.setText(article.getTitle());
-            this.title = article.getTitle();
         }
 
         helper = CustomTabsHelper.initHelper(this, null);
@@ -120,11 +118,6 @@ public class NewsArticleActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         helper.unbindCustomTabsService(this);
-    }
-
-    @Override
-    protected String getScreenName() {
-        return "News article > " + title;
     }
 
     /**

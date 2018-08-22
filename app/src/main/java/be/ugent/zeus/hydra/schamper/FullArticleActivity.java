@@ -112,11 +112,6 @@ public class FullArticleActivity extends BaseActivity {
     }
 
     @Override
-    protected String getScreenName() {
-        return "Schamper article > " + article.getTitle();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_schamper, menu);
         tintToolbarIcons(menu, R.id.schamper_share, R.id.schamper_browser);

@@ -232,7 +232,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
 
         FeedCollection operations = new FeedCollection();
         Context c = applicationContext;
-        Set<Integer> s = StreamSupport.stream(android.support.v7.preference.PreferenceManager
+        Set<Integer> s = StreamSupport.stream(PreferenceManager
                 .getDefaultSharedPreferences(c)
                 .getStringSet(HomeFeedFragment.PREF_DISABLED_CARD_TYPES, Collections.emptySet()))
                 .map(Integer::parseInt)

@@ -96,7 +96,7 @@ public class SliceProvider extends androidx.slice.SliceProvider {
                 DayRequest request = new DayRequest(getContext());
                 request.setDate(currentDate);
                 request.setChoice(restoChoice);
-                return request.performRequest();
+                return request.execute();
             }
 
             @Override

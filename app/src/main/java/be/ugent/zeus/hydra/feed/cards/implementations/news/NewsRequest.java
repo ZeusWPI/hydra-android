@@ -40,7 +40,7 @@ public class NewsRequest extends HideableHomeFeedRequest {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime sixMonthsAgo = now.minusWeeks(2);
 
-        return request.performRequest(args).map(ugentNewsItems -> StreamSupport.stream(ugentNewsItems)
+        return request.execute(args).map(ugentNewsItems -> StreamSupport.stream(ugentNewsItems)
                 .filter(ugentNewsItem -> sixMonthsAgo.isBefore(ugentNewsItem.getLocalModified()))
                 .map(NewsItemCard::new));
     }

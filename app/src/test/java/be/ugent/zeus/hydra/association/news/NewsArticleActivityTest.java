@@ -54,6 +54,7 @@ public class NewsArticleActivityTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void viewArticleCustomTabsOffline() {
         ActivityHelper helper = mock(ActivityHelper.class);
         UgentNewsItem newsItem = generate(UgentNewsItem.class);
@@ -71,6 +72,7 @@ public class NewsArticleActivityTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void viewArticleCustomTabsOnline() {
         ActivityHelper helper = mock(ActivityHelper.class);
         UgentNewsItem newsItem = generate(UgentNewsItem.class);

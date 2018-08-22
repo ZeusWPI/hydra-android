@@ -47,7 +47,7 @@ public class RestoPreferenceFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        HydraApplication.getApplication(getActivity()).sendScreenName("Settings > Resto");
+        HydraApplication.sendScreenName(getActivity(), "Settings > Resto");
     }
 
     public static String getDefaultResto(Context context) {

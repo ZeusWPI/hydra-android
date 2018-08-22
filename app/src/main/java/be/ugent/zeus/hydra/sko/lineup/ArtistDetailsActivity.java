@@ -86,11 +86,6 @@ public class ArtistDetailsActivity extends BaseActivity {
     }
 
     @Override
-    protected String getScreenName() {
-        return "SKO artist > " + artist.getName();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_sko_artist, menu);
         tintToolbarIcons(menu, R.id.sko_add_to_calendar);

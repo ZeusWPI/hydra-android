@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.*;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
+@Config(application = TestApp.class)
 public class PreferencesUtilsTest {
 
     private static final String TEST_KEY = "test_key";

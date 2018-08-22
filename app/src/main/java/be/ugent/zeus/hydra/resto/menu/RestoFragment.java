@@ -137,8 +137,7 @@ public class RestoFragment extends Fragment implements
             @Override
             public void onPageSelected(int position) {
                 appBarLayout.setExpanded(true);
-                HydraApplication app = HydraApplication.getApplication(requireActivity());
-                app.sendScreenName("Menu tab: " + pageAdapter.getPageTitle(position));
+                HydraApplication.sendScreenName(getActivity(), "Resto menu > " + pageAdapter.getPageTitle(position));
                 Bundle parameters = new Bundle();
                 parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.RESTO_MENU);
                 parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, pageAdapter.getPageTitle(position).toString());

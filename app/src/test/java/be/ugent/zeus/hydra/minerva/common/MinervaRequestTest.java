@@ -55,7 +55,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, "test");
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
 
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
@@ -68,7 +68,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, "test");
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -81,7 +81,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, "test");
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -94,7 +94,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, "test");
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -110,7 +110,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, "test");
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -123,7 +123,7 @@ public class MinervaRequestTest {
         server.shutdown();
 
         Request<Integer> request = new SimpleTestRequest(url, account, "test");
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -136,7 +136,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, "test");
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -153,7 +153,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, provider);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
 
         assertTrue(result.hasException());
         assertFalse(result.hasData());
@@ -166,7 +166,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, (String) null);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
 
         assertTrue(result.hasException());
         assertFalse(result.hasData());
@@ -182,7 +182,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, expectedToken);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
 
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());

@@ -39,7 +39,7 @@ import static org.junit.Assert.*;
  */
 @RequiresApi(api = 26)
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
+@Config(application = TestApp.class)
 public class CardDaoTest {
 
     private Database database;

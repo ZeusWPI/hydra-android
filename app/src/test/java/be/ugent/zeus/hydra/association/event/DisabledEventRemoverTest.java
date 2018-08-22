@@ -32,7 +32,7 @@ import static org.junit.Assert.assertTrue;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
+@Config(application = TestApp.class)
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class DisabledEventRemoverTest {
 

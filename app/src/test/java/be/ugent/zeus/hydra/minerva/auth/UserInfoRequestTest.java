@@ -50,7 +50,7 @@ public class UserInfoRequestTest extends AbstractJsonRequestTest<GrantInformatio
         request = spy(getRequest());
         doReturn(serverUrl.toString()).when(request).getAPIUrl();
 
-        Result<GrantInformation> result = request.performRequest();
+        Result<GrantInformation> result = request.execute();
 
         if (result.hasException()) {
             throw result.getError();

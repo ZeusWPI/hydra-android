@@ -79,7 +79,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     @NonNull
     @Override
     @WorkerThread
-    public Result<D> performRequest(@NonNull Bundle args) {
+    public Result<D> execute(@NonNull Bundle args) {
 
         JsonAdapter<D> adapter = getAdapter();
 
