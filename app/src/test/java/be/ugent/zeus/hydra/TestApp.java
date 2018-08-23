@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra;
 
+import android.content.Context;
+
 import be.ugent.zeus.hydra.testing.Utils;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
@@ -20,6 +22,11 @@ public class TestApp extends HydraApplication {
         super.onCreate();
         // Manually set the theme on the context, since we use it's attributes but don't use an Activity.
         setTheme(R.style.Hydra_Main_NoActionBar);
+    }
+
+    @Override
+    protected void onAttachBaseContextInitialize(Context base) {
+        // Do nothing.
     }
 
     @Override

@@ -2,10 +2,12 @@ package be.ugent.zeus.hydra;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.os.StrictMode;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
@@ -31,11 +33,29 @@ public class HydraApplication extends Application {
     private static final String TAG = "HydraApplication";
 
     @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        onAttachBaseContextInitialize(base);
+    }
+
+    /**
+     * This method allows us to override this in Robolectric.
+     */
+    protected void onAttachBaseContextInitialize(Context base) {
+        if (BuildConfig.DEBUG) {
+            MultiDex.install(this);
+        }
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
         onCreateInitialise();
     }
 
+    /**
+     * This method allows us to override this in Robolectric.
+     */
     protected void onCreateInitialise() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.

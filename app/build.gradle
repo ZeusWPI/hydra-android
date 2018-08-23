@@ -116,7 +116,7 @@ dependencies {
 
     implementation project(':provider-contract')
 
-    debugImplementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.android.support:multidex:1.0.3'
 
     //noinspection GradleCompatible
     implementation "com.android.support:support-compat:$SUPPORT_LIBRARY_VERSION"
