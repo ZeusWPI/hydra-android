@@ -79,7 +79,7 @@ public class LibraryDetailActivity extends BaseActivity {
         layout = findViewById(R.id.frame_layout);
 
         ImageView header = findViewById(R.id.header_image);
-        Picasso.get().load(library.getEnsuredImage()).into(header);
+        Picasso.get().load(library.getHeaderImage(this)).into(header);
 
         requireToolbar().setTitle(library.getName());
 
