@@ -208,6 +208,16 @@ public class LibraryDetailActivity extends BaseActivity {
             openHours.setText(hours.getHours());
             tableRow.addView(date);
             tableRow.addView(openHours);
+            if (!TextUtils.isEmpty(hours.getComments())) {
+                TextView comments = new TextView(this);
+                TableLayout.LayoutParams params = new TableLayout.LayoutParams();
+                params.weight = 0;
+                params.width = 0;
+                params.height = TableLayout.LayoutParams.MATCH_PARENT;
+                comments.setLayoutParams(params);
+                comments.setPadding(rowPadding, 0, 0, 0);
+                comments.setText(hours.getComments());
+            }
             tableLayout.addView(tableRow);
         }
 
