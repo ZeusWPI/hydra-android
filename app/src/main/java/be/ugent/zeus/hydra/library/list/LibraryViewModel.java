@@ -13,6 +13,8 @@ import be.ugent.zeus.hydra.library.details.OpeningHours;
 import be.ugent.zeus.hydra.library.details.OpeningHoursRequest;
 import java9.util.Maps;
 import java9.util.Optional;
+import java9.util.stream.StreamSupport;
+import org.threeten.bp.LocalDate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,11 +39,14 @@ public class LibraryViewModel extends RefreshViewModel<List<Library>> {
     LiveData<Result<Optional<OpeningHours>>> getOpeningHours(Library library) {
         return Maps.computeIfAbsent(mapping, library.getCode(), s -> {
             OpeningHoursRequest request = new OpeningHoursRequest(getApplication(), library);
+            LocalDate today = LocalDate.now();
             return new RequestLiveData<>(getApplication(), request.map(openingHours -> {
                 if (openingHours == null || openingHours.isEmpty()) {
                     return Optional.empty();
                 } else {
-                    return Optional.of(openingHours.get(0));
+                    return StreamSupport.stream(openingHours)
+                            .filter(o -> today.equals(o.getDate()))
+                            .findFirst();
                 }
             }));
         });
