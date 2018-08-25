@@ -141,6 +141,7 @@ public class LibraryDetailActivity extends BaseActivity {
             findViewById(R.id.library_remarks_title).setVisibility(View.GONE);
         } else {
             remarks.setText(Utils.fromHtml(comments));
+            layout.setExpanded(true, false);
         }
 
         TextView email = findViewById(R.id.library_mail_row_text);
