@@ -22,7 +22,7 @@
     <string name="action_drawer_close">Sluiten</string>
     <string name="action_turn_off">Uitschakelen</string>
     <string name="action_open_map">Kaart openen</string>
-    <string name="action_send_mail">Versturen als e-mail</string>
+    <string name="action_send_mail">E-mailen</string>
     <string name="action_call">Bellen</string>
     <string name="action_sync">Synchroniseren</string>
     <string name="action_search">Zoeken</string>
