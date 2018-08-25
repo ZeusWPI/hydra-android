@@ -171,14 +171,14 @@ public final class Library implements Serializable, Parcelable {
     public String getHeaderImage(Context context) {
         // If data-saving is enabled, use the thumbnail instead of the full image.
         if (NetworkUtils.isMeteredConnection(context)) {
-            if (getThumbnail() == null) {
+            if (getThumbnail() == null || getThumbnail().isEmpty()) {
                 return FALLBACK_HEADER_SMALL;
             } else {
                 return getThumbnail();
             }
         } else {
-            if (getImage() == null) {
-                if (getThumbnail() == null) {
+            if (getImage() == null || getImage().isEmpty()) {
+                if (getThumbnail() == null || getThumbnail().isEmpty()) {
                     return FALLBACK_HEADER;
                 } else {
                     return getThumbnail();
