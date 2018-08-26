@@ -21,7 +21,6 @@
     <string name="action_turn_off">Disable</string>
     <string name="action_open_map">Open map</string>
     <string name="action_send_mail">Send e-mail</string>
-    <string name="action_call">Call</string>
     <string name="action_sync">Sync</string>
     <string name="action_search">Search</string>
     <string name="action_mark_as_read">Mark as read</string>
