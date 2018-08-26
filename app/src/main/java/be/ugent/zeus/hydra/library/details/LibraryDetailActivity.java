@@ -233,7 +233,7 @@ public class LibraryDetailActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_library_details, menu);
-        tintToolbarIcons(menu, R.id.library_location, R.id.library_email, R.id.library_phone, R.id.library_url);
+        tintToolbarIcons(menu, R.id.library_location, R.id.library_email, R.id.library_url);
         if (library.getLink() == null) {
             menu.removeItem(R.id.library_url);
         }
