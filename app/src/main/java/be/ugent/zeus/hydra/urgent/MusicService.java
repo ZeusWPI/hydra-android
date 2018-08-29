@@ -17,10 +17,7 @@ import android.util.Log;
 
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.urgent.player.Player;
-import be.ugent.zeus.hydra.urgent.player.PlayerSessionServiceCallback;
-import be.ugent.zeus.hydra.urgent.player.SessionPlayerServiceCallback;
-import be.ugent.zeus.hydra.urgent.player.UrgentTrackProvider;
+import be.ugent.zeus.hydra.urgent.player.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -58,6 +55,8 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
     private NotificationManagerCompat notificationManager;
 
     private WifiManager.WifiLock wifiLock;
+
+    private boolean foreground = false;
 
     @Override
     public void onCreate() {
@@ -157,6 +156,7 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
 
     @Override
     public void onSessionStateChanged(int newState) {
+        Log.d(TAG, "onSessionStateChanged: new state is " + newState);
         updateNotification();
     }
 
@@ -168,7 +168,11 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
     private void updateNotification() {
         Notification notification = constructNotification(false);
         if (notification != null) {
-            notificationManager.notify(MUSIC_SERVICE_ID, notification);
+            if (foreground) {
+                notificationManager.notify(MUSIC_SERVICE_ID, notification);
+            } else {
+                Log.w(TAG, "Ignored notification update, as there is no notification.");
+            }
         }
     }
 
@@ -184,12 +188,15 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
             }
             startService(new Intent(getApplicationContext(), MusicService.class));
             mediaSession.setActive(true);
+            Log.d(TAG, "onPlay: starting foreground service");
             startForeground(MUSIC_SERVICE_ID, notification);
+            foreground = true;
         }
     }
 
     @Override
     public void onPause() {
+        Log.d(TAG, "onPause called");
         if (wifiLock != null && wifiLock.isHeld()) {
             wifiLock.release();
         }
@@ -198,9 +205,11 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
 
     @Override
     public void onStop() {
+        Log.d(TAG, "onStop called");
         if (wifiLock != null && wifiLock.isHeld()) {
             wifiLock.release();
         }
         stopForeground(true);
+        foreground = false;
     }
 }
