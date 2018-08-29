@@ -21,6 +21,7 @@
 package be.ugent.zeus.hydra.minerva.account;
 
 import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
+import be.ugent.zeus.hydra.minerva.provider.CourseContract;
 
 /**
  * Various constants for Minerva accounts.
@@ -42,7 +43,7 @@ public interface MinervaConfig {
     String CALLBACK_URI = "https://zeus.ugent.be/hydra/oauth/callback";
 
     //Account information
-    String ACCOUNT_TYPE = "be.ugent.zeus.hydra.minerva.account";
+    String ACCOUNT_TYPE = CourseContract.Account.TYPE;
     String SYNC_AUTHORITY = "be.ugent.zeus.hydra.minerva.provider";
 
     //Scopes

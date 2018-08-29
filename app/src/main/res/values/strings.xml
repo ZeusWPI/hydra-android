@@ -16,6 +16,7 @@
     <string name="action_open_browser">Bekijken in browser</string>
     <string name="action_view_settings">Instellingen</string>
     <string name="action_view_link">Link openen</string>
+    <string name="action_view_files">Bestanden bekijken</string>
     <string name="action_again">Opnieuw</string>
     <string name="action_logout">Afmelden</string>
     <string name="action_drawer_open">Openen</string>
@@ -342,6 +343,8 @@
     <string name="minerva_pref_sync_freq_12_hours">12 uur</string>
     <string name="minerva_pref_sync_freq_24_hours">24 uur</string>
     <string name="minerva_pref_sync_freq_1_week">1 week</string>
+
+    <string name="minerva_course_no_document_viewer">Geen bestandsverkenner gevonden!</string>
 
     <!-- SKO -->
     <string name="sko_overview_activity_title">Student Kick-Off</string>

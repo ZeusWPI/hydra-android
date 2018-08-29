@@ -1,10 +1,8 @@
 package be.ugent.zeus.hydra.minerva.course.singlecourse;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -12,15 +10,14 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.lang.annotation.Retention;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.minerva.announcement.courselist.AnnouncementsForCourseFragment;
 import be.ugent.zeus.hydra.minerva.course.Course;
-import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-
-import java.lang.annotation.Retention;
 
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
@@ -54,8 +51,8 @@ public class CourseActivity extends BaseActivity {
      * Start the activity for a result.
      *
      * @param starter The object starting the activity.
-     * @param course The course.
-     * @param tab Which tab to show.
+     * @param course  The course.
+     * @param tab     Which tab to show.
      */
     public static void startForResult(ResultStarter starter, Course course, @Tab int tab) {
         Intent intent = new Intent(starter.getContext(), CourseActivity.class);

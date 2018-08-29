@@ -34,7 +34,7 @@ import java.util.*;
  * @author Niko Strijbol
  */
 public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends DiffAdapter<D, VH> implements
-        SearchView.OnQueryTextListener, SearchView.OnCloseListener, SearchHelper {
+        SearchView.OnQueryTextListener, SearchView.OnCloseListener, SearchHelper, android.widget.SearchView.OnQueryTextListener, android.widget.SearchView.OnCloseListener {
 
     private List<D> allData = Collections.emptyList();
     private final BiPredicate<D, String> searchPredicate;
