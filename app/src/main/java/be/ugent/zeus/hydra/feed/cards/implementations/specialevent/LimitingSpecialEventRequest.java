@@ -13,8 +13,8 @@ import be.ugent.zeus.hydra.feed.cards.CardRepository;
 import be.ugent.zeus.hydra.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.specialevent.SpecialEventRequest;
 import be.ugent.zeus.hydra.specialevent.SpecialEventWrapper;
-import java8.util.stream.Stream;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Stream;
+import java9.util.stream.StreamSupport;
 import org.threeten.bp.OffsetDateTime;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class LimitingSpecialEventRequest extends HideableHomeFeedRequest {
     @Override
     protected Result<Stream<Card>> performRequestCards(@NonNull Bundle args) {
         OffsetDateTime now = OffsetDateTime.now();
-        return remoteEventRequest.performRequest(args).map(specialEventWrapper -> {
+        return remoteEventRequest.execute(args).map(specialEventWrapper -> {
             List<Card> list = new ArrayList<>();
 
             List<SpecialEvent> specialEvents = new ArrayList<>(specialEventWrapper.getSpecialEvents());

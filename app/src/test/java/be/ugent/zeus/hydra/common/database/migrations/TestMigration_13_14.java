@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
  */
 @RequiresApi(api = 26)
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
+@Config(application = TestApp.class)
 public class TestMigration_13_14 {
 
     @Rule

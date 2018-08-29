@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import java8.util.Objects;
+import java9.util.Objects;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 

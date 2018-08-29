@@ -209,7 +209,8 @@
 
                                     <TextView
                                         android:id="@+id/library_phone_row_text"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
                                         tools:text="032.56.56.56" />
                                 </TableRow>
@@ -224,7 +225,8 @@
 
                                     <TextView
                                         android:id="@+id/library_contact_row_text"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
                                         tools:text="Niko Strijbol" />
                                 </TableRow>

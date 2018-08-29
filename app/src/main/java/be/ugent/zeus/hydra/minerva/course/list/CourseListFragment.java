@@ -16,6 +16,8 @@ import android.util.Pair;
 import android.view.*;
 import android.widget.ProgressBar;
 
+import java.util.List;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
@@ -27,8 +29,6 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.DragCallback;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.OnStartDragListener;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
-
-import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;

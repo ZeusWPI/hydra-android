@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
+@Config(application = TestApp.class)
 public class ExtendedSparseArrayTest {
 
     private ExtendedSparseArray<Integer> smallArray;

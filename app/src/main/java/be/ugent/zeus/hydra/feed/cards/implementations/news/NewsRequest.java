@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.feed.cards.implementations.news;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.association.news.UgentNewsItem;
 import be.ugent.zeus.hydra.association.news.UgentNewsRequest;
@@ -12,8 +11,8 @@ import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HideableHomeFeedRequest;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardRepository;
-import java8.util.stream.Stream;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Stream;
+import java9.util.stream.StreamSupport;
 import org.threeten.bp.LocalDateTime;
 
 import java.util.List;
@@ -41,7 +40,7 @@ public class NewsRequest extends HideableHomeFeedRequest {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime sixMonthsAgo = now.minusWeeks(2);
 
-        return request.performRequest(args).map(ugentNewsItems -> StreamSupport.stream(ugentNewsItems)
+        return request.execute(args).map(ugentNewsItems -> StreamSupport.stream(ugentNewsItems)
                 .filter(ugentNewsItem -> sixMonthsAgo.isBefore(ugentNewsItem.getLocalModified()))
                 .map(NewsItemCard::new));
     }

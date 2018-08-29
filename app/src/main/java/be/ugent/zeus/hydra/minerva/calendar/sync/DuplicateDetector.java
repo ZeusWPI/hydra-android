@@ -4,11 +4,11 @@ import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;
 import be.ugent.zeus.hydra.minerva.course.Course;
-import java8.lang.Iterables;
-import java8.util.Objects;
-import java8.util.function.Function;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.lang.Iterables;
+import java9.util.Objects;
+import java9.util.function.Function;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 import org.threeten.bp.OffsetDateTime;
 
 import java.util.*;

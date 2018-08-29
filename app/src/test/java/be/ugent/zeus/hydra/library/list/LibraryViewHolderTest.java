@@ -14,6 +14,7 @@ import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 /**
  * @author Niko Strijbol
@@ -25,7 +26,8 @@ public class LibraryViewHolderTest {
     public void populate() {
         View view = inflate(R.layout.item_library);
         Library library = generate(Library.class);
-        LibraryViewHolder viewHolder = new LibraryViewHolder(view);
+        LibraryListAdapter adapter = mock(LibraryListAdapter.class);
+        LibraryViewHolder viewHolder = new LibraryViewHolder(view, adapter);
         viewHolder.populate(library);
 
         assertTextIs(library.getName(), view.findViewById(R.id.title));

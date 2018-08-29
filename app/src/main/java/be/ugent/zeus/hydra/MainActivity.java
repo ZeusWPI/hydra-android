@@ -377,9 +377,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // Set action bar title
         setTitle(item.getTitle());
         // Log it for Analytics
-        HydraApplication application = (HydraApplication) getApplication();
-        application.sendScreenName("Main > " + item.getTitle());
-        analytics.setCurrentScreen(this, item.getTitle().toString(), null);
+        HydraApplication.sendScreenName(this,"Main > " + item.getTitle().toString());
         // Close the navigation drawer
         drawer.closeDrawer(GravityCompat.START);
     }

@@ -30,9 +30,9 @@ import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
 import be.ugent.zeus.hydra.utils.StringUtils;
-import java8.util.function.Functions;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.function.Function;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 import jonathanfinerty.once.Once;
 import org.threeten.bp.DateTimeUtils;
 import org.threeten.bp.LocalDate;
@@ -98,12 +98,12 @@ public class CalendarSync {
 
         // Get the courses
         Map<String, Course> courses = StreamSupport.stream(courseDao.getAll())
-                .collect(Collectors.toMap(Course::getId, Functions.identity()));
+                .collect(Collectors.toMap(Course::getId, Function.identity()));
 
         // The result.
         Result<List<AgendaItem>> agendaResult;
         try {
-            agendaResult = request.performRequest()
+            agendaResult = request.execute()
                     .map(c -> c.items)
                     .map(list -> transform(list, i -> {
                         if (!courses.containsKey(i.courseId)) {

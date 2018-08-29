@@ -26,7 +26,7 @@ public class NewsItemViewHolderTest extends AbstractFeedViewHolderTest {
 
     @Test
     public void populate() {
-        View view = inflate(R.layout.home_card_news_item);
+        View view = inflate(activityContext, R.layout.home_card_news_item);
         NewsItemViewHolder viewHolder = new NewsItemViewHolder(view, adapter);
         NewsItemCard card = generate(NewsItemCard.class);
         UgentNewsItem item = card.getNewsItem();

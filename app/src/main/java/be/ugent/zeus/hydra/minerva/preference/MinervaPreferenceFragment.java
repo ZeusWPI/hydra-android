@@ -125,7 +125,7 @@ public class MinervaPreferenceFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        HydraApplication.getApplication(getActivity()).sendScreenName("Settings > Minerva");
+        HydraApplication.sendScreenName(getActivity(), "Settings > Minerva");
     }
 
     private Context getAppContext() {

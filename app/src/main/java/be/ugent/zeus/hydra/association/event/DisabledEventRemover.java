@@ -1,17 +1,16 @@
 package be.ugent.zeus.hydra.association.event;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
-import be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity;
-import java8.lang.Iterables;
-import java8.util.function.Function;
+import be.ugent.zeus.hydra.utils.PreferencesUtils;
+import java9.util.function.Function;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
+import static be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING;
 
 /**
  * Filters events according to the user preferences.
@@ -20,20 +19,17 @@ import java.util.Set;
  */
 class DisabledEventRemover implements Function<List<Event>, List<Event>> {
 
-    private final SharedPreferences preferences;
+    private final Context context;
 
     DisabledEventRemover(Context context) {
-        this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        this.context = context.getApplicationContext();
     }
 
     @Override
     public List<Event> apply(List<Event> events) {
-        // Not all list support editing, so make a copy.
-        events = new ArrayList<>(events);
-        // The set of disabled associations.
-        Set<String> disabled = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
-        // Remove events that have are of the disabled associations.
-        Iterables.removeIf(events, e -> disabled.contains(e.getAssociation().getInternalName()));
-        return events;
+        Set<String> disabled = PreferencesUtils.getStringSet(context, PREF_ASSOCIATIONS_SHOWING);
+        return StreamSupport.stream(events)
+                .filter(event -> !disabled.contains(event.getAssociation().getInternalName()))
+                .collect(Collectors.toList());
     }
 }

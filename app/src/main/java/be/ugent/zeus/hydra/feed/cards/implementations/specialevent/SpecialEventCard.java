@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.feed.cards.implementations.specialevent;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
 import be.ugent.zeus.hydra.specialevent.SpecialEvent;
-import java8.util.Objects;
+import java9.util.Objects;
 
 /**
  * Home card for a {@link SpecialEvent}.
@@ -50,6 +50,6 @@ class SpecialEventCard extends Card {
 
     @Override
     public int hashCode() {
-        return java8.util.Objects.hash(specialEvent);
+        return Objects.hash(specialEvent);
     }
 }

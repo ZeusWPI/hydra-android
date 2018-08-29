@@ -52,7 +52,7 @@ class TimelineViewHolder extends DataViewHolder<TimelinePost> {
     @Override
     public void populate(final TimelinePost post) {
 
-        Picasso.with(itemView.getContext()).load(post.getCoverMedia()).into(poster);
+        Picasso.get().load(post.getCoverMedia()).into(poster);
         if (post.getCoverMedia() != null) {
             int value = (int) itemView.getContext().getResources().getDimension(R.dimen.card_title_padding_top_large_title);
             title.setPadding(title.getPaddingLeft(), value, title.getPaddingRight(), title.getPaddingBottom());

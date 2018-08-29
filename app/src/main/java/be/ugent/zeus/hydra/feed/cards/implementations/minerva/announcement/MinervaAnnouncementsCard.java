@@ -6,7 +6,7 @@ import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.course.Course;
-import java8.util.Objects;
+import java9.util.Objects;
 import org.threeten.bp.Duration;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZonedDateTime;
@@ -71,6 +71,6 @@ class MinervaAnnouncementsCard extends Card {
 
     @Override
     public int hashCode() {
-        return java8.util.Objects.hash(announcement, course);
+        return Objects.hash(announcement, course);
     }
 }

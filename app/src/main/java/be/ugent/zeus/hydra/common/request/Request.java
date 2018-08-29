@@ -1,9 +1,10 @@
 package be.ugent.zeus.hydra.common.request;
 
 import android.os.Bundle;
+import android.support.annotation.AnyThread;
 import android.support.annotation.NonNull;
 
-import java8.util.function.Function;
+import java9.util.function.Function;
 
 /**
  * The basis interface for a request. A request is something that returns data.
@@ -18,23 +19,23 @@ import java8.util.function.Function;
 public interface Request<T> {
 
     /**
-     * Perform the request. This may be called multiple times.
+     * Perform the request. This method is idempotent and thread-safe.
      *
-     * @param args The args for this request. Can be {@link Bundle#EMPTY}.
+     * @param args The arguments for this request. Can be {@link Bundle#EMPTY}.
      *
      * @return The data.
      */
     @NonNull
-    Result<T> performRequest(@NonNull Bundle args);
+    Result<T> execute(@NonNull Bundle args);
 
     /**
-     * Identical to {@link #performRequest(Bundle)}, but with {@link Bundle#EMPTY} as argument.
+     * Identical to {@link #execute(Bundle)}, but with {@link Bundle#EMPTY} as argument.
      *
-     * @see #performRequest(Bundle)
+     * @see #execute(Bundle)
      */
     @NonNull
-    default Result<T> performRequest() {
-        return performRequest(Bundle.EMPTY);
+    default Result<T> execute() {
+        return execute(Bundle.EMPTY);
     }
 
     /**
@@ -51,6 +52,6 @@ public interface Request<T> {
      * @return The new request.
      */
     default <R> Request<R> map(Function<T, R> function) {
-        return args -> performRequest(args).map(function);
+        return args -> execute(args).map(function);
     }
 }

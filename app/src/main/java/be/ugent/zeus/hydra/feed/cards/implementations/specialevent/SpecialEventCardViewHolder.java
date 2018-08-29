@@ -46,7 +46,7 @@ public class SpecialEventCardViewHolder extends DataViewHolder<Card> implements 
 
         title.setText(event.getName());
         text.setText(event.getSimpleText());
-        Picasso.with(itemView.getContext()).load(event.getImage()).into(image);
+        Picasso.get().load(event.getImage()).into(image);
 
         itemView.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(v.getContext(), event.getViewIntent(v.getContext())));
 

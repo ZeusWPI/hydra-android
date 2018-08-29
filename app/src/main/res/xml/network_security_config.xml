@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">hydra.ugent.be</domain>
+        <domain includeSubdomains="true">studentkickoff.be</domain>
+        <domain includeSubdomains="true">minerva.ugent.be</domain>
+    </domain-config>
+    <base-config cleartextTrafficPermitted="true" />
+
+</network-security-config>

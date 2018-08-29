@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.minerva.course.list;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.v7.widget.RecyclerView;
@@ -66,11 +67,12 @@ public class MinervaCourseViewHolderTest {
         listener = mock(OnStartDragListener.class);
         helper = mock(SearchHelper.class);
         starter = mock(ResultStarter.class);
+        Context context = getActivityContext();
         doAnswer((Answer<Void>) invocation -> {
-            RuntimeEnvironment.application.startActivity(invocation.getArgument(0));
+            context.startActivity(invocation.getArgument(0));
             return null;
         }).when(starter).startActivityForResult(any(Intent.class), anyInt());
-        when(starter.getContext()).thenReturn(RuntimeEnvironment.application);
+        when(starter.getContext()).thenReturn(context);
         when(helper.isSearching()).thenReturn(isSearching);
     }
 

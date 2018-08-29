@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.library.details;
 
 import com.squareup.moshi.Json;
-import java8.util.Objects;
+import java9.util.Objects;
 import org.threeten.bp.LocalDate;
 
 import java.io.Serializable;

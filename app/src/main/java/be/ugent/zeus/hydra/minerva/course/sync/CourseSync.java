@@ -36,7 +36,7 @@ public class CourseSync {
 
         // Get the courses from the server.
         Request<ApiCourses> minervaRequest = new CoursesMinervaRequest(context, account);
-        List<Course> serverCourses = minervaRequest.performRequest()
+        List<Course> serverCourses = minervaRequest.execute()
                 .map(courses -> transform(courses.courses, ApiCourseMapper.INSTANCE::courseToCourse))
                 .getOrThrow();
 

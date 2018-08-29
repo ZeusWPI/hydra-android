@@ -49,6 +49,6 @@ public class SkoPreferencesFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        HydraApplication.getApplication(getActivity()).sendScreenName("Settings > SKO");
+        HydraApplication.sendScreenName(getActivity(), "Settings > SKO");
     }
 }

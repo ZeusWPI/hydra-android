@@ -6,8 +6,7 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HomeFeedRequest;
-import java8.util.stream.RefStreams;
-import java8.util.stream.Stream;
+import java9.util.stream.Stream;
 
 /**
  * @author Niko Strijbol
@@ -21,7 +20,7 @@ public class UrgentRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Result<Stream<Card>> performRequest(@NonNull Bundle args) {
-        return Result.Builder.fromData(RefStreams.of(new UrgentCard()));
+    public Result<Stream<Card>> execute(@NonNull Bundle args) {
+        return Result.Builder.fromData(Stream.of(new UrgentCard()));
     }
 }

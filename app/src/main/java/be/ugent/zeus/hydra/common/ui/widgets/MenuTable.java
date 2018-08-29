@@ -132,21 +132,7 @@ public class MenuTable extends TableLayout {
             tr.setLayoutParams(lp);
 
             //Set the correct image.
-            @DrawableRes final int id;
-            switch (meal.getKind()) {
-                case "meat":
-                    id = R.drawable.resto_meat;
-                    break;
-                case "fish":
-                    id = R.drawable.resto_fish;
-                    break;
-                case "vegetarian":
-                    id = R.drawable.resto_vegi;
-                    break;
-                case "soup":
-                default:
-                    id = R.drawable.resto_soup;
-            }
+            @DrawableRes final int id = getDrawable(meal);
 
             ImageView imageView = makeImageView(id);
             TextView tvCenter = makeCenterTextView(meal.getName(), lp);
@@ -162,6 +148,27 @@ public class MenuTable extends TableLayout {
 
             addView(tr);
         }
+    }
+
+    @DrawableRes
+    public static int getDrawable(RestoMeal meal) {
+        //Set the correct image.
+        @DrawableRes int id;
+        switch (meal.getKind()) {
+            case "meat":
+                id = R.drawable.resto_meat;
+                break;
+            case "fish":
+                id = R.drawable.resto_fish;
+                break;
+            case "vegetarian":
+                id = R.drawable.resto_vegi;
+                break;
+            case "soup":
+            default:
+                id = R.drawable.resto_soup;
+        }
+        return id;
     }
 
     public void makeVegetables(List<String> vegetables) {

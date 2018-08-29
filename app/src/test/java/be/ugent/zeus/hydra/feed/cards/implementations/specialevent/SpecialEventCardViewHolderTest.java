@@ -24,7 +24,7 @@ public class SpecialEventCardViewHolderTest extends AbstractFeedViewHolderTest {
 
     @Test
     public void populate() {
-        View view = inflate(R.layout.home_card_special);
+        View view = inflate(activityContext, R.layout.home_card_special);
         SpecialEventCardViewHolder cardViewHolder = new SpecialEventCardViewHolder(view, adapter.getCompanion());
         SpecialEventCard card = generate(SpecialEventCard.class);
         SpecialEvent event = card.getSpecialEvent();

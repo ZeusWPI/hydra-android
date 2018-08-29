@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.minerva.announcement.courselist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -9,6 +10,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
+import be.ugent.zeus.hydra.testing.RobolectricUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.stubbing.Answer;
@@ -37,11 +39,12 @@ public class ViewHolderTest {
     public void populate() {
         View view = inflate(R.layout.item_minerva_announcement);
         ResultStarter starter = mock(ResultStarter.class);
+        Context context = RobolectricUtils.getActivityContext();
         doAnswer((Answer<Void>) invocation -> {
-            RuntimeEnvironment.application.startActivity(invocation.getArgument(0));
+            context.startActivity(invocation.getArgument(0));
             return null;
         }).when(starter).startActivityForResult(any(Intent.class), anyInt());
-        when(starter.getContext()).thenReturn(RuntimeEnvironment.application);
+        when(starter.getContext()).thenReturn(context);
         Announcement announcement = generate(Announcement.class);
         ViewHolder viewHolder = new ViewHolder(view, starter);
         viewHolder.populate(announcement);

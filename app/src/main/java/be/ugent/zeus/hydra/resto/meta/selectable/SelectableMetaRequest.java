@@ -10,8 +10,8 @@ import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.meta.MetaRequest;
 import be.ugent.zeus.hydra.resto.meta.RestoMeta;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +29,8 @@ public class SelectableMetaRequest implements Request<List<RestoChoice>> {
 
     @NonNull
     @Override
-    public Result<List<RestoChoice>> performRequest(@NonNull Bundle args) {
-        return resultRequest.performRequest(args).map(restoMeta -> StreamSupport.stream(restoMeta.locations)
+    public Result<List<RestoChoice>> execute(@NonNull Bundle args) {
+        return resultRequest.execute(args).map(restoMeta -> StreamSupport.stream(restoMeta.locations)
                 .filter(resto -> !TextUtils.isEmpty(resto.getEndpoint()))
                 .map(resto -> new RestoChoice(resto.getName(), resto.getEndpoint()))
                 .collect(Collectors.toCollection(ArrayList::new)));

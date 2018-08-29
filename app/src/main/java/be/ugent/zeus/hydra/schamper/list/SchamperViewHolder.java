@@ -79,9 +79,9 @@ class SchamperViewHolder extends DataViewHolder<Article> {
         }
 
         if (NetworkUtils.isMeteredConnection(itemView.getContext())) {
-            Picasso.with(this.itemView.getContext()).load(article.getImage()).into(image);
+            Picasso.get().load(article.getImage()).into(image);
         } else {
-            Picasso.with(this.itemView.getContext()).load(article.getLargeImage()).into(image);
+            Picasso.get().load(article.getLargeImage()).into(image);
         }
 
         this.itemView.setOnClickListener(v -> FullArticleActivity.viewArticle(v.getContext(), article, helper, image));

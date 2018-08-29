@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
-import java8.util.function.Consumer;
+import java9.util.function.Consumer;
 
 /**
  * Calls the listener if the result has no data and only an exception.

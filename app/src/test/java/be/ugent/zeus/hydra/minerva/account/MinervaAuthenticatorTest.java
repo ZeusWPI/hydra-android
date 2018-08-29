@@ -28,7 +28,7 @@ import static org.robolectric.Shadows.shadowOf;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
+@Config(application = TestApp.class)
 public class MinervaAuthenticatorTest {
 
     private MinervaAuthenticator authenticator;

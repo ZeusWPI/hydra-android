@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.RecycleViewHolder;
 
 import java.util.List;
 
@@ -51,4 +52,13 @@ public abstract class DataAdapter<D, VH extends DataViewHolder<D>> extends Recyc
      * Remove all data from the adapter.
      */
     public abstract void clear();
+
+    @Override
+    public void onViewRecycled(@NonNull VH holder) {
+        super.onViewRecycled(holder);
+        // Notify ViewHolders that are interested in this event.
+        if (holder instanceof RecycleViewHolder) {
+            ((RecycleViewHolder) holder).onViewRecycled();
+        }
+    }
 }

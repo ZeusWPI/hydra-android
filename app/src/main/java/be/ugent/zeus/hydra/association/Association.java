@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.squareup.moshi.Json;
-import java8.util.Objects;
+import java9.util.Objects;
 
 import java.io.Serializable;
 
@@ -107,6 +107,6 @@ public final class Association implements Parcelable, Serializable {
 
     @Override
     public int hashCode() {
-        return java8.util.Objects.hash(internalName);
+        return Objects.hash(internalName);
     }
 }

@@ -33,8 +33,6 @@ import static be.ugent.zeus.hydra.minerva.account.MinervaAuthenticator.EXP_DATE;
 @SuppressWarnings("WeakerAccess")
 public class AccountUtils {
 
-    public static final String USERNAME = "user_name";
-
     private static final String TAG = "AccountUtils";
 
     //This never changes during runtime, so we use static here.

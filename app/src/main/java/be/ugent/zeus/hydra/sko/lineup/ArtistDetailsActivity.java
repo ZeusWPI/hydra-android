@@ -52,7 +52,7 @@ public class ArtistDetailsActivity extends BaseActivity {
         title.setText(artist.getName());
 
         if (artist.getImage() != null) {
-            Picasso.with(this).load(artist.getImage()).fit().centerInside().into(headerImage);
+            Picasso.get().load(artist.getImage()).fit().centerInside().into(headerImage);
         }
 
         date.setText(artist.getDisplayDate(this));
@@ -83,11 +83,6 @@ public class ArtistDetailsActivity extends BaseActivity {
         parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, artist.getName());
         parameters.putString(FirebaseAnalytics.Param.ITEM_ID, String.valueOf(artist.hashCode()));
         analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
-    }
-
-    @Override
-    protected String getScreenName() {
-        return "SKO artist > " + artist.getName();
     }
 
     @Override

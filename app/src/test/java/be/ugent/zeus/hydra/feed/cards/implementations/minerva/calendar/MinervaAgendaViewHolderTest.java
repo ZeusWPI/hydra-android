@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.LinearLayout;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;
@@ -29,7 +30,7 @@ public class MinervaAgendaViewHolderTest extends AbstractFeedViewHolderTest {
 
     @Test
     public void populate() {
-        View view = inflate(R.layout.home_minerva_agenda_card);
+        View view = inflate(activityContext, R.layout.home_minerva_agenda_card);
         MinervaAgendaViewHolder viewHolder = new MinervaAgendaViewHolder(view, adapter);
         LocalDate date = LocalDate.now();
         List<AgendaItem> items = generate(AgendaItem.class, 10).collect(Collectors.toList());

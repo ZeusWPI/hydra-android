@@ -8,8 +8,8 @@ import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
 import be.ugent.zeus.hydra.minerva.course.database.CourseMapper;
 import com.crashlytics.android.Crashlytics;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 import org.threeten.bp.Instant;
 
 import java.lang.reflect.Field;

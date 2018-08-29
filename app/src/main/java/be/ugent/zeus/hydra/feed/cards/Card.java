@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.feed.cards;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
-import java8.lang.Integers;
+import java9.lang.Integers;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

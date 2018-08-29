@@ -45,6 +45,6 @@ public class DayRequestTest extends AbstractJsonRequestTest<RestoMenu> {
     @Test(expected = IllegalStateException.class)
     public void testNonInitialised() {
         Request<RestoMenu> request = new DayRequest(RuntimeEnvironment.application);
-        request.performRequest();
+        request.execute();
     }
 }

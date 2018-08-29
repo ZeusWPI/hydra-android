@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.resto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java9.util.Objects;
 import org.threeten.bp.LocalDate;
 
 import java.io.Serializable;
@@ -140,12 +141,12 @@ public final class RestoMenu implements Parcelable, Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         RestoMenu restoMenu = (RestoMenu) o;
         return open == restoMenu.open &&
-                java8.util.Objects.equals(date, restoMenu.date) &&
-                java8.util.Objects.equals(meals, restoMenu.meals);
+                Objects.equals(date, restoMenu.date) &&
+                Objects.equals(meals, restoMenu.meals);
     }
 
     @Override
     public int hashCode() {
-        return java8.util.Objects.hash(open, date, meals);
+        return Objects.hash(open, date, meals);
     }
 }

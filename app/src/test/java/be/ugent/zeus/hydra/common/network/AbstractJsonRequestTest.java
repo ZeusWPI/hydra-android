@@ -82,7 +82,7 @@ public abstract class AbstractJsonRequestTest<D> {
         request = spyForNormal(request);
         doReturn(serverUrl.toString()).when(request).getAPIUrl();
 
-        Result<D> result = request.performRequest();
+        Result<D> result = request.execute();
 
         // Throw the error if present for better error reporting.
         if (result.hasException()) {

@@ -75,7 +75,7 @@ public class FullArticleActivity extends BaseActivity {
         ImageView headerImage = findViewById(R.id.header_image);
 
         if (article.getImage() != null) {
-            Picasso.with(this).load(article.getImage()).into(headerImage);
+            Picasso.get().load(article.getImage()).into(headerImage);
         }
 
         if (article.getAuthor() != null) {
@@ -109,11 +109,6 @@ public class FullArticleActivity extends BaseActivity {
             title.setText(article.getTitle());
             requireToolbar().setTitle(article.getTitle());
         }
-    }
-
-    @Override
-    protected String getScreenName() {
-        return "Schamper article > " + article.getTitle();
     }
 
     @Override

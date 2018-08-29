@@ -24,9 +24,12 @@ import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import org.threeten.bp.LocalDate;
 import org.threeten.bp.format.DateTimeFormatter;
 
 /**
@@ -117,10 +120,17 @@ public class EventDetailsActivity extends BaseActivity {
         }
 
         if (event.getAssociation() != null && event.getAssociation().getImageLink() != null) {
-            Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage, new EventCallback(organisatorImage));
+            Picasso.get().load(event.getAssociation().getImageLink()).into(organisatorImage, new EventCallback(organisatorImage));
         } else {
             organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
+
+        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
+        Bundle parameters = new Bundle();
+        parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.EVENT);
+        parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, event.getTitle());
+        parameters.putString(FirebaseAnalytics.Param.ITEM_ID, event.getIdentifier());
+        analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
     }
 
     @Override
@@ -191,11 +201,6 @@ public class EventDetailsActivity extends BaseActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    @Override
-    protected String getScreenName() {
-        return "Event > " + event.getTitle();
-    }
-
     /**
      * Get the intent for a location. If the precise location is available, that will be used. Otherwise, we just search
      * for the location. One location must be present.
@@ -249,7 +254,7 @@ public class EventDetailsActivity extends BaseActivity {
         }
 
         @Override
-        public void onError() {
+        public void onError(Exception e) {
             organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
     }

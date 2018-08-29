@@ -62,7 +62,7 @@ class CourseLiveData extends RequestLiveData<List<Pair<Course, Long>>> {
 
         @NonNull
         @Override
-        public Result<List<Pair<Course, Long>>> performRequest(@NonNull Bundle args) {
+        public Result<List<Pair<Course, Long>>> execute(@NonNull Bundle args) {
             return Result.Builder.fromData(courseDao.getAllAndUnreadInOrder());
         }
     }

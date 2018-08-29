@@ -34,7 +34,7 @@ public class ThemePreferenceFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        HydraApplication.getApplication(getActivity()).sendScreenName("Settings > Theme");
+        HydraApplication.sendScreenName(getActivity(), "Settings > Theme");
     }
 
     @AppCompatDelegate.NightMode

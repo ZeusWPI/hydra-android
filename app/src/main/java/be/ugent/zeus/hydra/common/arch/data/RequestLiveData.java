@@ -43,7 +43,7 @@ public class RequestLiveData<M> extends BaseLiveData<Result<M>> {
 
             @Override
             protected Result<M> doInBackground(Void... voids) {
-                return getRequest().performRequest(bundle);
+                return getRequest().execute(bundle);
             }
 
             @Override

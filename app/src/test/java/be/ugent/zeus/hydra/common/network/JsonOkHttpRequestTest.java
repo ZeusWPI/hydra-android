@@ -55,7 +55,7 @@ public class JsonOkHttpRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new TestRequest(url);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
 
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
@@ -69,11 +69,11 @@ public class JsonOkHttpRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new TestRequest(url);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
 
-        Result<Integer> result2 = request.performRequest();
+        Result<Integer> result2 = request.execute();
         assertTrue(result2.hasData());
         assertEquals(1, (int) result2.getData());
 
@@ -91,13 +91,13 @@ public class JsonOkHttpRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new TestRequest(url);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
 
         Bundle args = new Bundle();
         args.putBoolean(BaseLiveData.REFRESH_COLD, true);
-        Result<Integer> result2 = request.performRequest(args);
+        Result<Integer> result2 = request.execute(args);
         assertTrue(result2.hasData());
         assertEquals(1, (int) result2.getData());
 
@@ -115,11 +115,11 @@ public class JsonOkHttpRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new TestRequest(url, Duration.ZERO);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
 
-        Result<Integer> result2 = request.performRequest();
+        Result<Integer> result2 = request.execute();
         assertTrue(result2.hasData());
         assertEquals(1, (int) result2.getData());
 
@@ -136,7 +136,7 @@ public class JsonOkHttpRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new TestRequest(url);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -149,7 +149,7 @@ public class JsonOkHttpRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new TestRequest(url);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -162,7 +162,7 @@ public class JsonOkHttpRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new TestRequest(url);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -178,7 +178,7 @@ public class JsonOkHttpRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new TestRequest(url);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -191,7 +191,7 @@ public class JsonOkHttpRequestTest {
         server.shutdown();
 
         Request<Integer> request = new TestRequest(url);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -205,14 +205,14 @@ public class JsonOkHttpRequestTest {
 
         // Put the request in the cache.
         Request<Integer> request = new TestRequest(url);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
 
         server.shutdown();
 
         // Make another request.
-        Result<Integer> result2 = request.performRequest();
+        Result<Integer> result2 = request.execute();
         assertTrue(result2.hasData());
         assertEquals(1, (int) result2.getData());
 
@@ -233,7 +233,7 @@ public class JsonOkHttpRequestTest {
 
         // Put the request in the cache.
         Request<Integer> request = new NoCacheRequest(url);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
 
@@ -245,7 +245,7 @@ public class JsonOkHttpRequestTest {
         server.shutdown();
 
         // Make another request. Since we don't allow caching, this should not attempt to use the cache.
-        Result<Integer> result2 = request.performRequest();
+        Result<Integer> result2 = request.execute();
         assertFalse(result2.hasData());
         assertTrue(result2.hasException());
 
@@ -263,7 +263,7 @@ public class JsonOkHttpRequestTest {
 
         // Put the request in the cache.
         Request<Integer> request = new TestRequest(url);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
 
@@ -277,7 +277,7 @@ public class JsonOkHttpRequestTest {
         // Make another request.
         Bundle args = new Bundle();
         args.putBoolean(BaseLiveData.REFRESH_COLD, true);
-        Result<Integer> result2 = request.performRequest(args);
+        Result<Integer> result2 = request.execute(args);
         assertTrue(result2.hasData());
         assertEquals(1, (int) result2.getData());
 
@@ -293,7 +293,7 @@ public class JsonOkHttpRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new TestRequest(url);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();

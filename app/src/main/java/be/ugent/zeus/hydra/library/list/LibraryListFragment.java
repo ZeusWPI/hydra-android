@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.library.list;
 
+import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,7 +33,7 @@ public class LibraryListFragment extends Fragment {
     private static final String LIB_URL = "http://lib.ugent.be/";
     public static final String PREF_LIBRARY_FAVOURITES = "pref_library_favourites";
 
-    private final LibraryListAdapter adapter = new LibraryListAdapter();
+    private LibraryListAdapter adapter;
     private LibraryViewModel viewModel;
 
     @Override
@@ -55,7 +56,7 @@ public class LibraryListFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         RecyclerFastScroller s = view.findViewById(R.id.fast_scroller);
         s.attachRecyclerView(recyclerView);
-        recyclerView.setAdapter(adapter);
+
         // TODO
         // adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
 
@@ -63,6 +64,9 @@ public class LibraryListFragment extends Fragment {
         swipeRefreshLayout.setColorSchemeResources(R.color.hydra_secondary_colour);
 
         viewModel = ViewModelProviders.of(this).get(LibraryViewModel.class);
+        adapter = new LibraryListAdapter(viewModel);
+        recyclerView.setAdapter(adapter);
+
         viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         viewModel.getData().observe(this, new AdapterObserver<>(adapter));
@@ -100,5 +104,13 @@ public class LibraryListFragment extends Fragment {
         Snackbar.make(requireView(this), getString(R.string.error_network), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.action_again), v -> viewModel.onRefresh())
                 .show();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (adapter != null) {
+            adapter.clearObservers();
+        }
     }
 }

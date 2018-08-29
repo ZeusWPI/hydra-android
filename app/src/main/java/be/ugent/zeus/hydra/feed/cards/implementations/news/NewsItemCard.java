@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.feed.cards.implementations.news;
 import be.ugent.zeus.hydra.association.news.UgentNewsItem;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
-import java8.util.Objects;
+import java9.util.Objects;
 import org.threeten.bp.Duration;
 import org.threeten.bp.OffsetDateTime;
 
@@ -50,7 +50,7 @@ class NewsItemCard extends Card {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NewsItemCard that = (NewsItemCard) o;
-        return java8.util.Objects.equals(newsItem, that.newsItem);
+        return Objects.equals(newsItem, that.newsItem);
     }
 
     @Override

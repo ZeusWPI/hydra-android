@@ -33,7 +33,7 @@ import static org.robolectric.Shadows.shadowOf;
  */
 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
+@Config(application = TestApp.class)
 public class AccountUtilsTest {
 
     @Test

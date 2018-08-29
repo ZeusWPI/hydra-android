@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.association.event.list;
 
-import java8.util.function.Function;
+import java9.util.function.Function;
 
 import java.util.ArrayList;
 import java.util.List;
