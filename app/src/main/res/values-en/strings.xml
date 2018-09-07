@@ -357,6 +357,9 @@
     <string name="sko_artist_search_music">Search artist in music</string>
     <string name="sko_artist_no_content">No description for this artist</string>
     <string name="sko_artist_time">%1$s to %2$s</string>
+    <string name="sko_artist_time_end">To %1$s</string>
+    <string name="sko_artist_time_start">From %1$s</string>
+    <string name="sko_artist_time_none">No time available</string>
 
     <string name="sko_tab_map">Map</string>
     <string name="sko_tab_village">Student Village</string>

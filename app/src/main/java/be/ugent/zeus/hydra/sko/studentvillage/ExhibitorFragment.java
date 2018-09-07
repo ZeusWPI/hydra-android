@@ -15,6 +15,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
+import be.ugent.zeus.hydra.common.ui.recyclerview.EmptyViewObserver;
 import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
