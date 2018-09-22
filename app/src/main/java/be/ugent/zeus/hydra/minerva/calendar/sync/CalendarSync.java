@@ -52,6 +52,7 @@ public class CalendarSync {
 
     private static final String TAG = "CalendarSync";
     private static final String FIRST_SYNC_BUILT_IN_CALENDAR = "once_first_calendar";
+    public static final String MINERVA_CALENDAR_NOTIFIED_ABOUT_BUG = "pref_minerva_stop_bugging";
     private static final long NO_CALENDAR = -1;
     private final AgendaItemRepository calendarRepository;
     private final CourseRepository courseDao;
@@ -210,6 +211,11 @@ public class CalendarSync {
      * Invoked when the app cannot access the calendar for some reason.
      */
     private void handleNoCalendar() {
+        // Check if we may notify the user.
+        if (Once.beenDone(MINERVA_CALENDAR_NOTIFIED_ABOUT_BUG)) {
+            return;
+        }
+
         // Make sure the notification channel is present
         ChannelCreator channelCreator = ChannelCreator.getInstance(context);
         channelCreator.createMinervaAccountChannel();
@@ -226,6 +232,8 @@ public class CalendarSync {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         assert manager != null;
         manager.notify(0, notification);
+
+        Once.markDone(MINERVA_CALENDAR_NOTIFIED_ABOUT_BUG);
     }
 
     /**
@@ -263,7 +271,6 @@ public class CalendarSync {
             }
         } catch (MissingCalendarException e) {
             // We could not insert our calendar.
-            Once.markDone(FIRST_SYNC_BUILT_IN_CALENDAR);
             handleNoCalendar();
             return;
         }
