@@ -46,10 +46,10 @@
     </string-array>
 
     <string-array name="sko_tab_names" translatable="false">
-        <item>@string/sko_tab_timeline</item>
+        <!--<item>@string/sko_tab_timeline</item>-->
         <item>@string/sko_tab_lineup</item>
-        <item>@string/sko_tab_village</item>
-        <item>@string/sko_tab_map</item>
+        <!--<item>@string/sko_tab_village</item>-->
+        <!--<item>@string/sko_tab_map</item>-->
     </string-array>
 
     <string-array name="pref_night_mode_values" translatable="false">
