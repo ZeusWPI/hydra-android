@@ -15,8 +15,6 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
-import be.ugent.zeus.hydra.common.ui.recyclerview.EmptyViewObserver;
-import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
@@ -58,9 +56,6 @@ public class ExhibitorFragment extends Fragment implements SwipeRefreshLayout.On
         SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.sko_secondary_colour);
         refreshLayout.setOnRefreshListener(this);
-
-        RecyclerFastScroller scroller = view.findViewById(R.id.fast_scroller);
-        scroller.attachRecyclerView(recyclerView);
 
         model = ViewModelProviders.of(this).get(ExhibitorViewModel.class);
         model.getData().observe(this, PartialErrorObserver.with(this::onError));

@@ -38,7 +38,7 @@
                     android:paddingRight="@dimen/activity_vertical_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/event_pref_choose_associations_desc"/>
+                    android:text="@string/event_pref_choose_associations_desc" />
 
                 <android.support.v7.widget.SearchView
                     app:iconifiedByDefault="false"
@@ -59,14 +59,12 @@
                 android:scrollbarStyle="outsideOverlay"
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <com.pluscubed.recyclerfastscroll.RecyclerFastScroller
-                android:id="@+id/fast_scroller"
-                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="end"
-                app:rfs_hideDelay="1000"/>
+                app:fastScrollEnabled="true"
+                app:fastScrollHorizontalThumbDrawable="@drawable/fast_scroll_thumb"
+                app:fastScrollHorizontalTrackDrawable="@drawable/fast_scroll_track"
+                app:fastScrollVerticalThumbDrawable="@drawable/fast_scroll_thumb"
+                app:fastScrollVerticalTrackDrawable="@drawable/fast_scroll_track" />
 
             <include layout="@layout/x_progress_bar" />
 

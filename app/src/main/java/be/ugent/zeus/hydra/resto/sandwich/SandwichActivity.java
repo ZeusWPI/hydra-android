@@ -16,7 +16,6 @@ import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
 /**
  * Activity that shows a list of sandwiches.
@@ -39,8 +38,6 @@ public class SandwichActivity extends BaseActivity {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        RecyclerFastScroller s = findViewById(R.id.fast_scroller);
-        s.attachRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);
 
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);

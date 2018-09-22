@@ -163,7 +163,6 @@ dependencies {
     implementation 'net.sourceforge.streamsupport:android-retrostreams:1.6.3'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
-    implementation 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
     implementation 'com.heinrichreimersoftware:material-intro:1.6.2'
     implementation 'com.jonathanfinerty.once:once:1.2.2'
     implementation 'com.karumi:dexter:4.2.0'
@@ -179,7 +178,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-auth:16.0.0"
 
     implementation 'com.google.firebase:firebase-core:16.0.3'
-    implementation 'com.google.firebase:firebase-messaging:17.3.1'
+    implementation 'com.google.firebase:firebase-messaging:17.3.2'
 
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
 
