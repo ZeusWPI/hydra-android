@@ -14,9 +14,14 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import com.squareup.picasso.Picasso;
 
 /**
+ * View holder for an {@link Artist}.
+ *
+ * This class implements the base class with {@link ArtistOrTitle}, since it would be a lot of work to allow us to
+ * have heterogeneous view holders in the adapters for little gain.
+ *
  * @author Niko Strijbol
  */
-class LineupViewHolder extends DataViewHolder<Artist> implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
+class ArtistViewHolder extends DataViewHolder<ArtistOrTitle> implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
 
     @VisibleForTesting
     static final int MENU_ID_ADD_TO_CALENDAR = 0;
@@ -26,7 +31,7 @@ class LineupViewHolder extends DataViewHolder<Artist> implements View.OnCreateCo
     private ImageView image;
     private Artist artist;
 
-    LineupViewHolder(View itemView) {
+    ArtistViewHolder(View itemView) {
         super(itemView);
 
         title = itemView.findViewById(R.id.title);
@@ -37,8 +42,8 @@ class LineupViewHolder extends DataViewHolder<Artist> implements View.OnCreateCo
     }
 
     @Override
-    public void populate(final Artist artist) {
-        this.artist = artist;
+    public void populate(final ArtistOrTitle artistOrTitle) {
+        this.artist = artistOrTitle.getArtist();
         title.setText(artist.getName());
         date.setText(artist.getDisplayDate(date.getContext()));
         Picasso.get().load(artist.getBanner()).into(image);

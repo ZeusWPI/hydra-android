@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.library.list;
 
-import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,7 +18,6 @@ import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
@@ -54,14 +52,12 @@ public class LibraryListFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
-        RecyclerFastScroller s = view.findViewById(R.id.fast_scroller);
-        s.attachRecyclerView(recyclerView);
-
-        // TODO
-        // adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.hydra_secondary_colour);
+        // Disable drag to refresh, since it interferes with the fast scroller.
+        // TODO: find a way to fix this without disable this.
+        swipeRefreshLayout.setEnabled(false);
 
         viewModel = ViewModelProviders.of(this).get(LibraryViewModel.class);
         adapter = new LibraryListAdapter(viewModel);

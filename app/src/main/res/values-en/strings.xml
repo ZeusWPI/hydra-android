@@ -262,6 +262,15 @@
     <string name="minerva_calendar_not_found">Calendar item not found.</string>
     <string name="minerva_calendar_duration">%1$s – %2$s</string>
     <string name="minerva_calendar_friendly_date">%1$s (%2$s)</string>
+    <string name="minerva_calendar_permission_notification_title">Permissions for Hydra</string>
+    <string name="minerva_calendar_permission_notification_short">Give permission for the Minerva Calendar</string>
+    <string name="minerva_calendar_permission_notification_long">
+        Hydra needs access to your calendar to synchronise the Minerva Calendar.
+    </string>
+    <string name="minerva_calendar_missing_notification_title">No calendar found</string>
+    <string name="minerva_calendar_missing_notification_text">
+        Hydra has no access to or has not found the device calendar. The calendar will not be synchronised.
+    </string>
 
     <string name="minerva_calendar_merge_warning">
         This event was merged by Hydra\'s duplicate detection. If the event seems weird, it\'s probably better to double
@@ -357,6 +366,9 @@
     <string name="sko_artist_search_music">Search artist in music</string>
     <string name="sko_artist_no_content">No description for this artist</string>
     <string name="sko_artist_time">%1$s to %2$s</string>
+    <string name="sko_artist_time_end">To %1$s</string>
+    <string name="sko_artist_time_start">From %1$s</string>
+    <string name="sko_artist_time_none">No time available</string>
 
     <string name="sko_tab_map">Map</string>
     <string name="sko_tab_village">Student Village</string>

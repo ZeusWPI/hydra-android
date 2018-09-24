@@ -21,14 +21,14 @@ import static org.mockito.Mockito.when;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-public class LineupViewHolderTest {
+public class ArtistViewHolderTest {
 
     @Test
     public void populate() {
-        View view = inflate(R.layout.item_sko_lineup);
-        LineupViewHolder viewHolder = new LineupViewHolder(view);
+        View view = inflate(R.layout.item_sko_lineup_artist);
+        ArtistViewHolder viewHolder = new ArtistViewHolder(view);
         Artist artist = generate(Artist.class);
-        viewHolder.populate(artist);
+        viewHolder.populate(new ArtistOrTitle(artist));
 
         assertTextIs(artist.getName(), view.findViewById(R.id.title));
         assertTextIs(artist.getDisplayDate(view.getContext()), view.findViewById(R.id.date));
@@ -39,7 +39,7 @@ public class LineupViewHolderTest {
         assertEquals(expected.getComponent(), actual.getComponent());
 
         MenuItem item = mock(MenuItem.class);
-        when(item.getItemId()).thenReturn(LineupViewHolder.MENU_ID_ADD_TO_CALENDAR);
+        when(item.getItemId()).thenReturn(ArtistViewHolder.MENU_ID_ADD_TO_CALENDAR);
         viewHolder.onMenuItemClick(item);
 
         expected = artist.addToCalendarIntent();

@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingTop="@dimen/card_spacing"
-            tools:listitem="@layout/item_sko_lineup"
+            tools:listitem="@layout/item_sko_lineup_artist"
             app:layoutManager="@string/app_layout_manager_linear" />
 
         <include layout="@layout/x_progress_bar" />

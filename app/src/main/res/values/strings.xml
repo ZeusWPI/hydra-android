@@ -267,6 +267,15 @@
     <string name="minerva_calendar_not_found">Agenda-item werd niet gevonden.</string>
     <string name="minerva_calendar_duration">%1$s – %2$s</string>
     <string name="minerva_calendar_friendly_date">%1$s (%2$s)</string>
+    <string name="minerva_calendar_permission_notification_title">Machtigingen voor Hydra</string>
+    <string name="minerva_calendar_permission_notification_short">Geef toestemming voor de Minerva-agenda</string>
+    <string name="minerva_calendar_permission_notification_long">
+        Hydra heeft toegang tot uw agenda nodig om de Minerva-agenda te synchroniseren.
+    </string>
+    <string name="minerva_calendar_missing_notification_title">Geen agenda gevonden</string>
+    <string name="minerva_calendar_missing_notification_text">
+        Hydra had geen toegang tot de agenda van dit apparaat of vond geen agenda. De agenda zal niet gesynchroniseerd worden.
+    </string>
 
     <string name="minerva_calendar_merge_warning">
         Dit evenement is samengevoegd door de duplicatendetectie van Hydra. Als het evenement vreemd lijkt, is het
@@ -364,6 +373,9 @@
     <string name="sko_artist_search_music">Artiest zoeken in muziek</string>
     <string name="sko_artist_no_content">Geen beschrijving gevonden voor deze artiest.</string>
     <string name="sko_artist_time">%1$s tot %2$s</string>
+    <string name="sko_artist_time_end">Tot %1$s</string>
+    <string name="sko_artist_time_start">Vanaf %1$s</string>
+    <string name="sko_artist_time_none">Geen tijden beschikbaar</string>
 
     <string name="sko_tab_map">Kaart</string>
     <string name="sko_tab_village">Student Village</string>
