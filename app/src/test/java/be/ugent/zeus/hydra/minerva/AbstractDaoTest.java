@@ -3,15 +3,7 @@ package be.ugent.zeus.hydra.minerva;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
-import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
-import be.ugent.zeus.hydra.common.database.Database;
-import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementDTO;
-import be.ugent.zeus.hydra.minerva.calendar.database.AgendaItemDTO;
-import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
-import com.squareup.moshi.Moshi;
-import com.squareup.moshi.Types;
-import org.junit.Before;
-import org.robolectric.RuntimeEnvironment;
+import androidx.test.core.app.ApplicationProvider;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +13,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+
+import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
+import be.ugent.zeus.hydra.common.database.Database;
+import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementDTO;
+import be.ugent.zeus.hydra.minerva.calendar.database.AgendaItemDTO;
+import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
+import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Types;
+import org.junit.Before;
 
 import static be.ugent.zeus.hydra.testing.Utils.getResourceFile;
 import static be.ugent.zeus.hydra.testing.Utils.readJson;
@@ -42,7 +43,7 @@ public abstract class AbstractDaoTest {
 
     @Before
     public void setUp() throws IOException {
-        Context context = RuntimeEnvironment.application;
+        Context context = ApplicationProvider.getApplicationContext();
         database = Room.inMemoryDatabaseBuilder(context, Database.class)
                 .allowMainThreadQueries()
                 .build();

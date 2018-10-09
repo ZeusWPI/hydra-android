@@ -1,15 +1,18 @@
 package be.ugent.zeus.hydra.testing;
 
+import android.app.Application;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.test.core.app.ApplicationProvider;
+
 import com.squareup.picasso.PicassoProvider;
 import org.robolectric.Robolectric;
-import org.robolectric.android.controller.ActivityController;
+import org.robolectric.Shadows;
+import org.robolectric.shadows.ShadowApplication;
 
 import static org.junit.Assert.*;
 
@@ -59,6 +62,10 @@ public final class RobolectricUtils {
 
     public static Context getActivityContext() {
         return Robolectric.setupActivity(BlankActivity.class);
+    }
+
+    public static ShadowApplication getShadowApplication() {
+        return Shadows.shadowOf(ApplicationProvider.<Application>getApplicationContext());
     }
 
     public static void setupPicasso() {

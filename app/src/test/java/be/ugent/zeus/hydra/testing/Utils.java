@@ -1,33 +1,25 @@
 package be.ugent.zeus.hydra.testing;
 
-import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.util.Pair;
-import android.view.View;
-
-import be.ugent.zeus.hydra.minerva.AbstractDaoTest;
-import be.ugent.zeus.hydra.minerva.course.Module;
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
-import com.squareup.picasso.PicassoProvider;
-import io.github.benas.randombeans.EnhancedRandomBuilder;
-import io.github.benas.randombeans.api.Randomizer;
-import nl.jqno.equalsverifier.EqualsVerifier;
-import okio.BufferedSource;
-import okio.Okio;
-import org.robolectric.Robolectric;
-import org.robolectric.android.controller.ActivityController;
-import org.threeten.bp.Instant;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.ZonedDateTime;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Stream;
+
+import be.ugent.zeus.hydra.minerva.AbstractDaoTest;
+import be.ugent.zeus.hydra.minerva.course.Module;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
+import io.github.benas.randombeans.EnhancedRandomBuilder;
+import io.github.benas.randombeans.api.Randomizer;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import okio.BufferedSource;
+import okio.Okio;
+import org.threeten.bp.Instant;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
+import org.threeten.bp.ZonedDateTime;
 
 /**
  * General utilities and helper methods for use within the tests.
@@ -79,6 +71,7 @@ public class Utils {
         return adapter.fromJson(source);
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static File getResourceFile(String resourcePath) {
         return new File(AbstractDaoTest.class.getClassLoader().getResource(resourcePath).getFile());
     }

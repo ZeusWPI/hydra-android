@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.feed.cards.implementations.resto;
 
 import android.content.Intent;
 import android.view.View;
+
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
@@ -11,8 +12,8 @@ import be.ugent.zeus.hydra.resto.menu.RestoFragment;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowApplication;
 
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.getShadowApplication;
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.junit.Assert.assertEquals;
@@ -38,7 +39,7 @@ public class RestoCardViewHolderTest extends AbstractFeedViewHolderTest {
         view.performClick();
 
         Intent expected = new Intent(view.getContext(), MainActivity.class);
-        Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent actual = getShadowApplication().getNextStartedActivity();
         assertEquals(expected.getComponent(), actual.getComponent());
         assertEquals(actualMenu.getDate(), actual.getSerializableExtra(RestoFragment.ARG_DATE));
         assertEquals(R.id.drawer_resto, actual.getIntExtra(MainActivity.ARG_TAB, -1));

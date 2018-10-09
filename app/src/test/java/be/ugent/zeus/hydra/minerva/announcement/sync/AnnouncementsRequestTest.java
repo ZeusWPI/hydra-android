@@ -5,7 +5,6 @@ import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 
@@ -24,6 +23,6 @@ public class AnnouncementsRequestTest extends AbstractMinervaRequestTest<ApiAnno
 
     @Override
     protected MinervaRequest<ApiAnnouncements> getRequest() {
-        return new AnnouncementsRequest(RuntimeEnvironment.application, getAccount(), course);
+        return new AnnouncementsRequest(context, getAccount(), course);
     }
 }

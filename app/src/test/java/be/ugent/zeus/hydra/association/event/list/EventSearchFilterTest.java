@@ -45,9 +45,7 @@ public class EventSearchFilterTest {
         }
 
         List<EventItem> expected = new ArrayList<>(headers);
-        for (int i = 0; i < 9; i++) {
-            expected.remove(0);
-        }
+        expected.subList(0, 9).clear();
 
         EventSearchFilter filter = new EventSearchFilter();
         List<EventItem> result = filter.apply(headers);

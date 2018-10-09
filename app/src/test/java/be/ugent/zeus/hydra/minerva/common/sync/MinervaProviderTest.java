@@ -3,6 +3,12 @@ package be.ugent.zeus.hydra.minerva.common.sync;
 import android.content.ContentResolver;
 import android.database.Cursor;
 
+import androidx.test.core.app.ApplicationProvider;
+
+import java.io.IOException;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.minerva.AbstractDaoTest;
 import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
@@ -11,16 +17,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowContentResolver;
 
-import java.io.IOException;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author Niko Strijbol
@@ -44,7 +43,7 @@ public class MinervaProviderTest extends AbstractDaoTest {
 
     @Test
     public void testAll() {
-        ContentResolver contentResolver = RuntimeEnvironment.application.getContentResolver();
+        ContentResolver contentResolver = ApplicationProvider.getApplicationContext().getContentResolver();
 
         // TODO: test more stuff.
         Cursor c = contentResolver.query(

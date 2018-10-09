@@ -1,7 +1,12 @@
 package be.ugent.zeus.hydra.common.network;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+
+import androidx.test.core.app.ApplicationProvider;
+
+import java.io.IOException;
 
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.Request;
@@ -17,10 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.threeten.bp.Duration;
-
-import java.io.IOException;
 
 import static org.junit.Assert.*;
 
@@ -34,12 +36,14 @@ import static org.junit.Assert.*;
 public class JsonOkHttpRequestTest {
 
     private MockWebServer server;
+    private Context context;
 
     @Before
     public void setUp() {
         // TODO: this is ugly but necessary due to the singletons
         InstanceProvider.reset();
         server = new MockWebServer();
+        context = ApplicationProvider.getApplicationContext();
     }
 
     @After
@@ -77,7 +81,8 @@ public class JsonOkHttpRequestTest {
         assertTrue(result2.hasData());
         assertEquals(1, (int) result2.getData());
 
-        Cache cache = InstanceProvider.getClient(RuntimeEnvironment.application).cache();
+        Cache cache = InstanceProvider.getClient(context).cache();
+        assertNotNull(cache);
         assertEquals(1, cache.networkCount());
         assertEquals(1, cache.hitCount());
         assertEquals(2, cache.requestCount());
@@ -101,7 +106,8 @@ public class JsonOkHttpRequestTest {
         assertTrue(result2.hasData());
         assertEquals(1, (int) result2.getData());
 
-        Cache cache = InstanceProvider.getClient(RuntimeEnvironment.application).cache();
+        Cache cache = InstanceProvider.getClient(context).cache();
+        assertNotNull(cache);
         assertEquals(2, cache.networkCount());
         assertEquals(0, cache.hitCount());
         assertEquals(2, cache.requestCount());
@@ -123,7 +129,8 @@ public class JsonOkHttpRequestTest {
         assertTrue(result2.hasData());
         assertEquals(1, (int) result2.getData());
 
-        Cache cache = InstanceProvider.getClient(RuntimeEnvironment.application).cache();
+        Cache cache = InstanceProvider.getClient(context).cache();
+        assertNotNull(cache);
         assertEquals(2, cache.networkCount());
         assertEquals(0, cache.hitCount());
         assertEquals(2, cache.requestCount());
@@ -216,7 +223,8 @@ public class JsonOkHttpRequestTest {
         assertTrue(result2.hasData());
         assertEquals(1, (int) result2.getData());
 
-        Cache cache = InstanceProvider.getClient(RuntimeEnvironment.application).cache();
+        Cache cache = InstanceProvider.getClient(context).cache();
+        assertNotNull(cache);
         assertEquals(1, cache.networkCount());
         assertEquals(1, cache.hitCount());
         assertEquals(2, cache.requestCount());
@@ -229,7 +237,7 @@ public class JsonOkHttpRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         // Before we do a request, manually create the client and set the timeout low, to speed up the test.
-        InstanceProvider.getClient(RuntimeEnvironment.application);
+        InstanceProvider.getClient(context);
 
         // Put the request in the cache.
         Request<Integer> request = new NoCacheRequest(url);
@@ -237,7 +245,8 @@ public class JsonOkHttpRequestTest {
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
 
-        Cache cache = InstanceProvider.getClient(RuntimeEnvironment.application).cache();
+        Cache cache = InstanceProvider.getClient(context).cache();
+        assertNotNull(cache);
         assertEquals(1, cache.networkCount());
         assertEquals(0, cache.hitCount());
         assertEquals(1, cache.requestCount());
@@ -259,7 +268,7 @@ public class JsonOkHttpRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         // Before we do a request, manually create the client and set the timeout low, to speed up the test.
-        InstanceProvider.getClient(RuntimeEnvironment.application);
+        InstanceProvider.getClient(context);
 
         // Put the request in the cache.
         Request<Integer> request = new TestRequest(url);
@@ -267,7 +276,8 @@ public class JsonOkHttpRequestTest {
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
 
-        Cache cache = InstanceProvider.getClient(RuntimeEnvironment.application).cache();
+        Cache cache = InstanceProvider.getClient(context).cache();
+        assertNotNull(cache);
         assertEquals(1, cache.networkCount());
         assertEquals(0, cache.hitCount());
         assertEquals(1, cache.requestCount());
@@ -312,13 +322,13 @@ public class JsonOkHttpRequestTest {
         private final Duration cacheDuration;
 
         TestRequest(HttpUrl url) {
-            super(RuntimeEnvironment.application, Integer.class);
+            super(ApplicationProvider.getApplicationContext(), Integer.class);
             this.url = url;
             this.cacheDuration = Duration.ofHours(1);
         }
 
         TestRequest(HttpUrl url, Duration duration) {
-            super(RuntimeEnvironment.application, Integer.class);
+            super(ApplicationProvider.getApplicationContext(), Integer.class);
             this.url = url;
             this.cacheDuration = duration;
         }

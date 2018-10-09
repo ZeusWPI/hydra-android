@@ -30,7 +30,7 @@ public class MockCalendarDao implements AgendaDao {
     private final Map<String, CourseDTO> courses;
 
     @SuppressLint("UseSparseArrays")
-    public MockCalendarDao(List<AgendaItemDTO> calendarItems, List<CourseDTO> courses) {
+    MockCalendarDao(List<AgendaItemDTO> calendarItems, List<CourseDTO> courses) {
         this.calendarItems = new ArrayList<>(calendarItems);
         this.idMap = new HashMap<>();
         for (AgendaItemDTO item: calendarItems) {
@@ -50,7 +50,7 @@ public class MockCalendarDao implements AgendaDao {
         }
         Result result = new Result();
         result.agendaItem = idMap.get(id);
-        result.course = courses.get(result.agendaItem.getCourseId());
+        result.course = courses.get(Objects.requireNonNull(result.agendaItem).getCourseId());
         return result;
     }
 
@@ -148,6 +148,7 @@ public class MockCalendarDao implements AgendaDao {
 
     @Override
     public List<Result> getBetweenNonIgnored(OffsetDateTime lower, OffsetDateTime upper) {
+        //noinspection ConstantConditions
         return calendarItems.stream()
                 .filter(c -> {
                     boolean startAfter = c.getStartDate().isAfter(lower) || c.getStartDate().isEqual(lower);

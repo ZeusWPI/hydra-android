@@ -1,13 +1,12 @@
 package be.ugent.zeus.hydra.schamper.list;
 
+import java.util.List;
+
 import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import be.ugent.zeus.hydra.schamper.Article;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-
-import java.util.List;
 
 /**
  * @author Niko Strijbol
@@ -22,6 +21,6 @@ public class SchamperArticlesRequestTest extends AbstractJsonRequestTest<List<Ar
 
     @Override
     protected JsonOkHttpRequest<List<Article>> getRequest() {
-        return new SchamperArticlesRequest(RuntimeEnvironment.application);
+        return new SchamperArticlesRequest(context);
     }
 }

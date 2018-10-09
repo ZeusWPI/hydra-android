@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra;
 
 import android.content.Context;
 
-import be.ugent.zeus.hydra.testing.Utils;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import io.fabric.sdk.android.Fabric;

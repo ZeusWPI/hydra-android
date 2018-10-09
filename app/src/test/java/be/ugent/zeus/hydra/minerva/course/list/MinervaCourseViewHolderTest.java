@@ -9,6 +9,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchHelper;
@@ -20,11 +23,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.stubbing.Answer;
 import org.robolectric.ParameterizedRobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.shadows.ShadowApplication;
-
-import java.util.Arrays;
-import java.util.Collection;
 
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
@@ -96,7 +94,7 @@ public class MinervaCourseViewHolderTest {
         // Test opening a course activity.
         view.performClick();
         Intent expectedIntent = new Intent(view.getContext(), CourseActivity.class);
-        Intent actualIntent = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent actualIntent = getShadowApplication().getNextStartedActivity();
         assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
         assertEquals(course, actualIntent.getParcelableExtra(CourseActivity.ARG_COURSE));
         assertEquals(CourseActivity.Tab.ANNOUNCEMENTS, actualIntent.getIntExtra(CourseActivity.ARG_TAB, -1));

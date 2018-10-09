@@ -3,19 +3,17 @@ package be.ugent.zeus.hydra.minerva.calendar.upcominglist;
 import android.content.Intent;
 import android.provider.CalendarContract;
 import android.view.View;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;
 import be.ugent.zeus.hydra.minerva.calendar.itemdetails.AgendaActivity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowApplication;
 
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertNotEmpty;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Niko Strijbol
@@ -35,7 +33,7 @@ public class AgendaViewHolderTest {
         view.findViewById(R.id.parent_layout).performClick();
 
         Intent expected = new Intent(view.getContext(), AgendaActivity.class);
-        Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent actual = getShadowApplication().getNextStartedActivity();
 
         assertEquals(expected.getComponent(), actual.getComponent());
         assertEquals(item.getUri(), actual.getStringExtra(CalendarContract.Events.CUSTOM_APP_URI));

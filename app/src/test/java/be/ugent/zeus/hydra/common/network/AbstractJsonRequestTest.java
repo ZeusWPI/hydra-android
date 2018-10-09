@@ -1,5 +1,13 @@
 package be.ugent.zeus.hydra.common.network;
 
+import android.content.Context;
+
+import androidx.test.core.app.ApplicationProvider;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
 import com.squareup.moshi.JsonAdapter;
@@ -11,12 +19,9 @@ import okio.BufferedSource;
 import okio.Okio;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.json.JSONException;
+import org.junit.Before;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -31,8 +36,16 @@ import static org.mockito.Mockito.spy;
  */
 public abstract class AbstractJsonRequestTest<D> {
 
-    protected Moshi moshi = InstanceProvider.getMoshi();
+    protected Moshi moshi;
+    protected Context context;
 
+    @Before
+    public void setUp() {
+        moshi = InstanceProvider.getMoshi();
+        context = ApplicationProvider.getApplicationContext();
+    }
+
+    @SuppressWarnings("ConstantConditions")
     protected final File getResourceFile(String resourcePath) {
         return new File(getClass().getClassLoader().getResource(resourcePath).getFile());
     }

@@ -174,11 +174,11 @@ dependencies {
         exclude group: 'org.apache.oltu.oauth2'
     }
 
-    implementation "com.google.android.gms:play-services-maps:15.0.1"
-    implementation "com.google.android.gms:play-services-auth:16.0.0"
+    implementation "com.google.android.gms:play-services-maps:16.0.0"
+    implementation "com.google.android.gms:play-services-auth:16.0.1"
 
-    implementation 'com.google.firebase:firebase-core:16.0.3'
-    implementation 'com.google.firebase:firebase-messaging:17.3.2'
+    implementation 'com.google.firebase:firebase-core:16.0.4'
+    implementation 'com.google.firebase:firebase-messaging:17.3.3'
 
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
 
@@ -186,8 +186,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.19.0'
 
+    testImplementation 'org.robolectric:robolectric:4.0-beta-2-SNAPSHOT'
+    testImplementation 'androidx.test:core:1.0.0-beta01'
+
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.1'
+    // TODO: why are there so many false positives when this is enabled?
+    // debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.1'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
 
@@ -203,7 +207,6 @@ dependencies {
     testImplementation 'io.github.benas:random-beans:3.7.0'
     testImplementation 'org.apache.commons:commons-lang3:3.7'
     testImplementation 'org.hamcrest:hamcrest-core:1.3'
-    testImplementation 'org.robolectric:robolectric:4.0-alpha-3'
     testImplementation('org.springframework:spring-test:3.2.18.RELEASE') {
         exclude module: 'spring-core'
     }

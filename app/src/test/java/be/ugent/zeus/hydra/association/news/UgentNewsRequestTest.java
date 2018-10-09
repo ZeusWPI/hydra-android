@@ -1,14 +1,13 @@
 package be.ugent.zeus.hydra.association.news;
 
+import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
+
 import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * @author Niko Strijbol
@@ -23,7 +22,7 @@ public class UgentNewsRequestTest extends AbstractJsonRequestTest<List<UgentNews
 
     @Override
     protected JsonOkHttpRequest<List<UgentNewsItem>> getRequest() {
-        return new UgentNewsRequest(RuntimeEnvironment.application);
+        return new UgentNewsRequest(context);
     }
 
     @Override

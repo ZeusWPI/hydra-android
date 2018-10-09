@@ -5,6 +5,9 @@ import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;
@@ -12,11 +15,7 @@ import be.ugent.zeus.hydra.minerva.calendar.itemdetails.AgendaActivity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowApplication;
 import org.threeten.bp.LocalDate;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
@@ -49,7 +48,7 @@ public class MinervaAgendaViewHolderTest extends AbstractFeedViewHolderTest {
 
             child.performClick();
             Intent expected = new Intent(child.getContext(), AgendaActivity.class);
-            Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
+            Intent actual = getShadowApplication().getNextStartedActivity();
             assertEquals(expected.getComponent(), actual.getComponent());
 
             assertEquals(item.getUri(), actual.getStringExtra(CalendarContract.Events.CUSTOM_APP_URI));
