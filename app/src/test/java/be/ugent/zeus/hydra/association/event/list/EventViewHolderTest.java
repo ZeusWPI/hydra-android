@@ -9,7 +9,6 @@ import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowApplication;
 import org.threeten.bp.LocalDate;
 
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
@@ -57,7 +56,7 @@ public class EventViewHolderTest {
         view.performClick();
 
         Intent expectedIntent = EventDetailsActivity.start(view.getContext(), event);
-        Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent actual = getShadowApplication().getNextStartedActivity();
         assertEquals(expectedIntent.getComponent(), actual.getComponent());
         assertNotNull(actual.getParcelableExtra(EventDetailsActivity.PARCEL_EVENT));
 

@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 
+import androidx.test.core.app.ApplicationProvider;
+
 import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.testing.RobolectricUtils;
@@ -15,11 +17,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.shadows.ShadowApplication;
 import org.robolectric.shadows.ShadowConnectivityManager;
 import org.robolectric.shadows.ShadowNetworkInfo;
 
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.getShadowApplication;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,12 +37,13 @@ public class NewsArticleActivityTest {
 
     @Before
     public void setUp() {
-        ConnectivityManager connectivityManager = RuntimeEnvironment.application.getSystemService(ConnectivityManager.class);
+        ConnectivityManager connectivityManager = ApplicationProvider.getApplicationContext()
+                .getSystemService(ConnectivityManager.class);
         shadow = shadowOf(connectivityManager);
     }
 
     private static void setUseCustomTabs(boolean use) {
-        PreferenceManager.getDefaultSharedPreferences(RuntimeEnvironment.application)
+        PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
                 .edit()
                 .putBoolean(CustomTabPreferenceFragment.PREF_USE_CUSTOM_TABS, use)
                 .commit();
@@ -49,7 +51,7 @@ public class NewsArticleActivityTest {
 
     private static void assertIntent(Context context, UgentNewsItem item) {
         Intent expected = new Intent(context, NewsArticleActivity.class);
-        Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent actual = getShadowApplication().getNextStartedActivity();
 
         assertEquals(expected.getComponent(), actual.getComponent());
         assertEquals(item, actual.getParcelableExtra(NewsArticleActivity.PARCEL_NAME));

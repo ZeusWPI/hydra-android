@@ -7,6 +7,10 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.test.core.app.ApplicationProvider;
+
+import java.io.IOException;
+
 import be.ugent.zeus.hydra.common.database.Database;
 import org.junit.After;
 import org.junit.Before;
@@ -14,11 +18,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.threeten.bp.Instant;
 import org.threeten.bp.OffsetDateTime;
-
-import java.io.IOException;
 
 import static be.ugent.zeus.hydra.common.database.TestUtils.assertContent;
 import static be.ugent.zeus.hydra.common.database.TestUtils.getFirstFrom;
@@ -41,8 +42,8 @@ public class TestMigration_9_10 {
 
     {
         Instrumentation mockInstrumentation = mock(Instrumentation.class);
-        when(mockInstrumentation.getTargetContext()).thenReturn(RuntimeEnvironment.application);
-        when(mockInstrumentation.getContext()).thenReturn(RuntimeEnvironment.application);
+        when(mockInstrumentation.getTargetContext()).thenReturn(ApplicationProvider.getApplicationContext());
+        when(mockInstrumentation.getContext()).thenReturn(ApplicationProvider.getApplicationContext());
         testHelper = new LocalMigrationTestHelper(mockInstrumentation, Database.class.getCanonicalName());
     }
 
@@ -50,7 +51,7 @@ public class TestMigration_9_10 {
 
     @Before
     public void setUp() {
-        version9Helper = new Version9SqlHelper(RuntimeEnvironment.application, TEST_DATABASE_NAME);
+        version9Helper = new Version9SqlHelper(ApplicationProvider.getApplicationContext(), TEST_DATABASE_NAME);
         // Ensure tables are made.
         Version9SqlHelper.createTables(version9Helper.getWritableDatabase());
     }

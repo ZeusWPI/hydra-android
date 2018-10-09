@@ -2,18 +2,17 @@ package be.ugent.zeus.hydra.library.list;
 
 import android.content.Intent;
 import android.view.View;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.library.details.LibraryDetailActivity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowApplication;
 
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -38,7 +37,7 @@ public class LibraryViewHolderTest {
         view.performClick();
 
         Intent expected = new Intent(view.getContext(), LibraryDetailActivity.class);
-        Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent actual = getShadowApplication().getNextStartedActivity();
 
         assertEquals(expected.getComponent(), actual.getComponent());
         assertEquals(library, actual.getParcelableExtra(LibraryDetailActivity.ARG_LIBRARY));

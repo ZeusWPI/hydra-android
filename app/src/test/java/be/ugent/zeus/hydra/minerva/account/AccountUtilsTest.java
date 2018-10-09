@@ -2,30 +2,31 @@ package be.ugent.zeus.hydra.minerva.account;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+
+import androidx.test.core.app.ApplicationProvider;
+
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
 import okhttp3.HttpUrl;
 import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowAccountManager;
 import org.threeten.bp.LocalDateTime;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.robolectric.Shadows.shadowOf;
 
 /**
@@ -36,33 +37,40 @@ import static org.robolectric.Shadows.shadowOf;
 @Config(application = TestApp.class)
 public class AccountUtilsTest {
 
+    private Context context;
+
+    @Before
+    public void setUp() {
+        context = ApplicationProvider.getApplicationContext();
+    }
+
     @Test
     public void hasAccount() {
 
         // Test that there are no accounts
-        assertFalse(AccountUtils.hasAccount(RuntimeEnvironment.application));
+        assertFalse(AccountUtils.hasAccount(context));
 
         // Add a test account
-        ShadowAccountManager manager = shadowOf(AccountManager.get(RuntimeEnvironment.application));
+        ShadowAccountManager manager = shadowOf(AccountManager.get(context));
         Account testAccount = new Account("TEST", MinervaConfig.ACCOUNT_TYPE);
         manager.addAccount(testAccount);
 
         // Test the actual method
-        assertTrue(AccountUtils.hasAccount(RuntimeEnvironment.application));
+        assertTrue(AccountUtils.hasAccount(context));
     }
 
     @Test
     public void getAccount() {
-        ShadowAccountManager manager = shadowOf(AccountManager.get(RuntimeEnvironment.application));
+        ShadowAccountManager manager = shadowOf(AccountManager.get(context));
         Account testAccount = new Account("TEST", MinervaConfig.ACCOUNT_TYPE);
         manager.addAccount(testAccount);
 
-        assertEquals(testAccount, AccountUtils.getAccount(RuntimeEnvironment.application));
+        assertEquals(testAccount, AccountUtils.getAccount(context));
     }
 
     @Test
     public void getExpirationDate() {
-        AccountManager accountManager = AccountManager.get(RuntimeEnvironment.application);
+        AccountManager accountManager = AccountManager.get(context);
         ShadowAccountManager manager = shadowOf(accountManager);
         Account testAccount = new Account("TEST", MinervaConfig.ACCOUNT_TYPE);
         manager.addAccount(testAccount);

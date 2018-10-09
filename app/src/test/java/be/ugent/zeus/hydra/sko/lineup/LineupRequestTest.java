@@ -1,12 +1,11 @@
 package be.ugent.zeus.hydra.sko.lineup;
 
+import java.util.List;
+
 import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-
-import java.util.List;
 
 /**
  * @author Niko Strijbol
@@ -21,6 +20,6 @@ public class LineupRequestTest extends AbstractJsonRequestTest<List<Artist>> {
 
     @Override
     protected JsonOkHttpRequest<List<Artist>> getRequest() {
-        return new LineupRequest(RuntimeEnvironment.application);
+        return new LineupRequest(context);
     }
 }

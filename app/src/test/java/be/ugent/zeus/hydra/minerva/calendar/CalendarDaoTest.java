@@ -260,6 +260,7 @@ public class CalendarDaoTest extends AbstractDaoTest {
     public void getBetween() {
         OffsetDateTime lower = getRandom(this.calendarItems).getStartDate();
         OffsetDateTime higher = lower.plusWeeks(2);
+        @SuppressWarnings("ConstantConditions")
         List<AgendaItemDTO> expected = this.calendarItems.stream()
                 .filter(i -> {
                     boolean startDateAfterLower = i.getStartDate().isAfter(lower) || i.getStartDate().isEqual(lower);

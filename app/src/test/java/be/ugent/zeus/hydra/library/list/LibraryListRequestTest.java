@@ -19,6 +19,6 @@ public class LibraryListRequestTest extends AbstractJsonRequestTest<LibraryList>
 
     @Override
     protected JsonOkHttpRequest<LibraryList> getRequest() {
-        return new LibraryListRequest(RuntimeEnvironment.application);
+        return new LibraryListRequest(context);
     }
 }

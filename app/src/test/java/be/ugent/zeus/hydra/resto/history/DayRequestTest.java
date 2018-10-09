@@ -8,7 +8,6 @@ import be.ugent.zeus.hydra.resto.RestoMenu;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.threeten.bp.LocalDate;
 
 import static org.hamcrest.Matchers.endsWith;
@@ -27,7 +26,7 @@ public class DayRequestTest extends AbstractJsonRequestTest<RestoMenu> {
 
     @Override
     protected JsonOkHttpRequest<RestoMenu> getRequest() {
-        DayRequest request = new DayRequest(RuntimeEnvironment.application);
+        DayRequest request = new DayRequest(context);
         request.setChoice(new RestoChoice("test", "test"));
         request.setDate(LocalDate.now());
         return request;
@@ -36,7 +35,7 @@ public class DayRequestTest extends AbstractJsonRequestTest<RestoMenu> {
     @Test
     public void testUrlFormat() {
         LocalDate now = LocalDate.now();
-        DayRequest request = new DayRequest(RuntimeEnvironment.application);
+        DayRequest request = new DayRequest(context);
         request.setChoice(new RestoChoice("test", "test"));
         request.setDate(now);
         assertThat(request.getAPIUrl(), endsWith("test/" + now.getYear() + "/" + now.getMonthValue() + "/" + now.getDayOfMonth() + ".json"));
@@ -44,7 +43,7 @@ public class DayRequestTest extends AbstractJsonRequestTest<RestoMenu> {
 
     @Test(expected = IllegalStateException.class)
     public void testNonInitialised() {
-        Request<RestoMenu> request = new DayRequest(RuntimeEnvironment.application);
+        Request<RestoMenu> request = new DayRequest(context);
         request.execute();
     }
 }

@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import androidx.test.core.app.ApplicationProvider;
+
+import java.io.IOException;
+import java.util.Objects;
+
 import be.ugent.zeus.hydra.common.network.IOFailureException;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.RequestException;
@@ -19,10 +24,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-
-import java.io.IOException;
-import java.util.Objects;
 
 import static org.junit.Assert.*;
 
@@ -199,12 +200,12 @@ public class MinervaRequestTest {
         private final HttpUrl url;
 
         SimpleTestRequest(HttpUrl url, Account account, MinervaRequest.AccessTokenProvider provider) {
-            super(RuntimeEnvironment.application, Integer.class, account, provider);
+            super(ApplicationProvider.getApplicationContext(), Integer.class, account, provider);
             this.url = url;
         }
 
         SimpleTestRequest(HttpUrl url, Account account, String authToken) {
-            super(RuntimeEnvironment.application, Integer.class, account, (accountManager, account1) -> {
+            super(ApplicationProvider.getApplicationContext(), Integer.class, account, (accountManager, account1) -> {
                 Objects.requireNonNull(account1);
                 Objects.requireNonNull(accountManager);
                 Bundle b = new Bundle();

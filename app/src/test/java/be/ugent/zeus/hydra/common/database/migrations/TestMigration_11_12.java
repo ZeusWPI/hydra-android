@@ -4,15 +4,16 @@ import android.app.Instrumentation;
 import android.arch.persistence.room.testing.LocalMigrationTestHelper;
 import android.os.Build;
 
+import androidx.test.core.app.ApplicationProvider;
+
+import java.io.IOException;
+
 import be.ugent.zeus.hydra.common.database.Database;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-
-import java.io.IOException;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -28,8 +29,8 @@ public class TestMigration_11_12 {
 
     {
         Instrumentation mockInstrumentation = mock(Instrumentation.class);
-        when(mockInstrumentation.getTargetContext()).thenReturn(RuntimeEnvironment.application);
-        when(mockInstrumentation.getContext()).thenReturn(RuntimeEnvironment.application);
+        when(mockInstrumentation.getTargetContext()).thenReturn(ApplicationProvider.getApplicationContext());
+        when(mockInstrumentation.getContext()).thenReturn(ApplicationProvider.getApplicationContext());
         testHelper = new LocalMigrationTestHelper(mockInstrumentation, Database.class.getCanonicalName());
     }
 

@@ -5,7 +5,6 @@ import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 
@@ -24,6 +23,6 @@ public class ModuleRequestTest extends AbstractMinervaRequestTest<ApiTools> {
 
     @Override
     protected MinervaRequest<ApiTools> getRequest() {
-        return new ModuleRequest(RuntimeEnvironment.application, getAccount(), course);
+        return new ModuleRequest(context, getAccount(), course);
     }
 }

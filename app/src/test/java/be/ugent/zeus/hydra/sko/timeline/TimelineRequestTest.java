@@ -1,12 +1,11 @@
 package be.ugent.zeus.hydra.sko.timeline;
 
+import java.util.List;
+
 import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-
-import java.util.List;
 
 /**
  * @author Niko Strijbol
@@ -21,6 +20,6 @@ public class TimelineRequestTest extends AbstractJsonRequestTest<List<TimelinePo
 
     @Override
     protected JsonOkHttpRequest<List<TimelinePost>> getRequest() {
-        return new TimelineRequest(RuntimeEnvironment.application);
+        return new TimelineRequest(context);
     }
 }

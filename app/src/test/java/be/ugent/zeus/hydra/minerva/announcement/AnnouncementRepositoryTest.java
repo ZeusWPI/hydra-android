@@ -31,6 +31,7 @@ import static be.ugent.zeus.hydra.testing.Utils.getRandom;
 import static be.ugent.zeus.hydra.utils.IterableUtils.transform;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * @author Niko Strijbol
@@ -146,6 +147,7 @@ public class AnnouncementRepositoryTest extends FullRepositoryTest<Integer, Anno
                 .filter(a -> a.getCourse().equals(random))
                 .collect(Collectors.toList());
         for (Announcement a: data) {
+            //noinspection ConstantConditions
             expected.put(a.getItemId(), a.getRead());
         }
         Map<Integer, Instant> actual = announcementRepository.getIdsAndReadDateFor(random);
@@ -162,6 +164,8 @@ public class AnnouncementRepositoryTest extends FullRepositoryTest<Integer, Anno
         for (Course course: transform(courses, courseDTO -> courseMapper.courseToCourse(courseDTO))) {
             List<Announcement> ex = expected.get(course);
             List<Announcement> ac = actual.get(course);
+            assertNotNull(ex);
+            assertNotNull(ac);
             assertCollectionEquals(ex, ac);
             assertFalse(ac.isEmpty());
         }

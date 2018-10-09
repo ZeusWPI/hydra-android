@@ -10,8 +10,6 @@ import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.shadows.ShadowApplication;
 
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
@@ -37,7 +35,7 @@ public class EventCardViewHolderTest extends AbstractFeedViewHolderTest {
 
         view.performClick();
         Intent expected = EventDetailsActivity.start(activityContext, event);
-        Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent actual = getShadowApplication().getNextStartedActivity();
         assertEquals(expected.getComponent(), actual.getComponent());
     }
 

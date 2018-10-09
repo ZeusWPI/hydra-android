@@ -10,8 +10,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowApplication;
 
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -33,9 +32,10 @@ public class ArtistViewHolderTest {
         assertTextIs(artist.getName(), view.findViewById(R.id.title));
         assertTextIs(artist.getDisplayDate(view.getContext()), view.findViewById(R.id.date));
 
+        ShadowApplication application = getShadowApplication();
         view.performClick();
         Intent expected = ArtistDetailsActivity.start(view.getContext(), artist);
-        Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent actual = application.getNextStartedActivity();
         assertEquals(expected.getComponent(), actual.getComponent());
 
         MenuItem item = mock(MenuItem.class);
@@ -43,7 +43,7 @@ public class ArtistViewHolderTest {
         viewHolder.onMenuItemClick(item);
 
         expected = artist.addToCalendarIntent();
-        actual = ShadowApplication.getInstance().getNextStartedActivity();
+        actual = application.getNextStartedActivity();
         assertEquals(expected.getComponent(), actual.getComponent());
     }
 }

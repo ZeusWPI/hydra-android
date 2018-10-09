@@ -9,8 +9,8 @@ import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowApplication;
 
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.getShadowApplication;
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
 import static org.junit.Assert.assertEquals;
 
@@ -27,7 +27,7 @@ public class UrgentViewHolderTest extends AbstractFeedViewHolderTest {
         view.performClick();
 
         Intent expected = new Intent(view.getContext(), MainActivity.class);
-        Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent actual = getShadowApplication().getNextStartedActivity();
 
         assertEquals(expected.getComponent(), actual.getComponent());
         assertEquals(R.id.drawer_urgent, actual.getIntExtra(MainActivity.ARG_TAB, -1));

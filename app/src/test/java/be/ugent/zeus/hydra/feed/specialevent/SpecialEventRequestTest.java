@@ -6,7 +6,6 @@ import be.ugent.zeus.hydra.specialevent.SpecialEventRequest;
 import be.ugent.zeus.hydra.specialevent.SpecialEventWrapper;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 
 /**
  * @author Niko Strijbol
@@ -21,6 +20,6 @@ public class SpecialEventRequestTest extends AbstractJsonRequestTest<SpecialEven
 
     @Override
     protected JsonOkHttpRequest<SpecialEventWrapper> getRequest() {
-        return new SpecialEventRequest(RuntimeEnvironment.application);
+        return new SpecialEventRequest(context);
     }
 }

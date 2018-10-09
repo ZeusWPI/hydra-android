@@ -3,18 +3,17 @@ package be.ugent.zeus.hydra.feed.cards.implementations.specialevent;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
 import be.ugent.zeus.hydra.specialevent.SpecialEvent;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowApplication;
 
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Niko Strijbol
@@ -36,7 +35,7 @@ public class SpecialEventCardViewHolderTest extends AbstractFeedViewHolderTest {
 
         view.performClick();
         Intent expected = new Intent(Intent.ACTION_VIEW, Uri.parse(event.getLink()));
-        Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent actual = getShadowApplication().getNextStartedActivity();
         assertEquals(expected.getComponent(), actual.getComponent());
     }
 }
