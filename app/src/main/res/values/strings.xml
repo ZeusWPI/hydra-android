@@ -168,7 +168,7 @@
     <string name="resto_location_action_center">Ga naar resto\'s</string>
 
     <string name="resto_menu_main_dish">Hoofdgerechten</string>
-    <string name="resto_menu_side_dish">Bijgerechten</string>
+    <string name="resto_menu_soup">Soep</string>
     <string name="resto_menu_vegetables">Groenten</string>
     <string name="resto_menu_date">Datum van menu: %s</string>
     <string name="resto_menu_not_available">

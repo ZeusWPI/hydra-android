@@ -22,6 +22,7 @@ import androidx.slice.builders.SliceAction;
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.common.ui.widgets.DisplayableMenu;
 import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
 import be.ugent.zeus.hydra.resto.*;
 import be.ugent.zeus.hydra.resto.history.DayRequest;
@@ -182,7 +183,7 @@ public class SliceProvider extends androidx.slice.SliceProvider {
                 ListBuilder.RowBuilder row = new ListBuilder.RowBuilder();
 
                 //Set the correct image.
-                @DrawableRes int id = MenuTable.getDrawable(meal);
+                @DrawableRes int id = DisplayableMenu.getDrawable(meal);
                 row.setTitleItem(IconCompat.createWithResource(getContext(), id), ListBuilder.RowBuilder.TYPE_ICON);
 
                 row.setTitle(meal.getName());
