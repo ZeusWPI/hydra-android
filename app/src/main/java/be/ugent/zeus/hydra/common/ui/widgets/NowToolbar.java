@@ -11,6 +11,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.feed.cards.implementations.MenuHandler;
 
 /**
  * A custom view to encapsulate the Google Now-like bar above the cards on the home tab.
@@ -77,13 +78,14 @@ public class NowToolbar extends LinearLayout {
     /**
      * Set the listener for the overflow button in the right corner of the toolbar.
      *
-     * @param listener The listener.
+     * @param handler The listener.
      */
-    public void setOnMenuClickListener(final PopupMenu.OnMenuItemClickListener listener) {
+    public void setOnMenuClickListener(MenuHandler handler) {
         menuButton.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(v.getContext(), v);
             popup.inflate(menu);
-            popup.setOnMenuItemClickListener(listener);
+            handler.onCreateMenu(popup.getMenu());
+            popup.setOnMenuItemClickListener(handler);
             popup.show();
         });
     }

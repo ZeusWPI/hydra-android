@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<Preference
-		android:summary="@string/feed_pref_card_types_summary"
-		android:title="@string/feed_pref_card_types_title"
-		android:persistent="false">
+    <PreferenceCategory android:title="@string/feed_pref_cat_general">
 
-		<intent
-			android:action="android.intent.action.VIEW"
-			android:targetPackage="be.ugent.zeus.hydra"
-			android:targetClass="be.ugent.zeus.hydra.feed.preferences.HomeFeedPrefActivity"/>
+        <Preference
+            android:summary="@string/feed_pref_card_types_summary"
+            android:title="@string/feed_pref_card_types_title"
+            android:persistent="false">
 
-	</Preference>
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="be.ugent.zeus.hydra"
+                android:targetClass="be.ugent.zeus.hydra.feed.preferences.HomeFeedPrefActivity" />
 
-	<CheckBoxPreference
-		android:key="pref_home_feed_save_data"
-		android:summary="@string/feed_pref_data_saving_summary"
-		android:title="@string/feed_pref_data_saving_title"
-		android:defaultValue="false" />
+        </Preference>
 
-	<Preference
-		android:persistent="false"
-		android:key="pref_home_feed_clickable"
-		android:title="@string/feed_pref_clear_cards_title"
-		android:summary="@string/feed_pref_clear_cards_summary">
+        <CheckBoxPreference
+            android:key="pref_home_feed_save_data"
+            android:summary="@string/feed_pref_data_saving_summary"
+            android:title="@string/feed_pref_data_saving_title"
+            android:defaultValue="false" />
 
-	</Preference>
+        <Preference
+            android:persistent="false"
+            android:key="pref_home_feed_clickable"
+            android:title="@string/feed_pref_clear_cards_title"
+            android:summary="@string/feed_pref_clear_cards_summary" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/feed_pref_cat_resto">
+        <ListPreference
+            android:key="pref_feed_resto_kinds"
+            android:title="@string/feed_pref_resto_kinds"
+            android:summary="%s"
+            android:entries="@array/pref_feed_resto_kind"
+            android:entryValues="@array/pref_feed_resto_kind_values"
+            android:defaultValue="all" />
+    </PreferenceCategory>
 </PreferenceScreen>

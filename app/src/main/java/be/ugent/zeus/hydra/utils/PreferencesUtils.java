@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 
 import java.util.*;
 
+import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
+
 /**
  * @author Niko Strijbol
  */
@@ -64,5 +66,9 @@ public class PreferencesUtils {
     public static Set<String> getStringSet(Context context, String key) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return new HashSet<>(preferences.getStringSet(key, Collections.emptySet()));
+    }
+
+    public static boolean isSetIn(int flagSet, int flag) {
+        return (flagSet & flag) == flag;
     }
 }

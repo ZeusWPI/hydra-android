@@ -22,10 +22,12 @@ class RestoMenuCard extends Card {
 
     private final RestoMenu restoMenu;
     private final RestoChoice restoChoice;
+    private final String feedRestoKind;
 
-    RestoMenuCard(RestoMenu restoMenu, RestoChoice choice) {
+    RestoMenuCard(RestoMenu restoMenu, RestoChoice choice, String feedRestoKind) {
         this.restoMenu = restoMenu;
         this.restoChoice = choice;
+        this.feedRestoKind = feedRestoKind;
     }
 
     RestoMenu getRestoMenu() {
@@ -65,11 +67,12 @@ class RestoMenuCard extends Card {
         if (o == null || getClass() != o.getClass()) return false;
         RestoMenuCard that = (RestoMenuCard) o;
         return Objects.equals(restoMenu, that.restoMenu) &&
-                Objects.equals(restoChoice, that.restoChoice);
+                Objects.equals(restoChoice, that.restoChoice) &&
+                Objects.equals(feedRestoKind, that.feedRestoKind);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(restoMenu, restoChoice);
+        return Objects.hash(restoMenu, restoChoice, feedRestoKind);
     }
 }

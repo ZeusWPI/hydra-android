@@ -17,6 +17,8 @@ import java.lang.annotation.RetentionPolicy;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 
+import static be.ugent.zeus.hydra.utils.PreferencesUtils.isSetIn;
+
 /**
  * View to display the table. Use flags to decide what to show and what not.
  *
@@ -128,7 +130,15 @@ public class MenuTable extends TableLayout {
      * @param menu The menu to display.
      */
     public void setMenu(RestoMenu menu) {
+        setMenu(menu, this.displayedKinds);
+    }
+
+    /**
+     * @param menu The menu to display.
+     */
+    public void setMenu(RestoMenu menu, @DisplayKind int displayedKinds) {
         this.menu = new DisplayableMenu(menu, selectable);
+        this.displayedKinds = displayedKinds;
         //Add data
         removeAllViewsInLayout();
         populate();
@@ -139,10 +149,6 @@ public class MenuTable extends TableLayout {
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     public RestoMenu getMenu() {
         return menu.menu;
-    }
-
-    private boolean mustShow(@DisplayKind int kind) {
-        return (displayedKinds & kind) == kind;
     }
 
     /**
@@ -158,21 +164,21 @@ public class MenuTable extends TableLayout {
             return;
         }
 
-        if (mustShow(DisplayKind.MAIN)) {
+        if (isSetIn(displayedKinds, DisplayKind.MAIN)) {
             if (showTitles) {
                 createTitle(getContext().getString(R.string.resto_menu_main_dish));
             }
             menu.addMainViews(this);
         }
 
-        if (mustShow(DisplayKind.SOUP)) {
+        if (isSetIn(displayedKinds, DisplayKind.SOUP)) {
             if (showTitles) {
                 createTitle(getContext().getString(R.string.resto_menu_soup));
             }
             menu.addSoupViews(this);
         }
 
-        if (mustShow(DisplayKind.VEGETABLES)) {
+        if (isSetIn(displayedKinds, DisplayKind.VEGETABLES)) {
             if (showTitles) {
                 createTitle(getContext().getString(R.string.resto_menu_vegetables));
             }
