@@ -163,7 +163,7 @@
     <string name="resto_location_action_center">Go to restos</string>
 
     <string name="resto_menu_main_dish">Main courses</string>
-    <string name="resto_menu_side_soup">Soup</string>
+    <string name="resto_menu_soup">Soup</string>
     <string name="resto_menu_vegetables">Vegetables</string>
     <string name="resto_menu_date">Date of the menu: %s</string>
     <string name="resto_menu_not_available">
