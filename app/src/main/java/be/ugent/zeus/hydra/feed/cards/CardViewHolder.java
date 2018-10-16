@@ -3,10 +3,10 @@ package be.ugent.zeus.hydra.feed.cards;
 import android.annotation.SuppressLint;
 import android.support.annotation.CallSuper;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.BuildConfig;
@@ -15,6 +15,7 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.common.ui.widgets.NowToolbar;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.SwipeDismissableViewHolder;
+import be.ugent.zeus.hydra.feed.cards.implementations.MenuHandler;
 import be.ugent.zeus.hydra.feed.commands.DisableIndividualCard;
 import be.ugent.zeus.hydra.feed.commands.DisableTypeCommand;
 
@@ -25,7 +26,7 @@ import be.ugent.zeus.hydra.feed.commands.DisableTypeCommand;
  *
  * @author Niko Strijbol
  */
-public abstract class CardViewHolder extends DataViewHolder<Card> implements SwipeDismissableViewHolder, PopupMenu.OnMenuItemClickListener {
+public abstract class CardViewHolder extends DataViewHolder<Card> implements SwipeDismissableViewHolder, MenuHandler {
 
     private static final String TAG = "CardViewHolder";
 
@@ -57,6 +58,11 @@ public abstract class CardViewHolder extends DataViewHolder<Card> implements Swi
         }
 
         toolbar.setOnMenuClickListener(this);
+    }
+
+    @Override
+    public void onCreateMenu(Menu menu) {
+        // Do nothing by default.
     }
 
     @Override

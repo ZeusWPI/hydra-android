@@ -11,7 +11,8 @@
         android:id="@+id/menu_table"
         android:paddingLeft="@dimen/activity_vertical_margin"
         android:paddingRight="@dimen/activity_vertical_margin"
-        app:show="all"
-        app:selectable="true" />
+        app:showKind="all"
+        app:selectable="true"
+        app:showTitles="true" />
 
 </android.support.v4.widget.NestedScrollView>

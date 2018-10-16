@@ -66,4 +66,17 @@
         <item>@string/pref_theme_night_mode_system</item>
     </string-array>
 
+    <!-- These values are also defined in the feed preference fragment. -->
+    <string-array name="pref_feed_resto_kind_values" translatable="false">
+        <item>main</item>
+        <item>soup</item>
+        <item>all</item>
+    </string-array>
+
+    <string-array name="pref_feed_resto_kind" translatable="false">
+        <item>@string/feed_pref_resto_kinds_main</item>
+        <item>@string/feed_pref_resto_kinds_soup</item>
+        <item>@string/feed_pref_resto_kinds_all</item>
+    </string-array>
+
 </resources>

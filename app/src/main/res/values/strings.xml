@@ -168,7 +168,7 @@
     <string name="resto_location_action_center">Ga naar resto\'s</string>
 
     <string name="resto_menu_main_dish">Hoofdgerechten</string>
-    <string name="resto_menu_side_dish">Bijgerechten</string>
+    <string name="resto_menu_soup">Soep</string>
     <string name="resto_menu_vegetables">Groenten</string>
     <string name="resto_menu_date">Datum van menu: %s</string>
     <string name="resto_menu_not_available">
@@ -391,6 +391,16 @@
     <string name="feed_pref_clear_cards_title">Verborgen kaarten wissen</string>
     <string name="feed_pref_clear_cards_summary">Wis de lijst van verborgen kaarten. Hierdoor zullen alle kaarten opnieuw getoond worden.</string>
     <string name="feed_pref_hidden_cleared">Gewist</string>
+    <string name="feed_pref_cat_resto">Restomenu</string>
+    <string name="feed_pref_cat_general">Algemeen</string>
+    <string name="feed_pref_resto_kinds">Wat te tonen op de menu</string>
+    <string name="feed_pref_resto_kinds_main">Enkel hoofdgerecht</string>
+    <string name="feed_pref_resto_kinds_soup">Enkel soep</string>
+    <string name="feed_pref_resto_kinds_all">Zowel soep als hoofdgerecht</string>
+    <string name="feed_pref_resto_show_soup">Soep tonen</string>
+    <string name="feed_pref_resto_hide_soup">Soep verbergen</string>
+    <string name="feed_pref_resto_show_main">Hoofdgerecht tonen</string>
+    <string name="feed_pref_resto_hide_main">Hoofdgerecht verbergen</string>
 
     <string name="feed_card_type_title_resto">Restomenu</string>
     <string name="feed_card_type_title_events">Activiteiten</string>
@@ -432,6 +442,8 @@
     <string name="feed_card_hidden_type">Kaartsoort verborgen</string>
     <string name="feed_card_hidden_association">Vereniging verborgen</string>
     <string name="feed_card_hidden_single">Klaar met deze kaart</string>
+    <string name="feed_card_hidden_menu_soup">Soep verborgen</string>
+    <string name="feed_card_hidden_menu_main">Hoofdgerecht verborgen</string>
 
     <!-- Info -->
     <string name="info_sub_item_activity_title">Meer info</string>
