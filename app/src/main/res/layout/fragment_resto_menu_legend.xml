@@ -102,7 +102,7 @@
                     android:contentDescription="@string/resto_legend_veg"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp"
-                    app:srcCompat="@drawable/resto_vegi"
+                    app:srcCompat="@drawable/resto_vegan"
                     tools:ignore="RtlSymmetry" />
 
                 <TextView
