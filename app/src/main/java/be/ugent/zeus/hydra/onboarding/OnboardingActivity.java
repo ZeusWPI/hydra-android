@@ -9,18 +9,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.sync.SyncUtils;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
-import be.ugent.zeus.hydra.common.sync.SyncUtils;
-import be.ugent.zeus.hydra.minerva.common.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.minerva.auth.AuthActivity;
-import com.google.firebase.analytics.FirebaseAnalytics;
+import be.ugent.zeus.hydra.minerva.common.sync.MinervaAdapter;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
-
-import java.io.IOException;
 
 /**
  * Show onboarding for new users.
@@ -31,15 +31,12 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
 
     private static final String TAG = "OnboardingActivity";
 
-    private FirebaseAnalytics analytics;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        analytics = FirebaseAnalytics.getInstance(this);
-        // Log start of onboarding
-        analytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_BEGIN, null);
+        Analytics.getTracker(this)
+                .log(new TutorialBeginEvent());
 
         //First tab
         addSlide(new SimpleSlide.Builder()
@@ -101,6 +98,7 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
         SyncUtils.requestSync(account, MinervaConfig.SYNC_AUTHORITY, bundle);
 
         // Log sign in
-        analytics.logEvent(FirebaseAnalytics.Event.LOGIN, null);
+        Analytics.getTracker(this)
+                .log(new TutorialEndEvent());
     }
 }

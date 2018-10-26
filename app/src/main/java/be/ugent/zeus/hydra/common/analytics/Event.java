@@ -2,50 +2,46 @@ package be.ugent.zeus.hydra.common.analytics;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import java9.util.Objects;
-
+import java9.util.Optional;
 
 /**
- * An analytics event.
+ * An analytics event. This event is implementation-independent; at the same time the values are defined by the
+ * implementation itself.
+ *
+ * A selection of predefined types is available in {@link BaseEvents}. Get an implementation from the {@link
+ * Analytics}.
  *
  * @author Niko Strijbol
  */
-public class Event {
+public interface Event {
 
-    private final String event;
-    private final Bundle params;
-
-    Event(@NonNull String event) {
-        this(event, Bundle.EMPTY);
+    /**
+     * @return Parameters to be included in the log for this event. The implementation might impose restrictions, such
+     *         as an enumeration. If {@link #getEventName()} returns {@code null}, the return value of this method is
+     *         undefined.
+     */
+    @Nullable
+    default Bundle getParams() {
+        return null;
     }
 
-    Event(@NonNull String event, @NonNull Bundle params) {
-        this.event = event;
-        this.params = params;
-    }
+    /**
+     * @return The name of the event for the log. The implementation might impose restrictions, such as predefined
+     *         names, name length or name uniqueness. If {@code null}, the event will not be logged.
+     */
+    @Nullable
+    String getEventName();
 
+    /**
+     * @return The name of the event for the log. The implementation might impose restrictions, such as predefined
+     *         names, name length or name uniqueness. If not present, it will not be logged.
+     *
+     * @todo it the creation of the optional object here really necessary (performance wise)?
+     */
     @NonNull
-    public Bundle getParams() {
-        return params;
-    }
-
-    @NonNull
-    public String getEvent() {
-        return event;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Event other = (Event) o;
-        return Objects.equals(event, other.event) &&
-                Objects.equals(params, other.params);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(event, params);
+    default Optional<String> getEvent() {
+        return Optional.ofNullable(getEventName());
     }
 }

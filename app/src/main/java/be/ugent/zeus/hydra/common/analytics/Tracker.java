@@ -1,14 +1,14 @@
 package be.ugent.zeus.hydra.common.analytics;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 /**
  * Provides the basic method for logging analytics events.
  *
- * You should get an instance of the tracker from the {@link AnalyticsFactory}. Normally, the implementation will track
+ * You should get an instance of the tracker from the {@link Analytics}. Normally, the implementation will track
  * certain things automatically. For example, Firebase automatically tracks:
  * <ul>
  * <li>Activities as screens and activity changes</li>
@@ -18,15 +18,6 @@ import android.support.annotation.NonNull;
  * @author Niko Strijbol
  */
 public interface Tracker {
-
-    /**
-     * Log an event.
-     *
-     * @param event      The event to log. The string should be known to the implementation of the tracker, e.g. using
-     *                   known Firebase events.
-     * @param parameters The parameters. These should follow the requirements of the tracker implementation.
-     */
-    void log(String event, Bundle parameters);
 
     /**
      * Log an event.
@@ -46,12 +37,4 @@ public interface Tracker {
      */
     @MainThread
     void setCurrentScreen(@NonNull Activity activity, String screenName, String classOverride);
-
-    /**
-     * Set a user property.
-     *
-     * @param property The name of the property.
-     * @param value    The value of the property.
-     */
-    void setUserProperty(String property, String value);
 }
