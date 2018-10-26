@@ -164,9 +164,10 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     
-    // This fork contains a newer version that doesn't crash as much.
+    // This commit contains a newer version that doesn't crash as much.
     // Once this version is released, we can use the original repo again.
-    implementation 'com.github.niknetniko:material-intro:master-SNAPSHOT'
+    //noinspection GradleDependency
+    implementation 'com.heinrichreimersoftware:material-intro:7221502f1f'
     implementation 'com.jonathanfinerty.once:once:1.2.2'
     implementation 'com.karumi:dexter:4.2.0'
     implementation 'com.github.captain-miao:optroundcardview:1.1.0'
@@ -181,7 +182,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-auth:16.0.1"
 
     implementation 'com.google.firebase:firebase-core:16.0.4'
-    implementation 'com.google.firebase:firebase-messaging:17.3.3'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
 
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
 
@@ -189,8 +190,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.19.0'
 
-    testImplementation 'org.robolectric:robolectric:4.0-beta-2-SNAPSHOT'
-    testImplementation 'androidx.test:core:1.0.0-beta02'
+    testImplementation 'org.robolectric:robolectric:4.0'
+    testImplementation 'androidx.test:core:1.0.0'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
     // TODO: why are there so many false positives when this is enabled?
