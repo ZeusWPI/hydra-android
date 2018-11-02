@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 
 import be.ugent.zeus.hydra.association.event.list.EventFragment;
 import be.ugent.zeus.hydra.association.news.list.NewsFragment;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
 import be.ugent.zeus.hydra.common.preferences.SettingsActivity;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.feed.HomeFeedFragment;
@@ -99,11 +100,11 @@ import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
  *        |
  *        | No
  *        |
- * +------v----------------+  Yes   +-----------------------+
+ * +------v----------------+  No    +-----------------------+
  * |  Is back stack empty? +-------->  Pop from back stack  |
  * +------+----------------+        +-----------------------+
  *        |
- *        | No
+ *        | Yes
  *        |
  * +------v----------------+
  * |  Let activity finish  |
@@ -363,7 +364,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else {
             setFragment(fragment, menuItem, navigationSource);
         }
-        updateDrawer(menuItem);
+        updateDrawer(fragment, menuItem);
     }
 
     /**
@@ -371,13 +372,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      *
      * @param item The item to mark as current.
      */
-    private void updateDrawer(MenuItem item) {
+    private void updateDrawer(Fragment fragment, MenuItem item) {
         // Highlight the selected item has been done by NavigationView
         item.setChecked(true);
         // Set action bar title
         setTitle(item.getTitle());
-        // Log it for Analytics
-        HydraApplication.sendScreenName(this,"Main > " + item.getTitle().toString());
+        // Log the screen in the Analytics.
+        Analytics.getTracker(this)
+                .setCurrentScreen(this, item.getTitle().toString(), fragment.getClass().getSimpleName());
         // Close the navigation drawer
         drawer.closeDrawer(GravityCompat.START);
     }
@@ -439,7 +441,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 return;
             }
             MenuItem item = navigationView.getMenu().findItem(getFragmentMenuId(current));
-            updateDrawer(item);
+            updateDrawer(current, item);
         };
         // We need to listen to the back stack to update the drawer.
         getSupportFragmentManager().addOnBackStackChangedListener(listener);

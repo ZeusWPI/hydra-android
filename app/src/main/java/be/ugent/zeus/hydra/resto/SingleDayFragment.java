@@ -1,14 +1,22 @@
 package be.ugent.zeus.hydra.resto;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.analytics.BaseEvents;
+import be.ugent.zeus.hydra.common.analytics.Event;
 import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
+import be.ugent.zeus.hydra.schamper.Article;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
 
@@ -51,5 +59,42 @@ public class SingleDayFragment extends Fragment {
 
     public RestoMenu getData() {
         return data;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Analytics.getTracker(getContext())
+                .log(new MenuEvent(getContext(), data));
+    }
+
+    private static class MenuEvent implements Event {
+
+        private final String resto;
+        private final RestoMenu menu;
+
+        private MenuEvent(Context context, RestoMenu menu) {
+            this.menu = menu;
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            this.resto = RestoPreferenceFragment.getRestoEndpoint(context, sharedPreferences);
+        }
+
+        @Nullable
+        @Override
+        public Bundle getParams() {
+            BaseEvents.Params names = Analytics.getEvents().params();
+            Bundle params = new Bundle();
+            params.putString(names.itemCategory(), RestoMenu.class.getSimpleName());
+            params.putString(names.itemId(), resto + menu.getDate().toString());
+            params.putString("date", menu.getDate().toString());
+            params.putString("resto", resto);
+            return params;
+        }
+
+        @Nullable
+        @Override
+        public String getEventName() {
+            return Analytics.getEvents().viewItem();
+        }
     }
 }

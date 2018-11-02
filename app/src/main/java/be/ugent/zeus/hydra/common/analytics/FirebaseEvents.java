@@ -58,11 +58,6 @@ final class FirebaseEvents implements BaseEvents {
         return FirebaseAnalytics.Event.VIEW_ITEM;
     }
 
-    @Override
-    public String viewItemList() {
-        return FirebaseAnalytics.Event.VIEW_ITEM_LIST;
-    }
-
     private final static class FirebaseParams implements BaseEvents.Params {
 
         @Override

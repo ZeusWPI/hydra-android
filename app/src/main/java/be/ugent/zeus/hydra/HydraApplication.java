@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.common.ChannelCreator;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.analytics.Tracker;
 import be.ugent.zeus.hydra.theme.ThemePreferenceFragment;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
@@ -75,6 +77,7 @@ public class HydraApplication extends Application {
 
         // Set the theme.
         AppCompatDelegate.setDefaultNightMode(ThemePreferenceFragment.getNightMode(this));
+        trackTheme();
 
         AndroidThreeTen.init(this);
         LeakCanary.install(this);
@@ -84,28 +87,22 @@ public class HydraApplication extends Application {
         createChannels();
     }
 
-    /**
-     * Send a screen name to the analytics.
-     *
-     * @param screenName The screen name to send.
-     */
-    @MainThread
-    public static void sendScreenName(@Nullable Activity activity, @NonNull String screenName) {
-        if (activity == null) {
-            return;
+    private void trackTheme() {
+        Tracker tracker = Analytics.getTracker(this);
+        switch (ThemePreferenceFragment.getNightMode(this)) {
+            case AppCompatDelegate.MODE_NIGHT_AUTO:
+                tracker.setUserProperty("theme", "auto");
+                break;
+            case AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM:
+                tracker.setUserProperty("theme", "follow system");
+                break;
+            case AppCompatDelegate.MODE_NIGHT_YES:
+                tracker.setUserProperty("theme", "dark");
+                break;
+            case AppCompatDelegate.MODE_NIGHT_NO:
+                tracker.setUserProperty("theme", "light");
+                break;
         }
-        FirebaseAnalytics.getInstance(activity).setCurrentScreen(activity, screenName, null);
-    }
-
-    /**
-     * Get the application from an activity. The application is cast to this class.
-     *
-     * @param activity The activity.
-     *
-     * @return The application.
-     */
-    public static HydraApplication getApplication(@NonNull Activity activity) {
-        return (HydraApplication) activity.getApplication();
     }
 
     /**

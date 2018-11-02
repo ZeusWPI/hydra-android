@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.common.analytics;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,8 +9,8 @@ import android.support.annotation.Nullable;
 /**
  * Provides the basic method for logging analytics events.
  *
- * You should get an instance of the tracker from the {@link Analytics}. Normally, the implementation will track
- * certain things automatically. For example, Firebase automatically tracks:
+ * You should get an instance of the tracker from the {@link Analytics}. Normally, the implementation will track certain
+ * things automatically. For example, Firebase automatically tracks:
  * <ul>
  * <li>Activities as screens and activity changes</li>
  * <li>Certain user properties</li>
@@ -37,4 +38,12 @@ public interface Tracker {
      */
     @MainThread
     void setCurrentScreen(@NonNull Activity activity, String screenName, String classOverride);
+
+    /**
+     * Set a user property. The implementation might reserve some property names.
+     *
+     * @param name  The name of the property.
+     * @param value The value.
+     */
+    void setUserProperty(String name, String value);
 }

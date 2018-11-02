@@ -7,8 +7,8 @@ import android.preference.PreferenceFragment;
 import android.support.v7.content.res.AppCompatResources;
 
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
 import be.ugent.zeus.hydra.common.ui.WebViewActivity;
 
 /**
@@ -48,7 +48,8 @@ public class AboutFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        HydraApplication.sendScreenName(getActivity(), "Setting > About");
+        Analytics.getTracker(getActivity())
+                .setCurrentScreen(getActivity(), "Settings > About", getClass().getSimpleName());
     }
 }
 

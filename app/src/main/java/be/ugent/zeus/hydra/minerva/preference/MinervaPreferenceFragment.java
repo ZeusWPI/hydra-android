@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-
 import android.provider.Settings;
-import be.ugent.zeus.hydra.HydraApplication;
+
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.sync.SyncUtils;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
-import be.ugent.zeus.hydra.common.sync.SyncUtils;
 import be.ugent.zeus.hydra.minerva.common.sync.MinervaAdapter;
 
 /**
@@ -125,7 +125,8 @@ public class MinervaPreferenceFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        HydraApplication.sendScreenName(getActivity(), "Settings > Minerva");
+        Analytics.getTracker(getAppContext())
+                .setCurrentScreen(getActivity(), "Settings > Minerva", getClass().getSimpleName());
     }
 
     private Context getAppContext() {

@@ -5,6 +5,7 @@ package be.ugent.zeus.hydra.utils;
  *
  * @author Niko Strijbol
  */
+@Deprecated
 public class Analytics {
 
     /**
@@ -12,24 +13,11 @@ public class Analytics {
      * item is viewed in a specialized view, e.g. this does not apply to things beging shown in the home feed.
      */
     public interface Type {
-        String SCHAMPER_ARTICLE = "schamper_article";
         String NEWS_ARTICLE = "news_article";
         String LIBRARY = "library_information";
         String SKO_ARTIST = "sko_artist";
         String RESTO_MENU = "resto_menu";
         String EVENT = "association_event";
-        /**
-         * Note: this value is added for completeness. You should NOT report which courses the user views, as this
-         * might be used to identify the user.
-         *
-         * You MAY report that the user is viewing a general course.
-         */
-        String MINERVA_COURSE = "minerva_course";
-        /**
-         * Note: this value is added for completeness. You should NOT report which announcements the user views, as this
-         * might be used to identify the user.
-         */
-        String MINERVA_ANNOUNCEMENT = "minerva_announcements";
     }
 
 }

@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
 import android.widget.Toast;
 
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.analytics.Event;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 /**
  * Show preferences related to the news-section.
@@ -26,6 +29,8 @@ public class ThemePreferenceFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.pref_theme);
         ListPreference listPreference = (ListPreference) findPreference(PREF_THEME_NIGHT_MODE);
         listPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+            Analytics.getTracker(getActivity())
+                    .log(new ThemeChanged((String) newValue));
             Toast.makeText(getActivity().getApplicationContext(), R.string.pref_theme_night_mode_restart, Toast.LENGTH_LONG).show();
             return true;
         });
@@ -34,7 +39,8 @@ public class ThemePreferenceFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        HydraApplication.sendScreenName(getActivity(), "Settings > Theme");
+        Analytics.getTracker(getActivity())
+                .setCurrentScreen(getActivity(), "Settings > Theme", getClass().getSimpleName());
     }
 
     @AppCompatDelegate.NightMode
@@ -47,9 +53,31 @@ public class ThemePreferenceFragment extends PreferenceFragment {
                 return AppCompatDelegate.MODE_NIGHT_NO;
             case "2":
                 return AppCompatDelegate.MODE_NIGHT_YES;
+            default:
             case "3":
                 return AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
         }
-        return -1;
+    }
+
+    private static class ThemeChanged implements Event {
+        private final String newValue;
+
+        private ThemeChanged(String newValue) {
+            this.newValue = newValue;
+        }
+
+        @Nullable
+        @Override
+        public Bundle getParams() {
+            Bundle bundle = new Bundle();
+            bundle.putString("theme", newValue);
+            return bundle;
+        }
+
+        @Nullable
+        @Override
+        public String getEventName() {
+            return "be.ugent.zeus.hydra.theme";
+        }
     }
 }

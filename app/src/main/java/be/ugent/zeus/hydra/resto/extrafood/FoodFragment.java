@@ -32,7 +32,6 @@ public class FoodFragment extends Fragment {
     private final FoodAdapter adapter = new FoodAdapter();
     private ExtraFoodViewModel viewModel;
 
-    @SuppressWarnings("WeakerAccess")
     public static FoodFragment newInstance(int position) {
         Bundle args = new Bundle();
         args.putInt(ARG_POSITION, position);

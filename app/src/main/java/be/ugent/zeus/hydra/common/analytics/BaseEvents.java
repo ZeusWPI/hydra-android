@@ -75,20 +75,10 @@ public interface BaseEvents {
      *
      * @todo the difference between this and {@link #selectContent()}. This is more when something is shown to the user,
      *   the other when something is selected by the user (can be button, photo, image, etc.)
-     *
      *   Perhaps: when a visitor clicks on an article, we log SELECT_ITEM. When a visitor views an article,
      *   we use VIEW_ITEM.
      */
     String viewItem();
-
-    /**
-     * View Item List event. Log this event when the user has been presented with a list of items of a certain category.
-     * Params:
-     * <ul>
-     * <li>{@link Params#itemCategory()}</li>
-     * </ul>
-     */
-    String viewItemList();
 
     interface Params {
         /**

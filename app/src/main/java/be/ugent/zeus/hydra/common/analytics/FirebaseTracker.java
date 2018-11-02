@@ -28,4 +28,9 @@ class FirebaseTracker implements Tracker {
     public void setCurrentScreen(@NonNull Activity activity, String screenName, String classOverride) {
         analytics.setCurrentScreen(activity, screenName, classOverride);
     }
+
+    @Override
+    public void setUserProperty(String name, String value) {
+        analytics.setUserProperty(name, value);
+    }
 }
