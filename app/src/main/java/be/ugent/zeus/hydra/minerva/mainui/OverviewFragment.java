@@ -30,6 +30,7 @@ import java.util.List;
 
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
 import be.ugent.zeus.hydra.common.sync.SyncUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
@@ -42,7 +43,6 @@ import be.ugent.zeus.hydra.minerva.common.sync.NotificationHelper;
 import be.ugent.zeus.hydra.minerva.common.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import be.ugent.zeus.hydra.minerva.provider.DocumentContract;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
 
@@ -146,8 +146,8 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
         //Get an account
         Account account = AccountUtils.getAccount(getContext());
 
-        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(requireContext());
-        analytics.logEvent(FirebaseAnalytics.Event.LOGIN, null);
+        Analytics.getTracker(requireContext())
+                .log(new LoginEvent());
 
         //Request first sync
         Log.d(TAG, "Requesting first sync...");

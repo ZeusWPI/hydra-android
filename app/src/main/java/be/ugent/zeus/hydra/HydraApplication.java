@@ -1,12 +1,8 @@
 package be.ugent.zeus.hydra;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.StrictMode;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
@@ -17,7 +13,6 @@ import be.ugent.zeus.hydra.common.analytics.Tracker;
 import be.ugent.zeus.hydra.theme.ThemePreferenceFragment;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
 import io.fabric.sdk.android.Fabric;

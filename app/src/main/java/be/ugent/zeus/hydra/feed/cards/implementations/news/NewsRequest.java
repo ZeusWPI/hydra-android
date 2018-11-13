@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import be.ugent.zeus.hydra.association.news.UgentNewsItem;
+import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.association.news.UgentNewsRequest;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class NewsRequest extends HideableHomeFeedRequest {
 
-    private final Request<List<UgentNewsItem>> request;
+    private final Request<List<UgentNewsArticle>> request;
 
     public NewsRequest(Context context, CardRepository cardRepository) {
         super(cardRepository);

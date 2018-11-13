@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -13,11 +14,13 @@ import java.io.IOException;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.analytics.Event;
 import be.ugent.zeus.hydra.common.sync.SyncUtils;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.auth.AuthActivity;
 import be.ugent.zeus.hydra.minerva.common.sync.MinervaAdapter;
+import be.ugent.zeus.hydra.minerva.mainui.LoginEvent;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
@@ -97,8 +100,15 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
         bundle.putBoolean(MinervaAdapter.EXTRA_FIRST_SYNC, true);
         SyncUtils.requestSync(account, MinervaConfig.SYNC_AUTHORITY, bundle);
 
-        // Log sign in
         Analytics.getTracker(this)
-                .log(new TutorialEndEvent());
+                .log(new LoginEvent());
+    }
+
+    private static final class TutorialBeginEvent implements Event {
+        @Nullable
+        @Override
+        public String getEventName() {
+            return Analytics.getEvents().tutorialBegin();
+        }
     }
 }

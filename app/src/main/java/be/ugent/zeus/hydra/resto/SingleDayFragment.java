@@ -16,7 +16,6 @@ import be.ugent.zeus.hydra.common.analytics.Analytics;
 import be.ugent.zeus.hydra.common.analytics.BaseEvents;
 import be.ugent.zeus.hydra.common.analytics.Event;
 import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
-import be.ugent.zeus.hydra.schamper.Article;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
 

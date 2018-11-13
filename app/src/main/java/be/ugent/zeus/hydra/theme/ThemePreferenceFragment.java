@@ -12,7 +12,6 @@ import android.widget.Toast;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.analytics.Analytics;
 import be.ugent.zeus.hydra.common.analytics.Event;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 /**
  * Show preferences related to the news-section.
