@@ -170,8 +170,11 @@ public class DisplayableMenu {
             case "fish":
                 id = R.drawable.resto_fish;
                 break;
+            case "vegan":
+                id = R.drawable.resto_vegan;
+                break;
             case "vegetarian":
-                id = R.drawable.resto_vegi;
+                id = R.drawable.resto_vegetarian;
                 break;
             case "soup":
                 id = R.drawable.resto_soup;
