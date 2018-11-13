@@ -99,7 +99,24 @@
                     android:layout_height="@dimen/material_list_single_line_without_avatar_dense_height"
                     android:layout_width="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:contentDescription="@string/resto_legend_veg"
+                    android:contentDescription="@string/resto_legend_vegetarian"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp"
+                    app:srcCompat="@drawable/resto_vegetarian"
+                    tools:ignore="RtlSymmetry" />
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/resto_legend_vegetarian" />
+            </TableRow>
+
+            <TableRow>
+
+                <ImageView
+                    android:layout_height="@dimen/material_list_single_line_without_avatar_dense_height"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/resto_legend_vegan"
                     android:paddingEnd="16dp"
                     android:paddingRight="16dp"
                     app:srcCompat="@drawable/resto_vegan"
@@ -107,7 +124,7 @@
 
                 <TextView
                     android:layout_gravity="center_vertical"
-                    android:text="@string/resto_legend_veg" />
+                    android:text="@string/resto_legend_vegan" />
             </TableRow>
 
         </TableLayout>

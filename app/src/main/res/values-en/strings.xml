@@ -166,10 +166,8 @@
     <string name="resto_menu_soup">Soup</string>
     <string name="resto_menu_vegetables">Vegetables</string>
     <string name="resto_menu_date">Date of the menu: %s</string>
-    <string name="resto_menu_not_available">
-        There is no menu or we could not retrieve it. Perhaps you will have more luck on the
-        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">website of the restos</a>.
-    </string>
+    <string name="resto_menu_not_available">There is no menu or we could not retrieve it. Perhaps you will have more luck on the
+        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">website of the restos</a>.</string>
 
     <string name="resto_spinner_loading">Loading…</string>
 
@@ -184,7 +182,8 @@
     <string name="resto_legend_soup">Soup</string>
     <string name="resto_legend_vegetables">Vegetables</string>
     <string name="resto_legend_meat">Meat</string>
-    <string name="resto_legend_veg">Vegetarian/vegan</string>
+    <string name="resto_legend_vegetarian">Vegetarian</string>
+    <string name="resto_legend_vegan">Vegan</string>
     <string name="resto_legend_abbr_header">Abbreviations</string>
     <string name="resto_legend_msc_abbr">MSC</string>
     <string name="resto_legend_msc_desc">Marine Stewardship Council, sustainable fishing</string>
