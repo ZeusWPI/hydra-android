@@ -18,18 +18,18 @@ import java.util.List;
  *
  * @author feliciaan
  */
-public class UgentNewsRequest extends JsonArrayRequest<UgentNewsItem> {
+public class UgentNewsRequest extends JsonArrayRequest<UgentNewsArticle> {
 
     public UgentNewsRequest(Context context) {
-        super(context, UgentNewsItem.class);
+        super(context, UgentNewsArticle.class);
     }
 
     @NonNull
     @Override
-    public Result<List<UgentNewsItem>> execute(@NonNull Bundle args) {
+    public Result<List<UgentNewsArticle>> execute(@NonNull Bundle args) {
         return super.execute(args).map(ugentNewsItems -> {
             //noinspection Java8ListSort
-            Collections.sort(ugentNewsItems, Comparators.reversed(Comparators.comparing(UgentNewsItem::getModified)));
+            Collections.sort(ugentNewsItems, Comparators.reversed(Comparators.comparing(UgentNewsArticle::getModified)));
             return ugentNewsItems;
         });
     }

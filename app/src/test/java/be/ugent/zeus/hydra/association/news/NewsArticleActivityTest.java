@@ -49,7 +49,7 @@ public class NewsArticleActivityTest {
                 .commit();
     }
 
-    private static void assertIntent(Context context, UgentNewsItem item) {
+    private static void assertIntent(Context context, UgentNewsArticle item) {
         Intent expected = new Intent(context, NewsArticleActivity.class);
         Intent actual = getShadowApplication().getNextStartedActivity();
 
@@ -61,7 +61,7 @@ public class NewsArticleActivityTest {
     @SuppressWarnings("deprecation")
     public void viewArticleCustomTabsOffline() {
         ActivityHelper helper = mock(ActivityHelper.class);
-        UgentNewsItem newsItem = generate(UgentNewsItem.class);
+        UgentNewsArticle newsItem = generate(UgentNewsArticle.class);
         shadow.setActiveNetworkInfo(ShadowNetworkInfo.newInstance(
                 null,
                 ConnectivityManager.TYPE_WIFI,
@@ -80,7 +80,7 @@ public class NewsArticleActivityTest {
     @SuppressWarnings("deprecation")
     public void viewArticleCustomTabsOnline() {
         ActivityHelper helper = mock(ActivityHelper.class);
-        UgentNewsItem newsItem = generate(UgentNewsItem.class);
+        UgentNewsArticle newsItem = generate(UgentNewsArticle.class);
         shadow.setActiveNetworkInfo(ShadowNetworkInfo.newInstance(
                 null,
                 ConnectivityManager.TYPE_WIFI,
@@ -97,7 +97,7 @@ public class NewsArticleActivityTest {
     @Test
     public void viewArticleNoCustomTabs() {
         ActivityHelper helper = mock(ActivityHelper.class);
-        UgentNewsItem newsItem = generate(UgentNewsItem.class);
+        UgentNewsArticle newsItem = generate(UgentNewsArticle.class);
         setUseCustomTabs(false);
 
         Context context = RobolectricUtils.getActivityContext();

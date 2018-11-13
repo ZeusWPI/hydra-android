@@ -20,17 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
-
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.squareup.picasso.Picasso;
-
-import net.cachapa.expandablelayout.ExpandableLayout;
+import android.widget.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +28,9 @@ import java.util.List;
 import java.util.Set;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.analytics.BaseEvents;
+import be.ugent.zeus.hydra.common.analytics.Event;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
@@ -46,12 +39,13 @@ import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.library.list.LibraryListFragment;
-import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
+import com.squareup.picasso.Picasso;
 import java9.util.stream.Collectors;
 import java9.util.stream.StreamSupport;
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 /**
  * Activity to display information about one {@link Library}.
@@ -169,12 +163,7 @@ public class LibraryDetailActivity extends BaseActivity {
         model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
 
-        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
-        Bundle parameters = new Bundle();
-        parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.LIBRARY);
-        parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, library.getName());
-        parameters.putString(FirebaseAnalytics.Param.ITEM_ID, library.getCode());
-        analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
+        Analytics.getTracker(this).log(new LibraryViewEvent(library));
     }
 
     @Override
@@ -298,5 +287,31 @@ public class LibraryDetailActivity extends BaseActivity {
         Log.e(TAG, "Error while getting data.", throwable);
         Snackbar.make(findViewById(android.R.id.content), getString(R.string.error_network), Snackbar.LENGTH_LONG)
                 .show();
+    }
+
+    private static class LibraryViewEvent implements Event {
+
+        private final Library library;
+
+        private LibraryViewEvent(Library library) {
+            this.library = library;
+        }
+
+        @Nullable
+        @Override
+        public Bundle getParams() {
+            BaseEvents.Params names = Analytics.getEvents().params();
+            Bundle params = new Bundle();
+            params.putString(names.itemCategory(), Library.class.getSimpleName());
+            params.putString(names.itemId(), library.getCode());
+            params.putString(names.itemName(), library.getName());
+            return params;
+        }
+
+        @Nullable
+        @Override
+        public String getEventName() {
+            return Analytics.getEvents().viewItem();
+        }
     }
 }

@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.feed.cards.implementations.news;
 
-import be.ugent.zeus.hydra.association.news.UgentNewsItem;
+import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
 import java9.util.Objects;
@@ -8,7 +8,7 @@ import org.threeten.bp.Duration;
 import org.threeten.bp.OffsetDateTime;
 
 /**
- * Home card for {@link UgentNewsItem}.
+ * Home card for {@link UgentNewsArticle}.
  *
  * @author Niko Strijbol
  * @author feliciaan
@@ -17,9 +17,9 @@ class NewsItemCard extends Card {
 
     private static final int TWO_WEEKS_HOURS = 14 * 24;
 
-    private UgentNewsItem newsItem;
+    private UgentNewsArticle newsItem;
 
-    NewsItemCard(UgentNewsItem newsItem) {
+    NewsItemCard(UgentNewsArticle newsItem) {
         this.newsItem = newsItem;
     }
 
@@ -41,7 +41,7 @@ class NewsItemCard extends Card {
         return Card.Type.NEWS_ITEM;
     }
 
-    public UgentNewsItem getNewsItem() {
+    public UgentNewsArticle getNewsItem() {
         return newsItem;
     }
 

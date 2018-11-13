@@ -13,7 +13,7 @@ import org.robolectric.RobolectricTestRunner;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-public class UgentNewsRequestTest extends AbstractJsonRequestTest<List<UgentNewsItem>> {
+public class UgentNewsRequestTest extends AbstractJsonRequestTest<List<UgentNewsArticle>> {
 
     @Override
     protected String getRelativePath() {
@@ -21,14 +21,14 @@ public class UgentNewsRequestTest extends AbstractJsonRequestTest<List<UgentNews
     }
 
     @Override
-    protected JsonOkHttpRequest<List<UgentNewsItem>> getRequest() {
+    protected JsonOkHttpRequest<List<UgentNewsArticle>> getRequest() {
         return new UgentNewsRequest(context);
     }
 
     @Override
-    protected List<UgentNewsItem> getExpectedResult(String data) throws IOException {
-        List<UgentNewsItem> unsorted = super.getExpectedResult(data);
-        unsorted.sort(Comparator.comparing(UgentNewsItem::getModified).reversed());
+    protected List<UgentNewsArticle> getExpectedResult(String data) throws IOException {
+        List<UgentNewsArticle> unsorted = super.getExpectedResult(data);
+        unsorted.sort(Comparator.comparing(UgentNewsArticle::getModified).reversed());
         return unsorted;
     }
 }

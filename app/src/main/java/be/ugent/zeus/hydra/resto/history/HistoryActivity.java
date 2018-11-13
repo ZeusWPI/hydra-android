@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
+import java.util.List;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
@@ -27,8 +29,6 @@ import be.ugent.zeus.hydra.utils.DateUtils;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.Month;
 import org.threeten.bp.ZoneId;
-
-import java.util.List;
 
 public class HistoryActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
 

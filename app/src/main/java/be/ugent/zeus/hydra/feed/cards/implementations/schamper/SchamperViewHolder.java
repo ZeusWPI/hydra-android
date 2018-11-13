@@ -13,7 +13,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardViewHolder;
 import be.ugent.zeus.hydra.schamper.Article;
-import be.ugent.zeus.hydra.schamper.FullArticleActivity;
+import be.ugent.zeus.hydra.schamper.ArticleViewer;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
 import be.ugent.zeus.hydra.utils.DateUtils;
@@ -62,6 +62,6 @@ public class SchamperViewHolder extends CardViewHolder {
 
         PriorityUtils.loadThumbnail(itemView.getContext(), article.getImage(), image);
 
-        this.itemView.setOnClickListener(v -> FullArticleActivity.viewArticle(v.getContext(), article, adapter.getCompanion().getHelper(), image));
+        this.itemView.setOnClickListener(v -> ArticleViewer.viewArticle(v.getContext(), article, adapter.getCompanion().getHelper(), image));
     }
 }

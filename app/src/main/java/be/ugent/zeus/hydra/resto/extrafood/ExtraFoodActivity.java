@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 
 public class ExtraFoodActivity extends BaseActivity {
@@ -23,8 +24,20 @@ public class ExtraFoodActivity extends BaseActivity {
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         ViewPager viewPager = findViewById(R.id.pager);
 
-        viewPager.setAdapter(new ExtraFoodPagerAdapter(getSupportFragmentManager(), this));
+        ExtraFoodPagerAdapter adapter = new ExtraFoodPagerAdapter(getSupportFragmentManager(), this);
+        viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                //noinspection ConstantConditions
+                Analytics.getTracker(getApplicationContext())
+                        .setCurrentScreen(
+                                ExtraFoodActivity.this,
+                                adapter.getPageTitle(position).toString(),
+                                FoodFragment.class.getSimpleName());
+            }
+        });
 
         viewModel = ViewModelProviders.of(this).get(ExtraFoodViewModel.class);
         viewModel.getRefreshing().observe(this, aBoolean -> {

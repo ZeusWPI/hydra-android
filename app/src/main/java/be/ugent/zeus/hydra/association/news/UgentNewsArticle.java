@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Niko Strijbol
  */
-public final class UgentNewsItem implements Serializable, Parcelable {
+public final class UgentNewsArticle implements Serializable, Parcelable {
 
     private String description;
     private List<String> contributors;
@@ -32,7 +32,7 @@ public final class UgentNewsItem implements Serializable, Parcelable {
     private List<String> creators;
 
     @SuppressWarnings("unused") // Moshi uses this!
-    public UgentNewsItem() {}
+    public UgentNewsArticle() {}
 
     public String getDescription() {
         return description;
@@ -120,7 +120,7 @@ public final class UgentNewsItem implements Serializable, Parcelable {
         dest.writeStringList(this.creators);
     }
 
-    protected UgentNewsItem(Parcel in) {
+    protected UgentNewsArticle(Parcel in) {
         this.description = in.readString();
         this.contributors = in.createStringArrayList();
         this.text = in.readString();
@@ -136,15 +136,15 @@ public final class UgentNewsItem implements Serializable, Parcelable {
         this.creators = in.createStringArrayList();
     }
 
-    public static final Creator<UgentNewsItem> CREATOR = new Creator<UgentNewsItem>() {
+    public static final Creator<UgentNewsArticle> CREATOR = new Creator<UgentNewsArticle>() {
         @Override
-        public UgentNewsItem createFromParcel(Parcel source) {
-            return new UgentNewsItem(source);
+        public UgentNewsArticle createFromParcel(Parcel source) {
+            return new UgentNewsArticle(source);
         }
 
         @Override
-        public UgentNewsItem[] newArray(int size) {
-            return new UgentNewsItem[size];
+        public UgentNewsArticle[] newArray(int size) {
+            return new UgentNewsArticle[size];
         }
     };
 
@@ -152,7 +152,7 @@ public final class UgentNewsItem implements Serializable, Parcelable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UgentNewsItem that = (UgentNewsItem) o;
+        UgentNewsArticle that = (UgentNewsArticle) o;
         return Objects.equals(identifier, that.identifier);
     }
 

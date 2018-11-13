@@ -6,7 +6,7 @@ import android.view.View;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.news.NewsArticleActivity;
-import be.ugent.zeus.hydra.association.news.UgentNewsItem;
+import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
 import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class NewsItemViewHolderTest extends AbstractFeedViewHolderTest {
         View view = inflate(activityContext, R.layout.home_card_news_item);
         NewsItemViewHolder viewHolder = new NewsItemViewHolder(view, adapter);
         NewsItemCard card = generate(NewsItemCard.class);
-        UgentNewsItem item = card.getNewsItem();
+        UgentNewsArticle item = card.getNewsItem();
         viewHolder.populate(card);
 
         assertTextIs(item.getTitle(), view.findViewById(R.id.name));

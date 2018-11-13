@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.news.UgentNewsItem;
+import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
@@ -13,7 +13,7 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
  * @author Niko Strijbol
  * @author ellen
  */
-class NewsAdapter extends DiffAdapter<UgentNewsItem, NewsItemViewHolder> {
+class NewsAdapter extends DiffAdapter<UgentNewsArticle, NewsItemViewHolder> {
 
     private final ActivityHelper helper;
 
