@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.theme;
+package be.ugent.zeus.hydra.common.preferences;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,11 +14,11 @@ import be.ugent.zeus.hydra.common.analytics.Analytics;
 import be.ugent.zeus.hydra.common.analytics.Event;
 
 /**
- * Show preferences related to the news-section.
+ * Show preferences related to the theme of the app.
  *
  * @author Niko Strijbol
  */
-public class ThemePreferenceFragment extends PreferenceFragment {
+public class ThemeFragment extends PreferenceFragment {
 
     public static final String PREF_THEME_NIGHT_MODE = "pref_theme_night_mode";
 

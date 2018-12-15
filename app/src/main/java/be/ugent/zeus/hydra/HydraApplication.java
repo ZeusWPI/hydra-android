@@ -10,7 +10,7 @@ import android.util.Log;
 import be.ugent.zeus.hydra.common.ChannelCreator;
 import be.ugent.zeus.hydra.common.analytics.Analytics;
 import be.ugent.zeus.hydra.common.analytics.Tracker;
-import be.ugent.zeus.hydra.theme.ThemePreferenceFragment;
+import be.ugent.zeus.hydra.common.preferences.ThemeFragment;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.jakewharton.threetenabp.AndroidThreeTen;
@@ -71,7 +71,7 @@ public class HydraApplication extends Application {
         Fabric.with(this, new Crashlytics.Builder().core(core).build());
 
         // Set the theme.
-        AppCompatDelegate.setDefaultNightMode(ThemePreferenceFragment.getNightMode(this));
+        AppCompatDelegate.setDefaultNightMode(ThemeFragment.getNightMode(this));
         trackTheme();
 
         AndroidThreeTen.init(this);
@@ -84,7 +84,7 @@ public class HydraApplication extends Application {
 
     private void trackTheme() {
         Tracker tracker = Analytics.getTracker(this);
-        switch (ThemePreferenceFragment.getNightMode(this)) {
+        switch (ThemeFragment.getNightMode(this)) {
             case AppCompatDelegate.MODE_NIGHT_AUTO:
                 tracker.setUserProperty("theme", "auto");
                 break;

@@ -8,7 +8,6 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
 import be.ugent.zeus.hydra.common.ui.AppCompatPreferenceActivity;
@@ -16,7 +15,6 @@ import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
 import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.sko.preferences.SkoPreferencesFragment;
-import be.ugent.zeus.hydra.theme.ThemePreferenceFragment;
 
 import java.util.List;
 
@@ -51,7 +49,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 || SkoPreferencesFragment.class.getName().equals(fragmentName)
                 || AboutFragment.class.getName().equals(fragmentName)
                 || CustomTabPreferenceFragment.class.getName().equals(fragmentName)
-                || ThemePreferenceFragment.class.getName().equals(fragmentName);
+                || ThemeFragment.class.getName().equals(fragmentName);
     }
 
     /**
