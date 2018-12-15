@@ -6,10 +6,9 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HomeFeedRequest;
-import java8.util.stream.Collectors;
-import java8.util.stream.RefStreams;
-import java8.util.stream.Stream;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Collectors;
+import java9.util.stream.Stream;
+import java9.util.stream.StreamSupport;
 
 import java.util.List;
 
@@ -44,8 +43,8 @@ class RequestOperation implements FeedOperation {
         Stream<Card> temp = StreamSupport.stream(current)
                 .filter(c -> c.getCardType() != request.getCardType());
 
-        return request.performRequest(args).map(homeCardStream ->
-                RefStreams.concat(temp, homeCardStream).sorted().collect(Collectors.toList())
+        return request.execute(args).map(homeCardStream ->
+                Stream.concat(temp, homeCardStream).sorted().collect(Collectors.toList())
         );
     }
 

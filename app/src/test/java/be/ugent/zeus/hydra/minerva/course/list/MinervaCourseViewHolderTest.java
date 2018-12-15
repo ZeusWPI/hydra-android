@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.minerva.course.list;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +8,9 @@ import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
@@ -19,11 +23,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.stubbing.Answer;
 import org.robolectric.ParameterizedRobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.shadows.ShadowApplication;
-
-import java.util.Arrays;
-import java.util.Collection;
 
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
@@ -66,11 +65,12 @@ public class MinervaCourseViewHolderTest {
         listener = mock(OnStartDragListener.class);
         helper = mock(SearchHelper.class);
         starter = mock(ResultStarter.class);
+        Context context = getActivityContext();
         doAnswer((Answer<Void>) invocation -> {
-            RuntimeEnvironment.application.startActivity(invocation.getArgument(0));
+            context.startActivity(invocation.getArgument(0));
             return null;
         }).when(starter).startActivityForResult(any(Intent.class), anyInt());
-        when(starter.getContext()).thenReturn(RuntimeEnvironment.application);
+        when(starter.getContext()).thenReturn(context);
         when(helper.isSearching()).thenReturn(isSearching);
     }
 
@@ -94,7 +94,7 @@ public class MinervaCourseViewHolderTest {
         // Test opening a course activity.
         view.performClick();
         Intent expectedIntent = new Intent(view.getContext(), CourseActivity.class);
-        Intent actualIntent = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent actualIntent = getShadowApplication().getNextStartedActivity();
         assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
         assertEquals(course, actualIntent.getParcelableExtra(CourseActivity.ARG_COURSE));
         assertEquals(CourseActivity.Tab.ANNOUNCEMENTS, actualIntent.getIntExtra(CourseActivity.ARG_TAB, -1));

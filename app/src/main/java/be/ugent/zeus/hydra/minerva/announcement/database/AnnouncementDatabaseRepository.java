@@ -8,8 +8,8 @@ import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
 import be.ugent.zeus.hydra.minerva.course.database.CourseMapper;
 import com.crashlytics.android.Crashlytics;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 import org.threeten.bp.Instant;
 
 import java.lang.reflect.Field;
@@ -97,30 +97,11 @@ public class AnnouncementDatabaseRepository implements AnnouncementRepository {
         return transform(announcementDao.getMostRecentFirst(courseId), result -> announcementMapper.convert(result.announcement, courseMapper.courseToCourse(result.course)));
     }
 
-    private static String printFields(Object o) {
-        StringBuilder result = new StringBuilder(o.getClass().getSimpleName() + ": ");
-        for (Field field : o.getClass().getDeclaredFields()) {
-            field.setAccessible(true);     // you also get non-public fields
-            try {
-                result.append(field.getName()).append(" = ").append(field.get(o)).append(", ");
-            } catch (IllegalAccessException e) {
-                Log.e("TempPrinter", "Uh?", e);
-            }
-        }
-        return result.toString();
-    }
-
     @Override
     public Map<Course, List<Announcement>> getMostRecentFirstMap() {
         List<AnnouncementDao.Result> results = announcementDao.getUnreadMostRecentFirst();
         Map<CourseDTO, List<AnnouncementDTO>> map = StreamSupport.stream(results)
-                .filter(result -> {
-                    // Temporary log null values to error
-                    if (result.course == null) {
-                        Crashlytics.log("The database is inconsistent! Attempt to fix database. Announcement without course is " + printFields(result.announcement));
-                    }
-                    return result.course != null;
-                })
+                .filter(result -> result.course != null)
                 .collect(Collectors.groupingBy(r -> r.course, Collectors.mapping(r -> r.announcement, Collectors.toList())));
 
         Map<Course, List<Announcement>> result = new HashMap<>();
@@ -135,7 +116,13 @@ public class AnnouncementDatabaseRepository implements AnnouncementRepository {
 
     @Override
     public List<Announcement> getUnreadMostRecentFirst() {
-        return transform(announcementDao.getUnreadMostRecentFirst(), result -> announcementMapper.convert(result.announcement, courseMapper.courseToCourse(result.course)));
+        // Sometimes the course is null for some reason. Perhaps this is an edge case that a course is added to Minerva
+        // after the course list is synced, but before the recent announcements are synced.
+        // If that happens, we ignore those announcements.
+        return StreamSupport.stream(announcementDao.getUnreadMostRecentFirst())
+                .filter(r -> r.course != null)
+                .map(r -> announcementMapper.convert(r.announcement, courseMapper.courseToCourse(r.course)))
+                .collect(Collectors.toList());
     }
 
     @Override

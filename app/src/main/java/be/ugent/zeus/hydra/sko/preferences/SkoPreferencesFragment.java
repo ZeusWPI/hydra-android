@@ -6,8 +6,8 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
 import be.ugent.zeus.hydra.sko.FirebaseMessageService;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -49,6 +49,7 @@ public class SkoPreferencesFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        HydraApplication.getApplication(getActivity()).sendScreenName("Settings > SKO");
+        Analytics.getTracker(getActivity())
+                .setCurrentScreen(getActivity(), "Settings > SKO", getClass().getSimpleName());
     }
 }

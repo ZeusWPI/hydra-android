@@ -1,27 +1,23 @@
 package be.ugent.zeus.hydra.common.ui.widgets;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.content.res.AppCompatResources;
+import android.support.annotation.IntDef;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
-import be.ugent.zeus.hydra.resto.RestoMeal;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 
-import java.util.List;
+import static be.ugent.zeus.hydra.utils.PreferencesUtils.isSetIn;
 
 /**
  * View to display the table. Use flags to decide what to show and what not.
@@ -31,41 +27,55 @@ import java.util.List;
 public class MenuTable extends TableLayout {
 
     /**
-     * Indicates only the main items will be shown. Cannot be used together with {@link #ALL}.
+     * Flags to indicate what should be displayed by the menu.
      */
-    public static final int MAIN = 0;
-    /**
-     * Indicates all items will be shown. Cannot be used together with {@link #MAIN}.
-     */
-    public static final int ALL = 1;
-    @ColorInt
-    private final int primaryColour;
-    private RestoMenu menu;
-    private int mode = MAIN;
+    @IntDef(
+            flag = true,
+            value = {DisplayKind.MAIN, DisplayKind.SOUP, DisplayKind.VEGETABLES, DisplayKind.ALL}
+    )
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface DisplayKind {
+        int MAIN = 1; // 001
+        int SOUP = 1 << 1; // 010
+        int VEGETABLES = 1 << 2; // 100
+        int ALL = 7; // 111
+    }
+
+
+    private DisplayableMenu menu;
+    @DisplayKind
+    private int displayedKinds;
     private boolean selectable;
+    private boolean showTitles;
 
     public MenuTable(Context context) {
         super(context);
-        TypedValue typedValue = new TypedValue();
-        context.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-        primaryColour = ContextCompat.getColor(context, typedValue.resourceId);
+        init(context, null);
     }
 
     public MenuTable(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs);
+    }
+
+    /**
+     * Initiate the values from the attribute set.
+     *
+     * @param context The context.
+     * @param attrs   The attribute set or null if not available.
+     */
+    private void init(Context context, @Nullable AttributeSet attrs) {
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.MenuTable, 0, 0);
 
         try {
             //The menu defaults to the one with the hide functionality.
-            mode = a.getInt(R.styleable.MenuTable_show, 0);
+            displayedKinds = a.getInt(R.styleable.MenuTable_showKind, DisplayKind.ALL);
             selectable = a.getBoolean(R.styleable.MenuTable_selectable, false);
+            showTitles = a.getBoolean(R.styleable.MenuTable_showTitles, false);
         } finally {
             a.recycle();
         }
-        TypedValue typedValue = new TypedValue();
-        context.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-        primaryColour = ContextCompat.getColor(context, typedValue.resourceId);
     }
 
     /**
@@ -117,113 +127,18 @@ public class MenuTable extends TableLayout {
     }
 
     /**
-     * Add dishes.
-     *
-     * @param meals The meals with dishes.
+     * @param menu The menu to display.
      */
-    private void makeTableDishes(List<RestoMeal> meals) {
-
-        final int rowPadding = ViewUtils.convertDpToPixelInt(2, getContext());
-        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
-
-        for (RestoMeal meal : meals) {
-            TableRow tr = new TableRow(getContext());
-            tr.setPadding(0, rowPadding, 0, rowPadding);
-            tr.setLayoutParams(lp);
-
-            //Set the correct image.
-            @DrawableRes final int id;
-            switch (meal.getKind()) {
-                case "meat":
-                    id = R.drawable.resto_meat;
-                    break;
-                case "fish":
-                    id = R.drawable.resto_fish;
-                    break;
-                case "vegetarian":
-                    id = R.drawable.resto_vegi;
-                    break;
-                case "soup":
-                default:
-                    id = R.drawable.resto_soup;
-            }
-
-            ImageView imageView = makeImageView(id);
-            TextView tvCenter = makeCenterTextView(meal.getName(), lp);
-            TextView tvRight = new TextView(getContext());
-            tvRight.setLayoutParams(lp);
-            tvRight.setTextIsSelectable(selectable);
-            tvRight.setText(meal.getPrice());
-            tvRight.setGravity(Gravity.END);
-
-            tr.addView(imageView);
-            tr.addView(tvCenter);
-            tr.addView(tvRight);
-
-            addView(tr);
-        }
-    }
-
-    public void makeVegetables(List<String> vegetables) {
-
-        final int rowPadding = ViewUtils.convertDpToPixelInt(2, getContext());
-
-        for (String veg : vegetables) {
-
-            TableRow tr = new TableRow(getContext());
-            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
-            tr.setLayoutParams(lp);
-            tr.setPadding(0, rowPadding, 0, rowPadding);
-
-            ImageView imageView = makeImageView(R.drawable.resto_vegetables);
-
-            TextView tvCenter = makeCenterTextView(veg, lp);
-
-            tr.addView(imageView);
-            tr.addView(tvCenter);
-
-            addView(tr);
-        }
-    }
-
-    /**
-     * Make an image view.
-     *
-     * @param id The ID of the drawable. Can be a vector.
-     *
-     * @return The imageview.
-     */
-    private ImageView makeImageView(@DrawableRes int id) {
-        ImageView imageView = new ImageView(getContext());
-        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        imageView.setImageDrawable(AppCompatResources.getDrawable(getContext(), id));
-        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
-        imageView.setLayoutParams(params);
-        return imageView;
-    }
-
-    /**
-     * Make center text.
-     *
-     * @param text The text.
-     * @param lp   The layout param.
-     *
-     * @return The text view.
-     */
-    private TextView makeCenterTextView(String text, TableRow.LayoutParams lp) {
-        TextView tvCenter = new TextView(getContext());
-        tvCenter.setTextIsSelectable(selectable);
-        tvCenter.setPadding(ViewUtils.convertDpToPixelInt(16, getContext()), 0, 0, 0);
-        tvCenter.setLayoutParams(lp);
-        tvCenter.setText(text);
-        return tvCenter;
+    public void setMenu(RestoMenu menu) {
+        setMenu(menu, this.displayedKinds);
     }
 
     /**
      * @param menu The menu to display.
      */
-    public void setMenu(RestoMenu menu) {
-        this.menu = menu;
+    public void setMenu(RestoMenu menu, @DisplayKind int displayedKinds) {
+        this.menu = new DisplayableMenu(menu, selectable);
+        this.displayedKinds = displayedKinds;
         //Add data
         removeAllViewsInLayout();
         populate();
@@ -231,36 +146,43 @@ public class MenuTable extends TableLayout {
         requestLayout();
     }
 
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     public RestoMenu getMenu() {
-        return menu;
+        return menu.menu;
     }
 
     /**
      * Add content.
      */
-    @SuppressLint("SetTextI18n")
     private void populate() {
 
         setColumnStretchable(1, true);
         setColumnShrinkable(1, true);
 
-        if (!menu.isOpen()) {
+        if (!menu.menu.isOpen()) {
             createTitle(getContext().getString(R.string.resto_menu_not_available), false);
             return;
         }
 
-        if (mode == ALL) {
-            //Add actual menu data
-            createTitle(getContext().getString(R.string.resto_menu_main_dish));
-            makeTableDishes(menu.getMainDishes());
-            createTitle(getContext().getString(R.string.resto_menu_side_dish));
-            makeTableDishes(menu.getSideDishes());
-            createTitle(getContext().getString(R.string.resto_menu_vegetables));
-            makeVegetables(menu.getVegetables());
-            //Add date data
-            createTitle(String.format(getContext().getString(R.string.resto_menu_date), menu.getDate().toString()), false);
-        } else {
-            makeTableDishes(menu.getMainDishes());
+        if (isSetIn(displayedKinds, DisplayKind.MAIN)) {
+            if (showTitles) {
+                createTitle(getContext().getString(R.string.resto_menu_main_dish));
+            }
+            menu.addMainViews(this);
+        }
+
+        if (isSetIn(displayedKinds, DisplayKind.SOUP)) {
+            if (showTitles) {
+                createTitle(getContext().getString(R.string.resto_menu_soup));
+            }
+            menu.addSoupViews(this);
+        }
+
+        if (isSetIn(displayedKinds, DisplayKind.VEGETABLES)) {
+            if (showTitles) {
+                createTitle(getContext().getString(R.string.resto_menu_vegetables));
+            }
+            menu.addVegetableViews(this);
         }
     }
 }

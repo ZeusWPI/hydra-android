@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.common.arch.observers;
 import android.arch.lifecycle.Observer;
 
 import be.ugent.zeus.hydra.common.arch.data.Event;
-import java8.util.function.Consumer;
+import java9.util.function.Consumer;
 
 /**
  * Observer that will only handle non-handled events.

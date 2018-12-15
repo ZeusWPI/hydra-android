@@ -14,6 +14,7 @@
     <string name="action_open_browser">View in browser</string>
     <string name="action_view_settings">Settings</string>
     <string name="action_view_link">Open link</string>
+    <string name="action_view_files">View files</string>
     <string name="action_again">Again</string>
     <string name="action_logout">Logout</string>
     <string name="action_drawer_open">Open</string>
@@ -21,7 +22,6 @@
     <string name="action_turn_off">Disable</string>
     <string name="action_open_map">Open map</string>
     <string name="action_send_mail">Send e-mail</string>
-    <string name="action_call">Call</string>
     <string name="action_sync">Sync</string>
     <string name="action_search">Search</string>
     <string name="action_mark_as_read">Mark as read</string>
@@ -163,13 +163,11 @@
     <string name="resto_location_action_center">Go to restos</string>
 
     <string name="resto_menu_main_dish">Main courses</string>
-    <string name="resto_menu_side_dish">Side dish</string>
+    <string name="resto_menu_soup">Soup</string>
     <string name="resto_menu_vegetables">Vegetables</string>
     <string name="resto_menu_date">Date of the menu: %s</string>
-    <string name="resto_menu_not_available">
-        There is no menu or we could not retrieve it. Perhaps you will have more luck on the
-        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">website of the restos</a>.
-    </string>
+    <string name="resto_menu_not_available">There is no menu or we could not retrieve it. Perhaps you will have more luck on the
+        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">website of the restos</a>.</string>
 
     <string name="resto_spinner_loading">Loading…</string>
 
@@ -184,12 +182,21 @@
     <string name="resto_legend_soup">Soup</string>
     <string name="resto_legend_vegetables">Vegetables</string>
     <string name="resto_legend_meat">Meat</string>
-    <string name="resto_legend_veg">Vegetarian/vegan</string>
+    <string name="resto_legend_vegetarian">Vegetarian</string>
+    <string name="resto_legend_vegan">Vegan</string>
     <string name="resto_legend_abbr_header">Abbreviations</string>
     <string name="resto_legend_msc_abbr">MSC</string>
     <string name="resto_legend_msc_desc">Marine Stewardship Council, sustainable fishing</string>
     <string name="resto_legend_asc_abbr">ASC</string>
     <string name="resto_legend_asc_desc">Aquaculture Stewardship Council, responsible seafood</string>
+
+    <string name="resto_menu_slice_open_menu">Open resto menu</string>
+    <string name="resto_menu_slice_next">Next day</string>
+    <string name="resto_menu_slice_previous">Previous day</string>
+    <string name="resto_menu_slice_subtitle_loading">Loading menu for %s laden…</string>
+    <string name="resto_menu_slice_subtitle">Menu for %s</string>
+    <string name="resto_menu_slice_title_error">Resto menu not available</string>
+    <string name="resto_menu_slice_title">Resto menu for %s</string>
 
     <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
     <string name="value_resto_default_endpoint">en</string>
@@ -254,6 +261,15 @@
     <string name="minerva_calendar_not_found">Calendar item not found.</string>
     <string name="minerva_calendar_duration">%1$s – %2$s</string>
     <string name="minerva_calendar_friendly_date">%1$s (%2$s)</string>
+    <string name="minerva_calendar_permission_notification_title">Permissions for Hydra</string>
+    <string name="minerva_calendar_permission_notification_short">Give permission for the Minerva Calendar</string>
+    <string name="minerva_calendar_permission_notification_long">
+        Hydra needs access to your calendar to synchronise the Minerva Calendar.
+    </string>
+    <string name="minerva_calendar_missing_notification_title">No calendar found</string>
+    <string name="minerva_calendar_missing_notification_text">
+        Hydra has no access to or has not found the device calendar. The calendar will not be synchronised.
+    </string>
 
     <string name="minerva_calendar_merge_warning">
         This event was merged by Hydra\'s duplicate detection. If the event seems weird, it\'s probably better to double
@@ -329,6 +345,8 @@
     <string name="minerva_pref_sync_freq_24_hours">24 hours</string>
     <string name="minerva_pref_sync_freq_1_week">1 week</string>
 
+    <string name="minerva_course_no_document_viewer">No file explorer found!</string>
+
     <!-- SKO -->
     <string name="sko_overview_activity_title">Student Kick-Off</string>
 
@@ -347,6 +365,9 @@
     <string name="sko_artist_search_music">Search artist in music</string>
     <string name="sko_artist_no_content">No description for this artist</string>
     <string name="sko_artist_time">%1$s to %2$s</string>
+    <string name="sko_artist_time_end">To %1$s</string>
+    <string name="sko_artist_time_start">From %1$s</string>
+    <string name="sko_artist_time_none">No time available</string>
 
     <string name="sko_tab_map">Map</string>
     <string name="sko_tab_village">Student Village</string>
@@ -362,6 +383,16 @@
     <string name="feed_pref_clear_cards_title">Erase hidden cards</string>
     <string name="feed_pref_clear_cards_summary">Erase the list of hidden cards. Causes all cards to be displayed again.</string>
     <string name="feed_pref_hidden_cleared">Erased</string>
+    <string name="feed_pref_cat_resto">Resto menu</string>
+    <string name="feed_pref_cat_general">General</string>
+    <string name="feed_pref_resto_kinds">What to show on the menu</string>
+    <string name="feed_pref_resto_kinds_main">Just main course</string>
+    <string name="feed_pref_resto_kinds_soup">Just soup</string>
+    <string name="feed_pref_resto_kinds_all">Both soup and main course</string>
+    <string name="feed_pref_resto_show_soup">Show soup</string>
+    <string name="feed_pref_resto_hide_soup">Hide soup</string>
+    <string name="feed_pref_resto_show_main">Show main course</string>
+    <string name="feed_pref_resto_hide_main">Hide main course</string>
 
     <string name="feed_card_type_title_resto">Resto menu</string>
     <string name="feed_card_type_title_events">Activities</string>
@@ -400,8 +431,10 @@
     <string name="feed_card_hide_single_type">Hide this card</string>
 
     <string name="feed_card_hidden_type">Undo successful</string>
-    <string name="feed_card_hidden_association">Organisation hidden</string>
+    <string name="feed_card_hidden_association">Organisation was hidden</string>
     <string name="feed_card_hidden_single">Done with this card</string>
+    <string name="feed_card_hidden_menu_soup">Soup was hidden</string>
+    <string name="feed_card_hidden_menu_main">Main course was hidden</string>
 
     <!-- Info -->
     <string name="info_sub_item_activity_title">More info</string>
@@ -428,6 +461,8 @@
     <string name="urgent_channel_desc">Notifications about Urgent.fm, including the media notification for the player.</string>
     <string name="urgent_play">Play</string>
     <string name="urgent_stop">Stop</string>
+    <string name="urgent_loading">Loading…</string>
+    <string name="urgent_error">Error</string>
 
     <!-- Libraries -->
     <string name="library_favourite">Save</string>
@@ -442,6 +477,8 @@
     <string name="library_less">Less</string>
     <string name="library_info_remarks">Remarks</string>
     <string name="library_info_details">Details</string>
+    <string name="library_list_no_opening_hours">No opening hours found today.</string>
+    <string name="library_list_opening_hours_today">Open today: %s</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_unread_icon">Has unread descriptions</string>

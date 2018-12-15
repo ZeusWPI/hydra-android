@@ -58,9 +58,6 @@ public class UpcomingCalendarForCourseFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
 
-        // TODO
-        // adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
-
         Course course = requireArguments(this).getParcelable(ARG_COURSE);
         AgendaViewModel model = ViewModelProviders.of(this).get(AgendaViewModel.class);
         model.setCourse(course);

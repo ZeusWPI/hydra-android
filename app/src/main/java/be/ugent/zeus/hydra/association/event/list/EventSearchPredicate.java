@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.association.event.list;
 
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.association.event.Event;
-import java8.util.function.BiPredicate;
+import java9.util.function.BiPredicate;
 
 /**
  * Searches a list of events for things that match.

@@ -1,15 +1,18 @@
 package be.ugent.zeus.hydra.library;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.common.converter.IntBoolean;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.moshi.Json;
-import java8.util.Objects;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.Objects;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,6 +26,9 @@ import java.util.Locale;
  * @author Niko Strijbol
  */
 public final class Library implements Serializable, Parcelable {
+
+    private static final String FALLBACK_HEADER = "https://picsum.photos/800/450?image=1073";
+    private static final String FALLBACK_HEADER_SMALL = "https://picsum.photos/400/225?image=1073";
 
     private String department;
     private String email;
@@ -156,14 +162,30 @@ public final class Library implements Serializable, Parcelable {
     }
 
     /**
-     * @return The URL to the image of this library, or an URL to a placeholder.
+     * This method returns the URL of the header image for this library. This method will account for things
+     * like data-saving and absence of an image.
+     *
+     * @return The header image.
      */
     @NonNull
-    public String getEnsuredImage() {
-        if (TextUtils.isEmpty(getImage())) {
-            return "https://unsplash.it/1600/900?image=1073";
+    public String getHeaderImage(Context context) {
+        // If data-saving is enabled, use the thumbnail instead of the full image.
+        if (NetworkUtils.isMeteredConnection(context)) {
+            if (getThumbnail() == null || getThumbnail().isEmpty()) {
+                return FALLBACK_HEADER_SMALL;
+            } else {
+                return getThumbnail();
+            }
         } else {
-            return getImage();
+            if (getImage() == null || getImage().isEmpty()) {
+                if (getThumbnail() == null || getThumbnail().isEmpty()) {
+                    return FALLBACK_HEADER;
+                } else {
+                    return getThumbnail();
+                }
+            } else {
+                return getImage();
+            }
         }
     }
 

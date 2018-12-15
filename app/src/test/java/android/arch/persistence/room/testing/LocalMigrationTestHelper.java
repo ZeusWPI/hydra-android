@@ -100,7 +100,7 @@ public class LocalMigrationTestHelper extends TestWatcher {
         RoomDatabase.MigrationContainer container = new RoomDatabase.MigrationContainer();
         DatabaseConfiguration configuration = new DatabaseConfiguration(
                 mInstrumentation.getTargetContext(), name, mOpenFactory, container, null, true,
-                RoomDatabase.JournalMode.TRUNCATE, true, Collections.<Integer>emptySet());
+                RoomDatabase.JournalMode.TRUNCATE, true, Collections.emptySet());
         RoomOpenHelper roomOpenHelper = new RoomOpenHelper(configuration,
                 new CreatingDelegate(schemaBundle.getDatabase()),
                 schemaBundle.getDatabase().getIdentityHash(),
@@ -146,7 +146,7 @@ public class LocalMigrationTestHelper extends TestWatcher {
         container.addMigrations(migrations);
         DatabaseConfiguration configuration = new DatabaseConfiguration(
                 mInstrumentation.getTargetContext(), name, mOpenFactory, container, null, true,
-                RoomDatabase.JournalMode.TRUNCATE, true, Collections.<Integer>emptySet());
+                RoomDatabase.JournalMode.TRUNCATE, true, Collections.emptySet());
         RoomOpenHelper roomOpenHelper = new RoomOpenHelper(configuration,
                 new MigratingDelegate(schemaBundle.getDatabase(), validateDroppedTables),
                 // we pass the same hash twice since an old schema does not necessarily have
@@ -229,7 +229,9 @@ public class LocalMigrationTestHelper extends TestWatcher {
             Log.w(TAG, "Could not find the schema file in the test assets. Checking the"
                     + " application assets");
             // Try loading it from the resources.
-            InputStream stream = getClass().getClassLoader().getResourceAsStream(mAssetsFolder + "/" + version + ".json");
+            @SuppressWarnings("ConstantConditions")
+            InputStream stream = getClass().getClassLoader()
+                    .getResourceAsStream(mAssetsFolder + "/" + version + ".json");
             return SchemaBundle.deserialize(stream);
         }
     }

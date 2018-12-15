@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.CalendarContract;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.text.util.LinkifyCompat;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.analytics.BaseEvents;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Callback;
@@ -116,11 +119,14 @@ public class EventDetailsActivity extends BaseActivity {
             endTime.setText(R.string.event_detail_date_unknown);
         }
 
-        if (event.getAssociation() != null && event.getAssociation().getImageLink() != null) {
-            Picasso.with(this).load(event.getAssociation().getImageLink()).into(organisatorImage, new EventCallback(organisatorImage));
+        if (event.getAssociation() != null) {
+            Picasso.get().load(event.getAssociation().getImageLink()).into(organisatorImage, new EventCallback(organisatorImage));
         } else {
             organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
+
+        Analytics.getTracker(this)
+                .log(new EventViewedEvent(event));
     }
 
     @Override
@@ -191,11 +197,6 @@ public class EventDetailsActivity extends BaseActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    @Override
-    protected String getScreenName() {
-        return "Event > " + event.getTitle();
-    }
-
     /**
      * Get the intent for a location. If the precise location is available, that will be used. Otherwise, we just search
      * for the location. One location must be present.
@@ -249,8 +250,33 @@ public class EventDetailsActivity extends BaseActivity {
         }
 
         @Override
-        public void onError() {
+        public void onError(Exception e) {
             organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+        }
+    }
+
+    private static final class EventViewedEvent implements be.ugent.zeus.hydra.common.analytics.Event {
+
+        private final Event event;
+
+        private EventViewedEvent(Event event) {
+            this.event = event;
+        }
+
+        @Override
+        public Bundle getParams() {
+            BaseEvents.Params names = Analytics.getEvents().params();
+            Bundle params = new Bundle();
+            params.putString(names.itemCategory(), Event.class.getSimpleName());
+            params.putString(names.itemId(), event.getIdentifier());
+            params.putString(names.itemName(), event.getTitle());
+            return params;
+        }
+
+        @Nullable
+        @Override
+        public String getEventName() {
+            return Analytics.getEvents().viewItem();
         }
     }
 }

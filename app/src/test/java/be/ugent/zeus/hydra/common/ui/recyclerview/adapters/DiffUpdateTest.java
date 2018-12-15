@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
 import be.ugent.zeus.hydra.testing.Utils;
-import java8.util.Lists;
+import java9.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;

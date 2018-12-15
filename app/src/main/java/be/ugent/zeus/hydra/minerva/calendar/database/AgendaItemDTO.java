@@ -7,7 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 
 import be.ugent.zeus.hydra.minerva.provider.CourseContract;
 import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
-import java8.util.Objects;
+import java9.util.Objects;
 import org.threeten.bp.OffsetDateTime;
 
 import static be.ugent.zeus.hydra.minerva.calendar.AgendaItem.NO_CALENDAR_ID;

@@ -4,12 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.squareup.moshi.Json;
-import java8.util.Objects;
+import java9.util.Objects;
 
 import java.io.Serializable;
 
 /**
  * Represents a meal.
+ *
+ * @implNote The kind of the meal is currently a string; ideally this would be an enum (or flags if really necessary.
+ *      However, since this has little benefit, we currently don't do this, but we might in the future.
  *
  * @author Niko Strijbol
  * @author Mitch

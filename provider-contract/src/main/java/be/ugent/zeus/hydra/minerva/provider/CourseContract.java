@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.minerva.provider;
 
+import android.accounts.Account;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -9,9 +10,8 @@ import android.provider.BaseColumns;
  * These are considered APIs and will not be broken in a backwards incompatible manner (e.g. columns may be added, but
  * not renamed or removed).
  *
- * @version 1.1.0
- *
  * @author Niko Strijbol
+ * @version 1.1.0
  */
 @SuppressWarnings("unused")
 public interface CourseContract {
@@ -64,8 +64,8 @@ public interface CourseContract {
         /**
          * Int flag depicting which modules are disabled. The possible values at this time are:
          * <ul>
-         *     <li>{@code 1 << 0}: Announcements</li>
-         *     <li>{@code 1 << 1}: Calendar</li>
+         * <li>{@code 1 << 0}: Announcements</li>
+         * <li>{@code 1 << 1}: Calendar</li>
          * </ul>
          * <p>Type: INTEGER</p>
          */
@@ -98,5 +98,24 @@ public interface CourseContract {
          * The name of the permission you need to hold to read the courses.
          */
         String READ = "be.ugent.zeus.hydra.minerva.READ_COURSES";
+    }
+
+    interface Account {
+
+        /**
+         * The account type of the Minerva Account.
+         */
+        String TYPE = "be.ugent.zeus.hydra.minerva.account";
+
+        /**
+         * Contains the names of the data, accessible with {@link android.accounts.AccountManager#getUserData(android.accounts.Account, String)}.
+         * The data mentioned below is the public API; all other data is considered private and come without guarantees.
+         */
+        interface Data {
+            /**
+             * The UGent username.
+             */
+            String USERNAME = "user_name";
+        }
     }
 }

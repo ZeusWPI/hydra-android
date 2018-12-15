@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,10 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.analytics.BaseEvents;
+import be.ugent.zeus.hydra.common.analytics.Event;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
-import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -52,7 +54,7 @@ public class ArtistDetailsActivity extends BaseActivity {
         title.setText(artist.getName());
 
         if (artist.getImage() != null) {
-            Picasso.with(this).load(artist.getImage()).fit().centerInside().into(headerImage);
+            Picasso.get().load(artist.getImage()).fit().centerInside().into(headerImage);
         }
 
         date.setText(artist.getDisplayDate(this));
@@ -77,17 +79,7 @@ public class ArtistDetailsActivity extends BaseActivity {
             NetworkUtils.maybeLaunchIntent(ArtistDetailsActivity.this, musicIntent);
         });
 
-        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
-        Bundle parameters = new Bundle();
-        parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.SKO_ARTIST);
-        parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, artist.getName());
-        parameters.putString(FirebaseAnalytics.Param.ITEM_ID, String.valueOf(artist.hashCode()));
-        analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
-    }
-
-    @Override
-    protected String getScreenName() {
-        return "SKO artist > " + artist.getName();
+        Analytics.getTracker(this).log(new ArtistViewedEvent(artist));
     }
 
     @Override
@@ -99,13 +91,36 @@ public class ArtistDetailsActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            //Share button
-            case R.id.sko_add_to_calendar:
-                startActivity(artist.addToCalendarIntent());
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.sko_add_to_calendar) {
+            startActivity(artist.addToCalendarIntent());
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private static class ArtistViewedEvent implements Event {
+
+        private final Artist artist;
+
+        private ArtistViewedEvent(Artist artist) {
+            this.artist = artist;
+        }
+
+        @Override
+        public Bundle getParams() {
+            BaseEvents.Params names = Analytics.getEvents().params();
+            Bundle params = new Bundle();
+            params.putString(names.itemCategory(), Artist.class.getSimpleName());
+            String id = artist.getLink() == null ? "linkless" : artist.getLink();
+            params.putString(names.itemId(), id);
+            params.putString(names.itemName(), artist.getName());
+            return params;
+        }
+
+        @Nullable
+        @Override
+        public String getEventName() {
+            return Analytics.getEvents().viewItem();
         }
     }
 }

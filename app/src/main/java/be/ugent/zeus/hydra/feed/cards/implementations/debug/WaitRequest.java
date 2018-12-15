@@ -8,8 +8,8 @@ import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HomeFeedRequest;
-import java8.util.stream.Stream;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Stream;
+import java9.util.stream.StreamSupport;
 
 import java.util.Collections;
 
@@ -29,9 +29,9 @@ public class WaitRequest implements HomeFeedRequest {
 
     @NonNull
     @Override
-    public Result<Stream<Card>> performRequest(@NonNull Bundle args) {
+    public Result<Stream<Card>> execute(@NonNull Bundle args) {
         try {
-            Log.i(TAG, "performRequest: sleep 5 seconds.");
+            Log.i(TAG, "execute: sleep 5 seconds.");
             Thread.sleep(5000); //Sleep 5 seconds
             return Result.Builder.fromData(StreamSupport.stream(Collections.emptyList()));
         } catch (InterruptedException e) {

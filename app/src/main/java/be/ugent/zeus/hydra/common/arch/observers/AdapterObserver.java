@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.common.arch.observers;
 
 import android.arch.lifecycle.Observer;
-
 import android.support.annotation.NonNull;
-import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DataAdapter;
 
 import java.util.List;
+
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DataAdapter;
 
 /**
  * Enables using a {@link DataAdapter} as {@link Observer}. This observer handles setting the data, and only that. It does

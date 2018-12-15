@@ -25,8 +25,7 @@ After you've obtained the keys, you will need to copy the file `app/secrets.prop
 
 ### Other repos
 
-* [Main repo](https://github.com/ZeusWPI/hydra) - contains the scrapers and APIs for the data
-* [Resources](https://github.com/ZeusWPI/hydra-shared) - contains resources (e.g. images) for logos 
+* [Main repo](https://github.com/ZeusWPI/hydra) - contains the scrapers and APIs for the data and the shared resources
 * [iOS](https://github.com/ZeusWPI/hydra-iOS) - iOS app
 * [Windows](https://github.com/ZeusWPI/hydra-windows) - Windows app
 

@@ -4,7 +4,15 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.annotation.RequiresApi;
 
-import be.ugent.zeus.hydra.BuildConfig;
+import androidx.test.core.app.ApplicationProvider;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.feed.cards.CardDismissal;
@@ -15,16 +23,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.threeten.bp.Instant;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static be.ugent.zeus.hydra.testing.Assert.*;
 import static be.ugent.zeus.hydra.testing.Assert.assertThat;
@@ -39,7 +39,7 @@ import static org.junit.Assert.*;
  */
 @RequiresApi(api = 26)
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
+@Config(application = TestApp.class)
 public class CardDaoTest {
 
     private Database database;
@@ -48,7 +48,7 @@ public class CardDaoTest {
 
     @Before
     public void setUp() throws IOException {
-        Context context = RuntimeEnvironment.application;
+        Context context = ApplicationProvider.getApplicationContext();
         database = Room.inMemoryDatabaseBuilder(context, Database.class)
                 .allowMainThreadQueries()
                 .build();

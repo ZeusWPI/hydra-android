@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
@@ -13,13 +17,8 @@ import be.ugent.zeus.hydra.minerva.course.singlecourse.CourseActivity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowApplication;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertNotEmpty;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -32,7 +31,7 @@ public class MinervaAnnouncementViewHolderTest extends AbstractFeedViewHolderTes
 
     @Test
     public void populateLessThanLimit() {
-        View view = inflate(R.layout.home_minerva_announcement_card);
+        View view = inflate(activityContext, R.layout.home_minerva_announcement_card);
         MinervaAnnouncementViewHolder viewHolder = new MinervaAnnouncementViewHolder(view, adapter);
         Course course = generate(Course.class);
         List<Announcement> announcements =
@@ -50,7 +49,7 @@ public class MinervaAnnouncementViewHolderTest extends AbstractFeedViewHolderTes
 
     @Test
     public void populateMoreThanLimit() {
-        View view = inflate(R.layout.home_minerva_announcement_card);
+        View view = inflate(activityContext, R.layout.home_minerva_announcement_card);
         MinervaAnnouncementViewHolder viewHolder = new MinervaAnnouncementViewHolder(view, adapter);
         Course course = generate(Course.class);
         List<Announcement> announcements =
@@ -76,7 +75,7 @@ public class MinervaAnnouncementViewHolderTest extends AbstractFeedViewHolderTes
             assertTrue(child.hasOnClickListeners());
             child.performClick();
             Intent intent = new Intent(child.getContext(), SingleAnnouncementActivity.class);
-            Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
+            Intent actual = getShadowApplication().getNextStartedActivity();
             assertEquals(intent.getComponent(), actual.getComponent());
             assertEquals(announcements.get(i), actual.getParcelableExtra(SingleAnnouncementActivity.ARG_ANNOUNCEMENT));
         }
@@ -85,7 +84,7 @@ public class MinervaAnnouncementViewHolderTest extends AbstractFeedViewHolderTes
     private static void assertCardView(View view, Course course) {
         view.findViewById(R.id.card_view).performClick();
         Intent expected = new Intent(view.getContext(), CourseActivity.class);
-        Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent actual = getShadowApplication().getNextStartedActivity();
         assertEquals(expected.getComponent(), actual.getComponent());
         assertEquals(course, actual.getParcelableExtra(CourseActivity.ARG_COURSE));
         assertEquals(CourseActivity.Tab.ANNOUNCEMENTS, actual.getIntExtra(CourseActivity.ARG_TAB, -1));

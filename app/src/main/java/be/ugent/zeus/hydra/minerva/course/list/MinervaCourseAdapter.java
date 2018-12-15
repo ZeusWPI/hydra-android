@@ -16,8 +16,8 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.ItemDragHelperAdapter
 import be.ugent.zeus.hydra.common.ui.recyclerview.ordering.OnStartDragListener;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
-import java8.util.stream.Collectors;
-import java8.util.stream.IntStreams;
+import java9.util.stream.Collectors;
+import java9.util.stream.IntStream;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -82,7 +82,7 @@ class MinervaCourseAdapter extends SearchableAdapter<Pair<Course, Long>, Minerva
             throw new IllegalStateException("The course DAO cannot be null!");
         }
         AsyncTask.execute(() -> {
-            Collection<Course> courses = IntStreams.range(0, getItemCount())
+            Collection<Course> courses = IntStream.range(0, getItemCount())
                     .mapToObj(value -> {
                         Course course1 = getItem(value).first;
                         course1.setOrder(value);

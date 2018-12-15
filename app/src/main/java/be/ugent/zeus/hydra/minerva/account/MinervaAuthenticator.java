@@ -168,7 +168,7 @@ public class MinervaAuthenticator extends AbstractAccountAuthenticator {
 
         try {
             //Execute the request.
-            BearerToken token = request.performRequest().getOrThrow();
+            BearerToken token = request.execute().getOrThrow();
             if (token.getRefreshToken() != null) {
                 manager.setPassword(account, token.getRefreshToken());
             }

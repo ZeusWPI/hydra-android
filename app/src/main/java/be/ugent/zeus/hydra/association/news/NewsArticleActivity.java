@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
@@ -16,16 +17,17 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.analytics.BaseEvents;
+import be.ugent.zeus.hydra.common.analytics.Event;
 import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
-import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 /**
  * Display a news article from DSA.
@@ -39,7 +41,6 @@ public class NewsArticleActivity extends BaseActivity {
 
     private ActivityHelper helper;
 
-    private String title;
     private String url;
 
     @Override
@@ -48,7 +49,7 @@ public class NewsArticleActivity extends BaseActivity {
         setContentView(R.layout.activity_news_article);
 
         Intent intent = getIntent();
-        UgentNewsItem article = intent.getParcelableExtra(PARCEL_NAME);
+        UgentNewsArticle article = intent.getParcelableExtra(PARCEL_NAME);
 
         this.url = article.getIdentifier();
 
@@ -84,7 +85,6 @@ public class NewsArticleActivity extends BaseActivity {
 
         if (article.getTitle() != null) {
             title.setText(article.getTitle());
-            this.title = article.getTitle();
         }
 
         helper = CustomTabsHelper.initHelper(this, null);
@@ -101,13 +101,11 @@ public class NewsArticleActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.article_link:
-                helper.openCustomTab(Uri.parse(url));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.article_link) {
+            helper.openCustomTab(Uri.parse(url));
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -122,11 +120,6 @@ public class NewsArticleActivity extends BaseActivity {
         helper.unbindCustomTabsService(this);
     }
 
-    @Override
-    protected String getScreenName() {
-        return "News article > " + title;
-    }
-
     /**
      * Open the article for viewing, depending on the network status and the user's preference.
      *
@@ -134,15 +127,10 @@ public class NewsArticleActivity extends BaseActivity {
      * @param article The article to open.
      * @param helper Helper for opening custom tabs.
      */
-    public static void viewArticle(Context context, UgentNewsItem article, ActivityHelper helper) {
+    public static void viewArticle(Context context, UgentNewsArticle article, ActivityHelper helper) {
 
         // Log viewing the article
-        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(context);
-        Bundle parameters = new Bundle();
-        parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.NEWS_ARTICLE);
-        parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, article.getTitle());
-        parameters.putString(FirebaseAnalytics.Param.ITEM_ID, article.getIdentifier());
-        analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
+        Analytics.getTracker(context).log(new ArticleViewedEvent(article));
 
         // Open in-app or in a custom tab
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -155,6 +143,32 @@ public class NewsArticleActivity extends BaseActivity {
             Intent intent = new Intent(context, NewsArticleActivity.class);
             intent.putExtra(PARCEL_NAME, (Parcelable) article);
             context.startActivity(intent);
+        }
+    }
+
+    private static final class ArticleViewedEvent implements Event {
+
+        private final UgentNewsArticle article;
+
+        private ArticleViewedEvent(UgentNewsArticle article) {
+            this.article = article;
+        }
+
+        @Override
+        @SuppressWarnings("Duplicates")
+        public Bundle getParams() {
+            BaseEvents.Params names = Analytics.getEvents().params();
+            Bundle bundle = new Bundle();
+            bundle.putString(names.itemCategory(), UgentNewsArticle.class.getSimpleName());
+            bundle.putString(names.itemId(), article.getIdentifier());
+            bundle.putString(names.itemName(), article.getTitle());
+            return bundle;
+        }
+
+        @Nullable
+        @Override
+        public String getEventName() {
+            return Analytics.getEvents().viewItem();
         }
     }
 }

@@ -9,6 +9,7 @@ import android.preference.PreferenceFragment;
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.MainActivity;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
 
 /**
  * Preferences for the resto notification.
@@ -47,7 +48,8 @@ public class RestoPreferenceFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        HydraApplication.getApplication(getActivity()).sendScreenName("Settings > Resto");
+        Analytics.getTracker(getActivity())
+                .setCurrentScreen(getActivity(), "Settings > Resto", getClass().getSimpleName());
     }
 
     public static String getDefaultResto(Context context) {

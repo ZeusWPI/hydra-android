@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import com.squareup.moshi.Json;
-import java8.util.Objects;
+import java9.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;
 

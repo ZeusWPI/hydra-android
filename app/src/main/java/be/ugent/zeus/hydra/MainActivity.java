@@ -19,8 +19,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import java.util.Objects;
+
 import be.ugent.zeus.hydra.association.event.list.EventFragment;
 import be.ugent.zeus.hydra.association.news.list.NewsFragment;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.analytics.Event;
 import be.ugent.zeus.hydra.common.preferences.SettingsActivity;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.feed.HomeFeedFragment;
@@ -31,10 +35,7 @@ import be.ugent.zeus.hydra.onboarding.OnboardingActivity;
 import be.ugent.zeus.hydra.resto.menu.RestoFragment;
 import be.ugent.zeus.hydra.schamper.list.SchamperFragment;
 import be.ugent.zeus.hydra.urgent.UrgentFragment;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import jonathanfinerty.once.Once;
-
-import java.util.Objects;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
 
@@ -72,7 +73,6 @@ import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
  * On the first scenario, the back stack should be cleared [1]. The new fragment should not be added to the back stack,
  * as it should not be reversed. An implementation complexity is that this should not happen when restoring the
  * activity (scenario three).
- * TODO: investigate if it would be better to always return to the homefeed instead of clearing the back button?
  *
  * In the second scenario, the user probably expects to be able to go back. Therefore, these should be added to the
  * back stack. Currently it is unlikely this will cause back stacks that are too large. In the future, we might need
@@ -99,11 +99,11 @@ import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
  *        |
  *        | No
  *        |
- * +------v----------------+  Yes   +-----------------------+
+ * +------v----------------+  No    +-----------------------+
  * |  Is back stack empty? +-------->  Pop from back stack  |
  * +------+----------------+        +-----------------------+
  *        |
- *        | No
+ *        | Yes
  *        |
  * +------v----------------+
  * |  Let activity finish  |
@@ -174,7 +174,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private AppBarLayout appBarLayout;
-    private FirebaseAnalytics analytics;
 
     /**
      * Contains the next fragment. This fragment will be shown when the navigation drawer has been closed, to prevent
@@ -187,8 +186,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        analytics = FirebaseAnalytics.getInstance(this);
 
         // Show onboarding if the user has not completed it yet.
         if (!Once.beenDone(ONCE_ONBOARDING)) {
@@ -363,7 +360,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else {
             setFragment(fragment, menuItem, navigationSource);
         }
-        updateDrawer(menuItem);
+        updateDrawer(fragment, menuItem);
     }
 
     /**
@@ -371,15 +368,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      *
      * @param item The item to mark as current.
      */
-    private void updateDrawer(MenuItem item) {
+    private void updateDrawer(Fragment fragment, MenuItem item) {
         // Highlight the selected item has been done by NavigationView
         item.setChecked(true);
         // Set action bar title
         setTitle(item.getTitle());
-        // Log it for Analytics
-        HydraApplication application = (HydraApplication) getApplication();
-        application.sendScreenName("Main > " + item.getTitle());
-        analytics.setCurrentScreen(this, item.getTitle().toString(), null);
+        // Log the screen in the Analytics.
+        Analytics.getTracker(this)
+                .setCurrentScreen(this, item.getTitle().toString(), fragment.getClass().getSimpleName());
         // Close the navigation drawer
         drawer.closeDrawer(GravityCompat.START);
     }
@@ -441,7 +437,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 return;
             }
             MenuItem item = navigationView.getMenu().findItem(getFragmentMenuId(current));
-            updateDrawer(item);
+            updateDrawer(current, item);
         };
         // We need to listen to the back stack to update the drawer.
         getSupportFragmentManager().addOnBackStackChangedListener(listener);
@@ -495,7 +491,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (resultCode == RESULT_OK) {
                 Log.i(TAG, "Onboarding complete");
                 Once.markDone(ONCE_ONBOARDING);
-                analytics.logEvent(FirebaseAnalytics.Event.TUTORIAL_COMPLETE, null);
+                // Log sign in
+                Analytics.getTracker(this)
+                        .log(new TutorialEndEvent());
             } else {
                 Log.w(TAG, "Onboarding failed, stop app.");
                 finish();
@@ -503,6 +501,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
         // We need to call this for the fragments to work properly.
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private static final class TutorialEndEvent implements Event {
+        @Nullable
+        @Override
+        public String getEventName() {
+            return Analytics.getEvents().tutorialComplete();
+        }
     }
 
     @Override

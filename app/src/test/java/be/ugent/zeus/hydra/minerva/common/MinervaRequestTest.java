@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import androidx.test.core.app.ApplicationProvider;
+
+import java.io.IOException;
+import java.util.Objects;
+
 import be.ugent.zeus.hydra.common.network.IOFailureException;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.RequestException;
@@ -19,10 +24,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-
-import java.io.IOException;
-import java.util.Objects;
 
 import static org.junit.Assert.*;
 
@@ -55,7 +56,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, "test");
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
 
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
@@ -68,7 +69,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, "test");
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -81,7 +82,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, "test");
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -94,7 +95,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, "test");
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -110,7 +111,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, "test");
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -123,7 +124,7 @@ public class MinervaRequestTest {
         server.shutdown();
 
         Request<Integer> request = new SimpleTestRequest(url, account, "test");
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -136,7 +137,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, "test");
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
         result.getOrThrow();
@@ -153,7 +154,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, provider);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
 
         assertTrue(result.hasException());
         assertFalse(result.hasData());
@@ -166,7 +167,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, (String) null);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
 
         assertTrue(result.hasException());
         assertFalse(result.hasData());
@@ -182,7 +183,7 @@ public class MinervaRequestTest {
         HttpUrl url = server.url("/fine.json");
 
         Request<Integer> request = new SimpleTestRequest(url, account, expectedToken);
-        Result<Integer> result = request.performRequest();
+        Result<Integer> result = request.execute();
 
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
@@ -199,12 +200,12 @@ public class MinervaRequestTest {
         private final HttpUrl url;
 
         SimpleTestRequest(HttpUrl url, Account account, MinervaRequest.AccessTokenProvider provider) {
-            super(RuntimeEnvironment.application, Integer.class, account, provider);
+            super(ApplicationProvider.getApplicationContext(), Integer.class, account, provider);
             this.url = url;
         }
 
         SimpleTestRequest(HttpUrl url, Account account, String authToken) {
-            super(RuntimeEnvironment.application, Integer.class, account, (accountManager, account1) -> {
+            super(ApplicationProvider.getApplicationContext(), Integer.class, account, (accountManager, account1) -> {
                 Objects.requireNonNull(account1);
                 Objects.requireNonNull(accountManager);
                 Bundle b = new Bundle();

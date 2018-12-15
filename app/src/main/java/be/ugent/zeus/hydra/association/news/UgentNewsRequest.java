@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
 import be.ugent.zeus.hydra.common.request.Result;
-import java8.util.Comparators;
+import java9.util.Comparators;
 import org.threeten.bp.Duration;
 
 import java.util.Collections;
@@ -18,18 +18,18 @@ import java.util.List;
  *
  * @author feliciaan
  */
-public class UgentNewsRequest extends JsonArrayRequest<UgentNewsItem> {
+public class UgentNewsRequest extends JsonArrayRequest<UgentNewsArticle> {
 
     public UgentNewsRequest(Context context) {
-        super(context, UgentNewsItem.class);
+        super(context, UgentNewsArticle.class);
     }
 
     @NonNull
     @Override
-    public Result<List<UgentNewsItem>> performRequest(@NonNull Bundle args) {
-        return super.performRequest(args).map(ugentNewsItems -> {
+    public Result<List<UgentNewsArticle>> execute(@NonNull Bundle args) {
+        return super.execute(args).map(ugentNewsItems -> {
             //noinspection Java8ListSort
-            Collections.sort(ugentNewsItems, Comparators.reversed(Comparators.comparing(UgentNewsItem::getModified)));
+            Collections.sort(ugentNewsItems, Comparators.reversed(Comparators.comparing(UgentNewsArticle::getModified)));
             return ugentNewsItems;
         });
     }

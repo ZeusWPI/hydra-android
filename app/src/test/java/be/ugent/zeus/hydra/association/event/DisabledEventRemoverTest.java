@@ -1,9 +1,18 @@
 package be.ugent.zeus.hydra.association.event;
 
+import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import be.ugent.zeus.hydra.BuildConfig;
+import androidx.test.core.app.ApplicationProvider;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
@@ -15,15 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING;
 import static org.junit.Assert.assertTrue;
@@ -32,7 +33,7 @@ import static org.junit.Assert.assertTrue;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
+@Config(application = TestApp.class)
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class DisabledEventRemoverTest {
 
@@ -59,11 +60,13 @@ public class DisabledEventRemoverTest {
                 .map(Association::getInternalName)
                 .collect(Collectors.toSet());
 
+        Context context = ApplicationProvider.getApplicationContext();
+
         // Add those to the preferences
-        PreferencesUtils.addToStringSet(RuntimeEnvironment.application, PREF_ASSOCIATIONS_SHOWING, toRemoveIds);
+        PreferencesUtils.addToStringSet(context, PREF_ASSOCIATIONS_SHOWING, toRemoveIds);
 
         // Do the filtering
-        DisabledEventRemover filter = new DisabledEventRemover(RuntimeEnvironment.application);
+        DisabledEventRemover filter = new DisabledEventRemover(context);
         List<Event> result = filter.apply(data);
 
         assertTrue(

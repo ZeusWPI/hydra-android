@@ -5,7 +5,6 @@ import be.ugent.zeus.hydra.minerva.course.Course;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.hamcrest.Matchers.endsWith;
@@ -21,7 +20,7 @@ public class WhatsNewRequestTest extends AbstractMinervaRequestTest<ApiWhatsNew>
 
     @Override
     protected WhatsNewRequest getRequest() {
-        return new WhatsNewRequest(course, RuntimeEnvironment.application, getAccount());
+        return new WhatsNewRequest(course, context, getAccount());
     }
 
     @Override

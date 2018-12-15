@@ -30,7 +30,7 @@ class ExhibitorViewHolder extends DataViewHolder<Exhibitor> {
     @Override
     public void populate(final Exhibitor data) {
         name.setText(data.getName());
-        Picasso.with(itemView.getContext()).load(data.getLogo()).fit().centerInside().into(imageView);
+        Picasso.get().load(data.getLogo()).fit().centerInside().into(imageView);
 
         final Spanned converted = Utils.fromHtml(data.getContent());
 

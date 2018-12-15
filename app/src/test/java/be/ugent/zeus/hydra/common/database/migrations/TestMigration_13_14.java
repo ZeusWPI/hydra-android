@@ -6,17 +6,17 @@ import android.arch.persistence.room.testing.LocalMigrationTestHelper;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import be.ugent.zeus.hydra.BuildConfig;
+import androidx.test.core.app.ApplicationProvider;
+
+import java.io.IOException;
+
 import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.common.database.Database;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-
-import java.io.IOException;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
  */
 @RequiresApi(api = 26)
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
+@Config(application = TestApp.class)
 public class TestMigration_13_14 {
 
     @Rule
@@ -34,8 +34,8 @@ public class TestMigration_13_14 {
 
     {
         Instrumentation mockInstrumentation = mock(Instrumentation.class);
-        when(mockInstrumentation.getTargetContext()).thenReturn(RuntimeEnvironment.application);
-        when(mockInstrumentation.getContext()).thenReturn(RuntimeEnvironment.application);
+        when(mockInstrumentation.getTargetContext()).thenReturn(ApplicationProvider.getApplicationContext());
+        when(mockInstrumentation.getContext()).thenReturn(ApplicationProvider.getApplicationContext());
         testHelper = new LocalMigrationTestHelper(mockInstrumentation, Database.class.getCanonicalName());
     }
 

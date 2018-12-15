@@ -8,7 +8,7 @@ import android.provider.CalendarContract;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import java8.util.Objects;
+import java9.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -65,7 +65,7 @@ public final class Artist implements Serializable, Parcelable {
      * @return The converted start date.
      */
     public LocalDateTime getLocalStart() {
-        return DateUtils.toLocalDateTime(getStart());
+        return getStart() == null ? null : DateUtils.toLocalDateTime(getStart());
     }
 
     /**
@@ -77,7 +77,7 @@ public final class Artist implements Serializable, Parcelable {
      * @return The converted end date.
      */
     public LocalDateTime getLocalEnd() {
-        return DateUtils.toLocalDateTime(getEnd());
+        return getEnd() == null ? null : DateUtils.toLocalDateTime(getEnd());
     }
 
     public String getBanner() {
@@ -116,28 +116,44 @@ public final class Artist implements Serializable, Parcelable {
         LocalDateTime start = getLocalStart();
         LocalDateTime end = getLocalEnd();
 
+        if (start == null && end == null) {
+            return context.getString(R.string.sko_artist_time_none);
+        }
+
         DateTimeFormatter fullFormatter = DateTimeFormatter.ofPattern(context.getString(R.string.formatter_sko_artist_full));
         DateTimeFormatter shortFormatter = DateTimeFormatter.ofPattern(context.getString(R.string.formatter_sko_artist_hour_only));
 
-        String startString = start.format(fullFormatter);
-        String endString;
-        if (start.getDayOfMonth() == end.getDayOfMonth()) {
-            endString = end.format(shortFormatter);
+        if (start == null) {
+            return context.getString(R.string.sko_artist_time_end, end.format(fullFormatter));
+        } else if (end == null) {
+            return context.getString(R.string.sko_artist_time_start, start.format(fullFormatter));
         } else {
-            endString = end.format(fullFormatter);
-        }
+            // Both are not null.
+            String startString = start.format(fullFormatter);
+            String endString;
+            if (start.getDayOfMonth() == end.getDayOfMonth()) {
+                endString = end.format(shortFormatter);
+            } else {
+                endString = end.format(fullFormatter);
+            }
 
-        return context.getString(R.string.sko_artist_time, startString, endString);
+            return context.getString(R.string.sko_artist_time, startString, endString);
+        }
     }
 
     public Intent addToCalendarIntent() {
-        return new Intent(Intent.ACTION_INSERT)
+        Intent intent = new Intent(Intent.ACTION_INSERT)
                 .setData(CalendarContract.Events.CONTENT_URI)
-                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, getStart().toInstant().toEpochMilli())
-                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, getEnd().toInstant().toEpochMilli())
-                .putExtra(CalendarContract.Events.TITLE, getName())
                 .putExtra(CalendarContract.Events.EVENT_LOCATION, LOCATION)
+                .putExtra(CalendarContract.Events.TITLE, getName())
                 .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+        if (getStart() != null) {
+            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, getStart().toInstant().toEpochMilli());
+        }
+        if (getEnd() != null) {
+            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, getEnd().toInstant().toEpochMilli());
+        }
+        return intent;
     }
 
     @Override
@@ -156,38 +172,41 @@ public final class Artist implements Serializable, Parcelable {
         return Objects.hash(name, start, end, stage);
     }
 
-    protected Artist(Parcel in) {
-        name = in.readString();
-        banner = in.readString();
-        image = in.readString();
-        content = in.readString();
-        stage = in.readString();
-        link = in.readString();
-        start = (OffsetDateTime) in.readSerializable();
-        end = (OffsetDateTime) in.readSerializable();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(banner);
-        dest.writeString(image);
-        dest.writeString(content);
-        dest.writeString(stage);
-        dest.writeString(link);
-        dest.writeSerializable(start);
-        dest.writeSerializable(end);
-    }
-
     @Override
     public int describeContents() {
         return 0;
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeSerializable(this.start);
+        dest.writeSerializable(this.end);
+        dest.writeString(this.banner);
+        dest.writeString(this.image);
+        dest.writeString(this.content);
+        dest.writeString(this.stage);
+        dest.writeString(this.link);
+    }
+
+    public Artist() {
+    }
+
+    protected Artist(Parcel in) {
+        this.name = in.readString();
+        this.start = (OffsetDateTime) in.readSerializable();
+        this.end = (OffsetDateTime) in.readSerializable();
+        this.banner = in.readString();
+        this.image = in.readString();
+        this.content = in.readString();
+        this.stage = in.readString();
+        this.link = in.readString();
+    }
+
     public static final Creator<Artist> CREATOR = new Creator<Artist>() {
         @Override
-        public Artist createFromParcel(Parcel in) {
-            return new Artist(in);
+        public Artist createFromParcel(Parcel source) {
+            return new Artist(source);
         }
 
         @Override

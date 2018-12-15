@@ -1,31 +1,28 @@
 package be.ugent.zeus.hydra.minerva.announcement.courselist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.ColorInt;
 import android.view.View;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
+import be.ugent.zeus.hydra.testing.RobolectricUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.stubbing.Answer;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.shadows.ShadowApplication;
 
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertNotEmpty;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Niko Strijbol
@@ -37,11 +34,12 @@ public class ViewHolderTest {
     public void populate() {
         View view = inflate(R.layout.item_minerva_announcement);
         ResultStarter starter = mock(ResultStarter.class);
+        Context context = RobolectricUtils.getActivityContext();
         doAnswer((Answer<Void>) invocation -> {
-            RuntimeEnvironment.application.startActivity(invocation.getArgument(0));
+            context.startActivity(invocation.getArgument(0));
             return null;
         }).when(starter).startActivityForResult(any(Intent.class), anyInt());
-        when(starter.getContext()).thenReturn(RuntimeEnvironment.application);
+        when(starter.getContext()).thenReturn(context);
         Announcement announcement = generate(Announcement.class);
         ViewHolder viewHolder = new ViewHolder(view, starter);
         viewHolder.populate(announcement);
@@ -57,7 +55,7 @@ public class ViewHolderTest {
         view.findViewById(R.id.clickable_view).performClick();
 
         Intent expectedIntent = new Intent(view.getContext(), SingleAnnouncementActivity.class);
-        Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent actual = getShadowApplication().getNextStartedActivity();
 
         assertEquals(expectedIntent.getComponent(), actual.getComponent());
         assertEquals(announcement, actual.getParcelableExtra(SingleAnnouncementActivity.ARG_ANNOUNCEMENT));

@@ -16,14 +16,14 @@
     <string name="action_open_browser">Bekijken in browser</string>
     <string name="action_view_settings">Instellingen</string>
     <string name="action_view_link">Link openen</string>
+    <string name="action_view_files">Bestanden bekijken</string>
     <string name="action_again">Opnieuw</string>
     <string name="action_logout">Afmelden</string>
     <string name="action_drawer_open">Openen</string>
     <string name="action_drawer_close">Sluiten</string>
     <string name="action_turn_off">Uitschakelen</string>
     <string name="action_open_map">Kaart openen</string>
-    <string name="action_send_mail">Versturen als e-mail</string>
-    <string name="action_call">Bellen</string>
+    <string name="action_send_mail">E-mailen</string>
     <string name="action_sync">Synchroniseren</string>
     <string name="action_search">Zoeken</string>
     <string name="action_mark_as_read">Markeren als gelezen</string>
@@ -168,13 +168,11 @@
     <string name="resto_location_action_center">Ga naar resto\'s</string>
 
     <string name="resto_menu_main_dish">Hoofdgerechten</string>
-    <string name="resto_menu_side_dish">Bijgerechten</string>
+    <string name="resto_menu_soup">Soep</string>
     <string name="resto_menu_vegetables">Groenten</string>
     <string name="resto_menu_date">Datum van menu: %s</string>
-    <string name="resto_menu_not_available">
-        Er is geen menu of we konden hem niet ophalen. Misschien heb je meer geluk op de
-        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">website van de resto's</a>.
-    </string>
+    <string name="resto_menu_not_available">Er is geen menu of we konden hem niet ophalen. Misschien heb je meer geluk op de
+        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">website van de resto\'s</a>.</string>
 
     <string name="resto_spinner_loading">Laden…</string>
 
@@ -189,12 +187,21 @@
     <string name="resto_legend_soup">Soep</string>
     <string name="resto_legend_vegetables">Groenten</string>
     <string name="resto_legend_meat">Vlees</string>
-    <string name="resto_legend_veg">Vegetarisch/veganistisch</string>
+    <string name="resto_legend_vegetarian">Vegetarisch</string>
+    <string name="resto_legend_vegan">Veganistisch</string>
     <string name="resto_legend_abbr_header">Afkortingen</string>
     <string name="resto_legend_msc_abbr">MSC</string>
     <string name="resto_legend_msc_desc">Marine Stewardship Council, duurzame visserij</string>
     <string name="resto_legend_asc_abbr">ASC</string>
     <string name="resto_legend_asc_desc">Aquaculture Stewardship Council, verantwoorde kweek</string>
+
+    <string name="resto_menu_slice_open_menu">Open restomenu</string>
+    <string name="resto_menu_slice_next">Volgende dag</string>
+    <string name="resto_menu_slice_previous">Vorige dag</string>
+    <string name="resto_menu_slice_subtitle_loading">Menu van %s laden…</string>
+    <string name="resto_menu_slice_subtitle">Menu van %s</string>
+    <string name="resto_menu_slice_title_error">Restomenu niet beschikbaar</string>
+    <string name="resto_menu_slice_title">Restomenu voor %s</string>
 
     <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
     <string name="value_resto_default_endpoint">nl-debrug</string>
@@ -259,6 +266,15 @@
     <string name="minerva_calendar_not_found">Agenda-item werd niet gevonden.</string>
     <string name="minerva_calendar_duration">%1$s – %2$s</string>
     <string name="minerva_calendar_friendly_date">%1$s (%2$s)</string>
+    <string name="minerva_calendar_permission_notification_title">Machtigingen voor Hydra</string>
+    <string name="minerva_calendar_permission_notification_short">Geef toestemming voor de Minerva-agenda</string>
+    <string name="minerva_calendar_permission_notification_long">
+        Hydra heeft toegang tot uw agenda nodig om de Minerva-agenda te synchroniseren.
+    </string>
+    <string name="minerva_calendar_missing_notification_title">Geen agenda gevonden</string>
+    <string name="minerva_calendar_missing_notification_text">
+        Hydra had geen toegang tot de agenda van dit apparaat of vond geen agenda. De agenda zal niet gesynchroniseerd worden.
+    </string>
 
     <string name="minerva_calendar_merge_warning">
         Dit evenement is samengevoegd door de duplicatendetectie van Hydra. Als het evenement vreemd lijkt, is het
@@ -336,6 +352,8 @@
     <string name="minerva_pref_sync_freq_24_hours">24 uur</string>
     <string name="minerva_pref_sync_freq_1_week">1 week</string>
 
+    <string name="minerva_course_no_document_viewer">Geen bestandsverkenner gevonden!</string>
+
     <!-- SKO -->
     <string name="sko_overview_activity_title">Student Kick-Off</string>
 
@@ -354,6 +372,9 @@
     <string name="sko_artist_search_music">Artiest zoeken in muziek</string>
     <string name="sko_artist_no_content">Geen beschrijving gevonden voor deze artiest.</string>
     <string name="sko_artist_time">%1$s tot %2$s</string>
+    <string name="sko_artist_time_end">Tot %1$s</string>
+    <string name="sko_artist_time_start">Vanaf %1$s</string>
+    <string name="sko_artist_time_none">Geen tijden beschikbaar</string>
 
     <string name="sko_tab_map">Kaart</string>
     <string name="sko_tab_village">Student Village</string>
@@ -369,6 +390,16 @@
     <string name="feed_pref_clear_cards_title">Verborgen kaarten wissen</string>
     <string name="feed_pref_clear_cards_summary">Wis de lijst van verborgen kaarten. Hierdoor zullen alle kaarten opnieuw getoond worden.</string>
     <string name="feed_pref_hidden_cleared">Gewist</string>
+    <string name="feed_pref_cat_resto">Restomenu</string>
+    <string name="feed_pref_cat_general">Algemeen</string>
+    <string name="feed_pref_resto_kinds">Wat te tonen op de menu</string>
+    <string name="feed_pref_resto_kinds_main">Enkel hoofdgerecht</string>
+    <string name="feed_pref_resto_kinds_soup">Enkel soep</string>
+    <string name="feed_pref_resto_kinds_all">Zowel soep als hoofdgerecht</string>
+    <string name="feed_pref_resto_show_soup">Soep tonen</string>
+    <string name="feed_pref_resto_hide_soup">Soep verbergen</string>
+    <string name="feed_pref_resto_show_main">Hoofdgerecht tonen</string>
+    <string name="feed_pref_resto_hide_main">Hoofdgerecht verbergen</string>
 
     <string name="feed_card_type_title_resto">Restomenu</string>
     <string name="feed_card_type_title_events">Activiteiten</string>
@@ -410,6 +441,8 @@
     <string name="feed_card_hidden_type">Kaartsoort verborgen</string>
     <string name="feed_card_hidden_association">Vereniging verborgen</string>
     <string name="feed_card_hidden_single">Klaar met deze kaart</string>
+    <string name="feed_card_hidden_menu_soup">Soep verborgen</string>
+    <string name="feed_card_hidden_menu_main">Hoofdgerecht verborgen</string>
 
     <!-- Info -->
     <string name="info_sub_item_activity_title">Meer info</string>
@@ -436,6 +469,8 @@
     <string name="urgent_channel_desc">Meldingen over Urgent.fm, inclusief de mediamelding voor de radiospeler.</string>
     <string name="urgent_play">Spelen</string>
     <string name="urgent_stop">Stoppen</string>
+    <string name="urgent_loading">Laden…</string>
+    <string name="urgent_error">Fout</string>
 
     <!-- Libraries -->
     <string name="library_favourite">Opslaan</string>
@@ -450,6 +485,8 @@
     <string name="library_less">Minder</string>
     <string name="library_info_remarks">Opmerkingen</string>
     <string name="library_info_details">Details</string>
+    <string name="library_list_no_opening_hours">Geen openingsuren vandaag.</string>
+    <string name="library_list_opening_hours_today">Vandaag open: %s</string>
 
     <!-- Accessibility strings -->
     <string name="content_desc_unread_icon">Heeft ongelezen aankondigingen</string>

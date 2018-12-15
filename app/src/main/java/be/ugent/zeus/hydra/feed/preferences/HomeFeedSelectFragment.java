@@ -19,8 +19,8 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DescriptionMultiSelectListViewHolder;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
 import java.util.*;
 

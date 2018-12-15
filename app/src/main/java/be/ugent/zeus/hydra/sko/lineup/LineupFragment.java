@@ -11,17 +11,17 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
 
+import java.util.List;
+import java.util.Map;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
-import be.ugent.zeus.hydra.common.ui.recyclerview.TextCallback;
-import su.j2e.rvjoiner.JoinableAdapter;
-import su.j2e.rvjoiner.JoinableLayout;
-import su.j2e.rvjoiner.RvJoiner;
-
-import java.util.*;
+import java9.util.stream.Collectors;
+import java9.util.stream.Stream;
+import java9.util.stream.StreamSupport;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
@@ -35,8 +35,7 @@ public class LineupFragment extends Fragment {
 
     private static final String TAG = "LineupFragment";
 
-    private RvJoiner joiner;
-    private Map<String, LineupAdapter> adapters = new HashMap<>();
+    private final LineupAdapter adapter = new LineupAdapter();
     private LineupViewModel viewModel;
 
     @Override
@@ -60,10 +59,7 @@ public class LineupFragment extends Fragment {
         SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.sko_secondary_colour);
 
-        if (joiner == null) {
-            joiner = new RvJoiner();
-        }
-        recyclerView.setAdapter(joiner.getAdapter());
+        recyclerView.setAdapter(adapter);
 
         viewModel = ViewModelProviders.of(this).get(LineupViewModel.class);
         viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
@@ -73,26 +69,23 @@ public class LineupFragment extends Fragment {
         refreshLayout.setOnRefreshListener(viewModel);
     }
 
-    private void receiveData(@NonNull Iterable<Artist> data) {
-        //Sort into stages
-        Map<String, List<Artist>> stages = new LinkedHashMap<>();
+    private void receiveData(@NonNull List<Artist> data) {
 
-        for (Artist artist : data) {
-            if (!stages.containsKey(artist.getStage())) {
-                stages.put(artist.getStage(), new ArrayList<>());
-            }
-            stages.get(artist.getStage()).add(artist);
-        }
+        // Sort the artists into stages.
+        Map<String, List<Artist>> stages = StreamSupport.stream(data)
+                .collect(Collectors.groupingBy(Artist::getStage));
 
-        for (Map.Entry<String, List<Artist>> entry : stages.entrySet()) {
-            if (!adapters.containsKey(entry.getKey())) {
-                LineupAdapter adapter = new LineupAdapter();
-                adapters.put(entry.getKey(), adapter);
-                joiner.add(new JoinableLayout(R.layout.item_title, new TextCallback(entry.getKey())));
-                joiner.add(new JoinableAdapter(adapter));
-            }
-            adapters.get(entry.getKey()).submitData(entry.getValue());
-        }
+        // Merge the sorted stages back into one flat list while prepending the stage as a title for each section.
+        // This might be faster with a traditional loop, but the streams are fancier.
+        List<ArtistOrTitle> masterList = StreamSupport.stream(stages.entrySet())
+                .flatMap(e ->
+                        Stream.concat(
+                                Stream.of(new ArtistOrTitle(e.getKey())),
+                                StreamSupport.stream(e.getValue()).map(ArtistOrTitle::new)
+                        ))
+                .collect(Collectors.toList());
+
+        adapter.submitData(masterList);
     }
 
     @Override

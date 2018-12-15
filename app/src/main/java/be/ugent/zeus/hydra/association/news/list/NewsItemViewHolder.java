@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.news.NewsArticleActivity;
-import be.ugent.zeus.hydra.association.news.UgentNewsItem;
+import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
@@ -18,7 +18,7 @@ import be.ugent.zeus.hydra.utils.DateUtils;
  * @author Niko Strijbol
  * @author feliciaan
  */
-class NewsItemViewHolder extends DataViewHolder<UgentNewsItem> {
+class NewsItemViewHolder extends DataViewHolder<UgentNewsArticle> {
 
     private final TextView info;
     private final TextView title;
@@ -34,7 +34,7 @@ class NewsItemViewHolder extends DataViewHolder<UgentNewsItem> {
     }
 
     @Override
-    public void populate(final UgentNewsItem newsItem) {
+    public void populate(final UgentNewsArticle newsItem) {
 
         title.setText(newsItem.getTitle());
 

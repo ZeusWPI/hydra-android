@@ -4,7 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.support.annotation.NonNull;
 
 import be.ugent.zeus.hydra.feed.cards.database.DismissalTable;
-import java8.util.Objects;
+import java9.util.Objects;
 
 /**
  * Identifies a single card in the home feed.

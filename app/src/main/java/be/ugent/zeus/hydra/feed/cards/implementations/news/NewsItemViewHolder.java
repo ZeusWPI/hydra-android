@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.news.UgentNewsItem;
+import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.association.news.NewsArticleActivity;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
@@ -32,7 +32,7 @@ public class NewsItemViewHolder extends CardViewHolder {
     public void populate(final Card card) {
         super.populate(card);
 
-        UgentNewsItem newsItem = card.<NewsItemCard>checkCard(Card.Type.NEWS_ITEM).getNewsItem();
+        UgentNewsArticle newsItem = card.<NewsItemCard>checkCard(Card.Type.NEWS_ITEM).getNewsItem();
 
         title.setText(newsItem.getTitle());
 

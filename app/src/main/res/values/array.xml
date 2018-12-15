@@ -46,10 +46,10 @@
     </string-array>
 
     <string-array name="sko_tab_names" translatable="false">
-        <item>@string/sko_tab_timeline</item>
+        <!--<item>@string/sko_tab_timeline</item>-->
         <item>@string/sko_tab_lineup</item>
-        <item>@string/sko_tab_village</item>
-        <item>@string/sko_tab_map</item>
+        <!--<item>@string/sko_tab_village</item>-->
+        <!--<item>@string/sko_tab_map</item>-->
     </string-array>
 
     <string-array name="pref_night_mode_values" translatable="false">
@@ -64,6 +64,19 @@
         <item>@string/pref_theme_night_mode_never</item>
         <item>@string/pref_theme_night_mode_always</item>
         <item>@string/pref_theme_night_mode_system</item>
+    </string-array>
+
+    <!-- These values are also defined in the feed preference fragment. -->
+    <string-array name="pref_feed_resto_kind_values" translatable="false">
+        <item>main</item>
+        <item>soup</item>
+        <item>all</item>
+    </string-array>
+
+    <string-array name="pref_feed_resto_kind" translatable="false">
+        <item>@string/feed_pref_resto_kinds_main</item>
+        <item>@string/feed_pref_resto_kinds_soup</item>
+        <item>@string/feed_pref_resto_kinds_all</item>
     </string-array>
 
 </resources>

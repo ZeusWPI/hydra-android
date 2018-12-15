@@ -1,10 +1,12 @@
 package be.ugent.zeus.hydra.minerva.announcement.unreadlist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
@@ -15,14 +17,10 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.stubbing.Answer;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.shadows.ShadowApplication;
 
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertNotEmpty;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
-import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
+import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
@@ -45,11 +43,12 @@ public class AnnouncementsViewHolderTest {
 
     private static void testGeneric(boolean checked) {
         ResultStarter starter = mock(ResultStarter.class);
+        Context context = getActivityContext();
         doAnswer((Answer<Void>) invocation -> {
-            RuntimeEnvironment.application.startActivity(invocation.getArgument(0));
+            context.startActivity(invocation.getArgument(0));
             return null;
         }).when(starter).startActivityForResult(any(Intent.class), anyInt());
-        when(starter.getContext()).thenReturn(RuntimeEnvironment.application);
+        when(starter.getContext()).thenReturn(context);
         View view = inflate(R.layout.item_minerva_extended_announcement);
         @SuppressWarnings("unchecked")
         MultiSelectAdapter<Announcement> adapter = mock(MultiSelectAdapter.class);
@@ -71,7 +70,7 @@ public class AnnouncementsViewHolderTest {
         view.performClick();
 
         Intent expectedIntent = new Intent(view.getContext(), SingleAnnouncementActivity.class);
-        Intent actualIntent = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent actualIntent = getShadowApplication().getNextStartedActivity();
         assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
         assertEquals(announcement, actualIntent.getParcelableExtra(SingleAnnouncementActivity.ARG_ANNOUNCEMENT));
 

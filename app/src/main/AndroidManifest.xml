@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="be.ugent.zeus.hydra"
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    package="be.ugent.zeus.hydra"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Network permissions -->
@@ -31,8 +32,8 @@
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
 
     <!-- Urgent stuff -->
-    <permission android:name="android.permission.WAKE_LOCK" />
-    <permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -58,15 +59,26 @@
         android:label="@string/app_name"
         android:logo="@drawable/logo"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Hydra.Main.NoActionBar">
+        android:theme="@style/Hydra.Main.NoActionBar"
+        android:networkSecurityConfig="@xml/network_security_config">
 
         <!-- Disable all Firebase analytics in debug mode. -->
         <meta-data android:name="firebase_analytics_collection_deactivated"
             android:value="${disableAnalytics}" />
 
-        <!-- Disable all Firebase crash reporting in debug mode -->
-        <meta-data android:name="firebase_crashlytics_collection_enabled"
-            android:value="${enableCrashReporting}" />
+        <!--
+          ~ Disables automatic initialisation of Crashlytics.
+          ~
+          ~ This is necessary because we want to disable Crashlytics in debug builds. The initialisation happens
+          ~ in the HydraApplication.
+          -->
+        <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
+
+        <!-- This is used for the Google Maps fragment -->
+        <!-- See https://developers.google.com/maps/documentation/android-sdk/config#specify_requirement_for_apache_http_legacy_library -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <!-- Main activity -->
         <activity
@@ -75,7 +87,6 @@
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -92,7 +103,6 @@
             android:theme="@style/Hydra.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -317,10 +327,12 @@
             android:exported="false" />
 
         <!-- Urgent stuff -->
+        <!-- This is a music service without sensitive data and thus does not require permissions -->
         <service
-            android:name=".urgent.player.MusicService"
+            android:name=".urgent.MusicService"
             android:exported="true"
-            android:process=":urgent">
+            android:process=":urgent"
+            tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>
@@ -329,6 +341,23 @@
         <receiver android:name="android.support.v4.media.session.MediaButtonReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Slices stuff -->
+        <provider android:name=".resto.menu.slice.SliceProvider"
+            android:authorities="be.ugent.zeus.hydra.resto.menu"
+            android:exported="true"
+            tools:ignore="ExportedContentProvider">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.app.slice.category.SLICE" />
+            </intent-filter>
+        </provider>
+
+        <receiver android:name = ".resto.menu.slice.UpdatedMenuBroadcastReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="be.ugent.zeus.hydra.resto.update" />
             </intent-filter>
         </receiver>
     </application>

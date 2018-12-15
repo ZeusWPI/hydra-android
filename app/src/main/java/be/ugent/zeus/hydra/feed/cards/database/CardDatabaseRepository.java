@@ -4,8 +4,8 @@ import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardDismissal;
 import be.ugent.zeus.hydra.feed.cards.CardIdentifier;
 import be.ugent.zeus.hydra.feed.cards.CardRepository;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
 import java.util.HashSet;
 import java.util.List;

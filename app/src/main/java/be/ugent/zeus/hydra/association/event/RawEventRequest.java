@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
 import be.ugent.zeus.hydra.common.request.Request;
-import java8.util.function.Function;
+import java9.util.function.Function;
 import org.threeten.bp.Duration;
 
 import java.util.List;

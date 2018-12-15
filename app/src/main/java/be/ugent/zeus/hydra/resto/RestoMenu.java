@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.resto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java9.util.Objects;
 import org.threeten.bp.LocalDate;
 
 import java.io.Serializable;
@@ -21,8 +22,8 @@ public final class RestoMenu implements Parcelable, Serializable {
     private boolean open;
     private LocalDate date;
     private List<RestoMeal> meals;
-    private transient List<RestoMeal> sideDishes;
     private transient List<RestoMeal> mainDishes;
+    private transient List<RestoMeal> soups;
     private List<String> vegetables;
 
     @SuppressWarnings("unused") // Moshi uses this.
@@ -32,13 +33,13 @@ public final class RestoMenu implements Parcelable, Serializable {
      * Sort the meals available in the menu.
      */
     private void fillCategories() {
-        sideDishes = new ArrayList<>();
+        soups = new ArrayList<>();
         mainDishes = new ArrayList<>();
 
         for(RestoMeal meal : meals) {
-            if (meal.getType() == RestoMeal.MealType.SIDE) {
-                sideDishes.add(meal);
-            } else if (meal.getType() == RestoMeal.MealType.MAIN) {
+            if (meal.getKind() != null && meal.getKind().equals("soup")) {
+                soups.add(meal);
+            } else {
                 mainDishes.add(meal);
             }
         }
@@ -86,11 +87,11 @@ public final class RestoMenu implements Parcelable, Serializable {
         this.date = date;
     }
 
-    public List<RestoMeal> getSideDishes() {
-        if (sideDishes == null) {
+    public List<RestoMeal> getSoups() {
+        if (soups == null) {
             fillCategories();
         }
-        return sideDishes;
+        return soups;
     }
 
     public List<RestoMeal> getMainDishes() {
@@ -140,12 +141,12 @@ public final class RestoMenu implements Parcelable, Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         RestoMenu restoMenu = (RestoMenu) o;
         return open == restoMenu.open &&
-                java8.util.Objects.equals(date, restoMenu.date) &&
-                java8.util.Objects.equals(meals, restoMenu.meals);
+                Objects.equals(date, restoMenu.date) &&
+                Objects.equals(meals, restoMenu.meals);
     }
 
     @Override
     public int hashCode() {
-        return java8.util.Objects.hash(open, date, meals);
+        return Objects.hash(open, date, meals);
     }
 }

@@ -13,11 +13,11 @@ import org.threeten.bp.Duration;
  *
  * @author Niko Strijbol
  */
-class OpeningHoursRequest extends JsonArrayRequest<OpeningHours> {
+public class OpeningHoursRequest extends JsonArrayRequest<OpeningHours> {
 
     private final String libraryCode;
 
-    OpeningHoursRequest(Context context, Library library) {
+    public OpeningHoursRequest(Context context, Library library) {
         super(context, OpeningHours.class);
         this.libraryCode = library.getCode();
     }

@@ -18,7 +18,6 @@ import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
@@ -32,7 +31,7 @@ public class LibraryListFragment extends Fragment {
     private static final String LIB_URL = "http://lib.ugent.be/";
     public static final String PREF_LIBRARY_FAVOURITES = "pref_library_favourites";
 
-    private final LibraryListAdapter adapter = new LibraryListAdapter();
+    private LibraryListAdapter adapter;
     private LibraryViewModel viewModel;
 
     @Override
@@ -53,16 +52,17 @@ public class LibraryListFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
-        RecyclerFastScroller s = view.findViewById(R.id.fast_scroller);
-        s.attachRecyclerView(recyclerView);
-        recyclerView.setAdapter(adapter);
-        // TODO
-        // adapter.registerAdapterDataObserver(new EmptyViewObserver(recyclerView, view.findViewById(R.id.no_data_view)));
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.hydra_secondary_colour);
+        // Disable drag to refresh, since it interferes with the fast scroller.
+        // TODO: find a way to fix this without disable this.
+        swipeRefreshLayout.setEnabled(false);
 
         viewModel = ViewModelProviders.of(this).get(LibraryViewModel.class);
+        adapter = new LibraryListAdapter(viewModel);
+        recyclerView.setAdapter(adapter);
+
         viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
         viewModel.getData().observe(this, new AdapterObserver<>(adapter));
@@ -100,5 +100,13 @@ public class LibraryListFragment extends Fragment {
         Snackbar.make(requireView(this), getString(R.string.error_network), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.action_again), v -> viewModel.onRefresh())
                 .show();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (adapter != null) {
+            adapter.clearObservers();
+        }
     }
 }

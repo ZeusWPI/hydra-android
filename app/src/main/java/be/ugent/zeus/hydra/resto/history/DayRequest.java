@@ -28,7 +28,7 @@ public class DayRequest extends JsonOkHttpRequest<RestoMenu> {
     private LocalDate date;
     private RestoChoice choice;
 
-    DayRequest(Context context) {
+    public DayRequest(Context context) {
         super(context, RestoMenu.class);
     }
 

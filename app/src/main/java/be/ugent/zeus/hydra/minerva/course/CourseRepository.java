@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.minerva.course;
 import android.util.Pair;
 
 import be.ugent.zeus.hydra.common.FullRepository;
-import java8.util.Objects;
+import java9.util.Objects;
 
 import java.util.EnumSet;
 import java.util.List;

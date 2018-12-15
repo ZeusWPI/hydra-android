@@ -22,6 +22,7 @@ import org.threeten.bp.Duration;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.UnknownServiceException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -79,7 +80,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     @NonNull
     @Override
     @WorkerThread
-    public Result<D> performRequest(@NonNull Bundle args) {
+    public Result<D> execute(@NonNull Bundle args) {
 
         JsonAdapter<D> adapter = getAdapter();
 
@@ -87,6 +88,12 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
             try {
                 return executeRequest(adapter, args);
             } catch (IOException e) {
+
+                // If this exception is for a clear text violation, log it. We want to fix these.
+                if (e instanceof UnknownServiceException) {
+                    Log.e(TAG, "Unexpected error during network request.", e);
+                    Crashlytics.logException(e);
+                }
 
                 Result<D> result = Result.Builder.fromException(new IOFailureException(e));
 
@@ -124,15 +131,16 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     protected Result<D> executeRequest(JsonAdapter<D> adapter, @NonNull Bundle args) throws IOException, ConstructionException {
         okhttp3.Request request = constructRequest(args).build();
 
-        Response response = client.newCall(request).execute();
+        try (Response response = client.newCall(request).execute()) {
 
-        if (!response.isSuccessful()) {
-            throw new UnsuccessfulRequestException(response.code());
-        }
+            if (!response.isSuccessful()) {
+                throw new UnsuccessfulRequestException(response.code());
+            }
 
-        assert response.body() != null;
+            if (response.body() == null) {
+                throw new NullPointerException("Unexpected null body on request response.");
+            }
 
-        try {
             D result = adapter.fromJson(response.body().source());
             if (result == null) {
                 throw new NullPointerException("Null is not a valid value.");

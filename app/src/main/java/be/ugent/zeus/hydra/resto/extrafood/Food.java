@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.resto.extrafood;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java8.util.Objects;
+import java9.util.Objects;
 
 import java.io.Serializable;
 

@@ -22,7 +22,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.analytics.BaseEvents;
+import be.ugent.zeus.hydra.common.analytics.Event;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
@@ -31,25 +39,16 @@ import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.library.list.LibraryListFragment;
-import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 import net.cachapa.expandablelayout.ExpandableLayout;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Activity to display information about one {@link Library}.
- * <p>
- * TODO: investigate if the view hierarchy can be less deep.
  *
  * @author Niko Strijbol
  */
@@ -79,7 +78,7 @@ public class LibraryDetailActivity extends BaseActivity {
         layout = findViewById(R.id.frame_layout);
 
         ImageView header = findViewById(R.id.header_image);
-        Picasso.with(this).load(library.getEnsuredImage()).into(header);
+        Picasso.get().load(library.getHeaderImage(this)).into(header);
 
         requireToolbar().setTitle(library.getName());
 
@@ -141,6 +140,7 @@ public class LibraryDetailActivity extends BaseActivity {
             findViewById(R.id.library_remarks_title).setVisibility(View.GONE);
         } else {
             remarks.setText(Utils.fromHtml(comments));
+            layout.setExpanded(true, false);
         }
 
         TextView email = findViewById(R.id.library_mail_row_text);
@@ -163,12 +163,7 @@ public class LibraryDetailActivity extends BaseActivity {
         model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
 
-        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
-        Bundle parameters = new Bundle();
-        parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.LIBRARY);
-        parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, library.getName());
-        parameters.putString(FirebaseAnalytics.Param.ITEM_ID, library.getCode());
-        analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
+        Analytics.getTracker(this).log(new LibraryViewEvent(library));
     }
 
     @Override
@@ -208,6 +203,16 @@ public class LibraryDetailActivity extends BaseActivity {
             openHours.setText(hours.getHours());
             tableRow.addView(date);
             tableRow.addView(openHours);
+            if (!TextUtils.isEmpty(hours.getComments())) {
+                TextView comments = new TextView(this);
+                TableLayout.LayoutParams params = new TableLayout.LayoutParams();
+                params.weight = 0;
+                params.width = 0;
+                params.height = TableLayout.LayoutParams.MATCH_PARENT;
+                comments.setLayoutParams(params);
+                comments.setPadding(rowPadding, 0, 0, 0);
+                comments.setText(hours.getComments());
+            }
             tableLayout.addView(tableRow);
         }
 
@@ -217,10 +222,7 @@ public class LibraryDetailActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_library_details, menu);
-        tintToolbarIcons(menu, R.id.library_location, R.id.library_email, R.id.library_phone, R.id.library_url);
-        if (!library.hasTelephone()) {
-            menu.removeItem(R.id.library_phone);
-        }
+        tintToolbarIcons(menu, R.id.library_location, R.id.library_email, R.id.library_url);
         if (library.getLink() == null) {
             menu.removeItem(R.id.library_url);
         }
@@ -239,13 +241,6 @@ public class LibraryDetailActivity extends BaseActivity {
                 sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{library.getEmail()});
                 sendIntent.putExtra(Intent.EXTRA_SUBJECT, library.getName());
                 NetworkUtils.maybeLaunchIntent(this, sendIntent);
-                return true;
-            case R.id.library_phone:
-                if (library.hasTelephone()) {
-                    Intent phoneIntent = new Intent(Intent.ACTION_DIAL);
-                    phoneIntent.setData(Uri.fromParts("tel", library.getTelephone().get(0), null));
-                    NetworkUtils.maybeLaunchIntent(this, phoneIntent);
-                }
                 return true;
             case R.id.library_url:
                 if (library.getLink() != null) {
@@ -292,5 +287,31 @@ public class LibraryDetailActivity extends BaseActivity {
         Log.e(TAG, "Error while getting data.", throwable);
         Snackbar.make(findViewById(android.R.id.content), getString(R.string.error_network), Snackbar.LENGTH_LONG)
                 .show();
+    }
+
+    private static class LibraryViewEvent implements Event {
+
+        private final Library library;
+
+        private LibraryViewEvent(Library library) {
+            this.library = library;
+        }
+
+        @Nullable
+        @Override
+        public Bundle getParams() {
+            BaseEvents.Params names = Analytics.getEvents().params();
+            Bundle params = new Bundle();
+            params.putString(names.itemCategory(), Library.class.getSimpleName());
+            params.putString(names.itemId(), library.getCode());
+            params.putString(names.itemName(), library.getName());
+            return params;
+        }
+
+        @Nullable
+        @Override
+        public String getEventName() {
+            return Analytics.getEvents().viewItem();
+        }
     }
 }

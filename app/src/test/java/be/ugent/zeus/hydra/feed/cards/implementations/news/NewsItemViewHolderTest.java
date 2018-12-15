@@ -5,14 +5,13 @@ import android.preference.PreferenceManager;
 import android.view.View;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
 import be.ugent.zeus.hydra.association.news.NewsArticleActivity;
-import be.ugent.zeus.hydra.association.news.UgentNewsItem;
+import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
+import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
 import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowApplication;
 
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
@@ -26,10 +25,10 @@ public class NewsItemViewHolderTest extends AbstractFeedViewHolderTest {
 
     @Test
     public void populate() {
-        View view = inflate(R.layout.home_card_news_item);
+        View view = inflate(activityContext, R.layout.home_card_news_item);
         NewsItemViewHolder viewHolder = new NewsItemViewHolder(view, adapter);
         NewsItemCard card = generate(NewsItemCard.class);
-        UgentNewsItem item = card.getNewsItem();
+        UgentNewsArticle item = card.getNewsItem();
         viewHolder.populate(card);
 
         assertTextIs(item.getTitle(), view.findViewById(R.id.name));
@@ -43,7 +42,7 @@ public class NewsItemViewHolderTest extends AbstractFeedViewHolderTest {
         view.performClick();
 
         Intent expected = new Intent(view.getContext(), NewsArticleActivity.class);
-        Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent actual = getShadowApplication().getNextStartedActivity();
 
         assertEquals(expected.getComponent(), actual.getComponent());
         assertEquals(item, actual.getParcelableExtra(NewsArticleActivity.PARCEL_NAME));

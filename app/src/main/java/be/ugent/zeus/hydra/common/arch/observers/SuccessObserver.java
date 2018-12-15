@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import be.ugent.zeus.hydra.common.request.Result;
-import java8.util.function.Consumer;
+import java9.util.function.Consumer;
 
 /**
  * Observes successful loading of data.

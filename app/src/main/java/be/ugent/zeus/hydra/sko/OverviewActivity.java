@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.sko.preferences.SkoPreferencesFragment;
@@ -75,16 +76,14 @@ public class OverviewActivity extends BaseActivity {
         setContentView(R.layout.activity_sko_main);
 
         ViewPager viewpager = findViewById(R.id.pager);
-        viewpager.setAdapter(new PagerAdapter(getSupportFragmentManager(), this));
+        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), this);
+        viewpager.setAdapter(adapter);
 
         final AppBarLayout appBarLayout = findViewById(R.id.app_bar_layout);
+        // TODO: log the screens (is this still necessary?).
         viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                //Log tabs
-                HydraApplication app = (HydraApplication) OverviewActivity.this.getApplication();
-                app.sendScreenName("SKO tab position: " + position);
-                //Expand
                 appBarLayout.setExpanded(true);
             }
         });

@@ -24,6 +24,7 @@ import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.auth.oauth.BearerToken;
+import be.ugent.zeus.hydra.minerva.provider.CourseContract;
 import org.threeten.bp.LocalDateTime;
 
 /**
@@ -235,11 +236,11 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
             //First we get an auth code.
             try {
                 Request<BearerToken> request = AccountUtils.buildAuthTokenRequest(token);
-                BearerToken result = request.performRequest().getOrThrow();
+                BearerToken result = request.execute().getOrThrow();
 
                 //Get the information
                 Request<GrantInformation> infoRequest = new UserInfoRequest(AuthActivity.this, result.getAccessToken());
-                GrantInformation information = infoRequest.performRequest().getOrThrow();
+                GrantInformation information = infoRequest.execute().getOrThrow();
 
                 //Account name
                 String name;
@@ -269,7 +270,7 @@ public class AuthActivity extends BaseActivity implements ActivityHelper.Connect
                         && information.getUserAttributes() != null
                         && information.getUserAttributes().getUid() != null
                         && information.getUserAttributes().getUid().size() >= 1) {
-                    manager.setUserData(account, AccountUtils.USERNAME, information.getUserAttributes().getUid().get(0));
+                    manager.setUserData(account, CourseContract.Account.Data.USERNAME, information.getUserAttributes().getUid().get(0));
                 }
 
                 //Make intent for return value

@@ -29,13 +29,13 @@ class PagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new TimelineFragment();
-            case 1:
+//                return new TimelineFragment();
+//            case 1:
                 return new LineupFragment();
-            case 2:
-                return new ExhibitorFragment();
-            case 3:
-                return new MapFragment();
+//            case 2:
+//                return new ExhibitorFragment();
+//            case 3:
+//                return new MapFragment();
             default:
                 throw new AdapterOutOfBoundsException(position, getCount());
         }
@@ -43,7 +43,8 @@ class PagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+//        return 4;
+        return 1;
     }
 
     @Override

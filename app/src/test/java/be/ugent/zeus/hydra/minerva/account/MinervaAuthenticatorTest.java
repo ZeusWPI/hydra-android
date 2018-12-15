@@ -4,10 +4,12 @@ import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.accounts.NetworkErrorException;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import be.ugent.zeus.hydra.BuildConfig;
+import androidx.test.core.app.ApplicationProvider;
+
 import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.minerva.auth.AuthActivity;
 import org.apache.commons.lang3.mutable.MutableObject;
@@ -15,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowAccountManager;
 import org.threeten.bp.LocalDateTime;
@@ -28,16 +29,18 @@ import static org.robolectric.Shadows.shadowOf;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, application = TestApp.class)
+@Config(application = TestApp.class)
 public class MinervaAuthenticatorTest {
 
     private MinervaAuthenticator authenticator;
     private AccountAuthenticatorResponse response;
+    private Context context;
     private Account testAccount = new Account("TEST", MinervaConfig.ACCOUNT_TYPE);
 
     @Before
     public void setUp() {
-        this.authenticator = new MinervaAuthenticator(RuntimeEnvironment.application);
+        this.context = ApplicationProvider.getApplicationContext();
+        this.authenticator = new MinervaAuthenticator(context);
         this.response = mock(AccountAuthenticatorResponse.class);
     }
 
@@ -82,7 +85,7 @@ public class MinervaAuthenticatorTest {
 
         final String testToken = "TEST_TOKEN_AUTH2";
 
-        AccountManager manager = AccountManager.get(RuntimeEnvironment.application);
+        AccountManager manager = AccountManager.get(context);
         ShadowAccountManager shadowManager = shadowOf(manager);
         shadowManager.addAccount(testAccount);
         manager.setAuthToken(testAccount, MinervaConfig.DEFAULT_SCOPE, testToken);
@@ -108,7 +111,7 @@ public class MinervaAuthenticatorTest {
 
         // We subclass this to stub out network-related and difficult methods.
         // The AccountManager will still use the normal authenticator; this is not a problem.
-        MinervaAuthenticator authenticator = new MinervaAuthenticator(RuntimeEnvironment.application) {
+        MinervaAuthenticator authenticator = new MinervaAuthenticator(context) {
             @Override
             String getRefreshAccessToken(Account account, String refreshToken) {
                 mutableObject.setValue(refreshToken);
@@ -116,7 +119,7 @@ public class MinervaAuthenticatorTest {
             }
         };
 
-        AccountManager manager = AccountManager.get(RuntimeEnvironment.application);
+        AccountManager manager = AccountManager.get(context);
         ShadowAccountManager shadowManager = shadowOf(manager);
         shadowManager.addAccount(testAccount);
         manager.setAuthToken(testAccount, MinervaConfig.DEFAULT_SCOPE, expiredToken);
@@ -138,7 +141,7 @@ public class MinervaAuthenticatorTest {
 
         final String expiredToken = "TEST_TOKEN_AUTH2_EXPIRED";
 
-        AccountManager manager = AccountManager.get(RuntimeEnvironment.application);
+        AccountManager manager = AccountManager.get(context);
         ShadowAccountManager shadowManager = shadowOf(manager);
         shadowManager.addAccount(testAccount);
         manager.setAuthToken(testAccount, MinervaConfig.DEFAULT_SCOPE, expiredToken);
@@ -163,14 +166,14 @@ public class MinervaAuthenticatorTest {
 
         // We subclass this to stub out network-related and difficult methods.
         // The AccountManager will still use the normal authenticator; this is not a problem.
-        MinervaAuthenticator authenticator = new MinervaAuthenticator(RuntimeEnvironment.application) {
+        MinervaAuthenticator authenticator = new MinervaAuthenticator(context) {
             @Override
             String getRefreshAccessToken(Account account, String refreshToken) throws NetworkErrorException {
                 throw new NetworkErrorException();
             }
         };
 
-        AccountManager manager = AccountManager.get(RuntimeEnvironment.application);
+        AccountManager manager = AccountManager.get(context);
         ShadowAccountManager shadowManager = shadowOf(manager);
         shadowManager.addAccount(testAccount);
         manager.setAuthToken(testAccount, MinervaConfig.DEFAULT_SCOPE, "test");

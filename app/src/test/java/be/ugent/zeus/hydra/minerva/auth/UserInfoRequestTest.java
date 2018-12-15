@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.minerva.auth;
 
+import java.io.IOException;
+
 import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
@@ -10,9 +12,6 @@ import okhttp3.mockwebserver.MockWebServer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -34,7 +33,7 @@ public class UserInfoRequestTest extends AbstractJsonRequestTest<GrantInformatio
 
     @Override
     protected UserInfoRequest getRequest() {
-        return new UserInfoRequest(RuntimeEnvironment.application, TEST_TOKEN);
+        return new UserInfoRequest(context, TEST_TOKEN);
     }
 
     @Test
@@ -50,7 +49,7 @@ public class UserInfoRequestTest extends AbstractJsonRequestTest<GrantInformatio
         request = spy(getRequest());
         doReturn(serverUrl.toString()).when(request).getAPIUrl();
 
-        Result<GrantInformation> result = request.performRequest();
+        Result<GrantInformation> result = request.execute();
 
         if (result.hasException()) {
             throw result.getError();

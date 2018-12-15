@@ -4,11 +4,15 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -21,9 +25,13 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.Toast;
 
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.database.RepositoryFactory;
+import java.io.IOException;
+import java.util.List;
+
 import be.ugent.zeus.hydra.MainActivity;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.database.RepositoryFactory;
 import be.ugent.zeus.hydra.common.sync.SyncUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
@@ -34,9 +42,9 @@ import be.ugent.zeus.hydra.minerva.common.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.minerva.common.sync.NotificationHelper;
 import be.ugent.zeus.hydra.minerva.common.sync.SyncBroadcast;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
-import com.google.firebase.analytics.FirebaseAnalytics;
+import be.ugent.zeus.hydra.minerva.provider.DocumentContract;
 
-import java.io.IOException;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
 
 /**
  * Overview fragment for Minerva in the main activity. Manages logging in, and manages showing the tabs.
@@ -138,8 +146,8 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
         //Get an account
         Account account = AccountUtils.getAccount(getContext());
 
-        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(requireContext());
-        analytics.logEvent(FirebaseAnalytics.Event.LOGIN,  null);
+        Analytics.getTracker(requireContext())
+                .log(new LoginEvent());
 
         //Request first sync
         Log.d(TAG, "Requesting first sync...");
@@ -160,7 +168,23 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         if (isLoggedIn()) {
             inflater.inflate(R.menu.menu_main_minerva_overview, menu);
+            requireBaseActivity(this).tintToolbarIcons(menu, R.id.minerva_documents_link);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O || !hasDocumentsProvider(requireContext())) {
+                menu.findItem(R.id.minerva_documents_link).setVisible(false).setEnabled(false);
+            }
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private static boolean hasDocumentsProvider(Context context) {
+        final Intent intent = new Intent(android.provider.DocumentsContract.PROVIDER_INTERFACE);
+        final List<ResolveInfo> infos = context.getPackageManager().queryIntentContentProviders(intent, 0);
+        for (ResolveInfo info : infos) {
+            if (DocumentContract.AUTHORITY.equals(info.providerInfo.authority)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -171,6 +195,18 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
                 return true;
             case R.id.action_sync_all:
                 manualSync();
+                return true;
+            case R.id.minerva_documents_link:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(DocumentsContract.buildRootUri(DocumentContract.AUTHORITY, DocumentContract.ROOT_ID));
+                    if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(requireContext(), R.string.minerva_course_no_document_viewer, Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "No document viewer found, aborting.");
+                    }
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -307,7 +343,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode,  @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Pass the result to the nested fragments.

@@ -49,7 +49,7 @@ public class MockAnnouncementDao implements AnnouncementDao {
         }
         Result result = new Result();
         result.announcement = idMap.get(id);
-        result.course = courses.get(result.announcement.getCourseId());
+        result.course = courses.get(Objects.requireNonNull(result.announcement).getCourseId());
         return result;
     }
 

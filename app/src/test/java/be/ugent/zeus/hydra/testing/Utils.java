@@ -1,5 +1,12 @@
 package be.ugent.zeus.hydra.testing;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.*;
+import java.util.stream.Stream;
+
 import be.ugent.zeus.hydra.minerva.AbstractDaoTest;
 import be.ugent.zeus.hydra.minerva.course.Module;
 import com.squareup.moshi.JsonAdapter;
@@ -13,13 +20,6 @@ import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZonedDateTime;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * General utilities and helper methods for use within the tests.
@@ -71,6 +71,7 @@ public class Utils {
         return adapter.fromJson(source);
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static File getResourceFile(String resourcePath) {
         return new File(AbstractDaoTest.class.getClassLoader().getResource(resourcePath).getFile());
     }

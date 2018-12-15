@@ -15,15 +15,14 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.*;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
-import com.pluscubed.recyclerfastscroll.RecyclerFastScroller;
-
-import java.util.*;
 
 /**
  * Allow the user to select preferences.
@@ -48,13 +47,11 @@ public class AssociationSelectPrefActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        RecyclerFastScroller s = findViewById(R.id.fast_scroller);
         SearchView searchView = findViewById(R.id.search_view);
 
         recyclerView.requestFocus();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        s.attachRecyclerView(recyclerView);
 
         searchView.setOnQueryTextListener(adapter);
 

@@ -2,14 +2,13 @@ package be.ugent.zeus.hydra.association.event.list;
 
 import android.content.Intent;
 import android.view.View;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.shadows.ShadowApplication;
 import org.threeten.bp.LocalDate;
 
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
@@ -56,8 +55,8 @@ public class EventViewHolderTest {
         // Check that the click listener works.
         view.performClick();
 
-        Intent expectedIntent = EventDetailsActivity.start(RuntimeEnvironment.application, event);
-        Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
+        Intent expectedIntent = EventDetailsActivity.start(view.getContext(), event);
+        Intent actual = getShadowApplication().getNextStartedActivity();
         assertEquals(expectedIntent.getComponent(), actual.getComponent());
         assertNotNull(actual.getParcelableExtra(EventDetailsActivity.PARCEL_EVENT));
 

@@ -17,7 +17,9 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
-import be.ugent.zeus.hydra.HydraApplication;
+import java.util.Collections;
+import java.util.List;
+
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.ErrorObserver;
@@ -34,21 +36,14 @@ import be.ugent.zeus.hydra.resto.meta.RestoLocationActivity;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectableMetaViewModel;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectedResto;
 import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
-import be.ugent.zeus.hydra.utils.Analytics;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import org.threeten.bp.LocalDate;
-
-import java.util.Collections;
-import java.util.List;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
 
 /**
  * Displays the menu.
- *
- * TODO: the fragment currently only works with {@link MainActivity}.
  *
  * @author Niko Strijbol
  */
@@ -129,27 +124,12 @@ public class RestoFragment extends Fragment implements
         viewPager = view.findViewById(R.id.resto_tabs_content);
         viewPager.setAdapter(pageAdapter);
 
-        FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(requireContext());
-
         final AppBarLayout appBarLayout = requireActivity().findViewById(R.id.app_bar_layout);
         // Send analytics
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 appBarLayout.setExpanded(true);
-                HydraApplication app = HydraApplication.getApplication(requireActivity());
-                app.sendScreenName("Menu tab: " + pageAdapter.getPageTitle(position));
-                Bundle parameters = new Bundle();
-                parameters.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, Analytics.Type.RESTO_MENU);
-                parameters.putString(FirebaseAnalytics.Param.ITEM_NAME, pageAdapter.getPageTitle(position).toString());
-                LocalDate id = pageAdapter.getTabDate(position);
-                if (id == null) {
-                    parameters.putString(FirebaseAnalytics.Param.ITEM_ID, "LEGEND");
-                } else {
-                    parameters.putString(FirebaseAnalytics.Param.ITEM_ID, String.valueOf(id.toEpochDay()));
-                }
-                analytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, parameters);
-
             }
         });
 

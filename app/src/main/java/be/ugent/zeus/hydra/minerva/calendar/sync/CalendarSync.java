@@ -30,9 +30,9 @@ import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.CourseRepository;
 import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
 import be.ugent.zeus.hydra.utils.StringUtils;
-import java8.util.function.Functions;
-import java8.util.stream.Collectors;
-import java8.util.stream.StreamSupport;
+import java9.util.function.Function;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 import jonathanfinerty.once.Once;
 import org.threeten.bp.DateTimeUtils;
 import org.threeten.bp.LocalDate;
@@ -52,6 +52,7 @@ public class CalendarSync {
 
     private static final String TAG = "CalendarSync";
     private static final String FIRST_SYNC_BUILT_IN_CALENDAR = "once_first_calendar";
+    public static final String MINERVA_CALENDAR_NOTIFIED_ABOUT_BUG = "pref_minerva_stop_bugging";
     private static final long NO_CALENDAR = -1;
     private final AgendaItemRepository calendarRepository;
     private final CourseRepository courseDao;
@@ -98,12 +99,12 @@ public class CalendarSync {
 
         // Get the courses
         Map<String, Course> courses = StreamSupport.stream(courseDao.getAll())
-                .collect(Collectors.toMap(Course::getId, Functions.identity()));
+                .collect(Collectors.toMap(Course::getId, Function.identity()));
 
         // The result.
         Result<List<AgendaItem>> agendaResult;
         try {
-            agendaResult = request.performRequest()
+            agendaResult = request.execute()
                     .map(c -> c.items)
                     .map(list -> transform(list, i -> {
                         if (!courses.containsKey(i.courseId)) {
@@ -192,10 +193,10 @@ public class CalendarSync {
         Notification notification = new NotificationCompat.Builder(context, ChannelCreator.MINERVA_ACCOUNT_CHANNEL)
                 .setSmallIcon(R.drawable.ic_notification_warning)
                 .setCategory(NotificationCompat.CATEGORY_ERROR)
-                .setContentTitle("Machtigingen voor Hydra")
-                .setContentText("Geef toestemming voor de Minerva-agenda")
+                .setContentTitle(context.getString(R.string.minerva_calendar_permission_notification_title))
+                .setContentText(context.getString(R.string.minerva_calendar_permission_notification_short))
                 .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("Hydra heeft machtigingen nodig om Minerva-agenda te synchroniseren.")
+                        .bigText(context.getString(R.string.minerva_calendar_permission_notification_long))
                 )
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
@@ -204,6 +205,35 @@ public class CalendarSync {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         assert manager != null;
         manager.notify(0, notification);
+    }
+
+    /**
+     * Invoked when the app cannot access the calendar for some reason.
+     */
+    private void handleNoCalendar() {
+        // Check if we may notify the user.
+        if (Once.beenDone(MINERVA_CALENDAR_NOTIFIED_ABOUT_BUG)) {
+            return;
+        }
+
+        // Make sure the notification channel is present
+        ChannelCreator channelCreator = ChannelCreator.getInstance(context);
+        channelCreator.createMinervaAccountChannel();
+
+        // Create a notification and show it to the user.
+        Notification notification = new NotificationCompat.Builder(context, ChannelCreator.MINERVA_ACCOUNT_CHANNEL)
+                .setSmallIcon(R.drawable.ic_notification_warning)
+                .setCategory(NotificationCompat.CATEGORY_ERROR)
+                .setContentTitle(context.getString(R.string.minerva_calendar_missing_notification_title))
+                .setContentText(context.getString(R.string.minerva_calendar_missing_notification_text))
+                .setAutoCancel(true)
+                .build();
+
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        assert manager != null;
+        manager.notify(0, notification);
+
+        Once.markDone(MINERVA_CALENDAR_NOTIFIED_ABOUT_BUG);
     }
 
     /**
@@ -219,24 +249,30 @@ public class CalendarSync {
 
         // Get the ID of our calendar.
         long calendarId = getCalendarId(account, resolver);
-        if (calendarId == NO_CALENDAR) {
-            // Attempt to insert our calendar.
-            Uri result = insertCalendar(account, resolver);
-            if (result == null) {
-                Log.e(TAG, "Inserting the calendar failed for some reason, abort sync.");
-                return;
+        try {
+            if (calendarId == NO_CALENDAR) {
+                // Attempt to insert our calendar.
+                Uri result = insertCalendar(account, resolver);
+                if (result == null) {
+                    Log.e(TAG, "Inserting the calendar failed for some reason, abort sync.");
+                    return;
+                }
+                calendarId = getCalendarId(account, resolver);
+            } else if (isInitialSync || !Once.beenDone(FIRST_SYNC_BUILT_IN_CALENDAR)) {
+                Log.i(TAG, "Removing existing calendar.");
+                // Remove existing things.
+                deleteCalendarFor(account, resolver);
+                Uri result = insertCalendar(account, resolver);
+                if (result == null) {
+                    Log.e(TAG, "Inserting the calendar failed for some reason, abort sync.");
+                    return;
+                }
+                calendarId = getCalendarId(account, resolver);
             }
-            calendarId = getCalendarId(account, resolver);
-        } else if (isInitialSync || !Once.beenDone(FIRST_SYNC_BUILT_IN_CALENDAR)) {
-            Log.i(TAG, "Removing existing calendar.");
-            // Remove existing things.
-            deleteCalendarFor(account, resolver);
-            Uri result = insertCalendar(account, resolver);
-            if (result == null) {
-                Log.e(TAG, "Inserting the calendar failed for some reason, abort sync.");
-                return;
-            }
-            calendarId = getCalendarId(account, resolver);
+        } catch (MissingCalendarException e) {
+            // We could not insert our calendar.
+            handleNoCalendar();
+            return;
         }
 
         // Updated items (items that should already be on the device)
@@ -420,7 +456,7 @@ public class CalendarSync {
      * @param account  The account for which the calendar must be added.
      * @param resolver The content resolver.
      */
-    private Uri insertCalendar(Account account, ContentResolver resolver) {
+    private Uri insertCalendar(Account account, ContentResolver resolver) throws MissingCalendarException {
         ContentValues values = new ContentValues();
         values.put(CalendarContract.Calendars.ACCOUNT_NAME, account.name);
         values.put(CalendarContract.Calendars.ACCOUNT_TYPE, MinervaConfig.ACCOUNT_TYPE);
@@ -436,7 +472,12 @@ public class CalendarSync {
 
         // Add the calendar.
         Uri uri = adapterUri(CalendarContract.Calendars.CONTENT_URI, account);
-        return resolver.insert(uri, values);
+
+        try {
+            return resolver.insert(uri, values);
+        } catch (IllegalArgumentException e) {
+            throw new MissingCalendarException(e);
+        }
     }
 
     /**

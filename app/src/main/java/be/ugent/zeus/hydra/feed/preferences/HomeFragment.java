@@ -4,13 +4,20 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.widget.Toast;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.EventObserver;
+import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
 
 /**
  * Settings about the home feed.
@@ -84,5 +91,51 @@ public class HomeFragment extends PreferenceFragment implements LifecycleOwner {
     @Override
     public Lifecycle getLifecycle() {
         return registry;
+    }
+
+    private static final String PREF_RESTO_KINDS = "pref_feed_resto_kinds";
+    private static final String PREF_RESTO_KINDS_DEFAULT = FeedRestoKind.ALL;
+
+    /**
+     * The possible values for the {@link #PREF_RESTO_KINDS} preference. These are also defined in an XML array
+     * resource.
+     */
+    @StringDef({FeedRestoKind.ALL, FeedRestoKind.MAIN, FeedRestoKind.SOUP})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface FeedRestoKind {
+        String ALL = "all";
+        String SOUP = "soup";
+        String MAIN = "main";
+    }
+
+    @MenuTable.DisplayKind
+    public static int getFeedRestoKind(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        @FeedRestoKind
+        String value = pref.getString(PREF_RESTO_KINDS, PREF_RESTO_KINDS_DEFAULT);
+
+        switch (value) {
+            case FeedRestoKind.SOUP:
+                return MenuTable.DisplayKind.SOUP;
+            case FeedRestoKind.MAIN:
+                return MenuTable.DisplayKind.MAIN;
+            case FeedRestoKind.ALL:
+            default:
+                // Don't show vegetables.
+                return MenuTable.DisplayKind.ALL & ~MenuTable.DisplayKind.VEGETABLES;
+        }
+    }
+
+    @FeedRestoKind
+    public static String getFeedRestoKindRaw(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        return pref.getString(PREF_RESTO_KINDS, PREF_RESTO_KINDS_DEFAULT);
+    }
+
+    public static void setFeedRestoKind(Context context, @FeedRestoKind String kind) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        pref.edit()
+                .putString(PREF_RESTO_KINDS, kind)
+                .apply();
     }
 }

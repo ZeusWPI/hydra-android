@@ -59,7 +59,7 @@ public abstract class MinervaRequest<T> extends JsonOkHttpRequest<T> {
     @NonNull
     @Override
     @WorkerThread
-    public Result<T> performRequest(@NonNull Bundle args) {
+    public Result<T> execute(@NonNull Bundle args) {
 
         JsonAdapter<T> adapter = getAdapter();
 

@@ -80,11 +80,4 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     public boolean onIsMultiPane() {
         return this.getResources().getConfiguration().isLayoutSizeAtLeast(Configuration.SCREENLAYOUT_SIZE_LARGE);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        HydraApplication app = (HydraApplication) getApplication();
-        app.sendScreenName("Settings overview");
-    }
 }

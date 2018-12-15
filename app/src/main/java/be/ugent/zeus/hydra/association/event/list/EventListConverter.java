@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.association.event.list;
 
 import be.ugent.zeus.hydra.association.event.Event;
-import java8.util.function.Function;
+import java9.util.function.Function;
 import org.threeten.bp.LocalDate;
 
 import java.util.ArrayList;

@@ -1,8 +1,10 @@
 package be.ugent.zeus.hydra.resto.menu;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
@@ -12,10 +14,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Niko Strijbol
@@ -40,13 +38,12 @@ public class MenuRequestTest extends AbstractJsonRequestTest<List<RestoMenu>> {
 
     @Override
     protected JsonOkHttpRequest<List<RestoMenu>> getRequest() {
-        return new MenuRequest(RuntimeEnvironment.application);
+        return new MenuRequest(context);
     }
 
     @Test
     public void testDefaultUrl() {
-        MenuRequest request = new MenuRequest(RuntimeEnvironment.application);
-        Context context = RuntimeEnvironment.application;
+        MenuRequest request = new MenuRequest(context);
         String defaultResto = RestoPreferenceFragment.getDefaultResto(context);
         String expected = String.format(MenuRequest.OVERVIEW_URL, defaultResto);
         Assert.assertEquals(expected, request.getAPIUrl());
@@ -56,12 +53,12 @@ public class MenuRequestTest extends AbstractJsonRequestTest<List<RestoMenu>> {
     public void testOtherUrl() {
         // Get random other resto, not the default one.
         final int random_resto = ThreadLocalRandom.current().nextInt(1, RESTAURANTS.length);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(RuntimeEnvironment.application);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         preferences.edit()
                 .putString(RestoPreferenceFragment.PREF_RESTO_KEY, RESTAURANTS[random_resto])
                 .apply();
 
-        MenuRequest request = new MenuRequest(RuntimeEnvironment.application);
+        MenuRequest request = new MenuRequest(context);
         Assert.assertEquals(String.format(MenuRequest.OVERVIEW_URL, RESTAURANTS[random_resto]), request.getAPIUrl());
     }
 }

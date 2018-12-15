@@ -3,25 +3,24 @@ package be.ugent.zeus.hydra.utils;
 import android.content.Context;
 import android.content.res.Resources;
 
-import be.ugent.zeus.hydra.R;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.ParameterizedRobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.format.DateTimeFormatter;
-import org.threeten.bp.format.FormatStyle;
-import org.threeten.bp.format.TextStyle;
+import androidx.test.core.app.ApplicationProvider;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
 
+import be.ugent.zeus.hydra.R;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.ParameterizedRobolectricTestRunner;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.format.DateTimeFormatter;
+import org.threeten.bp.format.FormatStyle;
+import org.threeten.bp.format.TextStyle;
+
 import static be.ugent.zeus.hydra.utils.DateUtils.getDateFormatterForStyle;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
@@ -68,8 +67,8 @@ public class FullFriendlyDateTest {
     @SuppressWarnings("Duplicates") // OK.
     public void setUp() {
         // Hack so we don't have to mess with the resources
-        c = spy(RuntimeEnvironment.application);
-        Resources resources = spy(RuntimeEnvironment.application.getResources());
+        c = spy(ApplicationProvider.getApplicationContext());
+        Resources resources = spy(ApplicationProvider.getApplicationContext().getResources());
         when(c.getResources()).thenReturn(resources);
         when(resources.getBoolean(R.bool.date_supports_today)).thenReturn(supportsToday);
         when(resources.getBoolean(R.bool.date_supports_tomorrow)).thenReturn(supportsTomorrow);

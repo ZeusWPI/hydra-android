@@ -1,6 +1,11 @@
 package be.ugent.zeus.hydra.testing.matcher;
 
-import android.annotation.SuppressLint;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -11,12 +16,6 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.hamcrest.core.IsEqual;
 import org.threeten.bp.chrono.ChronoZonedDateTime;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-
 /**
  * Improved version of SamePropertyValues from Hamcrest, but with support for custom matchers for custom types.
  *
@@ -25,7 +24,6 @@ import java.util.function.Function;
  *
  * @author Niko Strijbol
  */
-@SuppressLint("NewApi")
 public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
 
     private final T expectedBean;
@@ -78,13 +76,11 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
                         return false;
                     }
                 } else {
-                    @SuppressWarnings("SuspiciousMethodCalls")
+                    @SuppressWarnings({"SuspiciousMethodCalls", "ConstantConditions"})
                     Matcher<Object> matcher = matcherMap.getOrDefault(expected.getClass(), IsEqual::new).apply(expected);
 
                     if (!matcher.matches(actual)) {
                         mismatchDescription.appendText(ToStringBuilder.reflectionToString(item, ToStringStyle.MULTI_LINE_STYLE));
-                        //mismatchDescription.appendText(field.getName() + " ");
-                        //matcher.describeMismatch(actual, mismatchDescription);
                         return false;
                     }
                 }
@@ -120,6 +116,7 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
         return this;
     }
 
+    @SuppressWarnings("unused")
     public ShallowButFullEqual<T> ignoring(String... fields) {
         this.fields.ignoreFields(fields);
         return this;

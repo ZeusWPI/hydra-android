@@ -1,5 +1,8 @@
 package be.ugent.zeus.hydra.library.details;
 
+import java.io.IOException;
+import java.util.List;
+
 import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
 import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.library.list.LibraryList;
@@ -7,10 +10,6 @@ import com.squareup.moshi.JsonAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-
-import java.io.IOException;
-import java.util.List;
 
 import static org.hamcrest.Matchers.endsWith;
 import static org.junit.Assert.assertNotNull;
@@ -30,7 +29,7 @@ public class OpeningHoursRequestTest extends AbstractJsonRequestTest<List<Openin
     @Override
     protected OpeningHoursRequest getRequest() {
         try {
-            return new OpeningHoursRequest(RuntimeEnvironment.application, getRandomConstLibrary());
+            return new OpeningHoursRequest(context, getRandomConstLibrary());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

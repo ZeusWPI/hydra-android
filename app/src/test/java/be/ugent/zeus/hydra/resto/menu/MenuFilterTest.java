@@ -1,7 +1,14 @@
 package be.ugent.zeus.hydra.resto.menu;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import androidx.test.core.app.ApplicationProvider;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.resto.RestoMenu;
@@ -9,15 +16,11 @@ import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.testing.Utils;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.threeten.bp.*;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.hamcrest.Matchers.*;
@@ -33,6 +36,13 @@ public class MenuFilterTest {
     private final Instant cutOff = Instant.parse("2007-12-03T10:15:00.000Z");
     private final Clock clock = Clock.fixed(cutOff, ZoneOffset.UTC);
 
+    private Context context;
+
+    @Before
+    public void setUp() {
+        context = ApplicationProvider.getApplicationContext();
+    }
+
     @Test
     public void testDefaults() throws IOException {
         Moshi moshi = InstanceProvider.getMoshi();
@@ -46,7 +56,7 @@ public class MenuFilterTest {
             }
         }
 
-        MenuFilter filter = new MenuFilter(RuntimeEnvironment.application, clock);
+        MenuFilter filter = new MenuFilter(context, clock);
         List<RestoMenu> result = filter.apply(menus);
         assertThat(result, hasSize(menus.size() / 2));
         assertTrue(result.stream().noneMatch(restoMenu -> restoMenu.getDate().isBefore(cutOff.atZone(ZoneId.systemDefault()).toLocalDate())));
@@ -59,12 +69,12 @@ public class MenuFilterTest {
         restoMenu.setDate(LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate());
 
         // If the time in the settings is after the current time, the resto must be allowed to pass.
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(RuntimeEnvironment.application);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         preferences.edit()
                 .putString(RestoPreferenceFragment.PREF_RESTO_CLOSING_HOUR, "11:00")
                 .apply();
 
-        MenuFilter filter = new MenuFilter(RuntimeEnvironment.application, clock);
+        MenuFilter filter = new MenuFilter(context, clock);
         List<RestoMenu> result = filter.apply(Collections.singletonList(restoMenu));
 
         assertThat(result, contains(restoMenu));
@@ -76,12 +86,12 @@ public class MenuFilterTest {
         restoMenu.setDate(LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate());
 
         // If the time in the settings is after the current time, the resto must be allowed to pass.
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(RuntimeEnvironment.application);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         preferences.edit()
                 .putString(RestoPreferenceFragment.PREF_RESTO_CLOSING_HOUR, "09:00")
                 .apply();
 
-        MenuFilter filter = new MenuFilter(RuntimeEnvironment.application, clock);
+        MenuFilter filter = new MenuFilter(context, clock);
         List<RestoMenu> result = filter.apply(Collections.singletonList(restoMenu));
 
         assertThat(result, empty());
@@ -93,7 +103,7 @@ public class MenuFilterTest {
         restoMenu.setDate(LocalDateTime.ofInstant(cutOff, ZoneId.systemDefault()).toLocalDate());
 
         // If the time in the settings is after the current time, the resto must be allowed to pass.
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(RuntimeEnvironment.application);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         preferences.edit()
                 .putString(RestoPreferenceFragment.PREF_RESTO_CLOSING_HOUR, "10:15")
                 .apply();

@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.common.sync;
 
 import be.ugent.zeus.hydra.common.FullRepository;
-import java8.util.function.Functions;
+import java9.util.function.Function;
 import org.junit.Test;
 
 import java.util.*;
@@ -22,7 +22,7 @@ public class SynchronisationTest {
         Collection<Integer> newData = Arrays.asList(1, 2, 3, 4, 5);
         Collection<Integer> oldData = Arrays.asList(2, 63, 3, 4, 5, 65, 100, 500, 0);
 
-        Synchronisation<Integer, Integer> synchronisation = new Synchronisation<>(oldData, newData, Functions.identity());
+        Synchronisation<Integer, Integer> synchronisation = new Synchronisation<>(oldData, newData, Function.identity());
         Synchronisation.Diff<Integer, Integer> diff = synchronisation.diff();
 
         Collection<Integer> expectedNew = Collections.singleton(1);
@@ -40,7 +40,7 @@ public class SynchronisationTest {
         Collection<Integer> newData = Collections.emptySet();
         Collection<Integer> oldData = new HashSet<>(Arrays.asList(2, 63, 3, 4, 5, 65, 100, 5000, 0));
 
-        Synchronisation<Integer, Integer> synchronisation = new Synchronisation<>(oldData, newData, Functions.identity());
+        Synchronisation<Integer, Integer> synchronisation = new Synchronisation<>(oldData, newData, Function.identity());
         Synchronisation.Diff<Integer, Integer> diff = synchronisation.diff();
 
         assertCollectionEquals(Collections.emptyList(), diff.getNew());
@@ -60,7 +60,7 @@ public class SynchronisationTest {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             TestObject that = (TestObject) o;
-            return java8.util.Objects.equals(id, that.id);
+            return Objects.equals(id, that.id);
         }
 
         @Override
@@ -113,7 +113,7 @@ public class SynchronisationTest {
         Collection<Integer> newData = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5));
         Collection<Integer> oldData = new HashSet<>(Arrays.asList(2, 63, 3, 4, 5, 65, 100, 5000, 0));
 
-        Synchronisation<Integer, Integer> synchronisation = new Synchronisation<>(oldData, newData, Functions.identity());
+        Synchronisation<Integer, Integer> synchronisation = new Synchronisation<>(oldData, newData, Function.identity());
         Synchronisation.Diff<Integer, Integer> diff = synchronisation.diff();
 
         @SuppressWarnings("unchecked")
