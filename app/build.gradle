@@ -90,11 +90,6 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/notice.txt'
     }
-
-    // TODO: fork the material-intro library and remove databinding.
-    dataBinding {
-        enabled = true
-    }
 }
 
 licenseReport {
@@ -152,13 +147,13 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.2.0.Final'
 
     // Network stack
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
-    implementation 'com.squareup.moshi:moshi:1.6.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
+    implementation 'com.squareup.moshi:moshi:1.8.0'
 
     implementation 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
-    implementation 'net.sourceforge.streamsupport:android-retrostreams:1.6.3'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.1'
+    implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     
@@ -167,7 +162,7 @@ dependencies {
     //noinspection GradleDependency
     implementation 'com.heinrichreimersoftware:material-intro:7221502f1f'
     implementation 'com.jonathanfinerty.once:once:1.2.2'
-    implementation 'com.karumi:dexter:4.2.0'
+    implementation 'com.karumi:dexter:5.0.0'
     implementation 'com.github.captain-miao:optroundcardview:1.1.0'
     implementation 'blue.aodev:material-values:1.1.1'
 
@@ -179,35 +174,36 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:16.0.0"
     implementation "com.google.android.gms:play-services-auth:16.0.1"
 
-    implementation 'com.google.firebase:firebase-core:16.0.4'
+    implementation 'com.google.firebase:firebase-core:16.0.6'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
 
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
+    // Version 2.9.7 has a bug apparently, so don't upgrade to it.
+    //noinspection GradleDependency
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.6'
 
     //Test code
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.19.0'
+    testImplementation 'org.mockito:mockito-core:2.23.4'
 
-    testImplementation 'org.robolectric:robolectric:4.0'
+    testImplementation 'org.robolectric:robolectric:4.1'
     testImplementation 'androidx.test:core:1.0.0'
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
-    // TODO: why are there so many false positives when this is enabled?
-    // debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.1'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
-    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
 
     //Enable the normal library for unit tests
-    testImplementation('org.threeten:threetenbp:1.3.6') {
+    testImplementation('org.threeten:threetenbp:1.3.8') {
         exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
     }
 
-    testImplementation 'com.squareup.okhttp3:mockwebserver:3.11.0'
-    testImplementation 'nl.jqno.equalsverifier:equalsverifier:2.5.1'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.0'
+    testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.0.3'
     testImplementation 'com.shazam:shazamcrest:0.11'
     testImplementation 'org.skyscreamer:jsonassert:1.5.0'
     testImplementation 'io.github.benas:random-beans:3.7.0'
-    testImplementation 'org.apache.commons:commons-lang3:3.7'
+    testImplementation 'org.apache.commons:commons-lang3:3.8.1'
     testImplementation 'org.hamcrest:hamcrest-core:1.3'
     testImplementation('org.springframework:spring-test:3.2.18.RELEASE') {
         exclude module: 'spring-core'
