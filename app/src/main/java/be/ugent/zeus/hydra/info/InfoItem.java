@@ -15,7 +15,7 @@ import java.util.List;
  * @author Juta
  * @author Niko Strijbol
  */
-public final class InfoItem implements Parcelable, Serializable {
+public final class InfoItem implements Parcelable {
 
     private String title;
     private String image;

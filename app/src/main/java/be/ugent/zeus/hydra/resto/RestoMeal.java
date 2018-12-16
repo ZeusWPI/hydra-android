@@ -6,18 +6,13 @@ import android.os.Parcelable;
 import com.squareup.moshi.Json;
 import java9.util.Objects;
 
-import java.io.Serializable;
-
 /**
  * Represents a meal.
- *
- * @implNote The kind of the meal is currently a string; ideally this would be an enum (or flags if really necessary.
- *      However, since this has little benefit, we currently don't do this, but we might in the future.
  *
  * @author Niko Strijbol
  * @author Mitch
  */
-public final class RestoMeal implements Parcelable, Serializable {
+public final class RestoMeal implements Parcelable {
 
     private String name;
     private String price;
@@ -59,6 +54,7 @@ public final class RestoMeal implements Parcelable, Serializable {
         this.type = type;
     }
 
+    // TODO: replace by string to make extensible, as required per the API docs
     public enum MealType {
         @Json(name = "main")
         MAIN,

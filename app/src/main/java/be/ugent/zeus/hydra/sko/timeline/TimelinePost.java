@@ -6,20 +6,19 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringDef;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import com.squareup.moshi.Json;
 import java9.util.Objects;
 import org.threeten.bp.OffsetDateTime;
-
-import java.io.Serializable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 /**
  * A post on the timeline.
  *
  * @author Niko Strijbol
  */
-public final class TimelinePost implements Serializable, Parcelable {
+public final class TimelinePost implements Parcelable {
 
     //Use string def for the post type.
     static final String PHOTO = "photo";

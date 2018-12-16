@@ -3,19 +3,18 @@ package be.ugent.zeus.hydra.association.news;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import java9.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;
 
-import java.io.Serializable;
-import java.util.List;
-
 /**
  * @author Niko Strijbol
  */
-public final class UgentNewsArticle implements Serializable, Parcelable {
+public final class UgentNewsArticle implements Parcelable {
 
     private String description;
     private List<String> contributors;

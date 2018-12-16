@@ -13,8 +13,6 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
-import java.io.Serializable;
-
 /**
  * An SKO artist.
  *
@@ -22,7 +20,7 @@ import java.io.Serializable;
  *
  * @author Niko Strijbol
  */
-public final class Artist implements Serializable, Parcelable {
+public final class Artist implements Parcelable {
 
     private static final String LOCATION = "Sint-Pietersplein, Gent";
 

@@ -3,15 +3,14 @@ package be.ugent.zeus.hydra.minerva.course;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java9.util.Objects;
-
-import java.io.Serializable;
 import java.util.EnumSet;
+
+import java9.util.Objects;
 
 /**
  * Created by feliciaan on 21/06/16.
  */
-public final class Course implements Serializable, Parcelable {
+public final class Course implements Parcelable {
 
     private String id;
     private String code;

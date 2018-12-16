@@ -3,16 +3,15 @@ package be.ugent.zeus.hydra.resto.sandwich;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 import com.squareup.moshi.Json;
 import java9.util.Objects;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by feliciaan on 04/02/16.
  */
-public final class Sandwich implements Parcelable, Serializable {
+public final class Sandwich implements Parcelable {
 
     private String name;
     private List<String> ingredients;

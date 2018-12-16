@@ -51,7 +51,8 @@ public interface Request<T> {
      *
      * @return The new request.
      */
-    default <R> Request<R> map(Function<T, R> function) {
+    @NonNull
+    default <R> Request<R> map(@NonNull Function<T, R> function) {
         return args -> execute(args).map(function);
     }
 }

@@ -10,8 +10,6 @@ import com.squareup.moshi.Json;
 import java9.util.Objects;
 import org.threeten.bp.OffsetDateTime;
 
-import java.io.Serializable;
-
 /**
  * Model for special events.
  *
@@ -19,7 +17,7 @@ import java.io.Serializable;
  * @author feliciaan
  */
 @SuppressWarnings("unused")
-public final class SpecialEvent implements Serializable {
+public final class SpecialEvent {
 
     public static final String SKO_IN_APP = "be.ugent.zeus.hydra.special.sko";
 
@@ -49,12 +47,10 @@ public final class SpecialEvent implements Serializable {
         if (inApp == null) {
             inApp = "";
         }
-        switch (inApp) {
-            case SKO_IN_APP:
-                return OverviewActivity.start(context);
-            default:
-                return new Intent(Intent.ACTION_VIEW, Uri.parse(getLink()));
+        if (SKO_IN_APP.equals(inApp)) {
+            return OverviewActivity.start(context);
         }
+        return new Intent(Intent.ACTION_VIEW, Uri.parse(getLink()));
     }
 
     public String getName() {

@@ -4,12 +4,11 @@ import com.squareup.moshi.Json;
 import java9.util.Objects;
 import org.threeten.bp.LocalDate;
 
-import java.io.Serializable;
-
 /**
  * @author Niko Strijbol
  */
-public final class OpeningHours implements Serializable {
+@SuppressWarnings("unused")
+public final class OpeningHours {
 
     @Json(name = "wday")
     private int weekday;

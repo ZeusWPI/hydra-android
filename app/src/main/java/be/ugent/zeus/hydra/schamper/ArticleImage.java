@@ -5,12 +5,10 @@ import android.os.Parcelable;
 
 import java9.util.Objects;
 
-import java.io.Serializable;
-
 /**
  * @author Niko Strijbol
  */
-public final class ArticleImage implements Parcelable, Serializable {
+public final class ArticleImage implements Parcelable {
 
     private String url;
     private String caption;
