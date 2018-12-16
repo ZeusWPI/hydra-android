@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.feed.cards.implementations.event;
 
-import android.app.Activity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,12 +8,12 @@ import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.event.Event;
-import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
-import be.ugent.zeus.hydra.feed.commands.DisableAssociationCommand;
-import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
+import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardViewHolder;
+import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
+import be.ugent.zeus.hydra.feed.commands.DisableAssociationCommand;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 /**
@@ -55,13 +54,7 @@ public class EventCardViewHolder extends CardViewHolder {
 
         PriorityUtils.loadThumbnail(itemView.getContext(), event.getAssociation().getImageLink(), imageView);
 
-        itemView.setOnClickListener(v -> {
-            if (itemView.getContext() instanceof Activity) {
-                EventDetailsActivity.launchWithAnimation(((Activity) itemView.getContext()), imageView, "logo", event);
-            } else {
-                itemView.getContext().startActivity(EventDetailsActivity.start(itemView.getContext(), event));
-            }
-        });
+        itemView.setOnClickListener(v -> v.getContext().startActivity(EventDetailsActivity.start(itemView.getContext(), event)));
     }
 
     @Override
@@ -71,12 +64,10 @@ public class EventCardViewHolder extends CardViewHolder {
             Log.e(TAG, "The event was null when menu was called. Ignoring.");
             return super.onMenuItemClick(item);
         }
-        switch (item.getItemId()) {
-            case R.id.menu_hide_association:
-                adapter.getCompanion().executeCommand(new DisableAssociationCommand(event.getAssociation()));
-                return true;
-            default:
-                return super.onMenuItemClick(item);
+        if (item.getItemId() == R.id.menu_hide_association) {
+            adapter.getCompanion().executeCommand(new DisableAssociationCommand(event.getAssociation()));
+            return true;
         }
+        return super.onMenuItemClick(item);
     }
 }

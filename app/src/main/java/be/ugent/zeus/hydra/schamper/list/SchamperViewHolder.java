@@ -84,7 +84,7 @@ class SchamperViewHolder extends DataViewHolder<Article> {
             Picasso.get().load(article.getLargeImage()).into(image);
         }
 
-        this.itemView.setOnClickListener(v -> ArticleViewer.viewArticle(v.getContext(), article, helper, image));
+        this.itemView.setOnClickListener(v -> ArticleViewer.viewArticle(v.getContext(), article, helper));
     }
 
     private void setDefaultColours() {
