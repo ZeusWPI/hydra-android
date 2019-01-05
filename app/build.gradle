@@ -157,10 +157,9 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     
-    // This commit contains a newer version that doesn't crash as much.
-    // Once this version is released, we can use the original repo again.
+    // Use our own fork, since it seems the original library is abandoned.
     //noinspection GradleDependency
-    implementation 'com.heinrichreimersoftware:material-intro:7221502f1f'
+    implementation 'com.github.niknetniko:material-intro:master-SNAPSHOT'
     implementation 'com.jonathanfinerty.once:once:1.2.2'
     implementation 'com.karumi:dexter:5.0.0'
     implementation 'com.github.captain-miao:optroundcardview:1.1.0'
@@ -189,7 +188,8 @@ dependencies {
     testImplementation 'androidx.test:core:1.0.0'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
+    // TODO: enabling this results in what I believe to be a lot of false positives
+    // debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
 
