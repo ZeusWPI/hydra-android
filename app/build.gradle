@@ -147,6 +147,7 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.2.0.Final'
 
     // Network stack
+    // Do not upgrade beyond 3.12.x until we require API 21+
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
     implementation 'com.squareup.moshi:moshi:1.8.0'
@@ -173,19 +174,17 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:16.0.0"
     implementation "com.google.android.gms:play-services-auth:16.0.1"
 
-    implementation 'com.google.firebase:firebase-core:16.0.6'
+    implementation 'com.google.firebase:firebase-core:16.0.7'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
 
-    // Version 2.9.7 has a bug apparently, so don't upgrade to it.
-    //noinspection GradleDependency
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.6'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
 
     //Test code
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.23.4'
 
     testImplementation 'org.robolectric:robolectric:4.1'
-    testImplementation 'androidx.test:core:1.0.0'
+    testImplementation 'androidx.test:core:1.1.0'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
     // TODO: enabling this results in what I believe to be a lot of false positives
