@@ -36,7 +36,7 @@
 
     <!-- Theme -->
     <header
-        android:fragment="be.ugent.zeus.hydra.theme.ThemePreferenceFragment"
+        android:fragment="be.ugent.zeus.hydra.common.preferences.ThemeFragment"
         android:title="@string/pref_overview_theme_title"
         android:summary="@string/pref_overview_theme_desc" />
 

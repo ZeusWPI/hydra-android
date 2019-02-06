@@ -179,11 +179,6 @@ class HasTabActivityHelper implements ActivityHelper {
         return session != null && session.mayLaunchUrl(uri, extras, otherLikelyBundles);
     }
 
-    @Override
-    public Activity getActivity() {
-        return activity.get();
-    }
-
     private static Set<String> getNativeAppPackage(Context context, Uri uri) {
         PackageManager pm = context.getPackageManager();
 

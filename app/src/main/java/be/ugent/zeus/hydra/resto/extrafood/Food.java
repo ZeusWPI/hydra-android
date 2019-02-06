@@ -5,15 +5,13 @@ import android.os.Parcelable;
 
 import java9.util.Objects;
 
-import java.io.Serializable;
-
 /**
  * Represents a food item. A food item is defined by the tuple ({@link #name}, {@link #price}). The {@link #equals(Object)} and
  * {@link #hashCode()} methods are implemented according to that tuple.
  *
  * @author Niko Strijbol
  */
-public final class Food implements Serializable, Parcelable {
+public final class Food implements Parcelable {
 
     private String name;
     private String price;

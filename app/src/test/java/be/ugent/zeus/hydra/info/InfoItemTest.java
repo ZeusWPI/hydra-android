@@ -67,13 +67,4 @@ public class InfoItemTest extends ModelTest<InfoItem> {
         InfoItem restored = InfoItem.CREATOR.createFromParcel(parcel);
         assertThat(restored, samePropertyValuesAs(oneDeep));
     }
-
-    @Test
-    @Override
-    public void serialize() {
-        byte[] serialized = SerializationUtils.serialize(oneDeep);
-        @SuppressWarnings("unchecked")
-        InfoItem restored = SerializationUtils.deserialize(serialized);
-        assertThat(restored, samePropertyValuesAs(oneDeep));
-    }
 }

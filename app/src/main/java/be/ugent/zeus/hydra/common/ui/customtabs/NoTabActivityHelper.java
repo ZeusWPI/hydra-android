@@ -72,8 +72,4 @@ class NoTabActivityHelper implements ActivityHelper {
         return true;
     }
 
-    @Override
-    public Activity getActivity() {
-        return activity.get();
-    }
 }

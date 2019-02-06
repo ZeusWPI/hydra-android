@@ -3,15 +3,14 @@ package be.ugent.zeus.hydra.resto.meta;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java9.util.Objects;
-
-import java.io.Serializable;
 import java.util.List;
+
+import java9.util.Objects;
 
 /**
  * Created by feliciaan on 04/02/16.
  */
-public final class RestoMeta implements Parcelable, Serializable {
+public final class RestoMeta implements Parcelable {
 
     public List<Resto> locations;
 

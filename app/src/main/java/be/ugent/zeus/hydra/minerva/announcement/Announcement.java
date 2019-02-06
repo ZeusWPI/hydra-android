@@ -11,15 +11,13 @@ import java9.util.Objects;
 import org.threeten.bp.Instant;
 import org.threeten.bp.OffsetDateTime;
 
-import java.io.Serializable;
-
 /**
  * Minerva announcement model class.
  *
  * @author Niko Strijbol
  * @author feliciaan
  */
-public final class Announcement implements Serializable, Parcelable {
+public final class Announcement implements Parcelable {
 
     private int itemId;
     private String title;

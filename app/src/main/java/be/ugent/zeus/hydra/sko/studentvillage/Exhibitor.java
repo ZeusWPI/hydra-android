@@ -6,14 +6,12 @@ import android.os.Parcelable;
 import com.squareup.moshi.Json;
 import java9.util.Objects;
 
-import java.io.Serializable;
-
 /**
  * Exhibitor for the Student Village.
  *
  * @author Niko Strijbol
  */
-public final class Exhibitor implements Serializable, Parcelable {
+public final class Exhibitor implements Parcelable {
 
     @Json(name = "naam")
     private String name;

@@ -4,10 +4,13 @@ import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
+
 import be.ugent.zeus.hydra.common.MockParcel;
 import be.ugent.zeus.hydra.testing.matcher.ShallowButFullEqual;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -17,31 +20,15 @@ import org.junit.ComparisonFailure;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZonedDateTime;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-
 import static org.junit.Assert.assertEquals;
 
 /**
  * Custom assert rules for unit tests.
  *
- * TODO move this to another module?
- *
  * @author Niko Strijbol
  */
 @SuppressLint("NewApi")
 public class Assert {
-
-    public static <T extends Serializable> void assertSerialization(Class<T> clazz) {
-        Objects.requireNonNull(clazz);
-        T instance = Utils.generate(clazz);
-        byte[] serialized = SerializationUtils.serialize(instance);
-        @SuppressWarnings("unchecked")
-        T restored = SerializationUtils.deserialize(serialized);
-        assertThat(restored, samePropertyValuesAs(instance));
-    }
 
     /**
      * Assert that a class implements {@link Parcelable} correctly. This will check every field of the class.

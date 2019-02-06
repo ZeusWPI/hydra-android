@@ -62,6 +62,6 @@ public class SchamperViewHolder extends CardViewHolder {
 
         PriorityUtils.loadThumbnail(itemView.getContext(), article.getImage(), image);
 
-        this.itemView.setOnClickListener(v -> ArticleViewer.viewArticle(v.getContext(), article, adapter.getCompanion().getHelper(), image));
+        this.itemView.setOnClickListener(v -> ArticleViewer.viewArticle(v.getContext(), article, adapter.getCompanion().getHelper()));
     }
 }

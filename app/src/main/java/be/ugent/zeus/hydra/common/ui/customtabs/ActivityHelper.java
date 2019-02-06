@@ -62,6 +62,7 @@ public interface ActivityHelper {
      *
      * @see android.support.customtabs.CustomTabsSession#mayLaunchUrl(Uri, Bundle, List)
      */
+    @SuppressWarnings("UnusedReturnValue")
     boolean mayLaunchUrl(Uri uri, Bundle extras, List<Bundle> otherLikelyBundles);
 
     /**
@@ -72,6 +73,4 @@ public interface ActivityHelper {
         void onCustomTabsConnected(ActivityHelper helper);
         void onCustomTabsDisconnected(ActivityHelper helper);
     }
-
-    Activity getActivity();
 }

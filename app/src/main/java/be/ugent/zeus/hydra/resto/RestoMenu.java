@@ -3,12 +3,11 @@ package be.ugent.zeus.hydra.resto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java9.util.Objects;
-import org.threeten.bp.LocalDate;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import java9.util.Objects;
+import org.threeten.bp.LocalDate;
 
 
 /**
@@ -17,7 +16,7 @@ import java.util.List;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public final class RestoMenu implements Parcelable, Serializable {
+public final class RestoMenu implements Parcelable {
 
     private boolean open;
     private LocalDate date;

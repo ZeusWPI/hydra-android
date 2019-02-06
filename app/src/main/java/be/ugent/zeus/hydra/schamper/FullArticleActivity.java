@@ -1,17 +1,12 @@
 package be.ugent.zeus.hydra.schamper;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.transition.Fade;
-import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,27 +31,16 @@ public class FullArticleActivity extends BaseActivity {
 
     private Article article;
 
-    /**
-     * Launch this activity with a transition.
-     *
-     * @param activity The activity that launches the intent.
-     * @param view     The view to transition.
-     * @param name     The name of the transition.
-     * @param article  The article.
-     */
-    static void launchWithAnimation(Activity activity, View view, String name, Parcelable article) {
-        Intent intent = new Intent(activity, FullArticleActivity.class);
-        intent.putExtra(PARCEL_ARTICLE, article);
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, view, name);
-        ActivityCompat.startActivity(activity, intent, options.toBundle());
+    static void start(Context context, Article article) {
+        Intent starter = new Intent(context, FullArticleActivity.class);
+        starter.putExtra(PARCEL_ARTICLE, (Parcelable) article);
+        context.startActivity(starter);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schamper_article);
-
-        customFade();
 
         Intent intent = getIntent();
         article = intent.getParcelableExtra(PARCEL_ARTICLE);
@@ -140,21 +124,6 @@ public class FullArticleActivity extends BaseActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    /**
-     * Set a custom fade when using transition to prevent white flashing/blinking. This excludes the status bar and
-     * navigation bar background from the animation.
-     */
-    private void customFade() {
-        //Only do it on a version that is high enough.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Transition fade = new Fade();
-            fade.excludeTarget(android.R.id.statusBarBackground, true);
-            fade.excludeTarget(android.R.id.navigationBarBackground, true);
-            getWindow().setExitTransition(fade);
-            getWindow().setEnterTransition(fade);
         }
     }
 

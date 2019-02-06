@@ -10,12 +10,10 @@ import java9.util.Objects;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 
-import java.io.Serializable;
-
 /**
  * @author Niko Strijbol
  */
-public final class AgendaItem implements Serializable, Parcelable {
+public final class AgendaItem implements Parcelable {
 
     public static final long NO_CALENDAR_ID = -1;
 

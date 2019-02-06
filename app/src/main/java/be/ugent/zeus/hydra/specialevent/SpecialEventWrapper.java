@@ -2,17 +2,16 @@ package be.ugent.zeus.hydra.specialevent;
 
 import android.support.annotation.NonNull;
 
-import com.squareup.moshi.Json;
-import java9.util.Objects;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.squareup.moshi.Json;
+import java9.util.Objects;
 
 /**
  * Created by feliciaan on 06/04/16.
  */
-public final class SpecialEventWrapper implements Serializable {
+public final class SpecialEventWrapper {
 
     @Json(name = "special-events")
     private List<SpecialEvent> specialEvents;

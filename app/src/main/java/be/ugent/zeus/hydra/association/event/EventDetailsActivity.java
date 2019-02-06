@@ -1,23 +1,16 @@
 package be.ugent.zeus.hydra.association.event;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.text.util.LinkifyCompat;
 import android.text.util.Linkify;
-import android.transition.Fade;
-import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,20 +38,6 @@ public class EventDetailsActivity extends BaseActivity {
 
     private Event event;
 
-    /**
-     * Launch this activity with a transition.
-     *
-     * @param activity The activity that launches the intent.
-     * @param view     The view to transition.
-     * @param name     The name of the transition.
-     * @param event    The event.
-     */
-    public static void launchWithAnimation(Activity activity, View view, String name, Event event) {
-        Intent intent = start(activity, event);
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, view, name);
-        ActivityCompat.startActivity(activity, intent, options.toBundle());
-    }
-
     public static Intent start(Context context, Event event) {
         Intent intent = new Intent(context, EventDetailsActivity.class);
         intent.putExtra(PARCEL_EVENT, (Parcelable) event);
@@ -69,8 +48,6 @@ public class EventDetailsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
-
-        customFade();
 
         //Get data from saved instance, or from intent
         event = getIntent().getParcelableExtra(PARCEL_EVENT);
@@ -225,21 +202,6 @@ public class EventDetailsActivity extends BaseActivity {
         }
 
         return intent;
-    }
-
-    /**
-     * Set a custom fade when using transition to prevent white flashing/blinking. This excludes the status bar and
-     * navigation bar background from the animation.
-     */
-    private void customFade() {
-        //Only do it on a version that is high enough.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Transition fade = new Fade();
-            fade.excludeTarget(android.R.id.statusBarBackground, true);
-            fade.excludeTarget(android.R.id.navigationBarBackground, true);
-            getWindow().setExitTransition(fade);
-            getWindow().setEnterTransition(fade);
-        }
     }
 
     private static class EventCallback extends Callback.EmptyCallback {

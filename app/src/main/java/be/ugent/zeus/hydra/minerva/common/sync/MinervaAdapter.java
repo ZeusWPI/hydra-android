@@ -51,7 +51,6 @@ public class MinervaAdapter extends AbstractAdapter {
      * It will also suppress notifications about newly synchronised items, regardless of the user settings. When syncing
      * for the first time, the user does not want to be bombarded with notifications about new announcements.
      */
-    @SuppressWarnings("WeakerAccess")
     public static final String EXTRA_FIRST_SYNC = "firstSync";
 
     /**
@@ -62,7 +61,6 @@ public class MinervaAdapter extends AbstractAdapter {
     /**
      * Set this value to false in the extras to disable syncing of the announcements.
      */
-    @SuppressWarnings("WeakerAccess")
     public static final String SYNC_ANNOUNCEMENTS = "be.ugent.zeus.hydra.sync.minerva.announcements";
     /**
      * Set this value to false in the extras to disable syncing of the calendar.

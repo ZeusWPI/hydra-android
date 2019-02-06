@@ -7,8 +7,6 @@ import android.support.annotation.NonNull;
 import com.squareup.moshi.Json;
 import java9.util.Objects;
 
-import java.io.Serializable;
-
 /**
  * Represents an association registered with the DSA.
  *
@@ -18,7 +16,7 @@ import java.io.Serializable;
  * @author feliciaan
  * @author Niko Strijbol
  */
-public final class Association implements Parcelable, Serializable {
+public final class Association implements Parcelable {
 
     private static final String IMAGE_LINK = "https://zeus.ugent.be/hydra/api/2.0/association/logo/%s.png";
 

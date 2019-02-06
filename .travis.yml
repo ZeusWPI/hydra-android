@@ -4,14 +4,9 @@ jdk:
 
 android:
   components:
-#     - tools
-#     - platform-tools
-#     - tools
-    - build-tools-28.0.2
-#     - android-27
-#     - extra-android-support
-#     - extra-android-m2repository
-#     - extra-google-m2repository
+    - tools
+    - build-tools-28.0.3
+    - android-28
 
 env:
   - FLAVOUR=testDebug

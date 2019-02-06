@@ -6,14 +6,12 @@ import android.support.annotation.Nullable;
 
 import java9.util.Objects;
 
-import java.io.Serializable;
-
 /**
  * A restaurant.
  *
  * @author feliciaan
  */
-public final class Resto implements Serializable, Parcelable {
+public final class Resto implements Parcelable {
 
     private String name;
     private String address;

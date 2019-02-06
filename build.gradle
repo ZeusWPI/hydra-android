@@ -2,28 +2,35 @@
 
 buildscript {
     repositories {
-        jcenter()
+        // For Google-related dependencies
         google()
-        maven { url 'https://jitpack.io' }
+        // For Fabric (Firebase Crashlytics)
         maven { url 'https://maven.fabric.io/public' }
+        // For the license plugin
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath 'com.google.gms:google-services:4.0.2'
+        classpath 'com.android.tools.build:gradle:3.3.0'
+        classpath 'com.google.gms:google-services:4.2.0'
         classpath 'com.jaredsburrows:gradle-license-plugin:0.8.41'
-        classpath 'io.fabric.tools:gradle:1.25.4'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'io.fabric.tools:gradle:1.26.1'
     }
 }
 
 allprojects {
     repositories {
-        jcenter()
+        // Google libraries
         google()
+        // Some custom libraries
         maven { url 'https://jitpack.io' }
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+        // Other libraries
+        mavenCentral()
+        // Fallback for libraries not in Maven:
+        // Once we move to Gradle 5.1, we can explicitly limit it to only these
+        // net.cachapa.expandablelayout:expandablelayout
+        // com.jonathanfinerty.once
+        // blue.aodev:material-values
+        jcenter()
     }
 }
 

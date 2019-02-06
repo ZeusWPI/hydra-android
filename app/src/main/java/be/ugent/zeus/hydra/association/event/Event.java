@@ -13,15 +13,13 @@ import java9.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;
 
-import java.io.Serializable;
-
 /**
  * Event from an {@link Association}.
  *
  * @author Niko Strijbol
  * @author feliciaan
  */
-public final class Event implements Parcelable, Serializable, Comparable<Event> {
+public final class Event implements Parcelable, Comparable<Event> {
 
     private String title;
     private OffsetDateTime start;

@@ -4,8 +4,10 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
+import java.util.List;
+import java.util.Locale;
 
 import be.ugent.zeus.hydra.common.converter.IntBoolean;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -14,10 +16,6 @@ import java9.util.Objects;
 import java9.util.stream.Collectors;
 import java9.util.stream.StreamSupport;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Locale;
-
 /**
  * Model for a library.
  *
@@ -25,7 +23,7 @@ import java.util.Locale;
  *
  * @author Niko Strijbol
  */
-public final class Library implements Serializable, Parcelable {
+public final class Library implements Parcelable {
 
     private static final String FALLBACK_HEADER = "https://picsum.photos/800/450?image=1073";
     private static final String FALLBACK_HEADER_SMALL = "https://picsum.photos/400/225?image=1073";

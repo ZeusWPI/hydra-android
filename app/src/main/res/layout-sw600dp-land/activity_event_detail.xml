@@ -192,7 +192,6 @@
                     android:paddingRight="@dimen/card_text_padding_vertical">
 
                     <ImageView
-                        android:transitionName="logo"
                         android:layout_marginTop="2dp"
                         android:id="@+id/event_organisator_image"
                         android:layout_width="40dp"

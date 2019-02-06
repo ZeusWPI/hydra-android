@@ -3,19 +3,18 @@ package be.ugent.zeus.hydra.library.list;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 import be.ugent.zeus.hydra.library.Library;
 import com.squareup.moshi.Json;
 import java9.util.Objects;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * A list of libraries.
  *
  * @author Niko Strijbol
  */
-public final class LibraryList implements Serializable, Parcelable {
+public final class LibraryList implements Parcelable {
 
     private String name;
     @Json(name = "libraries_total")
@@ -66,7 +65,7 @@ public final class LibraryList implements Serializable, Parcelable {
     public LibraryList() {
     }
 
-    protected LibraryList(Parcel in) {
+    private LibraryList(Parcel in) {
         this.name = in.readString();
         this.libraries = in.createTypedArrayList(Library.CREATOR);
         this.totalLibraries = in.readInt();

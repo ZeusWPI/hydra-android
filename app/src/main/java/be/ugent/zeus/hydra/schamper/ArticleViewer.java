@@ -23,7 +23,7 @@ public class ArticleViewer {
     /**
      * Select an article for viewing.
      */
-    public static void viewArticle(Context context, Article article, ActivityHelper helper, View image) {
+    public static void viewArticle(Context context, Article article, ActivityHelper helper) {
 
         // Log selection of the article.
         Tracker analytics = Analytics.getTracker(context);
@@ -35,10 +35,9 @@ public class ArticleViewer {
         boolean isOnline = NetworkUtils.isConnected(context);
 
         if (useCustomTabs && isOnline) {
-            // Open in Custom tabs.
             helper.openCustomTab(Uri.parse(article.getLink()));
         } else {
-            FullArticleActivity.launchWithAnimation(helper.getActivity(), image, "hero", article);
+            FullArticleActivity.start(context, article);
         }
     }
 
