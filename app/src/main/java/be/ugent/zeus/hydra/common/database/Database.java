@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.common.database;
 
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
-import android.arch.persistence.room.TypeConverters;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import android.content.Context;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import be.ugent.zeus.hydra.feed.cards.database.CardDao;
 import be.ugent.zeus.hydra.common.database.migrations.*;
 import be.ugent.zeus.hydra.minerva.calendar.database.AgendaDao;
@@ -26,7 +26,7 @@ import static be.ugent.zeus.hydra.common.database.Database.VERSION;
  *
  * @author Niko Strijbol
  */
-@android.arch.persistence.room.Database(entities = {
+@androidx.room.Database(entities = {
         CourseDTO.class, AgendaItemDTO.class, AnnouncementDTO.class, // Minerva
         CardDismissal.class // Feed stuff
 }, version = VERSION)

@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.sko.lineup;
 
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java9.util.Objects;
 

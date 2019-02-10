@@ -5,8 +5,8 @@ import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.PowerManager;
-import android.support.annotation.Nullable;
-import android.support.v4.media.AudioAttributesCompat;
+import androidx.annotation.Nullable;
+import androidx.media.AudioAttributesCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.util.Log;
 

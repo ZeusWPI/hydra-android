@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.association.event;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;

@@ -30,7 +30,7 @@
     <string name="action_share">Share</string>
     <string name="action_undo">Undo</string>
 
-    <string name="selected_n">%s selected</string>
+    <string name="selected_n">%d selected</string>
 
     <string name="select_none">Select none</string>
 

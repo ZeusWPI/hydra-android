@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.library.list;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 import android.os.Bundle;
 
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;

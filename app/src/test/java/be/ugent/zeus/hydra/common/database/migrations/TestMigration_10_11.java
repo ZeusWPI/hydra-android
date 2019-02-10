@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.common.database.migrations;
 
 import android.app.Instrumentation;
-import android.arch.persistence.db.SupportSQLiteDatabase;
-import android.arch.persistence.room.testing.LocalMigrationTestHelper;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
+import androidx.room.testing.LocalMigrationTestHelper;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.test.core.app.ApplicationProvider;
 
 import java.io.IOException;
@@ -18,7 +18,10 @@ import org.robolectric.RobolectricTestRunner;
 import org.threeten.bp.Instant;
 import org.threeten.bp.OffsetDateTime;
 
-import static be.ugent.zeus.hydra.common.database.TestUtils.*;
+import static be.ugent.zeus.hydra.common.database.TestUtils.assertContent;
+import static be.ugent.zeus.hydra.common.database.TestUtils.assertInstant;
+import static be.ugent.zeus.hydra.common.database.TestUtils.assertOffsetDateTime;
+import static be.ugent.zeus.hydra.common.database.TestUtils.getFirstFrom;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.common.ui.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.MenuRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.MenuRes;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;

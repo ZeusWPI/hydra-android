@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.resto.meta.selectable;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.common.request.Request;

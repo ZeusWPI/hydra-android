@@ -8,8 +8,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.customtabs.*;
+import androidx.annotation.Nullable;
+import androidx.browser.customtabs.*;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.common.ui.ViewUtils;

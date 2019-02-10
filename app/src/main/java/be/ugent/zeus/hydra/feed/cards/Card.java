@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.feed.cards;
 
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 
 import java9.lang.Integers;
 

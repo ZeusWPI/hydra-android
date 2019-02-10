@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.feed.cards.database;
 
-import android.arch.persistence.room.Room;
+import androidx.room.Room;
 import android.content.Context;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 import androidx.test.core.app.ApplicationProvider;
 

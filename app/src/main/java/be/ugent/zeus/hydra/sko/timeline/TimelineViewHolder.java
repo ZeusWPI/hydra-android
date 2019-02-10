@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.sko.timeline;
 
 import android.net.Uri;
-import android.support.annotation.DrawableRes;
-import android.support.v4.text.util.LinkifyCompat;
+import androidx.annotation.DrawableRes;
+import androidx.core.text.util.LinkifyCompat;
 import android.text.util.Linkify;
 import android.view.View;
 import android.widget.ImageView;

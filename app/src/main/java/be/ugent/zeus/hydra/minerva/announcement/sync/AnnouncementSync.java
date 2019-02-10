@@ -4,8 +4,8 @@ import android.accounts.Account;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.WorkerThread;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.common.network.InvalidFormatException;

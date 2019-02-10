@@ -1,17 +1,15 @@
 package be.ugent.zeus.hydra.feed.cards.database;
 
-import android.arch.persistence.db.SupportSQLiteDatabase;
-import android.arch.persistence.db.SupportSQLiteQueryBuilder;
-import android.arch.persistence.room.*;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.sqlite.db.SupportSQLiteQueryBuilder;
+import androidx.room.*;
 import android.text.TextUtils;
-import android.util.Log;
 
 import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardDismissal;
 import be.ugent.zeus.hydra.feed.cards.CardIdentifier;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 

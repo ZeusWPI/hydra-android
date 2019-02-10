@@ -7,8 +7,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.support.annotation.Nullable;
-import android.support.customtabs.CustomTabsService;
+import androidx.annotation.Nullable;
+import androidx.browser.customtabs.CustomTabsService;
 import android.text.TextUtils;
 import android.util.Log;
 

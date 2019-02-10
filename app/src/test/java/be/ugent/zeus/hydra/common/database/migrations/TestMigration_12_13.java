@@ -1,10 +1,10 @@
 package be.ugent.zeus.hydra.common.database.migrations;
 
 import android.app.Instrumentation;
-import android.arch.persistence.db.SupportSQLiteDatabase;
-import android.arch.persistence.room.testing.LocalMigrationTestHelper;
 import android.os.Build;
 
+import androidx.room.testing.LocalMigrationTestHelper;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.test.core.app.ApplicationProvider;
 
 import java.io.IOException;
@@ -32,6 +32,7 @@ public class TestMigration_12_13 {
         Instrumentation mockInstrumentation = mock(Instrumentation.class);
         when(mockInstrumentation.getTargetContext()).thenReturn(ApplicationProvider.getApplicationContext());
         when(mockInstrumentation.getContext()).thenReturn(ApplicationProvider.getApplicationContext());
+        //noinspection ConstantConditions
         testHelper = new LocalMigrationTestHelper(mockInstrumentation, Database.class.getCanonicalName());
     }
 

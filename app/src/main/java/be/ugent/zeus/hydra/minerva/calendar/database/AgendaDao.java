@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.minerva.calendar.database;
 
-import android.arch.persistence.room.*;
+import androidx.room.*;
 
 import be.ugent.zeus.hydra.minerva.provider.CourseContract;
 import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;

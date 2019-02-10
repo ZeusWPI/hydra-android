@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.resto.meta;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import java9.util.Objects;
 

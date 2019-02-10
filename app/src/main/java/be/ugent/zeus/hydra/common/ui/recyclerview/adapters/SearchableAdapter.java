@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.SearchView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import java9.lang.Iterables;
 import java9.util.function.BiPredicate;

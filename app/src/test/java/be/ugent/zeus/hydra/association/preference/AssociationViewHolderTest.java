@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.association.preference;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
 import android.widget.CheckBox;

@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.sko.preferences;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;

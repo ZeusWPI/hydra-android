@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.minerva.calendar;
 
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 import be.ugent.zeus.hydra.common.FullRepository;

@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.minerva.announcement;
 
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.common.FullRepository;
 import be.ugent.zeus.hydra.common.FullRepositoryTest;

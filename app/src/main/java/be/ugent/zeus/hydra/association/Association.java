@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.association;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.squareup.moshi.Json;
 import java9.util.Objects;

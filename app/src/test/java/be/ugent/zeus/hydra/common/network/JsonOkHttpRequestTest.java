@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.common.network;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import androidx.test.core.app.ApplicationProvider;
 

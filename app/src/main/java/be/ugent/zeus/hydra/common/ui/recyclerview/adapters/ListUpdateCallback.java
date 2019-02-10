@@ -17,11 +17,11 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
 /**
- * Extended version of {@link android.support.v7.util.ListUpdateCallback}.
+ * Extended version of {@link androidx.recyclerview.widget.ListUpdateCallback}.
  *
  * @author Niko Strijbol
  */
-public interface ListUpdateCallback extends android.support.v7.util.ListUpdateCallback {
+public interface ListUpdateCallback extends androidx.recyclerview.widget.ListUpdateCallback {
 
     /**
      * Called when the data has changed, but no information about the change is known.

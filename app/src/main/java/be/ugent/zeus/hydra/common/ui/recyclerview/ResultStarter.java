@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.common.ui.recyclerview;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * Enables other components to call {@link android.app.Activity#startActivityForResult(Intent, int)} or

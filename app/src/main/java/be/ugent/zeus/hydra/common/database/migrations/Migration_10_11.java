@@ -1,13 +1,13 @@
 package be.ugent.zeus.hydra.common.database.migrations;
 
-import android.arch.persistence.db.SupportSQLiteDatabase;
-import android.arch.persistence.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.room.migration.Migration;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 import org.threeten.bp.Instant;

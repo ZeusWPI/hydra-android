@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.minerva;
 
-import android.arch.persistence.room.Room;
+import androidx.room.Room;
 import android.content.Context;
 
 import androidx.test.core.app.ApplicationProvider;

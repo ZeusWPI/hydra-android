@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.common.ui.widgets;
 
 import android.content.Context;
-import android.support.annotation.DrawableRes;
-import android.support.v7.content.res.AppCompatResources;
+import androidx.annotation.DrawableRes;
+import androidx.appcompat.content.res.AppCompatResources;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;

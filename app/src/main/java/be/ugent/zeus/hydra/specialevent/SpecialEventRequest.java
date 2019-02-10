@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.specialevent;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;

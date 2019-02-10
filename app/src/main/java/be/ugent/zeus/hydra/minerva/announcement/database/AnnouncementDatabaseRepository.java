@@ -1,18 +1,15 @@
 package be.ugent.zeus.hydra.minerva.announcement.database;
 
-import android.support.annotation.Nullable;
-import android.util.Log;
+import androidx.annotation.Nullable;
 
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.database.CourseDTO;
 import be.ugent.zeus.hydra.minerva.course.database.CourseMapper;
-import com.crashlytics.android.Crashlytics;
 import java9.util.stream.Collectors;
 import java9.util.stream.StreamSupport;
 import org.threeten.bp.Instant;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 import static be.ugent.zeus.hydra.utils.IterableUtils.transform;

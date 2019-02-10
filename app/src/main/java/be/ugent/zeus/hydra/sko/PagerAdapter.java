@@ -1,15 +1,13 @@
 package be.ugent.zeus.hydra.sko;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.AdapterOutOfBoundsException;
 import be.ugent.zeus.hydra.sko.lineup.LineupFragment;
-import be.ugent.zeus.hydra.sko.studentvillage.ExhibitorFragment;
-import be.ugent.zeus.hydra.sko.timeline.TimelineFragment;
 
 /**
  * Adapter for the tabs in the SKO portion of the app.

@@ -1,15 +1,15 @@
 package be.ugent.zeus.hydra.minerva.calendar.itemdetails;
 
 import android.app.TaskStackBuilder;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.CalendarContract;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
+import androidx.annotation.Nullable;
+import androidx.core.app.NavUtils;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;

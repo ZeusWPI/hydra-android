@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.minerva.course.database;
 
 import android.database.sqlite.SQLiteConstraintException;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.minerva.AbstractDaoTest;
 import org.junit.Before;

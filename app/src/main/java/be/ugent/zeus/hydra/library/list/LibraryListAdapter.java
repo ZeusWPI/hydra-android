@@ -1,10 +1,10 @@
 package be.ugent.zeus.hydra.library.list;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -15,7 +15,6 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableAdapter;
 import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.library.details.OpeningHours;
 import java9.util.Optional;
-import java9.util.function.Consumer;
 import java9.util.stream.StreamSupport;
 
 import java.util.ArrayList;

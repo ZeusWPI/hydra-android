@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.minerva.calendar.upcominglist;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;

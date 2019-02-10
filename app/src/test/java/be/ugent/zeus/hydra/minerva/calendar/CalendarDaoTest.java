@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.minerva.calendar;
 
 import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteConstraintException;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import android.util.Pair;
 
 import be.ugent.zeus.hydra.minerva.AbstractDaoTest;

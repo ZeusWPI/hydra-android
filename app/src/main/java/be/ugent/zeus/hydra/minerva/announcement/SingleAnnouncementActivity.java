@@ -2,13 +2,12 @@ package be.ugent.zeus.hydra.minerva.announcement;
 
 import android.app.TaskStackBuilder;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.NotificationManagerCompat;
+
+import androidx.core.app.NavUtils;
+import androidx.core.app.NotificationManagerCompat;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +21,6 @@ import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementRepository;
 import be.ugent.zeus.hydra.minerva.common.sync.NotificationHelper;
 import be.ugent.zeus.hydra.minerva.course.singlecourse.CourseActivity;
-import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import org.threeten.bp.Instant;

@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.association.preference;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.network.Endpoints;

@@ -1,9 +1,8 @@
 package be.ugent.zeus.hydra.association.preference;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Pair;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;

@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.utils;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.InputStream;
 import java.util.Scanner;

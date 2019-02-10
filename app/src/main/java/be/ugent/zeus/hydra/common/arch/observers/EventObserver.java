@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.common.arch.observers;
 
-import android.arch.lifecycle.Observer;
+import androidx.lifecycle.Observer;
 
 import be.ugent.zeus.hydra.common.arch.data.Event;
 import java9.util.function.Consumer;

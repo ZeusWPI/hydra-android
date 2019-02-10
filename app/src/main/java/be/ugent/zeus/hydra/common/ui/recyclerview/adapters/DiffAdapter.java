@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
-import android.support.v7.util.DiffUtil;
+import androidx.recyclerview.widget.DiffUtil;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  *
  * <h1>Data updates</h1>
  * When calling {@link #submitData(List)}, a diff with the current data will be calculated on a background thread,
- * after which the changes will be dispatched to this adapter. This uses {@link android.support.v7.util.DiffUtil}
+ * after which the changes will be dispatched to this adapter. This uses {@link androidx.recyclerview.widget.DiffUtil}
  * behind the scenes.
  * <p>
  * Subclasses can publish different types of updates directly to the {@link #dataContainer} by implementing

@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.minerva.announcement.sync;
 
 import android.accounts.Account;
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.common.MinervaRequest;

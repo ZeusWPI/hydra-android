@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.minerva.auth.oauth;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.network.IOFailureException;
 import be.ugent.zeus.hydra.common.request.Request;

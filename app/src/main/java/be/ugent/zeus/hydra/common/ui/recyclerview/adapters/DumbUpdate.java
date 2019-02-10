@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import java.util.List;
 

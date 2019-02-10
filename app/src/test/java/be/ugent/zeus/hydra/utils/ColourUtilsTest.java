@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.utils;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 
 import androidx.test.core.app.ApplicationProvider;
 

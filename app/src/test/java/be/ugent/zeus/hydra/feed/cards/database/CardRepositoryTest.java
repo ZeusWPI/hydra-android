@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.feed.cards.database;
 
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.feed.cards.CardDismissal;
 import be.ugent.zeus.hydra.feed.cards.CardIdentifier;

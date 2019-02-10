@@ -5,6 +5,9 @@ apply plugin: 'io.fabric'
 android {
     compileSdkVersion 28
 
+    // Use resources in robolectric
+    testOptions.unitTests.includeAndroidResources = true
+
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
@@ -12,7 +15,7 @@ android {
         versionCode 2902
         versionName "2.9.0"
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         def props = loadProperties()
         manifestPlaceholders = [
@@ -100,47 +103,29 @@ licenseReport {
 // Might become automatic in the future, see https://github.com/jaredsburrows/gradle-license-plugin/issues/38.
 
 // The support library version
-final SUPPORT_LIBRARY_VERSION = '28.0.0'
-
 dependencies {
-
-    final ROOM_VERSION = "1.1.1"
-    final LIFECYCLE_VERSION = "1.1.1"
 
     implementation project(':provider-contract')
 
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.multidex:multidex:2.0.1'
 
-    //noinspection GradleCompatible
-    implementation "com.android.support:support-compat:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:support-core-ui:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:support-media-compat:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:support-fragment:$SUPPORT_LIBRARY_VERSION"
+    implementation 'androidx.core:core:1.0.1'
+    implementation 'androidx.media:media:1.0.1'
+    implementation 'androidx.fragment:fragment:1.0.0'
 
-    implementation "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:customtabs:$SUPPORT_LIBRARY_VERSION"
-    implementation "com.android.support:slices-builders:$SUPPORT_LIBRARY_VERSION"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'androidx.slice:slice-builders:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'
+    testImplementation 'androidx.arch.core:core-testing:2.0.0'
 
-
-    // Android Architecture Components
-    implementation "android.arch.lifecycle:extensions:$LIFECYCLE_VERSION"
-    annotationProcessor "android.arch.lifecycle:compiler:$LIFECYCLE_VERSION"
-    testImplementation("android.arch.core:core-testing:$LIFECYCLE_VERSION") {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.android.support', module: 'support-compat'
-        exclude group: 'com.android.support', module: 'support-core-utils'
-    }
-
-    implementation "android.arch.persistence.room:runtime:$ROOM_VERSION"
-    annotationProcessor "android.arch.persistence.room:compiler:$ROOM_VERSION"
-    testImplementation("android.arch.persistence.room:testing:$ROOM_VERSION") {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.android.support', module: 'support-compat'
-        exclude group: 'com.android.support', module: 'support-core-utils'
-    }
+    implementation 'androidx.room:room-runtime:2.0.0'
+    annotationProcessor 'androidx.room:room-compiler:2.0.0'
+    testImplementation 'androidx.room:room-testing:2.0.0'
 
     // Mappers
     implementation 'org.mapstruct:mapstruct:1.2.0.Final'
@@ -148,8 +133,9 @@ dependencies {
 
     // Network stack
     // Do not upgrade beyond 3.12.x until we require API 21+
-    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
+    //noinspection GradleDependency
+    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
     implementation 'com.squareup.moshi:moshi:1.8.0'
 
     implementation 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
@@ -160,7 +146,7 @@ dependencies {
     
     // Use our own fork, since it seems the original library is abandoned.
     //noinspection GradleDependency
-    implementation 'com.github.niknetniko:material-intro:master-SNAPSHOT'
+    implementation 'com.github.niknetniko:material-intro:256e50bb4d'
     implementation 'com.jonathanfinerty.once:once:1.2.2'
     implementation 'com.karumi:dexter:5.0.0'
     implementation 'com.github.captain-miao:optroundcardview:1.1.0'
@@ -171,8 +157,8 @@ dependencies {
         exclude group: 'org.apache.oltu.oauth2'
     }
 
-    implementation "com.google.android.gms:play-services-maps:16.0.0"
-    implementation "com.google.android.gms:play-services-auth:16.0.1"
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
     implementation 'com.google.firebase:firebase-core:16.0.7'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
@@ -212,8 +198,6 @@ apply plugin: 'com.google.gms.google-services'
 /**
  * Loads the default properties, and the user properties. This will also load the
  * secret keys.
- *
- * @return
  */
 def loadProperties() {
 
@@ -240,7 +224,7 @@ def loadProperties() {
     if (actualKeyFile.exists()) {
         actualKeys.load(actualKeyFile.newReader())
     } else {
-        logger.warn("A secrets.properties file was not found. Minerva and other APIs will not work.")
+        logger.warn('A secrets.properties file was not found. Minerva and other APIs will not work.')
     }
 
     return actualKeys

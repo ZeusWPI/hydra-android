@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.feed.cards.implementations.urgent;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.common.request.Result;

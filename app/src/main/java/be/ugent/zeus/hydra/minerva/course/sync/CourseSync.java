@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.minerva.course.sync;
 
 import android.accounts.Account;
 import android.content.Context;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.WorkerThread;
 
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.RequestException;

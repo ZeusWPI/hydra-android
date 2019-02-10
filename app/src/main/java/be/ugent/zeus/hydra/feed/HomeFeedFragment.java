@@ -1,20 +1,18 @@
 package be.ugent.zeus.hydra.feed;
 
-import android.annotation.SuppressLint;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BaseTransientBottomBar;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.util.Log;
 import android.view.*;
 
@@ -216,7 +214,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
             FeedCommand command = result.getCommand();
             assert getView() != null;
-            snackbar = Snackbar.make(getView(), command.getCompleteMessage(), BaseTransientBottomBar.LENGTH_LONG)
+            snackbar = Snackbar.make(getView(), command.getCompleteMessage(), Snackbar.LENGTH_LONG)
                     .setAction(command.getUndoMessage(), view -> model.undo(command));
             snackbar.show();
         }

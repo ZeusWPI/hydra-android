@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.minerva.course.database;
 
-import android.arch.persistence.room.*;
-import android.support.annotation.VisibleForTesting;
+import androidx.room.*;
+import androidx.annotation.VisibleForTesting;
 
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementTable;
 import be.ugent.zeus.hydra.minerva.provider.CourseContract;

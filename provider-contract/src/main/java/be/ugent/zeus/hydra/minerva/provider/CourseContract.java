@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.minerva.provider;
 
-import android.accounts.Account;
 import android.net.Uri;
 import android.provider.BaseColumns;
 

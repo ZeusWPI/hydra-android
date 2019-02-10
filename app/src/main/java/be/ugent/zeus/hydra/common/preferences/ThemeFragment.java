@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;

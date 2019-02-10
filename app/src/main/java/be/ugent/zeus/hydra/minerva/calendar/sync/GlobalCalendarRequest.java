@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.minerva.calendar.sync;
 
 import android.accounts.Account;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import be.ugent.zeus.hydra.minerva.common.MinervaRequest;
 import okhttp3.HttpUrl;
