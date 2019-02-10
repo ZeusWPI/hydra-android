@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
-import android.support.v7.util.DiffUtil;
+import androidx.recyclerview.widget.DiffUtil;
 
 /**
  * @author Niko Strijbol

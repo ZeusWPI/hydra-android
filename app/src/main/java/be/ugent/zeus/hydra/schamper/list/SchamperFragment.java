@@ -1,21 +1,17 @@
 package be.ugent.zeus.hydra.schamper.list;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
 
-import java.util.List;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
-import be.ugent.zeus.hydra.common.analytics.Event;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
@@ -23,8 +19,6 @@ import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
-import be.ugent.zeus.hydra.schamper.Article;
-import java9.util.function.Consumer;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;

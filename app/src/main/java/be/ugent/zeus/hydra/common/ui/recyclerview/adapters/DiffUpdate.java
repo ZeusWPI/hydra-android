@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
-import android.support.annotation.MainThread;
-import android.support.annotation.Nullable;
-import android.support.annotation.WorkerThread;
-import android.support.v7.util.DiffUtil;
+import androidx.annotation.MainThread;
+import androidx.annotation.Nullable;
+import androidx.annotation.WorkerThread;
+import androidx.recyclerview.widget.DiffUtil;
 
 import java9.util.Objects;
 

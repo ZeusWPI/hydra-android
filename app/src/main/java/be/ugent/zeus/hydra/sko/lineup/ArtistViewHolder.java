@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.sko.lineup;
 
 import android.content.Intent;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;

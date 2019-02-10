@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.utils;
 
-import android.support.annotation.ColorInt;
-import android.support.v4.graphics.ColorUtils;
+import androidx.annotation.ColorInt;
+import androidx.core.graphics.ColorUtils;
 
 /**
  * @author Niko Strijbol

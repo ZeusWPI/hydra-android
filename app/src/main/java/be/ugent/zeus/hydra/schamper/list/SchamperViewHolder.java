@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.schamper.list;
 
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
-import android.support.v7.widget.CardView;
+import androidx.annotation.ColorInt;
+import androidx.cardview.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

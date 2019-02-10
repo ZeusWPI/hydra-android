@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.library.details;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,11 +9,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.text.util.LinkifyCompat;
+import androidx.annotation.Nullable;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.text.util.LinkifyCompat;
 import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.util.Log;

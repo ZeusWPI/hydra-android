@@ -16,11 +16,11 @@
  */
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Adapted from {@link android.support.v7.util.AdapterListUpdateCallback}.
+ * Adapted from {@link androidx.recyclerview.widget.AdapterListUpdateCallback}.
  *
  * @author Niko Strijbol
  */

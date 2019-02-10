@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.minerva.course.database;
 
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import android.util.Pair;
 
 import be.ugent.zeus.hydra.common.FullRepository;

@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.minerva.course.list;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;

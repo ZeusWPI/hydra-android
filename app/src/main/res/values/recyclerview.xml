@@ -4,9 +4,9 @@
     <integer name="span_count_normal">1</integer>
     <integer name="span_count_large">1</integer>
 
-    <string name="app_layout_manager_linear" tools:ignore="MissingTranslation">android.support.v7.widget.LinearLayoutManager</string>
+    <string name="app_layout_manager_linear" tools:ignore="MissingTranslation">androidx.recyclerview.widget.LinearLayoutManager</string>
 
-    <string name="app_layout_manager_normal" tools:ignore="MissingTranslation">android.support.v7.widget.LinearLayoutManager</string>
-    <string name="app_layout_manager_large" tools:ignore="MissingTranslation">android.support.v7.widget.LinearLayoutManager</string>
+    <string name="app_layout_manager_normal" tools:ignore="MissingTranslation">androidx.recyclerview.widget.LinearLayoutManager</string>
+    <string name="app_layout_manager_large" tools:ignore="MissingTranslation">androidx.recyclerview.widget.LinearLayoutManager</string>
 
 </resources>

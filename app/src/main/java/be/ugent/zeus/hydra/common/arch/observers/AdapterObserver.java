@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.common.arch.observers;
 
-import android.arch.lifecycle.Observer;
-import android.support.annotation.NonNull;
+import androidx.lifecycle.Observer;
+import androidx.annotation.NonNull;
 
 import java.util.List;
 

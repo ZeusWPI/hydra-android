@@ -3,8 +3,8 @@ package be.ugent.zeus.hydra.common.ui.customtabs;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.customtabs.CustomTabsCallback;
+import androidx.annotation.Nullable;
+import androidx.browser.customtabs.CustomTabsCallback;
 
 import java.util.List;
 
@@ -60,7 +60,7 @@ public interface ActivityHelper {
     /**
      * Prime the custom tab with likely urls.
      *
-     * @see android.support.customtabs.CustomTabsSession#mayLaunchUrl(Uri, Bundle, List)
+     * @see androidx.browser.customtabs.CustomTabsSession#mayLaunchUrl(Uri, Bundle, List)
      */
     @SuppressWarnings("UnusedReturnValue")
     boolean mayLaunchUrl(Uri uri, Bundle extras, List<Bundle> otherLikelyBundles);

@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.feed.commands;
 
 import android.content.Context;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.cards.Card;

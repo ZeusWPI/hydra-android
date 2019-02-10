@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.common.database;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.feed.cards.CardRepository;
 import be.ugent.zeus.hydra.feed.cards.database.CardDatabaseRepository;

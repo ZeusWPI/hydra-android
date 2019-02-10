@@ -3,11 +3,9 @@ package be.ugent.zeus.hydra.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.*;
-
-import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
 
 /**
  * @author Niko Strijbol

@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:background="?attr/colorPrimary">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 
@@ -23,6 +23,6 @@
             tools:src="@drawable/logo_hydra"
             android:contentDescription="@string/content_desc_hydra_logo" />
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
 </FrameLayout>

@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.common.database.migrations;
 
 import android.app.Instrumentation;
-import android.arch.persistence.room.testing.LocalMigrationTestHelper;
 import android.os.Build;
 
+import androidx.room.testing.LocalMigrationTestHelper;
 import androidx.test.core.app.ApplicationProvider;
 
 import java.io.IOException;

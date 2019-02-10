@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.common.arch.data;
 
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * A basic live data, that supports requesting a refresh of the data.

@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.feed.cards.implementations.news;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.association.news.UgentNewsRequest;

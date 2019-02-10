@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.common.request;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import java9.util.Objects;
 import java9.util.function.Consumer;
 import java9.util.function.Function;

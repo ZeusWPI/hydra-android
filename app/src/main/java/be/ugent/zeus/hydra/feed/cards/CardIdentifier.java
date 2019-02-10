@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.feed.cards;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.support.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.feed.cards.database.DismissalTable;
 import java9.util.Objects;

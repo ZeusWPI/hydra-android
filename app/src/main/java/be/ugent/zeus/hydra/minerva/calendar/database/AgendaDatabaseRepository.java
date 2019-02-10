@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.minerva.calendar.database;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import be.ugent.zeus.hydra.minerva.course.database.CourseMapper;
 import be.ugent.zeus.hydra.minerva.calendar.AgendaItem;

@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.feed.cards.implementations.minerva.announcement;
 
-import android.support.annotation.Size;
+import androidx.annotation.Size;
 
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;

@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.minerva.mainui;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import be.ugent.zeus.hydra.common.analytics.Analytics;
 import be.ugent.zeus.hydra.common.analytics.Event;

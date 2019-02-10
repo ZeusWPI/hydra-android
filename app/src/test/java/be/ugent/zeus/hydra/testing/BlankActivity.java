@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.testing;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * An activity that contains nothing, to test components that start other activities. We cannot just use the application

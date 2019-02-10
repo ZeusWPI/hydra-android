@@ -4,6 +4,6 @@
     <integer name="span_count_normal">2</integer>
 
     <!-- This cannot be translated -->
-    <string name="app_layout_manager_normal">android.support.v7.widget.StaggeredGridLayoutManager</string>
+    <string name="app_layout_manager_normal">androidx.recyclerview.widget.StaggeredGridLayoutManager</string>
 
 </resources>

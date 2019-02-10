@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.minerva.course.database;
 
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementDTO;
 

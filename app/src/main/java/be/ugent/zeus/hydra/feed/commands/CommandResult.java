@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.feed.commands;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import be.ugent.zeus.hydra.feed.cards.Card;
 import java9.util.Objects;

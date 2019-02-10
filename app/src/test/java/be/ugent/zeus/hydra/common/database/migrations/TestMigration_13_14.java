@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.common.database.migrations;
 
 import android.app.Instrumentation;
-import android.arch.persistence.db.SupportSQLiteDatabase;
-import android.arch.persistence.room.testing.LocalMigrationTestHelper;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 
+import androidx.annotation.RequiresApi;
+import androidx.room.testing.LocalMigrationTestHelper;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.test.core.app.ApplicationProvider;
 
 import java.io.IOException;

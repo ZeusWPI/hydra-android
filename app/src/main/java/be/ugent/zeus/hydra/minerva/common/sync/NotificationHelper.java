@@ -7,11 +7,11 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 
 import be.ugent.zeus.hydra.R;
@@ -26,7 +26,7 @@ import be.ugent.zeus.hydra.minerva.course.singlecourse.CourseActivity;
 import java.util.Collection;
 import java.util.List;
 
-import static android.support.v4.app.NotificationCompat.CATEGORY_EMAIL;
+import static androidx.core.app.NotificationCompat.CATEGORY_EMAIL;
 
 /**
  * Contains a bunch of helper methods to do notifications.

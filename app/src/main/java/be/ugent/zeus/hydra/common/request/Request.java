@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.common.request;
 
 import android.os.Bundle;
-import android.support.annotation.AnyThread;
-import android.support.annotation.NonNull;
+import androidx.annotation.AnyThread;
+import androidx.annotation.NonNull;
 
 import java9.util.function.Function;
 

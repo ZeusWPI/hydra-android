@@ -4,9 +4,9 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
+import androidx.annotation.WorkerThread;
 import android.util.Log;
 
 import be.ugent.zeus.hydra.common.network.IOFailureException;

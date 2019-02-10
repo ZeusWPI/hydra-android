@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.specialevent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.sko.OverviewActivity;
 import com.squareup.moshi.Json;

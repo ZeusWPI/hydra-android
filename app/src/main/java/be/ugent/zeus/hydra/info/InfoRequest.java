@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.info;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.Endpoints;

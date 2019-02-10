@@ -3,8 +3,8 @@ package be.ugent.zeus.hydra.minerva.announcement;
 import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementDao;
 import be.ugent.zeus.hydra.minerva.announcement.database.AnnouncementDTO;

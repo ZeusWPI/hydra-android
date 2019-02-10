@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.minerva.auth;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;

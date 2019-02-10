@@ -1,8 +1,7 @@
 package be.ugent.zeus.hydra.common;
 
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
-import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.TestApp;
 import org.junit.Test;
 import org.junit.runner.RunWith;

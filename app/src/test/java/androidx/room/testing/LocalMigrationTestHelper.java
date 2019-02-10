@@ -1,16 +1,18 @@
-package android.arch.persistence.room.testing;
+package androidx.room.testing;
 
 import android.app.Instrumentation;
-import android.arch.persistence.db.SupportSQLiteDatabase;
-import android.arch.persistence.db.SupportSQLiteOpenHelper;
-import android.arch.persistence.db.framework.FrameworkSQLiteOpenHelperFactory;
-import android.arch.persistence.room.DatabaseConfiguration;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
-import android.arch.persistence.room.RoomOpenHelper;
-import android.arch.persistence.room.migration.Migration;
-import android.arch.persistence.room.migration.bundle.*;
-import android.arch.persistence.room.util.TableInfo;
+
+import androidx.arch.core.executor.ArchTaskExecutor;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.sqlite.db.SupportSQLiteOpenHelper;
+import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory;
+import androidx.room.DatabaseConfiguration;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.room.RoomOpenHelper;
+import androidx.room.migration.Migration;
+import androidx.room.migration.bundle.*;
+import androidx.room.util.TableInfo;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
@@ -26,7 +28,9 @@ import java.lang.ref.WeakReference;
 import java.util.*;
 
 /**
- * Enables testing migrations as unit tests (with robolectric).
+ * Enables testing migrations as unit tests (with Robolectric).
+ *
+ * Copy of {@link MigrationTestHelper}.
  *
  * @author Niko Strijbol
  */
@@ -100,7 +104,9 @@ public class LocalMigrationTestHelper extends TestWatcher {
         RoomDatabase.MigrationContainer container = new RoomDatabase.MigrationContainer();
         DatabaseConfiguration configuration = new DatabaseConfiguration(
                 mInstrumentation.getTargetContext(), name, mOpenFactory, container, null, true,
-                RoomDatabase.JournalMode.TRUNCATE, true, Collections.emptySet());
+                RoomDatabase.JournalMode.TRUNCATE,
+                ArchTaskExecutor.getIOThreadExecutor(),
+                true, Collections.<Integer>emptySet());
         RoomOpenHelper roomOpenHelper = new RoomOpenHelper(configuration,
                 new CreatingDelegate(schemaBundle.getDatabase()),
                 schemaBundle.getDatabase().getIdentityHash(),
@@ -134,7 +140,7 @@ public class LocalMigrationTestHelper extends TestWatcher {
      * @throws IllegalStateException If the schema validation fails.
      */
     public SupportSQLiteDatabase runMigrationsAndValidate(String name, int version,
-            boolean validateDroppedTables, Migration... migrations) throws IOException {
+                                                          boolean validateDroppedTables, Migration... migrations) throws IOException {
         File dbPath = mInstrumentation.getTargetContext().getDatabasePath(name);
         if (!dbPath.exists()) {
             throw new IllegalStateException("Cannot find the database file for " + name + ". "
@@ -145,8 +151,16 @@ public class LocalMigrationTestHelper extends TestWatcher {
         RoomDatabase.MigrationContainer container = new RoomDatabase.MigrationContainer();
         container.addMigrations(migrations);
         DatabaseConfiguration configuration = new DatabaseConfiguration(
-                mInstrumentation.getTargetContext(), name, mOpenFactory, container, null, true,
-                RoomDatabase.JournalMode.TRUNCATE, true, Collections.emptySet());
+                mInstrumentation.getTargetContext(),
+                name,
+                mOpenFactory,
+                container,
+                null,
+                true,
+                RoomDatabase.JournalMode.TRUNCATE,
+                ArchTaskExecutor.getIOThreadExecutor(),
+                true,
+                Collections.<Integer>emptySet());
         RoomOpenHelper roomOpenHelper = new RoomOpenHelper(configuration,
                 new MigratingDelegate(schemaBundle.getDatabase(), validateDroppedTables),
                 // we pass the same hash twice since an old schema does not necessarily have
@@ -241,7 +255,8 @@ public class LocalMigrationTestHelper extends TestWatcher {
         return SchemaBundle.deserialize(input);
     }
 
-    private static TableInfo toTableInfo(EntityBundle entityBundle) {
+    @SuppressWarnings("WeakerAccess") /* synthetic access */
+    static TableInfo toTableInfo(EntityBundle entityBundle) {
         return new TableInfo(entityBundle.getTableName(), toColumnMap(entityBundle),
                 toForeignKeys(entityBundle.getForeignKeys()), toIndices(entityBundle.getIndices()));
     }
@@ -298,7 +313,7 @@ public class LocalMigrationTestHelper extends TestWatcher {
         return 0;
     }
 
-    static class MigratingDelegate extends MigrationTestHelper.RoomOpenHelperDelegate {
+    static class MigratingDelegate extends RoomOpenHelperDelegate {
         private final boolean mVerifyDroppedTables;
 
         MigratingDelegate(DatabaseBundle databaseBundle, boolean verifyDroppedTables) {

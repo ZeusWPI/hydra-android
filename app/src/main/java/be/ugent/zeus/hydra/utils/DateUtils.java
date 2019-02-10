@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.utils;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 
 import be.ugent.zeus.hydra.R;
 import org.threeten.bp.*;
@@ -10,7 +10,6 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
 import org.threeten.bp.format.TextStyle;
 import org.threeten.bp.temporal.ChronoUnit;
-import org.threeten.bp.temporal.IsoFields;
 
 import java.util.Locale;
 

@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.common.converter;
 
-import android.arch.persistence.room.TypeConverter;
-import android.support.annotation.Nullable;
+import androidx.room.TypeConverter;
+import androidx.annotation.Nullable;
 
 import com.squareup.moshi.FromJson;
 import com.squareup.moshi.ToJson;

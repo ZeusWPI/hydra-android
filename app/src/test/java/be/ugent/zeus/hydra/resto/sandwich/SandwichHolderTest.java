@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.resto.sandwich;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import be.ugent.zeus.hydra.R;

@@ -1,15 +1,14 @@
 package be.ugent.zeus.hydra.association.event.list;
 
 import android.content.Context;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
-import be.ugent.zeus.hydra.utils.DateUtils;
+
 import org.threeten.bp.LocalDate;
-import org.threeten.bp.format.FormatStyle;
 
 /**
  * For date headers.

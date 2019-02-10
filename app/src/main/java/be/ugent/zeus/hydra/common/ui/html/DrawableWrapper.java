@@ -18,8 +18,8 @@ package be.ugent.zeus.hydra.common.ui.html;
 import android.content.res.ColorStateList;
 import android.graphics.*;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.v4.graphics.drawable.DrawableCompat;
+import androidx.annotation.NonNull;
+import androidx.core.graphics.drawable.DrawableCompat;
 import android.view.View;
 
 /**

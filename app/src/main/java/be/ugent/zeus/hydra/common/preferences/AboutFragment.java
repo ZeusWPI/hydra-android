@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.support.v7.content.res.AppCompatResources;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;

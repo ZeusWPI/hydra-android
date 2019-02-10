@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.minerva.course.database;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Embedded;
+import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 
 /**
  * Contains a course and the number of unread announcements for that course.

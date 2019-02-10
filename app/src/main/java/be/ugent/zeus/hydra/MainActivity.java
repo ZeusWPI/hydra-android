@@ -5,15 +5,23 @@ import android.content.pm.ShortcutManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.*;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -124,8 +132,8 @@ import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
  *
  * The activity provides some common views:
  * <ul>
- *     <li>A {@link android.support.design.widget.TabLayout} with id {@link R.id#tab_layout}</li>
- *     <li>A {@link android.support.design.widget.BottomNavigationView} with id {@link R.id#bottom_navigation}</li>
+ *     <li>A {@link TabLayout} with id {@link R.id#tab_layout}</li>
+ *     <li>A {@link BottomNavigationView} with id {@link R.id#bottom_navigation}</li>
  * </ul>
  *
  * The fragment's view is automatically adjusted for the TabLayout, if the fragment makes it visible. The activity
