@@ -166,7 +166,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final String TAG = "BaseActivity";
 
     @VisibleForTesting
-    static final String ONCE_ONBOARDING = "once_onboarding";
+    static final String ONCE_ONBOARDING = "once_onboarding_v1";
     private static final int ONBOARDING_REQUEST = 5;
 
     @VisibleForTesting

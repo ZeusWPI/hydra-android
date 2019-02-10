@@ -69,13 +69,13 @@ public final class Reporting {
         Tracker tracker = getTracker(context);
 
         // Enable or disable analytics
-        boolean areAnalyticsAllowed = preferences.getBoolean(PREF_ALLOW_ANALYTICS, false);
-        tracker.allowAnalytics(areAnalyticsAllowed && !BuildConfig.DEBUG);
+        boolean areAnalyticsAllowed = preferences.getBoolean(PREF_ALLOW_ANALYTICS, false) && !BuildConfig.DEBUG;
+        tracker.allowAnalytics(areAnalyticsAllowed);
         Log.i(TAG, "permissions: allowing analytics? " + areAnalyticsAllowed);
 
         // Enable or disable crash reporting
-        boolean isCrashReportingAllowed = preferences.getBoolean(PREF_ALLOW_CRASH_REPORTING, true);
-        tracker.allowCrashReporting(isCrashReportingAllowed && !BuildConfig.DEBUG);
+        boolean isCrashReportingAllowed = preferences.getBoolean(PREF_ALLOW_CRASH_REPORTING, true) && !BuildConfig.DEBUG;
+        tracker.allowCrashReporting(isCrashReportingAllowed);
         Log.i(TAG, "permissions: allowing crash reporting? " + isCrashReportingAllowed);
     }
 }
