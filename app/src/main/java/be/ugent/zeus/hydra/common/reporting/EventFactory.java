@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.common.analytics;
+package be.ugent.zeus.hydra.common.reporting;
 
 import be.ugent.zeus.hydra.resto.RestoMenu;
 

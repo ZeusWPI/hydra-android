@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
-import be.ugent.zeus.hydra.common.analytics.BaseEvents;
-import be.ugent.zeus.hydra.common.analytics.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.BaseEvents;
+import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
@@ -63,7 +63,7 @@ public class SingleDayFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Analytics.getTracker(getContext())
+        Reporting.getTracker(getContext())
                 .log(new MenuEvent(getContext(), data));
     }
 
@@ -81,7 +81,7 @@ public class SingleDayFragment extends Fragment {
         @Nullable
         @Override
         public Bundle getParams() {
-            BaseEvents.Params names = Analytics.getEvents().params();
+            BaseEvents.Params names = Reporting.getEvents().params();
             Bundle params = new Bundle();
             params.putString(names.itemCategory(), RestoMenu.class.getSimpleName());
             params.putString(names.itemId(), resto + menu.getDate().toString());
@@ -93,7 +93,7 @@ public class SingleDayFragment extends Fragment {
         @Nullable
         @Override
         public String getEventName() {
-            return Analytics.getEvents().viewItem();
+            return Reporting.getEvents().viewItem();
         }
     }
 }

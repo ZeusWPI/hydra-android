@@ -14,9 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
-import be.ugent.zeus.hydra.common.analytics.BaseEvents;
-import be.ugent.zeus.hydra.common.analytics.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.BaseEvents;
+import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
@@ -79,7 +79,7 @@ public class ArtistDetailsActivity extends BaseActivity {
             NetworkUtils.maybeLaunchIntent(ArtistDetailsActivity.this, musicIntent);
         });
 
-        Analytics.getTracker(this).log(new ArtistViewedEvent(artist));
+        Reporting.getTracker(this).log(new ArtistViewedEvent(artist));
     }
 
     @Override
@@ -108,7 +108,7 @@ public class ArtistDetailsActivity extends BaseActivity {
 
         @Override
         public Bundle getParams() {
-            BaseEvents.Params names = Analytics.getEvents().params();
+            BaseEvents.Params names = Reporting.getEvents().params();
             Bundle params = new Bundle();
             params.putString(names.itemCategory(), Artist.class.getSimpleName());
             String id = artist.getLink() == null ? "linkless" : artist.getLink();
@@ -120,7 +120,7 @@ public class ArtistDetailsActivity extends BaseActivity {
         @Nullable
         @Override
         public String getEventName() {
-            return Analytics.getEvents().viewItem();
+            return Reporting.getEvents().viewItem();
         }
     }
 }

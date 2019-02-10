@@ -17,8 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
-import be.ugent.zeus.hydra.common.analytics.BaseEvents;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Callback;
@@ -102,7 +102,7 @@ public class EventDetailsActivity extends BaseActivity {
             organisatorImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
         }
 
-        Analytics.getTracker(this)
+        Reporting.getTracker(this)
                 .log(new EventViewedEvent(event));
     }
 
@@ -217,7 +217,7 @@ public class EventDetailsActivity extends BaseActivity {
         }
     }
 
-    private static final class EventViewedEvent implements be.ugent.zeus.hydra.common.analytics.Event {
+    private static final class EventViewedEvent implements be.ugent.zeus.hydra.common.reporting.Event {
 
         private final Event event;
 
@@ -227,7 +227,7 @@ public class EventDetailsActivity extends BaseActivity {
 
         @Override
         public Bundle getParams() {
-            BaseEvents.Params names = Analytics.getEvents().params();
+            BaseEvents.Params names = Reporting.getEvents().params();
             Bundle params = new Bundle();
             params.putString(names.itemCategory(), Event.class.getSimpleName());
             params.putString(names.itemId(), event.getIdentifier());
@@ -238,7 +238,7 @@ public class EventDetailsActivity extends BaseActivity {
         @Nullable
         @Override
         public String getEventName() {
-            return Analytics.getEvents().viewItem();
+            return Reporting.getEvents().viewItem();
         }
     }
 }

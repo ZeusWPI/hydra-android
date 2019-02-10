@@ -4,10 +4,13 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.annotation.WorkerThread;
-import android.util.Log;
+
+import java.io.IOException;
 
 import be.ugent.zeus.hydra.common.network.IOFailureException;
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
@@ -15,12 +18,10 @@ import be.ugent.zeus.hydra.common.network.UnsuccessfulRequestException;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
-import com.crashlytics.android.Crashlytics;
+
 import com.squareup.moshi.JsonAdapter;
 import okhttp3.CacheControl;
 import okhttp3.Request;
-
-import java.io.IOException;
 
 /**
  * Execute a request with a Minerva account. This class will inject the correct headers for authentication with the API.
@@ -36,7 +37,7 @@ public abstract class MinervaRequest<T> extends JsonOkHttpRequest<T> {
     private final AccessTokenProvider tokenProvider;
 
     /**
-     * @param clazz The class of the result.
+     * @param clazz   The class of the result.
      * @param context The application context.
      * @param account The account to work with. Pass null to get the default account.
      */
@@ -76,8 +77,8 @@ public abstract class MinervaRequest<T> extends JsonOkHttpRequest<T> {
                 // 1. If the access token is expired, the getToken() function will have caught and resolved it.
                 // 2. If not resolvable, an AuthenticatorActionException will be thrown.
                 Log.w(TAG, "Invalid auth token.", e);
-                Crashlytics.log("There was an invalid token!");
-                Crashlytics.logException(e);
+                tracker.logErrorMessage("There was an invalid token!");
+                tracker.logError(e);
 
                 accountManager.invalidateAuthToken(MinervaConfig.ACCOUNT_TYPE, getToken());
                 // Re-issue request.

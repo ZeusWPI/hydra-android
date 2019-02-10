@@ -13,8 +13,8 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
-import be.ugent.zeus.hydra.common.analytics.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.sync.SyncUtils;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
@@ -38,7 +38,7 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Analytics.getTracker(this)
+        Reporting.getTracker(this)
                 .log(new TutorialBeginEvent());
 
         //First tab
@@ -100,7 +100,7 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
         bundle.putBoolean(MinervaAdapter.EXTRA_FIRST_SYNC, true);
         SyncUtils.requestSync(account, MinervaConfig.SYNC_AUTHORITY, bundle);
 
-        Analytics.getTracker(this)
+        Reporting.getTracker(this)
                 .log(new LoginEvent());
     }
 
@@ -108,7 +108,7 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
         @Nullable
         @Override
         public String getEventName() {
-            return Analytics.getEvents().tutorialBegin();
+            return Reporting.getEvents().tutorialBegin();
         }
     }
 }

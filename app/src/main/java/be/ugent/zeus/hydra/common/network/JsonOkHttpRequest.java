@@ -2,28 +2,31 @@ package be.ugent.zeus.hydra.common.network;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.VisibleForTesting;
-import androidx.annotation.WorkerThread;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
-import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.common.request.RequestException;
-import be.ugent.zeus.hydra.common.request.Result;
-import com.crashlytics.android.Crashlytics;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.JsonDataException;
 import com.squareup.moshi.Moshi;
-import okhttp3.CacheControl;
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
+
 import org.threeten.bp.Duration;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.UnknownServiceException;
 import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
+import androidx.annotation.WorkerThread;
+import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.Tracker;
+import be.ugent.zeus.hydra.common.request.Request;
+import be.ugent.zeus.hydra.common.request.RequestException;
+import be.ugent.zeus.hydra.common.request.Result;
+import okhttp3.CacheControl;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
 
 /**
  * Common implementation base for requests that are network requests. This request provides built-in caching on the
@@ -51,6 +54,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     private final Moshi moshi;
     private final OkHttpClient client;
     private final Type typeToken;
+    protected final Tracker tracker;
 
     /**
      * Construct a new request. As this constructor is not type-safe, it must only be used internally.
@@ -62,6 +66,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
         this.moshi = InstanceProvider.getMoshi();
         this.client = InstanceProvider.getClient(context);
         this.typeToken = token;
+        this.tracker = Reporting.getTracker(context);
     }
 
     /**
@@ -92,7 +97,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
                 // If this exception is for a clear text violation, log it. We want to fix these.
                 if (e instanceof UnknownServiceException) {
                     Log.e(TAG, "Unexpected error during network request.", e);
-                    Crashlytics.logException(e);
+                    tracker.logError(e);
                 }
 
                 Result<D> result = Result.Builder.fromException(new IOFailureException(e));
@@ -152,7 +157,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
             // Create, log and throw exception, since this is not normal.
             String message = "The server did not respond with the expected format for URL: " + getAPIUrl();
             InvalidFormatException exception = new InvalidFormatException(message, e);
-            Crashlytics.logException(exception);
+            tracker.logError(exception);
             return Result.Builder.fromException(exception);
         }
     }

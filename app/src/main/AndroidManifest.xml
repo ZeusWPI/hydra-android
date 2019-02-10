@@ -52,6 +52,10 @@
         android:label="@string/permissions_read_courses"
         android:description="@string/permissions_read_courses_desc" />
 
+    <!-- Some ignored warnings:
+        - AllowBackup: the default backup is sufficient
+        - UnusedAttribute: networkSecurityConfig is only for newer APIs
+        -->
     <application
         android:name=".HydraApplication"
         android:allowBackup="true"
@@ -60,18 +64,12 @@
         android:logo="@drawable/logo"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Hydra.Main.NoActionBar"
-        android:networkSecurityConfig="@xml/network_security_config">
+        android:networkSecurityConfig="@xml/network_security_config"
+        tools:ignore="AllowBackup,UnusedAttribute">
 
-        <!-- Disable all Firebase analytics in debug mode. -->
-        <meta-data android:name="firebase_analytics_collection_deactivated"
-            android:value="${disableAnalytics}" />
-
-        <!--
-          ~ Disables automatic initialisation of Crashlytics.
-          ~
-          ~ This is necessary because we want to disable Crashlytics in debug builds. The initialisation happens
-          ~ in the HydraApplication.
-          -->
+        <!-- Disable Firebase Reporting until explicitly started -->
+        <meta-data android:name="firebase_analytics_collection_enabled" android:value="false" />
+        <!-- Disables automatic initialisation of Crashlytics. -->
         <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
 
         <!-- This is used for the Google Maps fragment -->
@@ -267,14 +265,16 @@
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
 
         <!-- Firebase messages -->
-        <service android:name=".sko.FirebaseMessageService">
+        <service android:name=".sko.FirebaseMessageService"
+            tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <!-- Account service -->
-        <service android:name=".minerva.account.MinervaService">
+        <service android:name=".minerva.account.MinervaService"
+            tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -287,7 +287,8 @@
         <!-- Minerva sync service -->
         <service
             android:name=".minerva.common.sync.MinervaService"
-            android:exported="true">
+            android:exported="true"
+            tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
@@ -309,16 +310,10 @@
         <!-- Handles transferring accounts to new devices -->
         <receiver
             android:name=".minerva.account.AccountTransferReceiver"
-            android:exported="true">
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
             <intent-filter>
                 <action android:name="com.google.android.gms.auth.START_ACCOUNT_EXPORT" />
-            </intent-filter>
-            <!-- I don't think the ones below are used for non-system apps, but who knows -->
-            <intent-filter>
-                <action android:name="com.google.android.gms.auth.ACCOUNT_IMPORT_DATA_AVAILABLE" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.google.android.gms.auth.ACCOUNT_EXPORT_DATA_AVAILABLE" />
             </intent-filter>
         </receiver>
         <!-- The accompanying service -->

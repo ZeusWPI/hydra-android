@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.common.analytics;
+package be.ugent.zeus.hydra.common.reporting;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -11,7 +11,7 @@ import java9.util.Optional;
  * implementation itself.
  *
  * A selection of predefined types is available in {@link BaseEvents}. Get an implementation from the {@link
- * Analytics}.
+ * Reporting}.
  *
  * @author Niko Strijbol
  */

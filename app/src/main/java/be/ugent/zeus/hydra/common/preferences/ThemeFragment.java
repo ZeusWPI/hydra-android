@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
-import be.ugent.zeus.hydra.common.analytics.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.Event;
 
 /**
  * Show preferences related to the theme of the app.
@@ -28,7 +28,7 @@ public class ThemeFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.pref_theme);
         ListPreference listPreference = (ListPreference) findPreference(PREF_THEME_NIGHT_MODE);
         listPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-            Analytics.getTracker(getActivity())
+            Reporting.getTracker(getActivity())
                     .log(new ThemeChanged((String) newValue));
             Toast.makeText(getActivity().getApplicationContext(), R.string.pref_theme_night_mode_restart, Toast.LENGTH_LONG).show();
             return true;
@@ -38,7 +38,7 @@ public class ThemeFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Analytics.getTracker(getActivity())
+        Reporting.getTracker(getActivity())
                 .setCurrentScreen(getActivity(), "Settings > Theme", getClass().getSimpleName());
     }
 

@@ -20,7 +20,6 @@ android {
         def props = loadProperties()
         manifestPlaceholders = [
                 google_maps_key     : props.getProperty('MAPS_API_KEY'),
-                disableAnalytics    : false
         ]
         // Minerva authentication keys
         buildConfigField "String", "OAUTH_ID", '"' + props.getProperty('OAUTH_ID') + '"'
@@ -59,12 +58,7 @@ android {
 
         debug {
             multiDexEnabled true
-            // Set this to false on release versions!
-            debuggable true
-            // Disable analytics in debug builds
-            manifestPlaceholders = [
-                    disableAnalytics    : true
-            ]
+            // Disable crashlytics in debug builds
             ext.enableCrashlytics = false
         }
     }

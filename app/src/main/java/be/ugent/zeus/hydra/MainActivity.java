@@ -31,8 +31,8 @@ import java.util.Objects;
 
 import be.ugent.zeus.hydra.association.event.list.EventFragment;
 import be.ugent.zeus.hydra.association.news.list.NewsFragment;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
-import be.ugent.zeus.hydra.common.analytics.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.preferences.SettingsActivity;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.feed.HomeFeedFragment;
@@ -381,8 +381,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         item.setChecked(true);
         // Set action bar title
         setTitle(item.getTitle());
-        // Log the screen in the Analytics.
-        Analytics.getTracker(this)
+        // Log the screen in the Reporting.
+        Reporting.getTracker(this)
                 .setCurrentScreen(this, item.getTitle().toString(), fragment.getClass().getSimpleName());
         // Close the navigation drawer
         drawer.closeDrawer(GravityCompat.START);
@@ -500,7 +500,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 Log.i(TAG, "Onboarding complete");
                 Once.markDone(ONCE_ONBOARDING);
                 // Log sign in
-                Analytics.getTracker(this)
+                Reporting.getTracker(this)
                         .log(new TutorialEndEvent());
             } else {
                 Log.w(TAG, "Onboarding failed, stop app.");
@@ -515,7 +515,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         @Nullable
         @Override
         public String getEventName() {
-            return Analytics.getEvents().tutorialComplete();
+            return Reporting.getEvents().tutorialComplete();
         }
     }
 

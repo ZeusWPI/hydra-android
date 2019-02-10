@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
 
-import be.ugent.zeus.hydra.common.analytics.Analytics;
-import be.ugent.zeus.hydra.common.analytics.BaseEvents;
-import be.ugent.zeus.hydra.common.analytics.Event;
-import be.ugent.zeus.hydra.common.analytics.Tracker;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.BaseEvents;
+import be.ugent.zeus.hydra.common.reporting.Event;
+import be.ugent.zeus.hydra.common.reporting.Tracker;
 import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -25,7 +25,7 @@ public class ArticleViewer {
     public static void viewArticle(Context context, Article article, ActivityHelper helper) {
 
         // Log selection of the article.
-        Tracker analytics = Analytics.getTracker(context);
+        Tracker analytics = Reporting.getTracker(context);
         analytics.log(new ArticleSelectedEvent(article));
 
         // Open in-app or in a custom tab
@@ -51,7 +51,7 @@ public class ArticleViewer {
         @Nullable
         @Override
         public Bundle getParams() {
-            BaseEvents.Params names = Analytics.getEvents().params();
+            BaseEvents.Params names = Reporting.getEvents().params();
             Bundle params = new Bundle();
             params.putString(names.contentType(), Article.class.getSimpleName());
             params.putString(names.itemId(), article.getLink());
@@ -61,7 +61,7 @@ public class ArticleViewer {
         @Nullable
         @Override
         public String getEventName() {
-            return Analytics.getEvents().selectContent();
+            return Reporting.getEvents().selectContent();
         }
     }
 }

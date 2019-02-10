@@ -8,7 +8,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.WebViewActivity;
 
 /**
@@ -48,7 +48,7 @@ public class AboutFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Analytics.getTracker(getActivity())
+        Reporting.getTracker(getActivity())
                 .setCurrentScreen(getActivity(), "Settings > About", getClass().getSimpleName());
     }
 }
