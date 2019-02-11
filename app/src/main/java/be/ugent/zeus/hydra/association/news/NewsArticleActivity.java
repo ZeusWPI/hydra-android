@@ -17,9 +17,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
-import be.ugent.zeus.hydra.common.analytics.BaseEvents;
-import be.ugent.zeus.hydra.common.analytics.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.BaseEvents;
+import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
@@ -130,7 +130,7 @@ public class NewsArticleActivity extends BaseActivity {
     public static void viewArticle(Context context, UgentNewsArticle article, ActivityHelper helper) {
 
         // Log viewing the article
-        Analytics.getTracker(context).log(new ArticleViewedEvent(article));
+        Reporting.getTracker(context).log(new ArticleViewedEvent(article));
 
         // Open in-app or in a custom tab
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -157,7 +157,7 @@ public class NewsArticleActivity extends BaseActivity {
         @Override
         @SuppressWarnings("Duplicates")
         public Bundle getParams() {
-            BaseEvents.Params names = Analytics.getEvents().params();
+            BaseEvents.Params names = Reporting.getEvents().params();
             Bundle bundle = new Bundle();
             bundle.putString(names.itemCategory(), UgentNewsArticle.class.getSimpleName());
             bundle.putString(names.itemId(), article.getIdentifier());
@@ -168,7 +168,7 @@ public class NewsArticleActivity extends BaseActivity {
         @Nullable
         @Override
         public String getEventName() {
-            return Analytics.getEvents().viewItem();
+            return Reporting.getEvents().viewItem();
         }
     }
 }

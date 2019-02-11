@@ -10,7 +10,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.sync.SyncUtils;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
@@ -125,7 +125,7 @@ public class MinervaPreferenceFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Analytics.getTracker(getAppContext())
+        Reporting.getTracker(getAppContext())
                 .setCurrentScreen(getActivity(), "Settings > Minerva", getClass().getSimpleName());
     }
 

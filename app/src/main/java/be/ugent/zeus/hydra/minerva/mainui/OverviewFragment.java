@@ -30,7 +30,7 @@ import java.util.List;
 
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
 import be.ugent.zeus.hydra.common.sync.SyncUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
@@ -146,7 +146,7 @@ public class OverviewFragment extends Fragment implements ResultStarter, MainAct
         //Get an account
         Account account = AccountUtils.getAccount(getContext());
 
-        Analytics.getTracker(requireContext())
+        Reporting.getTracker(requireContext())
                 .log(new LoginEvent());
 
         //Request first sync

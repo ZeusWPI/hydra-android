@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 
 public class ExtraFoodActivity extends BaseActivity {
@@ -31,7 +31,7 @@ public class ExtraFoodActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 //noinspection ConstantConditions
-                Analytics.getTracker(getApplicationContext())
+                Reporting.getTracker(getApplicationContext())
                         .setCurrentScreen(
                                 ExtraFoodActivity.this,
                                 adapter.getPageTitle(position).toString(),

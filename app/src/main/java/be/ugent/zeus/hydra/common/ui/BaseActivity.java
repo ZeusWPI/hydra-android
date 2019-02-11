@@ -17,7 +17,7 @@ import be.ugent.zeus.hydra.R;
  * Such features include:
  * <ul>
  *     <li>Support for the toolbar</li>
- *     <li>Better Google Analytics support</li>
+ *     <li>Better Google Reporting support</li>
  * </ul>
  *
  * @author Niko Strijbol

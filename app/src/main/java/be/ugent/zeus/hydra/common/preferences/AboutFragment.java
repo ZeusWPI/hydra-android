@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.common.preferences;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -8,7 +9,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.WebViewActivity;
 
 /**
@@ -42,13 +43,16 @@ public class AboutFragment extends PreferenceFragment {
             return false;
         });
 
-        findPreference("pref_about_creator").setIcon(AppCompatResources.getDrawable(getActivity(), R.drawable.logo_zeus));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            findPreference("pref_about_creator_zeus").setIcon(AppCompatResources.getDrawable(getActivity(), R.drawable.logo_zeus));
+            findPreference("pref_about_creator_dsa").setIcon(AppCompatResources.getDrawable(getActivity(), R.drawable.logo_ugent));
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Analytics.getTracker(getActivity())
+        Reporting.getTracker(getActivity())
                 .setCurrentScreen(getActivity(), "Settings > About", getClass().getSimpleName());
     }
 }

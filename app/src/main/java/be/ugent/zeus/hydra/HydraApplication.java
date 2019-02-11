@@ -3,19 +3,17 @@ package be.ugent.zeus.hydra;
 import android.app.Application;
 import android.content.Context;
 import android.os.StrictMode;
-import androidx.multidex.MultiDex;
-import androidx.appcompat.app.AppCompatDelegate;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.common.ChannelCreator;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
-import be.ugent.zeus.hydra.common.analytics.Tracker;
-import be.ugent.zeus.hydra.common.preferences.ThemeFragment;
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
-import io.fabric.sdk.android.Fabric;
+
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.multidex.MultiDex;
+import be.ugent.zeus.hydra.common.ChannelCreator;
+import be.ugent.zeus.hydra.common.preferences.ThemeFragment;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.Tracker;
 import jonathanfinerty.once.Once;
 
 /**
@@ -64,11 +62,8 @@ public class HydraApplication extends Application {
             enableStrictModeInDebug();
         }
 
-        // Enable or disable Crashlytics.
-        CrashlyticsCore core = new CrashlyticsCore.Builder()
-                .disabled(BuildConfig.DEBUG) // Disable when DEBUG is true.
-                .build();
-        Fabric.with(this, new Crashlytics.Builder().core(core).build());
+        // Enable or disable analytics.
+        Reporting.syncPermissions(this);
 
         // Set the theme.
         AppCompatDelegate.setDefaultNightMode(ThemeFragment.getNightMode(this));
@@ -83,7 +78,7 @@ public class HydraApplication extends Application {
     }
 
     private void trackTheme() {
-        Tracker tracker = Analytics.getTracker(this);
+        Tracker tracker = Reporting.getTracker(this);
         switch (ThemeFragment.getNightMode(this)) {
             case AppCompatDelegate.MODE_NIGHT_AUTO:
                 tracker.setUserProperty("theme", "auto");

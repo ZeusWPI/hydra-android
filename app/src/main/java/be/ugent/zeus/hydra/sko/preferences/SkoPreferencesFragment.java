@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.sko.FirebaseMessageService;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -49,7 +49,7 @@ public class SkoPreferencesFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Analytics.getTracker(getActivity())
+        Reporting.getTracker(getActivity())
                 .setCurrentScreen(getActivity(), "Settings > SKO", getClass().getSimpleName());
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="be.ugent.zeus.hydra.reporting.allow_analytics"
+        android:summary="@string/onboarding_reporting_analytics_desc"
+        android:title="@string/onboarding_reporting_analytics_title" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="be.ugent.zeus.hydra.reporting.allow_crash_reporting"
+        android:summary="@string/onboarding_reporting_crash_desc"
+        android:title="@string/onboarding_reporting_crash_title" />
+</PreferenceScreen>

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.common.analytics;
+package be.ugent.zeus.hydra.common.reporting;
 
 /**
  * Provides basic logging constants for events. These should be available in all implementations. If not available, the

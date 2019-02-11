@@ -92,7 +92,8 @@
     <string name="pref_about_version_summary">Version %1$s [%2$d] (%3$s)</string>
     <string name="pref_about_changelog_title">Changelog</string>
     <string name="pref_about_changelog_summary">View what\'s new</string>
-    <string name="pref_about_creator_title">Made by Zeus WPI</string>
+    <string name="pref_about_creator_zeus">Made by Zeus WPI</string>
+    <string name="pref_about_creator_dsa">In collaboration with the Department of StudentActivities</string>
     <string name="pref_about_issues_title">Feedback</string>
     <string name="pref_about_issues_summary">Report problems or give suggestions</string>
 
@@ -118,7 +119,21 @@
     <string name="onboarding_minerva_description">Login to Minerva to see your courses</string>
     <string name="onboarding_minerva_button">Login</string>
     <string name="onboarding_feed_title">Homefeed</string>
-    <string name="onboarding_feed_desc">Choose what you want to see in the homefeed.</string>
+    <string name="onboarding_feed_desc">Choose what you want to see in the homefeed</string>
+    <string name="onboarding_reporting_title">Data usage</string>
+    <string name="onboarding_reporting_desc">Change how Hydra uses your data</string>
+    <string name="onboarding_reporting_analytics_title">Analytics</string>
+    <string name="onboarding_reporting_analytics_desc">
+        Allow Hydra to collect anonymous user statistics. We use this to know how many people use Hydra and why they use Hydra.
+    </string>
+    <string name="onboarding_reporting_crash_title">Crash reporting</string>
+    <string name="onboarding_reporting_crash_desc">
+        Send logs and other useful (anonymous) information if the app crashes, allowing us to fix the issue as fast as possible.
+    </string>
+    <string name="onboarding_reporting_allow">Allow</string>
+    <string name="onboarding_reporting_disallow">Disallow</string>
+    <string name="onboarding_reporting_allow_crash">Report crashes</string>
+    <string name="onboarding_reporting_required">Choose if we may collect anonymous Analytics</string>
 
     <!-- Association events -->
     <string name="event_detail_activity_title">Event</string>

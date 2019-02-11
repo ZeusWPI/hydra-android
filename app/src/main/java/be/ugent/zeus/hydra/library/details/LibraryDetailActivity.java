@@ -28,9 +28,9 @@ import java.util.List;
 import java.util.Set;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
-import be.ugent.zeus.hydra.common.analytics.BaseEvents;
-import be.ugent.zeus.hydra.common.analytics.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.BaseEvents;
+import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
@@ -163,7 +163,7 @@ public class LibraryDetailActivity extends BaseActivity {
         model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
 
-        Analytics.getTracker(this).log(new LibraryViewEvent(library));
+        Reporting.getTracker(this).log(new LibraryViewEvent(library));
     }
 
     @Override
@@ -300,7 +300,7 @@ public class LibraryDetailActivity extends BaseActivity {
         @Nullable
         @Override
         public Bundle getParams() {
-            BaseEvents.Params names = Analytics.getEvents().params();
+            BaseEvents.Params names = Reporting.getEvents().params();
             Bundle params = new Bundle();
             params.putString(names.itemCategory(), Library.class.getSimpleName());
             params.putString(names.itemId(), library.getCode());
@@ -311,7 +311,7 @@ public class LibraryDetailActivity extends BaseActivity {
         @Nullable
         @Override
         public String getEventName() {
-            return Analytics.getEvents().viewItem();
+            return Reporting.getEvents().viewItem();
         }
     }
 }

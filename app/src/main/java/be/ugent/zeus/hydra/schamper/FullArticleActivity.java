@@ -14,9 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
-import be.ugent.zeus.hydra.common.analytics.BaseEvents;
-import be.ugent.zeus.hydra.common.analytics.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.BaseEvents;
+import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
@@ -46,7 +46,7 @@ public class FullArticleActivity extends BaseActivity {
         article = intent.getParcelableExtra(PARCEL_ARTICLE);
 
         // Log viewing the article.
-        Analytics.getTracker(this)
+        Reporting.getTracker(this)
                 .log(new ArticleShownEvent(article));
 
         TextView title = findViewById(R.id.title);
@@ -138,7 +138,7 @@ public class FullArticleActivity extends BaseActivity {
         @Nullable
         @Override
         public Bundle getParams() {
-            BaseEvents.Params names = Analytics.getEvents().params();
+            BaseEvents.Params names = Reporting.getEvents().params();
             Bundle params = new Bundle();
             params.putString(names.itemCategory(), Article.class.getSimpleName());
             params.putString(names.itemId(), article.getLink());
@@ -149,7 +149,7 @@ public class FullArticleActivity extends BaseActivity {
         @Nullable
         @Override
         public String getEventName() {
-            return Analytics.getEvents().viewItem();
+            return Reporting.getEvents().viewItem();
         }
     }
 }

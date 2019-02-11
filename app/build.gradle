@@ -20,7 +20,6 @@ android {
         def props = loadProperties()
         manifestPlaceholders = [
                 google_maps_key     : props.getProperty('MAPS_API_KEY'),
-                disableAnalytics    : false
         ]
         // Minerva authentication keys
         buildConfigField "String", "OAUTH_ID", '"' + props.getProperty('OAUTH_ID') + '"'
@@ -59,12 +58,7 @@ android {
 
         debug {
             multiDexEnabled true
-            // Set this to false on release versions!
-            debuggable true
-            // Disable analytics in debug builds
-            manifestPlaceholders = [
-                    disableAnalytics    : true
-            ]
+            // Disable crashlytics in debug builds
             ext.enableCrashlytics = false
         }
     }
@@ -146,7 +140,7 @@ dependencies {
     
     // Use our own fork, since it seems the original library is abandoned.
     //noinspection GradleDependency
-    implementation 'com.github.niknetniko:material-intro:256e50bb4d'
+    implementation 'com.github.niknetniko:material-intro:1622'
     implementation 'com.jonathanfinerty.once:once:1.2.2'
     implementation 'com.karumi:dexter:5.0.0'
     implementation 'com.github.captain-miao:optroundcardview:1.1.0'

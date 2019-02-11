@@ -17,8 +17,8 @@ import android.util.Log;
 
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
-import be.ugent.zeus.hydra.common.analytics.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.urgent.player.*;
 
 import java.util.Collections;
@@ -192,7 +192,7 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
             mediaSession.setActive(true);
             Log.d(TAG, "onPlay: starting foreground service");
             startForeground(MUSIC_SERVICE_ID, notification);
-            Analytics.getTracker(this).log(new MusicStartEvent());
+            Reporting.getTracker(this).log(new MusicStartEvent());
             foreground = true;
         }
     }
@@ -212,7 +212,7 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
         if (wifiLock != null && wifiLock.isHeld()) {
             wifiLock.release();
         }
-        Analytics.getTracker(this).log(new MusicStopEvent());
+        Reporting.getTracker(this).log(new MusicStopEvent());
         stopForeground(true);
         foreground = false;
     }

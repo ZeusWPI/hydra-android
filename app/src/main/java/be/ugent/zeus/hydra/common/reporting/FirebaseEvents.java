@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.common.analytics;
+package be.ugent.zeus.hydra.common.reporting;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 

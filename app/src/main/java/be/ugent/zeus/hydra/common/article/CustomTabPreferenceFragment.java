@@ -3,9 +3,8 @@ package be.ugent.zeus.hydra.common.article;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
-import be.ugent.zeus.hydra.HydraApplication;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 
 /**
  * Show preferences related to the news-section, specifically for the use of Custom Tabs.
@@ -26,7 +25,7 @@ public class CustomTabPreferenceFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Analytics.getTracker(getActivity())
+        Reporting.getTracker(getActivity())
                 .setCurrentScreen(getActivity(), "Settings > Custom Tabs", getClass().getSimpleName());
     }
 }

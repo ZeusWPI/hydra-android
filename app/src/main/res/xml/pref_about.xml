@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
         android:key="pref_about_version"
@@ -35,12 +36,25 @@
 
     <Preference
         android:iconSpaceReserved="true"
-        android:key="pref_about_creator"
-        android:title="@string/pref_about_creator_title"
-        android:persistent="false">
+        android:key="pref_about_creator_zeus"
+        android:title="@string/pref_about_creator_zeus"
+        android:persistent="false"
+        android:singleLineTitle="false"
+        tools:ignore="UnusedAttribute">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="https://zeus.ugent.be" />
+    </Preference>
+    <Preference
+        android:iconSpaceReserved="true"
+        android:key="pref_about_creator_dsa"
+        android:title="@string/pref_about_creator_dsa"
+        android:persistent="false"
+        android:singleLineTitle="false"
+        tools:ignore="UnusedAttribute">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="http://student.ugent.be" />
     </Preference>
 
 </PreferenceScreen>

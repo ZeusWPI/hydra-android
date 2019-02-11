@@ -5,7 +5,9 @@ import android.accounts.AccountManager;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -13,14 +15,15 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
-import be.ugent.zeus.hydra.common.analytics.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.sync.SyncUtils;
 import be.ugent.zeus.hydra.minerva.account.AccountUtils;
 import be.ugent.zeus.hydra.minerva.account.MinervaConfig;
 import be.ugent.zeus.hydra.minerva.auth.AuthActivity;
 import be.ugent.zeus.hydra.minerva.common.sync.MinervaAdapter;
 import be.ugent.zeus.hydra.minerva.mainui.LoginEvent;
+
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
@@ -38,7 +41,7 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Analytics.getTracker(this)
+        Reporting.getTracker(this)
                 .log(new TutorialBeginEvent());
 
         //First tab
@@ -50,15 +53,24 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
                 .backgroundDark(R.color.hydra_primary_dark_colour)
                 .build());
 
-        //Home feed selector
+        // Check for permission for data collection
+        addSlide(new FragmentSlide.Builder()
+                .background(R.color.hydra_primary_colour)
+                .backgroundDark(R.color.hydra_primary_dark_colour)
+                .fragment(new ReportingFragment())
+                .build()
+        );
+
+        // Home feed selector
         addSlide(new FragmentSlide.Builder()
                 .background(R.color.hydra_primary_colour)
                 .backgroundDark(R.color.hydra_primary_dark_colour)
                 .fragment(new HomeFeedFragment())
                 .build());
 
-        //Check if the user already has an account. This is possible, because clearing the application data does not
-        //remove the account.
+        // Check if the user already has an account. This is possible, because clearing the application data does not
+        // remove the account.
+        // TODO: should we just remove the account here instead?
         if (!AccountUtils.hasAccount(this)) {
             addSlide(new SimpleSlide.Builder()
                     .title(R.string.onboarding_minerva_title)
@@ -100,7 +112,7 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
         bundle.putBoolean(MinervaAdapter.EXTRA_FIRST_SYNC, true);
         SyncUtils.requestSync(account, MinervaConfig.SYNC_AUTHORITY, bundle);
 
-        Analytics.getTracker(this)
+        Reporting.getTracker(this)
                 .log(new LoginEvent());
     }
 
@@ -108,7 +120,7 @@ public class OnboardingActivity extends IntroActivity implements View.OnClickLis
         @Nullable
         @Override
         public String getEventName() {
-            return Analytics.getEvents().tutorialBegin();
+            return Reporting.getEvents().tutorialBegin();
         }
     }
 }

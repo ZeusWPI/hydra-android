@@ -1,15 +1,16 @@
-package be.ugent.zeus.hydra.common.analytics;
+package be.ugent.zeus.hydra.common.reporting;
 
 import android.app.Activity;
 
+import com.crashlytics.android.Crashlytics;
+
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 /**
  * Provides the basic method for logging analytics events.
  *
- * You should get an instance of the tracker from the {@link Analytics}. Normally, the implementation will track certain
+ * You should get an instance of the tracker from the {@link Reporting}. Normally, the implementation will track certain
  * things automatically. For example, Firebase automatically tracks:
  * <ul>
  * <li>Activities as screens and activity changes</li>
@@ -46,4 +47,32 @@ public interface Tracker {
      * @param value The value.
      */
     void setUserProperty(String name, String value);
+
+    /**
+     * Log a non-fatal exception to the crash service.
+     *
+     * @param throwable The exception to log.
+     */
+    void logError(Throwable throwable);
+
+    /**
+     * Log an error string to the crash service.
+     *
+     * @param message The message to log.
+     */
+    void logErrorMessage(String message);
+
+    /**
+     * Configure the underlying service to allow analytics or not.
+     *
+     * @param allowed If analytics collection is allowed or not.
+     */
+    void allowAnalytics(boolean allowed);
+
+    /**
+     * Configure the underlying crash service to allow crash reporting or not.
+     *
+     * @param allowed If crash reporting is allowed or not.
+     */
+    void allowCrashReporting(boolean allowed);
 }

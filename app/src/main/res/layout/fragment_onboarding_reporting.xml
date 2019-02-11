@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/checkbox_wrapper"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".onboarding.OnboardingActivity">
+
+    <TextView
+        android:paddingTop="@dimen/large_horizontal_padding"
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingRight="@dimen/vertical_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/onboarding_reporting_title"
+        android:gravity="center"
+        android:fontFamily="sans-serif-medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textColor="?android:textColorPrimary"/>
+
+    <TextView
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingRight="@dimen/vertical_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:text="@string/onboarding_reporting_desc"/>
+
+    <TextView
+        android:height="48dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingRight="@dimen/vertical_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Subhead"
+        android:textColor="@color/hydra_accent_color"
+        android:textSize="@dimen/material_typography_regular_subheading_text_size"
+        android:text="@string/onboarding_reporting_analytics_title"/>
+
+    <TextView
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingRight="@dimen/vertical_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/onboarding_reporting_analytics_desc"/>
+
+    <RadioGroup
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingRight="@dimen/vertical_padding"
+        android:paddingTop="@dimen/content_spacing"
+        android:paddingBottom="@dimen/content_spacing"
+        android:id="@+id/analyticsChooser"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/allowAnalytics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/onboarding_reporting_allow" />
+        <RadioButton
+            android:id="@+id/disallowAnalytics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/onboarding_reporting_disallow" />
+    </RadioGroup>
+
+    <TextView
+        android:height="48dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingRight="@dimen/vertical_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Subhead"
+        android:textColor="@color/hydra_accent_color"
+        android:textSize="@dimen/material_typography_regular_subheading_text_size"
+        android:text="@string/onboarding_reporting_crash_title"/>
+
+    <TextView
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingRight="@dimen/vertical_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/onboarding_reporting_crash_desc"/>
+
+    <Switch
+        android:paddingTop="@dimen/content_spacing"
+        android:paddingBottom="@dimen/content_spacing"
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingRight="@dimen/vertical_padding"
+        android:id="@+id/allowCrashReporting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/onboarding_reporting_allow_crash" />
+
+</LinearLayout>

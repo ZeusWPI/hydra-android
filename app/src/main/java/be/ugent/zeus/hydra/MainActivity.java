@@ -31,8 +31,8 @@ import java.util.Objects;
 
 import be.ugent.zeus.hydra.association.event.list.EventFragment;
 import be.ugent.zeus.hydra.association.news.list.NewsFragment;
-import be.ugent.zeus.hydra.common.analytics.Analytics;
-import be.ugent.zeus.hydra.common.analytics.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.preferences.SettingsActivity;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.feed.HomeFeedFragment;
@@ -166,8 +166,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final String TAG = "BaseActivity";
 
     @VisibleForTesting
-    static final String ONCE_ONBOARDING = "once_onboarding";
+    static final String ONCE_ONBOARDING = "once_onboarding_v1";
     private static final int ONBOARDING_REQUEST = 5;
+
+    private static final String STATE_IS_ONBOARDING_OPEN = "state_is_onboarding_open";
 
     @VisibleForTesting
     static final String ONCE_DRAWER = "once_drawer";
@@ -183,6 +185,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private NavigationView navigationView;
     private AppBarLayout appBarLayout;
 
+    private boolean isOnboardingOpen;
+
     /**
      * Contains the next fragment. This fragment will be shown when the navigation drawer has been closed, to prevent
      * lag. If null, nothing should happen on close.
@@ -195,13 +199,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (savedInstanceState != null) {
+            isOnboardingOpen = savedInstanceState.getBoolean(STATE_IS_ONBOARDING_OPEN, false);
+        }
+
         // Show onboarding if the user has not completed it yet.
-        if (!Once.beenDone(ONCE_ONBOARDING)) {
+        if (!Once.beenDone(ONCE_ONBOARDING) && !isOnboardingOpen) {
             Intent intent = new Intent(this, OnboardingActivity.class);
             startActivityForResult(intent, ONBOARDING_REQUEST);
+            isOnboardingOpen = true;
         }
 
         initialize(savedInstanceState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_IS_ONBOARDING_OPEN, isOnboardingOpen);
     }
 
     private void initialize(@Nullable Bundle savedInstanceState) {
@@ -381,8 +396,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         item.setChecked(true);
         // Set action bar title
         setTitle(item.getTitle());
-        // Log the screen in the Analytics.
-        Analytics.getTracker(this)
+        // Log the screen in the Reporting.
+        Reporting.getTracker(this)
                 .setCurrentScreen(this, item.getTitle().toString(), fragment.getClass().getSimpleName());
         // Close the navigation drawer
         drawer.closeDrawer(GravityCompat.START);
@@ -499,8 +514,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (resultCode == RESULT_OK) {
                 Log.i(TAG, "Onboarding complete");
                 Once.markDone(ONCE_ONBOARDING);
+                isOnboardingOpen = false;
                 // Log sign in
-                Analytics.getTracker(this)
+                Reporting.getTracker(this)
                         .log(new TutorialEndEvent());
             } else {
                 Log.w(TAG, "Onboarding failed, stop app.");
@@ -515,7 +531,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         @Nullable
         @Override
         public String getEventName() {
-            return Analytics.getEvents().tutorialComplete();
+            return Reporting.getEvents().tutorialComplete();
         }
     }
 

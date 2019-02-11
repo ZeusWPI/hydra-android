@@ -97,7 +97,8 @@
     <string name="pref_about_version_summary">Versie %1$s [%2$d] (%3$s)</string>
     <string name="pref_about_changelog_title">Wijzigingen</string>
     <string name="pref_about_changelog_summary">Bekijk wat er nieuw is</string>
-    <string name="pref_about_creator_title">Gemaakt door Zeus WPI</string>
+    <string name="pref_about_creator_zeus">Gemaakt door Zeus WPI</string>
+    <string name="pref_about_creator_dsa">In samenwerking met de Dienst StudentenActiviteiten</string>
     <string name="pref_about_issues_title">Feedback</string>
     <string name="pref_about_issues_summary">Meld fouten of geef suggesties</string>
 
@@ -123,7 +124,21 @@
     <string name="onboarding_minerva_description">Meld je aan bij Minerva om je vakken te kunnen bekijken</string>
     <string name="onboarding_minerva_button">Aanmelden</string>
     <string name="onboarding_feed_title">Homefeed</string>
-    <string name="onboarding_feed_desc">Kies wat je wilt zien in de homefeed.</string>
+    <string name="onboarding_feed_desc">Kies wat je wilt zien in de homefeed</string>
+    <string name="onboarding_reporting_title">Datagebruik</string>
+    <string name="onboarding_reporting_desc">Wijzig hoe Hydra je data gebruikt</string>
+    <string name="onboarding_reporting_analytics_title">Analytics</string>
+    <string name="onboarding_reporting_analytics_desc">
+        Sta toe dat Hydra anonieme gebruikersstatistieken verzamelt. We gebruiken dit om te weten hoeveel mensen Hydra gebruiken en waarvoor ze Hydra gebruiken.
+    </string>
+    <string name="onboarding_reporting_crash_title">Informatie over crashes</string>
+    <string name="onboarding_reporting_crash_desc">
+        Verstuur logboeken en andere nuttige (anonieme) informatie als de app crasht, zodat we het probleem zo snel mogelijk kunnen oplossen.
+    </string>
+    <string name="onboarding_reporting_allow">Toestaan</string>
+    <string name="onboarding_reporting_disallow">Afwijzen</string>
+    <string name="onboarding_reporting_allow_crash">Crashgegevens verzenden</string>
+    <string name="onboarding_reporting_required">Kies of we anonieme Analytics mogen verzamelen</string>
 
     <!-- Association events -->
     <string name="event_detail_activity_title">Evenement</string>
