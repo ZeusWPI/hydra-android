@@ -169,6 +169,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     static final String ONCE_ONBOARDING = "once_onboarding_v1";
     private static final int ONBOARDING_REQUEST = 5;
 
+    private static final String STATE_IS_ONBOARDING_OPEN = "state_is_onboarding_open";
+
     @VisibleForTesting
     static final String ONCE_DRAWER = "once_drawer";
 
@@ -183,6 +185,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private NavigationView navigationView;
     private AppBarLayout appBarLayout;
 
+    private boolean isOnboardingOpen;
+
     /**
      * Contains the next fragment. This fragment will be shown when the navigation drawer has been closed, to prevent
      * lag. If null, nothing should happen on close.
@@ -195,13 +199,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (savedInstanceState != null) {
+            isOnboardingOpen = savedInstanceState.getBoolean(STATE_IS_ONBOARDING_OPEN, false);
+        }
+
         // Show onboarding if the user has not completed it yet.
-        if (!Once.beenDone(ONCE_ONBOARDING)) {
+        if (!Once.beenDone(ONCE_ONBOARDING) && !isOnboardingOpen) {
             Intent intent = new Intent(this, OnboardingActivity.class);
             startActivityForResult(intent, ONBOARDING_REQUEST);
+            isOnboardingOpen = true;
         }
 
         initialize(savedInstanceState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_IS_ONBOARDING_OPEN, isOnboardingOpen);
     }
 
     private void initialize(@Nullable Bundle savedInstanceState) {
@@ -499,6 +514,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (resultCode == RESULT_OK) {
                 Log.i(TAG, "Onboarding complete");
                 Once.markDone(ONCE_ONBOARDING);
+                isOnboardingOpen = false;
                 // Log sign in
                 Reporting.getTracker(this)
                         .log(new TutorialEndEvent());

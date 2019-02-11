@@ -46,6 +46,12 @@
         android:title="@string/pref_overview_sko_title"
         android:summary="@string/pref_overview_sko_desc" />
 
+    <!-- Data collection -->
+    <header
+        android:fragment="be.ugent.zeus.hydra.common.preferences.ReportingFragment"
+        android:title="@string/onboarding_reporting_title"
+        android:summary="@string/onboarding_reporting_desc" />
+
     <!-- About -->
     <header
         android:fragment="be.ugent.zeus.hydra.common.preferences.AboutFragment"

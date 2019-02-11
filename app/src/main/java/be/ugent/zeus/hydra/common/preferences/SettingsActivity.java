@@ -49,7 +49,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 || SkoPreferencesFragment.class.getName().equals(fragmentName)
                 || AboutFragment.class.getName().equals(fragmentName)
                 || CustomTabPreferenceFragment.class.getName().equals(fragmentName)
-                || ThemeFragment.class.getName().equals(fragmentName);
+                || ThemeFragment.class.getName().equals(fragmentName)
+                || ReportingFragment.class.getName().equals(fragmentName);
     }
 
     /**

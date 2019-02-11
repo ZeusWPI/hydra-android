@@ -1,15 +1,18 @@
 package be.ugent.zeus.hydra.onboarding;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.preferences.HomeFeedSelectFragment;
+
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 
 /**
@@ -27,6 +30,10 @@ public class HomeFeedFragment extends SlideFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FragmentManager manager = getChildFragmentManager();
-        manager.beginTransaction().add(R.id.recycler_fragment, new HomeFeedSelectFragment()).commit();
+
+        manager.beginTransaction()
+                .replace(R.id.recycler_fragment, new HomeFeedSelectFragment())
+                .commit();
+
     }
 }

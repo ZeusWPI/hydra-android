@@ -11,12 +11,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.time.Duration;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 
-import com.heinrichreimersoftware.materialintro.app.OnNavigationBlockedListener;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 
 import static androidx.core.view.ViewCompat.requireViewById;
@@ -47,7 +44,7 @@ public class ReportingFragment extends SlideFragment {
 
     @Override
     public boolean canGoForward() {
-        return analyticsChooser.getCheckedRadioButtonId() != -1;
+        return analyticsChooser != null && analyticsChooser.getCheckedRadioButtonId() != -1;
     }
 
     @Override
