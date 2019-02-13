@@ -71,17 +71,23 @@
 
         </FrameLayout>
 
-        <LinearLayout
-            android:paddingTop="@dimen/vertical_padding"
-            android:animateLayoutChanges="true"
+        <TextView
+            android:gravity="center"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            android:id="@+id/programme_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            tools:text="De beschrijving van het programma." />
+
+        <LinearLayout
+            android:paddingTop="@dimen/content_spacing"
             android:gravity="center"
-            android:paddingBottom="@dimen/content_spacing">
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <ImageButton
-                android:layout_marginRight="@dimen/content_spacing"
                 android:id="@+id/social_facebook"
                 android:layout_width="@dimen/urgent_social_icon_size"
                 android:layout_height="@dimen/urgent_social_icon_size"
@@ -97,18 +103,8 @@
                 app:srcCompat="@drawable/ic_social_instagram"
                 android:tint="@color/hydra_primary_dark_colour" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:animateLayoutChanges="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
             <ImageButton
                 android:id="@+id/social_urgentfm"
-                android:layout_marginRight="@dimen/content_spacing"
                 android:layout_width="@dimen/urgent_social_icon_size"
                 android:layout_height="@dimen/urgent_social_icon_size"
                 android:scaleType="fitCenter"

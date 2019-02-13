@@ -9,27 +9,28 @@ import org.threeten.bp.ZonedDateTime;
  */
 public final class UrgentInfo {
 
-    private final String name;
     @LocalZonedDateTime
     private final ZonedDateTime validUntil;
     private final String url;
+    private final ProgrammeInformation meta;
 
-    public UrgentInfo(String name, ZonedDateTime validUntil, String url) {
-        this.name = name;
+    public UrgentInfo(String name, ZonedDateTime validUntil, String url, ProgrammeInformation meta) {
         this.validUntil = validUntil;
         this.url = url;
+        this.meta = meta;
     }
 
     public ZonedDateTime getValidUntil() {
         return validUntil;
     }
 
-    public String getName() {
-        return name;
-    }
 
     public String getUrl() {
         return url;
+    }
+
+    public ProgrammeInformation getMeta() {
+        return meta;
     }
 
     @Override
@@ -37,13 +38,13 @@ public final class UrgentInfo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UrgentInfo info = (UrgentInfo) o;
-        return Objects.equals(name, info.name) &&
-                Objects.equals(validUntil, info.validUntil) &&
-                Objects.equals(url, info.url);
+        return Objects.equals(validUntil, info.validUntil) &&
+                Objects.equals(url, info.url) &&
+                Objects.equals(meta, info.meta);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, validUntil, url);
+        return Objects.hash(validUntil, url, meta);
     }
 }
