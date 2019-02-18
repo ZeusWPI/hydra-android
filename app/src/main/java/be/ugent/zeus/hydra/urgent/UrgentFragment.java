@@ -57,6 +57,7 @@ public class UrgentFragment extends Fragment {
     private TextView artistText;
     private TextView titleText;
     private TextView descriptionText;
+    private TextView descriptionTitle;
     private ImageView albumImage;
     private View progressBar;
 
@@ -147,6 +148,7 @@ public class UrgentFragment extends Fragment {
         progressBar = view.findViewById(R.id.progress_bar);
         playPauseButton = view.findViewById(R.id.playPauseButton);
         descriptionText = view.findViewById(R.id.programme_description);
+        descriptionTitle = view.findViewById(R.id.description_title);
 
         // Attach links to social media buttons.
         view.findViewById(R.id.social_facebook)
@@ -211,9 +213,13 @@ public class UrgentFragment extends Fragment {
             }
 
             if (!TextUtils.isEmpty(metadata.getString(UrgentTrackProvider.METADATA_DESCRIPTION))) {
-                descriptionText.setText(metadata.getString(UrgentTrackProvider.METADATA_DESCRIPTION));
+                descriptionText.setVisibility(View.VISIBLE);
+                descriptionText.setText(metadata.getString(UrgentTrackProvider.METADATA_DESCRIPTION).trim());
+                descriptionTitle.setVisibility(View.VISIBLE);
+                descriptionTitle.setText(getString(R.string.urgent_about_programme, descriptionCompat.getTitle()));
             } else {
-                descriptionText.setText(null);
+                descriptionText.setVisibility(View.GONE);
+                descriptionTitle.setVisibility(View.GONE);
             }
         }
     }

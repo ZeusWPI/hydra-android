@@ -488,6 +488,8 @@
     <string name="urgent_stop">Stoppen</string>
     <string name="urgent_loading">Laden…</string>
     <string name="urgent_error">Fout</string>
+    <string name="urgent_about_programme">Over %s</string>
+    <string name="urgent_visit_online">Bezoek Urgent.fm online</string>
 
     <!-- Libraries -->
     <string name="library_favourite">Opslaan</string>
