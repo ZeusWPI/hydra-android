@@ -480,6 +480,8 @@
     <string name="urgent_stop">Stop</string>
     <string name="urgent_loading">Loading…</string>
     <string name="urgent_error">Error</string>
+    <string name="urgent_about_programme">About %s</string>
+    <string name="urgent_visit_online">Visit Urgent.fm online</string>
 
     <!-- Libraries -->
     <string name="library_favourite">Save</string>

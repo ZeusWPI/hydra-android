@@ -77,6 +77,6 @@
     <dimen name="card_title_padding_bottom_subtitle">12dp</dimen>
 
     <!-- Urgent social buttons -->
-    <dimen name="urgent_social_icon_size">112dp</dimen>
+    <dimen name="urgent_social_icon_size">64dp</dimen>
 
 </resources>

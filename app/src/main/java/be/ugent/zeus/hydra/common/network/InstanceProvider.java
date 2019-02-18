@@ -61,7 +61,7 @@ public final class InstanceProvider {
      *
      * @return The client.
      */
-    static synchronized OkHttpClient getClient(Context context) {
+    public static synchronized OkHttpClient getClient(Context context) {
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
             installGoogleProvider(context);

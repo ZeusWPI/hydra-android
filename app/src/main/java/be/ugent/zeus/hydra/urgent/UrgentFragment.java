@@ -6,15 +6,18 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.RemoteException;
+
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.urgent.player.UrgentTrackProvider;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -51,6 +56,8 @@ public class UrgentFragment extends Fragment {
     private ImageButton playPauseButton;
     private TextView artistText;
     private TextView titleText;
+    private TextView descriptionText;
+    private TextView descriptionTitle;
     private ImageView albumImage;
     private View progressBar;
 
@@ -140,6 +147,8 @@ public class UrgentFragment extends Fragment {
         titleText = view.findViewById(R.id.titleText);
         progressBar = view.findViewById(R.id.progress_bar);
         playPauseButton = view.findViewById(R.id.playPauseButton);
+        descriptionText = view.findViewById(R.id.programme_description);
+        descriptionTitle = view.findViewById(R.id.description_title);
 
         // Attach links to social media buttons.
         view.findViewById(R.id.social_facebook)
@@ -186,18 +195,31 @@ public class UrgentFragment extends Fragment {
         requireActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
 
+    @SuppressLint("WrongConstant")
     private void readMetadata(MediaMetadataCompat metadata) {
         if (metadata != null) {
             MediaDescriptionCompat descriptionCompat = metadata.getDescription();
-            //These must be set at least.
+            // These must be set at least.
             artistText.setText(descriptionCompat.getSubtitle());
             titleText.setText(descriptionCompat.getTitle());
 
-            //Try setting the album art.
-            if (metadata.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART) != null) {
+            // Set album URI (or attempt to).
+            if (descriptionCompat.getIconBitmap() != null) {
+                albumImage.setImageBitmap(descriptionCompat.getIconBitmap());
+            } else if (descriptionCompat.getIconUri() != null) {
                 albumImage.setImageBitmap(descriptionCompat.getIconBitmap());
             } else {
                 albumImage.setImageResource(R.drawable.ic_album);
+            }
+
+            if (!TextUtils.isEmpty(metadata.getString(UrgentTrackProvider.METADATA_DESCRIPTION))) {
+                descriptionText.setVisibility(View.VISIBLE);
+                descriptionText.setText(metadata.getString(UrgentTrackProvider.METADATA_DESCRIPTION).trim());
+                descriptionTitle.setVisibility(View.VISIBLE);
+                descriptionTitle.setText(getString(R.string.urgent_about_programme, descriptionCompat.getTitle()));
+            } else {
+                descriptionText.setVisibility(View.GONE);
+                descriptionTitle.setVisibility(View.GONE);
             }
         }
     }

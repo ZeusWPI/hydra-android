@@ -71,58 +71,89 @@
 
         </FrameLayout>
 
-        <LinearLayout
-            android:paddingTop="@dimen/vertical_padding"
-            android:animateLayoutChanges="true"
+        <androidx.cardview.widget.CardView
+            android:layout_marginLeft="@dimen/card_margin_small"
+            android:layout_marginRight="@dimen/card_margin_small"
+            android:id="@+id/description_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:paddingBottom="@dimen/content_spacing">
+            android:layout_marginBottom="@dimen/card_spacing"
+            app:contentPaddingLeft="@dimen/card_text_padding_vertical"
+            app:contentPaddingRight="@dimen/card_text_padding_vertical"
+            app:contentPaddingBottom="@dimen/card_text_padding_bottom"
+            app:contentPaddingTop="@dimen/card_spacing">
 
-            <ImageButton
-                android:layout_marginRight="@dimen/content_spacing"
-                android:id="@+id/social_facebook"
-                android:layout_width="@dimen/urgent_social_icon_size"
-                android:layout_height="@dimen/urgent_social_icon_size"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_social_facebook_inner"
-                android:tint="@color/hydra_primary_dark_colour" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <ImageButton
-                android:id="@+id/social_instagram"
-                android:layout_width="@dimen/urgent_social_icon_size"
-                android:layout_height="@dimen/urgent_social_icon_size"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_social_instagram"
-                android:tint="@color/hydra_primary_dark_colour" />
+                <TextView
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:id="@+id/description_title"
+                    android:height="48dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Subhead"
+                    tools:text="Over het programma"
+                    android:gravity="center_vertical" />
 
-        </LinearLayout>
+                <TextView
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/programme_description"
+                    android:textIsSelectable="true"
+                    style="@style/Hydra.LongText"
+                    tools:text="De beschrijving van het programma." />
 
-        <LinearLayout
-            android:animateLayoutChanges="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+                <LinearLayout
+                    android:paddingTop="@dimen/vertical_padding"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <ImageButton
-                android:id="@+id/social_urgentfm"
-                android:layout_marginRight="@dimen/content_spacing"
-                android:layout_width="@dimen/urgent_social_icon_size"
-                android:layout_height="@dimen/urgent_social_icon_size"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/tabs_urgent"
-                android:tint="@color/hydra_primary_dark_colour" />
+                    <ImageButton
+                        android:id="@+id/social_facebook"
+                        android:layout_width="@dimen/urgent_social_icon_size"
+                        android:layout_height="@dimen/urgent_social_icon_size"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_social_facebook_inner"
+                        android:tint="@color/hydra_primary_dark_colour" />
 
-            <ImageButton
-                android:id="@+id/social_youtube"
-                android:layout_width="@dimen/urgent_social_icon_size"
-                android:layout_height="@dimen/urgent_social_icon_size"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_social_youtube"
-                android:tint="@color/hydra_primary_dark_colour" />
+                    <ImageButton
+                        android:id="@+id/social_instagram"
+                        android:layout_width="@dimen/urgent_social_icon_size"
+                        android:layout_height="@dimen/urgent_social_icon_size"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_social_instagram"
+                        android:tint="@color/hydra_primary_dark_colour" />
 
-        </LinearLayout>
+                    <ImageButton
+                        android:id="@+id/social_urgentfm"
+                        android:layout_width="@dimen/urgent_social_icon_size"
+                        android:layout_height="@dimen/urgent_social_icon_size"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/tabs_urgent"
+                        android:tint="@color/hydra_primary_dark_colour" />
+
+                    <ImageButton
+                        android:id="@+id/social_youtube"
+                        android:layout_width="@dimen/urgent_social_icon_size"
+                        android:layout_height="@dimen/urgent_social_icon_size"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_social_youtube"
+                        android:tint="@color/hydra_primary_dark_colour" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
