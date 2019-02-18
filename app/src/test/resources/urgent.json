@@ -1,5 +1,9 @@
 {
-  "name": "DEMOCRAZY ON AIR",
-  "url": "http://195.10.10.201/urgent/high.mp3?GKID=87baba5a83f011e7942300163ea2c744",
-  "validUntil": "2017-11-23T20:30:02.159235"
+  "meta": {
+    "description": "De Urgent.fm muziekredactie is dag en nacht op zoek naar de beste tracks en verborgen muzikale parels. Hun levensdoel: Elke dag opnieuw een perfect op maat gesneden playlist samenstellen. Het resultaat van hun oneindige zoektocht kun je dagelijks horen in de uren waarop we geen programma uitzenden. Listen up and relax, de beste muziek hoor je elke dag bij ons.\n",
+    "image": "http://urgent.fm/sites/default/files/styles/program-image/public/radio_program_images/Listen%20Up.jpg?itok=AXaqR1HI",
+    "name": "LISTEN UP"
+  },
+  "url": "http://195.55.74.208/urgent/high.mp3?GKID=bea14758e73d11e89cb800163ea2c744",
+  "validUntil": "2019-02-18T17:33:02.176897"
 }
