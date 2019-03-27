@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.os.StrictMode;
@@ -22,7 +23,6 @@ import jonathanfinerty.once.Once;
  * @author Niko Strijbol
  * @author feliciaan
  */
-@SuppressWarnings("WeakerAccess")
 public class HydraApplication extends Application {
 
     private static final String TAG = "HydraApplication";
@@ -77,6 +77,7 @@ public class HydraApplication extends Application {
         createChannels();
     }
 
+    @SuppressLint("SwitchIntDef")
     private void trackTheme() {
         Tracker tracker = Reporting.getTracker(this);
         switch (ThemeFragment.getNightMode(this)) {
@@ -99,7 +100,7 @@ public class HydraApplication extends Application {
      * Create notifications channels when needed.
      * TODO: should this move to the SKO activity?
      */
-    protected void createChannels() {
+    void createChannels() {
         ChannelCreator channelCreator = ChannelCreator.getInstance(this);
         channelCreator.createSkoChannel();
     }
@@ -107,8 +108,7 @@ public class HydraApplication extends Application {
     /**
      * Used to enable {@link StrictMode} for debug builds.
      */
-    protected static void enableStrictModeInDebug() {
-
+    private static void enableStrictModeInDebug() {
         if (!BuildConfig.DEBUG || !BuildConfig.DEBUG_ENABLE_STRICT_MODE) {
             return;
         }

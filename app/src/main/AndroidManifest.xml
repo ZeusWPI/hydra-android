@@ -232,13 +232,6 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.Sko" />
 
-        <!-- SKO preference activity -->
-        <activity
-            android:name=".sko.preferences.WrapperActivity"
-            android:label="@string/sko_pref_activity_title"
-            android:parentActivityName=".sko.OverviewActivity"
-            android:theme="@style/Hydra.Main.NoActionBar.Sko" />
-
         <!-- SKO artist page -->
         <activity
             android:name=".sko.lineup.ArtistDetailsActivity"
@@ -270,14 +263,6 @@
         <activity
                 android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
                 android:theme="@style/Hydra.Main" />
-
-        <!-- Firebase messages -->
-        <service android:name=".sko.FirebaseMessageService"
-            tools:ignore="ExportedService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
 
         <!-- Account service -->
         <service android:name=".minerva.account.MinervaService"

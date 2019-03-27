@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".sko.OverviewActivity"
     android:layout_width="match_parent"
@@ -10,24 +9,16 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@id/app_bar_layout"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:id="@id/app_bar_layout">
 
         <include layout="@layout/x_toolbar" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
     </com.google.android.material.appbar.AppBarLayout>
 
-    <be.ugent.zeus.hydra.common.ui.HackedViewPager
-        android:id="@+id/pager"
+    <fragment
+        android:name="be.ugent.zeus.hydra.sko.lineup.LineupFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="fill_vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:animateLayoutChanges="true"/>
+        android:id="@+id/fragment" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
