@@ -17,5 +17,4 @@ public class IterableUtils {
                 .map(mapper)
                 .collect(Collectors.toList());
     }
-
 }

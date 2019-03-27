@@ -22,32 +22,12 @@ public class PreferencesUtils {
         preferences.edit().putStringSet(key, newSet).apply();
     }
 
-    public static void addToStringSet(Context context, String key, Collection<String> values) {
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-        Set<String> newSet = new HashSet<>(preferences.getStringSet(key, Collections.emptySet()));
-        newSet.addAll(values);
-
-        preferences.edit().putStringSet(key, newSet).apply();
-    }
-
     public static void removeFromStringSet(Context context, String key, String value) {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         Set<String> newSet = new HashSet<>(preferences.getStringSet(key, Collections.emptySet()));
         newSet.remove(value);
-
-        preferences.edit().putStringSet(key, newSet).apply();
-    }
-
-    public static void removeFromStringSet(Context context, String key, Collection<String> values) {
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-        Set<String> newSet = new HashSet<>(preferences.getStringSet(key, Collections.emptySet()));
-        newSet.removeAll(values);
 
         preferences.edit().putStringSet(key, newSet).apply();
     }

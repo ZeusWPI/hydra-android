@@ -6,9 +6,7 @@ import android.preference.PreferenceManager;
 
 import androidx.test.core.app.ApplicationProvider;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import be.ugent.zeus.hydra.TestApp;
 import org.junit.Before;
@@ -46,16 +44,7 @@ public class PreferencesUtilsTest {
     }
 
     @Test
-    public void addToStringSetMore() {
-        String[] toAdd = {"1", "2", "3"};
-        PreferencesUtils.addToStringSet(context, TEST_KEY, Arrays.asList(toAdd));
-        Set<String> result = PreferencesUtils.getStringSet(context, TEST_KEY);
-        assertThat(result, contains(toAdd));
-    }
-
-    @Test
     public void removeFromStringSet() {
-
         String[] data = {"1", "2", "3", "4", "a", "5"};
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -67,20 +56,5 @@ public class PreferencesUtilsTest {
         Set<String> result = PreferencesUtils.getStringSet(context, TEST_KEY);
         assertThat(result, not(contains("a")));
         assertThat(result, containsInAnyOrder("1", "2", "3", "4", "5"));
-    }
-
-    @Test
-    public void removeFromStringSetMore() {
-
-        String[] data = {"1", "2", "3", "4", "a", "5"};
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        preferences.edit()
-                .putStringSet(TEST_KEY, new HashSet<>(Arrays.asList(data)))
-                .apply();
-
-        PreferencesUtils.removeFromStringSet(context, TEST_KEY, Arrays.asList(data));
-        Set<String> result = PreferencesUtils.getStringSet(context, TEST_KEY);
-        assertThat(result, empty());
     }
 }
