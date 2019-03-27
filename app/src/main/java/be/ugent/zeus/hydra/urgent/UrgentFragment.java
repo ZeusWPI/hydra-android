@@ -197,7 +197,7 @@ public class UrgentFragment extends Fragment {
 
     @SuppressLint("WrongConstant")
     private void readMetadata(MediaMetadataCompat metadata) {
-        if (metadata != null) {
+        if (metadata != null && getContext() != null) {
             MediaDescriptionCompat descriptionCompat = metadata.getDescription();
             // These must be set at least.
             artistText.setText(descriptionCompat.getSubtitle());
@@ -207,7 +207,7 @@ public class UrgentFragment extends Fragment {
             if (descriptionCompat.getIconBitmap() != null) {
                 albumImage.setImageBitmap(descriptionCompat.getIconBitmap());
             } else if (descriptionCompat.getIconUri() != null) {
-                albumImage.setImageBitmap(descriptionCompat.getIconBitmap());
+                albumImage.setImageURI(descriptionCompat.getIconUri());
             } else {
                 albumImage.setImageResource(R.drawable.ic_album);
             }
