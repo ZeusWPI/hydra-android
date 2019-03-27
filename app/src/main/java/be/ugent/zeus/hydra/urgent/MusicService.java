@@ -146,10 +146,9 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
         });
     }
 
-    private Notification constructNotification(boolean alt) {
-
+    private Notification constructNotification() {
         // If required objects are null, return null.
-        if ((mediaSession == null || mediaSession.getController() == null) && !alt) {
+        if (mediaSession == null || mediaSession.getController() == null) {
             return null;
         }
 
@@ -168,7 +167,7 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
     }
 
     private void updateNotification() {
-        Notification notification = constructNotification(false);
+        Notification notification = constructNotification();
         if (notification != null) {
             if (foreground) {
                 notificationManager.notify(MUSIC_SERVICE_ID, notification);
@@ -180,7 +179,7 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
 
     @Override
     public void onPlay() {
-        Notification notification = constructNotification(true);
+        Notification notification = constructNotification();
         Log.d(TAG, "onPlay: notification is " + notification);
         if (notification == null) {
             stopSelf();

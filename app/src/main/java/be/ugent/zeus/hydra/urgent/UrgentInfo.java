@@ -5,6 +5,8 @@ import java9.util.Objects;
 import org.threeten.bp.ZonedDateTime;
 
 /**
+ * Information about the Urgent.fm stream.
+ *
  * @author Niko Strijbol
  */
 public final class UrgentInfo {
@@ -23,7 +25,6 @@ public final class UrgentInfo {
     public ZonedDateTime getValidUntil() {
         return validUntil;
     }
-
 
     public String getUrl() {
         return url;

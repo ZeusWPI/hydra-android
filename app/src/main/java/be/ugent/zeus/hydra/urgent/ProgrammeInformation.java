@@ -1,16 +1,19 @@
 package be.ugent.zeus.hydra.urgent;
 
-
 import com.squareup.moshi.Json;
 import java9.util.Objects;
 
+/**
+ * The information about a programme on Urgent.fm.
+ *
+ * @author Niko Strijbol
+ */
 public class ProgrammeInformation {
 
     private final String name;
     @Json(name = "image")
     private final String imageUrl;
     private final String description;
-
 
     public ProgrammeInformation(String name, String imageUrl, String description) {
         this.name = name;
