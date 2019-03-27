@@ -1,19 +1,15 @@
 package be.ugent.zeus.hydra.urgent;
 
 import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-
 import androidx.core.app.NotificationCompat;
 import androidx.media.session.MediaButtonReceiver;
 
-import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ChannelCreator;
 
@@ -23,8 +19,6 @@ import be.ugent.zeus.hydra.common.ChannelCreator;
  * @author Niko Strijbol
  */
 class MediaNotificationBuilder {
-
-    private static final int REQUEST_CODE = 122;
 
     private final Context context;
 
@@ -106,25 +100,6 @@ class MediaNotificationBuilder {
             }
             builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_album));
         }
-
-        return builder.build();
-    }
-
-    Notification buildPlaceHolderNotification() {
-        Intent startThis = new Intent(context, MainActivity.class);
-        startThis.putExtra(MainActivity.ARG_TAB, R.id.drawer_urgent);
-        PendingIntent pi = PendingIntent.getActivity(context, REQUEST_CODE, startThis, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        // Construct the actual notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, ChannelCreator.URGENT_CHANNEL)
-                .setSmallIcon(R.drawable.ic_notification_urgent)
-                .setShowWhen(false)
-                .setContentTitle(context.getString(R.string.urgent_fm))
-                .setContentText("Laden...")
-                .setDeleteIntent(MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP))
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setContentIntent(pi)
-                .setChannelId(ChannelCreator.URGENT_CHANNEL);
 
         return builder.build();
     }

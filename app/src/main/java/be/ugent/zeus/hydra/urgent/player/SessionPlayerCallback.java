@@ -50,6 +50,7 @@ class SessionPlayerCallback implements MediaStateListener, MetadataListener {
         Log.d(TAG, "onStateChanged: " + oldState + " -> " + newState);
         switch (newState) {
             case PREPARED:
+            case PREPARING:
                 updateSessionState(PlaybackStateCompat.STATE_BUFFERING);
                 break;
             case ERROR:
@@ -59,16 +60,11 @@ class SessionPlayerCallback implements MediaStateListener, MetadataListener {
                 updateSessionState(PlaybackStateCompat.STATE_PAUSED);
                 break;
             case PLAYBACK_COMPLETED:
+            case STOPPED:
                 updateSessionState(PlaybackStateCompat.STATE_STOPPED);
-                break;
-            case PREPARING:
-                updateSessionState(PlaybackStateCompat.STATE_BUFFERING);
                 break;
             case STARTED:
                 updateSessionState(PlaybackStateCompat.STATE_PLAYING);
-                break;
-            case STOPPED:
-                updateSessionState(PlaybackStateCompat.STATE_STOPPED);
                 break;
             case END:
                 updateSessionState(PlaybackStateCompat.STATE_NONE);
