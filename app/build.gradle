@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.jaredsburrows.license'
+apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 apply plugin: 'io.fabric'
 
 android {
@@ -19,7 +19,7 @@ android {
 
         def props = loadProperties()
         manifestPlaceholders = [
-                google_maps_key     : props.getProperty('MAPS_API_KEY'),
+                google_maps_key: props.getProperty('MAPS_API_KEY'),
         ]
         // Minerva authentication keys
         buildConfigField "String", "OAUTH_ID", '"' + props.getProperty('OAUTH_ID') + '"'
@@ -89,10 +89,6 @@ android {
     }
 }
 
-licenseReport {
-    generateJsonReport = false
-}
-
 // TODO: Run the library generate task automatically.
 // Might become automatic in the future, see https://github.com/jaredsburrows/gradle-license-plugin/issues/38.
 
@@ -115,15 +111,15 @@ dependencies {
     implementation 'androidx.slice:slice-builders:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'
-    testImplementation 'androidx.arch.core:core-testing:2.0.0'
+    testImplementation 'androidx.arch.core:core-testing:2.0.1'
 
     implementation 'androidx.room:room-runtime:2.0.0'
     annotationProcessor 'androidx.room:room-compiler:2.0.0'
     testImplementation 'androidx.room:room-testing:2.0.0'
 
     // Mappers
-    implementation 'org.mapstruct:mapstruct:1.2.0.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.2.0.Final'
+    implementation 'org.mapstruct:mapstruct:1.3.0.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.3.0.Final'
 
     // Network stack
     // Do not upgrade beyond 3.12.x until we require API 21+
@@ -132,12 +128,14 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
     implementation 'com.squareup.moshi:moshi:1.8.0'
 
+    implementation 'com.google.android.gms:play-services-oss-licenses:16.0.2'
+
     implementation 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.1.1'
     implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
-    
+
     // Use our own fork, since it seems the original library is abandoned.
     //noinspection GradleDependency
     implementation 'com.github.niknetniko:material-intro:1622'
@@ -151,13 +149,13 @@ dependencies {
         exclude group: 'org.apache.oltu.oauth2'
     }
 
-    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
-    implementation 'com.google.firebase:firebase-core:16.0.7'
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.google.firebase:firebase-messaging:17.5.0'
 
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
     //Test code
     testImplementation 'junit:junit:4.12'
