@@ -8,6 +8,7 @@ import java9.util.Objects;
 /**
  * @author Niko Strijbol
  */
+@SuppressWarnings("unused")
 public final class ArticleImage implements Parcelable {
 
     private String url;
