@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.jaredsburrows.license'
+apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 apply plugin: 'io.fabric'
 
 android {
@@ -19,7 +19,7 @@ android {
 
         def props = loadProperties()
         manifestPlaceholders = [
-                google_maps_key     : props.getProperty('MAPS_API_KEY'),
+                google_maps_key: props.getProperty('MAPS_API_KEY'),
         ]
         // Minerva authentication keys
         buildConfigField "String", "OAUTH_ID", '"' + props.getProperty('OAUTH_ID') + '"'
@@ -89,10 +89,6 @@ android {
     }
 }
 
-//licenseReport {
-//    generateJsonReport = false
-//}
-
 // TODO: Run the library generate task automatically.
 // Might become automatic in the future, see https://github.com/jaredsburrows/gradle-license-plugin/issues/38.
 
@@ -115,16 +111,15 @@ dependencies {
     implementation 'androidx.slice:slice-builders:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'
-    testImplementation 'androidx.arch.core:core-testing:2.0.0'
+    testImplementation 'androidx.arch.core:core-testing:2.0.1'
 
     implementation 'androidx.room:room-runtime:2.0.0'
     annotationProcessor 'androidx.room:room-compiler:2.0.0'
     testImplementation 'androidx.room:room-testing:2.0.0'
 
     // Mappers
-    //noinspection GradleDependency -- do not update, 1.3.0 requires java 8, check if we can
-    implementation 'org.mapstruct:mapstruct:1.2.0.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.2.0.Final'
+    implementation 'org.mapstruct:mapstruct:1.3.0.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.3.0.Final'
 
     // Network stack
     // Do not upgrade beyond 3.12.x until we require API 21+
@@ -133,12 +128,14 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
     implementation 'com.squareup.moshi:moshi:1.8.0'
 
+    implementation 'com.google.android.gms:play-services-oss-licenses:16.0.2'
+
     implementation 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.1.1'
     implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
-    
+
     // Use our own fork, since it seems the original library is abandoned.
     //noinspection GradleDependency
     implementation 'com.github.niknetniko:material-intro:1622'
@@ -155,8 +152,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
-    implementation 'com.google.firebase:firebase-core:16.0.7'
-    implementation 'com.google.firebase:firebase-messaging:17.4.0'
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.google.firebase:firebase-messaging:17.5.0'
 
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
@@ -168,6 +165,8 @@ dependencies {
     testImplementation 'androidx.test:core:1.1.0'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    // TODO: enabling this results in what I believe to be a lot of false positives
+    // debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
 
@@ -176,13 +175,13 @@ dependencies {
         exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
     }
 
-    testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.1'
-    testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.1.6'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.0'
+    testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.0.3'
     testImplementation 'com.shazam:shazamcrest:0.11'
     testImplementation 'org.skyscreamer:jsonassert:1.5.0'
-    testImplementation 'io.github.benas:random-beans:3.9.0'
+    testImplementation 'io.github.benas:random-beans:3.7.0'
     testImplementation 'org.apache.commons:commons-lang3:3.8.1'
-    testImplementation 'org.hamcrest:hamcrest:2.1'
+    testImplementation 'org.hamcrest:hamcrest-core:1.3'
     testImplementation 'commons-validator:commons-validator:1.6'
 }
 

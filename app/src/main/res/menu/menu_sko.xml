@@ -9,9 +9,4 @@
         android:icon="@drawable/ic_open_in_browser"
         android:title="@string/action_view_website"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_view_settings"
-        android:orderInCategory="110"
-        app:showAsAction="never" />
 </menu>

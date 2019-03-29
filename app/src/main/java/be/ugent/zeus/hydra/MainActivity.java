@@ -161,6 +161,7 @@ import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String ARG_TAB = "argTab";
+    @SuppressWarnings("WeakerAccess")
     public static final String ARG_TAB_SHORTCUT = "argTabShortcut";
 
     private static final String TAG = "BaseActivity";

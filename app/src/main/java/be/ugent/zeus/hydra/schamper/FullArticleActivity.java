@@ -25,6 +25,11 @@ import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.StringUtils;
 import com.squareup.picasso.Picasso;
 
+/**
+ * Displays a full article.
+ *
+ * @author Niko Strijbol
+ */
 public class FullArticleActivity extends BaseActivity {
 
     private static final String PARCEL_ARTICLE = "article";

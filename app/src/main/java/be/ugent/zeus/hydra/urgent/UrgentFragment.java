@@ -6,12 +6,6 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.RemoteException;
-
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.MediaMetadataCompat;
@@ -26,13 +20,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import java.util.List;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.urgent.player.UrgentTrackProvider;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 /**
  * Fragment that displays the Urgent.fm player, meaning controls and track information.
@@ -197,7 +194,7 @@ public class UrgentFragment extends Fragment {
 
     @SuppressLint("WrongConstant")
     private void readMetadata(MediaMetadataCompat metadata) {
-        if (metadata != null) {
+        if (metadata != null && getContext() != null) {
             MediaDescriptionCompat descriptionCompat = metadata.getDescription();
             // These must be set at least.
             artistText.setText(descriptionCompat.getSubtitle());
@@ -207,7 +204,7 @@ public class UrgentFragment extends Fragment {
             if (descriptionCompat.getIconBitmap() != null) {
                 albumImage.setImageBitmap(descriptionCompat.getIconBitmap());
             } else if (descriptionCompat.getIconUri() != null) {
-                albumImage.setImageBitmap(descriptionCompat.getIconBitmap());
+                albumImage.setImageURI(descriptionCompat.getIconUri());
             } else {
                 albumImage.setImageResource(R.drawable.ic_album);
             }

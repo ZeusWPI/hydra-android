@@ -31,7 +31,7 @@ public class StringUtils {
      * @param is The input stream.
      * @return The string
      */
-    public static String convertStreamToString(@NonNull InputStream is) {
+    static String convertStreamToString(@NonNull InputStream is) {
         Scanner s = new Scanner(is, "UTF-8").useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }
