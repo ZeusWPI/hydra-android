@@ -2,10 +2,10 @@ package be.ugent.zeus.hydra.minerva.course.database;
 
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.Module;
+
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -18,11 +18,9 @@ public interface CourseMapper {
 
     CourseMapper INSTANCE = Mappers.getMapper(CourseMapper.class);
 
-    @Mappings({
-            @Mapping(source = "tutor", target = "tutorName"),
-            @Mapping(source = "year", target = "academicYear"),
-            @Mapping(target = "enabledModules", ignore = true)
-    })
+    @Mapping(source = "tutor", target = "tutorName")
+    @Mapping(source = "year", target = "academicYear")
+    @Mapping(target = "enabledModules", ignore = true)
     Course courseToCourse(CourseDTO course);
 
     @InheritInverseConfiguration
