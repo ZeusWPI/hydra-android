@@ -108,7 +108,7 @@ public interface CourseContract {
 
         /**
          * Contains the names of the data, accessible with {@link android.accounts.AccountManager#getUserData(android.accounts.Account, String)}.
-         * The data mentioned below is the public API; all other data is considered private and come without guarantees.
+         * The data mentioned below is the public API; all other data is considered private and comes without guarantees.
          */
         interface Data {
             /**

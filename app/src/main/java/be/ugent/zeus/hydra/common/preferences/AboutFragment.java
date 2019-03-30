@@ -32,7 +32,7 @@ public class AboutFragment extends PreferenceFragment {
         ));
 
         findPreference("pref_about_licenses").setOnPreferenceClickListener(preference -> {
-            OssLicensesMenuActivity.setActivityTitle(getString(R.string.pref_about_licenses_title));
+            OssLicensesMenuActivity.setActivityTitle(getString(R.string.pref_licenses_title));
             startActivity(new Intent(getActivity(), OssLicensesMenuActivity.class));
             return false;
         });
