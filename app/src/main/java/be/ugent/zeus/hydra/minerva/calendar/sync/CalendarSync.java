@@ -183,8 +183,7 @@ public class CalendarSync {
         }
 
         // Make sure the notification channel is present
-        ChannelCreator channelCreator = ChannelCreator.getInstance(context);
-        channelCreator.createMinervaAccountChannel();
+        ChannelCreator.createMinervaAccountChannel(context);
 
         // Create a notification and show it to the user.
         Intent intent = new Intent(context, CalendarPermissionActivity.class);
@@ -217,8 +216,7 @@ public class CalendarSync {
         }
 
         // Make sure the notification channel is present
-        ChannelCreator channelCreator = ChannelCreator.getInstance(context);
-        channelCreator.createMinervaAccountChannel();
+        ChannelCreator.createMinervaAccountChannel(context);
 
         // Create a notification and show it to the user.
         Notification notification = new NotificationCompat.Builder(context, ChannelCreator.MINERVA_ACCOUNT_CHANNEL)

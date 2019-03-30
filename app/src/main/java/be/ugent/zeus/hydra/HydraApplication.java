@@ -6,15 +6,15 @@ import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
 
-import com.jakewharton.threetenabp.AndroidThreeTen;
-import com.squareup.leakcanary.LeakCanary;
-
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
-import be.ugent.zeus.hydra.common.ChannelCreator;
+
 import be.ugent.zeus.hydra.common.preferences.ThemeFragment;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Tracker;
+
+import com.jakewharton.threetenabp.AndroidThreeTen;
+import com.squareup.leakcanary.LeakCanary;
 import jonathanfinerty.once.Once;
 
 /**
@@ -72,9 +72,6 @@ public class HydraApplication extends Application {
         AndroidThreeTen.init(this);
         LeakCanary.install(this);
         Once.initialise(this);
-
-        // Initialize the channels that are needed in the whole app. The channels for Minerva are created when needed.
-        createChannels();
     }
 
     @SuppressLint("SwitchIntDef")
@@ -94,15 +91,6 @@ public class HydraApplication extends Application {
                 tracker.setUserProperty("theme", "light");
                 break;
         }
-    }
-
-    /**
-     * Create notifications channels when needed.
-     * TODO: should this move to the SKO activity?
-     */
-    void createChannels() {
-        ChannelCreator channelCreator = ChannelCreator.getInstance(this);
-        channelCreator.createSkoChannel();
     }
 
     /**

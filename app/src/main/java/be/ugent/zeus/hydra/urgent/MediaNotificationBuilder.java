@@ -25,7 +25,7 @@ class MediaNotificationBuilder {
     MediaNotificationBuilder(Context context) {
         this.context = context;
         // Initialise the channel.
-        ChannelCreator.getInstance(context).createUrgentChannel();
+        ChannelCreator.createUrgentChannel(context);
     }
 
     Notification buildNotification(MediaSessionCompat mediaSession) {
