@@ -151,10 +151,7 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
-
     implementation 'com.google.firebase:firebase-core:16.0.8'
-    implementation 'com.google.firebase:firebase-messaging:17.5.0'
-
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
     //Test code
