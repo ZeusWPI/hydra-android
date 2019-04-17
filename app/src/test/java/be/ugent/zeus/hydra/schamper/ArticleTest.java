@@ -15,9 +15,9 @@ public class ArticleTest extends ModelTest<Article> {
     }
 
     @Test
+    @Override
     public void equalsAndHash() {
         Utils.defaultVerifier(Article.class)
-                .suppress(Warning.NONFINAL_FIELDS)
                 .withOnlyTheseFields("link", "pubDate")
                 .verify();
     }

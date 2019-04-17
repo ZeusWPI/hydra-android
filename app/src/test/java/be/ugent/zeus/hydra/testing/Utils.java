@@ -15,6 +15,7 @@ import io.github.benas.randombeans.EnhancedRandomBuilder;
 import io.github.benas.randombeans.api.Randomizer;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.EqualsVerifierApi;
+import nl.jqno.equalsverifier.Warning;
 import okio.BufferedSource;
 import okio.Okio;
 import org.threeten.bp.Instant;
@@ -63,6 +64,7 @@ public class Utils {
      */
     public static <T> EqualsVerifierApi<T> defaultVerifier(Class<T> clazz) {
         return EqualsVerifier.forClass(clazz)
+                .suppress(Warning.NONFINAL_FIELDS)
                 .withPrefabValues(ZonedDateTime.class, ZonedDateTime.now(), ZonedDateTime.now().minusDays(2));
     }
 

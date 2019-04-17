@@ -9,16 +9,7 @@ import org.junit.Test;
  * @author Niko Strijbol
  */
 public class RestoMealTest extends ModelTest<RestoMeal> {
-
     public RestoMealTest() {
         super(RestoMeal.class);
-    }
-
-    @Test
-    public void equalsAndHash() {
-        EqualsVerifier.forClass(RestoMeal.class)
-                .suppress(Warning.NONFINAL_FIELDS)
-                .verify();
-
     }
 }

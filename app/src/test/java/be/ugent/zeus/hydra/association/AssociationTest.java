@@ -1,8 +1,7 @@
 package be.ugent.zeus.hydra.association;
 
 import be.ugent.zeus.hydra.common.ModelTest;
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
+import be.ugent.zeus.hydra.testing.Utils;
 import org.junit.Test;
 
 import static be.ugent.zeus.hydra.testing.Utils.generate;
@@ -28,10 +27,10 @@ public class AssociationTest extends ModelTest<Association> {
     }
 
     @Test
+    @Override
     public void equalsAndHash() {
-        EqualsVerifier.forClass(Association.class)
+        Utils.defaultVerifier(Association.class)
                 .withOnlyTheseFields("internalName")
-                .suppress(Warning.NONFINAL_FIELDS)
                 .verify();
     }
 }

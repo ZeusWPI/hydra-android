@@ -15,10 +15,10 @@ public class LibraryListTest extends ModelTest<LibraryList> {
     }
 
     @Test
+    @Override
     public void equalsAndHash() {
         Utils.defaultVerifier(LibraryList.class)
                 .withOnlyTheseFields("name", "libraries", "totalLibraries")
-                .suppress(Warning.NONFINAL_FIELDS)
                 .verify();
     }
 }

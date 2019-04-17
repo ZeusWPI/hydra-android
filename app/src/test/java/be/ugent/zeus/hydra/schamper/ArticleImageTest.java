@@ -15,9 +15,9 @@ public class ArticleImageTest extends ModelTest<ArticleImage> {
     }
 
     @Test
+    @Override
     public void equalsAndHash() {
         Utils.defaultVerifier(ArticleImage.class)
-                .suppress(Warning.NONFINAL_FIELDS)
                 .withOnlyTheseFields("url")
                 .verify();
     }

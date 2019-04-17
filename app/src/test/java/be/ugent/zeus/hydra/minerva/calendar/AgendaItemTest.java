@@ -15,9 +15,9 @@ public class AgendaItemTest extends ModelTest<AgendaItem> {
     }
 
     @Test
+    @Override
     public void equalsAndHash() {
         Utils.defaultVerifier(AgendaItem.class)
-                .suppress(Warning.NONFINAL_FIELDS)
                 .withOnlyTheseFields("itemId")
                 .verify();
     }
