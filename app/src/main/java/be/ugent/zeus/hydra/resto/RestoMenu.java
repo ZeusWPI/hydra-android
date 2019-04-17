@@ -1,14 +1,12 @@
 package be.ugent.zeus.hydra.resto;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import java9.util.Objects;
 import org.threeten.bp.LocalDate;
-
 
 /**
  * Represents a menu for a single day.
@@ -27,7 +25,8 @@ public final class RestoMenu implements Parcelable {
     private String message;
 
     @SuppressWarnings("unused") // Moshi uses this.
-    public RestoMenu() {}
+    public RestoMenu() {
+    }
 
     /**
      * Sort the meals available in the menu.
@@ -36,7 +35,7 @@ public final class RestoMenu implements Parcelable {
         soups = new ArrayList<>();
         mainDishes = new ArrayList<>();
 
-        for(RestoMeal meal : meals) {
+        for (RestoMeal meal : meals) {
             if (meal.getKind() != null && meal.getKind().equals("soup")) {
                 soups.add(meal);
             } else {
@@ -110,38 +109,6 @@ public final class RestoMenu implements Parcelable {
     }
 
     @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    protected RestoMenu(Parcel in) {
-        open = in.readByte() != 0;
-        meals = in.createTypedArrayList(RestoMeal.CREATOR);
-        vegetables = in.createStringArrayList();
-        message = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte((byte) (open ? 1 : 0));
-        dest.writeTypedList(meals);
-        dest.writeStringList(vegetables);
-        dest.writeString(message);
-    }
-
-    public static final Creator<RestoMenu> CREATOR = new Creator<RestoMenu>() {
-        @Override
-        public RestoMenu createFromParcel(Parcel in) {
-            return new RestoMenu(in);
-        }
-
-        @Override
-        public RestoMenu[] newArray(int size) {
-            return new RestoMenu[size];
-        }
-    };
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof RestoMenu)) return false;
@@ -155,6 +122,40 @@ public final class RestoMenu implements Parcelable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(open, date, meals, mainDishes, soups, vegetables, message);
+        return Objects.hash(open, date, meals, vegetables, message);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte(this.open ? (byte) 1 : (byte) 0);
+        dest.writeSerializable(this.date);
+        dest.writeTypedList(this.meals);
+        dest.writeStringList(this.vegetables);
+        dest.writeString(this.message);
+    }
+
+    protected RestoMenu(Parcel in) {
+        this.open = in.readByte() != 0;
+        this.date = (LocalDate) in.readSerializable();
+        this.meals = in.createTypedArrayList(RestoMeal.CREATOR);
+        this.vegetables = in.createStringArrayList();
+        this.message = in.readString();
+    }
+
+    public static final Parcelable.Creator<RestoMenu> CREATOR = new Parcelable.Creator<RestoMenu>() {
+        @Override
+        public RestoMenu createFromParcel(Parcel source) {
+            return new RestoMenu(source);
+        }
+
+        @Override
+        public RestoMenu[] newArray(int size) {
+            return new RestoMenu[size];
+        }
+    };
 }

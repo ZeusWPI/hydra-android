@@ -17,7 +17,6 @@ public class RestoMenuTest extends ModelTest<RestoMenu> {
     @Test
     public void equalsAndHash() {
         Utils.defaultVerifier(RestoMenu.class)
-                .withOnlyTheseFields("date", "meals", "open")
                 .suppress(Warning.NONFINAL_FIELDS)
                 .verify();
     }
