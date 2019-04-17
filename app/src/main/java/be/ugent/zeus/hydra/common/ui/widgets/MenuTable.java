@@ -6,7 +6,14 @@ import android.os.Build;
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.core.text.util.LinkifyCompat;
+
+import android.text.Spannable;
+import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
+import android.text.util.Linkify;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -15,7 +22,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.resto.RestoMenu;
+import be.ugent.zeus.hydra.utils.StringUtils;
 
 import static be.ugent.zeus.hydra.utils.PreferencesUtils.isSetIn;
 
@@ -47,6 +56,7 @@ public class MenuTable extends TableLayout {
     private int displayedKinds;
     private boolean selectable;
     private boolean showTitles;
+    private boolean messagePaddingTop;
 
     public MenuTable(Context context) {
         super(context);
@@ -69,49 +79,65 @@ public class MenuTable extends TableLayout {
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.MenuTable, 0, 0);
 
         try {
-            //The menu defaults to the one with the hide functionality.
             displayedKinds = a.getInt(R.styleable.MenuTable_showKind, DisplayKind.ALL);
             selectable = a.getBoolean(R.styleable.MenuTable_selectable, false);
             showTitles = a.getBoolean(R.styleable.MenuTable_showTitles, false);
+            messagePaddingTop = a.getBoolean(R.styleable.MenuTable_messagePaddingTop, false);
         } finally {
             a.recycle();
         }
     }
 
     /**
-     * Create and insert a title view.
+     * Create and insert a text view.
      *
-     * @param title The title.
+     * @param text The text to add.
+     * @param isTitle If the text is a title and should be styled as such.
+     * @param isHtml If the text contains basic html.
      */
-    private void createTitle(String title, boolean span) {
+    private void createText(String text, boolean isTitle, boolean isHtml) {
 
         final int rowPadding = getContext().getResources().getDimensionPixelSize(R.dimen.material_baseline_grid_1x);
 
         TableRow tr = new TableRow(getContext());
         TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
-        tr.setPadding(0, rowPadding, 0, rowPadding);
+        tr.setPadding(0, 0, 0, rowPadding);
         tr.setLayoutParams(lp);
 
         TextView v = new TextView(getContext());
         v.setTextIsSelectable(selectable);
         TableRow.LayoutParams textParam = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
         textParam.span = 3;
-        if (span) {
+        final int textPaddingTop;
+        if (isTitle) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 //noinspection deprecation
                 v.setTextAppearance(getContext(), R.style.Subhead);
             } else {
                 v.setTextAppearance(R.style.Subhead);
             }
-            v.setPadding(
-                    v.getPaddingLeft(),
-                    rowPadding,
-                    v.getPaddingRight(),
-                    v.getPaddingBottom()
-            );
+            textPaddingTop = rowPadding;
+
+        } else if (messagePaddingTop) {
+            textPaddingTop = getContext().getResources().getDimensionPixelSize(R.dimen.vertical_padding);
+        } else {
+            textPaddingTop = v.getPaddingTop();
         }
+        // If the text is a title, set the title padding.
+        // Else if we set message padding, set the message padding.
+        // Otherwise keep the existing padding.
+        v.setPadding(
+                v.getPaddingLeft(),
+                textPaddingTop,
+                v.getPaddingRight(),
+                v.getPaddingBottom()
+        );
         v.setLayoutParams(textParam);
-        v.setText(title);
+        if (isHtml) {
+            v.setText(Utils.fromHtml(text));
+        } else {
+            v.setText(text);
+        }
 
         tr.addView(v);
         addView(tr);
@@ -123,7 +149,7 @@ public class MenuTable extends TableLayout {
      * @param title The title.
      */
     private void createTitle(String title) {
-        createTitle(title, true);
+        createText(title, true, false);
     }
 
     /**
@@ -159,26 +185,38 @@ public class MenuTable extends TableLayout {
         setColumnStretchable(1, true);
         setColumnShrinkable(1, true);
 
+        // If there is no message and it is closed.
+
+
+        if (menu.hasMessage()) {
+            createText(menu.menu.getMessage(), false, true);
+            if (!menu.menu.isOpen()) {
+                return;
+            }
+        }
+
+        // Does not have a message at this point.
+        // assert !menu.hasMessage();
         if (!menu.menu.isOpen()) {
-            createTitle(getContext().getString(R.string.resto_menu_not_available), false);
+            createText(getContext().getString(R.string.resto_menu_not_available), false, true);
             return;
         }
 
-        if (isSetIn(displayedKinds, DisplayKind.MAIN)) {
+        if (isSetIn(displayedKinds, DisplayKind.MAIN) && menu.hasMainDishes()) {
             if (showTitles) {
                 createTitle(getContext().getString(R.string.resto_menu_main_dish));
             }
             menu.addMainViews(this);
         }
 
-        if (isSetIn(displayedKinds, DisplayKind.SOUP)) {
+        if (isSetIn(displayedKinds, DisplayKind.SOUP) && menu.hasSoup()) {
             if (showTitles) {
                 createTitle(getContext().getString(R.string.resto_menu_soup));
             }
             menu.addSoupViews(this);
         }
 
-        if (isSetIn(displayedKinds, DisplayKind.VEGETABLES)) {
+        if (isSetIn(displayedKinds, DisplayKind.VEGETABLES) && menu.hasVegetables()) {
             if (showTitles) {
                 createTitle(getContext().getString(R.string.resto_menu_vegetables));
             }

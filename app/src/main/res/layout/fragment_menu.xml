@@ -13,6 +13,7 @@
         android:paddingRight="@dimen/activity_vertical_margin"
         app:showKind="all"
         app:selectable="true"
-        app:showTitles="true" />
+        app:showTitles="true"
+        app:messagePaddingTop="true" />
 
 </androidx.core.widget.NestedScrollView>

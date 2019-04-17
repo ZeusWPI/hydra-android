@@ -24,6 +24,7 @@ public final class RestoMenu implements Parcelable {
     private transient List<RestoMeal> mainDishes;
     private transient List<RestoMeal> soups;
     private List<String> vegetables;
+    private String message;
 
     @SuppressWarnings("unused") // Moshi uses this.
     public RestoMenu() {}
@@ -86,6 +87,14 @@ public final class RestoMenu implements Parcelable {
         this.date = date;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public List<RestoMeal> getSoups() {
         if (soups == null) {
             fillCategories();
@@ -105,27 +114,25 @@ public final class RestoMenu implements Parcelable {
         return 0;
     }
 
+    protected RestoMenu(Parcel in) {
+        open = in.readByte() != 0;
+        meals = in.createTypedArrayList(RestoMeal.CREATOR);
+        vegetables = in.createStringArrayList();
+        message = in.readString();
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte((byte) (this.open ? 1 : 0));
-        dest.writeLong(this.date != null ? this.date.toEpochDay() : -1);
-        dest.writeTypedList(this.meals);
-        dest.writeStringList(this.vegetables);
+        dest.writeByte((byte) (open ? 1 : 0));
+        dest.writeTypedList(meals);
+        dest.writeStringList(vegetables);
+        dest.writeString(message);
     }
 
-    private RestoMenu(Parcel in) {
-        this.open = in.readByte() != 0;
-        long tmpDate = in.readLong();
-        this.date = tmpDate == -1 ? null : LocalDate.ofEpochDay(tmpDate);
-        this.meals = in.createTypedArrayList(RestoMeal.CREATOR);
-        this.vegetables = in.createStringArrayList();
-        fillCategories();
-    }
-
-    public static final Parcelable.Creator<RestoMenu> CREATOR = new Parcelable.Creator<RestoMenu>() {
+    public static final Creator<RestoMenu> CREATOR = new Creator<RestoMenu>() {
         @Override
-        public RestoMenu createFromParcel(Parcel source) {
-            return new RestoMenu(source);
+        public RestoMenu createFromParcel(Parcel in) {
+            return new RestoMenu(in);
         }
 
         @Override
@@ -137,15 +144,17 @@ public final class RestoMenu implements Parcelable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof RestoMenu)) return false;
         RestoMenu restoMenu = (RestoMenu) o;
         return open == restoMenu.open &&
                 Objects.equals(date, restoMenu.date) &&
-                Objects.equals(meals, restoMenu.meals);
+                Objects.equals(meals, restoMenu.meals) &&
+                Objects.equals(vegetables, restoMenu.vegetables) &&
+                Objects.equals(message, restoMenu.message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(open, date, meals);
+        return Objects.hash(open, date, meals, mainDishes, soups, vegetables, message);
     }
 }

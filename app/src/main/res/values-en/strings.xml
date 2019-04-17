@@ -177,8 +177,9 @@
     <string name="resto_menu_main_dish">Main courses</string>
     <string name="resto_menu_soup">Soup</string>
     <string name="resto_menu_vegetables">Vegetables</string>
-    <string name="resto_menu_not_available">There is no menu or we could not retrieve it. Perhaps you will have more luck on the
-        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">website of the restos</a>.</string>
+    <string name="resto_menu_not_available">
+        De resto is probably closed. Check <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">the website</a>
+        to make sure.</string>
 
     <string name="resto_spinner_loading">Loading…</string>
 
