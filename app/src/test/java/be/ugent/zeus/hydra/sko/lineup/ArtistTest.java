@@ -16,9 +16,9 @@ public class ArtistTest extends ModelTest<Artist> {
     }
 
     @Test
+    @Override
     public void equalsAndHash() {
         Utils.defaultVerifier(Artist.class)
-                .suppress(Warning.NONFINAL_FIELDS)
                 .withOnlyTheseFields("name", "stage", "start", "end")
                 .verify();
     }

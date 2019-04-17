@@ -144,7 +144,18 @@ class HasTabActivityHelper implements ActivityHelper {
             @Override
             public void onCustomTabsServiceConnected(ComponentName name, CustomTabsClient client) {
                 HasTabActivityHelper.this.client = new WeakReference<>(client);
-                HasTabActivityHelper.this.client.get().warmup(0L);
+                try {
+                    HasTabActivityHelper.this.client.get().warmup(0L);
+                } catch (IllegalStateException e) {
+                    // Ignore error when starting the warm up service.
+                    // The reason why this exception occurs is probably as follows. On Android 8 and above, the app
+                    // can no longer start services when it is in the background. However, to warm the Custom Tabs, a
+                    // service has to be started. There is a very small but real possibility that the user opens an
+                    // activity with custom tabs and navigates away from the app after the connection has been
+                    // initialized, but before the actual warm-up service has started.
+                    // See also e.g. https://github.com/openid/AppAuth-Android/issues/425
+                    Log.e(TAG, "onCustomTabsServiceConnected: warm-up service startup race condition.", e);
+                }
                 if (connectionCallback != null) {
                     connectionCallback.onCustomTabsConnected(HasTabActivityHelper.this);
                 }

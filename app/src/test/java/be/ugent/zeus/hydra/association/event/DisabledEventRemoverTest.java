@@ -1,23 +1,21 @@
 package be.ugent.zeus.hydra.association.event;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import androidx.annotation.RequiresApi;
 
 import androidx.test.core.app.ApplicationProvider;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.testing.Utils;
-import be.ugent.zeus.hydra.utils.PreferencesUtils;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
 import org.junit.Before;
@@ -63,7 +61,11 @@ public class DisabledEventRemoverTest {
         Context context = ApplicationProvider.getApplicationContext();
 
         // Add those to the preferences
-        PreferencesUtils.addToStringSet(context, PREF_ASSOCIATIONS_SHOWING, toRemoveIds);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        Set<String> newSet = new HashSet<>(preferences.getStringSet(PREF_ASSOCIATIONS_SHOWING, Collections.emptySet()));
+        newSet.addAll(toRemoveIds);
+        preferences.edit().putStringSet(PREF_ASSOCIATIONS_SHOWING, newSet).apply();
 
         // Do the filtering
         DisabledEventRemover filter = new DisabledEventRemover(context);

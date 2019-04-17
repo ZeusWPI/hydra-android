@@ -42,7 +42,7 @@ public class MenuRequestTest extends AbstractJsonRequestTest<List<RestoMenu>> {
     }
 
     @Test
-    public void testDefaultUrl() {
+    public void testDefaultUrlIsUsed() {
         MenuRequest request = new MenuRequest(context);
         String defaultResto = RestoPreferenceFragment.getDefaultResto(context);
         String expected = String.format(MenuRequest.OVERVIEW_URL, defaultResto);

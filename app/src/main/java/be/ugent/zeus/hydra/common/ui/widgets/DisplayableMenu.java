@@ -89,6 +89,25 @@ public class DisplayableMenu {
     }
 
     /**
+     * @return True if this menu has main dishes.
+     */
+    boolean hasMainDishes() {
+        return !menu.getMainDishes().isEmpty();
+    }
+
+    boolean hasSoup() {
+        return !menu.getSoups().isEmpty();
+    }
+
+    boolean hasMessage() {
+        return menu.getMessage() != null && !menu.getMessage().isEmpty();
+    }
+
+    boolean hasVegetables() {
+        return !menu.getVegetables().isEmpty();
+    }
+
+    /**
      * Make an image view. This image view has attributes set that are useful in the context of displaying it in the
      * menu.
      *
@@ -147,7 +166,6 @@ public class DisplayableMenu {
             TextView tvCenter = makeCenterTextView(context, meal.getName(), lp);
             TextView tvRight = new TextView(context);
             tvRight.setLayoutParams(lp);
-            tvRight.setTextIsSelectable(selectable);
             tvRight.setText(meal.getPrice());
             tvRight.setGravity(Gravity.END);
 

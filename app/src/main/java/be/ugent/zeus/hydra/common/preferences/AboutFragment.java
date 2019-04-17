@@ -10,7 +10,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
-import be.ugent.zeus.hydra.common.ui.WebViewActivity;
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 
 /**
  * @author Niko Strijbol
@@ -32,14 +32,8 @@ public class AboutFragment extends PreferenceFragment {
         ));
 
         findPreference("pref_about_licenses").setOnPreferenceClickListener(preference -> {
-
-            Intent intent = new Intent(getActivity().getApplicationContext(), WebViewActivity.class);
-            String title = getResources().getString(R.string.pref_licenses_title);
-            intent.putExtra(WebViewActivity.TITLE, title);
-            intent.putExtra(WebViewActivity.URL, "file:///android_asset/open_source_licenses.html");
-
-            getActivity().startActivity(intent);
-
+            OssLicensesMenuActivity.setActivityTitle(getString(R.string.pref_licenses_title));
+            startActivity(new Intent(getActivity(), OssLicensesMenuActivity.class));
             return false;
         });
 

@@ -18,5 +18,6 @@
         </attr>
         <attr name="showTitles" format="boolean" />
         <attr name="selectable" format="boolean"/>
+        <attr name="messagePaddingTop" format="boolean" />
     </declare-styleable>
 </resources>

@@ -19,7 +19,6 @@
     <string name="action_logout">Logout</string>
     <string name="action_drawer_open">Open</string>
     <string name="action_drawer_close">Close</string>
-    <string name="action_turn_off">Disable</string>
     <string name="action_open_map">Open map</string>
     <string name="action_send_mail">Send e-mail</string>
     <string name="action_sync">Sync</string>
@@ -75,8 +74,6 @@
     <string name="pref_overview_activities_desc">Options for the activities</string>
     <string name="pref_overview_minerva_title">Minerva</string>
     <string name="pref_overview_minerva_desc">Options for the Minerva integration</string>
-    <string name="pref_overview_sko_title">Student Kick-Off</string>
-    <string name="pref_overview_sko_desc">Options for SKO</string>
     <string name="pref_overview_feed_title">Home screen</string>
     <string name="pref_overview_feed_desc">Options for the homefeed</string>
     <string name="pref_overview_article_title">Articles</string>
@@ -180,9 +177,9 @@
     <string name="resto_menu_main_dish">Main courses</string>
     <string name="resto_menu_soup">Soup</string>
     <string name="resto_menu_vegetables">Vegetables</string>
-    <string name="resto_menu_date">Date of the menu: %s</string>
-    <string name="resto_menu_not_available">There is no menu or we could not retrieve it. Perhaps you will have more luck on the
-        <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">website of the restos</a>.</string>
+    <string name="resto_menu_not_available">
+        De resto is probably closed. Check <a href="https://www.ugent.be/student/nl/meer-dan-studeren/resto">the website</a>
+        to make sure.</string>
 
     <string name="resto_spinner_loading">Loading…</string>
 
@@ -365,12 +362,6 @@
     <!-- SKO -->
     <string name="sko_overview_activity_title">Student Kick-Off</string>
 
-    <string name="sko_pref_notification_title">Notifications</string>
-    <string name="sko_pref_notification_desc">Receive notifications about SKO</string>
-    <string name="sko_pref_activity_title">Settings</string>
-
-    <string name="sko_notification_on">Notifications enabled</string>
-
     <string name="sko_channel_title">Student Kick-Off</string>
     <string name="sko_channel_desc">Notifications about the Student Kick-Off</string>
 
@@ -383,11 +374,6 @@
     <string name="sko_artist_time_end">To %1$s</string>
     <string name="sko_artist_time_start">From %1$s</string>
     <string name="sko_artist_time_none">No time available</string>
-
-    <string name="sko_tab_map">Map</string>
-    <string name="sko_tab_village">Student Village</string>
-    <string name="sko_tab_lineup">Line-up</string>
-    <string name="sko_tab_timeline">Timeline</string>
 
     <!-- Home feed -->
     <string name="feed_pref_card_types_title">Card types</string>
@@ -481,7 +467,6 @@
     <string name="urgent_loading">Loading…</string>
     <string name="urgent_error">Error</string>
     <string name="urgent_about_programme">About %s</string>
-    <string name="urgent_visit_online">Visit Urgent.fm online</string>
 
     <!-- Libraries -->
     <string name="library_favourite">Save</string>
@@ -515,7 +500,6 @@
     <string name="content_desc_announcement">Announcement</string>
     <string name="content_desc_warning">Warning</string>
     <string name="content_desc_resto">Resto</string>
-    <string name="content_desc_kickoff_logo">Icon Student Kick-Off</string>
     <string name="content_desc_schamper_article">Schamper article</string>
     <string name="content_desc_search">Search</string>
     <string name="content_desc_search_artist">Search by artist</string>

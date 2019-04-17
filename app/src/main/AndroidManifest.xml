@@ -61,7 +61,6 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:logo="@drawable/logo"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Hydra.Main.NoActionBar"
         android:networkSecurityConfig="@xml/network_security_config"
@@ -232,13 +231,6 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.Sko" />
 
-        <!-- SKO preference activity -->
-        <activity
-            android:name=".sko.preferences.WrapperActivity"
-            android:label="@string/sko_pref_activity_title"
-            android:parentActivityName=".sko.OverviewActivity"
-            android:theme="@style/Hydra.Main.NoActionBar.Sko" />
-
         <!-- SKO artist page -->
         <activity
             android:name=".sko.lineup.ArtistDetailsActivity"
@@ -264,13 +256,12 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
 
-        <!-- Firebase messages -->
-        <service android:name=".sko.FirebaseMessageService"
-            tools:ignore="ExportedService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+        <activity
+                android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+                android:theme="@style/Hydra.Main" />
+        <activity
+                android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+                android:theme="@style/Hydra.Main" />
 
         <!-- Account service -->
         <service android:name=".minerva.account.MinervaService"

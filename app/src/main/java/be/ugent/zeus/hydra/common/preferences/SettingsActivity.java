@@ -14,7 +14,6 @@ import be.ugent.zeus.hydra.common.ui.AppCompatPreferenceActivity;
 import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
 import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
-import be.ugent.zeus.hydra.sko.preferences.SkoPreferencesFragment;
 
 import java.util.List;
 
@@ -46,7 +45,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 || RestoPreferenceFragment.class.getName().equals(fragmentName)
                 || HomeFragment.class.getName().equals(fragmentName)
                 || MinervaPreferenceFragment.class.getName().equals(fragmentName)
-                || SkoPreferencesFragment.class.getName().equals(fragmentName)
                 || AboutFragment.class.getName().equals(fragmentName)
                 || CustomTabPreferenceFragment.class.getName().equals(fragmentName)
                 || ThemeFragment.class.getName().equals(fragmentName)

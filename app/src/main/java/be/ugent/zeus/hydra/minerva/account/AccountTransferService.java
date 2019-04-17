@@ -60,8 +60,7 @@ public class AccountTransferService extends IntentService {
      */
     private void createNotification() {
         // Create the channel if needed.
-        ChannelCreator channelCreator = ChannelCreator.getInstance(this);
-        channelCreator.createMinervaAccountChannel();
+        ChannelCreator.createMinervaAccountChannel(this);
         Notification notification = new NotificationCompat.Builder(this, ChannelCreator.MINERVA_ACCOUNT_CHANNEL)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setTicker(getString(R.string.minerva_exporting_account))

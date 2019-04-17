@@ -16,6 +16,8 @@ import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 /**
+ * Provides helper methods to view an article.
+ *
  * @author Niko Strijbol
  */
 public class ArticleViewer {

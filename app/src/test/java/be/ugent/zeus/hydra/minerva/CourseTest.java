@@ -16,9 +16,9 @@ public class CourseTest extends ModelTest<Course> {
     }
 
     @Test
+    @Override
     public void equalsAndHash() {
         Utils.defaultVerifier(Course.class)
-                .suppress(Warning.NONFINAL_FIELDS)
                 .withOnlyTheseFields("id", "order", "ignoreAnnouncements", "ignoreCalendar", "disabledModules")
                 .verify();
     }

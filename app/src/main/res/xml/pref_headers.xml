@@ -40,12 +40,6 @@
         android:title="@string/pref_overview_theme_title"
         android:summary="@string/pref_overview_theme_desc" />
 
-    <!-- SKO -->
-    <header
-        android:fragment="be.ugent.zeus.hydra.sko.preferences.SkoPreferencesFragment"
-        android:title="@string/pref_overview_sko_title"
-        android:summary="@string/pref_overview_sko_desc" />
-
     <!-- Data collection -->
     <header
         android:fragment="be.ugent.zeus.hydra.common.preferences.ReportingFragment"

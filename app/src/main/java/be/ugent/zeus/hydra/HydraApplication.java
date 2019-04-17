@@ -1,19 +1,20 @@
 package be.ugent.zeus.hydra;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
 
-import com.jakewharton.threetenabp.AndroidThreeTen;
-import com.squareup.leakcanary.LeakCanary;
-
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
-import be.ugent.zeus.hydra.common.ChannelCreator;
+
 import be.ugent.zeus.hydra.common.preferences.ThemeFragment;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Tracker;
+
+import com.jakewharton.threetenabp.AndroidThreeTen;
+import com.squareup.leakcanary.LeakCanary;
 import jonathanfinerty.once.Once;
 
 /**
@@ -22,7 +23,6 @@ import jonathanfinerty.once.Once;
  * @author Niko Strijbol
  * @author feliciaan
  */
-@SuppressWarnings("WeakerAccess")
 public class HydraApplication extends Application {
 
     private static final String TAG = "HydraApplication";
@@ -72,11 +72,9 @@ public class HydraApplication extends Application {
         AndroidThreeTen.init(this);
         LeakCanary.install(this);
         Once.initialise(this);
-
-        // Initialize the channels that are needed in the whole app. The channels for Minerva are created when needed.
-        createChannels();
     }
 
+    @SuppressLint("SwitchIntDef")
     private void trackTheme() {
         Tracker tracker = Reporting.getTracker(this);
         switch (ThemeFragment.getNightMode(this)) {
@@ -96,19 +94,9 @@ public class HydraApplication extends Application {
     }
 
     /**
-     * Create notifications channels when needed.
-     * TODO: should this move to the SKO activity?
-     */
-    protected void createChannels() {
-        ChannelCreator channelCreator = ChannelCreator.getInstance(this);
-        channelCreator.createSkoChannel();
-    }
-
-    /**
      * Used to enable {@link StrictMode} for debug builds.
      */
-    protected static void enableStrictModeInDebug() {
-
+    private static void enableStrictModeInDebug() {
         if (!BuildConfig.DEBUG || !BuildConfig.DEBUG_ENABLE_STRICT_MODE) {
             return;
         }

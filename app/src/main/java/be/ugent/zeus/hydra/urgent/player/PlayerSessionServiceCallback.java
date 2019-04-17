@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.urgent.player;
 
 /**
- * An interface to meant to link the SessionCallbacks to the interface.
+ * An interface meant to link the SessionCallbacks to the interface.
  *
  * @author Niko Strijbol
  */

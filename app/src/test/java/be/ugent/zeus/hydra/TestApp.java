@@ -29,7 +29,6 @@ public class TestApp extends HydraApplication {
     @Override
     protected void onCreateInitialise() {
         Once.initialise(this);
-        createChannels();
 
         Reporting.saveAnalyticsPermission(this, false);
         Reporting.saveCrashReportingPermission(this, false);

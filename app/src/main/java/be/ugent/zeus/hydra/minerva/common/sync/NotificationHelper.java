@@ -6,25 +6,25 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
+import android.text.TextUtils;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
-import android.text.TextUtils;
 
+import java.util.Collection;
+import java.util.List;
+
+import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ChannelCreator;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
-import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.minerva.announcement.Announcement;
 import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
 import be.ugent.zeus.hydra.minerva.course.Course;
 import be.ugent.zeus.hydra.minerva.course.singlecourse.CourseActivity;
-
-import java.util.Collection;
-import java.util.List;
 
 import static androidx.core.app.NotificationCompat.CATEGORY_EMAIL;
 
@@ -65,10 +65,10 @@ public class NotificationHelper {
 
     private PendingIntent upIntentOne(Announcement announcement) {
         Intent resultIntent = new Intent(context, SingleAnnouncementActivity.class);
-        resultIntent.putExtra(SingleAnnouncementActivity.ARG_ANNOUNCEMENT, (Parcelable) announcement);
+        resultIntent.putExtra(SingleAnnouncementActivity.ARG_ANNOUNCEMENT, announcement);
 
         Intent parentIntent = new Intent(context, CourseActivity.class);
-        parentIntent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) announcement.getCourse());
+        parentIntent.putExtra(CourseActivity.ARG_COURSE, announcement.getCourse());
 
         return TaskStackBuilder.create(context)
                 .addNextIntent(mainActivity())
@@ -79,7 +79,7 @@ public class NotificationHelper {
 
     private PendingIntent upIntentMore(Course course) {
         Intent resultIntent = new Intent(context, CourseActivity.class);
-        resultIntent.putExtra(CourseActivity.ARG_COURSE, (Parcelable) course);
+        resultIntent.putExtra(CourseActivity.ARG_COURSE, course);
 
         return TaskStackBuilder.create(context)
                 .addNextIntentWithParentStack(mainActivity())
@@ -106,8 +106,7 @@ public class NotificationHelper {
         }
 
         // Ensure the notification channel exists.
-        ChannelCreator channelCreator = ChannelCreator.getInstance(context);
-        channelCreator.createMinervaAnnouncementChannel();
+        ChannelCreator.createMinervaAnnouncementChannel(context);
 
         NotificationManagerCompat manager = NotificationManagerCompat.from(context);
 

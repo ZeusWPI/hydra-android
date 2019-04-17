@@ -9,6 +9,8 @@ import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import okhttp3.CacheControl;
 
 /**
+ * Request information about the UGent.fm stream.
+ *
  * @author Niko Strijbol
  */
 public class UrgentInfoRequest extends JsonOkHttpRequest<UrgentInfo> {

@@ -28,7 +28,6 @@ public class UgentNewsRequest extends JsonArrayRequest<UgentNewsArticle> {
     @Override
     public Result<List<UgentNewsArticle>> execute(@NonNull Bundle args) {
         return super.execute(args).map(ugentNewsItems -> {
-            //noinspection Java8ListSort
             Collections.sort(ugentNewsItems, Comparators.reversed(Comparators.comparing(UgentNewsArticle::getModified)));
             return ugentNewsItems;
         });

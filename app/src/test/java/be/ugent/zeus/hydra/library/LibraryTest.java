@@ -27,10 +27,10 @@ public class LibraryTest extends ModelTest<Library> {
     }
 
     @Test
+    @Override
     public void equalsAndHash() {
         defaultVerifier(Library.class)
                 .withOnlyTheseFields("code", "favourite")
-                .suppress(Warning.NONFINAL_FIELDS)
                 .verify();
     }
 }

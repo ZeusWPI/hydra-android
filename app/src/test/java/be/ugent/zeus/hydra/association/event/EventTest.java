@@ -10,15 +10,7 @@ import org.junit.Test;
  * @author Niko Strijbol
  */
 public class EventTest extends ModelTest<Event> {
-
     public EventTest() {
         super(Event.class);
-    }
-
-    @Test
-    public void equalsAndHash() {
-        Utils.defaultVerifier(Event.class)
-                .suppress(Warning.NONFINAL_FIELDS)
-                .verify();
     }
 }

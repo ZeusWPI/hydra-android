@@ -16,10 +16,10 @@ public class UgentNewsArticleTest extends ModelTest<UgentNewsArticle> {
     }
 
     @Test
+    @Override
     public void equalsAndHash() {
         Utils.defaultVerifier(UgentNewsArticle.class)
                 .withOnlyTheseFields("identifier")
-                .suppress(Warning.NONFINAL_FIELDS)
                 .verify();
     }
 }

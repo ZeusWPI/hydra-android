@@ -28,7 +28,6 @@ class SandwichRequest extends JsonArrayRequest<Sandwich> {
     @Override
     public Result<List<Sandwich>> execute(@NonNull Bundle args) {
         return super.execute(args).map(sandwiches -> {
-            //noinspection Java8ListSort
             Collections.sort(sandwiches, (o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
             return sandwiches;
         });

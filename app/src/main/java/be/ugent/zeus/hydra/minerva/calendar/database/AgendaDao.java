@@ -115,7 +115,7 @@ public interface AgendaDao {
             " WHERE ((datetime(a." + AgendaTable.Columns.START_DATE + ") >= datetime(:lower) OR datetime(a." + AgendaTable.Columns.END_DATE + ") >= datetime(:lower))" +
             " AND datetime(a." + AgendaTable.Columns.START_DATE + ") <= datetime(:upper)) " +
             " AND c_" + CourseContract.Columns.IGNORE_CALENDAR + " = 0" +
-            " ORDER BY datetime(" + AgendaTable.Columns.START_DATE + ") ASC"
+            " ORDER BY datetime(a." + AgendaTable.Columns.START_DATE + ") ASC"
     )
     List<Result> getBetweenNonIgnored(OffsetDateTime lower, OffsetDateTime upper);
 

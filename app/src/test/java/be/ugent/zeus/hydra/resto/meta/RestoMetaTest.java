@@ -10,15 +10,7 @@ import org.junit.Test;
  * @author Niko Strijbol
  */
 public class RestoMetaTest extends ModelTest<RestoMeta> {
-
     public RestoMetaTest() {
         super(RestoMeta.class);
-    }
-
-    @Test
-    public void equalsAndHash() {
-        EqualsVerifier.forClass(RestoMeta.class)
-                .suppress(Warning.NONFINAL_FIELDS)
-                .verify();
     }
 }

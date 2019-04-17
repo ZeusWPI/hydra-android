@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.info;
 import android.os.Parcel;
 import be.ugent.zeus.hydra.common.MockParcel;
 import be.ugent.zeus.hydra.common.ModelTest;
+import be.ugent.zeus.hydra.testing.Utils;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 import org.apache.commons.lang3.SerializationUtils;
@@ -51,12 +52,12 @@ public class InfoItemTest extends ModelTest<InfoItem> {
     }
 
     @Test
-    public void equalAndHash() {
+    @Override
+    public void equalsAndHash() {
         InfoItem one = generate(InfoItem.class);
         one.setSubContent(new ArrayList<>());
-        EqualsVerifier.forClass(InfoItem.class)
+        Utils.defaultVerifier(InfoItem.class)
                 .withPrefabValues(InfoItem.class, one, oneDeep)
-                .suppress(Warning.NONFINAL_FIELDS)
                 .verify();
     }
 
