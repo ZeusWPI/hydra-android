@@ -72,7 +72,6 @@ public abstract class MinervaRequest<T> extends JsonOkHttpRequest<T> {
                     throw e; // Proceed with error.
                 }
 
-                // TODO: log if this happens at all.
                 // This should never be the case:
                 // 1. If the access token is expired, the getToken() function will have caught and resolved it.
                 // 2. If not resolvable, an AuthenticatorActionException will be thrown.

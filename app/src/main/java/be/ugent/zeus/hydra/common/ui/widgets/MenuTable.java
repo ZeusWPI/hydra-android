@@ -116,8 +116,7 @@ public class MenuTable extends TableLayout {
             } else {
                 v.setTextAppearance(R.style.Subhead);
             }
-            textPaddingTop = rowPadding;
-
+            textPaddingTop = getContext().getResources().getDimensionPixelSize(R.dimen.vertical_padding);
         } else if (messagePaddingTop) {
             textPaddingTop = getContext().getResources().getDimensionPixelSize(R.dimen.vertical_padding);
         } else {
