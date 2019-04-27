@@ -48,9 +48,11 @@ class InfoViewHolder extends DataViewHolder<InfoItem> {
             int resId = c.getResources().getIdentifier(infoItem.getImage(), "drawable", c.getPackageName());
             if (resId == 0) {
                 Log.e(TAG, "Icon for info item " + infoItem.getImage() + " was not found!");
+                title.setCompoundDrawablesWithIntrinsicBounds(null, null, more, null);
+            } else {
+                Drawable icon = ViewUtils.getTintedVectorDrawable(c, resId, typedValue.resourceId);
+                title.setCompoundDrawablesWithIntrinsicBounds(icon, null, more, null);
             }
-            Drawable icon = ViewUtils.getTintedVectorDrawable(c, resId, typedValue.resourceId);
-            title.setCompoundDrawablesWithIntrinsicBounds(icon, null, more, null);
         } else {
             title.setCompoundDrawablesWithIntrinsicBounds(null, null, more, null);
         }

@@ -12,9 +12,6 @@
     <dimen name="keyline_tab">60dp</dimen><!-- keyline (71) - 12 (tab padding) -->
     <dimen name="large_horizontal_padding">16dp</dimen>
 
-    <dimen name="table_row_height">48dp</dimen>
-    <dimen name="table_col_spacing">16dp</dimen>
-
     <dimen name="card_small_horizontal_margin">0dp</dimen>
     <dimen name="card_small_vertical_margin">0dp</dimen>
     <dimen name="resto_menu_tab_spacing">0dp</dimen>
@@ -29,9 +26,6 @@
     <!-- Is always small, use together with big_component -->
     <dimen name="card_margin_small">@dimen/card_margin</dimen>
     <dimen name="card_margin_big_component">0dp</dimen>
-
-    <dimen name="card_elevation">2dp</dimen>
-    <dimen name="card_elevation_raised">8dp</dimen>
 
     <dimen name="card_actions_padding">8dp</dimen>
 

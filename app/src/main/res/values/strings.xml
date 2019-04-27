@@ -4,11 +4,6 @@
     <!-- Generic stuff -->
     <string name="app_name" translatable="false">Hydra</string>
 
-    <string name="permissions_read_courses">Minerva-vakken lezen</string>
-    <string name="permissions_read_courses_desc">
-        Staat apps toe om de lijst van Minerva-vakken te lezen en informatie over de vakken te lezen.
-    </string>
-
     <string name="title_activity_hydra_web_view">Web View</string>
 
     <string name="action_refresh">Vernieuwen</string>
@@ -16,22 +11,16 @@
     <string name="action_open_browser">Bekijken in browser</string>
     <string name="action_view_settings">Instellingen</string>
     <string name="action_view_link">Link openen</string>
-    <string name="action_view_files">Bestanden bekijken</string>
     <string name="action_again">Opnieuw</string>
-    <string name="action_logout">Afmelden</string>
-    <string name="action_drawer_open">Openen</string>
-    <string name="action_drawer_close">Sluiten</string>
+    <string name="action_drawer_open" tools:keep="@string/action_drawer_open">Openen</string>
+    <string name="action_drawer_close" tools:keep="@string/action_drawer_close">Sluiten</string>
     <string name="action_open_map">Kaart openen</string>
     <string name="action_send_mail">E-mailen</string>
-    <string name="action_sync">Synchroniseren</string>
     <string name="action_search">Zoeken</string>
-    <string name="action_mark_as_read">Markeren als gelezen</string>
     <string name="action_add_to_calendar">Toevoegen aan agenda</string>
-    <string name="action_view_pdf">Pdf bekijken</string>
     <string name="action_share">Delen</string>
     <string name="action_undo">Ongedaan maken</string>
 
-    <string name="selected_n" tools:ignore="PluralsCandidate">%d geselecteerd</string>
     <string name="select_all" translatable="false">@android:string/selectAll</string>
     <string name="select_none">Niets selecteren</string>
 
@@ -44,7 +33,6 @@
     <string name="drawer_title_events">Evenementen</string>
     <string name="drawer_title_news">Nieuws</string>
     <string name="drawer_title_info">Info</string>
-    <string name="drawer_title_minerva">Minerva</string>
     <string name="drawer_title_pref">Instellingen</string>
     <string name="drawer_title_urgent">Urgent.fm</string>
     <string name="drawer_title_library">Bibliotheken</string>
@@ -52,10 +40,6 @@
     <string name="shortcut_resto_short_label">Restomenu</string>
     <string name="shortcut_resto_long_label">Bekijk de restomenu</string>
     <string name="shortcut_resto_disabled">Uitgeschakeld</string>
-
-    <string name="shortcut_minerva_short_label">Minerva</string>
-    <string name="shortcut_minerva_long_label">Bekijk Minerva-dingen</string>
-    <string name="shortcut_minerva_disabled">Uitgeschakeld</string>
 
     <string name="no_items">Geen items</string>
 
@@ -77,8 +61,6 @@
     <string name="pref_overview_resto_desc">Instellingen voor de studentenrestaurants</string>
     <string name="pref_overview_activities_title">Activiteiten</string>
     <string name="pref_overview_activities_desc">Opties voor de activiteiten</string>
-    <string name="pref_overview_minerva_title">Minerva</string>
-    <string name="pref_overview_minerva_desc">Opties voor de Minerva-integratie</string>
     <string name="pref_overview_feed_title">Homefeed</string>
     <string name="pref_overview_feed_desc">Opties voor de homefeed</string>
     <string name="pref_overview_article_title">Artikels</string>
@@ -117,9 +99,6 @@
     <!-- Onboarding -->
     <string name="onboarding_welcome">Welkom bij Hydra</string>
     <string name="onboarding_welcome_description">Kies wat je wilt zien en doen in de app</string>
-    <string name="onboarding_minerva_title">Minerva</string>
-    <string name="onboarding_minerva_description">Meld je aan bij Minerva om je vakken te kunnen bekijken</string>
-    <string name="onboarding_minerva_button">Aanmelden</string>
     <string name="onboarding_feed_title">Homefeed</string>
     <string name="onboarding_feed_desc">Kies wat je wilt zien in de homefeed</string>
     <string name="onboarding_reporting_title">Datagebruik</string>
@@ -218,158 +197,8 @@
     <string name="value_resto_default_endpoint">nl-debrug</string>
     <string name="resto_default_name">Resto De Brug</string>
 
-    <!-- Minerva -->
-    <string name="minerva_main_tab_courses">Vakken</string>
-    <string name="minerva_main_tab_announcements">Ongelezen aankondigingen</string>
-
-    <string name="minerva_login_authorize">Autoriseren</string>
-    <string name="minerva_login_description">Om Minerva te gebruiken dien je toestemming te geven.</string>
-    <string name="minerva_login_no_permission">Je gaf geen toestemming om je account te gebruiken.</string>
-    <string name="minerva_login_title">Minerva</string>
-
-    <string name="minerva_auth_activity_title">Autorisatie</string>
-    <string name="minerva_auth_progress_prepare">Klaarmaken…</string>
-    <string name="minerva_auth_progress_permission">Toegang vragen…</string>
-    <string name="minerva_auth_progress_information">Informatie ophalen…</string>
-    <string name="minerva_auth_progress_failure">Niet ingelogd.</string>
-    <string name="minerva_auth_progress_done">Klaar.</string>
-    <string name="minerva_auth_error">Er is een fout opgetreden. Probeer het nogmaals.</string>
-
-    <string name="minerva_announcement_detail_activity_title">Aankondiging</string>
-    <string name="minerva_announcement_notification_content">Nieuwe aankondiging</string>
-    <string name="minerva_announcement_notification_single_title">Aankondiging in %s</string>
-    <plurals name="minerva_announcement_notification_title">
-        <item quantity="one">%d aankondiging</item>
-        <item quantity="other">%d aankondigingen</item>
-    </plurals>
-    <string name="minerva_announcement_channel_title">Minerva-aankondigingen</string>
-    <string name="minerva_announcement_channel_desc">Bevat alle aankondigingen van Minerva.</string>
-    <plurals name="minerva_announcement_marked">
-        <item quantity="one">%d aankondiging als gelezen gemarkeerd</item>
-        <item quantity="other">%d aankondigingen als gelezen gemarkeerd</item>
-    </plurals>
-
-    <string name="minerva_sync_started">Synchroniseren…</string>
-    <string name="minerva_sync_provider_label">Minerva</string>
-    <string name="minerva_sync_getting_courses">Vakken ophalen…</string>
-    <string name="minerva_sync_getting_calendar">Agenda ophalen…</string>
-    <string name="minerva_sync_done">Klaar.</string>
-    <string name="minerva_sync_cancelled">Geannuleerd.</string>
-    <string name="minerva_sync_progress">Vak %1$d van %2$d ophalen…</string>
-
-    <string name="minerva_calendar_detail_activity_title">Agenda-item</string>
-    <string name="minerva_calendar_device_event_title">
-        <xliff:g example="Machinaal leren" id="course_name">%1$s</xliff:g>: <xliff:g example="Inleiding en afspraken" id="event_title">%2$s</xliff:g>
-    </string>
-    <string name="minerva_calendar_device_description">
-        Les van het vak <xliff:g example="Machinaal leren" id="course_name">%1$s</xliff:g>
-    </string>
-    <string name="minerva_calender_name">Minerva-agenda</string>
-    <string name="minerva_calendar_permission_title">Machtiging nodig</string>
-    <string name="minerva_calendar_permission_text">
-        Hydra moet met de agenda kunnen werken om de Minerva-agenda te tonen. Zonder machtiging wordt de agenda
-        niet gesynchroniseerd. We zullen het de volgende keer nogmaals vragen.
-    </string>
-    <string name="minerva_calendar_permission_rationale">
-        Hydra moet met de agenda kunnen werken om de Minerva-agenda te tonen. Zonder machtiging wordt de agenda
-        niet gesynchroniseerd.
-    </string>
-    <string name="minerva_calendar_not_found">Agenda-item werd niet gevonden.</string>
-    <string name="minerva_calendar_duration">%1$s – %2$s</string>
-    <string name="minerva_calendar_friendly_date">%1$s (%2$s)</string>
-    <string name="minerva_calendar_permission_notification_title">Machtigingen voor Hydra</string>
-    <string name="minerva_calendar_permission_notification_short">Geef toestemming voor de Minerva-agenda</string>
-    <string name="minerva_calendar_permission_notification_long">
-        Hydra heeft toegang tot uw agenda nodig om de Minerva-agenda te synchroniseren.
-    </string>
-    <string name="minerva_calendar_missing_notification_title">Geen agenda gevonden</string>
-    <string name="minerva_calendar_missing_notification_text">
-        Hydra had geen toegang tot de agenda van dit apparaat of vond geen agenda. De agenda zal niet gesynchroniseerd worden.
-    </string>
-
-    <string name="minerva_calendar_merge_warning">
-        Dit evenement is samengevoegd door de duplicatendetectie van Hydra. Als het evenement vreemd lijkt, is het
-        best om het nog eens na te kijken op de website of de optie uit te schakelen, aangezien deze functie
-        nog experimenteel is.
-    </string>
-
-    <string name="minerva_account_channel_title">Minerva-account</string>
-    <string name="minerva_account_channel_desc">Meldingen over uw account van Minerva.</string>
-    <string name="minerva_account_launch_pref">Accountinstellingen openen</string>
-    <string name="minerva_account_label" translatable="false">@string/app_name</string>
-
-    <string name="minerva_course_details_tabs_overview">Info</string>
-    <string name="minerva_course_details_tabs_announcements">Aankondigingen</string>
-    <string name="minerva_course_details_tabs_calendar">Agenda</string>
-
-    <string name="minerva_course_tutor_and_course">%1$s - %2$s</string>
-    <string name="minerva_course_unknown_year">Onbekend</string>
-    <string name="minerva_course_detail_activity_title">Minerva-vak</string>
-    <string name="minerva_course_info_description">Beschrijving</string>
-    <string name="minerva_course_info_name">Naam</string>
-    <string name="minerva_course_info_code">Code</string>
-    <string name="minerva_course_info_professor">Lesgever</string>
-    <string name="minerva_course_info_year">Academiejaar</string>
-    <string name="minerva_course_info_course_fiche">Studiefiche</string>
-    <string name="minerva_course_info_course_fiche_warning">Merk op dat niet elk vak een studiefiche heeft.</string>
-    <string name="minerva_course_info_settings_header">Instellingen</string>
-    <string name="minerva_course_info_settings_announcements">Aankondigingen negeren</string>
-    <string name="minerva_course_info_settings_announcements_description">
-        Dit zorgt ervoor dat u voor aankondigingen van dit vak geen meldingen meer ontvangt, ze niet verschijnen in de
-        homefeed en ze niet bij de ongelezen aankondigingen verschijnen. De aankondigingen voor dit vak worden
-        onmiddellijk als gelezen gemarkeerd. Ze zijn nog wel zichtbaar in het overzicht van dit vak. Dit zal enkel gelden
-        voor nieuwe aankondigingen: aanwezige aankondigingen blijven zichtbaar.
-    </string>
-    <string name="minerva_course_info_settings_calendar">Agenda negeren</string>
-    <string name="minerva_course_info_settings_calendar_description">
-        Dit zorgt ervoor dat de evenementen voor dit vak niet meer verschijnen in de homefeed of in de ingebouwde agenda
-        van uw toestel. Ze zijn nog wel zichtbaar in het overzicht van dit vak.
-    </string>
-    <string name="minerva_course_info_settings_wait">
-        Het kan even duren voor de instellingen van kracht zijn, een synchronisatie start nu…
-    </string>
-
-    <string name="minerva_exporting_account">Minerva-account exporteren</string>
-    <string name="minerva_exporting_account_desc">De details van uw Minerva-account worden geëxporteerd.</string>
-
-    <string name="minerva_pref_account_category_title">Account &amp; synchronisatie</string>
-    <string name="minerva_pref_account_management_title">Accountbeheer</string>
-    <string name="minerva_pref_account_management_desc">Zet de synchronisatie aan of uit</string>
-    <string name="minerva_pref_sync_time_title">Sync-interval Minerva</string>
-    <string name="minerva_pref_sync_time_desc">Om de hoeveel tijd Minerva gesynchroniseerd wordt (nu %s)</string>
-    <string name="minerva_pref_category_notification_title">Meldingen</string>
-    <string name="minerva_pref_announcements_title">Meldingen</string>
-    <string name="minerva_pref_announcements_desc">Toon een melding bij een nieuwe aankondiging</string>
-    <string name="minerva_pref_announcements_mail_title">Meldingen voor e-mail</string>
-    <string name="minerva_pref_announcements_mail_desc">Toon een melding bij een nieuwe aankondiging waarvoor al een e-mail verstuurd is.</string>
-    <string name="minerva_pref_category_calendar_title">Agenda</string>
-    <string name="minerva_pref_calendar_add_course_title">Vak toevoegen aan agenda-items</string>
-    <string name="minerva_pref_calendar_add_course_desc">Voeg de naam van het vak toe aan de titel van evenementen als die titel niet de naam van het vak is.</string>
-    <string name="minerva_pref_calendar_prefix_title">Vaknaam afkorten</string>
-    <string name="minerva_pref_calendar_prefix_desc">Gebruik acroniemen als naam van het vak in de titel van evenementen.</string>
-    <string name="minerva_pref_category_duplicates_title">Duplicatendetectie (experimenteel)</string>
-    <string name="minerva_pref_duplicates_detect_title">Duplicaten agenda samenvoegen</string>
-    <string name="minerva_pref_duplicates_detect_desc">Let op! Dit is experimenteel! Zie hieronder voor uitleg.</string>
-    <string name="minerva_pref_duplicates_explanation_title">Wat?</string>
-    <string name="minerva_pref_duplicates_explanation_desc">De duplicatendetectie probeert om voor elke les slechts één item in de agenda te tonen.</string>
-    <string name="minerva_pref_duplicates_rationale_title">Waarom?</string>
-    <string name="minerva_pref_duplicates_rationale_desc">
-        Hydra toont zowel de agenda van Oasis als die van Minerva zelf. Als een lesgever op Minerva dingen toevoegt,
-        wordt Oasis niet aangepast. Hierdoor staan sommige lessen twee keer in de agenda.
-    </string>
-
-    <string name="minerva_pref_sync_freq_6_hours">6 uur</string>
-    <string name="minerva_pref_sync_freq_12_hours">12 uur</string>
-    <string name="minerva_pref_sync_freq_24_hours">24 uur</string>
-    <string name="minerva_pref_sync_freq_1_week">1 week</string>
-
-    <string name="minerva_course_no_document_viewer">Geen bestandsverkenner gevonden!</string>
-
     <!-- SKO -->
     <string name="sko_overview_activity_title">Student Kick-Off</string>
-
-    <string name="sko_channel_title">Student Kick-Off</string>
-    <string name="sko_channel_desc">Meldingen over de Student Kick-Off</string>
 
     <string name="sko_artist_info">Beschrijving</string>
     <string name="sko_artist_more">Meer informatie</string>
@@ -405,16 +234,12 @@
     <string name="feed_card_type_title_events">Activiteiten</string>
     <string name="feed_card_type_title_schamper">Schamper</string>
     <string name="feed_card_type_title_news">Nieuws</string>
-    <string name="feed_card_type_title_minerva_announcements">Minerva: Aankondigingen</string>
-    <string name="feed_card_type_title_minerva_calendar">Minerva: Agenda</string>
     <string name="feed_card_type_title_urgent">Urgent.fm</string>
 
     <string name="feed_card_type_desc_resto">De dagelijkse menu voor alle UGent-resto\'s.</string>
     <string name="feed_card_type_desc_events">De activiteiten van je favoriete verenigingen.</string>
     <string name="feed_card_type_desc_schamper">Artikels uit Schamper.</string>
     <string name="feed_card_type_desc_news">Het nieuws, rechtstreeks van de UGent.</string>
-    <string name="feed_card_type_desc_minerva_announcements">Je aankondigingen van op Minerva.</string>
-    <string name="feed_card_type_desc_minerva_calendar">Je agenda van Minerva en Oasis.</string>
     <string name="feed_card_type_desc_urgent">De jongerenradio van (U)Gent en omstreken.</string>
 
     <string name="feed_general_error">Ophalen sommige kaarten mislukt.</string>
@@ -424,14 +249,6 @@
     <string name="feed_urgent_player_desc">Ga naar de Urgent.fm-speler.</string>
 
     <string name="feed_event_title">Activiteit door %s</string>
-
-    <string name="feed_announcement_single_title">Aankondigingen %s</string>
-    <plurals name="feed_announcement_view_more">
-        <item quantity="one">Bekijk nog %d aankondiging…</item>
-        <item quantity="other">Bekijk nog %d aankondigingen…</item>
-    </plurals>
-
-    <string name="feed_calendar_title">Agenda voor %s</string>
 
     <string name="feed_card_hide_type">Dit soort kaarten verbergen</string>
     <string name="feed_card_hide_association">Deze vereniging verbergen</string>
@@ -492,8 +309,6 @@
     <string name="library_list_opening_hours_today">Vandaag open: %s</string>
 
     <!-- Accessibility strings -->
-    <string name="content_desc_unread_icon">Heeft ongelezen aankondigingen</string>
-    <string name="content_desc_reorder">Rangschikken</string>
     <string name="content_desc_more">meer</string>
     <string name="content_desc_artist_image">Artiestfoto</string>
     <string name="content_desc_schamper_image">Schamperfoto</string>
@@ -502,15 +317,10 @@
     <string name="content_desc_time">Tijd</string>
     <string name="content_desc_hydra_logo">Hydra-logo</string>
     <string name="content_desc_library">Bibliotheek</string>
-    <string name="content_desc_lesson">Les</string>
-    <string name="content_desc_organiser">Lesgever</string>
-    <string name="content_desc_announcement">Aankondiging</string>
-    <string name="content_desc_warning">Waarschuwing</string>
     <string name="content_desc_resto">Resto</string>
     <string name="content_desc_schamper_article">Schamperartikel</string>
     <string name="content_desc_search">Zoeken</string>
     <string name="content_desc_search_artist">Zoeken op artist</string>
-    <string name="content_desc_minerva_icon">Logo van Minerva</string>
     <string name="content_desc_special_event_icon">Icoon speciaal evenement</string>
     <string name="content_desc_urgent_icon">Logo Urgent.fm</string>
     <string name="content_desc_association_icon">Icon vereniging</string>

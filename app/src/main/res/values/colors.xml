@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--
        ~ The colour scheme for Hydra.
@@ -10,23 +10,23 @@
     <color name="hydra_primary_light_colour">#6391fc</color>
     <color name="hydra_primary_dark_colour">#003b96</color>
     <color name="hydra_secondary_colour">#ffd200</color>
-    <color name="hydra_secondary_light_colour">#ffff52</color>
-    <color name="hydra_secondary_dark_colour">#c7a100</color>
-    <color name="hydra_primary_text_colour">#ffffff</color>
-    <color name="hydra_secondary_text_colour">#000000</color>
+    <color name="hydra_secondary_light_colour" tools:keep="@color/hydra_secondary_light_colour">#ffff52</color>
+    <color name="hydra_secondary_dark_colour" tools:keep="@color/hydra_secondary_dark_colour">#c7a100</color>
+    <color name="hydra_primary_text_colour" tools:keep="@color/hydra_primary_text_colour">#ffffff</color>
+    <color name="hydra_secondary_text_colour" tools:keep="@color/hydra_secondary_text_colour">#000000</color>
 
     <!--
        ~ The colour scheme for SKO.
        ~ This colour scheme was generated from https://goo.gl/mpDLkv
       -->
     <color name="sko_primary_colour">#009ade</color>
-    <color name="sko_primary_light_colour">#61cbff</color>
+    <color name="sko_primary_light_colour" tools:keep="@color/sko_primary_light_colour">#61cbff</color>
     <color name="sko_primary_dark_colour">#005C86</color>
     <color name="sko_secondary_colour">#e43026</color>
-    <color name="sko_secondary_light_colour">#ff6851</color>
-    <color name="sko_secondary_dark_colour">#aa0000</color>
-    <color name="sko_primary_text_colour">#000000</color>
-    <color name="sko_secondary_text_colour">#000000</color>
+    <color name="sko_secondary_light_colour" tools:keep="@color/sko_secondary_light_colour">#ff6851</color>
+    <color name="sko_secondary_dark_colour" tools:keep="@color/sko_secondary_dark_colour">#aa0000</color>
+    <color name="sko_primary_text_colour" tools:keep="@color/sko_primary_text_colour">#000000</color>
+    <color name="sko_secondary_text_colour" tools:keep="@color/sko_secondary_text_colour">#000000</color>
 
 
     <!-- General colours -->
@@ -63,7 +63,7 @@
     <color name="launcher_shortcut_background">@color/material_color_grey_100</color>
     <color name="hydra_launcher_color">@color/hydra_primary_colour</color>
 
-    <color name="hydra_item_selected_background">@color/white</color>
+    <color name="hydra_item_selected_background" tools:keep="@color/hydra_item_selected_background">@color/white</color>
 
     <!--
        ~ Custom colours for the Round card view.

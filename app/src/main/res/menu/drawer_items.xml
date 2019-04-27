@@ -14,10 +14,6 @@
             android:icon="@drawable/tabs_resto"
             android:title="@string/drawer_title_resto" />
         <item
-            android:id="@+id/drawer_minerva"
-            android:icon="@drawable/tabs_minerva"
-            android:title="@string/drawer_title_minerva" />
-        <item
             android:id="@+id/drawer_events"
             android:icon="@drawable/tabs_events"
             android:title="@string/drawer_title_events" />

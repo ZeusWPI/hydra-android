@@ -1,44 +1,41 @@
 package be.ugent.zeus.hydra.feed;
 
 import android.annotation.SuppressLint;
-import android.content.*;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.*;
+
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.minerva.account.AccountUtils;
+import be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity;
+import be.ugent.zeus.hydra.common.ExtendedSparseArray;
+import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
-import be.ugent.zeus.hydra.minerva.common.sync.SyncBroadcast;
+import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardRepository;
-import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
-import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.cards.implementations.debug.WaitRequest;
 import be.ugent.zeus.hydra.feed.cards.implementations.event.EventRequest;
-import be.ugent.zeus.hydra.feed.cards.implementations.minerva.calendar.MinervaAgendaRequest;
-import be.ugent.zeus.hydra.feed.cards.implementations.minerva.announcement.MinervaAnnouncementRequest;
 import be.ugent.zeus.hydra.feed.cards.implementations.news.NewsRequest;
 import be.ugent.zeus.hydra.feed.cards.implementations.resto.RestoRequest;
 import be.ugent.zeus.hydra.feed.cards.implementations.schamper.SchamperRequest;
 import be.ugent.zeus.hydra.feed.cards.implementations.specialevent.LimitingSpecialEventRequest;
 import be.ugent.zeus.hydra.feed.cards.implementations.urgent.UrgentRequest;
 import be.ugent.zeus.hydra.feed.operations.FeedOperation;
-import be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
-import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
+
 import java9.util.J8Arrays;
 import java9.util.function.IntPredicate;
 import java9.util.stream.Collectors;
 import java9.util.stream.StreamSupport;
-
-import java.util.*;
-
 import static be.ugent.zeus.hydra.feed.operations.OperationFactory.add;
 import static be.ugent.zeus.hydra.feed.operations.OperationFactory.get;
 
@@ -67,16 +64,6 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
     private static final String TAG = "HomeFeedLoader";
     private final SharedPreferences.OnSharedPreferenceChangeListener restoListener = new RestoListener();
 
-    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (SyncBroadcast.SYNC_DONE.equals(intent.getAction())) {
-                Bundle extras = intent.getExtras() == null ? Bundle.EMPTY : intent.getExtras();
-                flagForRefresh(extras);
-            }
-        }
-    };
-
     private final Context applicationContext;
 
     //For which settings the loader must refresh
@@ -100,8 +87,6 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
         super.onActive();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
         preferences.registerOnSharedPreferenceChangeListener(restoListener);
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(applicationContext);
-        manager.registerReceiver(broadcastReceiver, new IntentFilter(SyncBroadcast.SYNC_DONE));
         Map<String, ?> prefs = preferences.getAll();
         boolean shouldRefresh = false;
         for (String preference : watchedPreferences) {
@@ -123,8 +108,6 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
         super.onInactive();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
         preferences.unregisterOnSharedPreferenceChangeListener(restoListener);
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(applicationContext);
-        manager.unregisterReceiver(broadcastReceiver);
     }
 
     private class RestoListener implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -238,12 +221,6 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
                 .map(Integer::parseInt)
                 .collect(Collectors.toSet());
 
-        // Don't do Minerva if there is no account.
-        if (!AccountUtils.hasAccount(c)) {
-            s.add(Card.Type.MINERVA_AGENDA);
-            s.add(Card.Type.MINERVA_ANNOUNCEMENT);
-        }
-
         // Don't do Urgent.fm if there is no network.
         if (!NetworkUtils.isConnected(c)) {
             s.add(Card.Type.URGENT_FM);
@@ -263,8 +240,6 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
         operations.add(get(d, () -> new EventRequest(c, cr), Card.Type.ACTIVITY));
         operations.add(get(d, () -> new SchamperRequest(c, cr), Card.Type.SCHAMPER));
         operations.add(get(d, () -> new NewsRequest(c, cr), Card.Type.NEWS_ITEM));
-        operations.add(get(d, () -> new MinervaAnnouncementRequest(c, cr), Card.Type.MINERVA_ANNOUNCEMENT));
-        operations.add(get(d, () -> new MinervaAgendaRequest(c, cr), Card.Type.MINERVA_AGENDA));
         operations.add(get(d, UrgentRequest::new, Card.Type.URGENT_FM));
 
         // Add debug request.

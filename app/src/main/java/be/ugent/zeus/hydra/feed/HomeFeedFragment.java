@@ -1,20 +1,16 @@
 package be.ugent.zeus.hydra.feed;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProviders;
-
-import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import android.util.Log;
 import android.view.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
@@ -24,13 +20,10 @@ import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
-import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.commands.CommandResult;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
-import be.ugent.zeus.hydra.minerva.announcement.SingleAnnouncementActivity;
-import be.ugent.zeus.hydra.minerva.announcement.courselist.AnnouncementsForCourseFragment;
 
-import static android.app.Activity.RESULT_OK;
+import com.google.android.material.snackbar.Snackbar;
 import static be.ugent.zeus.hydra.feed.FeedLiveData.REFRESH_HOMECARD_TYPE;
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
@@ -175,21 +168,6 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         snackbar = Snackbar.make(requireView(this), getString(R.string.feed_general_error), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.action_again), v -> onRefresh());
         snackbar.show();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_HOMECARD_ID && resultCode == RESULT_OK) {
-            // Something was launched and we received a result back.
-            if (data.getBooleanExtra(AnnouncementsForCourseFragment.RESULT_ANNOUNCEMENT_UPDATED, false)
-                    || data.getBooleanExtra(SingleAnnouncementActivity.RESULT_ANNOUNCEMENT_READ, false)) {
-                Bundle extras = new Bundle();
-                extras.putInt(REFRESH_HOMECARD_TYPE, Card.Type.MINERVA_ANNOUNCEMENT);
-                model.requestRefresh(extras);
-            }
-        }
     }
 
     @Override

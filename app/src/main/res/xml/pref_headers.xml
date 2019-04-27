@@ -22,12 +22,6 @@
         android:title="@string/pref_overview_resto_title"
         android:summary="@string/pref_overview_resto_desc" />
 
-    <!-- Minerva -->
-    <header
-        android:fragment="be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment"
-        android:title="@string/pref_overview_minerva_title"
-        android:summary="@string/pref_overview_minerva_desc" />
-
     <!-- News -->
     <header
         android:fragment="be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment"
