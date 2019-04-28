@@ -27,8 +27,7 @@ android {
         buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", props.getProperty('hydra.debug.home.stream.sko')
         buildConfigField "boolean", "DEBUG_ENABLE_STRICT_MODE", props.getProperty('hydra.debug.strict_mode')
         buildConfigField "boolean", "DEBUG_ENABLE_ALL_SPECIALS", props.getProperty('hydra.debug.home.stream.specials')
-        buildConfigField "boolean", "DEBUG_NETWORK_ENABLE_LOGS", props.getProperty('hydra.debug.network.logging')
-
+        
         // used by Room, to test migrations
         javaCompileOptions {
             annotationProcessorOptions {
@@ -86,13 +85,10 @@ android {
     }
 }
 
-// TODO: Run the library generate task automatically.
-// Might become automatic in the future, see https://github.com/jaredsburrows/gradle-license-plugin/issues/38.
-
-// The support library version
 dependencies {
-    
-    implementation 'androidx.multidex:multidex:2.0.1'
+
+    // Multidex is only required if the app is not minified
+    debugImplementation 'androidx.multidex:multidex:2.0.1'
 
     implementation 'androidx.core:core:1.0.1'
     implementation 'androidx.media:media:1.0.1'
@@ -116,12 +112,10 @@ dependencies {
     // Do not upgrade beyond 3.12.x until we require API 21+
     //noinspection GradleDependency
     implementation 'com.squareup.okhttp3:okhttp:3.12.2'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.2'
     implementation 'com.squareup.moshi:moshi:1.8.0'
 
     implementation 'com.google.android.gms:play-services-oss-licenses:16.0.2'
 
-    implementation 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.0'
     implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -131,14 +125,14 @@ dependencies {
     //noinspection GradleDependency
     implementation 'com.github.niknetniko:material-intro:1624'
     implementation 'com.jonathanfinerty.once:once:1.2.2'
-    implementation 'com.karumi:dexter:5.0.0'
     implementation 'com.github.captain-miao:optroundcardview:1.1.0'
     implementation 'blue.aodev:material-values:1.1.1'
 
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
-    implementation 'com.google.android.gms:play-services-auth:16.0.1'
     implementation 'com.google.firebase:firebase-core:16.0.8'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-1'
 
     //Test code
     testImplementation 'junit:junit:4.12'
@@ -146,12 +140,6 @@ dependencies {
 
     testImplementation 'org.robolectric:robolectric:4.2.1'
     testImplementation 'androidx.test:core:1.1.0'
-
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
-    // TODO: enabling this results in what I believe to be a lot of false positives
-    // debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
-    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
 
     //Enable the normal library for unit tests
     testImplementation('org.threeten:threetenbp:1.3.8') {

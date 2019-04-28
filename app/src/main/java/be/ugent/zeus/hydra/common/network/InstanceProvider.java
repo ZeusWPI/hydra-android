@@ -2,13 +2,16 @@ package be.ugent.zeus.hydra.common.network;
 
 import android.content.Context;
 import android.os.Build;
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.BuildConfig;
+import androidx.annotation.VisibleForTesting;
+
+import java.io.File;
+
 import be.ugent.zeus.hydra.common.converter.BooleanJsonAdapter;
 import be.ugent.zeus.hydra.common.converter.DateThreeTenAdapter;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
+
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -16,9 +19,6 @@ import com.google.android.gms.security.ProviderInstaller;
 import com.squareup.moshi.Moshi;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-
-import java.io.File;
 
 /**
  * Provide instances of singletons. In the future this might be replaced with dependency injection.
@@ -45,13 +45,7 @@ public final class InstanceProvider {
 
     @VisibleForTesting
     public static OkHttpClient.Builder getBuilder(File cacheDir) {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder().cache(new Cache(cacheDir, CACHE_SIZE));
-
-        if (BuildConfig.DEBUG && BuildConfig.DEBUG_NETWORK_ENABLE_LOGS) {
-            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
-        }
-
-        return builder;
+        return new OkHttpClient.Builder().cache(new Cache(cacheDir, CACHE_SIZE));
     }
 
     /**
@@ -63,7 +57,7 @@ public final class InstanceProvider {
      */
     public static synchronized OkHttpClient getClient(Context context) {
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
+        if (Build.VERSION.SDK_INT <= 20) {
             installGoogleProvider(context);
         }
 
