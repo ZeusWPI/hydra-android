@@ -87,10 +87,9 @@ android {
 
 dependencies {
 
-    // Multidex is only required if the app is not minified
-    debugImplementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
 
-    implementation 'androidx.core:core:1.0.1'
+    implementation 'androidx.core:core:1.0.2'
     implementation 'androidx.media:media:1.0.1'
     implementation 'androidx.fragment:fragment:1.0.0'
 
@@ -129,8 +128,8 @@ dependencies {
     implementation 'blue.aodev:material-values:1.1.1'
 
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
-    implementation 'com.google.firebase:firebase-core:16.0.8'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+    implementation 'com.google.firebase:firebase-core:16.0.9'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-1'
 
