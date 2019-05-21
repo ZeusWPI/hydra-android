@@ -3,7 +3,6 @@
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">hydra.ugent.be</domain>
         <domain includeSubdomains="true">studentkickoff.be</domain>
-        <domain includeSubdomains="true">minerva.ugent.be</domain>
     </domain-config>
     <base-config cleartextTrafficPermitted="true" />
 

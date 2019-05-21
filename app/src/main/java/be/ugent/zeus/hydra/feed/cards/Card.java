@@ -59,18 +59,17 @@ public abstract class Card implements Comparable<Card> {
     public abstract String getIdentifier();
 
     /**
-     * Android is horrible with enums, since Google doesn't know what they are doing apparently. Sigh.
+     * TODO: convert this to enum if useful.
+     * Note: the numbers are not sequential due to removed types.
      */
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({RESTO, ACTIVITY, SPECIAL_EVENT, SCHAMPER, NEWS_ITEM, MINERVA_ANNOUNCEMENT, MINERVA_AGENDA, URGENT_FM, DEBUG})
+    @IntDef({RESTO, ACTIVITY, SPECIAL_EVENT, SCHAMPER, NEWS_ITEM, URGENT_FM, DEBUG})
     public @interface Type {
         int RESTO = 1;
         int ACTIVITY = 2;
         int SPECIAL_EVENT = 3;
         int SCHAMPER = 4;
         int NEWS_ITEM = 5;
-        int MINERVA_ANNOUNCEMENT = 7;
-        int MINERVA_AGENDA = 8;
         int URGENT_FM = 9;
         int DEBUG = 100;
     }

@@ -4,18 +4,18 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
-import androidx.core.app.NavUtils;
-import androidx.appcompat.app.ActionBar;
 import android.view.MenuItem;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.core.app.NavUtils;
+
+import java.util.List;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
 import be.ugent.zeus.hydra.common.ui.AppCompatPreferenceActivity;
 import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
-import be.ugent.zeus.hydra.minerva.preference.MinervaPreferenceFragment;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
-
-import java.util.List;
 
 /**
  * Display settings.
@@ -44,7 +44,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || RestoPreferenceFragment.class.getName().equals(fragmentName)
                 || HomeFragment.class.getName().equals(fragmentName)
-                || MinervaPreferenceFragment.class.getName().equals(fragmentName)
                 || AboutFragment.class.getName().equals(fragmentName)
                 || CustomTabPreferenceFragment.class.getName().equals(fragmentName)
                 || ThemeFragment.class.getName().equals(fragmentName)

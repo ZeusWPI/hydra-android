@@ -1,9 +1,11 @@
 package be.ugent.zeus.hydra.feed;
 
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
@@ -11,8 +13,6 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.implementations.event.EventCardViewHolder;
-import be.ugent.zeus.hydra.feed.cards.implementations.minerva.announcement.MinervaAnnouncementViewHolder;
-import be.ugent.zeus.hydra.feed.cards.implementations.minerva.calendar.MinervaAgendaViewHolder;
 import be.ugent.zeus.hydra.feed.cards.implementations.news.NewsItemViewHolder;
 import be.ugent.zeus.hydra.feed.cards.implementations.resto.RestoCardViewHolder;
 import be.ugent.zeus.hydra.feed.cards.implementations.schamper.SchamperViewHolder;
@@ -61,10 +61,6 @@ public class HomeFeedAdapter extends DiffAdapter<Card, DataViewHolder<Card>> {
                 return new SchamperViewHolder(view(R.layout.home_card_schamper, parent), this);
             case NEWS_ITEM:
                 return new NewsItemViewHolder(view(R.layout.home_card_news_item, parent), this);
-            case MINERVA_ANNOUNCEMENT:
-                return new MinervaAnnouncementViewHolder(view(R.layout.home_minerva_announcement_card, parent), this);
-            case MINERVA_AGENDA:
-                return new MinervaAgendaViewHolder(view(R.layout.home_minerva_agenda_card, parent), this);
             case URGENT_FM:
                 return new UrgentViewHolder(view(R.layout.home_card_urgent, parent), this);
             case DEBUG:

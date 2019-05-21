@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Stream;
 
-import be.ugent.zeus.hydra.minerva.AbstractDaoTest;
-import be.ugent.zeus.hydra.minerva.course.Module;
+import be.ugent.zeus.hydra.feed.cards.database.CardDaoTest;
+
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
@@ -37,7 +40,6 @@ public class Utils {
                 .randomize(LocalDate.class, (Randomizer<LocalDate>) LocalDate::now)
                 .randomize(OffsetDateTime.class, (Randomizer<OffsetDateTime>) OffsetDateTime::now)
                 .randomize(Instant.class, (Randomizer<Instant>) Instant::now)
-                .randomize(EnumSet.class, (Randomizer<EnumSet<Module>>) () -> EnumSet.noneOf(Module.class)) // HACK
                 .build()
                 .nextObject(clazz, exclude);
     }
@@ -49,7 +51,6 @@ public class Utils {
                 .randomize(LocalDate.class, (Randomizer<LocalDate>) LocalDate::now)
                 .randomize(OffsetDateTime.class, (Randomizer<OffsetDateTime>) OffsetDateTime::now)
                 .randomize(Instant.class, (Randomizer<Instant>) Instant::now)
-                .randomize(EnumSet.class, (Randomizer<EnumSet<Module>>) () -> EnumSet.noneOf(Module.class)) // HACK
                 .build()
                 .objects(clazz, amount, exclude);
     }
@@ -76,7 +77,7 @@ public class Utils {
 
     @SuppressWarnings("ConstantConditions")
     public static File getResourceFile(String resourcePath) {
-        return new File(AbstractDaoTest.class.getClassLoader().getResource(resourcePath).getFile());
+        return new File(CardDaoTest.class.getClassLoader().getResource(resourcePath).getFile());
     }
 
     private static final Random random = new Random();

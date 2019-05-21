@@ -8,53 +8,14 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!-- Account permissions -->
-    <!-- No longer exists on API 23 and up -->
-    <uses-permission
-        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
-        android:maxSdkVersion="22" />
-    <!-- We use our own account, so we no longer need this on higher API levels -->
-    <uses-permission
-        android:name="android.permission.GET_ACCOUNTS"
-        android:maxSdkVersion="22" />
-    <!-- No longer exists on API 23 and up -->
-    <uses-permission
-        android:name="android.permission.MANAGE_ACCOUNTS"
-        android:maxSdkVersion="22" />
-    <!-- No longer exists on API 23 and up -->
-    <uses-permission
-        android:name="android.permission.USE_CREDENTIALS"
-        android:maxSdkVersion="22" />
-
-    <!-- Sync permissions -->
-    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
-    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
-
     <!-- Urgent stuff -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality. 
-    -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <!-- We insert our own calendar provider -->
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-
-    <!-- Our own permission to read courses. -->
-    <permission android:name="be.ugent.zeus.hydra.minerva.READ_COURSES"
-        android:protectionLevel="signature"
-        android:label="@string/permissions_read_courses"
-        android:description="@string/permissions_read_courses_desc" />
-
     <!-- Some ignored warnings:
         - AllowBackup: the default backup is sufficient
         - UnusedAttribute: networkSecurityConfig is only for newer APIs
+        - GoogleAppIndexingWarning: not currently used
         -->
     <application
         android:name=".HydraApplication"
@@ -64,7 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Hydra.Main.NoActionBar"
         android:networkSecurityConfig="@xml/network_security_config"
-        tools:ignore="AllowBackup,UnusedAttribute">
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
 
         <!-- Disable Firebase Reporting until explicitly started -->
         <meta-data android:name="firebase_analytics_collection_enabled" android:value="false" />
@@ -172,56 +133,11 @@
             android:label="@string/title_activity_hydra_web_view"
             android:parentActivityName=".MainActivity" />
 
-        <!-- Show a Minerva course -->
-        <activity
-            android:name=".minerva.course.singlecourse.CourseActivity"
-            android:label="@string/minerva_course_detail_activity_title"
-            android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity" />
-
-        <!-- Show a Minerva announcement -->
-        <activity
-            android:name=".minerva.announcement.SingleAnnouncementActivity"
-            android:label="@string/minerva_announcement_detail_activity_title"
-            android:parentActivityName=".minerva.course.singlecourse.CourseActivity" />
-
         <activity
             android:name=".resto.history.HistoryActivity"
             android:label="Historische menu"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity" />
-
-        <!-- Show a Minerva agenda item -->
-        <activity
-            android:name=".minerva.calendar.itemdetails.AgendaActivity"
-            android:label="@string/minerva_calendar_detail_activity_title"
-            android:parentActivityName=".minerva.course.singlecourse.CourseActivity">
-            <intent-filter>
-                <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="vnd.android.cursor.item/event" />
-            </intent-filter>
-        </activity>
-
-        <!-- Minerva auth activity -->
-        <activity
-            android:name=".minerva.auth.AuthActivity"
-            android:label="@string/minerva_auth_activity_title"
-            android:launchMode="singleTask"
-            android:parentActivityName=".MainActivity">
-
-            <!-- Intent filters: handle the custom URL scheme -->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="hydra-ugent" />
-            </intent-filter>
-        </activity>
 
         <!-- SKO overview activity -->
         <activity
@@ -245,9 +161,6 @@
         <activity
             android:name=".common.ui.ExceptionDialogActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
-        <activity
-            android:name=".minerva.calendar.sync.CalendarPermissionActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
 
         <!-- Library details -->
         <activity
@@ -262,55 +175,6 @@
         <activity
                 android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
                 android:theme="@style/Hydra.Main" />
-
-        <!-- Account service -->
-        <service android:name=".minerva.account.MinervaService"
-            tools:ignore="ExportedService">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/minerva_authenticator" />
-        </service>
-
-        <!-- Minerva sync service -->
-        <service
-            android:name=".minerva.common.sync.MinervaService"
-            android:exported="true"
-            tools:ignore="ExportedService">
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/minerva_sync" />
-        </service>
-
-        <!-- Stub minerva provider -->
-        <provider
-            android:readPermission="be.ugent.zeus.hydra.minerva.READ_COURSES"
-            android:name=".minerva.common.sync.MinervaProvider"
-            android:authorities="be.ugent.zeus.hydra.minerva.provider"
-            android:exported="true"
-            android:label="@string/minerva_sync_provider_label"
-            android:syncable="true" />
-
-        <!-- Handles transferring accounts to new devices -->
-        <receiver
-            android:name=".minerva.account.AccountTransferReceiver"
-            android:exported="true"
-            tools:ignore="ExportedReceiver">
-            <intent-filter>
-                <action android:name="com.google.android.gms.auth.START_ACCOUNT_EXPORT" />
-            </intent-filter>
-        </receiver>
-        <!-- The accompanying service -->
-        <service
-            android:name=".minerva.account.AccountTransferService"
-            android:exported="false" />
 
         <!-- Urgent stuff -->
         <!-- This is a music service without sensitive data and thus does not require permissions -->

@@ -7,14 +7,12 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.multidex.MultiDex;
 
 import be.ugent.zeus.hydra.common.preferences.ThemeFragment;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Tracker;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
-import com.squareup.leakcanary.LeakCanary;
 import jonathanfinerty.once.Once;
 
 /**
@@ -38,7 +36,7 @@ public class HydraApplication extends Application {
      */
     protected void onAttachBaseContextInitialize(Context base) {
         if (BuildConfig.DEBUG) {
-            MultiDex.install(this);
+            androidx.multidex.MultiDex.install(this);
         }
     }
 
@@ -52,12 +50,6 @@ public class HydraApplication extends Application {
      * This method allows us to override this in Robolectric.
      */
     protected void onCreateInitialise() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
-
         if (BuildConfig.DEBUG) {
             enableStrictModeInDebug();
         }
@@ -70,7 +62,6 @@ public class HydraApplication extends Application {
         trackTheme();
 
         AndroidThreeTen.init(this);
-        LeakCanary.install(this);
         Once.initialise(this);
     }
 

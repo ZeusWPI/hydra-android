@@ -17,7 +17,7 @@ If you don't have Android Studio or Intellij already, [download and install it](
 Alternatively, you can [checkout](https://www.jetbrains.com/help/idea/set-up-a-git-repository.html#clone-repo) the repo directly from within Android Studio or Intellij.
 
 ### Keys
-If you want to use the Minerva or Google Maps integration, you will need the API keys. You can contact us for more information and to obtain the keys. _This is not required to compile and build the app._
+If you want to use the Google Maps integration, you will need the API keys. You can contact us for more information and to obtain the keys. _This is not required to compile and build the app._
 
 After you've obtained the keys, you will need to copy the file `app/secrets.properties.example` to `app/secrets.properties` and insert the correct keys.
 

@@ -15,7 +15,4 @@ public interface Endpoints {
     String LIBRARY = "http://widgets.lib.ugent.be/";
 
     String SKO = "https://studentkickoff.be/";
-    String SKO_LIVE = "https://live.studentkickoff.be/";
-
-    String MINERVA = "https://minerva.ugent.be/api/rest/v2/";
 }

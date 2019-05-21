@@ -6,8 +6,6 @@
         <item>2</item>
         <item>4</item>
         <item>5</item>
-        <item>7</item>
-        <item>8</item>
         <item>9</item>
     </string-array>-array>
 
@@ -16,8 +14,6 @@
         <item>@string/feed_card_type_title_events</item>
         <item>@string/feed_card_type_title_schamper</item>
         <item>@string/feed_card_type_title_news</item>
-        <item>@string/feed_card_type_title_minerva_announcements</item>
-        <item>@string/feed_card_type_title_minerva_calendar</item>
         <item>@string/feed_card_type_title_urgent</item>
     </string-array>
 
@@ -26,23 +22,7 @@
         <item>@string/feed_card_type_desc_events</item>
         <item>@string/feed_card_type_desc_schamper</item>
         <item>@string/feed_card_type_desc_news</item>
-        <item>@string/feed_card_type_desc_minerva_announcements</item>
-        <item>@string/feed_card_type_desc_minerva_calendar</item>
         <item>@string/feed_card_type_desc_urgent</item>
-    </string-array>
-
-    <string-array name="minerva_frequencies_text" translatable="false">
-        <item>@string/minerva_pref_sync_freq_6_hours</item>
-        <item>@string/minerva_pref_sync_freq_12_hours</item>
-        <item>@string/minerva_pref_sync_freq_24_hours</item>
-        <item>@string/minerva_pref_sync_freq_1_week</item>
-    </string-array>
-
-    <string-array name="minerva_frequencies_seconds" translatable="false">
-        <item>21600</item>
-        <item>43200</item>
-        <item>86400</item>
-        <item>604800</item>
     </string-array>
 
     <string-array name="pref_night_mode_values" translatable="false">

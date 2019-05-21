@@ -18,20 +18,4 @@
         </intent>
     </shortcut>
 
-    <shortcut
-        android:shortcutId="minerva"
-        android:enabled="true"
-        android:icon="@drawable/shortcut_minerva"
-        android:shortcutShortLabel="@string/shortcut_minerva_short_label"
-        android:shortcutLongLabel="@string/shortcut_minerva_long_label"
-        android:shortcutDisabledMessage="@string/shortcut_minerva_disabled"
-        tools:ignore="UnusedAttribute">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetPackage="be.ugent.zeus.hydra"
-            android:targetClass="be.ugent.zeus.hydra.MainActivity">
-            <extra android:name="argTabShortcut" android:value="2" />
-        </intent>
-    </shortcut>
-
 </shortcuts>
