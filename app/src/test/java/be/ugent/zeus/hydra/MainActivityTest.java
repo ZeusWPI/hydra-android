@@ -32,7 +32,6 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertTrue;
 import static org.robolectric.annotation.LooperMode.Mode.PAUSED;
-import static org.robolectric.shadows.ShadowLooper.shadowMainLooper;
 
 /**
  * @author Niko Strijbol
