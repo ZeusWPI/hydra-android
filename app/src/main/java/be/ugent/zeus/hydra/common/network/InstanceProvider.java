@@ -44,6 +44,11 @@ public final class InstanceProvider {
     }
 
     @VisibleForTesting
+    public static void setClient(OkHttpClient client) {
+        InstanceProvider.client = client;
+    }
+
+    @VisibleForTesting
     public static OkHttpClient.Builder getBuilder(File cacheDir) {
         return new OkHttpClient.Builder().cache(new Cache(cacheDir, CACHE_SIZE));
     }

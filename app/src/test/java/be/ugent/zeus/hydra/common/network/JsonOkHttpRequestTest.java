@@ -2,27 +2,29 @@ package be.ugent.zeus.hydra.common.network;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import java.io.IOException;
+import java.time.Duration;
 
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.RequestException;
 import be.ugent.zeus.hydra.common.request.Result;
+
 import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.threeten.bp.Duration;
 
 import static org.junit.Assert.*;
 
@@ -32,7 +34,7 @@ import static org.junit.Assert.*;
  *
  * @author Niko Strijbol
  */
-@RunWith(RobolectricTestRunner.class)
+@RunWith(AndroidJUnit4.class)
 public class JsonOkHttpRequestTest {
 
     private MockWebServer server;
@@ -40,10 +42,16 @@ public class JsonOkHttpRequestTest {
 
     @Before
     public void setUp() {
-        // TODO: this is ugly but necessary due to the singletons
+        // Reset the singletons to have strictly separated tests.
         InstanceProvider.reset();
         server = new MockWebServer();
         context = ApplicationProvider.getApplicationContext();
+        // Disable retry when offline.
+        OkHttpClient.Builder builder = InstanceProvider.getBuilder(context.getCacheDir());
+        builder.retryOnConnectionFailure(false);
+        // Reduce the amount of time we wait for errors to speed up tests.
+        builder.readTimeout(Duration.ofMillis(250));
+        InstanceProvider.setClient(builder.build());
     }
 
     @After
@@ -52,7 +60,7 @@ public class JsonOkHttpRequestTest {
     }
 
     @Test
-    public void onlineFirstRequest() throws IOException {
+    public void shouldUseNetwork_WhenOnlineAndNoCacheAvailable() throws IOException {
         server.enqueue(integerJsonResponse());
         server.start();
 
@@ -66,17 +74,19 @@ public class JsonOkHttpRequestTest {
     }
 
     @Test
-    public void onlineCached() throws IOException {
+    public void shouldUseCache_WhenOnlineAndCacheAvailable() throws IOException {
         server.enqueue(integerJsonResponse());
         server.enqueue(integerJsonResponse());
         server.start();
         HttpUrl url = server.url("/fine.json");
 
+        // The first request goes to the network and is cached.
         Request<Integer> request = new TestRequest(url);
         Result<Integer> result = request.execute();
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
 
+        // The second request will not hit the network; the cache is used.
         Result<Integer> result2 = request.execute();
         assertTrue(result2.hasData());
         assertEquals(1, (int) result2.getData());
@@ -89,17 +99,20 @@ public class JsonOkHttpRequestTest {
     }
 
     @Test
-    public void onlineButRefreshing() throws IOException {
+    public void shouldUseNetwork_WhenOnlineAndCacheAvailableButRequestingFreshData() throws IOException {
         server.enqueue(integerJsonResponse(1));
         server.enqueue(integerJsonResponse(2));
         server.start();
         HttpUrl url = server.url("/fine.json");
 
+        // The first request goes to the network and is cached.
         Request<Integer> request = new TestRequest(url);
         Result<Integer> result = request.execute();
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
 
+        // The second request also hits the network; a cache is available, but we request fresh data.
+        // This is used when the user refreshes a view manually.
         Bundle args = new Bundle();
         args.putBoolean(BaseLiveData.REFRESH_COLD, true);
         Result<Integer> result2 = request.execute(args);
@@ -114,17 +127,19 @@ public class JsonOkHttpRequestTest {
     }
 
     @Test
-    public void onlineButCacheIsHonoured() throws IOException {
+    public void shouldUseNetwork_WhenRequestIndicatedCacheDurationExpires() throws IOException {
         server.enqueue(integerJsonResponse(1));
         server.enqueue(integerJsonResponse(2));
         server.start();
         HttpUrl url = server.url("/fine.json");
 
+        // The first request goes to the network and is cached, but the valid duration is set to zero.
         Request<Integer> request = new TestRequest(url, Duration.ZERO);
         Result<Integer> result = request.execute();
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
 
+        // The second requests hits the network, since the cache is stale.
         Result<Integer> result2 = request.execute();
         assertTrue(result2.hasData());
         assertEquals(2, (int) result2.getData());
@@ -137,7 +152,7 @@ public class JsonOkHttpRequestTest {
     }
 
     @Test(expected = RequestException.class)
-    public void wrongFormatEmpty() throws IOException, RequestException {
+    public void shouldThrow_WhenResponseIsEmpty() throws IOException, RequestException {
         server.enqueue(new MockResponse());
         server.start();
         HttpUrl url = server.url("/fine.json");
@@ -146,11 +161,12 @@ public class JsonOkHttpRequestTest {
         Result<Integer> result = request.execute();
         assertTrue(result.hasException());
         assertFalse(result.hasData());
+        // Throw the exception to complete the test.
         result.getOrThrow();
     }
 
     @Test(expected = RequestException.class)
-    public void wrongFormatString() throws IOException, RequestException {
+    public void shouldThrow_WhenResponseIsStringYetInvalidJson() throws IOException, RequestException {
         server.enqueue(new MockResponse().setBody("\"TEST\""));
         server.start();
         HttpUrl url = server.url("/fine.json");
@@ -163,7 +179,7 @@ public class JsonOkHttpRequestTest {
     }
 
     @Test(expected = RequestException.class)
-    public void wrongFormatText() throws IOException, RequestException {
+    public void shouldTrow_WhenResponseIsNotEmptyYetWrongFormat() throws IOException, RequestException {
         server.enqueue(new MockResponse().setBody("TEST"));
         server.start();
         HttpUrl url = server.url("/fine.json");
@@ -176,7 +192,7 @@ public class JsonOkHttpRequestTest {
     }
 
     @Test(expected = RequestException.class)
-    public void wrongFormatObject() throws IOException, RequestException {
+    public void shouldThrow_WhenResponseIsJsonYetExpectedOtherJson() throws IOException, RequestException {
         server.enqueue(new MockResponse().setBody("{\n" +
                 "\t   \"rank\": \"4\",\n" +
                 "\t   \"suit\": \"CLUBS\"\n" +
@@ -192,7 +208,7 @@ public class JsonOkHttpRequestTest {
     }
 
     @Test(expected = RequestException.class)
-    public void offlineAndNoCache() throws IOException, RequestException {
+    public void shouldThrow_whenOfflineAndNoCacheAvailable() throws RequestException {
         Request<Integer> request = new TestRequest(HttpUrl.get("http://hydra.invalid/fine.json"));
         Result<Integer> result = request.execute();
         assertTrue(result.hasException());
@@ -201,7 +217,7 @@ public class JsonOkHttpRequestTest {
     }
 
     @Test
-    public void offlineWithFreshCache() throws IOException {
+    public void shouldUseCache_WhenOfflineAndValidCacheAvailable() throws IOException {
         server.enqueue(integerJsonResponse());
         server.start();
         HttpUrl url = server.url("/fine.json");
@@ -227,13 +243,10 @@ public class JsonOkHttpRequestTest {
     }
 
     @Test
-    public void offlineWithFreshCacheButRefreshing() throws IOException {
+    public void shouldUseCache_WhenOfflineAndCacheAvailableButRequestingFreshData() throws IOException {
         server.enqueue(integerJsonResponse());
         server.start();
         HttpUrl url = server.url("/fine.json");
-
-        // Before we do a request, manually create the client and set the timeout low, to speed up the test.
-        InstanceProvider.getClient(context);
 
         // Put the request in the cache.
         Request<Integer> request = new TestRequest(url);
@@ -256,19 +269,16 @@ public class JsonOkHttpRequestTest {
         assertTrue(result2.hasData());
         assertEquals(1, (int) result2.getData());
 
-        assertEquals(3, cache.networkCount());
+        assertEquals(2, cache.networkCount());
         assertEquals(1, cache.hitCount());
-        assertEquals(4, cache.requestCount());
+        assertEquals(3, cache.requestCount());
     }
 
     @Test(expected = IOFailureException.class)
-    public void offlineWithoutCache() throws IOException, RequestException {
+    public void shouldThrow_WhenOfflineAndCacheAvailableButForbiddenToUseCache() throws IOException, RequestException {
         server.enqueue(integerJsonResponse());
         server.start();
         HttpUrl url = server.url("/fine.json");
-
-        // Before we do a request, manually create the client and set the timeout low, to speed up the test.
-        InstanceProvider.getClient(context);
 
         // Put the request in the cache.
         Request<Integer> request = new NoCacheRequest(url);
@@ -294,13 +304,10 @@ public class JsonOkHttpRequestTest {
     }
 
     @Test
-    public void offlineWithStaleCache() throws IOException {
+    public void shouldUseCache_WhenOfflineAndStaleCacheAvailable() throws IOException {
         server.enqueue(integerJsonResponse());
         server.start();
         HttpUrl url = server.url("/fine.json");
-
-        // Before we do a request, manually create the client and set the timeout low, to speed up the test.
-        InstanceProvider.getClient(context);
 
         // Put the request in the cache.
         Request<Integer> request = new TestRequest(url, Duration.ZERO);
@@ -308,6 +315,7 @@ public class JsonOkHttpRequestTest {
         assertTrue(result.hasData());
         assertEquals(1, (int) result.getData());
 
+        // Assert that the request was successful.
         Cache cache = InstanceProvider.getClient(context).cache();
         assertNotNull(cache);
         assertEquals(1, cache.networkCount());
@@ -321,18 +329,15 @@ public class JsonOkHttpRequestTest {
         assertTrue(result2.hasData());
         assertEquals(1, (int) result2.getData());
 
-        assertEquals(3, cache.networkCount());
+        assertEquals(2, cache.networkCount());
         assertEquals(1, cache.hitCount());
-        assertEquals(4, cache.requestCount());
+        assertEquals(3, cache.requestCount());
     }
 
-    public void offlineWithStaleCacheButRefreshing() throws IOException {
+    public void shouldUseCache_WhenOfflineAndStaleCacheAvailableButRequestingFreshData() throws IOException {
         server.enqueue(integerJsonResponse());
         server.start();
         HttpUrl url = server.url("/fine.json");
-
-        // Before we do a request, manually create the client and set the timeout low, to speed up the test.
-        InstanceProvider.getClient(context);
 
         // Put the request in the cache.
         Request<Integer> request = new TestRequest(url, Duration.ZERO);
@@ -361,7 +366,7 @@ public class JsonOkHttpRequestTest {
     }
 
     @Test(expected = RequestException.class)
-    public void errorCode() throws IOException, RequestException {
+    public void shouldThrow_WhenHttpErrorOccurs() throws IOException, RequestException {
         server.enqueue(new MockResponse().setResponseCode(500));
         server.start();
         HttpUrl url = server.url("/fine.json");
@@ -408,8 +413,8 @@ public class JsonOkHttpRequestTest {
         }
 
         @Override
-        protected Duration getCacheDuration() {
-            return cacheDuration;
+        protected org.threeten.bp.Duration getCacheDuration() {
+            return org.threeten.bp.Duration.ofSeconds(cacheDuration.getSeconds());
         }
     }
 

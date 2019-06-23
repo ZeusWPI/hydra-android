@@ -7,8 +7,6 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import java.lang.reflect.Field;
-
 import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.onboarding.OnboardingActivity;
@@ -41,12 +39,10 @@ import static org.robolectric.annotation.LooperMode.Mode.PAUSED;
 public class MainActivityTest {
 
     @Before
-    public void setUp() throws NoSuchFieldException, IllegalAccessException {
+    public void setUp() {
         OkHttpClient.Builder builder = InstanceProvider.getBuilder(ApplicationProvider.getApplicationContext().getCacheDir());
         builder.addInterceptor(new NoNetworkInterceptor());
-        Field field = InstanceProvider.class.getDeclaredField("client");
-        field.setAccessible(true);
-        field.set(null, builder.build());
+        InstanceProvider.setClient(builder.build());
         Intents.init();
     }
 
