@@ -23,6 +23,7 @@ import be.ugent.zeus.hydra.testing.Utils;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
@@ -47,6 +48,7 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 @LooperMode(LooperMode.Mode.PAUSED)
 @Config(application = TestApp.class)
+@Ignore
 public class CardDaoTest {
 
     private Database database;
