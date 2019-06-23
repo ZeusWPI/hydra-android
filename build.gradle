@@ -10,9 +10,9 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.4.1'
         classpath 'com.google.gms:google-services:4.2.0'
-        classpath 'com.google.android.gms:oss-licenses-plugin:0.9.4'
+        classpath 'com.google.android.gms:oss-licenses-plugin:0.9.5'
         classpath 'io.fabric.tools:gradle:1.27.1'
     }
 }
@@ -25,11 +25,7 @@ allprojects {
         maven { url 'https://jitpack.io' }
         // Other libraries
         mavenCentral()
-        // Fallback for libraries not in Maven:
-        // Once we move to Gradle 5.1, we can explicitly limit it to only these
-        // net.cachapa.expandablelayout:expandablelayout
-        // com.jonathanfinerty.once
-        // blue.aodev:material-values
+        // Fallback for libraries not in Maven
         jcenter()
     }
 }

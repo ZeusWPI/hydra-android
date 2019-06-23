@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
 apply plugin: 'io.fabric'
 
+// Read our properties, see bottom for details.
+def props = loadProperties()
+
 android {
     compileSdkVersion 28
 
@@ -17,7 +20,6 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        def props = loadProperties()
         manifestPlaceholders = [
                 google_maps_key: props.getProperty('MAPS_API_KEY'),
         ]
@@ -27,6 +29,7 @@ android {
         buildConfigField "boolean", "DEBUG_HOME_STREAM_ADD_SKO_CARD", props.getProperty('hydra.debug.home.stream.sko')
         buildConfigField "boolean", "DEBUG_ENABLE_STRICT_MODE", props.getProperty('hydra.debug.strict_mode')
         buildConfigField "boolean", "DEBUG_ENABLE_ALL_SPECIALS", props.getProperty('hydra.debug.home.stream.specials')
+        buildConfigField "boolean", "DEBUG_TRACK_LEAKS", props.getProperty("hydra.debug.leaks")
         
         // used by Room, to test migrations
         javaCompileOptions {
@@ -103,45 +106,51 @@ dependencies {
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'
     testImplementation 'androidx.arch.core:core-testing:2.0.1'
 
-    implementation 'androidx.room:room-runtime:2.0.0'
-    annotationProcessor 'androidx.room:room-compiler:2.0.0'
-    testImplementation 'androidx.room:room-testing:2.0.0'
+    implementation 'androidx.room:room-runtime:2.1.0'
+    annotationProcessor 'androidx.room:room-compiler:2.1.0'
+    testImplementation 'androidx.room:room-testing:2.1.0'
 
     // Network stack
     // Do not upgrade beyond 3.12.x until we require API 21+
     //noinspection GradleDependency
-    implementation 'com.squareup.okhttp3:okhttp:3.12.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.3'
     implementation 'com.squareup.moshi:moshi:1.8.0'
 
-    implementation 'com.google.android.gms:play-services-oss-licenses:16.0.2'
-
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.0'
-    implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.0'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
+    implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
 
     // Use our own fork, since it seems the original library is abandoned.
-    //noinspection GradleDependency
     implementation 'com.github.niknetniko:material-intro:1624'
     implementation 'com.jonathanfinerty.once:once:1.2.2'
     implementation 'com.github.captain-miao:optroundcardview:1.1.0'
     implementation 'blue.aodev:material-values:1.1.1'
 
-    implementation 'com.google.android.gms:play-services-maps:16.1.0'
-    implementation 'com.google.firebase:firebase-core:16.0.9'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-1'
+    if (props.getProperty("hydra.debug.leaks").toBoolean()) {
+        logger.info("Leak tracking enabled...")
+        debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-2'
+    }
 
     //Test code
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.23.4'
 
-    testImplementation 'org.robolectric:robolectric:4.2.1'
-    testImplementation 'androidx.test:core:1.1.0'
+    testImplementation 'org.robolectric:robolectric:4.3'
+    testImplementation 'androidx.test:core:1.2.0'
+    testImplementation 'androidx.test.ext:junit:1.1.1'
+    testImplementation 'androidx.test:rules:1.2.0'
+    testImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
+    testImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
 
     //Enable the normal library for unit tests
-    testImplementation('org.threeten:threetenbp:1.3.8') {
+    testImplementation('org.threeten:threetenbp:1.4.0') {
         exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
     }
 
@@ -186,7 +195,7 @@ def loadProperties() {
     if (actualKeyFile.exists()) {
         actualKeys.load(actualKeyFile.newReader())
     } else {
-        logger.warn('A secrets.properties file was not found. Minerva and other APIs will not work.')
+        logger.warn('A secrets.properties file was not found. Maps will not work.')
     }
 
     return actualKeys
