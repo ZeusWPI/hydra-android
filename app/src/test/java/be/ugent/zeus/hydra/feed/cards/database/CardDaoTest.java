@@ -65,6 +65,7 @@ public class CardDaoTest {
 
     @After
     public void tearDown() {
+        database.clearAllTables();
         database.close();
     }
 
@@ -79,7 +80,7 @@ public class CardDaoTest {
 
         File sql = Utils.getResourceFile("feed/dismissals.sql");
         List<String> inserts = Files.readAllLines(sql.toPath());
-        inserts.forEach(s -> database.compileStatement(s).execute());
+        database.runInTransaction(() -> inserts.forEach(s -> database.compileStatement(s).execute()));
 
         assertEquals("Error during data loading.", cards.size(), inserts.size());
     }
@@ -96,34 +97,6 @@ public class CardDaoTest {
         List<CardDismissal> actual = cardDao.getForType(Card.Type.RESTO);
 
         assertCollectionEquals(expected, actual);
-    }
-
-    @Test
-    public void shouldGetOneType_WhenRandomlyRequestingThoseTypes() {
-        List<CardIdentifier> dismissals = getRandom(cards, 2).stream()
-                .map(CardDismissal::getIdentifier)
-                .collect(Collectors.toList());
-
-        // Get the expected result.
-        List<CardIdentifier> expectedType1 = cards.stream()
-                .map(CardDismissal::getIdentifier)
-                .filter(i -> i.getCardType() == dismissals.get(0).getCardType())
-                .collect(Collectors.toCollection(ArrayList::new));
-
-        List<CardIdentifier> expectedType2 = cards.stream()
-                .map(CardDismissal::getIdentifier)
-                .filter(i -> i.getCardType() == dismissals.get(1).getCardType())
-                .collect(Collectors.toCollection(ArrayList::new));
-
-        List<CardIdentifier> forType1 = cardDao.getForType(dismissals.get(0).getCardType()).stream()
-                .map(CardDismissal::getIdentifier)
-                .collect(Collectors.toList());
-        List<CardIdentifier> forType2 = cardDao.getForType(dismissals.get(1).getCardType()).stream()
-                .map(CardDismissal::getIdentifier)
-                .collect(Collectors.toList());
-
-        assertCollectionEquals(expectedType1, forType1);
-        assertCollectionEquals(expectedType2, forType2);
     }
 
     @Test
