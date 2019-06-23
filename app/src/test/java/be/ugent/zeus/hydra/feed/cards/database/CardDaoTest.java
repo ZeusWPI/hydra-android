@@ -21,10 +21,12 @@ import be.ugent.zeus.hydra.feed.cards.CardDismissal;
 import be.ugent.zeus.hydra.feed.cards.CardIdentifier;
 import be.ugent.zeus.hydra.testing.Utils;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
+import org.robolectric.annotation.LooperMode;
 import org.threeten.bp.Instant;
 
 import static be.ugent.zeus.hydra.testing.Assert.assertThat;
@@ -43,6 +45,7 @@ import static org.junit.Assert.*;
 // Request an older version of Android, since the SQLite version in Robolectric does not follow Android releases.
 @RequiresApi(api = 26)
 @RunWith(AndroidJUnit4.class)
+@LooperMode(LooperMode.Mode.PAUSED)
 @Config(application = TestApp.class)
 public class CardDaoTest {
 
@@ -58,6 +61,11 @@ public class CardDaoTest {
                 .build();
         fillData();
         cardDao = database.getCardDao();
+    }
+
+    @After
+    public void tearDown() {
+        database.close();
     }
 
     private void fillData() throws IOException {
@@ -195,7 +203,5 @@ public class CardDaoTest {
 
         assertCollectionEquals(expectedType1, forType1);
         assertCollectionEquals(expectedType2, forType2);
-
-        database.close();
     }
 }
