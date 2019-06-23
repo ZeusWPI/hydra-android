@@ -20,8 +20,8 @@ public class MemoryCardDao extends CardDao {
 
     private Map<CardIdentifier, CardDismissal> dismissalMap = new HashMap<>();
 
-    public MemoryCardDao(Collection<CardDismissal> initialData) {
-        super(null);
+    MemoryCardDao(Collection<CardDismissal> initialData) {
+        super();
         for (CardDismissal dismissal: initialData) {
             dismissalMap.put(dismissal.getIdentifier(), dismissal);
         }
@@ -60,6 +60,11 @@ public class MemoryCardDao extends CardDao {
     @Override
     public void deleteAll() {
         dismissalMap.clear();
+    }
+
+    @Override
+    protected void deleteCard(int cardType, String id) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
