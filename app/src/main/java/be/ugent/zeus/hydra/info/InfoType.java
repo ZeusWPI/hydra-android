@@ -105,7 +105,7 @@ public enum InfoType {
     public Drawable getDrawable(Context context, @ColorRes int color) {
 
         //If there is no drawable, return null.
-        if(drawable == NO_DRAWABLE) {
+        if (drawable == NO_DRAWABLE) {
             return null;
         }
 

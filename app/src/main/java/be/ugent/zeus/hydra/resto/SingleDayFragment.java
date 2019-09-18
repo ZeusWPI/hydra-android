@@ -41,7 +41,7 @@ public class SingleDayFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        data = requireArguments(this).getParcelable(ARG_DATA_MENU);
+        data = requireArguments().getParcelable(ARG_DATA_MENU);
     }
 
     @Override
