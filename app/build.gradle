@@ -6,7 +6,7 @@ apply plugin: 'io.fabric'
 def props = loadProperties()
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 28
 
     // Use resources in robolectric
     testOptions.unitTests.includeAndroidResources = true
@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 28
         versionCode 21200
         versionName "2.12.0"
         vectorDrawables.useSupportLibrary = true
