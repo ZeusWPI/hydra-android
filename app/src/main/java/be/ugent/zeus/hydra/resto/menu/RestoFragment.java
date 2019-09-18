@@ -280,7 +280,7 @@ public class RestoFragment extends Fragment implements
     private void onError(Throwable throwable) {
         pageAdapter.setData(Collections.emptyList());
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(requireView(this), getString(R.string.error_network), Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(), getString(R.string.error_network), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.action_again), v -> menuViewModel.onRefresh())
                 .show();
     }

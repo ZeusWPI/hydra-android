@@ -7,11 +7,12 @@ buildscript {
         // For Fabric (Firebase Crashlytics)
         maven { url 'https://maven.fabric.io/public' }
         // For the license plugin
+        mavenCentral()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
-        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.google.gms:google-services:4.3.2'
         classpath 'com.google.android.gms:oss-licenses-plugin:0.9.5'
         classpath 'io.fabric.tools:gradle:1.27.1'
     }
@@ -21,12 +22,12 @@ allprojects {
     repositories {
         // Google libraries
         google()
-        // Some custom libraries
-        maven { url 'https://jitpack.io' }
         // Other libraries
         mavenCentral()
         // Fallback for libraries not in Maven
         jcenter()
+        // Some custom libraries
+        maven { url 'https://jitpack.io' }
     }
 }
 

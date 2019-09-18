@@ -55,7 +55,7 @@ public class FoodFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
 
-        int position = requireArguments(this).getInt(ARG_POSITION);
+        int position = requireArguments().getInt(ARG_POSITION);
 
         viewModel = ViewModelProviders.of(requireActivity()).get(ExtraFoodViewModel.class);
         viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
@@ -75,7 +75,7 @@ public class FoodFragment extends Fragment {
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(requireView(this), getString(R.string.error_network), Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(), getString(R.string.error_network), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.action_again), v -> viewModel.onRefresh())
                 .show();
     }
