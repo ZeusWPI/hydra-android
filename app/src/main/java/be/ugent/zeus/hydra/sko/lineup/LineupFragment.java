@@ -1,30 +1,31 @@
 package be.ugent.zeus.hydra.sko.lineup;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import java.util.List;
 import java.util.Map;
+
+import java9.util.stream.Collectors;
+import java9.util.stream.Stream;
+import java9.util.stream.StreamSupport;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
-import java9.util.stream.Collectors;
-import java9.util.stream.Stream;
-import java9.util.stream.StreamSupport;
+import com.google.android.material.snackbar.Snackbar;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
 
 /**
  * Show the lineup.
@@ -51,6 +52,7 @@ public class LineupFragment extends Fragment {
     }
 
     @Override
+    @SuppressWarnings("DuplicatedCode") // Cannot easily deduplicate
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -76,7 +78,7 @@ public class LineupFragment extends Fragment {
                 .collect(Collectors.groupingBy(Artist::getStage));
 
         // Merge the sorted stages back into one flat list while prepending the stage as a title for each section.
-        // This might be faster with a traditional loop, but the streams are fancier.
+        // This might be faster with a traditional loop, but streams are fancier.
         List<ArtistOrTitle> masterList = StreamSupport.stream(stages.entrySet())
                 .flatMap(e ->
                         Stream.concat(
@@ -89,7 +91,7 @@ public class LineupFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
         BaseActivity.tintToolbarIcons(requireBaseActivity(this).requireToolbar(), menu, R.id.action_refresh);
     }

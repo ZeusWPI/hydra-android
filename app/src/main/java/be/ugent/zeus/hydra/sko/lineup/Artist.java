@@ -6,9 +6,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.CalendarContract;
 
+import androidx.annotation.Nullable;
+
+import java9.util.Objects;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import java9.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -25,13 +28,14 @@ public final class Artist implements Parcelable {
     private static final String LOCATION = "Sint-Pietersplein, Gent";
 
     private String name;
+    private String title;
     private OffsetDateTime start;
     private OffsetDateTime end;
-    private String banner;
     private String image;
     private String content;
+    private String description;
     private String stage;
-    private String link;
+    private int index;
 
     /**
      * @return The name of the act.
@@ -62,6 +66,7 @@ public final class Artist implements Parcelable {
      *
      * @return The converted start date.
      */
+    @SuppressWarnings("WeakerAccess")
     public LocalDateTime getLocalStart() {
         return getStart() == null ? null : DateUtils.toLocalDateTime(getStart());
     }
@@ -74,28 +79,39 @@ public final class Artist implements Parcelable {
      *
      * @return The converted end date.
      */
+    @SuppressWarnings("WeakerAccess")
     public LocalDateTime getLocalEnd() {
         return getEnd() == null ? null : DateUtils.toLocalDateTime(getEnd());
-    }
-
-    public String getBanner() {
-        return banner;
     }
 
     public String getImage() {
         return image;
     }
 
-    public String getContent() {
-        return content;
+    @Nullable
+    public String getDescription() {
+        if (this.content == null || this.content.isEmpty()) {
+            if (this.description == null || this.description.isEmpty()) {
+                return null;
+            } else {
+                return this.description;
+            }
+        } else {
+            return this.content;
+        }
     }
 
+    @SuppressWarnings("WeakerAccess")
     public String getStage() {
         return stage;
     }
 
-    public String getLink() {
-        return link;
+    public int getIndex() {
+        return index;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     /**
@@ -109,6 +125,7 @@ public final class Artist implements Parcelable {
      *
      * @return The text to display.
      */
+    @SuppressWarnings("WeakerAccess")
     public String getDisplayDate(Context context) {
 
         LocalDateTime start = getLocalStart();
@@ -118,33 +135,35 @@ public final class Artist implements Parcelable {
             return context.getString(R.string.sko_artist_time_none);
         }
 
-        DateTimeFormatter fullFormatter = DateTimeFormatter.ofPattern(context.getString(R.string.formatter_sko_artist_full));
         DateTimeFormatter shortFormatter = DateTimeFormatter.ofPattern(context.getString(R.string.formatter_sko_artist_hour_only));
 
         if (start == null) {
-            return context.getString(R.string.sko_artist_time_end, end.format(fullFormatter));
+            return context.getString(R.string.sko_artist_time_end, end.format(shortFormatter));
         } else if (end == null) {
-            return context.getString(R.string.sko_artist_time_start, start.format(fullFormatter));
+            return context.getString(R.string.sko_artist_time_start, start.format(shortFormatter));
         } else {
             // Both are not null.
-            String startString = start.format(fullFormatter);
-            String endString;
-            if (start.getDayOfMonth() == end.getDayOfMonth()) {
-                endString = end.format(shortFormatter);
-            } else {
-                endString = end.format(fullFormatter);
-            }
-
+            String startString = start.format(shortFormatter);
+            String endString = end.format(shortFormatter);
             return context.getString(R.string.sko_artist_time, startString, endString);
         }
     }
 
+    /**
+     * Get an intent to add the artist to the calendar. The intent will contain all necessary data.
+     *
+     * @return The intent.
+     */
+    @SuppressWarnings("WeakerAccess")
     public Intent addToCalendarIntent() {
         Intent intent = new Intent(Intent.ACTION_INSERT)
                 .setData(CalendarContract.Events.CONTENT_URI)
                 .putExtra(CalendarContract.Events.EVENT_LOCATION, LOCATION)
                 .putExtra(CalendarContract.Events.TITLE, getName())
                 .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+        if (getDescription() != null) {
+            intent.putExtra(CalendarContract.Events.DESCRIPTION, getDescription());
+        }
         if (getStart() != null) {
             intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, getStart().toInstant().toEpochMilli());
         }
@@ -160,6 +179,7 @@ public final class Artist implements Parcelable {
         if (o == null || getClass() != o.getClass()) return false;
         Artist artist = (Artist) o;
         return Objects.equals(name, artist.name) &&
+                Objects.equals(title, artist.title) &&
                 Objects.equals(start, artist.start) &&
                 Objects.equals(end, artist.end) &&
                 Objects.equals(stage, artist.stage);
@@ -167,7 +187,7 @@ public final class Artist implements Parcelable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, start, end, stage);
+        return Objects.hash(name, title, start, end, stage);
     }
 
     @Override
@@ -178,13 +198,14 @@ public final class Artist implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
+        dest.writeString(this.title);
         dest.writeSerializable(this.start);
         dest.writeSerializable(this.end);
-        dest.writeString(this.banner);
         dest.writeString(this.image);
         dest.writeString(this.content);
         dest.writeString(this.stage);
-        dest.writeString(this.link);
+        dest.writeString(this.description);
+        dest.writeInt(this.index);
     }
 
     public Artist() {
@@ -192,13 +213,14 @@ public final class Artist implements Parcelable {
 
     protected Artist(Parcel in) {
         this.name = in.readString();
+        this.title = in.readString();
         this.start = (OffsetDateTime) in.readSerializable();
         this.end = (OffsetDateTime) in.readSerializable();
-        this.banner = in.readString();
         this.image = in.readString();
         this.content = in.readString();
         this.stage = in.readString();
-        this.link = in.readString();
+        this.description = in.readString();
+        this.index = in.readInt();
     }
 
     public static final Creator<Artist> CREATOR = new Creator<Artist>() {

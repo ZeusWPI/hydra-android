@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
+            android:maxHeight="128dp"
             android:contentDescription="@string/content_desc_artist_image"/>
 
         <TextView
