@@ -21,15 +21,17 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
+            android:maxHeight="192dp"
             android:contentDescription="@string/content_desc_artist_image"/>
 
         <ImageView
             android:id="@+id/gradient"
             android:src="@drawable/gradient_black_bottom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
+            android:maxHeight="192dp"
             android:contentDescription="@string/content_desc_artist_image"/>
 
         <LinearLayout
