@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.onboarding;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,9 @@ import androidx.annotation.Nullable;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 
+import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 
 import static androidx.core.view.ViewCompat.requireViewById;
@@ -22,6 +26,8 @@ import static androidx.core.view.ViewCompat.requireViewById;
  * @author Niko Strijbol
  */
 public class ReportingFragment extends SlideFragment {
+
+    private static final String PRIVACY_POLICY = "https://hydra.ugent.be/privacy-policy.html";
 
     private RadioGroup analyticsChooser;
     private Switch crashReportingChooser;
@@ -40,6 +46,7 @@ public class ReportingFragment extends SlideFragment {
         addOnNavigationBlockedListener((position, direction) ->
                 Toast.makeText(requireContext().getApplicationContext(), R.string.onboarding_reporting_required, Toast.LENGTH_SHORT)
                         .show());
+        requireViewById(view, R.id.read_policy).setOnClickListener(v -> CustomTabsHelper.openUri(v.getContext(), Uri.parse(PRIVACY_POLICY)));
     }
 
     @Override

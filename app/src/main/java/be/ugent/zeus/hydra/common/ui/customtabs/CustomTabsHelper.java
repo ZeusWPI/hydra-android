@@ -7,13 +7,18 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import androidx.annotation.Nullable;
-import androidx.browser.customtabs.CustomTabsService;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.browser.customtabs.CustomTabsService;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 /**
  * Helper for custom tabs.
@@ -44,7 +49,7 @@ public class CustomTabsHelper {
      * @param context {@link Context} to use for accessing {@link PackageManager}.
      * @return The package name recommended to use for connecting to custom tabs related components.
      */
-    public static String getPackageNameToUse(Context context) {
+    static String getPackageNameToUse(Context context) {
 
         if (packageNameToUse != null) {
             return packageNameToUse;
@@ -122,21 +127,8 @@ public class CustomTabsHelper {
         return false;
     }
 
-    protected static boolean hasSupport(Activity activity) {
-        return CustomTabsHelper.getPackageNameToUse(activity) != null;
-    }
-
-    /**
-     * Get an activity helper. When custom tabs are supported, it will use those. If custom tabs are not supported,
-     * it will open urls in a new browser window.
-     *
-     * @param activity The activity that calls the custom tab.
-     * @param callback The callback.
-     *
-     * @return The helper.
-     */
-    public static ActivityHelper initHelper(Activity activity, @Nullable ActivityHelper.ConnectionCallback callback) {
-        return initHelper(activity, true, callback);
+    private static boolean hasSupport(Context context) {
+        return CustomTabsHelper.getPackageNameToUse(context) != null;
     }
 
     /**
@@ -145,16 +137,33 @@ public class CustomTabsHelper {
      * an app is available that can handle a certain url. A normal intent will be launched then.
      *
      * @param activity  The activity that calls the custom tab.
-     * @param nativeApp If the native app should be used if available.
      * @param callback  The callback.
      *
      * @return The helper.
      */
-    public static ActivityHelper initHelper(Activity activity, boolean nativeApp, @Nullable ActivityHelper.ConnectionCallback callback) {
+    public static ActivityHelper initHelper(Activity activity, @Nullable ActivityHelper.ConnectionCallback callback) {
         if(hasSupport(activity)) {
-            return new HasTabActivityHelper(activity, nativeApp, callback);
+            return new HasTabActivityHelper(activity, callback);
         } else {
             return new NoTabActivityHelper(activity, callback);
+        }
+    }
+
+    /**
+     * Open an URI in a Custom Tab if supported. Otherwise, an attempt is made to open a browser.
+     *
+     * @param context Context to use.
+     * @param uri The URI to open.
+     */
+    public static void openUri(Context context, Uri uri) {
+        if (hasSupport(context)) {
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            //noinspection deprecation
+            builder.setToolbarColor(context.getResources().getColor(R.color.hydra_primary_color));
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(context, uri);
+        } else {
+            NetworkUtils.maybeLaunchBrowser(context, uri.toString());
         }
     }
 }
