@@ -44,7 +44,7 @@
                 android:fitsSystemWindows="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/gradient_black_bottom"
+                android:src="@drawable/gradient_black_bottom_top"
                 android:contentDescription="@string/content_desc_library"/>
 
             <androidx.appcompat.widget.Toolbar

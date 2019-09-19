@@ -99,4 +99,24 @@
         android:checked="true"
         android:text="@string/onboarding_reporting_allow_crash" />
 
+    <TextView
+        android:height="48dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingRight="@dimen/vertical_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Subhead"
+        android:textColor="@color/hydra_accent_color"
+        android:textSize="@dimen/material_typography_regular_subheading_text_size"
+        android:text="@string/onboarding_reporting_privacy_policy_title"/>
+
+    <Button
+        android:id="@+id/read_policy"
+        android:layout_marginLeft="@dimen/vertical_padding"
+        android:layout_marginRight="@dimen/vertical_padding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/onboarding_reporting_privacy_policy_read"/>
+
 </LinearLayout>

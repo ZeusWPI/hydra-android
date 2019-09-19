@@ -11,10 +11,9 @@
     android:foreground="?android:attr/selectableItemBackground"
     android:longClickable="true">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/card_image"
@@ -22,30 +21,52 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
+            android:maxHeight="192dp"
             android:contentDescription="@string/content_desc_artist_image"/>
 
-        <TextView
-            android:paddingLeft="@dimen/material_card_title_block_padding_horizontal"
-            android:paddingRight="@dimen/material_card_title_block_padding_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/title"
-            android:paddingTop="@dimen/card_title_padding_top"
-            android:textSize="@dimen/material_card_title_block_large_title_text_size"
-            tools:text="Dit is een Artiest!" />
+        <ImageView
+            android:id="@+id/gradient"
+            android:src="@drawable/gradient_black_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:maxHeight="192dp"
+            android:contentDescription="@string/content_desc_artist_image"/>
 
-        <TextView
-            android:paddingTop="@dimen/material_card_title_block_large_subtitle_margin_top"
-            android:paddingLeft="@dimen/material_card_title_block_padding_horizontal"
-            android:paddingRight="@dimen/material_card_title_block_padding_horizontal"
-            android:paddingBottom="@dimen/material_card_title_block_large_padding_bottom_last_block"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/date"
-            android:textColor="?android:attr/textColorSecondary"
-            tools:text="Datum Gisteren"
-            android:textSize="@dimen/material_card_title_block_subtitle_text_size"/>
+            android:orientation="vertical"
+            android:layout_gravity="bottom">
 
-    </LinearLayout>
+            <TextView
+                android:paddingLeft="@dimen/material_card_title_block_padding_horizontal"
+                android:paddingRight="@dimen/material_card_title_block_padding_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/title"
+                android:textColor="@color/white"
+                android:paddingTop="@dimen/card_title_padding_top"
+                android:textSize="@dimen/material_card_title_block_large_title_text_size"
+                tools:text="Dit is een Artiest!" />
+
+            <TextView
+                android:paddingTop="@dimen/material_card_title_block_large_subtitle_margin_top"
+                android:paddingLeft="@dimen/material_card_title_block_padding_horizontal"
+                android:paddingRight="@dimen/material_card_title_block_padding_horizontal"
+                android:paddingBottom="@dimen/material_card_title_block_large_padding_bottom_last_block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/date"
+                android:textColor="@color/white"
+                tools:text="Datum Gisteren"
+                android:textSize="@dimen/material_card_title_block_subtitle_text_size"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+
 
 </androidx.cardview.widget.CardView>

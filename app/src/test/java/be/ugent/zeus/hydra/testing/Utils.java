@@ -11,20 +11,21 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 import be.ugent.zeus.hydra.feed.cards.database.CardDaoTest;
-
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
-import io.github.benas.randombeans.EnhancedRandomBuilder;
-import io.github.benas.randombeans.api.Randomizer;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.EqualsVerifierApi;
 import nl.jqno.equalsverifier.Warning;
 import okio.BufferedSource;
 import okio.Okio;
+import org.jeasy.random.EasyRandom;
+import org.jeasy.random.EasyRandomParameters;
 import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZonedDateTime;
+
+import static org.jeasy.random.FieldPredicates.named;
 
 /**
  * General utilities and helper methods for use within the tests.
@@ -34,25 +35,29 @@ import org.threeten.bp.ZonedDateTime;
 public class Utils {
 
     public static <T> T generate(Class<T> clazz, String... exclude) {
-        return EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
+        EasyRandomParameters params = new EasyRandomParameters()
                 .scanClasspathForConcreteTypes(true)
-                .randomize(ZonedDateTime.class, (Randomizer<ZonedDateTime>) ZonedDateTime::now)
-                .randomize(LocalDate.class, (Randomizer<LocalDate>) LocalDate::now)
-                .randomize(OffsetDateTime.class, (Randomizer<OffsetDateTime>) OffsetDateTime::now)
-                .randomize(Instant.class, (Randomizer<Instant>) Instant::now)
-                .build()
-                .nextObject(clazz, exclude);
+                .randomize(ZonedDateTime.class, ZonedDateTime::now)
+                .randomize(LocalDate.class, LocalDate::now)
+                .randomize(OffsetDateTime.class, OffsetDateTime::now)
+                .randomize(Instant.class, Instant::now);
+        for (String excluded: exclude) {
+            params.excludeField(named(excluded));
+        }
+        return new EasyRandom(params).nextObject(clazz);
     }
 
     public static <T> Stream<T> generate(Class<T> clazz, int amount, String... exclude) {
-        return EnhancedRandomBuilder.aNewEnhancedRandomBuilder()
+        EasyRandomParameters params = new EasyRandomParameters()
                 .scanClasspathForConcreteTypes(true)
-                .randomize(ZonedDateTime.class, (Randomizer<ZonedDateTime>) ZonedDateTime::now)
-                .randomize(LocalDate.class, (Randomizer<LocalDate>) LocalDate::now)
-                .randomize(OffsetDateTime.class, (Randomizer<OffsetDateTime>) OffsetDateTime::now)
-                .randomize(Instant.class, (Randomizer<Instant>) Instant::now)
-                .build()
-                .objects(clazz, amount, exclude);
+                .randomize(ZonedDateTime.class, ZonedDateTime::now)
+                .randomize(LocalDate.class, LocalDate::now)
+                .randomize(OffsetDateTime.class, OffsetDateTime::now)
+                .randomize(Instant.class, Instant::now);
+        for (String excluded: exclude) {
+            params.excludeField(named(excluded));
+        }
+        return new EasyRandom(params).objects(clazz, amount);
     }
 
     /**

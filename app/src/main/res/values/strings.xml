@@ -115,6 +115,8 @@
     <string name="onboarding_reporting_disallow">Afwijzen</string>
     <string name="onboarding_reporting_allow_crash">Crashgegevens verzenden</string>
     <string name="onboarding_reporting_required">Kies of we anonieme Analytics mogen verzamelen</string>
+    <string name="onboarding_reporting_privacy_policy_title">Privacybeleid</string>
+    <string name="onboarding_reporting_privacy_policy_read">Het beleid lezen</string>
 
     <!-- Association events -->
     <string name="event_detail_activity_title">Evenement</string>

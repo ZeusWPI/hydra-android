@@ -32,7 +32,6 @@ class HasTabActivityHelper implements ActivityHelper {
 
     private final ConnectionCallback connectionCallback;
     private final WeakReference<Activity> activity;
-    private final boolean nativeApp;
 
     private boolean showShareMenu;
     private int intentFlags;
@@ -45,10 +44,9 @@ class HasTabActivityHelper implements ActivityHelper {
     /**
      * Package local constructor.
      */
-    HasTabActivityHelper(Activity activity, boolean nativeApp, @Nullable ConnectionCallback connectionCallback) {
+    HasTabActivityHelper(Activity activity, @Nullable ConnectionCallback connectionCallback) {
         this.activity = new WeakReference<>(activity);
         this.connectionCallback = connectionCallback;
-        this.nativeApp = nativeApp;
     }
 
     @Override
@@ -74,7 +72,7 @@ class HasTabActivityHelper implements ActivityHelper {
         builder.setToolbarColor(ViewUtils.getPrimaryColor(activity.get()));
 
         Set<String> nat = getNativeAppPackage(activity.get(), uri);
-        if (nativeApp && !nat.isEmpty()) {
+        if (!nat.isEmpty()) {
             Log.d(TAG, "Using normal intent because of native app, i.e. " + nat.iterator().next());
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, uri);
             browserIntent.setFlags(this.intentFlags);

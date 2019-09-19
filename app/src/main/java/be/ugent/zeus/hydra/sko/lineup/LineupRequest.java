@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.sko.lineup;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;

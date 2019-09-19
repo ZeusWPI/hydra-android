@@ -4,19 +4,19 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.MediaStore;
-import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.reporting.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
@@ -34,7 +34,7 @@ public class ArtistDetailsActivity extends BaseActivity {
 
     public static Intent start(Context context, Artist artist) {
         Intent intent = new Intent(context, ArtistDetailsActivity.class);
-        intent.putExtra(PARCEL_ARTIST, (Parcelable) artist);
+        intent.putExtra(PARCEL_ARTIST, artist);
         return intent;
     }
 
@@ -52,6 +52,7 @@ public class ArtistDetailsActivity extends BaseActivity {
         ImageView headerImage = findViewById(R.id.header_image);
 
         title.setText(artist.getName());
+        setTitle(artist.getName());
 
         if (artist.getImage() != null) {
             Picasso.get().load(artist.getImage()).fit().centerInside().into(headerImage);
@@ -59,8 +60,8 @@ public class ArtistDetailsActivity extends BaseActivity {
 
         date.setText(artist.getDisplayDate(this));
 
-        if (!TextUtils.isEmpty(artist.getContent())) {
-            content.setText(artist.getContent());
+        if (!TextUtils.isEmpty(artist.getDescription())) {
+            content.setText(artist.getDescription());
         } else {
             content.setText(R.string.sko_artist_no_content);
         }
@@ -111,8 +112,7 @@ public class ArtistDetailsActivity extends BaseActivity {
             BaseEvents.Params names = Reporting.getEvents().params();
             Bundle params = new Bundle();
             params.putString(names.itemCategory(), Artist.class.getSimpleName());
-            String id = artist.getLink() == null ? "linkless" : artist.getLink();
-            params.putString(names.itemId(), id);
+            params.putString(names.itemId(), artist.getName());
             params.putString(names.itemName(), artist.getName());
             return params;
         }

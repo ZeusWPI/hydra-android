@@ -46,7 +46,7 @@ class ArtistViewHolder extends DataViewHolder<ArtistOrTitle> implements View.OnC
         this.artist = artistOrTitle.getArtist();
         title.setText(artist.getName());
         date.setText(artist.getDisplayDate(date.getContext()));
-        Picasso.get().load(artist.getBanner()).into(image);
+        Picasso.get().load(artist.getImage()).into(image);
         itemView.setOnClickListener(v -> {
             Intent intent = ArtistDetailsActivity.start(v.getContext(), artist);
             v.getContext().startActivity(intent);

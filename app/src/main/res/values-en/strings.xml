@@ -109,6 +109,8 @@
     <string name="onboarding_reporting_disallow">Disallow</string>
     <string name="onboarding_reporting_allow_crash">Report crashes</string>
     <string name="onboarding_reporting_required">Choose if we may collect anonymous Analytics</string>
+    <string name="onboarding_reporting_privacy_policy_title">Privacy policy</string>
+    <string name="onboarding_reporting_privacy_policy_read">Read the policy</string>
 
     <!-- Association events -->
     <string name="event_detail_activity_title">Event</string>

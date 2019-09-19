@@ -35,5 +35,8 @@ public class TestApp extends HydraApplication {
         Reporting.syncPermissions(this);
 
         setupPicasso();
+
+        // Do not use SSL
+        System.setProperty("javax.net.ssl.trustStore", "NONE");
     }
 }
