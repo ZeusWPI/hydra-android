@@ -19,7 +19,7 @@ public class ArtistTest extends ModelTest<Artist> {
     @Override
     public void equalsAndHash() {
         Utils.defaultVerifier(Artist.class)
-                .withOnlyTheseFields("name", "stage", "start", "end")
+                .withOnlyTheseFields("name", "stage", "start", "end", "title")
                 .verify();
     }
 }
