@@ -281,7 +281,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         toggle.onConfigurationChanged(newConfig);
     }
@@ -309,6 +309,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return;
+        }
+
+        if (menuItem.getItemId() == R.id.drawer_ufora) {
+            drawer.closeDrawer(GravityCompat.START);
+            Intent launchIntent = getPackageManager().getLaunchIntentForPackage(UFORA);
+            if (launchIntent != null) {
+                startActivity(launchIntent);
+            } else {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + UFORA));
+                intent.setPackage("com.android.vending");
+                startActivity(intent);
+            }
+            return; // Don't do anything.
         }
 
         // Create a new fragment and specify the fragment to show based on nav item clicked
@@ -339,17 +353,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.drawer_library:
                 fragment = new LibraryListFragment();
                 break;
-            case R.id.drawer_ufora:
-                Intent launchIntent = getPackageManager().getLaunchIntentForPackage(UFORA);
-                if (launchIntent != null) {
-                    startActivity(launchIntent);
-                } else {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + UFORA));
-                    intent.setPackage("com.android.vending");
-                    startActivity(intent);
-                }
-                return; // Don't do anything.
             default:
                 throw new IllegalStateException("Unknown menu id for navigation drawer");
         }

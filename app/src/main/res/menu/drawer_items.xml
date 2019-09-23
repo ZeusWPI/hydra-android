@@ -39,6 +39,7 @@
             android:title="@string/drawer_title_info" />
         <item
             android:id="@+id/drawer_ufora"
+            android:checkable="false"
             android:icon="@drawable/tabs_ufora"
             android:title="@string/drawer_title_ufora" />
     </group>
