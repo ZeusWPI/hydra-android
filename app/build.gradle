@@ -102,6 +102,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.browser:browser:1.0.0'
     implementation 'androidx.slice:slice-builders:1.0.0'
+    //implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.1.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
