@@ -1,26 +1,24 @@
 package be.ugent.zeus.hydra.info;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.view.*;
+import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
-
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
+import com.google.android.material.snackbar.Snackbar;
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
 
 /**
  * Display info items.
@@ -32,6 +30,8 @@ public class InfoFragment extends Fragment {
     private static final String TAG = "InfoFragment";
 
     private ActivityHelper helper;
+    @Nullable
+    private InfoViewModel model;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class InfoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         helper = CustomTabsHelper.initHelper(getActivity(), null);
         helper.setShareMenu();
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -75,7 +76,7 @@ public class InfoFragment extends Fragment {
             adapter.submitData(bundle.getParcelableArrayList(InfoSubItemActivity.INFO_ITEMS));
             progressBar.setVisibility(View.GONE);
         } else {
-            InfoViewModel model = ViewModelProviders.of(this).get(InfoViewModel.class);
+            model = ViewModelProviders.of(this).get(InfoViewModel.class);
             model.getData().observe(this, PartialErrorObserver.with(this::onError));
             model.getData().observe(this, new ProgressObserver<>(progressBar));
             model.getData().observe(this, new AdapterObserver<>(adapter));
@@ -85,5 +86,23 @@ public class InfoFragment extends Fragment {
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
         Snackbar.make(requireView(), getString(R.string.error_network), Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_refresh, menu);
+        requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_refresh);
+        if (model == null) {
+            menu.findItem(R.id.action_refresh).setVisible(false);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_refresh && model != null) {
+            model.requestRefresh();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
