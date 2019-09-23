@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -35,12 +37,11 @@ import be.ugent.zeus.hydra.resto.history.HistoryActivity;
 import be.ugent.zeus.hydra.resto.meta.RestoLocationActivity;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectableMetaViewModel;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectedResto;
-import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
+import be.ugent.zeus.hydra.resto.sandwich.regular.RegularFragment;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import org.threeten.bp.LocalDate;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
 
 /**
  * Displays the menu.

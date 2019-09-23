@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.resto.sandwich;
+package be.ugent.zeus.hydra.resto.sandwich.regular;
 
 import java.io.IOException;
 import java.util.Comparator;
@@ -13,7 +13,7 @@ import org.robolectric.RobolectricTestRunner;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-public class SandwichRequestTest extends AbstractJsonRequestTest<List<Sandwich>> {
+public class EcologicalRequestTest extends AbstractJsonRequestTest<List<RegularSandwich>> {
 
     @Override
     protected String getRelativePath() {
@@ -21,14 +21,14 @@ public class SandwichRequestTest extends AbstractJsonRequestTest<List<Sandwich>>
     }
 
     @Override
-    protected JsonOkHttpRequest<List<Sandwich>> getRequest() {
-        return new SandwichRequest(context);
+    protected JsonOkHttpRequest<List<RegularSandwich>> getRequest() {
+        return new RegularRequest(context);
     }
 
     @Override
-    protected List<Sandwich> getExpectedResult(String data) throws IOException {
-        List<Sandwich> result = super.getExpectedResult(data);
-        result.sort(Comparator.comparing(Sandwich::getName, String.CASE_INSENSITIVE_ORDER));
+    protected List<RegularSandwich> getExpectedResult(String data) throws IOException {
+        List<RegularSandwich> result = super.getExpectedResult(data);
+        result.sort(Comparator.comparing(RegularSandwich::getName, String.CASE_INSENSITIVE_ORDER));
         return result;
     }
 }

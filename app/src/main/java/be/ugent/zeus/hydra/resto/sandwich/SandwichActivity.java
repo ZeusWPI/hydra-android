@@ -1,68 +1,55 @@
 package be.ugent.zeus.hydra.resto.sandwich;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import androidx.viewpager.widget.ViewPager;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
-import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
-import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.resto.extrafood.FoodFragment;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
+import com.google.android.material.tabs.TabLayout;
 
 /**
- * Activity that shows a list of sandwiches.
- *
- * @author Niko Strijbol
+ * Activity for the sandwiches.
  */
 public class SandwichActivity extends BaseActivity {
 
-    private static final String TAG = "SandwichActivity";
-    private static final String URL = "http://www.ugent.be/student/nl/meer-dan-studeren/resto/broodjes/overzicht.htm";
-
-    private final SandwichAdapter adapter = new SandwichAdapter();
-    private SandwichViewModel viewModel;
+    public static final String URL = "https://www.ugent.be/student/nl/meer-dan-studeren/resto/broodjes";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_resto_sandwich);
+        setContentView(R.layout.activity_extra_food);
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(adapter);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        ViewPager viewPager = findViewById(R.id.pager);
 
-        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.hydra_secondary_colour);
-
-        viewModel = ViewModelProviders.of(this).get(SandwichViewModel.class);
-        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(this, new AdapterObserver<>(adapter));
-        viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
-        swipeRefreshLayout.setOnRefreshListener(viewModel);
+        SandwichPagerAdapter adapter = new SandwichPagerAdapter(getSupportFragmentManager(), this);
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                //noinspection ConstantConditions
+                Reporting.getTracker(getApplicationContext())
+                        .setCurrentScreen(
+                                SandwichActivity.this,
+                                adapter.getPageTitle(position).toString(),
+                                FoodFragment.class.getSimpleName());
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_refresh:
-                viewModel.onRefresh();
-                return true;
-            case R.id.resto_show_website:
-                NetworkUtils.maybeLaunchBrowser(this, URL);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.resto_show_website) {
+            NetworkUtils.maybeLaunchBrowser(this, URL);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -70,12 +57,5 @@ public class SandwichActivity extends BaseActivity {
         getMenuInflater().inflate(R.menu.menu_sandwhich, menu);
         tintToolbarIcons(menu, R.id.resto_show_website);
         return true;
-    }
-
-    private void onError(Throwable throwable) {
-        Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(findViewById(android.R.id.content), getString(R.string.error_network), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.action_again), v -> viewModel.onRefresh())
-                .show();
     }
 }

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.resto.sandwich;
+package be.ugent.zeus.hydra.resto.sandwich.regular;
 
 import androidx.annotation.NonNull;
 import android.view.ViewGroup;
@@ -12,11 +12,11 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
  *
  * @author Niko Strijbol
  */
-class SandwichAdapter extends MultiSelectAdapter<Sandwich> {
+class RegularAdapter extends MultiSelectAdapter<RegularSandwich> {
 
     @NonNull
     @Override
-    public SandwichHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new SandwichHolder(ViewUtils.inflate(parent, R.layout.item_sandwich), this);
+    public RegularHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new RegularHolder(ViewUtils.inflate(parent, R.layout.item_sandwich), this);
     }
 }

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.resto.sandwich;
+package be.ugent.zeus.hydra.resto.sandwich.regular;
 
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
@@ -24,11 +24,11 @@ import static org.mockito.Mockito.*;
  * @author Niko Strijbol
  */
 @RunWith(ParameterizedRobolectricTestRunner.class)
-public class SandwichHolderTest {
+public class EcologicalViewHolderTest {
 
     private final boolean expanded;
 
-    public SandwichHolderTest(boolean expanded) {
+    public EcologicalViewHolderTest(boolean expanded) {
         this.expanded = expanded;
     }
 
@@ -40,11 +40,11 @@ public class SandwichHolderTest {
     @Test
     public void populate() {
         View view = inflate(R.layout.item_sandwich);
-        Sandwich sandwich = generate(Sandwich.class);
+        RegularSandwich sandwich = generate(RegularSandwich.class);
         @SuppressWarnings("unchecked")
-        MultiSelectAdapter<Sandwich> adapter = mock(MultiSelectAdapter.class);
+        MultiSelectAdapter<RegularSandwich> adapter = mock(MultiSelectAdapter.class);
         when(adapter.isChecked(anyInt())).thenReturn(expanded);
-        SandwichHolder viewHolder = new SandwichHolder(view, adapter);
+        RegularHolder viewHolder = new RegularHolder(view, adapter);
         viewHolder.populate(sandwich);
 
         assertTextIs(sandwich.getName(), view.findViewById(R.id.sandwich_name));

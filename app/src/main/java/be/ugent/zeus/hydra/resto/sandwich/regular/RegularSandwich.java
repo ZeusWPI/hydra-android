@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.resto.sandwich;
+package be.ugent.zeus.hydra.resto.sandwich.regular;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -11,7 +11,7 @@ import java9.util.Objects;
 /**
  * Created by feliciaan on 04/02/16.
  */
-public final class Sandwich implements Parcelable {
+public final class RegularSandwich implements Parcelable {
 
     private String name;
     private List<String> ingredients;
@@ -49,22 +49,22 @@ public final class Sandwich implements Parcelable {
         dest.writeString(this.priceMedium);
     }
 
-    protected Sandwich(Parcel in) {
+    protected RegularSandwich(Parcel in) {
         this.name = in.readString();
         this.ingredients = in.createStringArrayList();
         this.priceSmall = in.readString();
         this.priceMedium = in.readString();
     }
 
-    public static final Parcelable.Creator<Sandwich> CREATOR = new Parcelable.Creator<Sandwich>() {
+    public static final Parcelable.Creator<RegularSandwich> CREATOR = new Parcelable.Creator<RegularSandwich>() {
         @Override
-        public Sandwich createFromParcel(Parcel source) {
-            return new Sandwich(source);
+        public RegularSandwich createFromParcel(Parcel source) {
+            return new RegularSandwich(source);
         }
 
         @Override
-        public Sandwich[] newArray(int size) {
-            return new Sandwich[size];
+        public RegularSandwich[] newArray(int size) {
+            return new RegularSandwich[size];
         }
     };
 
@@ -72,7 +72,7 @@ public final class Sandwich implements Parcelable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Sandwich sandwich = (Sandwich) o;
+        RegularSandwich sandwich = (RegularSandwich) o;
         return Objects.equals(name, sandwich.name) &&
                 Objects.equals(ingredients, sandwich.ingredients) &&
                 Objects.equals(priceSmall, sandwich.priceSmall) &&

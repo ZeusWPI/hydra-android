@@ -1,34 +1,35 @@
-package be.ugent.zeus.hydra.resto.sandwich;
+package be.ugent.zeus.hydra.resto.sandwich.ecological;
 
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
-import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
-import be.ugent.zeus.hydra.common.request.Result;
-import org.threeten.bp.Duration;
-import org.threeten.bp.temporal.ChronoUnit;
-
 import java.util.Collections;
 import java.util.List;
 
+import be.ugent.zeus.hydra.common.network.Endpoints;
+import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
+import be.ugent.zeus.hydra.common.request.Result;
+import java9.util.Comparators;
+import org.threeten.bp.Duration;
+import org.threeten.bp.temporal.ChronoUnit;
+
 /**
- * CacheRequest the list of sandwiches.
+ * Get the ecological sandwich of the week.
  *
  * @author feliciaan
  */
-class SandwichRequest extends JsonArrayRequest<Sandwich> {
+class EcologicalRequest extends JsonArrayRequest<EcologicalSandwich> {
 
-    SandwichRequest(Context context) {
-        super(context, Sandwich.class);
+    EcologicalRequest(Context context) {
+        super(context, EcologicalSandwich.class);
     }
 
     @NonNull
     @Override
-    public Result<List<Sandwich>> execute(@NonNull Bundle args) {
+    public Result<List<EcologicalSandwich>> execute(@NonNull Bundle args) {
         return super.execute(args).map(sandwiches -> {
-            Collections.sort(sandwiches, (o1, o2) -> o1.getName().compareToIgnoreCase(o2.getName()));
+            Collections.sort(sandwiches, Comparators.comparing(EcologicalSandwich::getStart));
             return sandwiches;
         });
     }
@@ -36,7 +37,7 @@ class SandwichRequest extends JsonArrayRequest<Sandwich> {
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.ZEUS_V2 + "resto/sandwiches.json";
+        return Endpoints.ZEUS_V2 + "resto/sandwiches/overview.json";
     }
 
     @Override

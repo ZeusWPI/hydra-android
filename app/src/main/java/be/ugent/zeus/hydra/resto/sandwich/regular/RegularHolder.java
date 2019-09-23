@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.resto.sandwich;
+package be.ugent.zeus.hydra.resto.sandwich.regular;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -13,16 +13,16 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 /**
  * @author Niko Strijbol
  */
-class SandwichHolder extends DataViewHolder<Sandwich> {
+class RegularHolder extends DataViewHolder<RegularSandwich> {
 
     private TextView name;
     private TextView smallPrice;
     private TextView mediumPrice;
     private ExpandableLayout expandableLayout;
     private TextView ingredients;
-    private MultiSelectAdapter<Sandwich> adapter;
+    private MultiSelectAdapter<RegularSandwich> adapter;
 
-    SandwichHolder(View itemView, MultiSelectAdapter<Sandwich> adapter) {
+    RegularHolder(View itemView, MultiSelectAdapter<RegularSandwich> adapter) {
         super(itemView);
 
         name = itemView.findViewById(R.id.sandwich_name);
@@ -36,7 +36,7 @@ class SandwichHolder extends DataViewHolder<Sandwich> {
     private static final String TAG = "SandwichHolder";
 
     @Override
-    public void populate(Sandwich sandwich) {
+    public void populate(RegularSandwich sandwich) {
         Context c = itemView.getContext();
         name.setText(sandwich.getName());
         mediumPrice.setText(String.format(c.getString(R.string.resto_sandwich_price_medium), sandwich.getPriceMedium()));

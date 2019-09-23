@@ -148,6 +148,8 @@
     <string name="resto_extra_food_price">€ %s</string>
 
     <string name="resto_main_view_sandwiches">Broodjes</string>
+    <string name="resto_main_view_sandwiches_regular">Gewoon</string>
+    <string name="resto_main_view_sandwiches_ecological">Ecologisch</string>
     <string name="resto_main_view_locations">Resto\'s</string>
 
     <string name="resto_sandwich_activity_title">Belegde broodjes</string>
