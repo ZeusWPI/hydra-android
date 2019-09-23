@@ -33,6 +33,7 @@
     <string name="drawer_title_pref">Settings</string>
     <string name="drawer_title_urgent">Urgent.fm</string>
     <string name="drawer_title_library">Libraries</string>
+    <string name="drawer_title_ufora">Ufora app</string>
 
     <string name="shortcut_resto_short_label">Resto menu</string>
     <string name="shortcut_resto_long_label">View the resto menu</string>

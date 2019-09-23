@@ -36,6 +36,7 @@
     <string name="drawer_title_pref">Instellingen</string>
     <string name="drawer_title_urgent">Urgent.fm</string>
     <string name="drawer_title_library">Bibliotheken</string>
+    <string name="drawer_title_ufora">Ufora-app</string>
 
     <string name="shortcut_resto_short_label">Restomenu</string>
     <string name="shortcut_resto_long_label">Bekijk de restomenu</string>

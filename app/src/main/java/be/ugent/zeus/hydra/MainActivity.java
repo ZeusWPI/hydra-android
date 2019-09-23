@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra;
 import android.content.Intent;
 import android.content.pm.ShortcutManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -159,6 +160,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static final String ARG_TAB_SHORTCUT = "argTabShortcut";
 
     private static final String TAG = "BaseActivity";
+
+    private static final String UFORA = "com.d2l.brightspace.student.android";
 
     @VisibleForTesting
     static final String ONCE_ONBOARDING = "once_onboarding_v1";
@@ -336,6 +339,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.drawer_library:
                 fragment = new LibraryListFragment();
                 break;
+            case R.id.drawer_ufora:
+                Intent launchIntent = getPackageManager().getLaunchIntentForPackage(UFORA);
+                if (launchIntent != null) {
+                    startActivity(launchIntent);
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + UFORA));
+                    intent.setPackage("com.android.vending");
+                    startActivity(intent);
+                }
+                return; // Don't do anything.
             default:
                 throw new IllegalStateException("Unknown menu id for navigation drawer");
         }
