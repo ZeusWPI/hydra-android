@@ -6,18 +6,22 @@
 		<ListPreference
 			android:key="pref_theme_night_mode"
 			android:title="@string/pref_theme_use_night_title"
-			android:summary="%s"
-			android:entries="@array/pref_night_mode"
-			android:entryValues="@array/pref_night_mode_values"
-			android:defaultValue="3" />
+			android:summary="%s" />
 	</PreferenceCategory>
 
 	<PreferenceCategory
 		android:title="@string/pref_theme_explanations">
 		<Preference
+			android:key="pref_theme_battery"
 			android:persistent="false"
-			android:title="@string/pref_theme_night_mode_auto"
-			android:summary="@string/pref_theme_night_mode_auto_desc" />
+			android:title="@string/pref_theme_night_mode_battery"
+			android:summary="@string/pref_theme_night_mode_battery_desc" />
+
+		<Preference
+			android:key="pref_theme_system"
+			android:persistent="false"
+			android:title="@string/pref_theme_night_mode_system"
+			android:summary="@string/pref_theme_night_mode_system_desc" />
 
 		<Preference
 			android:persistent="false"
@@ -29,9 +33,5 @@
 			android:title="@string/pref_theme_night_mode_always"
 			android:summary="@string/pref_theme_night_mode_always_desc" />
 
-		<Preference
-			android:persistent="false"
-			android:title="@string/pref_theme_night_mode_system"
-			android:summary="@string/pref_theme_night_mode_system_desc" />
 	</PreferenceCategory>
 </PreferenceScreen>

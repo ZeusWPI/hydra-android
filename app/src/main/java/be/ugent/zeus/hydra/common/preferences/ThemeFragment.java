@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.common.preferences;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
@@ -20,13 +21,22 @@ import be.ugent.zeus.hydra.common.reporting.Event;
  */
 public class ThemeFragment extends PreferenceFragment {
 
-    public static final String PREF_THEME_NIGHT_MODE = "pref_theme_night_mode";
+    private static final String PREF_THEME_NIGHT_MODE = "pref_theme_night_mode";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_theme);
         ListPreference listPreference = (ListPreference) findPreference(PREF_THEME_NIGHT_MODE);
+        if (Build.VERSION.SDK_INT < 29) {
+            listPreference.setEntries(R.array.pref_dark_mode_old);
+            listPreference.setEntryValues(R.array.pref_dark_mode_values_old);
+        } else {
+
+            listPreference.setEntries(R.array.pref_dark_mode_new);
+            listPreference.setEntryValues(R.array.pref_dark_mode_values_new);
+        }
+        listPreference.setDefaultValue(defaultValue());
         listPreference.setOnPreferenceChangeListener((preference, newValue) -> {
             Reporting.getTracker(getActivity())
                     .log(new ThemeChanged((String) newValue));
@@ -42,18 +52,26 @@ public class ThemeFragment extends PreferenceFragment {
                 .setCurrentScreen(getActivity(), "Settings > Theme", getClass().getSimpleName());
     }
 
+    private static String defaultValue() {
+        if (Build.VERSION.SDK_INT < 29) {
+            return "battery";
+        } else {
+            return "system";
+        }
+    }
+
     @AppCompatDelegate.NightMode
     public static int getNightMode(Context context) {
-        String value = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_THEME_NIGHT_MODE, "3");
+        String value = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_THEME_NIGHT_MODE, defaultValue());
         switch (value) {
-            case "0":
-                return AppCompatDelegate.MODE_NIGHT_AUTO;
-            case "1":
+            case "battery":
+                return AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY;
+            case "dark":
                 return AppCompatDelegate.MODE_NIGHT_NO;
-            case "2":
+            case "light":
                 return AppCompatDelegate.MODE_NIGHT_YES;
+            case "system":
             default:
-            case "3":
                 return AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
         }
     }

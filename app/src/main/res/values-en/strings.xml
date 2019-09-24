@@ -78,15 +78,15 @@
 
     <string name="pref_licenses_title">Licenses</string>
 
-    <string name="pref_theme_use_night_title">Use night mode</string>
-    <string name="pref_theme_night_mode_always">Always dark</string>
+    <string name="pref_theme_use_night_title">Set theme</string>
+    <string name="pref_theme_night_mode_always">Dark theme</string>
     <string name="pref_theme_night_mode_always_desc">Always use the dark theme</string>
-    <string name="pref_theme_night_mode_system">System default</string>
-    <string name="pref_theme_night_mode_system_desc">Follow the system default. Often the same as Always light.</string>
-    <string name="pref_theme_night_mode_never">Always light</string>
+    <string name="pref_theme_night_mode_system">System</string>
+    <string name="pref_theme_night_mode_system_desc">Follow the system-wide settings.</string>
+    <string name="pref_theme_night_mode_never">Light theme</string>
     <string name="pref_theme_night_mode_never_desc">Always use the light theme</string>
-    <string name="pref_theme_night_mode_auto">Choose automatically</string>
-    <string name="pref_theme_night_mode_auto_desc">Choose a theme based on the time of day.</string>
+    <string name="pref_theme_night_mode_battery">Battery saver</string>
+    <string name="pref_theme_night_mode_battery_desc">Use the dark theme if battery saver is active.</string>
     <string name="pref_theme_night_mode_restart">The changes will be applied after you restart the app</string>
     <string name="pref_theme_night_mode_title">Settings</string>
     <string name="pref_theme_explanations">Explanations of the modes</string>

@@ -84,16 +84,16 @@
 
     <string name="pref_licenses_title">Licenties</string>
 
-    <string name="pref_theme_use_night_title">Nachtmodus gebruiken</string>
-    <string name="pref_theme_night_mode_always">Altijd donker</string>
+    <string name="pref_theme_use_night_title">Thema instellen</string>
+    <string name="pref_theme_night_mode_always">Donker thema</string>
     <string name="pref_theme_night_mode_always_desc">Gebruik altijd het donkere thema.</string>
-    <string name="pref_theme_night_mode_system">Systeemstandaard</string>
-    <string name="pref_theme_night_mode_system_desc">Volg de systeemstandaard. Meestal is dit hetzelfde als "Altijd licht".</string>
-    <string name="pref_theme_night_mode_never">Altijd licht</string>
+    <string name="pref_theme_night_mode_system">Systeem</string>
+    <string name="pref_theme_night_mode_system_desc">Volg de systeembrede instellingen.</string>
+    <string name="pref_theme_night_mode_never">Licht thema</string>
     <string name="pref_theme_night_mode_never_desc">Gebruik altijd het lichte thema.</string>
-    <string name="pref_theme_night_mode_auto">Automatisch kiezen</string>
-    <string name="pref_theme_night_mode_auto_desc">Kies automatisch op basis van de tijd.</string>
-    <string name="pref_theme_night_mode_restart">De wijzigingen worden van kracht nadat u de app herstart</string>
+    <string name="pref_theme_night_mode_battery">Batterijbesparing</string>
+    <string name="pref_theme_night_mode_battery_desc">Gebruik het donkere thema als batterijbesparing aan staat.</string>
+    <string name="pref_theme_night_mode_restart">De wijzigingen worden mogelijk pas van kracht nadat u de app herstart</string>
     <string name="pref_theme_night_mode_title">Instellingen</string>
     <string name="pref_theme_explanations">Uitleg over de modi</string>
 
