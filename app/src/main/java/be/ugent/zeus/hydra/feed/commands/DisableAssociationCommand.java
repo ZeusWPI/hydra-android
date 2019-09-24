@@ -5,7 +5,7 @@ import android.content.Context;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity;
+import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
 
 /**
@@ -23,7 +23,7 @@ public class DisableAssociationCommand implements FeedCommand {
     public int execute(Context context) {
         PreferencesUtils.addToStringSet(
                 context,
-                AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
+                AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING,
                 association.getInternalName()
         );
         return Card.Type.ACTIVITY;
@@ -33,7 +33,7 @@ public class DisableAssociationCommand implements FeedCommand {
     public int undo(Context context) {
         PreferencesUtils.removeFromStringSet(
                 context,
-                AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
+                AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING,
                 association.getInternalName()
         );
         return Card.Type.ACTIVITY;

@@ -68,8 +68,8 @@
     <string name="pref_overview_article_desc">Opties voor de Schamper- en nieuwsartikels</string>
     <string name="pref_overview_about_title">Over</string>
     <string name="pref_overview_about_desc">Over de app</string>
-    <string name="pref_overview_theme_title">Lay-out</string>
-    <string name="pref_overview_theme_desc">Opties voor de lay-out van de app</string>
+    <string name="pref_overview_theme_title">Thema</string>
+    <string name="pref_overview_theme_desc">Opties voor het thema van de app</string>
 
     <string name="pref_about_licenses_title">Openbronsoftware</string>
     <string name="pref_about_licenses_summary">Licentiedetails voor gebruikte bibliotheken</string>
@@ -142,6 +142,7 @@
 
     <string name="resto_pref_choice">Keuze resto</string>
     <string name="resto_pref_choice_title">Kies een resto in het overzicht</string>
+    <string name="resto_pref_choice_loading">Laden…</string>
 
     <string name="resto_extra_refresh_started">Vernieuwen…</string>
     <string name="resto_extra_breakfast">Ontbijt</string>

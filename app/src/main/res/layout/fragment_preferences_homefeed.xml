@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".association.preference.AssociationSelectionPreferenceFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:paddingTop="@dimen/content_spacing"
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingRight="@dimen/vertical_padding"
+        android:paddingBottom="@dimen/content_spacing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/feed_pref_card_types_description" />
+
+    <View style="@style/Divider" />
+
+    <fragment
+        android:name="be.ugent.zeus.hydra.feed.preferences.HomeFeedSelectFragment"
+        android:paddingTop="@dimen/content_spacing"
+        android:id="@+id/recycler_view_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

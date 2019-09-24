@@ -29,7 +29,7 @@ class SearchableAssociationsAdapter extends MultiSelectSearchableAdapter<Associa
         return new AssociationViewHolder(ViewUtils.inflate(parent, R.layout.item_checkbox_string),this);
     }
 
-    public Iterable<Pair<Association, Boolean>> getItemsAndState() {
+    Iterable<Pair<Association, Boolean>> getItemsAndState() {
         return Collections.unmodifiableCollection(allData);
     }
 }

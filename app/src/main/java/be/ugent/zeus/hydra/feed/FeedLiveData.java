@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import java.util.*;
 
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity;
+import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
 import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
@@ -69,7 +69,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
     //For which settings the loader must refresh
     private static final String[] watchedPreferences = {
             HomeFeedFragment.PREF_DISABLED_CARD_TYPES,
-            AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
+            AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING,
             RestoPreferenceFragment.PREF_RESTO_KEY,
             RestoPreferenceFragment.PREF_RESTO_NAME,
             HomeFeedFragment.PREF_DISABLED_CARD_HACK

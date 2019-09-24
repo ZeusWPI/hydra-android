@@ -10,7 +10,7 @@ import java9.util.stream.StreamSupport;
 import java.util.List;
 import java.util.Set;
 
-import static be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING;
+import static be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING;
 
 /**
  * Filters events according to the user preferences.
@@ -27,9 +27,11 @@ class DisabledEventRemover implements Function<List<Event>, List<Event>> {
 
     @Override
     public List<Event> apply(List<Event> events) {
-        Set<String> disabled = PreferencesUtils.getStringSet(context, PREF_ASSOCIATIONS_SHOWING);
+        Set<String> disabled = StreamSupport.stream(PreferencesUtils.getStringSet(context, PREF_ASSOCIATIONS_SHOWING))
+                .map(String::toLowerCase)
+                .collect(Collectors.toSet());
         return StreamSupport.stream(events)
-                .filter(event -> !disabled.contains(event.getAssociation().getInternalName()))
+                .filter(event -> !disabled.contains(event.getAssociation().getInternalName().toLowerCase()))
                 .collect(Collectors.toList());
     }
 }

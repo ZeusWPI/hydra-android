@@ -12,9 +12,12 @@ import androidx.core.app.NavUtils;
 import java.util.List;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
+import be.ugent.zeus.hydra.preferences.ArticleFragment;
 import be.ugent.zeus.hydra.common.ui.AppCompatPreferenceActivity;
 import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
+import be.ugent.zeus.hydra.preferences.AboutFragment;
+import be.ugent.zeus.hydra.preferences.ReportingFragment;
+import be.ugent.zeus.hydra.preferences.ThemeFragment;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 
 /**
@@ -23,6 +26,7 @@ import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
  * @author Niko Strijbol
  * @author Rien Maertens
  */
+@Deprecated
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @Override
@@ -45,7 +49,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 || RestoPreferenceFragment.class.getName().equals(fragmentName)
                 || HomeFragment.class.getName().equals(fragmentName)
                 || AboutFragment.class.getName().equals(fragmentName)
-                || CustomTabPreferenceFragment.class.getName().equals(fragmentName)
+                || ArticleFragment.class.getName().equals(fragmentName)
                 || ThemeFragment.class.getName().equals(fragmentName)
                 || ReportingFragment.class.getName().equals(fragmentName);
     }

@@ -31,6 +31,7 @@ import be.ugent.zeus.hydra.feed.HomeFeedFragment;
 import be.ugent.zeus.hydra.info.InfoFragment;
 import be.ugent.zeus.hydra.library.list.LibraryListFragment;
 import be.ugent.zeus.hydra.onboarding.OnboardingActivity;
+import be.ugent.zeus.hydra.preferences.PreferenceActivity;
 import be.ugent.zeus.hydra.resto.menu.RestoFragment;
 import be.ugent.zeus.hydra.schamper.list.SchamperFragment;
 import be.ugent.zeus.hydra.urgent.UrgentFragment;
@@ -306,7 +307,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // First check if it are settings, then we don't update anything.
         if (menuItem.getItemId() == R.id.drawer_pref) {
             drawer.closeDrawer(GravityCompat.START);
-            Intent intent = new Intent(this, SettingsActivity.class);
+            Intent intent = new Intent(this, PreferenceActivity.class);
             startActivity(intent);
             return;
         }

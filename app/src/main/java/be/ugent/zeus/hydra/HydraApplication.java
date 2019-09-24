@@ -8,7 +8,7 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
-import be.ugent.zeus.hydra.common.preferences.ThemeFragment;
+import be.ugent.zeus.hydra.preferences.ThemeFragment;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Tracker;
 

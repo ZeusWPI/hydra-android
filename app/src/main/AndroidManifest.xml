@@ -65,17 +65,11 @@
             </intent-filter>
         </activity>
 
-        <!-- Association select preference activity -->
+        <!-- Generic preference activity, which can load a preference fragment. -->
         <activity
-            android:name=".association.preference.AssociationSelectPrefActivity"
-            android:label="Verenigingen"
-            android:parentActivityName=".common.preferences.SettingsActivity" />
-
-        <!-- Association select preference activity -->
-        <activity
-            android:name=".feed.preferences.HomeFeedPrefActivity"
-            android:label="@string/feed_pref_card_types_title"
-            android:parentActivityName=".common.preferences.SettingsActivity" />
+            android:name=".preferences.PreferenceActivity"
+            android:parentActivityName=".MainActivity">
+        </activity>
 
         <!-- Sandwich overview -->
         <activity

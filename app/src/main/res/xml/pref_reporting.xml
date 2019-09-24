@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
-        android:defaultValue="false"
-        android:key="be.ugent.zeus.hydra.reporting.allow_analytics"
-        android:summary="@string/onboarding_reporting_analytics_desc"
-        android:title="@string/onboarding_reporting_analytics_title" />
+        app:iconSpaceReserved="false"
+        app:defaultValue="false"
+        app:key="be.ugent.zeus.hydra.reporting.allow_analytics"
+        app:summary="@string/onboarding_reporting_analytics_desc"
+        app:title="@string/onboarding_reporting_analytics_title" />
 
     <SwitchPreference
-        android:defaultValue="true"
-        android:key="be.ugent.zeus.hydra.reporting.allow_crash_reporting"
-        android:summary="@string/onboarding_reporting_crash_desc"
-        android:title="@string/onboarding_reporting_crash_title" />
+        app:iconSpaceReserved="false"
+        app:defaultValue="true"
+        app:key="be.ugent.zeus.hydra.reporting.allow_crash_reporting"
+        app:summary="@string/onboarding_reporting_crash_desc"
+        app:title="@string/onboarding_reporting_crash_title" />
 </PreferenceScreen>

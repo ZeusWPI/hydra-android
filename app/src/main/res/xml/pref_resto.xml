@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<PreferenceCategory
-		android:title="@string/resto_pref_closing_hour_category_title">
+    <Preference
+        android:icon="@drawable/ic_info_outline"
+        app:summary="@string/resto_pref_closing_description"
+        app:persistent="false"
+        app:selectable="false" />
 
-        <Preference
-            android:summary="@string/resto_pref_closing_description"
-            android:persistent="false"
-            android:selectable="false" />
+    <be.ugent.zeus.hydra.common.ui.widgets.TimePreference
+        app:allowDividerBelow="true"
+        app:key="pref_resto_closing_hour"
+        app:useDefaultSummary="true"
+        app:summary="@string/resto_pref_closing_description"
+        app:title="@string/resto_pref_closing_title"
+        app:defaultValue="21:00" />
 
-        <be.ugent.zeus.hydra.common.ui.widgets.TimePreference
-            android:key="pref_resto_closing_hour"
-            android:summary="@string/resto_pref_closing_description"
-            android:title="@string/resto_pref_closing_title"
-            android:defaultValue="21:00" />
 
-	</PreferenceCategory>
+    <ListPreference
+        app:allowDividerAbove="true"
+        app:key="pref_choice_resto_select"
+        app:title="@string/resto_pref_choice"
+		app:summary="%s"
+        app:persistent="false" />
 
-    <PreferenceCategory
-        android:title="@string/resto_pref_choice">
+    <Preference
+        app:allowDividerAbove="true"
+        app:key="pref_choice_resto_select_loading"
+        app:title="@string/resto_pref_choice"
+        app:summary="@string/resto_pref_choice_title"
+        app:persistent="false" />
 
-	    <Preference
-            android:key="pref_choice_resto_select"
-		    android:title="@string/resto_pref_choice"
-		    android:summary="@string/resto_pref_choice_title"
-		    android:persistent="false" />
-
-    </PreferenceCategory>
 </PreferenceScreen>

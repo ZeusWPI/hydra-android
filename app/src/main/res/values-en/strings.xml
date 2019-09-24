@@ -62,8 +62,8 @@
     <string name="pref_overview_article_desc">Options for Schamper and news articles</string>
     <string name="pref_overview_about_title">About</string>
     <string name="pref_overview_about_desc">About the app</string>
-    <string name="pref_overview_theme_title">Lay-out</string>
-    <string name="pref_overview_theme_desc">Options for the lay-out of the app</string>
+    <string name="pref_overview_theme_title">Theme</string>
+    <string name="pref_overview_theme_desc">Options for the theme of the app</string>
 
     <string name="pref_about_licenses_title">Open source software</string>
     <string name="pref_about_licenses_summary">License details for used libraries</string>
@@ -136,6 +136,7 @@
 
     <string name="resto_pref_choice">Resto choice</string>
     <string name="resto_pref_choice_title">Choose a resto in the overview</string>
+    <string name="resto_pref_choice_loading">Loading…</string>
 
     <string name="resto_extra_refresh_started">Refreshing…</string>
     <string name="resto_extra_breakfast">Breakfast</string>

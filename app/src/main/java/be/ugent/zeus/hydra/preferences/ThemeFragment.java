@@ -1,18 +1,20 @@
-package be.ugent.zeus.hydra.common.preferences;
+package be.ugent.zeus.hydra.preferences;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.ListPreference;
+import androidx.preference.PreferenceManager;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.ui.PreferenceFragment;
 
 /**
  * Show preferences related to the theme of the app.
@@ -23,24 +25,32 @@ public class ThemeFragment extends PreferenceFragment {
 
     private static final String PREF_THEME_NIGHT_MODE = "pref_theme_night_mode";
 
+    private String existing = null;
+    private String updated = null;
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.pref_theme);
-        ListPreference listPreference = (ListPreference) findPreference(PREF_THEME_NIGHT_MODE);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.pref_theme, rootKey);
+
+        SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
+        existing = preferences.getString(PREF_THEME_NIGHT_MODE, defaultValue());
+
+        ListPreference listPreference = requirePreference(PREF_THEME_NIGHT_MODE);
         if (Build.VERSION.SDK_INT < 29) {
             listPreference.setEntries(R.array.pref_dark_mode_old);
             listPreference.setEntryValues(R.array.pref_dark_mode_values_old);
-        } else {
+            requirePreference("pref_theme_battery").setVisible(false);
 
+        } else {
             listPreference.setEntries(R.array.pref_dark_mode_new);
             listPreference.setEntryValues(R.array.pref_dark_mode_values_new);
+            requirePreference("pref_theme_system").setVisible(false);
         }
         listPreference.setDefaultValue(defaultValue());
         listPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-            Reporting.getTracker(getActivity())
-                    .log(new ThemeChanged((String) newValue));
-            Toast.makeText(getActivity().getApplicationContext(), R.string.pref_theme_night_mode_restart, Toast.LENGTH_LONG).show();
+            Reporting.getTracker(getActivity()).log(new ThemeChanged((String) newValue));
+            Toast.makeText(requireActivity().getApplicationContext(), R.string.pref_theme_night_mode_restart, Toast.LENGTH_LONG).show();
+            updated = (String) newValue;
             return true;
         });
     }
@@ -48,8 +58,16 @@ public class ThemeFragment extends PreferenceFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Reporting.getTracker(getActivity())
-                .setCurrentScreen(getActivity(), "Settings > Theme", getClass().getSimpleName());
+        Reporting.getTracker(requireContext()).setCurrentScreen(
+                requireActivity(), "Settings > Theme", getClass().getSimpleName());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (existing != null && !existing.equals(updated)) {
+            AppCompatDelegate.setDefaultNightMode(getNightMode(requireContext()));
+        }
     }
 
     private static String defaultValue() {

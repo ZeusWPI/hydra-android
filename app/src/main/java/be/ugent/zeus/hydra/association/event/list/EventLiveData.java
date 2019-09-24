@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.association.event.RawEventRequest;
-import be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity;
+import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 
 import java.util.Collections;
@@ -29,7 +29,7 @@ class EventLiveData extends RequestLiveData<List<EventItem>> implements SharedPr
     protected void onActive() {
         super.onActive();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        Set<String> current = preferences.getStringSet(AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
+        Set<String> current = preferences.getStringSet(AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
         // Register the listener for when the settings change while it's active
         preferences.registerOnSharedPreferenceChangeListener(this);
         // Check if the value is equal to the saved value. If not, we need to reload.
@@ -48,7 +48,7 @@ class EventLiveData extends RequestLiveData<List<EventItem>> implements SharedPr
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING.equals(key)) {
+        if (AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING.equals(key)) {
             loadData();
         }
     }
