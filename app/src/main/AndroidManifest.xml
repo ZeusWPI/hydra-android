@@ -179,6 +179,7 @@
         <!-- Urgent stuff -->
         <!-- This is a music service without sensitive data and thus does not require permissions -->
         <service
+            android:foregroundServiceType="mediaPlayback"
             android:name=".urgent.MusicService"
             android:exported="true"
             android:process=":urgent"
