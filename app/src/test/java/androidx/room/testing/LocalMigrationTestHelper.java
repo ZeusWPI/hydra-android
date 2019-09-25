@@ -243,7 +243,6 @@ public class LocalMigrationTestHelper extends TestWatcher {
             Log.w(TAG, "Could not find the schema file in the test assets. Checking the"
                     + " application assets");
             // Try loading it from the resources.
-            @SuppressWarnings("ConstantConditions")
             InputStream stream = getClass().getClassLoader()
                     .getResourceAsStream(mAssetsFolder + "/" + version + ".json");
             return SchemaBundle.deserialize(stream);

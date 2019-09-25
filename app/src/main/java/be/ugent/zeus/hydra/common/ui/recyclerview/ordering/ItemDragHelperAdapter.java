@@ -38,7 +38,6 @@ public interface ItemDragHelperAdapter {
      * @param toPosition   Then resolved position of the moved item.
      * @return True if the item was moved to the new adapter position.
      *
-     * @see RecyclerView#getAdapterPositionFor(RecyclerView.ViewHolder)
      * @see RecyclerView.ViewHolder#getAdapterPosition()
      */
     boolean onItemMove(int fromPosition, int toPosition);

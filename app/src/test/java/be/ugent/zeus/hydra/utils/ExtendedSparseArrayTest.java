@@ -1,6 +1,9 @@
 package be.ugent.zeus.hydra.utils;
 
-import be.ugent.zeus.hydra.BuildConfig;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
 import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 import org.junit.Before;
@@ -8,10 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
 import static org.junit.Assert.*;
 

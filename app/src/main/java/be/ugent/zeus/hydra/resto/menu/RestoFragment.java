@@ -1,23 +1,18 @@
 package be.ugent.zeus.hydra.resto.menu;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,8 +32,12 @@ import be.ugent.zeus.hydra.resto.history.HistoryActivity;
 import be.ugent.zeus.hydra.resto.meta.RestoLocationActivity;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectableMetaViewModel;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectedResto;
-import be.ugent.zeus.hydra.resto.sandwich.regular.RegularFragment;
+import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 import org.threeten.bp.LocalDate;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;

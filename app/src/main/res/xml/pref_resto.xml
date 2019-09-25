@@ -8,6 +8,7 @@
         app:persistent="false"
         app:selectable="false" />
 
+    <!--suppress AndroidElementNotAllowed -->
     <be.ugent.zeus.hydra.common.ui.widgets.TimePreference
         app:allowDividerBelow="true"
         app:key="pref_resto_closing_hour"
@@ -16,12 +17,11 @@
         app:title="@string/resto_pref_closing_title"
         app:defaultValue="21:00" />
 
-
     <ListPreference
         app:allowDividerAbove="true"
         app:key="pref_choice_resto_select"
         app:title="@string/resto_pref_choice"
-		app:summary="%s"
+        app:summary="%s"
         app:persistent="false" />
 
     <Preference

@@ -4,14 +4,11 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.core.content.res.ResourcesCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.utils.DateUtils;

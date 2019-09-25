@@ -32,7 +32,6 @@ public class TestMigration_12_13 {
         Instrumentation mockInstrumentation = mock(Instrumentation.class);
         when(mockInstrumentation.getTargetContext()).thenReturn(ApplicationProvider.getApplicationContext());
         when(mockInstrumentation.getContext()).thenReturn(ApplicationProvider.getApplicationContext());
-        //noinspection ConstantConditions
         testHelper = new LocalMigrationTestHelper(mockInstrumentation, Database.class.getCanonicalName());
     }
 

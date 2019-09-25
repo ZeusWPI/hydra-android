@@ -1,14 +1,14 @@
 package be.ugent.zeus.hydra.feed.preferences;
 
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import be.ugent.zeus.hydra.common.arch.data.Event;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;

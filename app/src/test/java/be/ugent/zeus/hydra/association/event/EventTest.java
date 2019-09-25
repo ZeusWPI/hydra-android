@@ -1,10 +1,6 @@
 package be.ugent.zeus.hydra.association.event;
 
-import be.ugent.zeus.hydra.association.event.Event;
-import be.ugent.zeus.hydra.testing.Utils;
 import be.ugent.zeus.hydra.common.ModelTest;
-import nl.jqno.equalsverifier.Warning;
-import org.junit.Test;
 
 /**
  * @author Niko Strijbol

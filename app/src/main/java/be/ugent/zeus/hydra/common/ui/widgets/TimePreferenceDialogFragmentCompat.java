@@ -2,18 +2,12 @@ package be.ugent.zeus.hydra.common.ui.widgets;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.TypedArray;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.AttributeSet;
-import android.view.View;
 import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
-import androidx.preference.DialogPreference;
 import androidx.preference.PreferenceDialogFragmentCompat;
 
 import org.threeten.bp.LocalTime;

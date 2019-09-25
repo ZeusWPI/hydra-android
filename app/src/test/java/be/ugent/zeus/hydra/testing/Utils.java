@@ -41,7 +41,7 @@ public class Utils {
                 .randomize(LocalDate.class, LocalDate::now)
                 .randomize(OffsetDateTime.class, OffsetDateTime::now)
                 .randomize(Instant.class, Instant::now);
-        for (String excluded: exclude) {
+        for (String excluded : exclude) {
             params.excludeField(named(excluded));
         }
         return new EasyRandom(params).nextObject(clazz);
@@ -54,7 +54,7 @@ public class Utils {
                 .randomize(LocalDate.class, LocalDate::now)
                 .randomize(OffsetDateTime.class, OffsetDateTime::now)
                 .randomize(Instant.class, Instant::now);
-        for (String excluded: exclude) {
+        for (String excluded : exclude) {
             params.excludeField(named(excluded));
         }
         return new EasyRandom(params).objects(clazz, amount);
@@ -80,7 +80,6 @@ public class Utils {
         return adapter.fromJson(source);
     }
 
-    @SuppressWarnings("ConstantConditions")
     public static File getResourceFile(String resourcePath) {
         return new File(CardDaoTest.class.getClassLoader().getResource(resourcePath).getFile());
     }

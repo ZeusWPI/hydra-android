@@ -71,14 +71,10 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
                 if (expected == null || actual == null) {
                     if (expected != null || actual != null) {
                         mismatchDescription.appendText(ToStringBuilder.reflectionToString(item, ToStringStyle.MULTI_LINE_STYLE));
-                        //mismatchDescription.appendText(field.getName() + " ");
-                        //matcher.describeMismatch(actual, mismatchDescription);
                         return false;
                     }
                 } else {
-                    @SuppressWarnings({"SuspiciousMethodCalls", "ConstantConditions"})
                     Matcher<Object> matcher = matcherMap.getOrDefault(expected.getClass(), IsEqual::new).apply(expected);
-
                     if (!matcher.matches(actual)) {
                         mismatchDescription.appendText(ToStringBuilder.reflectionToString(item, ToStringStyle.MULTI_LINE_STYLE));
                         return false;
@@ -102,8 +98,7 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
      * For example:
      * <pre>assertThat(myBean, sameFieldsAs(myExpectedBean))</pre>
      *
-     * @param expectedBean
-     *     the bean against which examined beans are compared
+     * @param expectedBean the bean against which examined beans are compared
      */
     @Factory
     public static <T> ShallowButFullEqual<T> sameFieldsAs(T expectedBean) {
@@ -112,7 +107,7 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
 
     @SuppressWarnings("unchecked")
     public <V> ShallowButFullEqual<T> withMatcher(Class<V> clazz, Function<V, Matcher<V>> matcher) {
-        matcherMap.put((Class<Object>) clazz, (Function<Object, Matcher<Object>>)(Function<?,?>) matcher);
+        matcherMap.put((Class<Object>) clazz, (Function<Object, Matcher<Object>>) (Function<?, ?>) matcher);
         return this;
     }
 

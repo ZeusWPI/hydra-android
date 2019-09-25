@@ -155,7 +155,6 @@ public class NewsArticleActivity extends BaseActivity {
         }
 
         @Override
-        @SuppressWarnings("Duplicates")
         public Bundle getParams() {
             BaseEvents.Params names = Reporting.getEvents().params();
             Bundle bundle = new Bundle();

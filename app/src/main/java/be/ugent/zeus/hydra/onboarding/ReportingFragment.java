@@ -14,10 +14,7 @@ import androidx.annotation.Nullable;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
-
-import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 
 import static androidx.core.view.ViewCompat.requireViewById;

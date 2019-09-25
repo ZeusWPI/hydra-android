@@ -74,7 +74,6 @@ public class CardRepositoryTest {
     }
 
     @Test
-    @SuppressWarnings("Duplicates")
     public void testUpdate() {
         CardDismissal random = getRandom(cards);
         CardDismissal update = new CardDismissal(random.getIdentifier(), random.getDismissalDate().plusSeconds(60));

@@ -5,7 +5,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
@@ -19,7 +18,6 @@ import be.ugent.zeus.hydra.resto.menu.RestoFragment;
 import be.ugent.zeus.hydra.utils.DateUtils;
 
 import static android.view.Menu.NONE;
-import static be.ugent.zeus.hydra.utils.PreferencesUtils.isSetIn;
 
 /**
  * Home feed view holder for the resto menu.

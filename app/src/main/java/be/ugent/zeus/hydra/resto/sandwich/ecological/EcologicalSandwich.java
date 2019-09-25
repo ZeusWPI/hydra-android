@@ -3,12 +3,10 @@ package be.ugent.zeus.hydra.resto.sandwich.ecological;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 import java.util.List;
 
-import com.squareup.moshi.Json;
 import java9.util.Objects;
+
 import org.threeten.bp.LocalDate;
 
 /**

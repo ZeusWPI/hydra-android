@@ -22,11 +22,10 @@ import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.feed.commands.CommandResult;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
-
 import com.google.android.material.snackbar.Snackbar;
+
 import static be.ugent.zeus.hydra.feed.FeedLiveData.REFRESH_HOMECARD_TYPE;
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
 
 /**
  * The fragment showing the home feed.

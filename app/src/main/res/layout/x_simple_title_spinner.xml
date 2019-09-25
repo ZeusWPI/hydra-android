@@ -5,8 +5,6 @@
     style="?android:attr/spinnerItemStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:ellipsize="marquee"
-    android:lines="1"
     android:singleLine="true"
     android:textAppearance="@style/TextAppearance.AppCompat.Title"
     tools:text="Selected spinner item"

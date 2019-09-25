@@ -4,20 +4,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.reporting.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
-
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
 
 /**
  * Displays the resto menu for one day. This is mostly used in the view pager.

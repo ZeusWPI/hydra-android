@@ -45,7 +45,6 @@ public abstract class AbstractJsonRequestTest<D> {
         context = ApplicationProvider.getApplicationContext();
     }
 
-    @SuppressWarnings("ConstantConditions")
     protected final File getResourceFile(String resourcePath) {
         return new File(getClass().getClassLoader().getResource(resourcePath).getFile());
     }
