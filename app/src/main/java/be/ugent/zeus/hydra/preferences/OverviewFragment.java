@@ -1,15 +1,11 @@
 package be.ugent.zeus.hydra.preferences;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
-
-import be.ugent.zeus.hydra.R;
 
 /**
  * Display an overview of the settings.
@@ -32,9 +28,7 @@ public class OverviewFragment extends PreferenceFragmentCompat {
                 preference.setIcon(entry.getIcon());
             }
             preference.setOnPreferenceClickListener(p -> {
-                Intent intent = new Intent(getContext(), PreferenceActivity.class);
-                intent.putExtra(PreferenceActivity.ARG_FRAGMENT, (Parcelable) entry);
-                startActivity(intent);
+                PreferenceActivity.start(requireContext(), entry);
                 return true;
             });
             screen.addPreference(preference);

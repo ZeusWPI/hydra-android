@@ -1,7 +1,9 @@
 package be.ugent.zeus.hydra.preferences;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,9 +22,17 @@ public class PreferenceActivity extends BaseActivity {
     /**
      * Argument for the activity, indicating which fragment should be shown.
      */
-    public final static String ARG_FRAGMENT = "be.ugent.zeus.hydra.preferences.id";
+    private final static String ARG_FRAGMENT = "be.ugent.zeus.hydra.preferences.id";
 
     private static final int settingsTitle = R.string.action_view_settings;
+
+    public static void start(@NonNull Context context, @Nullable PreferenceEntry entry) {
+        Intent intent = new Intent(context, PreferenceActivity.class);
+        if (entry != null) {
+            intent.putExtra(ARG_FRAGMENT, (Parcelable) entry);
+        }
+        context.startActivity(intent);
+    }
 
     @Nullable
     private PreferenceEntry entry;
@@ -33,8 +43,13 @@ public class PreferenceActivity extends BaseActivity {
         setContentView(R.layout.activity_preferences);
 
         if (savedInstanceState != null) {
+            // If a specific screen is requested, use that one.
             entry = savedInstanceState.getParcelable(ARG_FRAGMENT);
+        } else if (Intent.ACTION_MANAGE_NETWORK_USAGE.equals(getIntent().getAction())) {
+            // We come from the device data usage settings screen, show network options.
+            entry = PreferenceEntry.DATA;
         } else {
+            // Nothing was requested, show the overview.
             entry = getIntent().getParcelableExtra(ARG_FRAGMENT);
         }
 

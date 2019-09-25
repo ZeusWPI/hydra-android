@@ -1,28 +1,28 @@
 package be.ugent.zeus.hydra.association.event.list;
 
-import androidx.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
-import be.ugent.zeus.hydra.common.preferences.SettingsActivity;
+import be.ugent.zeus.hydra.preferences.PreferenceActivity;
+import be.ugent.zeus.hydra.preferences.PreferenceEntry;
+import com.google.android.material.snackbar.Snackbar;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
 
 /**
  * Displays a list of activities, filtered by the settings.
@@ -75,7 +75,7 @@ public class EventFragment extends Fragment {
         Button filters = view.findViewById(R.id.events_no_data_button_filters);
 
         refresh.setOnClickListener(v -> viewModel.onRefresh());
-        filters.setOnClickListener(v -> startActivity(new Intent(getContext(), SettingsActivity.class)));
+        filters.setOnClickListener(v -> PreferenceActivity.start(requireContext(), PreferenceEntry.ACTIVITIES));
     }
 
     private void onError(Throwable throwable) {

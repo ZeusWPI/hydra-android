@@ -23,7 +23,6 @@ import java.util.Objects;
 
 import be.ugent.zeus.hydra.association.event.list.EventFragment;
 import be.ugent.zeus.hydra.association.news.list.NewsFragment;
-import be.ugent.zeus.hydra.common.preferences.SettingsActivity;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
@@ -35,12 +34,12 @@ import be.ugent.zeus.hydra.preferences.PreferenceActivity;
 import be.ugent.zeus.hydra.resto.menu.RestoFragment;
 import be.ugent.zeus.hydra.schamper.list.SchamperFragment;
 import be.ugent.zeus.hydra.urgent.UrgentFragment;
-
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import jonathanfinerty.once.Once;
+
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
 
 /**
@@ -307,8 +306,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // First check if it are settings, then we don't update anything.
         if (menuItem.getItemId() == R.id.drawer_pref) {
             drawer.closeDrawer(GravityCompat.START);
-            Intent intent = new Intent(this, PreferenceActivity.class);
-            startActivity(intent);
+            PreferenceActivity.start(this, null);
             return;
         }
 
