@@ -2,15 +2,15 @@ package be.ugent.zeus.hydra.association.event.list;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
-import be.ugent.zeus.hydra.association.event.RawEventRequest;
-import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
-import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
+import androidx.preference.PreferenceManager;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
+import be.ugent.zeus.hydra.association.event.RawEventRequest;
+import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
+import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 
 /**
  * Live data for events that will listen to changes in the preferences for the filtering.

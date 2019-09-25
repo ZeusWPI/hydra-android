@@ -73,13 +73,13 @@ public class NewsArticleActivity extends BaseActivity {
         date.setText(dateString);
 
         if (!TextUtils.isEmpty(article.getDescription())) {
-            lead.setText(Utils.fromHtml(article.getDescription(), new PicassoImageGetter(lead, getResources(), this)));
+            lead.setText(Utils.fromHtml(article.getDescription(), new PicassoImageGetter(lead, getResources())));
         } else {
             lead.setVisibility(View.GONE);
         }
 
         if (article.getText() != null) {
-            text.setText(Utils.fromHtml(article.getText(), new PicassoImageGetter(text, getResources(), this)));
+            text.setText(Utils.fromHtml(article.getText(), new PicassoImageGetter(text, getResources())));
             text.setMovementMethod(LinkMovementMethod.getInstance());
         }
 

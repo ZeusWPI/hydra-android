@@ -4,15 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 
-import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.reporting.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Tracker;
-import be.ugent.zeus.hydra.preferences.ArticleFragment;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.preferences.ArticleFragment;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 /**

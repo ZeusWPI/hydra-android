@@ -90,7 +90,7 @@ public class FullArticleActivity extends BaseActivity {
             }
 
             //The body
-            text.setText(Utils.fromHtml(article.getBody(), new PicassoImageGetter(text, getResources(), this)));
+            text.setText(Utils.fromHtml(article.getBody(), new PicassoImageGetter(text, getResources())));
             text.setMovementMethod(LinkMovementMethod.getInstance());
         }
 

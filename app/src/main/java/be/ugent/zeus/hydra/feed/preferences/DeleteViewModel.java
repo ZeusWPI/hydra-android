@@ -3,12 +3,11 @@ package be.ugent.zeus.hydra.feed.preferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.common.arch.data.Event;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;

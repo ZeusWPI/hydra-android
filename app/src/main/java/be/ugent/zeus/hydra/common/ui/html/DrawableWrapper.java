@@ -59,6 +59,8 @@ class DrawableWrapper extends Drawable implements Drawable.Callback {
     }
 
     @Override
+    @Deprecated
+    @SuppressWarnings("deprecation")
     public void setDither(boolean dither) {
         mDrawable.setDither(dither);
     }
@@ -111,6 +113,7 @@ class DrawableWrapper extends Drawable implements Drawable.Callback {
     }
 
     @Override
+    @Deprecated
     public int getOpacity() {
         return mDrawable.getOpacity();
     }
@@ -200,11 +203,7 @@ class DrawableWrapper extends Drawable implements Drawable.Callback {
         DrawableCompat.setHotspotBounds(mDrawable, left, top, right, bottom);
     }
 
-    public Drawable getWrappedDrawable() {
-        return mDrawable;
-    }
-
-    public void setWrappedDrawable(Drawable drawable) {
+    void setWrappedDrawable(Drawable drawable) {
         if (mDrawable != null) {
             mDrawable.setCallback(null);
         }

@@ -3,9 +3,8 @@ package be.ugent.zeus.hydra.association.event;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import androidx.annotation.RequiresApi;
-
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 
 import java.io.IOException;
