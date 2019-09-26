@@ -26,7 +26,6 @@ public class HoursViewModel extends RequestViewModel<List<OpeningHours>> {
     @Override
     protected Request<List<OpeningHours>> getRequest() {
         if (library == null) {
-            //TODO: should this be a LiveData instead?
             throw new IllegalStateException("You must set the library before using it.");
         }
         return new OpeningHoursRequest(getApplication(), library);

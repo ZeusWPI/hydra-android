@@ -16,8 +16,6 @@ import be.ugent.zeus.hydra.R;
 /**
  * Creates the channels for the notifications.
  *
- * TODO: should these methods be moved to where they are actually used?
- *
  * @author Niko Strijbol
  */
 public class ChannelCreator {

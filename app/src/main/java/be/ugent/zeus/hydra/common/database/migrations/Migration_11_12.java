@@ -10,8 +10,6 @@ import be.ugent.zeus.hydra.feed.cards.CardDismissal;
 /**
  * This migration adds support for {@link CardDismissal}s.
  *
- * TODO: this fails?
- *
  * @author Niko Strijbol
  */
 public class Migration_11_12 extends Migration {

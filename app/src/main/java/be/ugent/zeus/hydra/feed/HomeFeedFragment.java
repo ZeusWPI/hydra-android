@@ -37,7 +37,7 @@ import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
  * to 9 requests, we can't just load everything and then display it at once; this would show an empty screen for a long
  * time.
  *
- * Instead, we insert data to the RecyclerView as soon the a request is completed. TODO documentation
+ * Instead, we insert data to the RecyclerView as soon the a request is completed.
  *
  * @author Niko Strijbol
  * @author silox

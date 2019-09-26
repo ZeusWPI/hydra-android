@@ -59,7 +59,6 @@ public abstract class Card implements Comparable<Card> {
     public abstract String getIdentifier();
 
     /**
-     * TODO: convert this to enum if useful.
      * Note: the numbers are not sequential due to removed types.
      */
     @Retention(RetentionPolicy.SOURCE)

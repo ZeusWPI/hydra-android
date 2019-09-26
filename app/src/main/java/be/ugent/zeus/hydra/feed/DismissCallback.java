@@ -34,7 +34,6 @@ public class DismissCallback extends ItemTouchHelper.Callback {
         if (viewHolder instanceof SwipeDismissableViewHolder) {
             ((SwipeDismissableViewHolder) viewHolder).onSwiped();
         } else {
-            // TODO: if this behaviour is verified, throw exception instead.
             Log.w(TAG, "Swiped unswipeable card! Ignoring.");
         }
     }

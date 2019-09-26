@@ -25,7 +25,6 @@ class NewsItemCard extends Card {
 
     @Override
     public int getPriority() {
-        //TODO: multiplier for highlight
         OffsetDateTime date = getNewsItem().getModified();
         Duration duration = Duration.between(date, OffsetDateTime.now());
         return PriorityUtils.lerp((int) duration.toHours(), 0, TWO_WEEKS_HOURS);

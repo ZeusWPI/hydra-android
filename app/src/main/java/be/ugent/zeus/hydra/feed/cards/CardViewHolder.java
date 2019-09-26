@@ -67,7 +67,6 @@ public abstract class CardViewHolder extends DataViewHolder<Card> implements Swi
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        // TODO: should this crash?
         if (card == null) {
             Log.e(TAG, "Card was null when menu was called. Ignoring.");
             return false;
@@ -90,7 +89,6 @@ public abstract class CardViewHolder extends DataViewHolder<Card> implements Swi
         if (card != null) {
             adapter.getCompanion().executeCommand(new DisableIndividualCard(card));
         } else {
-            // TODO: maybe this should crash?
             Log.w(TAG, "onSwiped: card is null somehow. Ignoring!");
         }
     }

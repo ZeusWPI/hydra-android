@@ -59,7 +59,6 @@ public class EventCardViewHolder extends CardViewHolder {
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        // TODO: should this crash?
         if (event == null) {
             Log.e(TAG, "The event was null when menu was called. Ignoring.");
             return super.onMenuItemClick(item);
