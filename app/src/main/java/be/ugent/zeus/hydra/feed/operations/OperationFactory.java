@@ -1,9 +1,10 @@
 package be.ugent.zeus.hydra.feed.operations;
 
-import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.feed.HomeFeedRequest;
 import java9.util.function.IntPredicate;
 import java9.util.function.Supplier;
+
+import be.ugent.zeus.hydra.feed.HomeFeedRequest;
+import be.ugent.zeus.hydra.feed.cards.Card;
 
 /**
  * Factory to get operations on a feed.
@@ -39,8 +40,8 @@ public final class OperationFactory {
      * {@link #add(HomeFeedRequest)}, and otherwise {@link #del(int)}.
      *
      * @param isIgnored If the card type should be ignored or not. Must return true if the card must be ignored.
-     * @param supplier The request supplier. Use a supplier so the request only gets made when needed.
-     * @param type     Type of the home card.
+     * @param supplier  The request supplier. Use a supplier so the request only gets made when needed.
+     * @param type      Type of the home card.
      *
      * @return The operation.
      */

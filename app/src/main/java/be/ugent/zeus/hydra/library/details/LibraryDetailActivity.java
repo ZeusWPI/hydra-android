@@ -1,19 +1,11 @@
 package be.ugent.zeus.hydra.library.details;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.core.text.util.LinkifyCompat;
 import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.util.Log;
@@ -21,19 +13,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.text.util.LinkifyCompat;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.reporting.Reporting;
-import be.ugent.zeus.hydra.common.reporting.BaseEvents;
-import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
+import be.ugent.zeus.hydra.common.reporting.BaseEvents;
+import be.ugent.zeus.hydra.common.reporting.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
@@ -42,9 +44,8 @@ import be.ugent.zeus.hydra.library.list.LibraryListFragment;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 /**
@@ -65,7 +66,7 @@ public class LibraryDetailActivity extends BaseActivity {
 
     public static void launchActivity(Context context, Library library) {
         Intent intent = new Intent(context, LibraryDetailActivity.class);
-        intent.putExtra(ARG_LIBRARY, (Parcelable) library);
+        intent.putExtra(ARG_LIBRARY, library);
         context.startActivity(intent);
     }
 
@@ -167,17 +168,17 @@ public class LibraryDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         // Save the toggle button state.
         outState.putString("button", String.valueOf(expandButton.getText()));
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         // Restore the toggle button state.
-        if (savedInstanceState != null && savedInstanceState.get("button") != null) {
+        if (savedInstanceState.get("button") != null) {
             expandButton.setText(savedInstanceState.getString("button"));
         }
     }

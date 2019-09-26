@@ -1,14 +1,14 @@
 package be.ugent.zeus.hydra.feed.cards.implementations.news;
 
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.view.View;
+import androidx.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.news.NewsArticleActivity;
 import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
-import be.ugent.zeus.hydra.preferences.ArticleFragment;
 import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
+import be.ugent.zeus.hydra.preferences.ArticleFragment;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;

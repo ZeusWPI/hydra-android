@@ -3,11 +3,12 @@ package be.ugent.zeus.hydra.utils;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
+import android.net.*;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
+import androidx.core.content.ContextCompat;
+
 import be.ugent.zeus.hydra.R;
 
 /**
@@ -27,10 +28,25 @@ public class NetworkUtils {
      * @return True if there is a connection, otherwise false.
      */
     public static boolean isConnected(Context context) {
-        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        assert manager != null;
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
+        ConnectivityManager manager = ContextCompat.getSystemService(context, ConnectivityManager.class);
+        if (manager == null) {
+            return false;
+        }
+
+        if (Build.VERSION.SDK_INT < 29) {
+            //noinspection deprecation
+            NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+            //noinspection deprecation
+            return (networkInfo != null && networkInfo.isConnected());
+        } else {
+            Network network = manager.getActiveNetwork();
+            NetworkCapabilities capabilities = manager.getNetworkCapabilities(network);
+            if (capabilities != null) {
+                return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
+            } else {
+                return false;
+            }
+        }
     }
 
     /**

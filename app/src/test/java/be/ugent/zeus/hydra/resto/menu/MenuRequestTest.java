@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.resto.menu;
 
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;

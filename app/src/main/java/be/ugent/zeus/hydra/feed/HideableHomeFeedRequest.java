@@ -3,20 +3,22 @@ package be.ugent.zeus.hydra.feed;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
-import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.feed.cards.CardIdentifier;
-import be.ugent.zeus.hydra.feed.cards.CardRepository;
-import java9.util.stream.Collectors;
-import java9.util.stream.Stream;
-import java9.util.stream.StreamSupport;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import java9.util.stream.Collectors;
+import java9.util.stream.Stream;
+import java9.util.stream.StreamSupport;
+
+import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.feed.cards.Card;
+import be.ugent.zeus.hydra.feed.cards.CardIdentifier;
+import be.ugent.zeus.hydra.feed.cards.CardRepository;
+
 /**
  * Home feed request that takes care of maintaining and hiding cards the user no longer wants to see.
+ *
  * @author Niko Strijbol
  */
 public abstract class HideableHomeFeedRequest implements HomeFeedRequest {

@@ -3,8 +3,13 @@ package be.ugent.zeus.hydra.feed.cards.implementations.resto;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
+
+import java.util.List;
+
+import java9.util.stream.Stream;
+import java9.util.stream.StreamSupport;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.request.Request;
@@ -18,10 +23,6 @@ import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.resto.menu.MenuFilter;
 import be.ugent.zeus.hydra.resto.menu.MenuRequest;
-import java9.util.stream.Stream;
-import java9.util.stream.StreamSupport;
-
-import java.util.List;
 
 /**
  * @author Niko Strijbol

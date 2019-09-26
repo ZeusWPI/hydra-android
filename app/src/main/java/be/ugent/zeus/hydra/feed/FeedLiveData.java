@@ -5,13 +5,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 
 import java.util.*;
+
+import java9.util.J8Arrays;
+import java9.util.function.IntPredicate;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
@@ -32,10 +36,6 @@ import be.ugent.zeus.hydra.feed.operations.FeedOperation;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
-import java9.util.J8Arrays;
-import java9.util.function.IntPredicate;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
 import static be.ugent.zeus.hydra.feed.operations.OperationFactory.add;
 import static be.ugent.zeus.hydra.feed.operations.OperationFactory.get;
 
@@ -167,7 +167,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
                 Set<Integer> errors = new HashSet<>();
                 Result<List<Card>> result = null;
 
-                for (FeedOperation operation: operations) {
+                for (FeedOperation operation : operations) {
                     if (isCancelled()) {
                         return null;
                     }
@@ -254,7 +254,8 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
      * Filter the requests to only include the requests that should be executed.
      *
      * @param allOperations A list of all possible operations.
-     * @param args The arguments to determine which requests will be executed.
+     * @param args          The arguments to determine which requests will be executed.
+     *
      * @return The requests to be executed.
      */
     private static Iterable<FeedOperation> findOperations(ExtendedSparseArray<FeedOperation> allOperations, @NonNull Bundle args) {

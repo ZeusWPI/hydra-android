@@ -76,7 +76,6 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
         // Create the media session.
         mediaSession = new MediaSessionCompat(this, TAG);
         setSessionToken(mediaSession.getSessionToken());
-        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
 
         // Create the player.
         player = new Player.Builder(this)

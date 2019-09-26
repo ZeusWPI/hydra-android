@@ -22,7 +22,7 @@ public class PreferenceActivity extends BaseActivity {
     /**
      * Argument for the activity, indicating which fragment should be shown.
      */
-    private final static String ARG_FRAGMENT = "be.ugent.zeus.hydra.preferences.id";
+    public final static String ARG_FRAGMENT = "be.ugent.zeus.hydra.preferences.id";
 
     private static final int settingsTitle = R.string.action_view_settings;
 
@@ -47,7 +47,7 @@ public class PreferenceActivity extends BaseActivity {
             entry = savedInstanceState.getParcelable(ARG_FRAGMENT);
         } else if (Intent.ACTION_MANAGE_NETWORK_USAGE.equals(getIntent().getAction())) {
             // We come from the device data usage settings screen, show network options.
-            entry = PreferenceEntry.DATA;
+            entry = PreferenceEntry.HOME;
         } else {
             // Nothing was requested, show the overview.
             entry = getIntent().getParcelableExtra(ARG_FRAGMENT);

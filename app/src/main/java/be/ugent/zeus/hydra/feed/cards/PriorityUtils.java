@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.feed.cards;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.widget.ImageView;
+import androidx.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -14,9 +14,8 @@ import com.squareup.picasso.RequestCreator;
 /**
  * Util class, with e.g. help calculate the priority a card should have in the home feed.
  *
- * @see Card
- *
  * @author Niko Strijbol
+ * @see Card
  */
 public class PriorityUtils {
 
@@ -60,8 +59,8 @@ public class PriorityUtils {
      * Use Picasso to load a thumbnail. If data saving is enabled, the thumbnail will only be loaded from the cache.
      *
      * @param context The context.
-     * @param image The image url to load.
-     * @param target The target view for the image.
+     * @param image   The image url to load.
+     * @param target  The target view for the image.
      */
     public static void loadThumbnail(Context context, String image, ImageView target) {
         RequestCreator creator = Picasso.get().load(image).fit().centerInside();

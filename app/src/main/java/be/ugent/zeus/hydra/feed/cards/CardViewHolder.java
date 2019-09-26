@@ -1,13 +1,13 @@
 package be.ugent.zeus.hydra.feed.cards;
 
 import android.annotation.SuppressLint;
-import androidx.annotation.CallSuper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import androidx.annotation.CallSuper;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;

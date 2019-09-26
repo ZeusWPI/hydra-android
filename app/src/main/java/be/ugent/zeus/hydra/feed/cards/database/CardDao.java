@@ -39,14 +39,14 @@ public abstract class CardDao {
      * Note: you probably want to use {@link #deleteByIdentifier(Collection)} instead.
      *
      * @param cardType The type of the card.
-     * @param id The identifier of the card.
+     * @param id       The identifier of the card.
      */
     @Query("DELETE FROM " + DismissalTable.TABLE_NAME + " WHERE " + DismissalTable.Columns.CARD_TYPE + " = :cardType AND " + DismissalTable.Columns.IDENTIFIER + " = :id")
     protected abstract void deleteCard(@Card.Type int cardType, String id);
 
     @Transaction
     public void deleteByIdentifier(Collection<CardIdentifier> identifiers) {
-        for (CardIdentifier identifier: identifiers) {
+        for (CardIdentifier identifier : identifiers) {
             deleteCard(identifier.getCardType(), identifier.getIdentifier());
         }
     }

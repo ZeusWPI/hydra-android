@@ -7,14 +7,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import java.util.Collections;
+import java.util.List;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.SingleDayFragment;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import org.threeten.bp.LocalDate;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * This class provides the tabs in the resto activity.
@@ -27,7 +27,7 @@ class MenuPagerAdapter extends FragmentStatePagerAdapter {
     private final Context context;
 
     MenuPagerAdapter(FragmentManager fm, Context context) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.context = context.getApplicationContext();
     }
 
@@ -40,6 +40,7 @@ class MenuPagerAdapter extends FragmentStatePagerAdapter {
         return !data.isEmpty();
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {

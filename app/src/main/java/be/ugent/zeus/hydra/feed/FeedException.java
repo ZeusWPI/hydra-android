@@ -12,7 +12,7 @@ public class FeedException extends RequestException {
 
     private final Set<Integer> failedTypes;
 
-    public FeedException(Set<Integer> failedTypes) {
+    FeedException(Set<Integer> failedTypes) {
         super("Exception for card types" + Arrays.toString(failedTypes.toArray()));
         this.failedTypes = failedTypes;
     }

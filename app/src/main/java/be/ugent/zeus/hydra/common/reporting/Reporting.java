@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.common.reporting;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
+import androidx.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.BuildConfig;
 

@@ -2,18 +2,19 @@ package be.ugent.zeus.hydra.library.list;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
-import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
-import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.library.Library;
-import java9.lang.Iterables;
-import java9.util.Comparators;
-import java9.util.Lists;
+import androidx.preference.PreferenceManager;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
+import java9.lang.Iterables;
+import java9.util.Comparators;
+import java9.util.Lists;
+
+import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
+import be.ugent.zeus.hydra.common.request.Request;
+import be.ugent.zeus.hydra.library.Library;
 
 /**
  * @author Niko Strijbol
@@ -73,7 +74,7 @@ class LibraryLiveData extends RequestLiveData<List<Library>> implements SharedPr
                     Comparators.thenComparing(
                             Comparators.reversed(Comparators.comparing(Library::isFacultyBib)),
                             Comparators.comparing(Library::getName)
-            )));
+                    )));
 
             return libraries;
         });

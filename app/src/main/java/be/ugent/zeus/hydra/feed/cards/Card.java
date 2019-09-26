@@ -3,10 +3,10 @@ package be.ugent.zeus.hydra.feed.cards;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 
-import java9.lang.Integers;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import java9.lang.Integers;
 
 import static be.ugent.zeus.hydra.feed.cards.Card.Type.*;
 
@@ -100,7 +100,8 @@ public abstract class Card implements Comparable<Card> {
      * This method is necessary due to the shortcomings of Java's type system.
      *
      * @param type The type you need.
-     * @param <C> The type of card you need.
+     * @param <C>  The type of card you need.
+     *
      * @return The cast card if it is of the right type.
      */
     public <C extends Card> C checkCard(@Type int type) {

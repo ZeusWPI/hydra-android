@@ -67,6 +67,12 @@
             </intent-filter>
         </activity>
 
+        <!-- Select preferences for home feed -->
+        <activity
+            android:name=".feed.preferences.HomeFeedPrefActivity"
+            android:label="@string/feed_pref_card_types_title"
+            android:parentActivityName=".preferences.PreferenceActivity" />
+
         <!-- Sandwich overview -->
         <activity
             android:name=".resto.sandwich.SandwichActivity"

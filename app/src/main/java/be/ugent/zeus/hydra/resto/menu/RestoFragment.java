@@ -3,15 +3,14 @@ package be.ugent.zeus.hydra.resto.menu;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.Collections;
@@ -223,7 +222,7 @@ public class RestoFragment extends Fragment implements
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_resto, menu);
         requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_history);
     }
@@ -260,7 +259,7 @@ public class RestoFragment extends Fragment implements
             return;
         }
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         preferences.edit()
                 .putString(RestoPreferenceFragment.PREF_RESTO_KEY, resto.getEndpoint())
                 .putString(RestoPreferenceFragment.PREF_RESTO_NAME, resto.getName())

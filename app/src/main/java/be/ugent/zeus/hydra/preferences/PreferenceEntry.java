@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.preferences;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
@@ -11,7 +10,7 @@ import java9.util.function.Supplier;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
-import be.ugent.zeus.hydra.feed.preferences.HomeFeedPreferenceFragment;
+import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 
 /**
@@ -24,7 +23,7 @@ public enum PreferenceEntry implements Parcelable {
             R.string.pref_overview_feed_title,
             R.string.pref_overview_feed_desc,
             R.drawable.ic_home,
-            HomeFeedPreferenceFragment::new
+            HomeFragment::new
     ),
     ACTIVITIES(
             R.string.pref_overview_activities_title,

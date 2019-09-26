@@ -5,13 +5,15 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
-
+import androidx.lifecycle.Lifecycle;
+import androidx.preference.PreferenceManager;
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 
-import be.ugent.zeus.hydra.preferences.ArticleFragment;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.preferences.ArticleFragment;
+import be.ugent.zeus.hydra.testing.BlankActivity;
 import be.ugent.zeus.hydra.testing.RobolectricUtils;
 import org.junit.Before;
 import org.junit.Test;

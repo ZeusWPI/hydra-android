@@ -2,10 +2,12 @@ package be.ugent.zeus.hydra.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Niko Strijbol

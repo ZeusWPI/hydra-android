@@ -5,13 +5,11 @@ import android.app.Application;
 import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
-
 import androidx.appcompat.app.AppCompatDelegate;
 
-import be.ugent.zeus.hydra.preferences.ThemeFragment;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Tracker;
-
+import be.ugent.zeus.hydra.preferences.ThemeFragment;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import jonathanfinerty.once.Once;
 
@@ -69,8 +67,8 @@ public class HydraApplication extends Application {
     private void trackTheme() {
         Tracker tracker = Reporting.getTracker(this);
         switch (ThemeFragment.getNightMode(this)) {
-            case AppCompatDelegate.MODE_NIGHT_AUTO:
-                tracker.setUserProperty("theme", "auto");
+            case AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY:
+                tracker.setUserProperty("theme", "battery");
                 break;
             case AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM:
                 tracker.setUserProperty("theme", "follow system");

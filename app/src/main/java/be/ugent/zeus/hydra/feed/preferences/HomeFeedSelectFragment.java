@@ -2,16 +2,21 @@ package be.ugent.zeus.hydra.feed.preferences;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.*;
+
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
@@ -19,10 +24,6 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DescriptionMultiSelectListViewHolder;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
-
-import java.util.*;
 
 import static be.ugent.zeus.hydra.feed.HomeFeedFragment.PREF_DISABLED_CARD_TYPES;
 
@@ -89,7 +90,7 @@ public class HomeFeedSelectFragment extends Fragment {
             }
         }
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         preferences.edit().putStringSet(PREF_DISABLED_CARD_TYPES, disabled).apply();
     }
 

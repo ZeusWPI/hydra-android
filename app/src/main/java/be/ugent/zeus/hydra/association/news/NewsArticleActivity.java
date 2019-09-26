@@ -6,26 +6,26 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.reporting.Event;
-import be.ugent.zeus.hydra.preferences.ArticleFragment;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
+import be.ugent.zeus.hydra.preferences.ArticleFragment;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
@@ -50,6 +50,7 @@ public class NewsArticleActivity extends BaseActivity {
 
         Intent intent = getIntent();
         UgentNewsArticle article = intent.getParcelableExtra(PARCEL_NAME);
+        assert article != null;
 
         this.url = article.getIdentifier();
 
@@ -125,7 +126,7 @@ public class NewsArticleActivity extends BaseActivity {
      *
      * @param context A context.
      * @param article The article to open.
-     * @param helper Helper for opening custom tabs.
+     * @param helper  Helper for opening custom tabs.
      */
     public static void viewArticle(Context context, UgentNewsArticle article, ActivityHelper helper) {
 
