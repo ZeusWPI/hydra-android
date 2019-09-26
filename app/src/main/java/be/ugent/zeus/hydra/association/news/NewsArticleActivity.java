@@ -142,7 +142,7 @@ public class NewsArticleActivity extends BaseActivity {
             helper.openCustomTab(Uri.parse(article.getIdentifier()));
         } else {
             Intent intent = new Intent(context, NewsArticleActivity.class);
-            intent.putExtra(PARCEL_NAME, (Parcelable) article);
+            intent.putExtra(PARCEL_NAME, article);
             context.startActivity(intent);
         }
     }

@@ -45,7 +45,7 @@ public interface CardRepository {
      * @param cardType The card type of the given cards.
      * @param allCards All cards. Cards not present in this list will be removed from the repository.
      */
-    void prune(@Card.Type int cardType, final List<Card> allCards);
+    void prune(@Card.Type int cardType, List<Card> allCards);
 
     /**
      * Delete a card dismissal if it is present.

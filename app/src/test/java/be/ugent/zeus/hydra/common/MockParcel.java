@@ -35,15 +35,14 @@ public class MockParcel {
         return new MockParcel().mockedParcel;
     }
 
-    private Parcel mockedParcel;
+    private final Parcel mockedParcel;
     private int position;
-    private List<Object> objects;
+    private final List<Object> objects = new ArrayList<>();
 
     private MockParcel() {
         mockedParcel = mock(Parcel.class, invocation -> {
             throw new MockitoException("Method not mocked: " + invocation.getMethod().getName());
         });
-        objects = new ArrayList<>();
         setupMock();
     }
 

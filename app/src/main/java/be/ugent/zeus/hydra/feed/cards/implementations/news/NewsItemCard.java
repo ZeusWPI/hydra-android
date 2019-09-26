@@ -17,7 +17,7 @@ class NewsItemCard extends Card {
 
     private static final int TWO_WEEKS_HOURS = 14 * 24;
 
-    private UgentNewsArticle newsItem;
+    private final UgentNewsArticle newsItem;
 
     NewsItemCard(UgentNewsArticle newsItem) {
         this.newsItem = newsItem;
@@ -41,6 +41,7 @@ class NewsItemCard extends Card {
         return Card.Type.NEWS_ITEM;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public UgentNewsArticle getNewsItem() {
         return newsItem;
     }

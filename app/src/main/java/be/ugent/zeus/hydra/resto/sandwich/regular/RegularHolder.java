@@ -15,12 +15,12 @@ import net.cachapa.expandablelayout.ExpandableLayout;
  */
 class RegularHolder extends DataViewHolder<RegularSandwich> {
 
-    private TextView name;
-    private TextView smallPrice;
-    private TextView mediumPrice;
-    private ExpandableLayout expandableLayout;
-    private TextView ingredients;
-    private MultiSelectAdapter<RegularSandwich> adapter;
+    private final TextView name;
+    private final TextView smallPrice;
+    private final TextView mediumPrice;
+    private final ExpandableLayout expandableLayout;
+    private final TextView ingredients;
+    private final MultiSelectAdapter<RegularSandwich> adapter;
 
     RegularHolder(View itemView, MultiSelectAdapter<RegularSandwich> adapter) {
         super(itemView);
@@ -32,8 +32,6 @@ class RegularHolder extends DataViewHolder<RegularSandwich> {
         ingredients = itemView.findViewById(R.id.sandwich_ingredients);
         this.adapter = adapter;
     }
-
-    private static final String TAG = "SandwichHolder";
 
     @Override
     public void populate(RegularSandwich sandwich) {

@@ -71,10 +71,9 @@ public class SchamperFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_refresh, menu);
-        //TODO there must a better of doing this
         BaseActivity activity = requireBaseActivity(this);
         BaseActivity.tintToolbarIcons(activity.requireToolbar(), menu, R.id.action_refresh);
     }

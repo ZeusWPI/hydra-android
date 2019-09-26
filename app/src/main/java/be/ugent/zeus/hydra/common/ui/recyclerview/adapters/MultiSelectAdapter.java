@@ -21,7 +21,7 @@ public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolde
     /**
      * This keeps track of which elements are selected and which are not.
      */
-    protected SparseBooleanArray booleanArray = new SparseBooleanArray();
+    protected final SparseBooleanArray booleanArray = new SparseBooleanArray();
     /**
      * The default value for the selection.
      */

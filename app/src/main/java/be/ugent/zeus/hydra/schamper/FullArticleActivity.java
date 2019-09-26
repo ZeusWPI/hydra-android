@@ -38,7 +38,7 @@ public class FullArticleActivity extends BaseActivity {
 
     static void start(Context context, Article article) {
         Intent starter = new Intent(context, FullArticleActivity.class);
-        starter.putExtra(PARCEL_ARTICLE, (Parcelable) article);
+        starter.putExtra(PARCEL_ARTICLE, article);
         context.startActivity(starter);
     }
 

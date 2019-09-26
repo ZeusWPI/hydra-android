@@ -38,7 +38,7 @@ public class TestMigration_9_10 {
     private static final String TEST_DATABASE_NAME = "test-db";
 
     @Rule
-    public LocalMigrationTestHelper testHelper;
+    public final LocalMigrationTestHelper testHelper;
 
     {
         Instrumentation mockInstrumentation = mock(Instrumentation.class);

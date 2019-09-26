@@ -7,11 +7,12 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.media.MediaMetadataCompat;
 import android.text.TextUtils;
-
 import androidx.annotation.NonNull;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import java9.util.function.Consumer;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
@@ -20,7 +21,6 @@ import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.urgent.ProgrammeInformation;
 import be.ugent.zeus.hydra.urgent.UrgentInfo;
 import be.ugent.zeus.hydra.urgent.UrgentInfoRequest;
-import java9.util.function.Consumer;
 import okhttp3.Response;
 
 /**
@@ -28,7 +28,7 @@ import okhttp3.Response;
  */
 public class UrgentTrackProvider {
 
-    public static final String URGENT_ID = "be.ugent.zeus.hydra.urgent";
+    static final String URGENT_ID = "be.ugent.zeus.hydra.urgent";
 
     public static final String METADATA_DESCRIPTION = "meta_description";
 
@@ -58,11 +58,6 @@ public class UrgentTrackProvider {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 callback.accept(track);
-            }
-
-            @Override
-            protected void onCancelled() {
-                super.onCancelled();
             }
         }.execute();
     }

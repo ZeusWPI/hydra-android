@@ -70,6 +70,7 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
         // Create the WiFi lock we we will use later.
         WifiManager manager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (manager != null) {
+            //noinspection deprecation
             this.wifiLock = manager.createWifiLock(WifiManager.WIFI_MODE_FULL, WIFI_LOCK_TAG);
         }
 

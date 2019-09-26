@@ -35,7 +35,7 @@ import static be.ugent.zeus.hydra.feed.HomeFeedFragment.PREF_DISABLED_CARD_TYPES
 public class HomeFeedSelectFragment extends Fragment {
 
     private FeedOptionsAdapter adapter;
-    private Map<String, String> valueMapper = new HashMap<>();
+    private final Map<String, String> valueMapper = new HashMap<>();
 
     @Nullable
     @Override

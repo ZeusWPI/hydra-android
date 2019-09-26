@@ -11,6 +11,7 @@ import java9.util.Objects;
 /**
  * Created by feliciaan on 04/02/16.
  */
+@SuppressWarnings("WeakerAccess")
 public final class RegularSandwich implements Parcelable {
 
     private String name;
@@ -49,7 +50,12 @@ public final class RegularSandwich implements Parcelable {
         dest.writeString(this.priceMedium);
     }
 
-    private RegularSandwich(Parcel in) {
+    @SuppressWarnings("unused")
+    public RegularSandwich() {
+
+    }
+
+    public RegularSandwich(Parcel in) {
         this.name = in.readString();
         this.ingredients = in.createStringArrayList();
         this.priceSmall = in.readString();

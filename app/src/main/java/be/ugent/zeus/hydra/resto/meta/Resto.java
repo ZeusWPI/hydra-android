@@ -31,6 +31,10 @@ public final class Resto implements Parcelable {
         endpoint = in.readString();
     }
 
+    public Resto() {
+
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);

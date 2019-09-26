@@ -69,7 +69,7 @@ public class NewsFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_refresh, menu);
         requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_refresh);

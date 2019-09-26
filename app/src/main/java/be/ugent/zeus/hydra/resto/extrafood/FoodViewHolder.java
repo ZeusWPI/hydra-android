@@ -11,8 +11,8 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
  */
 class FoodViewHolder extends DataViewHolder<Food> {
 
-    private TextView name;
-    private TextView price;
+    private final TextView name;
+    private final TextView price;
 
     FoodViewHolder(View itemView) {
         super(itemView);

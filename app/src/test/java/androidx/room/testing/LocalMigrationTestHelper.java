@@ -34,6 +34,7 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
+@SuppressWarnings({"FieldMayBeFinal", "unused", "deprecation"})
 public class LocalMigrationTestHelper extends TestWatcher {
 
     private static final String TAG = "MigrationTestHelper";
@@ -115,7 +116,7 @@ public class LocalMigrationTestHelper extends TestWatcher {
                 false,
                 true,
                 false,
-                Collections.<Integer>emptySet());
+                Collections.emptySet());
         RoomOpenHelper roomOpenHelper = new RoomOpenHelper(configuration,
                 new MigrationTestHelper.CreatingDelegate(schemaBundle.getDatabase()),
                 schemaBundle.getDatabase().getIdentityHash(),
@@ -169,7 +170,7 @@ public class LocalMigrationTestHelper extends TestWatcher {
                 RoomDatabase.JournalMode.TRUNCATE,
                 ArchTaskExecutor.getIOThreadExecutor(),
                 true,
-                Collections.<Integer>emptySet());
+                Collections.emptySet());
         RoomOpenHelper roomOpenHelper = new RoomOpenHelper(configuration,
                 new MigratingDelegate(schemaBundle.getDatabase(), validateDroppedTables),
                 // we pass the same hash twice since an old schema does not necessarily have

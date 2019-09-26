@@ -71,7 +71,7 @@ public class LibraryListFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_library_list, menu);
         requireBaseActivity(this).tintToolbarIcons(menu, R.id.library_visit_catalogue, R.id.action_refresh);
         SearchView view = (SearchView) menu.findItem(R.id.action_search).getActionView();

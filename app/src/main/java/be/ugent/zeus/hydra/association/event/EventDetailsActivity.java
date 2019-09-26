@@ -40,7 +40,7 @@ public class EventDetailsActivity extends BaseActivity {
 
     public static Intent start(Context context, Event event) {
         Intent intent = new Intent(context, EventDetailsActivity.class);
-        intent.putExtra(PARCEL_EVENT, (Parcelable) event);
+        intent.putExtra(PARCEL_EVENT, event);
         return intent;
     }
 

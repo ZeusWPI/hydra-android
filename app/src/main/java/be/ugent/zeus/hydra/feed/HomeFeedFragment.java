@@ -137,7 +137,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
         requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_refresh);
     }

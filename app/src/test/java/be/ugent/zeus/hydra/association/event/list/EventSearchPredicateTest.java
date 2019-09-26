@@ -82,7 +82,7 @@ public class EventSearchPredicateTest {
     }
 
     @Test
-    public void testAssociationFullName() throws Throwable {
+    public void testAssociationFullName() {
         // Get first where the full name is not null.
         EventItem random = data.stream()
                 .filter(d -> d.getItem().getAssociation().getFullName() != null)

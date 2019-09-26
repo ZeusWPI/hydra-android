@@ -222,7 +222,7 @@ public class UrgentFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (shouldUpdateButton) {
             configureButtons();
@@ -243,9 +243,6 @@ public class UrgentFragment extends Fragment {
 
         boolean enablePlay = false;
         switch (state.getState()) {
-            case PlaybackStateCompat.STATE_PAUSED:
-                enablePlay = true;
-                break;
             case PlaybackStateCompat.STATE_ERROR:
                 Toast.makeText(getActivity(), R.string.urgent_error, Toast.LENGTH_SHORT).show();
                 break;
@@ -253,6 +250,7 @@ public class UrgentFragment extends Fragment {
             case PlaybackStateCompat.STATE_CONNECTING:
             case PlaybackStateCompat.STATE_BUFFERING:
                 break; // Do nothing.
+            case PlaybackStateCompat.STATE_PAUSED:
             default:
                 enablePlay = true;
         }

@@ -15,7 +15,7 @@ import org.threeten.bp.ZonedDateTime;
  */
 class EventCard extends Card {
 
-    private Event event;
+    private final Event event;
 
     EventCard(Event event) {
         this.event = event;
