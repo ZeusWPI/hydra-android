@@ -24,11 +24,11 @@ import static org.mockito.Mockito.*;
  * @author Niko Strijbol
  */
 @RunWith(ParameterizedRobolectricTestRunner.class)
-public class EcologicalViewHolderTest {
+public class RegularViewHolderTest {
 
     private final boolean expanded;
 
-    public EcologicalViewHolderTest(boolean expanded) {
+    public RegularViewHolderTest(boolean expanded) {
         this.expanded = expanded;
     }
 

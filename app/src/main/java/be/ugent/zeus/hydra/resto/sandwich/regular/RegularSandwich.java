@@ -49,7 +49,7 @@ public final class RegularSandwich implements Parcelable {
         dest.writeString(this.priceMedium);
     }
 
-    protected RegularSandwich(Parcel in) {
+    private RegularSandwich(Parcel in) {
         this.name = in.readString();
         this.ingredients = in.createStringArrayList();
         this.priceSmall = in.readString();

@@ -134,14 +134,12 @@
     <string name="event_pref_choose_associations_desc">Kies voor welke verenigingen activiteiten getoond moeten worden.</string>
 
     <!-- Restaurants -->
-    <string name="resto_pref_closing_hour_category_title">Sluitingsuur</string>
     <string name="resto_pref_closing_title">Sluitingsuur</string>
     <string name="resto_pref_closing_description">
-        Kies vanaf welk uur de menu voor de volgende dag getoond wordt.
+        Kies vanaf welk uur het menu voor de volgende dag getoond wordt.
     </string>
 
     <string name="resto_pref_choice">Keuze resto</string>
-    <string name="resto_pref_choice_title">Kies een resto in het overzicht</string>
     <string name="resto_pref_choice_loading">Laden…</string>
 
     <string name="resto_extra_refresh_started">Vernieuwen…</string>
@@ -225,8 +223,6 @@
     <string name="feed_pref_clear_cards_title">Verborgen kaarten wissen</string>
     <string name="feed_pref_clear_cards_summary">Wis de lijst van verborgen kaarten. Hierdoor zullen alle kaarten opnieuw getoond worden.</string>
     <string name="feed_pref_hidden_cleared">Gewist</string>
-    <string name="feed_pref_cat_resto">Restomenu</string>
-    <string name="feed_pref_cat_general">Algemeen</string>
     <string name="feed_pref_resto_kinds">Wat te tonen op de menu</string>
     <string name="feed_pref_resto_kinds_main">Enkel hoofdgerecht</string>
     <string name="feed_pref_resto_kinds_soup">Enkel soep</string>

@@ -113,6 +113,7 @@ public class DateUtils {
      *
      * @see android.text.format.DateUtils#getRelativeDateTimeString(Context, long, long, long, int)
      */
+    @SuppressWarnings("WeakerAccess")
     public static CharSequence relativeDateTimeString(ZonedDateTime dateTime, Context context, boolean abbreviate) {
         int flags = 0;
         if (abbreviate) {

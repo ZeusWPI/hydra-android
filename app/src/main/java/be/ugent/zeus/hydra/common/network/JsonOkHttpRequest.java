@@ -45,6 +45,7 @@ import okhttp3.Response;
  *
  * @author Niko Strijbol
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class JsonOkHttpRequest<D> implements Request<D> {
 
     private static final String TAG = "JsonOkHttpRequest";
@@ -54,7 +55,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     private final Moshi moshi;
     private final OkHttpClient client;
     private final Type typeToken;
-    protected final Tracker tracker;
+    private final Tracker tracker;
 
     /**
      * Construct a new request. As this constructor is not type-safe, it must only be used internally.
@@ -165,7 +166,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     @NonNull
     protected abstract String getAPIUrl();
 
-    protected okhttp3.Request.Builder constructRequest(@NonNull Bundle arguments) throws ConstructionException {
+    protected okhttp3.Request.Builder constructRequest(@NonNull Bundle arguments) {
         return new okhttp3.Request.Builder()
                 .url(getAPIUrl())
                 .cacheControl(constructCacheControl(arguments));

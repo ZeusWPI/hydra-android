@@ -5,9 +5,9 @@ import be.ugent.zeus.hydra.common.request.RequestException;
 /**
  * @author Niko Strijbol
  */
-public class InvalidFormatException extends RequestException {
+class InvalidFormatException extends RequestException {
 
-    public InvalidFormatException(String message, Throwable cause) {
+    InvalidFormatException(String message, Throwable cause) {
         super(message, cause);
     }
 

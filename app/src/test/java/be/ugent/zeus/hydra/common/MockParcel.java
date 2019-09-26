@@ -31,7 +31,7 @@ public class MockParcel {
     /**
      * @return A parcel.
      */
-    public static Parcel obtain() {
+    private static Parcel obtain() {
         return new MockParcel().mockedParcel;
     }
 

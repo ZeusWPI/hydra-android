@@ -1,8 +1,8 @@
 package be.ugent.zeus.hydra.resto.extrafood;
 
-import java9.util.Objects;
-
 import java.util.List;
+
+import java9.util.Objects;
 
 /**
  * Contains all extra food items.
@@ -15,15 +15,15 @@ public final class ExtraFood {
     private List<Food> desserts;
     private List<Food> drinks;
 
-    public List<Food> getBreakfast() {
+    List<Food> getBreakfast() {
         return breakfast;
     }
 
-    public List<Food> getDesserts() {
+    List<Food> getDesserts() {
         return desserts;
     }
 
-    public List<Food> getDrinks() {
+    List<Food> getDrinks() {
         return drinks;
     }
 

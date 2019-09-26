@@ -49,13 +49,11 @@ public class ExtraFoodActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_refresh:
-                viewModel.onRefresh();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_refresh) {
+            viewModel.onRefresh();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

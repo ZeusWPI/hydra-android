@@ -34,7 +34,7 @@ public class Version9SqlHelper extends SQLiteOpenHelper {
     /**
      * Create all tables.
      */
-    public static void createTables(SQLiteDatabase db) {
+    static void createTables(SQLiteDatabase db) {
         // Create the course table.
         db.execSQL("CREATE TABLE IF NOT EXISTS minerva_courses (" +
                 "_id TEXT PRIMARY KEY," +
@@ -78,7 +78,7 @@ public class Version9SqlHelper extends SQLiteOpenHelper {
                 ")");
     }
 
-    public static void deleteTables(SQLiteDatabase db) {
+    static void deleteTables(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS minerva_announcements");
         db.execSQL("DROP TABLE IF EXISTS minerva_agenda");
         db.execSQL("DROP TABLE IF EXISTS minerva_courses");

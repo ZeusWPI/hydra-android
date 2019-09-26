@@ -28,7 +28,7 @@ public final class RestoMeta implements Parcelable {
         dest.writeTypedList(this.locations);
     }
 
-    protected RestoMeta(Parcel in) {
+    private RestoMeta(Parcel in) {
         this.locations = in.createTypedArrayList(Resto.CREATOR);
     }
 

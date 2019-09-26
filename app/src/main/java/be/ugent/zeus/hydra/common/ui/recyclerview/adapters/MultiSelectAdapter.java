@@ -15,6 +15,7 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolder<H>> {
 
     /**

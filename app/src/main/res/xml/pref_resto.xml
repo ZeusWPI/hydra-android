@@ -28,7 +28,7 @@
         app:allowDividerAbove="true"
         app:key="pref_choice_resto_select_loading"
         app:title="@string/resto_pref_choice"
-        app:summary="@string/resto_pref_choice_title"
+        app:summary="@string/resto_pref_choice_loading"
         app:persistent="false" />
 
 </PreferenceScreen>

@@ -1,15 +1,16 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
-import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
+
+import java.util.*;
+
 import java9.lang.Iterables;
 import java9.util.function.BiPredicate;
 import java9.util.function.Function;
 import java9.util.stream.Collectors;
 import java9.util.stream.StreamSupport;
 
-import java.util.*;
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
 /**
  * Adapter that provides an implementation of the necessary interfaces to integrate it with {@link SearchView}. The
@@ -34,7 +35,7 @@ import java.util.*;
  * @author Niko Strijbol
  */
 public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends DiffAdapter<D, VH> implements
-        SearchView.OnQueryTextListener, SearchView.OnCloseListener, SearchHelper, android.widget.SearchView.OnQueryTextListener, android.widget.SearchView.OnCloseListener {
+        SearchView.OnQueryTextListener, SearchView.OnCloseListener, android.widget.SearchView.OnQueryTextListener, android.widget.SearchView.OnCloseListener {
 
     private List<D> allData = Collections.emptyList();
     private final BiPredicate<D, String> searchPredicate;
@@ -66,6 +67,7 @@ public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends
         this.filter = filter;
     }
 
+    @SuppressWarnings("unused")
     protected SearchableAdapter(Function<D, String> stringifier) {
         this((d, s) -> stringifier.apply(d).contains(s));
     }
@@ -113,20 +115,5 @@ public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends
         }
         this.isSearching = true;
         Iterables.forEach(listeners, listener -> listener.onSearchStateChange(isSearching));
-    }
-
-    @Override
-    public boolean isSearching() {
-        return isSearching;
-    }
-
-    @Override
-    public void registerSearchListener(@NonNull SearchStateListener listener) {
-        listeners.add(listener);
-    }
-
-    @Override
-    public void unregisterSearchListener(@NonNull SearchStateListener listener) {
-        listeners.remove(listener);
     }
 }

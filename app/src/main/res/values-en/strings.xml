@@ -128,14 +128,12 @@
     <string name="event_pref_choose_associations_desc">Choose for which organisation activities should be shown.</string>
 
     <!-- Restaurants -->
-    <string name="resto_pref_closing_hour_category_title">Closing hour</string>
     <string name="resto_pref_closing_title">Closing hour</string>
     <string name="resto_pref_closing_description">
         Choose from which hour the menu for the next day will be displayed.
     </string>
 
     <string name="resto_pref_choice">Resto choice</string>
-    <string name="resto_pref_choice_title">Choose a resto in the overview</string>
     <string name="resto_pref_choice_loading">Loading…</string>
 
     <string name="resto_extra_refresh_started">Refreshing…</string>
@@ -220,8 +218,6 @@
     <string name="feed_pref_clear_cards_title">Erase hidden cards</string>
     <string name="feed_pref_clear_cards_summary">Erase the list of hidden cards. Causes all cards to be displayed again.</string>
     <string name="feed_pref_hidden_cleared">Erased</string>
-    <string name="feed_pref_cat_resto">Resto menu</string>
-    <string name="feed_pref_cat_general">General</string>
     <string name="feed_pref_resto_kinds">What to show on the menu</string>
     <string name="feed_pref_resto_kinds_main">Just main course</string>
     <string name="feed_pref_resto_kinds_soup">Just soup</string>

@@ -5,8 +5,8 @@ import be.ugent.zeus.hydra.common.ModelTest;
 /**
  * @author Niko Strijbol
  */
-public class EcologicalSandwichTest extends ModelTest<RegularSandwich> {
-    public EcologicalSandwichTest() {
+public class RegularSandwichTest extends ModelTest<RegularSandwich> {
+    public RegularSandwichTest() {
         super(RegularSandwich.class);
     }
 }

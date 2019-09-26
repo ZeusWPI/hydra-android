@@ -26,9 +26,9 @@ class ArtistViewHolder extends DataViewHolder<ArtistOrTitle> implements View.OnC
     @VisibleForTesting
     static final int MENU_ID_ADD_TO_CALENDAR = 0;
 
-    private TextView title;
-    private TextView date;
-    private ImageView image;
+    private final TextView title;
+    private final TextView date;
+    private final ImageView image;
     private Artist artist;
 
     ArtistViewHolder(View itemView) {
@@ -42,7 +42,7 @@ class ArtistViewHolder extends DataViewHolder<ArtistOrTitle> implements View.OnC
     }
 
     @Override
-    public void populate(final ArtistOrTitle artistOrTitle) {
+    public void populate(ArtistOrTitle artistOrTitle) {
         this.artist = artistOrTitle.getArtist();
         title.setText(artist.getName());
         date.setText(artist.getDisplayDate(date.getContext()));

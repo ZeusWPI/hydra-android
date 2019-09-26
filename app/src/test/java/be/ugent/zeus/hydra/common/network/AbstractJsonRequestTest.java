@@ -122,6 +122,7 @@ public abstract class AbstractJsonRequestTest<D> {
     /**
      * Can also be used to inject spy methods.
      */
+    @SuppressWarnings("WeakerAccess")
     protected JsonOkHttpRequest<D> spyForNormal(JsonOkHttpRequest<D> request) {
         return spy(request);
     }

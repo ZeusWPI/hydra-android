@@ -11,6 +11,7 @@ import java9.util.Objects;
  *
  * @author feliciaan
  */
+@SuppressWarnings("WeakerAccess")
 public final class Resto implements Parcelable {
 
     private String name;

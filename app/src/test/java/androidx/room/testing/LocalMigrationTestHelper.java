@@ -63,8 +63,8 @@ public class LocalMigrationTestHelper extends TestWatcher {
      * @param assetsFolder    The asset folder in the assets directory.
      * @param openFactory     Factory class that allows creation of {@link SupportSQLiteOpenHelper}
      */
-    public LocalMigrationTestHelper(Instrumentation instrumentation, String assetsFolder,
-                               SupportSQLiteOpenHelper.Factory openFactory) {
+    private LocalMigrationTestHelper(Instrumentation instrumentation, String assetsFolder,
+                                     SupportSQLiteOpenHelper.Factory openFactory) {
         mInstrumentation = instrumentation;
         if (assetsFolder.endsWith("/")) {
             assetsFolder = assetsFolder.substring(0, assetsFolder.length() - 1);

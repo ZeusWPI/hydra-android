@@ -31,6 +31,7 @@ public final class OperationFactory {
      *
      * @return The operation.
      */
+    @SuppressWarnings("WeakerAccess")
     public static FeedOperation del(@Card.Type int cardType) {
         return new RemoveOperation(cardType);
     }
