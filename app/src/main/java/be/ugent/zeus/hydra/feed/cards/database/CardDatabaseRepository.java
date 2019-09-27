@@ -1,15 +1,16 @@
 package be.ugent.zeus.hydra.feed.cards.database;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
+
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardDismissal;
 import be.ugent.zeus.hydra.feed.cards.CardIdentifier;
 import be.ugent.zeus.hydra.feed.cards.CardRepository;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author Niko Strijbol

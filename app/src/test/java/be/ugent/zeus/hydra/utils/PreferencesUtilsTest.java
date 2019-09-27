@@ -2,11 +2,12 @@ package be.ugent.zeus.hydra.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import be.ugent.zeus.hydra.TestApp;
 import org.junit.Before;
@@ -17,7 +18,8 @@ import org.robolectric.annotation.Config;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 
 /**
  * @author Niko Strijbol

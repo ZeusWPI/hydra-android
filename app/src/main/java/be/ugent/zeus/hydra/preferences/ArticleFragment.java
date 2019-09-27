@@ -1,7 +1,8 @@
-package be.ugent.zeus.hydra.common.article;
+package be.ugent.zeus.hydra.preferences;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
+
+import androidx.preference.PreferenceFragmentCompat;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
@@ -11,21 +12,20 @@ import be.ugent.zeus.hydra.common.reporting.Reporting;
  *
  * @author Niko Strijbol
  */
-public class CustomTabPreferenceFragment extends PreferenceFragment {
+public class ArticleFragment extends PreferenceFragmentCompat {
 
     public static final String PREF_USE_CUSTOM_TABS = "pref_article_use_custom_tabs";
     public static final boolean PREF_USE_CUSTOM_TABS_DEFAULT = true;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.pref_article);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.pref_article, rootKey);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Reporting.getTracker(getActivity())
-                .setCurrentScreen(getActivity(), "Settings > Custom Tabs", getClass().getSimpleName());
+        Reporting.getTracker(requireContext())
+                .setCurrentScreen(requireActivity(), "Settings > Custom Tabs", getClass().getSimpleName());
     }
 }

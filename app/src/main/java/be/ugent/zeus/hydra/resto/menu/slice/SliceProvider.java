@@ -8,13 +8,12 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.util.Log;
-
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.IconCompat;
+import androidx.preference.PreferenceManager;
 import androidx.slice.Slice;
 import androidx.slice.builders.ListBuilder;
 import androidx.slice.builders.SliceAction;
@@ -23,14 +22,9 @@ import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.ui.widgets.DisplayableMenu;
-import be.ugent.zeus.hydra.resto.Broadcast;
-import be.ugent.zeus.hydra.resto.RestoChoice;
-import be.ugent.zeus.hydra.resto.RestoMeal;
-import be.ugent.zeus.hydra.resto.RestoMenu;
-import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
+import be.ugent.zeus.hydra.resto.*;
 import be.ugent.zeus.hydra.resto.history.DayRequest;
 import be.ugent.zeus.hydra.utils.DateUtils;
-
 import org.threeten.bp.LocalDate;
 
 import static be.ugent.zeus.hydra.resto.Broadcast.REQUEST_CODE;

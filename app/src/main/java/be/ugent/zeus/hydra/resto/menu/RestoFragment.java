@@ -1,23 +1,17 @@
 package be.ugent.zeus.hydra.resto.menu;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.PreferenceManager;
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,8 +31,12 @@ import be.ugent.zeus.hydra.resto.history.HistoryActivity;
 import be.ugent.zeus.hydra.resto.meta.RestoLocationActivity;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectableMetaViewModel;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectedResto;
-import be.ugent.zeus.hydra.resto.sandwich.regular.RegularFragment;
+import be.ugent.zeus.hydra.resto.sandwich.SandwichActivity;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 import org.threeten.bp.LocalDate;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
@@ -224,7 +222,7 @@ public class RestoFragment extends Fragment implements
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_resto, menu);
         requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_history);
     }
@@ -261,7 +259,7 @@ public class RestoFragment extends Fragment implements
             return;
         }
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         preferences.edit()
                 .putString(RestoPreferenceFragment.PREF_RESTO_KEY, resto.getEndpoint())
                 .putString(RestoPreferenceFragment.PREF_RESTO_NAME, resto.getName())

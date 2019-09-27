@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.resto;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 

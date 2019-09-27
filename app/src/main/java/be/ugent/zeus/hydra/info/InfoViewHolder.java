@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.info;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import androidx.core.content.ContextCompat;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;

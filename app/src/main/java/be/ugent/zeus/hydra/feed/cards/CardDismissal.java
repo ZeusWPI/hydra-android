@@ -1,10 +1,11 @@
 package be.ugent.zeus.hydra.feed.cards;
 
-import androidx.room.*;
 import androidx.annotation.NonNull;
+import androidx.room.*;
+
+import java9.util.Objects;
 
 import be.ugent.zeus.hydra.feed.cards.database.DismissalTable;
-import java9.util.Objects;
 import org.threeten.bp.Instant;
 
 /**

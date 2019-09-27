@@ -38,7 +38,7 @@ public class FullArticleActivity extends BaseActivity {
 
     static void start(Context context, Article article) {
         Intent starter = new Intent(context, FullArticleActivity.class);
-        starter.putExtra(PARCEL_ARTICLE, (Parcelable) article);
+        starter.putExtra(PARCEL_ARTICLE, article);
         context.startActivity(starter);
     }
 
@@ -90,7 +90,7 @@ public class FullArticleActivity extends BaseActivity {
             }
 
             //The body
-            text.setText(Utils.fromHtml(article.getBody(), new PicassoImageGetter(text, getResources(), this)));
+            text.setText(Utils.fromHtml(article.getBody(), new PicassoImageGetter(text, getResources())));
             text.setMovementMethod(LinkMovementMethod.getInstance());
         }
 

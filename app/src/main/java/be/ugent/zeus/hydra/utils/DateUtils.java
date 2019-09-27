@@ -60,8 +60,8 @@ public class DateUtils {
      */
     public static String getFriendlyDate(Context context, @NonNull LocalDate date, FormatStyle formatStyle) {
 
-        final int ONE_WEEK_DAYS = 7;
-        final int TWO_WEEKS_DAYS = 14;
+        int ONE_WEEK_DAYS = 7;
+        int TWO_WEEKS_DAYS = 14;
 
         LocalDate today = LocalDate.now();
         Locale locale = Locale.getDefault();
@@ -97,34 +97,9 @@ public class DateUtils {
      *
      * @return True if a friendly date would be returned.
      */
-    public static boolean willBeFriendly(@NonNull LocalDate date) {
+    static boolean willBeFriendly(@NonNull LocalDate date) {
         long daysBetween = ChronoUnit.DAYS.between(LocalDate.now(), date);
         return 0 <= daysBetween && daysBetween < 14;
-    }
-
-    /**
-     * Convert a date time to a relative string. The precision is one minute, and the resulting string is abbreviated.
-     *
-     * @param dateTime   The date time.
-     * @param context    A context.
-     * @param abbreviate If the {@link android.text.format.DateUtils#FORMAT_ABBREV_RELATIVE} flag should be set.
-     *
-     * @return Relative string
-     *
-     * @see android.text.format.DateUtils#getRelativeDateTimeString(Context, long, long, long, int)
-     */
-    public static CharSequence relativeDateTimeString(ZonedDateTime dateTime, Context context, boolean abbreviate) {
-        int flags = 0;
-        if (abbreviate) {
-            flags = android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE;
-        }
-        return android.text.format.DateUtils.getRelativeDateTimeString(
-                context,
-                dateTime.toInstant().toEpochMilli(),
-                android.text.format.DateUtils.MINUTE_IN_MILLIS,
-                android.text.format.DateUtils.WEEK_IN_MILLIS,
-                flags
-        );
     }
 
     /**
@@ -152,10 +127,6 @@ public class DateUtils {
         );
     }
 
-    public static CharSequence relativeDateTimeString(ZonedDateTime dateTime, Context context) {
-        return relativeDateTimeString(dateTime, context, false);
-    }
-
     public static CharSequence relativeDateTimeString(OffsetDateTime dateTime, Context context) {
         return relativeDateTimeString(dateTime, context, false);
     }
@@ -174,12 +145,13 @@ public class DateUtils {
         return dateTime.atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
     }
 
+    @SuppressWarnings("unused")
     public static String relativeTimeSpan(Context context, OffsetDateTime start, OffsetDateTime end) {
         OffsetDateTime now = OffsetDateTime.now();
         LocalDateTime localStart = DateUtils.toLocalDateTime(start);
         LocalDateTime localEnd = DateUtils.toLocalDateTime(end);
 
-        final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern(context.getString(R.string.formatter_general_hour_only));
+        DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern(context.getString(R.string.formatter_general_hour_only));
 
         if (start.isBefore(now) && end.isAfter(now)) {
             long epochMillis = end.toInstant().toEpochMilli();

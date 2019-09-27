@@ -2,15 +2,15 @@ package be.ugent.zeus.hydra.resto.menu;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
+
+import java.util.List;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
-
-import java.util.List;
 
 /**
  * @author Niko Strijbol

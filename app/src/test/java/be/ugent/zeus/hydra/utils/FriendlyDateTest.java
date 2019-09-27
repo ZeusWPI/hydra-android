@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Locale;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.testing.DateTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,21 +31,15 @@ import static org.mockito.Mockito.when;
  * @author Niko Strijbol
  */
 @RunWith(ParameterizedRobolectricTestRunner.class)
-public class FriendlyDateTest {
+public class FriendlyDateTest extends DateTest {
 
     private final LocalDate now = LocalDate.now();
     private final DateTimeFormatter defaultFormatter = getDateFormatterForStyle(FormatStyle.MEDIUM);
-    private final boolean supportsToday;
-    private final boolean supportsTomorrow;
-    private final boolean supportsOvermorrow;
-
-    private Context c;
-    private Locale locale;
 
     @ParameterizedRobolectricTestRunner.Parameters
     public static Collection<Object[]> parameters() {
         // We use multiple format styles to ensure we don't hard code them and actually adhere to them.
-        Object[][] objects = new Object[][] {
+        Object[][] objects = new Object[][]{
                 // We only add all truth combinations to the first one, otherwise it adds a lot of tests for nothing.
                 {true, true, true},
                 {true, true, false},
@@ -61,7 +56,6 @@ public class FriendlyDateTest {
     }
 
     @Before
-    @SuppressWarnings("Duplicates") // I know.
     public void setUp() {
         // Hack so we don't have to mess with the resources
         c = spy(ApplicationProvider.getApplicationContext());
@@ -74,9 +68,7 @@ public class FriendlyDateTest {
     }
 
     public FriendlyDateTest(boolean supportsToday, boolean supportsTomorrow, boolean supportsOvermorrow) {
-        this.supportsToday = supportsToday;
-        this.supportsTomorrow = supportsTomorrow;
-        this.supportsOvermorrow = supportsOvermorrow;
+        super(supportsToday, supportsTomorrow, supportsOvermorrow);
     }
 
     @Test
@@ -166,7 +158,6 @@ public class FriendlyDateTest {
         assertEquals(expected, result);
         assertFalse(DateUtils.willBeFriendly(future));
     }
-
 
 
     @Test

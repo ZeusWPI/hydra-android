@@ -73,7 +73,7 @@ public interface BaseEvents {
      * <li>{@link Params#itemCategory()}</li>
      * </ul>
      *
-     * @todo the difference between this and {@link #selectContent()}. This is more when something is shown to the user,
+     * todo the difference between this and {@link #selectContent()}. This is more when something is shown to the user,
      *   the other when something is selected by the user (can be button, photo, image, etc.)
      *   Perhaps: when a visitor clicks on an article, we log SELECT_ITEM. When a visitor views an article,
      *   we use VIEW_ITEM.

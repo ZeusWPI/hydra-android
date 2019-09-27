@@ -1,8 +1,9 @@
 package be.ugent.zeus.hydra.feed;
 
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * This callback will enable swiping right to dismiss view holders, only if they implement {@link
@@ -15,7 +16,7 @@ public class DismissCallback extends ItemTouchHelper.Callback {
     private static final String TAG = "DismissCallback";
 
     @Override
-    public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+    public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         if (viewHolder instanceof SwipeDismissableViewHolder && ((SwipeDismissableViewHolder) viewHolder).isSwipeEnabled()) {
             return makeMovementFlags(0, ItemTouchHelper.RIGHT);
         } else {
@@ -24,16 +25,15 @@ public class DismissCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
-    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+    public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
         return false;
     }
 
     @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         if (viewHolder instanceof SwipeDismissableViewHolder) {
             ((SwipeDismissableViewHolder) viewHolder).onSwiped();
         } else {
-            // TODO: if this behaviour is verified, throw exception instead.
             Log.w(TAG, "Swiped unswipeable card! Ignoring.");
         }
     }

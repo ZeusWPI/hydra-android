@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MemoryCardDao extends CardDao {
 
-    private Map<CardIdentifier, CardDismissal> dismissalMap = new HashMap<>();
+    private final Map<CardIdentifier, CardDismissal> dismissalMap = new HashMap<>();
 
     MemoryCardDao(Collection<CardDismissal> initialData) {
         super();

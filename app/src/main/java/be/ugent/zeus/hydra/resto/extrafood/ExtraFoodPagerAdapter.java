@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.resto.extrafood;
 
 import android.content.Context;
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -19,10 +20,11 @@ class ExtraFoodPagerAdapter extends FragmentPagerAdapter {
     private final Context context;
 
     ExtraFoodPagerAdapter(FragmentManager fm, Context context) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.context = context.getApplicationContext();
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int position) {
         return FoodFragment.newInstance(position);

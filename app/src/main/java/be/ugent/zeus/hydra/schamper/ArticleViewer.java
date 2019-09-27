@@ -4,15 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 
-import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.reporting.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Tracker;
-import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.preferences.ArticleFragment;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 /**
@@ -32,7 +32,7 @@ public class ArticleViewer {
 
         // Open in-app or in a custom tab
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean useCustomTabs = preferences.getBoolean(CustomTabPreferenceFragment.PREF_USE_CUSTOM_TABS, CustomTabPreferenceFragment.PREF_USE_CUSTOM_TABS_DEFAULT);
+        boolean useCustomTabs = preferences.getBoolean(ArticleFragment.PREF_USE_CUSTOM_TABS, ArticleFragment.PREF_USE_CUSTOM_TABS_DEFAULT);
         boolean isOnline = NetworkUtils.isConnected(context);
 
         if (useCustomTabs && isOnline) {

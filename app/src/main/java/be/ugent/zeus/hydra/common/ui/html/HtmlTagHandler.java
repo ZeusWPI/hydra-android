@@ -69,11 +69,12 @@ public class HtmlTagHandler implements Html.TagHandler {
 
     @Override
     public void handleTag(boolean opening, String tag, Editable output, XMLReader xmlReader) {
+        boolean isList = tag.equalsIgnoreCase("ul") || tag.equalsIgnoreCase("ol") || tag.equalsIgnoreCase("dd");
         if (opening) {
             // opening tag
             Log.v(TAG, "opening, output: " + output.toString());
 
-            if (tag.equalsIgnoreCase("ul") || tag.equalsIgnoreCase("ol") || tag.equalsIgnoreCase("dd")) {
+            if (isList) {
                 listParents.add(tag);
                 listItemCount = 0;
             } else if (tag.equalsIgnoreCase("code")) {
@@ -85,7 +86,7 @@ public class HtmlTagHandler implements Html.TagHandler {
             // closing tag
             Log.v(TAG, "closing, output: " + output.toString());
 
-            if (tag.equalsIgnoreCase("ul") || tag.equalsIgnoreCase("ol") || tag.equalsIgnoreCase("dd")) {
+            if (isList) {
                 listParents.remove(tag);
                 listItemCount = 0;
             } else if (tag.equalsIgnoreCase("li")) {

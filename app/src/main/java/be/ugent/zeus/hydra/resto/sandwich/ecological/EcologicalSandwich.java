@@ -3,17 +3,16 @@ package be.ugent.zeus.hydra.resto.sandwich.ecological;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 import java.util.List;
 
-import com.squareup.moshi.Json;
 import java9.util.Objects;
+
 import org.threeten.bp.LocalDate;
 
 /**
  * Ecological sandwich of the week.
  */
+@SuppressWarnings("WeakerAccess")
 public final class EcologicalSandwich implements Parcelable {
 
     private String name;
@@ -54,6 +53,12 @@ public final class EcologicalSandwich implements Parcelable {
         dest.writeStringList(this.ingredients);
         dest.writeSerializable(this.start);
         dest.writeSerializable(this.end);
+        dest.writeInt(this.vegan ? 1 : 0);
+    }
+
+    @SuppressWarnings("unused")
+    public EcologicalSandwich() {
+        // Json
     }
 
     protected EcologicalSandwich(Parcel in) {
@@ -61,6 +66,7 @@ public final class EcologicalSandwich implements Parcelable {
         this.ingredients = in.createStringArrayList();
         this.start = (LocalDate) in.readSerializable();
         this.end = (LocalDate) in.readSerializable();
+        this.vegan = in.readInt() == 1;
     }
 
     public static final Creator<EcologicalSandwich> CREATOR = new Creator<EcologicalSandwich>() {
@@ -83,12 +89,13 @@ public final class EcologicalSandwich implements Parcelable {
         return Objects.equals(name, sandwich.name) &&
                 Objects.equals(ingredients, sandwich.ingredients) &&
                 Objects.equals(start, sandwich.start) &&
-                Objects.equals(end, sandwich.end);
+                Objects.equals(end, sandwich.end) &&
+                Objects.equals(vegan, sandwich.vegan);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, ingredients, start, end);
+        return Objects.hash(name, ingredients, start, end, vegan);
     }
 
     @Override

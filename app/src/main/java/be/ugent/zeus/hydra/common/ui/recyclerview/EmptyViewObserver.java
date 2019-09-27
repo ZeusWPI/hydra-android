@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Class that manages displaying and hiding the RecyclerView and the empty View.
@@ -20,7 +20,7 @@ public class EmptyViewObserver extends RecyclerView.AdapterDataObserver {
      * When using this constructor, you must register the adapter with the RecyclerView before calling this.
      *
      * @param recyclerView The RecyclerView. Will be shown when there is data.
-     * @param emptyView The View to display when there is no data.
+     * @param emptyView    The View to display when there is no data.
      */
     public EmptyViewObserver(RecyclerView recyclerView, View emptyView) {
         this(recyclerView, emptyView, recyclerView.getAdapter());
@@ -32,7 +32,7 @@ public class EmptyViewObserver extends RecyclerView.AdapterDataObserver {
      * {@link RecyclerView.Adapter#registerAdapterDataObserver(RecyclerView.AdapterDataObserver)}.
      *
      * @param recyclerView The RecyclerView. Will be shown when there is data.
-     * @param emptyView The View to display when there is no data.
+     * @param emptyView    The View to display when there is no data.
      */
     public EmptyViewObserver(RecyclerView recyclerView, View emptyView, RecyclerView.Adapter<?> adapter) {
         this.recyclerView = recyclerView;
@@ -62,7 +62,7 @@ public class EmptyViewObserver extends RecyclerView.AdapterDataObserver {
     @Override
     public void onItemRangeInserted(int positionStart, int itemCount) {
         if (itemCount > 0) {
-            show();
+            hide();
         }
     }
 
@@ -74,7 +74,7 @@ public class EmptyViewObserver extends RecyclerView.AdapterDataObserver {
     @Override
     public void onItemRangeRemoved(int positionStart, int itemCount) {
         if (adapter.getItemCount() - itemCount == 0) {
-            hide();
+            show();
         }
     }
 

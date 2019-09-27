@@ -25,18 +25,28 @@
         <item>@string/feed_card_type_desc_urgent</item>
     </string-array>
 
-    <string-array name="pref_night_mode_values" translatable="false">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
+    <string-array name="pref_dark_mode_values_old" translatable="false">
+        <item>battery</item>
+        <item>light</item>
+        <item>dark</item>
     </string-array>
 
-    <string-array name="pref_night_mode" translatable="false">
-        <item>@string/pref_theme_night_mode_auto</item>
-        <item>@string/pref_theme_night_mode_never</item>
+    <string-array name="pref_dark_mode_old" translatable="false">
+        <item>@string/pref_theme_night_mode_battery</item>
         <item>@string/pref_theme_night_mode_always</item>
+        <item>@string/pref_theme_night_mode_never</item>
+    </string-array>
+
+    <string-array name="pref_dark_mode_values_new" translatable="false">
+        <item>system</item>
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
+
+    <string-array name="pref_dark_mode_new" translatable="false">
         <item>@string/pref_theme_night_mode_system</item>
+        <item>@string/pref_theme_night_mode_always</item>
+        <item>@string/pref_theme_night_mode_never</item>
     </string-array>
 
     <!-- These values are also defined in the feed preference fragment. -->

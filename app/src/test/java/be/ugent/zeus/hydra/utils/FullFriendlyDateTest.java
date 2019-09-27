@@ -1,16 +1,12 @@
 package be.ugent.zeus.hydra.utils;
 
 import android.content.Context;
-import android.content.res.Resources;
-
-import androidx.test.core.app.ApplicationProvider;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Locale;
 
 import be.ugent.zeus.hydra.R;
-import org.junit.Before;
+import be.ugent.zeus.hydra.testing.DateTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.ParameterizedRobolectricTestRunner;
@@ -21,8 +17,6 @@ import org.threeten.bp.format.TextStyle;
 
 import static be.ugent.zeus.hydra.utils.DateUtils.getDateFormatterForStyle;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
 
 /**
  * Tests for the {@link DateUtils#getFriendlyDate(Context, LocalDate, FormatStyle)} and {@link DateUtils#willBeFriendly(LocalDate)}.
@@ -32,22 +26,17 @@ import static org.mockito.Mockito.when;
  * @author Niko Strijbol
  */
 @RunWith(ParameterizedRobolectricTestRunner.class)
-public class FullFriendlyDateTest {
+public class FullFriendlyDateTest extends DateTest {
 
     private final FormatStyle style;
     private final LocalDate now = LocalDate.now();
     private final DateTimeFormatter defaultFormatter;
-    private final boolean supportsToday;
-    private final boolean supportsTomorrow;
-    private final boolean supportsOvermorrow;
 
-    private Context c;
-    private Locale locale;
 
     @ParameterizedRobolectricTestRunner.Parameters
     public static Collection<Object[]> parameters() {
         // We use multiple format styles to ensure we don't hard code them and actually adhere to them.
-        Object[][] objects = new Object[][] {
+        Object[][] objects = new Object[][]{
                 // We only add all truth combinations to the first one, otherwise it adds a lot of tests for nothing.
                 {FormatStyle.LONG, true, true, true},
                 {FormatStyle.LONG, true, true, false},
@@ -63,25 +52,10 @@ public class FullFriendlyDateTest {
         return Arrays.asList(objects);
     }
 
-    @Before
-    @SuppressWarnings("Duplicates") // OK.
-    public void setUp() {
-        // Hack so we don't have to mess with the resources
-        c = spy(ApplicationProvider.getApplicationContext());
-        Resources resources = spy(ApplicationProvider.getApplicationContext().getResources());
-        when(c.getResources()).thenReturn(resources);
-        when(resources.getBoolean(R.bool.date_supports_today)).thenReturn(supportsToday);
-        when(resources.getBoolean(R.bool.date_supports_tomorrow)).thenReturn(supportsTomorrow);
-        when(resources.getBoolean(R.bool.date_supports_overmorrow)).thenReturn(supportsOvermorrow);
-        locale = Locale.getDefault();
-    }
-
     public FullFriendlyDateTest(FormatStyle style, boolean supportsToday, boolean supportsTomorrow, boolean supportsOvermorrow) {
+        super(supportsToday, supportsTomorrow, supportsOvermorrow);
         this.style = style;
         defaultFormatter = getDateFormatterForStyle(style);
-        this.supportsToday = supportsToday;
-        this.supportsTomorrow = supportsTomorrow;
-        this.supportsOvermorrow = supportsOvermorrow;
     }
 
     @Test
@@ -171,8 +145,6 @@ public class FullFriendlyDateTest {
         assertEquals(expected, result);
         assertFalse(DateUtils.willBeFriendly(future));
     }
-
-
 
     @Test
     public void testPast() {

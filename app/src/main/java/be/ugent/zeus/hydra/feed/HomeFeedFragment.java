@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.feed;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -22,11 +21,10 @@ import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.feed.commands.CommandResult;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
-
 import com.google.android.material.snackbar.Snackbar;
+
 import static be.ugent.zeus.hydra.feed.FeedLiveData.REFRESH_HOMECARD_TYPE;
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
 
 /**
  * The fragment showing the home feed.
@@ -39,7 +37,7 @@ import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
  * to 9 requests, we can't just load everything and then display it at once; this would show an empty screen for a long
  * time.
  *
- * Instead, we insert data to the RecyclerView as soon the a request is completed. TODO documentation
+ * Instead, we insert data to the RecyclerView as soon the a request is completed.
  *
  * @author Niko Strijbol
  * @author silox
@@ -139,7 +137,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
         requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_refresh);
     }

@@ -28,9 +28,13 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
 
         <!-- Disable Firebase Reporting until explicitly started -->
-        <meta-data android:name="firebase_analytics_collection_enabled" android:value="false" />
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
         <!-- Disables automatic initialisation of Crashlytics. -->
-        <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false" />
 
         <!-- This is used for the Google Maps fragment -->
         <!-- See https://developers.google.com/maps/documentation/android-sdk/config#specify_requirement_for_apache_http_legacy_library -->
@@ -53,29 +57,21 @@
                 android:resource="@xml/shortcuts" />
         </activity>
 
-        <!-- Settings -->
+        <!-- Generic preference activity, which can load a preference fragment. -->
         <activity
-            android:name=".common.preferences.SettingsActivity"
-            android:label="@string/action_view_settings"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/Hydra.Main">
+            android:name=".preferences.PreferenceActivity"
+            android:parentActivityName=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <!-- Association select preference activity -->
-        <activity
-            android:name=".association.preference.AssociationSelectPrefActivity"
-            android:label="Verenigingen"
-            android:parentActivityName=".common.preferences.SettingsActivity" />
-
-        <!-- Association select preference activity -->
+        <!-- Select preferences for home feed -->
         <activity
             android:name=".feed.preferences.HomeFeedPrefActivity"
             android:label="@string/feed_pref_card_types_title"
-            android:parentActivityName=".common.preferences.SettingsActivity" />
+            android:parentActivityName=".preferences.PreferenceActivity" />
 
         <!-- Sandwich overview -->
         <activity
@@ -170,15 +166,16 @@
             android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
 
         <activity
-                android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
-                android:theme="@style/Hydra.Main" />
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/Hydra.Main" />
         <activity
-                android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
-                android:theme="@style/Hydra.Main" />
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/Hydra.Main" />
 
         <!-- Urgent stuff -->
         <!-- This is a music service without sensitive data and thus does not require permissions -->
         <service
+            android:foregroundServiceType="mediaPlayback"
             android:name=".urgent.MusicService"
             android:exported="true"
             android:process=":urgent"
@@ -195,7 +192,8 @@
         </receiver>
 
         <!-- Slices stuff -->
-        <provider android:name=".resto.menu.slice.SliceProvider"
+        <provider
+            android:name=".resto.menu.slice.SliceProvider"
             android:authorities="be.ugent.zeus.hydra.resto.menu"
             android:exported="true"
             tools:ignore="ExportedContentProvider">
@@ -205,7 +203,9 @@
             </intent-filter>
         </provider>
 
-        <receiver android:name = ".resto.menu.slice.UpdatedMenuBroadcastReceiver" android:exported="false">
+        <receiver
+            android:name=".resto.menu.slice.UpdatedMenuBroadcastReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="be.ugent.zeus.hydra.resto.update" />
             </intent-filter>

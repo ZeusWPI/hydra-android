@@ -5,16 +5,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 
 import java.util.*;
 
+import java9.util.J8Arrays;
+import java9.util.function.IntPredicate;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
+
 import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity;
+import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
 import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.database.RepositoryFactory;
@@ -32,10 +36,6 @@ import be.ugent.zeus.hydra.feed.operations.FeedOperation;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
-import java9.util.J8Arrays;
-import java9.util.function.IntPredicate;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
 import static be.ugent.zeus.hydra.feed.operations.OperationFactory.add;
 import static be.ugent.zeus.hydra.feed.operations.OperationFactory.get;
 
@@ -69,7 +69,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
     //For which settings the loader must refresh
     private static final String[] watchedPreferences = {
             HomeFeedFragment.PREF_DISABLED_CARD_TYPES,
-            AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
+            AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING,
             RestoPreferenceFragment.PREF_RESTO_KEY,
             RestoPreferenceFragment.PREF_RESTO_NAME,
             HomeFeedFragment.PREF_DISABLED_CARD_HACK
@@ -167,7 +167,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
                 Set<Integer> errors = new HashSet<>();
                 Result<List<Card>> result = null;
 
-                for (FeedOperation operation: operations) {
+                for (FeedOperation operation : operations) {
                     if (isCancelled()) {
                         return null;
                     }
@@ -254,7 +254,8 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
      * Filter the requests to only include the requests that should be executed.
      *
      * @param allOperations A list of all possible operations.
-     * @param args The arguments to determine which requests will be executed.
+     * @param args          The arguments to determine which requests will be executed.
+     *
      * @return The requests to be executed.
      */
     private static Iterable<FeedOperation> findOperations(ExtendedSparseArray<FeedOperation> allOperations, @NonNull Bundle args) {

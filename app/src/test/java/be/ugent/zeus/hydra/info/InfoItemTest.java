@@ -1,17 +1,15 @@
 package be.ugent.zeus.hydra.info;
 
 import android.os.Parcel;
-import be.ugent.zeus.hydra.common.MockParcel;
-import be.ugent.zeus.hydra.common.ModelTest;
-import be.ugent.zeus.hydra.testing.Utils;
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
-import org.apache.commons.lang3.SerializationUtils;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import be.ugent.zeus.hydra.common.MockParcel;
+import be.ugent.zeus.hydra.common.ModelTest;
+import be.ugent.zeus.hydra.testing.Utils;
+import org.junit.Before;
+import org.junit.Test;
 
 import static be.ugent.zeus.hydra.testing.Assert.assertThat;
 import static be.ugent.zeus.hydra.testing.Assert.samePropertyValuesAs;

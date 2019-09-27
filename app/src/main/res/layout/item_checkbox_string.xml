@@ -4,17 +4,19 @@
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/material_list_single_line_with_avatar_normal_height"
-    android:paddingLeft="@dimen/material_list_icon_first_position_margin_start"
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:background="?android:attr/selectableItemBackground"
-    android:clickable="true">
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingLeft="@dimen/material_list_icon_first_position_margin_start"
+    android:paddingStart="@dimen/material_list_icon_first_position_margin_start"
+    tools:ignore="RtlSymmetry">
 
     <TextView
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:textColor="?android:attr/textColorSecondary"
         android:textSize="@dimen/material_list_normal_secondary_text_size"
         android:id="@+id/title_checkbox"
         tools:text="Naam" />

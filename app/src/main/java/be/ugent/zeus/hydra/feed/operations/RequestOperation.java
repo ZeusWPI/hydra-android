@@ -3,14 +3,15 @@ package be.ugent.zeus.hydra.feed.operations;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
-import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.feed.HomeFeedRequest;
+import java.util.List;
+
 import java9.util.stream.Collectors;
 import java9.util.stream.Stream;
 import java9.util.stream.StreamSupport;
 
-import java.util.List;
+import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.feed.HomeFeedRequest;
+import be.ugent.zeus.hydra.feed.cards.Card;
 
 /**
  * An operation that adds items to the home feed.

@@ -6,7 +6,8 @@ apply plugin: 'io.fabric'
 def props = loadProperties()
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
 
     // Use resources in robolectric
     testOptions.unitTests.includeAndroidResources = true
@@ -14,7 +15,7 @@ android {
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 21300
         versionName "2.13"
         vectorDrawables.useSupportLibrary = true
@@ -89,14 +90,12 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.multidex:multidex:2.0.1'
-
     implementation 'androidx.core:core:1.1.0'
     implementation 'androidx.media:media:1.1.0'
     implementation 'androidx.fragment:fragment:1.1.0'
-
     implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.preference:preference:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
@@ -106,41 +105,33 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.1.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
-
     implementation 'androidx.room:room-runtime:2.1.0'
     annotationProcessor 'androidx.room:room-compiler:2.1.0'
     testImplementation 'androidx.room:room-testing:2.1.0'
-
     // Network stack
     // Do not upgrade beyond 3.12.x until we require API 21+
     //noinspection GradleDependency
     implementation 'com.squareup.okhttp3:okhttp:3.12.5'
     implementation 'com.squareup.moshi:moshi:1.8.0'
-
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
     implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
-
     implementation 'com.heinrichreimersoftware:material-intro:2.0.0'
     implementation 'com.jonathanfinerty.once:once:1.3.0'
     implementation 'com.github.captain-miao:optroundcardview:1.1.0'
     implementation 'blue.aodev:material-values:1.1.1'
-
     implementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-
     if (props.getProperty("hydra.debug.leaks").toBoolean()) {
         logger.info("Leak tracking enabled...")
         debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-3'
     }
-
     //Test code
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:3.0.0'
-
     testImplementation 'org.robolectric:robolectric:4.3'
     testImplementation 'androidx.test:core:1.2.0'
     testImplementation 'androidx.test.ext:junit:1.1.1'
@@ -148,12 +139,10 @@ dependencies {
     testImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     testImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
     testImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
-
     //Enable the normal library for unit tests
     testImplementation('org.threeten:threetenbp:1.4.0') {
         exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
     }
-
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.5'
     testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.1.9'
     testImplementation 'com.shazam:shazamcrest:0.11'

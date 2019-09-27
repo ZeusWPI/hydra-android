@@ -3,11 +3,11 @@ package be.ugent.zeus.hydra.utils;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 
-import org.junit.Test;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,50 +23,5 @@ public class StringUtilsTest {
         assertEquals("HYDRA", StringUtils.capitaliseFirst("HYDRA"));
         assertEquals("HYDRA", StringUtils.capitaliseFirst("hYDRA"));
         assertEquals("65656565", StringUtils.capitaliseFirst("65656565"));
-    }
-
-    @Test
-    public void inputStreamTest() {
-        String testString = "test\nstring";
-        InputStream stream = new ByteArrayInputStream(testString.getBytes(StandardCharsets.UTF_8));
-        String result = StringUtils.convertStreamToString(stream);
-        assertEquals(testString, result);
-    }
-
-    @Test
-    public void inputStreamTestUtf8() {
-        String testString = "test\nstring¨$^$ù$^$^$^&$^é$&é";
-        InputStream stream = new ByteArrayInputStream(testString.getBytes(StandardCharsets.UTF_8));
-        String result = StringUtils.convertStreamToString(stream);
-        assertEquals(testString, result);
-    }
-
-    @Test
-    public void inputStreamTestEmpty() {
-        String testString = "";
-        InputStream stream = new ByteArrayInputStream(testString.getBytes(StandardCharsets.UTF_8));
-        String result = StringUtils.convertStreamToString(stream);
-        assertEquals(testString, result);
-    }
-
-    @Test
-    public void generateAcronymFor() {
-        String[] values = {
-                "Algoritmen en datastructuren III",
-                "Parallelle en gedistribueerde computersystemen",
-                "Recht van de intellectuele eigendom",
-                "Betonkunde 1"
-        };
-        // Note: these are NOT good abbreviations, just what the algorithm currently does
-        String[] expectedAcronyms = {
-                "AEDI",
-                "PEGC",
-                "RVDIE",
-                "B1"
-        };
-
-        for (int i = 0; i < values.length; i++) {
-            assertEquals(expectedAcronyms[i], StringUtils.generateAcronymFor(values[i]));
-        }
     }
 }

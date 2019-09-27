@@ -13,7 +13,7 @@ import org.robolectric.RobolectricTestRunner;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-public class EcologicalRequestTest extends AbstractJsonRequestTest<List<RegularSandwich>> {
+public class RegularRequestTest extends AbstractJsonRequestTest<List<RegularSandwich>> {
 
     @Override
     protected String getRelativePath() {

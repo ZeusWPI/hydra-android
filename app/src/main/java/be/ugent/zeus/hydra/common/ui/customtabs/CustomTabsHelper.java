@@ -110,7 +110,7 @@ public class CustomTabsHelper {
             PackageManager pm = context.getPackageManager();
             List<ResolveInfo> handlers = pm.queryIntentActivities(intent, PackageManager.GET_RESOLVED_FILTER);
 
-            if (handlers == null || handlers.isEmpty()) {
+            if (handlers.isEmpty()) {
                 return false;
             }
 

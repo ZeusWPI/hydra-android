@@ -20,4 +20,8 @@
         <attr name="selectable" format="boolean"/>
         <attr name="messagePaddingTop" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="TimePreference">
+        <attr name="useDefaultSummary" format="boolean" />
+    </declare-styleable>
 </resources>

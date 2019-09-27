@@ -3,11 +3,11 @@ package be.ugent.zeus.hydra.info;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.squareup.moshi.Json;
+import java.util.List;
+
 import java9.util.Objects;
 
-import java.io.Serializable;
-import java.util.List;
+import com.squareup.moshi.Json;
 
 /**
  * An info item.

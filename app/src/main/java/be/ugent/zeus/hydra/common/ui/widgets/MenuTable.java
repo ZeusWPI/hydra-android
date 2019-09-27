@@ -3,20 +3,14 @@ package be.ugent.zeus.hydra.common.ui.widgets;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
-import androidx.annotation.IntDef;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
-import androidx.core.text.util.LinkifyCompat;
-
-import android.text.Spannable;
-import android.text.method.LinkMovementMethod;
-import android.text.method.MovementMethod;
-import android.text.util.Linkify;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -24,7 +18,6 @@ import java.lang.annotation.RetentionPolicy;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.resto.RestoMenu;
-import be.ugent.zeus.hydra.utils.StringUtils;
 
 import static be.ugent.zeus.hydra.utils.PreferencesUtils.isSetIn;
 
@@ -189,14 +182,14 @@ public class MenuTable extends TableLayout {
 
         if (menu.hasMessage()) {
             createText(menu.menu.getMessage(), false, true);
-            if (!menu.menu.isOpen()) {
+            if (menu.menu.isClosed()) {
                 return;
             }
         }
 
         // Does not have a message at this point.
         // assert !menu.hasMessage();
-        if (!menu.menu.isOpen()) {
+        if (menu.menu.isClosed()) {
             createText(getContext().getString(R.string.resto_menu_not_available), false, true);
             return;
         }

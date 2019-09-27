@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 /**
  * Represents a data update for an {@link DiffAdapter}.
  */
-public interface AdapterUpdate<D> {
+interface AdapterUpdate<D> {
 
     /**
      * Returns the new data. If you need to calculations, this is the place. Guaranteed to be called before

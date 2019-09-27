@@ -1,24 +1,25 @@
 package be.ugent.zeus.hydra.library.list;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import java9.util.Optional;
+import java9.util.stream.StreamSupport;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableAdapter;
 import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.library.details.OpeningHours;
-import java9.util.Optional;
-import java9.util.stream.StreamSupport;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Adapter for a list of libraries.

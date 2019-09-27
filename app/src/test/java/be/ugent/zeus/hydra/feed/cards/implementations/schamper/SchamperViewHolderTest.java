@@ -1,12 +1,12 @@
 package be.ugent.zeus.hydra.feed.cards.implementations.schamper;
 
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.view.View;
+import androidx.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
 import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
+import be.ugent.zeus.hydra.preferences.ArticleFragment;
 import be.ugent.zeus.hydra.schamper.Article;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +39,7 @@ public class SchamperViewHolderTest extends AbstractFeedViewHolderTest {
 
         PreferenceManager.getDefaultSharedPreferences(view.getContext())
                 .edit()
-                .putBoolean(CustomTabPreferenceFragment.PREF_USE_CUSTOM_TABS, true)
+                .putBoolean(ArticleFragment.PREF_USE_CUSTOM_TABS, true)
                 .commit();
         view.performClick();
 

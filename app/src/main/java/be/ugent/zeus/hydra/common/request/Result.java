@@ -122,17 +122,6 @@ public class Result<D> {
     }
 
     /**
-     * If a value is present, performs the given action with the value, otherwise does nothing.
-     *
-     * @param action The action to be performed, if a value is present.
-     */
-    public void ifPresent(Consumer<? super D> action) {
-        if (data != null) {
-            action.accept(data);
-        }
-    }
-
-    /**
      * Returns the data if there is no exception. If there is an exception, the exception is thrown, regardless if there
      * is data present or not.
      *
@@ -140,6 +129,7 @@ public class Result<D> {
      *
      * @throws RequestException If the exception is present.
      */
+    @SuppressWarnings("UnusedReturnValue")
     public D getOrThrow() throws RequestException {
         if (throwable != null) {
             throw throwable;
@@ -196,19 +186,15 @@ public class Result<D> {
         RequestException chosenThrowable;
         if (update.throwable != null) {
             chosenThrowable = update.throwable;
-        } else if (this.throwable != null) {
-            chosenThrowable = this.throwable;
         } else {
-            chosenThrowable = null;
+            chosenThrowable = this.throwable;
         }
 
         D chosenData;
         if (update.data != null) {
             chosenData = update.data;
-        } else if (this.data != null) {
-            chosenData = this.data;
         } else {
-            chosenData = null;
+            chosenData = this.data;
         }
 
         return new Result<>(chosenThrowable, chosenData, update.done);
@@ -273,6 +259,7 @@ public class Result<D> {
             return this;
         }
 
+        @SuppressWarnings("UnusedReturnValue")
         public Builder<D> withError(@NonNull RequestException error) {
             this.error = error;
             return this;

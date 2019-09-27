@@ -44,6 +44,7 @@ public class DateTypeConvertersTest {
 
     @Test
     public void fromInstantNull() {
+        //noinspection ConstantConditions
         assertNull(DateTypeConverters.fromInstant(null));
     }
 

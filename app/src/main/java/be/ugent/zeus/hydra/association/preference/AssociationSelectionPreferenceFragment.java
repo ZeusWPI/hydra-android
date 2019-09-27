@@ -1,19 +1,19 @@
 package be.ugent.zeus.hydra.association.preference;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
 import android.util.Log;
 import android.util.Pair;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.*;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.*;
 
@@ -22,14 +22,16 @@ import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
-import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import com.google.android.material.snackbar.Snackbar;
+
+import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
 
 /**
  * Allow the user to select preferences.
  *
  * @author Niko Strijbol
  */
-public class AssociationSelectPrefActivity extends BaseActivity {
+public class AssociationSelectionPreferenceFragment extends Fragment {
 
     /**
      * Key for the preference that contains which associations should be shown.
@@ -41,31 +43,42 @@ public class AssociationSelectPrefActivity extends BaseActivity {
     private final SearchableAssociationsAdapter adapter = new SearchableAssociationsAdapter();
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preferences_associations);
+        setHasOptionsMenu(true);
+    }
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_preferences_associations, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        SearchView searchView = findViewById(R.id.search_view);
+        SearchView searchView = view.findViewById(R.id.search_view);
 
         recyclerView.requestFocus();
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         searchView.setOnQueryTextListener(adapter);
 
         AssociationsViewModel model = ViewModelProviders.of(this).get(AssociationsViewModel.class);
         model.getData().observe(this, PartialErrorObserver.with(this::onError));
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
-        model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
+        model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_pref_selectors, menu);
-        tintToolbarIcons(menu, R.id.action_select_all, R.id.action_select_none);
-        return super.onCreateOptionsMenu(menu);
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_pref_selectors, menu);
+        requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_select_all, R.id.action_select_none);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -84,7 +97,7 @@ public class AssociationSelectPrefActivity extends BaseActivity {
 
     private void receiveData(@NonNull List<Association> data) {
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         Set<String> disabled = preferences.getStringSet(PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
         List<Pair<Association, Boolean>> values = new ArrayList<>();
 
@@ -96,7 +109,7 @@ public class AssociationSelectPrefActivity extends BaseActivity {
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
 
         //Save the values.
@@ -107,12 +120,12 @@ public class AssociationSelectPrefActivity extends BaseActivity {
             }
         }
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         preferences.edit().putStringSet(PREF_ASSOCIATIONS_SHOWING, disabled).apply();
     }
 
     private void onError(Throwable throwable) {
         Log.e(TAG, "Error while getting data.", throwable);
-        Snackbar.make(findViewById(android.R.id.content), getString(R.string.error_network), Snackbar.LENGTH_LONG).show();
+        Snackbar.make(requireView(), getString(R.string.error_network), Snackbar.LENGTH_LONG).show();
     }
 }

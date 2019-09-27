@@ -60,6 +60,7 @@ public final class RobolectricUtils {
         assertNotEquals("", textView.getText());
     }
 
+    @SuppressWarnings("deprecation")
     public static Context getActivityContext() {
         return Robolectric.setupActivity(BlankActivity.class);
     }

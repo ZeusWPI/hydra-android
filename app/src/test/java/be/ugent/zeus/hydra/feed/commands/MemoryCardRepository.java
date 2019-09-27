@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MemoryCardRepository implements CardRepository {
 
-    private Set<CardDismissal> dismissals = new HashSet<>();
+    private final Set<CardDismissal> dismissals = new HashSet<>();
 
     @Override
     public List<CardDismissal> getForType(int cardType) {

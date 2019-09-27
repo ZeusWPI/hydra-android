@@ -70,13 +70,13 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
         // Create the WiFi lock we we will use later.
         WifiManager manager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (manager != null) {
+            //noinspection deprecation
             this.wifiLock = manager.createWifiLock(WifiManager.WIFI_MODE_FULL, WIFI_LOCK_TAG);
         }
 
         // Create the media session.
         mediaSession = new MediaSessionCompat(this, TAG);
         setSessionToken(mediaSession.getSessionToken());
-        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
 
         // Create the player.
         player = new Player.Builder(this)

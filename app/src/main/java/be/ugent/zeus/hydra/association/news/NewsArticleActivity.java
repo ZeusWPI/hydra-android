@@ -6,26 +6,26 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.reporting.Event;
-import be.ugent.zeus.hydra.common.article.CustomTabPreferenceFragment;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.html.PicassoImageGetter;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
+import be.ugent.zeus.hydra.preferences.ArticleFragment;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
@@ -50,6 +50,7 @@ public class NewsArticleActivity extends BaseActivity {
 
         Intent intent = getIntent();
         UgentNewsArticle article = intent.getParcelableExtra(PARCEL_NAME);
+        assert article != null;
 
         this.url = article.getIdentifier();
 
@@ -73,13 +74,13 @@ public class NewsArticleActivity extends BaseActivity {
         date.setText(dateString);
 
         if (!TextUtils.isEmpty(article.getDescription())) {
-            lead.setText(Utils.fromHtml(article.getDescription(), new PicassoImageGetter(lead, getResources(), this)));
+            lead.setText(Utils.fromHtml(article.getDescription(), new PicassoImageGetter(lead, getResources())));
         } else {
             lead.setVisibility(View.GONE);
         }
 
         if (article.getText() != null) {
-            text.setText(Utils.fromHtml(article.getText(), new PicassoImageGetter(text, getResources(), this)));
+            text.setText(Utils.fromHtml(article.getText(), new PicassoImageGetter(text, getResources())));
             text.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
@@ -125,7 +126,7 @@ public class NewsArticleActivity extends BaseActivity {
      *
      * @param context A context.
      * @param article The article to open.
-     * @param helper Helper for opening custom tabs.
+     * @param helper  Helper for opening custom tabs.
      */
     public static void viewArticle(Context context, UgentNewsArticle article, ActivityHelper helper) {
 
@@ -134,14 +135,14 @@ public class NewsArticleActivity extends BaseActivity {
 
         // Open in-app or in a custom tab
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean useCustomTabs = preferences.getBoolean(CustomTabPreferenceFragment.PREF_USE_CUSTOM_TABS, CustomTabPreferenceFragment.PREF_USE_CUSTOM_TABS_DEFAULT);
+        boolean useCustomTabs = preferences.getBoolean(ArticleFragment.PREF_USE_CUSTOM_TABS, ArticleFragment.PREF_USE_CUSTOM_TABS_DEFAULT);
         boolean isOnline = NetworkUtils.isConnected(context);
         if (useCustomTabs && isOnline) {
             // Open in Custom tabs.
             helper.openCustomTab(Uri.parse(article.getIdentifier()));
         } else {
             Intent intent = new Intent(context, NewsArticleActivity.class);
-            intent.putExtra(PARCEL_NAME, (Parcelable) article);
+            intent.putExtra(PARCEL_NAME, article);
             context.startActivity(intent);
         }
     }
@@ -155,7 +156,6 @@ public class NewsArticleActivity extends BaseActivity {
         }
 
         @Override
-        @SuppressWarnings("Duplicates")
         public Bundle getParams() {
             BaseEvents.Params names = Reporting.getEvents().params();
             Bundle bundle = new Bundle();

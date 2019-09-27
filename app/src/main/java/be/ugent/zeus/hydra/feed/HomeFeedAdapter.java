@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.feed;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.R;

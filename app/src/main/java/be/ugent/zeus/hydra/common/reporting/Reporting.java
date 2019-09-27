@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.common.reporting;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
+import androidx.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.BuildConfig;
 
@@ -16,8 +16,8 @@ public final class Reporting {
 
     private static final String TAG = "Reporting";
 
-    public static final String PREF_ALLOW_ANALYTICS = "be.ugent.zeus.hydra.reporting.allow_analytics";
-    public static final String PREF_ALLOW_CRASH_REPORTING = "be.ugent.zeus.hydra.reporting.allow_crash_reporting";
+    private static final String PREF_ALLOW_ANALYTICS = "be.ugent.zeus.hydra.reporting.allow_analytics";
+    private static final String PREF_ALLOW_CRASH_REPORTING = "be.ugent.zeus.hydra.reporting.allow_crash_reporting";
 
     private static Tracker tracker;
     private final static Object lock = new Object();

@@ -23,6 +23,7 @@ import java9.util.stream.StreamSupport;
  *
  * @author Niko Strijbol
  */
+@SuppressWarnings("WeakerAccess")
 public final class Library implements Parcelable {
 
     private static final String FALLBACK_HEADER = "https://picsum.photos/800/450?image=1073";

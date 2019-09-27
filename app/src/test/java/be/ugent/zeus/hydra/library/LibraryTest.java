@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.library;
 
 import be.ugent.zeus.hydra.common.ModelTest;
-import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 
 import static be.ugent.zeus.hydra.testing.Utils.defaultVerifier;
