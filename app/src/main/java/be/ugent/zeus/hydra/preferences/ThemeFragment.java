@@ -39,12 +39,12 @@ public class ThemeFragment extends PreferenceFragment {
         if (Build.VERSION.SDK_INT < 29) {
             listPreference.setEntries(R.array.pref_dark_mode_old);
             listPreference.setEntryValues(R.array.pref_dark_mode_values_old);
-            requirePreference("pref_theme_battery").setVisible(false);
+            requirePreference("pref_theme_system").setVisible(false);
 
         } else {
             listPreference.setEntries(R.array.pref_dark_mode_new);
             listPreference.setEntryValues(R.array.pref_dark_mode_values_new);
-            requirePreference("pref_theme_system").setVisible(false);
+            requirePreference("pref_theme_battery").setVisible(false);
         }
         listPreference.setDefaultValue(defaultValue());
         listPreference.setOnPreferenceChangeListener((preference, newValue) -> {
