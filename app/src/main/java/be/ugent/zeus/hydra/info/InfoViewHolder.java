@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.info;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.util.TypedValue;
@@ -49,8 +50,14 @@ class InfoViewHolder extends DataViewHolder<InfoItem> {
                 Log.e(TAG, "Icon for info item " + infoItem.getImage() + " was not found!");
                 title.setCompoundDrawablesWithIntrinsicBounds(null, null, more, null);
             } else {
-                Drawable icon = ViewUtils.getTintedVectorDrawable(c, resId, typedValue.resourceId);
-                title.setCompoundDrawablesWithIntrinsicBounds(icon, null, more, null);
+                try {
+                    Drawable icon = ViewUtils.getTintedVectorDrawable(c, resId, typedValue.resourceId);
+                    title.setCompoundDrawablesWithIntrinsicBounds(icon, null, more, null);
+                } catch (Resources.NotFoundException e) {
+                    Log.w(TAG, "On non-weird devices, this should not occur.", e);
+                    // Since it occurred anyway, ignore the error.
+                    title.setCompoundDrawablesWithIntrinsicBounds(null, null, more, null);
+                }
             }
         } else {
             title.setCompoundDrawablesWithIntrinsicBounds(null, null, more, null);

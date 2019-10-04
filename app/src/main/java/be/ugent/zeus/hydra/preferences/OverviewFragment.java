@@ -1,11 +1,13 @@
 package be.ugent.zeus.hydra.preferences;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
+
+import be.ugent.zeus.hydra.common.ui.ViewUtils;
 
 /**
  * Display an overview of the settings.
@@ -25,7 +27,9 @@ public class OverviewFragment extends PreferenceFragmentCompat {
             preference.setSummary(entry.getDescription());
             preference.setPersistent(false);
             if (entry.getIcon() != 0) {
-                preference.setIcon(entry.getIcon());
+                int textColour = ViewUtils.getColor(context, android.R.attr.textColor);
+                Drawable drawable = ViewUtils.getTintedVectorDrawableInt(context, entry.getIcon(), textColour);
+                preference.setIcon(drawable);
             }
             preference.setOnPreferenceClickListener(p -> {
                 PreferenceActivity.start(requireContext(), entry);
