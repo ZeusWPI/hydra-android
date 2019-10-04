@@ -32,7 +32,9 @@ import be.ugent.zeus.hydra.urgent.player.UrgentTrackProvider;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 /**
- * Fragment that displays the Urgent.fm player, meaning controls and track information.
+ * Fragment that displays the Urgent.fm player, meaning controls and track information. Note that while we implement
+ * the streaming in {@link MusicService} and others, we don't interact with it directly. Instead, we control it via the
+ * media session.
  *
  * @author Niko Strijbol
  */
@@ -92,7 +94,7 @@ public class UrgentFragment extends Fragment {
 
                 @Override
                 public void onError(@NonNull String id) {
-                    Toast.makeText(requireContext(), "Errror", Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show();
                 }
             };
 
@@ -121,18 +123,23 @@ public class UrgentFragment extends Fragment {
                 @Override
                 public void onConnectionSuspended() {
                     Log.d(TAG, "onConnectionSuspended");
-                    MediaControllerCompat mediaController = MediaControllerCompat
-                            .getMediaController(requireActivity());
-                    if (mediaController != null) {
-                        mediaController.unregisterCallback(mediaControllerCallback);
-                        MediaControllerCompat.setMediaController(requireActivity(), null);
-                    }
+                    disconnect();
                 }
             };
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_urgent, container, false);
+    }
+
+    private void disconnect() {
+        mediaBrowser.unsubscribe(mediaBrowser.getRoot(), subscriptionCallback);
+        MediaControllerCompat mediaController = MediaControllerCompat
+                .getMediaController(requireActivity());
+        if (mediaController != null) {
+            mediaController.unregisterCallback(mediaControllerCallback);
+            MediaControllerCompat.setMediaController(requireActivity(), null);
+        }
     }
 
     @Override
@@ -157,19 +164,23 @@ public class UrgentFragment extends Fragment {
         view.findViewById(R.id.social_urgentfm)
                 .setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(getContext(), URGENT_URL));
 
-        mediaBrowser = new MediaBrowserCompat(requireActivity(), new ComponentName(requireActivity(), MusicService.class), connectionCallback, null);
+        mediaBrowser = new MediaBrowserCompat(requireActivity(),
+                new ComponentName(requireActivity(), MusicService.class), connectionCallback, null);
         hideMediaControls();
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        Log.d(TAG, "onStart: connecting to media browser");
         mediaBrowser.connect();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        Log.d(TAG, "onStop: disconnecting media browser");
+        disconnect();
         mediaBrowser.disconnect();
     }
 
