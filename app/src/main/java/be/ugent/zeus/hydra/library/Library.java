@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import java.util.List;
@@ -84,6 +85,18 @@ public final class Library implements Parcelable {
         }
     }
 
+    @VisibleForTesting
+    public void setTestName(String name) {
+        this.name = name;
+        this.nameEnglish = name;
+        this.nameDutch = name;
+    }
+
+    @VisibleForTesting
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getCode() {
         return code;
     }
@@ -128,14 +141,6 @@ public final class Library implements Parcelable {
 
     public String getLink() {
         return link;
-    }
-
-    public void setFavourite(boolean favourite) {
-        this.favourite = favourite;
-    }
-
-    public boolean isFavourite() {
-        return favourite;
     }
 
     /**

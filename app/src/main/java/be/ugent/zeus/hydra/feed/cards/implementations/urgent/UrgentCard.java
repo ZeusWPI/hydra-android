@@ -8,11 +8,14 @@ import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
  */
 public class UrgentCard extends Card {
 
+    /**
+     * This is used in the database; do not rename.
+     */
     private static final String TAG = "UrgentCard";
 
     @Override
     public int getPriority() {
-        return PriorityUtils.FEED_SPECIAL_SHIFT + 1;
+        return PriorityUtils.FEED_SPECIAL_SHIFT + 2;
     }
 
     @Override
@@ -32,6 +35,6 @@ public class UrgentCard extends Card {
 
     @Override
     public int hashCode() {
-        return System.identityHashCode(this);
+        return UrgentCard.class.hashCode();
     }
 }

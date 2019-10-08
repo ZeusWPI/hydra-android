@@ -1,10 +1,13 @@
 package be.ugent.zeus.hydra.library.list;
 
-import androidx.lifecycle.Observer;
-import androidx.annotation.Nullable;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+
+import java9.util.Optional;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.request.Result;
@@ -13,12 +16,12 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.RecycleViewHolder;
 import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.library.details.LibraryDetailActivity;
 import be.ugent.zeus.hydra.library.details.OpeningHours;
-import java9.util.Optional;
 
 /**
  * @author Niko Strijbol
  */
-class LibraryViewHolder extends DataViewHolder<Library> implements RecycleViewHolder, Observer<Result<Optional<OpeningHours>>> {
+class LibraryViewHolder extends DataViewHolder<Pair<Library, Boolean>> implements RecycleViewHolder,
+        Observer<Result<Optional<OpeningHours>>> {
 
     private final LibraryListAdapter adapter;
 
@@ -39,14 +42,14 @@ class LibraryViewHolder extends DataViewHolder<Library> implements RecycleViewHo
     }
 
     @Override
-    public void populate(Library data) {
-        visible = data.isFavourite();
+    public void populate(Pair<Library, Boolean> data) {
+        visible = data.second;
         openingHours.setVisibility(visible ? View.VISIBLE : View.GONE);
-        title.setText(data.getName());
-        subtitle.setText(data.getCampus());
-        itemView.setOnClickListener(v -> LibraryDetailActivity.launchActivity(v.getContext(), data));
-        favourite.setVisibility(data.isFavourite() ? View.VISIBLE : View.GONE);
-        adapter.registerListener(data, this);
+        title.setText(data.first.getName());
+        subtitle.setText(data.first.getCampus());
+        itemView.setOnClickListener(v -> LibraryDetailActivity.launchActivity(v.getContext(), data.first));
+        favourite.setVisibility(visible ? View.VISIBLE : View.GONE);
+        adapter.registerListener(data.first, this);
     }
 
     @Override

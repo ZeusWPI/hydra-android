@@ -62,6 +62,8 @@ public class HomeFeedAdapter extends DiffAdapter<Card, DataViewHolder<Card>> {
                 return new NewsItemViewHolder(view(R.layout.home_card_news_item, parent), this);
             case URGENT_FM:
                 return new UrgentViewHolder(view(R.layout.home_card_urgent, parent), this);
+            case LIBRARY:
+                //TODO
             case DEBUG:
             default:
                 throw new IllegalArgumentException("Non-supported view type in home feed: " + viewType);

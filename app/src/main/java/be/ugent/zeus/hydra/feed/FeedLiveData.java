@@ -215,7 +215,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
 
         FeedCollection operations = new FeedCollection();
         Context c = applicationContext;
-        Set<Integer> s = StreamSupport.stream(PreferenceManager
+        Set<Integer> disabled = StreamSupport.stream(PreferenceManager
                 .getDefaultSharedPreferences(c)
                 .getStringSet(HomeFeedFragment.PREF_DISABLED_CARD_TYPES, Collections.emptySet()))
                 .map(Integer::parseInt)
@@ -223,11 +223,11 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
 
         // Don't do Urgent.fm if there is no network.
         if (!NetworkUtils.isConnected(c)) {
-            s.add(Card.Type.URGENT_FM);
+            disabled.add(Card.Type.URGENT_FM);
         }
 
         // Test if the card type is ignored or not.
-        IntPredicate d = s::contains;
+        IntPredicate d = disabled::contains;
 
         // Repositories
         CardRepository cr = RepositoryFactory.getCardRepository(c);

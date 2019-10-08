@@ -1,12 +1,18 @@
 package be.ugent.zeus.hydra.feed.cards.database;
 
 /**
- * Contract for the table with the agenda items. This represents the current table and column names. This might change,
- * so you CANNOT use these in migrations.
+ * Contract for the table with the agenda items. This represents the current table and column names. These might change,
+ * so you CANNOT use this class in migrations.
+ *
+ * For a description of the fields, see {@link be.ugent.zeus.hydra.feed.cards.CardDismissal}.
  *
  * @author Niko Strijbol
  */
 public final class DismissalTable {
+
+    private DismissalTable() {
+        // No instances.
+    }
 
     public static final String TABLE_NAME = "feed_dismissals";
 

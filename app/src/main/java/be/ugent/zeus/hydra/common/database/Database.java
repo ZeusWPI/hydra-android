@@ -11,6 +11,8 @@ import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.common.database.migrations.*;
 import be.ugent.zeus.hydra.feed.cards.CardDismissal;
 import be.ugent.zeus.hydra.feed.cards.database.CardDao;
+import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
+import be.ugent.zeus.hydra.library.favourites.LibraryFavourite;
 
 import static be.ugent.zeus.hydra.common.database.Database.VERSION;
 
@@ -22,7 +24,8 @@ import static be.ugent.zeus.hydra.common.database.Database.VERSION;
  * @author Niko Strijbol
  */
 @androidx.room.Database(entities = {
-        CardDismissal.class // Feed stuff
+        CardDismissal.class, // Feed stuff
+        LibraryFavourite.class, // Library favourites
 }, version = VERSION)
 @TypeConverters(DateTypeConverters.class)
 public abstract class Database extends RoomDatabase {
@@ -33,7 +36,7 @@ public abstract class Database extends RoomDatabase {
      * The current version of the database. When changing this value, you must provide a appropriate migration, or the
      * app will crash.
      */
-    static final int VERSION = 15;
+    static final int VERSION = 16;
     /**
      * The current name of the database. Should not change.
      *
@@ -57,7 +60,7 @@ public abstract class Database extends RoomDatabase {
                         .allowMainThreadQueries() // TODO
                         .addMigrations(new Migration_6_7(), new Migration_7_8(), new Migration_8_9(), new Migration_9_10(),
                                 new Migration_10_11(), new Migration_11_12(), new Migration_12_13(), new Migration_13_14(),
-                                new Migration_14_15()
+                                new Migration_14_15(), new Migration_15_16()
                         )
                         .build();
             }
@@ -79,4 +82,6 @@ public abstract class Database extends RoomDatabase {
      * @return Instance of the card dao.
      */
     public abstract CardDao getCardDao();
+
+    public abstract FavouritesRepository getFavouritesRepository();
 }

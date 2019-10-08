@@ -60,9 +60,10 @@ public abstract class Card implements Comparable<Card> {
 
     /**
      * Note: the numbers are not sequential due to removed types.
+     * DO NOT re-use numbers: these are saved in the database.
      */
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({RESTO, ACTIVITY, SPECIAL_EVENT, SCHAMPER, NEWS_ITEM, URGENT_FM, DEBUG})
+    @IntDef({RESTO, ACTIVITY, SPECIAL_EVENT, SCHAMPER, NEWS_ITEM, URGENT_FM, LIBRARY, DEBUG})
     public @interface Type {
         int RESTO = 1;
         int ACTIVITY = 2;
@@ -70,6 +71,7 @@ public abstract class Card implements Comparable<Card> {
         int SCHAMPER = 4;
         int NEWS_ITEM = 5;
         int URGENT_FM = 9;
+        int LIBRARY = 10;
         int DEBUG = 100;
     }
 
