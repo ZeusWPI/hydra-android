@@ -185,9 +185,11 @@
     <string name="resto_legend_vegan">Veganistisch</string>
     <string name="resto_legend_abbr_header">Afkortingen</string>
     <string name="resto_legend_msc_abbr">MSC</string>
-    <string name="resto_legend_msc_desc">Marine Stewardship Council, duurzame visserij</string>
+    <string name="resto_legend_msc_desc">Marine Stewardship Council</string>
     <string name="resto_legend_asc_abbr">ASC</string>
-    <string name="resto_legend_asc_desc">Aquaculture Stewardship Council, verantwoorde kweek</string>
+    <string name="resto_legend_asc_desc">Aquaculture Stewardship Council</string>
+    <string name="resto_legend_gap_abbr">GAP</string>
+    <string name="resto_legend_gap_desc">Goede Agrarische Productie</string>
 
     <string name="resto_menu_slice_open_menu">Open restomenu</string>
     <string name="resto_menu_slice_next">Volgende dag</string>

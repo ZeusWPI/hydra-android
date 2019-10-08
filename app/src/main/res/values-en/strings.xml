@@ -180,9 +180,11 @@
     <string name="resto_legend_vegan">Vegan</string>
     <string name="resto_legend_abbr_header">Abbreviations</string>
     <string name="resto_legend_msc_abbr">MSC</string>
-    <string name="resto_legend_msc_desc">Marine Stewardship Council, sustainable fishing</string>
+    <string name="resto_legend_msc_desc">Marine Stewardship Council</string>
     <string name="resto_legend_asc_abbr">ASC</string>
-    <string name="resto_legend_asc_desc">Aquaculture Stewardship Council, responsible seafood</string>
+    <string name="resto_legend_asc_desc">Aquaculture Stewardship Council</string>
+    <string name="resto_legend_gap_abbr">GAP</string>
+    <string name="resto_legend_gap_desc">Good Agricultural Practice</string>
 
     <string name="resto_menu_slice_open_menu">Open resto menu</string>
     <string name="resto_menu_slice_next">Next day</string>
