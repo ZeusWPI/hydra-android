@@ -65,7 +65,8 @@ class LibraryViewHolder extends DataViewHolder<Pair<Library, Boolean>> implement
         } else {
             OpeningHours hours = result.getData().get();
             if (visible) {
-                openingHours.setText(openingHours.getContext().getString(R.string.library_list_opening_hours_today, hours.getHours()));
+                openingHours.setText(openingHours.getContext()
+                        .getString(R.string.library_list_opening_hours_today, hours.getHours()));
             }
         }
     }

@@ -4,17 +4,12 @@ import android.util.Pair;
 
 import java.util.List;
 
-import java9.util.Objects;
+import java9.util.Optional;
 
+import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
-import be.ugent.zeus.hydra.feed.cards.implementations.urgent.UrgentCard;
-import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.library.details.OpeningHours;
-import be.ugent.zeus.hydra.resto.RestoChoice;
-import be.ugent.zeus.hydra.resto.RestoMenu;
-import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.temporal.ChronoUnit;
 
 /**
  * A card that will display the opening hours of libraries that are in the user's favourites.
@@ -28,13 +23,13 @@ class LibraryCard extends Card {
      */
     private static final String TAG = "LibraryCard";
 
-    private final List<Pair<Library, OpeningHours>> libraries;
+    private final List<Pair<String, Result<Optional<OpeningHours>>>> libraries;
 
-    LibraryCard(List<Pair<Library, OpeningHours>> libraries) {
+    LibraryCard(List<Pair<String, Result<Optional<OpeningHours>>>> libraries) {
         this.libraries = libraries;
     }
 
-    public List<Pair<Library, OpeningHours>> getLibraries() {
+    public List<Pair<String, Result<Optional<OpeningHours>>>> getLibraries() {
         return libraries;
     }
 
@@ -60,6 +55,6 @@ class LibraryCard extends Card {
 
     @Override
     public int hashCode() {
-        return UrgentCard.class.hashCode();
+        return LibraryCard.class.hashCode();
     }
 }

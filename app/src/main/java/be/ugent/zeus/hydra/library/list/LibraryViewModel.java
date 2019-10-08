@@ -11,7 +11,6 @@ import java.util.Map;
 
 import java9.util.Maps;
 import java9.util.Optional;
-import java9.util.stream.StreamSupport;
 
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
@@ -42,15 +41,7 @@ public class LibraryViewModel extends RefreshViewModel<List<Pair<Library, Boolea
         return Maps.computeIfAbsent(mapping, library.getCode(), s -> {
             OpeningHoursRequest request = new OpeningHoursRequest(getApplication(), library);
             LocalDate today = LocalDate.now();
-            return new RequestLiveData<>(getApplication(), request.map(openingHours -> {
-                if (openingHours == null || openingHours.isEmpty()) {
-                    return Optional.empty();
-                } else {
-                    return StreamSupport.stream(openingHours)
-                            .filter(o -> today.equals(o.getDate()))
-                            .findFirst();
-                }
-            }));
+            return new RequestLiveData<>(getApplication(), request.forDay(today));
         });
     }
 

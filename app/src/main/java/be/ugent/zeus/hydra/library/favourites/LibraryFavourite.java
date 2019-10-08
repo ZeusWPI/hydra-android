@@ -31,16 +31,16 @@ public final class LibraryFavourite {
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = FavouritesTable.Columns.LIBRARY_ID)
-    private final String id;
+    private final String code;
 
-    public LibraryFavourite(@NonNull String name, @NonNull String id) {
+    public LibraryFavourite(@NonNull String name, @NonNull String code) {
         this.name = name;
-        this.id = id;
+        this.code = code;
     }
 
     @NonNull
-    public String getId() {
-        return id;
+    public String getCode() {
+        return code;
     }
 
     @NonNull
@@ -53,12 +53,12 @@ public final class LibraryFavourite {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LibraryFavourite that = (LibraryFavourite) o;
-        return id.equals(that.id);
+        return code.equals(that.code);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(code);
     }
 
     @NonNull

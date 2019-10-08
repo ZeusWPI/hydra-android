@@ -12,6 +12,7 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.implementations.event.EventCardViewHolder;
+import be.ugent.zeus.hydra.feed.cards.implementations.library.LibraryCardViewHolder;
 import be.ugent.zeus.hydra.feed.cards.implementations.news.NewsItemViewHolder;
 import be.ugent.zeus.hydra.feed.cards.implementations.resto.RestoCardViewHolder;
 import be.ugent.zeus.hydra.feed.cards.implementations.schamper.SchamperViewHolder;
@@ -63,7 +64,7 @@ public class HomeFeedAdapter extends DiffAdapter<Card, DataViewHolder<Card>> {
             case URGENT_FM:
                 return new UrgentViewHolder(view(R.layout.home_card_urgent, parent), this);
             case LIBRARY:
-                //TODO
+                return new LibraryCardViewHolder(view(R.layout.home_card_library, parent), this);
             case DEBUG:
             default:
                 throw new IllegalArgumentException("Non-supported view type in home feed: " + viewType);

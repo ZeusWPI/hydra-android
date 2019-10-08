@@ -240,12 +240,14 @@
     <string name="feed_card_type_title_schamper">Schamper</string>
     <string name="feed_card_type_title_news">News</string>
     <string name="feed_card_type_title_urgent">Urgent.fm</string>
+    <string name="feed_card_type_title_libraries">Libraries</string>
 
     <string name="feed_card_type_desc_resto">The daily menu for all student restaurants.</string>
     <string name="feed_card_type_desc_events">The activities of your favourite student association.</string>
     <string name="feed_card_type_desc_schamper">Articles from Schamper.</string>
     <string name="feed_card_type_desc_news">The news, directly from Ghent University.</string>
     <string name="feed_card_type_desc_urgent">The youth radio for the Ghent area.</string>
+    <string name="feed_card_type_desc_libraries">The opening hours of your favourite libraries.</string>
 
     <string name="feed_general_error">Could not get some cards.</string>
     <string name="feed_resto_menu_title">Menu for %1$s • %2$s</string>

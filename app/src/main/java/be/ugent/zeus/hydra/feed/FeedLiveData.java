@@ -27,6 +27,7 @@ import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardRepository;
 import be.ugent.zeus.hydra.feed.cards.implementations.debug.WaitRequest;
 import be.ugent.zeus.hydra.feed.cards.implementations.event.EventRequest;
+import be.ugent.zeus.hydra.feed.cards.implementations.library.LibraryRequest;
 import be.ugent.zeus.hydra.feed.cards.implementations.news.NewsRequest;
 import be.ugent.zeus.hydra.feed.cards.implementations.resto.RestoRequest;
 import be.ugent.zeus.hydra.feed.cards.implementations.schamper.SchamperRequest;
@@ -66,7 +67,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
 
     private final Context applicationContext;
 
-    //For which settings the loader must refresh
+    // For which settings the loader must refresh.
     private static final String[] watchedPreferences = {
             HomeFeedFragment.PREF_DISABLED_CARD_TYPES,
             AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING,
@@ -126,7 +127,10 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
         }
     }
 
-    private static List<Card> executeOperation(@Nullable Bundle args, FeedOperation operation, Collection<Integer> errors, List<Card> results) {
+    private static List<Card> executeOperation(@Nullable Bundle args,
+                                               FeedOperation operation,
+                                               Collection<Integer> errors,
+                                               List<Card> results) {
 
         Result<List<Card>> result = operation.transform(args, results);
 
@@ -232,15 +236,16 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
         // Repositories
         CardRepository cr = RepositoryFactory.getCardRepository(c);
 
-        //Always insert the special events.
+        // Always insert the special events.
         operations.add(add(new LimitingSpecialEventRequest(c, cr)));
 
-        //Add other stuff if needed
+        // Add other stuff if needed.
         operations.add(get(d, () -> new RestoRequest(c, cr), Card.Type.RESTO));
         operations.add(get(d, () -> new EventRequest(c, cr), Card.Type.ACTIVITY));
         operations.add(get(d, () -> new SchamperRequest(c, cr), Card.Type.SCHAMPER));
         operations.add(get(d, () -> new NewsRequest(c, cr), Card.Type.NEWS_ITEM));
         operations.add(get(d, UrgentRequest::new, Card.Type.URGENT_FM));
+        operations.add(get(d, () -> new LibraryRequest(c), Card.Type.LIBRARY));
 
         // Add debug request.
         if (BuildConfig.DEBUG && BuildConfig.DEBUG_HOME_STREAM_STALL) {

@@ -4,6 +4,8 @@ import android.view.Menu;
 import android.widget.PopupMenu;
 
 /**
+ * Allow individual cards to alter the menu.
+ *
  * @author Niko Strijbol
  */
 public interface MenuHandler extends PopupMenu.OnMenuItemClickListener {
