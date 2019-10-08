@@ -37,7 +37,13 @@
 
     <string name="shortcut_resto_short_label">Resto menu</string>
     <string name="shortcut_resto_long_label">View the resto menu</string>
-    <string name="shortcut_resto_disabled">Disabled</string>
+    <string name="shortcut_urgent_short_label">Urgent.fm</string>
+    <string name="shortcut_urgent_long_label">Listen to Urgent.fm</string>
+    <string name="shortcut_libraries_short_label">Libraries</string>
+    <string name="shortcut_libraries_long_label">View the libraries</string>
+    <string name="shortcut_events_short_label">Events</string>
+    <string name="shortcut_events_long_label">View the events</string>
+    <string name="shortcut_disabled">Disabled</string>
 
     <string name="no_items">No items</string>
 

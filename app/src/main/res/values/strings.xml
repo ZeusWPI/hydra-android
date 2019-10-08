@@ -39,8 +39,14 @@
     <string name="drawer_title_ufora">Ufora-app</string>
 
     <string name="shortcut_resto_short_label">Restomenu</string>
-    <string name="shortcut_resto_long_label">Bekijk de restomenu</string>
-    <string name="shortcut_resto_disabled">Uitgeschakeld</string>
+    <string name="shortcut_resto_long_label">Bekijk het restomenu</string>
+    <string name="shortcut_urgent_short_label">Urgent.fm</string>
+    <string name="shortcut_urgent_long_label">Luister naar Urgent.fm</string>
+    <string name="shortcut_libraries_short_label">Bibliotheken</string>
+    <string name="shortcut_libraries_long_label">Bekijk de bibliotheken</string>
+    <string name="shortcut_events_short_label">Evenementen</string>
+    <string name="shortcut_events_long_label">Bekijk de evenementen</string>
+    <string name="shortcut_disabled">Uitgeschakeld</string>
 
     <string name="no_items">Geen items</string>
 
