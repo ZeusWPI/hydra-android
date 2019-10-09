@@ -3,21 +3,21 @@ package be.ugent.zeus.hydra.feed.commands;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 
-import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.feed.cards.dismissal.CardDismissal;
-import be.ugent.zeus.hydra.feed.cards.dismissal.CardIdentifier;
-import be.ugent.zeus.hydra.feed.cards.CardRepository;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import be.ugent.zeus.hydra.feed.cards.Card;
+import be.ugent.zeus.hydra.feed.cards.dismissal.CardDismissal;
+import be.ugent.zeus.hydra.feed.cards.dismissal.CardIdentifier;
+import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
+
 /**
  * @author Niko Strijbol
  */
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class MemoryCardRepository implements CardRepository {
+public class MemoryDismissalDao extends DismissalDao {
 
     private final Set<CardDismissal> dismissals = new HashSet<>();
 
@@ -27,16 +27,16 @@ public class MemoryCardRepository implements CardRepository {
     }
 
     @Override
-    public List<CardIdentifier> getIdForType(int cardType) {
+    public List<CardIdentifier> getIdsForType(int type) {
         return dismissals.stream()
                 .map(CardDismissal::getIdentifier)
-                .filter(i -> i.getCardType() == cardType)
+                .filter(i -> i.getCardType() == type)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void add(CardDismissal cardDismissal) {
-        dismissals.add(cardDismissal);
+    public void insert(CardDismissal dismissal) {
+        dismissals.add(dismissal);
     }
 
     @Override
@@ -63,5 +63,13 @@ public class MemoryCardRepository implements CardRepository {
     @Override
     public void deleteAll() {
         dismissals.clear();
+    }
+
+    @Override
+    protected void deleteCard(int cardType, String id) {
+        dismissals.removeIf(cardDismissal -> {
+            CardIdentifier identifier = cardDismissal.getIdentifier();
+            return identifier.getCardType() == cardType && identifier.getIdentifier().equals(id);
+        });
     }
 }
