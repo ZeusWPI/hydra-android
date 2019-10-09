@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.feed.cards.implementations.library;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import java9.util.Optional;
 
+import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
@@ -24,7 +26,7 @@ import be.ugent.zeus.hydra.library.details.OpeningHours;
  *
  * @author Niko Strijbol
  */
-public class LibraryCardViewHolder extends CardViewHolder {
+public class LibraryViewHolder extends CardViewHolder {
 
     private final LinearLayout list;
 
@@ -32,14 +34,20 @@ public class LibraryCardViewHolder extends CardViewHolder {
     private final float hoursTextSize;
     private final int rowPadding;
 
-    public LibraryCardViewHolder(View v, HomeFeedAdapter adapter) {
-        super(v, adapter);
-        list = v.findViewById(R.id.library_list);
+    public LibraryViewHolder(View itemView, HomeFeedAdapter adapter) {
+        super(itemView, adapter);
+        list = itemView.findViewById(R.id.library_list);
 
-        Context c = v.getContext();
+        Context c = itemView.getContext();
         hoursTextColour = ViewUtils.getColor(c, android.R.attr.textColorSecondary);
         hoursTextSize = c.getResources().getDimension(R.dimen.material_list_normal_secondary_text_size);
         rowPadding = c.getResources().getDimensionPixelSize(R.dimen.material_baseline_grid_1x);
+
+        itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), MainActivity.class);
+            intent.putExtra(MainActivity.ARG_TAB, R.id.drawer_library);
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override
