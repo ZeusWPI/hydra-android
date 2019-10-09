@@ -11,7 +11,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.feed.cards.implementations.MenuHandler;
+import be.ugent.zeus.hydra.feed.cards.MenuHandler;
 
 /**
  * A custom view to encapsulate the Google Now-like bar above the cards on the home tab.

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import be.ugent.zeus.hydra.feed.cards.database.CardDaoTest;
+import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDaoTest;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -81,7 +81,7 @@ public class Utils {
     }
 
     public static File getResourceFile(String resourcePath) {
-        return new File(CardDaoTest.class.getClassLoader().getResource(resourcePath).getFile());
+        return new File(DismissalDaoTest.class.getClassLoader().getResource(resourcePath).getFile());
     }
 
     private static final Random random = new Random();

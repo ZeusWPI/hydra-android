@@ -21,18 +21,18 @@ import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
 import be.ugent.zeus.hydra.common.ExtendedSparseArray;
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
-import be.ugent.zeus.hydra.common.database.RepositoryFactory;
+import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.feed.cards.CardRepository;
-import be.ugent.zeus.hydra.feed.cards.implementations.debug.WaitRequest;
-import be.ugent.zeus.hydra.feed.cards.implementations.event.EventRequest;
-import be.ugent.zeus.hydra.feed.cards.implementations.library.LibraryRequest;
-import be.ugent.zeus.hydra.feed.cards.implementations.news.NewsRequest;
-import be.ugent.zeus.hydra.feed.cards.implementations.resto.RestoRequest;
-import be.ugent.zeus.hydra.feed.cards.implementations.schamper.SchamperRequest;
-import be.ugent.zeus.hydra.feed.cards.implementations.specialevent.LimitingSpecialEventRequest;
-import be.ugent.zeus.hydra.feed.cards.implementations.urgent.UrgentRequest;
+import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
+import be.ugent.zeus.hydra.feed.cards.debug.WaitRequest;
+import be.ugent.zeus.hydra.feed.cards.event.EventRequest;
+import be.ugent.zeus.hydra.feed.cards.library.LibraryRequest;
+import be.ugent.zeus.hydra.feed.cards.news.NewsRequest;
+import be.ugent.zeus.hydra.feed.cards.resto.RestoRequest;
+import be.ugent.zeus.hydra.feed.cards.schamper.SchamperRequest;
+import be.ugent.zeus.hydra.feed.cards.specialevent.LimitingSpecialEventRequest;
+import be.ugent.zeus.hydra.feed.cards.urgent.UrgentRequest;
 import be.ugent.zeus.hydra.feed.operations.FeedOperation;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
@@ -234,16 +234,16 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
         IntPredicate d = disabled::contains;
 
         // Repositories
-        CardRepository cr = RepositoryFactory.getCardRepository(c);
+        DismissalDao cd = Database.get(c).getCardDao();
 
         // Always insert the special events.
-        operations.add(add(new LimitingSpecialEventRequest(c, cr)));
+        operations.add(add(new LimitingSpecialEventRequest(c, cd)));
 
         // Add other stuff if needed.
-        operations.add(get(d, () -> new RestoRequest(c, cr), Card.Type.RESTO));
-        operations.add(get(d, () -> new EventRequest(c, cr), Card.Type.ACTIVITY));
-        operations.add(get(d, () -> new SchamperRequest(c, cr), Card.Type.SCHAMPER));
-        operations.add(get(d, () -> new NewsRequest(c, cr), Card.Type.NEWS_ITEM));
+        operations.add(get(d, () -> new RestoRequest(c, cd), Card.Type.RESTO));
+        operations.add(get(d, () -> new EventRequest(c, cd), Card.Type.ACTIVITY));
+        operations.add(get(d, () -> new SchamperRequest(c, cd), Card.Type.SCHAMPER));
+        operations.add(get(d, () -> new NewsRequest(c, cd), Card.Type.NEWS_ITEM));
         operations.add(get(d, UrgentRequest::new, Card.Type.URGENT_FM));
         operations.add(get(d, () -> new LibraryRequest(c), Card.Type.LIBRARY));
 

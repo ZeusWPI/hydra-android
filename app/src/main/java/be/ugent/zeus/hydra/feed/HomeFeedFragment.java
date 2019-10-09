@@ -46,6 +46,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     private static final String TAG = "HomeFeedFragment";
 
     public static final String PREF_DISABLED_CARD_TYPES = "pref_disabled_cards";
+    // TODO: replace this by proper listener to database.
     public static final String PREF_DISABLED_CARD_HACK = "pref_disabled_specials_hack";
 
     private static final int REQUEST_HOMECARD_ID = 5050;

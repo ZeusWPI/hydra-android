@@ -37,7 +37,6 @@ import static be.ugent.zeus.hydra.feed.cards.Card.Type.*;
  * @author Niko Strijbol
  * @author feliciaan
  */
-@SuppressWarnings("ComparableImplementedButEqualsNotOverridden")
 public abstract class Card implements Comparable<Card> {
 
     /**

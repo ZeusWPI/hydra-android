@@ -3,8 +3,8 @@ package be.ugent.zeus.hydra.feed.commands;
 import android.content.Context;
 
 import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.feed.cards.CardDismissal;
-import be.ugent.zeus.hydra.feed.cards.CardIdentifier;
+import be.ugent.zeus.hydra.feed.cards.dismissal.CardDismissal;
+import be.ugent.zeus.hydra.feed.cards.dismissal.CardIdentifier;
 import be.ugent.zeus.hydra.feed.cards.CardRepository;
 import org.junit.Test;
 import org.threeten.bp.Instant;

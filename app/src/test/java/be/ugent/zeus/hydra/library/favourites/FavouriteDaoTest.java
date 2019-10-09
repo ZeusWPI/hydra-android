@@ -17,29 +17,21 @@ import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.common.database.Database;
-import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.feed.cards.CardDismissal;
-import be.ugent.zeus.hydra.feed.cards.CardIdentifier;
-import be.ugent.zeus.hydra.feed.cards.database.CardDao;
+import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
 import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.testing.Utils;
-import okhttp3.internal.Util;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 import org.robolectric.annotation.LooperMode;
-import org.threeten.bp.Instant;
 
-import static be.ugent.zeus.hydra.testing.Assert.assertThat;
-import static be.ugent.zeus.hydra.testing.Assert.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static be.ugent.zeus.hydra.testing.Utils.getRandom;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 /**
- * Tests for the {@link CardDao}.
+ * Tests for the {@link DismissalDao}.
  *
  * @author Niko Strijbol
  */

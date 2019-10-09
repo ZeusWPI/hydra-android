@@ -4,8 +4,8 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.feed.cards.CardDismissal;
-import be.ugent.zeus.hydra.feed.cards.CardIdentifier;
+import be.ugent.zeus.hydra.feed.cards.dismissal.CardDismissal;
+import be.ugent.zeus.hydra.feed.cards.dismissal.CardIdentifier;
 import be.ugent.zeus.hydra.feed.cards.CardRepository;
 
 import java.util.HashSet;

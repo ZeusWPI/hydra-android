@@ -9,8 +9,8 @@ import androidx.room.TypeConverters;
 
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.common.database.migrations.*;
-import be.ugent.zeus.hydra.feed.cards.CardDismissal;
-import be.ugent.zeus.hydra.feed.cards.database.CardDao;
+import be.ugent.zeus.hydra.feed.cards.dismissal.CardDismissal;
+import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
 import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
 import be.ugent.zeus.hydra.library.favourites.LibraryFavourite;
 
@@ -81,7 +81,7 @@ public abstract class Database extends RoomDatabase {
      *
      * @return Instance of the card dao.
      */
-    public abstract CardDao getCardDao();
+    public abstract DismissalDao getCardDao();
 
     public abstract FavouritesRepository getFavouritesRepository();
 }
