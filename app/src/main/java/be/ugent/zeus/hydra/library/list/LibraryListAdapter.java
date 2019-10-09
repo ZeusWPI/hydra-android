@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.library.list;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -26,13 +25,14 @@ import be.ugent.zeus.hydra.library.details.OpeningHours;
  *
  * @author Niko Strijbol
  */
-class LibraryListAdapter extends SearchableAdapter<Library, LibraryViewHolder> {
+class LibraryListAdapter extends SearchableAdapter<Pair<Library, Boolean>, LibraryViewHolder> {
 
     private final List<Pair<LiveData<Result<Optional<OpeningHours>>>, Observer<Result<Optional<OpeningHours>>>>> listeners = new ArrayList<>();
     private final LibraryViewModel viewModel;
 
     LibraryListAdapter(LibraryViewModel viewModel) {
-        super((library, s) -> {
+        super((pair, s) -> {
+            Library library = pair.first;
             boolean contained = false;
             if (library.getName() != null && library.getName().toLowerCase().contains(s)) {
                 contained = true;
@@ -62,9 +62,9 @@ class LibraryListAdapter extends SearchableAdapter<Library, LibraryViewHolder> {
         StreamSupport.stream(listeners)
                 .filter(p -> p.second == listener)
                 .findFirst().ifPresent(p -> {
-                    p.first.removeObserver(p.second);
-                    listeners.remove(p);
-                });
+            p.first.removeObserver(p.second);
+            listeners.remove(p);
+        });
     }
 
     @Override
@@ -72,7 +72,7 @@ class LibraryListAdapter extends SearchableAdapter<Library, LibraryViewHolder> {
         // TODO: this is not called?
         super.onDetachedFromRecyclerView(recyclerView);
         // Ensure there are no more listeners
-       clearObservers();
+        clearObservers();
     }
 
     void clearObservers() {

@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.library.list;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
@@ -29,7 +28,6 @@ public class LibraryListFragment extends Fragment {
 
     private static final String TAG = "LibraryListFragment";
     private static final String LIB_URL = "http://lib.ugent.be/";
-    public static final String PREF_LIBRARY_FAVOURITES = "pref_library_favourites";
 
     private LibraryListAdapter adapter;
     private LibraryViewModel viewModel;

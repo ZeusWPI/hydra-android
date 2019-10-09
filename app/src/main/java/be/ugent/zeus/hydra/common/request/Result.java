@@ -1,11 +1,13 @@
 package be.ugent.zeus.hydra.common.request;
 
 import androidx.annotation.NonNull;
-import java9.util.Objects;
-import java9.util.function.Consumer;
-import java9.util.function.Function;
 
 import java.util.NoSuchElementException;
+
+import java9.util.Objects;
+import java9.util.Optional;
+import java9.util.function.Consumer;
+import java9.util.function.Function;
 
 /**
  * The result of a {@link Request}.
@@ -234,7 +236,7 @@ public class Result<D> {
          * Shortcut for a completed result with data.
          *
          * @param data The data. Cannot be null.
-         * @param <D> The type of the data.
+         * @param <D>  The type of the data.
          *
          * @return The result.
          */
@@ -245,7 +247,7 @@ public class Result<D> {
         /**
          * Shortcut for a completed result with an exception.
          *
-         * @param e The exception. Cannot be null.
+         * @param e   The exception. Cannot be null.
          * @param <D> The type of the data if there would have been data.
          *
          * @return The result.

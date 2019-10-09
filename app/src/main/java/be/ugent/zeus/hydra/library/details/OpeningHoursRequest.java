@@ -3,10 +3,18 @@ package be.ugent.zeus.hydra.library.details;
 import android.content.Context;
 import androidx.annotation.NonNull;
 
+import java.util.List;
+
+import java9.util.Optional;
+import java9.util.function.Function;
+import java9.util.stream.StreamSupport;
+
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
+import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.library.Library;
 import org.threeten.bp.Duration;
+import org.threeten.bp.LocalDate;
 
 /**
  * Get the opening hours for one library.
@@ -18,8 +26,12 @@ public class OpeningHoursRequest extends JsonArrayRequest<OpeningHours> {
     private final String libraryCode;
 
     public OpeningHoursRequest(Context context, Library library) {
+        this(context, library.getCode());
+    }
+
+    public OpeningHoursRequest(Context context, String libraryCode) {
         super(context, OpeningHours.class);
-        this.libraryCode = library.getCode();
+        this.libraryCode = libraryCode;
     }
 
     @Override
@@ -31,5 +43,11 @@ public class OpeningHoursRequest extends JsonArrayRequest<OpeningHours> {
     @Override
     protected String getAPIUrl() {
         return Endpoints.LIBRARY + "libraries/" + libraryCode + "/calendar.json";
+    }
+
+    public Request<Optional<OpeningHours>> forDay(LocalDate date) {
+        return map(openingHours -> StreamSupport.stream(openingHours)
+                .filter(o -> date.equals(o.getDate()))
+                .findFirst());
     }
 }

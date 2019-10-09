@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_marginBottom="@dimen/card_spacing"
+    app:contentPaddingBottom="@dimen/card_title_padding_bottom_no_content"
+    android:clickable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <be.ugent.zeus.hydra.common.ui.widgets.NowToolbar
+            android:id="@+id/card_now_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/tabs_library"
+            app:title="@string/drawer_title_library"
+            app:menu="@menu/now_toolbar_single" />
+
+        <LinearLayout
+            android:id="@+id/library_list"
+            android:paddingLeft="@dimen/card_title_padding_vertical"
+            android:paddingRight="@dimen/card_title_padding_vertical"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

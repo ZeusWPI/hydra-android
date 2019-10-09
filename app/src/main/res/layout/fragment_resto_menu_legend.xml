@@ -153,6 +153,7 @@
                     tools:ignore="RtlSymmetry" />
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:layout_weight="1"
                     android:text="@string/resto_legend_msc_desc" />
             </TableRow>
@@ -168,8 +169,25 @@
                     tools:ignore="RtlSymmetry" />
 
                 <TextView
+                    android:textIsSelectable="true"
                     android:layout_weight="1"
                     android:text="@string/resto_legend_asc_desc" />
+            </TableRow>
+
+            <TableRow
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/material_list_single_line_without_avatar_dense_height">
+
+                <TextView
+                    android:text="@string/resto_legend_gap_abbr"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp"
+                    tools:ignore="RtlSymmetry" />
+
+                <TextView
+                    android:textIsSelectable="true"
+                    android:layout_weight="1"
+                    android:text="@string/resto_legend_gap_desc" />
             </TableRow>
 
         </TableLayout>

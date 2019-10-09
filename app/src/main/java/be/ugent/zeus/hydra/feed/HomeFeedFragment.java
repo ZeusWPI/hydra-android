@@ -15,7 +15,6 @@ import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.EventObserver;
-import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
@@ -47,6 +46,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     private static final String TAG = "HomeFeedFragment";
 
     public static final String PREF_DISABLED_CARD_TYPES = "pref_disabled_cards";
+    // TODO: replace this by proper listener to database.
     public static final String PREF_DISABLED_CARD_HACK = "pref_disabled_specials_hack";
 
     private static final int REQUEST_HOMECARD_ID = 5050;
@@ -93,7 +93,12 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         model = ViewModelProviders.of(this).get(FeedViewModel.class);
-        model.getData().observe(this, PartialErrorObserver.with(this::onError));
+        // Basically the same as PartialErrorObserver, but we only observe at the end.
+        model.getData().observe(this, result -> {
+            if (result != null && result.isDone() && result.hasException()) {
+                onError(result.getError());
+            }
+        });
         model.getData().observe(this, new AdapterObserver<>(adapter));
         model.getData().observe(this, data -> {
             if (data != null && data.hasData()) {

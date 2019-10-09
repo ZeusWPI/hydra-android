@@ -2,6 +2,8 @@ package be.ugent.zeus.hydra.common.ui;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
+
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 import be.ugent.zeus.hydra.common.request.Request;
@@ -33,5 +35,6 @@ public abstract class RequestViewModel<D> extends RefreshViewModel<D> {
     /**
      * @return The request to use.
      */
+    @NonNull
     protected abstract Request<D> getRequest();
 }

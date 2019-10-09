@@ -11,9 +11,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.common.arch.data.Event;
-import be.ugent.zeus.hydra.common.database.RepositoryFactory;
+import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.feed.HomeFeedFragment;
-import be.ugent.zeus.hydra.feed.cards.CardRepository;
+import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
 
 /**
  * Manages events to show toasts when the list of hidden cards is cleared.
@@ -33,9 +33,9 @@ public class DeleteViewModel extends AndroidViewModel {
     void deleteAll() {
         AsyncTask.execute(() -> {
             Context context = getApplication().getApplicationContext();
-            CardRepository cardRepository = RepositoryFactory.getCardRepository(context);
+            DismissalDao dismissalDao = Database.get(context).getCardDao();
+            dismissalDao.deleteAll();
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-            cardRepository.deleteAll();
             boolean newValue = !preferences.getBoolean(HomeFeedFragment.PREF_DISABLED_CARD_HACK, true);
             preferences.edit().putBoolean(HomeFeedFragment.PREF_DISABLED_CARD_HACK, newValue).apply();
             Log.i(TAG, "All hidden cards removed.");

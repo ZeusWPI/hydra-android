@@ -2,9 +2,9 @@ package be.ugent.zeus.hydra.library.details;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.util.Linkify;
@@ -15,16 +15,11 @@ import android.view.View;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.text.util.LinkifyCompat;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.preference.PreferenceManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import java9.util.stream.Collectors;
 import java9.util.stream.StreamSupport;
@@ -33,6 +28,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
+import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
@@ -40,10 +36,10 @@ import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.library.Library;
-import be.ugent.zeus.hydra.library.list.LibraryListFragment;
+import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
+import be.ugent.zeus.hydra.library.favourites.LibraryFavourite;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
-import be.ugent.zeus.hydra.utils.PreferencesUtils;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -92,34 +88,22 @@ public class LibraryDetailActivity extends BaseActivity {
             textView.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(LibraryDetailActivity.this, mapsIntent()));
         }
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> favourites = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
-
         button = findViewById(R.id.library_favourite);
-        // Set compound drawable in code, for backwards comparability.
-        Drawable drawable;
-        if (favourites.contains(library.getCode())) {
-            button.setSelected(true);
-            drawable = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star, R.color.hydra_secondary_colour);
-        } else {
-            drawable = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star, R.color.hydra_primary_dark_colour);
-            button.setSelected(false);
-        }
-
-        button.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
-
-        // Save/remove libraries on button click
-        button.setOnClickListener(v -> {
-            if (button.isSelected()) {
-                PreferencesUtils.removeFromStringSet(LibraryDetailActivity.this, LibraryListFragment.PREF_LIBRARY_FAVOURITES, library.getCode());
-                DrawableCompat.setTint(drawable, ActivityCompat.getColor(LibraryDetailActivity.this, R.color.hydra_primary_dark_colour));
-                button.setSelected(false);
-            } else {
-                PreferencesUtils.addToStringSet(LibraryDetailActivity.this, LibraryListFragment.PREF_LIBRARY_FAVOURITES, library.getCode());
-                DrawableCompat.setTint(drawable, ActivityCompat.getColor(LibraryDetailActivity.this, R.color.hydra_secondary_colour));
+        FavouriteViewModel viewModel = ViewModelProviders.of(this).get(FavouriteViewModel.class);
+        viewModel.setLibrary(library);
+        viewModel.getData().observe(this, isFavourite -> {
+            Drawable drawable;
+            Context c = LibraryDetailActivity.this;
+            if (isFavourite) {
                 button.setSelected(true);
+                drawable = ViewUtils.getTintedVectorDrawable(c, R.drawable.ic_star, R.color.hydra_secondary_colour);
+            } else {
+                drawable = ViewUtils.getTintedVectorDrawable(c, R.drawable.ic_star, R.color.hydra_primary_dark_colour);
+                button.setSelected(false);
             }
+            button.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         });
+        button.setOnClickListener(v -> updateStatus(library, button.isSelected()));
 
         ExpandableLayout layout = findViewById(R.id.expandable_layout);
         expandButton = findViewById(R.id.expand_button);
@@ -165,6 +149,17 @@ public class LibraryDetailActivity extends BaseActivity {
         model.getData().observe(this, SuccessObserver.with(this::receiveData));
 
         Reporting.getTracker(this).log(new LibraryViewEvent(library));
+    }
+
+    private void updateStatus(Library library, boolean isSelected) {
+        FavouritesRepository repository = Database.get(this).getFavouritesRepository();
+        AsyncTask.execute(() -> {
+            if (isSelected) {
+                repository.delete(LibraryFavourite.from(library));
+            } else {
+                repository.insert(LibraryFavourite.from(library));
+            }
+        });
     }
 
     @Override

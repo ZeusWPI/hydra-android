@@ -2,14 +2,14 @@ package be.ugent.zeus.hydra.feed.commands;
 
 import android.content.Context;
 
+import java.util.List;
+
 import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.feed.cards.CardDismissal;
-import be.ugent.zeus.hydra.feed.cards.CardIdentifier;
-import be.ugent.zeus.hydra.feed.cards.CardRepository;
+import be.ugent.zeus.hydra.feed.cards.dismissal.CardDismissal;
+import be.ugent.zeus.hydra.feed.cards.dismissal.CardIdentifier;
+import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
 import org.junit.Test;
 import org.threeten.bp.Instant;
-
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -23,7 +23,7 @@ public class DisableIndividualCardTest {
     @Test
     public void testExecuteAndUndo() {
         // TODO: this relies a bit much on the internals.
-        CardRepository repository = new MemoryCardRepository();
+        DismissalDao repository = new MemoryDismissalDao();
         CardIdentifier identifier = new CardIdentifier(Card.Type.DEBUG, "test");
         CardDismissal cardDismissal = new CardDismissal(identifier, Instant.now());
         Context context = mock(Context.class);

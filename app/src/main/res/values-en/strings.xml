@@ -37,7 +37,13 @@
 
     <string name="shortcut_resto_short_label">Resto menu</string>
     <string name="shortcut_resto_long_label">View the resto menu</string>
-    <string name="shortcut_resto_disabled">Disabled</string>
+    <string name="shortcut_urgent_short_label">Urgent.fm</string>
+    <string name="shortcut_urgent_long_label">Listen to Urgent.fm</string>
+    <string name="shortcut_libraries_short_label">Libraries</string>
+    <string name="shortcut_libraries_long_label">View the libraries</string>
+    <string name="shortcut_events_short_label">Events</string>
+    <string name="shortcut_events_long_label">View the events</string>
+    <string name="shortcut_disabled">Disabled</string>
 
     <string name="no_items">No items</string>
 
@@ -180,9 +186,11 @@
     <string name="resto_legend_vegan">Vegan</string>
     <string name="resto_legend_abbr_header">Abbreviations</string>
     <string name="resto_legend_msc_abbr">MSC</string>
-    <string name="resto_legend_msc_desc">Marine Stewardship Council, sustainable fishing</string>
+    <string name="resto_legend_msc_desc">Marine Stewardship Council</string>
     <string name="resto_legend_asc_abbr">ASC</string>
-    <string name="resto_legend_asc_desc">Aquaculture Stewardship Council, responsible seafood</string>
+    <string name="resto_legend_asc_desc">Aquaculture Stewardship Council</string>
+    <string name="resto_legend_gap_abbr">GAP</string>
+    <string name="resto_legend_gap_desc">Good Agricultural Practice</string>
 
     <string name="resto_menu_slice_open_menu">Open resto menu</string>
     <string name="resto_menu_slice_next">Next day</string>
@@ -232,12 +240,14 @@
     <string name="feed_card_type_title_schamper">Schamper</string>
     <string name="feed_card_type_title_news">News</string>
     <string name="feed_card_type_title_urgent">Urgent.fm</string>
+    <string name="feed_card_type_title_libraries">Libraries</string>
 
     <string name="feed_card_type_desc_resto">The daily menu for all student restaurants.</string>
     <string name="feed_card_type_desc_events">The activities of your favourite student association.</string>
     <string name="feed_card_type_desc_schamper">Articles from Schamper.</string>
     <string name="feed_card_type_desc_news">The news, directly from Ghent University.</string>
     <string name="feed_card_type_desc_urgent">The youth radio for the Ghent area.</string>
+    <string name="feed_card_type_desc_libraries">The opening hours of your favourite libraries.</string>
 
     <string name="feed_general_error">Could not get some cards.</string>
     <string name="feed_resto_menu_title">Menu for %1$s • %2$s</string>

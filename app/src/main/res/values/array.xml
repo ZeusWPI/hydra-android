@@ -7,6 +7,7 @@
         <item>4</item>
         <item>5</item>
         <item>9</item>
+        <item>11</item>
     </string-array>-array>
 
     <string-array name="card_types_names" translatable="false">
@@ -15,6 +16,7 @@
         <item>@string/feed_card_type_title_schamper</item>
         <item>@string/feed_card_type_title_news</item>
         <item>@string/feed_card_type_title_urgent</item>
+        <item>@string/feed_card_type_title_libraries</item>
     </string-array>
 
     <string-array name="card_types_descriptions" translatable="false">
@@ -23,6 +25,7 @@
         <item>@string/feed_card_type_desc_schamper</item>
         <item>@string/feed_card_type_desc_news</item>
         <item>@string/feed_card_type_desc_urgent</item>
+        <item>@string/feed_card_type_desc_libraries</item>
     </string-array>
 
     <string-array name="pref_dark_mode_values_old" translatable="false">

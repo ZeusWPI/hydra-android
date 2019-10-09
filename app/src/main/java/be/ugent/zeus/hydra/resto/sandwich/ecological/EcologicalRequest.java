@@ -7,10 +7,11 @@ import androidx.annotation.NonNull;
 import java.util.Collections;
 import java.util.List;
 
+import java9.util.Comparators;
+
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
 import be.ugent.zeus.hydra.common.request.Result;
-import java9.util.Comparators;
 import org.threeten.bp.Duration;
 import org.threeten.bp.temporal.ChronoUnit;
 

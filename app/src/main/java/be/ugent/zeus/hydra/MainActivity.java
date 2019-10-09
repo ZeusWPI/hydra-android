@@ -175,6 +175,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final String FRAGMENT_MENU_ID = "backStack";
 
     private static final String SHORTCUT_RESTO = "resto";
+    private static final String SHORTCUT_URGENT = "urgent";
+    private static final String SHORTCUT_EVENTS = "events";
+    private static final String SHORTCUT_LIBRARIES = "libraries";
 
     private DrawerLayout drawer;
     private ProgressBar drawerLoader;
@@ -338,6 +341,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 fragment = new RestoFragment();
                 break;
             case R.id.drawer_events:
+                reportShortcutUsed(SHORTCUT_EVENTS);
                 fragment = new EventFragment();
                 break;
             case R.id.drawer_news:
@@ -347,9 +351,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 fragment = new InfoFragment();
                 break;
             case R.id.drawer_urgent:
+                reportShortcutUsed(SHORTCUT_URGENT);
                 fragment = new UrgentFragment();
                 break;
             case R.id.drawer_library:
+                reportShortcutUsed(SHORTCUT_LIBRARIES);
                 fragment = new LibraryListFragment();
                 break;
             default:

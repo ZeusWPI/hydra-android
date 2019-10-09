@@ -15,7 +15,6 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.common.ui.widgets.NowToolbar;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.SwipeDismissableViewHolder;
-import be.ugent.zeus.hydra.feed.cards.implementations.MenuHandler;
 import be.ugent.zeus.hydra.feed.commands.DisableIndividualCard;
 import be.ugent.zeus.hydra.feed.commands.DisableTypeCommand;
 
