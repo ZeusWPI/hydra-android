@@ -34,3 +34,8 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+// We want sources to improve IDE features inside our Gradle files.
+wrapper {
+    distributionType = Wrapper.DistributionType.ALL
+}
