@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import nl.jqno.equalsverifier.Func;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -28,7 +29,7 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
 
     private final T expectedBean;
     private final Fields<T> fields;
-    private final Map<Class<Object>, Function<Object, Matcher<Object>>> matcherMap;
+    private final Map<Class<?>, Function<Object, Matcher<Object>>> matcherMap;
 
     private ShallowButFullEqual(T expectedBean) {
         //noinspection unchecked
@@ -74,7 +75,7 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
                         return false;
                     }
                 } else {
-                    Matcher<Object> matcher = matcherMap.getOrDefault(expected.getClass(), IsEqual::new).apply(expected);
+                    Matcher<?> matcher = matcherMap.getOrDefault(expected.getClass(), IsEqual::new).apply(expected);
                     if (!matcher.matches(actual)) {
                         mismatchDescription.appendText(ToStringBuilder.reflectionToString(item, ToStringStyle.MULTI_LINE_STYLE));
                         return false;
@@ -107,7 +108,7 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
 
     @SuppressWarnings("unchecked")
     public <V> ShallowButFullEqual<T> withMatcher(Class<V> clazz, Function<V, Matcher<V>> matcher) {
-        matcherMap.put((Class<Object>) clazz, (Function<Object, Matcher<Object>>) (Function<?, ?>) matcher);
+        matcherMap.put(clazz, (Function<Object, Matcher<Object>>) (Function<?, ?>) matcher);
         return this;
     }
 

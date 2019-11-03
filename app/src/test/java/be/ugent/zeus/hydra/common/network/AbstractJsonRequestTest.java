@@ -111,9 +111,6 @@ public abstract class AbstractJsonRequestTest<D> {
         JsonAdapter<D> adapter = request.getAdapter().serializeNulls();
         String actualData = adapter.toJson(result.getData());
 
-        System.out.println(actualData);
-        //System.out.println(data);
-
         JSONAssert.assertEquals(data, actualData, false);
 
         mockWebServer.shutdown();

@@ -2,14 +2,14 @@ package be.ugent.zeus.hydra.association.event;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import androidx.annotation.Nullable;
+
+import java9.util.Objects;
 
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
-import be.ugent.zeus.hydra.common.converter.IntBoolean;
 import be.ugent.zeus.hydra.utils.DateUtils;
-import com.squareup.moshi.Json;
-import java9.util.Objects;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;
 
@@ -30,14 +30,12 @@ public final class Event implements Parcelable, Comparable<Event> {
     private double longitude;
     private String description;
     private String url;
-    @Json(name = "facebook_id")
-    private String facebookId;
-    @IntBoolean
-    private boolean highlighted;
     private Association association;
 
-    @SuppressWarnings("unused") // Moshi uses this!
-    public Event() {}
+    @SuppressWarnings("unused")
+    public Event() {
+        // Moshi uses this!
+    }
 
     /**
      * Get the start date, converted to the local time zone. The resulting DateTime is the time as it is used
@@ -71,16 +69,8 @@ public final class Event implements Parcelable, Comparable<Event> {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public OffsetDateTime getStart() {
         return start;
-    }
-
-    public void setStart(OffsetDateTime start) {
-        this.start = start;
     }
 
     @Nullable
@@ -88,32 +78,16 @@ public final class Event implements Parcelable, Comparable<Event> {
         return end;
     }
 
-    public void setEnd(@Nullable OffsetDateTime end) {
-        this.end = end;
-    }
-
     public String getLocation() {
         return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
     public double getLongitude() {
         return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
     }
 
     public boolean hasPreciseLocation() {
@@ -128,10 +102,6 @@ public final class Event implements Parcelable, Comparable<Event> {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -140,32 +110,8 @@ public final class Event implements Parcelable, Comparable<Event> {
         return getUrl() != null && !getUrl().trim().isEmpty();
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getFacebookId() {
-        return facebookId;
-    }
-
-    public void setFacebookId(String facebookId) {
-        this.facebookId = facebookId;
-    }
-
-    public boolean isHighlighted() {
-        return highlighted;
-    }
-
-    public void setHighlighted(boolean highlighted) {
-        this.highlighted = highlighted;
-    }
-
     public Association getAssociation() {
         return association;
-    }
-
-    public void setAssociation(Association association) {
-        this.association = association;
     }
 
     @Override
@@ -183,8 +129,6 @@ public final class Event implements Parcelable, Comparable<Event> {
         dest.writeDouble(this.longitude);
         dest.writeString(this.description);
         dest.writeString(this.url);
-        dest.writeString(this.facebookId);
-        dest.writeByte((byte) (this.highlighted ? 1 : 0));
         dest.writeParcelable(this.association, flags);
     }
 
@@ -197,8 +141,6 @@ public final class Event implements Parcelable, Comparable<Event> {
         this.longitude = in.readDouble();
         this.description = in.readString();
         this.url = in.readString();
-        this.facebookId = in.readString();
-        this.highlighted = in.readByte() != 0;
         this.association = in.readParcelable(Association.class.getClassLoader());
     }
 
@@ -221,20 +163,18 @@ public final class Event implements Parcelable, Comparable<Event> {
         Event event = (Event) o;
         return Double.compare(event.latitude, latitude) == 0 &&
                 Double.compare(event.longitude, longitude) == 0 &&
-                highlighted == event.highlighted &&
                 Objects.equals(title, event.title) &&
                 Objects.equals(start, event.start) &&
                 Objects.equals(end, event.end) &&
                 Objects.equals(location, event.location) &&
                 Objects.equals(description, event.description) &&
                 Objects.equals(url, event.url) &&
-                Objects.equals(facebookId, event.facebookId) &&
                 Objects.equals(association, event.association);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, start, end, location, latitude, longitude, description, url, facebookId, highlighted, association);
+        return Objects.hash(title, start, end, location, latitude, longitude, description, url, association);
     }
 
     /**
@@ -251,6 +191,9 @@ public final class Event implements Parcelable, Comparable<Event> {
         return title + start.toString() + endDate + latitude + longitude + url + association.getName();
     }
 
+    /**
+     * Events are compared using their start times.
+     */
     @Override
     public int compareTo(Event o) {
         return start.compareTo(o.start);

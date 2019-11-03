@@ -16,6 +16,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.hamcrest.beans.SamePropertyValuesAs;
 import org.junit.ComparisonFailure;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZonedDateTime;
@@ -32,6 +33,8 @@ public class Assert {
 
     /**
      * Assert that a class implements {@link Parcelable} correctly. This will check every field of the class.
+     * The parcelable implementation is assumed to not have any special content descriptions, i.e.
+     * {@link Parcelable#describeContents()} always returns {@code 0}.
      *
      * @param clazz The class of the object to test.
      * @param <T> The type of the object to test.
@@ -40,11 +43,14 @@ public class Assert {
     public static <T extends Parcelable> void assertParcelable(Class<T> clazz) {
         Objects.requireNonNull(clazz);
         T original = Utils.generate(clazz);
+        assertEquals(0, original.describeContents());
         Parcel parcel = MockParcel.writeToParcelable(original);
         try {
             Parcelable.Creator<T> creator = (Parcelable.Creator<T>) FieldUtils.readDeclaredStaticField(clazz, "CREATOR");
             T other = creator.createFromParcel(parcel);
             assertThat(other, samePropertyValuesAs(original));
+            T[] array = creator.newArray(10);
+            assertEquals(10, array.length);
         } catch (IllegalAccessException e) {
             throw new AssertionError("Class does not have a CREATOR field.", e);
         } catch (ClassCastException e) {
