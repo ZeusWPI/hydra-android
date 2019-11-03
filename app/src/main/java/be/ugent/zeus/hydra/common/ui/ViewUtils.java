@@ -64,8 +64,12 @@ public class ViewUtils {
      *
      * @return The drawable.
      */
+    @Nullable
     public static Drawable getTintedVectorDrawableInt(Context context, @DrawableRes int drawable, @ColorInt int color) {
 
+        if (drawable == 0) {
+            return null;
+        }
         Drawable d = AppCompatResources.getDrawable(context, drawable);
         assert d != null;
         DrawableCompat.setTint(d, color);
