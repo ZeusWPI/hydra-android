@@ -10,6 +10,7 @@ import java9.util.Objects;
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.utils.DateUtils;
+import com.squareup.moshi.Json;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;
 
@@ -31,6 +32,8 @@ public final class Event implements Parcelable, Comparable<Event> {
     private String description;
     private String url;
     private Association association;
+    @Json(name = "facebook_id")
+    private String facebookId;
 
     @SuppressWarnings("unused")
     public Event() {
@@ -114,6 +117,10 @@ public final class Event implements Parcelable, Comparable<Event> {
         return association;
     }
 
+    public String getFacebookId() {
+        return facebookId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -129,6 +136,7 @@ public final class Event implements Parcelable, Comparable<Event> {
         dest.writeDouble(this.longitude);
         dest.writeString(this.description);
         dest.writeString(this.url);
+        dest.writeString(this.facebookId);
         dest.writeParcelable(this.association, flags);
     }
 
@@ -141,6 +149,7 @@ public final class Event implements Parcelable, Comparable<Event> {
         this.longitude = in.readDouble();
         this.description = in.readString();
         this.url = in.readString();
+        this.facebookId = in.readString();
         this.association = in.readParcelable(Association.class.getClassLoader());
     }
 
@@ -169,12 +178,13 @@ public final class Event implements Parcelable, Comparable<Event> {
                 Objects.equals(location, event.location) &&
                 Objects.equals(description, event.description) &&
                 Objects.equals(url, event.url) &&
+                Objects.equals(facebookId, event.facebookId) &&
                 Objects.equals(association, event.association);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, start, end, location, latitude, longitude, description, url, association);
+        return Objects.hash(title, start, end, location, latitude, longitude, description, url, association, facebookId);
     }
 
     /**
