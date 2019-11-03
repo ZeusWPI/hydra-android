@@ -133,7 +133,10 @@ public class UrgentFragment extends Fragment {
     }
 
     private void disconnect() {
-        mediaBrowser.unsubscribe(mediaBrowser.getRoot(), subscriptionCallback);
+        // If we are not connected yet, we don't need to unsubscribe.
+        if (mediaBrowser.isConnected()) {
+            mediaBrowser.unsubscribe(mediaBrowser.getRoot(), subscriptionCallback);
+        }
         MediaControllerCompat mediaController = MediaControllerCompat
                 .getMediaController(requireActivity());
         if (mediaController != null) {
