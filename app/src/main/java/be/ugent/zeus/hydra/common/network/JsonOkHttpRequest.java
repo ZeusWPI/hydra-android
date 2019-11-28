@@ -61,7 +61,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
      * Construct a new request. As this constructor is not type-safe, it must only be used internally.
      *
      * @param context The context.
-     * @param token The type token of the return type.
+     * @param token   The type token of the return type.
      */
     JsonOkHttpRequest(Context context, Type token) {
         this.moshi = InstanceProvider.getMoshi();
@@ -91,42 +91,38 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
         JsonAdapter<D> adapter = getAdapter();
 
         try {
-            try {
-                return executeRequest(adapter, args);
-            } catch (IOException e) {
+            return executeRequest(adapter, args);
+        } catch (IOException e) {
 
-                // If this exception is for a clear text violation, log it. We want to fix these.
-                if (e instanceof UnknownServiceException) {
-                    Log.e(TAG, "Unexpected error during network request.", e);
-                    tracker.logError(e);
-                }
-
-                Result<D> result = Result.Builder.fromException(new IOFailureException(e));
-
-                // Only do this if caching is enabled.
-                if (constructCacheControl(args) == CacheControl.FORCE_NETWORK) {
-                    Log.d(TAG, "Cache is disabled, do not attempt getting stale data.");
-                    return result;
-                }
-
-                Log.d(TAG, "Error while getting data, try to get stale data.", e);
-                // We try to get stale data at this point.
-                args = new Bundle(args);
-                args.putBoolean(ALLOW_STALENESS, true);
-
-                try {
-                    Result<D> staleResult = executeRequest(adapter, args);
-                    Log.d(TAG, "Stale data was found and used.");
-                    // Add the result.
-                    return result.updateWith(staleResult);
-                } catch (IOException e2) {
-                    Log.d(TAG, "Stale data was not found.", e2);
-                    // Just give up at this point.
-                    return result;
-                }
+            // If this exception is for a clear text violation, log it. We want to fix these.
+            if (e instanceof UnknownServiceException) {
+                Log.e(TAG, "Unexpected error during network request.", e);
+                tracker.logError(e);
             }
-        } catch (ConstructionException e) {
-            return Result.Builder.fromException(new RequestException(e));
+
+            Result<D> result = Result.Builder.fromException(new IOFailureException(e));
+
+            // Only do this if caching is enabled.
+            if (constructCacheControl(args) == CacheControl.FORCE_NETWORK) {
+                Log.d(TAG, "Cache is disabled, do not attempt getting stale data.");
+                return result;
+            }
+
+            Log.d(TAG, "Error while getting data, try to get stale data.", e);
+            // We try to get stale data at this point.
+            args = new Bundle(args);
+            args.putBoolean(ALLOW_STALENESS, true);
+
+            try {
+                Result<D> staleResult = executeRequest(adapter, args);
+                Log.d(TAG, "Stale data was found and used.");
+                // Add the result.
+                return result.updateWith(staleResult);
+            } catch (IOException e2) {
+                Log.d(TAG, "Stale data was not found.", e2);
+                // Just give up at this point.
+                return result;
+            }
         }
     }
 
@@ -134,7 +130,7 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
         return moshi.adapter(typeToken);
     }
 
-    protected Result<D> executeRequest(JsonAdapter<D> adapter, @NonNull Bundle args) throws IOException, ConstructionException {
+    protected Result<D> executeRequest(JsonAdapter<D> adapter, @NonNull Bundle args) throws IOException {
         okhttp3.Request request = constructRequest(args).build();
 
         try (Response response = client.newCall(request).execute()) {
@@ -206,14 +202,5 @@ public abstract class JsonOkHttpRequest<D> implements Request<D> {
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     Type getTypeToken() {
         return typeToken;
-    }
-
-    /**
-     * Exception thrown when the construction of the request failed for some reason.
-     */
-    protected static class ConstructionException extends Exception {
-        public ConstructionException(String message) {
-            super(message);
-        }
     }
 }
