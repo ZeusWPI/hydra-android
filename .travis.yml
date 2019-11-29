@@ -14,7 +14,7 @@ env:
   - FLAVOUR=testRelease
 
 script:
-  - "./gradlew clean $FLAVOUR --console=plain --stacktrace"
+  - "./gradlew clean $FLAVOUR --console=plain"
 
 notifications:
   email: false
