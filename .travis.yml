@@ -1,6 +1,6 @@
 language: android
 jdk:
-  - oraclejdk8
+  - oraclejdk9
 sudo: false
 
 android:
@@ -9,9 +9,13 @@ android:
     - build-tools-29.0.2
     - android-29
 
+# See https://stackoverflow.com/a/51644855/1831741 for the Java options
 env:
-  - FLAVOUR=testDebug
-  - FLAVOUR=testRelease
+  global:
+    - JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee'
+  matrix:
+    - FLAVOUR=testDebug
+    - FLAVOUR=testRelease
 
 script:
   - "./gradlew clean $FLAVOUR --console=plain"
