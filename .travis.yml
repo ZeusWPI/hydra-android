@@ -1,7 +1,6 @@
 language: android
-dist: trusty
 jdk:
-  - oraclejdk9
+  - oraclejdk8
 sudo: false
 
 android:
@@ -38,3 +37,4 @@ branches:
   only:
   - master
   - development
+  - /^r\d+$/
