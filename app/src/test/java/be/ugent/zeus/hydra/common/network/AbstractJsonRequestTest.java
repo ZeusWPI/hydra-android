@@ -41,6 +41,7 @@ public abstract class AbstractJsonRequestTest<D> {
 
     @Before
     public void setUp() {
+        InstanceProvider.reset();
         moshi = InstanceProvider.getMoshi();
         context = ApplicationProvider.getApplicationContext();
     }
