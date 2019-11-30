@@ -1,5 +1,6 @@
 language: android
 jdk:
+  - oraclejdk8
   - oraclejdk9
 sudo: false
 
@@ -15,6 +16,7 @@ env:
   - FLAVOUR=testRelease
 
 script:
+  - jdk_switcher use oraclejdk9
   - "./gradlew clean $FLAVOUR --console=plain"
 
 notifications:
