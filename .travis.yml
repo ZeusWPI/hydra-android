@@ -22,7 +22,7 @@ notifications:
   email: false
 
 before_install:
-  - export JAVA_OPTS='--add-modules java.se.ee' && yes | sdkmanager "platforms;android-29"
+  - yes | sdkmanager "platforms;android-29"
 
 # Caching according to the docs at https://docs.travis-ci.com/user/languages/java/#Projects-Using-Gradle
 before_cache:
