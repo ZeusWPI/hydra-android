@@ -11,11 +11,8 @@ android:
 
 # See https://stackoverflow.com/a/51644855/1831741 for the Java options
 env:
-  global:
-    - JAVA_OPTS="$JAVA_OPTS --add-modules java.se.ee"
-  matrix:
-    - FLAVOUR=testDebug
-    - FLAVOUR=testRelease
+  - FLAVOUR=testDebug
+  - FLAVOUR=testRelease
 
 script:
   - "./gradlew clean $FLAVOUR --console=plain"
@@ -24,7 +21,7 @@ notifications:
   email: false
 
 before_install:
-  - yes | sdkmanager "platforms;android-29"
+  - export JAVA_OPTS='--add-modules java.se.ee' && yes | sdkmanager "platforms;android-29"
 
 # Caching according to the docs at https://docs.travis-ci.com/user/languages/java/#Projects-Using-Gradle
 before_cache:
