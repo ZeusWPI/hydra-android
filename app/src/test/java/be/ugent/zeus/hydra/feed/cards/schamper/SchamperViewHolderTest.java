@@ -11,6 +11,7 @@ import be.ugent.zeus.hydra.schamper.Article;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
@@ -22,6 +23,7 @@ import static org.mockito.Mockito.verify;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
+@Config(sdk = {16, 28}) // The ShadowConnectivityManager misses some fields.
 public class SchamperViewHolderTest extends AbstractFeedViewHolderTest {
 
     @Test

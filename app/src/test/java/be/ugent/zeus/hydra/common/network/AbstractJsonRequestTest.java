@@ -41,6 +41,7 @@ public abstract class AbstractJsonRequestTest<D> {
 
     @Before
     public void setUp() {
+        InstanceProvider.reset();
         moshi = InstanceProvider.getMoshi();
         context = ApplicationProvider.getApplicationContext();
     }
@@ -110,9 +111,6 @@ public abstract class AbstractJsonRequestTest<D> {
         // Write the parsed data back to json and parse that.
         JsonAdapter<D> adapter = request.getAdapter().serializeNulls();
         String actualData = adapter.toJson(result.getData());
-
-        System.out.println(actualData);
-        //System.out.println(data);
 
         JSONAssert.assertEquals(data, actualData, false);
 

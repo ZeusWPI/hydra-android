@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.testing;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,5 +99,27 @@ public class Utils {
         List<T> copy = new ArrayList<>(collection);
         Collections.shuffle(copy);
         return copy.subList(0, amount);
+    }
+
+    /**
+     * Set a field to a value using reflection.
+     *
+     * Note: while useful when testing json classes for example, try to minimize usage.
+     *
+     * @param instance The instance to set the field on.
+     * @param name The name of the field to set.
+     * @param value The value to set the field to.
+     */
+    public static void setField(Object instance, String name, Object value) {
+        try {
+
+            Field declaredField = instance.getClass().getDeclaredField(name);
+            boolean accessible = declaredField.isAccessible();
+            declaredField.setAccessible(true);
+            declaredField.set(instance, value);
+            declaredField.setAccessible(accessible);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
