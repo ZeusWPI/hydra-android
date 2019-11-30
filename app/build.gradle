@@ -53,15 +53,27 @@ android {
                 "OldTargetApi"
     }
 
+    if (props["signing"]) {
+        signingConfigs {
+            upload {
+                keyAlias "upload"
+                keyPassword props['keyPassword']
+                storeFile file(props['storeFile'])
+                storePassword props['storePassword']
+                v1SigningEnabled true
+                v2SigningEnabled true
+            }
+        }
+    }
+
     flavorDimensions "distribution"
 
     productFlavors {
-
         // Play Store and officially supported version
         store {
             isDefault = true
             manifestPlaceholders = [
-                    google_maps_key: props.getProperty('MAPS_API_KEY'),
+                    google_maps_key: props.getProperty('mapsApiKey'),
             ]
         }
 
@@ -80,7 +92,6 @@ android {
         test.resources.srcDirs += files("$projectDir/schemas".toString())
     }
 
-    //noinspection GroovyMissingReturnStatement
     compileOptions {
         coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -91,11 +102,15 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (props["signing"]) {
+                signingConfig signingConfigs.upload
+            }
         }
 
         debug {
             // Disable crashlytics in debug builds if necessary.
             ext.enableCrashlytics = Boolean.parseBoolean(props.getProperty("hydra.debug.reporting"))
+            testCoverageEnabled true
         }
     }
 
@@ -201,7 +216,6 @@ android.applicationVariants.all { variant ->
  * secret keys.
  */
 def loadProperties() {
-
     // Load the default properties.
     def defaultProps = new Properties()
     defaultProps.load(file("config.properties").newReader())
