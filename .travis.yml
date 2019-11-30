@@ -15,7 +15,8 @@ env:
   - FLAVOUR=testRelease
 
 script:
-  - jdk_switcher use oraclejdk9
+  - export JAVA_HOME=$HOME/oraclejdk9
+  - $TRAVIS_BUILD_DIR/install-jdk.sh --install oraclejdk9 --target $JAVA_HOME
   - "./gradlew clean $FLAVOUR --console=plain"
 
 notifications:
