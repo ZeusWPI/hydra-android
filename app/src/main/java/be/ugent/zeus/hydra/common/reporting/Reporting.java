@@ -69,13 +69,23 @@ public final class Reporting {
         Tracker tracker = getTracker(context);
 
         // Enable or disable analytics
-        boolean areAnalyticsAllowed = preferences.getBoolean(PREF_ALLOW_ANALYTICS, false) && !BuildConfig.DEBUG;
+        boolean areAnalyticsAllowed = preferences.getBoolean(PREF_ALLOW_ANALYTICS, false) && allowDebugReporting();
         tracker.allowAnalytics(areAnalyticsAllowed);
         Log.i(TAG, "permissions: allowing analytics? " + areAnalyticsAllowed);
 
         // Enable or disable crash reporting
-        boolean isCrashReportingAllowed = preferences.getBoolean(PREF_ALLOW_CRASH_REPORTING, true) && !BuildConfig.DEBUG;
+        boolean isCrashReportingAllowed = preferences.getBoolean(PREF_ALLOW_CRASH_REPORTING, true) && allowDebugReporting();
         tracker.allowCrashReporting(isCrashReportingAllowed);
         Log.i(TAG, "permissions: allowing crash reporting? " + isCrashReportingAllowed);
+    }
+
+    public static boolean allowDebugReporting() {
+        // If a DEBUG build, use the property, otherwise OK!
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "allowDebugReporting: this is debug mode");
+            return BuildConfig.DEBUG_ENABLE_REPORTING;
+        } else {
+            return true;
+        }
     }
 }
