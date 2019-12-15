@@ -3,8 +3,8 @@ package be.ugent.zeus.hydra.common.reporting;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import androidx.annotation.VisibleForTesting;
 import androidx.preference.PreferenceManager;
-
 import be.ugent.zeus.hydra.BuildConfig;
 
 /**
@@ -26,7 +26,6 @@ public final class Reporting {
      * Get the default tracker.
      *
      * @param context The context.
-     *
      * @return The tracker.
      */
     public static Tracker getTracker(Context context) {
@@ -59,7 +58,7 @@ public final class Reporting {
     /**
      * Sync the collecting of data with the user preference and the build type. By default, analytics
      * is opt-in, while crash reporting is opt-out.
-     *
+     * <p>
      * Additionally, both analytics and crash reporting will be disabled on debug builds.
      *
      * @param context The context.
@@ -87,5 +86,10 @@ public final class Reporting {
         } else {
             return true;
         }
+    }
+
+    @VisibleForTesting
+    public static void setTracker(Tracker tracker) {
+        Reporting.tracker = tracker;
     }
 }
