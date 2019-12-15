@@ -3,8 +3,8 @@ package be.ugent.zeus.hydra.common.reporting;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import androidx.annotation.VisibleForTesting;
 import androidx.preference.PreferenceManager;
-
 import be.ugent.zeus.hydra.BuildConfig;
 
 /**
@@ -26,7 +26,6 @@ public final class Reporting {
      * Get the default tracker.
      *
      * @param context The context.
-     *
      * @return The tracker.
      */
     public static Tracker getTracker(Context context) {
@@ -59,7 +58,7 @@ public final class Reporting {
     /**
      * Sync the collecting of data with the user preference and the build type. By default, analytics
      * is opt-in, while crash reporting is opt-out.
-     *
+     * <p>
      * Additionally, both analytics and crash reporting will be disabled on debug builds.
      *
      * @param context The context.
@@ -69,13 +68,28 @@ public final class Reporting {
         Tracker tracker = getTracker(context);
 
         // Enable or disable analytics
-        boolean areAnalyticsAllowed = preferences.getBoolean(PREF_ALLOW_ANALYTICS, false) && !BuildConfig.DEBUG;
+        boolean areAnalyticsAllowed = preferences.getBoolean(PREF_ALLOW_ANALYTICS, false) && allowDebugReporting();
         tracker.allowAnalytics(areAnalyticsAllowed);
         Log.i(TAG, "permissions: allowing analytics? " + areAnalyticsAllowed);
 
         // Enable or disable crash reporting
-        boolean isCrashReportingAllowed = preferences.getBoolean(PREF_ALLOW_CRASH_REPORTING, true) && !BuildConfig.DEBUG;
+        boolean isCrashReportingAllowed = preferences.getBoolean(PREF_ALLOW_CRASH_REPORTING, true) && allowDebugReporting();
         tracker.allowCrashReporting(isCrashReportingAllowed);
         Log.i(TAG, "permissions: allowing crash reporting? " + isCrashReportingAllowed);
+    }
+
+    public static boolean allowDebugReporting() {
+        // If a DEBUG build, use the property, otherwise OK!
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "allowDebugReporting: this is debug mode");
+            return BuildConfig.DEBUG_ENABLE_REPORTING;
+        } else {
+            return true;
+        }
+    }
+
+    @VisibleForTesting
+    public static void setTracker(Tracker tracker) {
+        Reporting.tracker = tracker;
     }
 }

@@ -80,6 +80,19 @@ public interface BaseEvents {
      */
     String viewItem();
 
+    /**
+     * A custom event to report that the user has dismissed a card from the home feed.
+     *
+     * Params:
+     * <ul>
+     *     <li>{@link Params#dismissalType()}</li>
+     *     <li>{@link Params#cardType()}</li>
+     *     <li>{@link Params#cardIdentifier()}</li>
+     * </ul>
+     *
+     */
+    String cardDismissal();
+
     interface Params {
         /**
          * A particular approach used in an operation; for example, "facebook" or "email" in the context of a sign_up or
@@ -111,5 +124,20 @@ public interface BaseEvents {
          * Item category (String).
          */
         String itemCategory();
+
+        /**
+         * Dismissal type (String)
+         */
+        String dismissalType();
+
+        /**
+         * Card type (int)
+         */
+        String cardType();
+
+        /**
+         * Card identifier (String)
+         */
+        String cardIdentifier();
     }
 }

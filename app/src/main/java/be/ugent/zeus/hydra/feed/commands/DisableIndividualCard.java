@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.feed.commands;
 
 import android.content.Context;
 
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import java9.util.function.Function;
 
 import be.ugent.zeus.hydra.R;
@@ -29,6 +30,7 @@ public class DisableIndividualCard implements FeedCommand {
 
     @Override
     public int execute(Context context) {
+        Reporting.getTracker(context).log(new DismissalEvent(cardDismissal.getIdentifier()));
         DismissalDao dao = daoSupplier.apply(context);
         dao.insert(cardDismissal);
         return cardDismissal.getIdentifier().getCardType();

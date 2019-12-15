@@ -4,6 +4,7 @@ import android.content.Context;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
 import be.ugent.zeus.hydra.utils.PreferencesUtils;
@@ -21,6 +22,7 @@ public class DisableAssociationCommand implements FeedCommand {
 
     @Override
     public int execute(Context context) {
+        Reporting.getTracker(context).log(new DismissalEvent(association));
         PreferencesUtils.addToStringSet(
                 context,
                 AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING,
