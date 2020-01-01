@@ -43,7 +43,6 @@ public final class SpecialEvent {
      */
     @NonNull
     public Intent getViewIntent(Context context) {
-        // Prevent nullpointer in switch.
         if (inApp == null) {
             inApp = "";
         }

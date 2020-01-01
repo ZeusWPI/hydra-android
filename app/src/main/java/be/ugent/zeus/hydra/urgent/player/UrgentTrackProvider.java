@@ -100,7 +100,6 @@ public class UrgentTrackProvider {
                 InputStream inputStream = response.body().byteStream();
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                 builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap);
-                // builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, information.getImageUrl());
             } else {
                 Bitmap albumArt = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_urgent);
                 builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt);

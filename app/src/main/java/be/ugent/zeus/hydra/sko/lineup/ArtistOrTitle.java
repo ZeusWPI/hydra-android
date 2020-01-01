@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import java9.util.Objects;
 
 /**
- * Contains an Artist or a Title, but not both, nor neither.
+ * Contains an artist or a title, but not both and not neither.
  *
  * @author Niko Strijbol
  */

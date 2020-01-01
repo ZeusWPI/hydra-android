@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.resto.sandwich.regular;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
@@ -16,6 +17,7 @@ public class RegularViewModel extends RequestViewModel<List<RegularSandwich>> {
         super(application);
     }
 
+    @NonNull
     @Override
     protected Request<List<RegularSandwich>> getRequest() {
         return new RegularRequest(getApplication());
