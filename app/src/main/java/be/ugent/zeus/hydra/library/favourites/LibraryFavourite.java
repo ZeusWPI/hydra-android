@@ -21,8 +21,8 @@ import be.ugent.zeus.hydra.library.Library;
 public final class LibraryFavourite {
 
     /**
-     * The name of the library, for displaying purposes.
-     * TODO: if the language changes, this will not be updated. Should we care about this?
+     * The name of the library, for displaying purposes. Note that this is not updated when the language changes,
+     * but that would be a lot of work for something that doesn't happen a lot.
      */
     @NonNull
     @ColumnInfo(name = FavouritesTable.Columns.LIBRARY_NAME)

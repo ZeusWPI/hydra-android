@@ -31,6 +31,7 @@ public final class LibraryList implements Parcelable {
         return libraries;
     }
 
+    @SuppressWarnings("unused")
     public int getTotalLibraries() {
         return totalLibraries;
     }

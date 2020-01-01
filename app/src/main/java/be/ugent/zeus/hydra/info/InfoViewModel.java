@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.info;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 
@@ -16,6 +17,7 @@ public class InfoViewModel extends RequestViewModel<List<InfoItem>> {
         super(application);
     }
 
+    @NonNull
     @Override
     protected Request<List<InfoItem>> getRequest() {
         return new InfoRequest(getApplication());
