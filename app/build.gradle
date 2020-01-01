@@ -104,12 +104,12 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'androidx.browser:browser:1.2.0'
     implementation 'androidx.slice:slice-builders:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation "androidx.lifecycle:lifecycle-common-java8:2.1.0"
-    implementation 'androidx.room:room-runtime:2.2.2'
-    annotationProcessor 'androidx.room:room-compiler:2.2.2'
+    implementation 'androidx.room:room-runtime:2.2.3'
+    annotationProcessor 'androidx.room:room-compiler:2.2.3'
     // Do not upgrade beyond 3.12.x until we require API 21+
     //noinspection GradleDependency
     implementation 'com.squareup.okhttp3:okhttp:3.12.6'
@@ -132,8 +132,8 @@ dependencies {
         debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'
     }
 
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:3.1.0'
+    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.mockito:mockito-core:3.2.4'
     testImplementation 'org.robolectric:robolectric:4.3.1'
     testImplementation 'androidx.test:core:1.2.0'
     testImplementation 'androidx.test.ext:junit:1.1.1'
@@ -142,19 +142,19 @@ dependencies {
     testImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
     testImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
-    testImplementation 'androidx.room:room-testing:2.2.2'
+    testImplementation 'androidx.room:room-testing:2.2.3'
     // Enable the normal library for unit tests.
     testImplementation('org.threeten:threetenbp:1.4.0') {
         exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
     }
+    //noinspection GradleDependency
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.6'
-    testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.1.10'
+    testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.1.11'
     testImplementation 'com.github.niknetniko:GetterSetterVerifier:0.0.11'
     testImplementation 'com.shazam:shazamcrest:0.11'
     testImplementation 'org.skyscreamer:jsonassert:1.5.0'
-    testImplementation 'org.jeasy:easy-random-core:4.0.0'
+    testImplementation 'org.jeasy:easy-random-core:4.1.0'
     testImplementation 'org.apache.commons:commons-lang3:3.9'
-    testImplementation 'org.hamcrest:hamcrest-core:1.3'
     testImplementation 'commons-validator:commons-validator:1.6'
 }
 

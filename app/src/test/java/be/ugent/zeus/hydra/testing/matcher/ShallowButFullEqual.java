@@ -1,26 +1,24 @@
 package be.ugent.zeus.hydra.testing.matcher;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.apache.commons.lang3.reflect.FieldUtils;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.hamcrest.core.IsEqual;
+import org.threeten.bp.chrono.ChronoZonedDateTime;
+
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import nl.jqno.equalsverifier.Func;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import org.apache.commons.lang3.reflect.FieldUtils;
-import org.hamcrest.Description;
-import org.hamcrest.Factory;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
-import org.hamcrest.core.IsEqual;
-import org.threeten.bp.chrono.ChronoZonedDateTime;
-
 /**
- * Improved version of SamePropertyValues from Hamcrest, but with support for custom matchers for custom types.
+ * An improved version of SamePropertyValues from Hamcrest, but with support for custom matchers for custom types.
  *
- * The intended use case is matching {@link org.threeten.bp.ZonedDateTime}, which don't use the equals method to see
+ * The intended use case is matching {@link org.threeten.bp.ZonedDateTime}, which don't use the "equals" method to see
  * if they are logically the same object (they use {@link org.threeten.bp.ZonedDateTime#isEqual(ChronoZonedDateTime)}).
  *
  * @author Niko Strijbol
@@ -101,7 +99,6 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
      *
      * @param expectedBean the bean against which examined beans are compared
      */
-    @Factory
     public static <T> ShallowButFullEqual<T> sameFieldsAs(T expectedBean) {
         return new ShallowButFullEqual<>(expectedBean);
     }
