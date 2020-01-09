@@ -176,15 +176,23 @@ public class UrgentFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart: connecting to media browser");
-        mediaBrowser.connect();
+        if (mediaBrowser.isConnected()) {
+            Log.w(TAG, "onStart: already connected, doing nothing.");
+        } else {
+            mediaBrowser.connect();
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
         Log.d(TAG, "onStop: disconnecting media browser");
-        disconnect();
-        mediaBrowser.disconnect();
+        if (mediaBrowser.isConnected()) {
+            disconnect();
+            mediaBrowser.disconnect();
+        } else {
+            Log.w(TAG, "onStop: not connected, doing nothing.");
+        }
     }
 
     /**

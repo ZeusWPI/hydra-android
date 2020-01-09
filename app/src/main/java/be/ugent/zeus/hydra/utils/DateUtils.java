@@ -144,40 +144,4 @@ public class DateUtils {
     public static LocalDateTime toLocalDateTime(OffsetDateTime dateTime) {
         return dateTime.atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
     }
-
-    @SuppressWarnings("unused")
-    public static String relativeTimeSpan(Context context, OffsetDateTime start, OffsetDateTime end) {
-        OffsetDateTime now = OffsetDateTime.now();
-        LocalDateTime localStart = DateUtils.toLocalDateTime(start);
-        LocalDateTime localEnd = DateUtils.toLocalDateTime(end);
-
-        DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern(context.getString(R.string.formatter_general_hour_only));
-
-        if (start.isBefore(now) && end.isAfter(now)) {
-            long epochMillis = end.toInstant().toEpochMilli();
-            String endString;
-            if (android.text.format.DateUtils.isToday(epochMillis)) {
-                endString = localEnd.format(HOUR_FORMATTER);
-            } else {
-                endString = android.text.format.DateUtils.formatDateTime(
-                        context,
-                        epochMillis,
-                        android.text.format.DateUtils.FORMAT_SHOW_DATE | android.text.format.DateUtils.FORMAT_SHOW_TIME
-                );
-            }
-
-            return context.getString(R.string.date_now_until, endString);
-        }
-
-        if (start.getDayOfMonth() == end.getDayOfMonth()) {
-            return context.getString(R.string.date_between, localStart.format(HOUR_FORMATTER), localEnd.format(HOUR_FORMATTER));
-        } else {
-            return android.text.format.DateUtils.formatDateRange(
-                    context,
-                    start.toInstant().toEpochMilli(),
-                    end.toInstant().toEpochMilli(),
-                    android.text.format.DateUtils.FORMAT_SHOW_DATE | android.text.format.DateUtils.FORMAT_SHOW_TIME
-            );
-        }
-    }
 }

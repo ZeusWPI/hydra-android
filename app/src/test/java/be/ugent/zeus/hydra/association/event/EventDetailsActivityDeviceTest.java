@@ -2,15 +2,12 @@ package be.ugent.zeus.hydra.association.event;
 
 import android.content.Context;
 import android.content.Intent;
-
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
-
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.testing.NoNetworkInterceptor;
 import be.ugent.zeus.hydra.testing.Utils;
