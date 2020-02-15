@@ -37,7 +37,6 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.textfield.TextInputLayout;
 import org.threeten.bp.LocalDate;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
@@ -148,7 +147,7 @@ public class RestoFragment extends Fragment implements
         spinner = requireActivity().findViewById(R.id.spinner);
         spinner.setEnabled(false);
         spinner.setVisibility(View.VISIBLE);
-        restoAdapter = new NoPaddingArrayAdapter<>(getBaseActivity().requireToolbar().getThemedContext(), R.layout.x_simple_title_spinner);
+        restoAdapter = new NoPaddingArrayAdapter<>(getBaseActivity().requireToolbar().getThemedContext(), R.layout.x_spinner_title_main);
         restoAdapter.add(new SelectedResto.Wrapper(getString(R.string.resto_spinner_loading)));
         restoAdapter.setDropDownViewResource(R.layout.x_simple_spinner_dropdown_item);
         spinner.setAdapter(restoAdapter);

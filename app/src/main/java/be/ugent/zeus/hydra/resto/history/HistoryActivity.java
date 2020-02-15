@@ -62,7 +62,7 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
         restoSpinner = findViewById(R.id.resto_spinner);
         restoSpinner.setEnabled(false);
         restoProgressBar = findViewById(R.id.resto_progress_bar);
-        restoAdapter = new NoPaddingArrayAdapter<>(bottomToolbar.getContext(), android.R.layout.simple_spinner_item);
+        restoAdapter = new NoPaddingArrayAdapter<>(bottomToolbar.getContext(), R.layout.x_spinner_title_resto);
         restoAdapter.add(new SelectedResto.Wrapper(getString(R.string.resto_spinner_loading)));
         restoAdapter.setDropDownViewResource(R.layout.x_simple_spinner_dropdown_item);
         restoSpinner.setAdapter(restoAdapter);
