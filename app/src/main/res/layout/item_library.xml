@@ -9,7 +9,8 @@
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:background="?android:attr/selectableItemBackground"
-    android:clickable="true">
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
         android:paddingTop="@dimen/list_two_line_padding_horizontal"
@@ -19,24 +20,24 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/material_list_normal_primary_text_size"
+            style="?textAppearanceSubtitle2"
             android:id="@+id/title"
             tools:text="Bibliotheek" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?android:attr/textColorSecondary"
-            android:textSize="@dimen/material_list_normal_secondary_text_size"
+            style="?textAppearanceBody2"
             android:id="@+id/subtitle"
             tools:text="Meer informatie" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:visibility="gone"
             android:id="@+id/opening_hours"
+            style="?textAppearanceBody2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="The opening hours" />
@@ -52,7 +53,7 @@
         android:layout_width="@dimen/material_list_icon_size"
         android:layout_height="@dimen/material_list_icon_size"
         app:srcCompat="@drawable/ic_star"
-        android:tint="?colorSecondaryVariant"
+        android:tint="?colorSecondary"
         android:contentDescription="@string/content_desc_library" />
 
 </LinearLayout>

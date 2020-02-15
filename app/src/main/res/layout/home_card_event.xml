@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- A CardView that contains a TextView -->
-<androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginBottom="@dimen/material_card_gutter"
     android:clickable="true"
-    app:cardElevation="@dimen/material_card_elevation_resting">
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,26 +35,26 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/card_title_padding_bottom_no_content">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/name"
                     android:ellipsize="end"
-                    android:textSize="@dimen/material_typography_regular_title_text_size"
+                    style="?textAppearanceHeadline6"
                     tools:text="Titel van het evenement die zeer lang is!" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/association"
-                    android:textColor="?android:attr/textColorSecondary"
+                    style="?textAppearanceBody2"
                     tools:text="Organisator" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/starttime"
-                    android:textColor="?android:attr/textColorSecondary"
+                    style="?textAppearanceBody2"
                     tools:text="Starttijd"
                     android:maxLines="1" />
 
@@ -75,4 +73,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

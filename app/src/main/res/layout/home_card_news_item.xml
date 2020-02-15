@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginBottom="@dimen/card_spacing"
-    android:clickable="true">
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
         android:orientation="vertical"
@@ -21,24 +21,24 @@
             app:icon="@drawable/tabs_news"
             app:title="@string/new_article_activity_title" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:paddingLeft="@dimen/card_title_padding_vertical"
             android:paddingRight="@dimen/card_title_padding_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/material_typography_regular_title_text_size"
+            style="?textAppearanceHeadline6"
             tools:text="Titel van het nieuwsitem"
             android:id="@+id/name" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:paddingLeft="@dimen/card_title_padding_vertical"
             android:paddingRight="@dimen/card_title_padding_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="11 maart 2014 door Zeus WPI"
-            android:textColor="?android:attr/textColorSecondary"
+            style="?textAppearanceBody2"
             android:paddingBottom="@dimen/card_title_padding_bottom_no_content"
             android:id="@+id/info" />
 
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

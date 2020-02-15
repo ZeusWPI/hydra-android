@@ -3,18 +3,17 @@ package be.ugent.zeus.hydra.feed.cards.library;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Pair;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import androidx.core.content.res.TypedArrayUtils;
 
 import java9.util.Optional;
 
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardViewHolder;
@@ -30,17 +29,17 @@ public class LibraryViewHolder extends CardViewHolder {
 
     private final LinearLayout list;
 
-    private final int hoursTextColour;
-    private final float hoursTextSize;
     private final int rowPadding;
+    private final int styleName;
+    private final int styleHours;
 
     public LibraryViewHolder(View itemView, HomeFeedAdapter adapter) {
         super(itemView, adapter);
         list = itemView.findViewById(R.id.library_list);
 
         Context c = itemView.getContext();
-        hoursTextColour = ViewUtils.getColor(c, android.R.attr.textColorSecondary);
-        hoursTextSize = c.getResources().getDimension(R.dimen.material_list_normal_secondary_text_size);
+        styleName = TypedArrayUtils.getAttr(c, R.attr.textAppearanceBody2, 0);
+        styleHours = TypedArrayUtils.getAttr(c, R.attr.textAppearanceCaption, 0);
         rowPadding = c.getResources().getDimensionPixelSize(R.dimen.material_baseline_grid_1x);
 
         itemView.setOnClickListener(v -> {
@@ -69,7 +68,7 @@ public class LibraryViewHolder extends CardViewHolder {
     }
 
     private void addLibraryName(Context context, String name) {
-        TextView v = new TextView(context);
+        TextView v = new TextView(context, null, styleName);
         TableRow.LayoutParams textParam =
                 new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
         v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), rowPadding / 2);
@@ -80,15 +79,13 @@ public class LibraryViewHolder extends CardViewHolder {
     }
 
     private void addOpeningHour(Context context, Result<Optional<OpeningHours>> result, boolean isLast) {
-        TextView v = new TextView(context);
+        TextView v = new TextView(context, null, styleHours);
         TableRow.LayoutParams textParam =
                 new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
         if (!isLast) {
             v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), rowPadding);
         }
         v.setLayoutParams(textParam);
-        v.setTextSize(TypedValue.COMPLEX_UNIT_PX, this.hoursTextSize);
-        v.setTextColor(this.hoursTextColour);
 
         if (!result.hasData() || !result.getData().isPresent()) {
             v.setText(R.string.library_list_no_opening_hours);

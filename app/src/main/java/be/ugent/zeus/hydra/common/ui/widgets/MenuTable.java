@@ -11,13 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.core.content.res.TypedArrayUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
+import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.resto.RestoMenu;
+import com.google.android.material.textview.MaterialTextView;
 
 import static be.ugent.zeus.hydra.utils.PreferencesUtils.isSetIn;
 
@@ -43,13 +46,13 @@ public class MenuTable extends TableLayout {
         int ALL = 7; // 111
     }
 
-
     private DisplayableMenu menu;
     @DisplayKind
     private int displayedKinds;
     private boolean selectable;
     private boolean showTitles;
     private boolean messagePaddingTop;
+    private int normalStyle;
 
     public MenuTable(Context context) {
         super(context);
@@ -76,6 +79,7 @@ public class MenuTable extends TableLayout {
             selectable = a.getBoolean(R.styleable.MenuTable_selectable, false);
             showTitles = a.getBoolean(R.styleable.MenuTable_showTitles, false);
             messagePaddingTop = a.getBoolean(R.styleable.MenuTable_messagePaddingTop, false);
+            normalStyle = TypedArrayUtils.getAttr(context, R.attr.textAppearanceBody2, 0);
         } finally {
             a.recycle();
         }
@@ -97,7 +101,12 @@ public class MenuTable extends TableLayout {
         tr.setPadding(0, 0, 0, rowPadding);
         tr.setLayoutParams(lp);
 
-        TextView v = new TextView(getContext());
+        TextView v;
+        if (isTitle) {
+            v = new MaterialTextView(getContext(), null);
+        } else {
+            v = new MaterialTextView(getContext(), null, normalStyle);
+        }
         v.setTextIsSelectable(selectable);
         TableRow.LayoutParams textParam = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
         textParam.span = 3;
@@ -155,7 +164,7 @@ public class MenuTable extends TableLayout {
      * @param menu The menu to display.
      */
     public void setMenu(RestoMenu menu, @DisplayKind int displayedKinds) {
-        this.menu = new DisplayableMenu(menu, selectable);
+        this.menu = new DisplayableMenu(getContext(), menu, selectable);
         this.displayedKinds = displayedKinds;
         //Add data
         removeAllViewsInLayout();

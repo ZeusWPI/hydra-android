@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginBottom="@dimen/card_spacing"
     app:contentPaddingBottom="@dimen/card_title_padding_bottom_no_content"
-    android:clickable="true">
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,4 +34,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
