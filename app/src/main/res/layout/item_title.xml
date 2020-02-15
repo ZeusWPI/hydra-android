@@ -9,12 +9,11 @@
     android:paddingTop="@dimen/list_two_line_padding_horizontal"
     android:paddingBottom="@dimen/list_two_line_padding_horizontal">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textColor="?attr/colorAccent"
-        style="@style/Base.TextAppearance.AppCompat.Title"
-        tools:text="Dit is een titel.">
-    </TextView>
+        style="?textAppearanceHeadline6"
+        tools:text="Dit is een titel." />
 </LinearLayout>
