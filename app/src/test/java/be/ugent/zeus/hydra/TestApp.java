@@ -18,7 +18,7 @@ public class TestApp extends HydraApplication {
     public void onCreate() {
         super.onCreate();
         // Manually set the theme on the context, since we use it's attributes but don't use an Activity.
-        setTheme(R.style.Hydra_Main_NoActionBar);
+        setTheme(R.style.Hydra_DayNight);
     }
 
     @Override

@@ -96,9 +96,9 @@ public class LibraryDetailActivity extends BaseActivity {
             Context c = LibraryDetailActivity.this;
             if (isFavourite) {
                 button.setSelected(true);
-                drawable = ViewUtils.getTintedVectorDrawable(c, R.drawable.ic_star, R.color.hydra_secondary_colour);
+                drawable = ViewUtils.getTintedVectorDrawableAttr(c, R.drawable.ic_star, R.attr.colorSecondary);
             } else {
-                drawable = ViewUtils.getTintedVectorDrawable(c, R.drawable.ic_star, R.color.hydra_primary_dark_colour);
+                drawable = ViewUtils.getTintedVectorDrawable(c, R.drawable.ic_star, R.attr.colorSecondaryVariant);
                 button.setSelected(false);
             }
             button.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);

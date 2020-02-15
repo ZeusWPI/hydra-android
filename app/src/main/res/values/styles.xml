@@ -1,27 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!--
-        General style for activities that need a default action bar.
-        Note: it is preferred to use the toolbar, not the default action bar.
-    -->
-    <style name="Hydra.Main" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/hydra_primary_color</item>
-        <item name="colorPrimaryDark">@color/hydra_primary_color_dark</item>
-        <item name="android:windowBackground">@color/hydra_background</item>
-        <item name="android:colorBackground">@color/hydra_background</item>
-        <item name="colorAccent">@color/hydra_accent_color</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-        <item name="android:textColorPrimary">@color/hydra_text_primary</item>
-        <item name="android:textColorSecondary">@color/hydra_text_secondary</item>
-        <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
-        <item name="windowActionModeOverlay">true</item>
+    
+    <!-- Style for toolbars -->
+    <style name="Hydra.Toolbar" parent="Widget.MaterialComponents.Toolbar.PrimarySurface">
+        <item name="colorControlNormal">?colorOnPrimarySurface</item>
     </style>
 
-    <!-- Same as the main theme, except there is no action bar -->
-    <style name="Hydra.Main.NoActionBar" parent="Hydra.Main">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="Hydra.Tabs.Colored" parent="Widget.MaterialComponents.TabLayout.PrimarySurface">
+        <item name="android:elevation" tools:ignore="NewApi">@dimen/material_elevation_app_bar</item>
     </style>
 
     <!-- Style for long texts; black & lighter font + more line spacing -->
@@ -40,11 +26,6 @@
         <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
     </style>
 
-    <style name="Hydra.Main.NoActionBar.SystemWindows" parent="Hydra.Main.NoActionBar">
-        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
-        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
-    </style>
-
     <!-- Needed for custom views -->
     <style name="Subhead">
         <item name="android:textStyle">bold</item>
@@ -61,18 +42,6 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">?android:attr/listDivider</item>
-    </style>
-
-    <!-- Style for SKO part of the app -->
-    <style name="Hydra.Main.NoActionBar.Sko" parent="Hydra.Main.NoActionBar">
-        <item name="colorPrimary">@color/sko_primary_colour</item>
-        <item name="colorPrimaryDark">@color/sko_primary_dark_colour</item>
-        <item name="colorAccent">@color/sko_secondary_colour</item>
-    </style>
-
-    <style name="Hydra.Main.NoActionBar.Sko.SystemWindows" parent="Hydra.Main.NoActionBar.Sko">
-        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
-        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
     </style>
 
 </resources>

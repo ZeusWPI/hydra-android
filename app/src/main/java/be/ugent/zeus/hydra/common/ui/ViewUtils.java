@@ -7,13 +7,16 @@ import android.graphics.drawable.Drawable;
 
 import androidx.annotation.*;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.appcompat.content.res.AppCompatResources;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.utils.ColourUtils;
 
 /**
  * @author Niko Strijbol
@@ -43,11 +46,11 @@ public class ViewUtils {
     }
 
     /**
-     * Get a vector in the given color.
+     * Get a vector in the given colour.
      *
      * @param context  A context.
-     * @param drawable The drawable to get.
-     * @param color    The color to tint the drawable in.
+     * @param drawable The drawable to tint.
+     * @param color    The colour to tint the drawable in.
      *
      * @return The drawable.
      */
@@ -56,10 +59,25 @@ public class ViewUtils {
     }
 
     /**
-     * Get a vector in the given color.
+     * Get a vector in the given attribute, which is resolved to a colour.
+     *
+     * @param context   A context.
+     * @param drawable  The drawable to tint.
+     * @param attribute The attribute to tint the drawable in.
+     *
+     * @return The drawable.
+     */
+    public static Drawable
+    getTintedVectorDrawableAttr(Context context, @DrawableRes int drawable, @AttrRes int attribute) {
+        int color = ColourUtils.resolveColour(context, attribute);
+        return getTintedVectorDrawableInt(context, drawable, color);
+    }
+
+    /**
+     * Get a vector in the given colour.
      *
      * @param context  A context
-     * @param drawable The drawable to get
+     * @param drawable The drawable to tint.
      * @param color    The color int to tint the drawable in.
      *
      * @return The drawable.
@@ -100,8 +118,10 @@ public class ViewUtils {
 
     /**
      * Shorter function for inflating a view without attaching it to the parent.
-     * @param parent The parent layout.
+     *
+     * @param parent   The parent layout.
      * @param resource The XML resource to inflate.
+     *
      * @return The view.
      */
     public static View inflate(ViewGroup parent, @LayoutRes int resource) {

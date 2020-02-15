@@ -16,6 +16,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
+import be.ugent.zeus.hydra.utils.ColourUtils;
 import com.google.android.material.snackbar.Snackbar;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
@@ -69,7 +70,7 @@ public class EcologicalFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.hydra_secondary_colour);
+        swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(requireContext(), R.attr.colorSecondary));
 
         viewModel = ViewModelProviders.of(this).get(EcologicalViewModel.class);
         viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));

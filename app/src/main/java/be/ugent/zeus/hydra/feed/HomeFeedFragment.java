@@ -20,6 +20,7 @@ import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.feed.commands.CommandResult;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
+import be.ugent.zeus.hydra.utils.ColourUtils;
 import com.google.android.material.snackbar.Snackbar;
 
 import static be.ugent.zeus.hydra.feed.FeedLiveData.REFRESH_HOMECARD_TYPE;
@@ -81,7 +82,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         RecyclerView recyclerView = view.findViewById(R.id.home_cards_view);
         recyclerView.setHasFixedSize(true);
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.hydra_secondary_colour);
+        swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(requireContext(), R.attr.colorSecondary));
 
         HomeFeedAdapter adapter = new HomeFeedAdapter(this);
         recyclerView.setAdapter(adapter);

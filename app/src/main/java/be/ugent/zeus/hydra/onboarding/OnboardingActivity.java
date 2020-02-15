@@ -8,6 +8,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 
+import be.ugent.zeus.hydra.utils.ColourUtils;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
@@ -31,22 +32,22 @@ public class OnboardingActivity extends IntroActivity {
                 .title(R.string.onboarding_welcome)
                 .description(R.string.onboarding_welcome_description)
                 .image(R.drawable.logo_onboarding_ugent)
-                .background(R.color.hydra_primary_colour)
-                .backgroundDark(R.color.hydra_primary_dark_colour)
+                .background(R.color.hydra_color_primary)
+                .backgroundDark(R.color.hydra_color_primary_variant_dark)
                 .build());
 
         // Check for permission for data collection
         addSlide(new FragmentSlide.Builder()
-                .background(R.color.hydra_primary_colour)
-                .backgroundDark(R.color.hydra_primary_dark_colour)
+                .background(R.color.hydra_color_primary)
+                .backgroundDark(R.color.hydra_color_primary_variant_dark)
                 .fragment(new ReportingFragment())
                 .build()
         );
 
         // Home feed selector
         addSlide(new FragmentSlide.Builder()
-                .background(R.color.hydra_primary_colour)
-                .backgroundDark(R.color.hydra_primary_dark_colour)
+                .background(R.color.hydra_color_primary)
+                .backgroundDark(R.color.hydra_color_primary_variant_dark)
                 .fragment(new HomeFeedFragment())
                 .build());
     }

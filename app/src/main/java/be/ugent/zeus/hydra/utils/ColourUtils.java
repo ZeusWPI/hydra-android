@@ -1,5 +1,9 @@
 package be.ugent.zeus.hydra.utils;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.util.TypedValue;
+import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.core.graphics.ColorUtils;
 
@@ -17,5 +21,13 @@ public class ColourUtils {
      */
     public static boolean isDark(@ColorInt int colorInt) {
         return ColorUtils.calculateLuminance(colorInt) < 0.6f;
+    }
+
+    @ColorInt
+    public static int resolveColour(Context context, @AttrRes int attribute) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(attribute, typedValue, true);
+        return typedValue.data;
     }
 }

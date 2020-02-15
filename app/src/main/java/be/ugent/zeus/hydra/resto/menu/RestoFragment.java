@@ -37,6 +37,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputLayout;
 import org.threeten.bp.LocalDate;
 
 import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
