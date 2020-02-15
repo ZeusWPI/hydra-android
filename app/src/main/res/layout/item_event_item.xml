@@ -33,28 +33,27 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/material_list_normal_primary_text_size"
+                    style="?textAppearanceBody1"
                     tools:text="Titel en naam"
                     android:id="@+id/name" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="@dimen/material_list_normal_secondary_text_size"
+                    style="?textAppearanceBody2"
                     android:id="@+id/association"
                     tools:text="Vereniging" />
             </LinearLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:paddingLeft="@dimen/list_two_line_padding_vertical"
                 android:paddingStart="@dimen/list_two_line_padding_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textSize="@dimen/material_list_normal_primary_text_size"
+                style="?textAppearanceBody2"
                 android:id="@+id/starttime"
                 android:layout_gravity="end"
                 tools:text="Start"

@@ -23,7 +23,7 @@
         app:optRoundContentPaddingLeft="@dimen/card_text_padding_vertical"
         app:optRoundContentPaddingRight="@dimen/card_text_padding_vertical">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/date_header"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

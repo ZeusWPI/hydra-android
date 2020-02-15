@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/schamper_card_view"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
     android:layout_marginBottom="@dimen/card_spacing"
-    android:clickable="true">
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,14 +24,14 @@
             android:transitionName="hero"
             android:contentDescription="@string/content_desc_schamper_article"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:paddingLeft="@dimen/card_title_padding_vertical"
             android:paddingRight="@dimen/card_title_padding_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/title"
             android:paddingTop="@dimen/material_card_title_block_large_padding_top"
-            android:textSize="@dimen/material_card_title_block_large_title_text_size"
+            style="?textAppearanceHeadline5"
             tools:text="Dit is een schamper artikel! Met een lange titel van meerdere lijnen!" />
 
         <LinearLayout
@@ -50,34 +50,32 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/author"
-                    android:textSize="@dimen/material_card_title_block_subtitle_text_size"
-                    android:textColor="?android:attr/textColorSecondary"
+                    style="?textAppearanceSubtitle2"
                     tools:text="Auteur artikel" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/date"
-                    android:textSize="@dimen/material_card_title_block_subtitle_text_size"
-                    android:textColor="?android:attr/textColorSecondary"
+                    style="?textAppearanceSubtitle2"
                     tools:text="Datum Gisteren" />
 
             </LinearLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_gravity="center_vertical"
                 android:id="@+id/schamper_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Base.TextAppearance.AppCompat.Button"
+                style="?textAppearanceButton"
                 android:text="@string/schamper_category_none"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
