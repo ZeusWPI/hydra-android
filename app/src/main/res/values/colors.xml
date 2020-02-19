@@ -11,13 +11,7 @@
     <color name="hydra_color_secondary_variant_light">#ffff52</color>
     <color name="hydra_color_secondary_variant_dark">#c7a100</color>
 
-    <!--colorBackground appears behind scrollable content and is used for the default window-->
-    <!--background. colorSurface is mapped to the surface of components such as cards, sheets-->
-    <!--and menus. colorError is used to indicate an error state for components such as-->
-    <!--text fields.-->
     <color name="color_background">#fff5f5f5</color>
-    <color name="color_surface">#ffffff</color>
-    <color name="color_error">#b00020</color>
 
     <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
     <!--on which they appear.-->

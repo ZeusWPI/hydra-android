@@ -15,4 +15,14 @@
     <color name="hydra_card_background">@color/cardview_dark_background</color>
     <color name="hydra_item_selected_background">#FF424242</color>
     <color name="hydra_subhead_text_color">@color/hydra_accent_color</color>
+
+    <color name="color_background">@color/material_color_black_87_percent</color>
+
+    <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
+    <!--on which they appear.-->
+    <color name="color_on_primary">#ffffff</color>
+    <color name="color_on_secondary">#000000</color>
+    <color name="color_on_background">#ffffff</color>
+    <color name="color_on_surface">#ffffff</color>
+    <color name="color_on_error">#000000</color>
 </resources>
