@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.association.news;
+package be.ugent.zeus.hydra.news;
 
 import android.os.Parcel;
 import android.os.Parcelable;

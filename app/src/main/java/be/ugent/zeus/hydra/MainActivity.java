@@ -22,7 +22,7 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.association.event.list.EventFragment;
-import be.ugent.zeus.hydra.association.news.list.NewsFragment;
+import be.ugent.zeus.hydra.news.list.NewsFragment;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;

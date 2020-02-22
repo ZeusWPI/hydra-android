@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
+import be.ugent.zeus.hydra.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.common.ArticleViewer;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.cards.Card;

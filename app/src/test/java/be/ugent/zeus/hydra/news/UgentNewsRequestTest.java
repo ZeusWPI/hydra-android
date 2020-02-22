@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.association.news;
+package be.ugent.zeus.hydra.news;
 
 import java.io.IOException;
 import java.util.Comparator;

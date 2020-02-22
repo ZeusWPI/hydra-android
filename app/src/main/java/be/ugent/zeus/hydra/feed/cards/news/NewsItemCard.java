@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.feed.cards.news;
 
-import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
+import be.ugent.zeus.hydra.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
 import java9.util.Objects;

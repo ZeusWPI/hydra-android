@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.association.news.list;
+package be.ugent.zeus.hydra.news.list;
 
 import android.os.Bundle;
 import android.util.Log;

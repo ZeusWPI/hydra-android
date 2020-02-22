@@ -1,8 +1,8 @@
-package be.ugent.zeus.hydra.association.news.list;
+package be.ugent.zeus.hydra.news.list;
 
 import android.view.View;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
+import be.ugent.zeus.hydra.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import org.junit.Before;
 import org.junit.Test;
