@@ -102,14 +102,6 @@
             android:label="@string/info_sub_item_activity_title"
             android:parentActivityName=".MainActivity" />
 
-        <!-- Display a Schamper article -->
-        <activity
-            android:name=".schamper.FullArticleActivity"
-            android:label="@string/schamper_article_activity_title"
-            android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/Hydra.DayNight.SystemWindows" />
-
         <!-- Show news article -->
         <activity
             android:name=".association.news.NewsArticleActivity"

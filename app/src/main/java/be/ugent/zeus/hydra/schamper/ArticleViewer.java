@@ -21,6 +21,7 @@ import be.ugent.zeus.hydra.utils.NetworkUtils;
  * @author Niko Strijbol
  */
 public class ArticleViewer {
+
     /**
      * Select an article for viewing.
      */
@@ -31,15 +32,7 @@ public class ArticleViewer {
         analytics.log(new ArticleSelectedEvent(article));
 
         // Open in-app or in a custom tab
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean useCustomTabs = preferences.getBoolean(ArticleFragment.PREF_USE_CUSTOM_TABS, ArticleFragment.PREF_USE_CUSTOM_TABS_DEFAULT);
-        boolean isOnline = NetworkUtils.isConnected(context);
-
-        if (useCustomTabs && isOnline) {
-            helper.openCustomTab(Uri.parse(article.getLink()));
-        } else {
-            FullArticleActivity.start(context, article);
-        }
+        helper.openCustomTab(Uri.parse(article.getLink()));
     }
 
     private static class ArticleSelectedEvent implements Event {

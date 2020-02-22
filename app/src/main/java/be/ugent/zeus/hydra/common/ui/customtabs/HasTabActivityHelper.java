@@ -60,7 +60,7 @@ class HasTabActivityHelper implements ActivityHelper {
     }
 
     /**
-     * Opens the URL on a Custom Tab if possible. Otherwise fall back to opening it on a WebView
+     * Opens the URL on a Custom Tab if possible. Otherwise, fall back to opening it on a WebView
      *
      * @param uri the Uri to be opened
      */
