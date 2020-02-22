@@ -1,19 +1,15 @@
-package be.ugent.zeus.hydra.schamper;
+package be.ugent.zeus.hydra.common;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
-import androidx.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Tracker;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.preferences.ArticleFragment;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 /**
  * Provides helper methods to view an article.
@@ -29,17 +25,32 @@ public class ArticleViewer {
 
         // Log selection of the article.
         Tracker analytics = Reporting.getTracker(context);
-        analytics.log(new ArticleSelectedEvent(article));
+        analytics.log(new ArticleViewedEvent(article));
 
         // Open in-app or in a custom tab
         helper.openCustomTab(Uri.parse(article.getLink()));
     }
 
-    private static class ArticleSelectedEvent implements Event {
+    /**
+     * Interface for basic information that article classes should implement.
+     */
+    public interface Article {
+        /**
+         * A link to the article. Must be unique.
+         */
+        String getLink();
+
+        /**
+         * Title of the article.
+         */
+        String getTitle();
+    }
+
+    private static class ArticleViewedEvent implements Event {
 
         private final Article article;
 
-        ArticleSelectedEvent(Article article) {
+        ArticleViewedEvent(Article article) {
             this.article = article;
         }
 
@@ -48,8 +59,9 @@ public class ArticleViewer {
         public Bundle getParams() {
             BaseEvents.Params names = Reporting.getEvents().params();
             Bundle params = new Bundle();
-            params.putString(names.contentType(), Article.class.getSimpleName());
+            params.putString(names.contentType(), article.getClass().getSimpleName());
             params.putString(names.itemId(), article.getLink());
+            params.putString(names.itemName(), article.getTitle());
             return params;
         }
 

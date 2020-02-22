@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import be.ugent.zeus.hydra.common.ArticleViewer;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import com.squareup.moshi.Json;
@@ -15,9 +16,14 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;
 
 /**
- * Created by feliciaan on 16/06/16.
+ * A Schamper article.
+ *
+ * @see <a href="https://schamper.ugent.be">The Schamper website</a>
+ *
+ * @author Niko Strijbol
+ * @author Feliciaan
  */
-public final class Article implements Parcelable {
+public final class Article implements Parcelable, ArticleViewer.Article {
 
     private static final Pattern IMAGE_REPLACEMENT = Pattern.compile("/regulier/", Pattern.LITERAL);
 
@@ -36,10 +42,12 @@ public final class Article implements Parcelable {
     public Article() {
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
 
+    @Override
     public String getLink() {
         return link;
     }

@@ -102,12 +102,6 @@
             android:label="@string/info_sub_item_activity_title"
             android:parentActivityName=".MainActivity" />
 
-        <!-- Show news article -->
-        <activity
-            android:name=".association.news.NewsArticleActivity"
-            android:label="@string/new_article_activity_title"
-            android:parentActivityName=".MainActivity" />
-
         <!-- Show a web view -->
         <activity
             android:name=".common.ui.WebViewActivity"

@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.news.NewsArticleActivity;
 import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
+import be.ugent.zeus.hydra.common.ArticleViewer;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
@@ -61,6 +61,6 @@ class NewsItemViewHolder extends DataViewHolder<UgentNewsArticle> {
             excerpt.setText(Utils.fromHtml(newsItem.getText()).toString().trim());
         }
 
-        itemView.setOnClickListener(v -> NewsArticleActivity.viewArticle(v.getContext(), newsItem, helper));
+        itemView.setOnClickListener(v -> ArticleViewer.viewArticle(v.getContext(), newsItem, helper));
     }
 }

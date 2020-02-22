@@ -11,7 +11,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.schamper.Article;
-import be.ugent.zeus.hydra.schamper.ArticleViewer;
+import be.ugent.zeus.hydra.common.ArticleViewer;
 import be.ugent.zeus.hydra.utils.ColourUtils;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;

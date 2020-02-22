@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.util.List;
 
+import be.ugent.zeus.hydra.common.ArticleViewer;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import java9.util.Objects;
@@ -14,7 +15,7 @@ import org.threeten.bp.OffsetDateTime;
 /**
  * @author Niko Strijbol
  */
-public final class UgentNewsArticle implements Parcelable {
+public final class UgentNewsArticle implements Parcelable, ArticleViewer.Article {
 
     private String description;
     private List<String> contributors;
@@ -85,6 +86,12 @@ public final class UgentNewsArticle implements Parcelable {
         return expiration;
     }
 
+    @Override
+    public String getLink() {
+        return getIdentifier();
+    }
+
+    @Override
     public String getTitle() {
         return title;
     }
