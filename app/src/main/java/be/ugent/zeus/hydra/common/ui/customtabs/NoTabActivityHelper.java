@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
-import androidx.browser.customtabs.CustomTabsCallback;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+
+import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 /**
  * Custom tab implementation that directly launches the browser instead.
@@ -34,9 +34,6 @@ class NoTabActivityHelper implements ActivityHelper {
     public void setIntentFlags(int flags) {
         this.intentFlags = flags;
     }
-
-    @Override
-    public void setCallback(@Nullable CustomTabsCallback callback) {}
 
     /**
      * Opens the URL in a new browser window.

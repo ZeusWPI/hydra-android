@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
  *
  * @author Niko Strijbol
  */
+@SuppressWarnings("unused")
 public interface ResultStarter {
 
     Context getContext();

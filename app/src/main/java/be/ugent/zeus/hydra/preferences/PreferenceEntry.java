@@ -37,12 +37,6 @@ public enum PreferenceEntry implements Parcelable {
             R.drawable.ic_restaurant,
             RestoPreferenceFragment::new
     ),
-    ARTICLES(
-            R.string.pref_overview_article_title,
-            R.string.pref_overview_article_desc,
-            R.drawable.ic_news,
-            ArticleFragment::new
-    ),
     THEME(
             R.string.pref_overview_theme_title,
             R.string.pref_overview_theme_desc,

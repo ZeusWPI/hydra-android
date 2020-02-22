@@ -20,14 +20,8 @@ public interface ActivityHelper {
      *
      * @param flags The flags to set.
      */
+    @SuppressWarnings("unused")
     void setIntentFlags(int flags);
-
-    /**
-     * Set a callback.
-     *
-     * @param callback The callback or null for no callback.
-     */
-    void setCallback(@Nullable CustomTabsCallback callback);
 
     /**
      * Launch an URL. This method's behavior is defined by the implementation: it may choose to open a custom tab or
@@ -62,7 +56,7 @@ public interface ActivityHelper {
      *
      * @see androidx.browser.customtabs.CustomTabsSession#mayLaunchUrl(Uri, Bundle, List)
      */
-    @SuppressWarnings("UnusedReturnValue")
+    @SuppressWarnings({"UnusedReturnValue", "unused"})
     boolean mayLaunchUrl(Uri uri, Bundle extras, List<Bundle> otherLikelyBundles);
 
     /**
