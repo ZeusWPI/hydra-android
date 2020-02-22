@@ -95,7 +95,7 @@
                     android:height="48dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/Subhead"
+                    style="@style/Hydra.Text.Subhead"
                     tools:text="Over het programma"
                     android:gravity="center_vertical" />
 

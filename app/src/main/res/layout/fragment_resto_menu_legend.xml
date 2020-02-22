@@ -15,7 +15,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:paddingTop="@dimen/vertical_padding"
             android:paddingBottom="4dp"
-            style="@style/Subhead"
+            style="@style/Hydra.Text.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/resto_legend_icon_header" />
@@ -138,7 +138,7 @@
         <TextView
             android:paddingTop="@dimen/vertical_padding"
             android:paddingBottom="4dp"
-            style="@style/Subhead"
+            style="@style/Hydra.Text.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/resto_legend_abbr_header" />

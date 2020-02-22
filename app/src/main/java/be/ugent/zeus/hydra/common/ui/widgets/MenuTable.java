@@ -18,7 +18,6 @@ import java.lang.annotation.RetentionPolicy;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
-import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -114,9 +113,9 @@ public class MenuTable extends TableLayout {
         if (isTitle) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 //noinspection deprecation
-                v.setTextAppearance(getContext(), R.style.Subhead);
+                v.setTextAppearance(getContext(), R.style.Hydra_Text_Subhead);
             } else {
-                v.setTextAppearance(R.style.Subhead);
+                v.setTextAppearance(R.style.Hydra_Text_Subhead);
             }
             textPaddingTop = getContext().getResources().getDimensionPixelSize(R.dimen.vertical_padding);
         } else if (messagePaddingTop) {

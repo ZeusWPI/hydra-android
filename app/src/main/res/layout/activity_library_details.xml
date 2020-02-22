@@ -91,7 +91,7 @@
                         android:height="48dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/Subhead"
+                        style="@style/Hydra.Text.Subhead"
                         android:text="@string/library_address_title"
                         android:gravity="center_vertical" />
 
@@ -152,7 +152,7 @@
                                 android:height="48dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/Subhead"
+                                style="@style/Hydra.Text.Subhead"
                                 android:text="@string/library_info_remarks"
                                 android:gravity="center_vertical" />
 
@@ -171,7 +171,7 @@
                                 android:height="48dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/Subhead"
+                                style="@style/Hydra.Text.Subhead"
                                 android:text="@string/library_info_details"
                                 android:gravity="center_vertical" />
 

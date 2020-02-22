@@ -19,7 +19,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:expandedTitleMarginStart="@dimen/keyline"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleTextAppearance="@style/TransparentText">
+            app:expandedTitleTextAppearance="@style/Hydra.Text.Transparent">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -27,7 +27,8 @@
                 android:layout_height="wrap_content"
                 app:layout_collapseMode="parallax"
                 android:layout_marginTop="?attr/actionBarSize"
-                android:paddingBottom="@dimen/activity_horizontal_margin">
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:paddingTop="6dp"
@@ -39,25 +40,26 @@
                     android:tint="@color/white"
                     app:srcCompat="@drawable/ic_event_note"
                     tools:src="@drawable/ic_event_note"
-                    tools:ignore="MissingPrefix"
+                    tools:ignore="MissingPrefix,RtlHardcoded"
                     android:contentDescription="@string/content_desc_calendar_icon"/>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/title"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    style="@style/TextAppearance.AppCompat.Headline"
-                    android:textStyle="bold"
+                    style="?textAppearanceHeadline5"
                     tools:text="Titel van het evenement die wel eens lang kan zijn" />
 
             </LinearLayout>
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
+                android:elevation="0dp"
                 android:id="@+id/toolbar"
+                style="?toolbarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                />
+                tools:ignore="UnusedAttribute" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -72,13 +74,14 @@
         android:focusableInTouchMode="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_weight="0.3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/card_spacing"
             android:layout_marginRight="@dimen/card_spacing"
-            android:layout_marginTop="@dimen/card_spacing">
+            android:layout_marginTop="@dimen/card_spacing"
+            tools:ignore="RtlHardcoded">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -95,7 +98,8 @@
                     android:paddingTop="@dimen/list_two_line_padding_horizontal"
                     android:paddingBottom="@dimen/list_two_line_padding_horizontal"
                     android:paddingLeft="@dimen/card_text_padding_vertical"
-                    android:paddingRight="@dimen/card_text_padding_vertical">
+                    android:paddingRight="@dimen/card_text_padding_vertical"
+                    android:focusable="true">
 
                     <ImageView
                         android:layout_height="wrap_content"
@@ -107,9 +111,10 @@
                         tools:ignore="MissingPrefix"
                         android:contentDescription="@string/content_desc_location"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_gravity="center_vertical"
                         android:id="@+id/location"
+                        style="?textAppearanceBody2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="Locatie van het evenement"/>
@@ -146,28 +151,34 @@
                         android:layout_height="wrap_content"
                         android:columnCount="2" >
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingRight="@dimen/content_spacing"
-                            android:text="@string/event_detail_from" />
+                            android:text="@string/event_detail_from"
+                            style="?textAppearanceBody2"
+                            tools:ignore="RtlHardcoded,RtlSymmetry" />
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_gravity="center_vertical"
                             android:id="@+id/time_start"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            style="?textAppearanceBody2"
                             tools:text="Starttijd van het evenement"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:paddingTop="4dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            style="?textAppearanceBody2"
                             android:paddingRight="@dimen/content_spacing"
-                            android:text="@string/event_detail_to" />
+                            android:text="@string/event_detail_to"
+                            tools:ignore="RtlHardcoded,RtlSymmetry" />
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:paddingTop="4dp"
+                            style="?textAppearanceBody2"
                             android:layout_gravity="center_vertical"
                             android:id="@+id/time_end"
                             android:layout_width="wrap_content"
@@ -205,17 +216,18 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/event_organisator_main"
-                            style="@style/Base.TextAppearance.AppCompat.Title"
+                            style="?textAppearanceBody1"
                             tools:text="Lange organisatienaam!" />
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/event_organisator_small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            style="?textAppearanceBody2"
                             tools:text="Kleine organisator"/>
 
                     </LinearLayout>
@@ -224,9 +236,9 @@
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_weight="0.7"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -248,29 +260,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:height="48dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/Base.TextAppearance.AppCompat.Subhead"
+                        style="@style/Hydra.Text.Subhead"
                         android:text="@string/event_detail_description_title"
-                        android:textColor="?attr/colorAccent"
                         android:gravity="center_vertical" />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/description"
                         android:paddingBottom="@dimen/content_spacing"
                         android:text="@string/event_detail_no_description"
                         android:textIsSelectable="true"
-                        style="@style/Hydra.LongText"/>
+                        style="?textAppearanceBody2"/>
 
                 </LinearLayout>
 
             </androidx.core.widget.NestedScrollView>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 

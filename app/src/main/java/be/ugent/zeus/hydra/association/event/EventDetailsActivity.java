@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.CalendarContract;
 import androidx.annotation.Nullable;
 import androidx.core.text.util.LinkifyCompat;

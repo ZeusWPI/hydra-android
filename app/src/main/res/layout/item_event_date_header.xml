@@ -27,7 +27,7 @@
             android:id="@+id/date_header"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/Subhead"
+            style="@style/Hydra.Text.Subhead"
             android:gravity="center_vertical"
             tools:text="Een datum komt hier" />
 

@@ -59,7 +59,7 @@
 
             <TextView
                 android:id="@+id/article_lead"
-                style="@style/Hydra.LongSubhead"
+                style="@style/Hydra.Text.Subhead"
                 android:lineSpacingMultiplier="1.2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/text"
                 android:lineSpacingMultiplier="1.2"
-                android:textAppearance="@style/Hydra.LongText"
+                android:textAppearance="@style/Hydra.Text.Long"
                 tools:text="Hier komt het artikel!"
                 android:textIsSelectable="true" />
 

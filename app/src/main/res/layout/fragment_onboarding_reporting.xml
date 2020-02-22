@@ -36,7 +36,7 @@
         android:paddingRight="@dimen/vertical_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Subhead"
+        android:textAppearance="@style/Hydra.Text.Subhead"
         android:textColor="@color/hydra_accent_color"
         android:textSize="@dimen/material_typography_regular_subheading_text_size"
         android:text="@string/onboarding_reporting_analytics_title"/>
@@ -76,7 +76,7 @@
         android:paddingRight="@dimen/vertical_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Subhead"
+        android:textAppearance="@style/Hydra.Text.Subhead"
         android:textColor="@color/hydra_accent_color"
         android:textSize="@dimen/material_typography_regular_subheading_text_size"
         android:text="@string/onboarding_reporting_crash_title"/>
@@ -106,7 +106,7 @@
         android:paddingRight="@dimen/vertical_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/Subhead"
+        android:textAppearance="@style/Hydra.Text.Subhead"
         android:textColor="@color/hydra_accent_color"
         android:textSize="@dimen/material_typography_regular_subheading_text_size"
         android:text="@string/onboarding_reporting_privacy_policy_title"/>

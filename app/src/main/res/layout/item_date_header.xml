@@ -10,7 +10,7 @@
         android:id="@+id/date_header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        style="@style/Subhead"
+        style="@style/Hydra.Text.Subhead"
         android:gravity="center_vertical"
         android:background="?attr/android:colorBackground"
         android:paddingLeft="@dimen/activity_vertical_margin"

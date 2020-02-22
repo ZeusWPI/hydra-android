@@ -24,7 +24,7 @@
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleTextAppearance="@style/TransparentText">
+            app:expandedTitleTextAppearance="@style/Hydra.Text.Transparent">
 
             <ImageView
                 android:id="@+id/header_image"
@@ -116,7 +116,7 @@
                         android:height="48dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/Subhead"
+                        style="@style/Hydra.Text.Subhead"
                         android:text="@string/sko_artist_info"
                         android:textColor="?attr/colorAccent"
                         android:gravity="center_vertical" />
@@ -127,7 +127,7 @@
                         android:id="@+id/content"
                         tools:text="Informatie en dergelijke over de artiest."
                         android:textIsSelectable="true"
-                        style="@style/Hydra.LongSubhead" />
+                        style="@style/Hydra.Text.Subhead" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -138,7 +138,7 @@
                 android:height="48dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Subhead"
+                style="@style/Hydra.Text.Subhead"
                 android:text="@string/sko_artist_more"
                 android:textColor="?attr/colorAccent"
                 android:gravity="center_vertical" />

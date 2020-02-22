@@ -26,7 +26,7 @@
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleTextAppearance="@style/TransparentText">
+            app:expandedTitleTextAppearance="@style/Hydra.Text.Transparent">
 
             <ImageView
                 android:id="@+id/header_image"
@@ -129,7 +129,7 @@
                     android:id="@+id/intro"
                     tools:text="intro"
                     android:textIsSelectable="true"
-                    style="@style/Hydra.LongSubhead" />
+                    style="@style/Hydra.Text.Subhead" />
 
             </androidx.cardview.widget.CardView>
 
@@ -151,7 +151,7 @@
                     android:id="@+id/text"
                     tools:text="artikelinhoud"
                     android:textIsSelectable="true"
-                    style="@style/Hydra.LongText" />
+                    style="@style/Hydra.Text.Long" />
 
             </androidx.cardview.widget.CardView>
 
