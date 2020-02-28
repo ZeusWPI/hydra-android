@@ -19,7 +19,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:expandedTitleMarginStart="@dimen/keyline"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="?attr/colorPrimarySurface"
             app:expandedTitleTextAppearance="@style/Hydra.Text.Transparent">
 
             <LinearLayout
@@ -39,7 +39,7 @@
                     android:layout_marginRight="32dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:tint="@color/white"
+                    android:tint="?colorControlNormal"
                     app:srcCompat="@drawable/ic_event_note"
                     tools:src="@drawable/ic_event_note"
                     tools:ignore="MissingPrefix,RtlHardcoded"
@@ -110,7 +110,7 @@
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_marginRight="32dp"
-                            android:tint="?attr/colorPrimary"
+                            android:tint="?colorPrimarySecondary"
                             app:srcCompat="@drawable/ic_place"
                             tools:src="@drawable/ic_place"
                             tools:ignore="MissingPrefix,RtlHardcoded"
@@ -146,7 +146,7 @@
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_marginRight="32dp"
-                            android:tint="?attr/colorPrimary"
+                            android:tint="?colorPrimarySecondary"
                             app:srcCompat="@drawable/ic_schedule"
                             tools:src="@drawable/ic_schedule"
                             tools:ignore="MissingPrefix,RtlHardcoded"

@@ -4,6 +4,7 @@
     <!--colorPrimary colors map to components and elements, such as app bars and buttons. -->
     <!--colorSecondary colors are most often used as accents on components, such as FABs and -->
     <!--selection controls.-->
+    <!-- This colour scheme was generated from https://goo.gl/Mzta1m -->
     <color name="hydra_color_primary">#1e64c8</color>
     <color name="hydra_color_primary_variant_light">#6391fc</color>
     <color name="hydra_color_primary_variant_dark">#003b96</color>

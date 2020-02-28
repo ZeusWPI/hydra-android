@@ -11,6 +11,8 @@
         <item name="colorSecondary">@color/hydra_color_secondary</item>
         <item name="colorSecondaryVariant">@color/hydra_color_secondary_variant_dark</item>
 
+        <item name="colorPrimarySecondary">?colorPrimary</item>
+
         <item name="android:colorBackground">@color/color_background</item>
 
         <item name="colorOnPrimary">@color/color_on_primary</item>
@@ -45,9 +47,9 @@
     </style>
 
     <style name="Base.DayNight.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-<!--        <item name="alphaEmphasisHigh">@dimen/material_emphasis_high</item>-->
-<!--        <item name="alphaEmphasisMedium">@dimen/material_emphasis_medium</item>-->
-<!--        <item name="alphaEmphasisDisabled">@dimen/material_emphasis_disabled</item>-->
+        <item name="alphaEmphasisHigh">@dimen/material_emphasis_high_type</item>
+        <item name="alphaEmphasisMedium">@dimen/material_emphasis_medium</item>
+        <item name="alphaEmphasisDisabled">@dimen/material_emphasis_disabled</item>
 
         <item name="android:statusBarColor" tools:ignore="NewApi">?colorPrimarySurface</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
@@ -60,8 +62,6 @@
         <item name="colorAccent">?colorSecondary</item>
 
         <item name="android:textColorPrimary">?colorOnSurface</item>
-<!--        <item name="android:textColorSecondary">?colorOnSurface</item>-->
-<!--        <item name="android:textColor">?colorOnSurface</item>-->
     </style>
 
 </resources>

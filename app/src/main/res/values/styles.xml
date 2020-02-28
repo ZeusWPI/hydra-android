@@ -18,7 +18,7 @@
 
     <!-- Needed for custom views -->
     <style name="Hydra.Text.Subhead" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="android:textColor">@color/hydra_subhead_text_color</item>
+        <item name="android:textColor">?colorPrimarySecondary</item>
     </style>
 
     <!-- Transparant text -->
@@ -31,6 +31,11 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <style name="EventTopShape" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 
 </resources>

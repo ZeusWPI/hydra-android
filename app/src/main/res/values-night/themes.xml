@@ -3,6 +3,7 @@
 
     <style name="Hyde.DayNight" parent="Hydra.Base">
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
+        <item name="colorPrimarySecondary">?colorSecondary</item>
     </style>
 
 </resources>
