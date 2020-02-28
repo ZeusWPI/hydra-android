@@ -12,8 +12,6 @@
         <item name="colorSecondaryVariant">@color/hydra_color_secondary_variant_dark</item>
 
         <item name="android:colorBackground">@color/color_background</item>
-<!--        <item name="colorSurface">@color/color_surface</item>-->
-<!--        <item name="colorError">@color/color_error</item>-->
 
         <item name="colorOnPrimary">@color/color_on_primary</item>
         <item name="colorOnSecondary">@color/color_on_secondary</item>
@@ -25,6 +23,7 @@
         <item name="tabStyle">@style/Hydra.Tabs.Colored</item>
         <item name="toolbarStyle">@style/Hydra.Toolbar</item>
         <item name="materialCardViewStyle">@style/Widget.MaterialComponents.CardView</item>
+        <item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface</item>
     </style>
 
     <style name="Hydra.DayNight.SystemWindows" parent="Hydra.DayNight">

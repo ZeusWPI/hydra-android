@@ -6,6 +6,7 @@
         <item name="colorControlNormal">?colorOnPrimarySurface</item>
     </style>
 
+    <!-- For some reason, the shadow is broken in the day theme -->
     <style name="Hydra.Tabs.Colored" parent="Widget.MaterialComponents.TabLayout.PrimarySurface">
         <item name="android:elevation" tools:ignore="NewApi">@dimen/material_elevation_app_bar</item>
     </style>

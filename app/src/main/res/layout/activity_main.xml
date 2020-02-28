@@ -24,7 +24,6 @@
                 android:layout_height="?attr/actionBarSize"
                 style="?toolbarStyle"
                 app:layout_scrollFlags="scroll|enterAlways|snap">
-
                 <Spinner
                     android:visibility="gone"
                     android:id="@+id/spinner"
@@ -35,7 +34,6 @@
                     android:id="@+id/spinner_progress"
                     android:layout_width="24dp"
                     android:layout_height="24dp" />
-
             </com.google.android.material.appbar.MaterialToolbar>
 
             <com.google.android.material.tabs.TabLayout
@@ -58,7 +56,7 @@
             <include android:visibility="gone" layout="@layout/x_progress_bar" android:id="@+id/drawer_loading" />
         </FrameLayout>
 
-        <!-- The menu is a shortcut, because it is only used by the RestoFragment for now -->
+        <!-- The menu is a shortcut, because it is only used by the RestoFragment for now. -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:visibility="gone"
             android:id="@+id/bottom_navigation"
@@ -66,9 +64,8 @@
             android:layout_height="@dimen/material_bottom_nav_bar_height"
             app:elevation="@dimen/material_bottom_nav_bar_elevation"
             android:layout_gravity="bottom"
-            android:background="?attr/colorPrimary"
-            app:itemIconTint="@color/material_typography_primary_text_color_light"
-            app:itemTextColor="@color/material_typography_primary_text_color_light"
+            app:itemHorizontalTranslationEnabled="false"
+            app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_resto" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
