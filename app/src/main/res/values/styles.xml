@@ -33,9 +33,4 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
-    <style name="EventTopShape" parent="ShapeAppearance.MaterialComponents.MediumComponent">
-        <item name="cornerSizeBottomRight">0dp</item>
-        <item name="cornerSizeBottomLeft">0dp</item>
-    </style>
-
 </resources>
