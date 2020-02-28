@@ -48,7 +48,7 @@ public class RestoPreferenceFragment extends PreferenceFragment {
         requirePreference("pref_choice_resto_select").setVisible(false);
 
         SelectableMetaViewModel metaViewModel = new ViewModelProvider(this).get(SelectableMetaViewModel.class);
-        metaViewModel.getData().observe(getViewLifecycleOwner(), SuccessObserver.with(this::receiveResto));
+        metaViewModel.getData().observe(this, SuccessObserver.with(this::receiveResto));
     }
 
     @Override

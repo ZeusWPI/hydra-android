@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.common.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.util.TypedValue;
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
@@ -25,9 +26,12 @@ public class ColourUtils {
 
     @ColorInt
     public static int resolveColour(Context context, @AttrRes int attribute) {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(attribute, typedValue, true);
-        return typedValue.data;
+        int[] attrs = {attribute};
+        TypedArray ta = context.obtainStyledAttributes(attrs);
+        try {
+            return ta.getColor(0, 0);
+        } finally {
+            ta.recycle();
+        }
     }
 }

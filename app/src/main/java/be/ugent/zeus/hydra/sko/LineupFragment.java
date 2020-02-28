@@ -21,7 +21,6 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
-import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
@@ -91,7 +90,7 @@ public class LineupFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
-        BaseActivity.tintToolbarIcons(requireBaseActivity(this).requireToolbar(), menu, R.id.action_refresh);
+        requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_refresh);
     }
 
     @Override

@@ -42,11 +42,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    private Toolbar findToolbar() {
+        return findViewById(R.id.toolbar);
+    }
+
     /**
      * Set the toolbar as action bar, and set it up to have an up button.
      */
     private void setUpActionBar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findToolbar();
 
         setSupportActionBar(toolbar);
 

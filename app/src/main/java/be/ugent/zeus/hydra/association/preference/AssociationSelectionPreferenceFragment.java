@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -68,10 +69,10 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
 
         searchView.setOnQueryTextListener(adapter);
 
-        AssociationsViewModel model = ViewModelProviders.of(this).get(AssociationsViewModel.class);
-        model.getData().observe(this, PartialErrorObserver.with(this::onError));
-        model.getData().observe(this, SuccessObserver.with(this::receiveData));
-        model.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        AssociationsViewModel model = new ViewModelProvider(this).get(AssociationsViewModel.class);
+        model.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        model.getData().observe(getViewLifecycleOwner(), SuccessObserver.with(this::receiveData));
+        model.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
     }
 
     @Override
