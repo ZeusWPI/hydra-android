@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.text.util.LinkifyCompat;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -40,6 +41,7 @@ import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
 import be.ugent.zeus.hydra.library.favourites.LibraryFavourite;
 import be.ugent.zeus.hydra.utils.DateUtils;
 import be.ugent.zeus.hydra.utils.NetworkUtils;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -77,7 +79,12 @@ public class LibraryDetailActivity extends BaseActivity {
         ImageView header = findViewById(R.id.header_image);
         Picasso.get().load(library.getHeaderImage(this)).into(header);
 
-        requireToolbar().setTitle(library.getName());
+        CollapsingToolbarLayout collapsingToolbarLayout = requireViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle(library.getName());
+        // TODO: why is this necessary?
+        int white = ContextCompat.getColor(this, R.color.white);
+        collapsingToolbarLayout.setExpandedTitleColor(white);
+        collapsingToolbarLayout.setCollapsedTitleTextColor(white);
 
         String address = makeFullAddressText();
         if (TextUtils.isEmpty(address)) {
@@ -192,15 +199,15 @@ public class LibraryDetailActivity extends BaseActivity {
         for (OpeningHours hours : list) {
             TableRow tableRow = new TableRow(this);
             tableRow.setPadding(0, rowPadding, 0, rowPadding);
-            TextView date = new TextView(this);
+            TextView date = new TextView(this, null, R.attr.textAppearanceBody2);
             date.setText(DateUtils.getFriendlyDate(this, hours.getDate()));
-            TextView openHours = new TextView(this);
+            TextView openHours = new TextView(this, null, R.attr.textAppearanceBody2);
             openHours.setPadding(rowPadding, 0, 0, 0);
             openHours.setText(hours.getHours());
             tableRow.addView(date);
             tableRow.addView(openHours);
             if (!TextUtils.isEmpty(hours.getComments())) {
-                TextView comments = new TextView(this);
+                TextView comments = new TextView(this, null, R.attr.textAppearanceBody2);
                 TableLayout.LayoutParams params = new TableLayout.LayoutParams();
                 params.weight = 0;
                 params.width = 0;
