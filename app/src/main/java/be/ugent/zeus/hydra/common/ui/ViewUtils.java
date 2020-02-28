@@ -28,11 +28,13 @@ public class ViewUtils {
     }
 
     @ColorInt
+    @Deprecated
     public static int getPrimaryColor(Context context) {
         return getColor(context, R.attr.colorPrimary);
     }
 
     @ColorInt
+    @Deprecated
     public static int getColor(Context context, @AttrRes int attribute) {
 
         int[] attrs = {attribute};
