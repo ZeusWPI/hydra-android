@@ -9,7 +9,7 @@ import java9.util.Objects;
 
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
-import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
 import com.squareup.moshi.Json;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.OffsetDateTime;

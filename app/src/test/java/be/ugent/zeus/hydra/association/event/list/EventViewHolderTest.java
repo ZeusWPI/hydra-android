@@ -53,9 +53,10 @@ public class EventViewHolderTest {
         assertNotEmpty(view.findViewById(R.id.starttime));
 
         // Check that the click listener works.
-        view.performClick();
+        View card = view.findViewById(R.id.card_view);
+        card.performClick();
 
-        Intent expectedIntent = EventDetailsActivity.start(view.getContext(), event);
+        Intent expectedIntent = EventDetailsActivity.start(card.getContext(), event);
         Intent actual = getShadowApplication().getNextStartedActivity();
         assertEquals(expectedIntent.getComponent(), actual.getComponent());
         assertNotNull(actual.getParcelableExtra(EventDetailsActivity.PARCEL_EVENT));

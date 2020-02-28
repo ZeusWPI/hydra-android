@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.FormatStyle;

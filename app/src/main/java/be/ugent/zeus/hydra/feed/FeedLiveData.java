@@ -35,7 +35,7 @@ import be.ugent.zeus.hydra.feed.cards.specialevent.LimitingSpecialEventRequest;
 import be.ugent.zeus.hydra.feed.cards.urgent.UrgentRequest;
 import be.ugent.zeus.hydra.feed.operations.FeedOperation;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 
 import static be.ugent.zeus.hydra.feed.operations.OperationFactory.add;
 import static be.ugent.zeus.hydra.feed.operations.OperationFactory.get;

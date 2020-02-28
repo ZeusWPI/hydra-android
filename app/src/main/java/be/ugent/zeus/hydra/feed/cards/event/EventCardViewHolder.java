@@ -14,7 +14,7 @@ import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardViewHolder;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
 import be.ugent.zeus.hydra.feed.commands.DisableAssociationCommand;
-import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
 
 /**
  * View holder for cards containing events.

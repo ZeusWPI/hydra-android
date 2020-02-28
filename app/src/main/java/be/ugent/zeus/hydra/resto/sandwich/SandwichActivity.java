@@ -9,7 +9,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.resto.extrafood.FoodFragment;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import com.google.android.material.tabs.TabLayout;
 
 /**

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.resto.RestoMeal;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import com.google.android.material.textview.MaterialTextView;

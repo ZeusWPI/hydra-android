@@ -6,9 +6,8 @@ import android.view.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -17,11 +16,11 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
-import be.ugent.zeus.hydra.utils.ColourUtils;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import com.google.android.material.snackbar.Snackbar;
 
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
+import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
 /**
  * @author Niko Strijbol
@@ -59,14 +58,14 @@ public class LibraryListFragment extends Fragment {
         // TODO: find a way to fix this without disable this.
         swipeRefreshLayout.setEnabled(false);
 
-        viewModel = ViewModelProviders.of(this).get(LibraryViewModel.class);
+        viewModel = new ViewModelProvider(this).get(LibraryViewModel.class);
         adapter = new LibraryListAdapter(viewModel);
         recyclerView.setAdapter(adapter);
 
-        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(this, new AdapterObserver<>(adapter));
-        viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
+        viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
+        viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
         swipeRefreshLayout.setOnRefreshListener(viewModel);
     }
 

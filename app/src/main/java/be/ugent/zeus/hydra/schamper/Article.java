@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 import be.ugent.zeus.hydra.common.ArticleViewer;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
-import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
 import com.squareup.moshi.Json;
 import java9.util.Objects;
 import org.threeten.bp.LocalDateTime;
@@ -23,6 +23,7 @@ import org.threeten.bp.OffsetDateTime;
  * @author Niko Strijbol
  * @author Feliciaan
  */
+@SuppressWarnings("unused")
 public final class Article implements Parcelable, ArticleViewer.Article {
 
     private static final Pattern IMAGE_REPLACEMENT = Pattern.compile("/regulier/", Pattern.LITERAL);

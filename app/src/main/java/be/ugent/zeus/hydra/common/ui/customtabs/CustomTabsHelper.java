@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 
 /**
  * Helper for custom tabs.

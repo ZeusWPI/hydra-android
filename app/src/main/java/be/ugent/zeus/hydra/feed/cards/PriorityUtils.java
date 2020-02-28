@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import androidx.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;

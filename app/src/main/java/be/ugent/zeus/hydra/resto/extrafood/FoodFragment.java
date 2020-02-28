@@ -5,11 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,10 +54,10 @@ public class FoodFragment extends Fragment {
 
         int position = requireArguments().getInt(ARG_POSITION);
 
-        viewModel = ViewModelProviders.of(requireActivity()).get(ExtraFoodViewModel.class);
-        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(this, new SuccessObserver<ExtraFood>() {
+        viewModel = new ViewModelProvider(requireActivity()).get(ExtraFoodViewModel.class);
+        viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.getData().observe(getViewLifecycleOwner(), new SuccessObserver<ExtraFood>() {
             @Override
             protected void onSuccess(@NonNull ExtraFood data) {
                 adapter.submitData(ExtraFoodViewModel.getFor(position, data));

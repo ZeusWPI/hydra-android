@@ -123,7 +123,7 @@
 
         <!-- SKO artist page -->
         <activity
-            android:name=".sko.lineup.ArtistDetailsActivity"
+            android:name=".sko.ArtistDetailsActivity"
             android:label="Artiest"
             android:parentActivityName=".sko.OverviewActivity"
             android:theme="@style/Hydra.Sko.SystemWindows" />

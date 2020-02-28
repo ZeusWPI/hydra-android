@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
 
 /**
  * The base activity. Contains code related to common things for almost all activities.
@@ -79,7 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param ids  The ids of the icon.
      */
     public static void tintToolbarIcons(ActionBar toolbar, Menu menu, int... ids) {
-        tintToolbarIcons(ViewUtils.getColor(toolbar.getThemedContext(), R.attr.colorControlNormal), menu, ids);
+        tintToolbarIcons(ColourUtils.resolveColour(toolbar.getThemedContext(), R.attr.colorControlNormal), menu, ids);
     }
 
     /**

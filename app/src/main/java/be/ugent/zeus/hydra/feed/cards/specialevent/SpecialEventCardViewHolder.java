@@ -11,7 +11,7 @@ import be.ugent.zeus.hydra.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.SwipeDismissableViewHolder;
 import be.ugent.zeus.hydra.feed.commands.DisableIndividualCard;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 /**

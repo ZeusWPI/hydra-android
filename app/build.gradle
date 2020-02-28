@@ -113,7 +113,7 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.2.4'
     // Do not upgrade beyond 3.12.x until we require API 21+
     //noinspection GradleDependency
-    implementation 'com.squareup.okhttp3:okhttp:3.12.6'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.9'
     implementation 'com.squareup.moshi:moshi:1.9.2'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
     implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.1'
@@ -142,7 +142,7 @@ dependencies {
     testImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
     testImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
-    testImplementation 'androidx.room:room-testing:2.2.3'
+    testImplementation 'androidx.room:room-testing:2.2.4'
     // Enable the normal library for unit tests.
     testImplementation('org.threeten:threetenbp:1.4.0') {
         exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'

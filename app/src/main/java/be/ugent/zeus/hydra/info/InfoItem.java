@@ -15,6 +15,7 @@ import com.squareup.moshi.Json;
  * @author Juta
  * @author Niko Strijbol
  */
+@SuppressWarnings("unused")
 public final class InfoItem implements Parcelable {
 
     private String title;
@@ -89,8 +90,9 @@ public final class InfoItem implements Parcelable {
         }
     }
 
-    @SuppressWarnings("unused") // Used by Moshi.
-    public InfoItem() {}
+    public InfoItem() {
+        // Used by Moshi.
+    }
 
     protected InfoItem(Parcel in) {
         title = in.readString();

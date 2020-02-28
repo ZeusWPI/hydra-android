@@ -17,7 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.util.LinkifyCompat;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +34,13 @@ import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.library.Library;
 import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
 import be.ugent.zeus.hydra.library.favourites.LibraryFavourite;
-import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
@@ -95,8 +95,10 @@ public class LibraryDetailActivity extends BaseActivity {
             textView.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(LibraryDetailActivity.this, mapsIntent()));
         }
 
+        final ViewModelProvider provider = new ViewModelProvider(this);
+
         button = findViewById(R.id.library_favourite);
-        FavouriteViewModel viewModel = ViewModelProviders.of(this).get(FavouriteViewModel.class);
+        FavouriteViewModel viewModel = provider.get(FavouriteViewModel.class);
         viewModel.setLibrary(library);
         viewModel.getData().observe(this, isFavourite -> {
             Drawable drawable;
@@ -149,7 +151,7 @@ public class LibraryDetailActivity extends BaseActivity {
         TextView contact = findViewById(R.id.library_contact_row_text);
         contact.setText(library.getContact());
 
-        HoursViewModel model = ViewModelProviders.of(this).get(HoursViewModel.class);
+        HoursViewModel model = provider.get(HoursViewModel.class);
         model.setLibrary(library);
         model.getData().observe(this, PartialErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));

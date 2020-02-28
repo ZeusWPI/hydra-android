@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 
 /**
  * Custom tab implementation that directly launches the browser instead.
@@ -22,9 +22,6 @@ class NoTabActivityHelper implements ActivityHelper {
     private int intentFlags;
     private final ConnectionCallback connectionCallback;
 
-    /**
-     * Package local constructor.
-     */
     NoTabActivityHelper(Activity activity, @Nullable ConnectionCallback connectionCallback) {
         this.activity = new WeakReference<>(activity);
         this.connectionCallback = connectionCallback;

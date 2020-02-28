@@ -8,7 +8,7 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.shape.RoundedCornerTreatment;

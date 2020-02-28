@@ -22,7 +22,7 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.association.event.list.EventFragment;
-import be.ugent.zeus.hydra.news.list.NewsFragment;
+import be.ugent.zeus.hydra.news.NewsFragment;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
@@ -32,7 +32,7 @@ import be.ugent.zeus.hydra.library.list.LibraryListFragment;
 import be.ugent.zeus.hydra.onboarding.OnboardingActivity;
 import be.ugent.zeus.hydra.preferences.PreferenceActivity;
 import be.ugent.zeus.hydra.resto.menu.RestoFragment;
-import be.ugent.zeus.hydra.schamper.list.SchamperFragment;
+import be.ugent.zeus.hydra.schamper.SchamperFragment;
 import be.ugent.zeus.hydra.urgent.UrgentFragment;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -40,7 +40,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import jonathanfinerty.once.Once;
 
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
+import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireArguments;
 
 /**
  * Main activity.

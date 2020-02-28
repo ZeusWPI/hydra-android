@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
@@ -50,7 +50,7 @@ public class RestoLocationActivity extends BaseActivity implements OnMapReadyCal
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        viewModel = ViewModelProviders.of(this).get(MetaViewModel.class);
+        viewModel = new ViewModelProvider(this).get(MetaViewModel.class);
         viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new ProgressObserver<>(progressBar));
         viewModel.getData().observe(this, SuccessObserver.with(this::receiveData));

@@ -8,8 +8,8 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
-import be.ugent.zeus.hydra.utils.ColourUtils;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
 
 /**
  * Display an overview of the settings.

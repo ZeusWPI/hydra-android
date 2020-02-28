@@ -19,11 +19,11 @@ import java9.util.stream.Collectors;
 import java9.util.stream.StreamSupport;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DescriptionMultiSelectListViewHolder;
-import be.ugent.zeus.hydra.utils.PreferencesUtils;
+import be.ugent.zeus.hydra.common.utils.PreferencesUtils;
 
 import static be.ugent.zeus.hydra.feed.HomeFeedFragment.PREF_DISABLED_CARD_TYPES;
 

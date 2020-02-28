@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 import java.util.NoSuchElementException;
 
 import java9.util.Objects;
-import java9.util.Optional;
 import java9.util.function.Consumer;
 import java9.util.function.Function;
 

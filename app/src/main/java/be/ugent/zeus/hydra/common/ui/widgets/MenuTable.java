@@ -21,7 +21,7 @@ import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import com.google.android.material.textview.MaterialTextView;
 
-import static be.ugent.zeus.hydra.utils.PreferencesUtils.isSetIn;
+import static be.ugent.zeus.hydra.common.utils.PreferencesUtils.isSetIn;
 
 /**
  * View to display the table. Use flags to decide what to show and what not.

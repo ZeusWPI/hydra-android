@@ -9,7 +9,7 @@ import java9.util.Lists;
 
 import be.ugent.zeus.hydra.common.ModelTest;
 import be.ugent.zeus.hydra.testing.Utils;
-import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
 import de.jaehrig.gettersetterverifier.GetterSetterVerifier;
 import edu.emory.mathcs.backport.java.util.Collections;
 import org.junit.Test;

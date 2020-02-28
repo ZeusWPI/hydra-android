@@ -13,7 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.browser.customtabs.*;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
@@ -64,7 +65,7 @@ class HasTabActivityHelper implements ActivityHelper {
 
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(customTabsSession);
         //Set the theme color
-        builder.setToolbarColor(ViewUtils.getPrimaryColor(activity.get()));
+        builder.setToolbarColor(ColourUtils.resolveColour(activity.get(), R.attr.colorPrimarySurface));
 
         Set<String> nat = getNativeAppPackage(activity.get(), uri);
         if (!nat.isEmpty()) {
