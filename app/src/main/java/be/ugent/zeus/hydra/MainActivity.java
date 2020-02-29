@@ -164,7 +164,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final String UFORA = "com.d2l.brightspace.student.android";
 
     @VisibleForTesting
-    static final String ONCE_ONBOARDING = "once_onboarding_v1";
+    static final String ONCE_ONBOARDING = "once_onboarding_v1_debug";
     private static final int ONBOARDING_REQUEST = 5;
 
     private static final String STATE_IS_ONBOARDING_OPEN = "state_is_onboarding_open";
@@ -464,7 +464,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         // The super method handles both the fragment back stack and finishing the activity. To know what was executed,
         // we need to add a listener.
-
         FragmentManager.OnBackStackChangedListener listener = () -> {
             Fragment current = getSupportFragmentManager().findFragmentById(R.id.content);
             Log.w(TAG, "onBackPressed: current fragment is somehow null? Ignoring update for now.");

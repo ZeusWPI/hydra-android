@@ -21,7 +21,8 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap|exitUntilCollapsed"
-            app:contentScrim="?attr/colorPrimary"
+            app:statusBarScrim="?colorPrimarySurface"
+            app:contentScrim="?colorPrimarySurface"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleTextAppearance="@style/Hydra.Text.Transparent">
@@ -35,7 +36,7 @@
                 app:layout_collapseMode="parallax"
                 android:fitsSystemWindows="true"
                 tools:src="@drawable/tabs_schamper"
-                android:contentDescription="@string/content_desc_schamper_image"/>
+                android:contentDescription="@string/content_desc_schamper_image" />
 
             <ImageView
                 app:layout_collapseMode="parallax"
@@ -43,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/gradient_black_bottom_top"
-                android:contentDescription="@string/content_desc_schamper_image"/>
+                android:contentDescription="@string/content_desc_schamper_image" />
 
             <LinearLayout
                 app:layout_collapseMode="parallax"
@@ -63,23 +64,28 @@
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:textColor="@color/white"
-                    style="@style/Base.TextAppearance.AppCompat.Display1"
+                    style="?textAppearanceHeadline5"
                     tools:text="Naam van de artiest" />
 
                 <TextView
                     android:textColor="@color/white"
                     android:id="@+id/date"
+                    style="?textAppearanceSubtitle1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:text="Datum en tijd" />
 
             </LinearLayout>
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin"
+                android:elevation="0dp"
+                style="?toolbarStyle"
+                android:background="@android:color/transparent"
+                tools:ignore="UnusedAttribute" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -97,14 +103,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/card_spacing"
                 android:layout_marginTop="@dimen/card_small_horizontal_margin"
                 app:contentPaddingLeft="@dimen/card_text_padding_vertical"
                 app:contentPaddingRight="@dimen/card_text_padding_vertical"
-                app:contentPaddingBottom="@dimen/card_text_padding_bottom"
+                app:contentPaddingBottom="@dimen/card_text_padding_bottom_no_content"
                 app:contentPaddingTop="@dimen/card_spacing">
 
                 <LinearLayout
@@ -112,27 +118,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:height="48dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/Hydra.Text.Subhead"
                         android:text="@string/sko_artist_info"
-                        android:textColor="?attr/colorAccent"
                         android:gravity="center_vertical" />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/content"
                         tools:text="Informatie en dergelijke over de artiest."
                         android:textIsSelectable="true"
-                        style="@style/Hydra.Text.Subhead" />
+                        style="?textAppearanceBody1" />
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:paddingRight="@dimen/vertical_padding"
                 android:paddingLeft="@dimen/vertical_padding"
                 android:height="48dp"
@@ -140,7 +145,6 @@
                 android:layout_height="wrap_content"
                 style="@style/Hydra.Text.Subhead"
                 android:text="@string/sko_artist_more"
-                android:textColor="?attr/colorAccent"
                 android:gravity="center_vertical" />
 
             <LinearLayout
@@ -152,22 +156,24 @@
                 android:layout_height="48dp"
                 android:gravity="center_vertical"
                 android:background="?android:attr/selectableItemBackground"
-                android:clickable="true">
+                android:clickable="true"
+                android:focusable="true">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_search"
-                    android:tint="?android:attr/textColorPrimary"
-                    android:contentDescription="@string/content_desc_search"/>
+                    android:tint="?colorPrimarySecondary"
+                    android:contentDescription="@string/content_desc_search" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:paddingLeft="32dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="@string/sko_artist_search_web" />
-
+                    style="?textAppearanceBody2"
+                    android:text="@string/sko_artist_search_web"
+                    tools:ignore="RtlHardcoded,RtlSymmetry" />
 
             </LinearLayout>
 
@@ -180,22 +186,24 @@
                 android:layout_height="48dp"
                 android:gravity="center_vertical"
                 android:background="?android:attr/selectableItemBackground"
-                android:clickable="true">
+                android:clickable="true"
+                android:focusable="true">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_library_music"
-                    android:tint="?android:attr/textColorPrimary"
-                    android:contentDescription="@string/content_desc_search_artist"/>
-
+                    android:tint="?colorPrimarySecondary"
+                    android:contentDescription="@string/content_desc_search_artist" />
 
                 <TextView
                     android:paddingLeft="32dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="@string/sko_artist_search_music" />
+                    android:text="@string/sko_artist_search_music"
+                    style="?textAppearanceBody2"
+                    tools:ignore="RtlHardcoded,RtlSymmetry" />
 
             </LinearLayout>
 

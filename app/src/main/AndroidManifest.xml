@@ -131,7 +131,7 @@
         <!-- Onboarding activity -->
         <activity
             android:name=".onboarding.OnboardingActivity"
-            android:theme="@style/Theme.Intro" />
+            android:theme="@style/Hydra.Base.Onboarding" />
 
         <!-- Library details -->
         <activity

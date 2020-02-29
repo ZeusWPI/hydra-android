@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,8 +8,8 @@
     android:layout_marginRight="@dimen/card_margin"
     android:layout_marginBottom="@dimen/card_spacing"
     android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:longClickable="true">
+    android:longClickable="true"
+    android:focusable="true">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
             android:orientation="vertical"
             android:layout_gravity="bottom">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:paddingLeft="@dimen/material_card_title_block_padding_horizontal"
                 android:paddingRight="@dimen/material_card_title_block_padding_horizontal"
                 android:layout_width="wrap_content"
@@ -48,10 +48,10 @@
                 android:id="@+id/title"
                 android:textColor="@color/white"
                 android:paddingTop="@dimen/card_title_padding_top"
-                android:textSize="@dimen/material_card_title_block_large_title_text_size"
+                style="?textAppearanceHeadline5"
                 tools:text="Dit is een Artiest!" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:paddingTop="@dimen/material_card_title_block_large_subtitle_margin_top"
                 android:paddingLeft="@dimen/material_card_title_block_padding_horizontal"
                 android:paddingRight="@dimen/material_card_title_block_padding_horizontal"
@@ -61,12 +61,10 @@
                 android:id="@+id/date"
                 android:textColor="@color/white"
                 tools:text="Datum Gisteren"
-                android:textSize="@dimen/material_card_title_block_subtitle_text_size"/>
+                style="?textAppearanceSubtitle1" />
 
         </LinearLayout>
 
     </FrameLayout>
 
-
-
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

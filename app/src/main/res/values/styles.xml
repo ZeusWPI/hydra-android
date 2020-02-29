@@ -21,6 +21,11 @@
         <item name="android:textColor">?colorPrimarySecondary</item>
     </style>
 
+    <!-- Needed for subtitles in onboarding -->
+    <style name="Hydra.Text.Onboarding.Subhead" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">?colorSecondary</item>
+    </style>
+
     <!-- Transparant text -->
     <style name="Hydra.Text.Transparent" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">#00000000</item>

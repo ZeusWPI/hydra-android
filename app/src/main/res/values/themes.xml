@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Hydra.DayNight" parent="Hydra.Base" />
+    <style name="Hydra.DayNight" parent="Hydra.Base">
+        <item name="colorPrimarySecondary">?colorPrimary</item>
+    </style>
 
     <!-- Main theme, used by most activities -->
     <style name="Hydra.Base" parent="Base.DayNight.NoActionBar">
@@ -10,8 +12,6 @@
         <item name="colorPrimaryVariant">@color/hydra_color_primary_variant_dark</item>
         <item name="colorSecondary">@color/hydra_color_secondary</item>
         <item name="colorSecondaryVariant">@color/hydra_color_secondary_variant_dark</item>
-
-        <item name="colorPrimarySecondary">?colorPrimary</item>
 
         <item name="android:colorBackground">@color/color_background</item>
 
@@ -31,6 +31,18 @@
     <style name="Hydra.DayNight.SystemWindows" parent="Hydra.DayNight">
         <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
+    </style>
+
+    <!-- Theme for onboarding -->
+    <style name="Hydra.Base.Onboarding" parent="Hydra.Base">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:colorBackground">?colorPrimary</item>
+        <item name="colorSurface">?colorPrimary</item>
+        <item name="colorOnBackground">?colorOnPrimary</item>
+        <item name="colorOnSurface">?colorOnPrimary</item>
+        <item name="android:textColor">?colorOnPrimary</item>
+        <item name="android:textColorSecondary">?colorOnPrimary</item>
     </style>
 
     <!-- SKO theme -->

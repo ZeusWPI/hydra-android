@@ -32,13 +32,13 @@ public class OnboardingActivity extends IntroActivity {
                 .description(R.string.onboarding_welcome_description)
                 .image(R.drawable.logo_onboarding_ugent)
                 .background(R.color.hydra_color_primary)
-                .backgroundDark(R.color.hydra_color_primary_variant_dark)
+                .backgroundDark(R.color.hydra_color_primary)
                 .build());
 
         // Check for permission for data collection
         addSlide(new FragmentSlide.Builder()
                 .background(R.color.hydra_color_primary)
-                .backgroundDark(R.color.hydra_color_primary_variant_dark)
+                .backgroundDark(R.color.hydra_color_primary)
                 .fragment(new ReportingFragment())
                 .build()
         );
@@ -46,7 +46,7 @@ public class OnboardingActivity extends IntroActivity {
         // Home feed selector
         addSlide(new FragmentSlide.Builder()
                 .background(R.color.hydra_color_primary)
-                .backgroundDark(R.color.hydra_color_primary_variant_dark)
+                .backgroundDark(R.color.hydra_color_primary)
                 .fragment(new HomeFeedFragment())
                 .build());
     }

@@ -22,7 +22,6 @@
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap"
             app:contentScrim="?colorPrimarySurface"
             app:expandedTitleMarginStart="48dp"
-            style="?collapsedTitleTextAppearance"
             app:expandedTitleMarginEnd="64dp">
 
             <ImageView
@@ -49,8 +48,8 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:elevation="0dp"
                 android:layout_height="?attr/actionBarSize"
+                android:elevation="0dp"
                 style="?toolbarStyle"
                 android:background="@android:color/transparent"
                 app:layout_collapseMode="pin"
