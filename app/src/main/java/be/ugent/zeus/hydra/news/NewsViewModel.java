@@ -11,7 +11,7 @@ import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 /**
  * @author Niko Strijbol
  */
-class NewsViewModel extends RequestViewModel<List<UgentNewsArticle>> {
+public class NewsViewModel extends RequestViewModel<List<UgentNewsArticle>> {
 
     public NewsViewModel(Application application) {
         super(application);
