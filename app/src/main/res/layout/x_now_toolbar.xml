@@ -18,7 +18,7 @@
         android:layout_marginLeft="8dp"
         android:layout_gravity="center_vertical"
         tools:src="@drawable/tabs_resto"
-        tools:ignore="MissingPrefix"
+        tools:ignore="MissingPrefix,RtlHardcoded"
         android:tint="@color/hydra_color_primary_variant_light"
         android:contentDescription="@string/content_desc_resto"/>
 
@@ -41,7 +41,7 @@
         android:padding="8dp"
         android:layout_marginRight="8dp"
         android:layout_gravity="center_vertical"
-        android:tint="?colorControlNormal"
+        android:tint="?colorOnSurface"
         app:srcCompat="@drawable/ic_more_vert"
         android:id="@+id/now_toolbar_menu"
         android:contentDescription="@string/content_desc_more"

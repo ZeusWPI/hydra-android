@@ -79,7 +79,7 @@ public class LibraryDetailActivity extends BaseActivity {
         ImageView header = findViewById(R.id.header_image);
         Picasso.get().load(library.getHeaderImage(this)).into(header);
 
-        CollapsingToolbarLayout collapsingToolbarLayout = requireViewById(R.id.collapsing_toolbar);
+        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(library.getName());
         // TODO: why is this necessary?
         int white = ContextCompat.getColor(this, R.color.white);
