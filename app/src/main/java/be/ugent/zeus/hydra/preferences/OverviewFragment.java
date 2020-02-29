@@ -7,7 +7,9 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
 
 /**
  * Display an overview of the settings.
@@ -27,7 +29,7 @@ public class OverviewFragment extends PreferenceFragmentCompat {
             preference.setSummary(entry.getDescription());
             preference.setPersistent(false);
             if (entry.getIcon() != 0) {
-                int textColour = ViewUtils.getColor(context, android.R.attr.textColor);
+                int textColour = ColourUtils.resolveColour(context, R.attr.colorOnSurface);
                 Drawable drawable = ViewUtils.getTintedVectorDrawableInt(context, entry.getIcon(), textColour);
                 preference.setIcon(drawable);
             }

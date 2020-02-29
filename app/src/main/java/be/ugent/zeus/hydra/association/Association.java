@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
+import be.ugent.zeus.hydra.common.network.Endpoints;
 import com.squareup.moshi.Json;
 import java9.util.Objects;
 
@@ -16,9 +17,10 @@ import java9.util.Objects;
  * @author feliciaan
  * @author Niko Strijbol
  */
+@SuppressWarnings("unused")
 public final class Association implements Parcelable {
 
-    private static final String IMAGE_LINK = "https://zeus.ugent.be/hydra/api/2.0/association/logo/%s.png";
+    private static final String IMAGE_LINK = Endpoints.ZEUS_V2 + "association/logo/%s.png";
 
     @Json(name = "internal_name")
     private String internalName;
@@ -29,8 +31,9 @@ public final class Association implements Parcelable {
     @Json(name = "parent_association")
     private String parentAssociation;
 
-    @SuppressWarnings("unused") // Moshi uses this!
-    public Association() {}
+    public Association() {
+        // Moshi uses this!
+    }
 
     /**
      * @return A name for this association. If a full name is available, that is returned. If not, the display name is.

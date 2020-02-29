@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.association.event;
 
 import android.content.Context;
 
-import be.ugent.zeus.hydra.utils.PreferencesUtils;
+import be.ugent.zeus.hydra.common.utils.PreferencesUtils;
 import java9.util.function.Function;
 import java9.util.stream.Collectors;
 import java9.util.stream.StreamSupport;

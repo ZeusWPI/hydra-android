@@ -1,21 +1,16 @@
 package be.ugent.zeus.hydra.feed.cards.news;
 
-import android.content.Intent;
 import android.view.View;
-import androidx.preference.PreferenceManager;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.news.NewsArticleActivity;
-import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
+import be.ugent.zeus.hydra.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
-import be.ugent.zeus.hydra.preferences.ArticleFragment;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Niko Strijbol
@@ -33,18 +28,5 @@ public class NewsItemViewHolderTest extends AbstractFeedViewHolderTest {
 
         assertTextIs(item.getTitle(), view.findViewById(R.id.name));
         assertNotEmpty(view.findViewById(R.id.info));
-
-        // No custom tabs, we check this elsewhere.
-        PreferenceManager.getDefaultSharedPreferences(view.getContext())
-                .edit()
-                .putBoolean(ArticleFragment.PREF_USE_CUSTOM_TABS, false)
-                .commit();
-        view.performClick();
-
-        Intent expected = new Intent(view.getContext(), NewsArticleActivity.class);
-        Intent actual = getShadowApplication().getNextStartedActivity();
-
-        assertEquals(expected.getComponent(), actual.getComponent());
-        assertEquals(item, actual.getParcelableExtra(NewsArticleActivity.PARCEL_NAME));
     }
 }

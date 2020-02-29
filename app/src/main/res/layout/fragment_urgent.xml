@@ -21,25 +21,25 @@
             android:contentDescription="@string/urgent_album_art"
             app:srcCompat="@drawable/logo_urgent" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:paddingTop="@dimen/content_spacing"
             android:paddingLeft="@dimen/activity_vertical_margin"
             android:paddingRight="@dimen/activity_vertical_margin"
             android:id="@+id/artistText"
-            style="?android:attr/textAppearanceMedium"
-            android:textColor="?attr/colorPrimary"
+            style="?textAppearanceBody1"
+            android:textColor="?colorPrimary"
             android:ellipsize="marquee"
             tools:text="The End is the Beginning is the End (Soundtrack Version)"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:paddingLeft="@dimen/activity_vertical_margin"
             android:paddingRight="@dimen/activity_vertical_margin"
             android:id="@+id/titleText"
-            android:textColor="?attr/colorPrimary"
-            style="?android:attr/textAppearanceMedium"
+            style="?textAppearanceBody2"
+            android:textColor="?colorPrimary"
             android:textStyle="bold"
             android:ellipsize="marquee"
             android:text="@string/urgent_fm"
@@ -66,12 +66,12 @@
                 android:layout_height="wrap_content"
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/playPauseButton"
-                android:tint="?android:attr/textColor"
+                android:tint="?colorPrimary"
                 app:srcCompat="@drawable/ic_play_arrow_24dp" />
 
         </FrameLayout>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_marginLeft="@dimen/card_margin_small"
             android:layout_marginRight="@dimen/card_margin_small"
             android:id="@+id/description_card"
@@ -88,25 +88,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:visibility="gone"
                     tools:visibility="visible"
                     android:id="@+id/description_title"
                     android:height="48dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/Subhead"
+                    style="@style/Hydra.Text.Subhead"
                     tools:text="Over het programma"
                     android:gravity="center_vertical" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:visibility="gone"
                     tools:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/programme_description"
                     android:textIsSelectable="true"
-                    style="@style/Hydra.LongText"
+                    style="?textAppearanceBody1"
                     tools:text="De beschrijving van het programma." />
 
                 <LinearLayout
@@ -122,7 +122,7 @@
                         android:layout_height="@dimen/urgent_social_icon_size"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/ic_social_facebook_inner"
-                        android:tint="@color/hydra_primary_dark_colour" />
+                        android:tint="?colorPrimary" />
 
                     <ImageButton
                         android:id="@+id/social_instagram"
@@ -130,7 +130,7 @@
                         android:layout_height="@dimen/urgent_social_icon_size"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/ic_social_instagram"
-                        android:tint="@color/hydra_primary_dark_colour" />
+                        android:tint="?colorPrimary" />
 
                     <ImageButton
                         android:id="@+id/social_urgentfm"
@@ -138,7 +138,7 @@
                         android:layout_height="@dimen/urgent_social_icon_size"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/tabs_urgent"
-                        android:tint="@color/hydra_primary_dark_colour" />
+                        android:tint="?colorPrimary" />
 
                     <ImageButton
                         android:id="@+id/social_youtube"
@@ -146,14 +146,13 @@
                         android:layout_height="@dimen/urgent_social_icon_size"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/ic_social_youtube"
-                        android:tint="@color/hydra_primary_dark_colour" />
+                        android:tint="?colorPrimary" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
-
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

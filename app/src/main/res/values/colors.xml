@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!--
-       ~ The colour scheme for Hydra.
-       ~ This colour scheme was generated from https://goo.gl/Mzta1m
-       ~ See also https://styleguide.ugent.be/basic-principles/colours.html#corporate-colours
-      -->
-    <color name="hydra_primary_colour">#1e64c8</color>
-    <color name="hydra_primary_light_colour">#6391fc</color>
-    <color name="hydra_primary_dark_colour">#003b96</color>
-    <color name="hydra_secondary_colour">#ffd200</color>
-    <color name="hydra_secondary_light_colour" tools:keep="@color/hydra_secondary_light_colour">#ffff52</color>
-    <color name="hydra_secondary_dark_colour" tools:keep="@color/hydra_secondary_dark_colour">#c7a100</color>
-    <color name="hydra_primary_text_colour" tools:keep="@color/hydra_primary_text_colour">#ffffff</color>
-    <color name="hydra_secondary_text_colour" tools:keep="@color/hydra_secondary_text_colour">#000000</color>
+    <!--colorPrimary colors map to components and elements, such as app bars and buttons. -->
+    <!--colorSecondary colors are most often used as accents on components, such as FABs and -->
+    <!--selection controls.-->
+    <!-- This colour scheme was generated from https://goo.gl/Mzta1m -->
+    <color name="hydra_color_primary">#1e64c8</color>
+    <color name="hydra_color_primary_variant_light">#6391fc</color>
+    <color name="hydra_color_primary_variant_dark">#003b96</color>
+    <color name="hydra_color_secondary">#ffd200</color>
+    <color name="hydra_color_secondary_variant_light">#ffff52</color>
+    <color name="hydra_color_secondary_variant_dark">#c7a100</color>
+
+    <color name="color_background">#fff5f5f5</color>
+
+    <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
+    <!--on which they appear.-->
+    <color name="color_on_primary">#ffffff</color>
+    <color name="color_on_secondary">#000000</color>
+    <color name="color_on_background">#000000</color>
+    <color name="color_on_surface">#000000</color>
+    <color name="color_on_error">#ffffff</color>
 
     <!--
        ~ The colour scheme for SKO.
@@ -31,29 +38,7 @@
 
     <!-- General colours -->
     <color name="white">@color/material_color_white</color>
-
-    <!--
-      ~ These are functional colours. This means they don't specify a colour itself, but rather a colour for
-      ~ a certain feature.
-     -->
-
-    <!-- The correspond to the theme attributes -->
-    <!-- If possible, use ?attr:colorAccent or similar -->
-    <color name="hydra_primary_color">@color/hydra_primary_colour</color>
-    <color name="hydra_primary_color_dark">@color/hydra_primary_dark_colour</color>
-    <color name="hydra_accent_color">@color/hydra_secondary_colour</color>
-
-    <!-- Text colours -->
-    <color name="hydra_text_primary">@color/material_typography_primary_text_color_dark</color>
-    <color name="hydra_text_secondary">@color/material_typography_secondary_text_color_dark</color>
-    <color name="hydra_text_accent">@color/hydra_primary_color</color>
-
-    <!-- Backgrounds -->
-    <color name="hydra_background">@color/material_grey_100</color>
-    <color name="hydra_background_long_text">@color/material_color_white</color>
-
-    <!-- Custom views -->
-    <color name="hydra_now_toolbar_icon_tint">@color/hydra_primary_light_colour</color>
+    <color name="black">@color/material_color_black</color>
 
     <!--
         ~ The grey colour for the launcher shortcuts background.
@@ -61,18 +46,5 @@
         ~ the colour must be Solid fill of Material Grey 100 (#F5F5F5)
         -->
     <color name="launcher_shortcut_background">@color/material_color_grey_100</color>
-    <color name="hydra_launcher_color">@color/hydra_primary_colour</color>
-
-    <color name="hydra_item_selected_background" tools:keep="@color/hydra_item_selected_background">@color/white</color>
-
-    <!--
-       ~ Custom colours for the Round card view.
-       ~ Normal card views do this automatically, maybe we should do that as well
-       -->
-    <color name="hydra_card_background">@color/cardview_light_background</color>
-
-    <!-- Background of the navigation drawer -->
-
-    <!-- The text colour of sub headers -->
-    <color name="hydra_subhead_text_color">@color/hydra_primary_colour</color>
+    <color name="hydra_launcher_color">@color/hydra_color_primary</color>
 </resources>

@@ -1,22 +1,24 @@
 package be.ugent.zeus.hydra.resto.sandwich.regular;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.view.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import android.os.Bundle;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
-import android.view.*;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
+import com.google.android.material.snackbar.Snackbar;
+
+import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
 /**
  * Activity that shows a list of regular sandwiches.
@@ -52,13 +54,13 @@ public class RegularFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.hydra_secondary_colour);
+        swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(requireContext(), R.attr.colorSecondary));
 
-        viewModel = ViewModelProviders.of(this).get(RegularViewModel.class);
-        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(this, new AdapterObserver<>(adapter));
-        viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
+        viewModel = new ViewModelProvider(this).get(RegularViewModel.class);
+        viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
+        viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
         swipeRefreshLayout.setOnRefreshListener(viewModel);
     }
 

@@ -6,19 +6,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <!-- The margin must be set on the card, not the parent layout. -->
-    <!-- See https://github.com/captain-miao/OptionRoundCardview/issues/4 -->
-
-    <com.github.captain_miao.optroundcardview.OptRoundCardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_view"
-        android:foreground="?android:attr/selectableItemBackground"
         android:layout_marginLeft="@dimen/card_margin"
         android:layout_marginRight="@dimen/card_margin"
-        app:optRoundContentPaddingLeft="@dimen/card_text_padding_vertical"
-        app:optRoundContentPaddingRight="@dimen/card_text_padding_vertical"
-        app:optRoundContentPaddingTop="@dimen/card_text_padding_top"
-        app:optRoundContentPaddingBottom="@dimen/card_text_padding_bottom"
-        app:optRoundCardBackgroundColor="@color/hydra_card_background"
+        android:clickable="true"
+        android:focusable="true"
+        app:contentPaddingLeft="@dimen/card_text_padding_vertical"
+        app:contentPaddingRight="@dimen/card_text_padding_vertical"
+        app:contentPaddingTop="@dimen/card_text_padding_top"
+        app:contentPaddingBottom="@dimen/card_text_padding_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -33,28 +30,27 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/material_list_normal_primary_text_size"
+                    style="?textAppearanceBody1"
                     tools:text="Titel en naam"
                     android:id="@+id/name" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="@dimen/material_list_normal_secondary_text_size"
+                    style="?textAppearanceBody2"
                     android:id="@+id/association"
                     tools:text="Vereniging" />
             </LinearLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:paddingLeft="@dimen/list_two_line_padding_vertical"
                 android:paddingStart="@dimen/list_two_line_padding_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textSize="@dimen/material_list_normal_primary_text_size"
+                style="?textAppearanceBody2"
                 android:id="@+id/starttime"
                 android:layout_gravity="end"
                 tools:text="Start"
@@ -62,7 +58,7 @@
 
         </LinearLayout>
 
-    </com.github.captain_miao.optroundcardview.OptRoundCardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <View
         android:id="@+id/item_event_divider"

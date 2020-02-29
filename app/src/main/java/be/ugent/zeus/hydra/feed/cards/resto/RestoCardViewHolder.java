@@ -15,7 +15,7 @@ import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.menu.RestoFragment;
-import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
 
 import static android.view.Menu.NONE;
 

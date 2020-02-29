@@ -29,7 +29,7 @@ import java.util.List;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.urgent.player.UrgentTrackProvider;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 
 /**
  * Fragment that displays the Urgent.fm player, meaning controls and track information. Note that while we implement

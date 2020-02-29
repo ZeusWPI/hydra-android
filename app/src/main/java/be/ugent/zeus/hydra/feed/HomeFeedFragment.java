@@ -6,7 +6,7 @@ import android.view.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -20,10 +20,11 @@ import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.feed.commands.CommandResult;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import com.google.android.material.snackbar.Snackbar;
 
 import static be.ugent.zeus.hydra.feed.FeedLiveData.REFRESH_HOMECARD_TYPE;
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
+import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
 /**
  * The fragment showing the home feed.
@@ -81,7 +82,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         RecyclerView recyclerView = view.findViewById(R.id.home_cards_view);
         recyclerView.setHasFixedSize(true);
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.hydra_secondary_colour);
+        swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(requireContext(), R.attr.colorSecondary));
 
         HomeFeedAdapter adapter = new HomeFeedAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -92,15 +93,15 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new DismissCallback());
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        model = ViewModelProviders.of(this).get(FeedViewModel.class);
+        model = new ViewModelProvider(this).get(FeedViewModel.class);
         // Basically the same as PartialErrorObserver, but we only observe at the end.
-        model.getData().observe(this, result -> {
+        model.getData().observe(getViewLifecycleOwner(), result -> {
             if (result != null && result.isDone() && result.hasException()) {
                 onError(result.getError());
             }
         });
-        model.getData().observe(this, new AdapterObserver<>(adapter));
-        model.getData().observe(this, data -> {
+        model.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
+        model.getData().observe(getViewLifecycleOwner(), data -> {
             if (data != null && data.hasData()) {
                 if (data.isDone()) {
                     firstRun = false;
@@ -113,10 +114,10 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
         });
 
-        model.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
+        model.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
 
         // Monitor commands
-        model.getCommandLiveData().observe(this, EventObserver.with(this::onCommandExecuted));
+        model.getCommandLiveData().observe(getViewLifecycleOwner(), EventObserver.with(this::onCommandExecuted));
 
         firstRun = true;
     }

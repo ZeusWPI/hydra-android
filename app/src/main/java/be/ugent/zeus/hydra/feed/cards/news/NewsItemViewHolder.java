@@ -4,12 +4,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
-import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.association.news.NewsArticleActivity;
+import be.ugent.zeus.hydra.news.UgentNewsArticle;
+import be.ugent.zeus.hydra.common.ArticleViewer;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
+import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardViewHolder;
-import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
 
 /**
  * View holder for the news card in the home feed.
@@ -54,6 +54,6 @@ public class NewsItemViewHolder extends CardViewHolder {
         info.setText(infoText);
         title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
-        itemView.setOnClickListener(v -> NewsArticleActivity.viewArticle(v.getContext(), newsItem, adapter.getCompanion().getHelper()));
+        itemView.setOnClickListener(v -> ArticleViewer.viewArticle(v.getContext(), newsItem, adapter.getCompanion().getHelper()));
     }
 }

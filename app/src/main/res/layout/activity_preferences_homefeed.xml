@@ -23,18 +23,19 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:paddingTop="@dimen/content_spacing"
             android:paddingLeft="@dimen/vertical_padding"
             android:paddingRight="@dimen/vertical_padding"
             android:paddingBottom="@dimen/content_spacing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="?textAppearanceBody1"
             android:text="@string/feed_pref_card_types_description"/>
 
         <View style="@style/Divider" />
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:name="be.ugent.zeus.hydra.feed.preferences.HomeFeedSelectFragment"
             android:paddingTop="@dimen/content_spacing"
             android:id="@+id/recycler_view_fragment"

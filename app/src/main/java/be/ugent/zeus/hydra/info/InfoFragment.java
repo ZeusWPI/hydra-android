@@ -7,7 +7,7 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +18,8 @@ import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import com.google.android.material.snackbar.Snackbar;
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
+
+import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
 /**
  * Display info items.
@@ -76,10 +77,10 @@ public class InfoFragment extends Fragment {
             adapter.submitData(bundle.getParcelableArrayList(InfoSubItemActivity.INFO_ITEMS));
             progressBar.setVisibility(View.GONE);
         } else {
-            model = ViewModelProviders.of(this).get(InfoViewModel.class);
-            model.getData().observe(this, PartialErrorObserver.with(this::onError));
-            model.getData().observe(this, new ProgressObserver<>(progressBar));
-            model.getData().observe(this, new AdapterObserver<>(adapter));
+            model = new ViewModelProvider(this).get(InfoViewModel.class);
+            model.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+            model.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(progressBar));
+            model.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
         }
     }
 

@@ -22,12 +22,6 @@
         android:title="@string/pref_overview_resto_title"
         android:summary="@string/pref_overview_resto_desc" />
 
-    <!-- News -->
-    <header
-        android:fragment="be.ugent.zeus.hydra.preferences.ArticleFragment"
-        android:title="@string/pref_overview_article_title"
-        android:summary="@string/pref_overview_article_desc" />
-
     <!-- Theme -->
     <header
         android:fragment="be.ugent.zeus.hydra.preferences.ThemeFragment"

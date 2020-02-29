@@ -8,8 +8,11 @@ import android.widget.TextView;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
-import com.github.captain_miao.optroundcardview.OptRoundCardView;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.shape.RoundedCornerTreatment;
+import com.google.android.material.shape.ShapeAppearanceModel;
 import org.threeten.bp.format.DateTimeFormatter;
 
 /**
@@ -24,7 +27,7 @@ class EventViewHolder extends DataViewHolder<EventItem> {
     private final TextView start;
     private final TextView title;
     private final TextView association;
-    private final OptRoundCardView cardView;
+    private final MaterialCardView cardView;
     private final View divider;
 
     EventViewHolder(View v) {
@@ -42,17 +45,23 @@ class EventViewHolder extends DataViewHolder<EventItem> {
         title.setText(event.getTitle());
         association.setText(event.getAssociation().getDisplayName());
         start.setText(event.getLocalStart().format(HOUR_FORMATTER));
-        itemView.setOnClickListener(v -> {
+        cardView.setOnClickListener(v -> {
             Intent intent = EventDetailsActivity.start(v.getContext(), event);
             v.getContext().startActivity(intent);
         });
 
-        // If this is the last event in it's section, we enable shadows and rounded corners.
+        float size = ViewUtils.convertDpToPixel(4, cardView.getContext());
+
+        // If this is the last event in it's section, we enable rounded corners.
         boolean isLast = eventItem.isLastOfSection();
-        // Show the bottom left and right corner.
-        cardView.showCorner(false, false, isLast, isLast);
-        // Show the bottom show.
-        cardView.showEdgeShadow(true, false, true, isLast);
+        ShapeAppearanceModel.Builder builder = new ShapeAppearanceModel.Builder()
+                .setAllCorners(new RoundedCornerTreatment())
+                .setTopLeftCornerSize(0)
+                .setTopRightCornerSize(0)
+                .setBottomLeftCornerSize(isLast ? size : 0)
+                .setBottomRightCornerSize(isLast ? size : 0);
+        cardView.setShapeAppearanceModel(builder.build());
+
         // Add some margin if there is a shadow. Otherwise the shadow is hidden. The margin is 4 DP, which together with
         // the 4 DP margin of the header of the next section results in the correct spacing of 8 DP between cards.
         // The RecyclerView also has a top and bottom padding of 4 DP (combined with clipToPadding=false) for the very first

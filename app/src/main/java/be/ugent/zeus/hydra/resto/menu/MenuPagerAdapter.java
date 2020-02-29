@@ -13,7 +13,7 @@ import java.util.List;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.SingleDayFragment;
-import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
 import org.threeten.bp.LocalDate;
 
 /**

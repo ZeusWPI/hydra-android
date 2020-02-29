@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".association.preference.AssociationSelectionPreferenceFragment">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -16,12 +16,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:paddingTop="@dimen/activity_horizontal_margin"
                 android:paddingLeft="@dimen/activity_vertical_margin"
                 android:paddingRight="@dimen/activity_vertical_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="?textAppearanceBody1"
                 android:text="@string/event_pref_choose_associations_desc" />
 
             <androidx.appcompat.widget.SearchView
@@ -31,7 +32,7 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <FrameLayout
         android:layout_width="match_parent"

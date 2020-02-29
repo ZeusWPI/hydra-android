@@ -7,7 +7,7 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.HomeFeedFragment;
-import be.ugent.zeus.hydra.utils.PreferencesUtils;
+import be.ugent.zeus.hydra.common.utils.PreferencesUtils;
 
 /**
  * This will add a certain {@link Card.Type} to the list of hidden

@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.common.ui.widgets;
 import android.content.Context;
 import androidx.annotation.DrawableRes;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.res.TypedArrayUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,10 @@ import android.widget.TextView;
 import java.util.List;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.resto.RestoMeal;
 import be.ugent.zeus.hydra.resto.RestoMenu;
+import com.google.android.material.textview.MaterialTextView;
 
 /**
  * Helper class to display meals.
@@ -33,10 +35,12 @@ public class DisplayableMenu {
      */
     final RestoMenu menu;
     private final boolean selectable;
+    private final int normalStyle;
 
-    DisplayableMenu(RestoMenu menu, boolean selectable) {
+    DisplayableMenu(Context context, RestoMenu menu, boolean selectable) {
         this.menu = menu;
         this.selectable = selectable;
+        normalStyle = TypedArrayUtils.getAttr(context, R.attr.textAppearanceBody2, 0);
     }
 
     /**
@@ -133,7 +137,7 @@ public class DisplayableMenu {
      * @return The text view.
      */
     private TextView makeCenterTextView(Context context, String text, TableRow.LayoutParams lp) {
-        TextView tvCenter = new TextView(context);
+        TextView tvCenter = new MaterialTextView(context, null, normalStyle);
         tvCenter.setTextIsSelectable(selectable);
         tvCenter.setPadding(ViewUtils.convertDpToPixelInt(16, context), 0, 0, 0);
         tvCenter.setLayoutParams(lp);
@@ -164,7 +168,7 @@ public class DisplayableMenu {
 
             ImageView imageView = makeImageView(context, id);
             TextView tvCenter = makeCenterTextView(context, meal.getName(), lp);
-            TextView tvRight = new TextView(context);
+            TextView tvRight = new MaterialTextView(context, null, normalStyle);
             tvRight.setLayoutParams(lp);
             tvRight.setText(meal.getPrice());
             tvRight.setGravity(Gravity.END);

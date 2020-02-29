@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Locale;
 
 import be.ugent.zeus.hydra.common.converter.IntBoolean;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import com.squareup.moshi.Json;
 import java9.util.Objects;
 import java9.util.stream.Collectors;

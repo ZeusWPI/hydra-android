@@ -6,15 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
+import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 
 import static androidx.core.view.ViewCompat.requireViewById;
@@ -27,7 +28,7 @@ public class ReportingFragment extends SlideFragment {
     private static final String PRIVACY_POLICY = "https://hydra.ugent.be/privacy-policy.html";
 
     private RadioGroup analyticsChooser;
-    private Switch crashReportingChooser;
+    private SwitchMaterial crashReportingChooser;
 
     @Nullable
     @Override
@@ -44,6 +45,16 @@ public class ReportingFragment extends SlideFragment {
                 Toast.makeText(requireContext().getApplicationContext(), R.string.onboarding_reporting_required, Toast.LENGTH_SHORT)
                         .show());
         requireViewById(view, R.id.read_policy).setOnClickListener(v -> CustomTabsHelper.openUri(v.getContext(), Uri.parse(PRIVACY_POLICY)));
+        // In debug mode, analytics & crash reporting doesn't do anything.
+        if (BuildConfig.DEBUG) {
+            crashReportingChooser.setChecked(false);
+            crashReportingChooser.setEnabled(false);
+            MaterialRadioButton denyAnalyticsButton = requireViewById(view, R.id.disallowAnalytics);
+            MaterialRadioButton allowAnalyticsButton = requireViewById(view, R.id.allowAnalytics);
+            denyAnalyticsButton.setChecked(true);
+            denyAnalyticsButton.setEnabled(false);
+            allowAnalyticsButton.setEnabled(false);
+        }
     }
 
     @Override

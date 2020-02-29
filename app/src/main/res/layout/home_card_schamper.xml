@@ -39,21 +39,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/title"
-                    android:textSize="@dimen/material_typography_regular_title_text_size"
+                    style="?textAppearanceHeadline6"
                     tools:text="Dit is een schamper artikel! Met een lange titel van meerdere lijnen!" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/date"
-                    android:textColor="?android:attr/textColorSecondary"
+                    style="?textAppearanceBody2"
                     tools:text="Datum Gisteren" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/author"
-                    android:textColor="?android:attr/textColorSecondary"
+                    style="?textAppearanceBody2"
                     tools:text="Auteur artikel" />
             </LinearLayout>
 
@@ -71,6 +71,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 </androidx.cardview.widget.CardView>

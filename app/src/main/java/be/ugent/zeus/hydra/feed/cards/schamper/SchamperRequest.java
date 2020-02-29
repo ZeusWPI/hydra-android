@@ -10,7 +10,7 @@ import be.ugent.zeus.hydra.feed.HideableHomeFeedRequest;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
 import be.ugent.zeus.hydra.schamper.Article;
-import be.ugent.zeus.hydra.schamper.list.SchamperArticlesRequest;
+import be.ugent.zeus.hydra.schamper.SchamperArticlesRequest;
 import java9.util.stream.Stream;
 import java9.util.stream.StreamSupport;
 import org.threeten.bp.LocalDateTime;

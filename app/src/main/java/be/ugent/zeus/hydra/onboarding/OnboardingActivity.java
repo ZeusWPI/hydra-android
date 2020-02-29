@@ -31,22 +31,22 @@ public class OnboardingActivity extends IntroActivity {
                 .title(R.string.onboarding_welcome)
                 .description(R.string.onboarding_welcome_description)
                 .image(R.drawable.logo_onboarding_ugent)
-                .background(R.color.hydra_primary_colour)
-                .backgroundDark(R.color.hydra_primary_dark_colour)
+                .background(R.color.hydra_color_primary)
+                .backgroundDark(R.color.hydra_color_primary)
                 .build());
 
         // Check for permission for data collection
         addSlide(new FragmentSlide.Builder()
-                .background(R.color.hydra_primary_colour)
-                .backgroundDark(R.color.hydra_primary_dark_colour)
+                .background(R.color.hydra_color_primary)
+                .backgroundDark(R.color.hydra_color_primary)
                 .fragment(new ReportingFragment())
                 .build()
         );
 
         // Home feed selector
         addSlide(new FragmentSlide.Builder()
-                .background(R.color.hydra_primary_colour)
-                .backgroundDark(R.color.hydra_primary_dark_colour)
+                .background(R.color.hydra_color_primary)
+                .backgroundDark(R.color.hydra_color_primary)
                 .fragment(new HomeFeedFragment())
                 .build());
     }

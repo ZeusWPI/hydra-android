@@ -4,11 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/colorPrimary">
+    android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
         android:layout_height="?attr/actionBarSize">
 
         <ImageView
@@ -23,6 +23,6 @@
             tools:src="@drawable/logo_hydra"
             android:contentDescription="@string/content_desc_hydra_logo" />
 
-    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
 </FrameLayout>

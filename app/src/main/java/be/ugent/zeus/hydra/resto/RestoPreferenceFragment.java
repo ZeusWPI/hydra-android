@@ -3,10 +3,9 @@ package be.ugent.zeus.hydra.resto;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 
@@ -48,7 +47,7 @@ public class RestoPreferenceFragment extends PreferenceFragment {
         setPreferencesFromResource(R.xml.pref_resto, rootKey);
         requirePreference("pref_choice_resto_select").setVisible(false);
 
-        SelectableMetaViewModel metaViewModel = ViewModelProviders.of(this).get(SelectableMetaViewModel.class);
+        SelectableMetaViewModel metaViewModel = new ViewModelProvider(this).get(SelectableMetaViewModel.class);
         metaViewModel.getData().observe(this, SuccessObserver.with(this::receiveResto));
     }
 
@@ -74,7 +73,7 @@ public class RestoPreferenceFragment extends PreferenceFragment {
         if (preference instanceof TimePreference) {
             DialogFragment f = TimePreferenceDialogFragmentCompat.newInstance(preference.getKey());
             f.setTargetFragment(this, 0);
-            f.show(requireFragmentManager(), "time_dialog");
+            f.show(getParentFragmentManager(), "time_dialog");
             return;
         }
 

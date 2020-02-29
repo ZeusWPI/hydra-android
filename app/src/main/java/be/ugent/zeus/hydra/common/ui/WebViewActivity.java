@@ -18,8 +18,6 @@ import be.ugent.zeus.hydra.common.network.InterceptingWebViewClient;
  */
 public class WebViewActivity extends BaseActivity {
 
-    private static final String TAG = "WebViewActivity";
-
     public static final String URL = "be.ugent.zeus.hydra.url";
     public static final String TITLE = "be.ugent.zeus.hydra.title";
 

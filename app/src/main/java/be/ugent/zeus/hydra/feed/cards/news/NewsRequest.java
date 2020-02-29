@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
-import be.ugent.zeus.hydra.association.news.UgentNewsArticle;
-import be.ugent.zeus.hydra.association.news.UgentNewsRequest;
+import be.ugent.zeus.hydra.news.UgentNewsArticle;
+import be.ugent.zeus.hydra.news.UgentNewsRequest;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HideableHomeFeedRequest;

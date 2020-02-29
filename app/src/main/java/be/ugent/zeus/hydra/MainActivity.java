@@ -22,7 +22,7 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.association.event.list.EventFragment;
-import be.ugent.zeus.hydra.association.news.list.NewsFragment;
+import be.ugent.zeus.hydra.news.NewsFragment;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
@@ -32,7 +32,7 @@ import be.ugent.zeus.hydra.library.list.LibraryListFragment;
 import be.ugent.zeus.hydra.onboarding.OnboardingActivity;
 import be.ugent.zeus.hydra.preferences.PreferenceActivity;
 import be.ugent.zeus.hydra.resto.menu.RestoFragment;
-import be.ugent.zeus.hydra.schamper.list.SchamperFragment;
+import be.ugent.zeus.hydra.schamper.SchamperFragment;
 import be.ugent.zeus.hydra.urgent.UrgentFragment;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -40,7 +40,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import jonathanfinerty.once.Once;
 
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
+import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireArguments;
 
 /**
  * Main activity.
@@ -164,7 +164,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final String UFORA = "com.d2l.brightspace.student.android";
 
     @VisibleForTesting
-    static final String ONCE_ONBOARDING = "once_onboarding_v1";
+    static final String ONCE_ONBOARDING = "once_onboarding_v1_debug";
     private static final int ONBOARDING_REQUEST = 5;
 
     private static final String STATE_IS_ONBOARDING_OPEN = "state_is_onboarding_open";
@@ -464,7 +464,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         // The super method handles both the fragment back stack and finishing the activity. To know what was executed,
         // we need to add a listener.
-
         FragmentManager.OnBackStackChangedListener listener = () -> {
             Fragment current = getSupportFragmentManager().findFragmentById(R.id.content);
             Log.w(TAG, "onBackPressed: current fragment is somehow null? Ignoring update for now.");

@@ -17,19 +17,19 @@
         android:orientation="vertical"
         android:baselineAligned="false">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:drawablePadding="@dimen/card_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/name"
-                android:textSize="@dimen/material_list_normal_primary_text_size"
+                style="?textAppearanceBody1"
                 tools:text="Naam van het broodje" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/dates"
-                android:textSize="@dimen/material_list_normal_secondary_text_size"
+                style="?textAppearanceBody2"
                 tools:text="Naam van het broodje" />
 
     </LinearLayout>
@@ -39,13 +39,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            tools:text="Heel veel ingrediëten hier."
+        <com.google.android.material.textview.MaterialTextView
+            tools:text="Heel veel ingrediënten hier."
             android:id="@+id/sandwich_ingredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textIsSelectable="true"
-            android:textColor="?android:attr/textColorSecondary" />
+            style="?textAppearanceBody2" />
 
     </net.cachapa.expandablelayout.ExpandableLayout>
 

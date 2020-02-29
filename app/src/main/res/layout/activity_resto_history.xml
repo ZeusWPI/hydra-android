@@ -32,11 +32,12 @@
 
             <include layout="@layout/x_progress_bar" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:paddingLeft="@dimen/vertical_padding"
                 android:paddingRight="@dimen/vertical_padding"
                 android:visibility="gone"
                 android:id="@+id/error_view"
+                style="?textAppearanceBody2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -44,9 +45,8 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/bottom_toolbar"
-        android:background="?colorPrimary"
         android:paddingRight="88dp"
         android:paddingEnd="88dp"
         android:layout_width="match_parent"
@@ -54,7 +54,7 @@
         android:layout_gravity="bottom"
         android:layout_below="@id/scroll"
         android:ellipsize="marquee"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        style="?toolbarStyle"
         tools:ignore="RtlSymmetry">
 
         <Spinner
@@ -69,7 +69,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp" />
 
-    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <!--
         The padding should be 16dp, but for compatibility reasons, we use 6dp, together with useCompatPadding=true.
