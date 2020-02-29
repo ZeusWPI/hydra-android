@@ -41,55 +41,10 @@
     <color name="black">@color/material_color_black</color>
 
     <!--
-      ~ These are functional colours. This means they don't specify a colour itself, but rather a colour for
-      ~ a certain feature.
-     -->
-
-    <!-- The correspond to the theme attributes -->
-    <!-- If possible, use ?attr:colorAccent or similar -->
-    <!-- {@deprecated} -->
-    <color name="hydra_primary_color">@color/hydra_color_primary</color>
-    <!-- {@deprecated} -->
-    <color name="hydra_primary_color_dark">@color/hydra_color_primary_variant_dark</color>
-    <!-- {@deprecated} -->
-    <color name="hydra_accent_color">@color/hydra_primary_color_dark</color>
-
-    <!-- Text colours -->
-    <!-- {@deprecated} -->
-    <color name="hydra_text_primary">@color/material_typography_primary_text_color_dark</color>
-    <!-- {@deprecated} -->
-    <color name="hydra_text_secondary">@color/material_typography_secondary_text_color_dark</color>
-    <!-- {@deprecated} -->
-    <color name="hydra_text_accent">@color/hydra_primary_color</color>
-
-    <!-- Backgrounds -->
-    <!-- {@deprecated} -->
-    <color name="hydra_background">@color/material_grey_100</color>
-    <!-- {@deprecated} -->
-    <color name="hydra_background_long_text">@color/material_color_white</color>
-
-    <!-- Custom views -->
-    <!-- {@deprecated} -->
-    <color name="hydra_now_toolbar_icon_tint">@color/hydra_color_primary_variant_light</color>
-
-    <!--
         ~ The grey colour for the launcher shortcuts background.
         ~ As seen here: https://material.io/guidelines/style/icons.html#icons-app-shortcut-icons,
         ~ the colour must be Solid fill of Material Grey 100 (#F5F5F5)
         -->
     <color name="launcher_shortcut_background">@color/material_color_grey_100</color>
-    <color name="hydra_launcher_color">@color/hydra_primary_color</color>
-
-    <color name="hydra_item_selected_background" tools:keep="@color/hydra_item_selected_background">@color/white</color>
-
-    <!--
-       ~ Custom colours for the Round card view.
-       ~ Normal card views do this automatically, maybe we should do that as well
-       -->
-    <color name="hydra_card_background">@color/cardview_light_background</color>
-
-    <!-- Background of the navigation drawer -->
-
-    <!-- The text colour of sub headers -->
-    <color name="hydra_subhead_text_color">@color/hydra_primary_color</color>
+    <color name="hydra_launcher_color">@color/hydra_color_primary</color>
 </resources>

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 
 /**
@@ -158,8 +159,7 @@ public class CustomTabsHelper {
     public static void openUri(Context context, Uri uri) {
         if (hasSupport(context)) {
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            //noinspection deprecation
-            builder.setToolbarColor(context.getResources().getColor(R.color.hydra_primary_color));
+            builder.setToolbarColor(ColourUtils.resolveColour(context, R.attr.colorPrimarySurface));
             CustomTabsIntent customTabsIntent = builder.build();
             customTabsIntent.launchUrl(context, uri);
         } else {
