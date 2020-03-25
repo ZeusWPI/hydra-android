@@ -8,6 +8,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.utils.ColourUtils;
 
@@ -24,6 +25,12 @@ public class OverviewFragment extends PreferenceFragmentCompat {
         PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
 
         for (PreferenceEntry entry : PreferenceEntry.values()) {
+
+            // Skip data reporting if there is no data reporting.
+            if (entry == PreferenceEntry.DATA && !Reporting.hasReportingOptions()) {
+                continue;
+            }
+
             Preference preference = new Preference(context);
             preference.setTitle(entry.getName());
             preference.setSummary(entry.getDescription());
@@ -38,6 +45,7 @@ public class OverviewFragment extends PreferenceFragmentCompat {
                 return true;
             });
             screen.addPreference(preference);
+
         }
         setPreferenceScreen(screen);
     }

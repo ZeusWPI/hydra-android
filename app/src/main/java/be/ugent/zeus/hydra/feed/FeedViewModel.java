@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.feed;
 
 import android.app.Application;
+import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -13,7 +14,6 @@ import be.ugent.zeus.hydra.common.ui.RefreshViewModel;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.commands.CommandResult;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
-import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 /**
  * @author Niko Strijbol

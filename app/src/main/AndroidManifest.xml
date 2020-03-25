@@ -27,19 +27,6 @@
         android:networkSecurityConfig="@xml/network_security_config"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
 
-        <!-- Disable Firebase Reporting until explicitly started -->
-        <meta-data
-            android:name="firebase_analytics_collection_enabled"
-            android:value="false" />
-        <!-- Disables automatic initialisation of Crashlytics. -->
-        <meta-data
-            android:name="firebase_crashlytics_collection_enabled"
-            android:value="false" />
-        <!-- The Maps API key -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${google_maps_key}" />
-
         <!-- Main activity -->
         <activity
             android:name=".MainActivity"

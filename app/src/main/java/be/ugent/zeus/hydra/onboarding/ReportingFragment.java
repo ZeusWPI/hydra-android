@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.Manager;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -67,9 +67,9 @@ public class ReportingFragment extends SlideFragment {
         super.onPause();
         // Save settings if present.
         if (canGoForward()) {
-            Reporting.saveAnalyticsPermission(requireContext(), allowsAnalytics());
-            Reporting.saveCrashReportingPermission(requireContext(), allowsCrashReporting());
-            Reporting.syncPermissions(requireContext());
+            Manager.saveAnalyticsPermission(requireContext(), allowsAnalytics());
+            Manager.saveCrashReportingPermission(requireContext(), allowsCrashReporting());
+            Manager.syncPermissions(requireContext());
         }
     }
 

@@ -35,13 +35,15 @@ public class OnboardingActivity extends IntroActivity {
                 .backgroundDark(R.color.hydra_color_primary)
                 .build());
 
-        // Check for permission for data collection
-        addSlide(new FragmentSlide.Builder()
-                .background(R.color.hydra_color_primary)
-                .backgroundDark(R.color.hydra_color_primary)
-                .fragment(new ReportingFragment())
-                .build()
-        );
+        if (Reporting.hasReportingOptions()) {
+            // Check for permission for data collection
+            addSlide(new FragmentSlide.Builder()
+                    .background(R.color.hydra_color_primary)
+                    .backgroundDark(R.color.hydra_color_primary)
+                    .fragment(new ReportingFragment())
+                    .build()
+            );
+        }
 
         // Home feed selector
         addSlide(new FragmentSlide.Builder()
