@@ -4,8 +4,10 @@ jdk: openjdk11
 
 # See https://stackoverflow.com/a/51644855/1831741 for the Java options
 env:
-  - COMMAND=testDebug
-  - COMMAND=testRelease
+  - COMMAND=testOpenDebug
+  - COMMAND=testOpenRelease
+  - COMMAND=testStoreDebug
+  - COMMAND=testStoreRelease
 
 android:
   components:
