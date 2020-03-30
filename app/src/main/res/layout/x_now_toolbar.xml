@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!-- Cannot have ID due to bug in AS -->
+<!-- android:id="@+id/card_description_wrapper" -->
 <merge
-    android:id="@+id/card_description_wrapper"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"

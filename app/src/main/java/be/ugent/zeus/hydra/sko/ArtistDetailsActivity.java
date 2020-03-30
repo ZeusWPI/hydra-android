@@ -8,9 +8,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
-
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import be.ugent.zeus.hydra.R;
@@ -19,6 +17,7 @@ import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
+import be.ugent.zeus.hydra.databinding.ActivitySkoArtistBinding;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -26,13 +25,14 @@ import com.squareup.picasso.Picasso;
  *
  * @author Niko Strijbol
  */
-public class ArtistDetailsActivity extends BaseActivity {
+public class ArtistDetailsActivity extends BaseActivity<ActivitySkoArtistBinding> {
 
     private static final String PARCEL_ARTIST = "artist";
 
     private Artist artist;
 
-    public static Intent start(Context context, Artist artist) {
+    @NonNull
+    public static Intent start(@NonNull Context context, @NonNull Artist artist) {
         Intent intent = new Intent(context, ArtistDetailsActivity.class);
         intent.putExtra(PARCEL_ARTIST, artist);
         return intent;
@@ -41,38 +41,34 @@ public class ArtistDetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sko_artist);
+        setContentView(ActivitySkoArtistBinding::inflate);
 
         Intent intent = getIntent();
         artist = intent.getParcelableExtra(PARCEL_ARTIST);
+        assert artist != null;
 
-        TextView title = findViewById(R.id.title);
-        TextView date = findViewById(R.id.date);
-        TextView content = findViewById(R.id.content);
-        ImageView headerImage = findViewById(R.id.header_image);
-
-        title.setText(artist.getName());
+        binding.title.setText(artist.getName());
         setTitle(artist.getName());
 
         if (artist.getImage() != null) {
-            Picasso.get().load(artist.getImage()).fit().centerInside().into(headerImage);
+            Picasso.get().load(artist.getImage()).fit().centerInside().into(binding.headerImage);
         }
 
-        date.setText(artist.getDisplayDate(this));
+        binding.date.setText(artist.getDisplayDate(this));
 
         if (!TextUtils.isEmpty(artist.getDescription())) {
-            content.setText(artist.getDescription());
+            binding.content.setText(artist.getDescription());
         } else {
-            content.setText(R.string.sko_artist_no_content);
+            binding.content.setText(R.string.sko_artist_no_content);
         }
 
-        findViewById(R.id.sko_artist_search_web).setOnClickListener(view -> {
+        binding.skoArtistSearchWeb.setOnClickListener(view -> {
             Intent searchIntent = new Intent(Intent.ACTION_WEB_SEARCH);
             searchIntent.putExtra(SearchManager.QUERY, artist.getName());
             NetworkUtils.maybeLaunchIntent(ArtistDetailsActivity.this, searchIntent);
         });
 
-        findViewById(R.id.sko_artist_search_music).setOnClickListener(view -> {
+        binding.skoArtistSearchMusic.setOnClickListener(view -> {
             Intent musicIntent = new Intent(MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH);
             musicIntent.putExtra(MediaStore.EXTRA_MEDIA_FOCUS, MediaStore.Audio.Artists.ENTRY_CONTENT_TYPE);
             musicIntent.putExtra(MediaStore.EXTRA_MEDIA_ARTIST, artist.getName());

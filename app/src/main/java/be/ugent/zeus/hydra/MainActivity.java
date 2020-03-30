@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
-
 import androidx.annotation.*;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
@@ -22,19 +20,19 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.association.event.list.EventFragment;
-import be.ugent.zeus.hydra.news.NewsFragment;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.databinding.ActivityMainBinding;
 import be.ugent.zeus.hydra.feed.HomeFeedFragment;
 import be.ugent.zeus.hydra.info.InfoFragment;
 import be.ugent.zeus.hydra.library.list.LibraryListFragment;
+import be.ugent.zeus.hydra.news.NewsFragment;
 import be.ugent.zeus.hydra.onboarding.OnboardingActivity;
 import be.ugent.zeus.hydra.preferences.PreferenceActivity;
 import be.ugent.zeus.hydra.resto.menu.RestoFragment;
 import be.ugent.zeus.hydra.schamper.SchamperFragment;
 import be.ugent.zeus.hydra.urgent.UrgentFragment;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -153,7 +151,7 @@ import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireArguments;
  *
  * @see [1] <a href="https://youtu.be/Sww4omntVjs?t=13m46s">Android Design in Action: Navigation Anti-Patterns, pattern 6</a>
  */
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity<ActivityMainBinding> implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String ARG_TAB = "argTab";
     @SuppressWarnings("WeakerAccess")
@@ -179,11 +177,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final String SHORTCUT_EVENTS = "events";
     private static final String SHORTCUT_LIBRARIES = "libraries";
 
-    private DrawerLayout drawer;
-    private ProgressBar drawerLoader;
     private ActionBarDrawerToggle toggle;
-    private NavigationView navigationView;
-    private AppBarLayout appBarLayout;
 
     private boolean isOnboardingOpen;
 
@@ -197,7 +191,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(ActivityMainBinding::inflate);
 
         if (savedInstanceState != null) {
             isOnboardingOpen = savedInstanceState.getBoolean(STATE_IS_ONBOARDING_OPEN, false);
@@ -220,15 +214,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void initialize(@Nullable Bundle savedInstanceState) {
-        drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.navigation_view);
-        appBarLayout = findViewById(R.id.app_bar_layout);
-        drawerLoader = findViewById(R.id.drawer_loading);
 
         // Register the listener for navigation events from the drawer.
-        navigationView.setNavigationItemSelectedListener(this);
+        binding.navigationView.setNavigationItemSelectedListener(this);
 
-        toggle = new ActionBarDrawerToggle(this, drawer, findViewById(R.id.toolbar), R.string.action_drawer_open, R.string.action_drawer_close) {
+        toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar, R.string.action_drawer_open, R.string.action_drawer_close) {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, 0); // this disables the animation
@@ -240,8 +230,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 Once.markDone(ONCE_DRAWER);
             }
         };
-        drawer.addDrawerListener(toggle);
-        drawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+        binding.drawerLayout.addDrawerListener(toggle);
+        binding.drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerClosed(View drawerView) {
                 // This is used to prevent lag during closing of the navigation drawer.
@@ -257,23 +247,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             // If we get a position, use that (for the shortcuts)
             if (getIntent().hasExtra(ARG_TAB_SHORTCUT)) {
                 int position = getIntent().getIntExtra(ARG_TAB_SHORTCUT, 0);
-                MenuItem menuItem = navigationView.getMenu().getItem(position);
+                MenuItem menuItem = binding.navigationView.getMenu().getItem(position);
                 selectDrawerItem(menuItem, NavigationSource.INITIALISATION);
             } else {
                 // Get start position & select it
                 int start = getIntent().getIntExtra(ARG_TAB, R.id.drawer_feed);
-                selectDrawerItem(navigationView.getMenu().findItem(start), NavigationSource.INITIALISATION);
+                selectDrawerItem(binding.navigationView.getMenu().findItem(start), NavigationSource.INITIALISATION);
             }
         } else { //Update title, since this is not saved apparently.
             //Current fragment
             FragmentManager manager = getSupportFragmentManager();
             Fragment current = manager.findFragmentById(R.id.content);
-            setTitle(navigationView.getMenu().findItem(getFragmentMenuId(current)).getTitle());
+            setTitle(binding.navigationView.getMenu().findItem(getFragmentMenuId(current)).getTitle());
         }
 
         // If this is the first time, open the drawer.
         if (!Once.beenDone(ONCE_DRAWER)) {
-            drawer.openDrawer(GravityCompat.START);
+            binding.drawerLayout.openDrawer(GravityCompat.START);
         }
     }
 
@@ -308,13 +298,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         // First check if it are settings, then we don't update anything.
         if (menuItem.getItemId() == R.id.drawer_pref) {
-            drawer.closeDrawer(GravityCompat.START);
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
             PreferenceActivity.start(this, null);
             return;
         }
 
         if (menuItem.getItemId() == R.id.drawer_ufora) {
-            drawer.closeDrawer(GravityCompat.START);
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
             Intent launchIntent = getPackageManager().getLaunchIntentForPackage(UFORA);
             if (launchIntent != null) {
                 startActivity(launchIntent);
@@ -379,13 +369,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         // Show the toolbar, in case the new fragment is not scrollable. We must do this before the fragment
         // begins animating, otherwise glitches can occur.
-        appBarLayout.setExpanded(true);
+        binding.appBarLayout.setExpanded(true);
 
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             // Hide the current fragment now, similar to how GMail handles things.
             if (current != null && current.getView() != null) {
                 current.getView().setVisibility(View.GONE);
-                drawerLoader.setVisibility(View.VISIBLE);
+                binding.drawerLoading.progressBar.setVisibility(View.VISIBLE);
             }
             // Since there will be a delay, notify the fragment to prevent lingering snackbars or action modes.
             if (current instanceof ScheduledRemovalListener) {
@@ -412,7 +402,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Reporting.getTracker(this)
                 .setCurrentScreen(this, item.getTitle().toString(), fragment.getClass().getSimpleName());
         // Close the navigation drawer
-        drawer.closeDrawer(GravityCompat.START);
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
     }
 
     /**
@@ -447,7 +437,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         transaction.commitAllowingStateLoss();
 
         // Hide the loader.
-        drawerLoader.setVisibility(View.GONE);
+        binding.drawerLoading.progressBar.setVisibility(View.GONE);
     }
 
     /**
@@ -457,8 +447,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onBackPressed() {
         // If the drawer is open, close it.
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
             return;
         }
 
@@ -470,7 +460,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (current == null) {
                 return;
             }
-            MenuItem item = navigationView.getMenu().findItem(getFragmentMenuId(current));
+            MenuItem item = binding.navigationView.getMenu().findItem(getFragmentMenuId(current));
             updateDrawer(current, item);
         };
         // We need to listen to the back stack to update the drawer.
@@ -553,7 +543,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (intent.hasExtra(ARG_TAB)) {
             setIntent(intent);
             int start = intent.getIntExtra(ARG_TAB, R.id.drawer_feed);
-            selectDrawerItem(navigationView.getMenu().findItem(start), NavigationSource.INNER);
+            selectDrawerItem(binding.navigationView.getMenu().findItem(start), NavigationSource.INNER);
         }
     }
 

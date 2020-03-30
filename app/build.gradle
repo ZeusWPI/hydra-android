@@ -39,6 +39,10 @@ android {
         }
     }
 
+    viewBinding {
+        enabled = true
+    }
+
     flavorDimensions "distribution"
 
     productFlavors {

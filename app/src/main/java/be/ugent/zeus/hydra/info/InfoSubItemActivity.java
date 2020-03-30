@@ -5,10 +5,11 @@ import android.os.Bundle;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.databinding.ActivityInfoSubItemBinding;
 
 import java.util.ArrayList;
 
-public class InfoSubItemActivity extends BaseActivity {
+public class InfoSubItemActivity extends BaseActivity<ActivityInfoSubItemBinding> {
 
     public static final String INFO_TITLE = "be.ugent.zeus.hydra.infoTitle";
     public static final String INFO_ITEMS = "be.ugent.zeus.hydra.infoItems";
@@ -16,7 +17,7 @@ public class InfoSubItemActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_info_sub_item);
+        setContentView(ActivityInfoSubItemBinding::inflate);
         // Display the fragment as the main content.
         InfoFragment fragment = new InfoFragment();
 

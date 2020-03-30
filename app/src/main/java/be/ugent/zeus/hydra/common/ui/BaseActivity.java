@@ -1,29 +1,44 @@
 package be.ugent.zeus.hydra.common.ui;
 
 import android.graphics.drawable.Drawable;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import androidx.annotation.ColorInt;
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.view.Menu;
+import androidx.core.app.ActivityCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.viewbinding.ViewBinding;
+
+import java9.util.function.Function;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.utils.ColourUtils;
 
 /**
  * The base activity. Contains code related to common things for almost all activities.
+ *
  * Such features include:
  * <ul>
  *     <li>Support for the toolbar</li>
  *     <li>Better Google Reporting support</li>
+ *     <li>View binding, see below.</li>
  * </ul>
+ *
+ *
+ * <h2>View binding</h2>
+ *
+ * This activity requires the use of view binding. To set up the view on the
+ * activity, call {@link #setContentView(Function)}, to which you must pass
+ * the view binding constructor.
  *
  * @author Niko Strijbol
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity<B extends ViewBinding> extends AppCompatActivity {
+
+    protected B binding;
 
     /**
      * Returns the action bar of this activity. If the ActionBar is not present or the method is called at the wrong
@@ -42,15 +57,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    private Toolbar findToolbar() {
-        return findViewById(R.id.toolbar);
-    }
-
     /**
      * Set the toolbar as action bar, and set it up to have an up button.
      */
     private void setUpActionBar() {
-        Toolbar toolbar = findToolbar();
+        Toolbar toolbar = ActivityCompat.requireViewById(this, R.id.toolbar);
 
         setSupportActionBar(toolbar);
 
@@ -60,9 +71,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void setContentView(@LayoutRes int layoutResID) {
-        super.setContentView(layoutResID);
+    public void setContentView(Function<LayoutInflater, B> binder) {
+        this.binding = binder.apply(getLayoutInflater());
+        setContentView(this.binding.getRoot());
         setUpActionBar();
     }
 

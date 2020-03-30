@@ -275,7 +275,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <include layout="@layout/x_progress_bar" />
+                <include
+                    layout="@layout/x_progress_bar"
+                    android:id="@+id/progress_bar" />
 
             </FrameLayout>
 

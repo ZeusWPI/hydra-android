@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import androidx.annotation.Nullable;
 
-import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.databinding.ActivityPreferencesBinding;
 import be.ugent.zeus.hydra.preferences.PreferenceActivity;
 import be.ugent.zeus.hydra.preferences.PreferenceEntry;
 
@@ -15,12 +15,12 @@ import be.ugent.zeus.hydra.preferences.PreferenceEntry;
  *
  * @author Niko Strijbol
  */
-public class HomeFeedPrefActivity extends BaseActivity {
+public class HomeFeedPrefActivity extends BaseActivity<ActivityPreferencesBinding> {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preferences_homefeed);
+        setContentView(ActivityPreferencesBinding::inflate);
     }
 
     @Override

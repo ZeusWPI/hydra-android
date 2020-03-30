@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -18,6 +17,7 @@ import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
+import be.ugent.zeus.hydra.databinding.ActivityRestoLocationBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
 
-public class RestoLocationActivity extends BaseActivity implements OnMapReadyCallback {
+public class RestoLocationActivity extends BaseActivity<ActivityRestoLocationBinding> implements OnMapReadyCallback {
 
     private static final String TAG = "RestoLocationActivity";
 
@@ -38,21 +38,19 @@ public class RestoLocationActivity extends BaseActivity implements OnMapReadyCal
 
     private GoogleMap map;
     private RestoMeta meta;
-    private ProgressBar progressBar;
     private MetaViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_resto_location);
-        progressBar = findViewById(R.id.progress_bar);
+        setContentView(ActivityRestoLocationBinding::inflate);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         viewModel = new ViewModelProvider(this).get(MetaViewModel.class);
         viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(this, new ProgressObserver<>(progressBar));
+        viewModel.getData().observe(this, new ProgressObserver<>(binding.progressBar));
         viewModel.getData().observe(this, SuccessObserver.with(this::receiveData));
     }
 
@@ -122,7 +120,7 @@ public class RestoLocationActivity extends BaseActivity implements OnMapReadyCal
             );
         }
         centerDefault();
-        progressBar.setVisibility(View.GONE);
+        binding.progressBar.progressBar.setVisibility(View.GONE);
     }
 
     private void centerDefault() {
