@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra;
 
 import android.content.Context;
 
-import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.common.reporting.Manager;
 import jonathanfinerty.once.Once;
 
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.setupPicasso;
@@ -30,9 +30,9 @@ public class TestApp extends HydraApplication {
     protected void onCreateInitialise() {
         Once.initialise(this);
 
-        Reporting.saveAnalyticsPermission(this, false);
-        Reporting.saveCrashReportingPermission(this, false);
-        Reporting.syncPermissions(this);
+        Manager.saveAnalyticsPermission(this, false);
+        Manager.saveCrashReportingPermission(this, false);
+        Manager.syncPermissions(this);
 
         setupPicasso();
 

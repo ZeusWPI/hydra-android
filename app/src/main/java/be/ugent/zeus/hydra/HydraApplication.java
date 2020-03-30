@@ -7,6 +7,7 @@ import android.os.StrictMode;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import be.ugent.zeus.hydra.common.reporting.Manager;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Tracker;
 import be.ugent.zeus.hydra.preferences.ThemeFragment;
@@ -53,7 +54,7 @@ public class HydraApplication extends Application {
         }
 
         // Enable or disable analytics.
-        Reporting.syncPermissions(this);
+        Manager.syncPermissions(this);
 
         // Set the theme.
         AppCompatDelegate.setDefaultNightMode(ThemeFragment.getNightMode(this));

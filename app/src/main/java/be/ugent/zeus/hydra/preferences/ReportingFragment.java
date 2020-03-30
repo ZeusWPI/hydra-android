@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.preference.PreferenceFragmentCompat;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.reporting.Manager;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 
 /**
@@ -29,6 +30,6 @@ public class ReportingFragment extends PreferenceFragmentCompat {
     @Override
     public void onPause() {
         super.onPause();
-        Reporting.syncPermissions(getActivity());
+        Manager.syncPermissions(getActivity());
     }
 }

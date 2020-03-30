@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.preferences;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.preference.Preference;
 
@@ -11,7 +10,7 @@ import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.PreferenceFragment;
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
+import be.ugent.zeus.hydra.common.ui.WebViewActivity;
 
 /**
  * @author Niko Strijbol
@@ -32,8 +31,10 @@ public class AboutFragment extends PreferenceFragment {
         ));
 
         requirePreference("pref_about_licenses").setOnPreferenceClickListener(preference -> {
-            OssLicensesMenuActivity.setActivityTitle(getString(R.string.pref_licenses_title));
-            startActivity(new Intent(getActivity(), OssLicensesMenuActivity.class));
+            Intent intent = new Intent(requireActivity(), WebViewActivity.class);
+            intent.putExtra(WebViewActivity.TITLE, getString(R.string.pref_licenses_title));
+            intent.putExtra(WebViewActivity.URL, "file:///android_res/raw/third_party_licenses.html");
+            startActivity(intent);
             return false;
         });
 

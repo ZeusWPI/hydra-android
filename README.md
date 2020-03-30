@@ -21,6 +21,11 @@ If you want to use the Google Maps integration, you will need the API keys. You 
 
 After you've obtained the keys, you will need to copy the file `app/secrets.properties.example` to `app/secrets.properties` and insert the correct keys.
 
+### Build variants
+
+Hydra comes in two build variants: `store` and `open`.
+The `store` variant is the main variant, and used for the Play Store and is the recommended version for most people. The `open` variant only uses open-source software (e.g. OpenStreetMaps instead of Google Maps). Since the open variant contains no crash reporting functionality, crashes from that version not accompanied by a stack trace will not be considered.
+
 ### Useful links
 - [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/)
 - [Android Developer Guides](https://developer.android.com/guide/)

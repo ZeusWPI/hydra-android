@@ -1,0 +1,18 @@
+plugins {
+    id 'groovy'
+    id 'java'
+    id 'idea'
+}
+
+repositories {
+    google()
+    jcenter()
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:3.6.1'
+    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.mockito:mockito-core:3.2.4'
+}
