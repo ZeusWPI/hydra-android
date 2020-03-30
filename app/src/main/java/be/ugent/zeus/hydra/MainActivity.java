@@ -375,7 +375,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
             // Hide the current fragment now, similar to how GMail handles things.
             if (current != null && current.getView() != null) {
                 current.getView().setVisibility(View.GONE);
-                binding.drawerLoading.progressBar.setVisibility(View.VISIBLE);
+                binding.progressBar.progressBar.setVisibility(View.VISIBLE);
             }
             // Since there will be a delay, notify the fragment to prevent lingering snackbars or action modes.
             if (current instanceof ScheduledRemovalListener) {
@@ -437,7 +437,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         transaction.commitAllowingStateLoss();
 
         // Hide the loader.
-        binding.drawerLoading.progressBar.setVisibility(View.GONE);
+        binding.progressBar.progressBar.setVisibility(View.GONE);
     }
 
     /**

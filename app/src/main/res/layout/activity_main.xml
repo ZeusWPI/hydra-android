@@ -24,11 +24,13 @@
                 android:layout_height="?attr/actionBarSize"
                 style="?toolbarStyle"
                 app:layout_scrollFlags="scroll|enterAlways|snap">
+
                 <Spinner
                     android:visibility="gone"
                     android:id="@+id/spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+
                 <ProgressBar
                     android:visibility="gone"
                     android:id="@+id/spinner_progress"
@@ -42,7 +44,7 @@
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabMode="fixed"/>
+                app:tabMode="fixed" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -53,7 +55,10 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <include android:visibility="gone" layout="@layout/x_progress_bar" android:id="@+id/drawer_loading" />
+            <include
+                android:visibility="gone"
+                layout="@layout/x_progress_bar"
+                android:id="@+id/progress_bar" />
         </FrameLayout>
 
         <!-- The menu is a shortcut, because it is only used by the RestoFragment for now. -->
