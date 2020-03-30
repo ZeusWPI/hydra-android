@@ -1,4 +1,4 @@
-# Hydra (Android) [![Build Status](https://travis-ci.org/ZeusWPI/hydra-android.svg?branch=development)](https://travis-ci.org/ZeusWPI/hydra-android)
+# Hydra (Android) ![Android CI](https://github.com/ZeusWPI/hydra-android/workflows/Android%20CI/badge.svg?branch=development)
 
 <a href='https://play.google.com/store/apps/details?id=be.ugent.zeus.hydra&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="80px"/></a>
 
