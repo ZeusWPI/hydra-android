@@ -25,9 +25,9 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.gradle/caches
-          key: debug-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          key: ${{ matrix.command }}-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: |
-            debug-${{ runner.os }}-gradle-
+            ${{ matrix.command }}-${{ runner.os }}-gradle-
       - name: Test with Gradle
         uses: eskatos/gradle-command-action@v1
         with:
