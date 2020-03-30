@@ -56,6 +56,8 @@ class DependencyTask extends DefaultTask {
 
     private static final logger = LoggerFactory.getLogger(DependencyTask.class)
 
+    protected String variant
+
     @Input
     public ConfigurationContainer configurations
 
@@ -104,8 +106,10 @@ class DependencyTask extends DefaultTask {
 
     protected void updateDependencyArtifacts() {
         for (Configuration configuration : configurations) {
-            Set<ResolvedArtifact> artifacts = getResolvedArtifacts(
-                    configuration)
+            if (!isForVariant(configuration)) {
+                continue
+            }
+            Set<ResolvedArtifact> artifacts = getResolvedArtifacts(configuration)
             if (artifacts == null) {
                 continue
             }
@@ -138,9 +142,8 @@ class DependencyTask extends DefaultTask {
      * @return true if configuration can be resolved or the api is lower than
      * 3.3, otherwise false.
      */
-    protected boolean canBeResolved(Configuration configuration) {
-        return configuration.metaClass.respondsTo(configuration,
-                "isCanBeResolved") ? configuration.isCanBeResolved() : true
+    protected static boolean canBeResolved(Configuration configuration) {
+        return configuration.metaClass.respondsTo(configuration, "isCanBeResolved") ? configuration.isCanBeResolved() : true
     }
 
     /**
@@ -150,7 +153,7 @@ class DependencyTask extends DefaultTask {
      * configurations are either testCompile or androidTestCompile, otherwise
      * false.
      */
-    protected boolean isTest(Configuration configuration) {
+    protected static boolean isTest(Configuration configuration) {
         boolean isTestConfiguration = (
                 configuration.name.startsWith(TEST_PREFIX) ||
                         configuration.name.startsWith(ANDROID_TEST_PREFIX))
@@ -165,7 +168,7 @@ class DependencyTask extends DefaultTask {
      * @param configuration
      * @return true if the configuration is in the set of @link #BINARY_DEPENDENCIES
      */
-    protected boolean isPackagedDependency(Configuration configuration) {
+    protected static boolean isPackagedDependency(Configuration configuration) {
         boolean isPackagedDependency = PACKAGED_DEPENDENCIES_PREFIXES.any {
             configuration.name.startsWith(it)
         }
@@ -179,16 +182,17 @@ class DependencyTask extends DefaultTask {
         return isPackagedDependency
     }
 
-    protected Set<ResolvedArtifact> getResolvedArtifacts(
-            Configuration configuration) {
+    protected boolean isForVariant(Configuration configuration) {
+        return configuration.name.startsWith(this.variant)
+    }
+
+    protected Set<ResolvedArtifact> getResolvedArtifacts(Configuration configuration) {
         /**
          * skip the configurations that, cannot be resolved in
          * newer version of gradle api, are tests, or are not packaged dependencies.
          */
 
-        if (!canBeResolved(configuration)
-                || isTest(configuration)
-                || !isPackagedDependency(configuration)) {
+        if (!canBeResolved(configuration) || isTest(configuration) || !isPackagedDependency(configuration)) {
             return null
         }
 

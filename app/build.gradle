@@ -129,7 +129,7 @@ dependencies {
     //noinspection GradleDependency
     implementation 'com.squareup.okhttp3:okhttp:3.12.10'
     implementation 'com.squareup.moshi:moshi:1.9.2'
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.3'
     implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'

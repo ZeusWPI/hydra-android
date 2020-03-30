@@ -16,6 +16,7 @@
 
 package be.ugent.zeus.hydra.licenses
 
+import com.sun.jndi.toolkit.url.Uri
 import groovy.json.JsonSlurper
 import groovy.xml.MarkupBuilder
 import org.gradle.api.DefaultTask
@@ -246,28 +247,68 @@ class LicensesTask extends DefaultTask {
     }
 
     protected void writeMetadata() {
-        def html = new MarkupBuilder(html.newWriter(UTF_8))
+
+        // Generate the correct map with content.
+        def newMap = [:]
+
+        def keys = LicenseMap.instance.mapping.keySet()
+        for (entry in licensesMap) {
+
+            if (entry.value in keys || entry.key in keys) {
+                newMap[entry.key] = getLicenseText(entry)
+                if (newMap[entry.key] == null) {
+                    newMap.remove(entry.key)
+                }
+            } else {
+                // If more than 100, assume we have an url.
+
+                if (isUrl(entry.value)) {
+                    logger.warn("Cound not find library text for ${entry.key}")
+                    logger.warn("URL is ${entry}")
+                }
+                newMap[entry.key] = entry.value
+            }
+        }
+
+        def writer = html.newWriter(UTF_8)
+        def html = new MarkupBuilder(writer)
         html.doubleQuotes = true
         html.expandEmptyElements = true
         html.omitEmptyAttributes = false
         html.omitNullAttributes = false
+        html.mkp.yieldUnescaped "<!DOCTYPE html>"
         html.html {
             head {
                 title("Licenties")
             }
             body {
-                for (entry in licensesMap) {
+                newMap.each { e ->
                     details {
-                        summary(entry.key)
-                        pre(entry.value)
+                        summary(e.key)
+                        pre(e.value)
                     }
                 }
             }
         }
+        writer.close()
     }
 
     private static ModuleComponentIdentifier createModuleComponentIdentifier(String group, String name, String version) {
         return new DefaultModuleComponentIdentifier(DefaultModuleIdentifier.newId(group, name), version)
+    }
+
+    private getLicenseText(def entry) {
+        String name = LicenseMap.instance.mapping.get(entry.value, LicenseMap.instance.mapping[entry.key])
+        return getClass().getResource("/license/${name}")?.text
+    }
+
+    private static boolean isUrl(String text) {
+        try {
+            URI.create(text)
+            return true
+        } catch (IllegalArgumentException ignored) {
+            return false
+        }
     }
 
 }

@@ -21,18 +21,22 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class OssLicensesPlugin implements Plugin<Project> {
-    void apply(Project project) {
-        def getDependencies = project.tasks.create("getDependencies", DependencyTask)
+
+    private static generate(Project project, String variant) {
+
+        def getDependencies = project.tasks.create("get${variant.capitalize()}Dependencies", DependencyTask)
         def dependencyOutput = new File(project.buildDir, "generated/third_party_licenses")
         def generatedJson = new File(dependencyOutput, "dependencies.json")
         getDependencies.configurations = project.getConfigurations()
         getDependencies.outputDir = dependencyOutput
         getDependencies.outputFile = generatedJson
+        getDependencies.variant = variant
 
         def resourceOutput = new File(dependencyOutput, "/res")
         def outputDir = new File(resourceOutput, "/raw")
         def licensesFile = new File(outputDir, "third_party_licenses.html")
-        def licenseTask = project.tasks.create("generateLicenses", LicensesTask)
+
+        def licenseTask = project.tasks.create("generate${variant.capitalize()}Licenses", LicensesTask)
 
         licenseTask.dependenciesJson = generatedJson
         licenseTask.outputDir = outputDir
@@ -44,7 +48,24 @@ class OssLicensesPlugin implements Plugin<Project> {
 
         licenseTask.dependsOn(getDependencies)
 
+
+        def cleanupTask = project.tasks.create("${variant}LicensesCleanUp", LicensesCleanUpTask)
+        cleanupTask.dependencyFile = generatedJson
+        cleanupTask.dependencyDir = dependencyOutput
+        cleanupTask.htmlFile = licensesFile
+        cleanupTask.licensesDir = outputDir
+
+        project.tasks.findByName("clean").dependsOn(cleanupTask)
+
+        [licenseTask, resourceOutput]
+    }
+
+    void apply(Project project) {
+
         project.android.applicationVariants.all { BaseVariant variant ->
+
+            def (licenseTask, resourceOutput) = generate(project, variant.name)
+
             // This is necessary for backwards compatibility with versions of gradle that do not support
             // this new API.
             if (variant.hasProperty("preBuildProvider")) {
@@ -71,13 +92,5 @@ class OssLicensesPlugin implements Plugin<Project> {
                 variant.registerResGeneratingTask(licenseTask, resourceOutput)
             }
         }
-
-        def cleanupTask = project.tasks.create("licensesCleanUp", LicensesCleanUpTask)
-        cleanupTask.dependencyFile = generatedJson
-        cleanupTask.dependencyDir = dependencyOutput
-        cleanupTask.htmlFile = licensesFile
-        cleanupTask.licensesDir = outputDir
-
-        project.tasks.findByName("clean").dependsOn(cleanupTask)
     }
 }
