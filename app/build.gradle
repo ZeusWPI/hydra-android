@@ -216,7 +216,7 @@ def loadProperties() {
     if (actualKeyFile.exists()) {
         actualKeys.load(actualKeyFile.newReader())
     } else {
-        logger.warn('A secrets.properties file was not found. Maps will not work.')
+        logger.warn('A secrets.properties file was not found.')
     }
 
     return actualKeys
