@@ -8,6 +8,7 @@ import java9.util.stream.Collectors;
 import java9.util.stream.StreamSupport;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import static be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING;
@@ -31,7 +32,7 @@ class DisabledEventRemover implements Function<List<Event>, List<Event>> {
                 .map(String::toLowerCase)
                 .collect(Collectors.toSet());
         return StreamSupport.stream(events)
-                .filter(event -> !disabled.contains(event.getAssociation().getInternalName().toLowerCase()))
+                .filter(event -> !disabled.contains(event.getAssociation().getInternalName().toLowerCase(Locale.ROOT)))
                 .collect(Collectors.toList());
     }
 }

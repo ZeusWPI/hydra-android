@@ -10,28 +10,24 @@ import androidx.viewpager.widget.ViewPager;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
-import com.google.android.material.tabs.TabLayout;
+import be.ugent.zeus.hydra.databinding.ActivityExtraFoodBinding;
 
-public class ExtraFoodActivity extends BaseActivity {
+public class ExtraFoodActivity extends BaseActivity<ActivityExtraFoodBinding> {
 
     private ExtraFoodViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_extra_food);
-
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
-        ViewPager viewPager = findViewById(R.id.pager);
+        setContentView(ActivityExtraFoodBinding::inflate);
 
         ExtraFoodPagerAdapter adapter = new ExtraFoodPagerAdapter(getSupportFragmentManager(), this);
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        binding.pager.setAdapter(adapter);
+        binding.tabLayout.setupWithViewPager(binding.pager);
+        binding.pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                //noinspection ConstantConditions
-                Reporting.getTracker(getApplicationContext())
+                Reporting.getTracker(ExtraFoodActivity.this)
                         .setCurrentScreen(
                                 ExtraFoodActivity.this,
                                 adapter.getPageTitle(position).toString(),

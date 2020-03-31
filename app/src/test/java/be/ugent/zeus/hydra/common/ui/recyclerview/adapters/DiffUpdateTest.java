@@ -103,7 +103,7 @@ public class DiffUpdateTest {
         assertEquals(newData, actualNewData);
         update.applyUpdatesTo(callback);
 
-        verifyZeroInteractions(callback);
+        verifyNoInteractions(callback);
     }
 
     @Test
@@ -112,7 +112,7 @@ public class DiffUpdateTest {
         List<Integer> actualNewData = update.getNewData(null);
         assertNull(actualNewData);
         update.applyUpdatesTo(callback);
-        verifyZeroInteractions(callback);
+        verifyNoInteractions(callback);
     }
 
     @Test

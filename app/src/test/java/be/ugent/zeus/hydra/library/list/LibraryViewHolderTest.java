@@ -14,7 +14,6 @@ import org.robolectric.RobolectricTestRunner;
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -49,10 +48,10 @@ public class LibraryViewHolderTest {
         Library library = generate(Library.class);
         LibraryListAdapter adapter = mock(LibraryListAdapter.class);
         LibraryViewHolder viewHolder = new LibraryViewHolder(view, adapter);
-        
+
         viewHolder.populate(Pair.create(library, true));
         assertEquals(view.findViewById(R.id.library_favourite_image).getVisibility(), View.VISIBLE);
-        
+
         viewHolder.populate(Pair.create(library, false));
         assertEquals(view.findViewById(R.id.library_favourite_image).getVisibility(), View.GONE);
     }

@@ -19,16 +19,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <WebView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/web_view"
-            />
+            android:id="@+id/web_view" />
 
-        <include layout="@layout/x_progress_bar" />
+        <include
+            layout="@layout/x_progress_bar"
+            android:id="@+id/progress_bar" />
 
     </FrameLayout>
 

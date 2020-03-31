@@ -10,8 +10,7 @@
     android:clickable="true"
     android:focusable="true"
     android:paddingLeft="@dimen/material_list_icon_first_position_margin_start"
-    android:paddingStart="@dimen/material_list_icon_first_position_margin_start"
-    tools:ignore="RtlSymmetry">
+    android:paddingStart="@dimen/material_list_icon_first_position_margin_start">
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="0dp"

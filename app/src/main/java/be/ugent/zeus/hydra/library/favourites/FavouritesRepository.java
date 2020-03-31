@@ -1,14 +1,11 @@
 package be.ugent.zeus.hydra.library.favourites;
 
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 import androidx.room.*;
 
 import java.util.List;
-import java.util.Set;
 
-import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.library.Library;
 
 /**

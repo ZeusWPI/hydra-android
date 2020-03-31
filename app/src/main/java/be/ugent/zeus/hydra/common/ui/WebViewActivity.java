@@ -8,15 +8,15 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
-import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.InterceptingWebViewClient;
+import be.ugent.zeus.hydra.databinding.ActivityWebviewBinding;
 
 /**
  * Displays a web view.
  *
  * @author Niko Strijbol
  */
-public class WebViewActivity extends BaseActivity {
+public class WebViewActivity extends BaseActivity<ActivityWebviewBinding> {
 
     public static final String URL = "be.ugent.zeus.hydra.url";
     public static final String TITLE = "be.ugent.zeus.hydra.title";
@@ -25,13 +25,10 @@ public class WebViewActivity extends BaseActivity {
     @SuppressLint("SetJavaScriptEnabled")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_webview);
+        setContentView(ActivityWebviewBinding::inflate);
 
-        WebView webView = findViewById(R.id.web_view);
-        ProgressBar progressBar = findViewById(R.id.progress_bar);
-
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new ProgressClient(progressBar, this));
+        binding.webView.getSettings().setJavaScriptEnabled(true);
+        binding.webView.setWebViewClient(new ProgressClient(binding.progressBar.progressBar, this));
 
         Intent intent = getIntent();
         String url = intent.getStringExtra(URL);
@@ -41,7 +38,7 @@ public class WebViewActivity extends BaseActivity {
             getSupportActionBar().setTitle(title);
         }
 
-        webView.loadUrl(url);
+        binding.webView.loadUrl(url);
     }
 
     private static class ProgressClient extends InterceptingWebViewClient {

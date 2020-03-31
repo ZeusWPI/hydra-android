@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2020 Niko Strijbol
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +16,6 @@
  */
 package be.ugent.zeus.hydra.common.ui.widgets;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
@@ -133,7 +133,6 @@ public class ButtonBarLayout extends LinearLayout {
         return Math.max(mMinimumHeight, super.getMinimumHeight());
     }
 
-    @SuppressLint("RtlHardcoded")
     private void setStacked(boolean stacked) {
         setOrientation(stacked ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
         setGravity(stacked ? Gravity.RIGHT : Gravity.BOTTOM);

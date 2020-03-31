@@ -1,15 +1,14 @@
 package be.ugent.zeus.hydra.common.ui.widgets;
 
 import android.content.Context;
-import androidx.annotation.DrawableRes;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.content.res.TypedArrayUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
+import androidx.annotation.DrawableRes;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class DisplayableMenu {
     DisplayableMenu(Context context, RestoMenu menu, boolean selectable) {
         this.menu = menu;
         this.selectable = selectable;
-        normalStyle = TypedArrayUtils.getAttr(context, R.attr.textAppearanceBody2, 0);
+        normalStyle = ViewUtils.getAttr(context, R.attr.textAppearanceBody2);
     }
 
     /**

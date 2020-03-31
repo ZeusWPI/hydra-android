@@ -22,7 +22,7 @@ import org.gradle.api.Project
 
 class OssLicensesPlugin implements Plugin<Project> {
 
-    private static generate(Project project, String variant) {
+    private static Tuple2<LicensesTask, File> generate(Project project, String variant) {
 
         def getDependencies = project.tasks.create("get${variant.capitalize()}Dependencies", DependencyTask)
         def dependencyOutput = new File(project.buildDir, "generated/third_party_licenses")
@@ -64,33 +64,13 @@ class OssLicensesPlugin implements Plugin<Project> {
 
         project.android.applicationVariants.all { BaseVariant variant ->
 
-            def (licenseTask, resourceOutput) = generate(project, variant.name)
+            def (LicensesTask licenseTask, File resourceOutput) = generate(project, variant.name)
 
-            // This is necessary for backwards compatibility with versions of gradle that do not support
-            // this new API.
-            if (variant.hasProperty("preBuildProvider")) {
-                variant.preBuildProvider.configure { dependsOn(licenseTask) }
-            } else {
-                //noinspection GrDeprecatedAPIUsage
-                variant.preBuild.dependsOn(licenseTask)
-            }
+            variant.preBuildProvider.configure { dependsOn(licenseTask) }
 
-            // This is necessary for backwards compatibility with versions of gradle that do not support
-            // this new API.
-            if (variant.respondsTo("registerGeneratedResFolders")) {
-                licenseTask.ext.generatedResFolders = project.files(resourceOutput).builtBy(licenseTask)
-                variant.registerGeneratedResFolders(licenseTask.generatedResFolders)
-
-                if (variant.hasProperty("mergeResourcesProvider")) {
-                    variant.mergeResourcesProvider.configure { dependsOn(licenseTask) }
-                } else {
-                    //noinspection GrDeprecatedAPIUsage
-                    variant.mergeResources.dependsOn(licenseTask)
-                }
-            } else {
-                //noinspection GrDeprecatedAPIUsage
-                variant.registerResGeneratingTask(licenseTask, resourceOutput)
-            }
+            def generated = project.files(resourceOutput).builtBy(licenseTask)
+            variant.registerGeneratedResFolders(generated)
+            variant.mergeResourcesProvider.configure { dependsOn(licenseTask) }
         }
     }
 }

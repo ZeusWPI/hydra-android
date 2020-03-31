@@ -1,9 +1,7 @@
 package be.ugent.zeus.hydra.common.utils;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.util.TypedValue;
 import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.core.graphics.ColorUtils;

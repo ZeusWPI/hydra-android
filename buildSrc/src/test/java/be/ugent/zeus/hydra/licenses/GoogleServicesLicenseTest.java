@@ -16,33 +16,28 @@
 
 package be.ugent.zeus.hydra.licenses;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.File;
 import java.util.Arrays;
-import org.gradle.api.Project;
-import org.gradle.testfixtures.ProjectBuilder;
-import org.junit.Before;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import static org.junit.Assert.assertEquals;
+
 /** Test for {@link LicensesTask#isGoogleServices(String)} */
 @RunWith(Parameterized.class)
 public class GoogleServicesLicenseTest {
   private static final String BASE_DIR = "src/test/resources";
-  private Project project;
-  private LicensesTask licensesTask;
 
   @Parameters
   public static Iterable<Object[]> data() {
     return Arrays.asList(
         new Object[][] {
-          {"com.google.android.gms", "play-services-foo", true},
-          {"com.google.firebase", "firebase-bar", true},
-          {"com.example", "random", false},
+          {"com.google.android.gms", true},
+          {"com.google.firebase", true},
+          {"com.example", false},
         });
   }
 
@@ -50,19 +45,10 @@ public class GoogleServicesLicenseTest {
   public String inputGroup;
 
   @Parameter(1)
-  public String inputArtifactName;
-
-  @Parameter(2)
   public Boolean expectedResult;
-
-  @Before
-  public void setUp() {
-    project = ProjectBuilder.builder().withProjectDir(new File(BASE_DIR)).build();
-    licensesTask = project.getTasks().create("generateLicenses", LicensesTask.class);
-  }
 
   @Test
   public void test() {
-    assertEquals(expectedResult, licensesTask.isGoogleServices(inputGroup));
+    assertEquals(expectedResult, LicensesTask.isGoogleServices(inputGroup));
   }
 }

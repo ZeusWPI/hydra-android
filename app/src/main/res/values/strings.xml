@@ -337,4 +337,9 @@
     <string name="content_desc_special_event_icon">Icoon speciaal evenement</string>
     <string name="content_desc_urgent_icon">Logo Urgent.fm</string>
     <string name="content_desc_association_icon">Icon vereniging</string>
+    <string name="content_desc_urgent_play">Spelen</string>
+    <string name="content_desc_instagram">Instagram</string>
+    <string name="content_desc_website">Website</string>
+    <string name="content_desc_facebook">Facebook</string>
+    <string name="content_desc_youtube">YouTube</string>
 </resources>

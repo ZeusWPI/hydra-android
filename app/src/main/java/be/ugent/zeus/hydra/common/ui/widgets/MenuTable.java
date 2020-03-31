@@ -7,17 +7,16 @@ import android.util.AttributeSet;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
-import androidx.core.content.res.TypedArrayUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -78,7 +77,7 @@ public class MenuTable extends TableLayout {
             selectable = a.getBoolean(R.styleable.MenuTable_selectable, false);
             showTitles = a.getBoolean(R.styleable.MenuTable_showTitles, false);
             messagePaddingTop = a.getBoolean(R.styleable.MenuTable_messagePaddingTop, false);
-            normalStyle = TypedArrayUtils.getAttr(context, R.attr.textAppearanceBody2, 0);
+            normalStyle = ViewUtils.getAttr(context, R.attr.textAppearanceBody2);
         } finally {
             a.recycle();
         }

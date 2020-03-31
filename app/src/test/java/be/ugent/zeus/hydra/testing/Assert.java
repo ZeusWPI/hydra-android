@@ -16,7 +16,6 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
-import org.hamcrest.beans.SamePropertyValuesAs;
 import org.junit.ComparisonFailure;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZonedDateTime;

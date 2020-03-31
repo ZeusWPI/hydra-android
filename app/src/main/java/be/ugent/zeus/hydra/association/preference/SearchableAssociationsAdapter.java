@@ -10,6 +10,7 @@ import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectSearchableAdapter;
 
 import java.util.Collections;
+import java.util.Locale;
 
 /**
  *
@@ -18,9 +19,9 @@ import java.util.Collections;
 class SearchableAssociationsAdapter extends MultiSelectSearchableAdapter<Association, AssociationViewHolder> {
 
     SearchableAssociationsAdapter() {
-        super(text -> a -> a.getDisplayName().toLowerCase().contains(text) ||
-                (a.getFullName() != null && a.getFullName().toLowerCase().contains(text)) ||
-                a.getInternalName().toLowerCase().contains(text));
+        super(text -> a -> a.getDisplayName().toLowerCase(Locale.getDefault()).contains(text) ||
+                (a.getFullName() != null && a.getFullName().toLowerCase(Locale.getDefault()).contains(text)) ||
+                a.getInternalName().toLowerCase(Locale.ROOT).contains(text));
     }
 
     @NonNull

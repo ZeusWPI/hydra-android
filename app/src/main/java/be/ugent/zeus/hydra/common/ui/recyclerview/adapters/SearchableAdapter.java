@@ -90,7 +90,7 @@ public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends
         }
         this.isSearching = true;
         List<D> filtered = StreamSupport.stream(allData)
-                .filter(s -> searchPredicate.test(s, newText.toLowerCase()))
+                .filter(s -> searchPredicate.test(s, newText.toLowerCase(Locale.getDefault())))
                 .collect(Collectors.toList());
         filtered = filter.apply(filtered);
         super.submitData(filtered);

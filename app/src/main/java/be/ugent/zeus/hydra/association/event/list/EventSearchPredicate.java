@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.association.event.list;
 
+import java.util.Locale;
+
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.association.event.Event;
 import java9.util.function.BiPredicate;
@@ -22,15 +24,15 @@ class EventSearchPredicate implements BiPredicate<EventItem, String> {
             return true;
         }
         Event event = eventItem.getItem();
-        if (event.getTitle() != null && event.getTitle().toLowerCase().contains(searchTerm)) {
+        if (event.getTitle() != null && event.getTitle().toLowerCase(Locale.getDefault()).contains(searchTerm)) {
             return true;
         }
         if (event.getAssociation() != null) {
             Association association = event.getAssociation();
-            if (association.getDisplayName() != null && association.getDisplayName().toLowerCase().contains(searchTerm)) {
+            if (association.getDisplayName() != null && association.getDisplayName().toLowerCase(Locale.ROOT).contains(searchTerm)) {
                 return true;
             }
-            if (association.getFullName() != null && association.getFullName().toLowerCase().contains(searchTerm)) {
+            if (association.getFullName() != null && association.getFullName().toLowerCase(Locale.getDefault()).contains(searchTerm)) {
                 return true;
             }
             if (association.getInternalName().contains(searchTerm)) {

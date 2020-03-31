@@ -51,13 +51,6 @@ class FirebaseTracker implements Tracker {
     }
 
     @Override
-    public void logErrorMessage(String message) {
-        if (isCrashReportingAllowed) {
-            Crashlytics.log(message);
-        }
-    }
-
-    @Override
     public void allowAnalytics(boolean allowed) {
         if (allowed) {
             FirebaseAnalytics.getInstance(applicationContext)

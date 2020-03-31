@@ -4,9 +4,10 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,17 +21,20 @@ import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.network.IOFailureException;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.ui.NoPaddingArrayAdapter;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
+import be.ugent.zeus.hydra.databinding.ActivityRestoHistoryBinding;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.SingleDayFragment;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectableMetaViewModel;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectedResto;
-import be.ugent.zeus.hydra.common.utils.DateUtils;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.Month;
 import org.threeten.bp.ZoneId;
 
-public class HistoryActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
+public class HistoryActivity
+        extends BaseActivity<ActivityRestoHistoryBinding>
+        implements DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
 
     private static final String ARG_DATE = "arg_date";
 
@@ -39,15 +43,12 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
     private LocalDate localDate;
     private RestoChoice restoChoice;
     private SingleDayViewModel viewModel;
-    private Spinner restoSpinner;
-    private ProgressBar restoProgressBar;
     private ArrayAdapter<SelectedResto.Wrapper> restoAdapter;
-    private TextView errorView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_resto_history);
+        setContentView(ActivityRestoHistoryBinding::inflate);
 
         if (savedInstanceState != null && savedInstanceState.containsKey(ARG_DATE)) {
             localDate = (LocalDate) savedInstanceState.getSerializable(ARG_DATE);
@@ -57,32 +58,27 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
             localDate = LocalDate.now();
         }
 
-        Toolbar bottomToolbar = findViewById(R.id.bottom_toolbar);
-
-        restoSpinner = findViewById(R.id.resto_spinner);
-        restoSpinner.setEnabled(false);
-        restoProgressBar = findViewById(R.id.resto_progress_bar);
-        restoAdapter = new NoPaddingArrayAdapter<>(bottomToolbar.getContext(), R.layout.x_spinner_title_resto);
+        binding.restoSpinner.setEnabled(false);
+        restoAdapter = new NoPaddingArrayAdapter<>(binding.bottomToolbar.getContext(), R.layout.x_spinner_title_resto);
         restoAdapter.add(new SelectedResto.Wrapper(getString(R.string.resto_spinner_loading)));
         restoAdapter.setDropDownViewResource(R.layout.x_simple_spinner_dropdown_item);
-        restoSpinner.setAdapter(restoAdapter);
+        binding.restoSpinner.setAdapter(restoAdapter);
 
         final ViewModelProvider provider = new ViewModelProvider(this);
 
-        errorView = findViewById(R.id.error_view);
         viewModel = provider.get(SingleDayViewModel.class);
         viewModel.changeDate(localDate); // Set the initial date
         viewModel.getData().observe(this, new SuccessObserver<RestoMenu>() {
             @Override
             protected void onSuccess(@NonNull RestoMenu data) {
                 // Add the fragment
-                errorView.setVisibility(View.GONE);
+                binding.errorView.setVisibility(View.GONE);
                 setTitle(getString(R.string.resto_history_title, DateUtils.getFriendlyDate(HistoryActivity.this, data.getDate())));
                 showFragment(data);
             }
         });
         viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
+        viewModel.getData().observe(this, new ProgressObserver<>(binding.progressBar));
 
         SelectableMetaViewModel metaViewModel = provider.get(SelectableMetaViewModel.class);
         metaViewModel.getData().observe(this, SuccessObserver.with(this::onReceiveRestos));
@@ -112,11 +108,11 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
         Log.w(TAG, "Error", throwable);
         hideFragment();
         setTitle(R.string.resto_history_error);
-        errorView.setVisibility(View.VISIBLE);
+        binding.errorView.setVisibility(View.VISIBLE);
         if (throwable instanceof IOFailureException) {
-            errorView.setText(R.string.error_network);
+            binding.errorView.setText(R.string.error_network);
         } else {
-            errorView.setText(getString(R.string.resto_history_not_found, DateUtils.getFriendlyDate(this, localDate)));
+            binding.errorView.setText(getString(R.string.resto_history_not_found, DateUtils.getFriendlyDate(this, localDate)));
         }
     }
 
@@ -129,10 +125,10 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
         List<SelectedResto.Wrapper> wrappers = selectedResto.getAsWrappers();
         restoAdapter.clear();
         restoAdapter.addAll(wrappers);
-        restoSpinner.setSelection(selectedResto.getSelectedIndex(), false);
-        restoSpinner.setEnabled(true);
-        restoProgressBar.setVisibility(View.GONE);
-        restoSpinner.setOnItemSelectedListener(this);
+        binding.restoSpinner.setSelection(selectedResto.getSelectedIndex(), false);
+        binding.restoSpinner.setEnabled(true);
+        binding.restoProgressBar.setVisibility(View.GONE);
+        binding.restoSpinner.setOnItemSelectedListener(this);
     }
 
     private DatePickerDialog createAndSetupDialog() {

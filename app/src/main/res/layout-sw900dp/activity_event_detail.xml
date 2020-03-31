@@ -40,7 +40,7 @@
                     android:tint="@color/white"
                     app:srcCompat="@drawable/ic_event_note"
                     tools:src="@drawable/ic_event_note"
-                    tools:ignore="MissingPrefix,RtlHardcoded"
+                    tools:ignore="MissingPrefix"
                     android:contentDescription="@string/content_desc_calendar_icon"/>
 
                 <com.google.android.material.textview.MaterialTextView
@@ -80,8 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/card_spacing"
             android:layout_marginRight="@dimen/card_spacing"
-            android:layout_marginTop="@dimen/card_spacing"
-            tools:ignore="RtlHardcoded">
+            android:layout_marginTop="@dimen/card_spacing">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -156,8 +155,7 @@
                             android:layout_height="wrap_content"
                             android:paddingRight="@dimen/content_spacing"
                             android:text="@string/event_detail_from"
-                            style="?textAppearanceBody2"
-                            tools:ignore="RtlHardcoded,RtlSymmetry" />
+                            style="?textAppearanceBody2" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_gravity="center_vertical"
@@ -173,8 +171,7 @@
                             android:layout_height="wrap_content"
                             style="?textAppearanceBody2"
                             android:paddingRight="@dimen/content_spacing"
-                            android:text="@string/event_detail_to"
-                            tools:ignore="RtlHardcoded,RtlSymmetry" />
+                            android:text="@string/event_detail_to" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:paddingTop="4dp"

@@ -12,13 +12,14 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
+import be.ugent.zeus.hydra.databinding.ActivitySkoMainBinding;
 
 /**
  * SKO overview activity. Only displays the line-up.
  *
  * @author Niko Strijbol
  */
-public class OverviewActivity extends BaseActivity {
+public class OverviewActivity extends BaseActivity<ActivitySkoMainBinding> {
 
     private static final String SKO_WEBSITE = Endpoints.SKO;
 
@@ -36,7 +37,7 @@ public class OverviewActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sko_main);
+        setContentView(ActivitySkoMainBinding::inflate);
     }
 
     @Override

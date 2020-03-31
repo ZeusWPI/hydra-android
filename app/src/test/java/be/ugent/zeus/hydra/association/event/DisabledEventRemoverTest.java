@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.testing.Utils;
@@ -21,7 +20,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import static be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING;
 import static org.junit.Assert.assertTrue;

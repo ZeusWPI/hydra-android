@@ -30,11 +30,6 @@ class DummyTracker implements Tracker {
     }
 
     @Override
-    public void logErrorMessage(String message) {
-        // Nothing.
-    }
-
-    @Override
     public void allowAnalytics(boolean allowed) {
         // Nothing.
     }

@@ -30,6 +30,7 @@ class ExtraFoodPagerAdapter extends FragmentPagerAdapter {
         return FoodFragment.newInstance(position);
     }
 
+    @NonNull
     @Override
     public CharSequence getPageTitle(int position) {
         @StringRes int string;

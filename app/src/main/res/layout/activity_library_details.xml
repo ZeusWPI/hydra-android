@@ -124,8 +124,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="left|center_vertical"
                             android:text="@string/library_favourite"
-                            style="?attr/borderlessButtonStyle"
-                            tools:ignore="RtlHardcoded" />
+                            style="?attr/borderlessButtonStyle" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/expand_button"
@@ -198,7 +197,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/library_details_email"
                                         android:paddingRight="4dp"
-                                        tools:ignore="RtlHardcoded,RtlSymmetry,TooDeepLayout" />
+                                        tools:ignore="TooDeepLayout" />
 
                                     <com.google.android.material.textview.MaterialTextView
                                         style="?textAppearanceBody2"
@@ -217,8 +216,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/library_details_phone"
-                                        android:paddingRight="4dp"
-                                        tools:ignore="RtlHardcoded,RtlSymmetry" />
+                                        android:paddingRight="4dp" />
 
                                     <com.google.android.material.textview.MaterialTextView
                                         style="?textAppearanceBody2"
@@ -236,8 +234,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/library_details_contact"
-                                        android:paddingRight="4dp"
-                                        tools:ignore="RtlHardcoded,RtlSymmetry" />
+                                        android:paddingRight="4dp" />
 
                                     <com.google.android.material.textview.MaterialTextView
                                         style="?textAppearanceBody2"
@@ -275,7 +272,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <include layout="@layout/x_progress_bar" />
+                <include
+                    layout="@layout/x_progress_bar"
+                    android:id="@+id/progress_bar" />
 
             </FrameLayout>
 

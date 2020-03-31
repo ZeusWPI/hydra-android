@@ -8,32 +8,28 @@ import androidx.viewpager.widget.ViewPager;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
-import be.ugent.zeus.hydra.resto.extrafood.FoodFragment;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
-import com.google.android.material.tabs.TabLayout;
+import be.ugent.zeus.hydra.databinding.ActivityExtraFoodBinding;
+import be.ugent.zeus.hydra.resto.extrafood.FoodFragment;
 
 /**
  * Activity for the sandwiches.
  */
-public class SandwichActivity extends BaseActivity {
+public class SandwichActivity extends BaseActivity<ActivityExtraFoodBinding>{
 
     public static final String URL = "https://www.ugent.be/student/nl/meer-dan-studeren/resto/broodjes";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_extra_food);
-
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
-        ViewPager viewPager = findViewById(R.id.pager);
+        setContentView(ActivityExtraFoodBinding::inflate);
 
         SandwichPagerAdapter adapter = new SandwichPagerAdapter(getSupportFragmentManager(), this);
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        binding.pager.setAdapter(adapter);
+        binding.tabLayout.setupWithViewPager(binding.pager);
+        binding.pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                //noinspection ConstantConditions
                 Reporting.getTracker(getApplicationContext())
                         .setCurrentScreen(
                                 SandwichActivity.this,
