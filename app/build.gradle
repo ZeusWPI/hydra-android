@@ -7,7 +7,7 @@ def props = loadProperties()
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
 
     // Use resources in robolectric
     testOptions.unitTests.includeAndroidResources = true
