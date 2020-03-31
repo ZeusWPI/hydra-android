@@ -1,4 +1,4 @@
-name: Android CI
+name: CI
 
 # We run the tests on master, development and for PR's.
 on:
@@ -12,9 +12,6 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        command: [testOpenDebug, testOpenRelease, testStoreDebug, testStoreRelease]
     steps:
       - uses: actions/checkout@v1
       - name: Set up JDK 11
@@ -25,10 +22,10 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.gradle/caches
-          key: ${{ matrix.command }}-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          key: lint-${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: |
-            ${{ matrix.command }}-${{ runner.os }}-gradle-
-      - name: Test with Gradle
+            lint-${{ runner.os }}-gradle-
+      - name: Lint with Gradle
         uses: eskatos/gradle-command-action@v1
         with:
-          arguments: ${{ matrix.command }}
+          arguments: lint
