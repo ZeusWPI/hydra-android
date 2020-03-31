@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import com.squareup.moshi.Json;
 import java9.util.Objects;
@@ -63,7 +65,7 @@ public final class Association implements Parcelable {
     }
 
     public String getImageLink() {
-        return String.format(IMAGE_LINK, internalName.toLowerCase());
+        return String.format(IMAGE_LINK, internalName.toLowerCase(Locale.ROOT));
     }
 
     public static final Creator<Association> CREATOR = new Creator<Association>() {

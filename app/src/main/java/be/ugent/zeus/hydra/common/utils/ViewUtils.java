@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.common.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -95,8 +96,25 @@ public class ViewUtils {
      * @return The resource ID value in the {@code context} specified by {@code attr}.
      */
     public static int getAttr(@NonNull Context context, int attr) {
+        return getAttr(context, attr, 0);
+    }
+
+    public static int getAttr(@NonNull Context context, int attr, int defaultAttr) {
         TypedValue value = new TypedValue();
         context.getTheme().resolveAttribute(attr, value, true);
-        return value.resourceId;
+        if (value.resourceId != 0) {
+            return value.resourceId;
+        }
+        return defaultAttr;
+    }
+
+    /**
+     * @return a boolean value of {@code index}. If it does not exist, a boolean value of
+     *         {@code fallbackIndex}. If it still does not exist, {@code defaultValue}.
+     */
+    public static boolean getBoolean(@NonNull TypedArray a, @StyleableRes int index,
+                                     @StyleableRes int fallbackIndex, boolean defaultValue) {
+        boolean val = a.getBoolean(fallbackIndex, defaultValue);
+        return a.getBoolean(index, val);
     }
 }

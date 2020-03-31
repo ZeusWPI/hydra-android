@@ -56,8 +56,7 @@
         android:layout_gravity="bottom"
         android:layout_below="@id/scroll"
         android:ellipsize="marquee"
-        style="?toolbarStyle"
-        tools:ignore="RtlSymmetry">
+        style="?toolbarStyle">
 
         <Spinner
             android:id="@+id/resto_spinner"

@@ -172,8 +172,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     style="?textAppearanceBody2"
-                    android:text="@string/sko_artist_search_web"
-                    tools:ignore="RtlHardcoded,RtlSymmetry" />
+                    android:text="@string/sko_artist_search_web" />
 
             </LinearLayout>
 
@@ -202,8 +201,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="@string/sko_artist_search_music"
-                    style="?textAppearanceBody2"
-                    tools:ignore="RtlHardcoded,RtlSymmetry" />
+                    style="?textAppearanceBody2" />
 
             </LinearLayout>
 

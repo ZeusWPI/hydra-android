@@ -19,7 +19,7 @@
         android:layout_marginLeft="8dp"
         android:layout_gravity="center_vertical"
         tools:src="@drawable/tabs_resto"
-        tools:ignore="MissingPrefix,RtlHardcoded"
+        tools:ignore="MissingPrefix"
         android:tint="@color/hydra_color_primary_variant_light"
         android:contentDescription="@string/content_desc_resto"/>
 
@@ -33,8 +33,7 @@
         android:paddingBottom="@dimen/card_title_padding_top"
         style="?textAppearanceCaption"
         android:paddingLeft="8dp"
-        tools:text="Menu voor de toekomst!"
-        tools:ignore="RtlHardcoded,RtlSymmetry" />
+        tools:text="Menu voor de toekomst!" />
 
     <ImageView
         android:layout_width="32dp"
@@ -45,7 +44,6 @@
         android:tint="?colorOnSurface"
         app:srcCompat="@drawable/ic_more_vert"
         android:id="@+id/now_toolbar_menu"
-        android:contentDescription="@string/content_desc_more"
-        tools:ignore="RtlHardcoded" />
+        android:contentDescription="@string/content_desc_more" />
 
 </merge>

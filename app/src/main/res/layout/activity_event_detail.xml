@@ -43,8 +43,8 @@
                     android:tint="@color/white"
                     app:srcCompat="@drawable/ic_event_note"
                     tools:src="@drawable/ic_event_note"
-                    tools:ignore="MissingPrefix,RtlHardcoded"
-                    android:contentDescription="@string/content_desc_calendar_icon"/>
+                    tools:ignore="MissingPrefix"
+                    android:contentDescription="@string/content_desc_calendar_icon" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/title"
@@ -114,8 +114,8 @@
                             android:tint="?colorPrimarySecondary"
                             app:srcCompat="@drawable/ic_place"
                             tools:src="@drawable/ic_place"
-                            tools:ignore="MissingPrefix,RtlHardcoded"
-                            android:contentDescription="@string/content_desc_location"/>
+                            tools:ignore="MissingPrefix"
+                            android:contentDescription="@string/content_desc_location" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_gravity="center_vertical"
@@ -123,15 +123,14 @@
                             style="?textAppearanceBody2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="Locatie van het evenement"/>
+                            tools:text="Locatie van het evenement" />
 
                     </LinearLayout>
 
                     <View
                         android:id="@+id/divider_below_location"
                         android:layout_marginLeft="@dimen/keyline_fixed"
-                        style="@style/Divider"
-                        tools:ignore="RtlHardcoded" />
+                        style="@style/Divider" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -150,21 +149,20 @@
                             android:tint="?colorPrimarySecondary"
                             app:srcCompat="@drawable/ic_schedule"
                             tools:src="@drawable/ic_schedule"
-                            tools:ignore="MissingPrefix,RtlHardcoded"
-                            android:contentDescription="@string/content_desc_time"/>
+                            tools:ignore="MissingPrefix"
+                            android:contentDescription="@string/content_desc_time" />
 
                         <GridLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:columnCount="2" >
+                            android:columnCount="2">
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingRight="@dimen/content_spacing"
                                 android:text="@string/event_detail_from"
-                                style="?textAppearanceBody2"
-                                tools:ignore="RtlHardcoded,RtlSymmetry" />
+                                style="?textAppearanceBody2" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:layout_gravity="center_vertical"
@@ -172,7 +170,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 style="?textAppearanceBody2"
-                                tools:text="Starttijd van het evenement"/>
+                                tools:text="Starttijd van het evenement" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:paddingTop="4dp"
@@ -180,8 +178,7 @@
                                 android:layout_height="wrap_content"
                                 style="?textAppearanceBody2"
                                 android:paddingRight="@dimen/content_spacing"
-                                android:text="@string/event_detail_to"
-                                tools:ignore="RtlHardcoded,RtlSymmetry" />
+                                android:text="@string/event_detail_to" />
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:paddingTop="4dp"
@@ -190,7 +187,7 @@
                                 android:id="@+id/time_end"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                tools:text="Endtijd van het evenement"/>
+                                tools:text="Endtijd van het evenement" />
 
                         </GridLayout>
 
@@ -198,7 +195,7 @@
 
                     <View
                         android:id="@+id/divider_below_time"
-                        style="@style/Divider"/>
+                        style="@style/Divider" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -216,8 +213,7 @@
                             android:layout_height="40dp"
                             android:layout_marginRight="@dimen/vertical_padding"
                             tools:src="@drawable/logo_hydra"
-                            android:contentDescription="@string/content_desc_hydra_logo"
-                            tools:ignore="RtlHardcoded" />
+                            android:contentDescription="@string/content_desc_hydra_logo" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -236,7 +232,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 style="?textAppearanceBody2"
-                                tools:text="Kleine organisator"/>
+                                tools:text="Kleine organisator" />
 
                         </LinearLayout>
 
@@ -245,7 +241,7 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
-            
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -276,7 +272,7 @@
                         android:paddingBottom="@dimen/content_spacing"
                         android:text="@string/event_detail_no_description"
                         android:textIsSelectable="true"
-                        style="?textAppearanceBody2"/>
+                        style="?textAppearanceBody2" />
 
                 </LinearLayout>
 

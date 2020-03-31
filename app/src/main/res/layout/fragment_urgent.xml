@@ -67,7 +67,8 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/playPauseButton"
                 android:tint="?colorPrimary"
-                app:srcCompat="@drawable/ic_play_arrow_24dp" />
+                app:srcCompat="@drawable/ic_play_arrow_24dp"
+                android:contentDescription="@string/content_desc_urgent_play" />
 
         </FrameLayout>
 
@@ -122,7 +123,8 @@
                         android:layout_height="@dimen/urgent_social_icon_size"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/ic_social_facebook_inner"
-                        android:tint="?colorPrimary" />
+                        android:tint="?colorPrimary"
+                        android:contentDescription="@string/content_desc_facebook" />
 
                     <ImageButton
                         android:id="@+id/social_instagram"
@@ -130,7 +132,8 @@
                         android:layout_height="@dimen/urgent_social_icon_size"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/ic_social_instagram"
-                        android:tint="?colorPrimary" />
+                        android:tint="?colorPrimary"
+                        android:contentDescription="@string/content_desc_instagram" />
 
                     <ImageButton
                         android:id="@+id/social_urgentfm"
@@ -138,7 +141,8 @@
                         android:layout_height="@dimen/urgent_social_icon_size"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/tabs_urgent"
-                        android:tint="?colorPrimary" />
+                        android:tint="?colorPrimary"
+                        android:contentDescription="@string/content_desc_website" />
 
                     <ImageButton
                         android:id="@+id/social_youtube"
@@ -146,7 +150,8 @@
                         android:layout_height="@dimen/urgent_social_icon_size"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/ic_social_youtube"
-                        android:tint="?colorPrimary" />
+                        android:tint="?colorPrimary"
+                        android:contentDescription="@string/content_desc_youtube" />
 
                 </LinearLayout>
 

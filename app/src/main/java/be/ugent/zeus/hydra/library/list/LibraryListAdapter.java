@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import java9.util.Optional;
 import java9.util.stream.StreamSupport;
@@ -34,10 +35,10 @@ class LibraryListAdapter extends SearchableAdapter<Pair<Library, Boolean>, Libra
         super((pair, s) -> {
             Library library = pair.first;
             boolean contained = false;
-            if (library.getName() != null && library.getName().toLowerCase().contains(s)) {
+            if (library.getName() != null && library.getName().toLowerCase(Locale.getDefault()).contains(s)) {
                 contained = true;
             }
-            if (library.getCampus() != null && library.getCampus().toLowerCase().contains(s)) {
+            if (library.getCampus() != null && library.getCampus().toLowerCase(Locale.getDefault()).contains(s)) {
                 contained = true;
             }
             return contained;

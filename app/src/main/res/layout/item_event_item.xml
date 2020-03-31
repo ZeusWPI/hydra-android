@@ -53,8 +53,7 @@
                 style="?textAppearanceBody2"
                 android:id="@+id/starttime"
                 android:layout_gravity="end"
-                tools:text="Start"
-                tools:ignore="RtlSymmetry" />
+                tools:text="Start" />
 
         </LinearLayout>
 
