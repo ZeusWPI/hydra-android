@@ -13,10 +13,10 @@ import be.ugent.zeus.hydra.common.ui.BaseActivity;
 public class FragmentUtils {
 
     @NonNull
-    public static BaseActivity requireBaseActivity(Fragment fragment) {
+    public static BaseActivity<?> requireBaseActivity(Fragment fragment) {
         Activity activity = fragment.requireActivity();
         if (activity instanceof BaseActivity) {
-            return (BaseActivity) activity;
+            return (BaseActivity<?>) activity;
         } else {
             throw new IllegalStateException("This method can only be used if the Fragment is attached to a BaseActivity.");
         }

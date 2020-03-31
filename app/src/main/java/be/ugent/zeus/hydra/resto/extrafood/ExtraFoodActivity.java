@@ -11,7 +11,6 @@ import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.databinding.ActivityExtraFoodBinding;
-import com.google.android.material.tabs.TabLayout;
 
 public class ExtraFoodActivity extends BaseActivity<ActivityExtraFoodBinding> {
 

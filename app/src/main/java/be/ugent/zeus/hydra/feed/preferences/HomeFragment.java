@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 import androidx.annotation.StringDef;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 
@@ -32,8 +33,8 @@ public class HomeFragment extends PreferenceFragment {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.pref_home_feed, rootKey);
 
-        viewModel = ViewModelProviders.of(this).get(DeleteViewModel.class);
-        viewModel.getLiveData().observe(this, new EventObserver<Context>() {
+        viewModel = new ViewModelProvider(this).get(DeleteViewModel.class);
+        viewModel.getLiveData().observe(getViewLifecycleOwner(), new EventObserver<Context>() {
             @Override
             protected void onUnhandled(Context data) {
                 Toast.makeText(data, R.string.feed_pref_hidden_cleared, Toast.LENGTH_SHORT).show();

@@ -2,8 +2,10 @@ package be.ugent.zeus.hydra.common.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,5 +92,14 @@ public class ViewUtils {
     public static View inflate(ViewGroup parent, @LayoutRes int resource) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         return inflater.inflate(resource, parent, false);
+    }
+
+    /**
+     * @return The resource ID value in the {@code context} specified by {@code attr}.
+     */
+    public static int getAttr(@NonNull Context context, int attr) {
+        TypedValue value = new TypedValue();
+        context.getTheme().resolveAttribute(attr, value, true);
+        return value.resourceId;
     }
 }

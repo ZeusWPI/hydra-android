@@ -33,16 +33,14 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class GoogleServicesLicenseTest {
   private static final String BASE_DIR = "src/test/resources";
-  private Project project;
-  private LicensesTask licensesTask;
 
   @Parameters
   public static Iterable<Object[]> data() {
     return Arrays.asList(
         new Object[][] {
-          {"com.google.android.gms", "play-services-foo", true},
-          {"com.google.firebase", "firebase-bar", true},
-          {"com.example", "random", false},
+          {"com.google.android.gms", true},
+          {"com.google.firebase", true},
+          {"com.example", false},
         });
   }
 
@@ -50,19 +48,10 @@ public class GoogleServicesLicenseTest {
   public String inputGroup;
 
   @Parameter(1)
-  public String inputArtifactName;
-
-  @Parameter(2)
   public Boolean expectedResult;
-
-  @Before
-  public void setUp() {
-    project = ProjectBuilder.builder().withProjectDir(new File(BASE_DIR)).build();
-    licensesTask = project.getTasks().create("generateLicenses", LicensesTask.class);
-  }
 
   @Test
   public void test() {
-    assertEquals(expectedResult, licensesTask.isGoogleServices(inputGroup));
+    assertEquals(expectedResult, LicensesTask.isGoogleServices(inputGroup));
   }
 }

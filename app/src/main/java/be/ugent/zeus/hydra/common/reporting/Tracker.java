@@ -36,6 +36,7 @@ public interface Tracker {
      * @param classOverride The name of the screen class. By default, this is the current activity.
      */
     @MainThread
+    @SuppressWarnings("EmptyMethod")
     void setCurrentScreen(@NonNull Activity activity, String screenName, String classOverride);
 
     /**
@@ -52,13 +53,6 @@ public interface Tracker {
      * @param throwable The exception to log.
      */
     void logError(Throwable throwable);
-
-    /**
-     * Log an error string to the crash service.
-     *
-     * @param message The message to log.
-     */
-    void logErrorMessage(String message);
 
     /**
      * Configure the underlying service to allow analytics or not.

@@ -54,12 +54,12 @@ public class DisableIndividualCardTest {
         assertTrue(newDismissals.isEmpty());
     }
 
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private static class MemoryTracker implements Tracker {
 
         private final List<Event> logged = new ArrayList<>();
         private final Map<String, String> userValues = new HashMap<>();
         private final List<Throwable> errors = new ArrayList<>();
-        private final List<String> errorMessages = new ArrayList<>();
 
         private boolean allowingAnalytics;
         private boolean allowingCrashReporting;
@@ -85,13 +85,6 @@ public class DisableIndividualCardTest {
         public void logError(Throwable throwable) {
             if (allowingCrashReporting) {
                 this.errors.add(throwable);
-            }
-        }
-
-        @Override
-        public void logErrorMessage(String message) {
-            if (allowingCrashReporting) {
-                this.errorMessages.add(message);
             }
         }
 

@@ -92,6 +92,7 @@ public final class SpecialEvent {
         this.priority = priority;
     }
 
+    @NonNull
     public OffsetDateTime getStart() {
         return start;
     }

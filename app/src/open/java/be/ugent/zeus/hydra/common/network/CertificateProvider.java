@@ -7,6 +7,7 @@ import android.content.Context;
  */
 public class CertificateProvider {
 
+    @SuppressWarnings({"unused", "EmptyMethod"})
     public static void installProvider(Context context) {
         // Nothing.
     }

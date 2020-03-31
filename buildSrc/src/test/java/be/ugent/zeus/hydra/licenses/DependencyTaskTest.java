@@ -50,12 +50,11 @@ import org.junit.runners.JUnit4;
 /** Tests for {@link DependencyTask} */
 @RunWith(JUnit4.class)
 public class DependencyTaskTest {
-  private Project project;
   private DependencyTask dependencyTask;
 
   @Before
   public void setUp() {
-    project = ProjectBuilder.builder().build();
+    Project project = ProjectBuilder.builder().build();
     dependencyTask = project.getTasks().create("getDependency", DependencyTask.class);
   }
 
@@ -319,7 +318,7 @@ public class DependencyTaskTest {
     Configuration configuration = mock(Configuration.class);
     when(configuration.isCanBeResolved()).thenReturn(true);
 
-    assertTrue(dependencyTask.canBeResolved(configuration));
+    assertTrue(DependencyTask.canBeResolved(configuration));
   }
 
   @Test
@@ -327,7 +326,7 @@ public class DependencyTaskTest {
     Configuration configuration = mock(Configuration.class);
     when(configuration.isCanBeResolved()).thenReturn(false);
 
-    assertFalse(dependencyTask.canBeResolved(configuration));
+    assertFalse(DependencyTask.canBeResolved(configuration));
   }
 
   @Test
@@ -335,7 +334,7 @@ public class DependencyTaskTest {
     Configuration configuration = mock(Configuration.class);
     when(configuration.getName()).thenReturn("random");
 
-    assertFalse(dependencyTask.isTest(configuration));
+    assertFalse(DependencyTask.isTest(configuration));
   }
 
   @Test
@@ -343,7 +342,7 @@ public class DependencyTaskTest {
     Configuration configuration = mock(Configuration.class);
     when(configuration.getName()).thenReturn("testCompile");
 
-    assertTrue(dependencyTask.isTest(configuration));
+    assertTrue(DependencyTask.isTest(configuration));
   }
 
   @Test
@@ -351,7 +350,7 @@ public class DependencyTaskTest {
     Configuration configuration = mock(Configuration.class);
     when(configuration.getName()).thenReturn("androidTestCompile");
 
-    assertTrue(dependencyTask.isTest(configuration));
+    assertTrue(DependencyTask.isTest(configuration));
   }
 
   @Test
@@ -366,7 +365,7 @@ public class DependencyTaskTest {
     hierarchy.add(parent);
 
     when(configuration.getHierarchy()).thenReturn(hierarchy);
-    assertTrue(dependencyTask.isTest(configuration));
+    assertTrue(DependencyTask.isTest(configuration));
   }
 
   private Set<ResolvedArtifact> prepareArtifactSet(int count) {

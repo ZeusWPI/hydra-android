@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static be.ugent.zeus.hydra.testing.Utils.generate;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 /**
  * @author Niko Strijbol
