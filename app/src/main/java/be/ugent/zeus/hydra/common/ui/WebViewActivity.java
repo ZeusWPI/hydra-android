@@ -8,7 +8,6 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
-import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.InterceptingWebViewClient;
 import be.ugent.zeus.hydra.databinding.ActivityWebviewBinding;
 

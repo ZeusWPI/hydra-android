@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 import androidx.annotation.StringDef;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceManager;
 
 import java.lang.annotation.Retention;

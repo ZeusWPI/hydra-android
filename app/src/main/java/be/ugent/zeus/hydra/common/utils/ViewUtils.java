@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.common.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -12,8 +11,6 @@ import android.view.ViewGroup;
 import androidx.annotation.*;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.graphics.drawable.DrawableCompat;
-
-import be.ugent.zeus.hydra.common.utils.ColourUtils;
 
 /**
  * @author Niko Strijbol

@@ -16,18 +16,15 @@
 
 package be.ugent.zeus.hydra.licenses;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.File;
 import java.util.Arrays;
-import org.gradle.api.Project;
-import org.gradle.testfixtures.ProjectBuilder;
-import org.junit.Before;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
+
+import static org.junit.Assert.assertEquals;
 
 /** Test for {@link LicensesTask#isGoogleServices(String)} */
 @RunWith(Parameterized.class)
