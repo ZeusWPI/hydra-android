@@ -58,6 +58,11 @@ final class FirebaseEvents implements BaseEvents {
         return FirebaseAnalytics.Event.VIEW_ITEM;
     }
 
+    @Override
+    public String cardDismissal() {
+        return "card_dismissal";
+    }
+
     private final static class FirebaseParams implements BaseEvents.Params {
 
         @Override
@@ -88,6 +93,21 @@ final class FirebaseEvents implements BaseEvents {
         @Override
         public String itemCategory() {
             return FirebaseAnalytics.Param.ITEM_CATEGORY;
+        }
+
+        @Override
+        public String dismissalType() {
+            return "dismissal_type";
+        }
+
+        @Override
+        public String cardType() {
+            return "card_type";
+        }
+
+        @Override
+        public String cardIdentifier() {
+            return "card_identifier";
         }
     }
 }

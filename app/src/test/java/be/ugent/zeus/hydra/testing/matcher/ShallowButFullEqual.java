@@ -1,25 +1,24 @@
 package be.ugent.zeus.hydra.testing.matcher;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.apache.commons.lang3.reflect.FieldUtils;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.hamcrest.core.IsEqual;
+import org.threeten.bp.chrono.ChronoZonedDateTime;
+
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import org.apache.commons.lang3.reflect.FieldUtils;
-import org.hamcrest.Description;
-import org.hamcrest.Factory;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
-import org.hamcrest.core.IsEqual;
-import org.threeten.bp.chrono.ChronoZonedDateTime;
-
 /**
- * Improved version of SamePropertyValues from Hamcrest, but with support for custom matchers for custom types.
+ * An improved version of SamePropertyValues from Hamcrest, but with support for custom matchers for custom types.
  *
- * The intended use case is matching {@link org.threeten.bp.ZonedDateTime}, which don't use the equals method to see
+ * The intended use case is matching {@link org.threeten.bp.ZonedDateTime}, which don't use the "equals" method to see
  * if they are logically the same object (they use {@link org.threeten.bp.ZonedDateTime#isEqual(ChronoZonedDateTime)}).
  *
  * @author Niko Strijbol
@@ -28,7 +27,7 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
 
     private final T expectedBean;
     private final Fields<T> fields;
-    private final Map<Class<Object>, Function<Object, Matcher<Object>>> matcherMap;
+    private final Map<Class<?>, Function<Object, Matcher<Object>>> matcherMap;
 
     private ShallowButFullEqual(T expectedBean) {
         //noinspection unchecked
@@ -71,14 +70,10 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
                 if (expected == null || actual == null) {
                     if (expected != null || actual != null) {
                         mismatchDescription.appendText(ToStringBuilder.reflectionToString(item, ToStringStyle.MULTI_LINE_STYLE));
-                        //mismatchDescription.appendText(field.getName() + " ");
-                        //matcher.describeMismatch(actual, mismatchDescription);
                         return false;
                     }
                 } else {
-                    @SuppressWarnings({"SuspiciousMethodCalls", "ConstantConditions"})
-                    Matcher<Object> matcher = matcherMap.getOrDefault(expected.getClass(), IsEqual::new).apply(expected);
-
+                    Matcher<?> matcher = matcherMap.getOrDefault(expected.getClass(), IsEqual::new).apply(expected);
                     if (!matcher.matches(actual)) {
                         mismatchDescription.appendText(ToStringBuilder.reflectionToString(item, ToStringStyle.MULTI_LINE_STYLE));
                         return false;
@@ -102,17 +97,15 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
      * For example:
      * <pre>assertThat(myBean, sameFieldsAs(myExpectedBean))</pre>
      *
-     * @param expectedBean
-     *     the bean against which examined beans are compared
+     * @param expectedBean the bean against which examined beans are compared
      */
-    @Factory
     public static <T> ShallowButFullEqual<T> sameFieldsAs(T expectedBean) {
         return new ShallowButFullEqual<>(expectedBean);
     }
 
     @SuppressWarnings("unchecked")
     public <V> ShallowButFullEqual<T> withMatcher(Class<V> clazz, Function<V, Matcher<V>> matcher) {
-        matcherMap.put((Class<Object>) clazz, (Function<Object, Matcher<Object>>)(Function<?,?>) matcher);
+        matcherMap.put(clazz, (Function<Object, Matcher<Object>>) (Function<?, ?>) matcher);
         return this;
     }
 

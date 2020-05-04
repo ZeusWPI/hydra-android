@@ -1,15 +1,15 @@
 package be.ugent.zeus.hydra.resto.history;
 
 import android.app.DatePickerDialog;
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.SingleDayFragment;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectableMetaViewModel;
 import be.ugent.zeus.hydra.resto.meta.selectable.SelectedResto;
-import be.ugent.zeus.hydra.utils.DateUtils;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.Month;
 import org.threeten.bp.ZoneId;
@@ -62,13 +62,15 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
         restoSpinner = findViewById(R.id.resto_spinner);
         restoSpinner.setEnabled(false);
         restoProgressBar = findViewById(R.id.resto_progress_bar);
-        restoAdapter = new NoPaddingArrayAdapter<>(bottomToolbar.getContext(), android.R.layout.simple_spinner_item);
+        restoAdapter = new NoPaddingArrayAdapter<>(bottomToolbar.getContext(), R.layout.x_spinner_title_resto);
         restoAdapter.add(new SelectedResto.Wrapper(getString(R.string.resto_spinner_loading)));
         restoAdapter.setDropDownViewResource(R.layout.x_simple_spinner_dropdown_item);
         restoSpinner.setAdapter(restoAdapter);
 
+        final ViewModelProvider provider = new ViewModelProvider(this);
+
         errorView = findViewById(R.id.error_view);
-        viewModel = ViewModelProviders.of(this).get(SingleDayViewModel.class);
+        viewModel = provider.get(SingleDayViewModel.class);
         viewModel.changeDate(localDate); // Set the initial date
         viewModel.getData().observe(this, new SuccessObserver<RestoMenu>() {
             @Override
@@ -82,7 +84,7 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
         viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
         viewModel.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
 
-        SelectableMetaViewModel metaViewModel = ViewModelProviders.of(this).get(SelectableMetaViewModel.class);
+        SelectableMetaViewModel metaViewModel = provider.get(SelectableMetaViewModel.class);
         metaViewModel.getData().observe(this, SuccessObserver.with(this::onReceiveRestos));
 
         findViewById(R.id.fab).setOnClickListener(v -> createAndSetupDialog().show());
@@ -146,7 +148,7 @@ public class HistoryActivity extends BaseActivity implements DatePickerDialog.On
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(ARG_DATE, localDate);
     }

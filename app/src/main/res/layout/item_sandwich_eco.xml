@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/list_two_line_padding_vertical"
+    android:paddingRight="@dimen/list_two_line_padding_vertical"
+    android:paddingTop="@dimen/list_two_line_padding_horizontal"
+    android:paddingBottom="@dimen/list_two_line_padding_horizontal"
+    android:gravity="top"
+    android:background="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:baselineAligned="false">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:drawablePadding="@dimen/card_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/name"
+                style="?textAppearanceBody1"
+                tools:text="Naam van het broodje" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dates"
+                style="?textAppearanceBody2"
+                tools:text="Naam van het broodje" />
+
+    </LinearLayout>
+
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/expandable_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            tools:text="Heel veel ingrediënten hier."
+            android:id="@+id/sandwich_ingredients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            style="?textAppearanceBody2" />
+
+    </net.cachapa.expandablelayout.ExpandableLayout>
+
+</LinearLayout>

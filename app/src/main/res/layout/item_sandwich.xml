@@ -17,12 +17,12 @@
         android:orientation="horizontal"
         android:baselineAligned="false">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/sandwich_name"
-            android:textSize="@dimen/material_list_normal_primary_text_size"
+            style="?textAppearanceBody1"
             tools:text="Naam van het broodje" />
 
         <LinearLayout
@@ -32,19 +32,19 @@
             android:layout_gravity="top"
             android:gravity="end">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/sandwich_price_medium"
-                android:textSize="@dimen/material_list_normal_primary_text_size"
+                style="?textAppearanceBody1"
                 android:textIsSelectable="true"
                 tools:text="Prijs groot" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/sandwich_price_small"
-                android:textSize="@dimen/material_list_normal_secondary_text_size"
+                style="?textAppearanceBody2"
                 android:textIsSelectable="true"
                 tools:text="Prijs klein" />
         </LinearLayout>
@@ -55,13 +55,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            tools:text="Heel veel ingrediëten hier."
+        <com.google.android.material.textview.MaterialTextView
+            tools:text="Heel veel ingrediënten hier."
             android:id="@+id/sandwich_ingredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textIsSelectable="true"
-            android:textColor="?android:attr/textColorSecondary" />
+            style="?textAppearanceBody2" />
 
     </net.cachapa.expandablelayout.ExpandableLayout>
 

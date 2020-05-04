@@ -3,10 +3,10 @@ package be.ugent.zeus.hydra.feed.operations;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
-import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.common.request.Result;
-
 import java.util.List;
+
+import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.feed.cards.Card;
 
 /**
  * This is a simple interface that defines an operation on the home feed.

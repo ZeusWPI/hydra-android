@@ -5,12 +5,10 @@ import androidx.room.migration.Migration;
 import androidx.annotation.NonNull;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.feed.cards.CardDismissal;
+import be.ugent.zeus.hydra.feed.cards.dismissal.CardDismissal;
 
 /**
  * This migration adds support for {@link CardDismissal}s.
- *
- * TODO: this fails?
  *
  * @author Niko Strijbol
  */

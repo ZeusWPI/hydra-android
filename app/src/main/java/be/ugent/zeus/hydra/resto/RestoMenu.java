@@ -45,14 +45,14 @@ public final class RestoMenu implements Parcelable {
     }
 
     /**
-     * @return If the resto is open.
+     * @return If the resto is closed.
      */
-    public boolean isOpen() {
-        return open;
+    public boolean isClosed() {
+        return !open;
     }
 
     /**
-     * @see #isOpen()
+     * @see #isClosed()
      */
     public void setOpen(boolean open) {
         this.open = open;

@@ -1,25 +1,22 @@
 package be.ugent.zeus.hydra.resto.extrafood;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
-
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * @author Niko Strijbol
@@ -57,10 +54,10 @@ public class FoodFragment extends Fragment {
 
         int position = requireArguments().getInt(ARG_POSITION);
 
-        viewModel = ViewModelProviders.of(requireActivity()).get(ExtraFoodViewModel.class);
-        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(this, new SuccessObserver<ExtraFood>() {
+        viewModel = new ViewModelProvider(requireActivity()).get(ExtraFoodViewModel.class);
+        viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.getData().observe(getViewLifecycleOwner(), new SuccessObserver<ExtraFood>() {
             @Override
             protected void onSuccess(@NonNull ExtraFood data) {
                 adapter.submitData(ExtraFoodViewModel.getFor(position, data));

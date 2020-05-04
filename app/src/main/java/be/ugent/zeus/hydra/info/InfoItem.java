@@ -3,11 +3,11 @@ package be.ugent.zeus.hydra.info;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.squareup.moshi.Json;
+import java.util.List;
+
 import java9.util.Objects;
 
-import java.io.Serializable;
-import java.util.List;
+import com.squareup.moshi.Json;
 
 /**
  * An info item.
@@ -15,6 +15,7 @@ import java.util.List;
  * @author Juta
  * @author Niko Strijbol
  */
+@SuppressWarnings("unused")
 public final class InfoItem implements Parcelable {
 
     private String title;
@@ -89,8 +90,9 @@ public final class InfoItem implements Parcelable {
         }
     }
 
-    @SuppressWarnings("unused") // Used by Moshi.
-    public InfoItem() {}
+    public InfoItem() {
+        // Used by Moshi.
+    }
 
     protected InfoItem(Parcel in) {
         title = in.readString();

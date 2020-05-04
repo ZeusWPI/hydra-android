@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra.testing;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import be.ugent.zeus.hydra.feed.cards.database.CardDaoTest;
+import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDaoTest;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -41,7 +42,7 @@ public class Utils {
                 .randomize(LocalDate.class, LocalDate::now)
                 .randomize(OffsetDateTime.class, OffsetDateTime::now)
                 .randomize(Instant.class, Instant::now);
-        for (String excluded: exclude) {
+        for (String excluded : exclude) {
             params.excludeField(named(excluded));
         }
         return new EasyRandom(params).nextObject(clazz);
@@ -54,7 +55,7 @@ public class Utils {
                 .randomize(LocalDate.class, LocalDate::now)
                 .randomize(OffsetDateTime.class, OffsetDateTime::now)
                 .randomize(Instant.class, Instant::now);
-        for (String excluded: exclude) {
+        for (String excluded : exclude) {
             params.excludeField(named(excluded));
         }
         return new EasyRandom(params).objects(clazz, amount);
@@ -80,9 +81,8 @@ public class Utils {
         return adapter.fromJson(source);
     }
 
-    @SuppressWarnings("ConstantConditions")
     public static File getResourceFile(String resourcePath) {
-        return new File(CardDaoTest.class.getClassLoader().getResource(resourcePath).getFile());
+        return new File(DismissalDaoTest.class.getClassLoader().getResource(resourcePath).getFile());
     }
 
     private static final Random random = new Random();
@@ -99,5 +99,27 @@ public class Utils {
         List<T> copy = new ArrayList<>(collection);
         Collections.shuffle(copy);
         return copy.subList(0, amount);
+    }
+
+    /**
+     * Set a field to a value using reflection.
+     *
+     * Note: while useful when testing json classes for example, try to minimize usage.
+     *
+     * @param instance The instance to set the field on.
+     * @param name The name of the field to set.
+     * @param value The value to set the field to.
+     */
+    public static void setField(Object instance, String name, Object value) {
+        try {
+
+            Field declaredField = instance.getClass().getDeclaredField(name);
+            boolean accessible = declaredField.isAccessible();
+            declaredField.setAccessible(true);
+            declaredField.set(instance, value);
+            declaredField.setAccessible(accessible);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

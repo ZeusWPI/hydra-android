@@ -7,10 +7,11 @@ import androidx.annotation.Nullable;
 
 /**
  * Enables other components to call {@link android.app.Activity#startActivityForResult(Intent, int)} or
- * {@link android.app.Fragment#startActivityForResult(Intent, int)}.
+ * {@link androidx.fragment.app.Fragment#startActivity(Intent, Bundle)}.
  *
  * @author Niko Strijbol
  */
+@SuppressWarnings("unused")
 public interface ResultStarter {
 
     Context getContext();

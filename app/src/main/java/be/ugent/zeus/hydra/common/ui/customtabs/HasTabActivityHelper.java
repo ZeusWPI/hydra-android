@@ -8,11 +8,13 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.browser.customtabs.*;
 import android.util.Log;
 
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
@@ -39,7 +41,6 @@ class HasTabActivityHelper implements ActivityHelper {
     private CustomTabsSession customTabsSession;
     private WeakReference<CustomTabsClient> client;
     private CustomTabsServiceConnection connection;
-    private CustomTabsCallback callback;
 
     /**
      * Package local constructor.
@@ -54,13 +55,8 @@ class HasTabActivityHelper implements ActivityHelper {
         this.intentFlags = flags;
     }
 
-    @Override
-    public void setCallback(@Nullable CustomTabsCallback callback) {
-        this.callback = callback;
-    }
-
     /**
-     * Opens the URL on a Custom Tab if possible. Otherwise fall back to opening it on a WebView
+     * Opens the URL on a Custom Tab if possible. Otherwise, fall back to opening it on a WebView
      *
      * @param uri the Uri to be opened
      */
@@ -69,7 +65,7 @@ class HasTabActivityHelper implements ActivityHelper {
 
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(customTabsSession);
         //Set the theme color
-        builder.setToolbarColor(ViewUtils.getPrimaryColor(activity.get()));
+        builder.setToolbarColor(ColourUtils.resolveColour(activity.get(), R.attr.colorPrimarySurface));
 
         Set<String> nat = getNativeAppPackage(activity.get(), uri);
         if (!nat.isEmpty()) {
@@ -117,7 +113,7 @@ class HasTabActivityHelper implements ActivityHelper {
         if (client == null) {
             customTabsSession = null;
         } else if (customTabsSession == null) {
-            customTabsSession = client.get().newSession(this.callback);
+            customTabsSession = client.get().newSession(null);
         }
 
         return customTabsSession;
@@ -140,7 +136,7 @@ class HasTabActivityHelper implements ActivityHelper {
 
         connection = new CustomTabsServiceConnection() {
             @Override
-            public void onCustomTabsServiceConnected(ComponentName name, CustomTabsClient client) {
+            public void onCustomTabsServiceConnected(@NonNull ComponentName name, @NonNull CustomTabsClient client) {
                 HasTabActivityHelper.this.client = new WeakReference<>(client);
                 try {
                     HasTabActivityHelper.this.client.get().warmup(0L);

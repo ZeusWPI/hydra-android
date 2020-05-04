@@ -23,26 +23,27 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Hydra.Main.NoActionBar"
+        android:theme="@style/Hydra.DayNight"
         android:networkSecurityConfig="@xml/network_security_config"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
 
         <!-- Disable Firebase Reporting until explicitly started -->
-        <meta-data android:name="firebase_analytics_collection_enabled" android:value="false" />
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
         <!-- Disables automatic initialisation of Crashlytics. -->
-        <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
-
-        <!-- This is used for the Google Maps fragment -->
-        <!-- See https://developers.google.com/maps/documentation/android-sdk/config#specify_requirement_for_apache_http_legacy_library -->
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false" />
+        <!-- The Maps API key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${google_maps_key}" />
 
         <!-- Main activity -->
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/Hydra.Main.NoActionBar.SystemWindows">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -53,40 +54,27 @@
                 android:resource="@xml/shortcuts" />
         </activity>
 
-        <!-- Settings -->
+        <!-- Generic preference activity, which can load a preference fragment. -->
         <activity
-            android:name=".common.preferences.SettingsActivity"
-            android:label="@string/action_view_settings"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/Hydra.Main">
+            android:name=".preferences.PreferenceActivity"
+            android:parentActivityName=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <!-- Association select preference activity -->
-        <activity
-            android:name=".association.preference.AssociationSelectPrefActivity"
-            android:label="Verenigingen"
-            android:parentActivityName=".common.preferences.SettingsActivity" />
-
-        <!-- Association select preference activity -->
+        <!-- Select preferences for home feed -->
         <activity
             android:name=".feed.preferences.HomeFeedPrefActivity"
             android:label="@string/feed_pref_card_types_title"
-            android:parentActivityName=".common.preferences.SettingsActivity" />
+            android:parentActivityName=".preferences.PreferenceActivity" />
 
         <!-- Sandwich overview -->
         <activity
             android:name=".resto.sandwich.SandwichActivity"
             android:label="@string/resto_sandwich_activity_title"
             android:parentActivityName=".MainActivity" />
-
-        <!-- The Maps API key -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="${google_maps_key}" />
 
         <!-- Show a map of resto's -->
         <activity
@@ -113,20 +101,6 @@
             android:label="@string/info_sub_item_activity_title"
             android:parentActivityName=".MainActivity" />
 
-        <!-- Display a Schamper article -->
-        <activity
-            android:name=".schamper.FullArticleActivity"
-            android:label="@string/schamper_article_activity_title"
-            android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
-
-        <!-- Show news article -->
-        <activity
-            android:name=".association.news.NewsArticleActivity"
-            android:label="@string/new_article_activity_title"
-            android:parentActivityName=".MainActivity" />
-
         <!-- Show a web view -->
         <activity
             android:name=".common.ui.WebViewActivity"
@@ -145,40 +119,36 @@
             android:label="@string/sko_overview_activity_title"
             android:launchMode="singleTop"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Hydra.Main.NoActionBar.Sko" />
+            android:theme="@style/Hydra.Sko" />
 
         <!-- SKO artist page -->
         <activity
-            android:name=".sko.lineup.ArtistDetailsActivity"
+            android:name=".sko.ArtistDetailsActivity"
             android:label="Artiest"
             android:parentActivityName=".sko.OverviewActivity"
-            android:theme="@style/Hydra.Main.NoActionBar.Sko.SystemWindows" />
+            android:theme="@style/Hydra.Sko.SystemWindows" />
 
         <!-- Onboarding activity -->
         <activity
             android:name=".onboarding.OnboardingActivity"
-            android:theme="@style/Theme.Intro" />
-        <activity
-            android:name=".common.ui.ExceptionDialogActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+            android:theme="@style/Hydra.Base.Onboarding" />
 
         <!-- Library details -->
         <activity
             android:name=".library.details.LibraryDetailActivity"
             android:label="Bibliotheek"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Hydra.Main.NoActionBar.SystemWindows" />
+            android:theme="@style/Hydra.DayNight.SystemWindows" />
 
         <activity
-                android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
-                android:theme="@style/Hydra.Main" />
+            android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity" />
         <activity
-                android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
-                android:theme="@style/Hydra.Main" />
+            android:name="com.google.android.gms.oss.licenses.OssLicensesActivity" />
 
         <!-- Urgent stuff -->
         <!-- This is a music service without sensitive data and thus does not require permissions -->
         <service
+            android:foregroundServiceType="mediaPlayback"
             android:name=".urgent.MusicService"
             android:exported="true"
             android:process=":urgent"
@@ -191,23 +161,6 @@
         <receiver android:name="androidx.media.session.MediaButtonReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </receiver>
-
-        <!-- Slices stuff -->
-        <provider android:name=".resto.menu.slice.SliceProvider"
-            android:authorities="be.ugent.zeus.hydra.resto.menu"
-            android:exported="true"
-            tools:ignore="ExportedContentProvider">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.app.slice.category.SLICE" />
-            </intent-filter>
-        </provider>
-
-        <receiver android:name = ".resto.menu.slice.UpdatedMenuBroadcastReceiver" android:exported="false">
-            <intent-filter>
-                <action android:name="be.ugent.zeus.hydra.resto.update" />
             </intent-filter>
         </receiver>
     </application>

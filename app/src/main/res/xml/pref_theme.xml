@@ -1,37 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-	<PreferenceCategory
-		android:title="@string/pref_theme_night_mode_title">
-		<ListPreference
-			android:key="pref_theme_night_mode"
-			android:title="@string/pref_theme_use_night_title"
-			android:summary="%s"
-			android:entries="@array/pref_night_mode"
-			android:entryValues="@array/pref_night_mode_values"
-			android:defaultValue="3" />
-	</PreferenceCategory>
+    <PreferenceCategory
+        app:title="@string/pref_theme_night_mode_title"
+        app:iconSpaceReserved="false">
+        <ListPreference
+            app:iconSpaceReserved="false"
+            app:key="pref_theme_night_mode"
+            app:title="@string/pref_theme_use_night_title"
+            app:summary="%s" />
+    </PreferenceCategory>
 
-	<PreferenceCategory
-		android:title="@string/pref_theme_explanations">
-		<Preference
-			android:persistent="false"
-			android:title="@string/pref_theme_night_mode_auto"
-			android:summary="@string/pref_theme_night_mode_auto_desc" />
+    <PreferenceCategory
+        app:title="@string/pref_theme_explanations"
+        app:iconSpaceReserved="false">
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="pref_theme_battery"
+            app:persistent="false"
+            app:title="@string/pref_theme_night_mode_battery"
+            app:summary="@string/pref_theme_night_mode_battery_desc" />
 
-		<Preference
-			android:persistent="false"
-			android:title="@string/pref_theme_night_mode_never"
-			android:summary="@string/pref_theme_night_mode_never_desc" />
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="pref_theme_system"
+            app:persistent="false"
+            app:title="@string/pref_theme_night_mode_system"
+            app:summary="@string/pref_theme_night_mode_system_desc" />
 
-		<Preference
-			android:persistent="false"
-			android:title="@string/pref_theme_night_mode_always"
-			android:summary="@string/pref_theme_night_mode_always_desc" />
+        <Preference
+            app:iconSpaceReserved="false"
+            app:persistent="false"
+            app:title="@string/pref_theme_night_mode_never"
+            app:summary="@string/pref_theme_night_mode_never_desc" />
 
-		<Preference
-			android:persistent="false"
-			android:title="@string/pref_theme_night_mode_system"
-			android:summary="@string/pref_theme_night_mode_system_desc" />
-	</PreferenceCategory>
+        <Preference
+            app:iconSpaceReserved="false"
+            app:persistent="false"
+            app:title="@string/pref_theme_night_mode_always"
+            app:summary="@string/pref_theme_night_mode_always_desc" />
+
+    </PreferenceCategory>
 </PreferenceScreen>

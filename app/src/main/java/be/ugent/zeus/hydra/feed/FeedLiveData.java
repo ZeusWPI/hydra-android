@@ -5,37 +5,38 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 
 import java.util.*;
-
-import be.ugent.zeus.hydra.BuildConfig;
-import be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity;
-import be.ugent.zeus.hydra.common.ExtendedSparseArray;
-import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
-import be.ugent.zeus.hydra.common.database.RepositoryFactory;
-import be.ugent.zeus.hydra.common.request.Result;
-import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.feed.cards.CardRepository;
-import be.ugent.zeus.hydra.feed.cards.implementations.debug.WaitRequest;
-import be.ugent.zeus.hydra.feed.cards.implementations.event.EventRequest;
-import be.ugent.zeus.hydra.feed.cards.implementations.news.NewsRequest;
-import be.ugent.zeus.hydra.feed.cards.implementations.resto.RestoRequest;
-import be.ugent.zeus.hydra.feed.cards.implementations.schamper.SchamperRequest;
-import be.ugent.zeus.hydra.feed.cards.implementations.specialevent.LimitingSpecialEventRequest;
-import be.ugent.zeus.hydra.feed.cards.implementations.urgent.UrgentRequest;
-import be.ugent.zeus.hydra.feed.operations.FeedOperation;
-import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
 
 import java9.util.J8Arrays;
 import java9.util.function.IntPredicate;
 import java9.util.stream.Collectors;
 import java9.util.stream.StreamSupport;
+
+import be.ugent.zeus.hydra.BuildConfig;
+import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
+import be.ugent.zeus.hydra.common.ExtendedSparseArray;
+import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
+import be.ugent.zeus.hydra.common.database.Database;
+import be.ugent.zeus.hydra.common.request.Result;
+import be.ugent.zeus.hydra.feed.cards.Card;
+import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
+import be.ugent.zeus.hydra.feed.cards.debug.WaitRequest;
+import be.ugent.zeus.hydra.feed.cards.event.EventRequest;
+import be.ugent.zeus.hydra.feed.cards.library.LibraryRequest;
+import be.ugent.zeus.hydra.feed.cards.news.NewsRequest;
+import be.ugent.zeus.hydra.feed.cards.resto.RestoRequest;
+import be.ugent.zeus.hydra.feed.cards.schamper.SchamperRequest;
+import be.ugent.zeus.hydra.feed.cards.specialevent.LimitingSpecialEventRequest;
+import be.ugent.zeus.hydra.feed.cards.urgent.UrgentRequest;
+import be.ugent.zeus.hydra.feed.operations.FeedOperation;
+import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
+
 import static be.ugent.zeus.hydra.feed.operations.OperationFactory.add;
 import static be.ugent.zeus.hydra.feed.operations.OperationFactory.get;
 
@@ -66,10 +67,10 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
 
     private final Context applicationContext;
 
-    //For which settings the loader must refresh
+    // For which settings the loader must refresh.
     private static final String[] watchedPreferences = {
             HomeFeedFragment.PREF_DISABLED_CARD_TYPES,
-            AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING,
+            AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING,
             RestoPreferenceFragment.PREF_RESTO_KEY,
             RestoPreferenceFragment.PREF_RESTO_NAME,
             HomeFeedFragment.PREF_DISABLED_CARD_HACK
@@ -126,7 +127,10 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
         }
     }
 
-    private static List<Card> executeOperation(@Nullable Bundle args, FeedOperation operation, Collection<Integer> errors, List<Card> results) {
+    private static List<Card> executeOperation(@Nullable Bundle args,
+                                               FeedOperation operation,
+                                               Collection<Integer> errors,
+                                               List<Card> results) {
 
         Result<List<Card>> result = operation.transform(args, results);
 
@@ -167,7 +171,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
                 Set<Integer> errors = new HashSet<>();
                 Result<List<Card>> result = null;
 
-                for (FeedOperation operation: operations) {
+                for (FeedOperation operation : operations) {
                     if (isCancelled()) {
                         return null;
                     }
@@ -215,7 +219,7 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
 
         FeedCollection operations = new FeedCollection();
         Context c = applicationContext;
-        Set<Integer> s = StreamSupport.stream(PreferenceManager
+        Set<Integer> disabled = StreamSupport.stream(PreferenceManager
                 .getDefaultSharedPreferences(c)
                 .getStringSet(HomeFeedFragment.PREF_DISABLED_CARD_TYPES, Collections.emptySet()))
                 .map(Integer::parseInt)
@@ -223,24 +227,25 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
 
         // Don't do Urgent.fm if there is no network.
         if (!NetworkUtils.isConnected(c)) {
-            s.add(Card.Type.URGENT_FM);
+            disabled.add(Card.Type.URGENT_FM);
         }
 
         // Test if the card type is ignored or not.
-        IntPredicate d = s::contains;
+        IntPredicate d = disabled::contains;
 
         // Repositories
-        CardRepository cr = RepositoryFactory.getCardRepository(c);
+        DismissalDao cd = Database.get(c).getCardDao();
 
-        //Always insert the special events.
-        operations.add(add(new LimitingSpecialEventRequest(c, cr)));
+        // Always insert the special events.
+        operations.add(add(new LimitingSpecialEventRequest(c, cd)));
 
-        //Add other stuff if needed
-        operations.add(get(d, () -> new RestoRequest(c, cr), Card.Type.RESTO));
-        operations.add(get(d, () -> new EventRequest(c, cr), Card.Type.ACTIVITY));
-        operations.add(get(d, () -> new SchamperRequest(c, cr), Card.Type.SCHAMPER));
-        operations.add(get(d, () -> new NewsRequest(c, cr), Card.Type.NEWS_ITEM));
+        // Add other stuff if needed.
+        operations.add(get(d, () -> new RestoRequest(c, cd), Card.Type.RESTO));
+        operations.add(get(d, () -> new EventRequest(c, cd), Card.Type.ACTIVITY));
+        operations.add(get(d, () -> new SchamperRequest(c, cd), Card.Type.SCHAMPER));
+        operations.add(get(d, () -> new NewsRequest(c, cd), Card.Type.NEWS_ITEM));
         operations.add(get(d, UrgentRequest::new, Card.Type.URGENT_FM));
+        operations.add(get(d, () -> new LibraryRequest(c), Card.Type.LIBRARY));
 
         // Add debug request.
         if (BuildConfig.DEBUG && BuildConfig.DEBUG_HOME_STREAM_STALL) {
@@ -254,7 +259,8 @@ public class FeedLiveData extends BaseLiveData<Result<List<Card>>> {
      * Filter the requests to only include the requests that should be executed.
      *
      * @param allOperations A list of all possible operations.
-     * @param args The arguments to determine which requests will be executed.
+     * @param args          The arguments to determine which requests will be executed.
+     *
      * @return The requests to be executed.
      */
     private static Iterable<FeedOperation> findOperations(ExtendedSparseArray<FeedOperation> allOperations, @NonNull Bundle args) {

@@ -8,7 +8,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".onboarding.OnboardingActivity">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:paddingTop="@dimen/large_horizontal_padding"
         android:paddingLeft="@dimen/vertical_padding"
         android:paddingRight="@dimen/vertical_padding"
@@ -16,17 +16,16 @@
         android:layout_height="wrap_content"
         android:text="@string/onboarding_feed_title"
         android:gravity="center"
-        android:fontFamily="sans-serif-medium"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="?android:textColorPrimary"/>
+        style="?textAppearanceHeadline5"
+        android:textColor="?colorOnPrimary"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:paddingLeft="@dimen/vertical_padding"
         android:paddingRight="@dimen/vertical_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        style="?textAppearanceSubtitle1"
         android:text="@string/onboarding_feed_desc"/>
 
     <FrameLayout

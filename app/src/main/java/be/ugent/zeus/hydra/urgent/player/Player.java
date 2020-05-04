@@ -20,6 +20,26 @@ import java.util.Objects;
 import static be.ugent.zeus.hydra.urgent.player.MediaStateListener.State.*;
 
 /**
+ * The main API for controlling audio playback.
+ * <br>
+ * Android has various restrictions and permissions on background playing, audio playback, wifi usage, etc. These things
+ * are not managed by this class, but by the {@link be.ugent.zeus.hydra.urgent.MusicService}.
+ *
+ * <h2>Playback</h2>
+ * This class does not actually control the actual playback. That is done by the {@link InternalPlayer}. This class
+ * exists to manage the state of said player, meaning it will ensure the internal player is in the correct state
+ * before calling methods, such as play or pause.
+ *
+ * <h2>Control</h2>
+ * The player should not be controlled directly by other code. Instead, Android's media sessions should be used. This
+ * class will ensure all necessary callbacks (such as {@link SessionPlayerCallback} and {@link PlayerSessionCallback})
+ * are correctly set and attached.
+ *
+ * <h2>Relation to {@link be.ugent.zeus.hydra.urgent.MusicService}</h2>
+ * While the service will start this player and connect it to the media session, it will not control it. After the
+ * connection is made, this class will take over control (and this class will be in turn controlled by the media
+ * sessions, as mentioned above).
+ *
  * @author Niko Strijbol
  */
 public class Player {
@@ -30,7 +50,8 @@ public class Player {
     private static final float MEDIA_VOLUME_DUCK = 0.2f;
 
     /**
-     * Indicates if the player should start playing if the state becomes {@link be.ugent.zeus.hydra.urgent.player.MediaStateListener.State#PREPARED}.
+     * Indicates if the player should start playing if the state becomes
+     * {@link be.ugent.zeus.hydra.urgent.player.MediaStateListener.State#PREPARED}.
      *
      * This is modifiable in this package.
      */
@@ -72,7 +93,11 @@ public class Player {
 
     private final MetadataListener metadataListener;
 
-    private Player(Context context, AudioManager manager, AudioAttributesCompat audioAttributes, UrgentTrackProvider provider, MetadataListener metadataListener) {
+    private Player(Context context,
+                   AudioManager manager,
+                   AudioAttributesCompat audioAttributes,
+                   UrgentTrackProvider provider,
+                   MetadataListener metadataListener) {
         this.provider = provider;
         this.context = context;
         this.mediaPlayer = new InternalPlayer(context);

@@ -2,8 +2,7 @@ package be.ugent.zeus.hydra.resto.menu;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 
 import java.io.IOException;

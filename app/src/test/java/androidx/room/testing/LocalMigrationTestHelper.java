@@ -34,6 +34,7 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
+@SuppressWarnings({"FieldMayBeFinal", "unused", "deprecation"})
 public class LocalMigrationTestHelper extends TestWatcher {
 
     private static final String TAG = "MigrationTestHelper";
@@ -63,8 +64,8 @@ public class LocalMigrationTestHelper extends TestWatcher {
      * @param assetsFolder    The asset folder in the assets directory.
      * @param openFactory     Factory class that allows creation of {@link SupportSQLiteOpenHelper}
      */
-    public LocalMigrationTestHelper(Instrumentation instrumentation, String assetsFolder,
-                               SupportSQLiteOpenHelper.Factory openFactory) {
+    private LocalMigrationTestHelper(Instrumentation instrumentation, String assetsFolder,
+                                     SupportSQLiteOpenHelper.Factory openFactory) {
         mInstrumentation = instrumentation;
         if (assetsFolder.endsWith("/")) {
             assetsFolder = assetsFolder.substring(0, assetsFolder.length() - 1);
@@ -103,12 +104,21 @@ public class LocalMigrationTestHelper extends TestWatcher {
         SchemaBundle schemaBundle = loadSchema(version);
         RoomDatabase.MigrationContainer container = new RoomDatabase.MigrationContainer();
         DatabaseConfiguration configuration = new DatabaseConfiguration(
-                mInstrumentation.getTargetContext(), name, mOpenFactory, container, null, true,
+                mInstrumentation.getTargetContext(),
+                name,
+                mOpenFactory,
+                container,
+                null,
+                true,
                 RoomDatabase.JournalMode.TRUNCATE,
                 ArchTaskExecutor.getIOThreadExecutor(),
-                true, Collections.<Integer>emptySet());
+                ArchTaskExecutor.getIOThreadExecutor(),
+                false,
+                true,
+                false,
+                Collections.emptySet());
         RoomOpenHelper roomOpenHelper = new RoomOpenHelper(configuration,
-                new CreatingDelegate(schemaBundle.getDatabase()),
+                new MigrationTestHelper.CreatingDelegate(schemaBundle.getDatabase()),
                 schemaBundle.getDatabase().getIdentityHash(),
                 // we pass the same hash twice since an old schema does not necessarily have
                 // a legacy hash and we would not even persist it.
@@ -160,7 +170,7 @@ public class LocalMigrationTestHelper extends TestWatcher {
                 RoomDatabase.JournalMode.TRUNCATE,
                 ArchTaskExecutor.getIOThreadExecutor(),
                 true,
-                Collections.<Integer>emptySet());
+                Collections.emptySet());
         RoomOpenHelper roomOpenHelper = new RoomOpenHelper(configuration,
                 new MigratingDelegate(schemaBundle.getDatabase(), validateDroppedTables),
                 // we pass the same hash twice since an old schema does not necessarily have
@@ -243,7 +253,6 @@ public class LocalMigrationTestHelper extends TestWatcher {
             Log.w(TAG, "Could not find the schema file in the test assets. Checking the"
                     + " application assets");
             // Try loading it from the resources.
-            @SuppressWarnings("ConstantConditions")
             InputStream stream = getClass().getClassLoader()
                     .getResourceAsStream(mAssetsFolder + "/" + version + ".json");
             return SchemaBundle.deserialize(stream);
@@ -313,7 +322,7 @@ public class LocalMigrationTestHelper extends TestWatcher {
         return 0;
     }
 
-    static class MigratingDelegate extends RoomOpenHelperDelegate {
+    static class MigratingDelegate extends MigrationTestHelper.RoomOpenHelperDelegate {
         private final boolean mVerifyDroppedTables;
 
         MigratingDelegate(DatabaseBundle databaseBundle, boolean verifyDroppedTables) {
@@ -357,48 +366,6 @@ public class LocalMigrationTestHelper extends TestWatcher {
                     cursor.close();
                 }
             }
-        }
-    }
-
-    static class CreatingDelegate extends RoomOpenHelperDelegate {
-
-        CreatingDelegate(DatabaseBundle databaseBundle) {
-            super(databaseBundle);
-        }
-
-        @Override
-        protected void createAllTables(SupportSQLiteDatabase database) {
-            for (String query : mDatabaseBundle.buildCreateQueries()) {
-                database.execSQL(query);
-            }
-        }
-
-        @Override
-        protected void validateMigration(SupportSQLiteDatabase db) {
-            throw new UnsupportedOperationException("This open helper just creates the database but"
-                    + " it received a migration request.");
-        }
-    }
-
-    abstract static class RoomOpenHelperDelegate extends RoomOpenHelper.Delegate {
-        final DatabaseBundle mDatabaseBundle;
-
-        RoomOpenHelperDelegate(DatabaseBundle databaseBundle) {
-            super(databaseBundle.getVersion());
-            mDatabaseBundle = databaseBundle;
-        }
-
-        @Override
-        protected void dropAllTables(SupportSQLiteDatabase database) {
-            throw new UnsupportedOperationException("cannot drop all tables in the test");
-        }
-
-        @Override
-        protected void onCreate(SupportSQLiteDatabase database) {
-        }
-
-        @Override
-        protected void onOpen(SupportSQLiteDatabase database) {
         }
     }
 }

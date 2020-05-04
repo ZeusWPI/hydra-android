@@ -2,8 +2,6 @@ package be.ugent.zeus.hydra.common.reporting;
 
 import android.app.Activity;
 
-import com.crashlytics.android.Crashlytics;
-
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 

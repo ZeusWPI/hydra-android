@@ -73,12 +73,25 @@ public interface BaseEvents {
      * <li>{@link Params#itemCategory()}</li>
      * </ul>
      *
-     * @todo the difference between this and {@link #selectContent()}. This is more when something is shown to the user,
+     * todo the difference between this and {@link #selectContent()}. This is more when something is shown to the user,
      *   the other when something is selected by the user (can be button, photo, image, etc.)
      *   Perhaps: when a visitor clicks on an article, we log SELECT_ITEM. When a visitor views an article,
      *   we use VIEW_ITEM.
      */
     String viewItem();
+
+    /**
+     * A custom event to report that the user has dismissed a card from the home feed.
+     *
+     * Params:
+     * <ul>
+     *     <li>{@link Params#dismissalType()}</li>
+     *     <li>{@link Params#cardType()}</li>
+     *     <li>{@link Params#cardIdentifier()}</li>
+     * </ul>
+     *
+     */
+    String cardDismissal();
 
     interface Params {
         /**
@@ -111,5 +124,20 @@ public interface BaseEvents {
          * Item category (String).
          */
         String itemCategory();
+
+        /**
+         * Dismissal type (String)
+         */
+        String dismissalType();
+
+        /**
+         * Card type (int)
+         */
+        String cardType();
+
+        /**
+         * Card identifier (String)
+         */
+        String cardIdentifier();
     }
 }

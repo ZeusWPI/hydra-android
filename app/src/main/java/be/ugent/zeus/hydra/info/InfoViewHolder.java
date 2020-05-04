@@ -1,15 +1,14 @@
 package be.ugent.zeus.hydra.info;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import androidx.core.content.ContextCompat;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
@@ -37,11 +36,7 @@ class InfoViewHolder extends DataViewHolder<InfoItem> {
         title.setText(infoItem.getTitle());
         itemView.setOnClickListener(v -> infoItem.getType().doOnClick(v.getContext(), helper, infoItem));
 
-        // Get the primary colour of the app.
-        TypedValue typedValue = new TypedValue();
-        c.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-
-        Drawable more = infoItem.getType().getDrawable(itemView.getContext(), typedValue.resourceId);
+        Drawable more = infoItem.getType().getDrawable(itemView.getContext(), R.attr.colorPrimarySecondary);
 
         // If the item itself has an image.
         if (infoItem.getImage() != null) {
@@ -50,8 +45,14 @@ class InfoViewHolder extends DataViewHolder<InfoItem> {
                 Log.e(TAG, "Icon for info item " + infoItem.getImage() + " was not found!");
                 title.setCompoundDrawablesWithIntrinsicBounds(null, null, more, null);
             } else {
-                Drawable icon = ViewUtils.getTintedVectorDrawable(c, resId, typedValue.resourceId);
-                title.setCompoundDrawablesWithIntrinsicBounds(icon, null, more, null);
+                try {
+                    Drawable icon = ViewUtils.getTintedVectorDrawableAttr(c, resId, R.attr.colorPrimarySecondary);
+                    title.setCompoundDrawablesWithIntrinsicBounds(icon, null, more, null);
+                } catch (Resources.NotFoundException e) {
+                    Log.w(TAG, "On non-weird devices, this should not occur.", e);
+                    // Since it occurred anyway, ignore the error.
+                    title.setCompoundDrawablesWithIntrinsicBounds(null, null, more, null);
+                }
             }
         } else {
             title.setCompoundDrawablesWithIntrinsicBounds(null, null, more, null);

@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectSearchableAdapter;
 
 import java.util.Collections;
@@ -29,7 +29,7 @@ class SearchableAssociationsAdapter extends MultiSelectSearchableAdapter<Associa
         return new AssociationViewHolder(ViewUtils.inflate(parent, R.layout.item_checkbox_string),this);
     }
 
-    public Iterable<Pair<Association, Boolean>> getItemsAndState() {
+    Iterable<Pair<Association, Boolean>> getItemsAndState() {
         return Collections.unmodifiableCollection(allData);
     }
 }

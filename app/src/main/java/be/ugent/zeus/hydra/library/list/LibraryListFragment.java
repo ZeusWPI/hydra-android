@@ -1,26 +1,26 @@
 package be.ugent.zeus.hydra.library.list;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
 import android.util.Log;
 import android.view.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
+import com.google.android.material.snackbar.Snackbar;
 
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
+import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
 /**
  * @author Niko Strijbol
@@ -29,7 +29,6 @@ public class LibraryListFragment extends Fragment {
 
     private static final String TAG = "LibraryListFragment";
     private static final String LIB_URL = "http://lib.ugent.be/";
-    public static final String PREF_LIBRARY_FAVOURITES = "pref_library_favourites";
 
     private LibraryListAdapter adapter;
     private LibraryViewModel viewModel;
@@ -54,24 +53,24 @@ public class LibraryListFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.hydra_secondary_colour);
+        swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(requireContext(), R.attr.colorSecondary));
         // Disable drag to refresh, since it interferes with the fast scroller.
         // TODO: find a way to fix this without disable this.
         swipeRefreshLayout.setEnabled(false);
 
-        viewModel = ViewModelProviders.of(this).get(LibraryViewModel.class);
+        viewModel = new ViewModelProvider(this).get(LibraryViewModel.class);
         adapter = new LibraryListAdapter(viewModel);
         recyclerView.setAdapter(adapter);
 
-        viewModel.getData().observe(this, PartialErrorObserver.with(this::onError));
-        viewModel.getData().observe(this, new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
-        viewModel.getData().observe(this, new AdapterObserver<>(adapter));
-        viewModel.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
+        viewModel.getData().observe(getViewLifecycleOwner(), PartialErrorObserver.with(this::onError));
+        viewModel.getData().observe(getViewLifecycleOwner(), new ProgressObserver<>(view.findViewById(R.id.progress_bar)));
+        viewModel.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
+        viewModel.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
         swipeRefreshLayout.setOnRefreshListener(viewModel);
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_library_list, menu);
         requireBaseActivity(this).tintToolbarIcons(menu, R.id.library_visit_catalogue, R.id.action_refresh);
         SearchView view = (SearchView) menu.findItem(R.id.action_search).getActionView();

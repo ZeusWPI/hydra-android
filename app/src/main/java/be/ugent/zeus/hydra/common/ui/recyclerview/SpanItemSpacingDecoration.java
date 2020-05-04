@@ -2,6 +2,7 @@ package be.ugent.zeus.hydra.common.ui.recyclerview;
 
 import android.content.Context;
 import android.graphics.Rect;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -32,7 +33,7 @@ public class SpanItemSpacingDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, final View view, final RecyclerView parent, RecyclerView.State state) {
+    public void getItemOffsets(@NonNull Rect outRect, @NonNull final View view, @NonNull final RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
 
         //If this is not supported, do nothing. Otherwise extract the span.

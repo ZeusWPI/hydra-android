@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- For some reason, the shadow is broken in the day theme, so do nothing at night. -->
+    <style name="Hydra.Tabs.Colored" parent="Widget.MaterialComponents.TabLayout.PrimarySurface" />
+</resources>

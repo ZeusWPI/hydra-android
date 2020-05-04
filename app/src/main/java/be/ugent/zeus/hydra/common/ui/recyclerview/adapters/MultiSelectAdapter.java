@@ -15,12 +15,13 @@ import java.util.*;
  *
  * @author Niko Strijbol
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public abstract class MultiSelectAdapter<H> extends DiffAdapter<H, DataViewHolder<H>> {
 
     /**
      * This keeps track of which elements are selected and which are not.
      */
-    protected SparseBooleanArray booleanArray = new SparseBooleanArray();
+    protected final SparseBooleanArray booleanArray = new SparseBooleanArray();
     /**
      * The default value for the selection.
      */

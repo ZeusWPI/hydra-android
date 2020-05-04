@@ -5,9 +5,10 @@ import android.os.Parcelable;
 
 import java.util.List;
 
+import java9.util.Objects;
+
 import be.ugent.zeus.hydra.library.Library;
 import com.squareup.moshi.Json;
-import java9.util.Objects;
 
 /**
  * A list of libraries.
@@ -30,6 +31,7 @@ public final class LibraryList implements Parcelable {
         return libraries;
     }
 
+    @SuppressWarnings("unused")
     public int getTotalLibraries() {
         return totalLibraries;
     }

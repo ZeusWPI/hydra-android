@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 public class TestMigration_13_14 {
 
     @Rule
-    public LocalMigrationTestHelper testHelper;
+    public final LocalMigrationTestHelper testHelper;
 
     {
         Instrumentation mockInstrumentation = mock(Instrumentation.class);

@@ -26,13 +26,12 @@ import static org.mockito.Mockito.when;
 public class TestMigration_12_13 {
 
     @Rule
-    public LocalMigrationTestHelper testHelper;
+    public final LocalMigrationTestHelper testHelper;
 
     {
         Instrumentation mockInstrumentation = mock(Instrumentation.class);
         when(mockInstrumentation.getTargetContext()).thenReturn(ApplicationProvider.getApplicationContext());
         when(mockInstrumentation.getContext()).thenReturn(ApplicationProvider.getApplicationContext());
-        //noinspection ConstantConditions
         testHelper = new LocalMigrationTestHelper(mockInstrumentation, Database.class.getCanonicalName());
     }
 

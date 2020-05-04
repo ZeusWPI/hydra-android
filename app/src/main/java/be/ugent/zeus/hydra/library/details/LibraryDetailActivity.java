@@ -1,19 +1,11 @@
 package be.ugent.zeus.hydra.library.details;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
-import androidx.core.text.util.LinkifyCompat;
 import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.util.Log;
@@ -21,30 +13,37 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.text.util.LinkifyCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.reporting.Reporting;
-import be.ugent.zeus.hydra.common.reporting.BaseEvents;
-import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
+import be.ugent.zeus.hydra.common.database.Database;
+import be.ugent.zeus.hydra.common.reporting.BaseEvents;
+import be.ugent.zeus.hydra.common.reporting.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.html.Utils;
 import be.ugent.zeus.hydra.library.Library;
-import be.ugent.zeus.hydra.library.list.LibraryListFragment;
-import be.ugent.zeus.hydra.utils.DateUtils;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
-import be.ugent.zeus.hydra.utils.PreferencesUtils;
+import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
+import be.ugent.zeus.hydra.library.favourites.LibraryFavourite;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 /**
@@ -65,7 +64,7 @@ public class LibraryDetailActivity extends BaseActivity {
 
     public static void launchActivity(Context context, Library library) {
         Intent intent = new Intent(context, LibraryDetailActivity.class);
-        intent.putExtra(ARG_LIBRARY, (Parcelable) library);
+        intent.putExtra(ARG_LIBRARY, library);
         context.startActivity(intent);
     }
 
@@ -80,7 +79,12 @@ public class LibraryDetailActivity extends BaseActivity {
         ImageView header = findViewById(R.id.header_image);
         Picasso.get().load(library.getHeaderImage(this)).into(header);
 
-        requireToolbar().setTitle(library.getName());
+        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle(library.getName());
+        // TODO: why is this necessary?
+        int white = ContextCompat.getColor(this, R.color.white);
+        collapsingToolbarLayout.setExpandedTitleColor(white);
+        collapsingToolbarLayout.setCollapsedTitleTextColor(white);
 
         String address = makeFullAddressText();
         if (TextUtils.isEmpty(address)) {
@@ -91,34 +95,24 @@ public class LibraryDetailActivity extends BaseActivity {
             textView.setOnClickListener(v -> NetworkUtils.maybeLaunchIntent(LibraryDetailActivity.this, mapsIntent()));
         }
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Set<String> favourites = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
+        final ViewModelProvider provider = new ViewModelProvider(this);
 
         button = findViewById(R.id.library_favourite);
-        // Set compound drawable in code, for backwards comparability.
-        Drawable drawable;
-        if (favourites.contains(library.getCode())) {
-            button.setSelected(true);
-            drawable = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star, R.color.hydra_secondary_colour);
-        } else {
-            drawable = ViewUtils.getTintedVectorDrawable(this, R.drawable.ic_star, R.color.hydra_primary_dark_colour);
-            button.setSelected(false);
-        }
-
-        button.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
-
-        // Save/remove libraries on button click
-        button.setOnClickListener(v -> {
-            if (button.isSelected()) {
-                PreferencesUtils.removeFromStringSet(LibraryDetailActivity.this, LibraryListFragment.PREF_LIBRARY_FAVOURITES, library.getCode());
-                DrawableCompat.setTint(drawable, ActivityCompat.getColor(LibraryDetailActivity.this, R.color.hydra_primary_dark_colour));
-                button.setSelected(false);
-            } else {
-                PreferencesUtils.addToStringSet(LibraryDetailActivity.this, LibraryListFragment.PREF_LIBRARY_FAVOURITES, library.getCode());
-                DrawableCompat.setTint(drawable, ActivityCompat.getColor(LibraryDetailActivity.this, R.color.hydra_secondary_colour));
+        FavouriteViewModel viewModel = provider.get(FavouriteViewModel.class);
+        viewModel.setLibrary(library);
+        viewModel.getData().observe(this, isFavourite -> {
+            Drawable drawable;
+            Context c = LibraryDetailActivity.this;
+            if (isFavourite) {
                 button.setSelected(true);
+                drawable = ViewUtils.getTintedVectorDrawableAttr(c, R.drawable.ic_star, R.attr.colorSecondary);
+            } else {
+                drawable = ViewUtils.getTintedVectorDrawableAttr(c, R.drawable.ic_star, R.attr.colorPrimary);
+                button.setSelected(false);
             }
+            button.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         });
+        button.setOnClickListener(v -> updateStatus(library, button.isSelected()));
 
         ExpandableLayout layout = findViewById(R.id.expandable_layout);
         expandButton = findViewById(R.id.expand_button);
@@ -157,7 +151,7 @@ public class LibraryDetailActivity extends BaseActivity {
         TextView contact = findViewById(R.id.library_contact_row_text);
         contact.setText(library.getContact());
 
-        HoursViewModel model = ViewModelProviders.of(this).get(HoursViewModel.class);
+        HoursViewModel model = provider.get(HoursViewModel.class);
         model.setLibrary(library);
         model.getData().observe(this, PartialErrorObserver.with(this::onError));
         model.getData().observe(this, new ProgressObserver<>(findViewById(R.id.progress_bar)));
@@ -166,18 +160,29 @@ public class LibraryDetailActivity extends BaseActivity {
         Reporting.getTracker(this).log(new LibraryViewEvent(library));
     }
 
+    private void updateStatus(Library library, boolean isSelected) {
+        FavouritesRepository repository = Database.get(this).getFavouritesRepository();
+        AsyncTask.execute(() -> {
+            if (isSelected) {
+                repository.delete(LibraryFavourite.from(library));
+            } else {
+                repository.insert(LibraryFavourite.from(library));
+            }
+        });
+    }
+
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         // Save the toggle button state.
         outState.putString("button", String.valueOf(expandButton.getText()));
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         // Restore the toggle button state.
-        if (savedInstanceState != null && savedInstanceState.get("button") != null) {
+        if (savedInstanceState.get("button") != null) {
             expandButton.setText(savedInstanceState.getString("button"));
         }
     }
@@ -196,15 +201,15 @@ public class LibraryDetailActivity extends BaseActivity {
         for (OpeningHours hours : list) {
             TableRow tableRow = new TableRow(this);
             tableRow.setPadding(0, rowPadding, 0, rowPadding);
-            TextView date = new TextView(this);
+            TextView date = new TextView(this, null, R.attr.textAppearanceBody2);
             date.setText(DateUtils.getFriendlyDate(this, hours.getDate()));
-            TextView openHours = new TextView(this);
+            TextView openHours = new TextView(this, null, R.attr.textAppearanceBody2);
             openHours.setPadding(rowPadding, 0, 0, 0);
             openHours.setText(hours.getHours());
             tableRow.addView(date);
             tableRow.addView(openHours);
             if (!TextUtils.isEmpty(hours.getComments())) {
-                TextView comments = new TextView(this);
+                TextView comments = new TextView(this, null, R.attr.textAppearanceBody2);
                 TableLayout.LayoutParams params = new TableLayout.LayoutParams();
                 params.weight = 0;
                 params.width = 0;

@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.common.ui.html;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -15,10 +14,9 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 /**
- * TODO: revisit this code
+ * Use {@link Picasso} to load and display images when using {@link Html}.
  *
  * @author Niko Strijbol
- * @version 20/06/2016
  */
 public class PicassoImageGetter implements Html.ImageGetter {
 
@@ -26,13 +24,10 @@ public class PicassoImageGetter implements Html.ImageGetter {
 
     private final Resources resources;
     private final TextView view;
-    private final Context context;
 
-    public PicassoImageGetter(TextView textView, Resources resources, Context context) {
+    public PicassoImageGetter(TextView textView, Resources resources) {
         this.view = textView;
         this.resources = resources;
-        // Prevent memory leaks.
-        this.context = context.getApplicationContext();
     }
 
     @Override

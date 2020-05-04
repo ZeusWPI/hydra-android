@@ -3,9 +3,8 @@ package be.ugent.zeus.hydra.association.event;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import androidx.annotation.RequiresApi;
-
+import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 
 import java.io.IOException;
@@ -24,14 +23,13 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity.PREF_ASSOCIATIONS_SHOWING;
+import static be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING;
 import static org.junit.Assert.assertTrue;
 
 /**
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(application = TestApp.class)
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class DisabledEventRemoverTest {
 

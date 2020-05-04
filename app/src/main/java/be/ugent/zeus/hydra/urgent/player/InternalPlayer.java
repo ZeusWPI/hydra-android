@@ -89,7 +89,7 @@ class InternalPlayer {
     }
 
     private void setState(@MediaStateListener.State int newState) {
-        Log.i(TAG, "setState: from " + state + " to " + newState, new Exception("Stacktrace"));
+        Log.i(TAG, "setState: from " + state + " to " + newState);
         if (newState != state) {
             int oldState = this.state;
             this.state = newState;

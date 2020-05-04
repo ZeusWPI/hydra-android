@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.library.list;
 
 import android.content.Intent;
+import android.util.Pair;
 import android.view.View;
 
 import be.ugent.zeus.hydra.R;
@@ -13,6 +14,7 @@ import org.robolectric.RobolectricTestRunner;
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.*;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -27,12 +29,10 @@ public class LibraryViewHolderTest {
         Library library = generate(Library.class);
         LibraryListAdapter adapter = mock(LibraryListAdapter.class);
         LibraryViewHolder viewHolder = new LibraryViewHolder(view, adapter);
-        viewHolder.populate(library);
+        viewHolder.populate(Pair.create(library, true));
 
         assertTextIs(library.getName(), view.findViewById(R.id.title));
         assertTextIs(library.getCampus(), view.findViewById(R.id.subtitle));
-        assertEquals(library.isFavourite(),
-                view.findViewById(R.id.library_favourite_image).getVisibility() == View.VISIBLE);
 
         view.performClick();
 
@@ -41,5 +41,19 @@ public class LibraryViewHolderTest {
 
         assertEquals(expected.getComponent(), actual.getComponent());
         assertEquals(library, actual.getParcelableExtra(LibraryDetailActivity.ARG_LIBRARY));
+    }
+
+    @Test
+    public void populateFavourite() {
+        View view = inflate(R.layout.item_library);
+        Library library = generate(Library.class);
+        LibraryListAdapter adapter = mock(LibraryListAdapter.class);
+        LibraryViewHolder viewHolder = new LibraryViewHolder(view, adapter);
+        
+        viewHolder.populate(Pair.create(library, true));
+        assertEquals(view.findViewById(R.id.library_favourite_image).getVisibility(), View.VISIBLE);
+        
+        viewHolder.populate(Pair.create(library, false));
+        assertEquals(view.findViewById(R.id.library_favourite_image).getVisibility(), View.GONE);
     }
 }

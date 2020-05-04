@@ -5,15 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import androidx.annotation.ColorRes;
+import androidx.annotation.AttrRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.ui.ViewUtils;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.WebViewActivity;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 
 import java.util.ArrayList;
 
@@ -97,19 +97,19 @@ public enum InfoType {
      * Get the drawable for this category.
      *
      * @param context The context.
-     * @param color The color to tint the drawable in.
+     * @param attribute The attribute to colour the drawable in.
      *
      * @return The drawable or null if there is no drawable.
      */
     @Nullable
-    public Drawable getDrawable(Context context, @ColorRes int color) {
+    public Drawable getDrawable(Context context, @AttrRes int attribute) {
 
         //If there is no drawable, return null.
         if (drawable == NO_DRAWABLE) {
             return null;
         }
 
-        return ViewUtils.getTintedVectorDrawable(context, this.drawable, color);
+        return ViewUtils.getTintedVectorDrawableAttr(context, this.drawable, attribute);
     }
 
     /**

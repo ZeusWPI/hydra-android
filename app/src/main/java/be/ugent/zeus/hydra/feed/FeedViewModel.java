@@ -4,6 +4,8 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.List;
+
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.arch.data.Event;
 import be.ugent.zeus.hydra.common.request.Result;
@@ -12,8 +14,6 @@ import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.commands.CommandResult;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
 import io.fabric.sdk.android.services.concurrency.AsyncTask;
-
-import java.util.List;
 
 /**
  * @author Niko Strijbol

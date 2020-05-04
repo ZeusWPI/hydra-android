@@ -1,13 +1,13 @@
 package be.ugent.zeus.hydra.feed.cards;
 
 import android.annotation.SuppressLint;
-import androidx.annotation.CallSuper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import androidx.annotation.CallSuper;
 
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.R;
@@ -15,7 +15,6 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.common.ui.widgets.NowToolbar;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.SwipeDismissableViewHolder;
-import be.ugent.zeus.hydra.feed.cards.implementations.MenuHandler;
 import be.ugent.zeus.hydra.feed.commands.DisableIndividualCard;
 import be.ugent.zeus.hydra.feed.commands.DisableTypeCommand;
 
@@ -67,7 +66,6 @@ public abstract class CardViewHolder extends DataViewHolder<Card> implements Swi
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        // TODO: should this crash?
         if (card == null) {
             Log.e(TAG, "Card was null when menu was called. Ignoring.");
             return false;
@@ -90,7 +88,6 @@ public abstract class CardViewHolder extends DataViewHolder<Card> implements Swi
         if (card != null) {
             adapter.getCompanion().executeCommand(new DisableIndividualCard(card));
         } else {
-            // TODO: maybe this should crash?
             Log.w(TAG, "onSwiped: card is null somehow. Ignoring!");
         }
     }

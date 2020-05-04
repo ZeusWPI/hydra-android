@@ -4,11 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.InterceptingWebViewClient;
 
@@ -18,8 +17,6 @@ import be.ugent.zeus.hydra.common.network.InterceptingWebViewClient;
  * @author Niko Strijbol
  */
 public class WebViewActivity extends BaseActivity {
-
-    private static final String TAG = "WebViewActivity";
 
     public static final String URL = "be.ugent.zeus.hydra.url";
     public static final String TITLE = "be.ugent.zeus.hydra.title";

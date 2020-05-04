@@ -1,26 +1,33 @@
 package be.ugent.zeus.hydra.library.list;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.util.Pair;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.Transformations;
 
-import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
-import be.ugent.zeus.hydra.common.request.Request;
-import be.ugent.zeus.hydra.library.Library;
-import java9.lang.Iterables;
-import java9.util.Comparators;
-import java9.util.Lists;
-
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import java9.util.Comparators;
+import java9.util.Lists;
+import java9.util.function.Function;
+import java9.util.stream.Collectors;
+import java9.util.stream.StreamSupport;
+
+import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
+import be.ugent.zeus.hydra.common.database.Database;
+import be.ugent.zeus.hydra.common.request.Request;
+import be.ugent.zeus.hydra.library.Library;
+import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
 
 /**
  * @author Niko Strijbol
  */
-class LibraryLiveData extends RequestLiveData<List<Library>> implements SharedPreferences.OnSharedPreferenceChangeListener {
+class LibraryLiveData extends RequestLiveData<List<Pair<Library, Boolean>>> implements Observer<Integer> {
 
-    private Set<String> favouriteLibraries;
+    private LiveData<Integer> favouriteSource;
 
     LibraryLiveData(Context context) {
         super(context, makeRequest(context));
@@ -29,27 +36,28 @@ class LibraryLiveData extends RequestLiveData<List<Library>> implements SharedPr
     @Override
     protected void onActive() {
         super.onActive();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        preferences.registerOnSharedPreferenceChangeListener(this);
-        Set<String> current = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
-        if (favouriteLibraries != null && !current.equals(favouriteLibraries)) {
-            loadData();
-        }
-        favouriteLibraries = current;
+        FavouritesRepository repository = Database.get(getContext()).getFavouritesRepository();
+        maybeUnregister();
+        favouriteSource = Transformations.distinctUntilChanged(repository.count());
+        favouriteSource.observeForever(this);
     }
 
     @Override
     protected void onInactive() {
         super.onInactive();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        preferences.unregisterOnSharedPreferenceChangeListener(this);
+        maybeUnregister();
+    }
+
+    private void maybeUnregister() {
+        if (favouriteSource != null) {
+            favouriteSource.removeObserver(this);
+            favouriteSource = null;
+        }
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (LibraryListFragment.PREF_LIBRARY_FAVOURITES.equals(key)) {
-            loadData();
-        }
+    public void onChanged(Integer integer) {
+        loadData();
     }
 
     /**
@@ -59,23 +67,32 @@ class LibraryLiveData extends RequestLiveData<List<Library>> implements SharedPr
      *
      * @return The request.
      */
-    private static Request<List<Library>> makeRequest(Context context) {
+    private static Request<List<Pair<Library, Boolean>>> makeRequest(Context context) {
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        FavouritesRepository repository = Database.get(context).getFavouritesRepository();
 
         return new LibraryListRequest(context).map(libraryList -> {
-            Set<String> favourites = preferences.getStringSet(LibraryListFragment.PREF_LIBRARY_FAVOURITES, Collections.emptySet());
-
-            List<Library> libraries = libraryList.getLibraries();
-            Iterables.forEach(libraries, library -> library.setFavourite(favourites.contains(library.getCode())));
+            Set<String> favourites = new HashSet<>(repository.getFavouriteIds());
+            List<Pair<Library, Boolean>> libraries = StreamSupport.stream(libraryList.getLibraries())
+                    .map(library -> Pair.create(library, favourites.contains(library.getCode())))
+                    .collect(Collectors.toList());
+            // We sort favourites first and then faculty libraries and then by name.
             Lists.sort(libraries, Comparators.thenComparing(
-                    Comparators.reversed(Comparators.comparing(Library::isFavourite)),
+                    Comparators.reversed(Comparators.comparing(statusExtractor())),
                     Comparators.thenComparing(
-                            Comparators.reversed(Comparators.comparing(Library::isFacultyBib)),
-                            Comparators.comparing(Library::getName)
-            )));
+                            Comparators.reversed(Comparators.comparing(libraryExtractor().andThen(Library::isFacultyBib))),
+                            Comparators.comparing(libraryExtractor().andThen(Library::getName))
+                    )));
 
             return libraries;
         });
+    }
+
+    private static Function<Pair<Library, Boolean>, Boolean> statusExtractor() {
+        return libraryBooleanPair -> libraryBooleanPair.second;
+    }
+
+    private static Function<Pair<Library, Boolean>, Library> libraryExtractor() {
+        return libraryBooleanPair -> libraryBooleanPair.first;
     }
 }

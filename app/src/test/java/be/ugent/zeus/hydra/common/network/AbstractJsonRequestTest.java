@@ -41,11 +41,11 @@ public abstract class AbstractJsonRequestTest<D> {
 
     @Before
     public void setUp() {
+        InstanceProvider.reset();
         moshi = InstanceProvider.getMoshi();
         context = ApplicationProvider.getApplicationContext();
     }
 
-    @SuppressWarnings("ConstantConditions")
     protected final File getResourceFile(String resourcePath) {
         return new File(getClass().getClassLoader().getResource(resourcePath).getFile());
     }
@@ -112,9 +112,6 @@ public abstract class AbstractJsonRequestTest<D> {
         JsonAdapter<D> adapter = request.getAdapter().serializeNulls();
         String actualData = adapter.toJson(result.getData());
 
-        System.out.println(actualData);
-        //System.out.println(data);
-
         JSONAssert.assertEquals(data, actualData, false);
 
         mockWebServer.shutdown();
@@ -123,6 +120,7 @@ public abstract class AbstractJsonRequestTest<D> {
     /**
      * Can also be used to inject spy methods.
      */
+    @SuppressWarnings("WeakerAccess")
     protected JsonOkHttpRequest<D> spyForNormal(JsonOkHttpRequest<D> request) {
         return spy(request);
     }

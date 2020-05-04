@@ -29,10 +29,12 @@ import java.util.List;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.urgent.player.UrgentTrackProvider;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 
 /**
- * Fragment that displays the Urgent.fm player, meaning controls and track information.
+ * Fragment that displays the Urgent.fm player, meaning controls and track information. Note that while we implement
+ * the streaming in {@link MusicService} and others, we don't interact with it directly. Instead, we control it via the
+ * media session.
  *
  * @author Niko Strijbol
  */
@@ -92,7 +94,7 @@ public class UrgentFragment extends Fragment {
 
                 @Override
                 public void onError(@NonNull String id) {
-                    Toast.makeText(requireContext(), "Errror", Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG).show();
                 }
             };
 
@@ -121,18 +123,26 @@ public class UrgentFragment extends Fragment {
                 @Override
                 public void onConnectionSuspended() {
                     Log.d(TAG, "onConnectionSuspended");
-                    MediaControllerCompat mediaController = MediaControllerCompat
-                            .getMediaController(requireActivity());
-                    if (mediaController != null) {
-                        mediaController.unregisterCallback(mediaControllerCallback);
-                        MediaControllerCompat.setMediaController(requireActivity(), null);
-                    }
+                    disconnect();
                 }
             };
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_urgent, container, false);
+    }
+
+    private void disconnect() {
+        // If we are not connected yet, we don't need to unsubscribe.
+        if (mediaBrowser.isConnected()) {
+            mediaBrowser.unsubscribe(mediaBrowser.getRoot(), subscriptionCallback);
+        }
+        MediaControllerCompat mediaController = MediaControllerCompat
+                .getMediaController(requireActivity());
+        if (mediaController != null) {
+            mediaController.unregisterCallback(mediaControllerCallback);
+            MediaControllerCompat.setMediaController(requireActivity(), null);
+        }
     }
 
     @Override
@@ -157,20 +167,32 @@ public class UrgentFragment extends Fragment {
         view.findViewById(R.id.social_urgentfm)
                 .setOnClickListener(v -> NetworkUtils.maybeLaunchBrowser(getContext(), URGENT_URL));
 
-        mediaBrowser = new MediaBrowserCompat(requireActivity(), new ComponentName(requireActivity(), MusicService.class), connectionCallback, null);
+        mediaBrowser = new MediaBrowserCompat(requireActivity(),
+                new ComponentName(requireActivity(), MusicService.class), connectionCallback, null);
         hideMediaControls();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mediaBrowser.connect();
+        Log.d(TAG, "onStart: connecting to media browser");
+        if (mediaBrowser.isConnected()) {
+            Log.w(TAG, "onStart: already connected, doing nothing.");
+        } else {
+            mediaBrowser.connect();
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mediaBrowser.disconnect();
+        Log.d(TAG, "onStop: disconnecting media browser");
+        if (mediaBrowser.isConnected()) {
+            disconnect();
+            mediaBrowser.disconnect();
+        } else {
+            Log.w(TAG, "onStop: not connected, doing nothing.");
+        }
     }
 
     /**
@@ -222,7 +244,7 @@ public class UrgentFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (shouldUpdateButton) {
             configureButtons();
@@ -243,9 +265,6 @@ public class UrgentFragment extends Fragment {
 
         boolean enablePlay = false;
         switch (state.getState()) {
-            case PlaybackStateCompat.STATE_PAUSED:
-                enablePlay = true;
-                break;
             case PlaybackStateCompat.STATE_ERROR:
                 Toast.makeText(getActivity(), R.string.urgent_error, Toast.LENGTH_SHORT).show();
                 break;
@@ -253,6 +272,7 @@ public class UrgentFragment extends Fragment {
             case PlaybackStateCompat.STATE_CONNECTING:
             case PlaybackStateCompat.STATE_BUFFERING:
                 break; // Do nothing.
+            case PlaybackStateCompat.STATE_PAUSED:
             default:
                 enablePlay = true;
         }

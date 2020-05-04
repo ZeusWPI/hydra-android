@@ -7,31 +7,25 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-    <!-- The margin must be set on the card, not the parent layout. -->
-    <!-- See https://github.com/captain-miao/OptionRoundCardview/issues/4 -->
-
-    <com.github.captain_miao.optroundcardview.OptRoundCardView
-        app:optRoundCardBackgroundColor="@color/hydra_card_background"
-        app:optRoundCardBottomEdges="false"
-        app:optRoundCardLeftBottomCorner="false"
-        app:optRoundCardRightBottomCorner="false"
+    <com.google.android.material.card.MaterialCardView
+        app:shapeAppearanceOverlay="@style/EventTopShape"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="@dimen/card_margin_half"
         android:layout_marginLeft="@dimen/card_margin"
         android:layout_marginRight="@dimen/card_margin"
-        app:optRoundContentPaddingLeft="@dimen/card_text_padding_vertical"
-        app:optRoundContentPaddingRight="@dimen/card_text_padding_vertical">
+        app:contentPaddingLeft="@dimen/card_text_padding_vertical"
+        app:contentPaddingRight="@dimen/card_text_padding_vertical">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/date_header"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/Subhead"
+            style="@style/Hydra.Text.Subhead"
             android:gravity="center_vertical"
             tools:text="Een datum komt hier" />
 
-    </com.github.captain_miao.optroundcardview.OptRoundCardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <View style="@style/Divider" android:background="?android:attr/colorBackground" />
 

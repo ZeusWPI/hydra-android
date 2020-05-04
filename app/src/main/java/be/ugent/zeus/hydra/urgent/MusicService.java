@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationManagerCompat;
 import android.support.v4.media.MediaBrowserCompat;
+import androidx.core.content.ContextCompat;
 import androidx.media.MediaBrowserServiceCompat;
 import androidx.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
@@ -25,13 +26,31 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * The service for the media player.
+ * Service for streaming audio from Urgent.fm.
+ * <br>
+ * It is highly recommended to read the Android documentation first, before working on these classes. For example,
+ * the term media session is strictly used to denote the media session managed by Android itself, through the
+ * {@link MediaSessionCompat} class.
+ *
+ * <h2>Service</h2>
+ * The service is responsible for keeping the stream alive and managing the various background permissions and
+ * restrictions imposed by Android. It is not responsible for controlling the audio.
+ *
+ * <h2>Audio controls</h2>
+ * The main responsibility of this service is keeping an instance of {@link Player} alive. The service will start the
+ * player, construct a media session and connect everything up. Afterwards, control is given up to the media session.
  *
  * @author Niko Strijbol
+ * @see <a href="https://developer.android.com/guide/topics/media/mediaplayer">Offical documentation</a>
+ * @see Player
  */
-public class MusicService extends MediaBrowserServiceCompat implements SessionPlayerServiceCallback, PlayerSessionServiceCallback {
+public class MusicService extends MediaBrowserServiceCompat implements
+        SessionPlayerServiceCallback,
+        PlayerSessionServiceCallback {
 
+    // We do not support browsing media.
     private static final String MEDIA_ID_ROOT = "__ROOT__";
+    // We do not support browsing media.
     private static final String MEDIA_ID_EMPTY_ROOT = "__EMPTY__";
 
     private static final String TAG = "MusicService";
@@ -70,13 +89,13 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
         // Create the WiFi lock we we will use later.
         WifiManager manager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (manager != null) {
+            //noinspection deprecation
             this.wifiLock = manager.createWifiLock(WifiManager.WIFI_MODE_FULL, WIFI_LOCK_TAG);
         }
 
         // Create the media session.
         mediaSession = new MediaSessionCompat(this, TAG);
         setSessionToken(mediaSession.getSessionToken());
-        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
 
         // Create the player.
         player = new Player.Builder(this)
@@ -187,7 +206,7 @@ public class MusicService extends MediaBrowserServiceCompat implements SessionPl
             if (wifiLock != null) {
                 wifiLock.acquire();
             }
-            startService(new Intent(getApplicationContext(), MusicService.class));
+            ContextCompat.startForegroundService(getApplicationContext(), new Intent(getApplicationContext(), MusicService.class));
             mediaSession.setActive(true);
             Log.d(TAG, "onPlay: starting foreground service");
             startForeground(MUSIC_SERVICE_ID, notification);

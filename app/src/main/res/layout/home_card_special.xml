@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/card_spacing"
     android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
+    android:focusable="true"
     app:contentPaddingLeft="@dimen/card_title_padding_vertical"
     app:contentPaddingRight="@dimen/card_title_padding_vertical">
 
@@ -22,18 +22,18 @@
             android:layout_weight="1"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:paddingTop="@dimen/card_title_padding_top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/material_typography_regular_title_text_size"
+                style="?textAppearanceHeadline6"
                 tools:text="12urenloop"
                 android:id="@+id/title" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?android:attr/textColorSecondary"
+                style="?textAppearanceBody2"
                 android:paddingBottom="@dimen/card_title_padding_bottom_no_content"
                 tools:text="Volg live de tussenstanden van de 12urenloop!"
                 android:id="@+id/text" />
@@ -52,4 +52,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

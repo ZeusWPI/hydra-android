@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <path
+        android:fillColor="@color/hydra_launcher_color"
+        android:pathData="MM29,25 L24,25 L24,30 L29,30 Z M28,14 L28,16 L20,16 L20,14 L18,14 L18,16 L17,16 C15.89,16,15.01,16.9,15.01,18 L15,32 C15,33.1,15.89,34,17,34 L31,34 C32.1,34,33,33.1,33,32 L33,18 C33,16.9,32.1,16,31,16 L30,16 L30,14 Z M31,32 L17,32 L17,21 L31,21 Z" />
+
+</vector>

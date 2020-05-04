@@ -1,0 +1,142 @@
+[
+  {
+    "end": "2019-09-27",
+    "ingredients": [
+      "smeersalade met tofu (soja)",
+      "verse peterselie",
+      "bieslook"
+    ],
+    "name": "Tofusalade",
+    "start": "2019-09-23",
+    "vegan": true
+  },
+  {
+    "end": "2019-10-04",
+    "ingredients": [
+      "tartaar van versbereide seitan",
+      "tofu",
+      "vers paprika"
+    ],
+    "name": "Americano",
+    "start": "2019-09-30",
+    "vegan": false
+  },
+  {
+    "end": "2019-10-11",
+    "ingredients": [
+      "frisse tofunaise met mineraalrijke iziki",
+      "verse marktgroenten"
+    ],
+    "name": "Zeewiersalade",
+    "start": "2019-10-07",
+    "vegan": true
+  },
+  {
+    "end": "2019-10-18",
+    "ingredients": [
+      "gebakken champignons met tofu (soja)",
+      "mayonaise",
+      "basilicum"
+    ],
+    "name": "Champignonsalade",
+    "start": "2019-10-14",
+    "vegan": false
+  },
+  {
+    "end": "2019-10-25",
+    "ingredients": [
+      "o.a. linzen",
+      "tofu",
+      "passata van tomaat",
+      "verse koriander",
+      "indische kruiden"
+    ],
+    "name": "Indische linzensalade",
+    "start": "2019-10-21",
+    "vegan": true
+  },
+  {
+    "end": "2019-10-31",
+    "ingredients": [
+      "pompoencr\u00e8me met bosuitjes",
+      "peterselie"
+    ],
+    "name": "Pompoensalade",
+    "start": "2019-10-28",
+    "vegan": false
+  },
+  {
+    "end": "2019-11-08",
+    "ingredients": [
+      "spread van kikkererwten",
+      "met olijfolie",
+      "gebakken paprika",
+      "verse koriander"
+    ],
+    "name": "Hummus",
+    "start": "2019-11-04",
+    "vegan": true
+  },
+  {
+    "end": "2019-11-14",
+    "ingredients": [
+      "grove stukjes rode biet met fijne kruiden",
+      "walnoten"
+    ],
+    "name": "Rode bieten spread",
+    "start": "2019-11-12",
+    "vegan": false
+  },
+  {
+    "end": "2019-11-22",
+    "ingredients": [
+      "cr\u00e8me van zonnebloempitten met zongedroogde tomaten",
+      "olijven",
+      "verse kruiden"
+    ],
+    "name": "Tomatino salade",
+    "start": "2019-11-18",
+    "vegan": true
+  },
+  {
+    "end": "2019-11-29",
+    "ingredients": [
+      "smeu\u00efge salade van groentjes",
+      "eitjes",
+      "geitenkaas"
+    ],
+    "name": "Seizoensalade",
+    "start": "2019-11-25",
+    "vegan": false
+  },
+  {
+    "end": "2019-12-06",
+    "ingredients": [
+      "smeersalade met tofu (soja)",
+      "verse peterselie",
+      "bieslook"
+    ],
+    "name": "Tofusalade",
+    "start": "2019-12-02",
+    "vegan": true
+  },
+  {
+    "end": "2019-12-13",
+    "ingredients": [
+      "frisse curry van tofunaise met seitan",
+      "stukjes ananas"
+    ],
+    "name": "Currysalade",
+    "start": "2019-12-09",
+    "vegan": false
+  },
+  {
+    "end": "2019-12-20",
+    "ingredients": [
+      "vegetarische preisalade met sojastukjes"
+    ],
+    "name": "Preisalade",
+    "start": "2019-12-16",
+    "vegan": true
+  }
+]

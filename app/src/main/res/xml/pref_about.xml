@@ -1,56 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
-        android:key="pref_about_version"
-        android:title="@string/pref_about_version_title"
-        android:summary="@string/pref_about_version_summary"
-        android:persistent="false" />
+        app:key="pref_about_version"
+        app:title="@string/pref_about_version_title"
+        app:summary="@string/pref_about_version_summary"
+        app:persistent="false" />
 
     <Preference
-        android:key="pref_about_changelog"
-        android:title="@string/pref_about_changelog_title"
-        android:summary="@string/pref_about_changelog_summary"
-        android:persistent="false">
+        app:key="pref_about_changelog"
+        app:title="@string/pref_about_changelog_title"
+        app:summary="@string/pref_about_changelog_summary"
+        app:persistent="false">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="https://github.com/ZeusWPI/hydra-android/releases" />
     </Preference>
 
     <Preference
-        android:key="pref_about_issues"
-        android:title="@string/pref_about_issues_title"
-        android:summary="@string/pref_about_issues_summary"
-        android:persistent="false">
+        app:key="pref_about_issues"
+        app:title="@string/pref_about_issues_title"
+        app:summary="@string/pref_about_issues_summary"
+        app:persistent="false">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="https://github.com/ZeusWPI/hydra-android/issues" />
     </Preference>
 
     <Preference
-        android:key="pref_about_licenses"
-        android:title="@string/pref_about_licenses_title"
-        android:summary="@string/pref_about_licenses_summary"
-        android:persistent="false" />
+        app:key="pref_about_licenses"
+        app:title="@string/pref_about_licenses_title"
+        app:summary="@string/pref_about_licenses_summary"
+        app:persistent="false"
+        app:allowDividerBelow="true" />
 
     <Preference
-        android:iconSpaceReserved="true"
-        android:key="pref_about_creator_zeus"
-        android:title="@string/pref_about_creator_zeus"
-        android:persistent="false"
-        android:singleLineTitle="false"
+        app:allowDividerAbove="true"
+        app:iconSpaceReserved="true"
+        app:key="pref_about_creator_zeus"
+        app:title="@string/pref_about_creator_zeus"
+        app:persistent="false"
+        app:singleLineTitle="false"
         tools:ignore="UnusedAttribute">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="https://zeus.ugent.be" />
     </Preference>
+
     <Preference
-        android:iconSpaceReserved="true"
-        android:key="pref_about_creator_dsa"
-        android:title="@string/pref_about_creator_dsa"
-        android:persistent="false"
-        android:singleLineTitle="false"
+        app:iconSpaceReserved="true"
+        app:key="pref_about_creator_dsa"
+        app:title="@string/pref_about_creator_dsa"
+        app:persistent="false"
+        app:singleLineTitle="false"
         tools:ignore="UnusedAttribute">
         <intent
             android:action="android.intent.action.VIEW"

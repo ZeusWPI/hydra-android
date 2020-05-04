@@ -24,6 +24,7 @@ public final class SpecialEventWrapper {
         return specialEvents;
     }
 
+    @SuppressWarnings("unused")
     public void setSpecialEvents(List<SpecialEvent> specialEvents) {
         this.specialEvents = specialEvents;
     }

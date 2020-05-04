@@ -4,13 +4,14 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import java.util.List;
 import java.util.Locale;
 
 import be.ugent.zeus.hydra.common.converter.IntBoolean;
-import be.ugent.zeus.hydra.utils.NetworkUtils;
+import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import com.squareup.moshi.Json;
 import java9.util.Objects;
 import java9.util.stream.Collectors;
@@ -23,6 +24,7 @@ import java9.util.stream.StreamSupport;
  *
  * @author Niko Strijbol
  */
+@SuppressWarnings("WeakerAccess")
 public final class Library implements Parcelable {
 
     private static final String FALLBACK_HEADER = "https://picsum.photos/800/450?image=1073";
@@ -83,6 +85,18 @@ public final class Library implements Parcelable {
         }
     }
 
+    @VisibleForTesting
+    public void setTestName(String name) {
+        this.name = name;
+        this.nameEnglish = name;
+        this.nameDutch = name;
+    }
+
+    @VisibleForTesting
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getCode() {
         return code;
     }
@@ -127,14 +141,6 @@ public final class Library implements Parcelable {
 
     public String getLink() {
         return link;
-    }
-
-    public void setFavourite(boolean favourite) {
-        this.favourite = favourite;
-    }
-
-    public boolean isFavourite() {
-        return favourite;
     }
 
     /**

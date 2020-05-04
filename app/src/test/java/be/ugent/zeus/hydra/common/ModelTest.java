@@ -2,9 +2,7 @@ package be.ugent.zeus.hydra.common;
 
 import android.os.Parcelable;
 
-import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.testing.Utils;
-import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;
 
 import static be.ugent.zeus.hydra.testing.Assert.assertParcelable;

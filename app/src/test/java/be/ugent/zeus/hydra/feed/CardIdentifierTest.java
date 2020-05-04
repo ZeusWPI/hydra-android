@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.feed;
 
-import be.ugent.zeus.hydra.feed.cards.CardIdentifier;
+import be.ugent.zeus.hydra.feed.cards.dismissal.CardIdentifier;
 import be.ugent.zeus.hydra.testing.Utils;
 import nl.jqno.equalsverifier.Warning;
 import org.junit.Test;

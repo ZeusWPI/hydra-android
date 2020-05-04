@@ -3,6 +3,7 @@ package be.ugent.zeus.hydra;
 import android.content.Intent;
 import android.content.pm.ShortcutManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,8 +22,7 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.association.event.list.EventFragment;
-import be.ugent.zeus.hydra.association.news.list.NewsFragment;
-import be.ugent.zeus.hydra.common.preferences.SettingsActivity;
+import be.ugent.zeus.hydra.news.NewsFragment;
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
@@ -30,16 +30,17 @@ import be.ugent.zeus.hydra.feed.HomeFeedFragment;
 import be.ugent.zeus.hydra.info.InfoFragment;
 import be.ugent.zeus.hydra.library.list.LibraryListFragment;
 import be.ugent.zeus.hydra.onboarding.OnboardingActivity;
+import be.ugent.zeus.hydra.preferences.PreferenceActivity;
 import be.ugent.zeus.hydra.resto.menu.RestoFragment;
-import be.ugent.zeus.hydra.schamper.list.SchamperFragment;
+import be.ugent.zeus.hydra.schamper.SchamperFragment;
 import be.ugent.zeus.hydra.urgent.UrgentFragment;
-
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import jonathanfinerty.once.Once;
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireArguments;
+
+import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireArguments;
 
 /**
  * Main activity.
@@ -160,8 +161,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private static final String TAG = "BaseActivity";
 
+    private static final String UFORA = "com.d2l.brightspace.student.android";
+
     @VisibleForTesting
-    static final String ONCE_ONBOARDING = "once_onboarding_v1";
+    static final String ONCE_ONBOARDING = "once_onboarding_v1_debug";
     private static final int ONBOARDING_REQUEST = 5;
 
     private static final String STATE_IS_ONBOARDING_OPEN = "state_is_onboarding_open";
@@ -172,6 +175,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final String FRAGMENT_MENU_ID = "backStack";
 
     private static final String SHORTCUT_RESTO = "resto";
+    private static final String SHORTCUT_URGENT = "urgent";
+    private static final String SHORTCUT_EVENTS = "events";
+    private static final String SHORTCUT_LIBRARIES = "libraries";
 
     private DrawerLayout drawer;
     private ProgressBar drawerLoader;
@@ -208,7 +214,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(STATE_IS_ONBOARDING_OPEN, isOnboardingOpen);
     }
@@ -278,13 +284,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         toggle.onConfigurationChanged(newConfig);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         return toggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
@@ -303,9 +309,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // First check if it are settings, then we don't update anything.
         if (menuItem.getItemId() == R.id.drawer_pref) {
             drawer.closeDrawer(GravityCompat.START);
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
+            PreferenceActivity.start(this, null);
             return;
+        }
+
+        if (menuItem.getItemId() == R.id.drawer_ufora) {
+            drawer.closeDrawer(GravityCompat.START);
+            Intent launchIntent = getPackageManager().getLaunchIntentForPackage(UFORA);
+            if (launchIntent != null) {
+                startActivity(launchIntent);
+            } else {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + UFORA));
+                intent.setPackage("com.android.vending");
+                startActivity(intent);
+            }
+            return; // Don't do anything.
         }
 
         // Create a new fragment and specify the fragment to show based on nav item clicked
@@ -322,6 +341,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 fragment = new RestoFragment();
                 break;
             case R.id.drawer_events:
+                reportShortcutUsed(SHORTCUT_EVENTS);
                 fragment = new EventFragment();
                 break;
             case R.id.drawer_news:
@@ -331,9 +351,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 fragment = new InfoFragment();
                 break;
             case R.id.drawer_urgent:
+                reportShortcutUsed(SHORTCUT_URGENT);
                 fragment = new UrgentFragment();
                 break;
             case R.id.drawer_library:
+                reportShortcutUsed(SHORTCUT_LIBRARIES);
                 fragment = new LibraryListFragment();
                 break;
             default:
@@ -442,7 +464,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         // The super method handles both the fragment back stack and finishing the activity. To know what was executed,
         // we need to add a listener.
-
         FragmentManager.OnBackStackChangedListener listener = () -> {
             Fragment current = getSupportFragmentManager().findFragmentById(R.id.content);
             Log.w(TAG, "onBackPressed: current fragment is somehow null? Ignoring update for now.");

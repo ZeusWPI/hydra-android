@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 public class TestMigration_11_12 {
 
     @Rule
-    public LocalMigrationTestHelper testHelper;
+    public final LocalMigrationTestHelper testHelper;
 
     {
         Instrumentation mockInstrumentation = mock(Instrumentation.class);

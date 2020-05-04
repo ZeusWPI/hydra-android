@@ -37,8 +37,6 @@ public interface Event {
     /**
      * @return The name of the event for the log. The implementation might impose restrictions, such as predefined
      *         names, name length or name uniqueness. If not present, it will not be logged.
-     *
-     * @todo it the creation of the optional object here really necessary (performance wise)?
      */
     @NonNull
     default Optional<String> getEvent() {

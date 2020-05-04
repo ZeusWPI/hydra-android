@@ -2,16 +2,17 @@ package be.ugent.zeus.hydra.resto.meta.selectable;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.resto.RestoChoice;
-import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
+import java.util.List;
+
 import java9.util.Objects;
 import java9.util.stream.Collectors;
 import java9.util.stream.StreamSupport;
 
-import java.util.List;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.resto.RestoChoice;
+import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
 
 /**
  * @author Niko Strijbol

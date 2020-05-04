@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.common.converter;
 
-import androidx.room.TypeConverter;
 import androidx.annotation.Nullable;
+import androidx.room.TypeConverter;
 
 import com.squareup.moshi.FromJson;
 import com.squareup.moshi.ToJson;
@@ -102,19 +102,6 @@ public class DateTypeConverters {
         @ToJson
         String write(OffsetDateTime offsetDateTime) {
             return fromOffsetDateTime(offsetDateTime);
-        }
-    }
-
-    public static class GsonInstant {
-
-        @FromJson
-        Instant read(String value) {
-            return toInstant(value);
-        }
-
-        @ToJson
-        String write(Instant value) {
-            return fromInstant(value);
         }
     }
 

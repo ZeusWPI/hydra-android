@@ -2,12 +2,14 @@ package be.ugent.zeus.hydra.feed.commands;
 
 import android.content.Context;
 
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.database.RepositoryFactory;
-import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.feed.cards.CardDismissal;
-import be.ugent.zeus.hydra.feed.cards.CardRepository;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import java9.util.function.Function;
+
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.database.Database;
+import be.ugent.zeus.hydra.feed.cards.Card;
+import be.ugent.zeus.hydra.feed.cards.dismissal.CardDismissal;
+import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
 
 /**
  * @author Niko Strijbol
@@ -15,28 +17,29 @@ import java9.util.function.Function;
 public class DisableIndividualCard implements FeedCommand {
 
     private final CardDismissal cardDismissal;
-    private final Function<Context, CardRepository> repositorySupplier;
+    private final Function<Context, DismissalDao> daoSupplier;
 
     public DisableIndividualCard(Card card) {
-        this(CardDismissal.dismiss(card), RepositoryFactory::getCardRepository);
+        this(CardDismissal.dismiss(card), c -> Database.get(c).getCardDao());
     }
 
-    public DisableIndividualCard(CardDismissal card, Function<Context, CardRepository> repositorySupplier) {
+    public DisableIndividualCard(CardDismissal card, Function<Context, DismissalDao> daoSupplier) {
         this.cardDismissal = card;
-        this.repositorySupplier = repositorySupplier;
+        this.daoSupplier = daoSupplier;
     }
 
     @Override
     public int execute(Context context) {
-        CardRepository repository = repositorySupplier.apply(context);
-        repository.add(cardDismissal);
+        Reporting.getTracker(context).log(new DismissalEvent(cardDismissal.getIdentifier()));
+        DismissalDao dao = daoSupplier.apply(context);
+        dao.insert(cardDismissal);
         return cardDismissal.getIdentifier().getCardType();
     }
 
     @Override
     public int undo(Context context) {
-        CardRepository repository = repositorySupplier.apply(context);
-        repository.delete(cardDismissal);
+        DismissalDao dao = daoSupplier.apply(context);
+        dao.delete(cardDismissal);
         return cardDismissal.getIdentifier().getCardType();
     }
 

@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.feed;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.R;
@@ -12,12 +11,13 @@ import be.ugent.zeus.hydra.common.ui.recyclerview.ResultStarter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.feed.cards.Card;
-import be.ugent.zeus.hydra.feed.cards.implementations.event.EventCardViewHolder;
-import be.ugent.zeus.hydra.feed.cards.implementations.news.NewsItemViewHolder;
-import be.ugent.zeus.hydra.feed.cards.implementations.resto.RestoCardViewHolder;
-import be.ugent.zeus.hydra.feed.cards.implementations.schamper.SchamperViewHolder;
-import be.ugent.zeus.hydra.feed.cards.implementations.specialevent.SpecialEventCardViewHolder;
-import be.ugent.zeus.hydra.feed.cards.implementations.urgent.UrgentViewHolder;
+import be.ugent.zeus.hydra.feed.cards.event.EventCardViewHolder;
+import be.ugent.zeus.hydra.feed.cards.library.LibraryViewHolder;
+import be.ugent.zeus.hydra.feed.cards.news.NewsItemViewHolder;
+import be.ugent.zeus.hydra.feed.cards.resto.RestoCardViewHolder;
+import be.ugent.zeus.hydra.feed.cards.schamper.SchamperViewHolder;
+import be.ugent.zeus.hydra.feed.cards.specialevent.SpecialEventCardViewHolder;
+import be.ugent.zeus.hydra.feed.cards.urgent.UrgentViewHolder;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
 
 import static be.ugent.zeus.hydra.feed.cards.Card.Type.*;
@@ -63,6 +63,8 @@ public class HomeFeedAdapter extends DiffAdapter<Card, DataViewHolder<Card>> {
                 return new NewsItemViewHolder(view(R.layout.home_card_news_item, parent), this);
             case URGENT_FM:
                 return new UrgentViewHolder(view(R.layout.home_card_urgent, parent), this);
+            case LIBRARY:
+                return new LibraryViewHolder(view(R.layout.home_card_library, parent), this);
             case DEBUG:
             default:
                 throw new IllegalArgumentException("Non-supported view type in home feed: " + viewType);

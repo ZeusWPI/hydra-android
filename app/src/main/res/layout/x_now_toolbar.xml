@@ -18,8 +18,8 @@
         android:layout_marginLeft="8dp"
         android:layout_gravity="center_vertical"
         tools:src="@drawable/tabs_resto"
-        tools:ignore="MissingPrefix"
-        android:tint="@color/hydra_now_toolbar_icon_tint"
+        tools:ignore="MissingPrefix,RtlHardcoded"
+        android:tint="@color/hydra_color_primary_variant_light"
         android:contentDescription="@string/content_desc_resto"/>
 
     <TextView
@@ -30,10 +30,10 @@
         android:gravity="center_vertical"
         android:paddingTop="@dimen/card_title_padding_top"
         android:paddingBottom="@dimen/card_title_padding_top"
-        android:textColor="?android:attr/textColorSecondary"
-        android:textSize="@dimen/material_typography_regular_caption_text_size"
+        style="?textAppearanceCaption"
         android:paddingLeft="8dp"
-        tools:text="Menu voor de toekomst!" />
+        tools:text="Menu voor de toekomst!"
+        tools:ignore="RtlHardcoded,RtlSymmetry" />
 
     <ImageView
         android:layout_width="32dp"
@@ -41,10 +41,10 @@
         android:padding="8dp"
         android:layout_marginRight="8dp"
         android:layout_gravity="center_vertical"
-        android:tint="@color/hydra_text_secondary"
+        android:tint="?colorOnSurface"
         app:srcCompat="@drawable/ic_more_vert"
-        tools:ignore="MissingPrefix"
         android:id="@+id/now_toolbar_menu"
-        android:contentDescription="@string/content_desc_more"/>
+        android:contentDescription="@string/content_desc_more"
+        tools:ignore="RtlHardcoded" />
 
 </merge>

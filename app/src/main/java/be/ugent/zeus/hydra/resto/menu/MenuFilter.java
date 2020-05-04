@@ -2,15 +2,17 @@ package be.ugent.zeus.hydra.resto.menu;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
+
 import java9.util.function.Function;
 import java9.util.stream.Collectors;
 import java9.util.stream.StreamSupport;
+
 import org.threeten.bp.Clock;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalDateTime;

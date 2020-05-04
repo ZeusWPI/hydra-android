@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
 
 /**
  * The base activity. Contains code related to common things for almost all activities.
@@ -41,11 +42,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    private Toolbar findToolbar() {
+        return findViewById(R.id.toolbar);
+    }
+
     /**
      * Set the toolbar as action bar, and set it up to have an up button.
      */
     private void setUpActionBar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findToolbar();
 
         setSupportActionBar(toolbar);
 
@@ -79,7 +84,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param ids  The ids of the icon.
      */
     public static void tintToolbarIcons(ActionBar toolbar, Menu menu, int... ids) {
-        tintToolbarIcons(ViewUtils.getColor(toolbar.getThemedContext(), R.attr.colorControlNormal), menu, ids);
+        tintToolbarIcons(ColourUtils.resolveColour(toolbar.getThemedContext(), R.attr.colorControlNormal), menu, ids);
     }
 
     /**

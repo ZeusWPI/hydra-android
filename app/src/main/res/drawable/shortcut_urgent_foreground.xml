@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="45"
+    android:viewportHeight="45">
+
+    <path
+        android:fillColor="@color/hydra_launcher_color"
+        android:pathData="M30.534,31.875 L22.5,13.125 L14.467,31.875 L22.5,27.17 Z" />
+</vector>

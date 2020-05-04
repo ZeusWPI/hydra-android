@@ -9,11 +9,12 @@ public class UnsuccessfulRequestException extends IOException {
 
     private final int httpCode;
 
-    public UnsuccessfulRequestException(int httpCode) {
+    UnsuccessfulRequestException(int httpCode) {
         super("Unsuccessful HTTP request, response code is " + httpCode);
         this.httpCode = httpCode;
     }
 
+    @SuppressWarnings("unused")
     public int getHttpCode() {
         return httpCode;
     }

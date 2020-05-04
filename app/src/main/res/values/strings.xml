@@ -36,10 +36,17 @@
     <string name="drawer_title_pref">Instellingen</string>
     <string name="drawer_title_urgent">Urgent.fm</string>
     <string name="drawer_title_library">Bibliotheken</string>
+    <string name="drawer_title_ufora">Ufora-app</string>
 
     <string name="shortcut_resto_short_label">Restomenu</string>
-    <string name="shortcut_resto_long_label">Bekijk de restomenu</string>
-    <string name="shortcut_resto_disabled">Uitgeschakeld</string>
+    <string name="shortcut_resto_long_label">Bekijk het restomenu</string>
+    <string name="shortcut_urgent_short_label">Urgent.fm</string>
+    <string name="shortcut_urgent_long_label">Luister naar Urgent.fm</string>
+    <string name="shortcut_libraries_short_label">Bibliotheken</string>
+    <string name="shortcut_libraries_long_label">Bekijk de bibliotheken</string>
+    <string name="shortcut_events_short_label">Evenementen</string>
+    <string name="shortcut_events_long_label">Bekijk de evenementen</string>
+    <string name="shortcut_disabled">Uitgeschakeld</string>
 
     <string name="no_items">Geen items</string>
 
@@ -67,8 +74,8 @@
     <string name="pref_overview_article_desc">Opties voor de Schamper- en nieuwsartikels</string>
     <string name="pref_overview_about_title">Over</string>
     <string name="pref_overview_about_desc">Over de app</string>
-    <string name="pref_overview_theme_title">Lay-out</string>
-    <string name="pref_overview_theme_desc">Opties voor de lay-out van de app</string>
+    <string name="pref_overview_theme_title">Thema</string>
+    <string name="pref_overview_theme_desc">Opties voor het thema van de app</string>
 
     <string name="pref_about_licenses_title">Openbronsoftware</string>
     <string name="pref_about_licenses_summary">Licentiedetails voor gebruikte bibliotheken</string>
@@ -83,16 +90,16 @@
 
     <string name="pref_licenses_title">Licenties</string>
 
-    <string name="pref_theme_use_night_title">Nachtmodus gebruiken</string>
-    <string name="pref_theme_night_mode_always">Altijd donker</string>
+    <string name="pref_theme_use_night_title">Thema instellen</string>
+    <string name="pref_theme_night_mode_always">Donker thema</string>
     <string name="pref_theme_night_mode_always_desc">Gebruik altijd het donkere thema.</string>
-    <string name="pref_theme_night_mode_system">Systeemstandaard</string>
-    <string name="pref_theme_night_mode_system_desc">Volg de systeemstandaard. Meestal is dit hetzelfde als "Altijd licht".</string>
-    <string name="pref_theme_night_mode_never">Altijd licht</string>
+    <string name="pref_theme_night_mode_system">Systeem</string>
+    <string name="pref_theme_night_mode_system_desc">Volg de systeembrede instellingen.</string>
+    <string name="pref_theme_night_mode_never">Licht thema</string>
     <string name="pref_theme_night_mode_never_desc">Gebruik altijd het lichte thema.</string>
-    <string name="pref_theme_night_mode_auto">Automatisch kiezen</string>
-    <string name="pref_theme_night_mode_auto_desc">Kies automatisch op basis van de tijd.</string>
-    <string name="pref_theme_night_mode_restart">De wijzigingen worden van kracht nadat u de app herstart</string>
+    <string name="pref_theme_night_mode_battery">Batterijbesparing</string>
+    <string name="pref_theme_night_mode_battery_desc">Gebruik het donkere thema als batterijbesparing aan staat.</string>
+    <string name="pref_theme_night_mode_restart">De wijzigingen worden mogelijk pas van kracht nadat u de app herstart</string>
     <string name="pref_theme_night_mode_title">Instellingen</string>
     <string name="pref_theme_explanations">Uitleg over de modi</string>
 
@@ -133,14 +140,13 @@
     <string name="event_pref_choose_associations_desc">Kies voor welke verenigingen activiteiten getoond moeten worden.</string>
 
     <!-- Restaurants -->
-    <string name="resto_pref_closing_hour_category_title">Sluitingsuur</string>
     <string name="resto_pref_closing_title">Sluitingsuur</string>
     <string name="resto_pref_closing_description">
-        Kies vanaf welk uur de menu voor de volgende dag getoond wordt.
+        Kies vanaf welk uur het menu voor de volgende dag getoond wordt.
     </string>
 
     <string name="resto_pref_choice">Keuze resto</string>
-    <string name="resto_pref_choice_title">Kies een resto in het overzicht</string>
+    <string name="resto_pref_choice_loading">Laden…</string>
 
     <string name="resto_extra_refresh_started">Vernieuwen…</string>
     <string name="resto_extra_breakfast">Ontbijt</string>
@@ -150,7 +156,10 @@
     <string name="resto_extra_food_price">€ %s</string>
 
     <string name="resto_main_view_sandwiches">Broodjes</string>
-    <string name="resto_main_view_locations">Resto\'s</string>
+    <string name="resto_main_view_sandwiches_regular">Gewoon</string>
+    <string name="resto_main_view_sandwiches_ecological">Ecologisch</string>
+    <string name="resto_main_view_locations">Locaties</string>
+    <string name="resto_main_view_menu">Menu</string>
 
     <string name="resto_sandwich_activity_title">Belegde broodjes</string>
     <string name="resto_sandwich_price_medium">Groot: € %s</string>
@@ -183,9 +192,11 @@
     <string name="resto_legend_vegan">Veganistisch</string>
     <string name="resto_legend_abbr_header">Afkortingen</string>
     <string name="resto_legend_msc_abbr">MSC</string>
-    <string name="resto_legend_msc_desc">Marine Stewardship Council, duurzame visserij</string>
+    <string name="resto_legend_msc_desc">Marine Stewardship Council</string>
     <string name="resto_legend_asc_abbr">ASC</string>
-    <string name="resto_legend_asc_desc">Aquaculture Stewardship Council, verantwoorde kweek</string>
+    <string name="resto_legend_asc_desc">Aquaculture Stewardship Council</string>
+    <string name="resto_legend_gap_abbr">GAP</string>
+    <string name="resto_legend_gap_desc">Goede Agrarische Productie</string>
 
     <string name="resto_menu_slice_open_menu">Open restomenu</string>
     <string name="resto_menu_slice_next">Volgende dag</string>
@@ -221,9 +232,7 @@
     <string name="feed_pref_clear_cards_title">Verborgen kaarten wissen</string>
     <string name="feed_pref_clear_cards_summary">Wis de lijst van verborgen kaarten. Hierdoor zullen alle kaarten opnieuw getoond worden.</string>
     <string name="feed_pref_hidden_cleared">Gewist</string>
-    <string name="feed_pref_cat_resto">Restomenu</string>
-    <string name="feed_pref_cat_general">Algemeen</string>
-    <string name="feed_pref_resto_kinds">Wat te tonen op de menu</string>
+    <string name="feed_pref_resto_kinds">Wat te tonen op het menu</string>
     <string name="feed_pref_resto_kinds_main">Enkel hoofdgerecht</string>
     <string name="feed_pref_resto_kinds_soup">Enkel soep</string>
     <string name="feed_pref_resto_kinds_all">Zowel soep als hoofdgerecht</string>
@@ -237,12 +246,14 @@
     <string name="feed_card_type_title_schamper">Schamper</string>
     <string name="feed_card_type_title_news">Nieuws</string>
     <string name="feed_card_type_title_urgent">Urgent.fm</string>
+    <string name="feed_card_type_title_libraries">Bibliotheken</string>
 
     <string name="feed_card_type_desc_resto">De dagelijkse menu voor alle UGent-resto\'s.</string>
     <string name="feed_card_type_desc_events">De activiteiten van je favoriete verenigingen.</string>
     <string name="feed_card_type_desc_schamper">Artikels uit Schamper.</string>
     <string name="feed_card_type_desc_news">Het nieuws, rechtstreeks van de UGent.</string>
     <string name="feed_card_type_desc_urgent">De jongerenradio van (U)Gent en omstreken.</string>
+    <string name="feed_card_type_desc_libraries">De openingsuren van je favoriete bibliotheken.</string>
 
     <string name="feed_general_error">Ophalen sommige kaarten mislukt.</string>
 

@@ -3,11 +3,10 @@ package be.ugent.zeus.hydra.feed;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -16,17 +15,16 @@ import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.EventObserver;
-import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
 import be.ugent.zeus.hydra.feed.commands.CommandResult;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
-
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import com.google.android.material.snackbar.Snackbar;
+
 import static be.ugent.zeus.hydra.feed.FeedLiveData.REFRESH_HOMECARD_TYPE;
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireBaseActivity;
-import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
+import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
 /**
  * The fragment showing the home feed.
@@ -39,7 +37,7 @@ import static be.ugent.zeus.hydra.utils.FragmentUtils.requireView;
  * to 9 requests, we can't just load everything and then display it at once; this would show an empty screen for a long
  * time.
  *
- * Instead, we insert data to the RecyclerView as soon the a request is completed. TODO documentation
+ * Instead, we insert data to the RecyclerView as soon the a request is completed.
  *
  * @author Niko Strijbol
  * @author silox
@@ -49,6 +47,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     private static final String TAG = "HomeFeedFragment";
 
     public static final String PREF_DISABLED_CARD_TYPES = "pref_disabled_cards";
+    // TODO: replace this by proper listener to database.
     public static final String PREF_DISABLED_CARD_HACK = "pref_disabled_specials_hack";
 
     private static final int REQUEST_HOMECARD_ID = 5050;
@@ -83,7 +82,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         RecyclerView recyclerView = view.findViewById(R.id.home_cards_view);
         recyclerView.setHasFixedSize(true);
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.hydra_secondary_colour);
+        swipeRefreshLayout.setColorSchemeColors(ColourUtils.resolveColour(requireContext(), R.attr.colorSecondary));
 
         HomeFeedAdapter adapter = new HomeFeedAdapter(this);
         recyclerView.setAdapter(adapter);
@@ -94,10 +93,15 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new DismissCallback());
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        model = ViewModelProviders.of(this).get(FeedViewModel.class);
-        model.getData().observe(this, PartialErrorObserver.with(this::onError));
-        model.getData().observe(this, new AdapterObserver<>(adapter));
-        model.getData().observe(this, data -> {
+        model = new ViewModelProvider(this).get(FeedViewModel.class);
+        // Basically the same as PartialErrorObserver, but we only observe at the end.
+        model.getData().observe(getViewLifecycleOwner(), result -> {
+            if (result != null && result.isDone() && result.hasException()) {
+                onError(result.getError());
+            }
+        });
+        model.getData().observe(getViewLifecycleOwner(), new AdapterObserver<>(adapter));
+        model.getData().observe(getViewLifecycleOwner(), data -> {
             if (data != null && data.hasData()) {
                 if (data.isDone()) {
                     firstRun = false;
@@ -110,10 +114,10 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
         });
 
-        model.getRefreshing().observe(this, swipeRefreshLayout::setRefreshing);
+        model.getRefreshing().observe(getViewLifecycleOwner(), swipeRefreshLayout::setRefreshing);
 
         // Monitor commands
-        model.getCommandLiveData().observe(this, EventObserver.with(this::onCommandExecuted));
+        model.getCommandLiveData().observe(getViewLifecycleOwner(), EventObserver.with(this::onCommandExecuted));
 
         firstRun = true;
     }
@@ -139,7 +143,7 @@ public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_refresh, menu);
         requireBaseActivity(this).tintToolbarIcons(menu, R.id.action_refresh);
     }

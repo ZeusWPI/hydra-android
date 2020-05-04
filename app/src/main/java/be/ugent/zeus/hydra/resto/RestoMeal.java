@@ -75,7 +75,7 @@ public final class RestoMeal implements Parcelable {
         dest.writeString(this.kind);
     }
 
-    protected RestoMeal(Parcel in) {
+    private RestoMeal(Parcel in) {
         this.name = in.readString();
         this.price = in.readString();
         int tmpType = in.readInt();

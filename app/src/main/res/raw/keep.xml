@@ -8,6 +8,6 @@
     @drawable/info_guide,
     @drawable/info_library,
     @drawable/info_mapmarker,
-    @drawable/info_minerva,
     @drawable/info_more,
-    @drawable/info_sports" />
+    @drawable/info_sports,
+    @drawable/info_ufora" />

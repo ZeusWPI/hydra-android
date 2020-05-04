@@ -4,9 +4,10 @@ import android.content.Context;
 import androidx.annotation.StringRes;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.HomeFeedFragment;
-import be.ugent.zeus.hydra.utils.PreferencesUtils;
+import be.ugent.zeus.hydra.common.utils.PreferencesUtils;
 
 /**
  * This will add a certain {@link Card.Type} to the list of hidden
@@ -26,6 +27,7 @@ public class DisableTypeCommand implements FeedCommand {
     @Override
     @Card.Type
     public int execute(Context context) {
+        Reporting.getTracker(context).log(new DismissalEvent(cardType));
         PreferencesUtils.addToStringSet(
                 context,
                 HomeFeedFragment.PREF_DISABLED_CARD_TYPES,
