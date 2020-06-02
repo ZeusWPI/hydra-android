@@ -182,7 +182,7 @@ dependencies {
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation 'androidx.room:room-testing:2.2.5'
     // Enable the normal library for unit tests.
-    testImplementation('org.threeten:threetenbp:1.4.2') {
+    testImplementation('org.threeten:threetenbp:1.4.4') {
         exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
     }
     //noinspection GradleDependency
