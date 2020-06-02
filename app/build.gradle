@@ -192,7 +192,7 @@ dependencies {
     testImplementation 'com.shazam:shazamcrest:0.11'
     testImplementation 'org.skyscreamer:jsonassert:1.5.0'
     testImplementation 'org.jeasy:easy-random-core:4.2.0'
-    testImplementation 'org.apache.commons:commons-lang3:3.9'
+    testImplementation 'org.apache.commons:commons-lang3:3.10'
     testImplementation 'commons-validator:commons-validator:1.6'
 }
 
