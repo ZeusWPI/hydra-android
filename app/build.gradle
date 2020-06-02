@@ -187,7 +187,7 @@ dependencies {
     }
     //noinspection GradleDependency
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.6'
-    testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.1.12'
+    testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.3'
     testImplementation 'com.github.niknetniko:GetterSetterVerifier:0.0.11'
     testImplementation 'com.shazam:shazamcrest:0.11'
     testImplementation 'org.skyscreamer:jsonassert:1.5.0'
