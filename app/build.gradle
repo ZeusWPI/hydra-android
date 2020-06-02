@@ -186,7 +186,7 @@ dependencies {
         exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
     }
     //noinspection GradleDependency
-    testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.6'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.7.2'
     testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.1.12'
     testImplementation 'com.github.niknetniko:GetterSetterVerifier:0.0.11'
     testImplementation 'com.shazam:shazamcrest:0.11'
