@@ -85,6 +85,7 @@ public class SlideFragment extends Fragment implements IntroNavigation {
     /**
      * @deprecated
      */
+    @Deprecated
     public View getContentView() {
         return getActivity().findViewById(android.R.id.content);
     }

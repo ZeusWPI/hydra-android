@@ -1175,7 +1175,7 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
     }
 
     @Deprecated
-    @SuppressWarnings("deprecation,unused")
+    @SuppressWarnings("unused")
     public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         miPager.setOnPageChangeListener(listener);
         miPager.addOnPageChangeListener(this.listener);
@@ -1258,7 +1258,7 @@ public class IntroActivity extends AppCompatActivity implements IntroNavigation 
         notifyDataSetChanged();
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "UnusedReturnValue"})
     public boolean addSlide(Slide object) {
         boolean modified = adapter.addSlide(object);
         if (modified) {
