@@ -162,7 +162,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     private static final String UFORA = "com.d2l.brightspace.student.android";
 
     @VisibleForTesting
-    static final String ONCE_ONBOARDING = "once_onboarding_v1_debug";
+    static final String ONCE_ONBOARDING = "once_onboarding_v1";
     private static final int ONBOARDING_REQUEST = 5;
 
     private static final String STATE_IS_ONBOARDING_OPEN = "state_is_onboarding_open";
