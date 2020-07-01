@@ -54,7 +54,9 @@ android {
                 // Allow overdraw, mainly used for selectable backgrounds
                 "Overdraw",
                 // Disabled until AS 4.0 is available
-                "UnusedResources"
+                "UnusedResources",
+                // We use dependabot for dependencies
+                "GradleDependency"
     }
 
     flavorDimensions "distribution"
