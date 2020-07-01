@@ -148,7 +148,7 @@ dependencies {
     // Do not upgrade beyond 3.12.x until we require API 21+
     //noinspection GradleDependency
     implementation 'com.squareup.okhttp3:okhttp:3.12.10'
-    implementation 'com.squareup.moshi:moshi:1.9.2'
+    implementation 'com.squareup.moshi:moshi:1.9.3'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.3'
     implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
