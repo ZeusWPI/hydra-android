@@ -15,8 +15,9 @@ import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDaoTest;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.EqualsVerifierApi;
 import nl.jqno.equalsverifier.Warning;
+import nl.jqno.equalsverifier.api.EqualsVerifierApi;
+import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
 import okio.BufferedSource;
 import okio.Okio;
 import org.jeasy.random.EasyRandom;
@@ -69,7 +70,7 @@ public class Utils {
      *
      * @return The verifier.
      */
-    public static <T> EqualsVerifierApi<T> defaultVerifier(Class<T> clazz) {
+    public static <T> SingleTypeEqualsVerifierApi<T> defaultVerifier(Class<T> clazz) {
         return EqualsVerifier.forClass(clazz)
                 .suppress(Warning.NONFINAL_FIELDS)
                 .withPrefabValues(ZonedDateTime.class, ZonedDateTime.now(), ZonedDateTime.now().minusDays(2));
