@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.resto.meta;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -99,6 +100,7 @@ public class RestoLocationActivity extends BaseActivity<ActivityRestoLocationBin
         }
     }
 
+    @SuppressLint("MissingPermission")
     private void addData() {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
