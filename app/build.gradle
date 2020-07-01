@@ -56,7 +56,9 @@ android {
                 // Disabled until AS 4.0 is available
                 "UnusedResources",
                 // We use dependabot for dependencies
-                "GradleDependency"
+                "GradleDependency",
+                // We will choose for ourselves when we update
+                "OldTargetApi"
     }
 
     flavorDimensions "distribution"
