@@ -167,7 +167,7 @@ dependencies {
     storeImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     // Dependencies for open version.
-    openImplementation 'org.osmdroid:osmdroid-android:6.1.6'
+    openImplementation 'org.osmdroid:osmdroid-android:6.1.8'
 
     if (props.getProperty("hydra.debug.leaks").toBoolean()) {
         logger.info("Leak tracking enabled...")
