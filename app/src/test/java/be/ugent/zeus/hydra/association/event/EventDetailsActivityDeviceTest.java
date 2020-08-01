@@ -12,10 +12,7 @@ import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.testing.NoNetworkInterceptor;
 import be.ugent.zeus.hydra.testing.Utils;
 import okhttp3.OkHttpClient;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -25,6 +22,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.*;
 /**
  * @author Niko Strijbol
  */
+@Ignore("Race conditions make these tests unreliable")
 @RunWith(AndroidJUnit4.class)
 public class EventDetailsActivityDeviceTest {
 

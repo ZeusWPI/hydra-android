@@ -11,6 +11,7 @@ import be.ugent.zeus.hydra.testing.RobolectricUtils;
 import be.ugent.zeus.hydra.testing.Utils;
 import okhttp3.OkHttpClient;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -20,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Niko Strijbol
  */
+@Ignore("Race conditions make these tests unreliable")
 @RunWith(RobolectricTestRunner.class)
 public class EventDetailsActivityTest {
 
