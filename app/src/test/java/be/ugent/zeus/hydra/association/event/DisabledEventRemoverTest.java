@@ -51,7 +51,7 @@ public class DisabledEventRemoverTest {
         Collections.shuffle(copy);
         Set<String> toRemoveIds = copy.subList(0, 10)
                 .stream()
-                .map(Association::getInternalName)
+                .map(Association::getAbbreviation)
                 .collect(Collectors.toSet());
 
         Context context = ApplicationProvider.getApplicationContext();
@@ -69,7 +69,7 @@ public class DisabledEventRemoverTest {
 
         assertTrue(
                 "Events that should have been filtered away are still present.",
-                result.stream().noneMatch(event -> toRemoveIds.contains(event.getAssociation().getInternalName()))
+                result.stream().noneMatch(event -> toRemoveIds.contains(event.getAssociation()))
         );
     }
 }

@@ -31,7 +31,7 @@ class DisabledEventRemover implements Function<List<Event>, List<Event>> {
                 .map(String::toLowerCase)
                 .collect(Collectors.toSet());
         return events.stream()
-                .filter(event -> !disabled.contains(event.getAssociation().getInternalName().toLowerCase(Locale.ROOT)))
+                .filter(event -> !disabled.contains(event.getAssociation().toLowerCase(Locale.ROOT)))
                 .collect(Collectors.toList());
     }
 }

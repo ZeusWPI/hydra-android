@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.association.event.list;
+package be.ugent.zeus.hydra.association.list;
 
 import be.ugent.zeus.hydra.testing.Utils;
 import nl.jqno.equalsverifier.Warning;

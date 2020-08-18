@@ -14,9 +14,9 @@ import be.ugent.zeus.hydra.feed.cards.Card;
  */
 public class DisableAssociationCommand implements FeedCommand {
 
-    private final Association association;
+    private final String association;
 
-    public DisableAssociationCommand(Association association) {
+    public DisableAssociationCommand(String association) {
         this.association = association;
     }
 
@@ -26,7 +26,7 @@ public class DisableAssociationCommand implements FeedCommand {
         PreferencesUtils.addToStringSet(
                 context,
                 AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING,
-                association.getInternalName()
+                association
         );
         return Card.Type.ACTIVITY;
     }
@@ -36,7 +36,7 @@ public class DisableAssociationCommand implements FeedCommand {
         PreferencesUtils.removeFromStringSet(
                 context,
                 AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING,
-                association.getInternalName()
+                association
         );
         return Card.Type.ACTIVITY;
     }

@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.association.event.list;
+package be.ugent.zeus.hydra.association.list;
 
 import android.content.Intent;
 import android.view.View;
@@ -44,10 +44,10 @@ class EventViewHolder extends DataViewHolder<EventItem> {
     public void populate(final EventItem eventItem) {
         Event event = eventItem.getItem();
         title.setText(event.getTitle());
-        association.setText(event.getAssociation().getDisplayName());
+        association.setText(eventItem.getAssociation().getName());
         start.setText(event.getLocalStart().format(HOUR_FORMATTER));
         cardView.setOnClickListener(v -> {
-            Intent intent = EventDetailsActivity.start(v.getContext(), event);
+            Intent intent = EventDetailsActivity.start(v.getContext(), event, eventItem.getAssociation());
             v.getContext().startActivity(intent);
         });
 

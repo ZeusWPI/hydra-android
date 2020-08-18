@@ -20,9 +20,9 @@ class DismissalEvent implements Event {
     private final String dismissalType;
     private final CardIdentifier identifier;
 
-    DismissalEvent(Association association) {
+    DismissalEvent(String association) {
         this.dismissalType = "association";
-        this.identifier = new CardIdentifier(Card.Type.ACTIVITY, association.getInternalName());
+        this.identifier = new CardIdentifier(Card.Type.ACTIVITY, association);
     }
 
     DismissalEvent(CardIdentifier identifier) {

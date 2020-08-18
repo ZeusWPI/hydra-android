@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.association.event.list;
+package be.ugent.zeus.hydra.association.list;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

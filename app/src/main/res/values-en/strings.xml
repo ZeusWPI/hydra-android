@@ -118,6 +118,7 @@
     <string name="event_detail_activity_title">Event</string>
     <string name="event_detail_description_title">Description</string>
     <string name="event_detail_no_description">No description.</string>
+    <string name="event_detail_more">More information</string>
     <string name="event_detail_no_location">Without location</string>
     <string name="event_detail_from">From</string>
     <string name="event_detail_to">To</string>

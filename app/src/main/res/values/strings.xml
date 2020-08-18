@@ -124,6 +124,7 @@
     <string name="event_detail_activity_title">Evenement</string>
     <string name="event_detail_description_title">Beschrijving</string>
     <string name="event_detail_no_description">Geen beschrijving.</string>
+    <string name="event_detail_more">Meer informatie</string>
     <string name="event_detail_no_location">Zonder locatie</string>
     <string name="event_detail_from">Van</string>
     <string name="event_detail_to">Tot</string>

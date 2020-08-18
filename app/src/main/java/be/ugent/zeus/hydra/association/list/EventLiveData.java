@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.association.event.list;
+package be.ugent.zeus.hydra.association.list;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import be.ugent.zeus.hydra.association.event.RawEventRequest;
 import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 
@@ -22,7 +21,7 @@ class EventLiveData extends RequestLiveData<List<EventItem>> implements SharedPr
     private Set<String> disabledAssociations;
 
     EventLiveData(Context context) {
-        super(context, RawEventRequest.cachedFilteredSortedRequest(context).map(new EventListConverter()));
+        super(context, EventItem.request(context).map(new EventListConverter()));
     }
 
     @Override

@@ -2,9 +2,9 @@ package be.ugent.zeus.hydra.association;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import java.util.Locale;
+import java.util.List;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
@@ -20,7 +20,6 @@ import com.squareup.moshi.Json;
  * @author Niko Strijbol
  */
 public final class Association implements Parcelable {
-
     public static final Creator<Association> CREATOR = new Creator<Association>() {
         @Override
         public Association createFromParcel(Parcel in) {
@@ -32,15 +31,17 @@ public final class Association implements Parcelable {
             return new Association[size];
         }
     };
-    private static final String IMAGE_LINK = Endpoints.ZEUS_V2 + "association/logo/%s.png";
-    @Json(name = "internal_name")
-    private String internalName;
-    @Json(name = "full_name")
-    private String fullName;
-    @Json(name = "display_name")
-    private String displayName;
-    @Json(name = "parent_association")
-    private String parentAssociation;
+    private String abbreviation;
+    private String name;
+    private List<String> path;
+    
+    @Nullable
+    private String description;
+    private String email;
+    @Nullable
+    private String logo;
+    @Nullable
+    private String website;
 
     public Association() {
         // Moshi uses this!
@@ -63,25 +64,30 @@ public final class Association implements Parcelable {
         return displayName;
     }
 
-    @NonNull
-    public String getInternalName() {
-        return internalName;
+    @Nullable
+    public String getDescription() {
+        return description;
     }
 
-    public String getFullName() {
-        return fullName;
+    @Nullable
+    public String getWebsite() {
+        return website;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(abbreviation);
+        dest.writeString(name);
+        dest.writeStringList(path);
+        dest.writeString(description);
+        dest.writeString(email);
+        dest.writeString(logo);
+        dest.writeString(website);
     }
 
-    public String getParentAssociation() {
-        return parentAssociation;
-    }
-
-    public String getImageLink() {
-        return String.format(IMAGE_LINK, internalName.toLowerCase(Locale.ROOT));
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     @Override
@@ -97,16 +103,40 @@ public final class Association implements Parcelable {
         dest.writeString(parentAssociation);
     }
 
+    /**
+     * @return A name for this association. If a full name is available, that is returned. If not, the display name is.
+     */
+    public String getName() {
+        return name;
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    @Nullable
+    public String getImageLink() {
+        return logo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Association that = (Association) o;
-        return Objects.equals(internalName, that.internalName);
+        return Objects.equals(abbreviation, that.abbreviation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(internalName);
+        return Objects.hash(abbreviation);
+    }
+    
+    public static Association unknown() {
+        Association association = new Association();
+        association.abbreviation = "unknown";
+        association.name = "Onbekend";
+        association.description = "Onbekende vereniging";
+        return association;
     }
 }

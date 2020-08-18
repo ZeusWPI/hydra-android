@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.association.event.list;
+package be.ugent.zeus.hydra.association.list;
 
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;

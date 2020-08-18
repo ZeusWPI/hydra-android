@@ -1,4 +1,4 @@
-package be.ugent.zeus.hydra.association.event.list;
+package be.ugent.zeus.hydra.association.list;
 
 import java.util.Locale;
 import java.util.function.BiPredicate;
@@ -6,12 +6,16 @@ import java.util.function.BiPredicate;
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.association.event.Event;
 
+import be.ugent.zeus.hydra.association.event.Event;
+
 /**
  * Searches a list of events for things that match.
  *
- * We currently search the title of the event, and the names of the event's association.
+ * We currently search the title of the event.
  *
  * We don't search the description, as search happens on the main thread, and description can become very long.
+ * 
+ * TODO: replace by API search function with filters.
  *
  * @author Niko Strijbol
  */
@@ -26,18 +30,6 @@ class EventSearchPredicate implements BiPredicate<EventItem, String> {
         Event event = eventItem.getItem();
         if (event.getTitle() != null && event.getTitle().toLowerCase(Locale.getDefault()).contains(searchTerm)) {
             return true;
-        }
-        if (event.getAssociation() != null) {
-            Association association = event.getAssociation();
-            if (association.getDisplayName() != null && association.getDisplayName().toLowerCase(Locale.ROOT).contains(searchTerm)) {
-                return true;
-            }
-            if (association.getFullName() != null && association.getFullName().toLowerCase(Locale.getDefault()).contains(searchTerm)) {
-                return true;
-            }
-            if (association.getInternalName().contains(searchTerm)) {
-                return true;
-            }
         }
         return false;
     }

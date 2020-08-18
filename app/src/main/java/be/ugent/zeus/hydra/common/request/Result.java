@@ -1,5 +1,6 @@
 package be.ugent.zeus.hydra.common.request;
 
+import android.util.Pair;
 import androidx.annotation.NonNull;
 
 import java.util.NoSuchElementException;
@@ -164,6 +165,14 @@ public class Result<D> {
      */
     public D orElse(D other) {
         return data != null ? data : other;
+    }
+    
+    public <T> Result<Pair<D, T>> andThen(Result<T> other) {
+        if (hasData()) {
+            return other.map(t -> new Pair<>(data, t));
+        } else {
+            return Result.Builder.fromException(throwable);
+        }
     }
 
     /**

@@ -19,14 +19,6 @@ public class AssociationTest extends ModelTest<Association> {
     }
 
     @Test
-    public void getName() {
-        Association full = generate(Association.class);
-        assertEquals(full.getFullName(), full.getName());
-        Association partial = generate(Association.class, "fullName");
-        assertEquals(partial.getDisplayName(), partial.getName());
-    }
-
-    @Test
     @Override
     public void equalsAndHash() {
         Utils.defaultVerifier(Association.class)

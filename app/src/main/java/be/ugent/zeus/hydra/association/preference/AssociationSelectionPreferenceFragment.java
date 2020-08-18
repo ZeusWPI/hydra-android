@@ -35,7 +35,7 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
     /**
      * Key for the preference that contains which associations should be shown.
      */
-    public static final String PREF_ASSOCIATIONS_SHOWING = "pref_associations_showing";
+    public static final String PREF_ASSOCIATIONS_SHOWING = "pref_associations_showing_v2";
 
     private static final String TAG = "AssociationSelectPrefAc";
 
@@ -101,7 +101,7 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
         List<Pair<Association, Boolean>> values = new ArrayList<>();
 
         for (Association association : data) {
-            values.add(new Pair<>(association, !disabled.contains(association.getInternalName())));
+            values.add(new Pair<>(association, !disabled.contains(association.getAbbreviation())));
         }
 
         adapter.submitData(values);
@@ -115,7 +115,7 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
         Set<String> disabled = new HashSet<>();
         for (Pair<Association, Boolean> pair : adapter.getItemsAndState()) {
             if (!pair.second) {
-                disabled.add(pair.first.getInternalName());
+                disabled.add(pair.first.getAbbreviation());
             }
         }
 
