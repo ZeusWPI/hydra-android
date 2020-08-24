@@ -464,6 +464,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
             MenuItem item = binding.navigationView.getMenu().findItem(getFragmentMenuId(current));
             updateDrawer(current, item);
         };
+
+        // Allow the current fragment to intercept the back press.
+        Fragment current = getSupportFragmentManager().findFragmentById(R.id.content);
+        if (current instanceof OnBackPressed && (((OnBackPressed) current).onBackPressed())) {
+            // The fragment has handled it.
+            return;
+        }
+
         // We need to listen to the back stack to update the drawer.
         getSupportFragmentManager().addOnBackStackChangedListener(listener);
         super.onBackPressed();
@@ -619,5 +627,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
             this.fragment = fragment;
             this.menuItem = menuItem;
         }
+    }
+
+    /**
+     * Allows fragments to listen to and intercept back button presses.
+     */
+    @FunctionalInterface
+    public interface OnBackPressed {
+
+        /**
+         * Called when the back button is pressed. This function provides the fragment
+         * with an opportunity to intercept the back press.
+         *
+         * @return True if consumed, false otherwise. Consumed events are not propagated.
+         */
+        boolean onBackPressed();
     }
 }

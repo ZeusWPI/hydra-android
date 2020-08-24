@@ -2,12 +2,14 @@ package be.ugent.zeus.hydra.association.list;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Pair;
 import androidx.preference.PreferenceManager;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 
@@ -16,12 +18,12 @@ import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
  *
  * @author Niko Strijbol
  */
-class EventLiveData extends RequestLiveData<List<EventItem>> implements SharedPreferences.OnSharedPreferenceChangeListener {
+class EventLiveData extends RequestLiveData<Pair<List<EventItem>, List<Association>>> implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private Set<String> disabledAssociations;
 
-    EventLiveData(Context context) {
-        super(context, EventItem.request(context).map(new EventListConverter()));
+    EventLiveData(Context context, Filter filter) {
+        super(context, EventItem.request(context, filter).map(new EventListConverter()));
     }
 
     @Override

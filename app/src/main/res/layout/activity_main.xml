@@ -72,6 +72,16 @@
             app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_resto" />
 
+        <!-- Is used in the settings fragment for now -->
+        <FrameLayout
+            android:visibility="gone"
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            app:behavior_hideable="true"
+            app:behavior_skipCollapsed="true" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <!-- The navigation drawer that comes from the left -->

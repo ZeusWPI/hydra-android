@@ -4,6 +4,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DiffAdapter;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.common.utils.ViewUtils;
@@ -14,13 +16,9 @@ import be.ugent.zeus.hydra.common.utils.ViewUtils;
  * @author ellen
  * @author Niko Strijbol
  */
-class EventAdapter extends SearchableAdapter<EventItem, DataViewHolder<EventItem>> {
+class EventAdapter extends DiffAdapter<EventItem, DataViewHolder<EventItem>> {
 
     private static final int HEADER_TYPE = 25;
-
-    EventAdapter() {
-        super(new EventSearchPredicate(), new EventSearchFilter());
-    }
 
     @NonNull
     @Override

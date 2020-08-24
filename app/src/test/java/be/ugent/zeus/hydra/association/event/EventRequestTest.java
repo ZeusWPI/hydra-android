@@ -20,6 +20,6 @@ public class EventRequestTest extends AbstractJsonRequestTest<List<Event>> {
 
     @Override
     protected JsonOkHttpRequest<List<Event>> getRequest() {
-        return new RawEventRequest(context);
+        return new RawEventRequest(context, "");
     }
 }

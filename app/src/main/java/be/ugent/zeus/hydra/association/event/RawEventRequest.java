@@ -1,21 +1,29 @@
 package be.ugent.zeus.hydra.association.event;
 
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import androidx.annotation.NonNull;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.function.Function;
 
+import java.util.List;
+
+import java9.util.function.Function;
+
+import be.ugent.zeus.hydra.association.list.Filter;
 import be.ugent.zeus.hydra.common.network.Endpoints;
-import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import be.ugent.zeus.hydra.common.request.Request;
+import org.threeten.bp.Duration;
+
 
 /**
  * Get the events for all associations. This will get all events returned by the API, without any filtering.
  *
- * You probably want {@link #cachedFilteredSortedRequest(Context)} instead.
+ * You probably want {@link #create(Context, String)} instead.
  *
  * @author feliciaan
  * @author Niko Strijbol
@@ -23,15 +31,22 @@ import be.ugent.zeus.hydra.common.request.Request;
 public class RawEventRequest extends JsonOkHttpRequest<EventList> {
 
     private static final String FILENAME = "activiteiten";
+    
+    private final Filter params;
 
-    RawEventRequest(Context context) {
+    RawEventRequest(Context context, Filter params) {
         super(context, EventList.class);
+        this.params = params;
+        Log.d("EVENT", "RawEventRequest: " + params);
     }
 
     @NonNull
     @Override
     protected String getAPIUrl() {
-        return Endpoints.DSA_V4 + FILENAME + "?page_size=100";
+        Uri.Builder uri = Uri.parse(Endpoints.DSA_V4 + FILENAME).buildUpon();
+        String t =  params.appendParams(uri).build().toString();
+        Log.d("TAG", "getAPIUrl: " + t);
+        return t;
     }
 
     @Override
@@ -48,9 +63,8 @@ public class RawEventRequest extends JsonOkHttpRequest<EventList> {
      *
      * @return The modified request.
      */
-    public static Request<List<Event>> cachedFilteredSortedRequest(Context context) {
-        return new RawEventRequest(context)
-                .map(eventList -> eventList.getPage().getEntries())
-                .map(new DisabledEventRemover(context));
+    public static Request<List<Event>> create(Context context, Filter filter) {
+        return new RawEventRequest(context, filter)
+                .map(eventList -> eventList.getPage().getEntries());
     }
 }

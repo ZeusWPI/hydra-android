@@ -13,11 +13,18 @@ import java.util.stream.Stream;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.RawEventRequest;
 import be.ugent.zeus.hydra.association.list.EventItem;
+import be.ugent.zeus.hydra.association.list.Filter;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HideableHomeFeedRequest;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
+
+import java9.util.function.Function;
+import java9.util.stream.Stream;
+import java9.util.stream.StreamSupport;
+
+import org.threeten.bp.OffsetDateTime;
 
 import java.util.List;
 
@@ -32,7 +39,7 @@ public class EventRequest extends HideableHomeFeedRequest {
 
     public EventRequest(Context context, DismissalDao dismissalDao) {
         super(dismissalDao);
-        this.request = EventItem.request(context);
+        this.request = EventItem.request(context, new Filter()).map(listListPair -> listListPair.first);
     }
 
     @Override

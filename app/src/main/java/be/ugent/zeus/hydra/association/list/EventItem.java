@@ -3,17 +3,18 @@ package be.ugent.zeus.hydra.association.list;
 import android.content.Context;
 import android.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.association.AssociationListRequest;
-import be.ugent.zeus.hydra.association.event.Event;
 import java9.util.Objects;
 import java9.util.function.Function;
 import java9.util.stream.Collectors;
 import java9.util.stream.StreamSupport;
 
+import be.ugent.zeus.hydra.association.Association;
+import be.ugent.zeus.hydra.association.AssociationListRequest;
+import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.RawEventRequest;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
@@ -102,9 +103,9 @@ public final class EventItem {
     void markAsLastOfSection() {
         this.isLastOfSection = true;
     }
-    
-    public static Request<List<Pair<Event, Association>>> request(Context context) {
-        Request<List<Event>> eventRequest = RawEventRequest.cachedFilteredSortedRequest(context);
+
+    public static Request<Pair<List<Pair<Event, Association>>, List<Association>>> request(Context context, Filter filter) {
+        Request<List<Event>> eventRequest = RawEventRequest.create(context, filter);
         Request<Map<String, Association>> associationRequest =
                 AssociationListRequest.asList(context)
                         .map(associations -> StreamSupport.stream(associations)
@@ -120,7 +121,8 @@ public final class EventItem {
                         }
                         return new Pair<>(event, a);
                     })
-                    .collect(Collectors.toList()));
+                    .collect(Collectors.toList()))
+                    .andThen(second.map(stringAssociationMap -> new ArrayList<>(stringAssociationMap.values())));
         };
     }
 }

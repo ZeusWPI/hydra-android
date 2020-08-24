@@ -133,6 +133,10 @@ public class DateUtils {
     public static CharSequence relativeDateTimeString(OffsetDateTime dateTime, Context context) {
         return relativeDateTimeString(dateTime, context, false);
     }
+    
+    public static String getFriendlyDateTime(OffsetDateTime dateTime) {
+        return dateTime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
+    }
 
     /**
      * Get the date, converted to the local time zone. The resulting DateTime is the time as it is used in the current
