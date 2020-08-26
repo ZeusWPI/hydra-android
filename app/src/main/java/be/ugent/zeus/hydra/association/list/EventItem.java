@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.association.list;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ import org.threeten.bp.LocalDate;
  * @author Niko Strijbol
  */
 public final class EventItem {
+
+    private static final String TAG = "EventItem";
 
     private final Event event;
     private final LocalDate header;
@@ -117,7 +120,8 @@ public final class EventItem {
                     .map(event -> {
                         Association a = listMapPair.second.get(event.getAssociation());
                         if (a == null) {
-                            a = Association.unknown();
+                            Log.w(TAG, "request: unknown assoc: " + event.getAssociation());
+                            a = Association.unknown(event.getAssociation());
                         }
                         return new Pair<>(event, a);
                     })

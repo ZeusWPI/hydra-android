@@ -132,10 +132,10 @@ public final class Association implements Parcelable {
         return Objects.hash(abbreviation);
     }
     
-    public static Association unknown() {
+    public static Association unknown(String name) {
         Association association = new Association();
         association.abbreviation = "unknown";
-        association.name = "Onbekend";
+        association.name = name;
         association.description = "Onbekende vereniging";
         return association;
     }
