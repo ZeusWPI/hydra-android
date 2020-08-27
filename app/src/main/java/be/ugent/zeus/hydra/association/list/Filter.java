@@ -89,4 +89,14 @@ public class Filter {
             this.filter.term = term;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Filter{" +
+                "after=" + after +
+                ", before=" + before +
+                ", associations=" + associations +
+                ", term='" + term + '\'' +
+                '}';
+    }
 }

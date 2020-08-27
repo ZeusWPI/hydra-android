@@ -35,7 +35,7 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
     /**
      * Key for the preference that contains which associations should be shown.
      */
-    public static final String PREF_ASSOCIATIONS_SHOWING = "pref_associations_showing_v2";
+    public static final String PREF_ASSOCIATIONS_SHOWING = "pref_associations_showing_v3";
 
     private static final String TAG = "AssociationSelectPrefAc";
 
@@ -97,11 +97,11 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
     private void receiveData(@NonNull List<Association> data) {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        Set<String> disabled = preferences.getStringSet(PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
+        Set<String> enabled = preferences.getStringSet(PREF_ASSOCIATIONS_SHOWING, Collections.emptySet());
         List<Pair<Association, Boolean>> values = new ArrayList<>();
 
         for (Association association : data) {
-            values.add(new Pair<>(association, !disabled.contains(association.getAbbreviation())));
+            values.add(new Pair<>(association, enabled.contains(association.getAbbreviation())));
         }
 
         adapter.submitData(values);
@@ -112,15 +112,15 @@ public class AssociationSelectionPreferenceFragment extends Fragment {
         super.onPause();
 
         //Save the values.
-        Set<String> disabled = new HashSet<>();
+        Set<String> enabled = new HashSet<>();
         for (Pair<Association, Boolean> pair : adapter.getItemsAndState()) {
-            if (!pair.second) {
-                disabled.add(pair.first.getAbbreviation());
+            if (pair.second) {
+                enabled.add(pair.first.getAbbreviation());
             }
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        preferences.edit().putStringSet(PREF_ASSOCIATIONS_SHOWING, disabled).apply();
+        preferences.edit().putStringSet(PREF_ASSOCIATIONS_SHOWING, enabled).apply();
     }
 
     private void onError(Throwable throwable) {

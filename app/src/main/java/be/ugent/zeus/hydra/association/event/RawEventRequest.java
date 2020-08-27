@@ -31,7 +31,7 @@ import org.threeten.bp.Duration;
 public class RawEventRequest extends JsonOkHttpRequest<EventList> {
 
     private static final String FILENAME = "activiteiten";
-    
+
     private final Filter params;
 
     RawEventRequest(Context context, Filter params) {
@@ -44,7 +44,7 @@ public class RawEventRequest extends JsonOkHttpRequest<EventList> {
     @Override
     protected String getAPIUrl() {
         Uri.Builder uri = Uri.parse(Endpoints.DSA_V4 + FILENAME).buildUpon();
-        String t =  params.appendParams(uri).build().toString();
+        String t = params.appendParams(uri).appendQueryParameter("page_size", "50").build().toString();
         Log.d("TAG", "getAPIUrl: " + t);
         return t;
     }
@@ -56,7 +56,6 @@ public class RawEventRequest extends JsonOkHttpRequest<EventList> {
 
     /**
      * Transform by applying:
-     * - {@link Request#map(Function)} with {@link DisabledEventRemover}
      * - {@link Request#map(Function)} with {@link EventSorter}
      *
      * @param context The context.

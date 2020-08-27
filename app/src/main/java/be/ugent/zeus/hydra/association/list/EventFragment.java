@@ -1,6 +1,5 @@
 package be.ugent.zeus.hydra.association.list;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
@@ -13,36 +12,28 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
 import java9.lang.Iterables;
 import java9.util.Comparators;
-import java9.util.Iterators;
-import java9.util.Spliterator;
-import java9.util.Spliterators;
-import java9.util.function.Function;
-import java9.util.function.Predicate;
 import java9.util.stream.Collectors;
 import java9.util.stream.StreamSupport;
 
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.common.arch.observers.AdapterObserver;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
 import be.ugent.zeus.hydra.common.arch.observers.ProgressObserver;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
-import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.common.ui.recyclerview.EmptyViewObserver;
 import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
+import be.ugent.zeus.hydra.common.utils.PreferencesUtils;
 import be.ugent.zeus.hydra.preferences.PreferenceActivity;
 import be.ugent.zeus.hydra.preferences.PreferenceEntry;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -53,6 +44,7 @@ import org.threeten.bp.Instant;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneOffset;
 
+import static be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING;
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
 
 /**
@@ -154,6 +146,13 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
         int secondaryColour = ColourUtils.resolveColour(requireContext(), R.attr.colorSecondary);
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(secondaryColour);
+        
+        // Set default associations from preferences.
+        Set<String> disabled = StreamSupport.stream(PreferencesUtils.getStringSet(requireContext(), PREF_ASSOCIATIONS_SHOWING))
+                .map(String::toLowerCase)
+                .collect(Collectors.toSet());
+        filter.setAssociations(disabled);
+        
 
         viewModel = new ViewModelProvider(this).get(EventViewModel.class);
         viewModel.setParams(filter.getValue());
