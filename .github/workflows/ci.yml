@@ -17,10 +17,10 @@ jobs:
         command: [testOpenDebug, testOpenRelease, testStoreDebug, testStoreRelease]
     steps:
       - uses: actions/checkout@v1
-      - name: Set up JDK 10
+      - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 10
+          java-version: 13
       - name: Cache Gradle files
         uses: actions/cache@v1
         with:
@@ -37,10 +37,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Set up JDK 10
+      - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 10
+          java-version: 13
       - name: Cache Gradle files
         uses: actions/cache@v1
         with:
