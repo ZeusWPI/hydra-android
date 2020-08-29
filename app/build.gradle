@@ -78,6 +78,9 @@ android {
             ext.enableCrashlytics = false
             versionNameSuffix "-open"
             applicationIdSuffix ".open"
+            firebaseCrashlytics {
+                mappingFileUploadEnabled false
+            }
         }
     }
 
