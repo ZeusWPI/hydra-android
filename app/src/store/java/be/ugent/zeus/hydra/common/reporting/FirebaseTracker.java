@@ -16,6 +16,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 class FirebaseTracker implements Tracker {
 
     private final Context applicationContext;
+    private boolean isCrashReportingAllowed = true;
 
     FirebaseTracker(Context context) {
         this.applicationContext = context.getApplicationContext();
@@ -46,17 +47,25 @@ class FirebaseTracker implements Tracker {
 
     @Override
     public void logError(Throwable throwable) {
-        FirebaseCrashlytics.getInstance().recordException(throwable);
+        // Prevent logging exceptions if it is not enabled.
+        if (isCrashReportingAllowed) {
+            FirebaseCrashlytics.getInstance().recordException(throwable);
+        }
     }
 
     @Override
     public void allowAnalytics(boolean allowed) {
-        FirebaseAnalytics.getInstance(applicationContext)
-                .setAnalyticsCollectionEnabled(allowed);
+        if (allowed) {
+            FirebaseAnalytics.getInstance(applicationContext)
+                    .setAnalyticsCollectionEnabled(true);
+        }
     }
 
     @Override
     public void allowCrashReporting(boolean allowed) {
-        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(allowed);
+        isCrashReportingAllowed = allowed;
+        if (allowed) {
+            FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
+        }
     }
 }
