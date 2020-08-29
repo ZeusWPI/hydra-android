@@ -20,8 +20,8 @@
         android:layout_gravity="center_vertical"
         tools:src="@drawable/tabs_resto"
         tools:ignore="MissingPrefix"
-        android:tint="@color/hydra_color_primary_variant_light"
-        android:contentDescription="@string/content_desc_resto"/>
+        android:contentDescription="@string/content_desc_resto"
+        app:tint="@color/hydra_color_primary_variant_light" />
 
     <TextView
         android:id="@+id/now_toolbar_title"
@@ -41,9 +41,9 @@
         android:padding="8dp"
         android:layout_marginRight="8dp"
         android:layout_gravity="center_vertical"
-        android:tint="?colorOnSurface"
         app:srcCompat="@drawable/ic_more_vert"
         android:id="@+id/now_toolbar_menu"
-        android:contentDescription="@string/content_desc_more" />
+        android:contentDescription="@string/content_desc_more"
+        app:tint="?colorOnSurface" />
 
 </merge>

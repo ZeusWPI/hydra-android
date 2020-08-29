@@ -53,7 +53,7 @@
         android:layout_width="@dimen/material_list_icon_size"
         android:layout_height="@dimen/material_list_icon_size"
         app:srcCompat="@drawable/ic_star"
-        android:tint="?colorSecondary"
-        android:contentDescription="@string/content_desc_library" />
+        android:contentDescription="@string/content_desc_library"
+        app:tint="?colorSecondary" />
 
 </LinearLayout>
