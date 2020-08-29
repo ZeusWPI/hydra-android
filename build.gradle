@@ -4,8 +4,6 @@ buildscript {
     repositories {
         // For Google-related dependencies
         google()
-        // For Fabric (Firebase Crashlytics)
-        maven { url 'https://maven.fabric.io/public' }
         // For the license plugin
         mavenCentral()
         jcenter()
@@ -13,7 +11,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
         classpath 'com.google.gms:google-services:4.3.3'
-        classpath 'io.fabric.tools:gradle:1.31.2'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.2.1'
     }
 }
 

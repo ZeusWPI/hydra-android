@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'be.ugent.zeus.hydra.licenses'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 // Read our properties, see bottom for details.
 def props = loadProperties()
@@ -137,12 +138,12 @@ dependencies {
     implementation 'androidx.core:core:1.3.1'
     implementation 'androidx.media:media:1.1.0'
     implementation 'androidx.fragment:fragment:1.2.5'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.2.0'
     implementation 'androidx.browser:browser:1.2.0'
     implementation 'androidx.slice:slice-builders:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
@@ -151,11 +152,11 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.2.5'
     // Do not upgrade beyond 3.12.x until we require API 21+
     //noinspection GradleDependency
-    implementation 'com.squareup.okhttp3:okhttp:3.12.10'
-    implementation 'com.squareup.moshi:moshi:1.9.3'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.12'
+    implementation 'com.squareup.moshi:moshi:1.10.0'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
     implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.2'
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     implementation 'com.github.niknetniko:material-intro:9903deb6c4'
     implementation 'com.jonathanfinerty.once:once:1.3.0'
@@ -163,8 +164,8 @@ dependencies {
 
     // Dependencies for the Play Store version.
     storeImplementation 'com.google.android.gms:play-services-maps:17.0.0'
-    storeImplementation 'com.google.firebase:firebase-analytics:17.4.4'
-    storeImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    storeImplementation 'com.google.firebase:firebase-analytics:17.5.0'
+    storeImplementation 'com.google.firebase:firebase-crashlytics:17.2.1'
 
     // Dependencies for open version.
     openImplementation 'org.osmdroid:osmdroid-android:6.1.8'
@@ -175,14 +176,14 @@ dependencies {
     }
 
     testImplementation 'junit:junit:4.13'
-    testImplementation 'org.mockito:mockito-core:3.4.6'
-    testImplementation 'org.robolectric:robolectric:4.3.1'
-    testImplementation 'androidx.test:core:1.2.0'
-    testImplementation 'androidx.test.ext:junit:1.1.1'
-    testImplementation 'androidx.test:rules:1.2.0'
-    testImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    testImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
-    testImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
+    testImplementation 'org.mockito:mockito-core:3.5.7'
+    testImplementation 'org.robolectric:robolectric:4.4'
+    testImplementation 'androidx.test:core:1.3.0'
+    testImplementation 'androidx.test.ext:junit:1.1.2'
+    testImplementation 'androidx.test:rules:1.3.0'
+    testImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
+    testImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation 'androidx.room:room-testing:2.2.5'
     // Enable the normal library for unit tests.
@@ -190,8 +191,8 @@ dependencies {
         exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
     }
     //noinspection GradleDependency
-    testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.6'
-    testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.4.1'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.12'
+    testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.4.2'
     testImplementation 'com.github.niknetniko:GetterSetterVerifier:0.0.11'
     testImplementation 'com.shazam:shazamcrest:0.11'
     testImplementation 'org.skyscreamer:jsonassert:1.5.0'
@@ -199,8 +200,6 @@ dependencies {
     testImplementation 'org.apache.commons:commons-lang3:3.11'
     testImplementation 'commons-validator:commons-validator:1.6'
 }
-
-apply plugin: 'com.google.gms.google-services'
 
 
 // Disable Google services for open variant.
