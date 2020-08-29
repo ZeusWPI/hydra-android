@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'be.ugent.zeus.hydra.licenses'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 // Read our properties, see bottom for details.
 def props = loadProperties()
@@ -163,8 +164,8 @@ dependencies {
 
     // Dependencies for the Play Store version.
     storeImplementation 'com.google.android.gms:play-services-maps:17.0.0'
-    storeImplementation 'com.google.firebase:firebase-analytics:17.4.4'
-    storeImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    storeImplementation 'com.google.firebase:firebase-analytics:17.5.0'
+    storeImplementation 'com.google.firebase:firebase-crashlytics:17.2.1'
 
     // Dependencies for open version.
     openImplementation 'org.osmdroid:osmdroid-android:6.1.8'
@@ -199,8 +200,6 @@ dependencies {
     testImplementation 'org.apache.commons:commons-lang3:3.11'
     testImplementation 'commons-validator:commons-validator:1.6'
 }
-
-apply plugin: 'com.google.gms.google-services'
 
 
 // Disable Google services for open variant.

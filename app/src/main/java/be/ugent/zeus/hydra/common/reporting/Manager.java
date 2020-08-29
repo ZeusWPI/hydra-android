@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import androidx.preference.PreferenceManager;
 
+import be.ugent.zeus.hydra.BuildConfig;
+
 /**
  * Manage reporting permissions.
  *
@@ -54,6 +56,6 @@ public class Manager {
     }
 
     public static boolean allowDebugReporting() {
-        return false;
+        return BuildConfig.DEBUG_ENABLE_REPORTING;
     }
 }
