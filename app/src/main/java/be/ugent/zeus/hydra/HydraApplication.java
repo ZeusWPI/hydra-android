@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.content.Context;
 import android.os.StrictMode;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -23,21 +22,6 @@ import jonathanfinerty.once.Once;
 public class HydraApplication extends Application {
 
     private static final String TAG = "HydraApplication";
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        onAttachBaseContextInitialize(base);
-    }
-
-    /**
-     * This method allows us to override this in Robolectric.
-     */
-    protected void onAttachBaseContextInitialize(Context base) {
-        if (BuildConfig.DEBUG) {
-            androidx.multidex.MultiDex.install(this);
-        }
-    }
 
     @Override
     public void onCreate() {

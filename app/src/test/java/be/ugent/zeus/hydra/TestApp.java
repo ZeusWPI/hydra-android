@@ -22,11 +22,6 @@ public class TestApp extends HydraApplication {
     }
 
     @Override
-    protected void onAttachBaseContextInitialize(Context base) {
-        // Do nothing.
-    }
-
-    @Override
     protected void onCreateInitialise() {
         Once.initialise(this);
 
