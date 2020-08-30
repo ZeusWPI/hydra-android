@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-public class TestMigration_10_11 {
+public class TestMigration_10_11 extends MigrationTest {
 
     @Rule
     public final LocalMigrationTestHelper testHelper;

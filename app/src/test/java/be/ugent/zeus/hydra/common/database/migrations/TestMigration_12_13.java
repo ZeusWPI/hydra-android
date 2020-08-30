@@ -1,8 +1,6 @@
 package be.ugent.zeus.hydra.common.database.migrations;
 
 import android.app.Instrumentation;
-import android.os.Build;
-
 import androidx.room.testing.LocalMigrationTestHelper;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.test.core.app.ApplicationProvider;
@@ -14,7 +12,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -23,7 +20,7 @@ import static org.mockito.Mockito.when;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-public class TestMigration_12_13 {
+public class TestMigration_12_13 extends MigrationTest {
 
     @Rule
     public final LocalMigrationTestHelper testHelper;
@@ -36,7 +33,6 @@ public class TestMigration_12_13 {
     }
 
     @Test
-    @Config(sdk = Build.VERSION_CODES.KITKAT) // TODO: Sqlite version is too old in robolectric!
     public void testMigration() throws IOException {
         // There is no data to test, since we just add a new column.
         SupportSQLiteDatabase version12 = testHelper.createDatabase("test-db", 12);

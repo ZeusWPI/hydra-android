@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
  * @author Niko Strijbol
  */
 @RunWith(RobolectricTestRunner.class)
-public class TestMigration_9_10 {
+public class TestMigration_9_10 extends MigrationTest {
 
     private static final String TEST_DATABASE_NAME = "test-db";
 
