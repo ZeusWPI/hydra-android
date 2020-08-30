@@ -16,7 +16,7 @@ android {
     //noinspection GroovyMissingReturnStatement
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 21402
         versionName "2.14.2"
