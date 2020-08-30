@@ -1,12 +1,12 @@
 package be.ugent.zeus.hydra.association.event.list;
 
-import org.junit.Test;
-import org.threeten.bp.LocalDate;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.junit.Test;
 
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.hamcrest.MatcherAssert.assertThat;

@@ -1,11 +1,12 @@
 package be.ugent.zeus.hydra.common.arch.observers;
 
-import androidx.lifecycle.Observer;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+
+import java.util.function.Consumer;
 
 import be.ugent.zeus.hydra.common.request.Result;
-import java9.util.function.Consumer;
 
 /**
  * Observes successful loading of data.
@@ -13,6 +14,15 @@ import java9.util.function.Consumer;
  * @author Niko Strijbol
  */
 public abstract class SuccessObserver<D> implements Observer<Result<D>> {
+
+    public static <D> SuccessObserver<D> with(Consumer<D> onSuccess) {
+        return new SuccessObserver<D>() {
+            @Override
+            protected void onSuccess(@NonNull D data) {
+                onSuccess.accept(data);
+            }
+        };
+    }
 
     @Override
     public void onChanged(@Nullable Result<D> result) {
@@ -28,7 +38,8 @@ public abstract class SuccessObserver<D> implements Observer<Result<D>> {
     /**
      * Called when there is no result, so nothing should be shown. The default method will do nothing.
      */
-    protected void onEmpty() {}
+    protected void onEmpty() {
+    }
 
     /**
      * Called when the result was successful and there is data.
@@ -36,13 +47,4 @@ public abstract class SuccessObserver<D> implements Observer<Result<D>> {
      * @param data The data.
      */
     protected abstract void onSuccess(@NonNull D data);
-
-    public static <D> SuccessObserver<D> with(Consumer<D> onSuccess) {
-        return new SuccessObserver<D>() {
-            @Override
-            protected void onSuccess(@NonNull D data) {
-                onSuccess.accept(data);
-            }
-        };
-    }
 }

@@ -1,20 +1,20 @@
 package be.ugent.zeus.hydra.common.database.migrations;
 
-import androidx.sqlite.db.SupportSQLiteDatabase;
-import androidx.room.migration.Migration;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import android.util.Log;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import org.threeten.bp.Instant;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.ZoneOffset;
-import org.threeten.bp.ZonedDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Migrate the types of the dates.
@@ -29,9 +29,55 @@ import org.threeten.bp.format.DateTimeFormatter;
 public class Migration_10_11 extends Migration {
 
     private static final String TAG = "Migration_10_11";
+    private static final ZoneOffset ZONE = ZoneOffset.UTC;
+    private static final DateTimeFormatter OFFSET_FORMATTER = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 
     public Migration_10_11() {
         super(10, 11);
+    }
+
+    /**
+     * Unserialize a calculated epoch to a ZonedDateTime.
+     *
+     * @return A ZonedDateTime representing the epoch milli.
+     */
+    private static ZonedDateTime legacyUnserialize(long epochMilli) {
+        if (epochMilli == -1) {
+            return null;
+        }
+        return Instant.ofEpochMilli(epochMilli).atZone(ZONE);
+    }
+
+    /**
+     * Converts an instant to a string.
+     *
+     * @param instant The instant.
+     *
+     * @return The string value.
+     */
+    @Nullable
+    private static String fromInstant(Instant instant) {
+        if (instant == null) {
+            return null;
+        } else {
+            return instant.toString();
+        }
+    }
+
+    /**
+     * Converts a offset date time to a string in the format specified by {@link #OFFSET_FORMATTER}.
+     *
+     * @param dateTime The date time or {@code null}.
+     *
+     * @return The string or {@code null} if the input was {@code null}.
+     */
+    @Nullable
+    private static String fromOffsetDateTime(OffsetDateTime dateTime) {
+        if (dateTime == null) {
+            return null;
+        } else {
+            return dateTime.format(OFFSET_FORMATTER);
+        }
     }
 
     @Override
@@ -129,52 +175,5 @@ public class Migration_10_11 extends Migration {
         database.execSQL("CREATE  INDEX `index_minerva_calendar_course` ON `minerva_calendar` (`course`)");
 
         Log.i(TAG, "Migration completed.");
-    }
-
-    private static final ZoneOffset ZONE = ZoneOffset.UTC;
-    private static final DateTimeFormatter OFFSET_FORMATTER = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-
-    /**
-     * Unserialize a calculated epoch to a ZonedDateTime.
-     *
-     * @return A ZonedDateTime representing the epoch milli.
-     */
-    private static ZonedDateTime legacyUnserialize(long epochMilli) {
-        if (epochMilli == -1) {
-            return null;
-        }
-        return Instant.ofEpochMilli(epochMilli).atZone(ZONE);
-    }
-
-    /**
-     * Converts an instant to a string.
-     *
-     * @param instant The instant.
-     *
-     * @return The string value.
-     */
-    @Nullable
-    private static String fromInstant(Instant instant) {
-        if (instant == null) {
-            return null;
-        } else {
-            return instant.toString();
-        }
-    }
-
-    /**
-     * Converts a offset date time to a string in the format specified by {@link #OFFSET_FORMATTER}.
-     *
-     * @param dateTime The date time or {@code null}.
-     *
-     * @return The string or {@code null} if the input was {@code null}.
-     */
-    @Nullable
-    private static String fromOffsetDateTime(OffsetDateTime dateTime) {
-        if (dateTime == null) {
-            return null;
-        } else {
-            return dateTime.format(OFFSET_FORMATTER);
-        }
     }
 }

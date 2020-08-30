@@ -1,12 +1,12 @@
 package be.ugent.zeus.hydra.resto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Parcel;
 import android.os.Parcelable;
-import java9.util.Objects;
-import org.threeten.bp.LocalDate;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a menu for a single day.
@@ -16,6 +16,17 @@ import org.threeten.bp.LocalDate;
  */
 public final class RestoMenu implements Parcelable {
 
+    public static final Parcelable.Creator<RestoMenu> CREATOR = new Parcelable.Creator<RestoMenu>() {
+        @Override
+        public RestoMenu createFromParcel(Parcel source) {
+            return new RestoMenu(source);
+        }
+
+        @Override
+        public RestoMenu[] newArray(int size) {
+            return new RestoMenu[size];
+        }
+    };
     private boolean open;
     private LocalDate date;
     private List<RestoMeal> meals;
@@ -24,8 +35,15 @@ public final class RestoMenu implements Parcelable {
     private List<String> vegetables;
     private String message;
 
-    @SuppressWarnings("unused") // Moshi uses this.
     public RestoMenu() {
+    }
+
+    protected RestoMenu(Parcel in) {
+        this.open = in.readByte() != 0;
+        this.date = (LocalDate) in.readSerializable();
+        this.meals = in.createTypedArrayList(RestoMeal.CREATOR);
+        this.vegetables = in.createStringArrayList();
+        this.message = in.readString();
     }
 
     /**
@@ -138,24 +156,4 @@ public final class RestoMenu implements Parcelable {
         dest.writeStringList(this.vegetables);
         dest.writeString(this.message);
     }
-
-    protected RestoMenu(Parcel in) {
-        this.open = in.readByte() != 0;
-        this.date = (LocalDate) in.readSerializable();
-        this.meals = in.createTypedArrayList(RestoMeal.CREATOR);
-        this.vegetables = in.createStringArrayList();
-        this.message = in.readString();
-    }
-
-    public static final Parcelable.Creator<RestoMenu> CREATOR = new Parcelable.Creator<RestoMenu>() {
-        @Override
-        public RestoMenu createFromParcel(Parcel source) {
-            return new RestoMenu(source);
-        }
-
-        @Override
-        public RestoMenu[] newArray(int size) {
-            return new RestoMenu[size];
-        }
-    };
 }

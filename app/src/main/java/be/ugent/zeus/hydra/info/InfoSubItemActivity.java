@@ -3,11 +3,11 @@ package be.ugent.zeus.hydra.info;
 import android.content.Intent;
 import android.os.Bundle;
 
+import java.util.ArrayList;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.BaseActivity;
 import be.ugent.zeus.hydra.databinding.ActivityInfoSubItemBinding;
-
-import java.util.ArrayList;
 
 public class InfoSubItemActivity extends BaseActivity<ActivityInfoSubItemBinding> {
 

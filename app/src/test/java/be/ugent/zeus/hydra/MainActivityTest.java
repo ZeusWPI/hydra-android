@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra;
 
 import android.content.ComponentName;
-
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
@@ -11,7 +10,6 @@ import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.onboarding.OnboardingActivity;
 import be.ugent.zeus.hydra.testing.NoNetworkInterceptor;
-
 import jonathanfinerty.once.Once;
 import okhttp3.OkHttpClient;
 import org.junit.After;

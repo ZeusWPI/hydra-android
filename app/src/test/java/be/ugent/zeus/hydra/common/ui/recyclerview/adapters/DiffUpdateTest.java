@@ -1,16 +1,16 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import be.ugent.zeus.hydra.testing.Utils;
-import java9.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -117,8 +117,8 @@ public class DiffUpdateTest {
 
     @Test
     public void testWithData() {
-        List<Integer> existingData = Lists.of(1, 2, 3, 4);
-        List<Integer> newData = Lists.of(1, 3, 4, 5);
+        List<Integer> existingData = Arrays.asList(1, 2, 3, 4);
+        List<Integer> newData = Arrays.asList(1, 3, 4, 5);
 
         DiffUpdate<Integer> update = new DiffUpdate<>(newData);
         List<Integer> actualNewData = update.getNewData(existingData);

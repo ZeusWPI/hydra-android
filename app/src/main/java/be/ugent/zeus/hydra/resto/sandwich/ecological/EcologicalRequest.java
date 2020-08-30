@@ -4,16 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
-import java.util.Collections;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
-
-import java9.util.Comparators;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
 import be.ugent.zeus.hydra.common.request.Result;
-import org.threeten.bp.Duration;
-import org.threeten.bp.temporal.ChronoUnit;
 
 /**
  * Get the ecological sandwich of the week.
@@ -30,7 +28,7 @@ class EcologicalRequest extends JsonArrayRequest<EcologicalSandwich> {
     @Override
     public Result<List<EcologicalSandwich>> execute(@NonNull Bundle args) {
         return super.execute(args).map(sandwiches -> {
-            Collections.sort(sandwiches, Comparators.comparing(EcologicalSandwich::getStart));
+            sandwiches.sort(Comparator.comparing(EcologicalSandwich::getStart));
             return sandwiches;
         });
     }

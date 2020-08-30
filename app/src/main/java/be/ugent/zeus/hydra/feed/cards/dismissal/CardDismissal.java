@@ -3,10 +3,10 @@ package be.ugent.zeus.hydra.feed.cards.dismissal;
 import androidx.annotation.NonNull;
 import androidx.room.*;
 
-import java9.util.Objects;
+import java.time.Instant;
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.feed.cards.Card;
-import org.threeten.bp.Instant;
 
 /**
  * Records a dismissal of a card from the user.

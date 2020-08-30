@@ -30,48 +30,9 @@ public class HomeFragment extends PreferenceFragment {
 
     public static final String PREF_DATA_SAVER = "pref_home_feed_save_data";
     public static final boolean PREF_DATA_SAVER_DEFAULT = false;
-
-    private DeleteViewModel viewModel;
-
-    @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.pref_home_feed, rootKey);
-
-        
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, container, savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(DeleteViewModel.class);
-        viewModel.getLiveData().observe(getViewLifecycleOwner(), new EventObserver<Context>() {
-            @Override
-            protected void onUnhandled(Context data) {
-                Toast.makeText(data, R.string.feed_pref_hidden_cleared, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        requirePreference("pref_home_feed_clickable").setOnPreferenceClickListener(preference -> {
-            viewModel.deleteAll();
-            return true;
-        });
-        return v;
-    }
-
     private static final String PREF_RESTO_KINDS = "pref_feed_resto_kinds";
     private static final String PREF_RESTO_KINDS_DEFAULT = FeedRestoKind.ALL;
-
-    /**
-     * The possible values for the {@link #PREF_RESTO_KINDS} preference. These are also defined in an XML array
-     * resource.
-     */
-    @StringDef({FeedRestoKind.ALL, FeedRestoKind.MAIN, FeedRestoKind.SOUP})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface FeedRestoKind {
-        String ALL = "all";
-        String SOUP = "soup";
-        String MAIN = "main";
-    }
+    private DeleteViewModel viewModel;
 
     @MenuTable.DisplayKind
     public static int getFeedRestoKind(Context context) {
@@ -102,5 +63,42 @@ public class HomeFragment extends PreferenceFragment {
         pref.edit()
                 .putString(PREF_RESTO_KINDS, kind)
                 .apply();
+    }
+
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.pref_home_feed, rootKey);
+
+
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+        viewModel = new ViewModelProvider(this).get(DeleteViewModel.class);
+        viewModel.getLiveData().observe(getViewLifecycleOwner(), new EventObserver<Context>() {
+            @Override
+            protected void onUnhandled(Context data) {
+                Toast.makeText(data, R.string.feed_pref_hidden_cleared, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        requirePreference("pref_home_feed_clickable").setOnPreferenceClickListener(preference -> {
+            viewModel.deleteAll();
+            return true;
+        });
+        return v;
+    }
+
+    /**
+     * The possible values for the {@link #PREF_RESTO_KINDS} preference. These are also defined in an XML array
+     * resource.
+     */
+    @StringDef({FeedRestoKind.ALL, FeedRestoKind.MAIN, FeedRestoKind.SOUP})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface FeedRestoKind {
+        String ALL = "all";
+        String SOUP = "soup";
+        String MAIN = "main";
     }
 }

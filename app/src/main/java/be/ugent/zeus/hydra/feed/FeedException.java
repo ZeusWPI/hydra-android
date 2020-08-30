@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.feed;
 
-import be.ugent.zeus.hydra.common.request.RequestException;
-
 import java.util.Arrays;
 import java.util.Set;
+
+import be.ugent.zeus.hydra.common.request.RequestException;
 
 /**
  * @author Niko Strijbol

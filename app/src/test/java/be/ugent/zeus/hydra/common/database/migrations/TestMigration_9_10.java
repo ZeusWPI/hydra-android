@@ -4,12 +4,13 @@ import android.app.Instrumentation;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import androidx.room.testing.LocalMigrationTestHelper;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.test.core.app.ApplicationProvider;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.OffsetDateTime;
 
 import be.ugent.zeus.hydra.common.database.Database;
 import org.junit.After;
@@ -18,8 +19,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.threeten.bp.Instant;
-import org.threeten.bp.OffsetDateTime;
 
 import static be.ugent.zeus.hydra.common.database.TestUtils.assertContent;
 import static be.ugent.zeus.hydra.common.database.TestUtils.getFirstFrom;
@@ -39,44 +38,13 @@ public class TestMigration_9_10 extends MigrationTest {
 
     @Rule
     public final LocalMigrationTestHelper testHelper;
+    private SQLiteOpenHelper version9Helper;
 
     {
         Instrumentation mockInstrumentation = mock(Instrumentation.class);
         when(mockInstrumentation.getTargetContext()).thenReturn(ApplicationProvider.getApplicationContext());
         when(mockInstrumentation.getContext()).thenReturn(ApplicationProvider.getApplicationContext());
         testHelper = new LocalMigrationTestHelper(mockInstrumentation, Database.class.getCanonicalName());
-    }
-
-    private SQLiteOpenHelper version9Helper;
-
-    @Before
-    public void setUp() {
-        version9Helper = new Version9SqlHelper(ApplicationProvider.getApplicationContext(), TEST_DATABASE_NAME);
-        // Ensure tables are made.
-        Version9SqlHelper.createTables(version9Helper.getWritableDatabase());
-    }
-
-    @After
-    public void tearDown() {
-        // Ensure database is cleared.
-        Version9SqlHelper.deleteTables(version9Helper.getWritableDatabase());
-    }
-
-    @Test
-    public void testMigration() throws IOException {
-        // First we insert some data into the database.
-        SQLiteDatabase database = version9Helper.getWritableDatabase();
-        ContentValues expectedCourse = insertCourse(database);
-        ContentValues expectedAnnouncement = insertAnnouncement(database);
-        ContentValues expectedCalendarItem = insertCalendarItem(database);
-        database.close();
-
-        // Get the new database and test if the data survived and is the same.
-        SupportSQLiteDatabase newDatabase = testHelper.runMigrationsAndValidate(TEST_DATABASE_NAME, 10,true, new Migration_9_10());
-
-        assertContent(expectedCourse, getFirstFrom(newDatabase, "minerva_courses"));
-        assertContent(expectedAnnouncement, getFirstFrom(newDatabase, "minerva_announcements"));
-        assertContent(expectedCalendarItem, getFirstFrom(newDatabase, "minerva_calendar"));
     }
 
     private static ContentValues insertCourse(SQLiteDatabase database) {
@@ -88,7 +56,7 @@ public class TestMigration_9_10 extends MigrationTest {
         contentValues.put("tutor", "Isaac Newton");
         contentValues.put("academic_year", 2001);
         contentValues.put("ordering", 1);
-        database.insert("minerva_courses",  null, contentValues);
+        database.insert("minerva_courses", null, contentValues);
         return contentValues;
     }
 
@@ -123,5 +91,35 @@ public class TestMigration_9_10 extends MigrationTest {
         contentValues.put("is_merged", false);
         database.insert("minerva_agenda", null, contentValues);
         return contentValues;
+    }
+
+    @Before
+    public void setUp() {
+        version9Helper = new Version9SqlHelper(ApplicationProvider.getApplicationContext(), TEST_DATABASE_NAME);
+        // Ensure tables are made.
+        Version9SqlHelper.createTables(version9Helper.getWritableDatabase());
+    }
+
+    @After
+    public void tearDown() {
+        // Ensure database is cleared.
+        Version9SqlHelper.deleteTables(version9Helper.getWritableDatabase());
+    }
+
+    @Test
+    public void testMigration() throws IOException {
+        // First we insert some data into the database.
+        SQLiteDatabase database = version9Helper.getWritableDatabase();
+        ContentValues expectedCourse = insertCourse(database);
+        ContentValues expectedAnnouncement = insertAnnouncement(database);
+        ContentValues expectedCalendarItem = insertCalendarItem(database);
+        database.close();
+
+        // Get the new database and test if the data survived and is the same.
+        SupportSQLiteDatabase newDatabase = testHelper.runMigrationsAndValidate(TEST_DATABASE_NAME, 10, true, new Migration_9_10());
+
+        assertContent(expectedCourse, getFirstFrom(newDatabase, "minerva_courses"));
+        assertContent(expectedAnnouncement, getFirstFrom(newDatabase, "minerva_announcements"));
+        assertContent(expectedCalendarItem, getFirstFrom(newDatabase, "minerva_calendar"));
     }
 }

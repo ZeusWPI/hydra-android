@@ -18,13 +18,13 @@ import be.ugent.zeus.hydra.common.arch.observers.EventObserver;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.ui.customtabs.CustomTabsHelper;
 import be.ugent.zeus.hydra.common.ui.recyclerview.SpanItemSpacingDecoration;
+import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import be.ugent.zeus.hydra.feed.commands.CommandResult;
 import be.ugent.zeus.hydra.feed.commands.FeedCommand;
-import be.ugent.zeus.hydra.common.utils.ColourUtils;
 import com.google.android.material.snackbar.Snackbar;
 
-import static be.ugent.zeus.hydra.feed.FeedLiveData.REFRESH_HOMECARD_TYPE;
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
+import static be.ugent.zeus.hydra.feed.FeedLiveData.REFRESH_HOMECARD_TYPE;
 
 /**
  * The fragment showing the home feed.
@@ -44,12 +44,10 @@ import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity
  */
 public class HomeFeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, HomeFeedAdapter.AdapterCompanion, MainActivity.ScheduledRemovalListener {
 
-    private static final String TAG = "HomeFeedFragment";
-
     public static final String PREF_DISABLED_CARD_TYPES = "pref_disabled_cards";
     // TODO: replace this by proper listener to database.
     public static final String PREF_DISABLED_CARD_HACK = "pref_disabled_specials_hack";
-
+    private static final String TAG = "HomeFeedFragment";
     private static final int REQUEST_HOMECARD_ID = 5050;
 
     private boolean firstRun;

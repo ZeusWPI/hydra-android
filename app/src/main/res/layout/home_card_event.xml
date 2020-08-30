@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -22,53 +22,53 @@
             app:menu="@menu/now_toolbar_association_event" />
 
         <LinearLayout
-            android:paddingRight="@dimen/card_title_padding_vertical"
-            android:paddingLeft="@dimen/card_title_padding_vertical"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/card_title_padding_vertical"
+            android:paddingRight="@dimen/card_title_padding_vertical">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
                 android:paddingBottom="@dimen/card_title_padding_bottom_no_content">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/name"
+                    style="?textAppearanceHeadline6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/name"
                     android:ellipsize="end"
-                    style="?textAppearanceHeadline6"
                     tools:text="Titel van het evenement die zeer lang is!" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/association"
                     style="?textAppearanceBody2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     tools:text="Organisator" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/starttime"
                     style="?textAppearanceBody2"
-                    tools:text="Starttijd"
-                    android:maxLines="1" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    tools:text="Starttijd" />
 
             </LinearLayout>
 
             <ImageView
-                android:layout_marginBottom="@dimen/card_title_padding_bottom"
+                android:id="@+id/imageView"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:id="@+id/imageView"
-                android:scaleType="fitCenter"
+                android:layout_marginBottom="@dimen/card_title_padding_bottom"
                 android:adjustViewBounds="true"
-                tools:src="@drawable/ic_event"
-                android:contentDescription="@string/content_desc_association_icon"/>
+                android:contentDescription="@string/content_desc_association_icon"
+                android:scaleType="fitCenter"
+                tools:src="@drawable/ic_event" />
         </LinearLayout>
     </LinearLayout>
 

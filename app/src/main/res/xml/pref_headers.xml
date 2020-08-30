@@ -4,39 +4,39 @@
     <!-- Home screen -->
     <header
         android:fragment="be.ugent.zeus.hydra.feed.preferences.HomeFragment"
-        android:title="@string/pref_overview_feed_title"
-        android:summary="@string/pref_overview_feed_desc" />
+        android:summary="@string/pref_overview_feed_desc"
+        android:title="@string/pref_overview_feed_title" />
 
     <header
-        android:title="@string/pref_overview_activities_title"
-        android:summary="@string/pref_overview_activities_desc">
+        android:summary="@string/pref_overview_activities_desc"
+        android:title="@string/pref_overview_activities_title">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetPackage="be.ugent.zeus.hydra"
-            android:targetClass="be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity" />
+            android:targetClass="be.ugent.zeus.hydra.association.preference.AssociationSelectPrefActivity"
+            android:targetPackage="be.ugent.zeus.hydra" />
     </header>
 
     <!-- Resto -->
     <header
         android:fragment="be.ugent.zeus.hydra.resto.RestoPreferenceFragment"
-        android:title="@string/pref_overview_resto_title"
-        android:summary="@string/pref_overview_resto_desc" />
+        android:summary="@string/pref_overview_resto_desc"
+        android:title="@string/pref_overview_resto_title" />
 
     <!-- Theme -->
     <header
         android:fragment="be.ugent.zeus.hydra.preferences.ThemeFragment"
-        android:title="@string/pref_overview_theme_title"
-        android:summary="@string/pref_overview_theme_desc" />
+        android:summary="@string/pref_overview_theme_desc"
+        android:title="@string/pref_overview_theme_title" />
 
     <!-- Data collection -->
     <header
         android:fragment="be.ugent.zeus.hydra.preferences.ReportingFragment"
-        android:title="@string/onboarding_reporting_title"
-        android:summary="@string/onboarding_reporting_desc" />
+        android:summary="@string/onboarding_reporting_desc"
+        android:title="@string/onboarding_reporting_title" />
 
     <!-- About -->
     <header
         android:fragment="be.ugent.zeus.hydra.preferences.AboutFragment"
-        android:title="@string/pref_overview_about_title"
-        android:summary="@string/pref_overview_about_desc" />
+        android:summary="@string/pref_overview_about_desc"
+        android:title="@string/pref_overview_about_title" />
 </preference-headers>

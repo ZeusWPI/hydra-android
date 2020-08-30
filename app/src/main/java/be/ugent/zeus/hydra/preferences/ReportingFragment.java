@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.preferences;
 
 import android.os.Bundle;
-
 import androidx.preference.PreferenceFragmentCompat;
 
 import be.ugent.zeus.hydra.R;

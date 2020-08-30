@@ -11,8 +11,8 @@
         android:id="@+id/resto_tabs_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/resto_menu_tab_spacing"
         android:paddingLeft="@dimen/resto_menu_tab_spacing"
+        android:paddingTop="@dimen/resto_menu_tab_spacing"
         android:paddingRight="@dimen/resto_menu_tab_spacing"
         android:paddingBottom="@dimen/material_bottom_nav_bar_height" />
 

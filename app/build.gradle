@@ -10,9 +10,6 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
-    // Use resources in robolectric
-    testOptions.unitTests.includeAndroidResources = true
-
     //noinspection GroovyMissingReturnStatement
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
@@ -38,10 +35,6 @@ android {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
-    }
-
-    viewBinding {
-        enabled = true
     }
 
     lintOptions {
@@ -91,6 +84,7 @@ android {
 
     //noinspection GroovyMissingReturnStatement
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -107,7 +101,6 @@ android {
         }
     }
 
-    //noinspection GroovyMissingReturnStatement
     testOptions {
         unitTests {
             includeAndroidResources = true
@@ -116,6 +109,10 @@ android {
         unitTests.all {
             systemProperty 'robolectric.logging.enabled', 'true'
         }
+    }
+    
+    buildFeatures {
+        viewBinding = true
     }
 
     //noinspection GroovyMissingReturnStatement
@@ -136,6 +133,8 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
+    
     implementation 'androidx.core:core:1.3.1'
     implementation 'androidx.media:media:1.1.0'
     implementation 'androidx.fragment:fragment:1.2.5'
@@ -153,8 +152,6 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.2.5'
     implementation 'com.squareup.okhttp3:okhttp:4.8.1'
     implementation 'com.squareup.moshi:moshi:1.10.0'
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
-    implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.2'
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     implementation 'com.github.niknetniko:material-intro:9903deb6c4'
@@ -186,10 +183,6 @@ dependencies {
     testImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation 'androidx.room:room-testing:2.2.5'
-    // Enable the normal library for unit tests.
-    testImplementation('org.threeten:threetenbp:1.4.4') {
-        exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
-    }
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.8.1'
     testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.4.2'
     testImplementation 'com.github.niknetniko:GetterSetterVerifier:0.0.11'

@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.common.ui;
 
 import android.app.Application;
-
 import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;

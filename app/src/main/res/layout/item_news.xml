@@ -9,38 +9,38 @@
     android:focusable="true">
 
     <LinearLayout
-        android:paddingLeft="@dimen/material_card_title_block_padding_horizontal"
-        android:paddingRight="@dimen/material_card_title_block_padding_horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/material_card_title_block_padding_horizontal"
+        android:paddingRight="@dimen/material_card_title_block_padding_horizontal">
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name"
+            style="?textAppearanceHeadline5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/name"
             android:paddingTop="@dimen/material_card_title_block_large_padding_top"
-            style="?textAppearanceHeadline5"
             tools:text="Dit is een nieuwsartikel! Met een lange titel van meerdere lijnen!" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:paddingTop="@dimen/material_card_title_block_large_subtitle_margin_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/info"
             style="?textAppearanceSubtitle2"
-            tools:text="Informatie over het artikel"
-            android:paddingBottom="@dimen/material_card_title_block_large_padding_bottom"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/material_card_title_block_large_subtitle_margin_top"
+            android:paddingBottom="@dimen/material_card_title_block_large_padding_bottom"
+            tools:text="Informatie over het artikel" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/article_excerpt"
+            style="?textAppearanceBody2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/article_excerpt"
-            android:paddingBottom="@dimen/card_text_padding_bottom_no_content"
-            tools:text="Heel mooie text over het artikel!"
-            style="?textAppearanceBody2"
+            android:ellipsize="end"
             android:maxLines="3"
-            android:ellipsize="end" />
+            android:paddingBottom="@dimen/card_text_padding_bottom_no_content"
+            tools:text="Heel mooie text over het artikel!" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

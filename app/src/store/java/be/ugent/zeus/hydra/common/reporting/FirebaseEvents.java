@@ -9,11 +9,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
  */
 final class FirebaseEvents implements BaseEvents {
 
-    private static class LazyHolder {
-        static final FirebaseEvents EVENTS = new FirebaseEvents();
-        static final FirebaseParams PARAMS = new FirebaseParams();
-    }
-
     static FirebaseEvents getInstance() {
         return LazyHolder.EVENTS;
     }
@@ -61,6 +56,11 @@ final class FirebaseEvents implements BaseEvents {
     @Override
     public String cardDismissal() {
         return "card_dismissal";
+    }
+
+    private static class LazyHolder {
+        static final FirebaseEvents EVENTS = new FirebaseEvents();
+        static final FirebaseParams PARAMS = new FirebaseParams();
     }
 
     private final static class FirebaseParams implements BaseEvents.Params {

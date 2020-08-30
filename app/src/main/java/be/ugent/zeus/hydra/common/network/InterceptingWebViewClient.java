@@ -9,12 +9,12 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import java.io.IOException;
+import java.net.URL;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import java.io.IOException;
-import java.net.URL;
 
 /**
  * WebView client that intercepts the requests and executes it with OkHTTP to enable TLSv1.2.

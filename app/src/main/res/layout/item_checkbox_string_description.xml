@@ -4,45 +4,45 @@
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/material_list_icon_first_position_margin_start"
-    android:paddingTop="@dimen/list_two_line_padding_horizontal"
-    android:paddingBottom="@dimen/list_two_line_padding_horizontal"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/material_list_icon_first_position_margin_start"
+    android:paddingTop="@dimen/list_two_line_padding_horizontal"
+    android:paddingBottom="@dimen/list_two_line_padding_horizontal">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:clickable="false"
         android:layout_weight="1"
-        android:baselineAligned="false">
+        android:baselineAligned="false"
+        android:clickable="false"
+        android:orientation="vertical">
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title_checkbox"
+            style="?textAppearanceBody1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?textAppearanceBody1"
-            android:id="@+id/title_checkbox"
             tools:text="Name" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/description_checkbox"
+            style="?textAppearanceBody2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?textAppearanceBody2"
-            android:id="@+id/description_checkbox"
             tools:text="Description" />
 
 
     </LinearLayout>
 
     <com.google.android.material.checkbox.MaterialCheckBox
-        android:layout_marginLeft="@dimen/material_list_icon_last_position_margin_horizontal"
-        android:layout_marginRight="@dimen/material_list_icon_last_position_margin_horizontal"
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/material_list_icon_last_position_margin_horizontal"
+        android:layout_marginRight="@dimen/material_list_icon_last_position_margin_horizontal" />
 
 </LinearLayout>

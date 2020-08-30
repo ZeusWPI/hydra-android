@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/card_spacing"
@@ -9,10 +9,10 @@
     android:focusable="true">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
         android:id="@+id/home_cards_resto_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:paddingBottom="@dimen/card_title_padding_bottom">
 
         <be.ugent.zeus.hydra.common.ui.widgets.NowToolbar
@@ -22,11 +22,11 @@
             app:icon="@drawable/tabs_menu" />
 
         <be.ugent.zeus.hydra.common.ui.widgets.MenuTable
-            android:paddingRight="@dimen/card_title_padding_vertical"
-            android:paddingLeft="@dimen/card_title_padding_vertical"
             android:id="@+id/menu_table"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/card_title_padding_vertical"
+            android:paddingRight="@dimen/card_title_padding_vertical"
             app:showKind="main|soup" />
 
     </LinearLayout>

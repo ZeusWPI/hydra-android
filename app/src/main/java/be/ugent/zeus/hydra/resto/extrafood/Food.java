@@ -3,7 +3,7 @@ package be.ugent.zeus.hydra.resto.extrafood;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java9.util.Objects;
+import java.util.Objects;
 
 /**
  * Represents a food item. A food item is defined by the tuple ({@link #name}, {@link #price}). The {@link #equals(Object)} and
@@ -13,8 +13,24 @@ import java9.util.Objects;
  */
 public final class Food implements Parcelable {
 
+    public static final Parcelable.Creator<Food> CREATOR = new Parcelable.Creator<Food>() {
+        @Override
+        public Food createFromParcel(Parcel source) {
+            return new Food(source);
+        }
+
+        @Override
+        public Food[] newArray(int size) {
+            return new Food[size];
+        }
+    };
     private String name;
     private String price;
+
+    protected Food(Parcel in) {
+        this.name = in.readString();
+        this.price = in.readString();
+    }
 
     public String getName() {
         return name;
@@ -46,7 +62,6 @@ public final class Food implements Parcelable {
         return Objects.hash(name, price);
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -57,21 +72,4 @@ public final class Food implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.price);
     }
-
-    protected Food(Parcel in) {
-        this.name = in.readString();
-        this.price = in.readString();
-    }
-
-    public static final Parcelable.Creator<Food> CREATOR = new Parcelable.Creator<Food>() {
-        @Override
-        public Food createFromParcel(Parcel source) {
-            return new Food(source);
-        }
-
-        @Override
-        public Food[] newArray(int size) {
-            return new Food[size];
-        }
-    };
 }

@@ -2,23 +2,20 @@ package be.ugent.zeus.hydra.resto.menu;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import androidx.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
+import androidx.preference.PreferenceManager;
+
+import java.time.Clock;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
-
-import java9.util.function.Function;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
-
-import org.threeten.bp.Clock;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.LocalTime;
-
-import java.util.List;
 
 /**
  * Filters a list of menu's to only retain the useful ones.
@@ -78,7 +75,7 @@ public class MenuFilter implements Function<List<RestoMenu>, List<RestoMenu>> {
         LocalDate today = LocalDate.now(clock);
         boolean isEarlyEnough = LocalDateTime.now(clock).isBefore(LocalDateTime.of(today, closingHour));
 
-        return StreamSupport.stream(restoMenus)
+        return restoMenus.stream()
                 .filter(m -> m.getDate().isAfter(today) || (m.getDate().isEqual(today) && isEarlyEnough))
                 .collect(Collectors.toList());
     }

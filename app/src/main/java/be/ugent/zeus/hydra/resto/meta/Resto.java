@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.Nullable;
 
-import java9.util.Objects;
+import java.util.Objects;
 
 /**
  * A restaurant.
@@ -14,6 +14,17 @@ import java9.util.Objects;
 @SuppressWarnings("WeakerAccess")
 public final class Resto implements Parcelable {
 
+    public static final Creator<Resto> CREATOR = new Creator<Resto>() {
+        @Override
+        public Resto createFromParcel(Parcel in) {
+            return new Resto(in);
+        }
+
+        @Override
+        public Resto[] newArray(int size) {
+            return new Resto[size];
+        }
+    };
     private String name;
     private String address;
     private double latitude;
@@ -49,18 +60,6 @@ public final class Resto implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<Resto> CREATOR = new Creator<Resto>() {
-        @Override
-        public Resto createFromParcel(Parcel in) {
-            return new Resto(in);
-        }
-
-        @Override
-        public Resto[] newArray(int size) {
-            return new Resto[size];
-        }
-    };
 
     public String getName() {
         return name;

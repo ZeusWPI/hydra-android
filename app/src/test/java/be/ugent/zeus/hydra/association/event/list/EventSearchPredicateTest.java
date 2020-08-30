@@ -1,15 +1,15 @@
 package be.ugent.zeus.hydra.association.event.list;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.testing.Utils;
 import com.squareup.moshi.Types;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static be.ugent.zeus.hydra.testing.Utils.generate;
 import static org.hamcrest.MatcherAssert.assertThat;

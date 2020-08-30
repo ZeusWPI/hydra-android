@@ -2,6 +2,10 @@ package be.ugent.zeus.hydra.common.utils;
 
 import android.content.Context;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.format.TextStyle;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -10,10 +14,6 @@ import be.ugent.zeus.hydra.testing.DateTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.ParameterizedRobolectricTestRunner;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.format.DateTimeFormatter;
-import org.threeten.bp.format.FormatStyle;
-import org.threeten.bp.format.TextStyle;
 
 import static be.ugent.zeus.hydra.common.utils.DateUtils.getDateFormatterForStyle;
 import static org.junit.Assert.*;
@@ -33,6 +33,12 @@ public class FullFriendlyDateTest extends DateTest {
     private final DateTimeFormatter defaultFormatter;
 
 
+    public FullFriendlyDateTest(FormatStyle style, boolean supportsToday, boolean supportsTomorrow, boolean supportsOvermorrow) {
+        super(supportsToday, supportsTomorrow, supportsOvermorrow);
+        this.style = style;
+        defaultFormatter = getDateFormatterForStyle(style);
+    }
+
     @ParameterizedRobolectricTestRunner.Parameters
     public static Collection<Object[]> parameters() {
         // We use multiple format styles to ensure we don't hard code them and actually adhere to them.
@@ -50,12 +56,6 @@ public class FullFriendlyDateTest extends DateTest {
                 {FormatStyle.SHORT, true, true, true}
         };
         return Arrays.asList(objects);
-    }
-
-    public FullFriendlyDateTest(FormatStyle style, boolean supportsToday, boolean supportsTomorrow, boolean supportsOvermorrow) {
-        super(supportsToday, supportsTomorrow, supportsOvermorrow);
-        this.style = style;
-        defaultFormatter = getDateFormatterForStyle(style);
     }
 
     @Test

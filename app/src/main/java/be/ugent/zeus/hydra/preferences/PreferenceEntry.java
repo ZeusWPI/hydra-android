@@ -6,7 +6,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
-import java9.util.function.Supplier;
+import java.util.function.Supplier;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
@@ -55,15 +55,23 @@ public enum PreferenceEntry implements Parcelable {
             R.drawable.ic_info_outline,
             AboutFragment::new
     );
+    public static final Parcelable.Creator<PreferenceEntry> CREATOR = new Parcelable.Creator<PreferenceEntry>() {
+        @Override
+        public PreferenceEntry createFromParcel(Parcel in) {
+            return PreferenceEntry.values()[in.readInt()];
+        }
+
+        @Override
+        public PreferenceEntry[] newArray(int size) {
+            return new PreferenceEntry[size];
+        }
+    };
     @StringRes
     private final int name;
-
     @StringRes
     private final int description;
-
     @DrawableRes
     private final int icon;
-
     private final Supplier<Fragment> fragmentSupplier;
 
     PreferenceEntry(@StringRes int name, @StringRes int description, @DrawableRes int icon, Supplier<Fragment> fragmentSupplier) {
@@ -100,16 +108,4 @@ public enum PreferenceEntry implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.ordinal());
     }
-
-    public static final Parcelable.Creator<PreferenceEntry> CREATOR = new Parcelable.Creator<PreferenceEntry>() {
-        @Override
-        public PreferenceEntry createFromParcel(Parcel in) {
-            return PreferenceEntry.values()[in.readInt()];
-        }
-
-        @Override
-        public PreferenceEntry[] newArray(int size) {
-            return new PreferenceEntry[size];
-        }
-    };
 }

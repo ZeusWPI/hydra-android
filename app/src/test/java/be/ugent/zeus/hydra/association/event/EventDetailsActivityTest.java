@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.association.event;
 
 import android.content.Intent;
-
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 

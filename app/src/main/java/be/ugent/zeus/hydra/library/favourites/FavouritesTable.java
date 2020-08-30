@@ -10,11 +10,11 @@ package be.ugent.zeus.hydra.library.favourites;
  */
 public final class FavouritesTable {
 
+    public static final String TABLE_NAME = "library_favourites";
+
     private FavouritesTable() {
         // No instances.
     }
-
-    public static final String TABLE_NAME = "library_favourites";
 
     public interface Columns {
         String LIBRARY_ID = "id";

@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.association.event.list;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.test.core.app.ApplicationProvider;
 
 import be.ugent.zeus.hydra.R;

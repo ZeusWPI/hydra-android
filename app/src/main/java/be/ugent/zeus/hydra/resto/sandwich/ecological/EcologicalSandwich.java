@@ -3,11 +3,9 @@ package be.ugent.zeus.hydra.resto.sandwich.ecological;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.time.LocalDate;
 import java.util.List;
-
-import java9.util.Objects;
-
-import org.threeten.bp.LocalDate;
+import java.util.Objects;
 
 /**
  * Ecological sandwich of the week.
@@ -15,12 +13,35 @@ import org.threeten.bp.LocalDate;
 @SuppressWarnings("WeakerAccess")
 public final class EcologicalSandwich implements Parcelable {
 
+    public static final Creator<EcologicalSandwich> CREATOR = new Creator<EcologicalSandwich>() {
+        @Override
+        public EcologicalSandwich createFromParcel(Parcel source) {
+            return new EcologicalSandwich(source);
+        }
+
+        @Override
+        public EcologicalSandwich[] newArray(int size) {
+            return new EcologicalSandwich[size];
+        }
+    };
     private String name;
     private boolean vegan;
     private List<String> ingredients;
-
     private LocalDate start;
     private LocalDate end;
+
+    @SuppressWarnings("unused")
+    public EcologicalSandwich() {
+        // Json
+    }
+
+    protected EcologicalSandwich(Parcel in) {
+        this.name = in.readString();
+        this.ingredients = in.createStringArrayList();
+        this.start = (LocalDate) in.readSerializable();
+        this.end = (LocalDate) in.readSerializable();
+        this.vegan = in.readInt() == 1;
+    }
 
     public String getName() {
         return name;
@@ -55,31 +76,6 @@ public final class EcologicalSandwich implements Parcelable {
         dest.writeSerializable(this.end);
         dest.writeInt(this.vegan ? 1 : 0);
     }
-
-    @SuppressWarnings("unused")
-    public EcologicalSandwich() {
-        // Json
-    }
-
-    protected EcologicalSandwich(Parcel in) {
-        this.name = in.readString();
-        this.ingredients = in.createStringArrayList();
-        this.start = (LocalDate) in.readSerializable();
-        this.end = (LocalDate) in.readSerializable();
-        this.vegan = in.readInt() == 1;
-    }
-
-    public static final Creator<EcologicalSandwich> CREATOR = new Creator<EcologicalSandwich>() {
-        @Override
-        public EcologicalSandwich createFromParcel(Parcel source) {
-            return new EcologicalSandwich(source);
-        }
-
-        @Override
-        public EcologicalSandwich[] newArray(int size) {
-            return new EcologicalSandwich[size];
-        }
-    };
 
     @Override
     public boolean equals(Object o) {

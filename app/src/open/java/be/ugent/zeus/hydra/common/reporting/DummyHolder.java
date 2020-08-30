@@ -5,6 +5,51 @@ package be.ugent.zeus.hydra.common.reporting;
  */
 class DummyHolder implements BaseEvents {
 
+    @Override
+    public Params params() {
+        return new DummyParams();
+    }
+
+    @Override
+    public String login() {
+        return "null";
+    }
+
+    @Override
+    public String search() {
+        return "null";
+    }
+
+    @Override
+    public String selectContent() {
+        return "null";
+    }
+
+    @Override
+    public String share() {
+        return "null";
+    }
+
+    @Override
+    public String tutorialBegin() {
+        return "null";
+    }
+
+    @Override
+    public String tutorialComplete() {
+        return "null";
+    }
+
+    @Override
+    public String viewItem() {
+        return "null";
+    }
+
+    @Override
+    public String cardDismissal() {
+        return "null";
+    }
+
     private static class DummyParams implements Params {
 
         @Override
@@ -51,51 +96,5 @@ class DummyHolder implements BaseEvents {
         public String cardIdentifier() {
             return "null";
         }
-    }
-
-
-    @Override
-    public Params params() {
-        return new DummyParams();
-    }
-
-    @Override
-    public String login() {
-        return "null";
-    }
-
-    @Override
-    public String search() {
-        return "null";
-    }
-
-    @Override
-    public String selectContent() {
-        return "null";
-    }
-
-    @Override
-    public String share() {
-        return "null";
-    }
-
-    @Override
-    public String tutorialBegin() {
-        return "null";
-    }
-
-    @Override
-    public String tutorialComplete() {
-        return "null";
-    }
-
-    @Override
-    public String viewItem() {
-        return "null";
-    }
-
-    @Override
-    public String cardDismissal() {
-        return "null";
     }
 }

@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.sko;
 
 import be.ugent.zeus.hydra.common.ModelTest;
-import be.ugent.zeus.hydra.sko.Artist;
 import be.ugent.zeus.hydra.testing.Utils;
 import org.junit.Test;
 

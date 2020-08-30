@@ -11,8 +11,7 @@ import androidx.annotation.NonNull;
 
 import java.io.IOException;
 import java.io.InputStream;
-
-import java9.util.function.Consumer;
+import java.util.function.Consumer;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
@@ -28,12 +27,10 @@ import okhttp3.Response;
  */
 public class UrgentTrackProvider {
 
-    static final String URGENT_ID = "be.ugent.zeus.hydra.urgent";
-
     public static final String METADATA_DESCRIPTION = "meta_description";
-
-    private MediaMetadataCompat track;
+    static final String URGENT_ID = "be.ugent.zeus.hydra.urgent";
     private final Context context;
+    private MediaMetadataCompat track;
 
     UrgentTrackProvider(Context context) {
         this.context = context.getApplicationContext();

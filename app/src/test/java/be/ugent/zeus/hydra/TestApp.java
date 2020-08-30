@@ -1,7 +1,5 @@
 package be.ugent.zeus.hydra;
 
-import android.content.Context;
-
 import be.ugent.zeus.hydra.common.reporting.Manager;
 import jonathanfinerty.once.Once;
 

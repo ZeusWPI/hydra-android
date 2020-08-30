@@ -6,11 +6,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
-
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceDialogFragmentCompat;
 
-import org.threeten.bp.LocalTime;
+import java.time.LocalTime;
 
 /**
  * Custom dialog to select a time in the preferences. This works together with {@link TimePreference}.
@@ -18,7 +17,6 @@ import org.threeten.bp.LocalTime;
  * This dialogs uses {@link LocalTime} as the object.
  *
  * @author Niko Strijbol
- *
  * @see <a href="https://github.com/Gericop/Android-Support-Preference-V7-Fix">Based on this library</a>
  * @see LocalTime#toString() The exact documentation on how the value is saved.
  */

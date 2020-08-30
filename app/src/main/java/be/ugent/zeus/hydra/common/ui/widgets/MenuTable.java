@@ -29,21 +29,6 @@ import static be.ugent.zeus.hydra.common.utils.PreferencesUtils.isSetIn;
  */
 public class MenuTable extends TableLayout {
 
-    /**
-     * Flags to indicate what should be displayed by the menu.
-     */
-    @IntDef(
-            flag = true,
-            value = {DisplayKind.MAIN, DisplayKind.SOUP, DisplayKind.VEGETABLES, DisplayKind.ALL}
-    )
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface DisplayKind {
-        int MAIN = 1; // 001
-        int SOUP = 1 << 1; // 010
-        int VEGETABLES = 1 << 2; // 100
-        int ALL = 7; // 111
-    }
-
     private DisplayableMenu menu;
     @DisplayKind
     private int displayedKinds;
@@ -51,7 +36,6 @@ public class MenuTable extends TableLayout {
     private boolean showTitles;
     private boolean messagePaddingTop;
     private int normalStyle;
-
     public MenuTable(Context context) {
         super(context);
         init(context, null);
@@ -86,9 +70,9 @@ public class MenuTable extends TableLayout {
     /**
      * Create and insert a text view.
      *
-     * @param text The text to add.
+     * @param text    The text to add.
      * @param isTitle If the text is a title and should be styled as such.
-     * @param isHtml If the text contains basic html.
+     * @param isHtml  If the text contains basic html.
      */
     private void createText(String text, boolean isTitle, boolean isHtml) {
 
@@ -154,13 +138,6 @@ public class MenuTable extends TableLayout {
     /**
      * @param menu The menu to display.
      */
-    public void setMenu(RestoMenu menu) {
-        setMenu(menu, this.displayedKinds);
-    }
-
-    /**
-     * @param menu The menu to display.
-     */
     public void setMenu(RestoMenu menu, @DisplayKind int displayedKinds) {
         this.menu = new DisplayableMenu(getContext(), menu, selectable);
         this.displayedKinds = displayedKinds;
@@ -174,6 +151,13 @@ public class MenuTable extends TableLayout {
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     public RestoMenu getMenu() {
         return menu.menu;
+    }
+
+    /**
+     * @param menu The menu to display.
+     */
+    public void setMenu(RestoMenu menu) {
+        setMenu(menu, this.displayedKinds);
     }
 
     /**
@@ -221,5 +205,20 @@ public class MenuTable extends TableLayout {
             }
             menu.addVegetableViews(this);
         }
+    }
+
+    /**
+     * Flags to indicate what should be displayed by the menu.
+     */
+    @IntDef(
+            flag = true,
+            value = {DisplayKind.MAIN, DisplayKind.SOUP, DisplayKind.VEGETABLES, DisplayKind.ALL}
+    )
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface DisplayKind {
+        int MAIN = 1; // 001
+        int SOUP = 1 << 1; // 010
+        int VEGETABLES = 1 << 2; // 100
+        int ALL = 7; // 111
     }
 }

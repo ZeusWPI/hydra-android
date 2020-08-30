@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    
+
     <!-- Style for toolbars -->
     <style name="Hydra.Toolbar" parent="Widget.MaterialComponents.Toolbar.PrimarySurface">
         <item name="colorControlNormal">?colorOnPrimarySurface</item>

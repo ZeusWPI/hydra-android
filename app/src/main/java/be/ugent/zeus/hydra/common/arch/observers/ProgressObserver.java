@@ -1,10 +1,11 @@
 package be.ugent.zeus.hydra.common.arch.observers;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.Observer;
-import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.ProgressBar;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.databinding.XProgressBarBinding;
 

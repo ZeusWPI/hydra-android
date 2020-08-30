@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 /* //device/apps/common/assets/res/any/layout/simple_spinner_item.xml
 **
 ** Copyright 2008, The Android Open Source Project
@@ -21,10 +20,10 @@
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
     style="?android:attr/spinnerDropDownItemStyle"
-    android:textColor="?colorOnSurface"
-    android:singleLine="true"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:ellipsize="marquee"/>
+    android:ellipsize="marquee"
+    android:singleLine="true"
+    android:textColor="?colorOnSurface" />
 
     <!-- The layout height should be ?android:attr/dropdownListPreferredItemHeight, but that is unfortunately private -->

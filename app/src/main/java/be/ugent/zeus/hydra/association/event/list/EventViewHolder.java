@@ -5,15 +5,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.time.format.DateTimeFormatter;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.EventDetailsActivity;
-import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.shape.RoundedCornerTreatment;
 import com.google.android.material.shape.ShapeAppearanceModel;
-import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * View holder for an event in the event tab.

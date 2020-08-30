@@ -18,9 +18,9 @@ package be.ugent.zeus.hydra.common.ui.html;
 import android.content.res.ColorStateList;
 import android.graphics.*;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.core.graphics.drawable.DrawableCompat;
-import android.view.View;
 
 /**
  * Drawable which delegates all calls to its wrapped {@link Drawable}.
@@ -49,13 +49,13 @@ class DrawableWrapper extends Drawable implements Drawable.Callback {
     }
 
     @Override
-    public void setChangingConfigurations(int configs) {
-        mDrawable.setChangingConfigurations(configs);
+    public int getChangingConfigurations() {
+        return mDrawable.getChangingConfigurations();
     }
 
     @Override
-    public int getChangingConfigurations() {
-        return mDrawable.getChangingConfigurations();
+    public void setChangingConfigurations(int configs) {
+        mDrawable.setChangingConfigurations(configs);
     }
 
     @Override
@@ -169,13 +169,13 @@ class DrawableWrapper extends Drawable implements Drawable.Callback {
     }
 
     @Override
-    public void setAutoMirrored(boolean mirrored) {
-        DrawableCompat.setAutoMirrored(mDrawable, mirrored);
+    public boolean isAutoMirrored() {
+        return DrawableCompat.isAutoMirrored(mDrawable);
     }
 
     @Override
-    public boolean isAutoMirrored() {
-        return DrawableCompat.isAutoMirrored(mDrawable);
+    public void setAutoMirrored(boolean mirrored) {
+        DrawableCompat.setAutoMirrored(mDrawable, mirrored);
     }
 
     @Override

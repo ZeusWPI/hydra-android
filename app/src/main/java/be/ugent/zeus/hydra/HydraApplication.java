@@ -10,7 +10,6 @@ import be.ugent.zeus.hydra.common.reporting.Manager;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Tracker;
 import be.ugent.zeus.hydra.preferences.ThemeFragment;
-import com.jakewharton.threetenabp.AndroidThreeTen;
 import jonathanfinerty.once.Once;
 
 /**
@@ -22,6 +21,26 @@ import jonathanfinerty.once.Once;
 public class HydraApplication extends Application {
 
     private static final String TAG = "HydraApplication";
+
+    /**
+     * Used to enable {@link StrictMode} for debug builds.
+     */
+    private static void enableStrictModeInDebug() {
+        if (!BuildConfig.DEBUG || !BuildConfig.DEBUG_ENABLE_STRICT_MODE) {
+            return;
+        }
+
+        Log.d(TAG, "Enabling strict mode...");
+
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectAll()
+                .penaltyLog()
+                .build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectAll()
+                .penaltyLog()
+                .build());
+    }
 
     @Override
     public void onCreate() {
@@ -44,7 +63,6 @@ public class HydraApplication extends Application {
         AppCompatDelegate.setDefaultNightMode(ThemeFragment.getNightMode(this));
         trackTheme();
 
-        AndroidThreeTen.init(this);
         Once.initialise(this);
     }
 
@@ -65,25 +83,5 @@ public class HydraApplication extends Application {
                 tracker.setUserProperty("theme", "light");
                 break;
         }
-    }
-
-    /**
-     * Used to enable {@link StrictMode} for debug builds.
-     */
-    private static void enableStrictModeInDebug() {
-        if (!BuildConfig.DEBUG || !BuildConfig.DEBUG_ENABLE_STRICT_MODE) {
-            return;
-        }
-
-        Log.d(TAG, "Enabling strict mode...");
-
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                .detectAll()
-                .penaltyLog()
-                .build());
-        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                .detectAll()
-                .penaltyLog()
-                .build());
     }
 }

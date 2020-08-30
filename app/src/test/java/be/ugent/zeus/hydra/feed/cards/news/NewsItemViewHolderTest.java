@@ -3,8 +3,8 @@ package be.ugent.zeus.hydra.feed.cards.news;
 import android.view.View;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.feed.cards.implementations.AbstractFeedViewHolderTest;
+import be.ugent.zeus.hydra.news.UgentNewsArticle;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;

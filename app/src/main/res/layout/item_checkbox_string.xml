@@ -4,27 +4,27 @@
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/material_list_single_line_with_avatar_normal_height"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:paddingLeft="@dimen/material_list_icon_first_position_margin_start"
-    android:paddingStart="@dimen/material_list_icon_first_position_margin_start">
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/material_list_icon_first_position_margin_start"
+    android:paddingLeft="@dimen/material_list_icon_first_position_margin_start">
 
     <com.google.android.material.textview.MaterialTextView
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        style="?textAppearanceBody1"
         android:id="@+id/title_checkbox"
+        style="?textAppearanceBody1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         tools:text="Naam" />
 
     <com.google.android.material.checkbox.MaterialCheckBox
-        android:layout_marginLeft="@dimen/material_list_icon_last_position_margin_horizontal"
-        android:layout_marginRight="@dimen/material_list_icon_last_position_margin_horizontal"
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/material_list_icon_last_position_margin_horizontal"
+        android:layout_marginRight="@dimen/material_list_icon_last_position_margin_horizontal" />
 
 </LinearLayout>

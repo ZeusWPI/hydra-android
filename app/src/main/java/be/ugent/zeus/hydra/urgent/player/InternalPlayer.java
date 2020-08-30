@@ -5,18 +5,16 @@ import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.PowerManager;
-import androidx.annotation.Nullable;
-import androidx.media.AudioAttributesCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.util.Log;
-
-import java9.lang.Iterables;
-import java9.util.stream.IntStream;
+import androidx.annotation.Nullable;
+import androidx.media.AudioAttributesCompat;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static be.ugent.zeus.hydra.urgent.player.MediaStateListener.State.*;
 
@@ -28,19 +26,16 @@ import static be.ugent.zeus.hydra.urgent.player.MediaStateListener.State.*;
 class InternalPlayer {
 
     private static final String TAG = "InternalPlayer";
-
+    /**
+     * Listeners for this state.
+     */
+    private final List<MediaStateListener> listeners = new ArrayList<>();
     /**
      * The current state of the media player.
      */
     @MediaStateListener.State
     private int state = IDLE;
-
     private MediaPlayer mediaPlayer;
-
-    /**
-     * Listeners for this state.
-     */
-    private final List<MediaStateListener> listeners = new ArrayList<>();
 
     InternalPlayer(Context context) {
         createNew(context);
@@ -78,7 +73,7 @@ class InternalPlayer {
      * @param states One of these.
      */
     private void checkStateIsOneOf(@MediaStateListener.State int... states) {
-        if (!IntStream.of(states).anyMatch(i -> i == state)) {
+        if (IntStream.of(states).noneMatch(i -> i == state)) {
             throw new IllegalStateException("Illegal state: " + state + ", allowed are " + Arrays.toString(states));
         }
     }
@@ -93,7 +88,9 @@ class InternalPlayer {
         if (newState != state) {
             int oldState = this.state;
             this.state = newState;
-            Iterables.forEach(listeners, l -> l.onStateChanged(oldState, state));
+            for (MediaStateListener l : listeners) {
+                l.onStateChanged(oldState, state);
+            }
         }
     }
 

@@ -6,10 +6,8 @@ import androidx.annotation.NonNull;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-
-import java9.util.stream.Collectors;
-import java9.util.stream.Stream;
-import java9.util.stream.StreamSupport;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.cards.Card;
@@ -41,11 +39,11 @@ public abstract class HideableHomeFeedRequest implements HomeFeedRequest {
             List<CardIdentifier> hiddenList = dismissalDao.getIdsForType(getCardType());
             // If hidden is empty, we don't do anything for performance reasons.
             if (hiddenList.isEmpty()) {
-                return StreamSupport.stream(cards);
+                return cards.stream();
             } else {
                 // Wrap in a set for fast contains.
                 Collection<CardIdentifier> fastHidden = new HashSet<>(hiddenList);
-                return StreamSupport.stream(cards)
+                return cards.stream()
                         .filter(card -> !fastHidden.contains(new CardIdentifier(card.getCardType(), card.getIdentifier())));
             }
         });

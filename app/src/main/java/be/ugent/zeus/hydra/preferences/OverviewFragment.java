@@ -9,8 +9,8 @@ import androidx.preference.PreferenceScreen;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
-import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.utils.ColourUtils;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 
 /**
  * Display an overview of the settings.

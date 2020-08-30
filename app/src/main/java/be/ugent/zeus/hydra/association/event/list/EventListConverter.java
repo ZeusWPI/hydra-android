@@ -1,12 +1,12 @@
 package be.ugent.zeus.hydra.association.event.list;
 
-import be.ugent.zeus.hydra.association.event.Event;
-import java9.util.function.Function;
-import org.threeten.bp.LocalDate;
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
+
+import be.ugent.zeus.hydra.association.event.Event;
 
 /**
  * Convert events to EventItems. The list of events MUST be sorted by start date.

@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:checked="true"
         android:id="@+id/resto_bottom_menu"
+        android:checked="true"
         android:icon="@drawable/ic_restaurant"
         android:title="@string/resto_main_view_menu"
         app:showAsAction="ifRoom" />

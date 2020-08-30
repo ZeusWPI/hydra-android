@@ -4,8 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
-
-import java9.util.Objects;
+import java.util.Objects;
 
 import com.squareup.moshi.Json;
 
@@ -18,6 +17,17 @@ import com.squareup.moshi.Json;
 @SuppressWarnings("unused")
 public final class InfoItem implements Parcelable {
 
+    public static final Creator<InfoItem> CREATOR = new Creator<InfoItem>() {
+        @Override
+        public InfoItem createFromParcel(Parcel in) {
+            return new InfoItem(in);
+        }
+
+        @Override
+        public InfoItem[] newArray(int size) {
+            return new InfoItem[size];
+        }
+    };
     private String title;
     private String image;
     private String html;
@@ -26,6 +36,19 @@ public final class InfoItem implements Parcelable {
     private String urlAndroid;
     @Json(name = "subcontent")
     private List<InfoItem> subContent;
+
+    public InfoItem() {
+        // Used by Moshi.
+    }
+
+    protected InfoItem(Parcel in) {
+        title = in.readString();
+        image = in.readString();
+        html = in.readString();
+        url = in.readString();
+        urlAndroid = in.readString();
+        subContent = in.createTypedArrayList(CREATOR);
+    }
 
     public String getTitle() {
         return title;
@@ -89,31 +112,6 @@ public final class InfoItem implements Parcelable {
             return InfoType.EXTERNAL_LINK;
         }
     }
-
-    public InfoItem() {
-        // Used by Moshi.
-    }
-
-    protected InfoItem(Parcel in) {
-        title = in.readString();
-        image = in.readString();
-        html = in.readString();
-        url = in.readString();
-        urlAndroid = in.readString();
-        subContent = in.createTypedArrayList(CREATOR);
-    }
-
-    public static final Creator<InfoItem> CREATOR = new Creator<InfoItem>() {
-        @Override
-        public InfoItem createFromParcel(Parcel in) {
-            return new InfoItem(in);
-        }
-
-        @Override
-        public InfoItem[] newArray(int size) {
-            return new InfoItem[size];
-        }
-    };
 
     @Override
     public int describeContents() {

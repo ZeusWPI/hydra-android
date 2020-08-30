@@ -5,10 +5,10 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import com.squareup.moshi.Json;
-import java9.util.Objects;
 
 /**
  * Represents an association registered with the DSA.
@@ -19,11 +19,20 @@ import java9.util.Objects;
  * @author feliciaan
  * @author Niko Strijbol
  */
-@SuppressWarnings("unused")
 public final class Association implements Parcelable {
 
-    private static final String IMAGE_LINK = Endpoints.ZEUS_V2 + "association/logo/%s.png";
+    public static final Creator<Association> CREATOR = new Creator<Association>() {
+        @Override
+        public Association createFromParcel(Parcel in) {
+            return new Association(in);
+        }
 
+        @Override
+        public Association[] newArray(int size) {
+            return new Association[size];
+        }
+    };
+    private static final String IMAGE_LINK = Endpoints.ZEUS_V2 + "association/logo/%s.png";
     @Json(name = "internal_name")
     private String internalName;
     @Json(name = "full_name")
@@ -35,6 +44,13 @@ public final class Association implements Parcelable {
 
     public Association() {
         // Moshi uses this!
+    }
+
+    protected Association(Parcel in) {
+        internalName = in.readString();
+        fullName = in.readString();
+        displayName = in.readString();
+        parentAssociation = in.readString();
     }
 
     /**
@@ -68,18 +84,6 @@ public final class Association implements Parcelable {
         return String.format(IMAGE_LINK, internalName.toLowerCase(Locale.ROOT));
     }
 
-    public static final Creator<Association> CREATOR = new Creator<Association>() {
-        @Override
-        public Association createFromParcel(Parcel in) {
-            return new Association(in);
-        }
-
-        @Override
-        public Association[] newArray(int size) {
-            return new Association[size];
-        }
-    };
-
     @Override
     public int describeContents() {
         return 0;
@@ -91,13 +95,6 @@ public final class Association implements Parcelable {
         dest.writeString(fullName);
         dest.writeString(displayName);
         dest.writeString(parentAssociation);
-    }
-
-    protected Association(Parcel in) {
-        internalName = in.readString();
-        fullName = in.readString();
-        displayName = in.readString();
-        parentAssociation = in.readString();
     }
 
     @Override

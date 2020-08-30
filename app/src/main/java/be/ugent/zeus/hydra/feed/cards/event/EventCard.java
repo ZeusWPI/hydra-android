@@ -1,11 +1,12 @@
 package be.ugent.zeus.hydra.feed.cards.event;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
+import java.util.Objects;
+
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.PriorityUtils;
-import java9.util.Objects;
-import org.threeten.bp.Duration;
-import org.threeten.bp.ZonedDateTime;
 
 /**
  * Home card for {@link Event}.

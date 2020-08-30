@@ -1,18 +1,15 @@
 package be.ugent.zeus.hydra.onboarding;
 
 import android.os.Bundle;
-
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.preferences.HomeFeedSelectFragment;
-
 import com.heinrichreimersoftware.materialintro.app.SlideFragment;
 
 /**

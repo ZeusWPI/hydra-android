@@ -1,10 +1,9 @@
 package be.ugent.zeus.hydra.common.request;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 
-import java9.util.function.Function;
+import java.util.function.Function;
 
 /**
  * The basis interface for a request. A request is something that returns data.
@@ -46,8 +45,7 @@ public interface Request<T> {
      * For example, if this request is cached, the resulting request will be cached.
      *
      * @param function The function to apply to the result of the original request.
-     *
-     * @param <R> The type of the resulting request's result.
+     * @param <R>      The type of the resulting request's result.
      *
      * @return The new request.
      */

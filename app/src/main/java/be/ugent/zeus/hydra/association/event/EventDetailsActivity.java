@@ -14,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.text.util.LinkifyCompat;
 
+import java.time.format.DateTimeFormatter;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.reporting.BaseEvents;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
@@ -22,7 +24,6 @@ import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 import be.ugent.zeus.hydra.databinding.ActivityEventDetailBinding;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * Activity to show details of an association's event.

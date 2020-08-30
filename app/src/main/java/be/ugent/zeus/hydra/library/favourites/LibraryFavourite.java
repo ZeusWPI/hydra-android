@@ -5,7 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java9.util.Objects;
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.library.Library;
 
@@ -39,6 +39,11 @@ public final class LibraryFavourite {
     }
 
     @NonNull
+    public static LibraryFavourite from(@NonNull Library library) {
+        return new LibraryFavourite(library.getName(), library.getCode());
+    }
+
+    @NonNull
     public String getCode() {
         return code;
     }
@@ -59,10 +64,5 @@ public final class LibraryFavourite {
     @Override
     public int hashCode() {
         return Objects.hash(code);
-    }
-
-    @NonNull
-    public static LibraryFavourite from(@NonNull Library library) {
-        return new LibraryFavourite(library.getName(), library.getCode());
     }
 }

@@ -156,20 +156,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     public static final String ARG_TAB = "argTab";
     @SuppressWarnings("WeakerAccess")
     public static final String ARG_TAB_SHORTCUT = "argTabShortcut";
-
-    private static final String TAG = "BaseActivity";
-
-    private static final String UFORA = "com.d2l.brightspace.student.android";
-
     @VisibleForTesting
     static final String ONCE_ONBOARDING = "once_onboarding_v1";
-    private static final int ONBOARDING_REQUEST = 5;
-
-    private static final String STATE_IS_ONBOARDING_OPEN = "state_is_onboarding_open";
-
     @VisibleForTesting
     static final String ONCE_DRAWER = "once_drawer";
-
+    private static final String TAG = "BaseActivity";
+    private static final String UFORA = "com.d2l.brightspace.student.android";
+    private static final int ONBOARDING_REQUEST = 5;
+    private static final String STATE_IS_ONBOARDING_OPEN = "state_is_onboarding_open";
     private static final String FRAGMENT_MENU_ID = "backStack";
 
     private static final String SHORTCUT_RESTO = "resto";
@@ -187,6 +181,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
      */
     @Nullable
     private DrawerUpdate scheduledContentUpdate;
+
+    /**
+     * Get the position of a fragment in the menu. While stupid, there is no other way to do this.
+     */
+    @IdRes
+    private static int getFragmentMenuId(Fragment fragment) {
+        return requireArguments(fragment).getInt(FRAGMENT_MENU_ID);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -291,7 +293,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
      * Note: this function does not update the drawer if the fragment should be adjusted, only if another activity
      * should be opened.
      *
-     * @param menuItem The item to display.
+     * @param menuItem         The item to display.
      * @param navigationSource Where the navigation originates from.
      */
     private void selectDrawerItem(MenuItem menuItem, @NavigationSource int navigationSource) {
@@ -408,8 +410,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     /**
      * Set the current displayed fragment. This method is executed immediately.
      *
-     * @param fragment The new fragment.
-     * @param menuItem The menu item corresponding to the fragment.
+     * @param fragment         The new fragment.
+     * @param menuItem         The menu item corresponding to the fragment.
      * @param navigationSource Where this navigation originates. This determines the behaviour with the back stack.
      */
     private void setFragment(Fragment fragment, MenuItem menuItem, @NavigationSource int navigationSource) {
@@ -474,7 +476,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
      * Set the menu ID as argument for a fragment.
      *
      * @param fragment The fragment.
-     * @param id The id.
+     * @param id       The id.
      */
     private void setArguments(Fragment fragment, @IdRes int id) {
         Bundle arguments = new Bundle();
@@ -483,14 +485,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
             ((ArgumentsReceiver) fragment).fillArguments(getIntent(), arguments);
         }
         fragment.setArguments(arguments);
-    }
-
-    /**
-     * Get the position of a fragment in the menu. While stupid, there is no other way to do this.
-     */
-    @IdRes
-    private static int getFragmentMenuId(Fragment fragment) {
-        return requireArguments(fragment).getInt(FRAGMENT_MENU_ID);
     }
 
     @Override
@@ -526,14 +520,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
         }
         // We need to call this for the fragments to work properly.
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private static final class TutorialEndEvent implements Event {
-        @Nullable
-        @Override
-        public String getEventName() {
-            return Reporting.getEvents().tutorialComplete();
-        }
     }
 
     @Override
@@ -574,22 +560,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     }
 
     /**
-     * Groups an update for the navigation drawer.
-     */
-    private static class DrawerUpdate {
-        @NavigationSource
-        final int navigationSource;
-        final Fragment fragment;
-        final MenuItem menuItem;
-
-        private DrawerUpdate(int navigationSource, Fragment fragment, MenuItem menuItem) {
-            this.navigationSource = navigationSource;
-            this.fragment = fragment;
-            this.menuItem = menuItem;
-        }
-    }
-
-    /**
      * Allow fragments to extract arguments from the activity.
      *
      * @author Niko Strijbol
@@ -605,7 +575,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
          * This function should be a pure function, meaning there should be no side effects in the fragment. Side-effects
          * resulting from this function may cause undefined behaviour.
          *
-         * @param activityIntent The intent of the activity.
+         * @param activityIntent    The intent of the activity.
          * @param existingArguments The bundle to put the arguments in.
          */
         void fillArguments(Intent activityIntent, Bundle existingArguments);
@@ -626,5 +596,29 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
          * Called when the user will be switching to another fragment.
          */
         void onRemovalScheduled();
+    }
+
+    private static final class TutorialEndEvent implements Event {
+        @Nullable
+        @Override
+        public String getEventName() {
+            return Reporting.getEvents().tutorialComplete();
+        }
+    }
+
+    /**
+     * Groups an update for the navigation drawer.
+     */
+    private static class DrawerUpdate {
+        @NavigationSource
+        final int navigationSource;
+        final Fragment fragment;
+        final MenuItem menuItem;
+
+        private DrawerUpdate(int navigationSource, Fragment fragment, MenuItem menuItem) {
+            this.navigationSource = navigationSource;
+            this.fragment = fragment;
+            this.menuItem = menuItem;
+        }
     }
 }

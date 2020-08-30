@@ -9,7 +9,6 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
-
 import androidx.annotation.Nullable;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.browser.customtabs.CustomTabsService;
@@ -48,6 +47,7 @@ public class CustomTabsHelper {
      * This is <strong>not</strong> threadsafe.
      *
      * @param context {@link Context} to use for accessing {@link PackageManager}.
+     *
      * @return The package name recommended to use for connecting to custom tabs related components.
      */
     static String getPackageNameToUse(Context context) {
@@ -137,13 +137,13 @@ public class CustomTabsHelper {
      * it will open urls in a new browser window. When {@code nativeApp} is true, custom tabs will not be used when
      * an app is available that can handle a certain url. A normal intent will be launched then.
      *
-     * @param activity  The activity that calls the custom tab.
-     * @param callback  The callback.
+     * @param activity The activity that calls the custom tab.
+     * @param callback The callback.
      *
      * @return The helper.
      */
     public static ActivityHelper initHelper(Activity activity, @Nullable ActivityHelper.ConnectionCallback callback) {
-        if(hasSupport(activity)) {
+        if (hasSupport(activity)) {
             return new HasTabActivityHelper(activity, callback);
         } else {
             return new NoTabActivityHelper(activity, callback);
@@ -154,7 +154,7 @@ public class CustomTabsHelper {
      * Open an URI in a Custom Tab if supported. Otherwise, an attempt is made to open a browser.
      *
      * @param context Context to use.
-     * @param uri The URI to open.
+     * @param uri     The URI to open.
      */
     public static void openUri(Context context, Uri uri) {
         if (hasSupport(context)) {

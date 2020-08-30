@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.ListPreference;
@@ -27,6 +26,30 @@ public class ThemeFragment extends PreferenceFragment {
 
     private String existing = null;
     private String updated = null;
+
+    private static String defaultValue() {
+        if (Build.VERSION.SDK_INT < 29) {
+            return "battery";
+        } else {
+            return "system";
+        }
+    }
+
+    @AppCompatDelegate.NightMode
+    public static int getNightMode(Context context) {
+        String value = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_THEME_NIGHT_MODE, defaultValue());
+        switch (value) {
+            case "battery":
+                return AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY;
+            case "dark":
+                return AppCompatDelegate.MODE_NIGHT_NO;
+            case "light":
+                return AppCompatDelegate.MODE_NIGHT_YES;
+            case "system":
+            default:
+                return AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+        }
+    }
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -67,30 +90,6 @@ public class ThemeFragment extends PreferenceFragment {
         super.onStop();
         if (existing != null && !existing.equals(updated)) {
             AppCompatDelegate.setDefaultNightMode(getNightMode(requireContext()));
-        }
-    }
-
-    private static String defaultValue() {
-        if (Build.VERSION.SDK_INT < 29) {
-            return "battery";
-        } else {
-            return "system";
-        }
-    }
-
-    @AppCompatDelegate.NightMode
-    public static int getNightMode(Context context) {
-        String value = PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_THEME_NIGHT_MODE, defaultValue());
-        switch (value) {
-            case "battery":
-                return AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY;
-            case "dark":
-                return AppCompatDelegate.MODE_NIGHT_NO;
-            case "light":
-                return AppCompatDelegate.MODE_NIGHT_YES;
-            case "system":
-            default:
-                return AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
         }
     }
 

@@ -2,17 +2,16 @@ package be.ugent.zeus.hydra.association.event;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.Nullable;
 
-import java9.util.Objects;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
 import com.squareup.moshi.Json;
-import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.OffsetDateTime;
 
 /**
  * Event from an {@link Association}.
@@ -22,6 +21,17 @@ import org.threeten.bp.OffsetDateTime;
  */
 public final class Event implements Parcelable, Comparable<Event> {
 
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel source) {
+            return new Event(source);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
     private String title;
     private OffsetDateTime start;
     @Nullable
@@ -35,9 +45,21 @@ public final class Event implements Parcelable, Comparable<Event> {
     @Json(name = "facebook_id")
     private String facebookId;
 
-    @SuppressWarnings("unused")
     public Event() {
         // Moshi uses this!
+    }
+
+    protected Event(Parcel in) {
+        this.title = in.readString();
+        this.start = DateTypeConverters.toOffsetDateTime(in.readString());
+        this.end = DateTypeConverters.toOffsetDateTime(in.readString());
+        this.location = in.readString();
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
+        this.description = in.readString();
+        this.url = in.readString();
+        this.facebookId = in.readString();
+        this.association = in.readParcelable(Association.class.getClassLoader());
     }
 
     /**
@@ -139,31 +161,6 @@ public final class Event implements Parcelable, Comparable<Event> {
         dest.writeString(this.facebookId);
         dest.writeParcelable(this.association, flags);
     }
-
-    protected Event(Parcel in) {
-        this.title = in.readString();
-        this.start = DateTypeConverters.toOffsetDateTime(in.readString());
-        this.end = DateTypeConverters.toOffsetDateTime(in.readString());
-        this.location = in.readString();
-        this.latitude = in.readDouble();
-        this.longitude = in.readDouble();
-        this.description = in.readString();
-        this.url = in.readString();
-        this.facebookId = in.readString();
-        this.association = in.readParcelable(Association.class.getClassLoader());
-    }
-
-    public static final Creator<Event> CREATOR = new Creator<Event>() {
-        @Override
-        public Event createFromParcel(Parcel source) {
-            return new Event(source);
-        }
-
-        @Override
-        public Event[] newArray(int size) {
-            return new Event[size];
-        }
-    };
 
     @Override
     public boolean equals(Object o) {

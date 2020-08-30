@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.feed.cards.dismissal;
 
-import androidx.room.ColumnInfo;
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.feed.cards.Card;
-
-import java9.util.Objects;
 
 /**
  * Identifies a single card in the home feed.

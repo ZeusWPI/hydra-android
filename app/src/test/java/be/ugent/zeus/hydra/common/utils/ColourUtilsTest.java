@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.common.utils;
 
 import android.content.Context;
 import androidx.core.content.ContextCompat;
-
 import androidx.test.core.app.ApplicationProvider;
 
 import be.ugent.zeus.hydra.TestApp;

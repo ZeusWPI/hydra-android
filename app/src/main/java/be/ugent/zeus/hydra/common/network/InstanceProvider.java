@@ -20,9 +20,9 @@ import okhttp3.OkHttpClient;
  */
 public final class InstanceProvider {
 
-    private static OkHttpClient client;
-
     private static final long CACHE_SIZE = 20 * 1024 * 1024; // 20 MiB
+    private static OkHttpClient client;
+    private static Moshi moshi;
 
     private InstanceProvider() {
     }
@@ -60,8 +60,6 @@ public final class InstanceProvider {
         File cacheDir = new File(context.getCacheDir(), "http");
         return getClient(cacheDir);
     }
-
-    private static Moshi moshi;
 
     @VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
     public static synchronized Moshi getMoshi() {

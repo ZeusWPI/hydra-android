@@ -43,6 +43,50 @@ public class DisplayableMenu {
     }
 
     /**
+     * Make an image view. This image view has attributes set that are useful in the context of displaying it in the
+     * menu.
+     *
+     * @param id The ID of the drawable. Can be a vector.
+     *
+     * @return The image view.
+     */
+    private static ImageView makeImageView(Context context, @DrawableRes int id) {
+        ImageView imageView = new ImageView(context);
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        imageView.setImageDrawable(AppCompatResources.getDrawable(context, id));
+        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
+        imageView.setLayoutParams(params);
+        return imageView;
+    }
+
+    @DrawableRes
+    public static int getDrawable(RestoMeal meal) {
+        //Set the correct image.
+        @DrawableRes int id;
+        if (meal.getKind() == null) {
+            return R.drawable.resto_meat;
+        }
+        switch (meal.getKind()) {
+            case "fish":
+                id = R.drawable.resto_fish;
+                break;
+            case "vegan":
+                id = R.drawable.resto_vegan;
+                break;
+            case "vegetarian":
+                id = R.drawable.resto_vegetarian;
+                break;
+            case "soup":
+                id = R.drawable.resto_soup;
+                break;
+            default:
+            case "meat":
+                id = R.drawable.resto_meat;
+        }
+        return id;
+    }
+
+    /**
      * Add the view responsible for displaying the vegetables to the {@code parent} view.
      *
      * @param parent The view to which the child views will be added. This will be done by calling {@link
@@ -111,23 +155,6 @@ public class DisplayableMenu {
     }
 
     /**
-     * Make an image view. This image view has attributes set that are useful in the context of displaying it in the
-     * menu.
-     *
-     * @param id The ID of the drawable. Can be a vector.
-     *
-     * @return The image view.
-     */
-    private static ImageView makeImageView(Context context, @DrawableRes int id) {
-        ImageView imageView = new ImageView(context);
-        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        imageView.setImageDrawable(AppCompatResources.getDrawable(context, id));
-        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
-        imageView.setLayoutParams(params);
-        return imageView;
-    }
-
-    /**
      * Make center text.
      *
      * @param text The text.
@@ -178,32 +205,5 @@ public class DisplayableMenu {
 
             parent.addView(tr);
         }
-    }
-
-    @DrawableRes
-    public static int getDrawable(RestoMeal meal) {
-        //Set the correct image.
-        @DrawableRes int id;
-        if (meal.getKind() == null) {
-            return R.drawable.resto_meat;
-        }
-        switch (meal.getKind()) {
-            case "fish":
-                id = R.drawable.resto_fish;
-                break;
-            case "vegan":
-                id = R.drawable.resto_vegan;
-                break;
-            case "vegetarian":
-                id = R.drawable.resto_vegetarian;
-                break;
-            case "soup":
-                id = R.drawable.resto_soup;
-                break;
-            default:
-            case "meat":
-                id = R.drawable.resto_meat;
-        }
-        return id;
     }
 }

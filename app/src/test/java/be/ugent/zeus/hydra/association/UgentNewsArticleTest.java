@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.association;
 
-import be.ugent.zeus.hydra.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.common.ModelTest;
+import be.ugent.zeus.hydra.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.testing.Utils;
 import org.junit.Test;
 

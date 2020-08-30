@@ -3,8 +3,9 @@ package be.ugent.zeus.hydra.feed.commands;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.Objects;
+
 import be.ugent.zeus.hydra.feed.cards.Card;
-import java9.util.Objects;
 
 /**
  * @author Niko Strijbol
@@ -20,6 +21,14 @@ public class CommandResult {
         this.command = command;
     }
 
+    public static CommandResult forUndo(@Card.Type int cardType) {
+        return new CommandResult(cardType, null);
+    }
+
+    public static CommandResult forExecute(FeedCommand command, @Card.Type int cardType) {
+        return new CommandResult(cardType, command);
+    }
+
     @Card.Type
     public int getCardType() {
         return cardType;
@@ -33,13 +42,5 @@ public class CommandResult {
     public FeedCommand getCommand() {
         //noinspection ConstantConditions
         return Objects.requireNonNull(command);
-    }
-
-    public static CommandResult forUndo(@Card.Type int cardType) {
-        return new CommandResult(cardType, null);
-    }
-
-    public static CommandResult forExecute(FeedCommand command, @Card.Type int cardType) {
-        return new CommandResult(cardType, command);
     }
 }

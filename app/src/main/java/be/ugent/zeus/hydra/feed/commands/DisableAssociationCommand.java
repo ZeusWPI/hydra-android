@@ -4,10 +4,10 @@ import android.content.Context;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.common.reporting.Reporting;
-import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.utils.PreferencesUtils;
+import be.ugent.zeus.hydra.feed.cards.Card;
 
 /**
  * @author Niko Strijbol

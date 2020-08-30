@@ -2,11 +2,10 @@ package be.ugent.zeus.hydra.testing;
 
 import android.app.Application;
 import android.content.Context;
-import androidx.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
+import androidx.annotation.LayoutRes;
 import androidx.test.core.app.ApplicationProvider;
 
 import com.squareup.picasso.PicassoProvider;
@@ -29,7 +28,7 @@ public final class RobolectricUtils {
      * Inflate a view. The view will be inflated in an empty activity context.
      *
      * @param layout The view to inflate.
-     * @param <T> Type of the root view.
+     * @param <T>    Type of the root view.
      *
      * @return The view
      */
@@ -41,8 +40,8 @@ public final class RobolectricUtils {
      * Inflate a view.
      *
      * @param context The context to use.
-     * @param layout The view to inflate.
-     * @param <T> Type of the root view.
+     * @param layout  The view to inflate.
+     * @param <T>     Type of the root view.
      *
      * @return The view
      */

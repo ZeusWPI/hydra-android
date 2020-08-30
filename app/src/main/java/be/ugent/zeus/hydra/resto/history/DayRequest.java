@@ -3,8 +3,7 @@ package be.ugent.zeus.hydra.resto.history;
 import android.content.Context;
 import androidx.annotation.NonNull;
 
-import org.threeten.bp.LocalDate;
-
+import java.time.LocalDate;
 import java.util.Locale;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;

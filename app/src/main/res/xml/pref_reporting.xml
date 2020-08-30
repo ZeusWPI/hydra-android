@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
-        app:iconSpaceReserved="false"
         app:defaultValue="false"
+        app:iconSpaceReserved="false"
         app:key="be.ugent.zeus.hydra.reporting.allow_analytics"
         app:summary="@string/onboarding_reporting_analytics_desc"
         app:title="@string/onboarding_reporting_analytics_title" />
 
     <SwitchPreference
-        app:iconSpaceReserved="false"
         app:defaultValue="true"
+        app:iconSpaceReserved="false"
         app:key="be.ugent.zeus.hydra.reporting.allow_crash_reporting"
         app:summary="@string/onboarding_reporting_crash_desc"
         app:title="@string/onboarding_reporting_crash_title" />

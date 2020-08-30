@@ -8,6 +8,7 @@ import android.view.View;
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.widgets.MenuTable;
+import be.ugent.zeus.hydra.common.utils.DateUtils;
 import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardViewHolder;
@@ -15,7 +16,6 @@ import be.ugent.zeus.hydra.feed.preferences.HomeFragment;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.menu.RestoFragment;
-import be.ugent.zeus.hydra.common.utils.DateUtils;
 
 import static android.view.Menu.NONE;
 
@@ -26,13 +26,6 @@ import static android.view.Menu.NONE;
  * @author feliciaan
  */
 public class RestoCardViewHolder extends CardViewHolder {
-
-    @interface KindMenu {
-        int HIDE_SOUP = 1;
-        int HIDE_MAIN = 2;
-        int SHOW_SOUP = 3;
-        int SHOW_MAIN = 4;
-    }
 
     private final MenuTable table;
 
@@ -101,5 +94,12 @@ public class RestoCardViewHolder extends CardViewHolder {
             default:
                 return super.onMenuItemClick(item);
         }
+    }
+
+    @interface KindMenu {
+        int HIDE_SOUP = 1;
+        int HIDE_MAIN = 2;
+        int SHOW_SOUP = 3;
+        int SHOW_MAIN = 4;
     }
 }

@@ -1,13 +1,13 @@
 package be.ugent.zeus.hydra.sko;
 
 import android.content.Intent;
-import androidx.annotation.VisibleForTesting;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.VisibleForTesting;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;

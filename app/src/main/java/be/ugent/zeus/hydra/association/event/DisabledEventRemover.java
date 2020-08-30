@@ -2,14 +2,13 @@ package be.ugent.zeus.hydra.association.event;
 
 import android.content.Context;
 
-import be.ugent.zeus.hydra.common.utils.PreferencesUtils;
-import java9.util.function.Function;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import be.ugent.zeus.hydra.common.utils.PreferencesUtils;
 
 import static be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING;
 
@@ -28,10 +27,10 @@ class DisabledEventRemover implements Function<List<Event>, List<Event>> {
 
     @Override
     public List<Event> apply(List<Event> events) {
-        Set<String> disabled = StreamSupport.stream(PreferencesUtils.getStringSet(context, PREF_ASSOCIATIONS_SHOWING))
+        Set<String> disabled = PreferencesUtils.getStringSet(context, PREF_ASSOCIATIONS_SHOWING).stream()
                 .map(String::toLowerCase)
                 .collect(Collectors.toSet());
-        return StreamSupport.stream(events)
+        return events.stream()
                 .filter(event -> !disabled.contains(event.getAssociation().getInternalName().toLowerCase(Locale.ROOT)))
                 .collect(Collectors.toList());
     }

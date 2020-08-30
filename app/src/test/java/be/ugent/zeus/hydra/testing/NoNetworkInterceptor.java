@@ -2,10 +2,10 @@ package be.ugent.zeus.hydra.testing;
 
 import androidx.annotation.NonNull;
 
+import java.io.IOException;
+
 import okhttp3.Interceptor;
 import okhttp3.Response;
-
-import java.io.IOException;
 
 /**
  * Prevent network access during tests.

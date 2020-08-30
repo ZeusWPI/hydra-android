@@ -89,7 +89,6 @@ public interface BaseEvents {
      *     <li>{@link Params#cardType()}</li>
      *     <li>{@link Params#cardIdentifier()}</li>
      * </ul>
-     *
      */
     String cardDismissal();
 

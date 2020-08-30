@@ -5,16 +5,15 @@ import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.CalendarContract;
-
 import androidx.annotation.Nullable;
 
-import java9.util.Objects;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
-import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * An SKO artist.
@@ -25,8 +24,18 @@ import org.threeten.bp.format.DateTimeFormatter;
  */
 final class Artist implements Parcelable {
 
-    private static final String LOCATION = "Sint-Pietersplein, Gent";
+    public static final Creator<Artist> CREATOR = new Creator<Artist>() {
+        @Override
+        public Artist createFromParcel(Parcel source) {
+            return new Artist(source);
+        }
 
+        @Override
+        public Artist[] newArray(int size) {
+            return new Artist[size];
+        }
+    };
+    private static final String LOCATION = "Sint-Pietersplein, Gent";
     private String name;
     private String title;
     private OffsetDateTime start;
@@ -36,6 +45,21 @@ final class Artist implements Parcelable {
     private String description;
     private String stage;
     private int index;
+
+    public Artist() {
+    }
+
+    protected Artist(Parcel in) {
+        this.name = in.readString();
+        this.title = in.readString();
+        this.start = (OffsetDateTime) in.readSerializable();
+        this.end = (OffsetDateTime) in.readSerializable();
+        this.image = in.readString();
+        this.content = in.readString();
+        this.stage = in.readString();
+        this.description = in.readString();
+        this.index = in.readInt();
+    }
 
     /**
      * @return The name of the act.
@@ -207,31 +231,4 @@ final class Artist implements Parcelable {
         dest.writeString(this.description);
         dest.writeInt(this.index);
     }
-
-    public Artist() {
-    }
-
-    protected Artist(Parcel in) {
-        this.name = in.readString();
-        this.title = in.readString();
-        this.start = (OffsetDateTime) in.readSerializable();
-        this.end = (OffsetDateTime) in.readSerializable();
-        this.image = in.readString();
-        this.content = in.readString();
-        this.stage = in.readString();
-        this.description = in.readString();
-        this.index = in.readInt();
-    }
-
-    public static final Creator<Artist> CREATOR = new Creator<Artist>() {
-        @Override
-        public Artist createFromParcel(Parcel source) {
-            return new Artist(source);
-        }
-
-        @Override
-        public Artist[] newArray(int size) {
-            return new Artist[size];
-        }
-    };
 }

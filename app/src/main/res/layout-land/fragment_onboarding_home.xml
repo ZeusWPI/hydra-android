@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/checkbox_wrapper"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -13,34 +12,34 @@
         android:orientation="vertical">
 
         <TextView
-            android:paddingTop="@dimen/large_horizontal_padding"
-            android:paddingLeft="@dimen/vertical_padding"
-            android:paddingRight="@dimen/vertical_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/onboarding_feed_title"
-            android:gravity="center"
             android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:paddingLeft="@dimen/vertical_padding"
+            android:paddingTop="@dimen/large_horizontal_padding"
+            android:paddingRight="@dimen/vertical_padding"
+            android:text="@string/onboarding_feed_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="?android:textColorPrimary"/>
+            android:textColor="?android:textColorPrimary" />
 
         <TextView
-            android:paddingLeft="@dimen/vertical_padding"
-            android:paddingRight="@dimen/vertical_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:text="@string/onboarding_feed_desc"/>
+            android:paddingLeft="@dimen/vertical_padding"
+            android:paddingRight="@dimen/vertical_padding"
+            android:text="@string/onboarding_feed_desc"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
     </LinearLayout>
 
     <FrameLayout
         android:id="@+id/recycler_fragment"
-        android:paddingTop="@dimen/large_horizontal_padding"
-        android:paddingLeft="@dimen/vertical_padding"
-        android:paddingRight="@dimen/vertical_padding"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/vertical_padding"
+        android:paddingTop="@dimen/large_horizontal_padding"
+        android:paddingRight="@dimen/vertical_padding" />
 
 </LinearLayout>

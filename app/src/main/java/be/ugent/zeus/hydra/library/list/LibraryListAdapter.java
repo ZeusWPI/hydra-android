@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import java9.util.Optional;
-import java9.util.stream.StreamSupport;
+import java.util.Optional;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.request.Result;
@@ -60,7 +58,7 @@ class LibraryListAdapter extends SearchableAdapter<Pair<Library, Boolean>, Libra
 
     void unregisterListener(Observer<Result<Optional<OpeningHours>>> listener) {
         // Find the pair.
-        StreamSupport.stream(listeners)
+        listeners.stream()
                 .filter(p -> p.second == listener)
                 .findFirst().ifPresent(p -> {
             p.first.removeObserver(p.second);
