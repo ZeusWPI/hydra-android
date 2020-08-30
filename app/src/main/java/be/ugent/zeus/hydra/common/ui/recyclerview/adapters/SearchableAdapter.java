@@ -80,7 +80,9 @@ public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends
     @Override
     public boolean onQueryTextChange(String newText) {
         if (!isSearching) {
-            listeners.forEach(listener -> listener.onSearchStateChange(true));
+            for (SearchStateListener listener : listeners) {
+                listener.onSearchStateChange(true);
+            }
         }
         this.isSearching = true;
         List<D> filtered = allData.stream()
@@ -94,7 +96,9 @@ public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends
     @Override
     public boolean onClose() {
         if (isSearching) {
-            listeners.forEach(listener -> listener.onSearchStateChange(false));
+            for (SearchStateListener listener : listeners) {
+                listener.onSearchStateChange(false);
+            }
         }
         this.isSearching = false;
         return false;
@@ -105,9 +109,13 @@ public abstract class SearchableAdapter<D, VH extends DataViewHolder<D>> extends
      */
     public void onOpen() {
         if (!isSearching) {
-            listeners.forEach(listener -> listener.onSearchStateChange(true));
+            for (SearchStateListener listener : listeners) {
+                listener.onSearchStateChange(true);
+            }
         }
         this.isSearching = true;
-        listeners.forEach(listener -> listener.onSearchStateChange(isSearching));
+        for (SearchStateListener listener : listeners) {
+            listener.onSearchStateChange(isSearching);
+        }
     }
 }

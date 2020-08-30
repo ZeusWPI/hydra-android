@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.pm.ShortcutManager;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -493,7 +492,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements N
     }
 
     private void reportShortcutUsed(String shortcutId) {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+        if (android.os.Build.VERSION.SDK_INT >= 25) {
             ShortcutManager manager = Objects.requireNonNull(getSystemService(ShortcutManager.class));
             try {
                 manager.reportShortcutUsed(shortcutId);

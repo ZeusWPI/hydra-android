@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.preferences;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.preference.Preference;
@@ -38,12 +37,10 @@ public class AboutFragment extends PreferenceFragment {
             return false;
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            requirePreference("pref_about_creator_zeus")
-                    .setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.logo_zeus));
-            requirePreference("pref_about_creator_dsa")
-                    .setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.logo_ugent));
-        }
+        requirePreference("pref_about_creator_zeus")
+                .setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.logo_zeus));
+        requirePreference("pref_about_creator_dsa")
+                .setIcon(AppCompatResources.getDrawable(requireContext(), R.drawable.logo_ugent));
     }
 
     @Override

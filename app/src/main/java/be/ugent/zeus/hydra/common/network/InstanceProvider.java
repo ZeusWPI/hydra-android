@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.common.network;
 
 import android.content.Context;
-import android.os.Build;
 import androidx.annotation.VisibleForTesting;
 
 import java.io.File;
@@ -52,11 +51,6 @@ public final class InstanceProvider {
      * @return The client.
      */
     public static synchronized OkHttpClient getClient(Context context) {
-
-        if (Build.VERSION.SDK_INT <= 20) {
-            CertificateProvider.installProvider(context);
-        }
-
         File cacheDir = new File(context.getCacheDir(), "http");
         return getClient(cacheDir);
     }

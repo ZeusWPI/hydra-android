@@ -3,7 +3,6 @@ package be.ugent.zeus.hydra.urgent.player;
 import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.PowerManager;
 import android.support.v4.media.MediaMetadataCompat;
 import android.util.Log;
@@ -158,17 +157,12 @@ class InternalPlayer {
     }
 
     void setAudioAttributes(AudioAttributesCompat attributes) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                    .setContentType(attributes.getContentType())
-                    .setFlags(attributes.getFlags())
-                    .setUsage(attributes.getUsage())
-                    .setLegacyStreamType(attributes.getLegacyStreamType())
-                    .build();
-            mediaPlayer.setAudioAttributes(audioAttributes);
-        } else {
-            //noinspection deprecation
-            mediaPlayer.setAudioStreamType(attributes.getLegacyStreamType());
-        }
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setContentType(attributes.getContentType())
+                .setFlags(attributes.getFlags())
+                .setUsage(attributes.getUsage())
+                .setLegacyStreamType(attributes.getLegacyStreamType())
+                .build();
+        mediaPlayer.setAudioAttributes(audioAttributes);
     }
 }

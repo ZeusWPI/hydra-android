@@ -220,7 +220,7 @@ public class Player {
 
     private void requestAudioFocus() {
         int result;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= 26) {
             result = requestAudioFocusOreo();
         } else {
             //noinspection deprecation
@@ -239,7 +239,7 @@ public class Player {
     }
 
     private void abandonAudioFocus() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= 26) {
             abandonAudioFocusOreo();
         } else {
             //noinspection deprecation

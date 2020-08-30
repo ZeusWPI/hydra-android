@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -28,7 +29,7 @@ class EcologicalRequest extends JsonArrayRequest<EcologicalSandwich> {
     @Override
     public Result<List<EcologicalSandwich>> execute(@NonNull Bundle args) {
         return super.execute(args).map(sandwiches -> {
-            sandwiches.sort(Comparator.comparing(EcologicalSandwich::getStart));
+            Collections.sort(sandwiches, Comparator.comparing(EcologicalSandwich::getStart));
             return sandwiches;
         });
     }

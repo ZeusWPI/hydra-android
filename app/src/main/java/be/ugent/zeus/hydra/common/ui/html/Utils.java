@@ -27,7 +27,7 @@ public class Utils {
             return new SpannableString("");
         }
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT < 24) {
             try {
                 //noinspection deprecation
                 return Html.fromHtml(html, getter, new HtmlTagHandler());

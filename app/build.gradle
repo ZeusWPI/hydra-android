@@ -40,19 +40,15 @@ android {
     lintOptions {
         warningsAsErrors true
         // We don't support Right to Left layouts.
-        disable "RtlSymmetry", "RtlHardcoded",
+        disable "RtlSymmetry",
                 // We don't care about long vector paths.
                 "VectorPath",
                 // Http is still allowed for now.
                 "InsecureBaseConfiguration",
                 // Allow overdraw, mainly used for selectable backgrounds
                 "Overdraw",
-                // Disabled until AS 4.0 is available
-                "UnusedResources",
                 // We use dependabot for dependencies
-                "GradleDependency",
-                // We will choose for ourselves when we update
-                "OldTargetApi"
+                "GradleDependency"
     }
 
     flavorDimensions "distribution"
@@ -145,7 +141,6 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.google.android.material:material:1.2.0'
     implementation 'androidx.browser:browser:1.2.0'
-    implementation 'androidx.slice:slice-builders:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
     implementation 'androidx.room:room-runtime:2.2.5'

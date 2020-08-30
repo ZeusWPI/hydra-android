@@ -94,7 +94,7 @@ public class MenuTable extends TableLayout {
         textParam.span = 3;
         final int textPaddingTop;
         if (isTitle) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT < 23) {
                 //noinspection deprecation
                 v.setTextAppearance(getContext(), R.style.Hydra_Text_Subhead);
             } else {

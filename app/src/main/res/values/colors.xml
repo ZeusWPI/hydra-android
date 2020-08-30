@@ -9,7 +9,7 @@
     <color name="hydra_color_primary_variant_light">#6391fc</color>
     <color name="hydra_color_primary_variant_dark">#003b96</color>
     <color name="hydra_color_secondary">#ffd200</color>
-    <color name="hydra_color_secondary_variant_light">#ffff52</color>
+    <color name="hydra_color_secondary_variant_light" tools:ignore="UnusedResources">#ffff52</color>
     <color name="hydra_color_secondary_variant_dark">#c7a100</color>
 
     <color name="color_background">#fff5f5f5</color>
@@ -38,7 +38,7 @@
 
     <!-- General colours -->
     <color name="white">@color/material_color_white</color>
-    <color name="black">@color/material_color_black</color>
+    <color name="black" tools:ignore="UnusedResources">@color/material_color_black</color>
 
     <!--
         ~ The grey colour for the launcher shortcuts background.
