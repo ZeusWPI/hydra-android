@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.util.Pair;
 import androidx.annotation.NonNull;
 
-import be.ugent.zeus.hydra.association.Association;
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Stream;
 
+import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.association.event.Event;
-import be.ugent.zeus.hydra.association.event.RawEventRequest;
 import be.ugent.zeus.hydra.association.list.EventItem;
 import be.ugent.zeus.hydra.association.list.Filter;
 import be.ugent.zeus.hydra.common.request.Request;
@@ -19,14 +17,6 @@ import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HideableHomeFeedRequest;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
-
-import java9.util.function.Function;
-import java9.util.stream.Stream;
-import java9.util.stream.StreamSupport;
-
-import org.threeten.bp.OffsetDateTime;
-
-import java.util.List;
 
 /**
  * Home feed request for association events. We only display events between now and 1 months from now.

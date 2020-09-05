@@ -16,13 +16,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-
-import java9.lang.Iterables;
-import java9.util.Comparators;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
@@ -40,9 +41,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
-import org.threeten.bp.Instant;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.ZoneOffset;
 
 import static be.ugent.zeus.hydra.association.preference.AssociationSelectionPreferenceFragment.PREF_ASSOCIATIONS_SHOWING;
 import static be.ugent.zeus.hydra.common.utils.FragmentUtils.requireBaseActivity;
@@ -146,13 +144,13 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
         int secondaryColour = ColourUtils.resolveColour(requireContext(), R.attr.colorSecondary);
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(secondaryColour);
-        
+
         // Set default associations from preferences.
-        Set<String> disabled = StreamSupport.stream(PreferencesUtils.getStringSet(requireContext(), PREF_ASSOCIATIONS_SHOWING))
+        Set<String> disabled = PreferencesUtils.getStringSet(requireContext(), PREF_ASSOCIATIONS_SHOWING).stream()
                 .map(String::toLowerCase)
                 .collect(Collectors.toSet());
         filter.setAssociations(disabled);
-        
+
 
         viewModel = new ViewModelProvider(this).get(EventViewModel.class);
         viewModel.setParams(filter.getValue());
@@ -162,9 +160,9 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
             @Override
             protected void onSuccess(@NonNull Pair<List<EventItem>, List<Association>> data) {
                 adapter.submitData(data.first);
-                List<Pair<Association, Boolean>> mapped = StreamSupport.stream(data.second)
+                List<Pair<Association, Boolean>> mapped = data.second.stream()
                         .map(association -> new Pair<>(association, filter.filter.getAssociations().contains(association.getAbbreviation())))
-                        .sorted(Comparators.comparing(associationBooleanPair -> associationBooleanPair.first.getName()))
+                        .sorted(Comparator.comparing(associationBooleanPair -> associationBooleanPair.first.getName()))
                         .collect(Collectors.toList());
                 associationAdapter.setItemsAndState(mapped);
             }
@@ -203,11 +201,11 @@ public class EventFragment extends Fragment implements MainActivity.ScheduledRem
         assert searchTerm.getEditText() != null;
         searchTerm.getEditText().setText(filter.getTerm());
     }
-    
+
     private void doFiltering() {
         // Time stuff is set by the callback.
         this.filter.setTerm(searchTerm.getEditText().getText().toString());
-        Set<String> disabled = StreamSupport.stream(Iterables.spliterator(associationAdapter.getItemsAndState()), false)
+        Set<String> disabled = StreamSupport.stream(associationAdapter.getItemsAndState().spliterator(), false)
                 .filter(associationBooleanPair -> associationBooleanPair.second)
                 .map(associationBooleanPair -> associationBooleanPair.first.getAbbreviation())
                 .collect(Collectors.toSet());

@@ -1,16 +1,15 @@
 package be.ugent.zeus.hydra.association.list;
 
+import android.util.Pair;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
-import be.ugent.zeus.hydra.association.event.Event;
-
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.association.event.Event;
-import org.threeten.bp.LocalDate;
 
 /**
  * Convert events to EventItems. The list of events MUST be sorted by start date.

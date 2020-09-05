@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.feed.cards.event;
 
+import android.util.Pair;
+
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Objects;

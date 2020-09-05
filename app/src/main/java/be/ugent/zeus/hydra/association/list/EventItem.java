@@ -4,14 +4,13 @@ import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import java9.util.Objects;
-import java9.util.function.Function;
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.association.AssociationListRequest;
@@ -19,7 +18,6 @@ import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.association.event.RawEventRequest;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
-import org.threeten.bp.LocalDate;
 
 /**
  * Data structure for a list of events. The contains an item, a header or a footer, but only one of the elements.
@@ -111,12 +109,12 @@ public final class EventItem {
         Request<List<Event>> eventRequest = RawEventRequest.create(context, filter);
         Request<Map<String, Association>> associationRequest =
                 AssociationListRequest.asList(context)
-                        .map(associations -> StreamSupport.stream(associations)
+                        .map(associations -> associations.stream()
                                 .collect(Collectors.toMap(Association::getAbbreviation, Function.identity())));
         return args -> {
             Result<List<Event>> first = eventRequest.execute(args);
             Result<Map<String, Association>> second = associationRequest.execute(args);
-            return first.andThen(second).map(listMapPair -> StreamSupport.stream(listMapPair.first)
+            return first.andThen(second).map(listMapPair -> listMapPair.first.stream()
                     .map(event -> {
                         Association a = listMapPair.second.get(event.getAssociation());
                         if (a == null) {

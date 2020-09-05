@@ -2,16 +2,17 @@ package be.ugent.zeus.hydra.association.event;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import androidx.annotation.Nullable;
+
+import com.squareup.moshi.Json;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
 import be.ugent.zeus.hydra.association.Association;
-import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
-import com.squareup.moshi.Json;
 
 /**
  * Event from an {@link Association}.
@@ -21,17 +22,6 @@ import com.squareup.moshi.Json;
  */
 public final class Event implements Parcelable, Comparable<Event> {
 
-    public static final Creator<Event> CREATOR = new Creator<Event>() {
-        @Override
-        public Event createFromParcel(Parcel source) {
-            return new Event(source);
-        }
-
-        @Override
-        public Event[] newArray(int size) {
-            return new Event[size];
-        }
-    };
     private String title;
     @Json(name = "start_time")
     private OffsetDateTime start;
@@ -55,8 +45,6 @@ public final class Event implements Parcelable, Comparable<Event> {
         description = in.readString();
         url = in.readString();
         association = in.readString();
-        start = DateTypeConverters.toOffsetDateTime(in.readString());
-        end = DateTypeConverters.toOffsetDateTime(in.readString());
     }
 
     @Override
@@ -67,8 +55,6 @@ public final class Event implements Parcelable, Comparable<Event> {
         dest.writeString(description);
         dest.writeString(url);
         dest.writeString(association);
-        dest.writeString(DateTypeConverters.fromOffsetDateTime(this.start));
-        dest.writeString(DateTypeConverters.fromOffsetDateTime(this.end));
     }
 
     @Override
@@ -91,7 +77,7 @@ public final class Event implements Parcelable, Comparable<Event> {
     /**
      * Get the start date, converted to the local time zone. The resulting DateTime is the time as it is used
      * in the current time zone.
-     *
+     * <p>
      * This value is calculated every time, so if you need it a lot, cache it in a local variable.
      *
      * @return The converted start date.
@@ -103,7 +89,7 @@ public final class Event implements Parcelable, Comparable<Event> {
     /**
      * Get the end date, converted to the local time zone. The resulting DateTime is the time as it is used
      * in the current time zone.
-     *
+     * <p>
      * This value is calculated every time, so if you need it a lot, cache it in a local variable.
      *
      * @return The converted end date.
@@ -164,7 +150,7 @@ public final class Event implements Parcelable, Comparable<Event> {
     /**
      * Calculate an identifier for the event. Since it is calculated with external data, there is no guarantee this
      * will be unique, but it will be very likely.
-     *
+     * <p>
      * This is conceptually similar to the {@link #hashCode()}, but with a bigger chance of uniqueness, since we use
      * a string.
      *
@@ -180,20 +166,6 @@ public final class Event implements Parcelable, Comparable<Event> {
     @Override
     public int compareTo(Event o) {
         return start.compareTo(o.start);
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.title);
-        dest.writeString(DateTypeConverters.fromOffsetDateTime(this.start));
-        dest.writeString(DateTypeConverters.fromOffsetDateTime(this.end));
-        dest.writeString(this.location);
-        dest.writeDouble(this.latitude);
-        dest.writeDouble(this.longitude);
-        dest.writeString(this.description);
-        dest.writeString(this.url);
-        dest.writeString(this.facebookId);
-        dest.writeParcelable(this.association, flags);
     }
 
     @Override

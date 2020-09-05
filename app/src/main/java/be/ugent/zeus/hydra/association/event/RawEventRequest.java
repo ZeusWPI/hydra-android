@@ -9,21 +9,16 @@ import java.time.Duration;
 import java.util.List;
 import java.util.function.Function;
 
-import java.util.List;
-
-import java9.util.function.Function;
-
 import be.ugent.zeus.hydra.association.list.Filter;
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import be.ugent.zeus.hydra.common.request.Request;
-import org.threeten.bp.Duration;
 
 
 /**
  * Get the events for all associations. This will get all events returned by the API, without any filtering.
- *
- * You probably want {@link #create(Context, String)} instead.
+ * 
+ * You probably want {@link #create(Context, Filter)} instead.
  *
  * @author feliciaan
  * @author Niko Strijbol
@@ -59,7 +54,6 @@ public class RawEventRequest extends JsonOkHttpRequest<EventList> {
      * - {@link Request#map(Function)} with {@link EventSorter}
      *
      * @param context The context.
-     *
      * @return The modified request.
      */
     public static Request<List<Event>> create(Context context, Filter filter) {

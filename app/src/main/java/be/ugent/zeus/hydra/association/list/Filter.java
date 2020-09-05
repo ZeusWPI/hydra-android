@@ -4,12 +4,11 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * Search filter for events.
