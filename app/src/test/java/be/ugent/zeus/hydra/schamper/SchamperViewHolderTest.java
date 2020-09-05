@@ -4,8 +4,6 @@ import android.view.View;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
-import be.ugent.zeus.hydra.schamper.Article;
-import be.ugent.zeus.hydra.schamper.SchamperViewHolder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

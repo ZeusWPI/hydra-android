@@ -1,7 +1,8 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.viewholders;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
+import androidx.recyclerview.widget.RecyclerView;
+
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.DataAdapter;
 
 /**

@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.common.reporting;
 
 import android.app.Activity;
-
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 

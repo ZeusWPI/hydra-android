@@ -12,10 +12,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.List;
 import java.util.Map;
-
-import java9.util.stream.Collectors;
-import java9.util.stream.Stream;
-import java9.util.stream.StreamSupport;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
@@ -71,16 +69,16 @@ public class LineupFragment extends Fragment {
     private void receiveData(@NonNull List<Artist> data) {
 
         // Sort the artists into stages.
-        Map<String, List<Artist>> stages = StreamSupport.stream(data)
+        Map<String, List<Artist>> stages = data.stream()
                 .collect(Collectors.groupingBy(Artist::getStage));
 
         // Merge the sorted stages back into one flat list while prepending the stage as a title for each section.
         // This might be faster with a traditional loop, but streams are fancier.
-        List<ArtistOrTitle> masterList = StreamSupport.stream(stages.entrySet())
+        List<ArtistOrTitle> masterList = stages.entrySet().stream()
                 .flatMap(e ->
                         Stream.concat(
                                 Stream.of(new ArtistOrTitle(e.getKey())),
-                                StreamSupport.stream(e.getValue()).map(ArtistOrTitle::new)
+                                e.getValue().stream().map(ArtistOrTitle::new)
                         ))
                 .collect(Collectors.toList());
 

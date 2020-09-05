@@ -3,9 +3,10 @@ package be.ugent.zeus.hydra.specialevent;
 import android.content.Context;
 import androidx.annotation.NonNull;
 
+import java.time.Duration;
+
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
-import org.threeten.bp.Duration;
 
 /**
  * Request to get special events (such as the 12urenloop).

@@ -5,10 +5,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.sko.Artist;
-import be.ugent.zeus.hydra.sko.ArtistDetailsActivity;
-import be.ugent.zeus.hydra.sko.ArtistOrTitle;
-import be.ugent.zeus.hydra.sko.ArtistViewHolder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;

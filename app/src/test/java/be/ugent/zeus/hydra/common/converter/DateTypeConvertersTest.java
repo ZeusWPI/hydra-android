@@ -1,8 +1,9 @@
 package be.ugent.zeus.hydra.common.converter;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
+
 import org.junit.Test;
-import org.threeten.bp.Instant;
-import org.threeten.bp.OffsetDateTime;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

@@ -4,11 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 
+import java.time.LocalDate;
+
 import be.ugent.zeus.hydra.common.arch.data.RequestLiveData;
 import be.ugent.zeus.hydra.resto.RestoChoice;
 import be.ugent.zeus.hydra.resto.RestoMenu;
 import be.ugent.zeus.hydra.resto.RestoPreferenceFragment;
-import org.threeten.bp.LocalDate;
 
 /**
  * @author Niko Strijbol

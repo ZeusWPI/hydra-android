@@ -1,11 +1,11 @@
 package be.ugent.zeus.hydra.urgent.player;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import static be.ugent.zeus.hydra.urgent.player.MediaStateListener.State.*;
 

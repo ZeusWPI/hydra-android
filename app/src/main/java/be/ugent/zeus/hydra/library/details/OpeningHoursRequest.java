@@ -3,15 +3,14 @@ package be.ugent.zeus.hydra.library.details;
 import android.content.Context;
 import androidx.annotation.NonNull;
 
-import java9.util.Optional;
-import java9.util.stream.StreamSupport;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.util.Optional;
 
 import be.ugent.zeus.hydra.common.network.Endpoints;
 import be.ugent.zeus.hydra.common.network.JsonArrayRequest;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.library.Library;
-import org.threeten.bp.Duration;
-import org.threeten.bp.LocalDate;
 
 /**
  * Get the opening hours for one library.
@@ -43,7 +42,7 @@ public class OpeningHoursRequest extends JsonArrayRequest<OpeningHours> {
     }
 
     public Request<Optional<OpeningHours>> forDay(LocalDate date) {
-        return map(openingHours -> StreamSupport.stream(openingHours)
+        return map(openingHours -> openingHours.stream()
                 .filter(o -> date.equals(o.getDate()))
                 .findFirst());
     }

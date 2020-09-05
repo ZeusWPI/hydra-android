@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.common;
 
-import androidx.annotation.NonNull;
 import android.util.SparseArray;
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;

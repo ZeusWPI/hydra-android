@@ -3,13 +3,14 @@ package be.ugent.zeus.hydra.common.converter;
 import androidx.annotation.Nullable;
 import androidx.room.TypeConverter;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 import com.squareup.moshi.FromJson;
 import com.squareup.moshi.ToJson;
-import org.threeten.bp.Instant;
-import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.ZonedDateTime;
-import org.threeten.bp.format.DateTimeFormatter;
 
 /**
  * Converts for various date-related classes.

@@ -7,6 +7,7 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.testing.NoNetworkInterceptor;

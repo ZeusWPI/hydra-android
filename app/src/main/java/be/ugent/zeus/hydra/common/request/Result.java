@@ -3,10 +3,9 @@ package be.ugent.zeus.hydra.common.request;
 import androidx.annotation.NonNull;
 
 import java.util.NoSuchElementException;
-
-import java9.util.Objects;
-import java9.util.function.Consumer;
-import java9.util.function.Function;
+import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * The result of a {@link Request}.

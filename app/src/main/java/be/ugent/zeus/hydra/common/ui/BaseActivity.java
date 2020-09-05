@@ -12,7 +12,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.viewbinding.ViewBinding;
 
-import java9.util.function.Function;
+import java.util.function.Function;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.utils.ColourUtils;
@@ -41,10 +41,37 @@ public abstract class BaseActivity<B extends ViewBinding> extends AppCompatActiv
     protected B binding;
 
     /**
+     * Replace an icon with given ID by the same icon but in the correct colour.
+     *
+     * @param toolbar The toolbar to extract the colour from.
+     * @param menu    The menu.
+     * @param ids     The ids of the icon.
+     */
+    public static void tintToolbarIcons(ActionBar toolbar, Menu menu, int... ids) {
+        tintToolbarIcons(ColourUtils.resolveColour(toolbar.getThemedContext(), R.attr.colorControlNormal), menu, ids);
+    }
+
+    /**
+     * Replace an icon with given ID by the same icon but in the given colour.
+     *
+     * @param colour The colour int.
+     * @param menu   The menu.
+     * @param ids    The ids of the icon.
+     */
+    public static void tintToolbarIcons(@ColorInt int colour, Menu menu, int... ids) {
+        for (int id : ids) {
+            Drawable drawable = DrawableCompat.wrap(menu.findItem(id).getIcon());
+            DrawableCompat.setTint(drawable, colour);
+            menu.findItem(id).setIcon(drawable);
+        }
+    }
+
+    /**
      * Returns the action bar of this activity. If the ActionBar is not present or the method is called at the wrong
      * time, an {@link IllegalStateException} is thrown.
      *
      * @return The ActionBar.
+     *
      * @throws IllegalStateException If the method is called at the wrong time or there is no ActionBar.
      */
     @NonNull
@@ -85,32 +112,6 @@ public abstract class BaseActivity<B extends ViewBinding> extends AppCompatActiv
      */
     public void tintToolbarIcons(Menu menu, int... ids) {
         tintToolbarIcons(requireToolbar(), menu, ids);
-    }
-
-    /**
-     * Replace an icon with given ID by the same icon but in the correct colour.
-     *
-     * @param toolbar The toolbar to extract the colour from.
-     * @param menu The menu.
-     * @param ids  The ids of the icon.
-     */
-    public static void tintToolbarIcons(ActionBar toolbar, Menu menu, int... ids) {
-        tintToolbarIcons(ColourUtils.resolveColour(toolbar.getThemedContext(), R.attr.colorControlNormal), menu, ids);
-    }
-
-    /**
-     * Replace an icon with given ID by the same icon but in the given colour.
-     *
-     * @param colour The colour int.
-     * @param menu The menu.
-     * @param ids  The ids of the icon.
-     */
-    public static void tintToolbarIcons(@ColorInt int colour, Menu menu, int... ids) {
-        for (int id : ids) {
-            Drawable drawable = DrawableCompat.wrap(menu.findItem(id).getIcon());
-            DrawableCompat.setTint(drawable, colour);
-            menu.findItem(id).setIcon(drawable);
-        }
     }
 
     /**

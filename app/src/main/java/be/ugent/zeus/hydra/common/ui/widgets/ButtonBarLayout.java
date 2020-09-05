@@ -33,7 +33,9 @@ import androidx.core.view.ViewCompat;
  * Modified from the Android source code.
  */
 public class ButtonBarLayout extends LinearLayout {
-    /** Amount of the second button to "peek" above the fold when stacked. */
+    /**
+     * Amount of the second button to "peek" above the fold when stacked.
+     */
     private static final int PEEK_BUTTON_DP = 16;
 
     private int mLastWidthSize = -1;
@@ -133,6 +135,10 @@ public class ButtonBarLayout extends LinearLayout {
         return Math.max(mMinimumHeight, super.getMinimumHeight());
     }
 
+    private boolean isStacked() {
+        return getOrientation() == LinearLayout.VERTICAL;
+    }
+
     private void setStacked(boolean stacked) {
         setOrientation(stacked ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
         setGravity(stacked ? Gravity.RIGHT : Gravity.BOTTOM);
@@ -148,9 +154,5 @@ public class ButtonBarLayout extends LinearLayout {
         for (int i = childCount - 2; i >= 0; i--) {
             bringChildToFront(getChildAt(i));
         }
-    }
-
-    private boolean isStacked() {
-        return getOrientation() == LinearLayout.VERTICAL;
     }
 }

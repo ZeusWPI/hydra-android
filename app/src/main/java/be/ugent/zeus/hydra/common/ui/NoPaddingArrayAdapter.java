@@ -1,19 +1,18 @@
 package be.ugent.zeus.hydra.common.ui;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import androidx.annotation.NonNull;
 
 import java.util.List;
 
 /**
  * Removes padding from the items.
  *
- * @see <a href="https://stackoverflow.com/questions/29164650">StackOverflow question</a>
- *
  * @author Niko Strijbol
+ * @see <a href="https://stackoverflow.com/questions/29164650">StackOverflow question</a>
  */
 public class NoPaddingArrayAdapter<T> extends ArrayAdapter<T> {
 

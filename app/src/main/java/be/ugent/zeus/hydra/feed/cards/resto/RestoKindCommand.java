@@ -37,6 +37,7 @@ class RestoKindCommand implements FeedCommand {
      * Maps menu items to their message of completion, i.e. the message shown when the action has been performed.
      */
     private static final SparseIntArray MENU_TO_ITEM = new SparseIntArray();
+
     static {
         // When hiding soup, only main dishes remain.
         MENU_TO_FORWARD.append(HIDE_SOUP, HomeFragment.FeedRestoKind.MAIN);

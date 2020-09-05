@@ -8,8 +8,8 @@
     android:layout_marginRight="@dimen/card_margin"
     android:layout_marginBottom="@dimen/card_spacing"
     android:clickable="true"
-    android:longClickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:longClickable="true">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -20,48 +20,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
+            android:contentDescription="@string/content_desc_artist_image"
             android:maxHeight="192dp"
-            android:contentDescription="@string/content_desc_artist_image"/>
+            android:scaleType="centerCrop" />
 
         <ImageView
             android:id="@+id/gradient"
-            android:src="@drawable/gradient_black_bottom"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
+            android:contentDescription="@string/content_desc_artist_image"
             android:maxHeight="192dp"
-            android:contentDescription="@string/content_desc_artist_image"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/gradient_black_bottom" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="bottom">
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
-                android:paddingLeft="@dimen/material_card_title_block_padding_horizontal"
-                android:paddingRight="@dimen/material_card_title_block_padding_horizontal"
+                android:id="@+id/title"
+                style="?textAppearanceHeadline5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/title"
-                android:textColor="@color/white"
+                android:paddingLeft="@dimen/material_card_title_block_padding_horizontal"
                 android:paddingTop="@dimen/card_title_padding_top"
-                style="?textAppearanceHeadline5"
+                android:paddingRight="@dimen/material_card_title_block_padding_horizontal"
+                android:textColor="@color/white"
                 tools:text="Dit is een Artiest!" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:paddingTop="@dimen/material_card_title_block_large_subtitle_margin_top"
-                android:paddingLeft="@dimen/material_card_title_block_padding_horizontal"
-                android:paddingRight="@dimen/material_card_title_block_padding_horizontal"
-                android:paddingBottom="@dimen/material_card_title_block_large_padding_bottom_last_block"
+                android:id="@+id/date"
+                style="?textAppearanceSubtitle1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/date"
+                android:paddingLeft="@dimen/material_card_title_block_padding_horizontal"
+                android:paddingTop="@dimen/material_card_title_block_large_subtitle_margin_top"
+                android:paddingRight="@dimen/material_card_title_block_padding_horizontal"
+                android:paddingBottom="@dimen/material_card_title_block_large_padding_bottom_last_block"
                 android:textColor="@color/white"
-                tools:text="Datum Gisteren"
-                style="?textAppearanceSubtitle1" />
+                tools:text="Datum Gisteren" />
 
         </LinearLayout>
 

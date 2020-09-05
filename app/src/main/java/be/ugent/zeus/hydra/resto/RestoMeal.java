@@ -3,8 +3,9 @@ package be.ugent.zeus.hydra.resto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 import com.squareup.moshi.Json;
-import java9.util.Objects;
 
 /**
  * Represents a meal.
@@ -14,13 +15,32 @@ import java9.util.Objects;
  */
 public final class RestoMeal implements Parcelable {
 
+    public static final Parcelable.Creator<RestoMeal> CREATOR = new Parcelable.Creator<RestoMeal>() {
+        @Override
+        public RestoMeal createFromParcel(Parcel source) {
+            return new RestoMeal(source);
+        }
+
+        @Override
+        public RestoMeal[] newArray(int size) {
+            return new RestoMeal[size];
+        }
+    };
     private String name;
     private String price;
     private MealType type;
     private String kind;
 
-    @SuppressWarnings("unused") // Moshi uses this.
-    public RestoMeal() {}
+    public RestoMeal() {
+    }
+
+    private RestoMeal(Parcel in) {
+        this.name = in.readString();
+        this.price = in.readString();
+        int tmpType = in.readInt();
+        this.type = tmpType == -1 ? null : MealType.values()[tmpType];
+        this.kind = in.readString();
+    }
 
     public String getName() {
         return name;
@@ -54,14 +74,6 @@ public final class RestoMeal implements Parcelable {
         this.type = type;
     }
 
-    // TODO: replace by string to make extensible, as required per the API docs
-    public enum MealType {
-        @Json(name = "main")
-        MAIN,
-        @Json(name = "side")
-        SIDE
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -74,26 +86,6 @@ public final class RestoMeal implements Parcelable {
         dest.writeInt(this.type == null ? -1 : this.type.ordinal());
         dest.writeString(this.kind);
     }
-
-    private RestoMeal(Parcel in) {
-        this.name = in.readString();
-        this.price = in.readString();
-        int tmpType = in.readInt();
-        this.type = tmpType == -1 ? null : MealType.values()[tmpType];
-        this.kind = in.readString();
-    }
-
-    public static final Parcelable.Creator<RestoMeal> CREATOR = new Parcelable.Creator<RestoMeal>() {
-        @Override
-        public RestoMeal createFromParcel(Parcel source) {
-            return new RestoMeal(source);
-        }
-
-        @Override
-        public RestoMeal[] newArray(int size) {
-            return new RestoMeal[size];
-        }
-    };
 
     @Override
     public boolean equals(Object o) {
@@ -109,5 +101,13 @@ public final class RestoMeal implements Parcelable {
     @Override
     public int hashCode() {
         return Objects.hash(name, price, type, kind);
+    }
+
+    // TODO: replace by string to make extensible, as required per the API docs
+    public enum MealType {
+        @Json(name = "main")
+        MAIN,
+        @Json(name = "side")
+        SIDE
     }
 }

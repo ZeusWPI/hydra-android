@@ -6,9 +6,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
+import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.feed.cards.Card;
 
@@ -74,13 +72,13 @@ public abstract class DismissalDao {
     /**
      * Remove all saved dismissals for cards that are not in the given list of cards.
      *
-     * @param type The card type of the given cards.
+     * @param type     The card type of the given cards.
      * @param allCards All cards. Cards not present in this list will be removed from the repository.
      */
     public void prune(@Card.Type int type, List<Card> allCards) {
         Set<CardIdentifier> dismissals = new HashSet<>(getIdsForType(type));
 
-        Set<CardIdentifier> retained = StreamSupport.stream(allCards)
+        Set<CardIdentifier> retained = allCards.stream()
                 .map(c -> new CardIdentifier(c.getCardType(), c.getIdentifier()))
                 .collect(Collectors.toSet());
 

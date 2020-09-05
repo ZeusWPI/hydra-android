@@ -1,6 +1,7 @@
 package be.ugent.zeus.hydra.info;
 
 import android.view.View;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import org.junit.Test;
@@ -10,7 +11,7 @@ import org.robolectric.RobolectricTestRunner;
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 /**

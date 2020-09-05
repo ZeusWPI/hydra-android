@@ -51,7 +51,7 @@ public class RequestLiveData<M> extends BaseLiveData<Result<M>> {
                 setValue(m);
             }
         }
-        .execute();
+                .execute();
     }
 
     protected Context getContext() {

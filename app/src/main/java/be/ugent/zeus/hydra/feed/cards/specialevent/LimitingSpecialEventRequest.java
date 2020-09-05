@@ -4,6 +4,11 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
 import be.ugent.zeus.hydra.BuildConfig;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
@@ -13,12 +18,6 @@ import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
 import be.ugent.zeus.hydra.specialevent.SpecialEvent;
 import be.ugent.zeus.hydra.specialevent.SpecialEventRequest;
 import be.ugent.zeus.hydra.specialevent.SpecialEventWrapper;
-import java9.util.stream.Stream;
-import java9.util.stream.StreamSupport;
-import org.threeten.bp.OffsetDateTime;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Request wrapper to limit the number of requests that are shown.
@@ -32,6 +31,18 @@ public class LimitingSpecialEventRequest extends HideableHomeFeedRequest {
     public LimitingSpecialEventRequest(Context context, DismissalDao dismissalDao) {
         super(dismissalDao);
         this.remoteEventRequest = new SpecialEventRequest(context);
+    }
+
+    private static SpecialEvent buildDebugSko() {
+        SpecialEvent event = new SpecialEvent();
+        event.setId(-5);
+        event.setName("Student Kick-Off");
+        event.setSimpleText("Ga naar de info voor de Student Kick-Off");
+        event.setImage("http://blog.studentkickoff.be/wp-content/uploads/2016/07/logo.png");
+        event.setPriority(1010);
+        event.setInApp(SpecialEvent.SKO_IN_APP);
+        event.setDevelopment(true);
+        return event;
     }
 
     @NonNull
@@ -57,24 +68,12 @@ public class LimitingSpecialEventRequest extends HideableHomeFeedRequest {
                 }
             }
 
-            return StreamSupport.stream(list);
+            return list.stream();
         });
     }
 
     @Override
     public int getCardType() {
         return Card.Type.SPECIAL_EVENT;
-    }
-
-    private static SpecialEvent buildDebugSko() {
-        SpecialEvent event = new SpecialEvent();
-        event.setId(-5);
-        event.setName("Student Kick-Off");
-        event.setSimpleText("Ga naar de info voor de Student Kick-Off");
-        event.setImage("http://blog.studentkickoff.be/wp-content/uploads/2016/07/logo.png");
-        event.setPriority(1010);
-        event.setInApp(SpecialEvent.SKO_IN_APP);
-        event.setDevelopment(true);
-        return event;
     }
 }

@@ -19,8 +19,8 @@ import be.ugent.zeus.hydra.common.utils.NetworkUtils;
 class NoTabActivityHelper implements ActivityHelper {
 
     private final WeakReference<Activity> activity;
-    private int intentFlags;
     private final ConnectionCallback connectionCallback;
+    private int intentFlags;
 
     NoTabActivityHelper(Activity activity, @Nullable ConnectionCallback connectionCallback) {
         this.activity = new WeakReference<>(activity);
@@ -59,7 +59,8 @@ class NoTabActivityHelper implements ActivityHelper {
     }
 
     @Override
-    public void setShareMenu() {}
+    public void setShareMenu() {
+    }
 
     @Override
     public boolean mayLaunchUrl(Uri uri, Bundle extras, List<Bundle> otherLikelyBundles) {

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:singleLine="true"
+    android:textAlignment="inherit"
     android:textAppearance="?attr/textAppearanceBody2"
     android:textColor="?colorControlNormal"
-    tools:text="Selected spinner item"
-    android:textAlignment="inherit" />
+    tools:text="Selected spinner item" />

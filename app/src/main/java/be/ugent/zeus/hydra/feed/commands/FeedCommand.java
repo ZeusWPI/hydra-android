@@ -19,7 +19,7 @@ public interface FeedCommand {
     /**
      * Execute the command.
      *
-     * @return  Returns the type of card that should be refreshed.
+     * @return Returns the type of card that should be refreshed.
      */
     @Card.Type
     int execute(Context context);

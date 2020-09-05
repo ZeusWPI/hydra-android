@@ -6,24 +6,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationManagerCompat;
-import android.support.v4.media.MediaBrowserCompat;
 import androidx.core.content.ContextCompat;
 import androidx.media.MediaBrowserServiceCompat;
 import androidx.media.session.MediaButtonReceiver;
-import android.support.v4.media.session.MediaSessionCompat;
-import android.util.Log;
-
-import be.ugent.zeus.hydra.MainActivity;
-import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.reporting.Reporting;
-import be.ugent.zeus.hydra.common.reporting.Event;
-import be.ugent.zeus.hydra.urgent.player.*;
 
 import java.util.Collections;
 import java.util.List;
+
+import be.ugent.zeus.hydra.MainActivity;
+import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.common.reporting.Event;
+import be.ugent.zeus.hydra.common.reporting.Reporting;
+import be.ugent.zeus.hydra.urgent.player.Player;
+import be.ugent.zeus.hydra.urgent.player.PlayerSessionServiceCallback;
+import be.ugent.zeus.hydra.urgent.player.SessionPlayerServiceCallback;
+import be.ugent.zeus.hydra.urgent.player.UrgentTrackProvider;
 
 /**
  * Service for streaming audio from Urgent.fm.

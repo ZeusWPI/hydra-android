@@ -1,15 +1,14 @@
 package be.ugent.zeus.hydra.common.database;
 
-import androidx.sqlite.db.SupportSQLiteDatabase;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import org.threeten.bp.Instant;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.format.DateTimeFormatter;
-
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -61,8 +60,9 @@ public class TestUtils {
 
     /**
      * We assume the expected values have the correct type.
+     *
      * @param expected The expected value.
-     * @param actual The new values.
+     * @param actual   The new values.
      */
     @SuppressWarnings("IfStatementWithTooManyBranches")
     public static void assertContent(ContentValues expected, ContentValues actual) {

@@ -1,5 +1,13 @@
 package be.ugent.zeus.hydra.testing.matcher;
 
+import java.lang.reflect.Field;
+import java.time.ZonedDateTime;
+import java.time.chrono.ChronoZonedDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -7,19 +15,12 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.hamcrest.core.IsEqual;
-import org.threeten.bp.chrono.ChronoZonedDateTime;
-
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 
 /**
  * An improved version of SamePropertyValues from Hamcrest, but with support for custom matchers for custom types.
  *
- * The intended use case is matching {@link org.threeten.bp.ZonedDateTime}, which don't use the "equals" method to see
- * if they are logically the same object (they use {@link org.threeten.bp.ZonedDateTime#isEqual(ChronoZonedDateTime)}).
+ * The intended use case is matching {@link ZonedDateTime}, which don't use the "equals" method to see
+ * if they are logically the same object (they use {@link ZonedDateTime#isEqual(ChronoZonedDateTime)}).
  *
  * @author Niko Strijbol
  */
@@ -34,6 +35,20 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
         this.fields = new Fields<>((Class<T>) expectedBean.getClass());
         this.matcherMap = new HashMap<>();
         this.expectedBean = expectedBean;
+    }
+
+    /**
+     * Creates a matcher that matches when the examined object has values for all of
+     * its JavaBean properties that are equal to the corresponding values of the
+     * specified bean.
+     * <p>
+     * For example:
+     * <pre>assertThat(myBean, sameFieldsAs(myExpectedBean))</pre>
+     *
+     * @param expectedBean the bean against which examined beans are compared
+     */
+    public static <T> ShallowButFullEqual<T> sameFieldsAs(T expectedBean) {
+        return new ShallowButFullEqual<>(expectedBean);
     }
 
     @Override
@@ -87,20 +102,6 @@ public class ShallowButFullEqual<T> extends TypeSafeDiagnosingMatcher<T> {
             mismatchDescription.appendText(" error occurred while accessing field.");
             return false;
         }
-    }
-
-    /**
-     * Creates a matcher that matches when the examined object has values for all of
-     * its JavaBean properties that are equal to the corresponding values of the
-     * specified bean.
-     * <p>
-     * For example:
-     * <pre>assertThat(myBean, sameFieldsAs(myExpectedBean))</pre>
-     *
-     * @param expectedBean the bean against which examined beans are compared
-     */
-    public static <T> ShallowButFullEqual<T> sameFieldsAs(T expectedBean) {
-        return new ShallowButFullEqual<>(expectedBean);
     }
 
     @SuppressWarnings("unchecked")

@@ -1,10 +1,10 @@
 package be.ugent.zeus.hydra.association.event.list;
 
 import java.util.Locale;
+import java.util.function.BiPredicate;
 
 import be.ugent.zeus.hydra.association.Association;
 import be.ugent.zeus.hydra.association.event.Event;
-import java9.util.function.BiPredicate;
 
 /**
  * Searches a list of events for things that match.

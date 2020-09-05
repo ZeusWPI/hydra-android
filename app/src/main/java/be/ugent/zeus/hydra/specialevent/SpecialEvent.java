@@ -5,10 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 import androidx.annotation.NonNull;
 
+import java.time.OffsetDateTime;
+import java.util.Objects;
+
 import be.ugent.zeus.hydra.sko.OverviewActivity;
 import com.squareup.moshi.Json;
-import java9.util.Objects;
-import org.threeten.bp.OffsetDateTime;
 
 /**
  * Model for special events.
@@ -105,6 +106,10 @@ public final class SpecialEvent {
         return development;
     }
 
+    public void setDevelopment(boolean development) {
+        this.development = development;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -137,9 +142,5 @@ public final class SpecialEvent {
 
     public void setInApp(String inApp) {
         this.inApp = inApp;
-    }
-
-    public void setDevelopment(boolean development) {
-        this.development = development;
     }
 }

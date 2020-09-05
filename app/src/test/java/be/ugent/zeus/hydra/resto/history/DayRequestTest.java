@@ -1,5 +1,7 @@
 package be.ugent.zeus.hydra.resto.history;
 
+import java.time.LocalDate;
+
 import be.ugent.zeus.hydra.common.network.AbstractJsonRequestTest;
 import be.ugent.zeus.hydra.common.network.JsonOkHttpRequest;
 import be.ugent.zeus.hydra.common.request.Request;
@@ -8,7 +10,6 @@ import be.ugent.zeus.hydra.resto.RestoMenu;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.threeten.bp.LocalDate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.endsWith;

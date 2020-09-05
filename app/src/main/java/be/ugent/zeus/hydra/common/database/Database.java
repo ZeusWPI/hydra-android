@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.common.database;
 
 import android.content.Context;
-
 import androidx.annotation.VisibleForTesting;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -30,13 +29,12 @@ import static be.ugent.zeus.hydra.common.database.Database.VERSION;
 @TypeConverters(DateTypeConverters.class)
 public abstract class Database extends RoomDatabase {
 
-    private static final Object LOCK = new Object();
-
     /**
      * The current version of the database. When changing this value, you must provide a appropriate migration, or the
      * app will crash.
      */
     static final int VERSION = 16;
+    private static final Object LOCK = new Object();
     /**
      * The current name of the database. Should not change.
      *

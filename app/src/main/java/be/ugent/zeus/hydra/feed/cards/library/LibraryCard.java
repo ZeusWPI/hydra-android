@@ -3,8 +3,7 @@ package be.ugent.zeus.hydra.feed.cards.library;
 import android.util.Pair;
 
 import java.util.List;
-
-import java9.util.Optional;
+import java.util.Optional;
 
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.cards.Card;

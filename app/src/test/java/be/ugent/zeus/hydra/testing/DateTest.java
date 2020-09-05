@@ -2,7 +2,6 @@ package be.ugent.zeus.hydra.testing;
 
 import android.content.Context;
 import android.content.res.Resources;
-
 import androidx.test.core.app.ApplicationProvider;
 
 import java.util.Locale;

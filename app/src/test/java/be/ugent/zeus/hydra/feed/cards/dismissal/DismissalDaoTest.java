@@ -1,7 +1,6 @@
 package be.ugent.zeus.hydra.feed.cards.dismissal;
 
 import android.content.Context;
-
 import androidx.annotation.RequiresApi;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
@@ -10,6 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +18,6 @@ import be.ugent.zeus.hydra.TestApp;
 import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.testing.Utils;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -26,7 +25,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 import org.robolectric.annotation.LooperMode;
-import org.threeten.bp.Instant;
 
 import static be.ugent.zeus.hydra.testing.Assert.assertThat;
 import static be.ugent.zeus.hydra.testing.Assert.*;
@@ -52,6 +50,10 @@ public class DismissalDaoTest {
     private Database database;
     private DismissalDao dismissalDao;
     private List<CardDismissal> cards;
+
+    private static Instant p(String d) {
+        return Instant.parse(d);
+    }
 
     @Before
     public void setUp() throws IOException {
@@ -85,10 +87,6 @@ public class DismissalDaoTest {
         assertEquals("Error during data loading.", cards.size(), inserts.size());
     }
 
-    private static Instant p(String d) {
-        return Instant.parse(d);
-    }
-
     @Test
     public void shouldGetOneType_WhenRequestingOneType() {
         List<CardDismissal> expected = cards.stream()
@@ -116,7 +114,7 @@ public class DismissalDaoTest {
         assertTrue(dismissals.contains(update));
         // Find the actual update.
         CardDismissal found = null;
-        for (CardDismissal fromDb: dismissals) {
+        for (CardDismissal fromDb : dismissals) {
             if (fromDb.equals(update)) {
                 found = fromDb;
             }
@@ -141,7 +139,7 @@ public class DismissalDaoTest {
                 .map(d -> d.getIdentifier().getCardType())
                 .distinct()
                 .collect(Collectors.toList());
-        for (int cardType: cardTypes) {
+        for (int cardType : cardTypes) {
             assertThat(dismissalDao.getForType(cardType), is(empty()));
         }
     }

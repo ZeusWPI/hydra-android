@@ -10,4 +10,5 @@
     @drawable/info_mapmarker,
     @drawable/info_more,
     @drawable/info_sports,
-    @drawable/info_ufora" />
+    @drawable/info_ufora,
+    @raw/maps"/>

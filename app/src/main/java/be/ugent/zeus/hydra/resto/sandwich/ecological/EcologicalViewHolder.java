@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.appcompat.content.res.AppCompatResources;
 
 import be.ugent.zeus.hydra.R;
@@ -45,7 +44,7 @@ class EcologicalViewHolder extends DataViewHolder<EcologicalSandwich> {
             Drawable image = AppCompatResources.getDrawable(c, R.drawable.resto_vegan);
             name.setCompoundDrawablesWithIntrinsicBounds(null, null, image, null);
         } else {
-            name.setCompoundDrawables(null ,null, null, null);
+            name.setCompoundDrawables(null, null, null, null);
         }
         dates.setText(String.format(c.getString(R.string.date_between), start, end));
         String ingredientsString = TextUtils.join(", ", sandwich.getIngredients());

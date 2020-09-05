@@ -6,9 +6,10 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.function.Function;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
-import java9.util.function.Function;
 
 /*
  * ViewHolder for MultiSelectLists with both a title and description for each item.

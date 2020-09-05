@@ -1,9 +1,9 @@
 package be.ugent.zeus.hydra.common.arch.data;
 
-import androidx.lifecycle.LiveData;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 
 /**
  * A basic live data, that supports requesting a refresh of the data.
@@ -12,17 +12,16 @@ import androidx.annotation.Nullable;
  */
 public abstract class BaseLiveData<R> extends LiveData<R> {
 
-    @Nullable
-    private Bundle queuedRefresh;
-    @Nullable
-    private OnRefreshStartListener onRefreshStartListener;
-
     /**
      * Set this argument to {@code true} in the arguments for a request to bypass any potential cache. Note that this
      * is more of a suggestion than a requirement: the underling data provider may still return cached data if it deems
      * it appropriate, e.g. when there is no network.
      */
     public static final String REFRESH_COLD = "be.ugent.zeus.hydra.data.refresh.cold";
+    @Nullable
+    private Bundle queuedRefresh;
+    @Nullable
+    private OnRefreshStartListener onRefreshStartListener;
 
     /**
      * Same as {@link #flagForRefresh(Bundle)}, using {@link Bundle#EMPTY} as argument.
@@ -79,6 +78,10 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
         this.loadData(Bundle.EMPTY);
     }
 
+    public void registerRefreshListener(OnRefreshStartListener listener) {
+        onRefreshStartListener = listener;
+    }
+
     @FunctionalInterface
     public interface OnRefreshStartListener {
 
@@ -86,9 +89,5 @@ public abstract class BaseLiveData<R> extends LiveData<R> {
          * Starts when the refresh begins.
          */
         void onRefreshStart();
-    }
-
-    public void registerRefreshListener(OnRefreshStartListener listener) {
-        onRefreshStartListener = listener;
     }
 }

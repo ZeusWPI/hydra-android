@@ -3,6 +3,13 @@ package be.ugent.zeus.hydra.feed.commands;
 import android.app.Activity;
 import android.content.Context;
 import androidx.annotation.NonNull;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import be.ugent.zeus.hydra.common.reporting.Event;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Tracker;
@@ -11,12 +18,6 @@ import be.ugent.zeus.hydra.feed.cards.dismissal.CardDismissal;
 import be.ugent.zeus.hydra.feed.cards.dismissal.CardIdentifier;
 import be.ugent.zeus.hydra.feed.cards.dismissal.DismissalDao;
 import org.junit.Test;
-import org.threeten.bp.Instant;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

@@ -9,13 +9,13 @@ import androidx.annotation.AttrRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.WebViewActivity;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
 import be.ugent.zeus.hydra.common.utils.NetworkUtils;
-
-import java.util.ArrayList;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 
 /**
  * The type of information (external url/app, internal url, ...).
@@ -76,8 +76,8 @@ public enum InfoType {
         }
     };
 
-    private final int drawable;
     private static final int NO_DRAWABLE = 0;
+    private final int drawable;
 
     /**
      * @param drawable The ID of the vector drawable.
@@ -96,7 +96,7 @@ public enum InfoType {
     /**
      * Get the drawable for this category.
      *
-     * @param context The context.
+     * @param context   The context.
      * @param attribute The attribute to colour the drawable in.
      *
      * @return The drawable or null if there is no drawable.
@@ -115,7 +115,7 @@ public enum InfoType {
     /**
      * The intent to be started for this type.
      *
-     * @param context The context to launch the intent.
+     * @param context  The context to launch the intent.
      * @param infoItem The item.
      */
     public abstract void doOnClick(Context context, ActivityHelper helper, InfoItem infoItem);

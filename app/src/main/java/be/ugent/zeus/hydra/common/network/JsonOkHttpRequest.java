@@ -3,26 +3,24 @@ package be.ugent.zeus.hydra.common.network;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.JsonDataException;
-import com.squareup.moshi.Moshi;
-
-import org.threeten.bp.Duration;
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
+import androidx.annotation.WorkerThread;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.UnknownServiceException;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.VisibleForTesting;
-import androidx.annotation.WorkerThread;
 import be.ugent.zeus.hydra.common.arch.data.BaseLiveData;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
 import be.ugent.zeus.hydra.common.reporting.Tracker;
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.request.Result;
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.JsonDataException;
+import com.squareup.moshi.Moshi;
 import okhttp3.CacheControl;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;

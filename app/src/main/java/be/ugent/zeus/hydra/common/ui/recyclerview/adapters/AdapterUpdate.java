@@ -1,10 +1,10 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
-import java.util.List;
-
 import androidx.annotation.AnyThread;
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
+
+import java.util.List;
 
 /**
  * Represents a data update for an {@link DiffAdapter}.
@@ -16,6 +16,7 @@ interface AdapterUpdate<D> {
      * {@link #applyUpdatesTo(ListUpdateCallback)} is called.
      *
      * @param existingData The existing data. Will no longer be used after this call. Null if there is no existing data.
+     *
      * @return The new data. May be the same as the existing data. Null if no data is available.
      */
     @Nullable

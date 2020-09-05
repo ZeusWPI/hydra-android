@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="media_control_image">64dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
@@ -29,18 +29,19 @@
 
     <dimen name="card_actions_padding">8dp</dimen>
 
-    <dimen name="card_title_size_large">24sp</dimen>
-    <dimen name="card_title_size_small">14sp</dimen>
-    <dimen name="card_title_size_subtitle">14sp</dimen>
+    <dimen name="card_title_size_large" tools:ignore="UnusedResources">24sp</dimen>
+    <dimen name="card_title_size_small" tools:ignore="UnusedResources">14sp</dimen>
+    <dimen name="card_title_size_subtitle" tools:ignore="UnusedResources">14sp</dimen>
 
     <dimen name="card_title_padding_vertical">16dp</dimen>
 
     <dimen name="card_title_padding_top">16dp</dimen>
-    <dimen name="card_title_padding_top_large_title">24dp</dimen>
+    <dimen name="card_title_padding_top_large_title" tools:ignore="UnusedResources">24dp</dimen>
     <dimen name="card_title_padding_bottom">16dp</dimen>
     <dimen name="card_title_padding_bottom_no_content">24dp</dimen>
+    <dimen name="card_title_padding_bottom_subtitle" tools:ignore="UnusedResources">12dp</dimen>
 
-    <dimen name="card_text_size">14sp</dimen>
+    <dimen name="card_text_size" tools:ignore="UnusedResources">14sp</dimen>
 
     <dimen name="card_text_padding_vertical">16dp</dimen>
     <dimen name="card_text_padding_top">16dp</dimen>
@@ -52,23 +53,16 @@
     <dimen name="list_two_line_padding_vertical">16dp</dimen>
     <!-- This should be 20, but we use 16, since 20 is ugly -->
     <dimen name="list_two_line_padding_horizontal">16dp</dimen>
-    <dimen name="list_two_line_primary_text_size">16sp</dimen>
-    <dimen name="list_two_line_secondary_text_size">14sp</dimen>
-    <dimen name="list_two_line_margin_horizontal">8dp</dimen>
-
-    <dimen name="list_dense_two_line_padding_vertical">8dp</dimen>
-    <dimen name="list_dense_two_line_padding_horizontal">8dp</dimen>
-    <dimen name="list_dense_two_line_primary_text_size">13sp</dimen>
-    <dimen name="list_dense_two_line_secondary_text_size">13sp</dimen>
-    <dimen name="list_dense_two_line_margin_horizontal">4dp</dimen>
+    <dimen name="list_two_line_primary_text_size" tools:ignore="UnusedResources">16sp</dimen>
+    <dimen name="list_two_line_secondary_text_size" tools:ignore="UnusedResources">14sp</dimen>
+    <dimen name="list_two_line_margin_horizontal" tools:ignore="UnusedResources">8dp</dimen>
 
     <!-- Material design for one-line list -->
     <dimen name="list_one_line_padding_vertical">16dp</dimen>
     <dimen name="list_one_line_padding_horizontal">16dp</dimen>
-    <dimen name="list_one_line_text_size">16sp</dimen>
+    <dimen name="list_one_line_text_size" tools:ignore="UnusedResources">16sp</dimen>
 
     <dimen name="hero_image_height">256dp</dimen>
-    <dimen name="card_title_padding_bottom_subtitle">12dp</dimen>
 
     <!-- Urgent social buttons -->
     <dimen name="urgent_social_icon_size">64dp</dimen>

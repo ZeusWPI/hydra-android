@@ -2,8 +2,8 @@ package be.ugent.zeus.hydra.common;
 
 import android.net.Uri;
 
-import be.ugent.zeus.hydra.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.common.ui.customtabs.ActivityHelper;
+import be.ugent.zeus.hydra.news.UgentNewsArticle;
 import be.ugent.zeus.hydra.schamper.Article;
 import be.ugent.zeus.hydra.testing.RobolectricUtils;
 import org.junit.Test;

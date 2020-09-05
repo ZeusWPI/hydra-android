@@ -23,9 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
+import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.PartialErrorObserver;
@@ -273,7 +271,8 @@ public class LibraryDetailActivity extends BaseActivity<ActivityLibraryDetailsBi
             parts.add(campus);
         }
         parts.addAll(library.getAddress());
-        return StreamSupport.stream(parts).collect(Collectors.joining("\n"));
+        //noinspection SimplifyStreamApiCallChains
+        return parts.stream().collect(Collectors.joining("\n"));
     }
 
     private void onError(Throwable throwable) {

@@ -1,9 +1,8 @@
 package be.ugent.zeus.hydra.association.event.list;
 
-import java9.util.function.Function;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Remove headers that have no more events.

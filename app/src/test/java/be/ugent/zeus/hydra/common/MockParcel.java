@@ -5,13 +5,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Size;
 import android.util.SizeF;
-import org.mockito.exceptions.base.MockitoException;
-import org.mockito.stubbing.Answer;
 
 import java.io.FileDescriptor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.mockito.exceptions.base.MockitoException;
+import org.mockito.stubbing.Answer;
 
 import static org.mockito.Mockito.*;
 
@@ -21,12 +22,21 @@ import static org.mockito.Mockito.*;
  *
  * When a method is used that is not stubbed, an exception is thrown.
  *
- * @see <a href="https://gist.github.com/Sloy/d59a36e6c51214d0b131">here</a>
- *
  * @author Niko Strijbol
+ * @see <a href="https://gist.github.com/Sloy/d59a36e6c51214d0b131">here</a>
  */
 @SuppressLint("NewApi")
 public class MockParcel {
+
+    private final Parcel mockedParcel;
+    private final List<Object> objects = new ArrayList<>();
+    private int position;
+    private MockParcel() {
+        mockedParcel = mock(Parcel.class, invocation -> {
+            throw new MockitoException("Method not mocked: " + invocation.getMethod().getName());
+        });
+        setupMock();
+    }
 
     /**
      * @return A parcel.
@@ -35,15 +45,18 @@ public class MockParcel {
         return new MockParcel().mockedParcel;
     }
 
-    private final Parcel mockedParcel;
-    private int position;
-    private final List<Object> objects = new ArrayList<>();
-
-    private MockParcel() {
-        mockedParcel = mock(Parcel.class, invocation -> {
-            throw new MockitoException("Method not mocked: " + invocation.getMethod().getName());
-        });
-        setupMock();
+    /**
+     * Writes a parcelable to a parcel, and sets the position of the parcel so it is ready to read from.
+     *
+     * @param parcelable Object to write.
+     *
+     * @return Parcel with position 0.
+     */
+    public static Parcel writeToParcelable(Parcelable parcelable) {
+        Parcel parcel = obtain();
+        parcelable.writeToParcel(parcel, 0);
+        parcel.setDataPosition(0);
+        return parcel;
     }
 
     /**
@@ -113,19 +126,5 @@ public class MockParcel {
         doAnswer(answer).when(mockedParcel).createBooleanArray();
         doAnswer(answer).when(mockedParcel).createTypedArrayList(any());
         doAnswer(answer).when(mockedParcel).readParcelable(any(ClassLoader.class));
-    }
-
-    /**
-     * Writes a parcelable to a parcel, and sets the position of the parcel so it is ready to read from.
-     *
-     * @param parcelable Object to write.
-     *
-     * @return Parcel with position 0.
-     */
-    public static Parcel writeToParcelable(Parcelable parcelable) {
-        Parcel parcel = obtain();
-        parcelable.writeToParcel(parcel, 0);
-        parcel.setDataPosition(0);
-        return parcel;
     }
 }

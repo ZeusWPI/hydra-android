@@ -3,6 +3,13 @@ package be.ugent.zeus.hydra.association.event.list;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import be.ugent.zeus.hydra.association.event.Event;
 import be.ugent.zeus.hydra.common.network.InstanceProvider;
 import be.ugent.zeus.hydra.testing.Utils;
@@ -10,13 +17,6 @@ import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
 import org.junit.Before;
 import org.junit.Test;
-import org.threeten.bp.LocalDate;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -49,7 +49,7 @@ public class EventListConverterTest {
         boolean previousWasFirstOfSection = false;
 
         // Check the first event manually.
-        for (EventItem item: result) {
+        for (EventItem item : result) {
             if (previousWasLastOfSection) {
                 assertTrue(item.isHeader());
                 previousWasHeader = true;

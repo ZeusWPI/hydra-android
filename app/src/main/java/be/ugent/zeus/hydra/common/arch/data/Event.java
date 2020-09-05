@@ -1,6 +1,6 @@
 package be.ugent.zeus.hydra.common.arch.data;
 
-import java9.util.Optional;
+import java.util.Optional;
 
 /**
  * An event represents an one-off user action.

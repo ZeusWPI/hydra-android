@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.feed.operations;
 
-import java9.util.function.IntPredicate;
-import java9.util.function.Supplier;
+import java.util.function.IntPredicate;
+import java.util.function.Supplier;
 
 import be.ugent.zeus.hydra.feed.HomeFeedRequest;
 import be.ugent.zeus.hydra.feed.cards.Card;

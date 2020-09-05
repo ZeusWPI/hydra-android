@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.feed;
 
-import be.ugent.zeus.hydra.feed.operations.FeedOperation;
 import be.ugent.zeus.hydra.common.ExtendedSparseArray;
+import be.ugent.zeus.hydra.feed.operations.FeedOperation;
 
 /**
  * A dict or {@link java.util.Map}-like data structure that maps the {@link be.ugent.zeus.hydra.feed.cards.Card.Type}

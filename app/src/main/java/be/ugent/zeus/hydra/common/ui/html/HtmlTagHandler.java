@@ -17,7 +17,6 @@
  */
 package be.ugent.zeus.hydra.common.ui.html;
 
-import androidx.annotation.Nullable;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Layout;
@@ -27,10 +26,12 @@ import android.text.style.BulletSpan;
 import android.text.style.LeadingMarginSpan;
 import android.text.style.TypefaceSpan;
 import android.util.Log;
-import org.xml.sax.XMLReader;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.xml.sax.XMLReader;
 
 /**
  * Custom HTML tag handler to support more tags.
@@ -57,47 +58,8 @@ import java.util.List;
 public class HtmlTagHandler implements Html.TagHandler {
 
     private static final String TAG = "TagHandler";
-
-    private int listItemCount;
     private final List<String> listParents = new ArrayList<>();
-
-    private static class Code {
-    }
-
-    private static class Center {
-    }
-
-    @Override
-    public void handleTag(boolean opening, String tag, Editable output, XMLReader xmlReader) {
-        boolean isList = tag.equalsIgnoreCase("ul") || tag.equalsIgnoreCase("ol") || tag.equalsIgnoreCase("dd");
-        if (opening) {
-            // opening tag
-            Log.v(TAG, "opening, output: " + output.toString());
-
-            if (isList) {
-                listParents.add(tag);
-                listItemCount = 0;
-            } else if (tag.equalsIgnoreCase("code")) {
-                start(output, new Code());
-            } else if (tag.equalsIgnoreCase("center")) {
-                start(output, new Center());
-            }
-        } else {
-            // closing tag
-            Log.v(TAG, "closing, output: " + output.toString());
-
-            if (isList) {
-                listParents.remove(tag);
-                listItemCount = 0;
-            } else if (tag.equalsIgnoreCase("li")) {
-                handleListTag(output);
-            } else if (tag.equalsIgnoreCase("code")) {
-                end(output, Code.class, new TypefaceSpan("monospace"), false);
-            } else if (tag.equalsIgnoreCase("center")) {
-                end(output, Center.class, new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), true);
-            }
-        }
-    }
+    private int listItemCount;
 
     /**
      * Mark the opening tag by using private classes
@@ -136,6 +98,7 @@ public class HtmlTagHandler implements Html.TagHandler {
      *
      * @param text The text.
      * @param kind The kind of tag.
+     *
      * @return The last marked position.
      */
     @Nullable
@@ -149,6 +112,38 @@ public class HtmlTagHandler implements Html.TagHandler {
             }
         }
         return null;
+    }
+
+    @Override
+    public void handleTag(boolean opening, String tag, Editable output, XMLReader xmlReader) {
+        boolean isList = tag.equalsIgnoreCase("ul") || tag.equalsIgnoreCase("ol") || tag.equalsIgnoreCase("dd");
+        if (opening) {
+            // opening tag
+            Log.v(TAG, "opening, output: " + output.toString());
+
+            if (isList) {
+                listParents.add(tag);
+                listItemCount = 0;
+            } else if (tag.equalsIgnoreCase("code")) {
+                start(output, new Code());
+            } else if (tag.equalsIgnoreCase("center")) {
+                start(output, new Center());
+            }
+        } else {
+            // closing tag
+            Log.v(TAG, "closing, output: " + output.toString());
+
+            if (isList) {
+                listParents.remove(tag);
+                listItemCount = 0;
+            } else if (tag.equalsIgnoreCase("li")) {
+                handleListTag(output);
+            } else if (tag.equalsIgnoreCase("code")) {
+                end(output, Code.class, new TypefaceSpan("monospace"), false);
+            } else if (tag.equalsIgnoreCase("center")) {
+                end(output, Center.class, new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), true);
+            }
+        }
     }
 
     private void handleListTag(Editable output) {
@@ -170,5 +165,11 @@ public class HtmlTagHandler implements Html.TagHandler {
             output.insert(start, listItemCount + ". ");
             output.setSpan(new LeadingMarginSpan.Standard(15 * listParents.size()), start, output.length(), 0);
         }
+    }
+
+    private static class Code {
+    }
+
+    private static class Center {
     }
 }

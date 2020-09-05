@@ -1,8 +1,9 @@
 package be.ugent.zeus.hydra.association.event.list;
 
+import java.time.LocalDate;
+import java.util.Objects;
+
 import be.ugent.zeus.hydra.association.event.Event;
-import java9.util.Objects;
-import org.threeten.bp.LocalDate;
 
 /**
  * Data structure for a list of events. The contains an item, a header or a footer, but only one of the elements.

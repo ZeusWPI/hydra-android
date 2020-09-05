@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2018 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -56,20 +56,16 @@ class DependencyTask extends DefaultTask {
 
     private static final logger = LoggerFactory.getLogger(DependencyTask.class)
 
-    protected String variant
-
     @Input
-    public ConfigurationContainer configurations
-
-    @OutputDirectory
-    public File outputDir
+    String variant
+    
+    public ConfigurationContainer configurations = project.getConfigurations()
 
     @OutputFile
-    public File outputFile
+    File outputFile
 
     @TaskAction
     void action() {
-        initOutput()
         updateDependencyArtifacts()
 
         if (outputFile.exists() && checkArtifactSet(outputFile)) {
@@ -231,11 +227,5 @@ class DependencyTask extends DefaultTask {
             }
         }
         return resolvedArtifacts
-    }
-
-    private void initOutput() {
-        if (!outputDir.exists()) {
-            outputDir.mkdirs()
-        }
     }
 }

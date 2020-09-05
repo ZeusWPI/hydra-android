@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/no_data_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/list_two_line_padding_vertical"
-    android:paddingRight="@dimen/list_two_line_padding_vertical"
     android:paddingTop="@dimen/list_two_line_padding_horizontal"
+    android:paddingRight="@dimen/list_two_line_padding_vertical"
     android:paddingBottom="@dimen/list_two_line_padding_horizontal"
-    android:textSize="@dimen/material_list_normal_primary_text_size"
-    android:id="@+id/no_data_view"
-    android:text="@string/no_items" />
+    android:text="@string/no_items"
+    android:textSize="@dimen/material_list_normal_primary_text_size" />

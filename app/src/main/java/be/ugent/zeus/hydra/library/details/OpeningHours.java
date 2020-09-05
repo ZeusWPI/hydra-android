@@ -1,8 +1,9 @@
 package be.ugent.zeus.hydra.library.details;
 
+import java.time.LocalDate;
+import java.util.Objects;
+
 import com.squareup.moshi.Json;
-import java9.util.Objects;
-import org.threeten.bp.LocalDate;
 
 /**
  * @author Niko Strijbol

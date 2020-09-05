@@ -3,10 +3,11 @@ package be.ugent.zeus.hydra.feed.cards.urgent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
-import be.ugent.zeus.hydra.feed.cards.Card;
+import java.util.stream.Stream;
+
 import be.ugent.zeus.hydra.common.request.Result;
 import be.ugent.zeus.hydra.feed.HomeFeedRequest;
-import java9.util.stream.Stream;
+import be.ugent.zeus.hydra.feed.cards.Card;
 
 /**
  * @author Niko Strijbol

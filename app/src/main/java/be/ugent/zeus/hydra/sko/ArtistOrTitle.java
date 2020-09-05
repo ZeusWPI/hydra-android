@@ -2,7 +2,7 @@ package be.ugent.zeus.hydra.sko;
 
 import androidx.annotation.NonNull;
 
-import java9.util.Objects;
+import java.util.Objects;
 
 /**
  * Contains an artist or a title, but not both and not neither.

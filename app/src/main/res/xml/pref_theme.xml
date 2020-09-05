@@ -2,43 +2,43 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        app:title="@string/pref_theme_night_mode_title"
-        app:iconSpaceReserved="false">
+        app:iconSpaceReserved="false"
+        app:title="@string/pref_theme_night_mode_title">
         <ListPreference
             app:iconSpaceReserved="false"
             app:key="pref_theme_night_mode"
-            app:title="@string/pref_theme_use_night_title"
-            app:summary="%s" />
+            app:summary="%s"
+            app:title="@string/pref_theme_use_night_title" />
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:title="@string/pref_theme_explanations"
-        app:iconSpaceReserved="false">
+        app:iconSpaceReserved="false"
+        app:title="@string/pref_theme_explanations">
         <Preference
             app:iconSpaceReserved="false"
             app:key="pref_theme_battery"
             app:persistent="false"
-            app:title="@string/pref_theme_night_mode_battery"
-            app:summary="@string/pref_theme_night_mode_battery_desc" />
+            app:summary="@string/pref_theme_night_mode_battery_desc"
+            app:title="@string/pref_theme_night_mode_battery" />
 
         <Preference
             app:iconSpaceReserved="false"
             app:key="pref_theme_system"
             app:persistent="false"
-            app:title="@string/pref_theme_night_mode_system"
-            app:summary="@string/pref_theme_night_mode_system_desc" />
+            app:summary="@string/pref_theme_night_mode_system_desc"
+            app:title="@string/pref_theme_night_mode_system" />
 
         <Preference
             app:iconSpaceReserved="false"
             app:persistent="false"
-            app:title="@string/pref_theme_night_mode_never"
-            app:summary="@string/pref_theme_night_mode_never_desc" />
+            app:summary="@string/pref_theme_night_mode_never_desc"
+            app:title="@string/pref_theme_night_mode_never" />
 
         <Preference
             app:iconSpaceReserved="false"
             app:persistent="false"
-            app:title="@string/pref_theme_night_mode_always"
-            app:summary="@string/pref_theme_night_mode_always_desc" />
+            app:summary="@string/pref_theme_night_mode_always_desc"
+            app:title="@string/pref_theme_night_mode_always" />
 
     </PreferenceCategory>
 </PreferenceScreen>

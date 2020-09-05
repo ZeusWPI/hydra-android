@@ -2,11 +2,12 @@ package be.ugent.zeus.hydra.common.ui.recyclerview;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import android.view.View;
+
 import be.ugent.zeus.hydra.R;
 
 /**

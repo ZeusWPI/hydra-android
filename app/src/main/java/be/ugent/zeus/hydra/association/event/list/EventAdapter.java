@@ -1,12 +1,12 @@
 package be.ugent.zeus.hydra.association.event.list;
 
-import androidx.annotation.NonNull;
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.SearchableAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 
 /**
  * Adapter for the list of activities.

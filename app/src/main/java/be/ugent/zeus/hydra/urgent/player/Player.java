@@ -6,16 +6,15 @@ import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.os.Build;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.media.AudioAttributesCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
-
-import java9.util.stream.IntStream;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.media.AudioAttributesCompat;
 
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 import static be.ugent.zeus.hydra.urgent.player.MediaStateListener.State.*;
 
@@ -48,7 +47,25 @@ public class Player {
 
     private static final float MEDIA_VOLUME_DEFAULT = 1.0f;
     private static final float MEDIA_VOLUME_DUCK = 0.2f;
-
+    /**
+     * The internal media player.
+     */
+    private final InternalPlayer mediaPlayer;
+    /**
+     * The internal audio manager.
+     */
+    private final AudioManager audioManager;
+    /**
+     * The internal audio attributes.
+     */
+    private final AudioAttributesCompat audioAttributes;
+    /**
+     * Listener for audio focus changes.
+     */
+    private final AudioManager.OnAudioFocusChangeListener focusChangeListener;
+    private final UrgentTrackProvider provider;
+    private final Context context;
+    private final MetadataListener metadataListener;
     /**
      * Indicates if the player should start playing if the state becomes
      * {@link be.ugent.zeus.hydra.urgent.player.MediaStateListener.State#PREPARED}.
@@ -56,42 +73,14 @@ public class Player {
      * This is modifiable in this package.
      */
     boolean shouldPlayWhenReady = false;
-
-    /**
-     * The internal media player.
-     */
-    private final InternalPlayer mediaPlayer;
-
-    /**
-     * The internal audio manager.
-     */
-    private final AudioManager audioManager;
-
-    /**
-     * The internal audio attributes.
-     */
-    private final AudioAttributesCompat audioAttributes;
-
-    /**
-     * Listener for audio focus changes.
-     */
-    private final AudioManager.OnAudioFocusChangeListener focusChangeListener;
-
     /**
      * Internal request.
      */
     private AudioFocusRequest audioFocusRequest;
-
-    private final UrgentTrackProvider provider;
-
-    private final Context context;
-
     /**
      * The volume we want. This is changed as a response to audio focus things.
      */
     private float volume = MEDIA_VOLUME_DEFAULT;
-
-    private final MetadataListener metadataListener;
 
     private Player(Context context,
                    AudioManager manager,
@@ -231,7 +220,7 @@ public class Player {
 
     private void requestAudioFocus() {
         int result;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= 26) {
             result = requestAudioFocusOreo();
         } else {
             //noinspection deprecation
@@ -250,7 +239,7 @@ public class Player {
     }
 
     private void abandonAudioFocus() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= 26) {
             abandonAudioFocusOreo();
         } else {
             //noinspection deprecation

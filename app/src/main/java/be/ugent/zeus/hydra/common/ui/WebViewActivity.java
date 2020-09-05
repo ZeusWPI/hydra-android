@@ -1,14 +1,13 @@
 package be.ugent.zeus.hydra.common.ui;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import be.ugent.zeus.hydra.common.network.InterceptingWebViewClient;
 import be.ugent.zeus.hydra.databinding.ActivityWebviewBinding;
 
 /**
@@ -28,7 +27,7 @@ public class WebViewActivity extends BaseActivity<ActivityWebviewBinding> {
         setContentView(ActivityWebviewBinding::inflate);
 
         binding.webView.getSettings().setJavaScriptEnabled(true);
-        binding.webView.setWebViewClient(new ProgressClient(binding.progressBar.progressBar, this));
+        binding.webView.setWebViewClient(new ProgressClient(binding.progressBar.progressBar));
 
         Intent intent = getIntent();
         String url = intent.getStringExtra(URL);
@@ -41,11 +40,11 @@ public class WebViewActivity extends BaseActivity<ActivityWebviewBinding> {
         binding.webView.loadUrl(url);
     }
 
-    private static class ProgressClient extends InterceptingWebViewClient {
+    private static class ProgressClient extends WebViewClient {
         private final ProgressBar progressBar;
 
-        ProgressClient(ProgressBar progressBar, Context context) {
-            super(context);
+        ProgressClient(ProgressBar progressBar) {
+            super();
             this.progressBar = progressBar;
         }
 

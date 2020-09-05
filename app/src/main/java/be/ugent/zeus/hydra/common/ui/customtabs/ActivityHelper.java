@@ -45,7 +45,6 @@ public interface ActivityHelper {
 
     /**
      * Show the default share menu or not. This is disabled by default.
-     *
      */
     void setShareMenu();
 
@@ -63,6 +62,7 @@ public interface ActivityHelper {
      */
     interface ConnectionCallback {
         void onCustomTabsConnected(ActivityHelper helper);
+
         void onCustomTabsDisconnected(ActivityHelper helper);
     }
 }

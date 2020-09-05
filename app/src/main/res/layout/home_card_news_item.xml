@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,9 +10,9 @@
     android:focusable="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <be.ugent.zeus.hydra.common.ui.widgets.NowToolbar
             android:id="@+id/card_now_toolbar"
@@ -22,23 +22,23 @@
             app:title="@string/new_article_activity_title" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:paddingLeft="@dimen/card_title_padding_vertical"
-            android:paddingRight="@dimen/card_title_padding_vertical"
+            android:id="@+id/name"
+            style="?textAppearanceHeadline6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="?textAppearanceHeadline6"
-            tools:text="Titel van het nieuwsitem"
-            android:id="@+id/name" />
-
-        <com.google.android.material.textview.MaterialTextView
             android:paddingLeft="@dimen/card_title_padding_vertical"
             android:paddingRight="@dimen/card_title_padding_vertical"
+            tools:text="Titel van het nieuwsitem" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/info"
+            style="?textAppearanceBody2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="11 maart 2014 door Zeus WPI"
-            style="?textAppearanceBody2"
+            android:paddingLeft="@dimen/card_title_padding_vertical"
+            android:paddingRight="@dimen/card_title_padding_vertical"
             android:paddingBottom="@dimen/card_title_padding_bottom_no_content"
-            android:id="@+id/info" />
+            tools:text="11 maart 2014 door Zeus WPI" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

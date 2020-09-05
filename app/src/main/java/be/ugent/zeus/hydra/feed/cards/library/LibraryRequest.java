@@ -6,11 +6,10 @@ import android.util.Log;
 import android.util.Pair;
 import androidx.annotation.NonNull;
 
+import java.time.LocalDate;
 import java.util.List;
-
-import java9.util.stream.Collectors;
-import java9.util.stream.Stream;
-import java9.util.stream.StreamSupport;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import be.ugent.zeus.hydra.common.database.Database;
 import be.ugent.zeus.hydra.common.request.Result;
@@ -19,7 +18,6 @@ import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.library.details.OpeningHoursRequest;
 import be.ugent.zeus.hydra.library.favourites.FavouritesRepository;
 import be.ugent.zeus.hydra.library.favourites.LibraryFavourite;
-import org.threeten.bp.LocalDate;
 
 /**
  * This request will retrieve a list of opening hours for each library that is marked as favourite by the user.
@@ -61,7 +59,7 @@ public class LibraryRequest implements HomeFeedRequest {
         // Get the opening hours for each library.
         LocalDate today = LocalDate.now();
 
-        return Result.Builder.fromData(Stream.of(new LibraryCard(StreamSupport.stream(favourites)
+        return Result.Builder.fromData(Stream.of(new LibraryCard(favourites.stream()
                 .map(favourite -> {
                     OpeningHoursRequest r = new OpeningHoursRequest(context, favourite.getCode());
                     return Pair.create(favourite.getName(), r.forDay(today).execute());

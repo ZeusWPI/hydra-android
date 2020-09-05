@@ -10,11 +10,11 @@ package be.ugent.zeus.hydra.feed.cards.dismissal;
  */
 public final class DismissalTable {
 
+    public static final String TABLE_NAME = "feed_dismissals";
+
     private DismissalTable() {
         // No instances.
     }
-
-    public static final String TABLE_NAME = "feed_dismissals";
 
     public interface Columns {
         String CARD_TYPE = "card_type";

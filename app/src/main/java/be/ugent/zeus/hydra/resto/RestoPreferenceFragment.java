@@ -12,8 +12,6 @@ import androidx.preference.Preference;
 import java.util.Arrays;
 import java.util.List;
 
-import java9.util.stream.StreamSupport;
-
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.common.arch.observers.SuccessObserver;
 import be.ugent.zeus.hydra.common.reporting.Reporting;
@@ -42,6 +40,15 @@ public class RestoPreferenceFragment extends PreferenceFragment {
     public static final String DEFAULT_CLOSING_TIME = "21:00";
     public static final String PREF_RESTO_CLOSING_HOUR = "pref_resto_closing_hour";
 
+    public static String getDefaultResto(Context context) {
+        return context.getString(R.string.value_resto_default_endpoint);
+    }
+
+    public static String getRestoEndpoint(Context context, SharedPreferences preferences) {
+        String defaultResto = getDefaultResto(context);
+        return preferences.getString(PREF_RESTO_KEY, defaultResto);
+    }
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.pref_resto, rootKey);
@@ -56,15 +63,6 @@ public class RestoPreferenceFragment extends PreferenceFragment {
         super.onResume();
         Reporting.getTracker(requireContext())
                 .setCurrentScreen(requireActivity(), "Settings > Resto", getClass().getSimpleName());
-    }
-
-    public static String getDefaultResto(Context context) {
-        return context.getString(R.string.value_resto_default_endpoint);
-    }
-
-    public static String getRestoEndpoint(Context context, SharedPreferences preferences) {
-        String defaultResto = getDefaultResto(context);
-        return preferences.getString(PREF_RESTO_KEY, defaultResto);
     }
 
     @Override
@@ -86,7 +84,7 @@ public class RestoPreferenceFragment extends PreferenceFragment {
         ListPreference selector = requirePreference("pref_choice_resto_select");
         selector.setVisible(true);
 
-        String[] names = StreamSupport.stream(restos)
+        String[] names = restos.stream()
                 .map(RestoChoice::getName)
                 .toArray(String[]::new);
         selector.setEntries(names);

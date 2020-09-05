@@ -2,13 +2,13 @@ package be.ugent.zeus.hydra.common.ui.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.MenuRes;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.MenuRes;
 
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.feed.cards.MenuHandler;

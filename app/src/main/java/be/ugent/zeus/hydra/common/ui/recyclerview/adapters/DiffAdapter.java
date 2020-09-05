@@ -1,9 +1,10 @@
 package be.ugent.zeus.hydra.common.ui.recyclerview.adapters;
 
 import androidx.recyclerview.widget.DiffUtil;
-import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
 import java.util.List;
+
+import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 
 /**
  * Generic adapter with support for calculating diffs on a background thread for data updates.
@@ -23,6 +24,7 @@ import java.util.List;
  * @param <D>  The type of the items this adapter will contain. If multiple view types are needed, it is recommended
  *             to create a custom superclass of all the types.
  * @param <VH> The type of the view holder.
+ *
  * @author Niko Strijbol
  */
 public abstract class DiffAdapter<D, VH extends DataViewHolder<D>> extends DataAdapter<D, VH> {

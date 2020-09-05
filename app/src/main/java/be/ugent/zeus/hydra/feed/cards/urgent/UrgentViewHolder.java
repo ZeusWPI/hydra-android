@@ -2,11 +2,12 @@ package be.ugent.zeus.hydra.feed.cards.urgent;
 
 import android.content.Intent;
 import android.view.View;
+
+import be.ugent.zeus.hydra.MainActivity;
 import be.ugent.zeus.hydra.R;
+import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.cards.Card;
 import be.ugent.zeus.hydra.feed.cards.CardViewHolder;
-import be.ugent.zeus.hydra.MainActivity;
-import be.ugent.zeus.hydra.feed.HomeFeedAdapter;
 import be.ugent.zeus.hydra.feed.commands.DisableTypeCommand;
 
 /**

@@ -4,14 +4,17 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
-import be.ugent.zeus.hydra.R;
-import org.threeten.bp.*;
-import org.threeten.bp.format.DateTimeFormatter;
-import org.threeten.bp.format.FormatStyle;
-import org.threeten.bp.format.TextStyle;
-import org.threeten.bp.temporal.ChronoUnit;
-
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.format.TextStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
+
+import be.ugent.zeus.hydra.R;
 
 /**
  * Date utilities.

@@ -1,9 +1,10 @@
 package be.ugent.zeus.hydra.association.preference;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
 import android.widget.CheckBox;
+import androidx.recyclerview.widget.RecyclerView;
+
 import be.ugent.zeus.hydra.R;
 import be.ugent.zeus.hydra.association.Association;
 import org.junit.Before;
@@ -14,10 +15,9 @@ import org.robolectric.RobolectricTestRunner;
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.assertTextIs;
 import static be.ugent.zeus.hydra.testing.RobolectricUtils.inflate;
 import static be.ugent.zeus.hydra.testing.Utils.generate;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 
 /**
  * @author Niko Strijbol

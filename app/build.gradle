@@ -10,13 +10,10 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
-    // Use resources in robolectric
-    testOptions.unitTests.includeAndroidResources = true
-
     //noinspection GroovyMissingReturnStatement
     defaultConfig {
         applicationId "be.ugent.zeus.hydra"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 21402
         versionName "2.14.2"
@@ -40,25 +37,19 @@ android {
         }
     }
 
-    viewBinding {
-        enabled = true
-    }
-
     lintOptions {
         warningsAsErrors true
         // We don't support Right to Left layouts.
-        disable "RtlSymmetry", "RtlHardcoded",
+        disable "RtlSymmetry",
                 // We don't care about long vector paths.
                 "VectorPath",
                 // Http is still allowed for now.
                 "InsecureBaseConfiguration",
                 // Allow overdraw, mainly used for selectable backgrounds
                 "Overdraw",
-                // Disabled until AS 4.0 is available
-                "UnusedResources",
                 // We use dependabot for dependencies
                 "GradleDependency",
-                // We will choose for ourselves when we update
+                // We decide when we upgrade
                 "OldTargetApi"
     }
 
@@ -91,6 +82,7 @@ android {
 
     //noinspection GroovyMissingReturnStatement
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -102,13 +94,11 @@ android {
         }
 
         debug {
-            multiDexEnabled true
             // Disable crashlytics in debug builds if necessary.
             ext.enableCrashlytics = Boolean.parseBoolean(props.getProperty("hydra.debug.reporting"))
         }
     }
 
-    //noinspection GroovyMissingReturnStatement
     testOptions {
         unitTests {
             includeAndroidResources = true
@@ -117,6 +107,10 @@ android {
         unitTests.all {
             systemProperty 'robolectric.logging.enabled', 'true'
         }
+    }
+    
+    buildFeatures {
+        viewBinding = true
     }
 
     //noinspection GroovyMissingReturnStatement
@@ -137,7 +131,8 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.multidex:multidex:2.0.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.9'
+    
     implementation 'androidx.core:core:1.3.1'
     implementation 'androidx.media:media:1.1.0'
     implementation 'androidx.fragment:fragment:1.2.5'
@@ -148,17 +143,12 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.google.android.material:material:1.2.0'
     implementation 'androidx.browser:browser:1.2.0'
-    implementation 'androidx.slice:slice-builders:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
     implementation 'androidx.room:room-runtime:2.2.5'
     annotationProcessor 'androidx.room:room-compiler:2.2.5'
-    // Do not upgrade beyond 3.12.x until we require API 21+
-    //noinspection GradleDependency
-    implementation 'com.squareup.okhttp3:okhttp:3.12.12'
+    implementation 'com.squareup.okhttp3:okhttp:4.8.1'
     implementation 'com.squareup.moshi:moshi:1.10.0'
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
-    implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.2'
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     implementation 'com.github.niknetniko:material-intro:9903deb6c4'
@@ -189,12 +179,7 @@ dependencies {
     testImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation 'androidx.room:room-testing:2.2.5'
-    // Enable the normal library for unit tests.
-    testImplementation('org.threeten:threetenbp:1.4.4') {
-        exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
-    }
-    //noinspection GradleDependency
-    testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.12'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.8.1'
     testImplementation 'nl.jqno.equalsverifier:equalsverifier:3.4.2'
     testImplementation 'com.github.niknetniko:GetterSetterVerifier:0.0.11'
     testImplementation 'com.shazam:shazamcrest:0.11'

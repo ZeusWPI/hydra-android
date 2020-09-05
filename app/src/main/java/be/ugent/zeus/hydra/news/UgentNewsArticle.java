@@ -3,20 +3,31 @@ package be.ugent.zeus.hydra.news;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 
 import be.ugent.zeus.hydra.common.ArticleViewer;
 import be.ugent.zeus.hydra.common.converter.DateTypeConverters;
 import be.ugent.zeus.hydra.common.utils.DateUtils;
-import java9.util.Objects;
-import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.OffsetDateTime;
 
 /**
  * @author Niko Strijbol
  */
 public final class UgentNewsArticle implements Parcelable, ArticleViewer.Article {
 
+    public static final Creator<UgentNewsArticle> CREATOR = new Creator<UgentNewsArticle>() {
+        @Override
+        public UgentNewsArticle createFromParcel(Parcel source) {
+            return new UgentNewsArticle(source);
+        }
+
+        @Override
+        public UgentNewsArticle[] newArray(int size) {
+            return new UgentNewsArticle[size];
+        }
+    };
     private String description;
     private List<String> contributors;
     private String text;
@@ -31,8 +42,24 @@ public final class UgentNewsArticle implements Parcelable, ArticleViewer.Article
     private String title;
     private List<String> creators;
 
-    @SuppressWarnings("unused") // Moshi uses this!
-    public UgentNewsArticle() {}
+    public UgentNewsArticle() {
+    }
+
+    protected UgentNewsArticle(Parcel in) {
+        this.description = in.readString();
+        this.contributors = in.createStringArrayList();
+        this.text = in.readString();
+        this.subject = in.createStringArrayList();
+        this.identifier = in.readString();
+        this.effective = in.readString();
+        this.language = in.readString();
+        this.rights = in.readString();
+        this.created = DateTypeConverters.toOffsetDateTime(in.readString());
+        this.modified = DateTypeConverters.toOffsetDateTime(in.readString());
+        this.expiration = in.readString();
+        this.title = in.readString();
+        this.creators = in.createStringArrayList();
+    }
 
     public String getDescription() {
         return description;
@@ -82,6 +109,10 @@ public final class UgentNewsArticle implements Parcelable, ArticleViewer.Article
         return modified;
     }
 
+    public void setModified(OffsetDateTime modified) {
+        this.modified = modified;
+    }
+
     public String getExpiration() {
         return expiration;
     }
@@ -98,10 +129,6 @@ public final class UgentNewsArticle implements Parcelable, ArticleViewer.Article
 
     public List<String> getCreators() {
         return creators;
-    }
-
-    public void setModified(OffsetDateTime modified) {
-        this.modified = modified;
     }
 
     @Override
@@ -125,34 +152,6 @@ public final class UgentNewsArticle implements Parcelable, ArticleViewer.Article
         dest.writeString(this.title);
         dest.writeStringList(this.creators);
     }
-
-    protected UgentNewsArticle(Parcel in) {
-        this.description = in.readString();
-        this.contributors = in.createStringArrayList();
-        this.text = in.readString();
-        this.subject = in.createStringArrayList();
-        this.identifier = in.readString();
-        this.effective = in.readString();
-        this.language = in.readString();
-        this.rights = in.readString();
-        this.created = DateTypeConverters.toOffsetDateTime(in.readString());
-        this.modified = DateTypeConverters.toOffsetDateTime(in.readString());
-        this.expiration = in.readString();
-        this.title = in.readString();
-        this.creators = in.createStringArrayList();
-    }
-
-    public static final Creator<UgentNewsArticle> CREATOR = new Creator<UgentNewsArticle>() {
-        @Override
-        public UgentNewsArticle createFromParcel(Parcel source) {
-            return new UgentNewsArticle(source);
-        }
-
-        @Override
-        public UgentNewsArticle[] newArray(int size) {
-            return new UgentNewsArticle[size];
-        }
-    };
 
     @Override
     public boolean equals(Object o) {

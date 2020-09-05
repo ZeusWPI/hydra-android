@@ -1,13 +1,13 @@
 package be.ugent.zeus.hydra.resto.meta.selectable;
 
 import android.app.Application;
-
 import androidx.annotation.NonNull;
+
+import java.util.List;
+
 import be.ugent.zeus.hydra.common.request.Request;
 import be.ugent.zeus.hydra.common.ui.RequestViewModel;
 import be.ugent.zeus.hydra.resto.RestoChoice;
-
-import java.util.List;
 
 /**
  * @author Niko Strijbol

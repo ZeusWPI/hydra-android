@@ -38,6 +38,10 @@ public class HomeFeedAdapter extends DiffAdapter<Card, DataViewHolder<Card>> {
         setHasStableIds(true);
     }
 
+    private static View view(int rLayout, ViewGroup parent) {
+        return LayoutInflater.from(parent.getContext()).inflate(rLayout, parent, false);
+    }
+
     public AdapterCompanion getCompanion() {
         return companion;
     }
@@ -69,10 +73,6 @@ public class HomeFeedAdapter extends DiffAdapter<Card, DataViewHolder<Card>> {
             default:
                 throw new IllegalArgumentException("Non-supported view type in home feed: " + viewType);
         }
-    }
-
-    private static View view(int rLayout, ViewGroup parent) {
-        return LayoutInflater.from(parent.getContext()).inflate(rLayout, parent, false);
     }
 
     @Override

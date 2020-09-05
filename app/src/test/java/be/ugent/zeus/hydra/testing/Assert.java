@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -17,8 +19,6 @@ import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.ComparisonFailure;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.ZonedDateTime;
 
 import static org.junit.Assert.assertEquals;
 
@@ -36,7 +36,7 @@ public class Assert {
      * {@link Parcelable#describeContents()} always returns {@code 0}.
      *
      * @param clazz The class of the object to test.
-     * @param <T> The type of the object to test.
+     * @param <T>   The type of the object to test.
      */
     @SuppressWarnings("unchecked")
     public static <T extends Parcelable> void assertParcelable(Class<T> clazz) {
@@ -108,7 +108,7 @@ public class Assert {
      * Assert that two collections contain the same elements. This does not account for ordering in the collections.
      *
      * @param expected The expected collection.
-     * @param actual The actual collection.
+     * @param actual   The actual collection.
      */
     public static <T> void assertCollectionEquals(Iterable<T> expected, Iterable<T> actual) {
         Collection<Object> actualSet = new HashSet<>();

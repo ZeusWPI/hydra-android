@@ -3,31 +3,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
-        app:shapeAppearanceOverlay="@style/EventTopShape"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="@dimen/card_margin_half"
         android:layout_marginLeft="@dimen/card_margin"
+        android:layout_marginTop="@dimen/card_margin_half"
         android:layout_marginRight="@dimen/card_margin"
         app:contentPaddingLeft="@dimen/card_text_padding_vertical"
-        app:contentPaddingRight="@dimen/card_text_padding_vertical">
+        app:contentPaddingRight="@dimen/card_text_padding_vertical"
+        app:shapeAppearanceOverlay="@style/EventTopShape">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/date_header"
+            style="@style/Hydra.Text.Subhead"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/Hydra.Text.Subhead"
             android:gravity="center_vertical"
             tools:text="Een datum komt hier" />
 
     </com.google.android.material.card.MaterialCardView>
 
-    <View style="@style/Divider" android:background="?android:attr/colorBackground" />
+    <View
+        style="@style/Divider"
+        android:background="?android:attr/colorBackground" />
 
 </LinearLayout>
 

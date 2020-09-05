@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,43 +12,43 @@
     app:contentPaddingRight="@dimen/card_title_padding_vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
-                android:paddingTop="@dimen/card_title_padding_top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/title"
                 style="?textAppearanceHeadline6"
-                tools:text="12urenloop"
-                android:id="@+id/title" />
-
-            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/card_title_padding_top"
+                tools:text="12urenloop" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text"
                 style="?textAppearanceBody2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/card_title_padding_bottom_no_content"
-                tools:text="Volg live de tussenstanden van de 12urenloop!"
-                android:id="@+id/text" />
+                tools:text="Volg live de tussenstanden van de 12urenloop!" />
 
         </LinearLayout>
 
         <ImageView
-            android:adjustViewBounds="true"
-            android:layout_marginLeft="@dimen/card_actions_padding"
+            android:id="@+id/image"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:scaleType="fitEnd"
+            android:layout_marginLeft="@dimen/card_actions_padding"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/content_desc_special_event_icon"
             android:paddingTop="16dp"
-            android:id="@+id/image"
-            android:contentDescription="@string/content_desc_special_event_icon" />
+            android:scaleType="fitEnd" />
 
     </LinearLayout>
 

@@ -6,8 +6,6 @@ import androidx.annotation.NonNull;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import java9.lang.Integers;
-
 import static be.ugent.zeus.hydra.feed.cards.Card.Type.*;
 
 /**
@@ -57,24 +55,6 @@ public abstract class Card implements Comparable<Card> {
      */
     public abstract String getIdentifier();
 
-    /**
-     * Note: the numbers are not sequential due to removed types.
-     * DO NOT re-use numbers: these are saved in the database.
-     * Next free number: 12
-     */
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({RESTO, ACTIVITY, SPECIAL_EVENT, SCHAMPER, NEWS_ITEM, URGENT_FM, LIBRARY, DEBUG})
-    public @interface Type {
-        int RESTO = 1;
-        int ACTIVITY = 2;
-        int SPECIAL_EVENT = 3;
-        int SCHAMPER = 4;
-        int NEWS_ITEM = 5;
-        int URGENT_FM = 9;
-        int LIBRARY = 11;
-        int DEBUG = 100;
-    }
-
     @Override
     public abstract int hashCode();
 
@@ -92,7 +72,7 @@ public abstract class Card implements Comparable<Card> {
      */
     @Override
     public int compareTo(@NonNull Card card) {
-        return Integers.compare(this.getPriority(), card.getPriority());
+        return Integer.compare(this.getPriority(), card.getPriority());
     }
 
     /**
@@ -112,5 +92,23 @@ public abstract class Card implements Comparable<Card> {
 
         //noinspection unchecked
         return (C) this;
+    }
+
+    /**
+     * Note: the numbers are not sequential due to removed types.
+     * DO NOT re-use numbers: these are saved in the database.
+     * Next free number: 12
+     */
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({RESTO, ACTIVITY, SPECIAL_EVENT, SCHAMPER, NEWS_ITEM, URGENT_FM, LIBRARY, DEBUG})
+    public @interface Type {
+        int RESTO = 1;
+        int ACTIVITY = 2;
+        int SPECIAL_EVENT = 3;
+        int SCHAMPER = 4;
+        int NEWS_ITEM = 5;
+        int URGENT_FM = 9;
+        int LIBRARY = 11;
+        int DEBUG = 100;
     }
 }

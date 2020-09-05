@@ -1,7 +1,7 @@
 package be.ugent.zeus.hydra.urgent.player;
 
-import androidx.annotation.Nullable;
 import android.support.v4.media.MediaMetadataCompat;
+import androidx.annotation.Nullable;
 
 /**
  * @author Niko Strijbol

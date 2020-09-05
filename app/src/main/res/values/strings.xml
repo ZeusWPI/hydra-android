@@ -8,7 +8,6 @@
 
     <string name="action_refresh">Vernieuwen</string>
     <string name="action_view_website">Website bekijken</string>
-    <string name="action_open_browser">Bekijken in browser</string>
     <string name="action_view_settings">Instellingen</string>
     <string name="action_view_link">Link openen</string>
     <string name="action_again">Opnieuw</string>
@@ -18,7 +17,6 @@
     <string name="action_send_mail">E-mailen</string>
     <string name="action_search">Zoeken</string>
     <string name="action_add_to_calendar">Toevoegen aan agenda</string>
-    <string name="action_share">Delen</string>
     <string name="action_undo">Ongedaan maken</string>
 
     <string name="select_all" translatable="false">@android:string/selectAll</string>
@@ -50,7 +48,6 @@
 
     <string name="no_items">Geen items</string>
 
-    <string name="date_now_until">Nu tot %s</string>
     <string name="date_between">%1$s tot %2$s</string>
     <!-- Must be translated if R.bool.date_supports_today is true -->
     <string name="date_today">vandaag</string>
@@ -70,8 +67,6 @@
     <string name="pref_overview_activities_desc">Opties voor de activiteiten</string>
     <string name="pref_overview_feed_title">Homefeed</string>
     <string name="pref_overview_feed_desc">Opties voor de homefeed</string>
-    <string name="pref_overview_article_title">Artikels</string>
-    <string name="pref_overview_article_desc">Opties voor de Schamper- en nieuwsartikels</string>
     <string name="pref_overview_about_title">Over</string>
     <string name="pref_overview_about_desc">Over de app</string>
     <string name="pref_overview_theme_title">Thema</string>
@@ -198,14 +193,6 @@
     <string name="resto_legend_gap_abbr">GAP</string>
     <string name="resto_legend_gap_desc">Goede Agrarische Productie</string>
 
-    <string name="resto_menu_slice_open_menu">Open restomenu</string>
-    <string name="resto_menu_slice_next">Volgende dag</string>
-    <string name="resto_menu_slice_previous">Vorige dag</string>
-    <string name="resto_menu_slice_subtitle_loading">Menu van %s laden…</string>
-    <string name="resto_menu_slice_subtitle">Menu van %s</string>
-    <string name="resto_menu_slice_title_error">Restomenu niet beschikbaar</string>
-    <string name="resto_menu_slice_title">Restomenu voor %s</string>
-
     <!-- This is the endpoint for the Resto API. Must be one of the provided API endpoints. -->
     <string name="value_resto_default_endpoint">nl-debrug</string>
     <string name="resto_default_name">Resto De Brug</string>
@@ -283,16 +270,11 @@
 
     <!-- Schamper and news -->
     <string name="schamper_article_activity_title">Schamperartikel</string>
-    <string name="schamper_article_date_and_category">%1$s - %2$s</string>
     <string name="schamper_category_none">Geen categorie</string>
 
     <string name="new_article_activity_title">Nieuwsartikel</string>
 
     <string name="article_date_changed">%1$s, bewerkt %2$s</string>
-    <string name="article_pref_use_custom_tabs_title">Custom Tabs gebruiken</string>
-    <string name="article_pref_use_custom_tabs_desc">
-        Open artikels in Custom Tabs. Als er geen internetverbinding is, zullen de artikels toch in de app geopend worden.
-    </string>
 
     <!-- Urgent.fm -->
     <string name="urgent_fm">Urgent.fm</string>

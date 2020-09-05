@@ -5,10 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 import androidx.recyclerview.widget.DiffUtil;
 
-import java9.util.Objects;
-
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -23,10 +22,9 @@ class DiffUpdate<D> implements AdapterUpdate<D> {
     private final DiffUtil.ItemCallback<D> callback;
 
     private final List<D> newData;
-
+    private final Set<Empty> status = EnumSet.noneOf(Empty.class);
     private DiffUtil.DiffResult result;
     private int existingDataSize = -1;
-    private final Set<Empty> status = EnumSet.noneOf(Empty.class);
 
     DiffUpdate(@Nullable List<D> newData) {
         this(new EqualsItemCallback<>(), newData);

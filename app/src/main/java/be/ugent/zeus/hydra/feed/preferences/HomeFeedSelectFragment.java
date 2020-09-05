@@ -14,16 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.*;
-
-import java9.util.stream.Collectors;
-import java9.util.stream.StreamSupport;
+import java.util.stream.Collectors;
 
 import be.ugent.zeus.hydra.R;
-import be.ugent.zeus.hydra.common.utils.ViewUtils;
 import be.ugent.zeus.hydra.common.ui.recyclerview.adapters.MultiSelectAdapter;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DataViewHolder;
 import be.ugent.zeus.hydra.common.ui.recyclerview.viewholders.DescriptionMultiSelectListViewHolder;
 import be.ugent.zeus.hydra.common.utils.PreferencesUtils;
+import be.ugent.zeus.hydra.common.utils.ViewUtils;
 
 import static be.ugent.zeus.hydra.feed.HomeFeedFragment.PREF_DISABLED_CARD_TYPES;
 
@@ -34,8 +32,8 @@ import static be.ugent.zeus.hydra.feed.HomeFeedFragment.PREF_DISABLED_CARD_TYPES
  */
 public class HomeFeedSelectFragment extends Fragment {
 
-    private FeedOptionsAdapter adapter;
     private final Map<String, String> valueMapper = new HashMap<>();
+    private FeedOptionsAdapter adapter;
 
     @Nullable
     @Override
@@ -67,7 +65,7 @@ public class HomeFeedSelectFragment extends Fragment {
 
         List<String> cardTypesList = Arrays.asList(ints);
 
-        Set<Integer> unwanted = StreamSupport.stream(PreferencesUtils.getStringSet(getContext(), PREF_DISABLED_CARD_TYPES))
+        Set<Integer> unwanted = PreferencesUtils.getStringSet(getContext(), PREF_DISABLED_CARD_TYPES).stream()
                 .map(cardTypesList::indexOf)
                 .filter(integer -> integer != -1) // Non-existing ones are gone
                 .collect(Collectors.toSet());
