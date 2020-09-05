@@ -8,6 +8,7 @@ import androidx.test.core.app.ApplicationProvider;
 import java.io.IOException;
 
 import be.ugent.zeus.hydra.common.database.Database;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,8 +20,9 @@ import static org.mockito.Mockito.when;
 /**
  * @author Niko Strijbol
  */
+@Ignore("Enable once Robolectric updates SQL")
 @RunWith(RobolectricTestRunner.class)
-public class TestMigration_14_15 extends MigrationTest {
+public class TestMigration_14_15 {
 
     @Rule
     public final LocalMigrationTestHelper testHelper;

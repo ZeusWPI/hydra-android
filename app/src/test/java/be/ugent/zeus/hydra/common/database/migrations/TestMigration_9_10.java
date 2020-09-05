@@ -13,10 +13,7 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 
 import be.ugent.zeus.hydra.common.database.Database;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
@@ -31,8 +28,9 @@ import static org.mockito.Mockito.when;
  *
  * @author Niko Strijbol
  */
+@Ignore("Enable once Robolectric updates SQL")
 @RunWith(RobolectricTestRunner.class)
-public class TestMigration_9_10 extends MigrationTest {
+public class TestMigration_9_10 {
 
     private static final String TEST_DATABASE_NAME = "test-db";
 
